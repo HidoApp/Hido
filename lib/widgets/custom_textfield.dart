@@ -1,0 +1,101 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+
+class CustomTextField extends StatelessWidget {
+  const CustomTextField({
+    super.key,
+    this.keyboardType,
+    this.obscureText = false,
+    this.hintText,
+    this.icon,
+    this.prefixIcon, this.suffixIcon,
+    required this.onChanged,
+    this.maxLength,
+    this.inputFormatters,
+    this.borderColor,
+    this.controller,
+    this.enable,
+    this.maxLines = 1,
+    this.height,
+    this.textColor, this.minLines,
+    this.validator = true,  this.readOnly = false,
+
+  });
+  final TextEditingController? controller;
+  final TextInputType? keyboardType;
+  final bool obscureText;
+  final bool readOnly;
+  final String? hintText;
+  final Widget? icon;
+  final Widget? prefixIcon,suffixIcon;
+  final ValueChanged<String> onChanged;
+  final bool? enable ;
+    final bool validator;
+  final int maxLines ;
+  final int? maxLength;
+  final double? height;
+  final Color? textColor,borderColor;
+  final List<TextInputFormatter>? inputFormatters;
+
+  final int? minLines;
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+     // height: height,
+      child: TextFormField(
+        inputFormatters:inputFormatters ?? [] ,
+        maxLength: maxLength,
+        maxLines: maxLines ,
+        minLines: minLines,
+        readOnly: readOnly,
+        controller: controller,
+        obscureText: obscureText,
+        keyboardType: keyboardType,
+        cursorColor: const Color(0xFF969696),
+        textInputAction: TextInputAction.search,
+        enabled: enable,
+        validator: validator   ? (v) {
+              if (v!.isEmpty) {
+                return 'fieldRequired'.tr;
+              }
+              return null;
+            }
+          : null,
+          
+        style: TextStyle(color: textColor,fontFamily:  'Noto Kufi Arabic'),
+        decoration: InputDecoration(
+          counterStyle: const TextStyle(fontSize: 0, height:100),
+          counterText: '',
+          border:const OutlineInputBorder( 
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            borderSide: BorderSide(color: Colors.grey, width: 1) ),
+               enabledBorder: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            borderSide: BorderSide(color: Colors.grey, width: 1)),
+        disabledBorder: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            borderSide: BorderSide(color: Colors.grey, width: 1)),
+        focusedBorder: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            borderSide: BorderSide(color: Colors.black, width: 1)),
+
+            prefixIcon: null == prefixIcon ? null : prefixIcon,
+          suffixIcon: null == suffixIcon ? null : suffixIcon,
+          hintText: hintText,
+          hintStyle: const TextStyle(
+              fontSize: 14,
+              fontFamily: 'HT Rakik',
+              color:  Color(0xFF969696),
+              fontWeight: FontWeight.w400),
+        ),
+        onChanged: onChanged,
+
+      ),
+    );
+  }
+}
