@@ -54,7 +54,6 @@ class _AjwadiRegisterScreenState extends State<AjwadiRegisterScreen> {
           extendBodyBehindAppBar: true,
           backgroundColor: Colors.white,
           resizeToAvoidBottomInset: false,
-
           body: SizedBox(
             // width: width*0.,
             child: Stack(
@@ -76,11 +75,15 @@ class _AjwadiRegisterScreenState extends State<AjwadiRegisterScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                         IconButton(onPressed: (){
-                           Get.off(const AccountTypeScreen(),
-                        transition: Transition.fade);
-                        }, icon: const Icon(Icons.arrow_back_ios)),
-                        SizedBox(height: height * 0.05,),
+                      IconButton(
+                          onPressed: () {
+                            Get.off(const AccountTypeScreen(),
+                                transition: Transition.fade);
+                          },
+                          icon: const Icon(Icons.arrow_back_ios)),
+                      SizedBox(
+                        height: height * 0.05,
+                      ),
                       CustomText(
                         text: 'letsRegisterAccount'.tr,
                         fontWeight: FontWeight.w700,
@@ -90,7 +93,6 @@ class _AjwadiRegisterScreenState extends State<AjwadiRegisterScreen> {
                       const SizedBox(
                         height: 30,
                       ),
-
                       Form(
                         key: _formKey,
                         child: Column(
@@ -100,7 +102,6 @@ class _AjwadiRegisterScreenState extends State<AjwadiRegisterScreen> {
                               controller: _nationalIdController,
                               hintText: "idIqama".tr,
                               textColor: Colors.grey,
-                              
                               prefixIcon: const Icon(
                                 Icons.person_outline,
                                 color: Colors.grey,
@@ -167,7 +168,7 @@ class _AjwadiRegisterScreenState extends State<AjwadiRegisterScreen> {
                                     )),
                                 child: Row(
                                   children: [
-                                  const  Icon(
+                                    const Icon(
                                       Icons.date_range,
                                       color: Colors.grey,
                                     ),
@@ -208,8 +209,6 @@ class _AjwadiRegisterScreenState extends State<AjwadiRegisterScreen> {
                           ],
                         ),
                       ),
-
-                    
                       Obx(() => Padding(
                             padding: const EdgeInsets.symmetric(vertical: 20),
                             child: authController.isCountryLoading == true
@@ -277,13 +276,15 @@ class _AjwadiRegisterScreenState extends State<AjwadiRegisterScreen> {
                         children: [
                           CustomText(
                             text: 'alreadyHaveAccount'.tr,
-                            color:black,
+                            color: black,
                             fontSize: 15,
                             fontWeight: FontWeight.w300,
                           ),
                           TextButton(
                             onPressed: () {
-                              Get.to(() => const SignInScreen());
+                              Get.to(() => const SignInScreen(
+                                    isGuest: false,
+                                  ));
                             },
                             child: CustomText(
                               text: "signIn".tr,
@@ -294,9 +295,6 @@ class _AjwadiRegisterScreenState extends State<AjwadiRegisterScreen> {
                           )
                         ],
                       ),
-
-
-                  
                     ],
                   ),
                 ),

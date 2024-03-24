@@ -53,7 +53,9 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
           const ServiceScreen(),
           const ShopScreen(),
           AppUtil.isGuest()
-              ? const SignInScreen()
+              ? const SignInScreen(
+                  isGuest: true,
+                )
               : ProfileScreen(
                   fromAjwady: false,
                   profileController: _profileController,

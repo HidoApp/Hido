@@ -22,8 +22,8 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import '../../../utils/app_util.dart';
 
 class SignInScreen extends StatefulWidget {
-  const SignInScreen({Key? key}) : super(key: key);
-
+  const SignInScreen({Key? key, required this.isGuest}) : super(key: key);
+  final bool isGuest;
   @override
   State<SignInScreen> createState() => _SignInScreenState();
 }
@@ -32,6 +32,7 @@ class _SignInScreenState extends State<SignInScreen> {
   late double width, height;
   bool isSwitched = true;
   bool showPassword = false;
+
   final _formKey = GlobalKey<FormState>();
 
   final _emailController = TextEditingController();
@@ -70,7 +71,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        if (!AppUtil.isGuest())
+                        if (!widget.isGuest)
                           IconButton(
                               onPressed: () {
                                 Get.off(const AccountTypeScreen(),

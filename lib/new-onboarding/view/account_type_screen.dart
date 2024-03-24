@@ -298,142 +298,139 @@ class _AccountTypeScreenState extends State<AccountTypeScreen>
                           textDirection: TextDirection.ltr,
                           children: [
                             GestureDetector(
-                                onTap: () {
-                                  if (_activeIndex == 1) {
-                                    Get.off(() => const AjwadiRegisterScreen());
-                                  } else {
-                                    if (_activeIndex == 0) {
-                                      Future.delayed(
-                                          const Duration(
-                                            milliseconds: 200,
-                                          ), () {
-                                        setState(() {
-                                          thirsdAnimation = false;
-                                        });
+                              onTap: () {
+                                if (_activeIndex == 1) {
+                                  Get.off(() => const AjwadiRegisterScreen());
+                                } else {
+                                  if (_activeIndex == 0) {
+                                    Future.delayed(
+                                        const Duration(
+                                          milliseconds: 200,
+                                        ), () {
+                                      setState(() {
+                                        thirsdAnimation = false;
                                       });
-
-                                      Future.delayed(
-                                          const Duration(
-                                            milliseconds: 700,
-                                          ), () {
-                                        setState(() {
-                                          firstAnimation = false;
-                                        });
-                                      });
-                                    } else {
-                                      Future.delayed(
-                                          const Duration(
-                                            milliseconds: 200,
-                                          ), () {
-                                        setState(() {
-                                          thirsdAnimation = false;
-                                          firstAnimation = false;
-                                        });
-                                      });
-                                    }
+                                    });
 
                                     Future.delayed(
                                         const Duration(
-                                          milliseconds: 500,
+                                          milliseconds: 700,
                                         ), () {
                                       setState(() {
-                                        secondAnimation = true;
+                                        firstAnimation = false;
                                       });
                                     });
-
-                                    _updateSize(1);
-                                    setState(() {
-                                      _activeIndex = 1;
+                                  } else {
+                                    Future.delayed(
+                                        const Duration(
+                                          milliseconds: 200,
+                                        ), () {
+                                      setState(() {
+                                        thirsdAnimation = false;
+                                        firstAnimation = false;
+                                      });
                                     });
                                   }
-                                },
-                                child: Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(12)),
-                                        gradient: LinearGradient(
-                                          begin: Alignment.topCenter,
-                                          end: Alignment.bottomCenter,
-                                          colors: [
-                                            beige.withOpacity(0.1),
-                                            Colors.white.withOpacity(0.2),
-                                          ],
-                                        )),
-                                    child: AnimatedSize(
-                                      curve: Curves.easeIn,
-                                      duration:
-                                          const Duration(milliseconds: 500),
-                                      child: Container(
-                                        height: localHeight,
-                                        width: localWeidth,
-                                        child: Row(
+
+                                  Future.delayed(
+                                      const Duration(
+                                        milliseconds: 500,
+                                      ), () {
+                                    setState(() {
+                                      secondAnimation = true;
+                                    });
+                                  });
+
+                                  _updateSize(1);
+                                  setState(() {
+                                    _activeIndex = 1;
+                                  });
+                                }
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(12)),
+                                    gradient: LinearGradient(
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                      colors: [
+                                        beige.withOpacity(0.1),
+                                        Colors.white.withOpacity(0.2),
+                                      ],
+                                    )),
+                                child: AnimatedSize(
+                                  curve: Curves.easeIn,
+                                  duration: const Duration(milliseconds: 500),
+                                  child: Container(
+                                    height: localHeight,
+                                    width: localWeidth,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
                                           mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                              MainAxisAlignment.spaceEvenly,
+                                          textDirection: _activeIndex == 0 &&
+                                                  AppUtil.rtlDirection(context)
+                                              ? TextDirection.rtl
+                                              : TextDirection.ltr,
                                           children: [
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              textDirection:
-                                                  _activeIndex == 0 &&
-                                                          AppUtil.rtlDirection(
-                                                              context)
-                                                      ? TextDirection.rtl
-                                                      : TextDirection.ltr,
-                                              children: [
-                                                SvgPicture.asset(
-                                                  'assets/images/guide_logo.svg',
-                                                  height: 50,
-                                                ),
-                                                Container(
-                                                  width: _activeIndex == 2
-                                                      ? 50
-                                                      : 110,
-                                                  child: CustomText(
-                                                    text: 'localGuide'.tr,
-                                                    textAlign: TextAlign.center,
-                                                    fontWeight:
-                                                        _activeIndex == 2
-                                                            ? FontWeight.w500
-                                                            : FontWeight.w700,
-                                                    maxlines: 2,
-                                                    fontSize: _activeIndex == 2
-                                                        ? 11
-                                                        : 16,
-                                                    height: 1.3,
-                                                    color: _activeIndex == 0
-                                                        ? darkBlack
-                                                        : Colors.white,
-                                                  ),
-                                                ),
-                                              ],
+                                            SvgPicture.asset(
+                                              'assets/images/guide_logo.svg',
+                                              height: 50,
                                             ),
-                                            if (_activeIndex == 1)
-                                              const Spacer(),
-                                            if (_activeIndex == 1)
-                                              GestureDetector(
-                                                onTap: () {
-                                                  Get.off(() =>
-                                                      const AjwadiRegisterScreen());
-                                                },
-                                                child: Container(
-                                                  height: 40,
-                                                  width: 40,
-                                                  child: const Icon(
-                                                    Icons.arrow_forward,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
+                                            Container(
+                                              width:
+                                                  _activeIndex == 2 ? 50 : 110,
+                                              child: CustomText(
+                                                text: 'localGuide'.tr,
+                                                textAlign: TextAlign.center,
+                                                fontWeight: _activeIndex == 2
+                                                    ? FontWeight.w500
+                                                    : FontWeight.w700,
+                                                maxlines: 2,
+                                                fontSize:
+                                                    _activeIndex == 2 ? 11 : 16,
+                                                height: 1.3,
+                                                color: _activeIndex == 0
+                                                    ? darkBlack
+                                                    : Colors.white,
                                               ),
+                                            ),
                                           ],
                                         ),
-                                      ),
-                                    ))),
+                                        if (_activeIndex == 1) const Spacer(),
+                                        if (_activeIndex == 1)
+                                          GestureDetector(
+                                            onTap: () {
+                                              Get.off(() =>
+                                                  const AjwadiRegisterScreen());
+                                            },
+                                            child: Container(
+                                              height: 40,
+                                              width: 40,
+                                              child: const Icon(
+                                                Icons.arrow_forward,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
                             GestureDetector(
                                 onTap: () {
                                   if (_activeIndex == 2) {
-                                    Get.off(() => const SignInScreen());
+                                    Get.off(() => const SignInScreen(
+                                          isGuest: false,
+                                        ));
                                   } else {
                                     if (_activeIndex == 0) {
                                       Future.delayed(
@@ -550,8 +547,10 @@ class _AccountTypeScreenState extends State<AccountTypeScreen>
                                             if (_activeIndex == 2)
                                               GestureDetector(
                                                 onTap: () {
-                                                  Get.off(() =>
-                                                      const SignInScreen());
+                                                  Get.off(
+                                                      () => const SignInScreen(
+                                                            isGuest: false,
+                                                          ));
                                                 },
                                                 child: const SizedBox(
                                                   height: 40,

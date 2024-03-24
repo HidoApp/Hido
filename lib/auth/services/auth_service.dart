@@ -246,7 +246,7 @@ class AuthService {
         getStorage.remove('token');
       }
       //change guest
-      
+
       return User.fromJson(user);
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
@@ -558,7 +558,9 @@ class AuthService {
 
       return User.fromJson(user);
     } else {
-      Get.off(() => const SignInScreen());
+      Get.off(() => const SignInScreen(
+            isGuest: false,
+          ));
       String errorMessage = jsonDecode(response.body)['message'];
       getStorage.remove('accessToken');
       getStorage.remove('refreshToken');
