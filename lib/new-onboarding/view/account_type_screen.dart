@@ -1,5 +1,6 @@
 import 'package:ajwad_v4/auth/view/ajwadi_register/ajwadi_register_screen.dart';
 import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
+import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -574,6 +575,12 @@ class _AccountTypeScreenState extends State<AccountTypeScreen>
                           ],
                         ),
                       ),
+                      const SizedBox(height: 24,),
+                      InkWell(
+                      onTap: (){
+                          Get.offAll(TouristBottomBar());
+                      },
+                        child: CustomText(text: 'exploreAsGuest'.tr,color: _activeIndex == 0 ? black: Colors.white,fontWeight: FontWeight.w400,textDecoration: TextDecoration.underline,fontSize: 14,))
                     
                     ],
                   ),

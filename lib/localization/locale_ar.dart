@@ -345,5 +345,6 @@ const localeAr = {
   "noTour": 'ليس لديك رحلات',
   "deleteAccount": 'حذف الحساب',
   "youWantDeleteYourAccount": 'هل تودأنت متأكد من حذف حسابك ؟',
+    "exploreAsGuest": 'استكشف كضيف',
 
 };
