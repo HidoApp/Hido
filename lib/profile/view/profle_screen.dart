@@ -6,6 +6,7 @@ import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/view/booking_screen.dart';
 import 'package:ajwad_v4/profile/view/messages_screen.dart';
 import 'package:ajwad_v4/profile/view/profile_details.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_list_tile.dart';
@@ -182,9 +183,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         iconColor: colorGreen,
                         //  fromAjwady: widget.fromAjwady,
                         onTap: () {
-                          Get.to(() => MessagesScreen(
-                                profileController: widget.profileController,
-                              ));
+                          Get.to(
+                            () => MessagesScreen(
+                              profileController: widget.profileController,
+                            ),
+                          );
                         },
                       ),
                       // widget.fromAjwady

@@ -1,4 +1,3 @@
-
 import 'package:ajwad_v4/auth/models/ajwadi_info.dart';
 import 'package:ajwad_v4/auth/models/user.dart';
 import 'package:ajwad_v4/auth/services/auth_service.dart';
@@ -13,14 +12,10 @@ class AuthController extends GetxController {
   var isNatSelected = false.obs;
   var isCountryLoading = false.obs;
   var isPersonInfoLoading = false.obs;
-
   var isLienceseOTPLoading = false.obs;
   var isVicheleOTPLoading = false.obs;
   var isLienceseLoading = false.obs;
   var isVicheleLoading = false.obs;
-
-
-
   var isSigininwithRowad = false.obs;
   var countries = <String>[].obs;
 
@@ -320,27 +315,26 @@ class AuthController extends GetxController {
   }
 
   Future<User?> refreshToken({
-  required  String refreshToken,
+    required String refreshToken,
     required BuildContext context,
   }) async {
     try {
-        final user = await AuthService.refreshToken(
-          refreshToken: refreshToken,
-          context: context,
-        );
+      final user = await AuthService.refreshToken(
+        refreshToken: refreshToken,
+        context: context,
+      );
 
-        return user;
-      
+      return user;
     } catch (e) {
       return null;
     } finally {}
   }
 
-
-   Future<bool> deleteAccount( { required BuildContext context,
+  Future<bool> deleteAccount({
+    required BuildContext context,
   }) async {
     try {
-      final isSuccess =  await AuthService.deleteAccount(context: context);
+      final isSuccess = await AuthService.deleteAccount(context: context);
 
       if (isSuccess) {
         return true;

@@ -49,7 +49,6 @@ class _SignInScreenState extends State<SignInScreen> {
       child: Scaffold(
           backgroundColor: Colors.white,
           resizeToAvoidBottomInset: false,
-          
           body: SingleChildScrollView(
             child: SizedBox(
               child: Stack(
@@ -70,13 +69,15 @@ class _SignInScreenState extends State<SignInScreen> {
                         left: width * 0.05),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                    
                       children: [
-                        IconButton(onPressed: (){
-                           Get.off(const AccountTypeScreen(),
-                        transition: Transition.fade);
-                        }, icon: const Icon(Icons.arrow_back_ios)),
-              
+                        if (!AppUtil.isGuest())
+                          IconButton(
+                              onPressed: () {
+                                Get.off(const AccountTypeScreen(),
+                                    transition: Transition.fade);
+                              },
+                              icon: const Icon(Icons.arrow_back_ios)),
+
                         CustomText(
                           text: "letsSignIn".tr,
                           fontWeight: FontWeight.w700,
@@ -89,7 +90,9 @@ class _SignInScreenState extends State<SignInScreen> {
                           text: 'welcomeBack'.tr,
                           fontWeight: FontWeight.w200,
                           fontSize: 24,
-                          textAlign: !AppUtil.rtlDirection(context) ?TextAlign.right : TextAlign.left,
+                          textAlign: !AppUtil.rtlDirection(context)
+                              ? TextAlign.right
+                              : TextAlign.left,
                         ),
                         const SizedBox(
                           height: 20,
@@ -100,10 +103,13 @@ class _SignInScreenState extends State<SignInScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16.0),
                                 child: CustomText(text: 'email'.tr),
                               ),
-                             const SizedBox(height: 5,),
+                              const SizedBox(
+                                height: 5,
+                              ),
                               CustomTextField(
                                 keyboardType: TextInputType.emailAddress,
                                 hintText: 'yourEmail'.tr,
@@ -118,10 +124,13 @@ class _SignInScreenState extends State<SignInScreen> {
                                 height: 20,
                               ),
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16.0),
                                 child: CustomText(text: 'password'.tr),
                               ),
-                             const SizedBox(height: 5,),
+                              const SizedBox(
+                                height: 5,
+                              ),
                               CustomTextField(
                                 keyboardType: TextInputType.text,
                                 obscureText: !showPassword,
@@ -158,7 +167,6 @@ class _SignInScreenState extends State<SignInScreen> {
                               height: 28.0,
                               activeColor: const Color(0xFF5AC28F),
                               inactiveColor: const Color(0xFFE8ECEF),
-                              
                               onToggle: (bool value) {
                                 //  toggleSwitch();
                                 //  bookingController.toggleSwitch();
@@ -196,7 +204,8 @@ class _SignInScreenState extends State<SignInScreen> {
                             padding: const EdgeInsets.symmetric(vertical: 30),
                             child: Align(
                               alignment: Alignment.center,
-                              child: _authController.isLoginLoading.value == true
+                              child: _authController.isLoginLoading.value ==
+                                      true
                                   ? const CircularProgressIndicator(
                                       color: colorGreen,
                                     )
@@ -264,7 +273,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                               }
                                             } else if (jwtToken.userRole ==
                                                 'tourist') {
-                                              Get.off(() =>
+                                              Get.offAll(() =>
                                                   const TouristBottomBar());
                                             } else {
                                               print('NO USER ROLE');
