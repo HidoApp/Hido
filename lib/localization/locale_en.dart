@@ -350,7 +350,7 @@ const localeEn = {
   "bookNow": 'Book now',
   "tourHistory": 'Tour history',
   "noTour": 'No tour yet',
-    "deleteAccount": 'Delete account',
-     "youWantDeleteYourAccount": 'Are you sure you want to delete your account ?',
-
+  "deleteAccount": 'Delete account',
+  "youWantDeleteYourAccount": 'Are you sure you want to delete your account ?',
+  "exploreAsGuest": 'Explore as a guest',
 };
