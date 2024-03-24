@@ -48,8 +48,8 @@ class AppUtil {
 
   static bool isGuest() {
     final _getStorage = GetStorage();
-    final token = _getStorage.read('accessToken') ?? '';
-    return token == '' ? true : false;
+    final String token = _getStorage.read('accessToken') ?? '';
+    return token.isEmpty;
   }
 
   static successToast(context, msg) {

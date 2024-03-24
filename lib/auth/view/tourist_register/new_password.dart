@@ -10,7 +10,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
 class NewPasswordScreen extends StatefulWidget {
   const NewPasswordScreen({Key? key, required this.responseBody})
       : super(key: key);
@@ -184,15 +183,16 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                                     return;
                                   }
 
-                                  var result = await _authController.resetPassword(
-                                      newPassword: _passwordController.text,
-                                      email: widget.responseBody['email'],
-                                      context: context);
+                                  var result =
+                                      await _authController.resetPassword(
+                                          newPassword: _passwordController.text,
+                                          email: widget.responseBody['email'],
+                                          context: context);
                                   print("result $result");
                                   print(result);
 
                                   if (result == true) {
-                                     Get.offAll(() => const SignInScreen());
+                                    Get.offAll(() => const SignInScreen());
                                   }
 
                                   // var resul =
