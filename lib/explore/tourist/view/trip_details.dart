@@ -1,3 +1,4 @@
+import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
@@ -452,7 +453,9 @@ class _TripDetailsState extends State<TripDetails> {
                                 !_touristExploreController.isBookedMade.value
                             ? CustomButton(
                                 onPressed: () {
-                                  showModalBottomSheet(
+                               AppUtil.isGuest() ? Get.to(() => const SignInScreen()):
+                               
+                                 showModalBottomSheet(
                                       useRootNavigator: true,
                                       isScrollControlled: true,
                                       backgroundColor: Colors.transparent,

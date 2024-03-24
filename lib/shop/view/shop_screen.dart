@@ -1,3 +1,4 @@
+import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/view/notification/notification_screen.dart';
 import 'package:ajwad_v4/profile/view/ticket_screen.dart';
@@ -121,7 +122,9 @@ class _ShopScreenState extends State<ShopScreen> {
                               
                           ProfileController _profileController = Get.put(ProfileController());
                             Get.to(() 
-                               => TicketScreen(profileController:_profileController));
+                               =>  AppUtil.isGuest()
+              ? const SignInScreen()
+              :TicketScreen(profileController:_profileController));
                       
                               //   Get.to(() => const TicketScreen());
                             },
@@ -140,7 +143,10 @@ class _ShopScreenState extends State<ShopScreen> {
                               InkWell(
                          onTap: () {
                             ProfileController _profileController = Get.put(ProfileController());
-                          Get.to(() => MessagesScreen(  profileController: _profileController));
+                          Get.to(() =>
+                           AppUtil.isGuest()
+              ? const SignInScreen()
+              : MessagesScreen(  profileController: _profileController));
                         },
                         child: Container(
                           width: 36,

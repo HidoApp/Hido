@@ -33,9 +33,10 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
     // TODO: implement initState
     super.initState();
 
-    String accessToken = getStorage.read('accessToken') ?? "";
-    print("HOME accessToken : $accessToken ");
-    getProfile();
+    if (!AppUtil.isGuest()){
+          getProfile();
+    }
+
   }
 
   void getProfile() async {

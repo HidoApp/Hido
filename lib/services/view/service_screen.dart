@@ -1,5 +1,5 @@
+import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/constants/colors.dart';
-import 'package:ajwad_v4/explore/tourist/view/notification/notification_screen.dart';
 import 'package:ajwad_v4/profile/view/ticket_screen.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/view/messages_screen.dart';
@@ -99,7 +99,9 @@ class _ServiceScreenState extends State<ServiceScreen>
                            InkWell(
                          onTap: () {
                             ProfileController _profileController = Get.put(ProfileController());
-                          Get.to(() => MessagesScreen(  profileController: _profileController));
+                          Get.to(() =>  AppUtil.isGuest()
+              ? const SignInScreen()
+              : MessagesScreen(  profileController: _profileController));
                         },
                         child: Container(
                           width: 36,
@@ -117,7 +119,9 @@ class _ServiceScreenState extends State<ServiceScreen>
                               
                           ProfileController _profileController = Get.put(ProfileController());
                             Get.to(() 
-                               => TicketScreen(profileController:_profileController));
+                               =>  AppUtil.isGuest()
+              ? const SignInScreen()
+              : TicketScreen(profileController:_profileController));
                       
                               //   Get.to(() => const TicketScreen());
                             },

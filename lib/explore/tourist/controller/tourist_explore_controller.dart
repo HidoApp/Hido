@@ -155,15 +155,12 @@ class TouristExploreController extends GetxController {
       isTouristMapLoading(true);
       TouristMapModel? data = await TouristExploreService.touristMap(
           context: context, tourType: tourType);
-
-        //   print("${data!.events!.length}");
-        //  print('${data!.places!.length}');
-        //   print('${data!.adventures!.length}');
       touristModel(data);
 
       return data;
     } catch (e) {
       isTouristMapLoading(false);
+      print("e");
       print(e);
       return null;
     } finally {
