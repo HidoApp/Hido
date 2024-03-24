@@ -1,3 +1,5 @@
+import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
+import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/view/tourist_map_screen.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
@@ -5,10 +7,12 @@ import 'package:ajwad_v4/profile/models/profile.dart';
 import 'package:ajwad_v4/profile/view/profle_screen.dart';
 import 'package:ajwad_v4/services/view/service_screen.dart';
 import 'package:ajwad_v4/shop/view/shop_screen.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 class TouristBottomBar extends StatefulWidget {
   const TouristBottomBar({super.key});
@@ -22,22 +26,20 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
   int _currentIndex = 0;
   final ProfileController _profileController = ProfileController();
   final getStorage = GetStorage();
-  late Profile profile ;
+  late Profile profile;
 
   @override
-  void initState() { 
+  void initState() {
     // TODO: implement initState
     super.initState();
- 
-    String accessToken = getStorage.read('accessToken')??"";
+
+    String accessToken = getStorage.read('accessToken') ?? "";
     print("HOME accessToken : $accessToken ");
     getProfile();
-  
   }
 
-
-  void getProfile ()async {
-await   _profileController.getProfile(context: context);
+  void getProfile() async {
+    await _profileController.getProfile(context: context);
   }
 
   @override
@@ -50,11 +52,13 @@ await   _profileController.getProfile(context: context);
           const TouristMapScreen(),
           const ServiceScreen(),
           const ShopScreen(),
-          ProfileScreen(
-            fromAjwady: false,
-            profileController: _profileController,
-         //  profile: profile,
-          ),
+          AppUtil.isGuest()
+              ? const SignInScreen()
+              : ProfileScreen(
+                  fromAjwady: false,
+                  profileController: _profileController,
+                  //  profile: profile,
+                ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -84,7 +88,7 @@ await   _profileController.getProfile(context: context);
           color: darkBlack,
         ),
         onTap: (index) {
-       //   print(getStorage.read('accessToken'));
+          //   print(getStorage.read('accessToken'));
           setState(() {
             _currentIndex = index;
           });

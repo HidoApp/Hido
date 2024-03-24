@@ -95,10 +95,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                                child: CustomText(text: 'fullName'.tr),
-                              ),
-                             const SizedBox(height: 5,),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: CustomText(text: 'fullName'.tr),
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
                             CustomTextField(
                               keyboardType: TextInputType.name,
                               controller: _nameController,
@@ -112,11 +115,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             const SizedBox(
                               height: 20,
                             ),
-                             Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                                child: CustomText(text: 'yourEmail'.tr),
-                              ),
-                             const SizedBox(height: 5,),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: CustomText(text: 'yourEmail'.tr),
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
                             CustomTextField(
                               keyboardType: TextInputType.emailAddress,
                               hintText: 'email'.tr,
@@ -130,11 +136,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             const SizedBox(
                               height: 20,
                             ),
-                             Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                                child: CustomText(text: 'password'.tr),
-                              ),
-                             const SizedBox(height: 5,),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: CustomText(text: 'password'.tr),
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
                             CustomTextField(
                               keyboardType: TextInputType.text,
                               obscureText: !showPassword,
@@ -161,11 +170,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             const SizedBox(
                               height: 20,
                             ),
-                             Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                                child: CustomText(text: 'confirmPass'.tr),
-                              ),
-                             const SizedBox(height: 5,),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: CustomText(text: 'confirmPass'.tr),
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
                             CustomTextField(
                               keyboardType: TextInputType.text,
                               obscureText: !showConfirmPassword,

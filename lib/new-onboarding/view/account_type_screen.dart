@@ -171,7 +171,7 @@ class _AccountTypeScreenState extends State<AccountTypeScreen>
                       ],
                     ))),
                 Positioned(
-                 top: height * 0.45,
+                  top: height * 0.45,
                   left: 35,
                   right: 35,
                   child: Column(
@@ -285,7 +285,7 @@ class _AccountTypeScreenState extends State<AccountTypeScreen>
                                       : Colors.white.withOpacity(0.7),
                                 )
                               : SizedBox(
-                                      height: height * 0.085,
+                                  height: height * 0.085,
                                 ),
                         ),
                       const SizedBox(
@@ -361,7 +361,8 @@ class _AccountTypeScreenState extends State<AccountTypeScreen>
                                         )),
                                     child: AnimatedSize(
                                       curve: Curves.easeIn,
-                                      duration: const Duration(milliseconds: 500),
+                                      duration:
+                                          const Duration(milliseconds: 500),
                                       child: Container(
                                         height: localHeight,
                                         width: localWeidth,
@@ -428,10 +429,7 @@ class _AccountTypeScreenState extends State<AccountTypeScreen>
                                           ],
                                         ),
                                       ),
-                                    ))
-
-                              
-                                ),
+                                    ))),
                             GestureDetector(
                                 onTap: () {
                                   if (_activeIndex == 2) {
@@ -497,7 +495,8 @@ class _AccountTypeScreenState extends State<AccountTypeScreen>
                                         )),
                                     child: AnimatedSize(
                                       curve: Curves.easeIn,
-                                      duration: const Duration(milliseconds: 500),
+                                      duration:
+                                          const Duration(milliseconds: 500),
                                       child: Container(
                                         height: touristHeight,
                                         width: touristWeidth,
@@ -569,19 +568,24 @@ class _AccountTypeScreenState extends State<AccountTypeScreen>
                                           ],
                                         ),
                                       ),
-                                    ))
-
-                                ),
+                                    ))),
                           ],
                         ),
                       ),
-                      const SizedBox(height: 24,),
+                      const SizedBox(
+                        height: 24,
+                      ),
                       InkWell(
-                      onTap: (){
-                          Get.offAll(TouristBottomBar());
-                      },
-                        child: CustomText(text: 'exploreAsGuest'.tr,color: _activeIndex == 0 ? black: Colors.white,fontWeight: FontWeight.w400,textDecoration: TextDecoration.underline,fontSize: 14,))
-                    
+                          onTap: () {
+                            Get.offAll(const TouristBottomBar());
+                          },
+                          child: CustomText(
+                            text: 'exploreAsGuest'.tr,
+                            color: _activeIndex == 0 ? black : Colors.white,
+                            fontWeight: FontWeight.w400,
+                            textDecoration: TextDecoration.underline,
+                            fontSize: 14,
+                          ))
                     ],
                   ),
                 ),

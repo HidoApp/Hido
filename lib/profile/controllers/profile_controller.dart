@@ -15,13 +15,9 @@ class ProfileController extends GetxController {
   var isPastTicketLoading = false.obs;
   var isUpcommingTicketLoading = false.obs;
   var isChatLoading = false.obs;
-
-
   var upcommingTicket = <Booking>[].obs;
   var pastTicket = <Booking>[].obs;
   var chatList = <ChatModel>[].obs;
-
-
 
   var profile = Profile();
 
@@ -96,13 +92,11 @@ class ProfileController extends GetxController {
     }
   }
 
-
-   Future<List<Booking>?> getUpcommingTicket({
+  Future<List<Booking>?> getUpcommingTicket({
     required BuildContext context,
   }) async {
-  
-  try{
-        isUpcommingTicketLoading(true);
+    try {
+      isUpcommingTicketLoading(true);
 
       final data = await ProfileService.getUserTicket(
         bookingType: 'UPCOMING',
@@ -115,7 +109,7 @@ class ProfileController extends GetxController {
         return null;
       }
     } catch (e) {
-         isUpcommingTicketLoading(false);
+      isUpcommingTicketLoading(false);
       print(e);
       return null;
     } finally {
@@ -123,13 +117,11 @@ class ProfileController extends GetxController {
     }
   }
 
-
-     Future<List<Booking>?> getPastTicket({
+  Future<List<Booking>?> getPastTicket({
     required BuildContext context,
   }) async {
-
-      try{
-        isPastTicketLoading(true);
+    try {
+      isPastTicketLoading(true);
 
       final data = await ProfileService.getUserTicket(
         bookingType: 'PAST',
@@ -142,25 +134,21 @@ class ProfileController extends GetxController {
         return null;
       }
     } catch (e) {
-         isPastTicketLoading(false);
+      isPastTicketLoading(false);
       print(e);
       return null;
     } finally {
       isPastTicketLoading(false);
     }
-    
   }
 
-
-    Future<List<ChatModel>?> getUserChats({
+  Future<List<ChatModel>?> getUserChats({
     required BuildContext context,
   }) async {
-
-      try{
-        isChatLoading(true);
+    try {
+      isChatLoading(true);
 
       final data = await ProfileService.getUserChats(
-      
         context: context,
       );
       if (data != null) {
@@ -171,12 +159,11 @@ class ProfileController extends GetxController {
       }
     } catch (e) {
       print(e);
-         isChatLoading(false);
+      isChatLoading(false);
       print(e);
       return null;
     } finally {
       isChatLoading(false);
     }
-    
   }
 }

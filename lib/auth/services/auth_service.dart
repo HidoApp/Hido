@@ -245,7 +245,8 @@ class AuthService {
       } else {
         getStorage.remove('token');
       }
-
+      //change guest
+      
       return User.fromJson(user);
     } else {
       String errorMessage = jsonDecode(response.body)['message'];

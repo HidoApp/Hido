@@ -46,6 +46,12 @@ class AppUtil {
     return isExpired;
   }
 
+  static bool isGuest() {
+    final _getStorage = GetStorage();
+    final token = _getStorage.read('accessToken') ?? '';
+    return token == '' ? true : false;
+  }
+
   static successToast(context, msg) {
     Flushbar(
       messageText: Row(
