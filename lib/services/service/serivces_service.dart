@@ -20,7 +20,7 @@ class ServicesService {
     final getStorage = GetStorage();
     String token = getStorage.read('accessToken') ?? "";
 
-    if (JwtDecoder.isExpired(token)) {
+    if (token != '' && JwtDecoder.isExpired(token) ) {
       final _authController = Get.put(AuthController());
 
       String refreshToken = getStorage.read('refreshToken');
@@ -32,7 +32,7 @@ class ServicesService {
       Uri.parse('$baseUrl/hospitality'),
       headers: {
         'Accept': 'application/json',
-        'Authorization': 'Bearer $token',
+     if(token != '')   'Authorization': 'Bearer $token',
       },
     );
 
@@ -57,7 +57,7 @@ class ServicesService {
     final getStorage = GetStorage();
     String token = getStorage.read('accessToken') ?? "";
 
-    if (JwtDecoder.isExpired(token)) {
+      if(token != '' && JwtDecoder.isExpired(token)) {
       final _authController = Get.put(AuthController());
 
       String refreshToken = getStorage.read('refreshToken');
@@ -71,7 +71,7 @@ class ServicesService {
           .replace(queryParameters: ({'id': id})),
       headers: {
         'Accept': 'application/json',
-        'Authorization': 'Bearer $token',
+        if(token != '')   'Authorization': 'Bearer $token',
       },
     );
     print("TRUE $id");

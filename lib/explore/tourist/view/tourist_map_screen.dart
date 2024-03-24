@@ -3,25 +3,21 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:ui' as ui;
 
+import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/model/userLocation.dart';
 import 'package:ajwad_v4/explore/ajwadi/services/location_service.dart';
 import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/explore/tourist/view/notification/notification_screen.dart';
-import 'package:ajwad_v4/profile/view/ticket_screen.dart';
 import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/view/messages_screen.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
-import 'package:ajwad_v4/widgets/custom_textfield.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter/rendering.dart';
+
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -321,7 +317,9 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                                     onTap: () {
                                       ProfileController _profileController =
                                           Get.put(ProfileController());
-                                      Get.to(() => MessagesScreen(
+                                      Get.to(() =>  AppUtil.isGuest()
+              ? const SignInScreen()
+              :MessagesScreen(
                                           profileController:
                                               _profileController));
                                     },
@@ -330,7 +328,9 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                                   ),
                                   InkWell(
                                       onTap: () =>
-                                          Get.to(const NotificationScreen()),
+                                          Get.to(() =>   AppUtil.isGuest()
+              ? const SignInScreen()
+              :const NotificationScreen()),
                                       child: SvgPicture.asset(
                                           'assets/icons/Alerts.svg')),
                                 ],
@@ -411,8 +411,8 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                                     const SizedBox(
                                       width: 16,
                                     ),
-                                    SvgPicture.asset(
-                                      'assets/icons/${index == 0 ? 'all' : ''}.svg',
+                                  if (index == 0)  SvgPicture.asset(
+                                      'assets/icons/all.svg',
                                       color: index != 0 ? colors[index] : null,
                                     ),
                                   ],

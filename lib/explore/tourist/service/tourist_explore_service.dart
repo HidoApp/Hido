@@ -60,7 +60,7 @@ class TouristExploreService {
     final getStorage = GetStorage();
     String token = getStorage.read('accessToken') ?? "";
    
-    if (JwtDecoder.isExpired(token)) {
+    if (token != '' && JwtDecoder.isExpired(token)) {
       final _authController = Get.put(AuthController());
 
       String refreshToken = getStorage.read('refreshToken');
@@ -72,7 +72,7 @@ class TouristExploreService {
       Uri.parse('$baseUrl/place/$id'),
       headers: {
         'Accept': 'application/json',
-        'Authorization': 'Bearer $token',
+        if (token != '' ) 'Authorization': 'Bearer $token',
       },
     );
 
@@ -225,7 +225,7 @@ class TouristExploreService {
   }) async {
     final getStorage = GetStorage();
     String token = getStorage.read('accessToken') ?? "";
-    if (JwtDecoder.isExpired(token)) {
+    if (token != '' && JwtDecoder.isExpired(token)) {
       final _authController = Get.put(AuthController());
       String refreshToken = getStorage.read('refreshToken');
       var user = await _authController.refreshToken(
@@ -241,7 +241,7 @@ class TouristExploreService {
           .replace(queryParameters: queryParameters),
       headers: {
         'Accept': 'application/json',
-        'Authorization': 'Bearer $token',
+     //  if(token != '') 'Authorization': 'Bearer $token',
       },
     );
 

@@ -1,3 +1,4 @@
+import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/view/view_trip_images.dart';
 import 'package:ajwad_v4/services/controller/serivces_controller.dart';
@@ -493,6 +494,9 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                     right: 30, left: 30, bottom: 32),
                                 child: CustomButton(
                                   onPressed: () {
+                                     AppUtil.isGuest()
+              ? Get.to(() =>const SignInScreen())
+              :
                                     Get.bottomSheet(
                                       ReservaationDetailsWidget(
                                           color: purple,
@@ -507,15 +511,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                     );
-                                    //  Get.to(() => CheckOutScreen());
-                                    // showReservationDetailsSheet(
-                                    //     context: context,
-                                    // color: purple,
-                                    //     height: height,
-                                    //     width: width,
-                                    // hospitality: hospitalityObj,
-                                    // avilableDate: avilableDate,
-                                    // serviceController: _servicesController);
+                                  
                                   },
                                   buttonColor: purple,
                                   iconColor: darkPurple,
