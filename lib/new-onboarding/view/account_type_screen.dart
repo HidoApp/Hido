@@ -300,7 +300,7 @@ class _AccountTypeScreenState extends State<AccountTypeScreen>
                             GestureDetector(
                               onTap: () {
                                 if (_activeIndex == 1) {
-                                  Get.off(() => const AjwadiRegisterScreen());
+                                  Get.to(() => const AjwadiRegisterScreen());
                                 } else {
                                   if (_activeIndex == 0) {
                                     Future.delayed(
@@ -407,7 +407,7 @@ class _AccountTypeScreenState extends State<AccountTypeScreen>
                                         if (_activeIndex == 1)
                                           GestureDetector(
                                             onTap: () {
-                                              Get.off(() =>
+                                              Get.to(() =>
                                                   const AjwadiRegisterScreen());
                                             },
                                             child: Container(
@@ -428,7 +428,7 @@ class _AccountTypeScreenState extends State<AccountTypeScreen>
                             GestureDetector(
                                 onTap: () {
                                   if (_activeIndex == 2) {
-                                    Get.off(() => const SignInScreen());
+                                    Get.to(() => const SignInScreen());
                                   } else {
                                     if (_activeIndex == 0) {
                                       Future.delayed(
@@ -545,7 +545,7 @@ class _AccountTypeScreenState extends State<AccountTypeScreen>
                                             if (_activeIndex == 2)
                                               GestureDetector(
                                                 onTap: () {
-                                                  Get.off(() =>
+                                                  Get.to(() =>
                                                       const SignInScreen());
                                                 },
                                                 child: const SizedBox(
@@ -572,7 +572,7 @@ class _AccountTypeScreenState extends State<AccountTypeScreen>
                       ),
                       InkWell(
                           onTap: () {
-                            Get.offAll(const TouristBottomBar());
+                            Get.to(const TouristBottomBar());
                           },
                           child: CustomText(
                             text: 'exploreAsGuest'.tr,

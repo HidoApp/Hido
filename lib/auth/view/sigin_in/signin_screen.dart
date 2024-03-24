@@ -74,8 +74,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         if (!widget.isGuest)
                           IconButton(
                               onPressed: () {
-                                Get.off(const AccountTypeScreen(),
-                                    transition: Transition.fade);
+                                Get.back();
                               },
                               icon: const Icon(Icons.arrow_back_ios)),
 
