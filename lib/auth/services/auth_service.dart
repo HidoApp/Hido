@@ -558,9 +558,7 @@ class AuthService {
 
       return User.fromJson(user);
     } else {
-      Get.off(() => const SignInScreen(
-            isGuest: false,
-          ));
+      Get.off(() => const SignInScreen());
       String errorMessage = jsonDecode(response.body)['message'];
       getStorage.remove('accessToken');
       getStorage.remove('refreshToken');

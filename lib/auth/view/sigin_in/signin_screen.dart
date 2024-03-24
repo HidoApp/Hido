@@ -22,7 +22,7 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import '../../../utils/app_util.dart';
 
 class SignInScreen extends StatefulWidget {
-  const SignInScreen({Key? key, required this.isGuest}) : super(key: key);
+  const SignInScreen({Key? key, this.isGuest = false}) : super(key: key);
   final bool isGuest;
   @override
   State<SignInScreen> createState() => _SignInScreenState();

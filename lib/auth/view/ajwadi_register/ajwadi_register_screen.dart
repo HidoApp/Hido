@@ -282,9 +282,7 @@ class _AjwadiRegisterScreenState extends State<AjwadiRegisterScreen> {
                           ),
                           TextButton(
                             onPressed: () {
-                              Get.to(() => const SignInScreen(
-                                    isGuest: false,
-                                  ));
+                              Get.to(() => const SignInScreen());
                             },
                             child: CustomText(
                               text: "signIn".tr,

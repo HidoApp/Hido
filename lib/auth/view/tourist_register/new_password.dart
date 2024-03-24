@@ -192,9 +192,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                                   print(result);
 
                                   if (result == true) {
-                                    Get.offAll(() => const SignInScreen(
-                                          isGuest: false,
-                                        ));
+                                    Get.offAll(() => const SignInScreen());
                                   }
 
                                   // var resul =
