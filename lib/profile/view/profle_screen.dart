@@ -4,14 +4,18 @@ import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/new-onboarding/view/account_type_screen.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/view/booking_screen.dart';
+import 'package:ajwad_v4/profile/view/bookmark_screen.dart';
+import 'package:ajwad_v4/profile/view/help_FAQs.dart';
 import 'package:ajwad_v4/profile/view/messages_screen.dart';
 import 'package:ajwad_v4/profile/view/profile_details.dart';
+import 'package:ajwad_v4/profile/view/switch_acount.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_list_tile.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
@@ -65,7 +69,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Row(
                     children: [
                       const SizedBox(
-                        width: 20,
+                        width: 24,
                       ),
                       ClipRRect(
                         borderRadius: BorderRadius.circular(50.0),
@@ -94,93 +98,77 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ),
                       ),
                       const SizedBox(
-                        width: 20,
+                        width: 8,
                       ),
+                      // profile title and sub title
                       Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            _profileController.isProfileLoading.value
+                          //name
+                          CustomText(
+                            text: _profileController.isProfileLoading.value
                                 ? ""
                                 : _profileController.profile.name ?? "NO",
                             //   widget.profileController.,
-                            style: (const TextStyle(color: black)),
+                            color: black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
                           ),
                           Row(
+                            //type and rate
                             children: [
-                              Text(
-                                widget.fromAjwady
+                              CustomText(
+                                text: widget.fromAjwady
                                     ? "Ajwady   | ${_profileController.isProfileLoading.value ? "" : _profileController.profile.rating}  "
                                     : "Tourist   | ${_profileController.isProfileLoading.value ? "" : _profileController.profile.rating}  ",
-                                style: (const TextStyle(color: colorDarkGrey)),
+                                color: colorDarkGrey,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
                               ),
                               SvgPicture.asset("assets/icons/star.svg")
                             ],
                           )
                         ],
-                      )
+                      ),
+                      const Spacer(),
+                      //button
+                      Padding(
+                        padding: const EdgeInsets.only(right: 24),
+                        child: GestureDetector(
+                          onTap: () {
+                            Get.to(() => ProfileDetails(
+                                  fromAjwady: false,
+                                  profileController: _profileController,
+                                ));
+                          },
+                          child: const Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            color: Color(0xFF454545),
+                            size: 18,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                   const Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: const Divider(
+                    padding: EdgeInsets.only(top: 10, right: 24, left: 24),
+                    child: Divider(
                       color: lightGrey,
                       thickness: 2,
                     ),
                   ),
                   Column(
                     children: [
-                      // CustomListTile(
-                      //   title: widget.fromAjwady
-                      //       ? "switchAccountToTourist".tr
-                      //       : "switchAccountToAjwadi".tr,
-                      //   leading: widget.fromAjwady
-                      //       ? "assets/icons/switch_icon2.svg"
-                      //       : "assets/icons/switch_icon.svg",
-                      //   fromAjwady: widget.fromAjwady,
-                      //   onTap: () {
-                      //     showModalBottomSheet(
-                      //         isScrollControlled: true,
-                      //         backgroundColor: Colors.transparent,
-                      //         shape: const RoundedRectangleBorder(
-                      //             borderRadius: BorderRadius.only(
-                      //           topRight: Radius.circular(30),
-                      //           topLeft: Radius.circular(30),
-                      //         )),
-                      //         context: context,
-                      //         builder: (context) {
-                      //           return widget.fromAjwady
-                      //               ? SwitchAcount()
-                      //               : SwitchAcount(fromAjwady: false);
-                      //         });
-                      //   },
-                      // ),
                       CustomListTile(
                         title: "myProfile".tr,
                         leading: "assets/icons/profile_icon.svg",
-                        iconColor: colorGreen,
                         //   fromAjwady: false,
-                        onTap: () {
-                          showModalBottomSheet(
-                              isScrollControlled: true,
-                              backgroundColor: Colors.transparent,
-                              shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(30),
-                                topLeft: Radius.circular(30),
-                              )),
-                              context: context,
-                              builder: (context) {
-                                return ProfileDetails(
-                                  fromAjwady: false,
-                                  profileController: _profileController,
-                                );
-                              });
-                        },
+                        onTap: () {},
                       ),
                       CustomListTile(
                         title: "massage".tr,
-                        leading: "assets/icons/myChat_icon.svg",
-                        iconColor: colorGreen,
+                        leading: "assets/icons/Communication.svg",
+
                         //  fromAjwady: widget.fromAjwady,
                         onTap: () {
                           Get.to(
@@ -190,122 +178,67 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           );
                         },
                       ),
-                      // widget.fromAjwady
-                      //     ? Container()
-                      //     : CustomListTile(
-                      //         title: "myOrders".tr,
-                      //         leading: "assets/icons/myorder_icon.svg",
-                      //         iconColor: colorGreen,
-                      //         //  fromAjwady: widget.fromAjwady,
-                      //         onTap: () {
-                      //           Get.to(() => OrderScreen());
-                      //         },
-                      //       ),
-                      // widget.fromAjwady
-                      //     ? Container()
-                      //     : CustomListTile(
-                      //         title: "bookmark".tr,
-                      //         leading: "assets/icons/bookmark_icon.svg",
-                      //         iconColor: colorGreen,
-                      //         //  fromAjwady: widget.fromAjwady,
-                      //         onTap: () {
-                      //           Get.to(() => const BookmarkScreen());
-                      //         },
-                      //       ),
-
-                      if (!widget.fromAjwady)
-                        CustomListTile(
-                          title: "tourHistory".tr,
-                          leading: "assets/icons/Time.svg",
-                          iconColor: colorGreen,
-                          onTap: () {
-                            Get.to(() => BookingScreen());
-                          },
-                        ),
-
                       if (!widget.fromAjwady)
                         CustomListTile(
                           title: "myTickets".tr,
                           leading: "assets/icons/trips_icon.svg",
-                          iconColor: colorGreen,
                           onTap: () {
-                            Get.to(() => TicketScreen(
-                                  profileController: widget.profileController,
-                                ));
+                            Get.to(
+                              () => TicketScreen(
+                                profileController: widget.profileController,
+                              ),
+                            );
                           },
                         ),
-
-                      // widget.fromAjwady
-                      //     ? Container()
-                      //     : CustomListTile(
-                      //         title: "myFav".tr,
-                      //         leading: "assets/icons/fav_icon.svg",
-                      //         onTap: () {
-                      //           Get.to(() => const BookmarkScreen());
-                      //         },
-                      //       ),
+                      CustomListTile(
+                        title: "bookmark".tr,
+                        leading: "assets/icons/bookmark_icon.svg",
+                        onTap: () {
+                          Get.to(() => const BookmarkScreen());
+                        },
+                      ),
                     ],
                   ),
-                  const Divider(
-                    color: lightGrey,
-                    thickness: 2,
+                  const Padding(
+                    padding: EdgeInsets.only(top: 10, right: 24, left: 24),
+                    child: Divider(
+                      color: lightGrey,
+                      thickness: 2,
+                    ),
                   ),
                   Expanded(
                     child: Column(
                       children: [
-                        // CustomListTile(
-                        //   title: "paymentMethods".tr,
-                        //   leading: "assets/icons/payment_icon.svg",
-                        //   iconColor: colorGreen,
-                        //   onTap: () {
-                        //     showModalBottomSheet(
-                        //         isScrollControlled: true,
-                        //         backgroundColor: Colors.transparent,
-                        //         shape: const RoundedRectangleBorder(
-                        //             borderRadius: BorderRadius.only(
-                        //           topRight: Radius.circular(30),
-                        //           topLeft: Radius.circular(30),
-                        //         )),
-                        //         context: context,
-                        //         builder: (context) {
-                        //           return PaymentMethod();
-                        //         });
-                        //   },
-                        // ),
-                        // CustomListTile(
-                        //   title: "contactUs".tr,
-                        //   leading: "assets/icons/profile_icon.svg",
-                        //   iconColor: colorGreen,
-                        //   onTap: () {
-                        //     showModalBottomSheet(
-                        //         isScrollControlled: true,
-                        //         backgroundColor: Colors.transparent,
-                        //         shape: const RoundedRectangleBorder(
-                        //             borderRadius: BorderRadius.only(
-                        //           topRight: Radius.circular(30),
-                        //           topLeft: Radius.circular(30),
-                        //         )),
-                        //         context: context,
-                        //         builder: (context) {
-                        //           return const ContactUs();
-                        //         });
-                        //   },
-                        // ),
-                        // CustomListTile(
-                        //   title: "helpsFAQs".tr,
-                        //   leading: "assets/icons/help_icon.svg",
-                        //   // fromAjwady: widget.fromAjwady,
-                        //   iconColor: colorGreen,
-                        //   onTap: () {
-                        //     Get.to(() => widget.fromAjwady
-                        //         ? HelpAndFAQsScreen(
-                        //             fromAjwady: false,
-                        //           )
-                        //         : HelpAndFAQsScreen(
-                        //             fromAjwady: false,
-                        //           ));
-                        //   },
-                        // ),
+                        CustomListTile(
+                          title: "paymentMethods".tr,
+                          leading: "assets/icons/payment_icon.svg",
+                          iconColor: colorGreen,
+                          onTap: () {
+                            // showModalBottomSheet(
+                            //     isScrollControlled: true,
+                            //     backgroundColor: Colors.transparent,
+                            //     shape: const RoundedRectangleBorder(
+                            //         borderRadius: BorderRadius.only(
+                            //       topRight: Radius.circular(30),
+                            //       topLeft: Radius.circular(30),
+                            //     )),
+                            //     context: context,
+                            //     builder: (context) {
+                            //       return PaymentMethod();
+                            //     });
+                          },
+                        ),
+                        CustomListTile(
+                          title: "helpsFAQs".tr,
+                          leading: "assets/icons/help_icon.svg",
+                          // fromAjwady: widget.fromAjwady,
+                          iconColor: colorGreen,
+                          onTap: () {
+                            Get.to(() => HelpAndFAQsScreen(
+                                  fromAjwady: false,
+                                ));
+                          },
+                        ),
                         CustomListTile(
                           title: "signOut".tr,
                           leading: "assets/icons/signout_icon.svg",
@@ -370,7 +303,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             );
                           },
                         ),
-
                         CustomListTile(
                           title: "deleteAccount".tr,
                           leading: "assets/icons/delete_icon.svg",

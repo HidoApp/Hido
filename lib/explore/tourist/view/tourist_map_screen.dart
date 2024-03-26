@@ -470,33 +470,35 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                                           if (userLocation != null) {
                                             distance =
                                                 calculateDistanceBtwUserAndPlace(
-                                              userLocation!.latitude,
-                                              userLocation!.longitude,
-                                              double.parse(
-                                                searchTextController
-                                                        .text.isEmpty
-                                                    ? _touristExploreController
-                                                        .touristModel
-                                                        .value!
-                                                        .places![index]
-                                                        .coordinates!
-                                                        .latitude!
-                                                    : searchedPlaces[index]
-                                                        .coordinates!
-                                                        .latitude!,
-                                              ),
-                                              double.parse(searchTextController
-                                                      .text.isEmpty
-                                                  ? _touristExploreController
-                                                      .touristModel
-                                                      .value!
-                                                      .places![index]
-                                                      .coordinates!
-                                                      .longitude!
-                                                  : searchedPlaces[index]
-                                                      .coordinates!
-                                                      .longitude!),
-                                            );
+                                                    userLocation!.latitude,
+                                                    userLocation!.longitude,
+                                                    double.parse(
+                                                      searchTextController
+                                                              .text.isEmpty
+                                                          ? _touristExploreController
+                                                              .touristModel
+                                                              .value!
+                                                              .places![index]
+                                                              .coordinates!
+                                                              .latitude!
+                                                          : searchedPlaces[
+                                                                  index]
+                                                              .coordinates!
+                                                              .latitude!,
+                                                    ),
+                                                    double.parse(
+                                                        searchTextController
+                                                                .text.isEmpty
+                                                            ? _touristExploreController
+                                                                .touristModel
+                                                                .value!
+                                                                .places![index]
+                                                                .coordinates!
+                                                                .longitude!
+                                                            : searchedPlaces[
+                                                                    index]
+                                                                .coordinates!
+                                                                .longitude!));
                                           } else {
                                             print('CAN NOT CALCULATE DISTANCE');
                                           }

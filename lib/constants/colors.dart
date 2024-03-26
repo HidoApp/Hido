@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 //---------------------------------------------------------
 // New Id Colors ..
 const Color darkBlue = Color(0xFF12153C);
@@ -14,7 +15,6 @@ const Color darkReddishOrange = Color(0xFFB6532D);
 const Color purple = Color(0xFF8B71AB);
 const Color darkPurple = Color(0xFF715691);
 const Color gold = Color(0xFFB38D4A);
-
 //---------------------------------------------------------
 
 const Color colorGreen = Color(0xFF37B268);
@@ -50,7 +50,3 @@ const Color textAreaColor = Color(0xffE4DFDF);
 const Color starGreyColor = Color(0xff5F5F5F);
 const Color containerGreyColor = Color(0xffF5F5F5);
 const Color dotGreyColor = Color(0xff979797);
-
-
-
-

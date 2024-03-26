@@ -438,14 +438,13 @@ class _TripDetailsState extends State<TripDetails> {
                       const Spacer(),
                       Obx(
                         () => Padding(
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                               horizontal: 30, vertical: 10),
                           child: _touristExploreController
                                   .isBookingLoading.value
                               ? Container()
-                              : widget.place!.booking!.isEmpty &&
-                                      !_touristExploreController
-                                          .isBookedMade.value
+                              // : widget.place!.booking!.isEmpty &&
+                              : !_touristExploreController.isBookedMade.value
                                   ? CustomButton(
                                       onPressed: () {
                                         AppUtil.isGuest()

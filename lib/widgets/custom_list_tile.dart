@@ -9,7 +9,7 @@ class CustomListTile extends StatelessWidget {
     required this.title,
     required this.leading,
     required this.onTap,
- this.iconColor,
+    this.iconColor,
   }) : super(key: key);
   final String title, leading;
   final Color? iconColor;
@@ -24,14 +24,14 @@ class CustomListTile extends StatelessWidget {
         title: CustomText(
           textAlign: TextAlign.start,
           text: title,
-          color:  black,
+          color: black,
           fontSize: 15,
           fontWeight: FontWeight.w200,
         ),
         leading: SvgPicture.asset(
           leading,
-          height: 35,
-          color: iconColor,
+          width: 20,
+          height: 20,
         ),
         trailing: const Icon(
           Icons.arrow_forward_ios_rounded,
