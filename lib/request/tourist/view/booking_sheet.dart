@@ -50,9 +50,10 @@ class _BookingSheetState extends State<BookingSheet> {
   late GoogleMapController mapController;
   late final GoogleMapController _googleMapController;
   String? _darkMapStyle;
-  
-    Future<void> _loadMapStyles() async {
-    _darkMapStyle = await rootBundle.loadString('assets/map_styles/map_style.json');
+
+  Future<void> _loadMapStyles() async {
+    _darkMapStyle =
+        await rootBundle.loadString('assets/map_styles/map_style.json');
     final controller = await _controller.future;
     await controller.setMapStyle(_darkMapStyle);
   }
@@ -93,7 +94,7 @@ class _BookingSheetState extends State<BookingSheet> {
     ]
   };
 
-  late DateTime time, newTime = DateTime.now();
+  late DateTime time, returnTime, newTime = DateTime.now();
   bool isNew = false;
 
   //var locLatLang = const LatLng(24.9470921, 45.9903698);
@@ -115,6 +116,7 @@ class _BookingSheetState extends State<BookingSheet> {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
     time = DateTime.now();
+    returnTime = DateTime.now();
     // h = time.hour.toString();
     return DraggableScrollableSheet(
         initialChildSize: 0.8,
@@ -143,10 +145,10 @@ class _BookingSheetState extends State<BookingSheet> {
                     text: "date".tr,
                     color: Colors.black,
                     fontSize: 14,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w500,
                   ),
-                  SizedBox(
-                    height: height * 0.02,
+                  const SizedBox(
+                    height: 4,
                   ),
                   Align(
                     alignment: AppUtil.rtlDirection(context)
@@ -171,137 +173,268 @@ class _BookingSheetState extends State<BookingSheet> {
                       },
                       height: height * 0.06,
                       width: width * 0.65,
-                      title: !_touristExploreController
-                              .isBookingDateSelected.value
-                          ? 'chooseFromCalender'.tr
-                          : _touristExploreController.selectedDate.value
-                              .substring(0, 10),
+                      title:
+                          !_touristExploreController.isBookingDateSelected.value
+                              ? 'chooseFromCalender'.tr
+                              : _touristExploreController.selectedDate.value
+                                  .substring(0, 10),
                       borderColor: lightGreyColor,
                       prefixIcon: SvgPicture.asset(
                         "assets/icons/green_calendar.svg",
                       ),
                       suffixIcon: const Icon(
                         Icons.arrow_forward_ios,
-                        color: colorGreen,
+                        color: almostGrey,
                         size: 15,
                       ),
                       textColor: almostGrey,
                     ),
                   ),
-                  SizedBox(
-                    height: height * 0.03,
+                  const SizedBox(
+                    height: 12,
                   ),
-                  CustomText(
-                    text: "time".tr,
-                    color: Colors.black,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                  ),
-                  SizedBox(
-                    height: height * 0.01,
-                  ),
-                  Align(
-                    alignment: AppUtil.rtlDirection(context)
-                        ? Alignment.centerLeft
-                        : Alignment.centerRight,
-                    child: CustomTextWithIconButton(
-                      onTap: () {
-                        showCupertinoModalPopup<void>(
-                            context: context,
-                            // barrierColor: Colors.white,
-                            barrierDismissible: false,
-                            builder: (BuildContext context) {
-                              return Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Container(
-                                    decoration: const BoxDecoration(
-                                      color: Color(0xffffffff),
-                                      border: Border(
-                                        bottom: BorderSide(
-                                          //  color: Color(0xff999999),
-                                          width: 0.0,
-                                        ),
-                                      ),
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        CupertinoButton(
-                                          onPressed: () {
-                                            widget.touristExploreController
-                                                .isBookingTimeSelected(
-                                                    true);
-                                            setState(() {
-                                              Get.back();
-                                              time = newTime;
-                                            });
-                                          },
-                                          padding:
-                                              const EdgeInsets.symmetric(
-                                            horizontal: 16.0,
-                                            vertical: 5.0,
+                  //TODO:this Row need refactoring
+                  Row(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const CustomText(
+                            text: "Time to go",
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          SizedBox(
+                            height: height * 0.01,
+                          ),
+                          Align(
+                            alignment: AppUtil.rtlDirection(context)
+                                ? Alignment.centerLeft
+                                : Alignment.centerRight,
+                            child: CustomTextWithIconButton(
+                              onTap: () {
+                                showCupertinoModalPopup<void>(
+                                    context: context,
+                                    // barrierColor: Colors.white,
+                                    barrierDismissible: false,
+                                    builder: (BuildContext context) {
+                                      return Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Container(
+                                            decoration: const BoxDecoration(
+                                              color: Color(0xffffffff),
+                                              border: Border(
+                                                bottom: BorderSide(
+                                                  //  color: Color(0xff999999),
+                                                  width: 0.0,
+                                                ),
+                                              ),
+                                            ),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: <Widget>[
+                                                CupertinoButton(
+                                                  onPressed: () {
+                                                    widget
+                                                        .touristExploreController
+                                                        .isBookingTimeSelected(
+                                                            true);
+                                                    setState(() {
+                                                      Get.back();
+                                                      time = newTime;
+                                                    });
+                                                  },
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                    horizontal: 16.0,
+                                                    vertical: 5.0,
+                                                  ),
+                                                  child: CustomText(
+                                                    text: "confirm".tr,
+                                                    color: colorGreen,
+                                                  ),
+                                                )
+                                              ],
+                                            ),
                                           ),
-                                          child: CustomText(
-                                            text: "confirm".tr,
-                                            color: colorGreen,
+                                          Container(
+                                            height: 220,
+                                            width: width,
+                                            margin: EdgeInsets.only(
+                                              bottom: MediaQuery.of(context)
+                                                  .viewInsets
+                                                  .bottom,
+                                            ),
+                                            child: Container(
+                                              width: width,
+                                              color: Colors.white,
+                                              child: CupertinoDatePicker(
+                                                backgroundColor: Colors.white,
+                                                initialDateTime: newTime,
+                                                mode: CupertinoDatePickerMode
+                                                    .time,
+                                                use24hFormat: false,
+                                                onDateTimeChanged:
+                                                    (DateTime newT) {
+                                                  print(DateFormat('HH:mm:ss')
+                                                      .format(newTime));
+                                                  setState(() {
+                                                    newTime = newT;
+                                                    //   print(newTime);
+                                                  });
+                                                },
+                                              ),
+                                            ),
                                           ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 220,
-                                    width: width,
-                                    margin: EdgeInsets.only(
-                                      bottom: MediaQuery.of(context)
-                                          .viewInsets
-                                          .bottom,
-                                    ),
-                                    child: Container(
-                                      width: width,
-                                      color: Colors.white,
-                                      child: CupertinoDatePicker(
-                                        backgroundColor: Colors.white,
-                                        initialDateTime: newTime,
-                                        mode: CupertinoDatePickerMode.time,
-                                        use24hFormat: false,
-                                        onDateTimeChanged: (DateTime newT) {
-                                          print(DateFormat('HH:mm:ss')
-                                              .format(newTime));
-                                          setState(() {
-                                            newTime = newT;
-                                            //   print(newTime);
-                                          });
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              );
-                            });
-                      },
-                      height: height * 0.06,
-                      width: width * 0.4,
-                      title: !_touristExploreController
-                              .isBookingTimeSelected.value
-                          ? 'time'.tr
-                          : DateFormat('hh:mm a').format(newTime),
-                      //  test,
-                      borderColor: lightGreyColor,
-                      prefixIcon: SvgPicture.asset(
-                        "assets/icons/time_icon.svg",
+                                        ],
+                                      );
+                                    });
+                              },
+                              height: height * 0.06,
+                              width: width * 0.4,
+                              title: !_touristExploreController
+                                      .isBookingTimeSelected.value
+                                  ? "00 :00 PM"
+                                  : DateFormat('hh:mm a').format(newTime),
+                              //  test,
+                              borderColor: lightGreyColor,
+                              prefixIcon: SvgPicture.asset(
+                                "assets/icons/time_icon.svg",
+                              ),
+                              suffixIcon: Container(),
+                              textColor: almostGrey,
+                            ),
+                          ),
+                        ],
                       ),
-                      suffixIcon: Container(),
-                      textColor: almostGrey,
-                    ),
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const CustomText(
+                            text: "Return Time",
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          SizedBox(
+                            height: height * 0.01,
+                          ),
+                          Align(
+                            alignment: AppUtil.rtlDirection(context)
+                                ? Alignment.centerLeft
+                                : Alignment.centerRight,
+                            child: CustomTextWithIconButton(
+                              onTap: () {
+                                showCupertinoModalPopup<void>(
+                                    context: context,
+                                    // barrierColor: Colors.white,
+                                    barrierDismissible: false,
+                                    builder: (BuildContext context) {
+                                      return Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Container(
+                                            decoration: const BoxDecoration(
+                                              color: Color(0xffffffff),
+                                              border: Border(
+                                                bottom: BorderSide(
+                                                  //  color: Color(0xff999999),
+                                                  width: 0.0,
+                                                ),
+                                              ),
+                                            ),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: <Widget>[
+                                                CupertinoButton(
+                                                  onPressed: () {
+                                                    widget
+                                                        .touristExploreController
+                                                        .isBookingTimeSelected(
+                                                            true);
+                                                    setState(() {
+                                                      Get.back();
+                                                      time = newTime;
+                                                    });
+                                                  },
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                    horizontal: 16.0,
+                                                    vertical: 5.0,
+                                                  ),
+                                                  child: CustomText(
+                                                    text: "confirm".tr,
+                                                    color: colorGreen,
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                          Container(
+                                            height: 220,
+                                            width: width,
+                                            margin: EdgeInsets.only(
+                                              bottom: MediaQuery.of(context)
+                                                  .viewInsets
+                                                  .bottom,
+                                            ),
+                                            child: Container(
+                                              width: width,
+                                              color: Colors.white,
+                                              child: CupertinoDatePicker(
+                                                backgroundColor: Colors.white,
+                                                initialDateTime: newTime,
+                                                mode: CupertinoDatePickerMode
+                                                    .time,
+                                                use24hFormat: false,
+                                                onDateTimeChanged:
+                                                    (DateTime newT) {
+                                                  print(DateFormat('HH:mm:ss')
+                                                      .format(newTime));
+                                                  setState(() {
+                                                    returnTime = newT;
+                                                    //   print(newTime);
+                                                  });
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    });
+                              },
+                              height: height * 0.06,
+                              width: width * 0.4,
+                              title: !_touristExploreController
+                                      .isBookingTimeSelected.value
+                                  ? "00 :00 PM"
+                                  : DateFormat('hh:mm a').format(returnTime),
+                              //  test,
+                              borderColor: lightGreyColor,
+                              prefixIcon: SvgPicture.asset(
+                                "assets/icons/time_icon.svg",
+                              ),
+                              suffixIcon: Container(),
+                              textColor: almostGrey,
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
                   ),
-                  SizedBox(
-                    height: height * 0.02,
-                  ),
-                  SizedBox(
-                    height: height * 0.02,
+                  const SizedBox(
+                    height: 8,
                   ),
                   CustomText(
                     text: "guests2".tr,
@@ -334,17 +467,15 @@ class _BookingSheetState extends State<BookingSheet> {
                               if (guestNum > 1) {
                                 setState(() {
                                   guestNum = guestNum - 1;
-                                  if (selectedRide == 'van' &&
-                                      guestNum <= 10) {
+                                  if (selectedRide == 'van' && guestNum <= 10) {
                                     selectedRide = "";
                                   }
                                 });
                                 print(selectedRide);
                               }
                             },
-                            child: const Icon(
-                                Icons.horizontal_rule_outlined,
-                                color: colorGreen)),
+                            child: const Icon(Icons.horizontal_rule_outlined,
+                                color: almostGrey)),
                         const SizedBox(
                           width: 15,
                         ),
@@ -362,22 +493,20 @@ class _BookingSheetState extends State<BookingSheet> {
                               setState(() {
                                 print("widget.place!.visitors");
                                 print(widget.place!.visitors);
-                               
-                                  guestNum = guestNum + 1;
-                          
+
+                                guestNum = guestNum + 1;
                               });
                               if (selectedRide == 'van' && guestNum <= 10) {
                                 selectedRide = "";
                               }
                               print(selectedRide);
                             },
-                            child:
-                                const Icon(Icons.add, color: colorGreen)),
+                            child: const Icon(Icons.add, color: almostGrey)),
                       ],
                     ),
                   ),
                   Align(
-                      alignment: Alignment.centerRight,
+                      alignment: Alignment.centerLeft,
                       child: CustomText(
                         text: "forMoreThan10".tr,
                         fontSize: 10,
@@ -491,53 +620,52 @@ class _BookingSheetState extends State<BookingSheet> {
                       ),
                       const Spacer(),
                       _touristExploreController.isBookingIsMaking.value ||
-                              _touristExploreController
-                                  .isPlaceIsLoading.value
+                              _touristExploreController.isPlaceIsLoading.value
                           ? const CircularProgressIndicator(
                               color: colorGreen,
                             )
                           : CustomButton(
                               title: "findLocal".tr,
-                         
                               onPressed: () async {
                                 // Get.to(() => const FindAjwady());
-        
+
                                 if (_touristExploreController.isBookingDateSelected.value &&
                                     _touristExploreController
                                         .isBookingTimeSelected.value &&
                                     selectedRide != "") {
-                                  _touristExploreController
-                                      .isBookedMade(true);
-        
+                                  _touristExploreController.isBookedMade(true);
+
                                   // AppUtil.successToast(
                                   //     context, 'TIME AND DATE IS SELECTED');
-        
+
                                   //  Navigator.pop(context);
                                   if (widget.place != null) {
                                     final isSuccess =
                                         await _touristExploreController.bookPlace(
                                             placeId: widget.place!.id!,
-                                            time: DateFormat('HH:mm:ss')
-                                                .format(newTime),
-                                            date: _touristExploreController
-                                                .selectedDate.value
-                                                .substring(0, 10),
+                                            time:
+                                                DateFormat(
+                                                        'HH:mm:ss')
+                                                    .format(newTime),
+                                            date:
+                                                _touristExploreController
+                                                    .selectedDate.value
+                                                    .substring(0, 10),
                                             guestNumber: guestNum,
                                             cost: guestNum *
                                                 widget.place!.price!,
-                                            lng: _touristExploreController
-                                                .pickUpLocLatLang
-                                                .value
-                                                .longitude
-                                                .toString(),
+                                            lng:
+                                                _touristExploreController
+                                                    .pickUpLocLatLang
+                                                    .value
+                                                    .longitude
+                                                    .toString(),
                                             lat: _touristExploreController
-                                                .pickUpLocLatLang
-                                                .value
-                                                .latitude
+                                                .pickUpLocLatLang.value.latitude
                                                 .toString(),
                                             vehicle: selectedRide,
                                             context: context);
-        
+
                                     if (isSuccess) {
                                       Place? thePlace =
                                           await _touristExploreController
@@ -563,8 +691,8 @@ class _BookingSheetState extends State<BookingSheet> {
                                 }
                               },
                               icon: !AppUtil.rtlDirection(context)
-                                  ? const Icon(Icons.arrow_back)
-                                  : const Icon(Icons.arrow_forward),
+                                  ? const Icon(Icons.arrow_back_ios)
+                                  : const Icon(Icons.arrow_forward_ios),
                               customWidth: width * 0.53,
                             )
                     ],
@@ -646,7 +774,6 @@ class _BookingSheetState extends State<BookingSheet> {
     return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween, children: button);
   }
-
 
   String? selectedTime;
   Future<void> displayTimeDialog() async {
