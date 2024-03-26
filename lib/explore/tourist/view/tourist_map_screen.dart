@@ -203,10 +203,14 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
 
   void searchForPlace(String letters) {
     //for searching feature
+
     searchedPlaces = _touristExploreController.touristModel.value!.places!
         .where((place) =>
             place.nameEn!.toLowerCase().startsWith(letters.toLowerCase()))
         .toList();
+    if (searchedPlaces.isEmpty) {
+      searchedPlaces = _touristExploreController.touristModel.value!.places!;
+    }
   }
 
   List<Place> placesList() {
@@ -437,8 +441,8 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
 
             !_touristExploreController.isTouristMapLoading.value
                 ? Positioned(
-                    bottom: 28,
-                    left: 16,
+                    bottom: 12,
+                    left: 24,
                     right: 16,
                     child: Align(
                       alignment: AlignmentDirectional.bottomCenter,
@@ -461,68 +465,69 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                                     ),
                                     itemBuilder: (context, index, realIndex) {
                                       double distance = 0.0;
-                                      return Container(
-                                        margin: const EdgeInsets.symmetric(
-                                            horizontal: 8),
-                                        child: GestureDetector(
-                                          onTap: () async {
-                                            if (userLocation != null) {
-                                              distance =
-                                                  calculateDistanceBtwUserAndPlace(
-                                                      userLocation!.latitude,
-                                                      userLocation!.longitude,
-                                                      double.parse(
-                                                        searchTextController
-                                                                .text.isEmpty
-                                                            ? _touristExploreController
-                                                                .touristModel
-                                                                .value!
-                                                                .places![index]
-                                                                .coordinates!
-                                                                .latitude!
-                                                            : searchedPlaces[
-                                                                    index]
-                                                                .coordinates!
-                                                                .latitude!,
-                                                      ),
-                                                      double.parse(
-                                                          searchTextController
-                                                                  .text.isEmpty
-                                                              ? _touristExploreController
-                                                                  .touristModel
-                                                                  .value!
-                                                                  .places![
-                                                                      index]
-                                                                  .coordinates!
-                                                                  .longitude!
-                                                              : searchedPlaces[
-                                                                      index]
-                                                                  .coordinates!
-                                                                  .longitude!));
-                                            } else {
-                                              print(
-                                                  'CAN NOT CALCULATE DISTANCE');
-                                            }
+                                      return GestureDetector(
+                                        onTap: () async {
+                                          if (userLocation != null) {
+                                            distance =
+                                                calculateDistanceBtwUserAndPlace(
+                                              userLocation!.latitude,
+                                              userLocation!.longitude,
+                                              double.parse(
+                                                searchTextController
+                                                        .text.isEmpty
+                                                    ? _touristExploreController
+                                                        .touristModel
+                                                        .value!
+                                                        .places![index]
+                                                        .coordinates!
+                                                        .latitude!
+                                                    : searchedPlaces[index]
+                                                        .coordinates!
+                                                        .latitude!,
+                                              ),
+                                              double.parse(searchTextController
+                                                      .text.isEmpty
+                                                  ? _touristExploreController
+                                                      .touristModel
+                                                      .value!
+                                                      .places![index]
+                                                      .coordinates!
+                                                      .longitude!
+                                                  : searchedPlaces[index]
+                                                      .coordinates!
+                                                      .longitude!),
+                                            );
+                                          } else {
+                                            print('CAN NOT CALCULATE DISTANCE');
+                                          }
 
-                                            Get.to(() => TripDetails(
-                                                  fromAjwady: false,
-                                                  place: searchTextController
-                                                          .text.isEmpty
-                                                      ? _touristExploreController
-                                                          .touristModel
-                                                          .value!
-                                                          .places![index]
-                                                      : searchedPlaces[index],
-                                                  distance: distance != 0.0
-                                                      ? distance.roundToDouble()
-                                                      : distance,
-                                                  userLocation: userLocation,
-                                                ))?.then((value) {
+                                          Get.to(
+                                            () => TripDetails(
+                                              fromAjwady: false,
+                                              place: searchTextController
+                                                      .text.isEmpty
+                                                  ? _touristExploreController
+                                                      .touristModel
+                                                      .value!
+                                                      .places![index]
+                                                  : searchedPlaces[index],
+                                              distance: distance != 0.0
+                                                  ? distance.roundToDouble()
+                                                  : distance,
+                                              userLocation: userLocation,
+                                            ),
+                                          )?.then(
+                                            (value) {
                                               getScrollingCards('ALL');
                                               selectedTitle = titles[0];
                                               return;
-                                            });
-                                          },
+                                            },
+                                          );
+                                        },
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 4,
+                                          ),
                                           child: TripCard(
                                             title: !AppUtil.rtlDirection(
                                                     context)
