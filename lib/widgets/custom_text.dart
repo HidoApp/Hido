@@ -3,20 +3,22 @@ import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:flutter/material.dart';
 
 class CustomText extends StatelessWidget {
-  const CustomText({
-    Key? key,
-    required this.text,
-    this.fontSize = 14,
-    this.textAlign,
-    this.fontWeight = FontWeight.w400,
-    this.color = black,
-    this.textDecoration,
-    this.maxlines,
-    this.textOverflow,
-    this.textDirection,
-    this.height,
-    this.fontFamily, this.fontStyle,
-  }) : super(key: key);
+  const CustomText(
+      {Key? key,
+      required this.text,
+      this.fontSize = 14,
+      this.textAlign,
+      this.fontWeight = FontWeight.w400,
+      this.color = black,
+      this.textDecoration,
+      this.maxlines,
+      this.textOverflow,
+      this.textDirection,
+      this.height,
+      this.fontFamily,
+      this.fontStyle,
+      this.textDecorationStyle})
+      : super(key: key);
 
   final String text;
   final double fontSize;
@@ -30,7 +32,7 @@ class CustomText extends StatelessWidget {
   final double? height;
   final String? fontFamily;
   final FontStyle? fontStyle;
-
+  final TextDecorationStyle? textDecorationStyle;
   @override
   Widget build(BuildContext context) {
     return Text(
@@ -40,18 +42,16 @@ class CustomText extends StatelessWidget {
       maxLines: maxlines,
       overflow: textOverflow,
       style: TextStyle(
-        fontFamily: fontFamily ??'HT Rakik',
-        color: color,
-        fontSize: fontSize,
-        fontStyle: fontStyle,
-        fontWeight: fontWeight,
-        decoration: textDecoration,
-        
-        height: height,
-      decorationColor: color,
-      decorationThickness: 0.3
-      ),
-      
+          fontFamily: fontFamily ?? 'HT Rakik',
+          color: color,
+          fontSize: fontSize,
+          fontStyle: fontStyle,
+          fontWeight: fontWeight,
+          decoration: textDecoration,
+          decorationStyle: textDecorationStyle,
+          height: height,
+          decorationColor: color,
+          decorationThickness: 0.3),
       textDirection: textDirection ??
           (!AppUtil.rtlDirection(context)
               ? TextDirection.rtl

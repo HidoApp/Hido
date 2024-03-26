@@ -58,8 +58,6 @@ class _TripDetailsState extends State<TripDetails> {
     'assets/images/ajwadi5.png',
   ];
 
-
-
   int _currentIndex = 0;
   var locLatLang = const LatLng(24.9470921, 45.9903698);
   bool isExpanded = false;
@@ -100,9 +98,7 @@ class _TripDetailsState extends State<TripDetails> {
           print('THIS USER HAS A BOOKING IN ${widget.place!.nameAr}');
         }
       }
-    } 
-
-  
+    }
   }
 
   @override
@@ -441,73 +437,79 @@ class _TripDetailsState extends State<TripDetails> {
                       ),
                       const Spacer(),
                       Obx(
-                        () =>
-                      Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                        child: _touristExploreController.isBookingLoading.value ?
-                        Container()
-                        :
-                        
-                         widget.place!.booking!.isEmpty &&
-                                !_touristExploreController.isBookedMade.value
-                            ? CustomButton(
-                                onPressed: () {
-                               AppUtil.isGuest() ? Get.to(() => const SignInScreen()):
-                               
-                                 showModalBottomSheet(
-                                      useRootNavigator: true,
-                                      isScrollControlled: true,
-                                      backgroundColor: Colors.transparent,
-                                      shape: const RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(30),
-                                        topLeft: Radius.circular(30),
-                                      )),
-                                      context: context,
-                                      builder: (context) {
-                                        return BookingSheet(
-                                          fromAjwady: false,
-                                          place: widget.place,
-                                          userLocation: widget.userLocation,
-                                          touristExploreController:
-                                              _touristExploreController,
-                                        );
-                                      }).then((value) {
-                                      getPlaceBooking();
-                                        return;
-                                      });
-                                },
-                                title: "buyTicket".tr,
-                                icon: !AppUtil.rtlDirection(context)
-                                    ? const Icon(Icons.arrow_back_ios,size: 20,)
-                                    : const Icon(Icons.arrow_forward_ios,size: 20,),
-                              )
-                            : CustomButton(
-                                onPressed: () async {
-                                  Place? thePlace =
-                                      await _touristExploreController
-                                          .getPlaceById(
-                                              id: widget.place!.id!,
-                                              context: context);
-                                  Get.to(
-                                    () => FindAjwady(
-                                      booking: thePlace!.booking![0],
-                                      place: widget.place!,
-                                      placeId: thePlace.id!,
+                        () => Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 30, vertical: 10),
+                          child: _touristExploreController
+                                  .isBookingLoading.value
+                              ? Container()
+                              // : widget.place!.booking!.isEmpty &&
+                              : !_touristExploreController.isBookedMade.value
+                                  ? CustomButton(
+                                      onPressed: () {
+                                        AppUtil.isGuest()
+                                            ? Get.to(() => const SignInScreen())
+                                            : showModalBottomSheet(
+                                                useRootNavigator: true,
+                                                isScrollControlled: true,
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                                shape:
+                                                    const RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius.only(
+                                                  topRight: Radius.circular(30),
+                                                  topLeft: Radius.circular(30),
+                                                )),
+                                                context: context,
+                                                builder: (context) {
+                                                  return BookingSheet(
+                                                    fromAjwady: false,
+                                                    place: widget.place,
+                                                    userLocation:
+                                                        widget.userLocation,
+                                                    touristExploreController:
+                                                        _touristExploreController,
+                                                  );
+                                                }).then((value) {
+                                                getPlaceBooking();
+                                                return;
+                                              });
+                                      },
+                                      title: "buyTicket".tr,
+                                      icon: !AppUtil.rtlDirection(context)
+                                          ? const Icon(
+                                              Icons.arrow_back_ios,
+                                              size: 20,
+                                            )
+                                          : const Icon(
+                                              Icons.arrow_forward_ios,
+                                              size: 20,
+                                            ),
+                                    )
+                                  : CustomButton(
+                                      onPressed: () async {
+                                        Place? thePlace =
+                                            await _touristExploreController
+                                                .getPlaceById(
+                                                    id: widget.place!.id!,
+                                                    context: context);
+                                        Get.to(
+                                          () => FindAjwady(
+                                            booking: thePlace!.booking![0],
+                                            place: widget.place!,
+                                            placeId: thePlace.id!,
+                                          ),
+                                        )?.then((value) async {
+                                          return getPlaceBooking();
+                                        });
+                                      },
+                                      title: "viewBooking".tr,
+                                      //  icon: AppUtil.rtlDirection(context)
+                                      // ? const Icon(Icons.arrow_back)
+                                      // : const Icon(Icons.arrow_forward),
                                     ),
-                                  )?.then((value) async {
-
-                                    return  getPlaceBooking();
-                                    
-                                  });
-                                },
-                                title: "viewBooking".tr,
-                                //  icon: AppUtil.rtlDirection(context)
-                                // ? const Icon(Icons.arrow_back)
-                                // : const Icon(Icons.arrow_forward),
-                              ),
-                      ),
+                        ),
                       ),
                     ],
                   ),
@@ -588,8 +590,7 @@ class _TripDetailsState extends State<TripDetails> {
           //         ],
           //       ),
           //     )),
-        
-        
+
           Positioned(
             top: height * 0.25,
             left: width * 0.42,

@@ -21,10 +21,12 @@ class TripCard extends StatelessWidget {
       //places card
       width: 362,
       height: 102,
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.only(top: 12, left: 12, bottom: 12),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: const BorderRadius.all(Radius.circular(12)),
+        borderRadius: const BorderRadius.all(
+          Radius.circular(12),
+        ),
         boxShadow: [
           BoxShadow(
             blurRadius: 2,
@@ -52,7 +54,7 @@ class TripCard extends StatelessWidget {
               width: 16,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
+              padding: const EdgeInsets.symmetric(vertical: 5),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
