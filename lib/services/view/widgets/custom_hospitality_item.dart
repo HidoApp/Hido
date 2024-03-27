@@ -1,4 +1,6 @@
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
+import 'package:ajwad_v4/services/model/days_info.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -14,6 +16,7 @@ class CustomHospitalityItem extends StatelessWidget {
     required this.category,
     required this.rate,
     required this.onTap,
+     this.dayInfo,
   });
 
   final String image;
@@ -23,11 +26,12 @@ class CustomHospitalityItem extends StatelessWidget {
   final String meal;
   final String category;
   final String rate;
+  final List<DayInfo>? dayInfo;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+  final  width = MediaQuery.of(context).size.width;    return InkWell(
       onTap: onTap,
       radius: 16,
       child: Card(
@@ -62,8 +66,12 @@ class CustomHospitalityItem extends StatelessWidget {
                           radius: 12.5,
                           backgroundImage: AssetImage('assets/images/profile_image.png') ,
                         ):  CircleAvatar(
-                          radius: 12.5,
-                          backgroundImage: NetworkImage(personImage!) ,
+                          radius: 13.5,
+                          backgroundColor: Colors.white,
+                          child: CircleAvatar(
+                            radius: 12.5,
+                            backgroundImage: NetworkImage(personImage!) ,
+                          ),
                         ),
                       
                       ),
@@ -78,7 +86,7 @@ class CustomHospitalityItem extends StatelessWidget {
                       CustomText(
                         text: title,
                         fontSize: 20,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w500,
                       ),
                       const SizedBox(
                         height: 12,
@@ -88,7 +96,7 @@ class CustomHospitalityItem extends StatelessWidget {
                           const SizedBox(
                             width: 4,
                           ),
-                          SvgPicture.asset('assets/icons/location_pin.svg',color: purple,),
+                          SvgPicture.asset('assets/icons/grean_location.svg',),
                           const SizedBox(
                             width: 4,
                           ),
@@ -110,12 +118,12 @@ class CustomHospitalityItem extends StatelessWidget {
                           ),
                           Row(
                             children: [
-                              SvgPicture.asset('assets/icons/dish.svg'),
+                              SvgPicture.asset('assets/icons/grey_calender.svg'),
                               const SizedBox(
                                 width: 4,
                               ),
-                              CustomText(
-                                text: meal,
+                             if (dayInfo != null || dayInfo != []) CustomText(
+                                text: dayInfo![0].startTime.substring(0,10),
                                 fontSize: 10,
                                 fontWeight: FontWeight.w400,
                                 color: starGreyColor,
@@ -127,16 +135,20 @@ class CustomHospitalityItem extends StatelessWidget {
                           ),
                           Row(
                             children: [
-                                 SvgPicture.asset('assets/icons/dish.svg'),
+                                 SvgPicture.asset('assets/icons/meal_icon.svg'),
                              // SvgPicture.asset('assets/icons/calendar.svg',color: purple,),
                               const SizedBox(
                                 width: 4,
                               ),
-                              CustomText(
-                                text: category,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w400,
-                                color: starGreyColor,
+                              SizedBox(
+                                width: width*0.32,
+                                child: CustomText(
+                                  text: meal,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w400,
+                                  color: starGreyColor,
+                                  maxlines: 2,
+                                ),
                               ),
                             ],
                           ),

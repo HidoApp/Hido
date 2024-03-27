@@ -43,12 +43,12 @@ class _ServiceScreenState extends State<ServiceScreen>
       body: Column(
         children: [
           SizedBox(
-            height: height * 0.38,
+            height: height * 0.37,
             child: Stack(
               alignment: Alignment.bottomCenter,
               children: [
                 Image.asset(
-                  'assets/images/${_tabIndex == 0 ? 'service_hospitality_cover' : _tabIndex == 1 ? 'service_adventures_cover' : _tabIndex == 2 ? 'service_events_cover' : 'service_restaurants_cover'}.png',
+                  'assets/images/${_tabIndex == 0 ? 'service_hospitality_cover' : _tabIndex == 2 ? 'service_adventures_cover' : _tabIndex == 1 ? 'service_events_cover' : 'service_restaurants_cover'}.png',
                   width: width,
                   fit: BoxFit.cover,
                 ),
@@ -57,102 +57,124 @@ class _ServiceScreenState extends State<ServiceScreen>
                   left: 16,
                   right: 16,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      //         Row(
-                      //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //           textDirection: TextDirection.ltr,
-                      //           children: [
-                      //             InkWell(
-                      //               onTap: () {},
-                      //               child: Container(
-                      //                 height: 36,
-                      //                 width: width * 0.6,
-                      //                 decoration: BoxDecoration(
-                      //                //   color: Colors.white,
-                      //                   borderRadius: BorderRadius.circular(18),
-                      //                 ),
-                      //                 alignment: Alignment.center,
-                      //                 // child: Row(
-                      //                 //   children: [
-                      //                 //     const SizedBox(
-                      //                 //       width: 22,
-                      //                 //     ),
-                      //                 //     SvgPicture.asset(
-                      //                 //       'assets/icons/search.svg',
-                      //                 //     ),
-                      //                 //     const SizedBox(
-                      //                 //       width: 12,
-                      //                 //     ),
-                      //                 //     CustomText(
-                      //                 //       text: 'search'.tr,
-                      //                 //       fontSize: 14,
-                      //                 //       fontWeight: FontWeight.w400,
-                      //                 //       color: thinGrey.withOpacity(0.5),
-                      //                 //     ),
-                      //                 //   ],
-                      //                 // ),
-                      //               ),
-                      //             ),
-                      //              InkWell(
-                      //            onTap: () {
-                      //               ProfileController _profileController = Get.put(ProfileController());
-                      //             Get.to(() =>  AppUtil.isGuest()
-                      // ? const SignInScreen()
-                      // : MessagesScreen(  profileController: _profileController));
-                      //           },
-                      //           child: Container(
-                      //             width: 36,
-                      //             height: 36,
-                      //             decoration: const BoxDecoration(
-                      //               shape: BoxShape.circle,
-                      //               color: pink,
-                      //             ),
-                      //             alignment: Alignment.center,
-                      //             child: SvgPicture.asset('assets/icons/message.svg'),
-                      //           ),
-                      //         ),
-                      //             InkWell(
-                      //               onTap: () {
 
-                      //             ProfileController _profileController = Get.put(ProfileController());
-                      //               Get.to(()
-                      //                  =>  AppUtil.isGuest()
-                      // ? const SignInScreen()
-                      // : TicketScreen(profileController:_profileController));
+                      Container(
+                        width: 126,
+                        height: 34,
+                        decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(16)),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          textDirection: TextDirection.ltr,
+                          children: [
+                            //             InkWell(
+                            //               onTap: () {},
+                            //               child: Container(
+                            //                 height: 36,
+                            //                 width: width * 0.6,
+                            //                 decoration: BoxDecoration(
+                            //                //   color: Colors.white,
+                            //                   borderRadius: BorderRadius.circular(18),
+                            //                 ),
+                            //                 alignment: Alignment.center,
+                            //                 // child: Row(
+                            //                 //   children: [
+                            //                 //     const SizedBox(
+                            //                 //       width: 22,
+                            //                 //     ),
+                            //                 //     SvgPicture.asset(
+                            //                 //       'assets/icons/search.svg',
+                            //                 //     ),
+                            //                 //     const SizedBox(
+                            //                 //       width: 12,
+                            //                 //     ),
+                            //                 //     CustomText(
+                            //                 //       text: 'search'.tr,
+                            //                 //       fontSize: 14,
+                            //                 //       fontWeight: FontWeight.w400,
+                            //                 //       color: thinGrey.withOpacity(0.5),
+                            //                 //     ),
+                            //                 //   ],
+                            //                 // ),
+                            //               ),
+                            //             ),
+                            //              InkWell(
+                            //            onTap: () {
+                            //               ProfileController _profileController = Get.put(ProfileController());
+                            //             Get.to(() =>  AppUtil.isGuest()
+                            // ? const SignInScreen()
+                            // : MessagesScreen(  profileController: _profileController));
+                            //           },
+                            //           child: Container(
+                            //             width: 36,
+                            //             height: 36,
+                            //             decoration: const BoxDecoration(
+                            //               shape: BoxShape.circle,
+                            //               color: pink,
+                            //             ),
+                            //             alignment: Alignment.center,
+                            //             child: SvgPicture.asset('assets/icons/message.svg'),
+                            //           ),
+                            //         ),
 
-                      //                 //   Get.to(() => const TicketScreen());
-                      //               },
-                      //               child: Container(
-                      //                 width: 36,
-                      //                 height: 36,
-                      //                 decoration: const BoxDecoration(
-                      //                   shape: BoxShape.circle,
-                      //                   color: reddishOrange,
-                      //                 ),
-                      //                 alignment: Alignment.center,
-                      //                 child:
-                      //                     SvgPicture.asset('assets/icons/ticket.svg'),
-                      //               ),
-                      //             ),
-                      //             InkWell(
-                      //               onTap: () {
-                      //             //    Get.to(() => const NotificationScreen());
-                      //               },
-                      //               child: Container(
-                      //                 width: 36,
-                      //                 height: 36,
-                      //                 decoration: const BoxDecoration(
-                      //                   shape: BoxShape.circle,
-                      //                //  color: colorGreen,
-                      //                 ),
-                      //                 alignment: Alignment.center,
-                      //                 // child: SvgPicture.asset(
-                      //                 //     'assets/icons/notifications.svg'),
-                      //               ),
-                      //             ),
-                      //           ],
-                      //         ),
+                            InkWell(
+                              onTap: () {
+                                ProfileController _profileController =
+                                    Get.put(ProfileController());
+                                Get.to(() => AppUtil.isGuest()
+                                    ? const SignInScreen()
+                                    : MessagesScreen(
+                                        profileController: _profileController));
+                              },
+                              child: Container(
+                                width: 36,
+                                height: 36,
+                                alignment: Alignment.center,
+                                child: SvgPicture.asset(
+                                    'assets/icons/Communication_white.svg'),
+                              ),
+                            ),
+
+                            InkWell(
+                              onTap: () {
+                                ProfileController _profileController =
+                                    Get.put(ProfileController());
+                                Get.to(() => AppUtil.isGuest()
+                                    ? const SignInScreen()
+                                    : TicketScreen(
+                                        profileController: _profileController));
+                              },
+                              child: Container(
+                                width: 36,
+                                height: 36,
+                                alignment: Alignment.center,
+                                child: SvgPicture.asset(
+                                    'assets/icons/ticket_icon.svg'),
+                              ),
+                            ),
+
+                            InkWell(
+                              onTap: () {
+                              
+                                Get.to(() =>  AppUtil.isGuest()
+                                    ? const SignInScreen()
+                                    :  Scaffold(body: Center(child: CustomText(text: 'Comming soon'),)));
+                              },
+                              child: Container(
+                                width: 36,
+                                height: 36,
+                                alignment: Alignment.center,
+                                child: SvgPicture.asset(
+                                    'assets/icons/Alerts_white.svg'),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
                       SizedBox(
                         height: height * 0.1,
                       ),
@@ -163,10 +185,10 @@ class _ServiceScreenState extends State<ServiceScreen>
                         ),
                         child: CustomText(
                           text: (_tabIndex == 0
-                                  ? 'serviceHospitalityTitle'
-                                  : _tabIndex == 1
+                                  ? ''
+                                  : _tabIndex == 2
                                       ? 'serviceAdventureTitle'
-                                      : _tabIndex == 2
+                                      : _tabIndex == 1
                                           ? 'serviceEventTitle'
                                           : 'serviceFoodTitle')
                               .tr,
@@ -182,10 +204,10 @@ class _ServiceScreenState extends State<ServiceScreen>
                         ),
                         child: CustomText(
                           text: (_tabIndex == 0
-                                  ? 'serviceHospitalitySubtitle'
-                                  : _tabIndex == 1
+                                  ? ''
+                                  : _tabIndex == 2
                                       ? 'serviceAdventureSubtitle'
-                                      : _tabIndex == 2
+                                      : _tabIndex == 1
                                           ? 'serviceEventSubtitle'
                                           : 'serviceFoodSubtitle')
                               .tr,
@@ -199,6 +221,7 @@ class _ServiceScreenState extends State<ServiceScreen>
                   textDirection: TextDirection.ltr,
                   child: TabBar(
                     controller: _tabController,
+                    
                     indicator: const BoxDecoration(
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(12),
@@ -218,13 +241,27 @@ class _ServiceScreenState extends State<ServiceScreen>
                         padding: EdgeInsets.symmetric(
                             horizontal:
                                 !AppUtil.rtlDirection(context) ? 18 : 5),
+                        child: Container(
+                          child: CustomText(
+                            text: "hospitality".tr,
+                            color: _tabIndex == 0 ? black : Colors.white,
+                            fontWeight: _tabIndex == 0
+                                ? FontWeight.w700
+                                : FontWeight.w400,
+                            fontSize: 11,
+                          ),
+                        ),
+                      ),
+                        Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 18),
+
                         child: CustomText(
-                          text: "hospitality".tr,
-                          color: _tabIndex == 0 ? purple : Colors.white,
-                          fontWeight: _tabIndex == 0
+                          text: "events".tr,
+                          color: _tabIndex == 1 ? black : Colors.white,
+                          fontWeight: _tabIndex == 1
                               ? FontWeight.w700
                               : FontWeight.w400,
-                          fontSize: 11,
+                          fontSize: 12,
                         ),
                       ),
                       Padding(
@@ -233,29 +270,21 @@ class _ServiceScreenState extends State<ServiceScreen>
                                 !AppUtil.rtlDirection(context) ? 18 : 5),
                         child: CustomText(
                           text: "adventures".tr,
-                          color: _tabIndex == 1 ? pink : Colors.white,
-                          fontWeight: _tabIndex == 1
-                              ? FontWeight.w700
-                              : FontWeight.w400,
-                          fontSize: 12,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 18),
-                        child: CustomText(
-                          text: "events".tr,
-                          color: _tabIndex == 2 ? lightYellow : Colors.white,
+                          color: _tabIndex == 2 ? black : Colors.white,
+
                           fontWeight: _tabIndex == 2
                               ? FontWeight.w700
                               : FontWeight.w400,
                           fontSize: 12,
                         ),
                       ),
+                    
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 18),
                         child: CustomText(
                           text: "restaurants".tr,
-                          color: _tabIndex == 3 ? reddishOrange : Colors.white,
+                          color: _tabIndex == 3 ? black : Colors.white,
+
                           fontWeight: _tabIndex == 3
                               ? FontWeight.w700
                               : FontWeight.w400,
@@ -275,10 +304,11 @@ class _ServiceScreenState extends State<ServiceScreen>
                   HospitalityTab(
                     isAviailable: true,
                   ),
-                  AdventuresTab(
-                    isAviailable: false,
-                  ),
+                  
                   EventsTab(
+                    isAviailable: false,
+                  ),AdventuresTab(
+
                     isAviailable: false,
                   ),
                   RestaurantsTab(
