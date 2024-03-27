@@ -8,12 +8,9 @@ import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/custom_text_with_icon_button.dart';
 import 'package:bottom_picker/bottom_picker.dart';
-import 'package:bottom_picker/resources/arrays.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:intl/intl.dart';
 
 class ReservaationDetailsWidget extends StatefulWidget {
@@ -71,8 +68,7 @@ class _ReservaationDetailsWidgetState extends State<ReservaationDetailsWidget> {
                   child: Form(
                     key: _formKey,
                     child: ListView(
-                        // crossAxisAlignment: CrossAxisAlignment.start,
-                        // mainAxisSize: MainAxisSize.min,
+                     
                         children: [
                           const SizedBox(
                             height: 5,
@@ -87,7 +83,7 @@ class _ReservaationDetailsWidgetState extends State<ReservaationDetailsWidget> {
                             text: "date".tr,
                             color: Colors.black,
                             fontSize: 14,
-                            fontWeight: FontWeight.w700,
+                            fontWeight: FontWeight.w500,
                           ),
                           SizedBox(
                             height: height * 0.02,
@@ -122,11 +118,11 @@ class _ReservaationDetailsWidgetState extends State<ReservaationDetailsWidget> {
                                   ? widget.serviceController.selectedDate.value
                                       .toString()
                                       .substring(0, 10)
-                                  : 'chooseFromCalender'.tr,
+                                  : 'mm/dd/yyy'.tr,
                               borderColor: lightGreyColor,
                               prefixIcon: SvgPicture.asset(
-                                "assets/icons/green_calendar.svg",
-                                color: widget.color,
+                                'assets/icons/Time (2).svg',
+                              //  color: widget.color,
                               ),
                               suffixIcon: Icon(
                                 Icons.arrow_forward_ios,
@@ -146,234 +142,8 @@ class _ReservaationDetailsWidgetState extends State<ReservaationDetailsWidget> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                CustomText(
-                                  text: "time".tr,
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                                // Row(
-                                //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-
-                                //   children: [
-                                //     Column(
-                                //       crossAxisAlignment: CrossAxisAlignment.start,
-                                //       children: [
-                                //         CustomText(
-                                //           text: "time".tr,
-                                //           color: Colors.black,
-                                //           fontSize: 14,
-                                //           fontWeight: FontWeight.w700,
-                                //         ),
-
-                                //          CustomText(
-                                //           text: DateFormat('hh:mm a')
-                                //         .format(DateTime.parse(hospitality!
-                                //                             .daysInfo[
-                                //                                 serviceController
-                                //                                     .selectedDateIndex
-                                //                                     .value]
-                                //                             .startTime)),
-                                //           color:darkGrey,
-                                //           fontSize: 12,
-                                //           fontWeight: FontWeight.w400,
-                                //         ),
-                                //       ],
-                                //     ),
-
-                                //  //   Spacer(),
-
-                                //      Column(
-                                //       crossAxisAlignment: CrossAxisAlignment.start,
-                                //       children: [
-                                //         CustomText(
-                                //           text: "endTime".tr,
-                                //           color: Colors.black,
-                                //           fontSize: 14,
-                                //           fontWeight: FontWeight.w700,
-                                //         ),
-
-                                //          CustomText(
-                                //           text: DateFormat('hh:mm a')
-                                //         .format(DateTime.parse(hospitality!
-                                //                             .daysInfo[
-                                //                                 serviceController
-                                //                                     .selectedDateIndex
-                                //                                     .value]
-                                //                             .endTime)),
-                                //            color:darkGrey,
-                                //           fontSize: 12,
-                                //           fontWeight: FontWeight.w400,
-                                //         ),
-                                //       ],
-                                //     ),
-                                //   ],
-                                // ),
-                                SizedBox(
-                                  height: height * 0.01,
-                                ),
-                                Align(
-                                  alignment: AppUtil.rtlDirection(context)
-                                      ? Alignment.centerLeft
-                                      : Alignment.centerRight,
-                                  child: CustomTextWithIconButton(
-                                    onTap: () {
-                                      _openTimePicker(context);
-
-                                      // showCupertinoModalPopup<void>(
-                                      //     context: context,
-                                      //     builder: (BuildContext context) {
-                                      //       return Column(
-                                      //         mainAxisAlignment:
-                                      //             MainAxisAlignment.end,
-                                      //         children: [
-                                      //           Container(
-                                      //             decoration:
-                                      //                 const BoxDecoration(
-                                      //               color: Color(0xffffffff),
-                                      //               border: Border(
-                                      //                 bottom: BorderSide(
-                                      //                   color:
-                                      //                       Color(0xff999999),
-                                      //                   width: 0.0,
-                                      //                 ),
-                                      //               ),
-                                      //             ),
-                                      //             child: Row(
-                                      //               mainAxisAlignment:
-                                      //                   MainAxisAlignment
-                                      //                       .spaceBetween,
-                                      //               children: <Widget>[
-                                      //                 CupertinoButton(
-                                      //                   onPressed: () {
-                                      //                     setState(() {
-                                      //                       Get.back();
-                                      //                       //    serviceController.selectedTime.value = newTime.toString();
-                                      //                     });
-                                      //                   },
-                                      //                   padding:
-                                      //                       const EdgeInsets
-                                      //                           .symmetric(
-                                      //                     horizontal: 16.0,
-                                      //                     vertical: 5.0,
-                                      //                   ),
-                                      //                   child:
-                                      //                       Text("confirm".tr),
-                                      //                 )
-                                      //               ],
-                                      //             ),
-                                      //           ),
-                                      //           Container(
-                                      //             height: 220,
-                                      //             width: width,
-                                      //             margin: EdgeInsets.only(
-                                      //               bottom:
-                                      //                   MediaQuery.of(context)
-                                      //                       .viewInsets
-                                      //                       .bottom,
-                                      //             ),
-                                      //             child: CupertinoDatePicker(
-                                      //               backgroundColor:
-                                      //                   Colors.white,
-                                      //               initialDateTime:
-                                      //                   DateTime.parse(widget
-                                      //                       .hospitality!
-                                      //                       .daysInfo[widget
-                                      //                           .serviceController
-                                      //                           .selectedDateIndex
-                                      //                           .value]
-                                      //                       .startTime),
-                                      //               minimumDate: DateTime.parse(
-                                      //                   widget
-                                      //                       .hospitality!
-                                      //                       .daysInfo[widget
-                                      //                           .serviceController
-                                      //                           .selectedDateIndex
-                                      //                           .value]
-                                      //                       .startTime),
-                                      //               maximumDate: DateTime.parse(
-                                      //                   widget
-                                      //                       .hospitality!
-                                      //                       .daysInfo[widget
-                                      //                           .serviceController
-                                      //                           .selectedDateIndex
-                                      //                           .value]
-                                      //                       .endTime),
-                                      //               // minimumDate: DateTime
-                                      //               //     .parse(hospitality
-                                      //               //         .daysInfo[
-                                      //               //             serviceController
-                                      //               //                 .selectedDateIndex
-                                      //               //                 .value]
-                                      //               //         .startTime),
-                                      //               // maximumDate: DateTime
-                                      //               //     .parse(hospitality
-                                      //               //         .daysInfo[
-                                      //               //             serviceController
-                                      //               //                 .selectedDateIndex
-                                      //               //                 .value]
-                                      //               //         .endTime),
-                                      //               mode:
-                                      //                   CupertinoDatePickerMode
-                                      //                       .time,
-                                      //               use24hFormat: false,
-                                      //               onDateTimeChanged:
-                                      //                   (DateTime newT) {
-                                      //                 // print(DateTime.parse(hospitality
-                                      //                 //   .daysInfo[
-                                      //                 //       serviceController
-                                      //                 //           .selectedDateIndex
-                                      //                 //           .value]
-                                      //                 //   .startTime));
-                                      //                 //  setState(() {
-                                      //                 widget.serviceController
-                                      //                     .selectedTime(
-                                      //                         newT.toString());
-                                      //                 // print(newT);
-                                      //                 //   print(  serviceController.selectedTime );
-                                      //                 print(
-                                      //                     'widget.  serviceController.selectedDateIndex');
-                                      //                 print(
-                                      //                     '${widget.serviceController.selectedDateIndex}');
-                                      //                 print('PARSING');
-                                      //                 print(
-                                      //                     "PARSING ${DateFormat('hh:mm:ss').format(DateTime.parse(newT.toString()))}");
-                                      //                 //   print(newTime);
-                                      //                 //  });
-                                      //               },
-                                      //             ),
-                                      //           ),
-                                      //         ],
-                                      //       );
-                                      //     });
-                                    },
-                                    height: height * 0.06,
-                                    width: width * 0.4,
-                                    title: widget.serviceController.selectedTime
-                                                .value ==
-                                            ""
-                                        ? ""
-                                        : DateFormat('hh:mm a').format(
-                                            DateTime.parse(widget
-                                                .serviceController
-                                                .selectedTime
-                                                .value)),
-                                    //  test,
-                                    borderColor: lightGreyColor,
-                                    prefixIcon: SvgPicture.asset(
-                                      widget.color == purple
-                                          ? "assets/icons/Group 33763.svg"
-                                          : 'assets/icons/Group 33780.svg',
-                                      //  color: color,
-                                    ),
-                                    suffixIcon: Container(),
-                                    textColor: almostGrey,
-                                  ),
-                                ),
-
-                                SizedBox(
-                                  height: height * 0.02,
-                                ),
+                          
+                    
 
                                 SizedBox(
                                   height: height * 0.02,
@@ -382,7 +152,7 @@ class _ReservaationDetailsWidgetState extends State<ReservaationDetailsWidget> {
                                   text: "guests2".tr,
                                   color: Colors.black,
                                   fontSize: 14,
-                                  fontWeight: FontWeight.w700,
+                                  fontWeight: FontWeight.w500,
                                 ),
                                 SizedBox(
                                   height: height * 0.01,
@@ -413,7 +183,7 @@ class _ReservaationDetailsWidgetState extends State<ReservaationDetailsWidget> {
                                     children: [
                                       CustomText(
                                         text: "male".tr,
-                                        fontWeight: FontWeight.w700,
+                                        fontWeight: FontWeight.w200,
                                         color: textGreyColor,
                                       ),
                                       Spacer(),
@@ -428,17 +198,17 @@ class _ReservaationDetailsWidgetState extends State<ReservaationDetailsWidget> {
                                               });
                                             }
                                           },
-                                          child: Icon(
+                                          child:const Icon(
                                               Icons.horizontal_rule_outlined,
-                                              color: widget.color)),
+                                              color: darkGrey)),
                                       const SizedBox(
                                         width: 15,
                                       ),
                                       CustomText(
                                         text: maleGuestNum.toString(),
-                                        color: colorDarkGrey,
+                                        color: tileGreyColor,
                                         fontSize: 18,
-                                        fontWeight: FontWeight.w700,
+                                        fontWeight: FontWeight.w400,
                                       ),
                                       const SizedBox(
                                         width: 15,
@@ -459,8 +229,8 @@ class _ReservaationDetailsWidgetState extends State<ReservaationDetailsWidget> {
                                               });
                                             }
                                           },
-                                          child: Icon(Icons.add,
-                                              color: widget.color)),
+                                          child:const Icon(Icons.add,
+                                              color: darkGrey)),
                                     ],
                                   ),
                                 ),
@@ -481,8 +251,9 @@ class _ReservaationDetailsWidgetState extends State<ReservaationDetailsWidget> {
                                     children: [
                                       CustomText(
                                         text: "female".tr,
-                                        fontWeight: FontWeight.w700,
+                                        fontWeight: FontWeight.w200,
                                         color: textGreyColor,
+                                        fontSize: 14,
                                       ),
                                       Spacer(),
                                       GestureDetector(
@@ -497,15 +268,15 @@ class _ReservaationDetailsWidgetState extends State<ReservaationDetailsWidget> {
                                               });
                                             }
                                           },
-                                          child: Icon(
+                                          child:const Icon(
                                               Icons.horizontal_rule_outlined,
-                                              color: widget.color)),
+                                              color: darkGrey)),
                                       const SizedBox(
                                         width: 15,
                                       ),
                                       CustomText(
                                         text: femaleGuestNum.toString(),
-                                        color: colorDarkGrey,
+                                        color: tileGreyColor,
                                         fontSize: 18,
                                         fontWeight: FontWeight.w700,
                                       ),
@@ -529,8 +300,8 @@ class _ReservaationDetailsWidgetState extends State<ReservaationDetailsWidget> {
                                               });
                                             }
                                           },
-                                          child: Icon(Icons.add,
-                                              color: widget.color)),
+                                          child:const Icon(Icons.add,
+                                              color: darkGrey)),
                                     ],
                                   ),
                                 ),
@@ -544,7 +315,7 @@ class _ReservaationDetailsWidgetState extends State<ReservaationDetailsWidget> {
                               Column(
                                 children: [
                                   CustomText(
-                                    text: "preliminaryCost".tr,
+                                    text: "totaltotalPrice".tr,
                                     fontSize: 12,
                                   ),
                                   const SizedBox(
@@ -566,7 +337,7 @@ class _ReservaationDetailsWidgetState extends State<ReservaationDetailsWidget> {
                                 iconColor: widget.color == purple
                                     ? darkPurple
                                     : darkPink,
-                                title: "checkout".tr,
+                                title: "book".tr,
                                 onPressed: () async {
                               
                                 
@@ -713,29 +484,3 @@ class _ReservaationDetailsWidgetState extends State<ReservaationDetailsWidget> {
     ).show(context);
   }
 }
-
-
-     //               initialDateTime:
-                                      //                   DateTime.parse(widget
-                                      //                       .hospitality!
-                                      //                       .daysInfo[widget
-                                      //                           .serviceController
-                                      //                           .selectedDateIndex
-                                      //                           .value]
-                                      //                       .startTime),
-                                                    // minimumDate: DateTime.parse(
-                                                    //     widget
-                                                    //         .hospitality!
-                                                    //         .daysInfo[widget
-                                                    //             .serviceController
-                                                    //             .selectedDateIndex
-                                                    //             .value]
-                                                    //         .startTime),
-                                      //               maximumDate: DateTime.parse(
-                                      //                   widget
-                                      //                       .hospitality!
-                                      //                       .daysInfo[widget
-                                      //                           .serviceController
-                                      //                           .selectedDateIndex
-                                      //                           .value]
-                                      //                       .endTime),

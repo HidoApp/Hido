@@ -151,6 +151,7 @@ const localeEn = {
   'adventureName': 'Adventure Name',
   'time': 'Time',
   'total': 'Total',
+  'totalPrice': 'Total price',
   'totalPayment': 'Total Payment',
   'perPerson': 'per person',
   'explore': 'Explore',
@@ -353,4 +354,10 @@ const localeEn = {
   "deleteAccount": 'Delete account',
   "youWantDeleteYourAccount": 'Are you sure you want to delete your account ?',
   "exploreAsGuest": 'Explore as a guest',
-};
+  "whereWeWillBe": 'Where we’ll be',
+  "cancellationPolicy": 'Cancellation policy',
+  "cancellationPolicyBreif": 'Cancel up to 7 days before your tour for a full refund, or within 24 hours of booking as long as the booking is made more than 48 hours before the tour.',
+  "locationWillBeAvailableAfterBooking": 'Location will be available after booking',
+  
+  
+  };

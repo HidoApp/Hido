@@ -28,12 +28,10 @@ class _ServiceScreenState extends State<ServiceScreen>
 
   SrvicesController _srvicesController = Get.put(SrvicesController());
 
-
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 4, vsync: this);
-   
   }
 
   @override
@@ -55,105 +53,125 @@ class _ServiceScreenState extends State<ServiceScreen>
                   fit: BoxFit.cover,
                 ),
                 Positioned(
-                  top: height*0.035,
+                  top: height * 0.035,
                   left: 16,
                   right: 16,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        textDirection: TextDirection.ltr,
-                        children: [
-                          InkWell(
-                            onTap: () {},
-                            child: Container(
-                              height: 36,
-                              width: width * 0.6,
-                              decoration: BoxDecoration(
-                             //   color: Colors.white,
-                                borderRadius: BorderRadius.circular(18),
+                      Container(
+                        width: 126,
+                        height: 34,
+                        decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(16)),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          textDirection: TextDirection.ltr,
+                          children: [
+                            //             InkWell(
+                            //               onTap: () {},
+                            //               child: Container(
+                            //                 height: 36,
+                            //                 width: width * 0.6,
+                            //                 decoration: BoxDecoration(
+                            //                //   color: Colors.white,
+                            //                   borderRadius: BorderRadius.circular(18),
+                            //                 ),
+                            //                 alignment: Alignment.center,
+                            //                 // child: Row(
+                            //                 //   children: [
+                            //                 //     const SizedBox(
+                            //                 //       width: 22,
+                            //                 //     ),
+                            //                 //     SvgPicture.asset(
+                            //                 //       'assets/icons/search.svg',
+                            //                 //     ),
+                            //                 //     const SizedBox(
+                            //                 //       width: 12,
+                            //                 //     ),
+                            //                 //     CustomText(
+                            //                 //       text: 'search'.tr,
+                            //                 //       fontSize: 14,
+                            //                 //       fontWeight: FontWeight.w400,
+                            //                 //       color: thinGrey.withOpacity(0.5),
+                            //                 //     ),
+                            //                 //   ],
+                            //                 // ),
+                            //               ),
+                            //             ),
+                            //              InkWell(
+                            //            onTap: () {
+                            //               ProfileController _profileController = Get.put(ProfileController());
+                            //             Get.to(() =>  AppUtil.isGuest()
+                            // ? const SignInScreen()
+                            // : MessagesScreen(  profileController: _profileController));
+                            //           },
+                            //           child: Container(
+                            //             width: 36,
+                            //             height: 36,
+                            //             decoration: const BoxDecoration(
+                            //               shape: BoxShape.circle,
+                            //               color: pink,
+                            //             ),
+                            //             alignment: Alignment.center,
+                            //             child: SvgPicture.asset('assets/icons/message.svg'),
+                            //           ),
+                            //         ),
+
+                            InkWell(
+                              onTap: () {
+                                ProfileController _profileController =
+                                    Get.put(ProfileController());
+                                Get.to(() => AppUtil.isGuest()
+                                    ? const SignInScreen()
+                                    : MessagesScreen(
+                                        profileController: _profileController));
+                              },
+                              child: Container(
+                                width: 36,
+                                height: 36,
+                                alignment: Alignment.center,
+                                child: SvgPicture.asset(
+                                    'assets/icons/Communication_white.svg'),
                               ),
-                              alignment: Alignment.center,
-                              // child: Row(
-                              //   children: [
-                              //     const SizedBox(
-                              //       width: 22,
-                              //     ),
-                              //     SvgPicture.asset(
-                              //       'assets/icons/search.svg',
-                              //     ),
-                              //     const SizedBox(
-                              //       width: 12,
-                              //     ),
-                              //     CustomText(
-                              //       text: 'search'.tr,
-                              //       fontSize: 14,
-                              //       fontWeight: FontWeight.w400,
-                              //       color: thinGrey.withOpacity(0.5),
-                              //     ),
-                              //   ],
-                              // ),
                             ),
-                          ),
-                           InkWell(
-                         onTap: () {
-                            ProfileController _profileController = Get.put(ProfileController());
-                          Get.to(() =>  AppUtil.isGuest()
-              ? const SignInScreen()
-              : MessagesScreen(  profileController: _profileController));
-                        },
-                        child: Container(
-                          width: 36,
-                          height: 36,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: pink,
-                          ),
-                          alignment: Alignment.center,
-                          child: SvgPicture.asset('assets/icons/message.svg'),
-                        ),
-                      ),
-                          InkWell(
-                            onTap: () {
+
+                            InkWell(
+                              onTap: () {
+                                ProfileController _profileController =
+                                    Get.put(ProfileController());
+                                Get.to(() => AppUtil.isGuest()
+                                    ? const SignInScreen()
+                                    : TicketScreen(
+                                        profileController: _profileController));
+                              },
+                              child: Container(
+                                width: 36,
+                                height: 36,
+                                alignment: Alignment.center,
+                                child: SvgPicture.asset(
+                                    'assets/icons/ticket_icon.svg'),
+                              ),
+                            ),
+
+                            InkWell(
+                              onTap: () {
                               
-                          ProfileController _profileController = Get.put(ProfileController());
-                            Get.to(() 
-                               =>  AppUtil.isGuest()
-              ? const SignInScreen()
-              : TicketScreen(profileController:_profileController));
-                      
-                              //   Get.to(() => const TicketScreen());
-                            },
-                            child: Container(
-                              width: 36,
-                              height: 36,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: reddishOrange,
+                                Get.to(() =>  AppUtil.isGuest()
+                                    ? const SignInScreen()
+                                    :  Scaffold(body: Center(child: CustomText(text: 'Comming soon'),)));
+                              },
+                              child: Container(
+                                width: 36,
+                                height: 36,
+                                alignment: Alignment.center,
+                                child: SvgPicture.asset(
+                                    'assets/icons/Alerts_white.svg'),
                               ),
-                              alignment: Alignment.center,
-                              child:
-                                  SvgPicture.asset('assets/icons/ticket.svg'),
                             ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                          //    Get.to(() => const NotificationScreen());
-                            },
-                            child: Container(
-                              width: 36,
-                              height: 36,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                             //  color: colorGreen,
-                              ),
-                              alignment: Alignment.center,
-                              // child: SvgPicture.asset(
-                              //     'assets/icons/notifications.svg'),
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                       SizedBox(
                         height: height * 0.1,
@@ -165,7 +183,7 @@ class _ServiceScreenState extends State<ServiceScreen>
                         ),
                         child: CustomText(
                           text: (_tabIndex == 0
-                                  ? 'serviceHospitalityTitle'
+                                  ? ''
                                   : _tabIndex == 1
                                       ? 'serviceAdventureTitle'
                                       : _tabIndex == 2
@@ -184,7 +202,7 @@ class _ServiceScreenState extends State<ServiceScreen>
                         ),
                         child: CustomText(
                           text: (_tabIndex == 0
-                                  ? 'serviceHospitalitySubtitle'
+                                  ? ''
                                   : _tabIndex == 1
                                       ? 'serviceAdventureSubtitle'
                                       : _tabIndex == 2
@@ -217,43 +235,49 @@ class _ServiceScreenState extends State<ServiceScreen>
                     },
                     tabs: [
                       Padding(
-                        padding:  EdgeInsets.symmetric(horizontal: !AppUtil.rtlDirection(context) ?18 : 5),
-                        child: CustomText(
-                          text: "hospitality".tr,
-                          color: _tabIndex == 0 ? purple : Colors.white,
-                          fontWeight: _tabIndex == 0
-                              ? FontWeight.w700
-                              : FontWeight.w400,
-                              fontSize: 11,
+                        padding: EdgeInsets.symmetric(
+                            horizontal:
+                                !AppUtil.rtlDirection(context) ? 18 : 5),
+                        child: Container(
+                          child: CustomText(
+                            text: "hospitality".tr,
+                            color: _tabIndex == 0 ? black : Colors.white,
+                            fontWeight: _tabIndex == 0
+                                ? FontWeight.w700
+                                : FontWeight.w400,
+                            fontSize: 11,
+                          ),
                         ),
                       ),
                       Padding(
-                        padding:  EdgeInsets.symmetric(horizontal: !AppUtil.rtlDirection(context) ?18 : 5),
+                        padding: EdgeInsets.symmetric(
+                            horizontal:
+                                !AppUtil.rtlDirection(context) ? 18 : 5),
                         child: CustomText(
                           text: "adventures".tr,
-                          color: _tabIndex == 1 ? pink : Colors.white,
+                          color: _tabIndex == 1 ? black : Colors.white,
                           fontWeight: _tabIndex == 1
                               ? FontWeight.w700
                               : FontWeight.w400,
-                               fontSize: 12,
+                          fontSize: 12,
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 18),
                         child: CustomText(
                           text: "events".tr,
-                          color: _tabIndex == 2 ?lightYellow : Colors.white,
+                          color: _tabIndex == 2 ? black : Colors.white,
                           fontWeight: _tabIndex == 2
                               ? FontWeight.w700
                               : FontWeight.w400,
-                               fontSize: 12,
+                          fontSize: 12,
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 18),
                         child: CustomText(
                           text: "restaurants".tr,
-                          color: _tabIndex == 3 ?reddishOrange : Colors.white,
+                          color: _tabIndex == 3 ? black : Colors.white,
                           fontWeight: _tabIndex == 3
                               ? FontWeight.w700
                               : FontWeight.w400,
@@ -270,10 +294,18 @@ class _ServiceScreenState extends State<ServiceScreen>
                 controller: _tabController,
                 physics: const NeverScrollableScrollPhysics(),
                 children: const [
-                  HospitalityTab(isAviailable: true,),
-                  AdventuresTab(isAviailable: false,),
-                  EventsTab(isAviailable: false,),
-                  RestaurantsTab(isAviailable: false,),
+                  HospitalityTab(
+                    isAviailable: true,
+                  ),
+                  AdventuresTab(
+                    isAviailable: false,
+                  ),
+                  EventsTab(
+                    isAviailable: false,
+                  ),
+                  RestaurantsTab(
+                    isAviailable: false,
+                  ),
                 ]),
           ),
         ],
