@@ -43,12 +43,12 @@ class _ServiceScreenState extends State<ServiceScreen>
       body: Column(
         children: [
           SizedBox(
-            height: height * 0.38,
+            height: height * 0.37,
             child: Stack(
               alignment: Alignment.bottomCenter,
               children: [
                 Image.asset(
-                  'assets/images/${_tabIndex == 0 ? 'service_hospitality_cover' : _tabIndex == 1 ? 'service_adventures_cover' : _tabIndex == 2 ? 'service_events_cover' : 'service_restaurants_cover'}.png',
+                  'assets/images/${_tabIndex == 0 ? 'service_hospitality_cover' : _tabIndex == 2 ? 'service_adventures_cover' : _tabIndex == 1 ? 'service_events_cover' : 'service_restaurants_cover'}.png',
                   width: width,
                   fit: BoxFit.cover,
                 ),
@@ -184,9 +184,9 @@ class _ServiceScreenState extends State<ServiceScreen>
                         child: CustomText(
                           text: (_tabIndex == 0
                                   ? ''
-                                  : _tabIndex == 1
+                                  : _tabIndex == 2
                                       ? 'serviceAdventureTitle'
-                                      : _tabIndex == 2
+                                      : _tabIndex == 1
                                           ? 'serviceEventTitle'
                                           : 'serviceFoodTitle')
                               .tr,
@@ -203,9 +203,9 @@ class _ServiceScreenState extends State<ServiceScreen>
                         child: CustomText(
                           text: (_tabIndex == 0
                                   ? ''
-                                  : _tabIndex == 1
+                                  : _tabIndex == 2
                                       ? 'serviceAdventureSubtitle'
-                                      : _tabIndex == 2
+                                      : _tabIndex == 1
                                           ? 'serviceEventSubtitle'
                                           : 'serviceFoodSubtitle')
                               .tr,
@@ -219,6 +219,7 @@ class _ServiceScreenState extends State<ServiceScreen>
                   textDirection: TextDirection.ltr,
                   child: TabBar(
                     controller: _tabController,
+                    
                     indicator: const BoxDecoration(
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(12),
@@ -249,12 +250,10 @@ class _ServiceScreenState extends State<ServiceScreen>
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal:
-                                !AppUtil.rtlDirection(context) ? 18 : 5),
+                        Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 18),
                         child: CustomText(
-                          text: "adventures".tr,
+                          text: "events".tr,
                           color: _tabIndex == 1 ? black : Colors.white,
                           fontWeight: _tabIndex == 1
                               ? FontWeight.w700
@@ -263,9 +262,11 @@ class _ServiceScreenState extends State<ServiceScreen>
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 18),
+                        padding: EdgeInsets.symmetric(
+                            horizontal:
+                                !AppUtil.rtlDirection(context) ? 18 : 5),
                         child: CustomText(
-                          text: "events".tr,
+                          text: "adventures".tr,
                           color: _tabIndex == 2 ? black : Colors.white,
                           fontWeight: _tabIndex == 2
                               ? FontWeight.w700
@@ -273,6 +274,7 @@ class _ServiceScreenState extends State<ServiceScreen>
                           fontSize: 12,
                         ),
                       ),
+                    
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 18),
                         child: CustomText(
@@ -297,10 +299,10 @@ class _ServiceScreenState extends State<ServiceScreen>
                   HospitalityTab(
                     isAviailable: true,
                   ),
-                  AdventuresTab(
-                    isAviailable: false,
-                  ),
+                  
                   EventsTab(
+                    isAviailable: false,
+                  ),AdventuresTab(
                     isAviailable: false,
                   ),
                   RestaurantsTab(

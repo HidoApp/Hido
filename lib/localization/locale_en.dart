@@ -129,7 +129,7 @@ const localeEn = {
   "all": "All",
   "trip": "Tour",
   "festivals": "Festival",
-  "events": "Event",
+  "events": "Local event",
   "restaurants": "Food",
   "hospitality": "Hospitality",
   "exclusiveDiscounts": "Exclusive Discounts for Holiday Inn Guests!",

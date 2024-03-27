@@ -98,7 +98,7 @@ const localeAr = {
   "place": "منطقة تراثية",
   "adventure": "مغامرة",
   "adventures": "مغامرات",
-  "event": "فعالية",
+  "event": " فعالية محلية",
   "tellUsAboutPlace": "أخبرنا عن المكان حتى نتمكن من إضافته",
   "placeName": "أسم المنطقة",
   "placeLoc": "موقع المنطقة",
