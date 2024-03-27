@@ -59,7 +59,6 @@ class _ServiceScreenState extends State<ServiceScreen>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-
                       Container(
                         width: 126,
                         height: 34,
@@ -158,10 +157,12 @@ class _ServiceScreenState extends State<ServiceScreen>
 
                             InkWell(
                               onTap: () {
-                              
-                                Get.to(() =>  AppUtil.isGuest()
+                                Get.to(() => AppUtil.isGuest()
                                     ? const SignInScreen()
-                                    :  Scaffold(body: Center(child: CustomText(text: 'Comming soon'),)));
+                                    : Scaffold(
+                                        body: Center(
+                                        child: CustomText(text: 'Comming soon'),
+                                      )));
                               },
                               child: Container(
                                 width: 36,
@@ -174,7 +175,6 @@ class _ServiceScreenState extends State<ServiceScreen>
                           ],
                         ),
                       ),
-
                       SizedBox(
                         height: height * 0.1,
                       ),
@@ -221,7 +221,6 @@ class _ServiceScreenState extends State<ServiceScreen>
                   textDirection: TextDirection.ltr,
                   child: TabBar(
                     controller: _tabController,
-                    
                     indicator: const BoxDecoration(
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(12),
@@ -252,9 +251,8 @@ class _ServiceScreenState extends State<ServiceScreen>
                           ),
                         ),
                       ),
-                        Padding(
+                      Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 18),
-
                         child: CustomText(
                           text: "events".tr,
                           color: _tabIndex == 1 ? black : Colors.white,
@@ -271,20 +269,17 @@ class _ServiceScreenState extends State<ServiceScreen>
                         child: CustomText(
                           text: "adventures".tr,
                           color: _tabIndex == 2 ? black : Colors.white,
-
                           fontWeight: _tabIndex == 2
                               ? FontWeight.w700
                               : FontWeight.w400,
                           fontSize: 12,
                         ),
                       ),
-                    
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 18),
                         child: CustomText(
                           text: "restaurants".tr,
                           color: _tabIndex == 3 ? black : Colors.white,
-
                           fontWeight: _tabIndex == 3
                               ? FontWeight.w700
                               : FontWeight.w400,
@@ -304,11 +299,10 @@ class _ServiceScreenState extends State<ServiceScreen>
                   HospitalityTab(
                     isAviailable: true,
                   ),
-                  
                   EventsTab(
                     isAviailable: false,
-                  ),AdventuresTab(
-
+                  ),
+                  AdventuresTab(
                     isAviailable: false,
                   ),
                   RestaurantsTab(

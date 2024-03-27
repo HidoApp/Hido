@@ -94,7 +94,8 @@ class _BookingSheetState extends State<BookingSheet> {
     ]
   };
 
-  late DateTime time, returnTime, newTime = DateTime.now();
+  late DateTime time, returnTime, newTimeToGo = DateTime.now();
+  DateTime newTimeToReturn = DateTime.now();
   bool isNew = false;
 
   //var locLatLang = const LatLng(24.9470921, 45.9903698);
@@ -246,7 +247,7 @@ class _BookingSheetState extends State<BookingSheet> {
                                                             true);
                                                     setState(() {
                                                       Get.back();
-                                                      time = newTime;
+                                                      time = newTimeToGo;
                                                     });
                                                   },
                                                   padding: const EdgeInsets
@@ -275,16 +276,16 @@ class _BookingSheetState extends State<BookingSheet> {
                                               color: Colors.white,
                                               child: CupertinoDatePicker(
                                                 backgroundColor: Colors.white,
-                                                initialDateTime: newTime,
+                                                initialDateTime: newTimeToGo,
                                                 mode: CupertinoDatePickerMode
                                                     .time,
                                                 use24hFormat: false,
                                                 onDateTimeChanged:
                                                     (DateTime newT) {
                                                   print(DateFormat('HH:mm:ss')
-                                                      .format(newTime));
+                                                      .format(newTimeToGo));
                                                   setState(() {
-                                                    newTime = newT;
+                                                    newTimeToGo = newT;
                                                     //   print(newTime);
                                                   });
                                                 },
@@ -300,7 +301,7 @@ class _BookingSheetState extends State<BookingSheet> {
                               title: !_touristExploreController
                                       .isBookingTimeSelected.value
                                   ? "00 :00 PM"
-                                  : DateFormat('hh:mm a').format(newTime),
+                                  : DateFormat('hh:mm a').format(newTimeToGo),
                               //  test,
                               borderColor: lightGreyColor,
                               prefixIcon: SvgPicture.asset(
@@ -365,7 +366,8 @@ class _BookingSheetState extends State<BookingSheet> {
                                                             true);
                                                     setState(() {
                                                       Get.back();
-                                                      time = newTime;
+                                                      returnTime =
+                                                          newTimeToReturn;
                                                     });
                                                   },
                                                   padding: const EdgeInsets
@@ -394,16 +396,17 @@ class _BookingSheetState extends State<BookingSheet> {
                                               color: Colors.white,
                                               child: CupertinoDatePicker(
                                                 backgroundColor: Colors.white,
-                                                initialDateTime: newTime,
+                                                initialDateTime:
+                                                    newTimeToReturn,
                                                 mode: CupertinoDatePickerMode
                                                     .time,
                                                 use24hFormat: false,
                                                 onDateTimeChanged:
                                                     (DateTime newT) {
                                                   print(DateFormat('HH:mm:ss')
-                                                      .format(newTime));
+                                                      .format(newTimeToReturn));
                                                   setState(() {
-                                                    returnTime = newT;
+                                                    newTimeToReturn = newT;
                                                     //   print(newTime);
                                                   });
                                                 },
@@ -419,7 +422,8 @@ class _BookingSheetState extends State<BookingSheet> {
                               title: !_touristExploreController
                                       .isBookingTimeSelected.value
                                   ? "00 :00 PM"
-                                  : DateFormat('hh:mm a').format(returnTime),
+                                  : DateFormat('hh:mm a')
+                                      .format(newTimeToReturn),
                               //  test,
                               borderColor: lightGreyColor,
                               prefixIcon: SvgPicture.asset(
@@ -641,30 +645,34 @@ class _BookingSheetState extends State<BookingSheet> {
                                   //  Navigator.pop(context);
                                   if (widget.place != null) {
                                     final isSuccess =
-                                        await _touristExploreController.bookPlace(
-                                            placeId: widget.place!.id!,
-                                            time:
-                                                DateFormat(
-                                                        'HH:mm:ss')
-                                                    .format(newTime),
-                                            date:
-                                                _touristExploreController
+                                        await _touristExploreController
+                                            .bookPlace(
+                                                placeId: widget.place!.id!,
+                                                timeToGo: DateFormat('HH:mm:ss')
+                                                    .format(newTimeToGo),
+                                                timeToReturn:
+                                                    DateFormat(
+                                                            'HH:mm:ss')
+                                                        .format(
+                                                            newTimeToReturn),
+                                                date: _touristExploreController
                                                     .selectedDate.value
                                                     .substring(0, 10),
-                                            guestNumber: guestNum,
-                                            cost: guestNum *
-                                                widget.place!.price!,
-                                            lng:
-                                                _touristExploreController
+                                                guestNumber: guestNum,
+                                                cost: guestNum *
+                                                    widget.place!.price!,
+                                                lng: _touristExploreController
                                                     .pickUpLocLatLang
                                                     .value
                                                     .longitude
                                                     .toString(),
-                                            lat: _touristExploreController
-                                                .pickUpLocLatLang.value.latitude
-                                                .toString(),
-                                            vehicle: selectedRide,
-                                            context: context);
+                                                lat: _touristExploreController
+                                                    .pickUpLocLatLang
+                                                    .value
+                                                    .latitude
+                                                    .toString(),
+                                                vehicle: selectedRide,
+                                                context: context);
 
                                     if (isSuccess) {
                                       Place? thePlace =

@@ -213,13 +213,13 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
     }
   }
 
-  List<Place> placesList() {
-    if (searchTextController.text.isEmpty) {
-      return _touristExploreController.touristModel.value!.places!.toList();
-    } else {
-      return searchedPlaces;
-    }
-  }
+  // List<Place> placesList() {
+  //   if (searchTextController.text.isEmpty) {
+  //     return _touristExploreController.touristModel.value!.places!.toList();
+  //   } else {
+  //     return searchedPlaces;
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {

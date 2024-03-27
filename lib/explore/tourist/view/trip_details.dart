@@ -11,10 +11,12 @@ import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/StackWidgets.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
+import 'package:ajwad_v4/widgets/custom_policy_sheet.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -147,20 +149,30 @@ class _TripDetailsState extends State<TripDetails> {
                     return Container(
                       width: MediaQuery.of(context).size.width,
                       child: widget.place == null
-                          ? Image.asset(
-                              _tripUrlImages[0],
-                              fit: BoxFit.fill,
+                          ? ClipRRect(
+                              borderRadius: const BorderRadius.only(
+                                  bottomLeft: Radius.circular(16),
+                                  bottomRight: Radius.circular(16)),
+                              child: Image.asset(
+                                _tripUrlImages[0],
+                                fit: BoxFit.fill,
+                              ),
                             )
-                          : Image.network(
-                              widget.place!.image![index],
-                              fit: BoxFit.cover,
+                          : ClipRRect(
+                              borderRadius: const BorderRadius.only(
+                                  bottomLeft: Radius.circular(16),
+                                  bottomRight: Radius.circular(16)),
+                              child: Image.network(
+                                widget.place!.image![index],
+                                fit: BoxFit.cover,
+                              ),
                             ),
                     );
                   },
                 ),
               ),
               const SizedBox(
-                height: 40,
+                height: 24,
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20),
@@ -179,14 +191,17 @@ class _TripDetailsState extends State<TripDetails> {
                                     ? widget.place!.nameAr!
                                     : widget.place!.nameEn!,
                             fontSize: 28,
-                            fontWeight: FontWeight.w700,
+                            fontWeight: FontWeight.w500,
                           )),
                       const SizedBox(
-                        height: 5,
+                        height: 12,
                       ),
                       Row(
                         children: [
                           SvgPicture.asset("assets/icons/map_pin.svg"),
+                          const SizedBox(
+                            width: 4,
+                          ),
                           CustomText(
                             text: widget.place != null
                                 ? !AppUtil.rtlDirection(context)
@@ -194,121 +209,30 @@ class _TripDetailsState extends State<TripDetails> {
                                     : widget.place!.regionEn!
                                 : '',
                             color: dividerColor,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w300,
+                          ),
+                          const SizedBox(
+                            width: 28,
+                          ),
+                          SvgPicture.asset("assets/icons/Rating.svg"),
+                          const SizedBox(
+                            width: 4,
+                          ),
+                          CustomText(
+                            text: widget.place != null
+                                ? widget.place!.rating.toString()
+                                : '',
+                            color: dividerColor,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w300,
                           ),
                         ],
                       ),
                       SizedBox(
                         height: 15,
                       ),
-                      Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                                height: 40,
-                                width: 40,
-                                padding: const EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                          offset: Offset(2, 3),
-                                          blurRadius: 3,
-                                          color: dotGreyColor.withOpacity(0.5),
-                                          spreadRadius: 1)
-                                    ]),
-                                child: SvgPicture.asset(
-                                    "assets/icons/visit_icon.svg")),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Column(
-                              children: [
-                                CustomText(
-                                  text: "visit".tr,
-                                  color: colorDarkGrey,
-                                  fontWeight: FontWeight.w300,
-                                ),
-                                CustomText(
-                                  text: widget.place == null
-                                      ? "0"
-                                      : widget.place!.visitors.toString(),
-                                  fontWeight: FontWeight.w300,
-                                )
-                              ],
-                            ),
-                            Spacer(),
-                            Container(
-                                height: 40,
-                                width: 40,
-                                padding: const EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                          offset: Offset(2, 3),
-                                          blurRadius: 3,
-                                          color: dotGreyColor.withOpacity(0.5),
-                                          spreadRadius: 1)
-                                    ]),
-                                child: SvgPicture.asset(
-                                    "assets/icons/distance_icon.svg")),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Column(
-                              children: [
-                                CustomText(
-                                  text: "distance".tr,
-                                  color: colorDarkGrey,
-                                  fontWeight: FontWeight.w300,
-                                ),
-                                CustomText(
-                                  text: '${widget.distance} ${'km'.tr}',
-                                  fontWeight: FontWeight.w300,
-                                )
-                              ],
-                            ),
-                            Spacer(),
-                            Container(
-                                height: 40,
-                                width: 40,
-                                padding: const EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                          offset: Offset(2, 3),
-                                          blurRadius: 3,
-                                          color: dotGreyColor.withOpacity(0.5),
-                                          spreadRadius: 1)
-                                    ]),
-                                child: SvgPicture.asset(
-                                    "assets/icons/rate_icon.svg")),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Column(
-                              children: [
-                                CustomText(
-                                  text: "rating".tr,
-                                  color: colorDarkGrey,
-                                  fontWeight: FontWeight.w300,
-                                ),
-                                CustomText(
-                                  text: widget.place == null
-                                      ? "0"
-                                      : widget.place!.rating.toString(),
-                                  fontWeight: FontWeight.w300,
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
+
                       const SizedBox(
                         height: 20,
                       ),
@@ -324,18 +248,10 @@ class _TripDetailsState extends State<TripDetails> {
                       const SizedBox(
                         height: 10,
                       ),
-                      // ConstrainedBox(
-                      //   constraints: isExpanded
-                      //       ? new BoxConstraints()
-                      //       : new BoxConstraints(maxHeight: 190.0),
-                      //   child:
-
                       SizedBox(
-                        height: 200,
+                        height: 112,
                         child: SingleChildScrollView(
                           child: CustomText(
-
-                              //   textAlign: AppUtil.rtlDirection(context) ? TextAlign.end : TextAlign.start ,
                               textDirection: AppUtil.rtlDirection(context)
                                   ? TextDirection.ltr
                                   : TextDirection.rtl,
@@ -365,32 +281,23 @@ class _TripDetailsState extends State<TripDetails> {
                       //                     setState(() => isExpanded = true)),
                       //           ),
                       const SizedBox(
-                        height: 10,
+                        height: 24,
                       ),
-                      Row(
-                        children: [
-                          CustomText(
-                            text: "startFrom".tr,
-                            fontSize: 12,
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          const CustomText(
-                            text: " /  ",
-                            fontWeight: FontWeight.w900,
-                            fontSize: 17,
-                          ),
-                          CustomText(
-                            text: widget.place == null
-                                ? '0${'sar'.tr}'
-                                : widget.place!.price.toString() +
-                                    ' ' +
-                                    'sar'.tr,
-                            fontWeight: FontWeight.w900,
-                            fontSize: 17,
-                          ),
-                        ],
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: Divider(
+                          color: lightGrey,
+                          thickness: 1,
+                        ),
+                      ),
+                      const Align(
+                        alignment: Alignment.centerLeft,
+                        child: CustomText(
+                          text: "Site Location",
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          color: black,
+                        ),
                       ),
                       const SizedBox(
                         height: 10,
@@ -435,7 +342,96 @@ class _TripDetailsState extends State<TripDetails> {
                           },
                         ),
                       ),
-                      const Spacer(),
+                      const SizedBox(
+                        height: 14,
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: Divider(
+                          color: lightGrey,
+                          thickness: 1,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Get.bottomSheet(const CustomPloicySheet());
+                        },
+                        child: Align(
+                            alignment: !AppUtil.rtlDirection(context)
+                                ? Alignment.centerRight
+                                : Alignment.centerLeft,
+                            child: Row(
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    CustomText(
+                                      text: "cancellationPolicy".tr,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                    const SizedBox(
+                                      height: 4,
+                                    ),
+                                    SizedBox(
+                                      width: 326,
+                                      child: CustomText(
+                                        text: "cancellationPolicyBreif".tr,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w400,
+                                        maxlines: 2,
+                                        color: tileGreyColor,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const Spacer(),
+                                const Icon(
+                                  Icons.arrow_forward_ios,
+                                  color: tileGreyColor,
+                                  size: 18,
+                                )
+                              ],
+                            )),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: Divider(
+                          color: tileGreyColor,
+                          thickness: 1,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Row(
+                        children: [
+                          CustomText(
+                            text: "startFrom".tr,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: lightGrey,
+                          ),
+                          const SizedBox(
+                            width: 2,
+                          ),
+                          const CustomText(
+                            text: " / ",
+                            fontWeight: FontWeight.w700,
+                            fontSize: 20,
+                          ),
+                          CustomText(
+                            text: widget.place == null
+                                ? '0${'sar'.tr}'
+                                : '${widget.place!.price} ${'sar'.tr}',
+                            fontWeight: FontWeight.w700,
+                            fontSize: 20,
+                          ),
+                        ],
+                      ),
                       Obx(
                         () => Padding(
                           padding: const EdgeInsets.symmetric(
@@ -443,8 +439,9 @@ class _TripDetailsState extends State<TripDetails> {
                           child: _touristExploreController
                                   .isBookingLoading.value
                               ? Container()
-                              // : widget.place!.booking!.isEmpty &&
-                              : !_touristExploreController.isBookedMade.value
+                              : widget.place!.booking == null &&
+                                      !_touristExploreController
+                                          .isBookedMade.value
                                   ? CustomButton(
                                       onPressed: () {
                                         AppUtil.isGuest()

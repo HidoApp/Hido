@@ -71,7 +71,8 @@ class TouristExploreController extends GetxController {
 
   Future<bool> bookPlace({
     required String placeId,
-    required String time,
+    required String timeToGo,
+    required String timeToReturn,
     required String date,
     required int guestNumber,
     required int cost,
@@ -85,7 +86,8 @@ class TouristExploreController extends GetxController {
       final data = await TouristExploreService.bookPlace(
         context: context,
         placeId: placeId,
-        time: time,
+        timeToGo: timeToGo,
+        timeToReturn: timeToReturn,
         date: date,
         guestNumber: guestNumber,
         cost: cost,
@@ -113,29 +115,29 @@ class TouristExploreController extends GetxController {
     try {
       isBookingLoading(true);
 
-      var date = await TouristExploreService.getTouristBooking(context: context);
+      var date =
+          await TouristExploreService.getTouristBooking(context: context);
       bookingList(date);
       return date;
     } catch (e) {
-
       return null;
     } finally {
       isBookingLoading(false);
     }
   }
 
-    Future<Booking?> getTouristBookingById({
+  Future<Booking?> getTouristBookingById({
     required BuildContext context,
     required String bookingId,
   }) async {
     try {
       isBookingByIdLoading(true);
 
-      var date = await TouristExploreService.getTouristBookingById(context: context,bookingId: bookingId);
-     
+      var date = await TouristExploreService.getTouristBookingById(
+          context: context, bookingId: bookingId);
+
       return date!;
     } catch (e) {
-
       print(e);
 
       return null;

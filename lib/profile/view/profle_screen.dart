@@ -7,6 +7,7 @@ import 'package:ajwad_v4/profile/view/booking_screen.dart';
 import 'package:ajwad_v4/profile/view/bookmark_screen.dart';
 import 'package:ajwad_v4/profile/view/help_FAQs.dart';
 import 'package:ajwad_v4/profile/view/messages_screen.dart';
+import 'package:ajwad_v4/profile/view/my_account.dart';
 import 'package:ajwad_v4/profile/view/profile_details.dart';
 import 'package:ajwad_v4/profile/view/switch_acount.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
@@ -163,7 +164,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         title: "myProfile".tr,
                         leading: "assets/icons/profile_icon.svg",
                         //   fromAjwady: false,
-                        onTap: () {},
+                        onTap: () {
+                          Get.to(() => const MyAccount());
+                        },
                       ),
                       CustomListTile(
                         title: "massage".tr,
@@ -279,78 +282,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             AuthService.logOut();
                                             Get.offAll(() =>
                                                 const AccountTypeScreen());
-                                          },
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 20,
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          Get.back();
-                                        },
-                                        child: CustomText(
-                                            textAlign: TextAlign.center,
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w300,
-                                            color: colorRed,
-                                            text: "cancel".tr.toUpperCase()),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-                            );
-                          },
-                        ),
-                        CustomListTile(
-                          title: "deleteAccount".tr,
-                          leading: "assets/icons/delete_icon.svg",
-                          // fromAjwady: widget.fromAjwady,
-                          onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  backgroundColor: Colors.white,
-                                  shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(32.0))),
-                                  content: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      CustomText(
-                                          textAlign: TextAlign.center,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w300,
-                                          color: dividerColor,
-                                          text: "youWantDeleteYourAccount".tr),
-                                      const SizedBox(
-                                        height: 20,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 20),
-                                        child: CustomButton(
-                                          height: 25,
-                                          title: "deleteAccount".tr,
-                                          onPressed: () async {
-                                            final authController =
-                                                Get.put(AuthController());
-                                            final isSuccess =
-                                                await authController
-                                                    .deleteAccount(
-                                                        context: context);
-
-                                            if (isSuccess) {
-                                              Get.offAll(() =>
-                                                  const AccountTypeScreen());
-                                            }
                                           },
                                         ),
                                       ),
