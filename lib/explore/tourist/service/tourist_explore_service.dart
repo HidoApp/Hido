@@ -21,7 +21,7 @@ class TouristExploreService {
   }) async {
     final getStorage = GetStorage();
     String token = getStorage.read('accessToken') ?? "";
-  
+
     if (JwtDecoder.isExpired(token)) {
       final _authController = Get.put(AuthController());
 
@@ -59,7 +59,7 @@ class TouristExploreService {
   }) async {
     final getStorage = GetStorage();
     String token = getStorage.read('accessToken') ?? "";
-   
+
     if (token != '' && JwtDecoder.isExpired(token)) {
       final _authController = Get.put(AuthController());
 
@@ -72,7 +72,7 @@ class TouristExploreService {
       Uri.parse('$baseUrl/place/$id'),
       headers: {
         'Accept': 'application/json',
-        if (token != '' ) 'Authorization': 'Bearer $token',
+        if (token != '') 'Authorization': 'Bearer $token',
       },
     );
 
@@ -90,7 +90,8 @@ class TouristExploreService {
 
   static Future<bool> bookPlace({
     required String placeId,
-    required String time,
+    required String timeToGo,
+    required String timeToReturn,
     required String date,
     required int guestNumber,
     required int cost,
@@ -120,7 +121,8 @@ class TouristExploreService {
               'Authorization': 'Bearer $token',
             },
             body: json.encode({
-              "time": time,
+              "timeToGo": timeToGo,
+              "timeToReturn": timeToReturn,
               "date": date,
               "guestNumber": guestNumber,
               "coordinates": {"longitude": lng, "latitude": lat},
@@ -147,7 +149,7 @@ class TouristExploreService {
   }) async {
     final getStorage = GetStorage();
     String token = getStorage.read('accessToken') ?? "";
-   
+
     if (JwtDecoder.isExpired(token)) {
       final _authController = Get.put(AuthController());
 
@@ -181,14 +183,13 @@ class TouristExploreService {
     }
   }
 
-
-    static Future<Booking?> getTouristBookingById({
+  static Future<Booking?> getTouristBookingById({
     required BuildContext context,
     required String bookingId,
   }) async {
     final getStorage = GetStorage();
     String token = getStorage.read('accessToken') ?? "";
-   
+
     if (JwtDecoder.isExpired(token)) {
       final _authController = Get.put(AuthController());
 
@@ -215,7 +216,7 @@ class TouristExploreService {
       if (context.mounted) {
         AppUtil.errorToast(context, errorMessage);
       }
-     return null;
+      return null;
     }
   }
 
@@ -241,7 +242,7 @@ class TouristExploreService {
           .replace(queryParameters: queryParameters),
       headers: {
         'Accept': 'application/json',
-     //  if(token != '') 'Authorization': 'Bearer $token',
+        //  if(token != '') 'Authorization': 'Bearer $token',
       },
     );
 

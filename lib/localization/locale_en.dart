@@ -160,7 +160,7 @@ const localeEn = {
   'mohammedAli': "Mohammed Ali",
   'switchAccountToAjwadi': "Switch Account To Ajwadi",
   'switchAccountToTourist': "Switch Account To Tourist",
-  'myProfile': "My Profile",
+  'myProfile': "My account",
   "massage": "Messages",
   "myOrders": "My orders",
   "delivered": "Delivered",
@@ -242,7 +242,7 @@ const localeEn = {
   "sorryForHearingThat": "Oh, sorry for hearing that",
   "tellUsWhatHappened": "can you tell us what happened",
   "searchforAjwady": "Search for Ajwady",
-  "searchforLocal": "Search for Local",
+  "searchforLocal": "Search for Tour guide",
   "WeSentYourRequestAndWaiteTillAccepted":
       "We have sent your request and will let you know when it will be accepted.",
   "until": "Until",
@@ -323,8 +323,8 @@ const localeEn = {
   "StartChat": "Start Chat!",
   'message': 'message',
   "EndRound": "End Round",
-  "EndTrip": "End Tour",
-  "ContactTheHedoTeam": "Contact The Hedo Team",
+  "EndTrip": "Cancel Tour",
+  "ContactTheHedoTeam": "Contact Hido Team",
   "km": "km",
   "sar": "SAR",
   "viewBooking": "View booking",
@@ -351,13 +351,13 @@ const localeEn = {
   "bookNow": 'Book now',
   "tourHistory": 'Tour history',
   "noTour": 'No tour yet',
-  "deleteAccount": 'Delete account',
+  "deleteAccount": 'Delete ',
   "youWantDeleteYourAccount": 'Are you sure you want to delete your account ?',
   "exploreAsGuest": 'Explore as a guest',
   "whereWeWillBe": 'Where we’ll be',
   "cancellationPolicy": 'Cancellation policy',
-  "cancellationPolicyBreif": 'Cancel up to 7 days before your tour for a full refund, or within 24 hours of booking as long as the booking is made more than 48 hours before the tour.',
-  "locationWillBeAvailableAfterBooking": 'Location will be available after booking',
-  
-  
-  };
+  "cancellationPolicyBreif":
+      'Cancel up to 7 days before your tour for a full refund, or within 24 hours of booking as long as the booking is made more than 48 hours before the tour.',
+  "locationWillBeAvailableAfterBooking":
+      'Location will be available after booking',
+};

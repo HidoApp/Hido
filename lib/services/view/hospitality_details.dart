@@ -418,7 +418,6 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                               height: 10,
                             ),
 
-                           
                             //     ? Column(
                             //         crossAxisAlignment:
                             //             CrossAxisAlignment.center,
@@ -463,63 +462,67 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                             //           )),
                             //         ],
                             //       )
-                            //     : 
-                                
-                                
-                                Stack(
-                                  children: [
-                                  
-                                    Container(
-                                        decoration: BoxDecoration(
-                                          color: almostGrey.withOpacity(0.2),
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(20)),
-                                        ),
-                                        height:  height * 0.2,
-                                        width: width * 0.9,
-                                        child: GoogleMap(
-                                          scrollGesturesEnabled: false,
-                                          zoomControlsEnabled: false,
-                                          initialCameraPosition: CameraPosition(
-                                            target: hospitalityObj == null
-                                                ? locLatLang
-                                                : LatLng(
-                                                    double.parse(hospitalityObj!
-                                                        .coordinate.latitude!),
-                                                    double.parse(hospitalityObj!
-                                                        .coordinate.longitude!)),
-                                            zoom: 15,
-                                          ),
-                                          markers: {
-                                            Marker(
-                                              markerId: MarkerId("marker1"),
-                                              position: hospitalityObj == null
-                                                  ? locLatLang
-                                                  : LatLng(
-                                                      double.parse(hospitalityObj!
-                                                          .coordinate.latitude!),
-                                                      double.parse(hospitalityObj!
-                                                          .coordinate.longitude!)),
-                                              draggable: true,
-                                              onDragEnd: (value) {
-                                                // value is the new position
-                                              },
-                                              icon: markerIcon,
-                                            ),
-                                          },
-                                        ),
+                            //     :
+
+                            Stack(
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: almostGrey.withOpacity(0.2),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(20)),
+                                  ),
+                                  height: height * 0.2,
+                                  width: width * 0.9,
+                                  child: GoogleMap(
+                                    scrollGesturesEnabled: false,
+                                    zoomControlsEnabled: false,
+                                    initialCameraPosition: CameraPosition(
+                                      target: hospitalityObj == null
+                                          ? locLatLang
+                                          : LatLng(
+                                              double.parse(hospitalityObj!
+                                                  .coordinate.latitude!),
+                                              double.parse(hospitalityObj!
+                                                  .coordinate.longitude!)),
+                                      zoom: 15,
+                                    ),
+                                    markers: {
+                                      Marker(
+                                        markerId: MarkerId("marker1"),
+                                        position: hospitalityObj == null
+                                            ? locLatLang
+                                            : LatLng(
+                                                double.parse(hospitalityObj!
+                                                    .coordinate.latitude!),
+                                                double.parse(hospitalityObj!
+                                                    .coordinate.longitude!)),
+                                        draggable: true,
+                                        onDragEnd: (value) {
+                                          // value is the new position
+                                        },
+                                        icon: markerIcon,
                                       ),
-
-                                      if( hospitalityObj!.booking!.isEmpty)
-
-                                        Container(  height: height * 0.2,
-                                        width: width * 0.9,
-                                        
-                                        color: textGreyColor.withOpacity(0.7),
-                                        child: Center(child: CustomText(text: 'locationWillBeAvailableAfterBooking'.tr,color: Colors.white,fontWeight: FontWeight.w300,),),
-                                        ),
-                                  ],
+                                    },
+                                  ),
                                 ),
+                                if (hospitalityObj!.booking!.isEmpty)
+                                  Container(
+                                    height: height * 0.2,
+                                    width: width * 0.9,
+                                    color: textGreyColor.withOpacity(0.7),
+                                    child: Center(
+                                      child: CustomText(
+                                        text:
+                                            'locationWillBeAvailableAfterBooking'
+                                                .tr,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w300,
+                                      ),
+                                    ),
+                                  ),
+                              ],
+                            ),
 
                             const SizedBox(
                               height: 10,
@@ -533,8 +536,8 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                             ),
 
                             InkWell(
-                              onTap: (){
-                                Get.bottomSheet(CustomPloicySheet());
+                              onTap: () {
+                                Get.bottomSheet(const CustomPloicySheet());
                               },
                               child: Align(
                                   alignment: !AppUtil.rtlDirection(context)
@@ -552,23 +555,26 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                             fontWeight: FontWeight.w400,
                                           ),
                                           const SizedBox(
-                                            height: 20,
+                                            height: 4,
                                           ),
                                           SizedBox(
-                                            width: width * 0.85,
+                                            width: 326,
                                             child: CustomText(
-                                              text: "cancellationPolicyBreif".tr,
+                                              text:
+                                                  "cancellationPolicyBreif".tr,
                                               fontSize: 13,
                                               fontWeight: FontWeight.w400,
-                                              maxlines: 1,
+                                              maxlines: 2,
                                               color: tileGreyColor,
                                             ),
                                           ),
                                         ],
                                       ),
+                                      const Spacer(),
                                       const Icon(
                                         Icons.arrow_forward_ios,
                                         color: tileGreyColor,
+                                        size: 18,
                                       )
                                     ],
                                   )),
