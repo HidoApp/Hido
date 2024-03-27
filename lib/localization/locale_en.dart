@@ -222,7 +222,7 @@ const localeEn = {
   "van": "Van",
   "ffx": "preliminary cost",
   "findAjwady": "Find Ajwady",
-  "findLocal": "Find Local",
+  "findLocal": "Find locals",
   "myTickets": "My tickets",
   "myFav": "My Whish list",
   "notifications": "Notifications",

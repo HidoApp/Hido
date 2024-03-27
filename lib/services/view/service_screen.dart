@@ -59,6 +59,7 @@ class _ServiceScreenState extends State<ServiceScreen>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
+
                       Container(
                         width: 126,
                         height: 34,
@@ -173,6 +174,7 @@ class _ServiceScreenState extends State<ServiceScreen>
                           ],
                         ),
                       ),
+
                       SizedBox(
                         height: height * 0.1,
                       ),
@@ -252,6 +254,7 @@ class _ServiceScreenState extends State<ServiceScreen>
                       ),
                         Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 18),
+
                         child: CustomText(
                           text: "events".tr,
                           color: _tabIndex == 1 ? black : Colors.white,
@@ -268,6 +271,7 @@ class _ServiceScreenState extends State<ServiceScreen>
                         child: CustomText(
                           text: "adventures".tr,
                           color: _tabIndex == 2 ? black : Colors.white,
+
                           fontWeight: _tabIndex == 2
                               ? FontWeight.w700
                               : FontWeight.w400,
@@ -280,6 +284,7 @@ class _ServiceScreenState extends State<ServiceScreen>
                         child: CustomText(
                           text: "restaurants".tr,
                           color: _tabIndex == 3 ? black : Colors.white,
+
                           fontWeight: _tabIndex == 3
                               ? FontWeight.w700
                               : FontWeight.w400,
@@ -303,6 +308,7 @@ class _ServiceScreenState extends State<ServiceScreen>
                   EventsTab(
                     isAviailable: false,
                   ),AdventuresTab(
+
                     isAviailable: false,
                   ),
                   RestaurantsTab(

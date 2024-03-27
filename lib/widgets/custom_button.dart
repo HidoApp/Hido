@@ -37,7 +37,7 @@ class CustomButton extends StatelessWidget {
         shape: MaterialStateProperty.all(
           const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
-              Radius.circular(10),
+              Radius.circular(12),
             ),
           ),
         ),
@@ -72,7 +72,7 @@ class CustomButton extends StatelessWidget {
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-               // color: iconColor ?? colorDarkGreen,
+                // color: iconColor ?? colorDarkGreen,
               ),
               child: icon,
             ),

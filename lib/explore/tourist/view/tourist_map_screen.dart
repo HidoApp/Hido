@@ -11,10 +11,12 @@ import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.d
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/explore/tourist/view/notification/notification_screen.dart';
 import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
+import 'package:ajwad_v4/explore/widget/trip_card.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/view/messages_screen.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
@@ -201,16 +203,26 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
 
   void searchForPlace(String letters) {
     //for searching feature
+
     searchedPlaces = _touristExploreController.touristModel.value!.places!
-        .where((place) => place.nameEn!.toLowerCase().startsWith(letters))
+        .where((place) =>
+            place.nameEn!.toLowerCase().startsWith(letters.toLowerCase()))
         .toList();
+    if (searchedPlaces.isEmpty) {
+      searchedPlaces = _touristExploreController.touristModel.value!.places!;
+    }
+  }
+
+  List<Place> placesList() {
+    if (searchTextController.text.isEmpty) {
+      return _touristExploreController.touristModel.value!.places!.toList();
+    } else {
+      return searchedPlaces;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final double width = MediaQuery.of(context).size.width;
-    final double height = MediaQuery.of(context).size.height;
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: Obx(
@@ -317,20 +329,20 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                                     onTap: () {
                                       ProfileController _profileController =
                                           Get.put(ProfileController());
-                                      Get.to(() =>  AppUtil.isGuest()
-              ? const SignInScreen()
-              :MessagesScreen(
-                                          profileController:
-                                              _profileController));
+                                      Get.to(() => AppUtil.isGuest()
+                                          ? const SignInScreen()
+                                          : MessagesScreen(
+                                              profileController:
+                                                  _profileController));
                                     },
                                     child: SvgPicture.asset(
                                         'assets/icons/Communication.svg'),
                                   ),
                                   InkWell(
-                                      onTap: () =>
-                                          Get.to(() =>   AppUtil.isGuest()
-              ? const SignInScreen()
-              :const NotificationScreen()),
+                                      onTap: () => Get.to(() =>
+                                          AppUtil.isGuest()
+                                              ? const SignInScreen()
+                                              : const NotificationScreen()),
                                       child: SvgPicture.asset(
                                           'assets/icons/Alerts.svg')),
                                 ],
@@ -411,10 +423,12 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                                     const SizedBox(
                                       width: 16,
                                     ),
-                                  if (index == 0)  SvgPicture.asset(
-                                      'assets/icons/all.svg',
-                                      color: index != 0 ? colors[index] : null,
-                                    ),
+                                    if (index == 0)
+                                      SvgPicture.asset(
+                                        'assets/icons/all.svg',
+                                        color:
+                                            index != 0 ? colors[index] : null,
+                                      ),
                                   ],
                                 ),
                               ),
@@ -427,326 +441,156 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
 
             !_touristExploreController.isTouristMapLoading.value
                 ? Positioned(
-                    bottom: 28,
-                    left: 16,
+                    bottom: 12,
+                    left: 24,
                     right: 16,
                     child: Align(
                       alignment: AlignmentDirectional.bottomCenter,
                       child: SizedBox(
                         height: 120,
-                        child: ListView(
-                          scrollDirection: Axis.horizontal,
+                        child: Row(
                           children: [
                             _touristExploreController
                                         .touristModel.value!.places ==
                                     null
                                 ? Container()
-                                : ListView.separated(
-                                    shrinkWrap: true,
-                                    physics: ClampingScrollPhysics(),
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: _touristExploreController
-                                        .touristModel.value!.places!.length,
-                                    separatorBuilder: (context, index) {
-                                      return const SizedBox(
-                                        width: 13,
-                                      );
-                                    },
-                                    itemBuilder: (context, index) {
+                                : CarouselSlider.builder(
+                                    itemCount: searchTextController.text.isEmpty
+                                        ? _touristExploreController
+                                            .touristModel.value!.places!.length
+                                        : searchedPlaces.length,
+                                    options: CarouselOptions(
+                                      viewportFraction: 1,
+                                      aspectRatio: 3,
+                                    ),
+                                    itemBuilder: (context, index, realIndex) {
                                       double distance = 0.0;
                                       return GestureDetector(
                                         onTap: () async {
-                                          //  Place? place =
-                                          // await _touristExploreController
-                                          //     .getPlaceById(
-                                          //         id: _touristExploreController
-                                          //             .touristModel
-                                          //             .value!
-                                          //             .places![index]
-                                          //             .id,
-                                          //         context: context);
                                           if (userLocation != null) {
                                             distance =
                                                 calculateDistanceBtwUserAndPlace(
                                                     userLocation!.latitude,
                                                     userLocation!.longitude,
                                                     double.parse(
-                                                        _touristExploreController
-                                                            .touristModel
-                                                            .value!
-                                                            .places![index]!
-                                                            .coordinates!
-                                                            .latitude!),
-                                                    double.parse(
-                                                        _touristExploreController
-                                                            .touristModel
-                                                            .value!
-                                                            .places![index]
-                                                            .coordinates!
-                                                            .longitude!));
-                                          } else {
-                                            print('CAN NOT CALCULATE DISTANCE');
-                                          }
-
-                                          Get.to(() => TripDetails(
-                                                fromAjwady: false,
-                                                place: _touristExploreController
-                                                    .touristModel
-                                                    .value!
-                                                    .places![index],
-                                                distance: distance != 0.0
-                                                    ? distance.roundToDouble()
-                                                    : distance,
-                                                userLocation: userLocation,
-                                              ))?.then((value) {
-                                            getScrollingCards('ALL');
-                                            selectedTitle = titles[0];
-                                            return;
-                                          });
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.all(5),
-                                          // shape: const RoundedRectangleBorder(
-                                          //     borderRadius: BorderRadius.all(
-                                          //         Radius.circular(16))),
-                                          // color: Colors.white,
-                                          // elevation: 0.2,
-                                          // shadowColor: colorGreen,
-                                          margin: EdgeInsets.all(5),
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(16)),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                    spreadRadius: 2,
-                                                    blurStyle:
-                                                        ui.BlurStyle.inner,
-                                                    blurRadius: 15,
-                                                    offset: Offset(0, 2),
-                                                    color: lightGrey)
-                                              ]),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8),
-                                            child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                ClipRRect(
-                                                    borderRadius:
-                                                        const BorderRadius.all(
-                                                            Radius.circular(8)),
-                                                    child: Image.network(
-                                                      _touristExploreController
-                                                          .touristModel
-                                                          .value!
-                                                          .places![index]
-                                                          .image![0],
-                                                      fit: BoxFit.fill,
-                                                      width: width * 0.2,
-                                                      height: height * 0.1,
-                                                    )),
-                                                const SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    // Row(
-                                                    //   children: [
-                                                    //     const CustomText(
-                                                    //       text: '',
-                                                    //       fontSize: 10,
-                                                    //       fontWeight: FontWeight.w400,
-                                                    //       color: colorGreen,
-                                                    //     ),
-                                                    //     Container(
-                                                    //       width: 0,
-                                                    //       height: 0,
-                                                    //       decoration: const BoxDecoration(
-                                                    //         color: colorGreen,
-                                                    //       ),
-                                                    //     ),
-                                                    //     const CustomText(
-                                                    //       text: '',
-                                                    //       fontSize: 10,
-                                                    //       fontWeight: FontWeight.w400,
-                                                    //       color: colorGreen,
-                                                    //     ),
-                                                    //   ],
-                                                    // ),
-
-                                                    _touristExploreController
-                                                            .touristModel
-                                                            .value!
-                                                            .places![index]
-                                                            .booking!
-                                                            .isEmpty
-                                                        ? Container()
-                                                        : Container(
-                                                            padding: EdgeInsets
-                                                                .symmetric(
-                                                                    horizontal:
-                                                                        7,
-                                                                    vertical:
-                                                                        3),
-                                                            decoration: const BoxDecoration(
-                                                                color:
-                                                                    colorGreen,
-                                                                borderRadius: BorderRadius
-                                                                    .all(Radius
-                                                                        .circular(
-                                                                            15))),
-                                                            child: CustomText(
-                                                              text:
-                                                                  'placeBooked'
-                                                                      .tr,
-                                                              color:
-                                                                  Colors.white,
-                                                              fontSize: 10,
-                                                              fontWeight: ui
-                                                                  .FontWeight
-                                                                  .w400,
-                                                            )),
-
-                                                    SizedBox(
-                                                      height: height * 0.006,
-                                                    ),
-                                                    CustomText(
-                                                      text: !AppUtil
-                                                              .rtlDirection(
-                                                                  context)
+                                                      searchTextController
+                                                              .text.isEmpty
                                                           ? _touristExploreController
                                                               .touristModel
                                                               .value!
                                                               .places![index]
-                                                              .nameAr!
-                                                          : _touristExploreController
-                                                              .touristModel
-                                                              .value!
-                                                              .places![index]
-                                                              .nameEn!,
-                                                      fontSize: 20,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: black,
+                                                              .coordinates!
+                                                              .latitude!
+                                                          : searchedPlaces[
+                                                                  index]
+                                                              .coordinates!
+                                                              .latitude!,
                                                     ),
+                                                    double.parse(
+                                                        searchTextController
+                                                                .text.isEmpty
+                                                            ? _touristExploreController
+                                                                .touristModel
+                                                                .value!
+                                                                .places![index]
+                                                                .coordinates!
+                                                                .longitude!
+                                                            : searchedPlaces[
+                                                                    index]
+                                                                .coordinates!
+                                                                .longitude!));
+                                          } else {
+                                            print('CAN NOT CALCULATE DISTANCE');
+                                          }
 
-                                                    _touristExploreController
-                                                            .touristModel
-                                                            .value!
-                                                            .places![index]
-                                                            .booking!
-                                                            .isEmpty
-                                                        ? Container()
-                                                        : Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceEvenly,
-                                                            children: [
-                                                              CustomText(
-                                                                text: _touristExploreController
-                                                                    .touristModel
-                                                                    .value!
-                                                                    .places![
-                                                                        index]
-                                                                    .booking![0]
-                                                                    .date
-                                                                    .substring(
-                                                                        0, 10),
-                                                                fontSize: 10,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                color:
-                                                                    colorGreen,
-                                                              ),
-                                                              const SizedBox(
-                                                                width: 3,
-                                                              ),
-                                                              Container(
-                                                                height: 6,
-                                                                width: 6,
-                                                                decoration: const BoxDecoration(
-                                                                    shape: BoxShape
-                                                                        .circle,
-                                                                    color:
-                                                                        colorGreen),
-                                                              ),
-                                                              const SizedBox(
-                                                                width: 3,
-                                                              ),
-                                                              CustomText(
-                                                                text: _touristExploreController
-                                                                    .touristModel
-                                                                    .value!
-                                                                    .places![
-                                                                        index]
-                                                                    .booking![0]
-                                                                    .time,
-                                                                // '${DateTime.parse(_touristExploreController.touristModel.value!.places![index].booking![0].date!).hour.toString()}:${DateTime.parse(_touristExploreController.touristModel.value!.places![index].booking![0].date!).minute.toString()} ',
-                                                                fontSize: 10,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                color:
-                                                                    colorGreen,
-                                                              ),
-                                                            ],
-                                                          ),
-                                                    Row(
-                                                      children: [
-                                                        SvgPicture.asset(
-                                                            'assets/icons/map_pin.svg'),
-                                                        const SizedBox(
-                                                          width: 4,
-                                                        ),
-                                                        CustomText(
-                                                          text: !AppUtil
-                                                                  .rtlDirection(
-                                                                      context)
-                                                              ? _touristExploreController
-                                                                          .touristModel
-                                                                          .value!
-                                                                          .places![
-                                                                              index]
-                                                                          .regionAr ==
-                                                                      null
-                                                                  ? ""
-                                                                  : _touristExploreController
-                                                                      .touristModel
-                                                                      .value!
-                                                                      .places![
-                                                                          index]
-                                                                      .regionAr!
-                                                              : _touristExploreController
-                                                                  .touristModel
-                                                                  .value!
-                                                                  .places![
-                                                                      index]
-                                                                  .regionEn!,
-                                                          fontSize: 10,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          color: textGreyColor,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                                SizedBox(
-                                                  width: 10,
-                                                ),
-                                                SvgPicture.asset(
-                                                  'assets/icons/bookmark.svg',
-                                                  color: colorGreen,
-                                                ),
-                                              ],
+                                          Get.to(
+                                            () => TripDetails(
+                                              fromAjwady: false,
+                                              place: searchTextController
+                                                      .text.isEmpty
+                                                  ? _touristExploreController
+                                                      .touristModel
+                                                      .value!
+                                                      .places![index]
+                                                  : searchedPlaces[index],
+                                              distance: distance != 0.0
+                                                  ? distance.roundToDouble()
+                                                  : distance,
+                                              userLocation: userLocation,
                                             ),
+                                          )?.then(
+                                            (value) {
+                                              getScrollingCards('ALL');
+                                              selectedTitle = titles[0];
+                                              return;
+                                            },
+                                          );
+                                        },
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 4,
+                                          ),
+                                          child: TripCard(
+                                            title: !AppUtil.rtlDirection(
+                                                    context)
+                                                ? searchTextController
+                                                        .text.isEmpty
+                                                    ? _touristExploreController
+                                                        .touristModel
+                                                        .value!
+                                                        .places![index]
+                                                        .nameAr!
+                                                    : searchedPlaces[index]
+                                                        .nameAr!
+                                                : searchTextController
+                                                        .text.isEmpty
+                                                    ? _touristExploreController
+                                                        .touristModel
+                                                        .value!
+                                                        .places![index]
+                                                        .nameEn!
+                                                    : searchedPlaces[index]
+                                                        .nameEn!,
+                                            location: !AppUtil.rtlDirection(
+                                                    context)
+                                                ? searchTextController
+                                                        .text.isEmpty
+                                                    ? _touristExploreController
+                                                                .touristModel
+                                                                .value!
+                                                                .places![index]
+                                                                .regionAr ==
+                                                            null
+                                                        ? ""
+                                                        : searchedPlaces[index]
+                                                                    .regionAr ==
+                                                                null
+                                                            ? ""
+                                                            : _touristExploreController
+                                                                .touristModel
+                                                                .value!
+                                                                .places![index]
+                                                                .regionAr!
+                                                    : searchedPlaces[index]
+                                                        .regionAr!
+                                                : searchTextController
+                                                        .text.isEmpty
+                                                    ? _touristExploreController
+                                                        .touristModel
+                                                        .value!
+                                                        .places![index]
+                                                        .regionEn!
+                                                    : searchedPlaces[index]
+                                                        .regionEn!,
+                                            image: searchTextController
+                                                    .text.isEmpty
+                                                ? _touristExploreController
+                                                    .touristModel
+                                                    .value!
+                                                    .places![index]
+                                                    .image![0]
+                                                : searchedPlaces[index]
+                                                    .image![0],
                                           ),
                                         ),
                                       );
