@@ -14,19 +14,18 @@ class OfferDetails {
   Map? payment;
   Place? place;
 
-  OfferDetails(
-      {this.id,
-      this.orderStatus,
-      this.name,
-      this.image,
-      this.created,
-      this.requestId,
-      this.schedule,
-      this.booking,
-      this.payment,
-      this.place,
-      
-      });
+  OfferDetails({
+    this.id,
+    this.orderStatus,
+    this.name,
+    this.image,
+    this.created,
+    this.requestId,
+    this.schedule,
+    this.booking,
+    this.payment,
+    this.place,
+  });
 
   OfferDetails.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -44,7 +43,7 @@ class OfferDetails {
     booking =
         json['booking'] != null ? Booking.fromJson(json['booking']) : null;
     payment = json['payment'];
-    place = json['place'] == null ? null : Place.fromJson( json['place']) ;
+    place = json['place'] == null ? null : Place.fromJson(json['place']);
   }
 
   Map<String, dynamic> toJson() {
@@ -126,7 +125,8 @@ class Booking {
   String? id;
   String? chatId;
   String? date;
-  String? time;
+  String? timeToGo;
+  String? timeToReturn;
   int? guestNumber;
   Coordinates? coordinates;
   int? cost;
@@ -136,27 +136,28 @@ class Booking {
   String? created;
   PlaceInChat? place;
 
-  Booking(
-      {this.id,
-      this.chatId,
-      this.date,
-      this.time,
-      this.guestNumber,
-      this.coordinates,
-      this.cost,
-      this.vehicleType,
-      this.status,
-      this.orderStatus,
-      this.created,
-      this.place,
-      
-      });
+  Booking({
+    this.id,
+    this.chatId,
+    this.date,
+    this.timeToGo,
+    this.timeToReturn,
+    this.guestNumber,
+    this.coordinates,
+    this.cost,
+    this.vehicleType,
+    this.status,
+    this.orderStatus,
+    this.created,
+    this.place,
+  });
 
   Booking.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     chatId = json['chatId'];
     date = json['date'];
-    time = json['time'];
+    timeToGo = json['timeToGo'];
+    timeToReturn = json['timeToReturn'];
     guestNumber = json['guestNumber'];
     coordinates = json['coordinates'] != null
         ? Coordinates.fromJson(json['coordinates'])
@@ -166,7 +167,7 @@ class Booking {
     status = json['status'];
     orderStatus = json['orderStatus'];
     created = json['created'];
-        place = json['place'] == null ? null : PlaceInChat.fromJson( json['place']);
+    place = json['place'] == null ? null : PlaceInChat.fromJson(json['place']);
   }
 
   Map<String, dynamic> toJson() {
@@ -174,7 +175,8 @@ class Booking {
     data['id'] = id;
     data['chatId'] = chatId;
     data['date'] = date;
-    data['time'] = time;
+    data['timeToGo'] = timeToGo;
+    data['timeToReturn'] = timeToReturn;
     data['guestNumber'] = guestNumber;
     if (coordinates != null) {
       data['coordinates'] = coordinates!.toJson();

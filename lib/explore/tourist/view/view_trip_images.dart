@@ -6,7 +6,8 @@ import 'package:get/get.dart';
 class ViewTripImages extends StatefulWidget {
   final List<String> tripImageUrl;
   final bool fromNetwork;
-  const ViewTripImages({Key? key, required this.tripImageUrl, this.fromNetwork = false})
+  const ViewTripImages(
+      {Key? key, required this.tripImageUrl, this.fromNetwork = false})
       : super(key: key);
 
   @override
@@ -31,7 +32,8 @@ class _ViewTripImagesState extends State<ViewTripImages> {
 
   List<Widget> images() {
     var items = widget.tripImageUrl
-        .map((url) => Container(
+        .map(
+          (url) => Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(20)),
             ),
@@ -39,13 +41,14 @@ class _ViewTripImagesState extends State<ViewTripImages> {
             child: Image.asset(
               url,
               fit: BoxFit.fill,
-            )))
+            ),
+          ),
+        )
         .toList();
     return items;
   }
 
-
-    List<Widget> imagesFromNetWork() {
+  List<Widget> imagesFromNetWork() {
     var items = widget.tripImageUrl
         .map((url) => Container(
             decoration: const BoxDecoration(
