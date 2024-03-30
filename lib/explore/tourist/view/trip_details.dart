@@ -97,7 +97,9 @@ class _TripDetailsState extends State<TripDetails> {
         id: widget.place!.id!, context: context);
     List<Booking>? bookingList =
         await _touristExploreController.getTouristBooking(context: context);
-    lockPlaces.value = true;
+    if (bookingList != null && bookingList.isNotEmpty) {
+      _touristExploreController.isPlaceNotLocked(false);
+    }
     if (bookingList != null) {
       for (var booking in bookingList) {
         if (booking.placeId == widget.place!.id) {

@@ -18,7 +18,6 @@ class OfferController extends GetxController {
   var offers = <Offer>[].obs;
   var offerDetails = OfferDetails().obs;
   var acceptedOffer = AcceptedOffer().obs;
-  var controller = Get.put(TouristExploreController());
   Future<List<Offer>?> getOffers({
     required BuildContext context,
     required String placeId,
@@ -95,7 +94,6 @@ class OfferController extends GetxController {
       final data = await OfferService.bookingCancel(
           context: context, bookingId: bookingId);
       isBookingCancel(data ?? false);
-      controller.isPlaceNotLocked(true);
       return isBookingCancel.value;
     } catch (e) {
       log("-< bookingCancel >- $e");

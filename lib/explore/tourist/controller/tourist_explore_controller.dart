@@ -97,7 +97,6 @@ class TouristExploreController extends GetxController {
         vehicle: vehicle,
       );
       if (data != null) {
-        isPlaceNotLocked(false);
         return data;
       } else {
         return false;
