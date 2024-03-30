@@ -19,6 +19,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/get_rx.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../../request/tourist/view/booking_sheet.dart';
 
@@ -63,7 +65,8 @@ class _TripDetailsState extends State<TripDetails> {
   int _currentIndex = 0;
   var locLatLang = const LatLng(24.9470921, 45.9903698);
   bool isExpanded = false;
-
+  RxBool isViewBooking = false.obs;
+  RxBool lockPlaces = false.obs;
   Place? thePlace;
   BitmapDescriptor markerIcon = BitmapDescriptor.defaultMarker;
   void addCustomIcon() {
@@ -83,8 +86,10 @@ class _TripDetailsState extends State<TripDetails> {
     // TODO: implement initState
     super.initState();
     addCustomIcon();
+
     getPlaceBooking();
-    //  _touristExploreController.isBookedMade(false);
+
+    _touristExploreController.isBookedMade(true);
   }
 
   void getPlaceBooking() async {
@@ -92,21 +97,27 @@ class _TripDetailsState extends State<TripDetails> {
         id: widget.place!.id!, context: context);
     List<Booking>? bookingList =
         await _touristExploreController.getTouristBooking(context: context);
-
+    lockPlaces.value = true;
     if (bookingList != null) {
       for (var booking in bookingList) {
         if (booking.placeId == widget.place!.id) {
-          print('THIS USER HAS A BOOKING IN ${widget.place!.nameAr}');
+          isViewBooking.value = true;
+          lockPlaces.value = false;
+          print(
+            'THIS USER HAS A BOOKING IN ${widget.place!.nameAr}',
+          );
+          print(isViewBooking.value);
         }
       }
     }
+    print("locked");
+    print(_touristExploreController.isPlaceNotLocked);
   }
 
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
-
     return Scaffold(
         backgroundColor: widget.fromAjwady ? lightBlack : Colors.white,
         extendBodyBehindAppBar: true,
@@ -412,7 +423,7 @@ class _TripDetailsState extends State<TripDetails> {
                             text: "startFrom".tr,
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
-                            color: lightGrey,
+                            color: almostGrey,
                           ),
                           const SizedBox(
                             width: 2,
@@ -431,61 +442,16 @@ class _TripDetailsState extends State<TripDetails> {
                           ),
                         ],
                       ),
-                      _touristExploreController.isBookingLoading.value
-                          ? const CircularProgressIndicator()
-                          : Obx(
-                              () => Padding(
+
+                      Obx(
+                        () => _touristExploreController.isBookingLoading.value
+                            ? const CircularProgressIndicator()
+                            : Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 30, vertical: 10),
-                                child: widget.place!.booking == null &&
-                                        !_touristExploreController
-                                            .isBookedMade.value
+                                child: !AppUtil.isGuest() &&
+                                        isViewBooking.value // true
                                     ? CustomButton(
-                                        onPressed: () {
-                                          AppUtil.isGuest()
-                                              ? Get.to(
-                                                  () => const SignInScreen())
-                                              : showModalBottomSheet(
-                                                  useRootNavigator: true,
-                                                  isScrollControlled: true,
-                                                  backgroundColor:
-                                                      Colors.transparent,
-                                                  shape:
-                                                      const RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              BorderRadius.only(
-                                                    topRight:
-                                                        Radius.circular(30),
-                                                    topLeft:
-                                                        Radius.circular(30),
-                                                  )),
-                                                  context: context,
-                                                  builder: (context) {
-                                                    return BookingSheet(
-                                                      fromAjwady: false,
-                                                      place: widget.place,
-                                                      userLocation:
-                                                          widget.userLocation,
-                                                      touristExploreController:
-                                                          _touristExploreController,
-                                                    );
-                                                  }).then((value) {
-                                                  getPlaceBooking();
-                                                  return;
-                                                });
-                                        },
-                                        title: "buyTicket".tr,
-                                        icon: !AppUtil.rtlDirection(context)
-                                            ? const Icon(
-                                                Icons.arrow_back_ios,
-                                                size: 20,
-                                              )
-                                            : const Icon(
-                                                Icons.arrow_forward_ios,
-                                                size: 20,
-                                              ),
-                                      )
-                                    : CustomButton(
                                         onPressed: () async {
                                           Place? thePlace =
                                               await _touristExploreController
@@ -506,9 +472,61 @@ class _TripDetailsState extends State<TripDetails> {
                                         //  icon: AppUtil.rtlDirection(context)
                                         // ? const Icon(Icons.arrow_back)
                                         // : const Icon(Icons.arrow_forward),
-                                      ),
+                                      )
+                                    //TODO:fix the condition Ammar
+                                    : _touristExploreController.isPlaceNotLocked
+                                            .value // booking OR Empty button
+                                        ? CustomButton(
+                                            onPressed: () {
+                                              AppUtil.isGuest()
+                                                  ? Get.to(() =>
+                                                      const SignInScreen())
+                                                  : showModalBottomSheet(
+                                                      useRootNavigator: true,
+                                                      isScrollControlled: true,
+                                                      backgroundColor:
+                                                          Colors.transparent,
+                                                      shape:
+                                                          const RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius.only(
+                                                          topRight:
+                                                              Radius.circular(
+                                                                  30),
+                                                          topLeft:
+                                                              Radius.circular(
+                                                                  30),
+                                                        ),
+                                                      ),
+                                                      context: context,
+                                                      builder: (context) {
+                                                        return BookingSheet(
+                                                          fromAjwady: false,
+                                                          place: widget.place,
+                                                          userLocation: widget
+                                                              .userLocation,
+                                                          touristExploreController:
+                                                              _touristExploreController,
+                                                        );
+                                                      }).then((value) {
+                                                      getPlaceBooking();
+                                                      return;
+                                                    });
+                                            },
+                                            title: "buyTicket".tr,
+                                            icon: !AppUtil.rtlDirection(context)
+                                                ? const Icon(
+                                                    Icons.arrow_back_ios,
+                                                    size: 20,
+                                                  )
+                                                : const Icon(
+                                                    Icons.arrow_forward_ios,
+                                                    size: 20,
+                                                  ),
+                                          )
+                                        : Container(),
                               ),
-                            ),
+                      ),
                     ],
                   ),
                 ),

@@ -33,10 +33,9 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
     // TODO: implement initState
     super.initState();
 
-    if (!AppUtil.isGuest()){
-          getProfile();
+    if (!AppUtil.isGuest()) {
+      getProfile();
     }
-
   }
 
   void getProfile() async {

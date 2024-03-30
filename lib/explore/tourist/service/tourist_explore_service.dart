@@ -35,7 +35,7 @@ class TouristExploreService {
       Uri.parse('$baseUrl/place'),
       headers: {
         'Accept': 'application/json',
-        'Authorization': 'Bearer $token',
+        if (token != "") 'Authorization': 'Bearer $token',
       },
     );
     print("response.statusCode");
@@ -166,7 +166,7 @@ class TouristExploreService {
       Uri.parse('$baseUrl/booking').replace(queryParameters: queryParameters),
       headers: {
         'Accept': 'application/json',
-        'Authorization': 'Bearer $token',
+        if (token != "") 'Authorization': 'Bearer $token',
       },
     );
 
@@ -203,7 +203,7 @@ class TouristExploreService {
       Uri.parse('$baseUrl/booking/$bookingId'),
       headers: {
         'Accept': 'application/json',
-        'Authorization': 'Bearer $token',
+        if (token != "") 'Authorization': 'Bearer $token',
       },
     );
 

@@ -14,6 +14,7 @@ class TouristExploreController extends GetxController {
   var isBookingDateSelected = false.obs;
   var isBookingTimeSelected = false.obs;
   var isBookedMade = false.obs;
+  var isPlaceNotLocked = true.obs;
   var isBookingLoading = false.obs;
   var isBookingByIdLoading = false.obs;
 
@@ -96,6 +97,7 @@ class TouristExploreController extends GetxController {
         vehicle: vehicle,
       );
       if (data != null) {
+        isPlaceNotLocked(false);
         return data;
       } else {
         return false;
