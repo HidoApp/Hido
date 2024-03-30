@@ -28,8 +28,7 @@ class _AjwadiVehicleInfoState extends State<AjwadiVehicleInfo> {
   final _nationalIdController = TextEditingController();
   final _vehicleNumberController = TextEditingController();
 
-    final getStorage = GetStorage();
-
+  final getStorage = GetStorage();
 
   @override
   void initState() {
@@ -49,7 +48,10 @@ class _AjwadiVehicleInfoState extends State<AjwadiVehicleInfo> {
           extendBodyBehindAppBar: true,
           backgroundColor: Colors.white,
           resizeToAvoidBottomInset: false,
-          appBar: CustomAjwadiAppBar("",isBack: false,),
+          appBar: CustomAjwadiAppBar(
+            "",
+            isBack: false,
+          ),
           body: SizedBox(
             // width: width*0.,
             child: Stack(
@@ -75,13 +77,13 @@ class _AjwadiVehicleInfoState extends State<AjwadiVehicleInfo> {
                         text: 'vehicleInformation'.tr,
                         fontWeight: FontWeight.w700,
                         fontSize: 24,
-                        color:black,
+                        color: black,
                       ),
                       const SizedBox(
                         height: 20,
                       ),
                       CustomText(
-                        text:'youWillPickUpTourists'.tr,
+                        text: 'youWillPickUpTourists'.tr,
                         fontWeight: FontWeight.w700,
                         fontSize: 14,
                         color: black,
@@ -129,7 +131,8 @@ class _AjwadiVehicleInfoState extends State<AjwadiVehicleInfo> {
                       ),
                       Obx(() => Padding(
                             padding: const EdgeInsets.symmetric(vertical: 20),
-                            child: authController.isVicheleOTPLoading.value == true
+                            child: authController.isVicheleOTPLoading.value ==
+                                    true
                                 ? const Center(
                                     child: CircularProgressIndicator(
                                         color: colorGreen),
@@ -142,9 +145,8 @@ class _AjwadiVehicleInfoState extends State<AjwadiVehicleInfo> {
                                         if (_formKey.currentState!.validate()) {
                                           if (!AppUtil.isNationalIdValidate(
                                               _nationalIdController.text)) {
-                                            AppUtil.errorToast(
-                                                context, "nationalIdMustbe10"
-                                                    .tr);
+                                            AppUtil.errorToast(context,
+                                                "nationalIdMustbe10".tr);
                                             return;
                                           }
 
@@ -157,29 +159,36 @@ class _AjwadiVehicleInfoState extends State<AjwadiVehicleInfo> {
                                                       _vehicleNumberController
                                                           .text,
                                                   context: context);
-                                           print(isSuccess);
-                                            if (isSuccess) {
-                                              String accessToken =
-                                                  getStorage.read('accessToken');
+                                          print(isSuccess);
+                                          if (isSuccess) {
+                                            String accessToken =
+                                                getStorage.read('accessToken');
 
-                                             
-                                              Get.to(() => PhoneOTPScreen(
-                                                  isAjwadi: true,
-                                                  authController: authController,
-                                                  birthDate: _vehicleNumberController.text,
-                                                  isLiencese: false,
-                                                  nationalID:
-                                                      _nationalIdController.text,
-                                                  accessToken: accessToken));
-                                            }
+                                            Get.to(() => PhoneOTPScreen(
+                                                isAjwadi: true,
+                                                authController: authController,
+                                                birthDate:
+                                                    _vehicleNumberController
+                                                        .text,
+                                                isLiencese: false,
+                                                nationalID:
+                                                    _nationalIdController.text,
+                                                accessToken: accessToken));
+                                          }
 
                                           // Get.to(()=>PhoneOTPScreen(isAjwadi: true,authController: authController,nationalID: _nationalIdController.text, isLiencese: false));
                                         }
                                       },
                                       title: 'signUp'.tr,
                                       icon: !AppUtil.rtlDirection(context)
-                                          ? const Icon(Icons.arrow_back_ios,size: 20,)
-                                          : const Icon(Icons.arrow_forward_ios,size: 20,),
+                                          ? const Icon(
+                                              Icons.arrow_back_ios,
+                                              size: 20,
+                                            )
+                                          : const Icon(
+                                              Icons.arrow_forward_ios,
+                                              size: 20,
+                                            ),
                                     ),
                                   ),
                           )),
