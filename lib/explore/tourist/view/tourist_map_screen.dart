@@ -281,6 +281,12 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                               ),
                               contentPadding: const EdgeInsets.only(
                                   top: 8, left: 44, right: 12),
+                              disabledBorder: const OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(12),
+                                  ),
+                                  borderSide:
+                                      BorderSide(color: Colors.grey, width: 1)),
                               enabledBorder: const OutlineInputBorder(
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(12),
@@ -453,40 +459,30 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                             _touristExploreController
                                         .touristModel.value!.places ==
                                     null
-                                ? Container()
-                                : CarouselSlider.builder(
-                                    itemCount: searchTextController.text.isEmpty
-                                        ? _touristExploreController
-                                            .touristModel.value!.places!.length
-                                        : searchedPlaces.length,
-                                    options: CarouselOptions(
-                                      viewportFraction: 1,
-                                      aspectRatio: 3,
-                                    ),
-                                    itemBuilder: (context, index, realIndex) {
-                                      double distance = 0.0;
-                                      return GestureDetector(
-                                        onTap: () async {
-                                          if (userLocation != null) {
-                                            distance =
-                                                calculateDistanceBtwUserAndPlace(
-                                                    userLocation!.latitude,
-                                                    userLocation!.longitude,
-                                                    double.parse(
-                                                      searchTextController
-                                                              .text.isEmpty
-                                                          ? _touristExploreController
-                                                              .touristModel
-                                                              .value!
-                                                              .places![index]
-                                                              .coordinates!
-                                                              .latitude!
-                                                          : searchedPlaces[
-                                                                  index]
-                                                              .coordinates!
-                                                              .latitude!,
-                                                    ),
-                                                    double.parse(
+                                ? Container(
+                                    child: const Text("Loading "),
+                                  )
+                                : Expanded(
+                                    child: PageView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount:
+                                          searchTextController.text.isEmpty
+                                              ? _touristExploreController
+                                                  .touristModel
+                                                  .value!
+                                                  .places!
+                                                  .length
+                                              : searchedPlaces.length,
+                                      itemBuilder: (context, index) {
+                                        double distance = 0.0;
+                                        return GestureDetector(
+                                          onTap: () async {
+                                            if (userLocation != null) {
+                                              distance =
+                                                  calculateDistanceBtwUserAndPlace(
+                                                      userLocation!.latitude,
+                                                      userLocation!.longitude,
+                                                      double.parse(
                                                         searchTextController
                                                                 .text.isEmpty
                                                             ? _touristExploreController
@@ -494,107 +490,127 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                                                                 .value!
                                                                 .places![index]
                                                                 .coordinates!
-                                                                .longitude!
+                                                                .latitude!
                                                             : searchedPlaces[
                                                                     index]
                                                                 .coordinates!
-                                                                .longitude!));
-                                          } else {
-                                            print('CAN NOT CALCULATE DISTANCE');
-                                          }
+                                                                .latitude!,
+                                                      ),
+                                                      double.parse(
+                                                          searchTextController
+                                                                  .text.isEmpty
+                                                              ? _touristExploreController
+                                                                  .touristModel
+                                                                  .value!
+                                                                  .places![
+                                                                      index]
+                                                                  .coordinates!
+                                                                  .longitude!
+                                                              : searchedPlaces[
+                                                                      index]
+                                                                  .coordinates!
+                                                                  .longitude!));
+                                            } else {
+                                              print(
+                                                  'CAN NOT CALCULATE DISTANCE');
+                                            }
 
-                                          Get.to(
-                                            () => TripDetails(
-                                              fromAjwady: false,
-                                              place: searchTextController
+                                            Get.to(
+                                              () => TripDetails(
+                                                fromAjwady: false,
+                                                place: searchTextController
+                                                        .text.isEmpty
+                                                    ? _touristExploreController
+                                                        .touristModel
+                                                        .value!
+                                                        .places![index]
+                                                    : searchedPlaces[index],
+                                                distance: distance != 0.0
+                                                    ? distance.roundToDouble()
+                                                    : distance,
+                                                userLocation: userLocation,
+                                              ),
+                                            )?.then(
+                                              (value) {
+                                                getScrollingCards('ALL');
+                                                selectedTitle = titles[0];
+                                                return;
+                                              },
+                                            );
+                                          },
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 4,
+                                            ),
+                                            child: TripCard(
+                                              title: !AppUtil.rtlDirection(
+                                                      context)
+                                                  ? searchTextController
+                                                          .text.isEmpty
+                                                      ? _touristExploreController
+                                                          .touristModel
+                                                          .value!
+                                                          .places![index]
+                                                          .nameAr!
+                                                      : searchedPlaces[index]
+                                                          .nameAr!
+                                                  : searchTextController
+                                                          .text.isEmpty
+                                                      ? _touristExploreController
+                                                          .touristModel
+                                                          .value!
+                                                          .places![index]
+                                                          .nameEn!
+                                                      : searchedPlaces[index]
+                                                          .nameEn!,
+                                              location: !AppUtil.rtlDirection(
+                                                      context)
+                                                  ? searchTextController
+                                                          .text.isEmpty
+                                                      ? _touristExploreController
+                                                                  .touristModel
+                                                                  .value!
+                                                                  .places![
+                                                                      index]
+                                                                  .regionAr ==
+                                                              null
+                                                          ? ""
+                                                          : searchedPlaces[
+                                                                          index]
+                                                                      .regionAr ==
+                                                                  null
+                                                              ? ""
+                                                              : _touristExploreController
+                                                                  .touristModel
+                                                                  .value!
+                                                                  .places![
+                                                                      index]
+                                                                  .regionAr!
+                                                      : searchedPlaces[index]
+                                                          .regionAr!
+                                                  : searchTextController
+                                                          .text.isEmpty
+                                                      ? _touristExploreController
+                                                          .touristModel
+                                                          .value!
+                                                          .places![index]
+                                                          .regionEn!
+                                                      : searchedPlaces[index]
+                                                          .regionEn!,
+                                              image: searchTextController
                                                       .text.isEmpty
                                                   ? _touristExploreController
                                                       .touristModel
                                                       .value!
                                                       .places![index]
-                                                  : searchedPlaces[index],
-                                              distance: distance != 0.0
-                                                  ? distance.roundToDouble()
-                                                  : distance,
-                                              userLocation: userLocation,
+                                                      .image![0]
+                                                  : searchedPlaces[index]
+                                                      .image![0],
                                             ),
-                                          )?.then(
-                                            (value) {
-                                              getScrollingCards('ALL');
-                                              selectedTitle = titles[0];
-                                              return;
-                                            },
-                                          );
-                                        },
-                                        child: Container(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 4,
                                           ),
-                                          child: TripCard(
-                                            title: !AppUtil.rtlDirection(
-                                                    context)
-                                                ? searchTextController
-                                                        .text.isEmpty
-                                                    ? _touristExploreController
-                                                        .touristModel
-                                                        .value!
-                                                        .places![index]
-                                                        .nameAr!
-                                                    : searchedPlaces[index]
-                                                        .nameAr!
-                                                : searchTextController
-                                                        .text.isEmpty
-                                                    ? _touristExploreController
-                                                        .touristModel
-                                                        .value!
-                                                        .places![index]
-                                                        .nameEn!
-                                                    : searchedPlaces[index]
-                                                        .nameEn!,
-                                            location: !AppUtil.rtlDirection(
-                                                    context)
-                                                ? searchTextController
-                                                        .text.isEmpty
-                                                    ? _touristExploreController
-                                                                .touristModel
-                                                                .value!
-                                                                .places![index]
-                                                                .regionAr ==
-                                                            null
-                                                        ? ""
-                                                        : searchedPlaces[index]
-                                                                    .regionAr ==
-                                                                null
-                                                            ? ""
-                                                            : _touristExploreController
-                                                                .touristModel
-                                                                .value!
-                                                                .places![index]
-                                                                .regionAr!
-                                                    : searchedPlaces[index]
-                                                        .regionAr!
-                                                : searchTextController
-                                                        .text.isEmpty
-                                                    ? _touristExploreController
-                                                        .touristModel
-                                                        .value!
-                                                        .places![index]
-                                                        .regionEn!
-                                                    : searchedPlaces[index]
-                                                        .regionEn!,
-                                            image: searchTextController
-                                                    .text.isEmpty
-                                                ? _touristExploreController
-                                                    .touristModel
-                                                    .value!
-                                                    .places![index]
-                                                    .image![0]
-                                                : searchedPlaces[index]
-                                                    .image![0],
-                                          ),
-                                        ),
-                                      );
-                                    },
+                                        );
+                                      },
+                                    ),
                                   ),
                             _touristExploreController
                                         .touristModel.value!.events ==
