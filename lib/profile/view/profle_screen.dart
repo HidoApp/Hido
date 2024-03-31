@@ -43,7 +43,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    print("  _profileController.getProfile(context: context);");
+
     getProfile();
   }
 

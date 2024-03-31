@@ -71,9 +71,8 @@ class RequestService {
     }
   }
 
-
-    static Future<Booking?> getBookingById(
-      {required BuildContext context,required String bookingId}) async {
+  static Future<Booking?> getBookingById(
+      {required BuildContext context, required String bookingId}) async {
     log("jwtToken");
     final getStorage = GetStorage();
     String token = getStorage.read('accessToken');
