@@ -48,11 +48,107 @@ class _FindAjwadyState extends State<FindAjwady> {
   @override
   void initState() {
     super.initState();
+    showCancelDialogAfterDelay();
     _offerController.getOffers(
       context: context,
       placeId: widget.placeId,
       bookingId: widget.booking.id!,
     );
+  }
+
+  void showCancelDialogAfterDelay() {
+    Future.delayed(const Duration(minutes: 5), () {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Colors.white,
+            surfaceTintColor: Colors.white,
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(32.0))),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                const SizedBox(
+                  height: 10,
+                ),
+                const CustomText(
+                    textAlign: TextAlign.center,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.red,
+                    text: "Oops! "),
+                const CustomText(
+                    textAlign: TextAlign.center,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w300,
+                    color: almostGrey,
+                    text:
+                        "It looks like there aren't any available guides in your area right now"),
+                const SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: GestureDetector(
+                    onTap: () {
+                      Get.back();
+                    },
+                    child: Container(
+                      height: 40,
+                      width: 357,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: colorGreen,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const CustomText(
+                        text: "Try again",
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Obx(() => _offerController.isBookingCancelLoading.value
+                    ? const Center(
+                        child: CircularProgressIndicator(color: Colors.black))
+                    : GestureDetector(
+                        onTap: () async {
+                          log("End Trip Taped ${widget.booking.id}");
+
+                          bool bookingCancel =
+                              await _offerController.bookingCancel(
+                                      context: context,
+                                      bookingId: widget.booking.id!) ??
+                                  false;
+                          if (bookingCancel) {
+                            if (context.mounted) {
+                              AppUtil.successToast(context, 'EndTrip'.tr);
+                              await Future.delayed(const Duration(seconds: 1));
+                            }
+                            Get.offAll(
+                              const TouristBottomBar(),
+                            );
+                          }
+                        },
+                        child: const CustomText(
+                            textAlign: TextAlign.center,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: black,
+                            text: "Cancel Tour"),
+                      )),
+              ],
+            ),
+          );
+        },
+      );
+    });
   }
 
   @override
