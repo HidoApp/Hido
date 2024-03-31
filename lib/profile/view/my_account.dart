@@ -3,6 +3,7 @@ import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/new-onboarding/view/account_type_screen.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/models/profile.dart';
+import 'package:ajwad_v4/profile/widget/account_tile.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
@@ -32,6 +33,14 @@ class _MyAccountState extends State<MyAccount> {
     await _profileController.getProfile(context: context);
   }
 
+  String getPhoneNumber() {
+    //to secure phone number
+    final String number = _profileController.profile.phoneNumber!;
+    return number.substring(0, 2) +
+        '*' * (number.length - 4) +
+        number.substring(number.length - 2);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,18 +49,29 @@ class _MyAccountState extends State<MyAccount> {
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 41),
         child: Column(
           children: [
-            ListView.separated(
-                shrinkWrap: true,
-                itemCount: 3,
-                separatorBuilder: (context, index) {
-                  return const Divider(
-                    color: tileGreyColor,
-                    thickness: 1,
-                  );
-                },
-                itemBuilder: (context, index) {
-                  return Text("");
-                }),
+            //TODO: replace email subtitle
+            AccountTile(
+              title: "Email",
+              subtitle: "Norah@hido.app",
+              onTap: () {},
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 12),
+              child: Divider(
+                color: lightGrey,
+              ),
+            ),
+            AccountTile(
+              title: "Phone number",
+              subtitle: getPhoneNumber(),
+              onTap: () {},
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 12),
+              child: Divider(
+                color: lightGrey,
+              ),
+            ),
             Align(
               alignment: Alignment.centerLeft,
               child: GestureDetector(
