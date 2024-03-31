@@ -57,7 +57,7 @@ class _FindAjwadyState extends State<FindAjwady> {
   }
 
   void showCancelDialogAfterDelay() {
-    Future.delayed(const Duration(seconds: 5), () {
+    Future.delayed(const Duration(minutes: 5), () {
       showDialog(
         context: context,
         builder: (BuildContext context) {
