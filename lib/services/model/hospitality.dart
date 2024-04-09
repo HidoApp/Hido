@@ -14,13 +14,13 @@ class Hospitality {
   final String titleEn;
   final String email;
   final Coordinate coordinate;
-  final List<Booking>? booking;
+  final List<HospitalityBooking>? booking;
 
   final String familyName;
   final List<String> images;
   final String familyImage;
   final String iban;
-  final String location;
+  final String? location;
   final int price;
   final String region;
   final List< DayInfo> daysInfo;
@@ -40,7 +40,7 @@ class Hospitality {
     titleEn: json['titleEn'], 
     email: json['email'], 
     coordinate: Coordinate.fromJson(json['coordinates']), 
-    booking:json['booking'] != null ?  (json['booking'] as List).map((e) => Booking.fromJson(e)).toList() : null, 
+    booking:json['booking'] != null ?  (json['booking'] as List).map((e) => HospitalityBooking.fromJson(e)).toList() : null, 
     familyName: json['familyName'], 
     familyImage: json['familyImage'], 
     images:  List<String>.from(json["image"]),
@@ -49,6 +49,42 @@ class Hospitality {
     price: json['price'], 
     region: json['region'],
         daysInfo: ( json['daysInfo'] as List ).map((e) => DayInfo.fromJson(e) ).toList(),
+    
+    );
+
+  }
+
+}
+
+
+
+class HospitalityBooking {
+  final String id;
+  final String userId;
+  final String hospitalityId;
+  final String date;
+  final String cost;
+  final String orderStatus;
+
+
+
+
+  HospitalityBooking({ 
+    required this.id,
+    required this.userId,
+    required this.hospitalityId,
+    required this.date,
+    required this.cost,
+     required this.orderStatus,
+   });
+  factory HospitalityBooking.fromJson(Map<String, dynamic> json){
+   return HospitalityBooking(
+    id: json['id'], 
+    userId: json['userId'], 
+    hospitalityId: json['hospitalityId'], 
+    date: json['date'], 
+    cost: json['cost'], 
+    orderStatus: json['orderStatus'], 
     
     );
 

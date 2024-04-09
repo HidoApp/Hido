@@ -580,7 +580,11 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                                                     //   ],
                                                     // ),
 
-                                                    _touristExploreController
+                                                 _touristExploreController
+                                                            .touristModel
+                                                            .value!
+                                                            .places![index]
+                                                            .booking == null ||      _touristExploreController
                                                             .touristModel
                                                             .value!
                                                             .places![index]
@@ -636,7 +640,11 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                                                       color: black,
                                                     ),
 
-                                                    _touristExploreController
+                                                 _touristExploreController
+                                                            .touristModel
+                                                            .value!
+                                                            .places![index]
+                                                            .booking == null ||   _touristExploreController
                                                             .touristModel
                                                             .value!
                                                             .places![index]

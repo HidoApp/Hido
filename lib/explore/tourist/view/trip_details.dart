@@ -449,7 +449,7 @@ class _TripDetailsState extends State<TripDetails> {
                         Container()
                         :
                         
-                         widget.place!.booking!.isEmpty &&
+                     widget.place!.booking == null ||     widget.place!.booking!.isEmpty &&
                                 !_touristExploreController.isBookedMade.value
                             ? CustomButton(
                                 onPressed: () {
