@@ -4,15 +4,14 @@ import 'package:ajwad_v4/explore/ajwadi/model/userLocation.dart';
 import 'package:geolocator/geolocator.dart';
 
 class LocationService {
- late UserLocation userLocation;
-late Position _currentLocation;
-Geolocator geolocator = Geolocator();
+  late UserLocation userLocation;
+  late Position _currentLocation;
+  Geolocator geolocator = Geolocator();
 
-Future <UserLocation?> getUserLocation() async {
-
-  try {
-   // _currentLocation = await Geolocator.getCurrentPosition();
-         var isServiceEnabled = await Geolocator.isLocationServiceEnabled();
+  Future<UserLocation?> getUserLocation() async {
+    try {
+      // _currentLocation = await Geolocator.getCurrentPosition();
+      var isServiceEnabled = await Geolocator.isLocationServiceEnabled();
 
       if (!isServiceEnabled) {
         isServiceEnabled = await Geolocator.isLocationServiceEnabled();
@@ -40,17 +39,14 @@ Future <UserLocation?> getUserLocation() async {
             throw TimeoutException(
                 "Location information could not be obtained within the requested time.");
           },
-        );}
-    userLocation = UserLocation(_currentLocation.latitude, _currentLocation.longitude);
-    return userLocation;
-
-  } catch (e) {
-    print(e);
-    return null;
-
-  } finally {
-
+        );
+      }
+      userLocation =
+          UserLocation(_currentLocation.latitude, _currentLocation.longitude);
+      return userLocation;
+    } catch (e) {
+      print(e);
+      return null;
+    } finally {}
   }
-
-}
 }

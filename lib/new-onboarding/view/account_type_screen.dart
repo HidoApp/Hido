@@ -74,6 +74,7 @@ class _AccountTypeScreenState extends State<AccountTypeScreen>
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: CarouselSlider.builder(
@@ -353,10 +354,10 @@ class _AccountTypeScreenState extends State<AccountTypeScreen>
                                         Radius.circular(12)),
                                     gradient: LinearGradient(
                                       begin: Alignment.topCenter,
-                                      end: Alignment.bottomCenter,
+                                      end: Alignment.center,
                                       colors: [
                                         beige.withOpacity(0.1),
-                                        Colors.white.withOpacity(0.2),
+                                        Colors.white.withOpacity(0.4),
                                       ],
                                     )),
                                 child: AnimatedSize(
@@ -482,10 +483,10 @@ class _AccountTypeScreenState extends State<AccountTypeScreen>
                                             Radius.circular(12)),
                                         gradient: LinearGradient(
                                           begin: Alignment.topCenter,
-                                          end: Alignment.bottomCenter,
+                                          end: Alignment.center,
                                           colors: [
                                             beige.withOpacity(0.1),
-                                            Colors.white.withOpacity(0.2),
+                                            Colors.white.withOpacity(0.4),
                                           ],
                                         )),
                                     child: AnimatedSize(
@@ -567,8 +568,8 @@ class _AccountTypeScreenState extends State<AccountTypeScreen>
                           ],
                         ),
                       ),
-                      const SizedBox(
-                        height: 24,
+                      SizedBox(
+                        height: width * 0.041,
                       ),
                       InkWell(
                           onTap: () {
@@ -579,7 +580,7 @@ class _AccountTypeScreenState extends State<AccountTypeScreen>
                             color: _activeIndex == 0 ? black : Colors.white,
                             fontWeight: FontWeight.w400,
                             textDecoration: TextDecoration.underline,
-                            fontSize: 14,
+                            fontSize: width * 0.035,
                           ))
                     ],
                   ),

@@ -477,13 +477,14 @@ class _TripDetailsState extends State<TripDetails> {
                                       )
                                     //TODO:fix the condition Ammar
                                     : _touristExploreController.isPlaceNotLocked
-                                            .value  ||   widget.place!.booking == null ||     widget.place!.booking!.isEmpty &&
-                                !_touristExploreController.isBookedMade.value// booking OR Empty button
+                                            .value // booking OR Empty button
                                         ? CustomButton(
                                             onPressed: () {
                                               AppUtil.isGuest()
-                                                  ? Get.to(() =>
-                                                      const SignInScreen())
+                                                  ? Get.to(
+                                                      () =>
+                                                          const SignInScreen(),
+                                                    )
                                                   : showModalBottomSheet(
                                                       useRootNavigator: true,
                                                       isScrollControlled: true,
@@ -530,79 +531,6 @@ class _TripDetailsState extends State<TripDetails> {
                                         : Container(),
                               ),
                       ),
-                    //   const Spacer(),
-                    //   Obx(
-                    //     () =>
-                    //   Padding(
-                    //     padding:
-                    //         EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                    //     child: _touristExploreController.isBookingLoading.value ?
-                    //     Container()
-                    //     :
-                        
-                    //  widget.place!.booking == null ||     widget.place!.booking!.isEmpty &&
-                    //             !_touristExploreController.isBookedMade.value
-                    //         ? CustomButton(
-                    //             onPressed: () {
-                    //            AppUtil.isGuest() ? Get.to(() => const SignInScreen()):
-
-                               
-                    //              showModalBottomSheet(
-                    //                   useRootNavigator: true,
-                    //                   isScrollControlled: true,
-                    //                   backgroundColor: Colors.transparent,
-                    //                   shape: const RoundedRectangleBorder(
-                    //                       borderRadius: BorderRadius.only(
-                    //                     topRight: Radius.circular(30),
-                    //                     topLeft: Radius.circular(30),
-                    //                   )),
-                    //                   context: context,
-                    //                   builder: (context) {
-                    //                     return BookingSheet(
-                    //                       fromAjwady: false,
-                    //                       place: widget.place,
-                    //                       userLocation: widget.userLocation,
-                    //                       touristExploreController:
-                    //                           _touristExploreController,
-                    //                     );
-                    //                   }).then((value) {
-                    //                   getPlaceBooking();
-                    //                     return;
-                    //                   });
-                    //             },
-                    //             title: "buyTicket".tr,
-                    //             icon: !AppUtil.rtlDirection(context)
-                    //                 ? const Icon(Icons.arrow_back_ios,size: 20,)
-                    //                 : const Icon(Icons.arrow_forward_ios,size: 20,),
-                    //           )
-                    //         : CustomButton(
-                    //             onPressed: () async {
-                    //               Place? thePlace =
-                    //                   await _touristExploreController
-                    //                       .getPlaceById(
-                    //                           id: widget.place!.id!,
-                    //                           context: context);
-                    //               Get.to(
-                    //                 () => FindAjwady(
-                    //                   booking: thePlace!.booking![0],
-                    //                   place: widget.place!,
-                    //                   placeId: thePlace.id!,
-                    //                 ),
-                    //               )?.then((value) async {
-
-                    //                 return  getPlaceBooking();
-                                    
-                    //               });
-                    //             },
-                    //             title: "viewBooking".tr,
-                    //             //  icon: AppUtil.rtlDirection(context)
-                    //             // ? const Icon(Icons.arrow_back)
-                    //             // : const Icon(Icons.arrow_forward),
-                    //           ),
-                    //   ),
-                    //   ),
-                    
-                    
                     ],
                   ),
                 ),
