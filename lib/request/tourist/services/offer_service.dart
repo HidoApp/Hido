@@ -123,6 +123,7 @@ class OfferService {
   static Future<AcceptedOffer?> acceptOffer({
     required BuildContext context,
     required String offerId,
+    required String invoiceId,
     required List<Schedule> schedules,
   }) async {
     log("jwtToken");
@@ -142,7 +143,12 @@ class OfferService {
     }
 
     final response = await http.post(
-      Uri.parse('$baseUrl/offer/$offerId/accept'),
+      Uri.parse('$baseUrl/offer/$offerId/accept').replace(queryParameters: 
+      {
+        'invoiceId':invoiceId,
+        'offerId':offerId,
+      
+      }),
       headers: {
         'Accept': 'application/json',
         "Content-Type": "application/json",
@@ -154,6 +160,7 @@ class OfferService {
     );
     print("response.statusCode");
     print(response.statusCode);
+    print(response.body);
     if (response.statusCode == 200) {
       var acceptedOfferData = jsonDecode(response.body);
       print(acceptedOfferData);

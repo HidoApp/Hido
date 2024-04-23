@@ -366,14 +366,14 @@ class _AddNewCreditCardState extends State<AddNewCreditCard> {
                                         });
                                   } else if (offer.payment!['payStatus'] ==
                                       'paid') {
-                                    final acceptedOffer = await widget
-                                        .offerController
-                                        .acceptOffer(
-                                      context: context,
-                                      offerId: widget.offerDetails.id!,
-                                      schedules: widget.offerController
-                                          .offerDetails.value.schedule!,
-                                    );
+                                    // final acceptedOffer = await widget
+                                    //     .offerController
+                                    //     .acceptOffer(
+                                    //   context: context,
+                                    //   offerId: widget.offerDetails.id!,
+                                    //   schedules: widget.offerController
+                                    //       .offerDetails.value.schedule!,
+                                    // );
                                     Get.back();
                                     Get.back();
                                   }

@@ -97,7 +97,7 @@ class ServicesService {
     String? paymentId,
     required String hospitalityId,
     required String date,
-    required String time,
+
     required String dayId,
     required int numOfMale,
     required int numOfFemale,
@@ -118,12 +118,11 @@ class ServicesService {
     Map<String, dynamic> queryParameters = {
       'check': check.toString(),
       'hospitalityId': hospitalityId,
-      if (paymentId != null) 'paymentId': paymentId,
+      if (paymentId != null) 'invoiceId': paymentId,
     };
 
     Map<String, dynamic> body = {
       'date': date.toString().substring(0, 10),
-      'time': time.toString(),
       'guestInfo': {
         'dayId': dayId.toString(),
         'male': numOfMale.toString(),
