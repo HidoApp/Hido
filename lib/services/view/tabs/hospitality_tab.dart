@@ -129,62 +129,16 @@ class _HospitalityTabState extends State<HospitalityTab> {
             widget.isAviailable
                 ? Column(
                     children: [
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //   children: [
-                      //     CustomText(
-                      //       text: 'where'.tr,
-                      //       fontSize: 20,
-                      //       fontWeight: FontWeight.w700,
-                      //     ),
-                      //     CustomText(
-                      //       text: 'seeAll'.tr,
-                      //       fontSize: 10,
-                      //       fontWeight: FontWeight.w400,
-                      //       color: colorDarkGrey,
-                      //     ),
-                      //   ],
-                      // ),
-                      // const SizedBox(
-                      //   height: 10,
-                      // ),
-                      // SizedBox(
-                      //   height: 100,
-                      //   child: ListView.separated(
-                      //     shrinkWrap: true,
-                      //     scrollDirection: Axis.horizontal,
-                      //     itemCount: 4,
-                      //     separatorBuilder: (context, index) {
-                      //       return const SizedBox(
-                      //         width: 24,
-                      //       );
-                      //     },
-                      //     itemBuilder: (context, index) {
-                      //       return CustomCityItem(
-                      //           image: 'assets/images/tabuk.png',
-                      //           title: AppUtil.rtlDirection(context)
-                      //               ? 'تبوك'
-                      //               : 'Tabuk');
-                      //     },
-                      //   ),
-                      // ),
-                      // const SizedBox(
-                      //   height: 20,
-                      // ),
+                 
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           CustomText(
                             text: 'saudiHospitality'.tr,
                             fontSize: 20,
-                            fontWeight: FontWeight.w700,
+                            fontWeight: FontWeight.w500,
                           ),
-                          // CustomText(
-                          //   text: 'seeAll'.tr,
-                          //   fontSize: 10,
-                          //   fontWeight: FontWeight.w400,
-                          //   color: colorDarkGrey,
-                          // ),
+                         
                         ],
                       ),
                       _srvicesController.isHospitalityLoading.value ?
@@ -215,6 +169,7 @@ class _HospitalityTabState extends State<HospitalityTab> {
                                   ? _srvicesController.hospitalityList[index].categoryAr
                                   : _srvicesController.hospitalityList[index].categoryEn,
                               rate: '4.7',
+                              dayInfo: _srvicesController.hospitalityList[index].daysInfo ,
                               onTap: () {
                                 Get.to(() => HospitalityDetails(hospitalityId:_srvicesController.hospitalityList[index].id ,));
                               },
@@ -234,13 +189,7 @@ class _HospitalityTabState extends State<HospitalityTab> {
                       SizedBox(
                         height: height * 0.04,
                       ),
-                      // Image.asset(
-                      //   'assets/images/hido_logo.png',
-                      //   color: purple,
-                      // ),
-                      // SizedBox(
-                      //   height: height * 0.02,
-                      // ),
+                    
                       CustomText(
                         text: 'commingSoon'.tr,
                         fontSize: 16,

@@ -98,7 +98,7 @@ const localeAr = {
   "place": "منطقة تراثية",
   "adventure": "مغامرة",
   "adventures": "مغامرات",
-  "event": "فعالية",
+  "event": " فعالية محلية",
   "tellUsAboutPlace": "أخبرنا عن المكان حتى نتمكن من إضافته",
   "placeName": "أسم المنطقة",
   "placeLoc": "موقع المنطقة",
@@ -148,6 +148,7 @@ const localeAr = {
   'adventureName': 'اسم المغامرة',
   'time': 'الوقت',
   'total': 'مجموع',
+  'totalPrice': ' مجموع السعر',
   'totalPayment': 'مجموع المدفوع',
   'perPerson': 'للشخص',
   'explore': 'اكتشف',
@@ -253,7 +254,6 @@ const localeAr = {
   "expert": "خبير",
   "reviews": "تقييم",
   "checkout": "الذهاب للدفع",
-
   "creditAndDebit": "بطاقة ائتمانية",
   "addNewCard": "ادخل بيانات بطاقة",
   "other": "أو",
@@ -345,6 +345,10 @@ const localeAr = {
   "noTour": 'ليس لديك رحلات',
   "deleteAccount": 'حذف الحساب',
   "youWantDeleteYourAccount": 'هل تودأنت متأكد من حذف حسابك ؟',
-    "exploreAsGuest": 'استكشف كضيف',
-
-};
+  "exploreAsGuest": 'استكشف كضيف',
+  "whereWeWillBe": 'أين ستجدنا ',
+  "cancellationPolicy": 'سياسة الإلغاء',
+  "cancellationPolicyBreif": 'قم بالإلغاء قبل 7 أيام من جولتك لاسترداد أموالك بالكامل، أو خلال 24 ساعة من الحجز طالما تم الحجز قبل أكثر من 48 ساعة من الجولة.',
+  "locationWillBeAvailableAfterBooking": 'سيكون الموقع متاحًا بعد الحجز',
+  
+  };

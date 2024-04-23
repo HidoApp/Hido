@@ -17,7 +17,6 @@ class GeneralAddNewCreditCard extends StatefulWidget {
     required this.srvicesController,
     required this.hospitalityId,
     required this.date,
-    required this.time,
     required this.dayId,
     required this.numOfMale,
     required this.numOfFemale,
@@ -27,7 +26,7 @@ class GeneralAddNewCreditCard extends StatefulWidget {
   final SrvicesController srvicesController;
   final String hospitalityId;
   final String date;
-  final String time;
+
   final String dayId;
   final int numOfMale;
   final int numOfFemale;
@@ -375,7 +374,6 @@ class _GeneralAddNewCreditCardState extends State<GeneralAddNewCreditCard> {
                                                 check: true,
                                                 cost: widget.total,
                                                 date: widget.date,
-                                                time: widget.time,
                                                 hospitalityId:
                                                     widget.hospitalityId,
                                                 dayId: widget.dayId,
@@ -387,9 +385,10 @@ class _GeneralAddNewCreditCardState extends State<GeneralAddNewCreditCard> {
                                         });
 
                                         print("payment.payStatus");
-                                           print(payment.payStatus);
-                                        if (payment.payStatus == 'failed' || payment.payStatus == 'initiated' ) {
-                                        //  Get.back();
+                                        print(payment.payStatus);
+                                        if (payment.payStatus == 'failed' ||
+                                            payment.payStatus == 'initiated') {
+                                          //  Get.back();
 
                                           showDialog(
                                               context: context,
@@ -409,16 +408,13 @@ class _GeneralAddNewCreditCardState extends State<GeneralAddNewCreditCard> {
                                                   ),
                                                 );
                                               });
-                                        } 
-                                      else {
+                                        } else {
+                                          print('YES');
+                                          Get.back();
+                                          Get.back();
+                                          Get.back();
+                                          Get.back();
 
-                                        print('YES');
-                                        Get.back();
-                                        Get.back();
-                                        Get.back();
-                                        Get.back();
-                                       
-                                      
                                           showDialog(
                                               context: context,
                                               builder: (ctx) {
@@ -437,7 +433,8 @@ class _GeneralAddNewCreditCardState extends State<GeneralAddNewCreditCard> {
                                                   ),
                                                 );
                                               });
-                                        }}
+                                        }
+                                      }
 
                                       //   await   widget. srvicesController.checkHospitalityPayment(context: context, paymentId:  payment.payId);
 

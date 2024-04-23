@@ -546,8 +546,11 @@ void showReservationDetailsSheet({
                                     title: "reserve".tr,
                                     onPressed: ()async {
 
+                                   
+
+
                                       print(serviceController.selectedTime);
-                                 if(guestNum == 0 || serviceController.isHospatilityDateSelcted.value == false || serviceController.selectedTime.value == '') {
+                                 if(guestNum == 0 || serviceController.isHospatilityDateSelcted.value == false) {
                                   AppUtil.errorToast(context, 'Enter all data');
                                  } else {
 
@@ -558,7 +561,6 @@ void showReservationDetailsSheet({
                                     check: false, 
                                     hospitalityId: hospitality.id, 
                                     date:serviceController.selectedDate.value, 
-                                    time:'${ DateTime.parse(  hospitality.daysInfo[serviceController.selectedDateIndex.value].startTime).hour }:${ DateTime.parse(  hospitality.daysInfo[serviceController.selectedDateIndex.value].startTime).minute }:${ DateTime.parse(  hospitality.daysInfo[serviceController.selectedDateIndex.value].startTime).second }', 
                                     dayId: hospitality.daysInfo[serviceController.selectedDateIndex.value].id, 
                                     numOfMale: maleGuestNum, 
                                     numOfFemale: femaleGuestNum, 
@@ -573,7 +575,6 @@ void showReservationDetailsSheet({
                                         serviceController: serviceController,
                                         hospitalityId: hospitality.id ,
                                         date: serviceController.selectedDate.value,  
-                                         time:'${DateFormat('hh:mm:ss').format(DateTime.parse(  hospitality.daysInfo[serviceController.selectedDateIndex.value].startTime)) }', 
                                     dayId: hospitality.daysInfo[serviceController.selectedDateIndex.value].id, 
                                     numOfMale: maleGuestNum, 
                                     numOfFemale: femaleGuestNum, 

@@ -1,5 +1,7 @@
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/calender_dialog.dart';
+import 'package:ajwad_v4/payment/controller/payment_controller.dart';
+import 'package:ajwad_v4/payment/model/invoice.dart';
 import 'package:ajwad_v4/services/controller/serivces_controller.dart';
 import 'package:ajwad_v4/services/model/hospitality.dart';
 import 'package:ajwad_v4/services/view/payment/check_out_screen.dart';
@@ -7,13 +9,11 @@ import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/custom_text_with_icon_button.dart';
+import 'package:ajwad_v4/widgets/payment_web_view.dart';
 import 'package:bottom_picker/bottom_picker.dart';
-import 'package:bottom_picker/resources/arrays.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:intl/intl.dart';
 
 class ReservaationDetailsWidget extends StatefulWidget {
@@ -46,6 +46,11 @@ class _ReservaationDetailsWidgetState extends State<ReservaationDetailsWidget> {
   int femaleGuestNum = 0;
   int maleGuestNum = 0;
 
+  Invoice? invoice;
+  bool isCheckingForPayment = false;
+
+  PaymentController paymentController = Get.put(PaymentController());
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -62,18 +67,17 @@ class _ReservaationDetailsWidgetState extends State<ReservaationDetailsWidget> {
           return Align(
             alignment: Alignment.bottomCenter,
             child: Obx(
-              () => Container(
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(35),
-                  ),
-                  child: Form(
-                    key: _formKey,
-                    child: ListView(
-                        // crossAxisAlignment: CrossAxisAlignment.start,
-                        // mainAxisSize: MainAxisSize.min,
-                        children: [
+              () => Stack(
+                children: [
+                  Container(
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(35),
+                      ),
+                      child: Form(
+                        key: _formKey,
+                        child: ListView(children: [
                           const SizedBox(
                             height: 5,
                           ),
@@ -87,7 +91,7 @@ class _ReservaationDetailsWidgetState extends State<ReservaationDetailsWidget> {
                             text: "date".tr,
                             color: Colors.black,
                             fontSize: 14,
-                            fontWeight: FontWeight.w700,
+                            fontWeight: FontWeight.w500,
                           ),
                           SizedBox(
                             height: height * 0.02,
@@ -122,11 +126,11 @@ class _ReservaationDetailsWidgetState extends State<ReservaationDetailsWidget> {
                                   ? widget.serviceController.selectedDate.value
                                       .toString()
                                       .substring(0, 10)
-                                  : 'chooseFromCalender'.tr,
+                                  : 'mm/dd/yyy'.tr,
                               borderColor: lightGreyColor,
                               prefixIcon: SvgPicture.asset(
-                                "assets/icons/green_calendar.svg",
-                                color: widget.color,
+                                'assets/icons/Time (2).svg',
+                                //  color: widget.color,
                               ),
                               suffixIcon: Icon(
                                 Icons.arrow_forward_ios,
@@ -146,235 +150,6 @@ class _ReservaationDetailsWidgetState extends State<ReservaationDetailsWidget> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                CustomText(
-                                  text: "time".tr,
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                                // Row(
-                                //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-
-                                //   children: [
-                                //     Column(
-                                //       crossAxisAlignment: CrossAxisAlignment.start,
-                                //       children: [
-                                //         CustomText(
-                                //           text: "time".tr,
-                                //           color: Colors.black,
-                                //           fontSize: 14,
-                                //           fontWeight: FontWeight.w700,
-                                //         ),
-
-                                //          CustomText(
-                                //           text: DateFormat('hh:mm a')
-                                //         .format(DateTime.parse(hospitality!
-                                //                             .daysInfo[
-                                //                                 serviceController
-                                //                                     .selectedDateIndex
-                                //                                     .value]
-                                //                             .startTime)),
-                                //           color:darkGrey,
-                                //           fontSize: 12,
-                                //           fontWeight: FontWeight.w400,
-                                //         ),
-                                //       ],
-                                //     ),
-
-                                //  //   Spacer(),
-
-                                //      Column(
-                                //       crossAxisAlignment: CrossAxisAlignment.start,
-                                //       children: [
-                                //         CustomText(
-                                //           text: "endTime".tr,
-                                //           color: Colors.black,
-                                //           fontSize: 14,
-                                //           fontWeight: FontWeight.w700,
-                                //         ),
-
-                                //          CustomText(
-                                //           text: DateFormat('hh:mm a')
-                                //         .format(DateTime.parse(hospitality!
-                                //                             .daysInfo[
-                                //                                 serviceController
-                                //                                     .selectedDateIndex
-                                //                                     .value]
-                                //                             .endTime)),
-                                //            color:darkGrey,
-                                //           fontSize: 12,
-                                //           fontWeight: FontWeight.w400,
-                                //         ),
-                                //       ],
-                                //     ),
-                                //   ],
-                                // ),
-                                SizedBox(
-                                  height: height * 0.01,
-                                ),
-                                Align(
-                                  alignment: AppUtil.rtlDirection(context)
-                                      ? Alignment.centerLeft
-                                      : Alignment.centerRight,
-                                  child: CustomTextWithIconButton(
-                                    onTap: () {
-                                      _openTimePicker(context);
-
-                                      // showCupertinoModalPopup<void>(
-                                      //     context: context,
-                                      //     builder: (BuildContext context) {
-                                      //       return Column(
-                                      //         mainAxisAlignment:
-                                      //             MainAxisAlignment.end,
-                                      //         children: [
-                                      //           Container(
-                                      //             decoration:
-                                      //                 const BoxDecoration(
-                                      //               color: Color(0xffffffff),
-                                      //               border: Border(
-                                      //                 bottom: BorderSide(
-                                      //                   color:
-                                      //                       Color(0xff999999),
-                                      //                   width: 0.0,
-                                      //                 ),
-                                      //               ),
-                                      //             ),
-                                      //             child: Row(
-                                      //               mainAxisAlignment:
-                                      //                   MainAxisAlignment
-                                      //                       .spaceBetween,
-                                      //               children: <Widget>[
-                                      //                 CupertinoButton(
-                                      //                   onPressed: () {
-                                      //                     setState(() {
-                                      //                       Get.back();
-                                      //                       //    serviceController.selectedTime.value = newTime.toString();
-                                      //                     });
-                                      //                   },
-                                      //                   padding:
-                                      //                       const EdgeInsets
-                                      //                           .symmetric(
-                                      //                     horizontal: 16.0,
-                                      //                     vertical: 5.0,
-                                      //                   ),
-                                      //                   child:
-                                      //                       Text("confirm".tr),
-                                      //                 )
-                                      //               ],
-                                      //             ),
-                                      //           ),
-                                      //           Container(
-                                      //             height: 220,
-                                      //             width: width,
-                                      //             margin: EdgeInsets.only(
-                                      //               bottom:
-                                      //                   MediaQuery.of(context)
-                                      //                       .viewInsets
-                                      //                       .bottom,
-                                      //             ),
-                                      //             child: CupertinoDatePicker(
-                                      //               backgroundColor:
-                                      //                   Colors.white,
-                                      //               initialDateTime:
-                                      //                   DateTime.parse(widget
-                                      //                       .hospitality!
-                                      //                       .daysInfo[widget
-                                      //                           .serviceController
-                                      //                           .selectedDateIndex
-                                      //                           .value]
-                                      //                       .startTime),
-                                      //               minimumDate: DateTime.parse(
-                                      //                   widget
-                                      //                       .hospitality!
-                                      //                       .daysInfo[widget
-                                      //                           .serviceController
-                                      //                           .selectedDateIndex
-                                      //                           .value]
-                                      //                       .startTime),
-                                      //               maximumDate: DateTime.parse(
-                                      //                   widget
-                                      //                       .hospitality!
-                                      //                       .daysInfo[widget
-                                      //                           .serviceController
-                                      //                           .selectedDateIndex
-                                      //                           .value]
-                                      //                       .endTime),
-                                      //               // minimumDate: DateTime
-                                      //               //     .parse(hospitality
-                                      //               //         .daysInfo[
-                                      //               //             serviceController
-                                      //               //                 .selectedDateIndex
-                                      //               //                 .value]
-                                      //               //         .startTime),
-                                      //               // maximumDate: DateTime
-                                      //               //     .parse(hospitality
-                                      //               //         .daysInfo[
-                                      //               //             serviceController
-                                      //               //                 .selectedDateIndex
-                                      //               //                 .value]
-                                      //               //         .endTime),
-                                      //               mode:
-                                      //                   CupertinoDatePickerMode
-                                      //                       .time,
-                                      //               use24hFormat: false,
-                                      //               onDateTimeChanged:
-                                      //                   (DateTime newT) {
-                                      //                 // print(DateTime.parse(hospitality
-                                      //                 //   .daysInfo[
-                                      //                 //       serviceController
-                                      //                 //           .selectedDateIndex
-                                      //                 //           .value]
-                                      //                 //   .startTime));
-                                      //                 //  setState(() {
-                                      //                 widget.serviceController
-                                      //                     .selectedTime(
-                                      //                         newT.toString());
-                                      //                 // print(newT);
-                                      //                 //   print(  serviceController.selectedTime );
-                                      //                 print(
-                                      //                     'widget.  serviceController.selectedDateIndex');
-                                      //                 print(
-                                      //                     '${widget.serviceController.selectedDateIndex}');
-                                      //                 print('PARSING');
-                                      //                 print(
-                                      //                     "PARSING ${DateFormat('hh:mm:ss').format(DateTime.parse(newT.toString()))}");
-                                      //                 //   print(newTime);
-                                      //                 //  });
-                                      //               },
-                                      //             ),
-                                      //           ),
-                                      //         ],
-                                      //       );
-                                      //     });
-                                    },
-                                    height: height * 0.06,
-                                    width: width * 0.4,
-                                    title: widget.serviceController.selectedTime
-                                                .value ==
-                                            ""
-                                        ? ""
-                                        : DateFormat('hh:mm a').format(
-                                            DateTime.parse(widget
-                                                .serviceController
-                                                .selectedTime
-                                                .value)),
-                                    //  test,
-                                    borderColor: lightGreyColor,
-                                    prefixIcon: SvgPicture.asset(
-                                      widget.color == purple
-                                          ? "assets/icons/Group 33763.svg"
-                                          : 'assets/icons/Group 33780.svg',
-                                      //  color: color,
-                                    ),
-                                    suffixIcon: Container(),
-                                    textColor: almostGrey,
-                                  ),
-                                ),
-
-                                SizedBox(
-                                  height: height * 0.02,
-                                ),
-
                                 SizedBox(
                                   height: height * 0.02,
                                 ),
@@ -382,7 +157,7 @@ class _ReservaationDetailsWidgetState extends State<ReservaationDetailsWidget> {
                                   text: "guests2".tr,
                                   color: Colors.black,
                                   fontSize: 14,
-                                  fontWeight: FontWeight.w700,
+                                  fontWeight: FontWeight.w500,
                                 ),
                                 SizedBox(
                                   height: height * 0.01,
@@ -413,7 +188,7 @@ class _ReservaationDetailsWidgetState extends State<ReservaationDetailsWidget> {
                                     children: [
                                       CustomText(
                                         text: "male".tr,
-                                        fontWeight: FontWeight.w700,
+                                        fontWeight: FontWeight.w200,
                                         color: textGreyColor,
                                       ),
                                       Spacer(),
@@ -428,17 +203,17 @@ class _ReservaationDetailsWidgetState extends State<ReservaationDetailsWidget> {
                                               });
                                             }
                                           },
-                                          child: Icon(
+                                          child: const Icon(
                                               Icons.horizontal_rule_outlined,
-                                              color: widget.color)),
+                                              color: darkGrey)),
                                       const SizedBox(
                                         width: 15,
                                       ),
                                       CustomText(
                                         text: maleGuestNum.toString(),
-                                        color: colorDarkGrey,
+                                        color: tileGreyColor,
                                         fontSize: 18,
-                                        fontWeight: FontWeight.w700,
+                                        fontWeight: FontWeight.w400,
                                       ),
                                       const SizedBox(
                                         width: 15,
@@ -459,8 +234,8 @@ class _ReservaationDetailsWidgetState extends State<ReservaationDetailsWidget> {
                                               });
                                             }
                                           },
-                                          child: Icon(Icons.add,
-                                              color: widget.color)),
+                                          child: const Icon(Icons.add,
+                                              color: darkGrey)),
                                     ],
                                   ),
                                 ),
@@ -481,8 +256,9 @@ class _ReservaationDetailsWidgetState extends State<ReservaationDetailsWidget> {
                                     children: [
                                       CustomText(
                                         text: "female".tr,
-                                        fontWeight: FontWeight.w700,
+                                        fontWeight: FontWeight.w200,
                                         color: textGreyColor,
+                                        fontSize: 14,
                                       ),
                                       Spacer(),
                                       GestureDetector(
@@ -497,15 +273,15 @@ class _ReservaationDetailsWidgetState extends State<ReservaationDetailsWidget> {
                                               });
                                             }
                                           },
-                                          child: Icon(
+                                          child: const Icon(
                                               Icons.horizontal_rule_outlined,
-                                              color: widget.color)),
+                                              color: darkGrey)),
                                       const SizedBox(
                                         width: 15,
                                       ),
                                       CustomText(
                                         text: femaleGuestNum.toString(),
-                                        color: colorDarkGrey,
+                                        color: tileGreyColor,
                                         fontSize: 18,
                                         fontWeight: FontWeight.w700,
                                       ),
@@ -529,8 +305,8 @@ class _ReservaationDetailsWidgetState extends State<ReservaationDetailsWidget> {
                                               });
                                             }
                                           },
-                                          child: Icon(Icons.add,
-                                              color: widget.color)),
+                                          child: const Icon(Icons.add,
+                                              color: darkGrey)),
                                     ],
                                   ),
                                 ),
@@ -544,7 +320,7 @@ class _ReservaationDetailsWidgetState extends State<ReservaationDetailsWidget> {
                               Column(
                                 children: [
                                   CustomText(
-                                    text: "preliminaryCost".tr,
+                                    text: "totaltotalPrice".tr,
                                     fontSize: 12,
                                   ),
                                   const SizedBox(
@@ -561,89 +337,219 @@ class _ReservaationDetailsWidgetState extends State<ReservaationDetailsWidget> {
                                 ],
                               ),
                               Spacer(),
-                              CustomButton(
-                                buttonColor: widget.color,
-                                iconColor: widget.color == purple
-                                    ? darkPurple
-                                    : darkPink,
-                                title: "checkout".tr,
-                                onPressed: () async {
-                              
-                                
-                                  if (guestNum == 0 ||
-                                      widget.serviceController
-                                              .isHospatilityDateSelcted.value ==
-                                          false ||
-                                      widget.serviceController.selectedTime
-                                              .value ==
-                                          '') {
-                                    AppUtil.errorToast(
-                                        context, 'Enter all data');
-                                  } else {
-                                    final isSuccess = await widget
-                                        .serviceController
-                                        .checkAndBookHospitality(
-                                            context: context,
-                                            check: false,
-                                            hospitalityId:
-                                                widget.hospitality!.id,
-                                            date: widget.serviceController
-                                                .selectedDate.value,
-                                            time:
-                                                '${widget.serviceController.selectedTime.substring(11)}',
-                                            //   '${widget.hospitality!.daysInfo[widget.serviceController.selectedDateIndex.value].startTime.substring(11)}',
-                                            dayId: widget
-                                                .hospitality!
-                                                .daysInfo[widget
+                           widget.serviceController.isCheckAndBookLoading.value  ||  paymentController.isPaymenInvoiceLoading.value
+                                  ? const Center(
+                                      child: CircularProgressIndicator(
+                                      color: purple,
+                                    ))
+                                  : CustomButton(
+                                      buttonColor: widget.color,
+                                      iconColor: widget.color == purple
+                                          ? darkPurple
+                                          : darkPink,
+                                      title: "book".tr,
+                                      onPressed: () async {
+                                        if (guestNum == 0 ||
+                                            widget
                                                     .serviceController
-                                                    .selectedDateIndex
-                                                    .value]
-                                                .id,
-                                            numOfMale: maleGuestNum,
-                                            numOfFemale: femaleGuestNum,
-                                            cost: (widget.hospitality!.price *
-                                                guestNum));
+                                                    .isHospatilityDateSelcted
+                                                    .value ==
+                                                false) {
+                                          AppUtil.errorToast(
+                                              context, 'Enter all data');
+                                        } else {
+                                          final isSuccess = await widget
+                                              .serviceController
+                                              .checkAndBookHospitality(
+                                                  context: context,
+                                                  check: false,
+                                                  hospitalityId:
+                                                      widget.hospitality!.id,
+                                                  date: widget.serviceController
+                                                      .selectedDate.value,
 
-                                    print("isSuccess : $isSuccess");
+                                                  //   '${widget.hospitality!.daysInfo[widget.serviceController.selectedDateIndex.value].startTime.substring(11)}',
+                                                  dayId: widget
+                                                      .hospitality!
+                                                      .daysInfo[widget
+                                                          .serviceController
+                                                          .selectedDateIndex
+                                                          .value]
+                                                      .id,
+                                                  numOfMale: maleGuestNum,
+                                                  numOfFemale: femaleGuestNum,
+                                                  cost: (widget
+                                                          .hospitality!.price *
+                                                      guestNum));
 
-                                    if (isSuccess) {
-                                      Get.to(() => GeneralCheckOutScreen(
-                                            total: widget.hospitality!.price *
-                                                guestNum,
-                                            serviceController:
-                                                widget.serviceController,
-                                            hospitalityId:
-                                                widget.hospitality!.id,
-                                            date: widget.serviceController
-                                                .selectedDate.value,
-                                            time:
-                                                '${widget.serviceController.selectedTime.substring(11)}',
-                                            dayId: widget
-                                                .hospitality!
-                                                .daysInfo[widget
-                                                    .serviceController
-                                                    .selectedDateIndex
-                                                    .value]
-                                                .id,
-                                            numOfMale: maleGuestNum,
-                                            numOfFemale: femaleGuestNum,
-                                          ));
-                                      // serviceController.hospitalityPayment(context: context, hospitalityId:  hospitality.id);
-                                    }
-                                  }
-                                },
-                                icon: !AppUtil.rtlDirection(context)
-                                    ? const Icon(Icons.arrow_back_ios)
-                                    : const Icon(Icons.arrow_forward_ios),
-                                customWidth: width * 0.5,
-                              )
+                                          print("isSuccess : $isSuccess");
+
+                                          if (isSuccess) {
+                                            print("invoice != null");
+                                            print(invoice != null);
+
+                                            invoice ??= await paymentController
+                                                .paymentInvoice(
+                                                    context: context,
+                                                    description: 'DESCRIPTION',
+                                                    amount: (widget.hospitality!
+                                                            .price *
+                                                        guestNum));
+                                            if (invoice != null) {
+                                              Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              PaymentWebView(
+                                                                  url: invoice!
+                                                                      .url!,
+                                                                  title:
+                                                                      'Payment')))
+                                                  .then((value) async {
+                                                setState(() {
+                                                  isCheckingForPayment = true;
+                                                });
+
+                                                final checkInvoice =
+                                                    await paymentController
+                                                        .paymentInvoiceById(
+                                                            context: context,
+                                                            id: invoice!.id);
+
+                                                if (checkInvoice!
+                                                        .invoiceStatus !=
+                                                    'faild') {
+                                                  final isSuccess = await widget
+                                                      .serviceController
+                                                      .checkAndBookHospitality(
+                                                          context: context,
+                                                          check: true,
+                                                          cost: (widget
+                                                                  .hospitality!
+                                                                  .price *
+                                                              guestNum),
+                                                          date: widget
+                                                              .serviceController
+                                                              .selectedDate
+                                                              .value,
+                                                          hospitalityId: widget
+                                                              .hospitality!.id,
+                                                          dayId: widget
+                                                              .hospitality!
+                                                              .daysInfo[widget
+                                                                  .serviceController
+                                                                  .selectedDateIndex
+                                                                  .value]
+                                                              .id,
+                                                          numOfMale:
+                                                              maleGuestNum,
+                                                          numOfFemale:
+                                                              femaleGuestNum,
+                                                          paymentId:
+                                                              invoice!.id);
+                                                  setState(() {
+                                                    isCheckingForPayment =
+                                                        false;
+                                                  });
+
+                                                  if (checkInvoice
+                                                              .invoiceStatus ==
+                                                          'failed' ||
+                                                      checkInvoice
+                                                              .invoiceStatus ==
+                                                          'initiated') {
+                                                    //  Get.back();
+
+                                                    showDialog(
+                                                        context: context,
+                                                        builder: (ctx) {
+                                                          return AlertDialog(
+                                                            backgroundColor:
+                                                                Colors.white,
+                                                            content: Column(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .min,
+                                                              children: [
+                                                                Image.asset(
+                                                                    'assets/images/paymentFaild.gif'),
+                                                                CustomText(
+                                                                    text:
+                                                                        "paymentFaild"
+                                                                            .tr),
+                                                              ],
+                                                            ),
+                                                          );
+                                                        });
+                                                  } else {
+                                                    print('YES');
+                                                    Get.back();
+                                                    Get.back();
+                                                  
+
+                                                    showDialog(
+                                                        context: context,
+                                                        builder: (ctx) {
+                                                          return AlertDialog(
+                                                            backgroundColor:
+                                                                Colors.white,
+                                                            content: Column(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .min,
+                                                              children: [
+                                                                Image.asset(
+                                                                    'assets/images/paymentSuccess.gif'),
+                                                                CustomText(
+                                                                    text:
+                                                                        "paymentSuccess"
+                                                                            .tr),
+                                                              ],
+                                                            ),
+                                                          );
+                                                        });
+                                                  }
+                                                } else {}
+                                              });
+                                            }
+                                          }
+                                        }
+                                      },
+                                      icon: !AppUtil.rtlDirection(context)
+                                          ? const Icon(Icons.arrow_back_ios)
+                                          : const Icon(Icons.arrow_forward_ios),
+                                      customWidth: width * 0.5,
+                                    )
                             ],
                           ),
                           SizedBox(
                             height: height * 0.05,
                           ),
                         ]),
-                  )),
+                      )),
+                  if (isCheckingForPayment)
+                    Center(
+                        child: Container(
+                            height: 150,
+                            width: 180,
+                            padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(color: Colors.white),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                CircularProgressIndicator.adaptive(),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                CustomText(
+                                  text: 'checkingForPayment'.tr,
+                                  color: colorGreen,
+                                  fontWeight: FontWeight.w600,
+                                )
+                              ],
+                            )))
+                ],
+              ),
             ),
           );
         }),
@@ -713,29 +619,3 @@ class _ReservaationDetailsWidgetState extends State<ReservaationDetailsWidget> {
     ).show(context);
   }
 }
-
-
-     //               initialDateTime:
-                                      //                   DateTime.parse(widget
-                                      //                       .hospitality!
-                                      //                       .daysInfo[widget
-                                      //                           .serviceController
-                                      //                           .selectedDateIndex
-                                      //                           .value]
-                                      //                       .startTime),
-                                                    // minimumDate: DateTime.parse(
-                                                    //     widget
-                                                    //         .hospitality!
-                                                    //         .daysInfo[widget
-                                                    //             .serviceController
-                                                    //             .selectedDateIndex
-                                                    //             .value]
-                                                    //         .startTime),
-                                      //               maximumDate: DateTime.parse(
-                                      //                   widget
-                                      //                       .hospitality!
-                                      //                       .daysInfo[widget
-                                      //                           .serviceController
-                                      //                           .selectedDateIndex
-                                      //                           .value]
-                                      //                       .endTime),
