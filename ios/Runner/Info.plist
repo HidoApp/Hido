@@ -32,13 +32,13 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Hido needs to know your current location in order to show you nearby requests to your location</string>
+	<string>For reliable tours, Hido collects location data throughout your tour, from opening the app until the guided portion ends, to ensure smooth pickups, offer real-time support, and more </string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Hido needs to know your current location in order to show you nearby requests to your location</string>
+	<string>For reliable tours, Hido collects location data throughout your tour, from opening the app until the guided portion ends, to ensure smooth pickups, offer real-time support, and more </string>
 	<key>NSLocationUsageDescription</key>
-	<string>Hido needs to know your current location in order to show you nearby requests to your location</string>
+	<string>For reliable tours, Hido collects location data throughout your tour, from opening the app until the guided portion ends, to ensure smooth pickups, offer real-time support, and more </string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Hido needs to know your current location in order to show you nearby requests to your location</string>
+	<string>For reliable tours, Hido collects location data throughout your tour, from opening the app until the guided portion ends, to ensure smooth pickups, offer real-time support, and more </string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Need to accses Album to add trip images</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>

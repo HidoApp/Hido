@@ -210,7 +210,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                       color: colorGreen,
                                     )
                                   : CustomElevatedButton(
-                                      title: 'login'.tr.toUpperCase(),
+                                      title: 'signIn'.tr.toUpperCase(),
                                       onPressed: () async {
                                         if (_formKey.currentState!.validate()) {
                                           if (!AppUtil.isEmailValidate(
