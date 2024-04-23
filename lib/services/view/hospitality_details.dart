@@ -464,7 +464,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                             //           )),
                             //         ],
                             //       )
-                            //     :
+
 
                             Stack(
                               children: [

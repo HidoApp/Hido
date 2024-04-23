@@ -337,10 +337,9 @@ class _ReservaationDetailsWidgetState extends State<ReservaationDetailsWidget> {
                                 ],
                               ),
                               Spacer(),
-                              widget.serviceController.isCheckAndBookLoading
-                                          .value ||
-                                      paymentController
-                                          .isPaymenInvoiceLoading.value
+
+                           widget.serviceController.isCheckAndBookLoading.value  ||  paymentController.isPaymenInvoiceLoading.value
+
                                   ? const Center(
                                       child: CircularProgressIndicator(
                                       color: purple,

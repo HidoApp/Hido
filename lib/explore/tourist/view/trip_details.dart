@@ -545,6 +545,7 @@ class _TripDetailsState extends State<TripDetails> {
                     //         ? CustomButton(
                     //             onPressed: () {
                     //            AppUtil.isGuest() ? Get.to(() => const SignInScreen()):
+
                                
                     //              showModalBottomSheet(
                     //                   useRootNavigator: true,
