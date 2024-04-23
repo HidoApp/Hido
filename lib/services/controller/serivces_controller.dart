@@ -64,7 +64,7 @@ class SrvicesController extends GetxController {
     String? paymentId,
     required String hospitalityId,
     required String date,
-    required String time,
+
     required String dayId,
     required int numOfMale,
     required int numOfFemale,
@@ -73,7 +73,7 @@ class SrvicesController extends GetxController {
     try {
       print("TRUE");
       isCheckAndBookLoading(true);
-      print('  \ncheck: $check, \n hospitalityId:$hospitalityId, paymentId: $paymentId,\n ,date: $date, time: $time,dayId: $dayId, numOfFemale: $numOfFemale, numOfMale: $numOfMale, cost: $cost');
+      print('  \ncheck: $check, \n hospitalityId:$hospitalityId, paymentId: $paymentId,\n ,date: $date,dayId: $dayId, numOfFemale: $numOfFemale, numOfMale: $numOfMale, cost: $cost');
 
       final data = await ServicesService.checkAndBookHospitality(
         context: context,
@@ -81,7 +81,7 @@ class SrvicesController extends GetxController {
         hospitalityId: hospitalityId,
         paymentId: paymentId,
         date: date,
-        time: time,
+
         dayId: dayId,
         numOfFemale: numOfFemale,
         numOfMale: numOfMale,

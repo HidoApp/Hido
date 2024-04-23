@@ -80,6 +80,8 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
   void getHospitalityById() async {
     hospitalityObj = (await _servicesController.getHospitalityById(
         context: context, id: widget.hospitalityId));
+
+        
     for (var day in hospitalityObj!.daysInfo) {
       print(day.startTime);
       avilableDate.add(DateTime.parse(day.startTime.substring(0, 10)));
@@ -462,7 +464,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                             //           )),
                             //         ],
                             //       )
-                            //     :
+
 
                             Stack(
                               children: [

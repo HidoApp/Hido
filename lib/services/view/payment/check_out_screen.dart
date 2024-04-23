@@ -16,14 +16,13 @@ import 'add_new_card_sheet.dart';
 class GeneralCheckOutScreen extends StatefulWidget {
   const GeneralCheckOutScreen({
     Key? key,
-   required this.total, required this.serviceController, required this.hospitalityId, required this.date, required this.time, required this.dayId, required this.numOfMale, required this.numOfFemale,
+   required this.total, required this.serviceController, required this.hospitalityId, required this.date, required this.dayId, required this.numOfMale, required this.numOfFemale,
   }) : super(key: key);
 
   final int total;
   final SrvicesController serviceController;
   final String hospitalityId ;
   final String date ;
-  final String time ;
   final String dayId ;
   final int numOfMale ;
   final int numOfFemale ;
@@ -187,7 +186,7 @@ class _GeneralCheckOutScreenState extends State<GeneralCheckOutScreen> {
                                         total: widget.total,
                                         srvicesController: widget.serviceController,
                                         date: widget.date,
-                                        time: widget.time,
+                              
                                         hospitalityId: widget.hospitalityId,
                                         dayId: widget.dayId,
                                         numOfFemale: widget.numOfFemale,

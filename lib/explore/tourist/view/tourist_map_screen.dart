@@ -551,6 +551,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                                                           .touristModel
                                                           .value!
                                                           .places![index]
+
                                                           .nameAr!
                                                       : searchedPlaces[index]
                                                           .nameAr!
@@ -576,6 +577,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                                                               null
                                                           ? ""
                                                           : searchedPlaces[
+
                                                                           index]
                                                                       .regionAr ==
                                                                   null

@@ -62,6 +62,7 @@ class OfferController extends GetxController {
   Future<AcceptedOffer?> acceptOffer({
     required BuildContext context,
     required String offerId,
+    required String invoiceId,
     required List<Schedule> schedules,
   }) async {
     try {
@@ -69,6 +70,7 @@ class OfferController extends GetxController {
       final data = await OfferService.acceptOffer(
         context: context,
         offerId: offerId,
+        invoiceId: invoiceId,
         schedules: schedules,
       );
       acceptedOffer(data);
