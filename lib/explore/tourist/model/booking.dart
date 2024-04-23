@@ -6,7 +6,8 @@ class Booking {
   final String? placeId;
   final String? chatId;
   final String date;
-  final String time;
+  final String timeToGo;
+  final String timeToReturn;
   final int? guestNumber;
   final dynamic cost;
   final String? vehicleType;
@@ -19,7 +20,8 @@ class Booking {
     this.placeId,
     this.chatId,
     required this.date,
-    required this.time,
+    required this.timeToGo,
+    required this.timeToReturn,
     this.guestNumber,
     this.cost,
     this.vehicleType,
@@ -35,7 +37,8 @@ class Booking {
       chatId: json['chatId'],
       date: json['date'],
       orderStatus: json['orderStatus'],
-      time: json['time'],
+      timeToGo: json['timeToGo'],
+      timeToReturn: json['timeToReturn'],
       guestNumber: json['guestNumber'],
       cost: json['cost'],
       vehicleType: json['vehicleType'],
@@ -50,7 +53,8 @@ class Booking {
     return {
       'id': id,
       'date': date,
-      'time': time,
+      'timeToGo': timeToGo,
+      "timeToReturn": timeToReturn,
       'guestNumber': guestNumber,
       'cost': cost,
       'vehicleType': vehicleType,

@@ -157,10 +157,12 @@ class _ServiceScreenState extends State<ServiceScreen>
 
                             InkWell(
                               onTap: () {
-                              
-                                Get.to(() =>  AppUtil.isGuest()
+                                Get.to(() => AppUtil.isGuest()
                                     ? const SignInScreen()
-                                    :  Scaffold(body: Center(child: CustomText(text: 'Comming soon'),)));
+                                    : Scaffold(
+                                        body: Center(
+                                        child: CustomText(text: 'Comming soon'),
+                                      )));
                               },
                               child: Container(
                                 width: 36,
@@ -219,7 +221,6 @@ class _ServiceScreenState extends State<ServiceScreen>
                   textDirection: TextDirection.ltr,
                   child: TabBar(
                     controller: _tabController,
-                    
                     indicator: const BoxDecoration(
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(12),
@@ -250,7 +251,7 @@ class _ServiceScreenState extends State<ServiceScreen>
                           ),
                         ),
                       ),
-                        Padding(
+                      Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 18),
                         child: CustomText(
                           text: "events".tr,
@@ -274,7 +275,6 @@ class _ServiceScreenState extends State<ServiceScreen>
                           fontSize: 12,
                         ),
                       ),
-                    
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 18),
                         child: CustomText(
@@ -299,10 +299,10 @@ class _ServiceScreenState extends State<ServiceScreen>
                   HospitalityTab(
                     isAviailable: true,
                   ),
-                  
                   EventsTab(
                     isAviailable: false,
-                  ),AdventuresTab(
+                  ),
+                  AdventuresTab(
                     isAviailable: false,
                   ),
                   RestaurantsTab(

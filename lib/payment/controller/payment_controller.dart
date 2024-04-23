@@ -65,7 +65,8 @@ class PaymentController extends GetxController {
       print(e);
       return null;
     } finally {
-      isPaymenInvoiceLoading(false);
+    isPaymenInvoiceLoading(false);
+
     }
   }
 

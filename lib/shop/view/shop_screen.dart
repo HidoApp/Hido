@@ -33,149 +33,141 @@ class _ShopScreenState extends State<ShopScreen> {
     'accessories',
     'perfum'
   ];
-  List<Color> colors = [
-    reddishOrange,
-    gold,
-    pink,
-    blue,
-    colorGreen,
-    purple
-  ];
+  List<Color> colors = [reddishOrange, gold, pink, blue, colorGreen, purple];
 
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
-        final double height = MediaQuery.of(context).size.height;
+    final double height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 16).copyWith(top: 49),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              textDirection: TextDirection.ltr,
-              children: [
-                InkWell(
-                  onTap: () {},
-                  child: Container(
-                    height: 36,
-                    width: width * 0.536,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(18),
-                    ),
-                    alignment: Alignment.center,
-                    // child: Row(
-                    //   children: [
-                    //     const SizedBox(
-                    //       width: 22,
-                    //     ),
-                    //     SvgPicture.asset(
-                    //       'assets/icons/search.svg',
-                    //     ),
-                    //     const SizedBox(
-                    //       width: 12,
-                    //     ),
-                    //     CustomText(
-                    //       text: 'search'.tr,
-                    //       fontSize: 14,
-                    //       fontWeight: FontWeight.w400,
-                    //       color: thinGrey.withOpacity(0.5),
-                    //     ),
-                    //   ],
-                    // ),
-                  ),
-                ),
-                InkWell(
-                  onTap: () {},
-                  child: Container(
-                    width: 36,
-                    height: 36,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                  //    color: pink,
-                    ),
-                    alignment: Alignment.center,
-                 //   child: SvgPicture.asset('assets/icons/heart-filled.svg'),
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                  //  Get.to(() => const TicketScreen());
-                  },
-                  child: Container(
-                    width: 36,
-                    height: 36,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                   //   color: blue,
-                    ),
-                    alignment: Alignment.center,
-                 //   child: SvgPicture.asset('assets/icons/bag.svg'),
-                  ),
-                ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   textDirection: TextDirection.ltr,
+            //   children: [
+            //     InkWell(
+            //       onTap: () {},
+            //       child: Container(
+            //         height: 36,
+            //         width: width * 0.536,
+            //         decoration: BoxDecoration(
+            //           color: Colors.white,
+            //           borderRadius: BorderRadius.circular(18),
+            //         ),
+            //         alignment: Alignment.center,
+            //         // child: Row(
+            //         //   children: [
+            //         //     const SizedBox(
+            //         //       width: 22,
+            //         //     ),
+            //         //     SvgPicture.asset(
+            //         //       'assets/icons/search.svg',
+            //         //     ),
+            //         //     const SizedBox(
+            //         //       width: 12,
+            //         //     ),
+            //         //     CustomText(
+            //         //       text: 'search'.tr,
+            //         //       fontSize: 14,
+            //         //       fontWeight: FontWeight.w400,
+            //         //       color: thinGrey.withOpacity(0.5),
+            //         //     ),
+            //         //   ],
+            //         // ),
+            //       ),
+            //     ),
+            //     InkWell(
+            //       onTap: () {},
+            //       child: Container(
+            //         width: 36,
+            //         height: 36,
+            //         decoration: const BoxDecoration(
+            //           shape: BoxShape.circle,
+            //       //    color: pink,
+            //         ),
+            //         alignment: Alignment.center,
+            //      //   child: SvgPicture.asset('assets/icons/heart-filled.svg'),
+            //       ),
+            //     ),
+            //     InkWell(
+            //       onTap: () {
+            //       //  Get.to(() => const TicketScreen());
+            //       },
+            //       child: Container(
+            //         width: 36,
+            //         height: 36,
+            //         decoration: const BoxDecoration(
+            //           shape: BoxShape.circle,
+            //        //   color: blue,
+            //         ),
+            //         alignment: Alignment.center,
+            //      //   child: SvgPicture.asset('assets/icons/bag.svg'),
+            //       ),
+            //     ),
 
+            //    InkWell(
+            //                 onTap: () {
 
-               InkWell(
-                            onTap: () {
-                              
-                          ProfileController _profileController = Get.put(ProfileController());
-                            Get.to(() 
-                               =>  AppUtil.isGuest()
-              ? const SignInScreen()
-              :TicketScreen(profileController:_profileController));
-                      
-                              //   Get.to(() => const TicketScreen());
-                            },
-                            child: Container(
-                              width: 36,
-                              height: 36,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: reddishOrange,
-                              ),
-                              alignment: Alignment.center,
-                              child:
-                                  SvgPicture.asset('assets/icons/ticket.svg'),
-                            ),
-                          ),
-                              InkWell(
-                         onTap: () {
-                            ProfileController _profileController = Get.put(ProfileController());
-                          Get.to(() =>
-                           AppUtil.isGuest()
-              ? const SignInScreen()
-              : MessagesScreen(  profileController: _profileController));
-                        },
-                        child: Container(
-                          width: 36,
-                          height: 36,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: pink,
-                          ),
-                          alignment: Alignment.center,
-                          child: SvgPicture.asset('assets/icons/message.svg'),
-                        ),
-                      ),
-                // InkWell(
-                //   onTap: () {
-                //     Get.to(() => const NotificationScreen());
-                //   },
-                //   child: Container(
-                //     width: 36,
-                //     height: 36,
-                //     decoration: const BoxDecoration(
-                //       shape: BoxShape.circle,
-                //       color: colorGreen,
-                //     ),
-                //     alignment: Alignment.center,
-                //     child: SvgPicture.asset('assets/icons/notifications.svg'),
-                //   ),
-                // ),
-              ],
-            ),
+            //               ProfileController _profileController = Get.put(ProfileController());
+            //                 Get.to(()
+            //                    =>  AppUtil.isGuest()
+            //   ? const SignInScreen()
+            //   :TicketScreen(profileController:_profileController));
+
+            //                   //   Get.to(() => const TicketScreen());
+            //                 },
+            //                 child: Container(
+            //                   width: 36,
+            //                   height: 36,
+            //                   decoration: const BoxDecoration(
+            //                     shape: BoxShape.circle,
+            //                     color: reddishOrange,
+            //                   ),
+            //                   alignment: Alignment.center,
+            //                   child:
+            //                       SvgPicture.asset('assets/icons/ticket.svg'),
+            //                 ),
+            //               ),
+            //                   InkWell(
+            //              onTap: () {
+            //                 ProfileController _profileController = Get.put(ProfileController());
+            //               Get.to(() =>
+            //                AppUtil.isGuest()
+            //   ? const SignInScreen()
+            //   : MessagesScreen(  profileController: _profileController));
+            //             },
+            //             child: Container(
+            //               width: 36,
+            //               height: 36,
+            //               decoration: const BoxDecoration(
+            //                 shape: BoxShape.circle,
+            //                 color: pink,
+            //               ),
+            //               alignment: Alignment.center,
+            //               child: SvgPicture.asset('assets/icons/message.svg'),
+            //             ),
+            //           ),
+            //     // InkWell(
+            //     //   onTap: () {
+            //     //     Get.to(() => const NotificationScreen());
+            //     //   },
+            //     //   child: Container(
+            //     //     width: 36,
+            //     //     height: 36,
+            //     //     decoration: const BoxDecoration(
+            //     //       shape: BoxShape.circle,
+            //     //       color: colorGreen,
+            //     //     ),
+            //     //     alignment: Alignment.center,
+            //     //     child: SvgPicture.asset('assets/icons/notifications.svg'),
+            //     //   ),
+            //     // ),
+            //   ],
+            // ),
             const SizedBox(
               height: 22,
             ),
@@ -256,117 +248,120 @@ class _ShopScreenState extends State<ShopScreen> {
             ),
             SizedBox(
               height: 250,
-              child:!isAvilablee ? Center(
-                child: Column(
-                    children: [
-                      SizedBox(
-                        height: height * 0.04,
+              child: !isAvilablee
+                  ? Center(
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: height * 0.04,
+                          ),
+                          // Image.asset(
+                          //   'assets/images/hido_logo.png',
+                          //   color: blue,
+                          // ),
+                          // SizedBox(
+                          //   height: height * 0.02,
+                          // ),
+                          CustomText(
+                            text: 'commingSoon'.tr,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w200,
+                            textAlign: TextAlign.center,
+                            color: colorDarkGrey,
+                          )
+                        ],
                       ),
-                      // Image.asset(
-                      //   'assets/images/hido_logo.png',
-                      //   color: blue,
-                      // ),
-                      // SizedBox(
-                      //   height: height * 0.02,
-                      // ),
-                      CustomText(
-                        text: 'commingSoon'.tr,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w200,
-                        textAlign: TextAlign.center,
-                        color: colorDarkGrey,
-                      )
-                    ],
-                  ),
-              ):  ListView.separated(
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                itemCount: 4,
-                separatorBuilder: (context, index) {
-                  return const SizedBox(
-                    width: 16,
-                  );
-                },
-                itemBuilder: (context, index) {
-                  return SizedBox(
-                    width: 135,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Get.to(() => ProductDetails());
-                          },
-                          child: Stack(
-                            alignment: AlignmentDirectional.topEnd,
+                    )
+                  : ListView.separated(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: 4,
+                      separatorBuilder: (context, index) {
+                        return const SizedBox(
+                          width: 16,
+                        );
+                      },
+                      itemBuilder: (context, index) {
+                        return SizedBox(
+                          width: 135,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Image.asset('assets/images/soap.png'),
-                              Positioned(
-                                top: 6.56,
-                                left: 6.56,
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 7),
-                                  decoration: const BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(4)),
-                                    color: colorGreen,
-                                  ),
-                                  child: CustomText(
-                                    text: 'new'.tr,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.white,
-                                    textAlign: TextAlign.center,
-                                  ),
+                              GestureDetector(
+                                onTap: () {
+                                  Get.to(() => ProductDetails());
+                                },
+                                child: Stack(
+                                  alignment: AlignmentDirectional.topEnd,
+                                  children: [
+                                    Image.asset('assets/images/soap.png'),
+                                    Positioned(
+                                      top: 6.56,
+                                      left: 6.56,
+                                      child: Container(
+                                        alignment: Alignment.center,
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 7),
+                                        decoration: const BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(4)),
+                                          color: colorGreen,
+                                        ),
+                                        child: CustomText(
+                                          text: 'new'.tr,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.white,
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  CustomText(
+                                    text: AppUtil.rtlDirection(context)
+                                        ? 'صابونةاللافندر'
+                                        : 'Soap Lavender',
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        soapIndex = index;
+                                        isSoapFavorite = !isSoapFavorite;
+                                      });
+                                    },
+                                    child: SvgPicture.asset(
+                                        'assets/icons/${isSoapFavorite && soapIndex == index ? 'heart_filled' : 'heart_outlined'}.svg'),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 3,
+                              ),
+                              CustomText(
+                                text: AppUtil.rtlDirection(context)
+                                    ? 'هي صابونية طبيعية مصنوعة من مزيج فريد من الحلبة واللافندر الطبيعيين، والذين يعرفون بفوائدهما المهدئة للبشرة. يتميز هذا الصابون بتركيبته الطبيعية التي تنظف البشرة بلطف وترطبها بشكل فعال، مع ترك رائحة اللافندر العطرية الرائعة على الجلد.'
+                                    : 'Wooden bedside table featuring a raised desi...',
+                                fontSize: 10,
+                                fontWeight: FontWeight.w400,
+                                maxlines: 2,
+                                color: almostGrey,
                               ),
                             ],
                           ),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            CustomText(
-                              text: AppUtil.rtlDirection(context)
-                                  ? 'صابونةاللافندر'
-                                  : 'Soap Lavender',
-                              fontSize: 14,
-                              fontWeight: FontWeight.w700,
-                            ),
-                            InkWell(
-                              onTap: () {
-                                setState(() {
-                                  soapIndex = index;
-                                  isSoapFavorite = !isSoapFavorite;
-                                });
-                              },
-                              child: SvgPicture.asset(
-                                  'assets/icons/${isSoapFavorite && soapIndex == index ? 'heart_filled' : 'heart_outlined'}.svg'),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 3,
-                        ),
-                        CustomText(
-                          text: AppUtil.rtlDirection(context)
-                              ? 'هي صابونية طبيعية مصنوعة من مزيج فريد من الحلبة واللافندر الطبيعيين، والذين يعرفون بفوائدهما المهدئة للبشرة. يتميز هذا الصابون بتركيبته الطبيعية التي تنظف البشرة بلطف وترطبها بشكل فعال، مع ترك رائحة اللافندر العطرية الرائعة على الجلد.'
-                              : 'Wooden bedside table featuring a raised desi...',
-                          fontSize: 10,
-                          fontWeight: FontWeight.w400,
-                          maxlines: 2,
-                          color: almostGrey,
-                        ),
-                      ],
+                        );
+                      },
                     ),
-                  );
-                },
-              ),
             ),
             CustomText(
               text: 'accessories'.tr,
@@ -378,113 +373,116 @@ class _ShopScreenState extends State<ShopScreen> {
             ),
             SizedBox(
               height: 250,
-              child: !isAvilablee ? Center(
-                child: Column(
-                    children: [
-                      SizedBox(
-                        height: height * 0.04,
+              child: !isAvilablee
+                  ? Center(
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: height * 0.04,
+                          ),
+                          // Image.asset(
+                          //   'assets/images/hido_logo.png',
+                          //   color: blue,
+                          // ),
+                          // SizedBox(
+                          //   height: height * 0.02,
+                          // ),
+                          CustomText(
+                            text: 'commingSoon'.tr,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w200,
+                            textAlign: TextAlign.center,
+                            color: colorDarkGrey,
+                          )
+                        ],
                       ),
-                      // Image.asset(
-                      //   'assets/images/hido_logo.png',
-                      //   color: blue,
-                      // ),
-                      // SizedBox(
-                      //   height: height * 0.02,
-                      // ),
-                      CustomText(
-                        text: 'commingSoon'.tr,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w200,
-                        textAlign: TextAlign.center,
-                        color: colorDarkGrey,
-                      )
-                    ],
-                  ),
-              ): ListView.separated(
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                itemCount: 4,
-                separatorBuilder: (context, index) {
-                  return const SizedBox(
-                    width: 16,
-                  );
-                },
-                itemBuilder: (context, index) {
-                  return SizedBox(
-                    width: 135,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Stack(
-                          alignment: AlignmentDirectional.topEnd,
-                          children: [
-                            Image.asset('assets/images/accessories.png'),
-                            Positioned(
-                              top: 6.56,
-                              left: 6.56,
-                              child: Container(
-                                alignment: Alignment.center,
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 7),
-                                decoration: const BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(4)),
-                                  color: colorGreen,
-                                ),
-                                child: CustomText(
-                                  text: 'new'.tr,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.white,
-                                  textAlign: TextAlign.center,
-                                ),
+                    )
+                  : ListView.separated(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: 4,
+                      separatorBuilder: (context, index) {
+                        return const SizedBox(
+                          width: 16,
+                        );
+                      },
+                      itemBuilder: (context, index) {
+                        return SizedBox(
+                          width: 135,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Stack(
+                                alignment: AlignmentDirectional.topEnd,
+                                children: [
+                                  Image.asset('assets/images/accessories.png'),
+                                  Positioned(
+                                    top: 6.56,
+                                    left: 6.56,
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 7),
+                                      decoration: const BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(4)),
+                                        color: colorGreen,
+                                      ),
+                                      child: CustomText(
+                                        text: 'new'.tr,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.white,
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            CustomText(
-                              text: AppUtil.rtlDirection(context)
-                                  ? 'صابونةاللافندر'
-                                  : 'Soap Lavender',
-                              fontSize: 14,
-                              fontWeight: FontWeight.w700,
-                            ),
-                            InkWell(
-                              onTap: () {
-                                setState(() {
-                                  accessoriesIndex = index;
-                                  isAccessoriesFavorite =
-                                      !isAccessoriesFavorite;
-                                });
-                              },
-                              child: SvgPicture.asset(
-                                  'assets/icons/${isAccessoriesFavorite && accessoriesIndex == index ? 'heart_filled' : 'heart_outlined'}.svg'),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 3,
-                        ),
-                        CustomText(
-                          text: AppUtil.rtlDirection(context)
-                              ? 'هي صابونية طبيعية مصنوعة من مزيج فريد من الحلبة واللافندر الطبيعيين، والذين يعرفون بفوائدهما المهدئة للبشرة. يتميز هذا الصابون بتركيبته الطبيعية التي تنظف البشرة بلطف وترطبها بشكل فعال، مع ترك رائحة اللافندر العطرية الرائعة على الجلد.'
-                              : 'Wooden bedside table featuring a raised desi...',
-                          fontSize: 10,
-                          fontWeight: FontWeight.w400,
-                          maxlines: 2,
-                          color: almostGrey,
-                        ),
-                      ],
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  CustomText(
+                                    text: AppUtil.rtlDirection(context)
+                                        ? 'صابونةاللافندر'
+                                        : 'Soap Lavender',
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        accessoriesIndex = index;
+                                        isAccessoriesFavorite =
+                                            !isAccessoriesFavorite;
+                                      });
+                                    },
+                                    child: SvgPicture.asset(
+                                        'assets/icons/${isAccessoriesFavorite && accessoriesIndex == index ? 'heart_filled' : 'heart_outlined'}.svg'),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 3,
+                              ),
+                              CustomText(
+                                text: AppUtil.rtlDirection(context)
+                                    ? 'هي صابونية طبيعية مصنوعة من مزيج فريد من الحلبة واللافندر الطبيعيين، والذين يعرفون بفوائدهما المهدئة للبشرة. يتميز هذا الصابون بتركيبته الطبيعية التي تنظف البشرة بلطف وترطبها بشكل فعال، مع ترك رائحة اللافندر العطرية الرائعة على الجلد.'
+                                    : 'Wooden bedside table featuring a raised desi...',
+                                fontSize: 10,
+                                fontWeight: FontWeight.w400,
+                                maxlines: 2,
+                                color: almostGrey,
+                              ),
+                            ],
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
-              ),
             ),
           ],
         ),

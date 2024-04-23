@@ -269,23 +269,23 @@ class _ShowAjwadiInfoSheetState extends State<ShowAjwadiInfoSheet>
                               .offerDetails.value.payment!['payStatus'] ==
                           "paid") {
                     log("acceptOffer");
-                    final acceptedOffer = await _offerController.acceptOffer(
-                      context: context,
-                      offerId: _offerController.offerDetails.value.id!,
-                      schedules: _offerController.offerDetails.value.schedule!,
-                    );
+                    // final acceptedOffer = await _offerController.acceptOffer(
+                    //   context: context,
+                    //   offerId: _offerController.offerDetails.value.id!,
+                    //   schedules: _offerController.offerDetails.value.schedule!,
+                    // );
 
-                    if (acceptedOffer!.orderStatus == 'ACCEPTED' &&
-                        context.mounted) {
-                      AppUtil.successToast(
-                        context,
-                        acceptedOffer.orderStatus,
-                      );
+                    // if (acceptedOffer!.orderStatus == 'ACCEPTED' &&
+                    //     context.mounted) {
+                    //   AppUtil.successToast(
+                    //     context,
+                    //     acceptedOffer.orderStatus,
+                    //   );
 
-                      // Get.to(() => const TouristChatScreen(
-                      //       isChat: true,
-                      //     ));
-                    }
+                    //   // Get.to(() => const TouristChatScreen(
+                    //   //       isChat: true,
+                    //   //     ));
+                    // }
                   } else {
                     log("ChatScreenLive 33");
                     Get.back();

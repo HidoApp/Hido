@@ -1,8 +1,10 @@
 import 'dart:developer';
 
+import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
 import 'package:ajwad_v4/request/tourist/services/offer_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart';
 
 import '../models/accepted_offer.dart';
 import '../models/offer.dart';
@@ -16,7 +18,6 @@ class OfferController extends GetxController {
   var offers = <Offer>[].obs;
   var offerDetails = OfferDetails().obs;
   var acceptedOffer = AcceptedOffer().obs;
-
   Future<List<Offer>?> getOffers({
     required BuildContext context,
     required String placeId,
@@ -61,6 +62,7 @@ class OfferController extends GetxController {
   Future<AcceptedOffer?> acceptOffer({
     required BuildContext context,
     required String offerId,
+    required String invoiceId,
     required List<Schedule> schedules,
   }) async {
     try {
@@ -68,6 +70,7 @@ class OfferController extends GetxController {
       final data = await OfferService.acceptOffer(
         context: context,
         offerId: offerId,
+        invoiceId: invoiceId,
         schedules: schedules,
       );
       acceptedOffer(data);

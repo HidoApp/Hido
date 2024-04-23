@@ -20,7 +20,8 @@ class PhoneOTPScreen extends StatefulWidget {
       this.birthDate,
       this.expiryDate,
       this.isLiencese = true,
-      this.accessToken, this.vehicleSerialNumber})
+      this.accessToken,
+      this.vehicleSerialNumber})
       : super(key: key);
   final bool isAjwadi;
   final AuthController authController;
@@ -41,8 +42,6 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen>
   bool isSwitched = false;
   String code1 = '', code2 = '', code3 = '', code4 = '', code5 = '', code6 = '';
   String fullOTP = '';
-
-
 
   late AnimationController _controller;
 
@@ -122,7 +121,7 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen>
                           text: "verification".tr,
                           fontWeight: FontWeight.w500,
                           fontSize: 24,
-                          color:  black,
+                          color: black,
                         ),
                       ),
                       const SizedBox(
@@ -134,7 +133,7 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen>
                           text: '${"sendVerification".tr}',
                           fontWeight: FontWeight.w400,
                           fontSize: 15,
-                          color:  black,
+                          color: black,
                         ),
                       ),
                       const SizedBox(
@@ -148,7 +147,6 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen>
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 CustomOTPField(
-                   
                                   onChanged: (value) {
                                     if (value.isNotEmpty) {
                                       code1 = value;
@@ -157,7 +155,6 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen>
                                   },
                                 ),
                                 CustomOTPField(
-
                                   onChanged: (value) {
                                     if (value.isNotEmpty) {
                                       code2 = value;
@@ -166,7 +163,6 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen>
                                   },
                                 ),
                                 CustomOTPField(
-                          
                                   onChanged: (value) {
                                     if (value.isNotEmpty) {
                                       code3 = value;
@@ -175,7 +171,6 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen>
                                   },
                                 ),
                                 CustomOTPField(
-                        
                                   onChanged: (value) {
                                     if (value.isNotEmpty) {
                                       code4 = value;
@@ -184,7 +179,6 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen>
                                   },
                                 ),
                                 CustomOTPField(
-                      
                                   onChanged: (value) {
                                     if (value.isNotEmpty) {
                                       code5 = value;
@@ -193,7 +187,6 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen>
                                   },
                                 ),
                                 CustomOTPField(
-              
                                   onChanged: (value) {
                                     if (value.isNotEmpty) {
                                       code6 = value;
@@ -209,71 +202,75 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen>
                       ),
                       Obx(() => Padding(
                             padding: const EdgeInsets.symmetric(vertical: 30),
-                            child:
-                                widget.authController.isSigininwithRowad == true
-                                    ? const Center(
-                                        child: CircularProgressIndicator(
-                                            color: colorGreen),
-                                      )
-                                    : Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 20),
-                                        child: Align(
-                                          alignment: Alignment.center,
-                                          child: CustomElevatedButton(
-                                            title: 'continue'.tr,
-                                            onPressed: () async {
-                                              //   Get.offAll(()=> const TouristBottomBar());
-                                              if (_formKey.currentState!
-                                                  .validate()) {
-                                                setState(() {
-                                                  fullOTP = code1 +
-                                                      code2 +
-                                                      code3 +
-                                                      code4 +
-                                                      code5 +
-                                                      code6;
-                                                  print(fullOTP);
-                                                });
+                            child: widget.authController.isSigininwithRowad ==
+                                    true
+                                ? const Center(
+                                    child: CircularProgressIndicator(
+                                        color: colorGreen),
+                                  )
+                                : Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 20),
+                                    child: Align(
+                                      alignment: Alignment.center,
+                                      child: CustomElevatedButton(
+                                        title: 'continue'.tr,
+                                        onPressed: () async {
+                                          //   Get.offAll(()=> const TouristBottomBar());
+                                          if (_formKey.currentState!
+                                              .validate()) {
+                                            setState(() {
+                                              fullOTP = code1 +
+                                                  code2 +
+                                                  code3 +
+                                                  code4 +
+                                                  code5 +
+                                                  code6;
+                                              print(fullOTP);
+                                            });
 
-                                                print('accessToken : ' +
-                                                    widget.accessToken!);
+                                            print('accessToken : ' +
+                                                widget.accessToken!);
 
-                                                final isSuccess ;
-                                                
-                                               if (widget.isLiencese) {
-                                              isSuccess   = await widget
-                                                    .authController
-                                                    .getAjwadiLinceseInfo(
-                                                        otp: fullOTP,
-                                                      expiryDate: widget.expiryDate!,
-                                                        nationalID:
-                                                            widget.nationalID,
-                                                        accessToken:
-                                                            widget.accessToken!,
-                                                        context: context);
-                                               } else {
-                                                   isSuccess   = await widget
-                                                    .authController
-                                                    .getAjwadiVehicleInf(
-                                                        otp: fullOTP,
-                                                      
-                                                        nationalID:
-                                                            widget.nationalID,
-                                                        accessToken:
-                                                            widget.accessToken!,
-                                                        context: context);
-                                               }
-                                                print(isSuccess);
-                                                if (isSuccess) {
-                                                  print(isSuccess);
-                                                  widget.isLiencese ?  Get.offAll(()=> const AjwadiVehicleInfo()) : Get.offAll(() => const AjwadiBottomBar());
-                                                }
-                                              }
-                                            },
-                                          ),
-                                        ),
+                                            final isSuccess;
+
+                                            if (widget.isLiencese) {
+                                              isSuccess = await widget
+                                                  .authController
+                                                  .getAjwadiLinceseInfo(
+                                                      otp: fullOTP,
+                                                      expiryDate:
+                                                          widget.expiryDate!,
+                                                      nationalID:
+                                                          widget.nationalID,
+                                                      accessToken:
+                                                          widget.accessToken!,
+                                                      context: context);
+                                            } else {
+                                              isSuccess = await widget
+                                                  .authController
+                                                  .getAjwadiVehicleInf(
+                                                      otp: fullOTP,
+                                                      nationalID:
+                                                          widget.nationalID,
+                                                      accessToken:
+                                                          widget.accessToken!,
+                                                      context: context);
+                                            }
+                                            print(isSuccess);
+                                            if (isSuccess) {
+                                              print(isSuccess);
+                                              widget.isLiencese
+                                                  ? Get.offAll(() =>
+                                                      const AjwadiVehicleInfo())
+                                                  : Get.offAll(() =>
+                                                      const AjwadiBottomBar());
+                                            }
+                                          }
+                                        },
                                       ),
+                                    ),
+                                  ),
                           )),
                       // !enableResend
                       //     ? Row(

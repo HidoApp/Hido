@@ -48,11 +48,107 @@ class _FindAjwadyState extends State<FindAjwady> {
   @override
   void initState() {
     super.initState();
+    showCancelDialogAfterDelay();
     _offerController.getOffers(
       context: context,
       placeId: widget.placeId,
       bookingId: widget.booking.id!,
     );
+  }
+
+  void showCancelDialogAfterDelay() {
+    Future.delayed(const Duration(minutes: 5), () {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Colors.white,
+            surfaceTintColor: Colors.white,
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(32.0))),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                const SizedBox(
+                  height: 10,
+                ),
+                const CustomText(
+                    textAlign: TextAlign.center,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.red,
+                    text: "Oops! "),
+                const CustomText(
+                    textAlign: TextAlign.center,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w300,
+                    color: almostGrey,
+                    text:
+                        "It looks like there aren't any available guides in your area right now"),
+                const SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: GestureDetector(
+                    onTap: () {
+                      Get.back();
+                    },
+                    child: Container(
+                      height: 40,
+                      width: 357,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: colorGreen,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const CustomText(
+                        text: "Try again",
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Obx(() => _offerController.isBookingCancelLoading.value
+                    ? const Center(
+                        child: CircularProgressIndicator(color: Colors.black))
+                    : GestureDetector(
+                        onTap: () async {
+                          log("End Trip Taped ${widget.booking.id}");
+
+                          bool bookingCancel =
+                              await _offerController.bookingCancel(
+                                      context: context,
+                                      bookingId: widget.booking.id!) ??
+                                  false;
+                          if (bookingCancel) {
+                            if (context.mounted) {
+                              AppUtil.successToast(context, 'EndTrip'.tr);
+                              await Future.delayed(const Duration(seconds: 1));
+                            }
+                            Get.offAll(
+                              const TouristBottomBar(),
+                            );
+                          }
+                        },
+                        child: const CustomText(
+                            textAlign: TextAlign.center,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: black,
+                            text: "Cancel Tour"),
+                      )),
+              ],
+            ),
+          );
+        },
+      );
+    });
   }
 
   @override
@@ -145,8 +241,8 @@ class _FindAjwadyState extends State<FindAjwady> {
                         },
                         title: CustomText(
                           text: 'tripDetails'.tr,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w800,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
                           color: Colors.black,
                         ),
                         trailing: Icon(
@@ -173,9 +269,9 @@ class _FindAjwadyState extends State<FindAjwady> {
                                   CustomText(
                                     text:
                                         '${widget.booking.guestNumber} ${'guests'.tr}',
-                                    color: tileGreyColor,
+                                    color: almostGrey,
                                     fontSize: 10,
-                                    fontWeight: FontWeight.w400,
+                                    fontWeight: FontWeight.w300,
                                   ),
                                 ],
                               ),
@@ -190,10 +286,10 @@ class _FindAjwadyState extends State<FindAjwady> {
                                   ),
                                   CustomText(
                                     text:
-                                        '${DateFormat('dd/MM/yyyy').format(DateTime.parse(widget.booking.date!))} - ${widget.booking.time}',
-                                    color: tileGreyColor,
+                                        '${DateFormat('dd/MM/yyyy').format(DateTime.parse(widget.booking.date!))} - ${widget.booking.timeToGo}',
+                                    color: almostGrey,
                                     fontSize: 10,
-                                    fontWeight: FontWeight.w400,
+                                    fontWeight: FontWeight.w300,
                                   ),
                                 ],
                               ),
@@ -202,15 +298,18 @@ class _FindAjwadyState extends State<FindAjwady> {
                               ),
                               Row(
                                 children: [
-                                  SvgPicture.asset('assets/icons/unselected_${ widget.booking.vehicleType! }_icon.svg',width: 20,),
+                                  SvgPicture.asset(
+                                    'assets/icons/unselected_${widget.booking.vehicleType!}_icon.svg',
+                                    width: 20,
+                                  ),
                                   const SizedBox(
                                     width: 10,
                                   ),
                                   CustomText(
                                     text: widget.booking.vehicleType!,
-                                    color: tileGreyColor,
+                                    color: almostGrey,
                                     fontSize: 10,
-                                    fontWeight: FontWeight.w400,
+                                    fontWeight: FontWeight.w300,
                                   ),
                                 ],
                               ),
@@ -257,7 +356,7 @@ class _FindAjwadyState extends State<FindAjwady> {
                                 height: 30,
                                 width: 30,
                                 color: colorGreen,
-                                child:  Center(
+                                child: Center(
                                   child: CustomText(
                                     text: "${_offerController.offers.length}",
                                     color: Colors.white,
@@ -315,38 +414,23 @@ class _FindAjwadyState extends State<FindAjwady> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    height: 50,
+                    width: double.infinity,
                     decoration: ShapeDecoration(
-                      color: colorGreen,
                       shape: RoundedRectangleBorder(
-                        side: const BorderSide(
-                          width: 1.50,
-                          strokeAlign: BorderSide.strokeAlignCenter,
-                          color: colorGreen,
-                        ),
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        if (!AppUtil.rtlDirection(context))
-                          SvgPicture.asset('assets/icons/message-circle.svg'),
-                        Text(
-                          "ContactTheHedoTeam".tr,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontFamily: 'HT Rakik',
-                              fontWeight: FontWeight.w500),
-                        ),
-                        if (AppUtil.rtlDirection(context))
-                          SvgPicture.asset('assets/icons/message-circle.svg')
-                      ],
+                    child: Text(
+                      "ContactTheHedoTeam".tr,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontFamily: 'HT Rakik',
+                          fontWeight: FontWeight.w500),
                     ),
                   ),
-                  const SizedBox(height: 34),
+                  const SizedBox(height: 10),
                   Obx(
                     () => _offerController.isBookingCancelLoading.value
                         ? const Center(
@@ -370,14 +454,26 @@ class _FindAjwadyState extends State<FindAjwady> {
                                 Get.offAll(const TouristBottomBar());
                               }
                             },
-                            child: Text(
-                              "EndTrip".tr,
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                  color: Color(0xFFD75051),
-                                  fontSize: 16,
-                                  fontFamily: 'HT Rakik',
-                                  fontWeight: FontWeight.w500),
+                            child: Container(
+                              height: 40,
+                              width: 251,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(8)),
+                                border: Border.all(
+                                  color: const Color(0xFFD33030),
+                                ),
+                              ),
+                              child: Text(
+                                "EndTrip".tr,
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                    color: Color(0xFFD75051),
+                                    fontSize: 16,
+                                    fontFamily: 'HT Rakik',
+                                    fontWeight: FontWeight.w500),
+                              ),
                             ),
                           ),
                   ),

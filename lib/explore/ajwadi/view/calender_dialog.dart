@@ -69,10 +69,10 @@ class _CalenderDialogState extends State<CalenderDialog> {
             Center(
               child: Theme(
                 data: Theme.of(context).copyWith(
-                    inputDecorationTheme: InputDecorationTheme(),
-                    colorScheme: ColorScheme.light(
-                      primary: widget.fromAjwady ? Colors.white : Colors.black,
-                      onSurface: colorDarkGrey,
+                    inputDecorationTheme: const InputDecorationTheme(),
+                    colorScheme: const ColorScheme.light(
+                      primary: Colors.black,
+                      onSurface: black,
                     )),
                 child: Container(
                   height: 300,
@@ -85,10 +85,10 @@ class _CalenderDialogState extends State<CalenderDialog> {
                           widget.avilableDate != null ? defineSelectable : null,
                       selectionMode: DateRangePickerSelectionMode.single,
                       selectionColor:
-                          widget.type == 'hospitality' ? purple : colorGreen,
+                          widget.type == 'hospitality' ? purple : Colors.green,
                       selectionTextStyle: TextStyle(),
                       selectionShape: DateRangePickerSelectionShape.circle,
-                      todayHighlightColor: colorRed,
+                      todayHighlightColor: colorGreen,
                       startRangeSelectionColor: colorGreen,
                       endRangeSelectionColor: colorGreen,
                       rangeSelectionColor: colorGreen.withOpacity(0.1),
@@ -105,6 +105,8 @@ class _CalenderDialogState extends State<CalenderDialog> {
               ),
             ),
             CustomButton(
+                height: 40,
+                customWidth: 260,
                 buttonColor: widget.type == 'hospitality' ? purple : null,
                 onPressed: () {
                   if (selectedDate == '') {
@@ -135,54 +137,46 @@ class _CalenderDialogState extends State<CalenderDialog> {
                                     .substring(0, 10))
                                 .toString() ==
                             selectedDate) {
-               
-    widget.srvicesController!.selectedDateIndex(i);
-                                 print("endTime");
-                          print(widget.hospitality!.daysInfo[     widget.srvicesController!.selectedDateIndex.value].endTime
-                           );
+                          widget.srvicesController!.selectedDateIndex(i);
+                          print("endTime");
+                          print(widget
+                              .hospitality!
+                              .daysInfo[widget
+                                  .srvicesController!.selectedDateIndex.value]
+                              .endTime);
 
+                          print("startTime");
+                          print(widget
+                              .hospitality!
+                              .daysInfo[widget
+                                  .srvicesController!.selectedDateIndex.value]
+                              .startTime);
 
+                          print("endTime iiiii ");
+                          print(widget.hospitality!.daysInfo[i].endTime);
 
-                                          print("startTime");
-                          print(widget.hospitality!.daysInfo[     widget.srvicesController!.selectedDateIndex.value].startTime
-             );
+                          print("startTime iiiiii");
+                          print(widget.hospitality!.daysInfo[i].startTime);
 
-
-
-
-                                 print("endTime iiiii ");
-                          print(widget.hospitality!.daysInfo[i].endTime
-                           );
-
-
-
-                                          print("startTime iiiiii");
-                          print(widget.hospitality!.daysInfo[i].startTime
-             );
-
-
-                            
                           print("selectedDate ID");
-                          print(widget.hospitality!.daysInfo[i].id
-                              );
+                          print(widget.hospitality!.daysInfo[i].id);
 
-                        // print("selectedDate ID");
-                        //   print(widget.hospitality!.daysInfo[i].
-                        //       );
-
+                          // print("selectedDate ID");
+                          //   print(widget.hospitality!.daysInfo[i].
+                          //       );
 
                           print("selectedDate index");
                           print(i);
 
-                      
-                          widget.srvicesController!.selectedDateId(widget.hospitality!.daysInfo[i].id);
+                          widget.srvicesController!.selectedDateId(
+                              widget.hospitality!.daysInfo[i].id);
                           widget.srvicesController!.selectedTime("");
                           print(widget.srvicesController!.selectedTime);
                         }
                       }
                       //   widget.srvicesController!.selectedDateIndex(widget.avilableDate.  (selectedDate));
                     }
-                 Get.back();
+                    Get.back();
                   }
                 },
                 title: "done".tr)

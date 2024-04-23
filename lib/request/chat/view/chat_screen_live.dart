@@ -1,9 +1,12 @@
 import 'dart:developer';
+import 'dart:ffi';
 import 'package:ajwad_v4/auth/models/token.dart';
 import 'package:ajwad_v4/auth/services/auth_service.dart';
 import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
+import 'package:ajwad_v4/payment/controller/payment_controller.dart';
+import 'package:ajwad_v4/payment/model/invoice.dart';
 import 'package:ajwad_v4/payment/view/check_out_screen.dart';
 import 'package:ajwad_v4/request/ajwadi/controllers/request_controller.dart';
 import 'package:ajwad_v4/request/chat/controllers/chat_controller.dart';
@@ -18,6 +21,7 @@ import 'package:ajwad_v4/widgets/check_container_widget.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/custom_textfield.dart';
+import 'package:ajwad_v4/widgets/payment_web_view.dart';
 import 'package:ajwad_v4/widgets/total_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -36,7 +40,7 @@ class ChatScreenLive extends StatefulWidget {
   ChatScreenLive({
     super.key,
     required this.chatId,
-     this.booking,
+    this.booking,
     required this.isAjwadi,
     this.requestController,
     this.offerController,
@@ -54,6 +58,10 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
   String? userId;
 
   RxBool isDetailsTapped = false.obs;
+
+  PaymentController paymentController = Get.put(PaymentController());
+  Invoice? invoice;
+    bool isCheckingForPayment = false;
 
   @override
   void initState() {
@@ -74,17 +82,8 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: lightGreyBackground,
-      body: Obx(() =>
-
-    //  widget.offerController!.isOfferLoading.value ? 
-
-    //  SizedBox(
-    //   height:  MediaQuery.of(context).size.height,
-    //   width:  MediaQuery.of(context).size.width,
-    //   child: CircularProgressIndicator())
-
-    //  :
-       SafeArea(
+      body: Obx(
+        () => SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -179,74 +178,76 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                     if (widget.isAjwadi)
                       Expanded(
                         child:
-                        //  Obx(
-                        //   () => 
-                          widget
-                                  .requestController!.isRequestEndLoading.value
-                              ? const Center(
-                                  child: CircularProgressIndicator(
-                                      color: Color(0xffD75051)),
-                                )
-                              : InkWell(
-                                  onTap: () async {
-                                    log("requestModel.value.id! ${widget.requestController!.requestModel.value.id!}");
-                                    bool requestEnd = await widget
-                                            .requestController!
-                                            .requestEnd(
-                                                id: widget.requestController!
-                                                    .requestModel.value.id!,
-                                                context: context) ??
-                                        false;
-                                    if (requestEnd) {
-                                      if (context.mounted) {
-                                        AppUtil.successToast(
-                                            context, 'EndRound'.tr);
-                                        await Future.delayed(
-                                            const Duration(seconds: 1));
+                            //  Obx(
+                            //   () =>
+                            widget.requestController!.isRequestEndLoading.value
+                                ? const Center(
+                                    child: CircularProgressIndicator(
+                                        color: Color(0xffD75051)),
+                                  )
+                                : InkWell(
+                                    onTap: () async {
+                                      log("requestModel.value.id! ${widget.requestController!.requestModel.value.id!}");
+                                      bool requestEnd = await widget
+                                              .requestController!
+                                              .requestEnd(
+                                                  id: widget.requestController!
+                                                      .requestModel.value.id!,
+                                                  context: context) ??
+                                          false;
+                                      if (requestEnd) {
+                                        if (context.mounted) {
+                                          AppUtil.successToast(
+                                              context, 'EndRound'.tr);
+                                          await Future.delayed(
+                                              const Duration(seconds: 1));
+                                        }
+                                        Get.offAll(const AjwadiBottomBar());
                                       }
-                                      Get.offAll(const AjwadiBottomBar());
-                                    }
-                                  },
-                                  child: Container(
-                                    height: 55,
-                                    width: 120,
-                                    padding:
-                                        const EdgeInsets.symmetric(horizontal: 8),
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: const Color(0xffD75051)),
-                                        borderRadius: BorderRadius.circular(12)),
-                                    child: Row(
-                                      children: [
-                                        if (!AppUtil.rtlDirection(context))
-                                          const Icon(Icons.close,
-                                              size: 14, color: Color(0xffD75051)),
-                                        if (!AppUtil.rtlDirection(context))
-                                          const Spacer(),
-                                        CustomText(
-                                          text: 'EndRound'.tr,
-                                          color: const Color(0xffD75051),
-                                          fontSize: 14,
-                                        ),
-                                        if (AppUtil.rtlDirection(context))
-                                          const Spacer(),
-                                        if (AppUtil.rtlDirection(context))
-                                          const Icon(Icons.close,
-                                              size: 14, color: Color(0xffD75051)),
-                                      ],
+                                    },
+                                    child: Container(
+                                      height: 55,
+                                      width: 120,
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8),
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: const Color(0xffD75051)),
+                                          borderRadius:
+                                              BorderRadius.circular(12)),
+                                      child: Row(
+                                        children: [
+                                          if (!AppUtil.rtlDirection(context))
+                                            const Icon(Icons.close,
+                                                size: 14,
+                                                color: Color(0xffD75051)),
+                                          if (!AppUtil.rtlDirection(context))
+                                            const Spacer(),
+                                          CustomText(
+                                            text: 'EndRound'.tr,
+                                            color: const Color(0xffD75051),
+                                            fontSize: 14,
+                                          ),
+                                          if (AppUtil.rtlDirection(context))
+                                            const Spacer(),
+                                          if (AppUtil.rtlDirection(context))
+                                            const Icon(Icons.close,
+                                                size: 14,
+                                                color: Color(0xffD75051)),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                       // ),
+                        // ),
                       ),
                   ],
                 ),
               ),
-        
+
               // ?  ============== Request Case =================
               if ((widget.isAjwadi)) ...[
-                // Obx(() => 
+                // Obx(() =>
                 isDetailsTapped.value
                     ? widget.chatId == null
                         ? Expanded(
@@ -266,14 +267,14 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                             ),
                           )
                     : const SizedBox()
-                    //),
+                //),
               ],
               // ?  ============== Offers Case =================
               if (widget.chatId == null && (!widget.isAjwadi)) ...[
                 Expanded(
                   child: SingleChildScrollView(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 6),
                       child: Column(
                         children: [
                           CheckContainerWidget(
@@ -295,8 +296,8 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                                             shape: RoundedRectangleBorder(
                                               side: BorderSide(
                                                 width: 0.24,
-                                                strokeAlign:
-                                                    BorderSide.strokeAlignCenter,
+                                                strokeAlign: BorderSide
+                                                    .strokeAlignCenter,
                                                 color: Color(0xFF979797),
                                               ),
                                             ),
@@ -305,44 +306,175 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                               ],
                             ),
                           ),
-                         //  const AvailableContainerWidget(),
+                          //  const AvailableContainerWidget(),
                           TotalWidget(
                             offerController: widget.offerController,
                             place: widget.place!,
                           ),
-                          CustomButton(
-                            title: 'confirm'.tr,
-                            icon: SvgPicture.asset(
-                                'assets/icons/circular_forward.svg'),
-                            onPressed: () {
-                              Get.to(
-                                () => CheckOutScreen(
-                                  total: (widget.place!.price! *
-                                          widget.offerController!.offerDetails
-                                              .value.booking!.guestNumber!) +
-                                      (widget.offerController!.totalPrice.value *
-                                          widget.offerController!.offerDetails
-                                              .value.booking!.guestNumber!),
-                                  offerDetails:
-                                      widget.offerController!.offerDetails.value,
-                                  offerController: widget.offerController,
-                                ),
-                              )?.then((value) async {
-                                final offer = await widget.offerController!
-                                    .getOfferById(
-                                        context: context,
-                                        offerId: widget.offerController!
-                                            .offerDetails.value.id!);
+                          paymentController.isPaymenInvoiceLoading.value
+                              ? CircularProgressIndicator(
+                                  color: colorGreen,
+                                )
+                              : CustomButton(
+                                  title: 'confirm'.tr,
+                                  icon: SvgPicture.asset(
+                                      'assets/icons/circular_forward.svg'),
+                                  onPressed: () async {
+                                    invoice ??=
+                                        await paymentController.paymentInvoice(
+                                            context: context,
+                                            description: 'Book place',
+                                            amount: (widget.place!.price! *
+                                                    widget
+                                                        .offerController!
+                                                        .offerDetails
+                                                        .value
+                                                        .booking!
+                                                        .guestNumber!) +
+                                                (widget.offerController!
+                                                        .totalPrice.value *
+                                                    widget
+                                                        .offerController!
+                                                        .offerDetails
+                                                        .value
+                                                        .booking!
+                                                        .guestNumber!));
 
-                                widget.chatId = widget.offerController!.offerDetails.value.booking!.chatId;
-        
-                              //  Get.back();
-                              });
-                            },
-                          )
+                                    Get.to(() => PaymentWebView(
+                                        url: invoice!.url!,
+                                        title: 'Payment'))?.then((value) async {
+                                    
+                                       setState(() {
+                                                  isCheckingForPayment = true;
+                                                });
+
+                                                        final checkInvoice =
+                                                    await paymentController
+                                                        .paymentInvoiceById(
+                                                            context: context,
+                                                            id: invoice!.id);
+
+                                                            print("checkInvoice!.invoiceStatus");
+                                                            print(checkInvoice!.invoiceStatus);
+
+                                                                         if (checkInvoice
+                                                        .invoiceStatus !=
+                                                    'faild') {
+                                                
+                                                  setState(() {
+                                                    isCheckingForPayment =
+                                                        false;
+                                                  });
+
+                                                  if (checkInvoice
+                                                              .invoiceStatus ==
+                                                          'failed' ||
+                                                      checkInvoice
+                                                              .invoiceStatus ==
+                                                          'initiated') {
+                                                    //  Get.back();
+
+                                                    showDialog(
+                                                        context: context,
+                                                        builder: (ctx) {
+                                                          return AlertDialog(
+                                                            backgroundColor:
+                                                                Colors.white,
+                                                            content: Column(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .min,
+                                                              children: [
+                                                                Image.asset(
+                                                                    'assets/images/paymentFaild.gif'),
+                                                                CustomText(
+                                                                    text:
+                                                                        "paymentFaild"
+                                                                            .tr),
+                                                              ],
+                                                            ),
+                                                          );
+                                                        });
+                                                  } else {
+                                                    print('YES');
+                                                    // Get.back();
+                                                    // Get.back();
+
+                                                        final acceptedOffer = await widget
+                                        .offerController!
+                                        .acceptOffer(
+                                      context: context,
+                                      offerId: widget.offerController!.offerDetails.value.id!,
+                                      invoiceId: checkInvoice.id,
+                                      schedules: widget.offerController!
+                                          .offerDetails.value.schedule!,
+                                    );
+                               //     Get.back();
+                                //    Get.back();
+
+                                                    showDialog(
+                                                        context: context,
+                                                        builder: (ctx) {
+                                                          return AlertDialog(
+                                                            backgroundColor:
+                                                                Colors.white,
+                                                            content: Column(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .min,
+                                                              children: [
+                                                                Image.asset(
+                                                                    'assets/images/paymentSuccess.gif'),
+                                                                CustomText(
+                                                                    text:
+                                                                        "paymentSuccess"
+                                                                            .tr),
+                                                              ],
+                                                            ),
+                                                          );
+                                                        });
+                                                  }
+                                                }
+                                    });
+                                    // Get.to(
+                                    //   () => CheckOutScreen(
+                                    //     total: (widget.place!.price! *
+                                    //             widget
+                                    //                 .offerController!
+                                    //                 .offerDetails
+                                    //                 .value
+                                    //                 .booking!
+                                    //                 .guestNumber!) +
+                                    //         (widget.offerController!.totalPrice
+                                    //                 .value *
+                                    //             widget
+                                    //                 .offerController!
+                                    //                 .offerDetails
+                                    //                 .value
+                                    //                 .booking!
+                                    //                 .guestNumber!),
+                                    //     offerDetails: widget.offerController!
+                                    //         .offerDetails.value,
+                                    //     offerController: widget.offerController,
+                                    //   ),
+                                    // )?.then((value) async {
+                                    //   final offer = await widget
+                                    //       .offerController!
+                                    //       .getOfferById(
+                                    //           context: context,
+                                    //           offerId: widget.offerController!
+                                    //               .offerDetails.value.id!);
+
+                                    //   widget.chatId = widget.offerController!
+                                    //       .offerDetails.value.booking!.chatId;
+
+                                    //   //  Get.back();
+                                    // });
+                                  },
+                                )
                         ],
                       )
-        
+
                       // ShowOfferWidget(
                       //   offerController: widget.offerController!,
                       //   place: widget.place!,
@@ -350,7 +482,7 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                       ),
                 ),
               ],
-        
+
               if (widget.chatId != null) ...[
                 //? ==========  Chat List View  ==========
                 Expanded(
@@ -359,136 +491,146 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                           id: widget.chatId!, context: context),
                       builder: ((context, snapshot) {
                         log("snapshot ${snapshot.data}");
-        
-                        return 
-                        // Obx(
-                        //   () => 
-                          chatController.isGetChatByIdLoading.value
-                              ? Center(
-                                  child: Padding(
-                                      padding: const EdgeInsets.only(right: 14),
-                                      child: CircularProgressIndicator(
-                                          color: Colors.green[800])),
-                                )
-                              : (chatController.chat.value.messages == null ||
-                                      chatController.chat.value.messages == [] ||
-                                      chatController.chat.value.messages!.isEmpty)
-                                  ? Center(
-                                      child: CustomText(
-                                          text: 'StartChat'.tr,
-                                          fontSize: 24,
-                                          color: Colors.black87),
-                                    )
-                                  : RefreshIndicator(
-                                      color: Colors.green,
-                                      onRefresh: () async {
-                                        await chatController.getChatById(
-                                            id: widget.chatId!, context: context);
-                                      },
-                                      child: ListView.separated(
-                                        shrinkWrap: true,
-                                        reverse: true,
-                                        controller:
-                                            chatController.scrollController,
-                                        // physics: const ScrollPhysics(),
-                                        separatorBuilder: (context, index) {
-                                          return const SizedBox(height: 4);
+
+                        return
+                            // Obx(
+                            //   () =>
+                            chatController.isGetChatByIdLoading.value
+                                ? Center(
+                                    child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 14),
+                                        child: CircularProgressIndicator(
+                                            color: Colors.green[800])),
+                                  )
+                                : (chatController.chat.value.messages == null ||
+                                        chatController.chat.value.messages ==
+                                            [] ||
+                                        chatController
+                                            .chat.value.messages!.isEmpty)
+                                    ? Center(
+                                        child: CustomText(
+                                            text: 'StartChat'.tr,
+                                            fontSize: 24,
+                                            color: Colors.black87),
+                                      )
+                                    : RefreshIndicator(
+                                        color: Colors.green,
+                                        onRefresh: () async {
+                                          await chatController.getChatById(
+                                              id: widget.chatId!,
+                                              context: context);
                                         },
-                                        itemCount: chatController
-                                            .chat.value.messages!.length,
-                                        itemBuilder: (context, index) {
-                                          ChatMessage message = chatController
-                                              .chat.value.messages![index];
-                                          log(" message.senderId ${message.senderId}");
-                                          log(" userId $userId");
-                                          String msgSenderId =
-                                              message.senderId ?? "";
-                                          String senderId = userId!;
-                                          bool isSender =
-                                              (msgSenderId == senderId);
-                                          log("isSender $isSender");
-                                          message.senderName;
-                                          message.senderImage;
-        
-                                          return ChatBubble(
-                                            name: message.senderName ?? "",
-                                            image: message.senderImage,
-                                            isSender: isSender,
-                                            message: ChatMessage(
-                                              message: chatController.chat.value
-                                                  .messages![index].message,
-                                              created: intl.DateFormat(
-                                                      'dd/MM/yyyy hh:mm a')
-                                                  .format(
-                                                DateTime.parse(
-                                                  chatController.chat.value
-                                                      .messages![index].created!,
+                                        child: ListView.separated(
+                                          shrinkWrap: true,
+                                          reverse: true,
+                                          controller:
+                                              chatController.scrollController,
+                                          // physics: const ScrollPhysics(),
+                                          separatorBuilder: (context, index) {
+                                            return const SizedBox(height: 4);
+                                          },
+                                          itemCount: chatController
+                                              .chat.value.messages!.length,
+                                          itemBuilder: (context, index) {
+                                            ChatMessage message = chatController
+                                                .chat.value.messages![index];
+                                            log(" message.senderId ${message.senderId}");
+                                            log(" userId $userId");
+                                            String msgSenderId =
+                                                message.senderId ?? "";
+                                            String senderId = userId!;
+                                            bool isSender =
+                                                (msgSenderId == senderId);
+                                            log("isSender $isSender");
+                                            message.senderName;
+                                            message.senderImage;
+
+                                            return ChatBubble(
+                                              name: message.senderName ?? "",
+                                              image: message.senderImage,
+                                              isSender: isSender,
+                                              message: ChatMessage(
+                                                message: chatController
+                                                    .chat
+                                                    .value
+                                                    .messages![index]
+                                                    .message,
+                                                created: intl.DateFormat(
+                                                        'dd/MM/yyyy hh:mm a')
+                                                    .format(
+                                                  DateTime.parse(
+                                                    chatController
+                                                        .chat
+                                                        .value
+                                                        .messages![index]
+                                                        .created!,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                   // ),
-                        );
+                                            );
+                                          },
+                                        ),
+                                        // ),
+                                      );
                       })),
                 ),
-        
+
                 // Send Button
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
                     children: [
                       // Obx(
-                      //   () => 
-                        
-                        chatController.isPostMessageLoading.value
-                            ? Center(
-                                child: CircularProgressIndicator(
-                                    color: Colors.green[800]))
-                            : Directionality(
-                                textDirection: TextDirection.ltr,
-                                child: IconButton(
-                                  icon: Icon(
-                                    Icons.send,
-                                    size: 30,
-                                    color: Colors.green[800],
-                                  ),
-                                  onPressed: () async {
-                                    if (messageController.text.trim() != '') {
-                                      bool? send =
-                                          await chatController.postMessage(
-                                              chatId: widget.chatId!,
-                                              message: messageController.text,
-                                              context: context);
-                                      if (send == true) {
-                                        setState(() {
-                                          chatController.chat.value.messages!.add(
-                                              ChatMessage(
-                                                  // senderName: "",
-                                                  // senderImage: "",
-                                                  senderId: userId,
-                                                  message: messageController.text,
-                                                  created:
-                                                      DateTime.now().toString()));
-                                        });
-                                        messageController.clear();
-                                        if (chatController.chat.value.messages !=
-                                                null &&
-                                            chatController
-                                                    .chat.value.messages!.length >
-                                                2) {
-                                          chatController.scrollController.jumpTo(
-                                              chatController.scrollController
-                                                      .position.maxScrollExtent *
-                                                  1.4);
-                                        }
+                      //   () =>
+
+                      chatController.isPostMessageLoading.value
+                          ? Center(
+                              child: CircularProgressIndicator(
+                                  color: Colors.green[800]))
+                          : Directionality(
+                              textDirection: TextDirection.ltr,
+                              child: IconButton(
+                                icon: Icon(
+                                  Icons.send,
+                                  size: 30,
+                                  color: Colors.green[800],
+                                ),
+                                onPressed: () async {
+                                  if (messageController.text.trim() != '') {
+                                    bool? send =
+                                        await chatController.postMessage(
+                                            chatId: widget.chatId!,
+                                            message: messageController.text,
+                                            context: context);
+                                    if (send == true) {
+                                      setState(() {
+                                        chatController.chat.value.messages!.add(
+                                            ChatMessage(
+                                                // senderName: "",
+                                                // senderImage: "",
+                                                senderId: userId,
+                                                message: messageController.text,
+                                                created:
+                                                    DateTime.now().toString()));
+                                      });
+                                      messageController.clear();
+                                      if (chatController.chat.value.messages !=
+                                              null &&
+                                          chatController
+                                                  .chat.value.messages!.length >
+                                              2) {
+                                        chatController.scrollController.jumpTo(
+                                            chatController.scrollController
+                                                    .position.maxScrollExtent *
+                                                1.4);
                                       }
                                     }
-                                  },
-                                ),
-                             // ),
-                      ),
+                                  }
+                                },
+                              ),
+                              // ),
+                            ),
                       Expanded(
                         child: CustomTextField(
                           controller: messageController,

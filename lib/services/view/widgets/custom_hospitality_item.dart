@@ -9,14 +9,14 @@ class CustomHospitalityItem extends StatelessWidget {
   const CustomHospitalityItem({
     super.key,
     required this.image,
-     this.personImage,
+    this.personImage,
     required this.title,
     required this.location,
     required this.meal,
     required this.category,
     required this.rate,
     required this.onTap,
-     this.dayInfo,
+    this.dayInfo,
   });
 
   final String image;
@@ -31,16 +31,15 @@ class CustomHospitalityItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  final  width = MediaQuery.of(context).size.width;    return InkWell(
+    final width = MediaQuery.of(context).size.width;
+    return InkWell(
       onTap: onTap,
       radius: 16,
       child: Card(
-        
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(16))),
         color: Colors.white,
         elevation: 0.1,
-       
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
           child: Row(
@@ -56,24 +55,31 @@ class CustomHospitalityItem extends StatelessWidget {
                       ClipRRect(
                         borderRadius:
                             const BorderRadius.all(Radius.circular(10)),
-                        child: Image.network(image,width:80 ,height: 100,fit: BoxFit.fill,),
+                        child: Image.network(
+                          image,
+                          width: 80,
+                          height: 100,
+                          fit: BoxFit.fill,
+                        ),
                       ),
                       Positioned.directional(
                         textDirection: Directionality.of(context),
                         bottom: 7,
                         start: 7,
-                        child: personImage == null ?const CircleAvatar(
-                          radius: 12.5,
-                          backgroundImage: AssetImage('assets/images/profile_image.png') ,
-                        ):  CircleAvatar(
-                          radius: 13.5,
-                          backgroundColor: Colors.white,
-                          child: CircleAvatar(
-                            radius: 12.5,
-                            backgroundImage: NetworkImage(personImage!) ,
-                          ),
-                        ),
-                      
+                        child: personImage == null
+                            ? const CircleAvatar(
+                                radius: 12.5,
+                                backgroundImage: AssetImage(
+                                    'assets/images/profile_image.png'),
+                              )
+                            : CircleAvatar(
+                                radius: 13.5,
+                                backgroundColor: Colors.white,
+                                child: CircleAvatar(
+                                  radius: 12.5,
+                                  backgroundImage: NetworkImage(personImage!),
+                                ),
+                              ),
                       ),
                     ],
                   ),
@@ -96,7 +102,9 @@ class CustomHospitalityItem extends StatelessWidget {
                           const SizedBox(
                             width: 4,
                           ),
-                          SvgPicture.asset('assets/icons/grean_location.svg',),
+                          SvgPicture.asset(
+                            'assets/icons/grean_location.svg',
+                          ),
                           const SizedBox(
                             width: 4,
                           ),
@@ -118,16 +126,18 @@ class CustomHospitalityItem extends StatelessWidget {
                           ),
                           Row(
                             children: [
-                              SvgPicture.asset('assets/icons/grey_calender.svg'),
+                              SvgPicture.asset(
+                                  'assets/icons/grey_calender.svg'),
                               const SizedBox(
                                 width: 4,
                               ),
-                             if (dayInfo != null || dayInfo != []) CustomText(
-                                text: dayInfo![0].startTime.substring(0,10),
-                                fontSize: 10,
-                                fontWeight: FontWeight.w400,
-                                color: starGreyColor,
-                              ),
+                              if (dayInfo != null || dayInfo != [])
+                                CustomText(
+                                  text: dayInfo![0].startTime.substring(0, 10),
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w400,
+                                  color: starGreyColor,
+                                ),
                             ],
                           ),
                           const SizedBox(
@@ -135,17 +145,17 @@ class CustomHospitalityItem extends StatelessWidget {
                           ),
                           Row(
                             children: [
-                                 SvgPicture.asset('assets/icons/meal_icon.svg'),
-                             // SvgPicture.asset('assets/icons/calendar.svg',color: purple,),
+                              SvgPicture.asset('assets/icons/meal_icon.svg'),
+                              // SvgPicture.asset('assets/icons/calendar.svg',color: purple,),
                               const SizedBox(
                                 width: 4,
                               ),
                               SizedBox(
-                                width: width*0.32,
+                                width: 100,
                                 child: CustomText(
                                   text: meal,
                                   fontSize: 10,
-                                  fontWeight: FontWeight.w400,
+                                  fontWeight: FontWeight.w300,
                                   color: starGreyColor,
                                   maxlines: 2,
                                 ),

@@ -6,14 +6,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomTicketCard extends StatelessWidget {
-  const CustomTicketCard({super.key, required this.booking, });
+  const CustomTicketCard({
+    super.key,
+    required this.booking,
+  });
 
   final Booking booking;
 
   @override
   Widget build(BuildContext context) {
-     final   width = MediaQuery.of(context).size.width;
- final   height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return Card(
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(16))),
@@ -25,26 +28,35 @@ class CustomTicketCard extends StatelessWidget {
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.end,
-        //  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //  mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(8)),
-                child: Image.network(booking.place!.image![0],height: height*0.08,width: width*0.2,fit: BoxFit.cover,)),
+                child: Image.network(
+                  booking.place!.image![0],
+                  height: height * 0.08,
+                  width: width * 0.2,
+                  fit: BoxFit.cover,
+                )),
 
-                SizedBox(width: 10,),
+            SizedBox(
+              width: 10,
+            ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Row(
                   children: [
-                     CustomText(
-                      text: booking.date.substring(0,10),
+                    CustomText(
+                      text: booking.date.substring(0, 10),
                       fontSize: 10,
                       fontWeight: FontWeight.w400,
                       color: colorGreen,
                     ),
-                    const SizedBox(width: 5,),
+                    const SizedBox(
+                      width: 5,
+                    ),
                     Container(
                       width: 5,
                       height: 5,
@@ -53,10 +65,11 @@ class CustomTicketCard extends StatelessWidget {
                         shape: BoxShape.circle,
                       ),
                     ),
-                    const SizedBox(width: 5,),
-                     CustomText(
-                      text:  '${booking.time} ',
-                                                           
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    CustomText(
+                      text: '${booking.timeToGo} ',
                       fontSize: 10,
                       fontWeight: FontWeight.w400,
                       color: colorGreen,
@@ -66,8 +79,10 @@ class CustomTicketCard extends StatelessWidget {
                 const SizedBox(
                   height: 8,
                 ),
-                 CustomText(
-                  text: AppUtil.rtlDirection(context) ? booking.place!.nameEn! : booking.place!.nameAr!,
+                CustomText(
+                  text: AppUtil.rtlDirection(context)
+                      ? booking.place!.nameEn!
+                      : booking.place!.nameAr!,
                   fontSize: 18,
                   fontWeight: FontWeight.w500,
                   color: black,
@@ -82,57 +97,57 @@ class CustomTicketCard extends StatelessWidget {
                       width: 4,
                     ),
                     CustomText(
-                      text:  AppUtil.rtlDirection(context) ? booking.place!.regionEn! : booking.place!.regionAr!,
+                      text: AppUtil.rtlDirection(context)
+                          ? booking.place!.regionEn!
+                          : booking.place!.regionAr!,
                       fontSize: 10,
                       fontWeight: FontWeight.w400,
                       color: textGreyColor,
                     ),
-
-                    SizedBox(width: width*0.2,),
-                      SvgPicture.asset(  'assets/icons/${booking.orderStatus! == 'ACCEPTED' ?'confirmed.svg' : 'waiting.svg' }'),
-                const SizedBox(
-                  width: 4,
-                ),
-                     CustomText(
-                  text:booking.orderStatus!,
-               
-                  fontSize: 10,
-                  fontWeight: FontWeight.w400,
-                  color: 
-                  
-                          
-                          colorGreen,
-                ),
+                    SizedBox(
+                      width: width * 0.2,
+                    ),
+                    SvgPicture.asset(
+                        'assets/icons/${booking.orderStatus! == 'ACCEPTED' ? 'confirmed.svg' : 'waiting.svg'}'),
+                    const SizedBox(
+                      width: 4,
+                    ),
+                    CustomText(
+                      text: booking.orderStatus!,
+                      fontSize: 10,
+                      fontWeight: FontWeight.w400,
+                      color: colorGreen,
+                    ),
                   ],
                 ),
               ],
             ),
-          //   Row(
-          //     children: [
+            //   Row(
+            //     children: [
 
-          //       CustomText(
-          //         text:booking.orderStatus!,
-          //         //  status == 'canceled'
-          //         //     ? 'canceled'.tr
-          //         //     : status == 'waiting'
-          //         //         ? 'waiting'.tr
-          //         //         : 
-          //                // 'confirmed'.tr,
-          //         fontSize: 10,
-          //         fontWeight: FontWeight.w400,
-          //         color: 
-                  
-          //         // status == 'canceled'
-          //         //     ? colorRed
-          //         //     : status == 'waiting'
-          //         //         ? yellow
-          //         //         : 
-                          
-          //                 colorGreen,
-          //       ),
-          //     ],
-          //   ),
-           ],
+            //       CustomText(
+            //         text:booking.orderStatus!,
+            //         //  status == 'canceled'
+            //         //     ? 'canceled'.tr
+            //         //     : status == 'waiting'
+            //         //         ? 'waiting'.tr
+            //         //         :
+            //                // 'confirmed'.tr,
+            //         fontSize: 10,
+            //         fontWeight: FontWeight.w400,
+            //         color:
+
+            //         // status == 'canceled'
+            //         //     ? colorRed
+            //         //     : status == 'waiting'
+            //         //         ? yellow
+            //         //         :
+
+            //                 colorGreen,
+            //       ),
+            //     ],
+            //   ),
+          ],
         ),
       ),
     );
