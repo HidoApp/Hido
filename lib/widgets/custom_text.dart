@@ -17,8 +17,11 @@ class CustomText extends StatelessWidget {
       this.height,
       this.fontFamily,
       this.fontStyle,
-      this.textDecorationStyle})
+      this.textDecorationStyle}) 
       : super(key: key);
+
+
+
 
   final String text;
   final double fontSize;
