@@ -161,7 +161,22 @@ class _FindAjwadyState extends State<FindAjwady> {
         "findLocal".tr,
         action: true,
         onPressedAction: () async {
-          await showBottomSheetCancelBooking(height: height, width: width);
+          // await showBottomSheetCancelBooking(height: height, width: width);
+          showModalBottomSheet(
+              isScrollControlled: true,
+              backgroundColor: Colors.transparent,
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                topRight: Radius.circular(30),
+                topLeft: Radius.circular(30),
+              )),
+              context: context,
+              builder: (context) {
+                return SelectAjwadySheet(
+                  place: widget.place,
+                  // booking: widget.booking,
+                );
+              });
         },
       ),
       body: Obx(() {
@@ -325,9 +340,11 @@ class _FindAjwadyState extends State<FindAjwady> {
                 ),
                 if (_offerController.offers.isNotEmpty)
                   GestureDetector(
-                    //TODO: offer screen will be there 
+                    //TODO: offer screen will be there
                     onTap: () {
-                      Get.to(()=>const OfferScreen());
+                      Get.to(() => OfferScreen(
+                            place: widget.place,
+                          ));
                       // showModalBottomSheet(
                       //     isScrollControlled: true,
                       //     backgroundColor: Colors.transparent,

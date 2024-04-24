@@ -26,26 +26,30 @@ class CustomAjwadiCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 12),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-           image.isNotEmpty
+            image.isNotEmpty
                 ? CircleAvatar(
                     backgroundImage: CachedNetworkImageProvider(
                       image,
                     ),
                     radius: 30,
                   )
-                : CircleAvatar(
-                    backgroundImage: AssetImage('assets/images/profile_image.png',),
-                     radius: 30,
+                : const CircleAvatar(
+                    backgroundImage: AssetImage(
+                      'assets/images/profile_image.png',
+                    ),
+                    radius: 32,
                   ),
-
+            const SizedBox(
+              width: 10,
+            ),
             // Image.network(
             //   image,
             //   height: 60,
             // ),
             Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomText(
                   text: name,
@@ -62,17 +66,19 @@ class CustomAjwadiCard extends StatelessWidget {
                 ),
               ],
             ),
+            const Spacer(),
             Container(
               height: 40,
               width: 100,
               decoration: BoxDecoration(
                   color: colorGreen, borderRadius: BorderRadius.circular(10)),
               child: Center(
-                  child: CustomText(
-                text: "$price SAR",
-                color: Colors.white,
-                fontSize: 14,
-              )),
+                child: CustomText(
+                  text: "$price SAR",
+                  color: Colors.white,
+                  fontSize: 14,
+                ),
+              ),
             )
           ],
         ),
