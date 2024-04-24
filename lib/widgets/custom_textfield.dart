@@ -17,15 +17,18 @@ class CustomTextField extends StatelessWidget {
     this.controller,
     this.enable,
     this.maxLines = 1,
+    this.isPassword=false,
     this.height,
     this.textColor, this.minLines,
     this.validator = true,  this.readOnly = false,
 
   });
+  
   final TextEditingController? controller;
   final TextInputType? keyboardType;
   final bool obscureText;
   final bool readOnly;
+  final bool isPassword;
   final String? hintText;
   final Widget? icon;
   final Widget? prefixIcon,suffixIcon;
@@ -62,6 +65,9 @@ class CustomTextField extends StatelessWidget {
         validator: validator   ? (v) {
               if (v!.isEmpty) {
                 return 'fieldRequired'.tr;
+              }
+              if (v!.trim().length<8 &&isPassword) {
+                return "you must enter at least 8 characters";
               }
               return null;
             }

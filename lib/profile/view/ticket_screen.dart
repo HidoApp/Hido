@@ -88,15 +88,14 @@ class _TicketScreenState extends State<TicketScreen>
                           const BorderRadius.all(Radius.circular(30))),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GestureDetector(
+                    children: [ GestureDetector(
                         onTap: () {
                           setState(() {
                             tabIndex = 0;
                           });
                         },
                         child: Container(
-                          width: width * 0.37,
+                          width: width * 0.4,
                           height: height * 0.04,
                           decoration: BoxDecoration(
                             color:
@@ -106,7 +105,7 @@ class _TicketScreenState extends State<TicketScreen>
                           ),
                           child: Center(
                             child: CustomText(
-                              text: "pastTrips".tr,
+                              text: "upcomingTrips".tr,
                               color: tabIndex == 0
                                   ? Colors.white
                                   : const Color(0xff9B9B9B),
@@ -122,7 +121,7 @@ class _TicketScreenState extends State<TicketScreen>
                           });
                         },
                         child: Container(
-                          width: width * 0.4,
+                          width: width * 0.37,
                           height: height * 0.04,
                           decoration: BoxDecoration(
                             color:
@@ -132,7 +131,7 @@ class _TicketScreenState extends State<TicketScreen>
                           ),
                           child: Center(
                             child: CustomText(
-                              text: "upcomingTrips".tr,
+                              text: "pastTrips".tr,
                               color: tabIndex == 1
                                   ? Colors.white
                                   : const Color(0xff9B9B9B),
@@ -141,10 +140,11 @@ class _TicketScreenState extends State<TicketScreen>
                           ),
                         ),
                       ),
+                     
                     ],
-                  )),
+                  ),),
 
-              tabIndex == 0
+              tabIndex == 1
                   ? Expanded(
                       child: widget.profileController.isPastTicketLoading.value
                           ? const Center(
@@ -177,7 +177,7 @@ class _TicketScreenState extends State<TicketScreen>
                                   },
                                 ),
                     )
-                  : tabIndex == 1
+                  : tabIndex == 0
                       ? Expanded(
                           child: widget.profileController
                                   .isUpcommingTicketLoading.value

@@ -450,7 +450,7 @@ class _TripDetailsState extends State<TripDetails> {
                             ? const CircularProgressIndicator()
                             : Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 30, vertical: 10),
+                                    horizontal: 30, vertical:7),
                                 child: !AppUtil.isGuest() &&
                                         isViewBooking.value // true
                                     ? CustomButton(

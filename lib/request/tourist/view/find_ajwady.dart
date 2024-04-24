@@ -5,6 +5,7 @@ import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
+import 'package:ajwad_v4/request/tourist/view/offers_screen.dart';
 import 'package:ajwad_v4/request/tourist/view/select_ajwady_sheet.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/StackWidgets.dart';
@@ -324,22 +325,24 @@ class _FindAjwadyState extends State<FindAjwady> {
                 ),
                 if (_offerController.offers.isNotEmpty)
                   GestureDetector(
+                    //TODO: offer screen will be there 
                     onTap: () {
-                      showModalBottomSheet(
-                          isScrollControlled: true,
-                          backgroundColor: Colors.transparent,
-                          shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(30),
-                            topLeft: Radius.circular(30),
-                          )),
-                          context: context,
-                          builder: (context) {
-                            return SelectAjwadySheet(
-                              place: widget.place,
-                              // booking: widget.booking,
-                            );
-                          });
+                      Get.to(()=>const OfferScreen());
+                      // showModalBottomSheet(
+                      //     isScrollControlled: true,
+                      //     backgroundColor: Colors.transparent,
+                      //     shape: const RoundedRectangleBorder(
+                      //         borderRadius: BorderRadius.only(
+                      //       topRight: Radius.circular(30),
+                      //       topLeft: Radius.circular(30),
+                      //     )),
+                      //     context: context,
+                      //     builder: (context) {
+                      //       return SelectAjwadySheet(
+                      //         place: widget.place,
+                      //         // booking: widget.booking,
+                      //       );
+                      //     });
                     },
                     child: Container(
                       height: 60,
