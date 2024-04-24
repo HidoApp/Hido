@@ -43,7 +43,8 @@ class TripCard extends StatelessWidget {
               borderRadius: const BorderRadius.all(
                 Radius.circular(8),
               ),
-              child: Image.network(
+              child: 
+              Image.network(
                 image,
                 fit: BoxFit.fill,
                 width: width * 0.2,

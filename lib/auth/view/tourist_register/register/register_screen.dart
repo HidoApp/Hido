@@ -148,6 +148,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               keyboardType: TextInputType.text,
                               obscureText: !showPassword,
                               hintText: 'password'.tr,
+                              isPassword: true,
                               controller: _passwordController,
                               prefixIcon: const Icon(
                                 Icons.lock_outline_rounded,
@@ -182,6 +183,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               keyboardType: TextInputType.text,
                               obscureText: !showConfirmPassword,
                               hintText: 'confirmPass'.tr,
+                                isPassword: true,
                               controller: _confirmPasswoedController,
                               prefixIcon: const Icon(
                                 Icons.lock_outline_rounded,

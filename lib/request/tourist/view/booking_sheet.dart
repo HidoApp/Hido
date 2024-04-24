@@ -631,8 +631,11 @@ class _BookingSheetState extends State<BookingSheet> {
                           : CustomButton(
                               title: "findLocal".tr,
                               onPressed: () async {
+                             
                                 // Get.to(() => const FindAjwady());
-
+                          //         if(!_touristExploreController.isBookingDateSelected.value){
+                          //      AppUtil.errorToast(context, 'hello');
+                          // }
                                 if (_touristExploreController.isBookingDateSelected.value &&
                                     _touristExploreController
                                         .isBookingTimeSelected.value &&
@@ -693,9 +696,11 @@ class _BookingSheetState extends State<BookingSheet> {
                                           context, 'somthingWentWrong'.tr);
                                     }
                                   }
-                                } else {
+                                } else {// here to change the toast 
+                                
                                   AppUtil.errorToast(
                                       context, 'bookingValidation'.tr);
+                                 
                                 }
                               },
                               icon: !AppUtil.rtlDirection(context)
