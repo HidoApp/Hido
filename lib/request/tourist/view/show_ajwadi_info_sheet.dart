@@ -87,19 +87,26 @@ class _ShowAjwadiInfoSheetState extends State<ShowAjwadiInfoSheet>
           const SizedBox(
             height: 20,
           ),
-          widget.image.isNotEmpty?
-           CircleAvatar(backgroundImage: CachedNetworkImageProvider( widget.image,),radius: 40,) : 
-          CircleAvatar(
-                    backgroundImage: AssetImage('assets/images/profile_image.png',),
-                     radius: 40,
+          widget.image.isNotEmpty
+              ? CircleAvatar(
+                  backgroundImage: CachedNetworkImageProvider(
+                    widget.image,
                   ),
-           
-            // Image.network(
-            //   widget.image,
-            //   height: 100,
-            //   width: 100,
-            //   // fit: BoxFit.cover,
-            // ),
+                  radius: 40,
+                )
+              : CircleAvatar(
+                  backgroundImage: AssetImage(
+                    'assets/images/profile_image.png',
+                  ),
+                  radius: 50,
+                ),
+
+          // Image.network(
+          //   widget.image,
+          //   height: 100,
+          //   width: 100,
+          //   // fit: BoxFit.cover,
+          // ),
           if (widget.image.isNotEmpty)
             const SizedBox(
               height: 20,

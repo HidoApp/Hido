@@ -1,4 +1,3 @@
-
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/request/tourist/view/custom_ajwadi_card.dart';
 import 'package:ajwad_v4/request/tourist/view/show_ajwadi_info_sheet.dart';
@@ -19,7 +18,6 @@ class SelectAjwadySheet extends StatefulWidget {
 
   // final Booking booking;
   final Place place;
-  
 
   @override
   State<SelectAjwadySheet> createState() => _SelectAjwadySheet();
@@ -27,11 +25,11 @@ class SelectAjwadySheet extends StatefulWidget {
 
 class _SelectAjwadySheet extends State<SelectAjwadySheet> {
   final _offerController = Get.put(OfferController());
-late double width, height;
+  late double width, height;
 
   @override
   Widget build(BuildContext context) {
-        width = MediaQuery.of(context).size.width;
+    width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
     return GestureDetector(
       onDoubleTap: (() {

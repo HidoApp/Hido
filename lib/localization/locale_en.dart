@@ -335,7 +335,7 @@ const localeEn = {
   "placeBooked": 'Booked',
   "checkText":
       "I am happy to help you, this is the tour schedule, check the things you want to do",
-  "showOffer": "Show Offer",
+  "showOffer": "View offer",
   "noMessages": "No messages",
   "approximateLocation":
       "Approximate location , The exact location will be revealed after booking",
