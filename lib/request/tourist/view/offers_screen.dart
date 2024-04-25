@@ -68,34 +68,6 @@ class _OfferScreenState extends State<OfferScreen> {
                         price: _offerController.offers[index].price!,
                         tripNumber:
                             _offerController.offers[index].tripNumber!));
-                    // showModalBottomSheet(
-                    //     isScrollControlled: true,
-                    //     backgroundColor: Colors.transparent,
-                    //     shape: const RoundedRectangleBorder(
-                    //         borderRadius: BorderRadius.only(
-                    //       topRight: Radius.circular(30),
-                    //       topLeft: Radius.circular(30),
-                    //     )),
-                    //     context: context,
-                    //     builder: (context) {
-                    //       return Obx(() {
-                    //         if (_offerController.isOfferLoading.value) {
-                    //           return const Center(
-                    //             child: CircularProgressIndicator(),
-                    //           );
-                    //         }
-                    //         return ShowAjwadiInfoSheet(
-                    //             // booking: widget.booking,
-                    //             place: widget.place,
-                    //             image:
-                    //                 _offerController.offers[index].image ?? '',
-                    //             name: _offerController.offers[index].name!,
-                    //             rating: _offerController.offers[index].rating!,
-                    //             price: _offerController.offers[index].price!,
-                    //             tripNumber:
-                    //                 _offerController.offers[index].tripNumber!);
-                    //       });
-                    //     });
                   },
                   child: CustomAjwadiCard(
                     image: _offerController.offers[index].image ?? '',
