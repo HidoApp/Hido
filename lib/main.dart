@@ -45,12 +45,14 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       translations: LocaleString(),
-      locale: Locale(local, local),
+      locale: local != "en" && local != "ar"
+          ? const Locale('en', "US")
+          : Locale(local, local),
       fallbackLocale: Locale(local),
       theme: ThemeData(
           fontFamily: 'HT Rakik',
           primaryColor: colorGreen,
-          colorScheme: ColorScheme.light(primary: colorGreen),
+          colorScheme: const ColorScheme.light(primary: colorGreen),
           useMaterial3: true),
       title: 'Ajwad',
       debugShowCheckedModeBanner: false,

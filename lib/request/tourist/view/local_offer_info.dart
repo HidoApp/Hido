@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
+import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
+import 'package:ajwad_v4/profile/models/profile.dart';
 import 'package:ajwad_v4/request/chat/view/chat_screen_live.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
 import 'package:ajwad_v4/request/tourist/models/offer_details.dart';
@@ -23,9 +25,10 @@ class LocalOfferInfo extends StatefulWidget {
       required this.price,
       required this.rating,
       required this.tripNumber,
-      required this.place});
+      required this.place, required this.profileId});
   final String image;
   final String name;
+  final String profileId;
   final int price, rating, tripNumber;
 
   final Place place;
@@ -36,16 +39,29 @@ class LocalOfferInfo extends StatefulWidget {
 class _LocalOfferInfoState extends State<LocalOfferInfo> {
   late double width, height;
   final _offerController = Get.put(OfferController());
-
+    final _profileController = Get.put(ProfileController());
+      late Profile? profile;
+  void getProfile() async {
+    await _profileController.getProfile(context: context,profileId:widget.profileId);
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getProfile();
+    
+     
+  }
   @override
   Widget build(BuildContext context) {
+
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
     return DefaultTabController(
       animationDuration: Durations.long1,
       length: 3,
       child: Scaffold(
-        appBar: const CustomAppBar(''),
+        appBar:  CustomAppBar("profile!.name??"""),
         body: Scaffold(
           appBar: AppBar(
             automaticallyImplyLeading: false,

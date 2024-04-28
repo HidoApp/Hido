@@ -161,22 +161,22 @@ class _FindAjwadyState extends State<FindAjwady> {
         "findLocal".tr,
         action: true,
         onPressedAction: () async {
-          // await showBottomSheetCancelBooking(height: height, width: width);
-          showModalBottomSheet(
-              isScrollControlled: true,
-              backgroundColor: Colors.transparent,
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                topRight: Radius.circular(30),
-                topLeft: Radius.circular(30),
-              )),
-              context: context,
-              builder: (context) {
-                return SelectAjwadySheet(
-                  place: widget.place,
-                  // booking: widget.booking,
-                );
-              });
+          await showBottomSheetCancelBooking(height: height, width: width);
+          // showModalBottomSheet(
+          //     isScrollControlled: true,
+          //     backgroundColor: Colors.transparent,
+          //     shape: const RoundedRectangleBorder(
+          //         borderRadius: BorderRadius.only(
+          //       topRight: Radius.circular(30),
+          //       topLeft: Radius.circular(30),
+          //     )),
+          //     context: context,
+          //     builder: (context) {
+          //       return SelectAjwadySheet(
+          //         place: widget.place,
+          //         // booking: widget.booking,
+          //       );
+          //     });
         },
       ),
       body: Obx(() {
