@@ -22,7 +22,7 @@ import 'package:http/http.dart' as http;
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 class ProfileService {
-  static Future<Profile?> getProfile({required BuildContext context}) async {
+  static Future<Profile?> getProfile({required BuildContext context,String profileId=""}) async {
     print("jwtToken");
     final getStorage = GetStorage();
     String token = getStorage.read('accessToken');
@@ -47,6 +47,7 @@ class ProfileService {
 
       id = jwtToken.id;
     }
+    
 
     final response = await http.get(
       Uri.parse('$baseUrl/profile/$id'),

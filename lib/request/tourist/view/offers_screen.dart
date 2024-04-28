@@ -64,6 +64,7 @@ class _OfferScreenState extends State<OfferScreen> {
                         place: widget.place,
                         image: _offerController.offers[index].image ?? '',
                         name: _offerController.offers[index].name!,
+                        profileId: _offerController.offers[index].profileId!,
                         rating: _offerController.offers[index].rating!,
                         price: _offerController.offers[index].price!,
                         tripNumber:

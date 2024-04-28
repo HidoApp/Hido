@@ -22,13 +22,13 @@ class ProfileController extends GetxController {
   var profile = Profile();
 
   Future<Profile?> getProfile({
-    required BuildContext context,
+    required BuildContext context,String profileId =""
   }) async {
     try {
       isProfileLoading(true);
       print('YES');
       profile = (await ProfileService.getProfile(
-        context: context,
+        context: context,profileId: profileId
       ))!;
       //! cache
       print('YES');
