@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:developer';  //(auto import will do this even)
-
-
+import 'dart:developer'; //(auto import will do this even)
 
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/auth/models/image.dart';
@@ -22,7 +20,8 @@ import 'package:http/http.dart' as http;
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 class ProfileService {
-  static Future<Profile?> getProfile({required BuildContext context,String profileId=""}) async {
+  static Future<Profile?> getProfile(
+      {required BuildContext context, String profileId = ""}) async {
     print("jwtToken");
     final getStorage = GetStorage();
     String token = getStorage.read('accessToken');
@@ -47,8 +46,8 @@ class ProfileService {
 
       id = jwtToken.id;
     }
-    
-
+    log("ID :" + id);
+    log("Profile :" + profileId);
     final response = await http.get(
       Uri.parse('$baseUrl/profile/$id'),
       headers: {
@@ -126,8 +125,7 @@ class ProfileService {
     return null;
   }
 
-
-      static Future<Profile?> editProfile({
+  static Future<Profile?> editProfile({
     String? name,
     String? profileImage,
     String? descripttion,
@@ -143,24 +141,20 @@ class ProfileService {
     final response = await http.put(Uri.parse('$baseUrl/profile'),
         headers: {
           'Accept': 'application/json',
-           
           "Content-Type": "application/json",
           'Authorization': 'Bearer $token',
         },
-        body: json.encode(
-          {
-            if (name != null) "name": name.trim(),
-            "image": profileImage,
-            if (descripttion != null) "descriptionAboutMe": descripttion.trim(),
-            if (intrest != null) "userInterest": intrest,
-            if (phone != null) "phoneNumber": phone.trim()
-          }
-    ));
+        body: json.encode({
+          if (name != null) "name": name.trim(),
+          "image": profileImage,
+          if (descripttion != null) "descriptionAboutMe": descripttion.trim(),
+          if (intrest != null) "userInterest": intrest,
+          if (phone != null) "phoneNumber": phone.trim()
+        }));
 
     print("response.statusCode Update profile ");
     print(response.statusCode);
     if (response.statusCode == 200) {
-  
       var profile = jsonDecode(response.body);
       print(profile);
       return Profile.fromJson(profile);
@@ -173,7 +167,6 @@ class ProfileService {
     }
   }
 
-
   static Future<List<Booking>?> getUserTicket({
     required String bookingType,
     required BuildContext context,
@@ -183,26 +176,23 @@ class ProfileService {
     final String? token = getStorage.read('accessToken');
     print(token);
 
-    final response = await http.get(Uri.parse('$baseUrl/booking').replace(queryParameters: {
-      'bookingType': bookingType,
-      
-    }),
-    
-        headers: {
-          'Accept': 'application/json',
-          "Content-Type": "application/json",
-          'Authorization': 'Bearer $token',
-        },
+    final response = await http.get(
+      Uri.parse('$baseUrl/booking').replace(queryParameters: {
+        'bookingType': bookingType,
+      }),
+      headers: {
+        'Accept': 'application/json',
+        "Content-Type": "application/json",
+        'Authorization': 'Bearer $token',
+      },
     );
 
     print("response.statusCode Update profile ");
     print(response.statusCode);
     if (response.statusCode == 200) {
-  
-       List<dynamic>  data = jsonDecode(response.body);
-     log('data: $data');
+      List<dynamic> data = jsonDecode(response.body);
+      log('data: $data');
       return data.map((booking) => Booking.fromJson(booking)).toList();
-
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
       if (context.mounted) {
@@ -212,32 +202,28 @@ class ProfileService {
     }
   }
 
-
-
-    static Future<List<ChatModel>?> getUserChats({
+  static Future<List<ChatModel>?> getUserChats({
     required BuildContext context,
   }) async {
     final getStorage = GetStorage();
     final String? token = getStorage.read('accessToken');
     print(token);
 
-    final response = await http.get(Uri.parse('$baseUrl/chat'),
-    
-        headers: {
-          'Accept': 'application/json',
-          "Content-Type": "application/json",
-          'Authorization': 'Bearer $token',
-        },
+    final response = await http.get(
+      Uri.parse('$baseUrl/chat'),
+      headers: {
+        'Accept': 'application/json',
+        "Content-Type": "application/json",
+        'Authorization': 'Bearer $token',
+      },
     );
 
     print("response.statusCode Update profile ");
     print(response.statusCode);
     if (response.statusCode == 200) {
-  
-       List<dynamic>  data = jsonDecode(response.body);
-    print(inspect(data));
+      List<dynamic> data = jsonDecode(response.body);
+      print(inspect(data));
       return data.map((chat) => ChatModel.fromJson(chat)).toList();
-
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
       if (context.mounted) {
@@ -246,10 +232,4 @@ class ProfileService {
       return null;
     }
   }
-
-
-
-
- 
-
 }

@@ -189,7 +189,9 @@ class _TripDetailsState extends State<TripDetails> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: SizedBox(
-                  height: height * 0.83,
+                  //here i fix the overflow
+
+                  // height: height * 0.83,
                   child: Column(
                     children: [
                       Align(
@@ -450,7 +452,7 @@ class _TripDetailsState extends State<TripDetails> {
                             ? const CircularProgressIndicator()
                             : Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 30, vertical:7),
+                                    horizontal: 30, vertical: 7),
                                 child: !AppUtil.isGuest() &&
                                         isViewBooking.value // true
                                     ? CustomButton(
@@ -531,6 +533,9 @@ class _TripDetailsState extends State<TripDetails> {
                                         : Container(),
                               ),
                       ),
+                      const SizedBox(
+                        height: 32,
+                      )
                     ],
                   ),
                 ),

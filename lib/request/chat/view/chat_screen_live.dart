@@ -61,7 +61,7 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
 
   PaymentController paymentController = Get.put(PaymentController());
   Invoice? invoice;
-    bool isCheckingForPayment = false;
+  bool isCheckingForPayment = false;
 
   @override
   void initState() {
@@ -343,98 +343,87 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                                     Get.to(() => PaymentWebView(
                                         url: invoice!.url!,
                                         title: 'Payment'))?.then((value) async {
-                                    
-                                       setState(() {
-                                                  isCheckingForPayment = true;
-                                                });
+                                      setState(() {
+                                        isCheckingForPayment = true;
+                                      });
 
-                                                        final checkInvoice =
-                                                    await paymentController
-                                                        .paymentInvoiceById(
-                                                            context: context,
-                                                            id: invoice!.id);
+                                      final checkInvoice =
+                                          await paymentController
+                                              .paymentInvoiceById(
+                                                  context: context,
+                                                  id: invoice!.id);
 
-                                                            print("checkInvoice!.invoiceStatus");
-                                                            print(checkInvoice!.invoiceStatus);
+                                      print("checkInvoice!.invoiceStatus");
+                                      print(checkInvoice!.invoiceStatus);
 
-                                                                         if (checkInvoice
-                                                        .invoiceStatus !=
-                                                    'faild') {
-                                                
-                                                  setState(() {
-                                                    isCheckingForPayment =
-                                                        false;
-                                                  });
+                                      if (checkInvoice.invoiceStatus !=
+                                          'faild') {
+                                        setState(() {
+                                          isCheckingForPayment = false;
+                                        });
 
-                                                  if (checkInvoice
-                                                              .invoiceStatus ==
-                                                          'failed' ||
-                                                      checkInvoice
-                                                              .invoiceStatus ==
-                                                          'initiated') {
-                                                    //  Get.back();
+                                        if (checkInvoice.invoiceStatus ==
+                                                'failed' ||
+                                            checkInvoice.invoiceStatus ==
+                                                'initiated') {
+                                          //  Get.back();
 
-                                                    showDialog(
-                                                        context: context,
-                                                        builder: (ctx) {
-                                                          return AlertDialog(
-                                                            backgroundColor:
-                                                                Colors.white,
-                                                            content: Column(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .min,
-                                                              children: [
-                                                                Image.asset(
-                                                                    'assets/images/paymentFaild.gif'),
-                                                                CustomText(
-                                                                    text:
-                                                                        "paymentFaild"
-                                                                            .tr),
-                                                              ],
-                                                            ),
-                                                          );
-                                                        });
-                                                  } else {
-                                                    print('YES');
-                                                    // Get.back();
-                                                    // Get.back();
+                                          showDialog(
+                                              context: context,
+                                              builder: (ctx) {
+                                                return AlertDialog(
+                                                  backgroundColor: Colors.white,
+                                                  content: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      Image.asset(
+                                                          'assets/images/paymentFaild.gif'),
+                                                      CustomText(
+                                                          text: "paymentFaild"
+                                                              .tr),
+                                                    ],
+                                                  ),
+                                                );
+                                              });
+                                        } else {
+                                          print('YES');
+                                          // Get.back();
+                                          // Get.back();
 
-                                                        final acceptedOffer = await widget
-                                        .offerController!
-                                        .acceptOffer(
-                                      context: context,
-                                      offerId: widget.offerController!.offerDetails.value.id!,
-                                      invoiceId: checkInvoice.id,
-                                      schedules: widget.offerController!
-                                          .offerDetails.value.schedule!,
-                                    );
-                               //     Get.back();
-                                //    Get.back();
+                                          final acceptedOffer = await widget
+                                              .offerController!
+                                              .acceptOffer(
+                                            context: context,
+                                            offerId: widget.offerController!
+                                                .offerDetails.value.id!,
+                                            invoiceId: checkInvoice.id,
+                                            schedules: widget.offerController!
+                                                .offerDetails.value.schedule!,
+                                          );
+                                          //     Get.back();
+                                          //    Get.back();
 
-                                                    showDialog(
-                                                        context: context,
-                                                        builder: (ctx) {
-                                                          return AlertDialog(
-                                                            backgroundColor:
-                                                                Colors.white,
-                                                            content: Column(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .min,
-                                                              children: [
-                                                                Image.asset(
-                                                                    'assets/images/paymentSuccess.gif'),
-                                                                CustomText(
-                                                                    text:
-                                                                        "paymentSuccess"
-                                                                            .tr),
-                                                              ],
-                                                            ),
-                                                          );
-                                                        });
-                                                  }
-                                                }
+                                          showDialog(
+                                              context: context,
+                                              builder: (ctx) {
+                                                return AlertDialog(
+                                                  backgroundColor: Colors.white,
+                                                  content: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      Image.asset(
+                                                          'assets/images/paymentSuccess.gif'),
+                                                      CustomText(
+                                                          text: "paymentSuccess"
+                                                              .tr),
+                                                    ],
+                                                  ),
+                                                );
+                                              });
+                                        }
+                                      }
                                     });
                                     // Get.to(
                                     //   () => CheckOutScreen(

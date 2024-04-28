@@ -39,14 +39,15 @@ class _MyAppState extends State<MyApp> {
     print('${Platform.localeName.toLocale().languageCode}');
 
     local = Platform.localeName.toLocale().languageCode;
-    
   }
 
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       translations: LocaleString(),
-      locale:local!="en"&& local!="ar"?  const Locale('en', "US"):Locale(local, local),
+      locale: local != "en" && local != "ar"
+          ? const Locale('en', "US")
+          : Locale(local, local),
       fallbackLocale: Locale(local),
       theme: ThemeData(
           fontFamily: 'HT Rakik',
