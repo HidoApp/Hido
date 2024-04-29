@@ -7,6 +7,9 @@ import 'package:ajwad_v4/profile/models/profile.dart';
 import 'package:ajwad_v4/request/chat/view/chat_screen_live.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
 import 'package:ajwad_v4/request/tourist/models/offer_details.dart';
+import 'package:ajwad_v4/request/tourist/view/about_screen.dart';
+import 'package:ajwad_v4/request/tourist/view/expert_screen.dart';
+import 'package:ajwad_v4/request/tourist/view/reviews_screen.dart';
 import 'package:ajwad_v4/request/widgets/local_tile.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_accept_button.dart';
@@ -25,7 +28,8 @@ class LocalOfferInfo extends StatefulWidget {
       required this.price,
       required this.rating,
       required this.tripNumber,
-      required this.place, required this.profileId});
+      required this.place,
+      required this.profileId});
   final String image;
   final String name;
   final String profileId;
@@ -39,29 +43,29 @@ class LocalOfferInfo extends StatefulWidget {
 class _LocalOfferInfoState extends State<LocalOfferInfo> {
   late double width, height;
   final _offerController = Get.put(OfferController());
-    final _profileController = Get.put(ProfileController());
-      late Profile? profile;
+  final _profileController = Get.put(ProfileController());
+  late Profile? profile;
   void getProfile() async {
-    await _profileController.getProfile(context: context,profileId:widget.profileId);
+    await _profileController.getProfile(
+        context: context, profileId: widget.profileId);
   }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getProfile();
-    
-     
   }
+
   @override
   Widget build(BuildContext context) {
-
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
     return DefaultTabController(
       //animationDuration: Durations.long1,
       length: 3,
       child: Scaffold(
-        appBar:  CustomAppBar("profile!.name??"""),
+        appBar: CustomAppBar(""),
         body: Scaffold(
           appBar: AppBar(
             automaticallyImplyLeading: false,
@@ -282,10 +286,12 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
               ],
             ),
           ),
-          body: const TabBarView(children: [
-            CustomText(text: 'about'),
-            CustomText(text: 'Expert'),
-            CustomText(text: 'Review')
+          body: TabBarView(children: [
+            AboutScreen(
+              profileController: _profileController,
+            ),
+            const ExpertScreen(),
+            const ReviewsScreen()
           ]),
         ),
       ),
