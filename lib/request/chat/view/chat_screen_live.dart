@@ -27,7 +27,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:intl/intl.dart' as intl;
+import 'package:intl/intl.dart' ;
+
 
 class ChatScreenLive extends StatefulWidget {
   // final String senderId;
@@ -56,12 +57,15 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
   final chatController = Get.put(ChatController());
   final getStorage = GetStorage();
   String? userId;
+    bool isDetailsTapped = false;
+  late double width, height;
 
-  RxBool isDetailsTapped = false.obs;
+
+RxBool isDetailsTapped2 = false.obs;
 
   PaymentController paymentController = Get.put(PaymentController());
   Invoice? invoice;
-  bool isCheckingForPayment = false;
+    bool isCheckingForPayment = false;
 
   @override
   void initState() {
@@ -80,6 +84,8 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
 
   @override
   Widget build(BuildContext context) {
+   width = MediaQuery.of(context).size.width;
+
     return Scaffold(
       backgroundColor: lightGreyBackground,
       body: Obx(
@@ -87,40 +93,51 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // App Bar
               Row(
                 children: [
-                  if (AppUtil.rtlDirection(context))
+                  if (AppUtil.rtlDirection2(context))
                     IconButton(
                       onPressed: () {
                         Get.back();
                       },
                       icon: const Icon(
-                        Icons.arrow_back,
+                        Icons.keyboard_arrow_right,
                         color: black,
                         size: 26,
                       ),
                     ),
-                  if (AppUtil.rtlDirection(context) && (!widget.isAjwadi))
+                  if (AppUtil.rtlDirection2(context) && (!widget.isAjwadi))
                     const SizedBox(
                       width: 4,
                     ),
-                  CustomText(
-                    text: 'chat'.tr,
-                    fontSize: 24,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  if (AppUtil.rtlDirection(context) && (!widget.isAjwadi))
+                  Padding(
+  padding: EdgeInsets.only(
+  right: AppUtil.rtlDirection2(context)
+      ? MediaQuery.of(context).size.width * 0.2
+      : 0,
+  left: AppUtil.rtlDirection2(context)
+      ? 0
+      : MediaQuery.of(context).size.width * 0.2,
+),
+  child: Center(
+    child: CustomText(
+      text: 'showOffer'.tr,
+      fontSize: 24,
+      fontWeight: FontWeight.w500,
+    ),
+  ),
+),
+                  if (AppUtil.rtlDirection2(context) && (!widget.isAjwadi))
                     const SizedBox(
                       width: 4,
                     ),
-                  if (!AppUtil.rtlDirection(context))
+                  if (!AppUtil.rtlDirection2(context))
                     IconButton(
                       onPressed: () {
                         Get.back();
                       },
                       icon: const Icon(
-                        Icons.arrow_forward,
+                        Icons.keyboard_arrow_left,
                         color: black,
                         size: 26,
                       ),
@@ -128,127 +145,216 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                 ],
               ),
               const SizedBox(height: 10),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: InkWell(
-                        onTap: () {
-                          isDetailsTapped.value = !isDetailsTapped.value;
-                        },
-                        child: Container(
-                          height: 56,
-                          padding: const EdgeInsets.only(
-                            left: 11,
-                            right: 12,
-                          ),
-                          decoration: ShapeDecoration(
-                            color: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                CustomText(
-                                  text: 'tripDetails'.tr,
-                                  color: darkBlue,
-                                ),
-                                const Spacer(),
-                                // Obx(
-                                //   () =>
-                                Icon(
-                                  isDetailsTapped.value
-                                      ? Icons.keyboard_arrow_up
-                                      : Icons.keyboard_arrow_down,
-                                  color: darkBlue,
-                                  size: 24,
-                                ),
-                                // )
-                              ]),
-                        ),
-                      ),
-                    ),
-                    // End Request
-                    if (widget.isAjwadi)
-                      Expanded(
-                        child:
-                            //  Obx(
-                            //   () =>
-                            widget.requestController!.isRequestEndLoading.value
-                                ? const Center(
-                                    child: CircularProgressIndicator(
-                                        color: Color(0xffD75051)),
-                                  )
-                                : InkWell(
-                                    onTap: () async {
-                                      log("requestModel.value.id! ${widget.requestController!.requestModel.value.id!}");
-                                      bool requestEnd = await widget
-                                              .requestController!
-                                              .requestEnd(
-                                                  id: widget.requestController!
-                                                      .requestModel.value.id!,
-                                                  context: context) ??
-                                          false;
-                                      if (requestEnd) {
-                                        if (context.mounted) {
-                                          AppUtil.successToast(
-                                              context, 'EndRound'.tr);
-                                          await Future.delayed(
-                                              const Duration(seconds: 1));
-                                        }
-                                        Get.offAll(const AjwadiBottomBar());
-                                      }
-                                    },
-                                    child: Container(
-                                      height: 55,
-                                      width: 120,
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 8),
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: const Color(0xffD75051)),
-                                          borderRadius:
-                                              BorderRadius.circular(12)),
-                                      child: Row(
-                                        children: [
-                                          if (!AppUtil.rtlDirection(context))
-                                            const Icon(Icons.close,
-                                                size: 14,
-                                                color: Color(0xffD75051)),
-                                          if (!AppUtil.rtlDirection(context))
-                                            const Spacer(),
-                                          CustomText(
-                                            text: 'EndRound'.tr,
-                                            color: const Color(0xffD75051),
-                                            fontSize: 14,
-                                          ),
-                                          if (AppUtil.rtlDirection(context))
-                                            const Spacer(),
-                                          if (AppUtil.rtlDirection(context))
-                                            const Icon(Icons.close,
-                                                size: 14,
-                                                color: Color(0xffD75051)),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                        // ),
-                      ),
-                  ],
-                ),
-              ),
+              Padding(padding: const EdgeInsets.only(left: 90)),
+       Center(
+          child:  Container(
+         width: 0.90 * width,
 
+  decoration: BoxDecoration(
+    color: Colors.white,
+    borderRadius: BorderRadius.circular(12),
+  ),
+  child: Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      ListTile(
+        onTap: () {
+          setState(() {
+            isDetailsTapped = !isDetailsTapped;
+          });
+        },
+        title: CustomText(
+          text: 'tripDetails'.tr,
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
+          color: Colors.black,
+          
+        ),
+        trailing: Icon(
+          isDetailsTapped
+              ? Icons.keyboard_arrow_up
+              : Icons.keyboard_arrow_down,
+          color: darkGrey,
+          size: 24,
+        ),
+      ),
+      if (isDetailsTapped)
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  SvgPicture.asset('assets/icons/guests.svg'),
+                  const SizedBox(width: 10),
+                  CustomText(
+                    text: '${widget.booking?.guestNumber ?? 0} ${'guests'.tr}',
+                    color: almostGrey,
+                    fontSize: 10,
+                    fontWeight: FontWeight.w300,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  SvgPicture.asset('assets/icons/date.svg'),
+                  const SizedBox(width: 10),
+                  CustomText(
+                    text: '${DateFormat('dd/MM/yyyy').format(DateTime.parse(widget.booking?.date ?? ''))} - ${widget.booking?.timeToGo}',
+                    color: almostGrey,
+                    fontSize: 10,
+                    fontWeight: FontWeight.w300,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  SvgPicture.asset(
+                    'assets/icons/unselected_${widget.booking?.vehicleType!}_icon.svg',
+                    width: 20,
+                  ),
+                  const SizedBox(width: 10),
+                  CustomText(
+                    text: widget.booking?.vehicleType ?? '',
+                    color: almostGrey,
+                    fontSize: 10,
+                    fontWeight: FontWeight.w300,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+    ],
+  ),
+),
+       ),         
+          
+       const SizedBox(height: 30),
+
+                          // Padding(
+              //   padding: const EdgeInsets.all(16.0),
+              //   child: Row(
+              //     crossAxisAlignment: CrossAxisAlignment.center,
+              //     children: [
+              //       Expanded(
+              //         flex: 2,
+              //         child: InkWell(
+              //           onTap: () {
+              //             isDetailsTapped.value = !isDetailsTapped.value;
+              //           },
+              //           child: Container(
+              //             height: 56,
+              //             padding: const EdgeInsets.only(
+              //               left: 11,
+              //               right: 12,
+              //             ),
+              //             decoration: ShapeDecoration(
+              //               color: Colors.white,
+              //               shape: RoundedRectangleBorder(
+              //                 borderRadius: BorderRadius.circular(12),
+              //               ),
+              //             ),
+              //             child: Row(
+              //                 mainAxisAlignment: MainAxisAlignment.start,
+              //                 crossAxisAlignment: CrossAxisAlignment.center,
+              //                 children: [
+              //                   CustomText(
+              //                     text: 'tripDetails'.tr,
+              //                     color: darkBlue,
+              //                   ),
+              //                   const Spacer(),
+              //                   // Obx(
+              //                   //   () =>
+              //                   Icon(
+              //                     isDetailsTapped.value
+              //                         ? Icons.keyboard_arrow_up
+              //                         : Icons.keyboard_arrow_down,
+              //                     color: darkBlue,
+              //                     size: 24,
+              //                   ),
+              //                   // )
+              //                 ]),
+              //           ),
+              //         ),
+              //       ),
+              //       // End Request
+              //       if (widget.isAjwadi)
+              //         Expanded(
+              //           child:
+              //               //  Obx(
+              //               //   () =>
+              //               widget.requestController!.isRequestEndLoading.value
+              //                   ? const Center(
+              //                       child: CircularProgressIndicator(
+              //                           color: Color(0xffD75051)),
+              //                     )
+              //                   : InkWell(
+              //                       onTap: () async {
+              //                         log("requestModel.value.id! ${widget.requestController!.requestModel.value.id!}");
+              //                         bool requestEnd = await widget
+              //                                 .requestController!
+              //                                 .requestEnd(
+              //                                     id: widget.requestController!
+              //                                         .requestModel.value.id!,
+              //                                     context: context) ??
+              //                             false;
+              //                         if (requestEnd) {
+              //                           if (context.mounted) {
+              //                             AppUtil.successToast(
+              //                                 context, 'EndRound'.tr);
+              //                             await Future.delayed(
+              //                                 const Duration(seconds: 1));
+              //                           }
+              //                           Get.offAll(const AjwadiBottomBar());
+              //                         }
+              //                       },
+              //                       child: Container(
+              //                         height: 55,
+              //                         width: 120,
+              //                         padding: const EdgeInsets.symmetric(
+              //                             horizontal: 8),
+              //                         alignment: Alignment.center,
+              //                         decoration: BoxDecoration(
+              //                             border: Border.all(
+              //                                 color: const Color(0xffD75051)),
+              //                             borderRadius:
+              //                                 BorderRadius.circular(12)),
+              //                         child: Row(
+              //                           children: [
+              //                             if (!AppUtil.rtlDirection(context))
+              //                               const Icon(Icons.close,
+              //                                   size: 14,
+              //                                   color: Color(0xffD75051)),
+              //                             if (!AppUtil.rtlDirection(context))
+              //                               const Spacer(),
+              //                             CustomText(
+              //                               text: 'EndRound'.tr,
+              //                               color: const Color(0xffD75051),
+              //                               fontSize: 14,
+              //                             ),
+              //                             if (AppUtil.rtlDirection(context))
+              //                               const Spacer(),
+              //                             if (AppUtil.rtlDirection(context))
+              //                               const Icon(Icons.close,
+              //                                   size: 14,
+              //                                   color: Color(0xffD75051)),
+              //                           ],
+              //                         ),
+              //                       ),
+              //                     ),
+              //           // ),
+              //         ),
+              //     ],
+              //   ),
+              // ),
               // ?  ============== Request Case =================
               if ((widget.isAjwadi)) ...[
-                // Obx(() =>
-                isDetailsTapped.value
+                 Obx(() =>
+                isDetailsTapped2.value
                     ? widget.chatId == null
                         ? Expanded(
                             child: SingleChildScrollView(
@@ -267,7 +373,7 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                             ),
                           )
                     : const SizedBox()
-                //),
+                ),
               ],
               // ?  ============== Offers Case =================
               if (widget.chatId == null && (!widget.isAjwadi)) ...[
@@ -282,7 +388,7 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                           Container(
                             width: double.infinity,
                             padding: const EdgeInsets.only(
-                              top: 8,
+                              top: 15,
                               bottom: 15,
                             ),
                             child: Row(
@@ -316,9 +422,14 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                                   color: colorGreen,
                                 )
                               : CustomButton(
-                                  title: 'confirm'.tr,
-                                  icon: SvgPicture.asset(
-                                      'assets/icons/circular_forward.svg'),
+                                
+                                title: 'pay'.tr,
+
+
+
+
+
+                                icon: Icon(Icons.keyboard_arrow_right,color: Colors.white),
                                   onPressed: () async {
                                     invoice ??=
                                         await paymentController.paymentInvoice(
@@ -343,87 +454,98 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                                     Get.to(() => PaymentWebView(
                                         url: invoice!.url!,
                                         title: 'Payment'))?.then((value) async {
-                                      setState(() {
-                                        isCheckingForPayment = true;
-                                      });
+                                    
+                                       setState(() {
+                                                  isCheckingForPayment = true;
+                                                });
 
-                                      final checkInvoice =
-                                          await paymentController
-                                              .paymentInvoiceById(
-                                                  context: context,
-                                                  id: invoice!.id);
+                                                        final checkInvoice =
+                                                    await paymentController
+                                                        .paymentInvoiceById(
+                                                            context: context,
+                                                            id: invoice!.id);
 
-                                      print("checkInvoice!.invoiceStatus");
-                                      print(checkInvoice!.invoiceStatus);
+                                                            print("checkInvoice!.invoiceStatus");
+                                                            print(checkInvoice!.invoiceStatus);
 
-                                      if (checkInvoice.invoiceStatus !=
-                                          'faild') {
-                                        setState(() {
-                                          isCheckingForPayment = false;
-                                        });
+                                                                         if (checkInvoice
+                                                        .invoiceStatus !=
+                                                    'faild') {
+                                                
+                                                  setState(() {
+                                                    isCheckingForPayment =
+                                                        false;
+                                                  });
 
-                                        if (checkInvoice.invoiceStatus ==
-                                                'failed' ||
-                                            checkInvoice.invoiceStatus ==
-                                                'initiated') {
-                                          //  Get.back();
+                                                  if (checkInvoice
+                                                              .invoiceStatus ==
+                                                          'failed' ||
+                                                      checkInvoice
+                                                              .invoiceStatus ==
+                                                          'initiated') {
+                                                    //  Get.back();
 
-                                          showDialog(
-                                              context: context,
-                                              builder: (ctx) {
-                                                return AlertDialog(
-                                                  backgroundColor: Colors.white,
-                                                  content: Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: [
-                                                      Image.asset(
-                                                          'assets/images/paymentFaild.gif'),
-                                                      CustomText(
-                                                          text: "paymentFaild"
-                                                              .tr),
-                                                    ],
-                                                  ),
-                                                );
-                                              });
-                                        } else {
-                                          print('YES');
-                                          // Get.back();
-                                          // Get.back();
+                                                    showDialog(
+                                                        context: context,
+                                                        builder: (ctx) {
+                                                          return AlertDialog(
+                                                            backgroundColor:
+                                                                Colors.white,
+                                                            content: Column(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .min,
+                                                              children: [
+                                                                Image.asset(
+                                                                    'assets/images/paymentFaild.gif'),
+                                                                CustomText(
+                                                                    text:
+                                                                        "paymentFaild"
+                                                                            .tr),
+                                                              ],
+                                                            ),
+                                                          );
+                                                        });
+                                                  } else {
+                                                    print('YES');
+                                                    // Get.back();
+                                                    // Get.back();
 
-                                          final acceptedOffer = await widget
-                                              .offerController!
-                                              .acceptOffer(
-                                            context: context,
-                                            offerId: widget.offerController!
-                                                .offerDetails.value.id!,
-                                            invoiceId: checkInvoice.id,
-                                            schedules: widget.offerController!
-                                                .offerDetails.value.schedule!,
-                                          );
-                                          //     Get.back();
-                                          //    Get.back();
+                                                        final acceptedOffer = await widget
+                                        .offerController!
+                                        .acceptOffer(
+                                      context: context,
+                                      offerId: widget.offerController!.offerDetails.value.id!,
+                                      invoiceId: checkInvoice.id,
+                                      schedules: widget.offerController!
+                                          .offerDetails.value.schedule!,
+                                    );
+                               //     Get.back();
+                                //    Get.back();
 
-                                          showDialog(
-                                              context: context,
-                                              builder: (ctx) {
-                                                return AlertDialog(
-                                                  backgroundColor: Colors.white,
-                                                  content: Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: [
-                                                      Image.asset(
-                                                          'assets/images/paymentSuccess.gif'),
-                                                      CustomText(
-                                                          text: "paymentSuccess"
-                                                              .tr),
-                                                    ],
-                                                  ),
-                                                );
-                                              });
-                                        }
-                                      }
+                                                    showDialog(
+                                                        context: context,
+                                                        builder: (ctx) {
+                                                          return AlertDialog(
+                                                            backgroundColor:
+                                                                Colors.white,
+                                                            content: Column(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .min,
+                                                              children: [
+                                                                Image.asset(
+                                                                    'assets/images/paymentSuccess.gif'),
+                                                                CustomText(
+                                                                    text:
+                                                                        "paymentSuccess"
+                                                                            .tr),
+                                                              ],
+                                                            ),
+                                                          );
+                                                        });
+                                                  }
+                                                }
                                     });
                                     // Get.to(
                                     //   () => CheckOutScreen(
@@ -545,7 +667,7 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                                                     .value
                                                     .messages![index]
                                                     .message,
-                                                created: intl.DateFormat(
+                                                created: DateFormat(
                                                         'dd/MM/yyyy hh:mm a')
                                                     .format(
                                                   DateTime.parse(
@@ -577,49 +699,45 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                           ? Center(
                               child: CircularProgressIndicator(
                                   color: Colors.green[800]))
-                          : Directionality(
-                              textDirection: TextDirection.ltr,
-                              child: IconButton(
-                                icon: Icon(
-                                  Icons.send,
-                                  size: 30,
-                                  color: Colors.green[800],
-                                ),
-                                onPressed: () async {
-                                  if (messageController.text.trim() != '') {
-                                    bool? send =
-                                        await chatController.postMessage(
-                                            chatId: widget.chatId!,
-                                            message: messageController.text,
-                                            context: context);
-                                    if (send == true) {
-                                      setState(() {
-                                        chatController.chat.value.messages!.add(
-                                            ChatMessage(
-                                                // senderName: "",
-                                                // senderImage: "",
-                                                senderId: userId,
-                                                message: messageController.text,
-                                                created:
-                                                    DateTime.now().toString()));
-                                      });
-                                      messageController.clear();
-                                      if (chatController.chat.value.messages !=
-                                              null &&
-                                          chatController
-                                                  .chat.value.messages!.length >
-                                              2) {
-                                        chatController.scrollController.jumpTo(
-                                            chatController.scrollController
-                                                    .position.maxScrollExtent *
-                                                1.4);
-                                      }
-                                    }
-                                  }
-                                },
-                              ),
-                              // ),
+                          : IconButton(
+                            icon: Icon(
+                              Icons.send,
+                              size: 30,
+                              color: Colors.green[800],
                             ),
+                            onPressed: () async {
+                              if (messageController.text.trim() != '') {
+                                bool? send =
+                                    await chatController.postMessage(
+                                        chatId: widget.chatId!,
+                                        message: messageController.text,
+                                        context: context);
+                                if (send == true) {
+                                  setState(() {
+                                    chatController.chat.value.messages!.add(
+                                        ChatMessage(
+                                            // senderName: "",
+                                            // senderImage: "",
+                                            senderId: userId,
+                                            message: messageController.text,
+                                            created:
+                                                DateTime.now().toString()));
+                                  });
+                                  messageController.clear();
+                                  if (chatController.chat.value.messages !=
+                                          null &&
+                                      chatController
+                                              .chat.value.messages!.length >
+                                          2) {
+                                    chatController.scrollController.jumpTo(
+                                        chatController.scrollController
+                                                .position.maxScrollExtent *
+                                            1.4);
+                                  }
+                                }
+                              }
+                            },
+                          ),
                       Expanded(
                         child: CustomTextField(
                           controller: messageController,

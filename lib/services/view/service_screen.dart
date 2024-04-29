@@ -57,7 +57,7 @@ class _ServiceScreenState extends State<ServiceScreen>
                   left: 16,
                   right: 16,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
+                  crossAxisAlignment: AppUtil.rtlDirection2(context) ? CrossAxisAlignment.start : CrossAxisAlignment.start,
                     children: [
                       Container(
                         width: 126,
@@ -66,8 +66,10 @@ class _ServiceScreenState extends State<ServiceScreen>
                             color: Colors.black.withOpacity(0.2),
                             borderRadius: BorderRadius.circular(16)),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          textDirection: TextDirection.ltr,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        textDirection: TextDirection.ltr,
+
+
                           children: [
                             //             InkWell(
                             //               onTap: () {},
@@ -180,8 +182,11 @@ class _ServiceScreenState extends State<ServiceScreen>
                       ),
                       Padding(
                         padding: EdgeInsets.only(
-                          right: AppUtil.rtlDirection(context) ? 8 : 0,
-                          left: AppUtil.rtlDirection(context) ? 0 : 8,
+                         // right: AppUtil.rtlDirection(context) ? 8 : 0,
+                          //left: AppUtil.rtlDirection(context) ? 0 : 8,
+                        right: (_tabIndex == 3) ? (AppUtil.rtlDirection2(context) ? 0 : 155) : (_tabIndex == 1)? (AppUtil.rtlDirection2(context) ? 0 : 49):(AppUtil.rtlDirection2(context) ? 0 : 65),
+                        left: (_tabIndex == 3) ? (AppUtil.rtlDirection2(context) ? 225 : 0) : (_tabIndex == 1)?(AppUtil.rtlDirection2(context) ? 133 : 0) :(AppUtil.rtlDirection2(context) ? 89 : 0),
+
                         ),
                         child: CustomText(
                           text: (_tabIndex == 0
@@ -199,8 +204,10 @@ class _ServiceScreenState extends State<ServiceScreen>
                       ),
                       Padding(
                         padding: EdgeInsets.only(
-                          right: AppUtil.rtlDirection(context) ? 8 : 0,
-                          left: AppUtil.rtlDirection(context) ? 0 : 8,
+                          //right: AppUtil.rtlDirection(context) ? 8 : 0,
+                          //left: AppUtil.rtlDirection(context) ? 0 : 8,
+                          right: (_tabIndex == 2) ? (AppUtil.rtlDirection2(context) ? 0 : 35) :AppUtil.rtlDirection2(context) ? 0 : 4,
+                          left: (_tabIndex == 1) ? (AppUtil.rtlDirection2(context) ? 95 : 0) : AppUtil.rtlDirection2(context) ? 85 : 0,
                         ),
                         child: CustomText(
                           text: (_tabIndex == 0
@@ -218,7 +225,9 @@ class _ServiceScreenState extends State<ServiceScreen>
                   ),
                 ),
                 Directionality(
-                  textDirection: TextDirection.ltr,
+                 // textDirection: TextDirection.ltr,
+                textDirection: AppUtil.rtlDirection2(context) ? TextDirection.rtl : TextDirection.ltr,
+
                   child: TabBar(
                     controller: _tabController,
                     indicator: const BoxDecoration(
@@ -229,7 +238,7 @@ class _ServiceScreenState extends State<ServiceScreen>
                       color: Colors.white,
                     ),
                     labelPadding: const EdgeInsets.all(8),
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
+                    padding: const EdgeInsets.symmetric(horizontal: 2),
                     onTap: (index) {
                       setState(() {
                         _tabIndex = index;
@@ -239,7 +248,9 @@ class _ServiceScreenState extends State<ServiceScreen>
                       Padding(
                         padding: EdgeInsets.symmetric(
                             horizontal:
-                                !AppUtil.rtlDirection(context) ? 18 : 5),
+                                // !AppUtil.rtlDirection(context) ? 18 : 5),
+                                  AppUtil.rtlDirection2(context) ? 18 : 5),
+
                         child: Container(
                           child: CustomText(
                             text: "hospitality".tr,
@@ -252,7 +263,15 @@ class _ServiceScreenState extends State<ServiceScreen>
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 18),
+                        // padding: const EdgeInsets.symmetric(horizontal: 18),
+
+                         padding: EdgeInsets.symmetric(
+                            horizontal:
+                                // !AppUtil.rtlDirection(context) ? 15 : 5),
+                                AppUtil.rtlDirection2(context) ? 15 : 5),
+
+
+                        //padding: const EdgeInsets.symmetric(horizontal: 15),
                         child: CustomText(
                           text: "events".tr,
                           color: _tabIndex == 1 ? black : Colors.white,

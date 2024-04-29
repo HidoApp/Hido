@@ -9,3 +9,6 @@ class LocaleString extends Translations {
   // TODO: implement keys
   Map<String, Map<String, String>> get keys => {'ar_AR': localeAr, 'en_US': localeEn};
 }
+  // Map<String, Map<String, String>> get keys => {'ar_AR': localeAr, 'en_US': localeEn,'fallback': localeEn};// Fallback translation for other languages
+
+

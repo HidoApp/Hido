@@ -9,7 +9,12 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 class AppUtil {
   static bool rtlDirection(context) {
     return !(Get.locale == const Locale('ar', 'ar') ? true : false);
+    //return Get.locale == const Locale('ar', 'ar');
+
   }
+  static bool rtlDirection2(BuildContext context) {
+  return Get.locale?.languageCode == 'ar';
+}
 
   static bool isEmailValidate(email) {
     return RegExp(

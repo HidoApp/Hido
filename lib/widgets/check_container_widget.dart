@@ -2,6 +2,7 @@ import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 
 import '../constants/colors.dart';
 import '../request/tourist/models/schedule.dart';
@@ -102,12 +103,10 @@ class _CheckContainerWidgetState extends State<CheckContainerWidget> {
                                   widget.offerController?.checkedList[index] ??
                                       false,
                               onTap: () {
-                                bool check = !(widget
-                                        .offerController?.checkedList[index] ??
-                                    false);
-                                widget.offerController
-                                    ?.checkTotal(index, check);
-                              },
+  bool check = !(widget.offerController?.checkedList[index] ?? false);
+  widget.offerController?.checkTotal(index, check);
+  widget.offerController?.getTotalPrice(scheduleList, index);
+},
                               schedule: scheduleList![index],
                               isLast: index == scheduleList!.length - 1,
                               isBold: !(index == 0 || index == 2),
@@ -268,7 +267,7 @@ class _CustomCheckWidget extends StatelessWidget {
           ),
           if (!isLast)
             Align(
-              alignment: Alignment.centerRight,
+              alignment:AppUtil.rtlDirection2(context) ? Alignment.centerRight : Alignment.centerLeft,
               child: Padding(
                 padding: const EdgeInsets.only(top: 20),
                 child: SizedBox(

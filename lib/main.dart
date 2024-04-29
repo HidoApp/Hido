@@ -39,6 +39,11 @@ class _MyAppState extends State<MyApp> {
     print('${Platform.localeName.toLocale().languageCode}');
 
     local = Platform.localeName.toLocale().languageCode;
+    //local = Platform.localeName.toLocale().languageCode;
+    
+    // print('${Platform.localeName.split('_').first}');
+    // local = Platform.localeName.split('_').first.toLowerCase();
+
   }
 
   @override

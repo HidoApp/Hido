@@ -120,44 +120,54 @@ class OfferController extends GetxController {
   //?         ======
 
   RxInt totalPrice = RxInt(0);
-  getTotalPrice(List<Schedule>? scheduleList, int? indexRemove) {
-    int total = 0;
-    if (scheduleList != null && scheduleList.isNotEmpty) {
-      for (int x = 0; x < scheduleList.length; x++) {
-        if (checkedList[x]) {
-          total += scheduleList[x].price ?? 0;
-        }
-      }
+ void getTotalPrice(List<Schedule>? scheduleList, int? indexRemove) {
+  int total = 0;
+
+  // Calculate total without considering current checkbox state
+  if (scheduleList != null && scheduleList.isNotEmpty) {
+    for (int x = 0; x < scheduleList.length; x++) {
+      total += scheduleList[x].price ?? 0;
     }
-    totalPrice.value = total;
-    log("totalPrice: ${totalPrice.value}");
   }
+    print('Total price before adjustments: $total');
 
-  checkTotal(int index, bool check) {
-    log("index: $index");
-    log("check $check");
 
-    List<Schedule>? scheduleTemp = [];
-    if (offerDetails.value.schedule != null) {
-      for (var schedule in offerDetails.value.schedule!) {
-        scheduleTemp.add(schedule);
-      }
-    }
+  // Adjust total based on checkbox state changes
+  if (checkedList.isNotEmpty) {
+    for (int x = 0; x < checkedList.length; x++) {
+      if (!checkedList[x]) {
+                print('Removing price of schedule at index $x: ${scheduleList?[x].price}');
 
-    if (!check) {
-      if (scheduleTemp.isNotEmpty) {
-        if (scheduleTemp[index].price != null && !check) {
-          getCheckedList(index, false);
-          offerDetails.value.schedule![index].userAgreed = false;
-          getTotalPrice(scheduleTemp, index);
-        }
-      }
-    } else {
-      if (scheduleTemp.isNotEmpty) {
-        getCheckedList(index, true);
-        offerDetails.value.schedule![index].userAgreed = true;
-        getTotalPrice(scheduleTemp, null);
+        total -= scheduleList?[x].price ?? 0;
       }
     }
   }
+
+  // Update total price
+  totalPrice.value = total;
+    print('Final total price: ${totalPrice.value}');
+
+}
+
+ void checkTotal(int index, bool check) {
+  List<Schedule>? scheduleList = offerDetails.value.schedule;
+  if (scheduleList == null || index < 0 || index >= scheduleList.length) {
+    return;
+  }
+
+  Schedule schedule = scheduleList[index];
+  if (check) {
+    totalPrice += schedule.price ?? 0;
+  } else {
+    totalPrice -= schedule.price ?? 0;
+  }
+
+  // Update the checked status in the list
+  checkedList[index] = check;
+
+  // Notify listeners of the changes
+  update();
+}
+
+
 }
