@@ -3,6 +3,7 @@ import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/profile/view/ticket_screen.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/view/messages_screen.dart';
+import 'package:ajwad_v4/request/tourist/view/tourist_chat_screen.dart';
 import 'package:ajwad_v4/services/controller/serivces_controller.dart';
 import 'package:ajwad_v4/services/view/tabs/adventures_tab.dart';
 import 'package:ajwad_v4/services/view/tabs/events_tab.dart';
@@ -121,15 +122,21 @@ class _ServiceScreenState extends State<ServiceScreen>
                             //           ),
                             //         ),
 
+                            // InkWell(
+                            //   onTap: () {
+                            //     ProfileController _profileController =
+                            //         Get.put(ProfileController());
+                            //     Get.to(() => AppUtil.isGuest()
+                            //         ? const SignInScreen()
+                            //         : MessagesScreen(
+                            //             profileController: _profileController));
+                            //   },
                             InkWell(
-                              onTap: () {
-                                ProfileController _profileController =
-                                    Get.put(ProfileController());
-                                Get.to(() => AppUtil.isGuest()
-                                    ? const SignInScreen()
-                                    : MessagesScreen(
-                                        profileController: _profileController));
-                              },
+  onTap: () {
+    Get.to(() => AppUtil.isGuest()
+        ? const SignInScreen()
+        : TouristChatScreen(isChat: true));
+  },
                               child: Container(
                                 width: 36,
                                 height: 36,

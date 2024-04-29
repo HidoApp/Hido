@@ -95,21 +95,31 @@ RxBool isDetailsTapped2 = false.obs;
             children: [
               Row(
                 children: [
-                  if (AppUtil.rtlDirection2(context))
-                    IconButton(
-                      onPressed: () {
-                        Get.back();
-                      },
-                      icon: const Icon(
-                        Icons.keyboard_arrow_right,
-                        color: black,
-                        size: 26,
-                      ),
-                    ),
-                  if (AppUtil.rtlDirection2(context) && (!widget.isAjwadi))
-                    const SizedBox(
-                      width: 4,
-                    ),
+                  AppUtil.rtlDirection2(context)
+    ? IconButton(
+        onPressed: () {
+          Get.back();
+        },
+        icon: const Icon(
+          Icons.keyboard_arrow_right,
+          color: black,
+          size: 37,
+        ),
+      )
+    : IconButton(
+        onPressed: () {
+          Get.back();
+        },
+        icon: const Icon(
+          Icons.keyboard_arrow_left_outlined,
+          color: black,
+          size: 37,
+        ),
+      ),
+                  // if (AppUtil.rtlDirection(context) && (!widget.isAjwadi))
+                  //   const SizedBox(
+                  //     width: 4,
+                  //   ),
                   Padding(
   padding: EdgeInsets.only(
   right: AppUtil.rtlDirection2(context)
@@ -127,21 +137,24 @@ RxBool isDetailsTapped2 = false.obs;
     ),
   ),
 ),
-                  if (AppUtil.rtlDirection2(context) && (!widget.isAjwadi))
-                    const SizedBox(
-                      width: 4,
-                    ),
-                  if (!AppUtil.rtlDirection2(context))
-                    IconButton(
-                      onPressed: () {
-                        Get.back();
-                      },
-                      icon: const Icon(
-                        Icons.keyboard_arrow_left,
-                        color: black,
-                        size: 26,
-                      ),
-                    ),
+  //                if (AppUtil.rtlDirection(context) && (!widget.isAjwadi))
+  // const SizedBox(
+  //   width: 4,
+  // ),
+// if (!(!AppUtil.rtlDirection2(context)))
+//   Padding(
+//     padding: const EdgeInsets.only(left: 90),
+//     child: IconButton(
+//       onPressed: () {
+//         Get.back();
+//       },
+//       icon: const Icon(
+//         Icons.keyboard_arrow_left,
+//         color: yellow,
+//         size: 26,
+//                       ),
+//                     ),
+//   ),
                 ],
               ),
               const SizedBox(height: 10),
@@ -168,6 +181,8 @@ RxBool isDetailsTapped2 = false.obs;
           fontSize: 14,
           fontWeight: FontWeight.w500,
           color: Colors.black,
+          textAlign: AppUtil.rtlDirection2(context) ? TextAlign.right : TextAlign.left,
+
           
         ),
         trailing: Icon(

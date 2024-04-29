@@ -9,15 +9,27 @@ import 'package:ajwad_v4/widgets/custom_text_area.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:ajwad_v4/explore/tourist/model/place.dart';
+
+import 'package:ajwad_v4/request/tourist/models/offer_details.dart';
+
+import 'package:intl/intl.dart' ;
+
+
+
+
 
 class TouristChatScreen extends StatefulWidget {
   const TouristChatScreen({
     super.key,
-    this.isChat = false,
+    this.isChat = true,
+    this.booking,
+    this.place,
   });
 
   final bool isChat;
-
+  final Booking? booking;
+  final Place? place;
   @override
   State<TouristChatScreen> createState() => _TouristChatScreenState();
 }
@@ -231,7 +243,7 @@ class _TouristChatScreenState extends State<TouristChatScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
-              textDirection: TextDirection.ltr,
+             // textDirection: TextDirection.ltr,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 InkWell(
@@ -240,11 +252,11 @@ class _TouristChatScreenState extends State<TouristChatScreen> {
                   },
                   child: SvgPicture.asset(
                     'assets/icons/more.svg',
-                    color: black,
+                    color: yellow,
                   ),
                 ),
                 Row(
-                  textDirection: TextDirection.ltr,
+                 // textDirection: TextDirection.ltr,
                   children: [
                     CustomText(
                       text: 'chat'.tr,
@@ -277,177 +289,248 @@ class _TouristChatScreenState extends State<TouristChatScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 4),
               child: Column(
                 children: [
-                  Container(
-                    decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(12))),
-                    child: ListTile(
-                      onTap: () {
-                        setState(() {
-                          isDetailsTapped = !isDetailsTapped;
-                        });
-                      },
-                      title: CustomText(
-                        text: 'tripDetails'.tr,
-                      ),
-                      trailing: Icon(
-                        isDetailsTapped
-                            ? Icons.keyboard_arrow_up
-                            : Icons.keyboard_arrow_down,
-                        color: const Color(0xFF454545),
-                        size: 24,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 23,
-                  ),
-                  if (isDetailsTapped)
-                    Container(
-                      decoration: const BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(12))),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 12,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                const CircleAvatar(
-                                  backgroundImage: AssetImage(
-                                      'assets/images/ajwadi_image.png'),
-                                ),
-                                const SizedBox(
-                                  width: 12,
-                                ),
-                                CustomText(
-                                  text: AppUtil.rtlDirection(context)
-                                      ? 'محمد علي'
-                                      : 'Mohamed Ali',
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700,
-                                  fontFamily: 'Kufam',
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 16,
-                            ),
-                            CustomText(
-                              text: AppUtil.rtlDirection(context)
-                                  ? 'يسعدني مساعدتك,  هذا هو جدول الرحلة ، تحقق من الأشياء التي تريد القيام بها'
-                                  : 'I\'m happy to help you, this is the flight schedule check out the things you want to do',
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                              color: colorDarkGrey,
-                            ),
-                            SizedBox(
-                              height: widget.isChat ? 8 : 19,
-                            ),
-                            if (!widget.isChat)
-                              Stack(
-                                children: [
-                                  Positioned.directional(
-                                    textDirection: Directionality.of(context),
-                                    start: 7,
-                                    child: SizedBox(
-                                      width: 2,
-                                      child: ListView.separated(
-                                        shrinkWrap: true,
-                                        physics:
-                                            const NeverScrollableScrollPhysics(),
-                                        separatorBuilder: (context, index) {
-                                          return const SizedBox(
-                                            height: 4,
-                                          );
-                                        },
-                                        itemCount: 20,
-                                        itemBuilder: (context, index) {
-                                          return Container(
-                                            color: colorGreen,
-                                            width: 2,
-                                            height: 8,
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      CustomTripOption(
-                                        price: '23 SAR',
-                                        time: '10am - 11am',
-                                        perPerson: true,
-                                        option: AppUtil.rtlDirection(context)
-                                            ? 'فطور على الحافة'
-                                            : 'Breakfast in cliff',
-                                        isTourist: true,
-                                      ),
-                                      const SizedBox(
-                                        height: 18,
-                                      ),
-                                      CustomTripOption(
-                                        price: '233 SAR',
-                                        time: '11:00pm - 12:00pm',
-                                        isChecked: true,
-                                        isWhiteOption: true,
-                                        option: AppUtil.rtlDirection(context)
-                                            ? 'ركوب الاحصنة'
-                                            : 'Ride Horses',
-                                        isTourist: true,
-                                      ),
-                                      const SizedBox(
-                                        height: 18,
-                                      ),
-                                      CustomTripOption(
-                                        price: '300 SAR',
-                                        time: '01:00pm - 02:00pm',
-                                        option: AppUtil.rtlDirection(context)
-                                            ? 'غدا في مطعم'
-                                            : 'Lunch in restaurant ',
-                                        isTourist: true,
-                                      ),
-                                      const SizedBox(
-                                        height: 18,
-                                      ),
-                                      CustomTripOption(
-                                        price: '200 SAR',
-                                        time: '02:00pm - 03:00pm',
-                                        isChecked: true,
-                                        isWhiteOption: true,
-                                        option: AppUtil.rtlDirection(context)
-                                            ? 'ذهاب للوادي'
-                                            : 'See the cultural in city',
-                                        isTourist: true,
-                                      ),
-                                      const SizedBox(
-                                        height: 18,
-                                      ),
-                                      CustomTripOption(
-                                        price: '43 SAR',
-                                        time: '02:00pm - 03:00pm',
-                                        isChecked: true,
-                                        isWhiteOption: true,
-                                        perPerson: true,
-                                        option: AppUtil.rtlDirection(context)
-                                            ? 'عشاء'
-                                            : 'Dinner in cafe',
-                                        isTourist: true,
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                          ],
-                        ),
-                      ),
-                    ),
+        Container(
+      decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(12))),
+      child: ListTile(
+        onTap: () {
+          setState(() {
+            isDetailsTapped = !isDetailsTapped;
+          });
+        },
+        title: CustomText(
+          text: 'tripDetails'.tr,
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
+          color: Colors.black,
+          textAlign: AppUtil.rtlDirection2(context) ? TextAlign.right : TextAlign.left,
+        ),
+        trailing: Icon(
+          isDetailsTapped ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+          color: darkGrey,
+          size: 24,
+        ),
+      ), // <-- Add closing parenthesis here
+    ), // <-- Close the Container
+    if (isDetailsTapped)
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                SvgPicture.asset('assets/icons/guests.svg'),
+                const SizedBox(width: 10),
+               
+                CustomText(
+                  text: '${widget.booking?.guestNumber ?? 0} ${'guests'.tr}',
+                  color: almostGrey,
+                  fontSize: 10,
+                  fontWeight: FontWeight.w300,
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                SvgPicture.asset('assets/icons/date.svg'),
+                const SizedBox(width: 10),
+                CustomText(
+                       text: '${DateFormat('dd/MM/yyyy').format(DateTime.parse(widget.booking?.date ?? '2022-01-01'))} - ${widget.booking?.timeToGo}',
+                  color: almostGrey,
+                  fontSize: 10,
+                  fontWeight: FontWeight.w300,
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                SvgPicture.asset(
+                  'assets/icons/unselected_${widget.booking?.vehicleType!}_icon.svg',
+                  width: 20,
+                ),
+                const SizedBox(width: 10),
+                CustomText(
+                  text: widget.booking?.vehicleType ?? '',
+                  color: almostGrey,
+                  fontSize: 10,
+                  fontWeight: FontWeight.w300,
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+                  //   child: ListTile(
+                  //     onTap: () {
+                  //       setState(() {
+                  //         isDetailsTapped = !isDetailsTapped;
+                  //       });
+                  //     },
+                  //     title: CustomText(
+                  //       text: 'tripDetails'.tr,
+                  //     ),
+                  //     trailing: Icon(
+                  //       isDetailsTapped
+                  //           ? Icons.keyboard_arrow_up
+                  //           : Icons.keyboard_arrow_down,
+                  //       color: const Color(0xFF454545),
+                  //       size: 24,
+                  //     ),
+                  //   ),
+                  // ),
+                  // const SizedBox(
+                  //   height: 23,
+                  // ),
+                  // if (isDetailsTapped)
+                  //   Container(
+                      // decoration: const BoxDecoration(
+                      //     color: Colors.white,
+                      //     borderRadius: BorderRadius.all(Radius.circular(12))),
+                      // child: Padding(
+                      //   padding: const EdgeInsets.symmetric(
+                      //     horizontal: 16,
+                      //     vertical: 12,
+                      //   ),
+                      //   child: Column(
+                      //     crossAxisAlignment: CrossAxisAlignment.start,
+                      //     children: [
+                      //       Row(
+                      //         children: [
+                      //           const CircleAvatar(
+                      //             backgroundImage: AssetImage(
+                      //                 'assets/images/ajwadi_image.png'),
+                      //           ),
+                      //           const SizedBox(
+                      //             width: 12,
+                      //           ),
+                      //           CustomText(
+                      //             text: AppUtil.rtlDirection(context)
+                      //                 ? 'محمد علي'
+                      //                 : 'Mohamed Ali',
+                      //             fontSize: 14,
+                      //             fontWeight: FontWeight.w700,
+                      //             fontFamily: 'Kufam',
+                      //           ),
+                      //         ],
+                      //       ),
+                      //       const SizedBox(
+                      //         height: 16,
+                      //       ),
+                      //       CustomText(
+                      //         text: AppUtil.rtlDirection(context)
+                      //             ? 'يسعدني مساعدتك,  هذا هو جدول الرحلة ، تحقق من الأشياء التي تريد القيام بها'
+                      //             : 'I\'m happy to help you, this is the flight schedule check out the things you want to do',
+                      //         fontSize: 12,
+                      //         fontWeight: FontWeight.w400,
+                      //         color: colorDarkGrey,
+                      //       ),
+                      //       SizedBox(
+                      //         height: widget.isChat ? 8 : 19,
+                      //       ),
+                      //       if (!widget.isChat)
+                      //         Stack(
+                      //           children: [
+                      //             Positioned.directional(
+                      //               textDirection: Directionality.of(context),
+                      //               start: 7,
+                      //               child: SizedBox(
+                      //                 width: 2,
+                      //                 child: ListView.separated(
+                      //                   shrinkWrap: true,
+                      //                   physics:
+                      //                       const NeverScrollableScrollPhysics(),
+                      //                   separatorBuilder: (context, index) {
+                      //                     return const SizedBox(
+                      //                       height: 4,
+                      //                     );
+                      //                   },
+                      //                   itemCount: 20,
+                      //                   itemBuilder: (context, index) {
+                      //                     return Container(
+                      //                       color: colorGreen,
+                      //                       width: 2,
+                      //                       height: 8,
+                      //                     );
+                      //                   },
+                      //                 ),
+                      //               ),
+                      //             ),
+                      //             Column(
+                      //               crossAxisAlignment:
+                      //                   CrossAxisAlignment.start,
+                      //               children: [
+                      //                 CustomTripOption(
+                      //                   price: '23 SAR',
+                      //                   time: '10am - 11am',
+                      //                   perPerson: true,
+                      //                   option: AppUtil.rtlDirection(context)
+                      //                       ? 'فطور على الحافة'
+                      //                       : 'Breakfast in cliff',
+                      //                   isTourist: true,
+                      //                 ),
+                      //                 const SizedBox(
+                      //                   height: 18,
+                      //                 ),
+                      //                 CustomTripOption(
+                      //                   price: '233 SAR',
+                      //                   time: '11:00pm - 12:00pm',
+                      //                   isChecked: true,
+                      //                   isWhiteOption: true,
+                      //                   option: AppUtil.rtlDirection(context)
+                      //                       ? 'ركوب الاحصنة'
+                      //                       : 'Ride Horses',
+                      //                   isTourist: true,
+                      //                 ),
+                      //                 const SizedBox(
+                      //                   height: 18,
+                      //                 ),
+                      //                 CustomTripOption(
+                      //                   price: '300 SAR',
+                      //                   time: '01:00pm - 02:00pm',
+                      //                   option: AppUtil.rtlDirection(context)
+                      //                       ? 'غدا في مطعم'
+                      //                       : 'Lunch in restaurant ',
+                      //                   isTourist: true,
+                      //                 ),
+                      //                 const SizedBox(
+                      //                   height: 18,
+                      //                 ),
+                      //                 CustomTripOption(
+                      //                   price: '200 SAR',
+                      //                   time: '02:00pm - 03:00pm',
+                      //                   isChecked: true,
+                      //                   isWhiteOption: true,
+                      //                   option: AppUtil.rtlDirection(context)
+                      //                       ? 'ذهاب للوادي'
+                      //                       : 'See the cultural in city',
+                      //                   isTourist: true,
+                      //                 ),
+                      //                 const SizedBox(
+                      //                   height: 18,
+                      //                 ),
+                      //                 CustomTripOption(
+                      //                   price: '43 SAR',
+                      //                   time: '02:00pm - 03:00pm',
+                      //                   isChecked: true,
+                      //                   isWhiteOption: true,
+                      //                   perPerson: true,
+                      //                   option: AppUtil.rtlDirection(context)
+                      //                       ? 'عشاء'
+                      //                       : 'Dinner in cafe',
+                      //                   isTourist: true,
+                      //                 ),
+                      //               ],
+                      //             ),
+                      //           ],
+                      //         ),
+                      //     ],
+                      //   ),
+                      // ),
+                    
                   const SizedBox(
                     height: 26,
                   ),
