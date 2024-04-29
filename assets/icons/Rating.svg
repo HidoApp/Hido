@@ -1,0 +1,10 @@
+<svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Rating" clip-path="url(#clip0_135_3070)">
+<path id="Star 2" d="M8 1.57149L10.003 5.36781L10.1177 5.58525L10.3599 5.62717L14.5894 6.35897L11.5978 9.43703L11.4265 9.61333L11.4615 9.85668L12.0725 14.1053L8.22062 12.2113L8 12.1028L7.77938 12.2113L3.92752 14.1053L4.53851 9.85668L4.57351 9.61333L4.40216 9.43703L1.41059 6.35897L5.64006 5.62717L5.88231 5.58525L5.99704 5.36781L8 1.57149Z" fill="#EFEB69" stroke="#EFEB69"/>
+</g>
+<defs>
+<clipPath id="clip0_135_3070">
+<rect width="16" height="16" fill="white" transform="translate(0 0.5)"/>
+</clipPath>
+</defs>
+</svg>
