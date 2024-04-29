@@ -58,7 +58,7 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
     return DefaultTabController(
-      // animationDuration: Durations.long1,
+      //animationDuration: Durations.long1,
       length: 3,
       child: Scaffold(
         appBar:  CustomAppBar("profile!.name??"""),
