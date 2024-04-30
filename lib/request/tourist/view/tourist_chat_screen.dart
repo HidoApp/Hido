@@ -311,10 +311,15 @@ class _TouristChatScreenState extends State<TouristChatScreen> {
           color: darkGrey,
           size: 24,
         ),
-      ), // <-- Add closing parenthesis here
-    ), // <-- Close the Container
+      ), 
+    ),
+                 
     if (isDetailsTapped)
-      Padding(
+    Container(
+                      decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(0))),
+      child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -364,6 +369,7 @@ class _TouristChatScreenState extends State<TouristChatScreen> {
           ],
         ),
       ),
+    ),
                   //   child: ListTile(
                   //     onTap: () {
                   //       setState(() {
