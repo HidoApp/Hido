@@ -366,4 +366,8 @@ const localeEn = {
   "contact":"Contact Hido Team",
   "cansle":"Cancle Tour",
 
+  "selectLocal": "Select local tour guide :",
+  "tour": "Tour",
+  "expertise": "Expertise",
+  "noReviews": "No Reviews yet"
 };

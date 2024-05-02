@@ -51,6 +51,7 @@ class ProfileService {
     if (profileId != "") {
       id = profileId;
     }
+    
     final response = await http.get(
       Uri.parse('$baseUrl/profile/$id'),
       headers: {

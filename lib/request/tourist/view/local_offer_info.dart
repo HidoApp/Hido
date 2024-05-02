@@ -6,7 +6,9 @@ import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/models/profile.dart';
 import 'package:ajwad_v4/request/chat/view/chat_screen_live.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
+import 'package:ajwad_v4/request/tourist/controllers/rating_controller.dart';
 import 'package:ajwad_v4/request/tourist/models/offer_details.dart';
+import 'package:ajwad_v4/request/tourist/services/rating_service.dart';
 import 'package:ajwad_v4/request/tourist/view/about_screen.dart';
 import 'package:ajwad_v4/request/tourist/view/expert_screen.dart';
 import 'package:ajwad_v4/request/tourist/view/reviews_screen.dart';
@@ -104,7 +106,7 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
                     //number of tours tile
                     LocalTile(
                       tripNumber: widget.tripNumber,
-                      subtitle: 'Tour',
+                      subtitle: 'tour'.tr,
                     ),
                     const SizedBox(
                       width: 14,
@@ -127,7 +129,7 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
                     LocalTile(
                       tripNumber: widget.rating,
                       isRating: true,
-                      subtitle: 'Review ',
+                      subtitle: 'review'.tr,
                     ),
                   ],
                 ),
@@ -268,20 +270,20 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
                 }),
               ],
             ),
-            bottom: const TabBar(
+            bottom: TabBar(
               indicatorSize: TabBarIndicatorSize.tab,
               labelColor: black,
               unselectedLabelColor: almostGrey,
               indicatorPadding: EdgeInsets.symmetric(horizontal: 14),
               tabs: [
                 Tab(
-                  text: "About",
+                  text: "about".tr,
                 ),
                 Tab(
-                  text: "Expert",
+                  text: "expertise".tr,
                 ),
                 Tab(
-                  text: "Reviews",
+                  text: "reviews".tr,
                 ),
               ],
             ),
@@ -291,7 +293,9 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
               profileController: _profileController,
             ),
             const ExpertScreen(),
-            const ReviewsScreen()
+            ReviewsScreen(
+              profileId: widget.profileId,
+            )
           ]),
         ),
       ),
