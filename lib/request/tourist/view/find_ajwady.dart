@@ -15,6 +15,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart' as launcher;
+import 'package:ajwad_v4/request/widgets/CansleDialog.dart';
+
 
 class FindAjwady extends StatefulWidget {
   const FindAjwady({
@@ -161,7 +164,18 @@ class _FindAjwadyState extends State<FindAjwady> {
         "findLocal".tr,
         action: true,
         onPressedAction: () async {
-          await showBottomSheetCancelBooking(height: height, width: width);
+         // await showBottomSheetCancelBooking(height: height, width: width);
+showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return CancelBookingDialog(
+        dialogWidth: MediaQuery.of(context).size.width * 0.588,
+        buttonWidth: MediaQuery.of(context).size.width * 1.191,
+        booking: widget.booking,
+        offerController: _offerController, 
+      );
+    },
+  );
           // showModalBottomSheet(
           //     isScrollControlled: true,
           //     backgroundColor: Colors.transparent,
@@ -406,103 +420,377 @@ class _FindAjwadyState extends State<FindAjwady> {
         );
       }),
     );
+    
   }
 
-  Future<void> showBottomSheetCancelBooking({
-    required double width,
-    required double height,
-  }) async {
-    showModalBottomSheet(
-        isScrollControlled: true,
-        context: context,
-        backgroundColor: Colors.white,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(16))),
-        builder: (context) {
-          return StatefulBuilder(builder: (context, setState) {
-            return Container(
-              height: 240,
-              padding: const EdgeInsets.symmetric(horizontal: 34),
-              clipBehavior: Clip.antiAlias,
-              decoration: ShapeDecoration(
-                color: const Color(0xFFF8F8F8),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(24),
-                ),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: double.infinity,
-                    decoration: ShapeDecoration(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: Text(
-                      "ContactTheHedoTeam".tr,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontFamily: 'HT Rakik',
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Obx(
-                    () => _offerController.isBookingCancelLoading.value
-                        ? const Center(
-                            child: CircularProgressIndicator(
-                                color: Color(0xFFD75051)))
-                        : InkWell(
-                            onTap: () async {
-                              log("End Trip Taped ${widget.booking.id}");
+  
 
-                              bool bookingCancel =
-                                  await _offerController.bookingCancel(
-                                          context: context,
-                                          bookingId: widget.booking.id!) ??
-                                      false;
-                              if (bookingCancel) {
-                                if (context.mounted) {
-                                  AppUtil.successToast(context, 'EndTrip'.tr);
-                                  await Future.delayed(
-                                      const Duration(seconds: 1));
-                                }
-                                Get.offAll(const TouristBottomBar());
-                              }
-                            },
-                            child: Container(
-                              height: 40,
-                              width: 251,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(8)),
-                                border: Border.all(
-                                  color: const Color(0xFFD33030),
-                                ),
-                              ),
-                              child: Text(
-                                "EndTrip".tr,
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                    color: Color(0xFFD75051),
-                                    fontSize: 16,
-                                    fontFamily: 'HT Rakik',
-                                    fontWeight: FontWeight.w500),
-                              ),
-                            ),
-                          ),
-                  ),
-                ],
-              ),
-            );
-          });
-        });
-  }
+  // Future<void> showBottomSheetCancelBooking({
+  //   required double width,
+  //   required double height,
+  // }) async {
+  //   showModalBottomSheet(
+  //       isScrollControlled: true,
+  //       context: context,
+  //       backgroundColor: Colors.white,
+  //       shape: const RoundedRectangleBorder(
+  //           borderRadius: BorderRadius.vertical(top: Radius.circular(16))),
+  //       builder: (context) {
+  //         return StatefulBuilder(builder: (context, setState) {
+  //           return Container(
+  //             height: 240,
+  //             padding: const EdgeInsets.symmetric(horizontal: 34),
+  //             clipBehavior: Clip.antiAlias,
+  //             decoration: ShapeDecoration(
+  //               color: const Color(0xFFF8F8F8),
+  //               shape: RoundedRectangleBorder(
+  //                 borderRadius: BorderRadius.circular(24),
+  //               ),
+  //             ),
+  //             child: Column(
+  //               mainAxisAlignment: MainAxisAlignment.center,
+  //               children: [
+  //                 Container(
+  //                   width: double.infinity,
+  //                   decoration: ShapeDecoration(
+  //                     shape: RoundedRectangleBorder(
+  //                       borderRadius: BorderRadius.circular(10),
+  //                     ),
+  //                   ),
+  //                   child: Text(
+  //                     "ContactTheHedoTeam".tr,
+  //                     textAlign: TextAlign.center,
+  //                     style: const TextStyle(
+  //                         color: Colors.black,
+  //                         fontSize: 16,
+  //                         fontFamily: 'HT Rakik',
+  //                         fontWeight: FontWeight.w500),
+  //                   ),
+  //                 ),
+  //                 const SizedBox(height: 10),
+  //                 Obx(
+  //                   () => _offerController.isBookingCancelLoading.value
+  //                       ? const Center(
+  //                           child: CircularProgressIndicator(
+  //                               color: Color(0xFFD75051)))
+  //                       : InkWell(
+  //                           onTap: () async {
+  //                             log("End Trip Taped ${widget.booking.id}");
+
+  //                             bool bookingCancel =
+  //                                 await _offerController.bookingCancel(
+  //                                         context: context,
+  //                                         bookingId: widget.booking.id!) ??
+  //                                     false;
+  //                             if (bookingCancel) {
+  //                               if (context.mounted) {
+  //                                 AppUtil.successToast(context, 'EndTrip'.tr);
+  //                                 await Future.delayed(
+  //                                     const Duration(seconds: 1));
+  //                               }
+  //                               Get.offAll(const TouristBottomBar());
+  //                             }
+  //                           },
+  //                           child: Container(
+  //                             height: 40,
+  //                             width: 251,
+  //                             alignment: Alignment.center,
+  //                             decoration: BoxDecoration(
+  //                               borderRadius:
+  //                                   const BorderRadius.all(Radius.circular(8)),
+  //                               border: Border.all(
+  //                                 color: const Color(0xFFD33030),
+  //                               ),
+  //                             ),
+  //                             child: Text(
+  //                               "EndTrip".tr,
+  //                               textAlign: TextAlign.center,
+  //                               style: const TextStyle(
+  //                                   color: Color(0xFFD75051),
+  //                                   fontSize: 16,
+  //                                   fontFamily: 'HT Rakik',
+  //                                   fontWeight: FontWeight.w500),
+  //                             ),
+  //                           ),
+  //                         ),
+  //                 ),
+  //               ],
+  //             ),
+  //           );
+  //         });
+  //       });
+  // }
+//   Future<void> showDialogCancelBooking() async {
+//   return showDialog<void>(
+//     context: context,
+//     builder: (BuildContext context) {
+//       return AlertDialog(
+//         backgroundColor: Colors.white,
+//         shape: const RoundedRectangleBorder(
+//           borderRadius: BorderRadius.all(Radius.circular(32.0)),
+//         ),
+//         content: Column(
+//           mainAxisSize: MainAxisSize.min,
+//           crossAxisAlignment: CrossAxisAlignment.center,
+//           children: <Widget>[
+//           const SizedBox(height: 30),
+
+//           GestureDetector(
+//               onTap: () {
+//                 Get.back();
+//               },
+//               child: Container(
+//                 height: 40,
+//                 width: 357,
+//                 alignment: Alignment.center,
+//                 decoration: BoxDecoration(
+//                   color: colorGreen,
+//                   borderRadius: BorderRadius.circular(8),
+//                 ),
+//                 child: Text(
+//                    "ContactTheHedoTeam".tr,
+//                   textAlign: TextAlign.center,
+//                   style: TextStyle(
+//                     color: Colors.white,
+//                     fontSize: 16,
+//                   ),
+//                 ),
+//               ),
+//             ),
+//             const SizedBox(height: 20),
+//             Obx(() => _offerController.isBookingCancelLoading.value
+//                 ? const Center(
+//                     child: CircularProgressIndicator(color: Colors.black),
+//                   )
+//                 : GestureDetector(
+//                     onTap: () async {
+//                       log("End Trip Taped ${widget.booking.id}");
+
+//                       bool bookingCancel =
+//                           await _offerController.bookingCancel(
+//                                   context: context,
+//                                   bookingId: widget.booking.id!) ??
+//                               false;
+//                       if (bookingCancel) {
+//                         if (context.mounted) {
+//                           AppUtil.successToast(context, 'EndTrip'.tr);
+//                           await Future.delayed(const Duration(seconds: 1));
+//                         }
+//                         Get.offAll(const TouristBottomBar());
+//                       }
+//                     },
+//                     child: Text(
+//                       "EndTrip".tr,
+//                       textAlign: TextAlign.center,
+//                       style: TextStyle(
+//                         fontSize: 16,
+//                         fontWeight: FontWeight.w500,
+//                         color: Colors.black,
+//                       ),
+//                     ),
+//                   )),
+//           ],
+//         ),
+//       );
+//     },
+//   );
+// }
+
+// Future<void> showDialogCancelBooking() async {
+//   double dialogWidth = MediaQuery.of(context).size.width * 0.588; // 76.6% of screen width
+// double buttonWidth = MediaQuery.of(context).size.width * 1.191;
+//   return showDialog<void>(
+//     context: context,
+//     builder: (BuildContext context) {
+//       return AlertDialog(
+//         backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+//         shape: const RoundedRectangleBorder(
+//           borderRadius: BorderRadius.all(Radius.circular(8.0)),
+//         ),
+//         content: Container(
+//           width: dialogWidth,
+//           height: 118,
+//           child: Column(
+//             mainAxisSize: MainAxisSize.min,
+//             crossAxisAlignment: CrossAxisAlignment.center,
+//             children: <Widget>[
+//               const SizedBox(height: 20),
+//               GestureDetector(
+//                 onTap: () {
+//   showDialog(
+//     context: context,
+//     builder: (BuildContext context) {
+//       return ContactDialog();
+//     },
+//   );
+// },
+//                 child: Container(
+//                   height: 40,
+//                 width: buttonWidth,
+//                   alignment: Alignment.center,
+//                   decoration: BoxDecoration(
+//                     color: Colors.white,
+//                     border: Border.all(color: const Color(0xFF37B268)),
+//                     borderRadius: BorderRadius.circular(8),
+//                   ),
+//                   child: Text(
+//                     "Contact Hido Team",
+//                     textAlign: TextAlign.center,
+//                     style: TextStyle(
+//                       color: const Color(0xFF37B268),
+//                       fontSize: 16,
+//                     ),
+//                   ),
+//                 ),
+//               ),
+//               const SizedBox(height: 15),
+//               Obx(() => _offerController.isBookingCancelLoading.value
+//                   ? const Center(
+//                       child: CircularProgressIndicator(color: Colors.black),
+//                     )
+//                   : GestureDetector(
+//                       onTap: () async {
+//                         log("End Trip Taped ${widget.booking.id}");
+
+//                         bool bookingCancel =
+//                             await _offerController.bookingCancel(
+//                                     context: context,
+//                                     bookingId: widget.booking.id!) ??
+//                                 false;
+//                         if (bookingCancel) {
+//                           if (context.mounted) {
+//                             AppUtil.successToast(context, 'EndTrip'.tr);
+//                             await Future.delayed(const Duration(seconds: 1));
+//                           }
+//                           Get.offAll(const TouristBottomBar());
+//                         }
+//                       },
+                      
+//                         child: Text(
+//                           "Cancel Tour",
+//                           textAlign: TextAlign.center,
+//                           style: TextStyle(
+//                             fontSize: 16,
+//                             fontWeight: FontWeight.w500,
+//                             color: const Color(0xFFDC362E),
+//                           ),
+//                         ),
+//                     )),
+//             ],
+//           ),
+//         ),
+//       );
+//     },
+//   );
+// }
+
+// void _showContactDialog(BuildContext context) {
+//   double dialogWidth = MediaQuery.of(context).size.width * 0.788; // 80% of screen width
+
+//   showDialog<void>(
+//     context: context,
+//     builder: (BuildContext context) {
+//       return Center(
+//         child: Container(
+//           width: 360,
+//           height: 400,
+//           child: AlertDialog(
+//             backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+//             shape: const RoundedRectangleBorder(
+//               borderRadius: BorderRadius.all(Radius.circular(8.0)),
+//             ),
+//             // title: Row(
+//             //   // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//             //   children: [
+//             //     GestureDetector(
+//             //       onTap: () {
+//             //         Get.back();
+//             //       },
+//             //       child: Icon(Icons.close),
+//             //     ),
+//             //   ],
+//             // ),
+//             content: Column(
+//               mainAxisSize: MainAxisSize.min,
+//               children: [
+//                 MouseRegion(
+//                   cursor: SystemMouseCursors.click,
+//                   child: GestureDetector(
+//                     onTap: () async {
+//                 Uri uri = Uri.parse(
+//                   'mailto:info@hido.app?subject=Hido tourists complaint&body=Hi, Flutter developer',
+//                 );
+//                 if (!await launcher.launchUrl(uri)) {
+//                   debugPrint(
+//                       "Could not launch the uri"); // because the simulator doesn't has the email app
+//                 }
+//               },
+//                     child: Container(
+//                       width: 251,
+//                       height: 40,
+//                       margin: EdgeInsets.only(bottom: 10),
+//                       decoration: BoxDecoration(
+//                         color: Colors.white,
+//                         border: Border.all(color: const Color(0xFF37B268)),
+//                         borderRadius: BorderRadius.circular(8),
+//                       ),
+//                       child: Center(
+//                         child: Text(
+//                           "Send email",
+//                           textAlign: TextAlign.center,
+//                           style: TextStyle(
+//                             color: const Color(0xFF37B268),
+//                             fontSize: 16,
+//                           ),
+//                         ),
+//                       ),
+//                     ),
+//                   ),
+//                 ),
+//                 MouseRegion(
+//                   cursor: SystemMouseCursors.click,
+//                   child: GestureDetector(
+//                     onTap: () async {
+//                 Uri uri = Uri.parse('tel:0541804358');
+//                 if (!await launcher.launchUrl(uri)) {
+//                   debugPrint(
+//                       "Could not launch the uri"); // because the simulator doesn't has the phone app
+//                 }
+//               },
+            
+//                     child: Container(
+//                       width: 251,
+//                       height: 40,
+//                       decoration: BoxDecoration(
+//                         color: Colors.white,
+//                         border: Border.all(color: const Color(0xFF37B268)),
+//                         borderRadius: BorderRadius.circular(8),
+//                       ),
+//                       child: Center(
+//                         child: Text(
+//                           "Call",
+//                           textAlign: TextAlign.center,
+//                           style: TextStyle(
+//                             color: const Color(0xFF37B268),
+//                             fontSize: 16,
+//                           ),
+//                         ),  
+//                       ),
+//                     ),
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ),
+//       );
+//     },
+//   );
+// }
+
+
+
+
 
   Widget ajwadiImages() {
     var items =

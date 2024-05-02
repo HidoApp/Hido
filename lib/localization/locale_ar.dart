@@ -351,5 +351,10 @@ const localeAr = {
   "cancellationPolicyBreif": 'قم بالإلغاء قبل 7 أيام من جولتك لاسترداد أموالك بالكامل، أو خلال 24 ساعة من الحجز طالما تم الحجز قبل أكثر من 48 ساعة من الجولة.',
   "locationWillBeAvailableAfterBooking": 'سيكون الموقع متاحًا بعد الحجز',
   "Evaluationoftheperson" : 'ما رايك في محمد كأجودي؟',
+  "mail":'إرسال ايميل',
+  "tel":'اتصال',
+  "contact":"تواصل مع فريق هايدو",
+  "cansle":"الغاء الجولة",
+
   
   };
