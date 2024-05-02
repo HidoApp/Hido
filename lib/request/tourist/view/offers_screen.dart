@@ -3,6 +3,7 @@ import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
 import 'package:ajwad_v4/request/tourist/view/custom_ajwadi_card.dart';
 import 'package:ajwad_v4/request/tourist/view/local_offer_info.dart';
 import 'package:ajwad_v4/request/tourist/view/show_ajwadi_info_sheet.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/cupertino.dart';
@@ -25,17 +26,19 @@ class _OfferScreenState extends State<OfferScreen> {
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
         appBar: CustomAppBar(
-          'Offers',
+          'offers'.tr,
           action: true,
           onPressedAction: () {},
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Padding(
-              padding: EdgeInsets.only(top: 25, left: 28),
+            Padding(
+              padding: AppUtil.rtlDirection2(context)
+                  ? const EdgeInsets.only(top: 25, right: 28)
+                  : const EdgeInsets.only(top: 25, left: 28),
               child: CustomText(
-                text: "Select local tour guide :",
+                text: "selectLocal".tr,
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
               ),

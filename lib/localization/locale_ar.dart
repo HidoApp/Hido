@@ -248,11 +248,11 @@ const localeAr = {
   "contactHidoTeam": "تواصل مع فريق هيدو",
   "cancelTrip": "إلغاء الرحلة ",
   "trips2": "رحلة",
-  "review": "تقييمات",
+  "review": "مراحعات ",
   "acceptOffer": "أقبل العرض",
-  "about": "معلومات",
+  "about": "تعريف",
   "expert": "خبير",
-  "reviews": "تقييم",
+  "reviews": "مراجعة ",
   "checkout": "الذهاب للدفع",
   "creditAndDebit": "بطاقة ائتمانية",
   "addNewCard": "ادخل بيانات بطاقة",
@@ -328,7 +328,7 @@ const localeAr = {
   "placeBooked": "الرحلة قائمة",
   "checkText":
       "يسعدني مساعدتك,  هذا هو جدول الرحلة ، تحقق من الأشياء التي تريد القيام بها",
-  "showOffer": "اظهار العرض",
+  "showOffer": "فتح العرض",
   "noMessages": "لا توجد رسائل",
   "approximateLocation":
       'موقع تقريبي ، سيتم إظهار الموقع الدقيق بعد التحقق من الحجز',
@@ -348,8 +348,12 @@ const localeAr = {
   "exploreAsGuest": 'استكشف كضيف',
   "whereWeWillBe": 'أين ستجدنا ',
   "cancellationPolicy": 'سياسة الإلغاء',
-  "cancellationPolicyBreif": 'قم بالإلغاء قبل 7 أيام من جولتك لاسترداد أموالك بالكامل، أو خلال 24 ساعة من الحجز طالما تم الحجز قبل أكثر من 48 ساعة من الجولة.',
+  "cancellationPolicyBreif":
+      'قم بالإلغاء قبل 7 أيام من جولتك لاسترداد أموالك بالكامل، أو خلال 24 ساعة من الحجز طالما تم الحجز قبل أكثر من 48 ساعة من الجولة.',
   "locationWillBeAvailableAfterBooking": 'سيكون الموقع متاحًا بعد الحجز',
-  "Evaluationoftheperson" : 'ما رايك في محمد كأجودي؟',
-  
-  };
+  "Evaluationoftheperson": 'ما رايك في محمد كأجودي؟',
+  "selectLocal": "اختر مرشد سياحي محلي:",
+  "tour": "جولة",
+  "expertise": "خبرات",
+  "noReviews": "لا توجد مراجعات حتى الآن "
+};

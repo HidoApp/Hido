@@ -1,86 +1,61 @@
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/request/tourist/controllers/rating_controller.dart';
+import 'package:ajwad_v4/request/widgets/review_card.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 
-class ReviewsScreen extends StatelessWidget {
-  const ReviewsScreen({super.key});
+class ReviewsScreen extends StatefulWidget {
+  const ReviewsScreen({
+    super.key,
+    required this.profileId,
+  });
+  final String profileId;
+  @override
+  State<ReviewsScreen> createState() => _ReviewsScreenState();
+}
+
+class _ReviewsScreenState extends State<ReviewsScreen> {
+  final _rattingController = Get.put(RatingController());
+
+  void getRtings() {
+    // RatingService.getRtings(profileId: widget.profileId, context: context);
+    _rattingController.getRatings(
+        context: context, profileId: widget.profileId);
+    print("COntroller ::::${_rattingController.ratings}");
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getRtings();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          //user details
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CircleAvatar(
-                backgroundColor: almostGrey,
-                child: SvgPicture.asset(
-                  "assets/images/profile_rev.svg",
-                  width: 49,
-                  height: 49,
-                ),
-              ),
-              const SizedBox(
-                width: 8,
-              ),
-              const Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  //name
-                  CustomText(
-                    text: "Cameron Williamson",
-                    fontSize: 16,
-                  ),
-                  //date
-                  CustomText(
-                    text: "April 28, 2023",
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400,
-                    color: almostGrey,
-                  )
-                ],
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 12,
-          ),
-          //Rating
-          SizedBox(
-            height: 30,
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: ListView.separated(
-                shrinkWrap: true,
-                clipBehavior: Clip.hardEdge,
-                scrollDirection: Axis.horizontal,
-                itemCount: 2,
-                separatorBuilder: (context, index) => const SizedBox(
-                  width: 5,
-                ),
-                itemBuilder: (context, index) => SvgPicture.asset(
-                  "assets/icons/star.svg",
-                ),
-              ),
-            ),
-          ),
-          //description
-          const CustomText(
-              text:
-                  "Cinemas is the ultimate experience to see new movies in Gold Class or Vmax. Find a cinema near you."),
-          //comment sperated
-          const Divider(
-            color: lightGrey,
-          )
-        ],
-      ),
-    );
+    return _rattingController.ratings.isEmpty
+        ? Center(child: Text("noReviews".tr))
+        : ListView.builder(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+            itemCount: _rattingController.ratings.length,
+            itemBuilder: (context, index) =>
+                _rattingController.isRatingsLoading.value
+                    ? const CircularProgressIndicator()
+                    : ReviewCard(
+                        name: _rattingController.ratings[index].name ?? "USER",
+                        rating: _rattingController.ratings[index].rating ?? 1,
+                        description:
+                            _rattingController.ratings[index].description ??
+                                "Empty",
+                        image: _rattingController.ratings[index].image ??
+                            "profile_image.png",
+                        created: _rattingController.ratings[index].created ??
+                            "no date",
+                        status: _rattingController.ratings[index].status!,
+                      ),
+          );
   }
 }
