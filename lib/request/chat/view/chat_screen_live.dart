@@ -28,6 +28,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart' ;
+import 'package:ajwad_v4/request/widgets/CansleDialog.dart';
 
 
 class ChatScreenLive extends StatefulWidget {
@@ -36,7 +37,7 @@ class ChatScreenLive extends StatefulWidget {
   final RequestController? requestController;
   final OfferController? offerController;
   final bool isAjwadi;
-  final Booking? booking;
+  final Booking ?booking;
   final Place? place;
   ChatScreenLive({
     super.key,
@@ -55,6 +56,8 @@ class ChatScreenLive extends StatefulWidget {
 class _ChatScreenLiveState extends State<ChatScreenLive> {
   final TextEditingController messageController = TextEditingController();
   final chatController = Get.put(ChatController());
+  final _offerController = Get.put(OfferController());
+
   final getStorage = GetStorage();
   String? userId;
     bool isDetailsTapped = false;
@@ -93,50 +96,62 @@ RxBool isDetailsTapped2 = false.obs;
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  AppUtil.rtlDirection2(context)
-    ? IconButton(
-        onPressed: () {
-          Get.back();
-        },
-        icon: const Icon(
-          Icons.keyboard_arrow_right,
-          color: black,
-          size: 37,
-        ),
-      )
-    : IconButton(
-        onPressed: () {
-          Get.back();
-        },
-        icon: const Icon(
-          Icons.keyboard_arrow_left_outlined,
-          color: black,
-          size: 37,
-        ),
-      ),
-                  // if (AppUtil.rtlDirection(context) && (!widget.isAjwadi))
-                  //   const SizedBox(
-                  //     width: 4,
-                  //   ),
-                  Padding(
-  padding: EdgeInsets.only(
-  right: AppUtil.rtlDirection2(context)
-      ? MediaQuery.of(context).size.width * 0.2
-      : 0,
-  left: AppUtil.rtlDirection2(context)
-      ? 0
-      : MediaQuery.of(context).size.width * 0.2,
-),
-  child: Center(
-    child: CustomText(
-      text: 'showOffer'.tr,
-      fontSize: 24,
-      fontWeight: FontWeight.w500,
-    ),
-  ),
-),
+                  const SizedBox(height: 10),
+
+                  Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              InkWell(
+                onTap: () {
+                  Get.back();
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: AppUtil.rtlDirection2(context)
+                      ? const Icon(
+                          Icons.keyboard_arrow_right,
+                          color: black,
+                          size: 30,
+                        )
+                      : const Icon(
+                          Icons.keyboard_arrow_left_outlined,
+                          color: black,
+                          size: 30,
+                        ),
+                ),
+              ),
+                Text(
+                  'showOffer'.tr,
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              InkWell(
+                onTap: () async {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return CancelBookingDialog(
+                        dialogWidth:
+                            MediaQuery.of(context).size.width * 0.588,
+                        buttonWidth:
+                            MediaQuery.of(context).size.width * 1.191,
+                        // booking: widget.booking,
+                        offerController: _offerController,
+                      );
+                    },
+                  );
+                },
+                child: SvgPicture.asset(
+                  'assets/icons/more.svg',
+                   color: black,
+
+                ),
+              ),
+          
+
+
   //                if (AppUtil.rtlDirection(context) && (!widget.isAjwadi))
   // const SizedBox(
   //   width: 4,
