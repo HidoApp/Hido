@@ -203,7 +203,6 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
 
   void searchForPlace(String letters) {
     //for searching feature
-
     searchedPlaces = _touristExploreController.touristModel.value!.places!
         .where((place) =>
             place.nameEn!.toLowerCase().startsWith(letters.toLowerCase()))
@@ -551,7 +550,6 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                                                           .touristModel
                                                           .value!
                                                           .places![index]
-
                                                           .nameAr!
                                                       : searchedPlaces[index]
                                                           .nameAr!
@@ -577,7 +575,6 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                                                               null
                                                           ? ""
                                                           : searchedPlaces[
-
                                                                           index]
                                                                       .regionAr ==
                                                                   null
