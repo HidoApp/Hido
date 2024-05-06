@@ -221,8 +221,8 @@ class _ShopScreenState extends State<ShopScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
+                      border: Border.all(width: 1),
                       borderRadius: const BorderRadius.all(Radius.circular(16)),
-                      color: colors[index],
                     ),
                     child: CustomText(
                       text: crafts[index].tr,
