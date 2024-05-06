@@ -72,8 +72,10 @@ dependencies:
   rainbow_color: ^2.0.1
   bottom_picker: ^2.4.0
   device_preview: ^1.1.0
-
-
+  flutter_local_notifications: ^17.1.1
+  awesome_notifications: ^0.8.2
+  timezone: ^0.9.3
+  # workmanager: ^0.4.1
 
 
 dev_dependencies:

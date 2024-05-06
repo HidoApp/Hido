@@ -347,7 +347,9 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                                       onTap: () => Get.to(() =>
                                           AppUtil.isGuest()
                                               ? const SignInScreen()
-                                              : const NotificationScreen()),
+                                              : NotificationScreen()
+                                             
+                                              ),
                                       child: SvgPicture.asset(
                                           'assets/icons/Alerts.svg')),
                                 ],
@@ -363,11 +365,11 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                           height: 36,
                           decoration: const BoxDecoration(
                             shape: BoxShape.circle,
-                            //   color: colorGreen,
+                            color: colorGreen,
                           ),
                           alignment: Alignment.center,
-                          // child:
-                          //     SvgPicture.asset('assets/icons/notifications.svg'),
+                          child:
+                              SvgPicture.asset('assets/icons/notifications.svg'),
                         ),
                       ],
                     ),

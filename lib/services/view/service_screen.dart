@@ -12,8 +12,11 @@ import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:ajwad_v4/explore/tourist/view/notification/notification_screen.dart';
+
 import 'package:get/get.dart';
 import 'tabs/hospitality_tab.dart';
+
 
 class ServiceScreen extends StatefulWidget {
   const ServiceScreen({super.key});
@@ -23,7 +26,9 @@ class ServiceScreen extends StatefulWidget {
 }
 
 class _ServiceScreenState extends State<ServiceScreen>
+
     with SingleTickerProviderStateMixin {
+
   late TabController _tabController;
   int _tabIndex = 0;
 
@@ -168,10 +173,14 @@ class _ServiceScreenState extends State<ServiceScreen>
                               onTap: () {
                                 Get.to(() => AppUtil.isGuest()
                                     ? const SignInScreen()
-                                    : Scaffold(
-                                        body: Center(
-                                        child: CustomText(text: 'Comming soon'),
-                                      )));
+                                    // : Scaffold(
+                                    //     body: Center(
+                                    //     child: CustomText(text: 'Comming soon'),
+                                    //   ))
+                                     :NotificationScreen(hasNotifications: true) // Change false to whatever value you need
+
+                                      
+                                      );
                               },
                               child: Container(
                                 width: 36,

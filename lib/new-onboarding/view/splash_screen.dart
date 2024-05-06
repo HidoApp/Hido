@@ -6,12 +6,51 @@ import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/new-onboarding/view/onboarding_try.dart';
 import 'package:ajwad_v4/new-onboarding/view/account_type_screen.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:rainbow_color/rainbow_color.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+//import 'package:workmanager/workmanager.dart';
+
+
+
+
+FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+// Future showNotification() async {
+ 
+// }
+// void callbackDispatcher() {
+//   AwesomeNotifications().createNotification(
+// content: NotificationContent(
+//   id:1,
+//   channelKey: 'key',
+//   title:"test",
+//   body: "test body",
+
+//   ),
+//   schedule: NotificationCalendar.fromDate(date: DateTime.now().add(Duration(seconds:1)))
+    
+//   );
+
+  // Workmanager().executeTask((task, inputData) {
+  //   showNotification();
+  //   return Future.value(true);
+  // });
+//}
+
+
+
+
+
+
+
+
+
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -111,6 +150,11 @@ class _SplashScreenState extends State<SplashScreen>
         Get.off(() => OnBoardingTry(getStorage: _getStorage ,));
         }
       });
+
+    //   Workmanager().initialize(
+    //   callbackDispatcher,
+    //   isInDebugMode: false,
+    // );
   }
 
 
