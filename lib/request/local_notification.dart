@@ -105,7 +105,7 @@ static Future init()async{
 void showNotification(BuildContext context, String? id , String? date ,  String? name, String? placeeEn,String? placeeAr) async {
 checkBooking(date);
 
-DateTime notificationTime = DateTime(twoDaysBefore.year, twoDaysBefore.month, twoDaysBefore.day, 12, 29, 3);
+DateTime notificationTime = DateTime(twoDaysBefore.year, twoDaysBefore.month, twoDaysBefore.day, 21, 00, 3);
 print(notificationTime);
 print(placeeAr);
 print(placeeEn);
