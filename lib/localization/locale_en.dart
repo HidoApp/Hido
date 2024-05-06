@@ -136,7 +136,7 @@ const localeEn = {
   "happyExploring": "Happy exploring!",
   "where": "Where?",
   "seeAll": "See All",
-  'saudiHospitality': 'Saudi hospitality:',
+  'saudiHospitality': 'Saudi hospitality',
   'craftTitle': 'Saudi Arabia\'s Finest Craft',
   'craftSubtitle':
       'From traditional handicrafts to modern fashion and electronics, our shop has it all.',
@@ -360,12 +360,11 @@ const localeEn = {
       'Cancel up to 7 days before your tour for a full refund, or within 24 hours of booking as long as the booking is made more than 48 hours before the tour.',
   "locationWillBeAvailableAfterBooking":
       'Location will be available after booking',
-  "Evaluationoftheperson":'What do you think about Mohammed As ajwady?', 
-  "mail":'Send email',
-  "tel":'Call',
-  "contact":"Contact Hido Team",
-  "cansle":"Cancle Tour",
-
+  "Evaluationoftheperson": 'What do you think about Mohammed As ajwady?',
+  "mail": 'Send email',
+  "tel": 'Call',
+  "contact": "Contact Hido Team",
+  "cansle": "Cancle Tour",
   "selectLocal": "Select local tour guide :",
   "tour": "Tour",
   "expertise": "Expertise",
