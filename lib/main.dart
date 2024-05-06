@@ -2,21 +2,33 @@ import 'dart:io';
 
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/new-onboarding/view/splash_screen.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'localization/locale_string.dart';
+import 'package:ajwad_v4/request/local_notification.dart';
 
-void main() {
-  runApp(
-      // DevicePreview(
-      //   enabled: false,
-      //   builder: ((context) => MyApp() ))
-
-      const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await LocalNotification.init();
+  // AwesomeNotifications().initialize(
+  //   '',
+  //   [
+  //     NotificationChannel(
+  //       channelKey: 'key',
+  //       channelName: 'Channel Name',
+  //       channelDescription: 'Channel Description',
+  //       defaultColor: Color(0xFF9D50DD),
+  //       ledColor: Colors.white,
+  //     )
+  //   ],
+  // );
+  runApp(const MyApp());
 }
+
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});

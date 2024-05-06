@@ -104,6 +104,9 @@ class ProfileController extends GetxController {
       );
       if (data != null) {
         upcommingTicket(data);
+        // print("object");
+        // print(data.length);
+        // print(upcommingTicket.first.place?.nameAr);
         return upcommingTicket;
       } else {
         return null;
@@ -116,6 +119,32 @@ class ProfileController extends GetxController {
       isUpcommingTicketLoading(false);
     }
   }
+  Future<List<Booking>?> getUpcommingTicket2({
+  required BuildContext context,
+}) async {
+  try {
+    isUpcommingTicketLoading(true);
+
+    final data = await ProfileService.getUserTicket(
+      bookingType: 'UPCOMING',
+      context: context,
+    );
+    if (data != null) {
+      upcommingTicket(data);
+    
+      return upcommingTicket.value; // Return the value of upcommingTicket
+    } else {
+      return null;
+    }
+  } catch (e) {
+    isUpcommingTicketLoading(false);
+    print(e);
+    return null;
+  } finally {
+    isUpcommingTicketLoading(false);
+  }
+}
+
 
   Future<List<Booking>?> getPastTicket({
     required BuildContext context,

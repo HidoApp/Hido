@@ -219,7 +219,7 @@ class _AjwadiMapScreenState extends State<AjwadiMapScreen> {
                 ),
                 InkWell(
                   onTap: () {
-                    Get.to(() => const NotificationScreen());
+                    Get.to(() => NotificationScreen());
                   },
                   child: Container(
                     width: 36,
@@ -234,7 +234,7 @@ class _AjwadiMapScreenState extends State<AjwadiMapScreen> {
                 ),
                 InkWell(
                   onTap: () {
-                    Get.to(() => const NotificationScreen());
+                    Get.to(() => NotificationScreen());
                   },
                   child: Container(
                     width: 36,

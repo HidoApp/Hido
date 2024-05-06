@@ -29,10 +29,15 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart' ;
 import 'package:ajwad_v4/request/widgets/CansleDialog.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:ajwad_v4/request/local_notification.dart';
+
+
 
 
 class ChatScreenLive extends StatefulWidget {
   // final String senderId;
+
   String? chatId;
   final RequestController? requestController;
   final OfferController? offerController;
@@ -54,6 +59,8 @@ class ChatScreenLive extends StatefulWidget {
 }
 
 class _ChatScreenLiveState extends State<ChatScreenLive> {
+static FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
   final TextEditingController messageController = TextEditingController();
   final chatController = Get.put(ChatController());
   final _offerController = Get.put(OfferController());
@@ -70,6 +77,14 @@ RxBool isDetailsTapped2 = false.obs;
   Invoice? invoice;
     bool isCheckingForPayment = false;
 
+static Future init()async{
+  InitializationSettings settings = InitializationSettings(
+   android: AndroidInitializationSettings("@mipmap/ic_launcher"),
+   iOS: DarwinInitializationSettings()
+
+  );
+  flutterLocalNotificationsPlugin.initialize(settings);
+}
   @override
   void initState() {
     log("\n \n");
@@ -611,6 +626,8 @@ RxBool isDetailsTapped2 = false.obs;
 
                                     //   //  Get.back();
                                     // });
+
+                                    LocalNotification().showNotification(context,widget.booking?.id, widget.booking?.date ,widget.offerController?.offerDetails.value.name ?? "", widget.booking?.place?.nameAr,widget.booking?.place?.nameEn);
                                   },
                                 )
                         ],

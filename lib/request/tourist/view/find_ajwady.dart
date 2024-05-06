@@ -17,6 +17,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart' as launcher;
 import 'package:ajwad_v4/request/widgets/CansleDialog.dart';
+import 'package:ajwad_v4/request/local_notification.dart';
 
 
 class FindAjwady extends StatefulWidget {
@@ -265,6 +266,8 @@ showDialog(
                     children: [
                       ListTile(
                         onTap: () {
+                        // LocalNotification.showNotification();
+
                           setState(() {
                             isDetailsTapped = !isDetailsTapped;
                           });
@@ -356,6 +359,7 @@ showDialog(
                   GestureDetector(
                     //TODO: offer screen will be there
                     onTap: () {
+
                       Get.to(() => OfferScreen(
                             place: widget.place,
                           ));
