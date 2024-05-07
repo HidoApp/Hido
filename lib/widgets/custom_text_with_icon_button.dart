@@ -23,7 +23,7 @@ class CustomTextWithIconButton extends StatelessWidget {
           child: Row(children: [
             prefixIcon,
        //     SvgPicture.asset("assets/icons/purple_calendar.svg",),
-          SizedBox(width: 7,),
+          SizedBox(width: 10,),
             CustomText(text: title,color: textColor,fontSize: 16,),
             Spacer(),
             suffixIcon

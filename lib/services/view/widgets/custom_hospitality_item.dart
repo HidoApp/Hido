@@ -32,163 +32,157 @@ class CustomHospitalityItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    return InkWell(
+    return GestureDetector(
       onTap: onTap,
-      radius: 16,
       child: SizedBox(
-        width: 500,
-        child: Card(
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(16))),
-          color: Colors.white,
-          elevation: 0.1,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 10,
+        child: Container(
+          width: 362,
+          height: 114,
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          decoration: const BoxDecoration(
+            boxShadow: [BoxShadow(blurRadius: 16, color: Colors.black12)],
+            color: Colors.white,
+            borderRadius: BorderRadius.all(
+              Radius.circular(16),
             ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Stack(
-                      alignment: AlignmentDirectional.bottomStart,
-                      children: [
-                        ClipRRect(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(10)),
-                          child: Image.network(
-                            image,
-                            width: 90,
-                            height: 90,
-                            fit: BoxFit.fill,
-                          ),
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Stack(
+                    alignment: AlignmentDirectional.bottomStart,
+                    children: [
+                      ClipRRect(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
+                        child: Image.network(
+                          image,
+                          width: 90,
+                          height: 90,
+                          fit: BoxFit.fill,
                         ),
-                        Positioned.directional(
-                          textDirection: Directionality.of(context),
-                          bottom: 7,
-                          start: 7,
-                          child: personImage == null
-                              ? const CircleAvatar(
+                      ),
+                      Positioned.directional(
+                        textDirection: Directionality.of(context),
+                        bottom: 7,
+                        start: 7,
+                        child: personImage == null
+                            ? const CircleAvatar(
+                                radius: 12.5,
+                                backgroundImage: AssetImage(
+                                    'assets/images/profile_image.png'),
+                              )
+                            : CircleAvatar(
+                                radius: 13.5,
+                                backgroundColor: Colors.white,
+                                child: CircleAvatar(
                                   radius: 12.5,
-                                  backgroundImage: AssetImage(
-                                      'assets/images/profile_image.png'),
-                                )
-                              : CircleAvatar(
-                                  radius: 13.5,
-                                  backgroundColor: Colors.white,
-                                  child: CircleAvatar(
-                                    radius: 12.5,
-                                    backgroundImage: NetworkImage(personImage!),
-                                  ),
+                                  backgroundImage: NetworkImage(personImage!),
                                 ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      width: 11,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CustomText(
-                          text: title,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        const SizedBox(
-                          height: 12,
-                        ),
-                        Row(
-                          children: [
-                            const SizedBox(
-                              width: 4,
-                            ),
-                            SvgPicture.asset(
-                              'assets/icons/map_pin.svg',
-                            ),
-                            const SizedBox(
-                              width: 4,
-                            ),
-                            CustomText(
-                              text: location,
-                              fontSize: 10,
-                              fontWeight: FontWeight.w400,
-                              color: starGreyColor,
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 12,
-                        ),
-                        Row(
-                          children: [
-                            const SizedBox(
-                              width: 4,
-                            ),
-                            Row(
-                              children: [
-                                SvgPicture.asset(
-                                    'assets/icons/grey_calender.svg'),
-                                const SizedBox(
-                                  width: 4,
+                              ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    width: 11,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomText(
+                        text: title,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      Row(
+                        children: [
+                          const SizedBox(
+                            width: 4,
+                          ),
+                          SvgPicture.asset(
+                            'assets/icons/map_pin.svg',
+                          ),
+                          const SizedBox(
+                            width: 4,
+                          ),
+                          CustomText(
+                            text: location,
+                            fontSize: 10,
+                            fontWeight: FontWeight.w400,
+                            color: starGreyColor,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Row(
+                        children: [
+                          const SizedBox(
+                            width: 4,
+                          ),
+                          Row(
+                            children: [
+                              SvgPicture.asset(
+                                  'assets/icons/grey_calender.svg'),
+                              const SizedBox(
+                                width: 4,
+                              ),
+                              if (dayInfo != null || dayInfo != [])
+                                CustomText(
+                                  text: dayInfo![0].startTime.substring(0, 10),
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w400,
+                                  color: starGreyColor,
                                 ),
-                                if (dayInfo != null || dayInfo != [])
-                                  CustomText(
-                                    text:
-                                        dayInfo![0].startTime.substring(0, 10),
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w400,
-                                    color: starGreyColor,
-                                  ),
-                              ],
-                            ),
-                            const SizedBox(
-                              width: 26,
-                            ),
-                            Row(
-                              children: [
-                                SvgPicture.asset('assets/icons/meal_icon.svg'),
-                                // SvgPicture.asset('assets/icons/calendar.svg',color: purple,),
-                                const SizedBox(
-                                  width: 4,
+                            ],
+                          ),
+                          const SizedBox(
+                            width: 16,
+                          ),
+                          Row(
+                            children: [
+                              SvgPicture.asset('assets/icons/meal_icon.svg'),
+                              // SvgPicture.asset('assets/icons/calendar.svg',color: purple,),
+                              SizedBox(
+                                width: width * 0.01,
+                              ),
+                              SizedBox(
+                                width: 100,
+                                child: CustomText(
+                                  text: meal,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w300,
+                                  color: starGreyColor,
+                                  maxlines: 2,
                                 ),
-                                SizedBox(
-                                  width: 100,
-                                  child: CustomText(
-                                    text: meal,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w300,
-                                    color: starGreyColor,
-                                    maxlines: 2,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    CustomText(
-                      text: rate,
-                      fontSize: 10,
-                      fontWeight: FontWeight.w700,
-                      color: colorDarkGreen,
-                      fontFamily: 'Kufam',
-                    ),
-                    const SizedBox(
-                      width: 4,
-                    ),
-                    SvgPicture.asset('assets/icons/star.svg'),
-                  ],
-                ),
-              ],
-            ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              SvgPicture.asset('assets/icons/star.svg'),
+              SizedBox(
+                width: width * 0.01,
+              ),
+              CustomText(
+                text: rate,
+                fontSize: width * 0.025,
+                fontWeight: FontWeight.w700,
+                color: colorDarkGreen,
+                fontFamily: 'Kufam',
+              ),
+            ],
           ),
         ),
       ),

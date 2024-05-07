@@ -32,7 +32,7 @@ class _HospitalityTabState extends State<HospitalityTab> {
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
       child: Obx(
         () => Column(
           children: [

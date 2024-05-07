@@ -31,11 +31,13 @@ class LocalOfferInfo extends StatefulWidget {
       required this.rating,
       required this.tripNumber,
       required this.place,
-      required this.profileId});
+      required this.profileId,
+      this.fromService = false});
   final String image;
   final String name;
   final String profileId;
   final int price, rating, tripNumber;
+  final bool fromService;
 
   final Place place;
   @override
@@ -137,6 +139,7 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
                   height: 21,
                 ),
                 //view offer button
+                
                 Obx(() {
                   if (_offerController.offerDetails.value.orderStatus ==
                       'ACCEPTED') {

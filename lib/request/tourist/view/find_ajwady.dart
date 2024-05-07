@@ -19,7 +19,6 @@ import 'package:url_launcher/url_launcher.dart' as launcher;
 import 'package:ajwad_v4/request/widgets/CansleDialog.dart';
 import 'package:ajwad_v4/request/local_notification.dart';
 
-
 class FindAjwady extends StatefulWidget {
   const FindAjwady({
     Key? key,
@@ -165,18 +164,18 @@ class _FindAjwadyState extends State<FindAjwady> {
         "findLocal".tr,
         action: true,
         onPressedAction: () async {
-         // await showBottomSheetCancelBooking(height: height, width: width);
-showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return CancelBookingDialog(
-        dialogWidth: MediaQuery.of(context).size.width * 0.588,
-        buttonWidth: MediaQuery.of(context).size.width * 1.191,
-        booking: widget.booking,
-        offerController: _offerController, 
-      );
-    },
-  );
+          // await showBottomSheetCancelBooking(height: height, width: width);
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return CancelBookingDialog(
+                dialogWidth: MediaQuery.of(context).size.width * 0.588,
+                buttonWidth: MediaQuery.of(context).size.width * 1.191,
+                booking: widget.booking,
+                offerController: _offerController,
+              );
+            },
+          );
           // showModalBottomSheet(
           //     isScrollControlled: true,
           //     backgroundColor: Colors.transparent,
@@ -266,7 +265,7 @@ showDialog(
                     children: [
                       ListTile(
                         onTap: () {
-                        // LocalNotification.showNotification();
+                          // LocalNotification.showNotification();
 
                           setState(() {
                             isDetailsTapped = !isDetailsTapped;
@@ -359,7 +358,6 @@ showDialog(
                   GestureDetector(
                     //TODO: offer screen will be there
                     onTap: () {
-
                       Get.to(() => OfferScreen(
                             place: widget.place,
                           ));
@@ -424,10 +422,7 @@ showDialog(
         );
       }),
     );
-    
   }
-
-  
 
   // Future<void> showBottomSheetCancelBooking({
   //   required double width,
@@ -669,7 +664,7 @@ showDialog(
 //                           Get.offAll(const TouristBottomBar());
 //                         }
 //                       },
-                      
+
 //                         child: Text(
 //                           "Cancel Tour",
 //                           textAlign: TextAlign.center,
@@ -761,7 +756,7 @@ showDialog(
 //                       "Could not launch the uri"); // because the simulator doesn't has the phone app
 //                 }
 //               },
-            
+
 //                     child: Container(
 //                       width: 251,
 //                       height: 40,
@@ -778,7 +773,7 @@ showDialog(
 //                             color: const Color(0xFF37B268),
 //                             fontSize: 16,
 //                           ),
-//                         ),  
+//                         ),
 //                       ),
 //                     ),
 //                   ),
@@ -791,10 +786,6 @@ showDialog(
 //     },
 //   );
 // }
-
-
-
-
 
   Widget ajwadiImages() {
     var items =

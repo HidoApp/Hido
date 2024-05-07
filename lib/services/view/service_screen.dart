@@ -62,43 +62,40 @@ class _ServiceScreenState extends State<ServiceScreen>
               expandedHeight: 200,
               toolbarHeight: 122,
               pinned: true,
-              stretch: true,
               actions: [
                 Padding(
                   padding: const EdgeInsets.only(right: 24),
-                  child: Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        HomeIconButton(
-                            onTap: () {
-                              Get.to(() => AppUtil.isGuest()
-                                  ? const SignInScreen()
-                                  : const TouristChatScreen(isChat: true));
-                            },
-                            icon: 'assets/icons/Communication_white.svg'),
-                        HomeIconButton(
-                            onTap: () {
-                              ProfileController _profileController =
-                                  Get.put(ProfileController());
-                              Get.to(() => AppUtil.isGuest()
-                                  ? const SignInScreen()
-                                  : TicketScreen(
-                                      profileController: _profileController));
-                            },
-                            icon: 'assets/icons/ticket_icon.svg'),
-                        HomeIconButton(
-                            onTap: () {
-                              Get.to(() => AppUtil.isGuest()
-                                  ? const SignInScreen()
-                                  : const Scaffold(
-                                      body: Center(
-                                      child: CustomText(text: 'Comming soon'),
-                                    )));
-                            },
-                            icon: 'assets/icons/Alerts_white.svg')
-                      ],
-                    ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      HomeIconButton(
+                          onTap: () {
+                            Get.to(() => AppUtil.isGuest()
+                                ? const SignInScreen()
+                                : const TouristChatScreen(isChat: true));
+                          },
+                          icon: 'assets/icons/Communication_white.svg'),
+                      HomeIconButton(
+                          onTap: () {
+                            ProfileController _profileController =
+                                Get.put(ProfileController());
+                            Get.to(() => AppUtil.isGuest()
+                                ? const SignInScreen()
+                                : TicketScreen(
+                                    profileController: _profileController));
+                          },
+                          icon: 'assets/icons/ticket_icon.svg'),
+                      HomeIconButton(
+                          onTap: () {
+                            Get.to(() => AppUtil.isGuest()
+                                ? const SignInScreen()
+                                : const Scaffold(
+                                    body: Center(
+                                    child: CustomText(text: 'Comming soon'),
+                                  )));
+                          },
+                          icon: 'assets/icons/Alerts_white.svg')
+                    ],
                   ),
                 )
               ],

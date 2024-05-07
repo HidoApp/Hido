@@ -197,7 +197,7 @@ const localeEn = {
   "aboutTheTrip": "About the tour",
   "aboutTheTripBrief":
       "Tuwig is mostly known for its fossilized coral reefs, shells, snails.ammonites, and other sedimentary organisms from 160 million years ago, found in the Al-Yamamah ",
-  "readMore": ". . . Read More",
+  "readMore": "Read More . . .",
   "startFrom": "Start from",
   "buyTicket": "Buy Ticket",
   "shareWithFriends": "Share with friends",
@@ -296,7 +296,7 @@ const localeEn = {
   'available': 'Available',
   'join': 'join',
   'startBook': 'book',
-  'book': 'book',
+  'book': 'Book',
   'reserve': "Reserve",
   'date2': 'Date',
   'numberOfPeople': 'Number of people',
@@ -354,7 +354,7 @@ const localeEn = {
   "deleteAccount": 'Delete ',
   "youWantDeleteYourAccount": 'Are you sure you want to delete your account ?',
   "exploreAsGuest": 'Explore as a guest',
-  "whereWeWillBe": 'Where we’ll be',
+  "whereWeWillBe": 'Location',
   "cancellationPolicy": 'Cancellation policy',
   "cancellationPolicyBreif":
       'Cancel up to 7 days before your tour for a full refund, or within 24 hours of booking as long as the booking is made more than 48 hours before the tour.',
@@ -368,5 +368,6 @@ const localeEn = {
   "selectLocal": "Select local tour guide :",
   "tour": "Tour",
   "expertise": "Expertise",
-  "noReviews": "No Reviews yet"
+  "noReviews": "No Reviews yet",
+  "pricePerPerson": "price per person"
 };
