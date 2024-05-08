@@ -19,13 +19,11 @@ import 'package:intl/intl.dart';
 class ReservaationDetailsWidget extends StatefulWidget {
   const ReservaationDetailsWidget(
       {super.key,
-      required this.context,
       required this.color,
       required this.serviceController,
       this.hospitality,
       this.avilableDate});
 
-  final BuildContext context;
   final Color color;
 
   final SrvicesController serviceController;
@@ -57,7 +55,7 @@ class _ReservaationDetailsWidgetState extends State<ReservaationDetailsWidget> {
     final height = MediaQuery.of(context).size.height;
     return GestureDetector(
       onTap: () {
-        Get.back();
+        // Get.back();
       },
       child: Padding(
         padding:
@@ -65,111 +63,45 @@ class _ReservaationDetailsWidgetState extends State<ReservaationDetailsWidget> {
         child: StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
           return Align(
-            alignment: Alignment.bottomCenter,
             child: Obx(
-              () => Stack(
-                children: [
-                  Container(
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(35),
-                      ),
-                      child: Form(
-                        key: _formKey,
-                        child: ListView(children: [
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          const Align(
-                            child: Icon(
-                              Icons.keyboard_arrow_up_outlined,
-                              size: 30,
+              () => SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(35),
+                        ),
+                        child: Form(
+                          key: _formKey,
+                          child: ListView(shrinkWrap: true, children: [
+                            const SizedBox(
+                              height: 5,
                             ),
-                          ),
-                          CustomText(
-                            text: "date".tr,
-                            color: Colors.black,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          SizedBox(
-                            height: height * 0.02,
-                          ),
-                          Align(
-                            alignment: AppUtil.rtlDirection(context)
-                                ? Alignment.centerLeft
-                                : Alignment.centerRight,
-                            child: CustomTextWithIconButton(
-                              onTap: () {
-                                print("object");
-                                setState(() {
-                                  selectedChoice = 3;
-                                });
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return CalenderDialog(
-                                        fromAjwady: false,
-                                        type: 'hospitality',
-                                        avilableDate: widget.avilableDate,
-                                        srvicesController:
-                                            widget.serviceController,
-                                        hospitality: widget.hospitality,
-                                      );
-                                    });
-                              },
-                              height: height * 0.06,
-                              width: width * 0.65,
-                              title: widget.serviceController
-                                      .isHospatilityDateSelcted.value
-                                  ? widget.serviceController.selectedDate.value
-                                      .toString()
-                                      .substring(0, 10)
-                                  : 'mm/dd/yyy'.tr,
-                              borderColor: lightGreyColor,
-                              prefixIcon: SvgPicture.asset(
-                                'assets/icons/Time (2).svg',
-                                //  color: widget.color,
+
+                            const Align(
+                              child: Icon(
+                                Icons.keyboard_arrow_up_outlined,
+                                size: 30,
                               ),
-                              suffixIcon: Icon(
-                                Icons.arrow_forward_ios,
-                                color: widget.color,
-                                size: 15,
-                              ),
-                              textColor: almostGrey,
                             ),
-                          ),
-                          SizedBox(
-                            height: height * 0.03,
-                          ),
-                          if (widget
-                                  .serviceController.selectedDateIndex.value !=
-                              -1)
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                SizedBox(
-                                  height: height * 0.02,
+                                const CustomText(
+                                  text: "Booking Details",
+                                  fontSize: 20,
+                                ),
+                                const SizedBox(
+                                  height: 12,
                                 ),
                                 CustomText(
                                   text: "guests2".tr,
                                   color: Colors.black,
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
-                                ),
-                                SizedBox(
-                                  height: height * 0.01,
-                                ),
-                                CustomText(
-                                  text: "${"totalNumOfGeusts".tr} : $guestNum",
-                                  color: almostGrey,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                                SizedBox(
-                                  height: height * 0.01,
                                 ),
                                 Container(
                                   height: 64,
@@ -310,246 +242,279 @@ class _ReservaationDetailsWidgetState extends State<ReservaationDetailsWidget> {
                                     ],
                                   ),
                                 ),
-                                SizedBox(
-                                  height: height * 0.1,
-                                ),
                               ],
                             ),
-                          Row(
-                            children: [
-                              Column(
-                                children: [
-                                  CustomText(
-                                    text: "totaltotalPrice".tr,
-                                    fontSize: 12,
-                                  ),
-                                  const SizedBox(
-                                    height: 6,
-                                  ),
-                                  CustomText(
-                                    text: (widget.hospitality!.price * guestNum)
-                                            .toString() +
-                                        ' ' +
-                                        'sar'.tr,
-                                    fontWeight: FontWeight.w900,
-                                    fontSize: 22,
-                                  )
-                                ],
+                            CustomText(
+                              text: "date".tr,
+                              color: Colors.black,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            SizedBox(
+                              height: height * 0.02,
+                            ),
+                            Align(
+                              alignment: AppUtil.rtlDirection(context)
+                                  ? Alignment.centerLeft
+                                  : Alignment.centerRight,
+                              child: CustomTextWithIconButton(
+                                onTap: () {
+                                  print("object");
+                                  setState(() {
+                                    selectedChoice = 3;
+                                  });
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return CalenderDialog(
+                                          fromAjwady: false,
+                                          type: 'hospitality',
+                                          avilableDate: widget.avilableDate,
+                                          srvicesController:
+                                              widget.serviceController,
+                                          hospitality: widget.hospitality,
+                                        );
+                                      });
+                                },
+                                height: height * 0.06,
+                                width: width * 0.65,
+                                title: widget.serviceController
+                                        .isHospatilityDateSelcted.value
+                                    ? widget
+                                        .serviceController.selectedDate.value
+                                        .toString()
+                                        .substring(0, 10)
+                                    : 'mm/dd/yyy'.tr,
+                                borderColor: lightGreyColor,
+                                prefixIcon: SvgPicture.asset(
+                                  'assets/icons/Time (2).svg',
+                                  //  color: widget.color,
+                                ),
+                                suffixIcon: const Icon(
+                                  Icons.arrow_forward_ios,
+                                  color: almostGrey,
+                                  size: 15,
+                                ),
+                                textColor: almostGrey,
                               ),
-                              Spacer(),
+                            ),
+                            SizedBox(
+                              height: height * 0.03,
+                            ),
+                            // if (widget
+                            //         .serviceController.selectedDateIndex.value !=
+                            //     -1)
 
-                           widget.serviceController.isCheckAndBookLoading.value  ||  paymentController.isPaymenInvoiceLoading.value
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            widget.serviceController.isCheckAndBookLoading
+                                        .value ||
+                                    paymentController
+                                        .isPaymenInvoiceLoading.value
+                                ? const Center(
+                                    child: CircularProgressIndicator(
+                                    color: purple,
+                                  ))
+                                : CustomButton(
+                                    iconColor: widget.color == purple
+                                        ? darkPurple
+                                        : darkPink,
+                                    title: "confirm".tr,
+                                    onPressed: () async {
+                                      if (guestNum == 0 ||
+                                          widget
+                                                  .serviceController
+                                                  .isHospatilityDateSelcted
+                                                  .value ==
+                                              false) {
+                                        AppUtil.errorToast(
+                                            context, 'Enter all data');
+                                      } else {
+                                        final isSuccess = await widget
+                                            .serviceController
+                                            .checkAndBookHospitality(
+                                                context: context,
+                                                check: false,
+                                                hospitalityId:
+                                                    widget.hospitality!.id,
+                                                date: widget.serviceController
+                                                    .selectedDate.value,
 
-                                  ? const Center(
-                                      child: CircularProgressIndicator(
-                                      color: purple,
-                                    ))
-                                  : CustomButton(
-                                      buttonColor: widget.color,
-                                      iconColor: widget.color == purple
-                                          ? darkPurple
-                                          : darkPink,
-                                      title: "book".tr,
-                                      onPressed: () async {
-                                        if (guestNum == 0 ||
-                                            widget
-                                                    .serviceController
-                                                    .isHospatilityDateSelcted
-                                                    .value ==
-                                                false) {
-                                          AppUtil.errorToast(
-                                              context, 'Enter all data');
-                                        } else {
-                                          final isSuccess = await widget
-                                              .serviceController
-                                              .checkAndBookHospitality(
+                                                //   '${widget.hospitality!.daysInfo[widget.serviceController.selectedDateIndex.value].startTime.substring(11)}',
+                                                dayId: widget
+                                                    .hospitality!
+                                                    .daysInfo[widget
+                                                        .serviceController
+                                                        .selectedDateIndex
+                                                        .value]
+                                                    .id,
+                                                numOfMale: maleGuestNum,
+                                                numOfFemale: femaleGuestNum,
+                                                cost:
+                                                    (widget.hospitality!.price *
+                                                        guestNum));
+
+                                        print("isSuccess : $isSuccess");
+
+                                        if (isSuccess) {
+                                          print("invoice != null");
+                                          print(invoice != null);
+
+                                          invoice ??= await paymentController
+                                              .paymentInvoice(
                                                   context: context,
-                                                  check: false,
-                                                  hospitalityId:
-                                                      widget.hospitality!.id,
-                                                  date: widget.serviceController
-                                                      .selectedDate.value,
-
-                                                  //   '${widget.hospitality!.daysInfo[widget.serviceController.selectedDateIndex.value].startTime.substring(11)}',
-                                                  dayId: widget
-                                                      .hospitality!
-                                                      .daysInfo[widget
-                                                          .serviceController
-                                                          .selectedDateIndex
-                                                          .value]
-                                                      .id,
-                                                  numOfMale: maleGuestNum,
-                                                  numOfFemale: femaleGuestNum,
-                                                  cost: (widget
+                                                  description: 'DESCRIPTION',
+                                                  amount: (widget
                                                           .hospitality!.price *
                                                       guestNum));
+                                          if (invoice != null) {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        PaymentWebView(
+                                                            url: invoice!.url!,
+                                                            title:
+                                                                'Payment'))).then(
+                                                (value) async {
+                                              setState(() {
+                                                isCheckingForPayment = true;
+                                              });
 
-                                          print("isSuccess : $isSuccess");
+                                              final checkInvoice =
+                                                  await paymentController
+                                                      .paymentInvoiceById(
+                                                          context: context,
+                                                          id: invoice!.id);
 
-                                          if (isSuccess) {
-                                            print("invoice != null");
-                                            print(invoice != null);
-
-                                            invoice ??= await paymentController
-                                                .paymentInvoice(
-                                                    context: context,
-                                                    description: 'DESCRIPTION',
-                                                    amount: (widget.hospitality!
-                                                            .price *
-                                                        guestNum));
-                                            if (invoice != null) {
-                                              Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              PaymentWebView(
-                                                                  url: invoice!
-                                                                      .url!,
-                                                                  title:
-                                                                      'Payment')))
-                                                  .then((value) async {
+                                              if (checkInvoice!.invoiceStatus !=
+                                                  'faild') {
+                                                final isSuccess = await widget
+                                                    .serviceController
+                                                    .checkAndBookHospitality(
+                                                        context: context,
+                                                        check: true,
+                                                        cost:
+                                                            (widget.hospitality!
+                                                                    .price *
+                                                                guestNum),
+                                                        date: widget
+                                                            .serviceController
+                                                            .selectedDate
+                                                            .value,
+                                                        hospitalityId: widget
+                                                            .hospitality!.id,
+                                                        dayId: widget
+                                                            .hospitality!
+                                                            .daysInfo[widget
+                                                                .serviceController
+                                                                .selectedDateIndex
+                                                                .value]
+                                                            .id,
+                                                        numOfMale: maleGuestNum,
+                                                        numOfFemale:
+                                                            femaleGuestNum,
+                                                        paymentId: invoice!.id);
                                                 setState(() {
-                                                  isCheckingForPayment = true;
+                                                  isCheckingForPayment = false;
                                                 });
 
-                                                final checkInvoice =
-                                                    await paymentController
-                                                        .paymentInvoiceById(
-                                                            context: context,
-                                                            id: invoice!.id);
+                                                if (checkInvoice
+                                                            .invoiceStatus ==
+                                                        'failed' ||
+                                                    checkInvoice
+                                                            .invoiceStatus ==
+                                                        'initiated') {
+                                                  //  Get.back();
 
-                                                if (checkInvoice!
-                                                        .invoiceStatus !=
-                                                    'faild') {
-                                                  final isSuccess = await widget
-                                                      .serviceController
-                                                      .checkAndBookHospitality(
-                                                          context: context,
-                                                          check: true,
-                                                          cost: (widget
-                                                                  .hospitality!
-                                                                  .price *
-                                                              guestNum),
-                                                          date: widget
-                                                              .serviceController
-                                                              .selectedDate
-                                                              .value,
-                                                          hospitalityId: widget
-                                                              .hospitality!.id,
-                                                          dayId: widget
-                                                              .hospitality!
-                                                              .daysInfo[widget
-                                                                  .serviceController
-                                                                  .selectedDateIndex
-                                                                  .value]
-                                                              .id,
-                                                          numOfMale:
-                                                              maleGuestNum,
-                                                          numOfFemale:
-                                                              femaleGuestNum,
-                                                          paymentId:
-                                                              invoice!.id);
-                                                  setState(() {
-                                                    isCheckingForPayment =
-                                                        false;
-                                                  });
+                                                  showDialog(
+                                                      context: context,
+                                                      builder: (ctx) {
+                                                        return AlertDialog(
+                                                          backgroundColor:
+                                                              Colors.white,
+                                                          content: Column(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .min,
+                                                            children: [
+                                                              Image.asset(
+                                                                  'assets/images/paymentFaild.gif'),
+                                                              CustomText(
+                                                                  text:
+                                                                      "paymentFaild"
+                                                                          .tr),
+                                                            ],
+                                                          ),
+                                                        );
+                                                      });
+                                                } else {
+                                                  print('YES');
+                                                  Get.back();
+                                                  Get.back();
 
-                                                  if (checkInvoice
-                                                              .invoiceStatus ==
-                                                          'failed' ||
-                                                      checkInvoice
-                                                              .invoiceStatus ==
-                                                          'initiated') {
-                                                    //  Get.back();
-
-                                                    showDialog(
-                                                        context: context,
-                                                        builder: (ctx) {
-                                                          return AlertDialog(
-                                                            backgroundColor:
-                                                                Colors.white,
-                                                            content: Column(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .min,
-                                                              children: [
-                                                                Image.asset(
-                                                                    'assets/images/paymentFaild.gif'),
-                                                                CustomText(
-                                                                    text:
-                                                                        "paymentFaild"
-                                                                            .tr),
-                                                              ],
-                                                            ),
-                                                          );
-                                                        });
-                                                  } else {
-                                                    print('YES');
-                                                    Get.back();
-                                                    Get.back();
-
-                                                    showDialog(
-                                                        context: context,
-                                                        builder: (ctx) {
-                                                          return AlertDialog(
-                                                            backgroundColor:
-                                                                Colors.white,
-                                                            content: Column(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .min,
-                                                              children: [
-                                                                Image.asset(
-                                                                    'assets/images/paymentSuccess.gif'),
-                                                                CustomText(
-                                                                    text:
-                                                                        "paymentSuccess"
-                                                                            .tr),
-                                                              ],
-                                                            ),
-                                                          );
-                                                        });
-                                                  }
-                                                } else {}
-                                              });
-                                            }
+                                                  showDialog(
+                                                      context: context,
+                                                      builder: (ctx) {
+                                                        return AlertDialog(
+                                                          backgroundColor:
+                                                              Colors.white,
+                                                          content: Column(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .min,
+                                                            children: [
+                                                              Image.asset(
+                                                                  'assets/images/paymentSuccess.gif'),
+                                                              CustomText(
+                                                                  text:
+                                                                      "paymentSuccess"
+                                                                          .tr),
+                                                            ],
+                                                          ),
+                                                        );
+                                                      });
+                                                }
+                                              } else {}
+                                            });
                                           }
                                         }
-                                      },
-                                      icon: !AppUtil.rtlDirection(context)
-                                          ? const Icon(Icons.arrow_back_ios)
-                                          : const Icon(Icons.arrow_forward_ios),
-                                      customWidth: width * 0.5,
-                                    )
-                            ],
-                          ),
-                          SizedBox(
-                            height: height * 0.05,
-                          ),
-                        ]),
-                      )),
-                  if (isCheckingForPayment)
-                    Center(
-                        child: Container(
-                            height: 150,
-                            width: 180,
-                            padding: EdgeInsets.all(10),
-                            decoration: BoxDecoration(color: Colors.white),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                CircularProgressIndicator.adaptive(),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                CustomText(
-                                  text: 'checkingForPayment'.tr,
-                                  color: colorGreen,
-                                  fontWeight: FontWeight.w600,
-                                )
-                              ],
-                            )))
-                ],
+                                      }
+                                    },
+                                    icon: !AppUtil.rtlDirection(context)
+                                        ? const Icon(Icons.arrow_back_ios)
+                                        : const Icon(Icons.arrow_forward_ios),
+                                    customWidth: width * 0.5,
+                                  ),
+                            SizedBox(
+                              height: height * 0.05,
+                            ),
+                          ]),
+                        )),
+                    if (isCheckingForPayment)
+                      Center(
+                          child: Container(
+                              height: 150,
+                              width: 180,
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(color: Colors.white),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  CircularProgressIndicator.adaptive(),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  CustomText(
+                                    text: 'checkingForPayment'.tr,
+                                    color: colorGreen,
+                                    fontWeight: FontWeight.w600,
+                                  )
+                                ],
+                              )))
+                  ],
+                ),
               ),
             ),
           );

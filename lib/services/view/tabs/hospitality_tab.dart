@@ -19,7 +19,7 @@ class HospitalityTab extends StatefulWidget {
 }
 
 class _HospitalityTabState extends State<HospitalityTab> {
-  SrvicesController _srvicesController = Get.put(SrvicesController());
+  final _srvicesController = Get.put(SrvicesController());
   @override
   void initState() {
     // TODO: implement initState
@@ -32,63 +32,69 @@ class _HospitalityTabState extends State<HospitalityTab> {
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(20),
-      child: Obx(
-        () => Column(
-          children: [
-            //Ad cards
-            const AdCards(),
-            const SizedBox(
-              height: 20,
-            ),
-            Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CustomText(
-                      text: 'saudiHospitality'.tr,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ],
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      child: Column(
+        children: [
+          //Ad cards
+          const AdCards(),
+          const SizedBox(
+            height: 20,
+          ),
+          Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CustomText(
+                    text: 'saudiHospitality'.tr,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              //cities list view
+              SizedBox(
+                height: 34,
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  itemCount: 10,
+                  separatorBuilder: (context, index) => const SizedBox(
+                    width: 10,
+                  ),
+                  itemBuilder: (context, index) => CityChips(
+                    city: index == 0 ? 'All' : "Makkah",
+                  ),
                 ),
-                const SizedBox(
-                  height: 8,
-                ),
-                SizedBox(
-                  height: 34,
-                  child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      itemCount: 5,
-                      separatorBuilder: (context, index) => const SizedBox(
-                            width: 10,
-                          ),
-                      itemBuilder: (context, index) => CityChips(
-                            city: index == 0 ? 'All' : "Makkah",
-                          )),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                _srvicesController.isHospitalityLoading.value
-                    ? SizedBox(
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Obx(
+                () => _srvicesController.isHospitalityLoading.value
+                    ? //if list is loading
+                    SizedBox(
                         height: height * 0.4,
                         width: width,
                         child: const Center(
-                            child: CircularProgressIndicator(
-                          color: purple,
-                        )))
+                          child: CircularProgressIndicator(
+                            color: purple,
+                          ),
+                        ),
+                      )
+                    //List of hospitalities
                     : ListView.separated(
-                        padding: EdgeInsets.all(0),
+                        padding: EdgeInsets.zero,
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: _srvicesController.hospitalityList.length,
                         itemBuilder: (context, index) {
                           return GestureDetector(
-                            //hospitality
-                            child: CustomHospitalityItem(
+                            // card for any services Hospitality,Adventure etc ..
+                            child: ServicesCard(
                               onTap: () {
                                 Get.to(() => HospitalityDetails(
                                       hospitalityId: _srvicesController
@@ -127,11 +133,11 @@ class _HospitalityTabState extends State<HospitalityTab> {
                             height: 16,
                           );
                         },
-                      )
-              ],
-            )
-          ],
-        ),
+                      ),
+              ),
+            ],
+          )
+        ],
       ),
     );
   }
