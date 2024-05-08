@@ -5,8 +5,8 @@ import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class CustomHospitalityItem extends StatelessWidget {
-  const CustomHospitalityItem({
+class ServicesCard extends StatelessWidget {
+  const ServicesCard({
     super.key,
     required this.image,
     this.personImage,

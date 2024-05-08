@@ -3,8 +3,10 @@ import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/view/view_trip_images.dart';
 import 'package:ajwad_v4/services/controller/serivces_controller.dart';
 import 'package:ajwad_v4/services/model/hospitality.dart';
+import 'package:ajwad_v4/services/view/widgets/images_services_widget.dart';
 import 'package:ajwad_v4/services/view/widgets/reservation_details_sheet.dart';
 import 'package:ajwad_v4/services/view/widgets/reservation_details_widget.dart';
+import 'package:ajwad_v4/services/view/widgets/service_profile_card.dart';
 
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
@@ -34,16 +36,7 @@ class HospitalityDetails extends StatefulWidget {
 late double width, height;
 
 class _HospitalityDetailsState extends State<HospitalityDetails> {
-  // final List<String> _hospitalityUrlImages = [
-  //   'assets/images/farm_image.png',
-  //   'assets/images/farm_image.png',
-  //   'assets/images/farm_image.png',
-  //   'assets/images/farm_image.png',
-  //   'assets/images/farm_image.png',
-  // ];
-
   final _servicesController = Get.put(SrvicesController());
-
   int _currentIndex = 0;
   bool isExpanded = false;
   bool isAviailable = false;
@@ -110,10 +103,13 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
             )
           : Scaffold(
               bottomNavigationBar: SizedBox(
-                child: BottomBookingWidget(
-                  hospitalityObj: hospitalityObj!,
-                  servicesController: _servicesController,
-                  avilableDate: avilableDate,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: BottomBookingWidget(
+                    hospitalityObj: hospitalityObj!,
+                    servicesController: _servicesController,
+                    avilableDate: avilableDate,
+                  ),
                 ),
               ),
               backgroundColor: Colors.white,
@@ -123,6 +119,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                   child: Stack(children: [
                 Column(
                   children: [
+                    // images widget on top of screen
                     GestureDetector(
                       onTap: () {
                         Get.to(ViewTripImages(
@@ -141,12 +138,8 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                             }),
                         itemCount: hospitalityObj!.images.length,
                         itemBuilder: (context, index, realIndex) {
-                          return Container(
-                            width: MediaQuery.of(context).size.width,
-                            child: Image.network(
-                              hospitalityObj!.images[index],
-                              fit: BoxFit.fill,
-                            ),
+                          return ImagesServicesWidget(
+                            image: hospitalityObj!.images[index],
                           );
                         },
                       ),
@@ -253,39 +246,47 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                           ConstrainedBox(
                             constraints: isExpanded
                                 ? const BoxConstraints()
-                                : const BoxConstraints(maxHeight: 70),
+                                : const BoxConstraints(maxHeight: 20),
                             child: CustomText(
-
                                 //   textAlign: AppUtil.rtlDirection(context) ? TextAlign.end : TextAlign.start ,
                                 textDirection: AppUtil.rtlDirection(context)
                                     ? TextDirection.ltr
                                     : TextDirection.rtl,
-                                textOverflow: TextOverflow.fade,
+                                textOverflow: isExpanded
+                                    ? TextOverflow.visible
+                                    : TextOverflow.clip,
                                 fontFamily: "Noto Kufi Arabic",
                                 fontSize: 14,
                                 text: !AppUtil.rtlDirection(context)
                                     ? hospitalityObj!.bioAr
                                     : hospitalityObj!.bioEn),
                           ),
+                          const SizedBox(
+                            height: 5,
+                          ),
                           isExpanded
-                              ? GestureDetector(
-                                  onTap: () {
-                                    setState(() => isExpanded = false);
-                                  },
-                                  child: const CustomText(
-                                    text: "Show less",
-                                    color: darkBlue,
+                              ? Align(
+                                  alignment: Alignment.bottomLeft,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      setState(() => isExpanded = false);
+                                    },
+                                    child: const CustomText(
+                                      text: "Show less",
+                                      color: blue,
+                                    ),
                                   ),
                                 )
                               : Align(
                                   alignment: Alignment.bottomLeft,
-                                  child: TextButton(
-                                      child: CustomText(
-                                        text: "readMore".tr,
-                                        color: darkBlue,
-                                      ),
-                                      onPressed: () =>
-                                          setState(() => isExpanded = true)),
+                                  child: GestureDetector(
+                                    onTap: () =>
+                                        setState(() => isExpanded = true),
+                                    child: CustomText(
+                                      text: "readMore".tr,
+                                      color: blue,
+                                    ),
+                                  ),
                                 ),
                           const SizedBox(
                             height: 10,
@@ -421,8 +422,8 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                   ],
                                 )),
                           ),
-                          const SizedBox(
-                            height: 40,
+                          const Divider(
+                            color: lightGrey,
                           ),
                         ],
                       ),
@@ -451,56 +452,19 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                   ),
                 ),
                 Positioned(
-                  top: height * 0.265,
-                  right: width * 0.1,
-                  left: width * 0.1,
-                  child: GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      height: 60,
-                      width: 300,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(30)),
-                        boxShadow: [
-                          BoxShadow(
-                              color: almostGrey.withOpacity(0.2),
-                              spreadRadius: -3,
-                              blurRadius: 5,
-                              offset: const Offset(4, 6))
-                        ],
-                      ),
-                      child: Row(
-                        children: [
-                          hospitalityObj!.familyImage != null
-                              ? CircleAvatar(
-                                  radius: 25.5,
-                                  backgroundImage:
-                                      NetworkImage(hospitalityObj!.familyImage),
-                                )
-                              : const CircleAvatar(
-                                  radius: 25.5,
-                                  backgroundImage: AssetImage(
-                                      'assets/images/profile_image.png'),
-                                ),
-                          SizedBox(
-                            width: 30,
-                          ),
-                          CustomText(
-                            text: hospitalityObj!.familyName,
-                            fontWeight: FontWeight.w900,
-                            fontSize: 20,
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+                    top: height * 0.265,
+                    right: width * 0.1,
+                    left: width * 0.1,
+                    // local profile
+                    child: ServicesProfileCard(
+                      onTap: () {},
+                      image: hospitalityObj!.familyImage,
+                      name: hospitalityObj!.familyName,
+                    )),
+                //indicator
                 Positioned(
                   top: height * 0.22,
-                  left: width * 0.45,
+                  left: width * 0.36,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: hospitalityObj!.images.map((imageUrl) {
@@ -508,7 +472,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                       return Container(
                         width: 10.0,
                         height: 10.0,
-                        margin: EdgeInsets.symmetric(
+                        margin: const EdgeInsets.symmetric(
                             vertical: 10.0, horizontal: 2.0),
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
