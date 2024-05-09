@@ -1,5 +1,6 @@
 import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
 import 'package:ajwad_v4/profile/view/order_screen.dart';
 import 'package:ajwad_v4/profile/view/ticket_screen.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
@@ -61,12 +62,12 @@ class _ServiceScreenState extends State<ServiceScreen>
           headerSliverBuilder: (context, isScrolled) => [
             SliverAppBar(
               automaticallyImplyLeading: true,
-              expandedHeight: 200,
-              toolbarHeight: 122,
+              // expandedHeight: width * 0.51,
+              toolbarHeight: width * 0.31,
               pinned: true,
               actions: [
                 Padding(
-                  padding: const EdgeInsets.only(right: 24),
+                  padding: EdgeInsets.only(right: width * 0.06),
                 
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -103,13 +104,13 @@ class _ServiceScreenState extends State<ServiceScreen>
                 )
               ],
               flexibleSpace: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(16),
-                    bottomRight: Radius.circular(16)),
+                // borderRadius: const BorderRadius.only(
+                //     bottomLeft: Radius.circular(16),
+                //     bottomRight: Radius.circular(16)),
                 child: Image.asset(
                   'assets/images/${_tabIndex == 0 ? 'service_hospitality_cover' : _tabIndex == 2 ? 'service_adventures_cover' : _tabIndex == 1 ? 'service_events_cover' : 'service_restaurants_cover'}.png',
                   width: width,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.fill,
                 ),
               ),
               bottom: TabBar(
@@ -117,14 +118,14 @@ class _ServiceScreenState extends State<ServiceScreen>
                 // indicatorPadding: const EdgeInsets.only(
                 //   top: 10,
                 // ),
-                indicator: const BoxDecoration(
+                indicator: BoxDecoration(
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(12),
-                    topRight: Radius.circular(12),
+                    topLeft: Radius.circular(width * 0.03),
+                    topRight: Radius.circular(width * 0.03),
                   ),
                   color: Colors.white,
                 ),
-                labelPadding: const EdgeInsets.all(10),
+                labelPadding: EdgeInsets.all(width * 0.02),
                 padding: const EdgeInsets.symmetric(horizontal: 2),
                 onTap: (index) {
                   print(tabIndex);
