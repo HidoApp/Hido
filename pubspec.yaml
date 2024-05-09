@@ -75,6 +75,7 @@ dependencies:
   flutter_local_notifications: ^17.1.1
   awesome_notifications: ^0.8.2
   timezone: ^0.9.3
+  ticket_widget: ^1.0.2 
   # workmanager: ^0.4.1
 
 

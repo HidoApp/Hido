@@ -32,14 +32,17 @@ static onTap(NotificationResponse notificationResponse){}
   late DateTime timeToReturn;
    String day="2 days";
 void checkBooking(String? bookdate) {
-DateTime currentDate = DateTime.now();
+DateTime currentDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
 DateTime bookingDate = DateTime.parse(bookdate!);
+
 twoDaysBefore = bookingDate.subtract(Duration(days: 2));
-// Check if the calculated date is in the past
-  if (twoDaysBefore.isBefore(DateTime.now())) {
+
+DateTime twoDaysBeforeWithoutTime = DateTime(twoDaysBefore.year, twoDaysBefore.month, twoDaysBefore.day);
+
+  if (twoDaysBeforeWithoutTime.isBefore(currentDate)) {
     // If it's in the past, set it to the current date
-    twoDaysBefore = DateTime.now();
-    if(twoDaysBefore==DateTime.now()){
+    twoDaysBefore = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+    if(twoDaysBefore == DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)){
       day="towday";
     }
     else{
@@ -48,7 +51,6 @@ twoDaysBefore = bookingDate.subtract(Duration(days: 2));
   }
 print("datebe");
 print(twoDaysBefore);
-int daysDifference = bookingDate.difference(DateTime.now()).inDays;
   
 
   
@@ -112,14 +114,15 @@ print(placeeEn);
 print(id);
 
 
-  //int? parsedId = int.tryParse(id ?? '');
+  int parsedId = int.tryParse(id ?? '') ?? 0;
+  String ids= id ??"0 ";
 
   String placeName = AppUtil.rtlDirection2(context) ? placeeAr ?? '' : placeeEn ?? '';
 print(placeeEn);
 
 
  AndroidNotificationDetails android =AndroidNotificationDetails(
-  '0' , 'schduled', 
+  ids , 'schduled', 
   importance: Importance.max,
   priority: Priority.high,
   
@@ -134,7 +137,7 @@ print(placeeEn);
   print(tz.local);
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
-     0,
+     parsedId,
     'Hi'+ " NAME "+", Reminder",
     'There is '+ day + " left until you start your journey to discover "+ placeName +" with ", 
     //  tz.TZDateTime.now(tz.local).add(const Duration(seconds: 1)),

@@ -19,6 +19,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'tabs/hospitality_tab.dart';
+import 'package:ajwad_v4/explore/tourist/view/notification/notification_screen.dart';
+
 
 class ServiceScreen extends StatefulWidget {
   const ServiceScreen({super.key});
@@ -65,6 +67,7 @@ class _ServiceScreenState extends State<ServiceScreen>
               actions: [
                 Padding(
                   padding: const EdgeInsets.only(right: 24),
+                
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -202,7 +205,7 @@ class _ServiceScreenState extends State<ServiceScreen>
                 isAviailable: false,
               ),
               AdventuresTab(
-                isAviailable: false,
+                isAviailable: true,
               ),
               RestaurantsTab(
                 isAviailable: false,

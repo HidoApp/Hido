@@ -12,7 +12,9 @@ class CustomButton extends StatelessWidget {
       this.iconColor,
       this.customWidth,
       this.height,
-      this.italic = false});
+      this.italic = false,
+     this.textColor, // Default text color
+});
 
   final VoidCallback onPressed;
   final String title;
@@ -22,6 +24,9 @@ class CustomButton extends StatelessWidget {
   final double? customWidth;
   final double? height;
   final bool italic;
+  final Color? textColor;
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -55,13 +60,23 @@ class CustomButton extends StatelessWidget {
               width: 30,
               height: 30,
             ),
-          if (title != "")
+          if (title != "" )
+            if(textColor == null)
             CustomText(
               text: title,
               textAlign: TextAlign.center,
               fontSize: 16,
               fontWeight: FontWeight.w500,
               color: Colors.white,
+              fontStyle: italic ? FontStyle.italic : FontStyle.normal,
+            ),
+            if(textColor !=null)
+             CustomText(
+              text: title,
+              textAlign: TextAlign.center,
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              color: Colors.red,
               fontStyle: italic ? FontStyle.italic : FontStyle.normal,
             ),
           if (icon != null) const Spacer(),

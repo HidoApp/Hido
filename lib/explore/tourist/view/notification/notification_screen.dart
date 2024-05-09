@@ -24,6 +24,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
   List<Booking> _upcomingTicket = [];
   List<Booking> _upcomingBookings = [];
  late String days;
+  //List<int> disabledIndices = [];
+  static List<int> canceledIndices = [];
+
+ 
 
   final ProfileController _profileController = Get.put(ProfileController());
 
@@ -56,16 +60,21 @@ if (_upcomingTicket.isEmpty) {
     if (daysDifference == 2) {
       _upcomingBookings.add(booking);
       print(_upcomingBookings.length);
-      AppUtil.rtlDirection2(context)? days=" بعد يوم": days=" is after a day ";
+      AppUtil.rtlDirection2(context)? days=" بعد يوم , عند الساعة" + booking.timeToGo: days=" is after a day at"+ booking.timeToGo;
     }
-    else if(daysDifference == 0){
+    else if(daysDifference == 1){
         _upcomingBookings.add(booking);
       print(_upcomingBookings.length);
-      AppUtil.rtlDirection2(context)? days="غدا": days=" is tomorrow ";
+      AppUtil.rtlDirection2(context)? days=" غدا عند الساعة" + booking.timeToGo: days=" is tomorrow at "+ booking.timeToGo;
 
     }
     else {
-    if(bookingDate==DateTime.now()){
+      print(bookingDate);
+      print(DateTime.now());
+  DateTime bookingDateWithoutTime = DateTime(bookingDate.year, bookingDate.month, bookingDate.day);
+  DateTime todayWithoutTime = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+
+  if (bookingDateWithoutTime == todayWithoutTime) {
        _upcomingBookings.add(booking);
         AppUtil.rtlDirection2(context)? days=" اليوم عند الساعة " + booking.timeToGo : days=" is today at "+booking.timeToGo ;
 
@@ -82,6 +91,15 @@ if (_upcomingTicket.isEmpty) {
   }
 
 }
+
+ void disableNotification(int index) {
+    setState(() {
+      canceledIndices.add(index);
+
+      //disabledIndices.add(index);
+
+    });
+  }
 
 
   @override
@@ -101,14 +119,14 @@ Widget build(BuildContext context) {
               padding:
                   const EdgeInsets.symmetric(horizontal: 24).copyWith(top: 40),
               child: Row(
-                textDirection: TextDirection.ltr,
+              textDirection: AppUtil.rtlDirection2(context) ? TextDirection.rtl : TextDirection.ltr,
                 children: [
                   IconButton(
                     onPressed: () {
                       Get.back();
                     },
                     icon: Icon(
-                      AppUtil.rtlDirection(context)
+                      AppUtil.rtlDirection2(context)
                           ? Icons.arrow_forward
                           : Icons.arrow_back,
                       color: black,
@@ -142,14 +160,29 @@ Widget build(BuildContext context) {
               shrinkWrap: true,
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
               itemCount: _upcomingBookings.length,
-              itemBuilder: (context, index) => NotificationCrd(
+              itemBuilder: (context, index) {
+              final isDisabled = canceledIndices.contains(index);
+        if (isDisabled) {
+         // return SizedBox();
+         return CustomEmptyWidget(
+                title: 'noNotification'.tr,
+                image: 'no_notifications',
+              );
+        }
+
+              return  NotificationCrd(
                 name:AppUtil.rtlDirection2(context)? _upcomingBookings[index].place?.nameAr?? "":  _upcomingBookings[index].place?.nameEn?? "",
                 isRtl:AppUtil.rtlDirection2(context),
                 width: width,
                 days:days,
+                isDisabled: isDisabled,
+                onCancel: () {
+                   disableNotification(index);
+
+                 },
                 
-              ),
-              
+              );
+              }
             ),
               // Column(
               //   crossAxisAlignment: CrossAxisAlignment.start,
