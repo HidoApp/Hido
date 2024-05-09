@@ -1,5 +1,8 @@
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
 import 'package:ajwad_v4/services/controller/serivces_controller.dart';
+import 'package:ajwad_v4/services/view/adveture_details.dart';
+import 'package:ajwad_v4/services/view/event_details.dart';
 import 'package:ajwad_v4/services/view/hospitality_details.dart';
 import 'package:ajwad_v4/services/view/widgets/ad_cards.dart';
 import 'package:ajwad_v4/services/view/widgets/city_chips.dart';
@@ -32,69 +35,70 @@ class _HospitalityTabState extends State<HospitalityTab> {
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
     return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-      child: Column(
-        children: [
-          //Ad cards
-          const AdCards(),
-          const SizedBox(
-            height: 20,
-          ),
-          Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CustomText(
-                    text: 'saudiHospitality'.tr,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              //cities list view
-              SizedBox(
-                height: 34,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  shrinkWrap: true,
-                  itemCount: 10,
-                  separatorBuilder: (context, index) => const SizedBox(
-                    width: 10,
-                  ),
-                  itemBuilder: (context, index) => CityChips(
-                    city: index == 0 ? 'All' : "Makkah",
+      child: Padding(
+        //TODO: Rehab you must replace padding in adventure screen with these values
+        padding: EdgeInsets.symmetric(
+            horizontal: width * 0.025, vertical: width * 0.035),
+        child: Column(
+          children: [
+            //Ad cards
+            const AdCards(),
+            SizedBox(
+              height: width * 0.051,
+            ),
+            Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CustomText(
+                      text: 'saudiHospitality'.tr,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                //cities list view
+                SizedBox(
+                  height: width * 0.087,
+                  child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    itemCount: 10,
+                    separatorBuilder: (context, index) => SizedBox(
+                      width: width * 0.025,
+                    ),
+                    itemBuilder: (context, index) => CityChips(
+                      city: index == 0 ? 'All' : "Makkah",
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Obx(
-                () => _srvicesController.isHospitalityLoading.value
-                    ? //if list is loading
-                    SizedBox(
-                        height: height * 0.4,
-                        width: width,
-                        child: const Center(
-                          child: CircularProgressIndicator(
-                            color: purple,
+                SizedBox(
+                  height: width * 0.05,
+                ),
+                Obx(
+                  () => _srvicesController.isHospitalityLoading.value
+                      ? //if list is loading
+                      SizedBox(
+                          height: height * 0.4,
+                          width: width,
+                          child: const Center(
+                            child: CircularProgressIndicator(
+                              color: purple,
+                            ),
                           ),
-                        ),
-                      )
-                    //List of hospitalities
-                    : ListView.separated(
-                        padding: EdgeInsets.zero,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: _srvicesController.hospitalityList.length,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            // card for any services Hospitality,Adventure etc ..
-                            child: ServicesCard(
+                        )
+                      //List of hospitalities
+                      : ListView.separated(
+                          padding: EdgeInsets.zero,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: _srvicesController.hospitalityList.length,
+                          itemBuilder: (context, index) {
+                            return ServicesCard(
                               onTap: () {
                                 Get.to(() => HospitalityDetails(
                                       hospitalityId: _srvicesController
@@ -125,19 +129,19 @@ class _HospitalityTabState extends State<HospitalityTab> {
                               rate: '4.7',
                               dayInfo: _srvicesController
                                   .hospitalityList[index].daysInfo,
-                            ),
-                          );
-                        },
-                        separatorBuilder: (context, index) {
-                          return const SizedBox(
-                            height: 16,
-                          );
-                        },
-                      ),
-              ),
-            ],
-          )
-        ],
+                            );
+                          },
+                          separatorBuilder: (context, index) {
+                            return const SizedBox(
+                              height: 16,
+                            );
+                          },
+                        ),
+                ),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
