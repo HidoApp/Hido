@@ -103,7 +103,7 @@ static Future init()async{
   @override
   Widget build(BuildContext context) {
    width = MediaQuery.of(context).size.width;
-
+ 
     return Scaffold(
       backgroundColor: lightGreyBackground,
       body: Obx(
@@ -420,6 +420,7 @@ static Future init()async{
                     : const SizedBox()
                 ),
               ],
+              
               // ?  ============== Offers Case =================
               if (widget.chatId == null && (!widget.isAjwadi)) ...[
                 Expanded(
@@ -466,11 +467,12 @@ static Future init()async{
                               ? CircularProgressIndicator(
                                   color: colorGreen,
                                 )
+                                
                               : CustomButton(
                                 
                                 title: 'pay'.tr,
 
-
+                                
 
 
 
@@ -651,8 +653,8 @@ static Future init()async{
                         log("snapshot ${snapshot.data}");
 
                         return
-                            // Obx(
-                            //   () =>
+                            Obx(
+                             () =>
                             chatController.isGetChatByIdLoading.value
                                 ? Center(
                                     child: Padding(
@@ -729,7 +731,7 @@ static Future init()async{
                                             );
                                           },
                                         ),
-                                        // ),
+                                         ),
                                       );
                       })),
                 ),
