@@ -4,11 +4,16 @@ import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:ajwad_v4/profile/view/ticket_details_screen.dart';
+import 'package:get/get.dart';
+
 
 class CustomTicketCard extends StatelessWidget {
   const CustomTicketCard({
     super.key,
     required this.booking,
+
+    
   });
 
   final Booking booking;
@@ -17,7 +22,12 @@ class CustomTicketCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    return Card(
+    return InkWell(
+       onTap: () {
+        Get.to(() => TicketDetailsScreen(booking: booking));
+      },     
+      
+     child:  Card(
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(16))),
       color: Colors.white,
@@ -150,6 +160,7 @@ class CustomTicketCard extends StatelessWidget {
           ],
         ),
       ),
+    ),
     );
   }
 }

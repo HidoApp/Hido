@@ -13,6 +13,8 @@ class NotificationCrd extends StatelessWidget {
       required this.isRtl,
       required this.width,
       required this.days,
+      required this.isDisabled,
+      required this.onCancel,
 
 
   }) : super(key: key);
@@ -20,11 +22,15 @@ class NotificationCrd extends StatelessWidget {
   final double width;
   final bool isRtl;
   final String  days;
+  final bool isDisabled;
+  final VoidCallback onCancel;
 
 
  @override
 Widget build(BuildContext context) {
-  return Column(
+  return isDisabled
+        ? SizedBox() // Return an empty SizedBox if disabled
+        : Column(
     children: [
       const SizedBox(height: 16),
       Padding(
@@ -61,14 +67,12 @@ Widget build(BuildContext context) {
               ),
             ),
             IconButton(
-              onPressed: () {
-                // Handle button press
-              },
-              icon: const Icon(
-                Icons.cancel,
-                color: Colors.red,
-              ),
-            ),
+                      onPressed: onCancel,
+                      icon: const Icon(
+                        Icons.cancel,
+                        color: Colors.red,
+                      ),
+                    ),
           ],
         ),
       ),
