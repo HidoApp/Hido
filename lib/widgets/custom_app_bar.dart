@@ -8,15 +8,16 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.title, {
     Key? key,
     this.color = black,
-    this.iconColor ,
+    this.iconColor,
     this.action = false,
-    this.onPressedAction,  this.isAjwadi = false,
+    this.onPressedAction,
+    this.isAjwadi = false,
   })  : preferredSize = const Size.fromHeight(50.0),
         super(key: key);
 
   final String title;
   final Color? color;
-    final Color? iconColor;
+  final Color? iconColor;
   final bool action;
   final bool isAjwadi;
   final VoidCallback? onPressedAction;
@@ -27,6 +28,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
         centerTitle: false,
+        // forceMaterialTransparency: true,
         title: CustomText(
           text: title,
           color: color ?? const Color(0xFF333333),
@@ -36,7 +38,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon:  SizedBox(
+          icon: SizedBox(
               child: Icon(
             Icons.arrow_back_ios,
             size: 22,
