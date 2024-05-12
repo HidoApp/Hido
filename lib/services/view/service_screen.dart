@@ -209,12 +209,15 @@ class _ServiceScreenState extends State<ServiceScreen>
               HospitalityTab(
                 isAviailable: true,
               ),
+                AdventuresTab(
+                isAviailable: true,
+              ),
               EventsTab(
                 isAviailable: false,
               ),
-              AdventuresTab(
-                isAviailable: true,
-              ),
+              // AdventuresTab(
+              //   isAviailable: true,
+              // ),
               RestaurantsTab(
                 isAviailable: false,
               ),
