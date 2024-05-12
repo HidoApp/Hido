@@ -68,243 +68,238 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
 
   late UserLocation? userLocation;
 
-final ProfileController _profileController = Get.put(ProfileController());
-List<Booking> _EndTicket = [];
-List<Booking> _upcomingBookings = [];
-late String days;
+  final ProfileController _profileController = Get.put(ProfileController());
+  List<Booking> _EndTicket = [];
+  List<Booking> _upcomingBookings = [];
+  late String days;
   bool isStarChecked = false;
   int startIndex = -1;
   bool isSendTapped = false;
 
- 
-
   void getBooking() async {
-  List<Booking>? bookings =
-      await _profileController.getUpcommingTicket(context: context);
-  if (bookings != null) {
-    setState(() {
-      _EndTicket = bookings;
-       getEndBookings();
-       print("loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
-    });
-    print(_EndTicket.length);
-  } else {
-    print("loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo2");
-
+    List<Booking>? bookings =
+        await _profileController.getUpcommingTicket(context: context);
+    if (bookings != null) {
+      setState(() {
+        _EndTicket = bookings;
+        getEndBookings();
+        print(
+            "loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
+      });
+      print(_EndTicket.length);
+    } else {
+      print(
+          "loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo2");
+    }
   }
-}
 
-
-void getEndBookings() async {
+  void getEndBookings() async {
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
-DateTime now = DateTime.now();
-DateTime today = DateTime(now.year, now.month, now.day); 
- if (_EndTicket.isEmpty) {
-    print('No bookings');
-    return;
-  }
+    DateTime now = DateTime.now();
+    DateTime today = DateTime(now.year, now.month, now.day);
+    if (_EndTicket.isEmpty) {
+      print('No bookings');
+      return;
+    }
 
-  for (Booking booking in _EndTicket) {
-    DateTime bookingDate = DateTime.parse(booking.date);
-  DateTime bookingDateWithoutTime = DateTime(bookingDate.year, bookingDate.month, bookingDate.day);
-  print("arrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
-  print(bookingDateWithoutTime);
-  if (bookingDateWithoutTime.isBefore(today) || bookingDateWithoutTime.isAtSameMomentAs(today)) {
-      print("arrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr222");
-      print(bookingDateWithoutTime.isBefore(today));
-      print( bookingDateWithoutTime.isAtSameMomentAs(today));
+    for (Booking booking in _EndTicket) {
+      DateTime bookingDate = DateTime.parse(booking.date);
+      DateTime bookingDateWithoutTime =
+          DateTime(bookingDate.year, bookingDate.month, bookingDate.day);
+      print(
+          "arrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
+      print(bookingDateWithoutTime);
+      if (bookingDateWithoutTime.isBefore(today) ||
+          bookingDateWithoutTime.isAtSameMomentAs(today)) {
+        print(
+            "arrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr222");
+        print(bookingDateWithoutTime.isBefore(today));
+        print(bookingDateWithoutTime.isAtSameMomentAs(today));
 
+        DateTime timeToReturn = DateTime.parse(booking.timeToReturn);
+        // if (timeToReturn.isAfter(now)) {
 
-      DateTime timeToReturn = DateTime.parse(booking.timeToReturn);
-      // if (timeToReturn.isAfter(now)) {
-      
-         // Display bottom sheet
-      await showModalBottomSheet(
-        isScrollControlled: true,
-        context: context,
-        backgroundColor: Colors.white,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-        ),
-        builder: (context) {
-          return StatefulBuilder(builder: (context, setState) {
-            return SizedBox(
-              width: width,
-              height: isStarChecked ? height * 0.4 : height * 0.35,
-              child: isStarChecked
-                  ? Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 24,
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CustomText(
-                            text: 'sorryForHearingThat'.tr,
-                            fontFamily: 'Kufam',
-                            fontSize: 24,
-                            fontWeight: FontWeight.w600,
-                            textAlign: TextAlign.center,
-                          ),
-                          CustomText(
-                            text: 'tellUsWhatHappened'.tr,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            textAlign: TextAlign.center,
-                          ),
-                          CustomTextArea(
-                            onChanged: (value) {
-                              print(value);
-                            },
-                          ),
-                          CustomButton(
-                            onPressed: () {
-                              setState(() {
-                                isSendTapped = false;
-                                isStarChecked = false;
-                              });
-                              Get.back();
-                            },
-                            title: 'send'.tr,
-                            icon: AppUtil.rtlDirection2(context)
-                                ? const Icon(Icons.arrow_back)
-                                : const Icon(Icons.arrow_forward),
-                          )
-                        ],
-                      ),
-                    )
-                  : isSendTapped
-                      ? Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 24, vertical: 40),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              CustomText(
-                                text: AppUtil.rtlDirection2(context)
-                                    ? 'ما رايك في محمد كأجودي؟'
-                                    : 'What do you think about Mohammed As ajwady?',
-                                fontFamily: 'Kufam',
-                                fontSize: 24,
-                                fontWeight: FontWeight.w700,
-                                textAlign: TextAlign.center,
-                              ),
-                              CustomText(
-                                text: AppUtil.rtlDirection2(context)
-                                    ? 'محمد أخذك في رحلة في طويق ، اليوم الساعة 19:47.'
-                                    : 'Mohammed give you a trip in Tuwaik , today at 19:47.',
-                                fontFamily: 'Kufam',
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                                textAlign: TextAlign.center,
-                              ),
-                              SizedBox(
-                                height: 40,
-                                child: ListView.separated(
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: 5,
-                                  separatorBuilder: (context, index) {
-                                    return const SizedBox(
-                                      width: 16,
-                                    );
+        // Display bottom sheet
+        await showModalBottomSheet(
+          isScrollControlled: true,
+          context: context,
+          backgroundColor: Colors.white,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+          ),
+          builder: (context) {
+            return StatefulBuilder(builder: (context, setState) {
+              return SizedBox(
+                width: width,
+                height: isStarChecked ? height * 0.4 : height * 0.35,
+                child: isStarChecked
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 24,
+                          vertical: 24,
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            CustomText(
+                              text: 'sorryForHearingThat'.tr,
+                              fontFamily: 'Kufam',
+                              fontSize: 24,
+                              fontWeight: FontWeight.w600,
+                              textAlign: TextAlign.center,
+                            ),
+                            CustomText(
+                              text: 'tellUsWhatHappened'.tr,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              textAlign: TextAlign.center,
+                            ),
+                            CustomTextArea(
+                              onChanged: (value) {
+                                print(value);
+                              },
+                            ),
+                            CustomButton(
+                              onPressed: () {
+                                setState(() {
+                                  isSendTapped = false;
+                                  isStarChecked = false;
+                                });
+                                Get.back();
+                              },
+                              title: 'send'.tr,
+                              icon: AppUtil.rtlDirection2(context)
+                                  ? const Icon(Icons.arrow_back)
+                                  : const Icon(Icons.arrow_forward),
+                            )
+                          ],
+                        ),
+                      )
+                    : isSendTapped
+                        ? Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 24, vertical: 40),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                CustomText(
+                                  text: AppUtil.rtlDirection2(context)
+                                      ? 'ما رايك في محمد كأجودي؟'
+                                      : 'What do you think about Mohammed As ajwady?',
+                                  fontFamily: 'Kufam',
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.w700,
+                                  textAlign: TextAlign.center,
+                                ),
+                                CustomText(
+                                  text: AppUtil.rtlDirection2(context)
+                                      ? 'محمد أخذك في رحلة في طويق ، اليوم الساعة 19:47.'
+                                      : 'Mohammed give you a trip in Tuwaik , today at 19:47.',
+                                  fontFamily: 'Kufam',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400,
+                                  textAlign: TextAlign.center,
+                                ),
+                                SizedBox(
+                                  height: 40,
+                                  child: ListView.separated(
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: 5,
+                                    separatorBuilder: (context, index) {
+                                      return const SizedBox(
+                                        width: 16,
+                                      );
+                                    },
+                                    itemBuilder: (context, index) {
+                                      return InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            startIndex = index;
+                                          });
+                                        },
+                                        child: index <= startIndex
+                                            ? const Icon(
+                                                Icons.star,
+                                                size: 40,
+                                                color: Colors.yellow,
+                                              )
+                                            : const Icon(
+                                                Icons.star_border,
+                                                size: 40,
+                                                color: Colors.yellow,
+                                              ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    if (startIndex + 1 <= 2) {
+                                      // Show "What happened" part
+                                      setState(() {
+                                        isStarChecked = true;
+                                      });
+                                    } else {
+                                      // Finish and close the bottom sheet
+
+                                      Get.back();
+                                    }
                                   },
-                                  itemBuilder: (context, index) {
-                                    return InkWell(
-                                      onTap: () {
-                                        setState(() {
-                                          startIndex = index;
-                                        });
-                                      },
-                                      child: index <= startIndex
-                                          ? const Icon(
-                                              Icons.star,
-                                              size: 40,
-                                              color: Colors.yellow,
-                                            )
-                                          : const Icon(
-                                              Icons.star_border,
-                                              size: 40,
-                                              color: Colors.yellow,
-                                            ),
-                                    );
+                                  child: Text('Done'),
+                                ),
+                              ],
+                            ),
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 24,
+                              vertical: 24,
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                CustomText(
+                                  text: 'howWasTheTrip'.tr,
+                                  fontFamily: 'Kufam',
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.w600,
+                                  textAlign: TextAlign.center,
+                                ),
+                                CustomTextArea(
+                                  onChanged: (value) {
+                                    print(value);
                                   },
                                 ),
-                              ),
-                              ElevatedButton(
-                                onPressed: () {
-                                  if (startIndex + 1 <= 2) {
-                                    // Show "What happened" part
+                                CustomButton(
+                                  onPressed: () {
                                     setState(() {
-                                      isStarChecked = true;
+                                      isSendTapped = true;
                                     });
-                                  } else {
-                                    // Finish and close the bottom sheet
-                                   
-                                    Get.back();
-                                  }
-                                },
-                                child: Text('Done'),
-                              ),
-                            ],
+                                  },
+                                  title: 'send'.tr,
+                                  icon: AppUtil.rtlDirection2(context)
+                                      ? const Icon(Icons.arrow_back)
+                                      : const Icon(Icons.arrow_forward),
+                                )
+                              ],
+                            ),
                           ),
-                        )
-                      : Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 24,
-                            vertical: 24,
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              CustomText(
-                                text: 'howWasTheTrip'.tr,
-                                fontFamily: 'Kufam',
-                                fontSize: 24,
-                                fontWeight: FontWeight.w600,
-                                textAlign: TextAlign.center,
-                              ),
-                              CustomTextArea(
-                                onChanged: (value) {
-                                  print(value);
-                                },
-                              ),
-                              CustomButton(
-                                onPressed: () {
-                                  setState(() {
-                                    isSendTapped = true;
-                                  });
-                                },
-                                title: 'send'.tr,
-                                icon: AppUtil.rtlDirection2(context)
-                                    ? const Icon(Icons.arrow_back)
-                                    : const Icon(Icons.arrow_forward),
-                              )
-                            ],
-                          ),
-                        ),
-            );
-          });
-        },
-      );
-    
-  
-    // } else {
-    //   // Display bottom sheet
-      
-    // }
+              );
+            });
+          },
+        );
+
+        // } else {
+        //   // Display bottom sheet
+
+        // }
+      }
+    }
   }
-}
-
-}
-
-
-
-
-
 
   Future<void> _animateCamera(
       {required double latitude, required double longitude}) async {
@@ -433,17 +428,17 @@ DateTime today = DateTime(now.year, now.month, now.day);
   @override
   void initState() {
     super.initState();
-   getScrollingCards('ALL');
+    getScrollingCards('ALL');
 
     selectedTitle = titles[0];
     addCustomIcon();
     getLocation();
-        getBooking();
+    getBooking();
 
     // Show the bottom sheet after a short delay
-  Future.delayed(Duration(milliseconds: 500), () {
-    getEndBookings();
-  });
+    Future.delayed(Duration(milliseconds: 500), () {
+      getEndBookings();
+    });
   }
 
   void searchForPlace(String letters) {
@@ -592,9 +587,7 @@ DateTime today = DateTime(now.year, now.month, now.day);
                                       onTap: () => Get.to(() =>
                                           AppUtil.isGuest()
                                               ? const SignInScreen()
-                                              : NotificationScreen()
-                                             
-                                              ),
+                                              : NotificationScreen()),
                                       child: SvgPicture.asset(
                                           'assets/icons/Alerts.svg')),
                                 ],
@@ -613,8 +606,8 @@ DateTime today = DateTime(now.year, now.month, now.day);
                             color: colorGreen,
                           ),
                           alignment: Alignment.center,
-                          child:
-                              SvgPicture.asset('assets/icons/notifications.svg'),
+                          child: SvgPicture.asset(
+                              'assets/icons/notifications.svg'),
                         ),
                       ],
                     ),

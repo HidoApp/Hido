@@ -8,7 +8,7 @@ import 'package:intl/intl.dart';
 class CustomAdventureItem extends StatelessWidget {
   const CustomAdventureItem({
     super.key,
-    
+
     // required this.onTap,
     // required this.title,
     // required this.rate,
@@ -41,26 +41,23 @@ class CustomAdventureItem extends StatelessWidget {
   final List<DayInfo>? dayInfo;
   final VoidCallback onTap;
 
-
-
-
-
-
- @override
+  @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return GestureDetector(
       onTap: onTap,
       child: SizedBox(
         child: Container(
-          width: 362,
-          height: 114,
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-          decoration: const BoxDecoration(
-            boxShadow: [BoxShadow(blurRadius: 16, color: Colors.black12)],
+          height: width * 0.29,
+          padding: EdgeInsets.symmetric(
+              horizontal: width * 0.030, vertical: width * 0.025),
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(blurRadius: width * 0.04, color: Colors.black12)
+            ],
             color: Colors.white,
             borderRadius: BorderRadius.all(
-              Radius.circular(16),
+              Radius.circular(width * 0.04),
             ),
           ),
           child: Row(
@@ -77,8 +74,8 @@ class CustomAdventureItem extends StatelessWidget {
                             const BorderRadius.all(Radius.circular(10)),
                         child: Image.network(
                           image,
-                          width: 90,
-                          height: 90,
+                          width: width * 0.23,
+                          height: width * 0.23,
                           fit: BoxFit.fill,
                         ),
                       ),
@@ -111,51 +108,51 @@ class CustomAdventureItem extends StatelessWidget {
                     children: [
                       CustomText(
                         text: title,
-                        fontSize: 20,
+                        fontSize: width * 0.05,
                         fontWeight: FontWeight.w500,
                       ),
-                      const SizedBox(
-                        height: 5,
+                      SizedBox(
+                        height: width * 0.03,
                       ),
                       Row(
                         children: [
-                          const SizedBox(
-                            width: 4,
+                          SizedBox(
+                            width: width * 0.01,
                           ),
                           SvgPicture.asset(
                             'assets/icons/map_pin.svg',
                           ),
-                          const SizedBox(
-                            width: 4,
+                          SizedBox(
+                            width: width * 0.01,
                           ),
                           CustomText(
                             text: location,
-                            fontSize: 12,
+                            fontSize: width * 0.025,
                             fontFamily: 'SF Pro',
                             fontWeight: FontWeight.w400,
                             color: starGreyColor,
                           ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 4,
+                      SizedBox(
+                        width: width * 0.01,
                       ),
                       Row(
                         children: [
-                          const SizedBox(
-                            width: 4,
+                          SizedBox(
+                            width: width * 0.01,
                           ),
                           Row(
                             children: [
                               SvgPicture.asset(
                                   'assets/icons/grey_calender.svg'),
-                              const SizedBox(
-                                width: 4,
+                              SizedBox(
+                                width: width * 0.01,
                               ),
                               if (dayInfo != null || dayInfo != [])
                                 CustomText(
-                                text:DateFormat('E-dd-MMM').format(DateTime.parse(dayInfo![0].startTime)),
-
+                                  text: DateFormat('E-dd-MMM').format(
+                                      DateTime.parse(dayInfo![0].startTime)),
                                   fontSize: 10,
                                   fontWeight: FontWeight.w400,
                                   color: starGreyColor,
@@ -188,36 +185,28 @@ class CustomAdventureItem extends StatelessWidget {
                       ),
                     ],
                   ),
-                SizedBox(
-                            width: width * 0.0593,
-                          ),
-   
-
-                          
                 ],
-
-                
               ),
-                      Spacer(),
-Padding(
-  padding: const EdgeInsets.only(top:5),
-  child:Row(
-  mainAxisAlignment: MainAxisAlignment.start,
-  children: [
-    SvgPicture.asset('assets/icons/star.svg'),
-    SizedBox(
-      width: width * 0.01,
-    ),
-    CustomText(
-      text: rate,
-      fontSize: width * 0.025,
-      fontWeight: FontWeight.w700,
-      color: colorDarkGreen,
-      fontFamily: 'Kufam',
-    ),
-  ],
-  ),
-),
+              const Spacer(),
+              Padding(
+                padding: const EdgeInsets.only(top: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SvgPicture.asset('assets/icons/star.svg'),
+                    SizedBox(
+                      width: width * 0.01,
+                    ),
+                    CustomText(
+                      text: rate,
+                      fontSize: width * 0.025,
+                      fontWeight: FontWeight.w700,
+                      color: colorDarkGreen,
+                      fontFamily: 'Kufam',
+                    ),
+                  ],
+                ),
+              ),
               // SvgPicture.asset('assets/icons/star.svg'),
               // SizedBox(
               //   width: width * 0.01,
