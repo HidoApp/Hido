@@ -91,10 +91,7 @@ class _ServiceScreenState extends State<ServiceScreen>
                           onTap: () {
                             Get.to(() => AppUtil.isGuest()
                                 ? const SignInScreen()
-                                : const Scaffold(
-                                    body: Center(
-                                    child: CustomText(text: 'Comming soon'),
-                                  )));
+                                : NotificationScreen());
                           },
                           icon: 'assets/icons/Alerts_white.svg')
                     ],
@@ -209,11 +206,9 @@ class _ServiceScreenState extends State<ServiceScreen>
               HospitalityTab(
                 isAviailable: true,
               ),
+              AdventuresTab(),
               EventsTab(
                 isAviailable: false,
-              ),
-              AdventuresTab(
-                isAviailable: true,
               ),
               RestaurantsTab(
                 isAviailable: false,

@@ -7,7 +7,6 @@ import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
 import 'package:ajwad_v4/services/controller/serivces_controller.dart';
 
 import 'package:ajwad_v4/services/view/hospitality_details.dart';
@@ -16,17 +15,14 @@ import 'package:ajwad_v4/services/view/widgets/city_chips.dart';
 import 'package:ajwad_v4/services/view/widgets/custom_hospitality_item.dart';
 import 'package:ajwad_v4/services/view/widgets/custom_adventure_item.dart';
 
-
 class AdventuresTab extends StatefulWidget {
-  const AdventuresTab({super.key, required this.isAviailable});
-  final bool isAviailable;
+  const AdventuresTab({
+    super.key,
+  });
 
   @override
   State<AdventuresTab> createState() => _AdventuresTabState();
 }
-
-
-
 
 class _AdventuresTabState extends State<AdventuresTab> {
   final _srvicesController = Get.put(SrvicesController());
@@ -36,8 +32,6 @@ class _AdventuresTabState extends State<AdventuresTab> {
     super.initState();
     _srvicesController.getAllHospitality(context: context);
   }
-
-
 
   // @override
   // Widget build(BuildContext context) {
@@ -165,7 +159,8 @@ class _AdventuresTabState extends State<AdventuresTab> {
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
     return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      padding: EdgeInsets.symmetric(
+          horizontal: width * 0.04, vertical: width * 0.035),
       child: Column(
         children: [
           //Ad cards
@@ -245,7 +240,6 @@ class _AdventuresTabState extends State<AdventuresTab> {
                                       .hospitalityList[index].titleEn,
                               location: _srvicesController
                                   .hospitalityList[index].region,
-                           
                               category: AppUtil.rtlDirection(context)
                                   ? _srvicesController
                                       .hospitalityList[index].categoryAr
