@@ -1,3 +1,4 @@
+import 'package:ajwad_v4/adventure/model/adventure.dart';
 import 'package:ajwad_v4/payment/model/payment_result.dart';
 import 'package:ajwad_v4/services/model/hospitality.dart';
 import 'package:ajwad_v4/services/model/payment.dart';
@@ -19,6 +20,8 @@ class SrvicesController extends GetxController {
 
   var hospitalityList = <Hospitality>[].obs;
   var isHospatilityDateSelcted = false.obs;
+  var isAdventureTimeSelcted = false.obs;
+
 
   Future<List<Hospitality>?> getAllHospitality({
     required BuildContext context,
@@ -48,6 +51,23 @@ class SrvicesController extends GetxController {
       print("TRUE");
       isHospitalityByIdLoading(true);
       final data = await ServicesService.getHospitalityById(context: context,id: id);
+      return data;
+    } catch (e) {
+      isHospitalityByIdLoading(false);
+      return null;
+    } finally {
+      isHospitalityByIdLoading(false);
+    }
+  }
+
+Future<Adventure?> getAdventureById({
+    required BuildContext context,
+    required String id,
+  }) async {
+    try {
+      print("TRUE");
+      isHospitalityByIdLoading(true);
+      final data = await ServicesService.getAdvdentureById(context: context,id: id);
       return data;
     } catch (e) {
       isHospitalityByIdLoading(false);

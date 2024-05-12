@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:ajwad_v4/adventure/model/adventure.dart';
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/constants/base_url.dart';
 import 'package:ajwad_v4/payment/model/payment_result.dart';
@@ -262,4 +263,68 @@ class ServicesService {
       return null;
     }
   }
+
+
+
+
+
+
+//adventure
+static Future<Adventure?> getAdvdentureById({
+    required BuildContext context,
+    required String id,
+  }) async {
+    final getStorage = GetStorage();
+    String token = getStorage.read('accessToken') ?? "";
+
+      if(token != '' && JwtDecoder.isExpired(token)) {
+      final _authController = Get.put(AuthController());
+
+      String refreshToken = getStorage.read('refreshToken');
+      var user = await _authController.refreshToken(
+          refreshToken: refreshToken, context: context);
+      token = getStorage.read('accessToken');
+    }
+    print("TRUE $id");
+    final response = await http.get(
+      Uri.parse('$baseUrl/adventure/$id')
+          .replace(queryParameters: ({'id': id})),
+      headers: {
+        'Accept': 'application/json',
+        if(token != '')   'Authorization': 'Bearer $token',
+      },
+    );
+    print("TRUE $id");
+    print(response.statusCode);
+
+    print(jsonDecode(response.body).length);
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      print(inspect(data));
+      return Adventure.fromJson(data);
+    } else {
+      String errorMessage = jsonDecode(response.body)['message'];
+      if (context.mounted) {
+        AppUtil.errorToast(context, errorMessage);
+      }
+      return null;
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

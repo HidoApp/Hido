@@ -95,6 +95,7 @@ class _BookingSheetState extends State<BookingSheet> {
   };
 
   late DateTime time, returnTime, newTimeToGo = DateTime.now();
+  
   DateTime newTimeToReturn = DateTime.now();
   bool isNew = false;
 
@@ -117,6 +118,7 @@ class _BookingSheetState extends State<BookingSheet> {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
     time = DateTime.now();
+    
     returnTime = DateTime.now();
     // h = time.hour.toString();
     return DraggableScrollableSheet(
