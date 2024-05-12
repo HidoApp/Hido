@@ -22,7 +22,6 @@ import 'package:get/get.dart';
 import 'tabs/hospitality_tab.dart';
 import 'package:ajwad_v4/explore/tourist/view/notification/notification_screen.dart';
 
-
 class ServiceScreen extends StatefulWidget {
   const ServiceScreen({super.key});
 
@@ -40,7 +39,7 @@ class _ServiceScreenState extends State<ServiceScreen>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this);
+    _tabController = TabController(length: 2, vsync: this);
   }
 
   @override
@@ -68,7 +67,6 @@ class _ServiceScreenState extends State<ServiceScreen>
               actions: [
                 Padding(
                   padding: EdgeInsets.only(right: width * 0.06),
-                
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -154,43 +152,52 @@ class _ServiceScreenState extends State<ServiceScreen>
                       ),
                     ),
                   ),
-                  Padding(
-                    // padding: const EdgeInsets.symmetric(horizontal: 18),
+                  // Padding(
+                  //   // padding: const EdgeInsets.symmetric(horizontal: 18),
 
+                  //   padding: EdgeInsets.symmetric(
+                  //       horizontal:
+                  //           // !AppUtil.rtlDirection(context) ? 15 : 5),
+                  //           AppUtil.rtlDirection2(context) ? 15 : 5),
+
+                  //   //padding: const EdgeInsets.symmetric(horizontal: 15),
+                  //   child: CustomText(
+                  //     text: "events".tr,
+                  //     color: _tabIndex == 1 ? black : Colors.white,
+                  //     fontWeight:
+                  //         _tabIndex == 1 ? FontWeight.w700 : FontWeight.w400,
+                  //     fontSize: 12,
+                  //   ),
+                  // ),
+                  Padding(
                     padding: EdgeInsets.symmetric(
                         horizontal:
                             // !AppUtil.rtlDirection(context) ? 15 : 5),
                             AppUtil.rtlDirection2(context) ? 15 : 5),
-
-                    //padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: CustomText(
-                      text: "events".tr,
-                      color: _tabIndex == 1 ? black : Colors.white,
-                      fontWeight:
-                          _tabIndex == 1 ? FontWeight.w700 : FontWeight.w400,
-                      fontSize: 12,
+                    child: Container(
+                      alignment: Alignment.center,
+                      decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(12),
+                              topRight: Radius.circular(12))),
+                      child: CustomText(
+                        text: "adventures".tr,
+                        color: _tabIndex == 1 ? darkBlue : Colors.white,
+                        fontWeight:
+                            _tabIndex == 1 ? FontWeight.w700 : FontWeight.w400,
+                        fontSize: _tabIndex == 1 ? 13 : 11,
+                      ),
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: !AppUtil.rtlDirection(context) ? 18 : 5),
-                    child: CustomText(
-                      text: "adventures".tr,
-                      color: _tabIndex == 2 ? black : Colors.white,
-                      fontWeight:
-                          _tabIndex == 2 ? FontWeight.w700 : FontWeight.w400,
-                      fontSize: 12,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 18),
-                    child: CustomText(
-                      text: "restaurants".tr,
-                      color: _tabIndex == 3 ? black : Colors.white,
-                      fontWeight:
-                          _tabIndex == 3 ? FontWeight.w700 : FontWeight.w400,
-                    ),
-                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(horizontal: 18),
+                  //   child: CustomText(
+                  //     text: "restaurants".tr,
+                  //     color: _tabIndex == 3 ? black : Colors.white,
+                  //     fontWeight:
+                  //         _tabIndex == 3 ? FontWeight.w700 : FontWeight.w400,
+                  //   ),
+                  // ),
                 ],
               ),
             ),

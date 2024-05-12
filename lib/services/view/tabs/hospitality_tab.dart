@@ -38,7 +38,7 @@ class _HospitalityTabState extends State<HospitalityTab> {
       child: Padding(
         //TODO: Rehab you must replace padding in adventure screen with these values
         padding: EdgeInsets.symmetric(
-            horizontal: width * 0.025, vertical: width * 0.035),
+            horizontal: width * 0.04, vertical: width * 0.035),
         child: Column(
           children: [
             //Ad cards

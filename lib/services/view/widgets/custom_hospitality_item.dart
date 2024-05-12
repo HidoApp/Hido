@@ -121,34 +121,13 @@ class ServicesCard extends StatelessWidget {
                               ),
                           ],
                         ),
-                        SizedBox(
-                          width: width * 0.04,
-                        ),
-                        Row(
-                          children: [
-                            SvgPicture.asset('assets/icons/meal_icon.svg'),
-                            // SvgPicture.asset('assets/icons/calendar.svg',color: purple,),
-                            SizedBox(
-                              width: width * 0.01,
-                            ),
-                            SizedBox(
-                              width: width * 0.26,
-                              child: CustomText(
-                                text: meal,
-                                fontSize: width * 0.025,
-                                fontWeight: FontWeight.w300,
-                                color: starGreyColor,
-                                maxlines: 2,
-                              ),
-                            ),
-                          ],
-                        ),
                       ],
                     ),
                   ],
                 ),
               ],
             ),
+            const Spacer(),
             SvgPicture.asset('assets/icons/star.svg'),
             SizedBox(
               width: width * 0.01,

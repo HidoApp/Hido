@@ -51,7 +51,7 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
         children: [
           const TouristMapScreen(),
           const ServiceScreen(),
-          const ShopScreen(),
+          // const ShopScreen(),
           AppUtil.isGuest()
               ? const SignInScreen(
                   isGuest: true,
@@ -151,31 +151,31 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
             ),
             label: 'services'.tr,
           ),
-          BottomNavigationBarItem(
-            icon: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                decoration: _currentIndex == 2
-                    ? BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: blue.withOpacity(0.2),
-                            blurRadius: 5,
-                            spreadRadius: 3,
-                            offset: const Offset(0, 0), // Shadow position
-                          ),
-                        ],
-                      )
-                    : const BoxDecoration(),
-                child: SvgPicture.asset(
-                  'assets/icons/bag.svg',
-                  color: _currentIndex == 2 ? blue : colorDarkGrey,
-                ),
-              ),
-            ),
-            label: 'shop'.tr,
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Padding(
+          //     padding: const EdgeInsets.all(8.0),
+          //     child: Container(
+          //       decoration: _currentIndex == 2
+          //           ? BoxDecoration(
+          //               borderRadius: BorderRadius.circular(20),
+          //               boxShadow: [
+          //                 BoxShadow(
+          //                   color: blue.withOpacity(0.2),
+          //                   blurRadius: 5,
+          //                   spreadRadius: 3,
+          //                   offset: const Offset(0, 0), // Shadow position
+          //                 ),
+          //               ],
+          //             )
+          //           : const BoxDecoration(),
+          //       child: SvgPicture.asset(
+          //         'assets/icons/bag.svg',
+          //         color: _currentIndex == 2 ? blue : colorDarkGrey,
+          //       ),
+          //     ),
+          //   ),
+          //   label: 'shop'.tr,
+          // ),
           BottomNavigationBarItem(
             icon: Padding(
               padding: const EdgeInsets.all(8.0),
