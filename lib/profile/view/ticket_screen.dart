@@ -20,6 +20,7 @@ class TicketScreen extends StatefulWidget {
 
 class _TicketScreenState extends State<TicketScreen>
     with SingleTickerProviderStateMixin {
+      
   late TabController _tabController;
   int tabIndex = 0;
   List<String> status = ['canceled', 'waiting', 'confirmed'];
@@ -30,6 +31,7 @@ class _TicketScreenState extends State<TicketScreen>
     _tabController = TabController(length: 2, vsync: this);
     widget.profileController.getPastTicket(context: context);
     widget.profileController.getUpcommingTicket(context: context);
+  
   }
 
   @override
@@ -39,8 +41,10 @@ class _TicketScreenState extends State<TicketScreen>
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CustomAppBar('myTickets'.tr),
-      body: Obx(
-        () => Padding(
+      body:
+      // Obx(
+      //   () =>
+       Padding(
           padding: const EdgeInsets.only(
             top: 20,
             right: 24,
@@ -78,137 +82,139 @@ class _TicketScreenState extends State<TicketScreen>
               //   height: 24,
               // ),
 
-              Container(
-                  height: height * 0.05,
-                  width: width * 0.9,
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.0287),
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(30))),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [ GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            tabIndex = 0;
-                          });
-                        },
-                        child: Container(
-                          width: width * 0.4,
-                          height: height * 0.04,
-                          decoration: BoxDecoration(
-                            color:
-                                tabIndex == 0 ? colorGreen : Colors.transparent,
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(30)),
-                          ),
-                          child: Center(
-                            child: CustomText(
-                              text: "upcomingTrips".tr,
-                              color: tabIndex == 0
-                                  ? Colors.white
-                                  : const Color(0xff9B9B9B),
-                              fontSize: 15,
-                            ),
-                          ),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            tabIndex = 1;
-                          });
-                        },
-                        child: Container(
-                          width: width * 0.37,
-                          height: height * 0.04,
-                          decoration: BoxDecoration(
-                            color:
-                                tabIndex == 1 ? colorGreen : Colors.transparent,
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(30)),
-                          ),
-                          child: Center(
-                            child: CustomText(
-                              text: "pastTrips".tr,
-                              color: tabIndex == 1
-                                  ? Colors.white
-                                  : const Color(0xff9B9B9B),
-                              fontSize: 15,
-                            ),
-                          ),
-                        ),
-                      ),
+              // Container(// from here
+              //     height: height * 0.05,
+              //     width: 590,
+              //     padding: const EdgeInsets.only(left:10,right:10,top:15),
+              //     decoration: BoxDecoration(
+              //         //color: Colors.black.withOpacity(0.0287),
+              //         color:Colors.white,
+              //         // borderRadius:
+              //         //     const BorderRadius.all(Radius.circular(30))
+              //             ),
+              //     child: Row(
+              //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //       children: [ GestureDetector(
+              //           onTap: () {
+              //             setState(() {
+              //               tabIndex = 0;
+              //             });
+              //           },
+              //           child: Container(
+              //             width: width * 0.4,
+              //             height: height * 0.04,
+              //             decoration: BoxDecoration(
+              //               color:
+              //                   tabIndex == 0 ? colorGreen : Colors.transparent,
+              //               borderRadius:
+              //                   const BorderRadius.all(Radius.circular(30)),
+              //             ),
+              //             child: Center(
+              //               child: CustomText(
+              //                 text: "upcomingTrips".tr,
+              //                 color: tabIndex == 0
+              //                     ? Colors.white
+              //                     : const Color(0xff9B9B9B),
+              //                 fontSize: 15,
+              //               ),
+              //             ),
+              //           ),
+              //         ),
+              //         GestureDetector(
+              //           onTap: () {
+              //             setState(() {
+              //               tabIndex = 1;
+              //             });
+              //           },
+              //           child: Container(
+              //             width: width * 0.37,
+              //             height: height * 0.04,
+              //             decoration: BoxDecoration(
+              //               color:
+              //                   tabIndex == 1 ? colorGreen : Colors.transparent,
+              //               borderRadius:
+              //                   const BorderRadius.all(Radius.circular(30)),
+              //             ),
+              //             child: Center(
+              //               child: CustomText(
+              //                 text: "pastTrips".tr,
+              //                 color: tabIndex == 1
+              //                     ? Colors.white
+              //                     : const Color(0xff9B9B9B),
+              //                 fontSize: 15,
+              //               ),
+              //             ),
+              //           ),
+              //         ),
                      
-                    ],
-                  ),),
+              //       ],
+              //     ),),
 
-              tabIndex == 1
-                  ? Expanded(
-                      child: widget.profileController.isPastTicketLoading.value
-                          ? const Center(
-                              child: SizedBox(
-                                  height: 40,
-                                  width: 40,
-                                  child: CircularProgressIndicator(
-                                    color: colorGreen,
-                                  )))
-                          : widget.profileController.pastTicket.isEmpty
-                              ?
-                              // !widget.hasTickets
-                              CustomEmptyWidget(
-                                  title: 'noTicket'.tr,
-                                  image: 'no_tickets',
-                                )
-                              : ListView.separated(
-                                  shrinkWrap: true,
-                                  itemCount: widget
-                                      .profileController.pastTicket.length,
-                                  separatorBuilder: (context, index) {
-                                    return const SizedBox(
-                                      height: 11,
-                                    );
-                                  },
-                                  itemBuilder: (context, index) {
-                                    return CustomTicketCard(
-                                        booking: widget.profileController
-                                            .pastTicket[index]);
-                                  },
-                                ),
-                    )
-                  : tabIndex == 0
-                      ? Expanded(
-                          child: widget.profileController
-                                  .isUpcommingTicketLoading.value
-                              ? const Center(
-                                  child: CircularProgressIndicator(
-                                  color: colorGreen,
-                                ))
-                              : widget.profileController.upcommingTicket.isEmpty
-                                  ?
-                                  // !widget.hasTickets
-                                  CustomEmptyWidget(
-                                      title: 'noTicket'.tr,
-                                      image: 'no_tickets',
-                                    )
-                                  : ListView.separated(
-                                      shrinkWrap: true,
-                                      itemCount: widget.profileController
-                                          .upcommingTicket.length,
-                                      separatorBuilder: (context, index) {
-                                        return const SizedBox(
-                                          height: 11,
-                                        );
-                                      },
-                                      itemBuilder: (context, index) {
-                                        return CustomTicketCard(
-                                          booking: widget.profileController
-                                              .upcommingTicket[index],
-                                        );
-                                      },
-                                    ),
-                        )
+              // tabIndex == 1
+              //     ? Expanded(
+              //         child: widget.profileController.isPastTicketLoading.value
+              //             ? const Center(
+              //                 child: SizedBox(
+              //                     height: 40,
+              //                     width: 40,
+              //                     child: CircularProgressIndicator(
+              //                       color: colorGreen,
+              //                     )))
+              //             : widget.profileController.pastTicket.isEmpty
+              //                 ?
+              //                 // !widget.hasTickets
+              //                 CustomEmptyWidget(
+              //                     title: 'noTicket'.tr,
+              //                     image: 'no_tickets',
+              //                   )
+              //                 : ListView.separated(
+              //                     shrinkWrap: true,
+              //                     itemCount: widget
+              //                         .profileController.pastTicket.length,
+              //                     separatorBuilder: (context, index) {
+              //                       return const SizedBox(
+              //                         height: 11,
+              //                       );
+              //                     },
+              //                     itemBuilder: (context, index) {
+              //                       return CustomTicketCard(
+              //                           booking: widget.profileController
+              //                               .pastTicket[index]);
+              //                     },
+              //                   ),
+              //       )
+              //     : tabIndex == 0
+              //         ? Expanded(
+              //             child: widget.profileController
+              //                     .isUpcommingTicketLoading.value
+              //                 ? const Center(
+              //                     child: CircularProgressIndicator(
+              //                     color: colorGreen,
+              //                   ))
+              //                 : widget.profileController.upcommingTicket.isEmpty
+              //                     ?
+              //                     // !widget.hasTickets
+              //                     CustomEmptyWidget(
+              //                         title: 'noTicket'.tr,
+              //                         image: 'no_tickets',
+              //                       )
+              //                     : ListView.separated(
+              //                         shrinkWrap: true,
+              //                         itemCount: widget.profileController
+              //                             .upcommingTicket.length,
+              //                         separatorBuilder: (context, index) {
+              //                           return const SizedBox(
+              //                             height: 11,
+              //                           );
+              //                         },
+              //                         itemBuilder: (context, index) {
+              //                           return CustomTicketCard(
+              //                             booking: widget.profileController
+              //                                 .upcommingTicket[index],
+              //                           );
+              //                         },
+              //                       ),
+              //           )
 
                       // Container(
                       //   height: 45,
@@ -299,11 +305,96 @@ class _TicketScreenState extends State<TicketScreen>
                       //     ],
                       //   ),
                       // ),
-                      : Container()
+                     // : Container()
+TabBar(
+              controller: _tabController,
+              indicatorSize: TabBarIndicatorSize.tab,
+              labelColor: colorGreen,
+              unselectedLabelColor: colorDarkGrey,
+              dividerColor: darkGrey,
+
+             // indicatorPadding: EdgeInsets.symmetric(horizontal: 1),
+              tabs: [
+                Tab(text: "upcomingTrips".tr),
+                Tab(text: "pastTrips".tr),
+              ],
+            ),
+            const SizedBox(
+                                  height: 24,
+                                ),
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: [
+                  // Tab 1 content (upcomingTrips)
+                  widget.profileController.isUpcommingTicketLoading.value
+                      ? const Center(
+                          child: CircularProgressIndicator(
+                            color: colorGreen,
+                          ),
+                        )
+                      : widget.profileController.upcommingTicket.isEmpty
+                          ? CustomEmptyWidget(
+                              title: 'noTicket'.tr,
+                              image: 'no_tickets',
+                            )
+                          : ListView.separated(
+                              shrinkWrap: true,
+                              itemCount: widget
+                                  .profileController.upcommingTicket.length,
+                              separatorBuilder: (context, index) {
+                                return const SizedBox(
+                                  height: 11,
+                                );
+                              },
+                              itemBuilder: (context, index) {
+                                return CustomTicketCard(
+                                  booking: widget.profileController
+                                      .upcommingTicket[index],
+                                );
+                              },
+                            ),
+
+                  // Tab 2 content (pastTrips)
+                  widget.profileController.isPastTicketLoading.value
+                      ? const Center(
+                          child: SizedBox(
+                            height: 40,
+                            width: 40,
+                            child: CircularProgressIndicator(
+                              color: colorGreen,
+                            ),
+                          ),
+                        )
+                      : widget.profileController.pastTicket.isEmpty
+                          ? CustomEmptyWidget(
+                              title: 'noTicket'.tr,
+                              image: 'no_tickets',
+                            )
+                          : ListView.separated(
+                              shrinkWrap: true,
+                              itemCount:
+                                  widget.profileController.pastTicket.length,
+                              separatorBuilder: (context, index) {
+                                return const SizedBox(
+                                  height: 11,
+                                );
+                              },
+                              itemBuilder: (context, index) {
+                                return CustomTicketCard(
+                                  booking: widget.profileController.pastTicket[index],
+                                );
+                          },
+                        ),
             ],
           ),
         ),
-      ),
+      ],
+          ),
+       ),
+      
+      
+      
     );
   }
 }

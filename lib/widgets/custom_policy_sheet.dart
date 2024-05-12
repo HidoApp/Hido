@@ -12,7 +12,14 @@ class CustomPloicySheet extends StatelessWidget {
     return Container(
       width: width,
       decoration: BoxDecoration(
-          color: Colors.white, borderRadius: BorderRadius.circular(36)),
+          color: Colors.white,
+          // borderRadius: BorderRadius.circular(36)
+          borderRadius: BorderRadius.only(
+      topLeft: Radius.circular(24),
+      topRight: Radius.circular(24),
+    ),
+          
+          ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12),
         child: Column(
@@ -31,7 +38,15 @@ class CustomPloicySheet extends StatelessWidget {
               height: 24,
             ),
             CustomText(
-              text: 'cancellationPolicyBreif'.tr,
+              text: 'cancellationPolicyBreifAdventure'.tr,
+              fontSize: 14,
+              fontWeight: FontWeight.w300,
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            CustomText(
+              text: 'cancellationPolicyNote'.tr,
               fontSize: 14,
               fontWeight: FontWeight.w300,
             ),
