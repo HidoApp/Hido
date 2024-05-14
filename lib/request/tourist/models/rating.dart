@@ -6,9 +6,13 @@ class Rating {
   final String? image;
   final String? created;
   final String? status;
+  final int? userRating;
+  final String? userDescription;
 
   Rating(
-      {this.name,
+      {this.userRating,
+      this.userDescription,
+      this.name,
       this.id,
       this.rating,
       this.description,

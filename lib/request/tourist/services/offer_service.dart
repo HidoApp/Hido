@@ -143,11 +143,9 @@ class OfferService {
     }
 
     final response = await http.post(
-      Uri.parse('$baseUrl/offer/$offerId/accept').replace(queryParameters: 
-      {
-        'invoiceId':invoiceId,
-        'offerId':offerId,
-      
+      Uri.parse('$baseUrl/offer/$offerId/accept').replace(queryParameters: {
+        'invoiceId': invoiceId,
+        'offerId': offerId,
       }),
       headers: {
         'Accept': 'application/json',

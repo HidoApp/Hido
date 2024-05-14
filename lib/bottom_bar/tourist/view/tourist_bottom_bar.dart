@@ -70,13 +70,7 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
         currentIndex: _currentIndex,
         type: BottomNavigationBarType.fixed,
         unselectedItemColor: colorDarkGrey,
-        selectedItemColor: _currentIndex == 0
-            ? colorGreen
-            : _currentIndex == 1
-                ? purple
-                : _currentIndex == 2
-                    ? blue
-                    : colorGreen,
+        selectedItemColor: colorGreen,
         unselectedLabelStyle: const TextStyle(
           fontSize: 10,
           fontWeight: FontWeight.w400,
@@ -104,14 +98,7 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
                 decoration: _currentIndex == 0
                     ? BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: colorGreen.withOpacity(0.3),
-                            blurRadius: 5,
-                            spreadRadius: 3,
-                            offset: const Offset(0, 0), // Shadow position
-                          ),
-                        ],
+                        boxShadow: [],
                       )
                     : const BoxDecoration(),
                 child: SvgPicture.asset(
@@ -134,18 +121,10 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
-                  boxShadow: [
-                    BoxShadow(
-                      color: purple.withOpacity(0.2),
-                      blurRadius: 5,
-                      spreadRadius: 2,
-                      offset: const Offset(0, 0), // Shadow position
-                    ),
-                  ],
                 ),
                 child: SvgPicture.asset(
                   'assets/icons/select_request_icon.svg',
-                  color: _currentIndex == 1 ? purple : colorDarkGrey,
+                  color: _currentIndex == 1 ? colorGreen : colorDarkGrey,
                 ),
               ),
             ),
@@ -195,7 +174,7 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
                     : const BoxDecoration(),
                 child: SvgPicture.asset(
                   'assets/icons/profile_icon2.svg',
-                  color: _currentIndex == 3 ? colorGreen : colorDarkGrey,
+                  color: _currentIndex == 2 ? colorGreen : colorDarkGrey,
                 ),
               ),
             ),

@@ -14,7 +14,7 @@ class CustomTextArea extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      minLines: 4,
+      minLines: 2,
       maxLines: 10,
       onChanged: onChanged,
       decoration: InputDecoration(
