@@ -52,4 +52,48 @@ class RatingService {
       return null;
     }
   }
+
+  static Future<void> postRating(
+      {required BuildContext context,
+      required String localId,
+      required String bookingId,
+      required Rating rating}) async {
+    //check token
+    log("jwtToken");
+    final getStorage = GetStorage();
+    String token = getStorage.read('accessToken');
+    log('isExpired');
+    log(JwtDecoder.isExpired(token).toString());
+    if (JwtDecoder.isExpired(token)) {
+      String refreshToken = getStorage.read('refreshToken');
+      User? user = await AuthService.refreshToken(
+          refreshToken: refreshToken, context: context);
+      if (user != null) {
+        final Token jwtToken = AuthService.jwtForToken(user.refreshToken)!;
+        log(jwtToken.id);
+        token = jwtToken.id;
+      }
+    }
+    final response = await http.post(
+        Uri.parse('$baseUrl/rating').replace(
+          queryParameters: {
+            "bookingId": bookingId,
+            'localId': localId,
+          },
+        ),
+        headers: {
+          'Accept': 'application/json',
+          "Content-Type": "application/json",
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode({
+          "rating": rating.rating,
+          'description': rating.description,
+          'userRating': rating.userRating,
+          'userDescription': rating.userDescription,
+        }));
+    print("response.statusCode");
+    print(response.statusCode);
+    print(response.body);
+  }
 }

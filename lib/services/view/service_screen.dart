@@ -47,7 +47,6 @@ class _ServiceScreenState extends State<ServiceScreen>
     // TODO: implement dispose
     super.dispose();
     _tabController.dispose();
-    _srvicesController.dispose();
   }
 
   @override
@@ -203,16 +202,14 @@ class _ServiceScreenState extends State<ServiceScreen>
             controller: _tabController,
             physics: const NeverScrollableScrollPhysics(),
             children: const [
-              HospitalityTab(
-                isAviailable: true,
-              ),
+              HospitalityTab(),
+              // EventsTab(
+              //   isAviailable: true,
+              // ),
               AdventuresTab(),
-              EventsTab(
-                isAviailable: false,
-              ),
-              RestaurantsTab(
-                isAviailable: false,
-              ),
+              // RestaurantsTab(
+              //   isAviailable: false,
+              // ),
             ],
           ),
         ));

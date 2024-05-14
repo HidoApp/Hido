@@ -4,12 +4,17 @@ import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
+import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_elevated_button_with_arrow.dart';
 import 'package:ajwad_v4/widgets/custom_oval_text.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
+import 'package:ajwad_v4/widgets/custom_text_area.dart';
+import 'package:ajwad_v4/widgets/review_bottom_sheet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -30,6 +35,9 @@ var pickedFile;
 late XFile xfilePick;
 bool isEditing = false;
 late String newProfileImage;
+bool isStarChecked = false;
+int startIndex = -1;
+bool isSendTapped = false;
 
 class _ProfileDetailsState extends State<ProfileDetails> {
   @override
