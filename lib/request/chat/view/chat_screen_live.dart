@@ -32,6 +32,8 @@ import 'package:ajwad_v4/request/widgets/CansleDialog.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:ajwad_v4/request/local_notification.dart';
 
+import 'package:intl/intl.dart' as intel;
+
 
 
 
@@ -70,7 +72,15 @@ static FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = Flutter
     bool isDetailsTapped = false;
   late double width, height;
 
+  bool isDetailsTapped1 = false;
+bool isDetailsTapped3 = false;
 
+  late bool isArabicSelected;
+  int startIndex = -1;
+  bool isSendTapped = false;
+static bool languageSelected = false;
+
+ 
 RxBool isDetailsTapped2 = false.obs;
 
   PaymentController paymentController = Get.put(PaymentController());
@@ -97,6 +107,8 @@ static Future init()async{
     final Token jwtToken = AuthService.jwtForToken(token)!;
     userId = jwtToken.id;
     log(userId ?? "");
+        isArabicSelected = AppUtil.rtlDirection(context);
+
     super.initState();
   }
 
@@ -106,179 +118,416 @@ static Future init()async{
  
     return Scaffold(
       backgroundColor: lightGreyBackground,
-      body: Obx(
-        () => SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-                  const SizedBox(height: 10),
-
-                  Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              InkWell(
-                onTap: () {
-                  Get.back();
-                },
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
-                  child: AppUtil.rtlDirection2(context)
-                      ? const Icon(
-                          Icons.keyboard_arrow_right,
-                          color: black,
-                          size: 30,
-                        )
-                      : const Icon(
-                          Icons.keyboard_arrow_left_outlined,
-                          color: black,
-                          size: 30,
-                        ),
-                ),
-              ),
-                Text(
-                  'showOffer'.tr,
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              InkWell(
-                onTap: () async {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return CancelBookingDialog(
-                        dialogWidth:
-                            MediaQuery.of(context).size.width * 0.588,
-                        buttonWidth:
-                            MediaQuery.of(context).size.width * 1.191,
-                        // booking: widget.booking,
-                        offerController: _offerController,
-                      );
-                    },
-                  );
-                },
-                child: SvgPicture.asset(
-                  'assets/icons/more.svg',
-                   color: black,
-
-                ),
-              ),
-          
-
-
-  //                if (AppUtil.rtlDirection(context) && (!widget.isAjwadi))
-  // const SizedBox(
-  //   width: 4,
-  // ),
-// if (!(!AppUtil.rtlDirection2(context)))
-//   Padding(
-//     padding: const EdgeInsets.only(left: 90),
-//     child: IconButton(
-//       onPressed: () {
-//         Get.back();
-//       },
-//       icon: const Icon(
-//         Icons.keyboard_arrow_left,
-//         color: yellow,
-//         size: 26,
-//                       ),
-//                     ),
-//   ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Padding(padding: const EdgeInsets.only(left: 90)),
-       Center(
-          child:  Container(
-         width: 0.90 * width,
-
-  decoration: BoxDecoration(
-    color: Colors.white,
-    borderRadius: BorderRadius.circular(12),
-  ),
-  child: Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
+       body: Column(
     children: [
-      ListTile(
-        onTap: () {
-          setState(() {
-            isDetailsTapped = !isDetailsTapped;
-          });
-        },
-        title: CustomText(
-          text: 'tripDetails'.tr,
-          fontSize: 14,
-          fontWeight: FontWeight.w500,
-          color: Colors.black,
-          textAlign: AppUtil.rtlDirection2(context) ? TextAlign.right : TextAlign.left,
+      SafeArea(
+        
+            child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            InkWell(
+              onTap: () {
+                Get.back();
+              },
 
-          
-        ),
-        trailing: Icon(
-          isDetailsTapped
-              ? Icons.keyboard_arrow_up
-              : Icons.keyboard_arrow_down,
-          color: darkGrey,
-          size: 24,
+            child: Padding(
+              padding: AppUtil.rtlDirection2(context)? const EdgeInsets.only(left:20):const EdgeInsets.only(left:20),
+                child: AppUtil.rtlDirection2(context)
+                    ? const Icon(
+                        Icons.keyboard_arrow_right,
+                        color: black,
+                        size: 30,
+                      )
+                    : const Icon(
+                        Icons.keyboard_arrow_left_outlined,
+                        color: black,
+                        size: 30,
+                      ),
+             ),
+            ),
+           const SizedBox(width:100),
+
+           Padding(
+              padding: const EdgeInsets.only(left:10),
+              
+           child: widget.chatId != null
+            ? Text(
+              'chat'.tr,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.w500,
+                
+                
+              ),
+            ):Text(
+              'showOffer'.tr,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.w500,
+                
+                
+              ),
+            ),
+            ),
+          ],
         ),
       ),
-      if (isDetailsTapped)
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+                      const SizedBox(height: 32),
+
+  Expanded(
+        child: ListView(
+      padding: const EdgeInsets.only(left:16,right:16,top:12,bottom: 12),
+      children: [
+               
+             Column(
+                children: [
+    Container(
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(12)),
+        ),
+        child: ListTile(
+          onTap: () {
+            setState(() {
+              isDetailsTapped1 = !isDetailsTapped1;
+            });
+          },
+          title: CustomText(
+            text: 'tripDetails'.tr,
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: Colors.black,
+            textAlign: AppUtil.rtlDirection2(context)
+                ? TextAlign.right
+                : TextAlign.left,
+          ),
+          trailing: Icon(
+            isDetailsTapped1
+                ? Icons.keyboard_arrow_up
+                : Icons.keyboard_arrow_down,
+            color: darkGrey,
+            size: 24,
+          ),
+        ),
+      ),
+
+      if (isDetailsTapped1)
+        Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(12)),
+          ),
+          padding: EdgeInsets.only(top: 20),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    SvgPicture.asset('assets/icons/guests.svg'),
+                    const SizedBox(width: 10),
+                    CustomText(
+                      text: '${widget.booking?.guestNumber ?? 0} ${'guests'.tr}',
+                      color: almostGrey,
+                      fontSize: 10,
+                      fontWeight: FontWeight.w300,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    SvgPicture.asset('assets/icons/date.svg'),
+                    const SizedBox(width: 10),
+                    CustomText(
+                      text: '${intel.DateFormat('dd/MM/yyyy').format(DateTime.parse(widget.booking?.date ?? '2022-01-01'))} - ${widget.booking?.timeToGo}',
+                      color: almostGrey,
+                      fontSize: 10,
+                      fontWeight: FontWeight.w300,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    SvgPicture.asset(
+                      'assets/icons/unselected_${widget.booking?.vehicleType!}_icon.svg',
+                      width: 20,
+                    ),
+                    const SizedBox(width: 10),
+                    CustomText(
+                      text: widget.booking?.vehicleType ?? '',
+                      color: almostGrey,
+                      fontSize: 10,
+                      fontWeight: FontWeight.w300,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+
+      const SizedBox(
+        height: 13,
+      ),
+
+      Container(
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(12)),
+        ),
+        child: ListTile(
+          onTap: () {
+            setState(() {
+              isDetailsTapped3 = !isDetailsTapped3;
+            });
+          },
+          title: Row(
             children: [
-              Row(
-                children: [
-                  SvgPicture.asset('assets/icons/guests.svg'),
-                  const SizedBox(width: 10),
-                  CustomText(
-                    text: '${widget.booking?.guestNumber ?? 0} ${'guests'.tr}',
-                    color: almostGrey,
-                    fontSize: 10,
-                    fontWeight: FontWeight.w300,
-                  ),
-                ],
+              const CircleAvatar(
+                backgroundImage: AssetImage('assets/images/ajwadi_image.png'),
               ),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  SvgPicture.asset('assets/icons/date.svg'),
-                  const SizedBox(width: 10),
-                  CustomText(
-                    text: '${DateFormat('dd/MM/yyyy').format(DateTime.parse(widget.booking?.date ?? ''))} - ${widget.booking?.timeToGo}',
-                    color: almostGrey,
-                    fontSize: 10,
-                    fontWeight: FontWeight.w300,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  SvgPicture.asset(
-                    'assets/icons/unselected_${widget.booking?.vehicleType!}_icon.svg',
-                    width: 20,
-                  ),
-                  const SizedBox(width: 10),
-                  CustomText(
-                    text: widget.booking?.vehicleType ?? '',
-                    color: almostGrey,
-                    fontSize: 10,
-                    fontWeight: FontWeight.w300,
-                  ),
-                ],
+              const SizedBox(width: 12),
+              CustomText(
+                text: AppUtil.rtlDirection2(context) ? 'محمد علي' : 'Mohamed Ali',
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+                fontFamily: 'Kufam',
+                textAlign: AppUtil.rtlDirection2(context)
+                ? TextAlign.right
+                : TextAlign.left,
               ),
             ],
           ),
+          trailing: Icon(
+            isDetailsTapped3
+                ? Icons.keyboard_arrow_up
+                : Icons.keyboard_arrow_down,
+            color: const Color(0xFF454545),
+            size: 24,
+          ),
         ),
-    ],
-  ),
-),
-       ),         
-          
-       const SizedBox(height: 30),
+      ),
+
+
+      if (widget.chatId != null && isDetailsTapped3 )
+        Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(12)),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 12,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomText(
+                  text: AppUtil.rtlDirection2(context)
+                      ? 'يسعدني مساعدتك,  هذا هو جدول الرحلة ، تحقق من الأشياء التي تريد القيام بها'
+                      : 'I\'m happy to help you, this is the flight schedule check out the things you want to do',
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                  color: colorDarkGrey,
+                  textAlign: AppUtil.rtlDirection2(context) ? TextAlign.right :  TextAlign.left,
+
+                ),
+              ],
+            ),
+          ),
+        ),
+
+                  const SizedBox(
+                    height: 13,
+                  ),
+                  if (widget.chatId != null &&  (!widget.isAjwadi)) ...[
+                    
+                  
+                    Visibility(
+                        visible: !languageSelected ,
+                         child:Column(
+                      children: [
+                        Align(
+                          alignment: AppUtil.rtlDirection2(context)?Alignment.centerRight:Alignment.centerLeft,
+                          child: Container(
+                            width: width * double.infinity,
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 16, horizontal: 16),
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12)),
+                            ),
+                            alignment: Alignment.center,
+                            child: CustomText(
+                              text: AppUtil.rtlDirection2(context)
+                                  ? 'ما هي اللغة التي تفضلها ؟'
+                                  : 'What language would you prefer ?',
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              color: colorDarkGrey,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        Align(
+                          alignment: Alignment.center,
+                          child: Container(
+                            width: width,
+                            alignment: Alignment.center,
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        isArabicSelected = false;
+                                    chatController.chat.value.language='English';
+                                        languageSelected = true;
+
+                                      });
+                                    },
+                                    child: Container(
+                                      height: 40,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        border: isArabicSelected
+                                            ? Border.all(
+                                                color: colorGreen,
+                                                width: 1.5,
+                                              )
+                                            : null,
+                                        color: isArabicSelected
+                                            ? null
+                                            : colorGreen,
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(10)),
+                                      ),
+                                      child: CustomText(
+                                        text: 'English',
+                                        color: isArabicSelected
+                                            ? colorGreen
+                                            : Colors.white,
+                                        fontFamily: 'Kufam',
+                                        fontSize: isArabicSelected ? 14 : 16,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                Expanded(
+                                  child: InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        isArabicSelected = true;
+                                       languageSelected = true;
+                                       chatController.chat.value.language='العربية';
+
+                                      });
+                                    },
+                                    child: Container(
+                                      height: 40,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        border: !isArabicSelected
+                                            ? Border.all(
+                                                color: colorGreen,
+                                                width: 1.5,
+                                              )
+                                            : null,
+                                        color: !isArabicSelected
+                                            ? null
+                                            : colorGreen,
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(10)),
+                                      ),
+                                      child: CustomText(
+                                        text: 'العربية',
+                                        color: !isArabicSelected
+                                            ? colorGreen
+                                            : Colors.white,
+                                        fontFamily: 'Kufam',
+                                        fontSize: !isArabicSelected ? 14 : 16,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      
+                   
+                        // const SizedBox(
+                        //   height: 13,
+                        // ),
+                      ],
+                    ),
+                    ),
+                  ],
+                    // const SizedBox(
+                    //       height: 13,
+                    //     ),
+
+                       if(languageSelected)
+                        Container(
+                          width: width,
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 16, horizontal: 16),
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.all(Radius.circular(12)),
+                          ),
+                          alignment: Alignment.center,
+
+                          child:Column(
+                          children:[
+                          
+                          CustomText(
+                            text: isArabicSelected
+                                ? 'رائع ، سآتي اصطحابك الساعة 10:00 صباحًا في سيارة جي إم سي - سوداء - الرقم: S B A 0 9 9'
+                                : 'Great, i will come and pick you at 10:00AM in GMC Car  - Black -Number: S B A 0 9 9',
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: colorDarkGrey,
+                            textAlign: isArabicSelected ?  TextAlign.right :  TextAlign.left,
+
+                          ),
+                          
+                        const SizedBox(
+                          height: 13,
+                        ),
+                             if ((widget.isAjwadi)) ...[
+
+                            CustomText(
+                            text: chatController.chat.value.language??'ar',
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: colorDarkGrey,
+                            textAlign: isArabicSelected ?  TextAlign.right :  TextAlign.left,
+
+                          ),
+                             ]
+                          ]
+                          ),
+                        ),
+                ],
+              ),
+            
+      //  const SizedBox(height: 30),
 
                           // Padding(
               //   padding: const EdgeInsets.all(16.0),
@@ -554,10 +803,10 @@ static Future init()async{
                                                           );
                                                         });
                                                   } else {
-                                                    print('YES');
+                                                    print('YES sucssefly the payment');
                                                     // Get.back();
                                                     // Get.back();
-
+                                                      
                                                         final acceptedOffer = await widget
                                         .offerController!
                                         .acceptOffer(
@@ -591,6 +840,8 @@ static Future init()async{
                                                             ),
                                                           );
                                                         });
+                                               LocalNotification().showNotification(context,widget.booking?.id, widget.booking?.date ,widget.offerController?.offerDetails.value.name ?? "", widget.booking?.place?.nameAr,widget.booking?.place?.nameEn);
+
                                                   }
                                                 }
                                     });
@@ -629,7 +880,7 @@ static Future init()async{
                                     //   //  Get.back();
                                     // });
 
-                                    LocalNotification().showNotification(context,widget.booking?.id, widget.booking?.date ,widget.offerController?.offerDetails.value.name ?? "", widget.booking?.place?.nameAr,widget.booking?.place?.nameEn);
+                                    // LocalNotification().showNotification(context,widget.booking?.id, widget.booking?.date ,widget.offerController?.offerDetails.value.name ?? "", widget.booking?.place?.nameAr,widget.booking?.place?.nameEn);
                                   },
                                 )
                         ],
@@ -736,9 +987,24 @@ static Future init()async{
                       })),
                 ),
 
-                // Send Button
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
+                // // Send Button
+               
+              ],
+                ],
+          ),
+        ),
+         // Send Button
+         Container(
+                  width: 390,
+height: 90,
+padding: const EdgeInsets.only(
+top: 14,
+left: 1,
+right: 1,
+bottom: 16,
+),
+decoration: BoxDecoration(color: Colors.white),
+
                   child: Row(
                     children: [
                       // Obx(
@@ -748,10 +1014,56 @@ static Future init()async{
                           ? Center(
                               child: CircularProgressIndicator(
                                   color: Colors.green[800]))
-                          : IconButton(
+                                  :
+                          // : IconButton(
+                          //   icon: Icon(
+                          //     Icons.send,
+                          //     size: 30,
+                          //     color: Colors.green[800],
+                          //   ),
+                          //   onPressed: () async {
+                          //     if (messageController.text.trim() != '') {
+                          //       bool? send =
+                          //           await chatController.postMessage(
+                          //               chatId: widget.chatId!,
+                          //               message: messageController.text,
+                          //               context: context);
+                          //       if (send == true) {
+                          //         setState(() {
+                          //           chatController.chat.value.messages!.add(
+                          //               ChatMessage(
+                          //                   // senderName: "",
+                          //                   // senderImage: "",
+                          //                   senderId: userId,
+                          //                   message: messageController.text,
+                          //                   created:
+                          //                       DateTime.now().toString()));
+                          //         });
+                          //         messageController.clear();
+                          //         if (chatController.chat.value.messages !=
+                          //                 null &&
+                          //             chatController
+                          //                     .chat.value.messages!.length >
+                          //                 2) {
+                          //           chatController.scrollController.jumpTo(
+                          //               chatController.scrollController
+                          //                       .position.maxScrollExtent *
+                          //                   1.4);
+                          //         }
+                          //       }
+                          //     }
+                          //   },
+                          // ),
+                      Expanded(
+                        child: CustomTextField(
+                          controller: messageController,
+                          hintText: 'HintMessage'.tr,
+
+                          suffixIcon: !AppUtil.rtlDirection2(context)?
+                           IconButton(
                             icon: Icon(
-                              Icons.send,
-                              size: 30,
+                              Icons.send ,
+                              size: 24,
                               color: Colors.green[800],
                             ),
                             onPressed: () async {
@@ -786,25 +1098,63 @@ static Future init()async{
                                 }
                               }
                             },
-                          ),
-                      Expanded(
-                        child: CustomTextField(
-                          controller: messageController,
-                          hintText: 'message'.tr,
-                          maxLines: 5,
-                          minLines: 1,
+                          ):null, 
+                          prefixIcon: AppUtil.rtlDirection2(context)?
+                            IconButton(
+                            icon: Icon(
+                              Icons.send ,
+                              size: 24,
+                              color: Colors.green[800],
+                            ),
+                            onPressed: () async {
+                              if (messageController.text.trim() != '') {
+                                bool? send =
+                                    await chatController.postMessage(
+                                        chatId: widget.chatId!,
+                                        message: messageController.text,
+                                        context: context);
+                                if (send == true) {
+                                  setState(() {
+                                    chatController.chat.value.messages!.add(
+                                        ChatMessage(
+                                            // senderName: "",
+                                            // senderImage: "",
+                                            senderId: userId,
+                                            message: messageController.text,
+                                            created:
+                                                DateTime.now().toString()));
+                                  });
+                                  messageController.clear();
+                                  if (chatController.chat.value.messages !=
+                                          null &&
+                                      chatController
+                                              .chat.value.messages!.length >
+                                          2) {
+                                    chatController.scrollController.jumpTo(
+                                        chatController.scrollController
+                                                .position.maxScrollExtent *
+                                            1.4);
+                                  }
+                                }
+                              }
+                              }
+                            ): null,
+                          height:  MediaQuery.of(context).size.height * 0.06,
+                           maxLines: 5,
+                           minLines: 1,
                           onChanged: (String value) {},
                         ),
                       ),
                     ],
                   ),
-                ),
-              ],
-              const SizedBox(height: 4)
-            ],
-          ),
-        ),
-      ),
-    );
+         ),
+              const SizedBox(height: 8)
+        //     ],
+        //   ),
+        // ),
+      
+    ],
+  ),
+);
   }
 }

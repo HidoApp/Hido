@@ -11,6 +11,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.iconColor,
     this.action = false,
     this.onPressedAction,
+    this.backgroundColor,
     this.isAjwadi = false,
   })  : preferredSize = const Size.fromHeight(50.0),
         super(key: key);
@@ -18,6 +19,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final Color? color;
   final Color? iconColor;
+    final Color? backgroundColor;
   final bool action;
   final bool isAjwadi;
   final VoidCallback? onPressedAction;
@@ -35,7 +37,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           fontWeight: FontWeight.w600,
           fontSize: 24,
         ),
-        backgroundColor: Colors.transparent,
+        backgroundColor:Colors.transparent,
         elevation: 0,
         leading: IconButton(
           icon: SizedBox(

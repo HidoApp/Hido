@@ -38,10 +38,11 @@ class _TicketScreenState extends State<TicketScreen>
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: CustomAppBar('myTickets'.tr),
+      appBar: CustomAppBar('myTickets'.tr, backgroundColor: Colors.white),
       body:
           // Obx(
           //   () =>
+          
           Padding(
         padding: const EdgeInsets.only(
           top: 20,

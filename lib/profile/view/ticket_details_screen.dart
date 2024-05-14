@@ -1,3 +1,4 @@
+import 'package:ajwad_v4/new-onboarding/view/splash_screen.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:ticket_widget/ticket_widget.dart';
@@ -18,7 +19,7 @@ import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'dart:developer';
-
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 
 class TicketDetailsScreen extends StatelessWidget {
@@ -83,82 +84,101 @@ return Scaffold(
   context: context,
   builder: (BuildContext context) {
     return AlertDialog(
-      contentPadding: EdgeInsets.only(left:6,right:6,top:6,bottom: 6),
-      insetPadding: EdgeInsets.symmetric(horizontal: 40),
+     contentPadding: EdgeInsets.only(left:12,right:12,top:15,bottom: 8),
+      // insetPadding: EdgeInsets.symmetric(horizontal: 40),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
       ),
       backgroundColor: Colors.white,
   content: Container(
      width: 304, 
-     height: 176, 
-        child: Padding(
-      padding: const EdgeInsets.only(left:24,right:24,top:24,bottom: 8),
+     height: 153, 
+        //child: Padding(
+     // padding: const EdgeInsets.only(left:12,right:12,top:12,bottom: 8),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(
             Icons.dangerous,
             size: 40,
-            color: Colors.blue,
+            color: const Color.fromARGB(255, 0, 92, 167),
           ),
-          SizedBox(height: 16),
+          SizedBox(height: 3),
           Text(
             "Canceling",
             style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
+              fontSize: 17,
+              fontWeight: FontWeight.w500,
+              fontFamily: 'HT Rakik',
+
             ),
           ),
-          SizedBox(height: 8),
+          SizedBox(height: 3),
           Text(
-            "Are you sure?",
-            style: TextStyle(fontSize: 16),
+            'Are you sure you want to cancel your booking?',
+            style: TextStyle(fontSize: 13,
+            fontFamily: 'SF Pro',
+              fontWeight: FontWeight.w500
+),
           ),
-          SizedBox(height: 24),
-          // CustomButton(
-          //   onPressed: () {
-          //     // Handle cancel booking
-          //      Obx(() => _offerController.isBookingCancelLoading.value
-          //       ? const Center(
-          //           child: CircularProgressIndicator(color: Colors.black),
-          //         )
-          //       : GestureDetector(
-          //           onTap: () async {
-          //             log("End Trip Taped ${booking!.id}");
+          SizedBox(height: 15),
+          Container(
+            width: 304,
+            height: 40,
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Colors.red, // Set the border color to red
+                width: 1, // Set the border width
+              ),
+              borderRadius: BorderRadius.circular(6), // Set border radius
+            ),
+          child: CustomButton(
+            onPressed: () {
+              // Handle cancel booking
+               Obx(() => _offerController.isBookingCancelLoading.value
+                ? const Center(
+                    child: CircularProgressIndicator(color: Colors.black),
+                  )
+                : GestureDetector(
+                    onTap: () async {
+                      log("Cancele ticket ${booking!.id}");
 
-          //             bool bookingCancel =
-          //                 await _offerController.bookingCancel(
-          //                     context: context,
-          //                     bookingId: booking!.id!) ??
-          //                 false;
-          //             if (bookingCancel) {
-          //               if (context.mounted) {
-          //                 AppUtil.successToast(context, 'EndTrip'.tr);
-          //                 await Future.delayed(const Duration(seconds: 1));
-          //               }
-          //               Get.offAll(const TouristBottomBar());
-          //             }
-          //           },
-          //           child: Text(
-          //             "cancel".tr,
-          //             textAlign: TextAlign.center,
-          //             style: TextStyle(
-          //               fontSize: 16,
-          //               fontWeight: FontWeight.w500,
-          //               color: const Color(0xFFDC362E),
-          //             ),
-          //           ),
-          //         ));
-          //   },
-          //     title: 'Cancel Booking'.tr,
-          //     buttonColor: Colors.white.withOpacity(0.5), // Set the button color to transparent white
-          //     textColor: Colors.red, // Set the text color to red
-          //   ),
+                      bool bookingCancel =
+                          await _offerController.bookingCancel(
+                              context: context,
+                              bookingId: booking!.id!) ??
+                          false;
+                      if (bookingCancel) {
+                        if (context.mounted) {
+                          AppUtil.successToast(context, 'EndTrip'.tr);
+                          await Future.delayed(const Duration(seconds: 1));
+                        }
+                        Get.offAll(const TouristBottomBar());
+                        await flutterLocalNotificationsPlugin.cancel(int.tryParse(booking!.id!) ?? 0);
+
+                      }
+                    },
+
+                    // child: Text(
+                    //   "Confirm".tr,
+                    //   textAlign: TextAlign.center,
+                    //   style: TextStyle(
+                    //     fontSize: 16,
+                    //     fontWeight: FontWeight.w500,
+                    //     color: const Color(0xFFDC362E),
+                    //   ),
+                    // ),
+                  ));
+            },
+              title: 'Confirm'.tr,
+              buttonColor: Colors.white.withOpacity(0.5), // Set the button color to transparent white
+              textColor: Colors.red, // Set the text color to red
+            ),
+          ),
           ],
         ),
       ),
-  ),
+ // ),
     );
   },
 );
