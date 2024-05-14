@@ -52,7 +52,10 @@ class _FindAjwadyState extends State<FindAjwady> {
   @override
   void initState() {
     super.initState();
-    showCancelDialogAfterDelay();
+    if (_offerController.offers.isNotEmpty) {
+      showCancelDialogAfterDelay();
+    }
+
     _offerController.getOffers(
       context: context,
       placeId: widget.placeId,
@@ -389,40 +392,56 @@ class _FindAjwadyState extends State<FindAjwady> {
                     child: Container(
                       height: 60,
                       width: 0.84 * width,
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(20)),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            ClipOval(
-                              child: Container(
-                                height: 30,
-                                width: 30,
-                                color: colorGreen,
-                                child: Center(
-                                  child: CustomText(
-                                    text: "${_offerController.offers.length}",
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w900,
-                                    fontSize: 12,
-                                  ),
+                      child: Row(children: [
+                        ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            shrinkWrap: true,
+                            itemCount: 3,
+                            itemBuilder: (context, index) {
+                              return const Align(
+                                widthFactor: 0.5,
+                                child: CircleAvatar(
+                                  radius: 12,
+                                  backgroundImage: AssetImage(
+                                      'assets/images/ajwadi_image.png'),
                                 ),
-                              ),
+                              );
+                            }),
+                        Align(
+                          widthFactor: 0.7,
+                          child: CircleAvatar(
+                            radius: 12,
+                            backgroundColor: colorGreen,
+                            child: CustomText(
+                              text: _offerController.offers.length.toString(),
+                              color: Colors.white,
+                              textAlign: TextAlign.center,
+                              fontFamily: 'Kufam',
+                              fontSize: 8,
+                              fontWeight: FontWeight.w400,
                             ),
-                            CustomText(
-                              text:
-                                  "${_offerController.offers.length} ${"offers".tr}",
-                              color: black,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w900,
-                            ),
-                            const Icon(
-                              Icons.arrow_forward_ios_sharp,
-                              size: 22,
-                            )
-                          ]),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        CustomText(
+                          text:
+                              "${_offerController.offers.length} ${"offers".tr}",
+                          color: black,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w900,
+                        ),
+                        const Spacer(),
+                        const Icon(
+                          Icons.arrow_forward_ios_sharp,
+                          size: 22,
+                        )
+                      ]),
                     ),
                   ),
               ],

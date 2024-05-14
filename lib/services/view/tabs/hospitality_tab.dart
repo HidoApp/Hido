@@ -14,8 +14,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HospitalityTab extends StatefulWidget {
-  const HospitalityTab({super.key, required this.isAviailable});
-  final bool isAviailable;
+  const HospitalityTab({
+    super.key,
+  });
 
   @override
   State<HospitalityTab> createState() => _HospitalityTabState();

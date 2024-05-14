@@ -4,6 +4,7 @@ import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_empty_widget.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
+import 'package:ajwad_v4/widgets/review_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -38,7 +39,10 @@ class _TicketScreenState extends State<TicketScreen>
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: CustomAppBar('myTickets'.tr, backgroundColor: Colors.white),
+
+      appBar: CustomAppBar(
+        'myTickets'.tr,
+      ),
       body:
           // Obx(
           //   () =>
@@ -46,12 +50,105 @@ class _TicketScreenState extends State<TicketScreen>
           Padding(
         padding: const EdgeInsets.only(
           top: 20,
-          right: 24,
-          left: 24,
         ),
         child: Column(
           children: [
-            // Row(
+            TabBar(
+              controller: _tabController,
+              indicatorSize: TabBarIndicatorSize.tab,
+              labelColor: colorGreen,
+
+              unselectedLabelColor: colorDarkGrey,
+              dividerColor: darkGrey,
+              // indicatorPadding: EdgeInsets.symmetric(horizontal: 1),
+              tabs: [
+                Tab(text: "upcomingTrips".tr),
+                Tab(text: "pastTrips".tr),
+              ],
+            ),
+            const SizedBox(
+              height: 24,
+            ),
+            Expanded(
+              child: Obx(
+                () => Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: TabBarView(
+                    controller: _tabController,
+                    children: [
+                      // Tab 1 content (upcomingTrips)
+                      widget.profileController.isUpcommingTicketLoading.value
+                          ? const Center(
+                              child: CircularProgressIndicator(
+                                color: colorGreen,
+                              ),
+                            )
+                          : widget.profileController.upcommingTicket.isEmpty
+                              ? CustomEmptyWidget(
+                                  title: 'noTicket'.tr,
+                                  image: 'no_tickets',
+                                )
+                              : ListView.separated(
+                                  shrinkWrap: true,
+                                  itemCount: widget
+                                      .profileController.upcommingTicket.length,
+                                  separatorBuilder: (context, index) {
+                                    return const SizedBox(
+                                      height: 11,
+                                    );
+                                  },
+                                  itemBuilder: (context, index) {
+                                    return CustomTicketCard(
+                                      booking: widget.profileController
+                                          .upcommingTicket[index],
+                                    );
+                                  },
+                                ),
+
+                      // Tab 2 content (pastTrips)
+                      widget.profileController.isPastTicketLoading.value
+                          ? const Center(
+                              child: SizedBox(
+                                height: 40,
+                                width: 40,
+                                child: CircularProgressIndicator(
+                                  color: colorGreen,
+                                ),
+                              ),
+                            )
+                          : widget.profileController.pastTicket.isEmpty
+                              ? CustomEmptyWidget(
+                                  title: 'noTicket'.tr,
+                                  image: 'no_tickets',
+                                )
+                              : ListView.separated(
+                                  shrinkWrap: true,
+                                  itemCount: widget
+                                      .profileController.pastTicket.length,
+                                  separatorBuilder: (context, index) {
+                                    return const SizedBox(
+                                      height: 11,
+                                    );
+                                  },
+                                  itemBuilder: (context, index) {
+                                    return CustomTicketCard(
+                                      booking: widget
+                                          .profileController.pastTicket[index],
+                                    );
+                                  },
+                                ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+           // Row(
             //   textDirection: TextDirection.ltr,
             //   children: [
             //     IconButton(
@@ -305,95 +402,20 @@ class _TicketScreenState extends State<TicketScreen>
             //   ),
             // ),
             // : Container()
-            TabBar(
-              controller: _tabController,
-              indicatorSize: TabBarIndicatorSize.tab,
-              labelColor: colorGreen,
-              unselectedLabelColor: colorDarkGrey,
-              dividerColor: darkGrey,
 
-              // indicatorPadding: EdgeInsets.symmetric(horizontal: 1),
-              tabs: [
-                Tab(text: "upcomingTrips".tr),
-                Tab(text: "pastTrips".tr),
-              ],
-            ),
-            const SizedBox(
-              height: 24,
-            ),
-            Expanded(
-              child: Obx(
-                () => TabBarView(
-                  controller: _tabController,
-                  children: [
-                    // Tab 1 content (upcomingTrips)
-                    widget.profileController.isUpcommingTicketLoading.value
-                        ? const Center(
-                            child: CircularProgressIndicator(
-                              color: colorGreen,
-                            ),
-                          )
-                        : widget.profileController.upcommingTicket.isEmpty
-                            ? CustomEmptyWidget(
-                                title: 'noTicket'.tr,
-                                image: 'no_tickets',
-                              )
-                            : ListView.separated(
-                                shrinkWrap: true,
-                                itemCount: widget
-                                    .profileController.upcommingTicket.length,
-                                separatorBuilder: (context, index) {
-                                  return const SizedBox(
-                                    height: 11,
-                                  );
-                                },
-                                itemBuilder: (context, index) {
-                                  return CustomTicketCard(
-                                    booking: widget.profileController
-                                        .upcommingTicket[index],
-                                  );
-                                },
-                              ),
 
-                    // Tab 2 content (pastTrips)
-                    widget.profileController.isPastTicketLoading.value
-                        ? const Center(
-                            child: SizedBox(
-                              height: 40,
-                              width: 40,
-                              child: CircularProgressIndicator(
-                                color: colorGreen,
-                              ),
-                            ),
-                          )
-                        : widget.profileController.pastTicket.isEmpty
-                            ? CustomEmptyWidget(
-                                title: 'noTicket'.tr,
-                                image: 'no_tickets',
-                              )
-                            : ListView.separated(
-                                shrinkWrap: true,
-                                itemCount:
-                                    widget.profileController.pastTicket.length,
-                                separatorBuilder: (context, index) {
-                                  return const SizedBox(
-                                    height: 11,
-                                  );
-                                },
-                                itemBuilder: (context, index) {
-                                  return CustomTicketCard(
-                                    booking: widget
-                                        .profileController.pastTicket[index],
-                                  );
-                                },
-                              ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+                // showModalBottomSheet(
+          //   isScrollControlled: true,
+          //   context: context,
+          //   showDragHandle: true,
+          //   backgroundColor: Colors.white,
+          //   shape: const RoundedRectangleBorder(
+          //     borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+          //   ),
+          //   builder: (context) {
+          //     return ReviewBottomSheet(
+          //       localId: "447aad72-25f2-4f90-85fd-51743cf8c9ed",
+          //       bookingId: widget.profileController.upcommingTicket[0].id!,
+          //     );
+          //   },
+          // );
