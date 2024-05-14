@@ -9,6 +9,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:ajwad_v4/request/tourist/view/tourist_chat_screen.dart';
 
 class CustomChatCard extends StatelessWidget {
   final ChatModel chatModel;
@@ -19,12 +20,17 @@ class CustomChatCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Get.to(() => ChatScreenLive(
+        Get.to(() => 
+        
+        ChatScreenLive(
           offerController: Get.put(OfferController()),
             chatId: chatModel.id,
             booking: chatModel.booking!,
             requestController: Get.put(RequestController()),
-            isAjwadi: chatModel.localInChat == null ? true : false));
+            isAjwadi: chatModel.localInChat == null ? true : false)
+            
+            
+            );
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),

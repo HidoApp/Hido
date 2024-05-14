@@ -28,6 +28,7 @@ class CustomTicketCard extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return InkWell(
+
       onTap: booking.orderStatus == 'ACCEPTED'
           ? () {
               Get.to(() => TicketDetailsScreen(booking: booking));
@@ -100,9 +101,28 @@ class CustomTicketCard extends StatelessWidget {
                         color: black,
                       ),
                     ),
+                    CustomText(
+                      text: AppUtil.rtlDirection2(context)
+                          ? booking.place!.regionAr!
+                          : booking.place!.regionEn!,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w400,
+                      color: textGreyColor,
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  children: [
+                    SvgPicture.asset(
+                      'assets/icons/grey_calender.svg',
+                    ),
                     const SizedBox(
                       height: 5,
                     ),
+
                     Row(
                       children: [
                         SvgPicture.asset('assets/icons/map_pin.svg'),
@@ -122,6 +142,7 @@ class CustomTicketCard extends StatelessWidget {
                     const SizedBox(
                       height: 5,
                     ),
+
                     Row(
                       children: [
                         SvgPicture.asset(

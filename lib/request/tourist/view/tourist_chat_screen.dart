@@ -242,8 +242,6 @@ void updateIconDisabled(bool value) {
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
-    print('isChat: ${widget.isChat}');
-    print('isChat2: ${isIconDisabled}');
 
     return Scaffold(
       backgroundColor: lightGreyBackground,

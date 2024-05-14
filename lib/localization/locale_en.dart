@@ -369,6 +369,7 @@ const localeEn = {
   "tour": "Tour",
   "expertise": "Expertise",
   "noReviews": "No Reviews yet",
+  "HintMessage": "write your message here",
   "pricePerPerson": "price per person",
   "cancellationPolicyBreifAdventure": "Our cancellation policy requires a 48-hour prior notice for a full refund and a 24-hour prior notice for a partial refund." ,
   "cancellationPolicyNote":"Please note that no refunds will be issued for cancellations made on the same day as the booking."

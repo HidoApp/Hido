@@ -49,8 +49,9 @@ class CustomTextField extends StatelessWidget {
     return Container(
       alignment: Alignment.center,
       padding: const EdgeInsets.symmetric(horizontal: 16),
-     // height: height,
+        height: height,
       child: TextFormField(
+         
         inputFormatters:inputFormatters ?? [] ,
         maxLength: maxLength,
         maxLines: maxLines ,
@@ -62,6 +63,7 @@ class CustomTextField extends StatelessWidget {
         cursorColor: const Color(0xFF969696),
         textInputAction: TextInputAction.search,
         enabled: enable,
+        
         validator: validator   ? (v) {
               if (v!.isEmpty) {
                 return 'fieldRequired'.tr;

@@ -28,9 +28,15 @@ static onTap(NotificationResponse notificationResponse){}
 
 
   late DateTime twoDaysBefore;
+  late DateTime twoHoursBefore;
   late DateTime timeToGo;
   late DateTime timeToReturn;
+    late String descreption;
+
    String day="2 days";
+   String time="2 hours";
+
+
 void checkBooking(String? bookdate) {
 DateTime currentDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
 DateTime bookingDate = DateTime.parse(bookdate!);
@@ -58,6 +64,35 @@ print(twoDaysBefore);
   
 }
 
+
+void checkBooking2(String? bookdate) {
+DateTime currentTime = DateTime.now();
+DateTime bookingDate = DateTime.parse(bookdate!);
+
+ twoHoursBefore = bookingDate.subtract(Duration(hours: 2));
+
+//  DateTime twoHoursBeforeWithoutDate = DateTime(0, 0, 0, twoHoursBefore.hour, twoHoursBefore.minute, twoHoursBefore.second);
+//  DateTime currentTimeWithoutDate =  DateTime(0, 0, 0, DateTime.now().hour, DateTime.now().minute, DateTime.now().second);
+   // Check if two hours before is before the current time on the same date
+  if (twoHoursBefore.day == currentTime.day) {
+    int hourDifference = currentTime.hour - twoHoursBefore.hour;
+    if (hourDifference == 1) {
+      twoHoursBefore = bookingDate.subtract(Duration(hours: 1));
+      time='one hour';
+    } else if (hourDifference > 1) {
+      // Set text to 'now'
+      twoHoursBefore = currentTime;
+      time='now';
+    }
+    else{
+      time='two hours';
+
+    }
+  }
+}
+  
+
+  
 
 
 
@@ -105,9 +140,14 @@ static Future init()async{
 // }
 
 void showNotification(BuildContext context, String? id , String? date ,  String? name, String? placeeEn,String? placeeAr) async {
-checkBooking(date);
+checkBooking2(date);
+// checkBooking(date);
 
-DateTime notificationTime = DateTime(twoDaysBefore.year, twoDaysBefore.month, twoDaysBefore.day, 21, 00, 3);
+//DateTime notificationTime = DateTime(twoDaysBefore.year, twoDaysBefore.month, twoDaysBefore.day, 21, 00, 3);
+DateTime notificationTime =  twoHoursBefore;
+DateTime increasedTime = notificationTime.add(Duration(hours: 3));
+
+
 print(notificationTime);
 print(placeeAr);
 print(placeeEn);
@@ -136,12 +176,21 @@ print(placeeEn);
 
   print(tz.local);
 
+if(time=='now'){
+
+  descreption = " your experience to discover "+ placeName +" with " + "start"+time;
+}
+else{
+  descreption = time + "  left and  your experience to discover "+ placeName +" with " + "begins";
+
+}
     await flutterLocalNotificationsPlugin.zonedSchedule(
      parsedId,
     'Hi'+ " NAME "+", Reminder",
-    'There is '+ day + " left until you start your journey to discover "+ placeName +" with ", 
+    descreption,
+    // time + " and your journey to discover "+ placeName +" with " + 'begins', 
     //  tz.TZDateTime.now(tz.local).add(const Duration(seconds: 1)),
-    tz.TZDateTime.from(notificationTime,tz.local), // Schedule the notification two days before the booking date
+    tz.TZDateTime.from(increasedTime,tz.local), 
     details,uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime
      
      );

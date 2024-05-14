@@ -64,6 +64,7 @@ class _FindAjwadyState extends State<FindAjwady> {
   }
 
   void showCancelDialogAfterDelay() {
+     if (_offerController.offers.isEmpty){
     Future.delayed(const Duration(minutes: 5), () {
       showDialog(
         context: context,
@@ -156,6 +157,7 @@ class _FindAjwadyState extends State<FindAjwady> {
         },
       );
     });
+     }
   }
 
   @override
@@ -211,6 +213,8 @@ class _FindAjwadyState extends State<FindAjwady> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Center(
+                  child: Visibility(
+                 visible: _offerController.offers.isEmpty,
                   child: Container(
                     height: height * 0.2,
                     width: 0.84 * width,
@@ -218,13 +222,17 @@ class _FindAjwadyState extends State<FindAjwady> {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20),
                     ),
+                    
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
+                      
                       child: Column(
+                        
                         children: [
                           const SizedBox(
                             height: 5,
                           ),
+
                           SvgPicture.asset(
                             'assets/icons/findLocal.svg',
                             height: 40,
@@ -252,7 +260,9 @@ class _FindAjwadyState extends State<FindAjwady> {
                       ),
                     ),
                   ),
+                  ),
                 ),
+                 
                 const SizedBox(
                   height: 30,
                 ),
@@ -268,7 +278,6 @@ class _FindAjwadyState extends State<FindAjwady> {
                     children: [
                       ListTile(
                         onTap: () {
-                          // LocalNotification.showNotification();
 
                           setState(() {
                             isDetailsTapped = !isDetailsTapped;
