@@ -1,6 +1,6 @@
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
-import 'package:ajwad_v4/services/controller/serivces_controller.dart';
+import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/services/view/adveture_details.dart';
 import 'package:ajwad_v4/services/view/event_details.dart';
 import 'package:ajwad_v4/services/view/hospitality_details.dart';
@@ -23,7 +23,7 @@ class HospitalityTab extends StatefulWidget {
 }
 
 class _HospitalityTabState extends State<HospitalityTab> {
-  final _srvicesController = Get.put(SrvicesController());
+  final _srvicesController = Get.put(HospitalityController());
   @override
   void initState() {
     // TODO: implement initState

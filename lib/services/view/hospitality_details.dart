@@ -1,7 +1,7 @@
 import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/view/view_trip_images.dart';
-import 'package:ajwad_v4/services/controller/serivces_controller.dart';
+import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/services/model/hospitality.dart';
 import 'package:ajwad_v4/services/view/widgets/images_services_widget.dart';
 import 'package:ajwad_v4/services/view/widgets/reservation_details_sheet.dart';
@@ -36,7 +36,7 @@ class HospitalityDetails extends StatefulWidget {
 late double width, height;
 
 class _HospitalityDetailsState extends State<HospitalityDetails> {
-  final _servicesController = Get.put(SrvicesController());
+  final _servicesController = Get.put(HospitalityController());
   int _currentIndex = 0;
   bool isExpanded = false;
   bool isAviailable = false;

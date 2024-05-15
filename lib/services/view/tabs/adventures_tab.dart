@@ -1,4 +1,6 @@
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/services/controller/adventure_controller.dart';
+import 'package:ajwad_v4/services/service/adventure_service.dart';
 import 'package:ajwad_v4/services/view/adveture_details.dart';
 import 'package:ajwad_v4/services/view/widgets/custom_adventure_item.dart';
 import 'package:ajwad_v4/services/view/widgets/custom_city_item.dart';
@@ -7,7 +9,7 @@ import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:ajwad_v4/services/controller/serivces_controller.dart';
+import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 
 import 'package:ajwad_v4/services/view/hospitality_details.dart';
 import 'package:ajwad_v4/services/view/widgets/ad_cards.dart';
@@ -25,134 +27,19 @@ class AdventuresTab extends StatefulWidget {
 }
 
 class _AdventuresTabState extends State<AdventuresTab> {
-  final _srvicesController = Get.put(SrvicesController());
+  // final _srvicesController = Get.put(HospitalityController());
+  final _adventureController = Get.put(AdventureController());
+  void getAdvdentureList() async {
+    await _adventureController.getAdvdentureList(context: context);
+    // print("ADV ID : ${_adventureController.adventureList[0].id}");
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _srvicesController.getAllHospitality(context: context);
+    getAdvdentureList();
   }
-
-  // @override
-  // Widget build(BuildContext context) {
-  //       final double height = MediaQuery.of(context).size.height;
-  //   return SingleChildScrollView(
-  //     padding: const EdgeInsets.all(20),
-  //     child: isAviailable
-  //         ? Column(
-  //             children: [
-  //               Row(
-  //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //                 children: [
-  //                   CustomText(
-  //                     text: 'where'.tr,
-  //                     fontSize: 20,
-  //                     fontWeight: FontWeight.w700,
-  //                   ),
-  //                   CustomText(
-  //                     text: 'seeAll'.tr,
-  //                     fontSize: 10,
-  //                     fontWeight: FontWeight.w400,
-  //                     color: colorDarkGrey,
-  //                   ),
-  //                 ],
-  //               ),
-  //               const SizedBox(
-  //                 height: 10,
-  //               ),
-  //               SizedBox(
-  //                 height: 100,
-  //                 child: ListView.separated(
-  //                   shrinkWrap: true,
-  //                   scrollDirection: Axis.horizontal,
-  //                   itemCount: 4,
-  //                   separatorBuilder: (context, index) {
-  //                     return const SizedBox(
-  //                       width: 24,
-  //                     );
-  //                   },
-  //                   itemBuilder: (context, index) {
-  //                     return CustomCityItem(
-  //                         image: 'assets/images/tabuk.png',
-  //                         title:
-  //                             AppUtil.rtlDirection(context) ? 'تبوك' : 'Tabuk');
-  //                   },
-  //                 ),
-  //               ),
-  //               const SizedBox(
-  //                 height: 20,
-  //               ),
-  //               Row(
-  //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //                 children: [
-  //                   CustomText(
-  //                     text: 'cultureSights'.tr,
-  //                     fontSize: 20,
-  //                     fontWeight: FontWeight.w700,
-  //                   ),
-  //                   CustomText(
-  //                     text: 'seeAll'.tr,
-  //                     fontSize: 10,
-  //                     fontWeight: FontWeight.w400,
-  //                     color: colorDarkGrey,
-  //                   ),
-  //                 ],
-  //               ),
-  //               SizedBox(
-  //                 height: 300,
-  //                 child: ListView.separated(
-  //                   scrollDirection: Axis.horizontal,
-  //                   shrinkWrap: true,
-  //                   itemCount: 4,
-  //                   itemBuilder: (context, index) {
-  //                     return CustomAdventureItem(
-  //                       onTap: () {
-  //                         Get.to(() => AdventureDetails());
-  //                       },
-  //                       title: AppUtil.rtlDirection(context)
-  //                           ? 'ربع الخالي'
-  //                           : 'Empty Quarter',
-  //                       rate: '4.7',
-  //                       location: AppUtil.rtlDirection(context)
-  //                           ? 'ربع الخالي، المملكة العربية السعودية'
-  //                           : 'Empty Quarter, Saudi Arabia',
-  //                       description: AppUtil.rtlDirection(context)
-  //                           ? 'الربع الخالي عبارة عن صحراء رملية تغطي معظم الجنوب.'
-  //                           : 'The Rub\' al Khali is the sand desert encompassing most of the southern ..',
-  //                     );
-  //                   },
-  //                   separatorBuilder: (context, index) {
-  //                     return const SizedBox(
-  //                       width: 25,
-  //                     );
-  //                   },
-  //                 ),
-  //               ),
-  //             ],
-  //           )
-  //         : Column(
-  //             children: [
-  //               SizedBox(
-  //                 height: height * 0.04,
-  //               ),
-  //               // Image.asset(
-  //               //   'assets/images/hido_logo.png',
-  //               //   color: pink,
-  //               // ),
-  //               // SizedBox(
-  //               //   height: height * 0.02,
-  //               // ),
-  //               CustomText(
-  //                 text: 'commingSoon'.tr,
-  //                 fontSize: 16,
-  //                 fontWeight: FontWeight.w200,
-  //                 textAlign: TextAlign.center,
-  //                 color: colorDarkGrey,
-  //               )
-  //             ],
-  //           ),
-  //   );
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -202,14 +89,14 @@ class _AdventuresTabState extends State<AdventuresTab> {
                 height: 20,
               ),
               Obx(
-                () => _srvicesController.isHospitalityLoading.value
+                () => _adventureController.isAdventureListLoading.value
                     ? //if list is loading
                     SizedBox(
                         height: height * 0.4,
                         width: width,
                         child: const Center(
                           child: CircularProgressIndicator(
-                            color: purple,
+                            color: colorGreen,
                           ),
                         ),
                       )
@@ -218,36 +105,35 @@ class _AdventuresTabState extends State<AdventuresTab> {
                         padding: EdgeInsets.zero,
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: _srvicesController.hospitalityList.length,
+                        itemCount: _adventureController.adventureList.length,
                         itemBuilder: (context, index) {
                           return GestureDetector(
                             // card for any services Hospitality,Adventure etc ..
                             child: CustomAdventureItem(
                               onTap: () {
                                 Get.to(() => AdventureDetails(
-                                      hospitalityId: _srvicesController
-                                          .hospitalityList[index].id,
+                                      adventureId: _adventureController
+                                          .adventureList[index].id,
                                     ));
                               },
-                              image: _srvicesController
-                                  .hospitalityList[index].images[0],
-                              personImage: _srvicesController
-                                  .hospitalityList[index].familyImage,
+                              image: _adventureController
+                                  .adventureList[index].image![0],
+                              date: _adventureController
+                                  .adventureList[index].date!,
                               title: !AppUtil.rtlDirection(context)
-                                  ? _srvicesController
-                                      .hospitalityList[index].titleAr
-                                  : _srvicesController
-                                      .hospitalityList[index].titleEn,
-                              location: _srvicesController
-                                  .hospitalityList[index].region,
-                              category: AppUtil.rtlDirection(context)
-                                  ? _srvicesController
-                                      .hospitalityList[index].categoryAr
-                                  : _srvicesController
-                                      .hospitalityList[index].categoryEn,
+                                  ? _adventureController
+                                      .adventureList[index].nameAr!
+                                  : _adventureController
+                                      .adventureList[index].nameEn!,
+                              location: AppUtil.rtlDirection2(context)
+                                  ? _adventureController
+                                      .adventureList[index].regionAr!
+                                  : _adventureController
+                                      .adventureList[index].regionEn!,
+                              seats: _adventureController
+                                  .adventureList[index].seats
+                                  .toString(),
                               rate: '4.7',
-                              dayInfo: _srvicesController
-                                  .hospitalityList[index].daysInfo,
                             ),
                           );
                         },

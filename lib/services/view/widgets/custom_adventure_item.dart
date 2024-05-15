@@ -8,37 +8,22 @@ import 'package:intl/intl.dart';
 class CustomAdventureItem extends StatelessWidget {
   const CustomAdventureItem({
     super.key,
-
-    // required this.onTap,
-    // required this.title,
-    // required this.rate,
-    // required this.location,
-    // required this.description,
-
     required this.image,
     this.personImage,
     required this.title,
     required this.location,
-    required this.category,
+    required this.seats,
     required this.rate,
+    required this.date,
     required this.onTap,
-    this.dayInfo,
   });
-
-  // final VoidCallback onTap;
-  // final String title;
-  // final String rate;
-  // final String location;
-  // final String description;
-
   final String image;
   final String? personImage;
   final String title;
   final String location;
-
-  final String category;
+  final String seats;
   final String rate;
-  final List<DayInfo>? dayInfo;
+  final String date;
   final VoidCallback onTap;
 
   @override
@@ -112,7 +97,7 @@ class CustomAdventureItem extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                       ),
                       SizedBox(
-                        height: width * 0.03,
+                        height: width * 0.01,
                       ),
                       Row(
                         children: [
@@ -123,7 +108,7 @@ class CustomAdventureItem extends StatelessWidget {
                             'assets/icons/map_pin.svg',
                           ),
                           SizedBox(
-                            width: width * 0.01,
+                            height: width * 0.01,
                           ),
                           CustomText(
                             text: location,
@@ -149,14 +134,13 @@ class CustomAdventureItem extends StatelessWidget {
                               SizedBox(
                                 width: width * 0.01,
                               ),
-                              if (dayInfo != null || dayInfo != [])
-                                CustomText(
-                                  text: DateFormat('E-dd-MMM').format(
-                                      DateTime.parse(dayInfo![0].startTime)),
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w400,
-                                  color: starGreyColor,
-                                ),
+                              CustomText(
+                                text: DateFormat('E-dd-MMM')
+                                    .format(DateTime.parse(date)),
+                                fontSize: 10,
+                                fontWeight: FontWeight.w400,
+                                color: starGreyColor,
+                              ),
                             ],
                           ),
                           const SizedBox(

@@ -1,5 +1,5 @@
 import 'package:ajwad_v4/constants/colors.dart';
-import 'package:ajwad_v4/services/controller/serivces_controller.dart';
+import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
@@ -12,21 +12,25 @@ import 'dart:io' show Platform;
 
 import 'add_new_card_sheet.dart';
 
-
 class GeneralCheckOutScreen extends StatefulWidget {
   const GeneralCheckOutScreen({
     Key? key,
-   required this.total, required this.serviceController, required this.hospitalityId, required this.date, required this.dayId, required this.numOfMale, required this.numOfFemale,
+    required this.total,
+    required this.serviceController,
+    required this.hospitalityId,
+    required this.date,
+    required this.dayId,
+    required this.numOfMale,
+    required this.numOfFemale,
   }) : super(key: key);
 
   final int total;
-  final SrvicesController serviceController;
-  final String hospitalityId ;
-  final String date ;
-  final String dayId ;
-  final int numOfMale ;
-  final int numOfFemale ;
-
+  final HospitalityController serviceController;
+  final String hospitalityId;
+  final String date;
+  final String dayId;
+  final int numOfMale;
+  final int numOfFemale;
 
   @override
   State<GeneralCheckOutScreen> createState() => _GeneralCheckOutScreenState();
@@ -182,17 +186,15 @@ class _GeneralCheckOutScreenState extends State<GeneralCheckOutScreen> {
                     _payment == PaymentType.creditCard
                         ? GestureDetector(
                             onTap: () {
-                              Get.bottomSheet( GeneralAddNewCreditCard(
-                                        total: widget.total,
-                                        srvicesController: widget.serviceController,
-                                        date: widget.date,
-                              
-                                        hospitalityId: widget.hospitalityId,
-                                        dayId: widget.dayId,
-                                        numOfFemale: widget.numOfFemale,
-                                        numOfMale: widget.numOfMale,
-                                     
-                                      ));
+                              Get.bottomSheet(GeneralAddNewCreditCard(
+                                total: widget.total,
+                                srvicesController: widget.serviceController,
+                                date: widget.date,
+                                hospitalityId: widget.hospitalityId,
+                                dayId: widget.dayId,
+                                numOfFemale: widget.numOfFemale,
+                                numOfMale: widget.numOfMale,
+                              ));
 
                               // showModalBottomSheet(
                               //     isScrollControlled: true,
@@ -327,9 +329,8 @@ class _GeneralCheckOutScreenState extends State<GeneralCheckOutScreen> {
               //     ],
               //   ),
               // ),
-            
-            
-             Spacer(),
+
+              Spacer(),
               DottedSeparator(
                 color: textGreyColor,
                 height: 1,
@@ -421,13 +422,15 @@ class _GeneralCheckOutScreenState extends State<GeneralCheckOutScreen> {
               SizedBox(
                 height: 15,
               ),
-            _payment == PaymentType.stcPay ?   CustomButton(
-                onPressed: () {},
-                title: 'pay'.tr,
-                icon: AppUtil.rtlDirection(context)
-                    ? const Icon(Icons.arrow_back)
-                    : const Icon(Icons.arrow_forward),
-              ) : Container(),
+              _payment == PaymentType.stcPay
+                  ? CustomButton(
+                      onPressed: () {},
+                      title: 'pay'.tr,
+                      icon: AppUtil.rtlDirection(context)
+                          ? const Icon(Icons.arrow_back)
+                          : const Icon(Icons.arrow_forward),
+                    )
+                  : Container(),
               SizedBox(
                 height: 20,
               )

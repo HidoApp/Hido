@@ -2,7 +2,7 @@ import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/calender_dialog.dart';
 import 'package:ajwad_v4/payment/controller/payment_controller.dart';
 import 'package:ajwad_v4/payment/model/invoice.dart';
-import 'package:ajwad_v4/services/controller/serivces_controller.dart';
+import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/services/model/hospitality.dart';
 import 'package:ajwad_v4/services/view/payment/check_out_screen.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
@@ -31,7 +31,7 @@ class ReservaationDetailsWidget extends StatefulWidget {
 
   final Color color;
 
-  final SrvicesController serviceController;
+  final HospitalityController serviceController;
   final Hospitality? hospitality;
   final List<DateTime>? avilableDate;
 
@@ -43,7 +43,6 @@ class ReservaationDetailsWidget extends StatefulWidget {
 class _ReservaationDetailsWidgetState extends State<ReservaationDetailsWidget> {
   final _formKey = GlobalKey<FormState>();
 
-
   int selectedChoice = 3;
 
   int guestNum = 0;
@@ -51,7 +50,7 @@ class _ReservaationDetailsWidgetState extends State<ReservaationDetailsWidget> {
   int maleGuestNum = 0;
   bool showErrorGuests = false;
   bool showErrorDate = false;
- bool showErrorTime = false;
+  bool showErrorTime = false;
 
   Invoice? invoice;
   bool isCheckingForPayment = false;
@@ -123,7 +122,11 @@ class _ReservaationDetailsWidgetState extends State<ReservaationDetailsWidget> {
                                       top: height * 0.02, bottom: 5),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(20),
-                                    border: Border.all(color: showErrorGuests ? Colors.red : lightGreyColor),                                    ),
+                                    border: Border.all(
+                                        color: showErrorGuests
+                                            ? Colors.red
+                                            : lightGreyColor),
+                                  ),
                                   child: Row(
                                     children: [
                                       CustomText(
@@ -143,13 +146,6 @@ class _ReservaationDetailsWidgetState extends State<ReservaationDetailsWidget> {
                                               });
                                             }
                                           },
-
-
-
-
-
-
-                                          
                                           child: const Icon(
                                               Icons.horizontal_rule_outlined,
                                               color: darkGrey)),
@@ -611,7 +607,7 @@ class ReservaationDetailsAdventureWidget extends StatefulWidget {
 
   final Color color;
 
-  final SrvicesController serviceController;
+  final HospitalityController serviceController;
   final Hospitality? hospitality;
   final List<DateTime>? avilableDate;
 
@@ -620,34 +616,29 @@ class ReservaationDetailsAdventureWidget extends StatefulWidget {
       _ReservaationDetailsAdventureWidgetState();
 }
 
-class _ReservaationDetailsAdventureWidgetState extends State<ReservaationDetailsAdventureWidget> {
-
-
-@override
+class _ReservaationDetailsAdventureWidgetState
+    extends State<ReservaationDetailsAdventureWidget> {
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
-   
+
     widget.serviceController.isAdventureTimeSelcted(false);
-
-  
   }
-
-
 
   final _formKey = GlobalKey<FormState>();
 
   int selectedChoice = 3;
-    late DateTime time, returnTime, newTimeToGo = DateTime.now();
+  late DateTime time, returnTime, newTimeToGo = DateTime.now();
 
   int guestNum = 0;
   int femaleGuestNum = 0;
   int maleGuestNum = 0;
- bool showErrorGuests = false;
+  bool showErrorGuests = false;
   bool showErrorDate = false;
- bool showErrorTime = false;
+  bool showErrorTime = false;
 
-TextEditingController _controller = TextEditingController();
+  TextEditingController _controller = TextEditingController();
 
   Invoice? invoice;
   bool isCheckingForPayment = false;
@@ -658,7 +649,7 @@ TextEditingController _controller = TextEditingController();
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-     time = DateTime.now();
+    time = DateTime.now();
 
     return GestureDetector(
       onTap: () {
@@ -704,30 +695,29 @@ TextEditingController _controller = TextEditingController();
                                 const SizedBox(
                                   height: 12,
                                 ),
-                                
+
                                 CustomText(
                                   text: "guests2".tr,
                                   color: Colors.black,
                                   fontSize: 17,
                                   fontWeight: FontWeight.w600,
-
                                 ),
-                          //       SizedBox(
-                          //     height: height * 0.02,
-                          // ),
-                          // Container(
- 
-                          //         height: 48,
-                          //         width: 342,
-                          //         padding: const EdgeInsets.only(
-                          //           left: 1,
-                          //           right: 1,
-                          //         ),
-                          //         margin: EdgeInsets.only(
-                          //             top: height * 0.02, bottom: 5),
-                          //         decoration: BoxDecoration(
-                          //           borderRadius: BorderRadius.circular(8)
-                          //           ),
+                                //       SizedBox(
+                                //     height: height * 0.02,
+                                // ),
+                                // Container(
+
+                                //         height: 48,
+                                //         width: 342,
+                                //         padding: const EdgeInsets.only(
+                                //           left: 1,
+                                //           right: 1,
+                                //         ),
+                                //         margin: EdgeInsets.only(
+                                //             top: height * 0.02, bottom: 5),
+                                //         decoration: BoxDecoration(
+                                //           borderRadius: BorderRadius.circular(8)
+                                //           ),
 //                                child: TextFormField(
 //   controller: _controller,
 //   readOnly: true, // Make the text field read-only
@@ -737,7 +727,7 @@ TextEditingController _controller = TextEditingController();
 //     }
 //     return null;
 //   },
-  
+
 //   decoration: InputDecoration(
 //     hintText: "guests2".tr,
 //     errorText:'You need to add at least one guest' , // Initial value
@@ -785,9 +775,8 @@ TextEditingController _controller = TextEditingController();
 //     ),
 //   ),
 // ),
-                          //),
+                                //),
                                 Container(
-                                  
                                   height: 48,
                                   width: 342,
                                   padding: const EdgeInsets.only(
@@ -798,10 +787,12 @@ TextEditingController _controller = TextEditingController();
                                       top: height * 0.02, bottom: 5),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
-                                  border: Border.all(
-                                   color: showErrorGuests ? Colors.red : lightGreyColor,
-                                        ),                                 
-                                         ),
+                                    border: Border.all(
+                                      color: showErrorGuests
+                                          ? Colors.red
+                                          : lightGreyColor,
+                                    ),
+                                  ),
                                   child: Row(
                                     children: [
                                       CustomText(
@@ -810,55 +801,55 @@ TextEditingController _controller = TextEditingController();
                                         color: textGreyColor,
                                       ),
                                       Spacer(),
-GestureDetector(
-  onTap: () {
-    setState(() {
-      if (guestNum > 0) {
-        guestNum = guestNum - 1;
-        maleGuestNum = maleGuestNum - 1;
-      }
-    });
-  },
-  child: const Icon(
-    Icons.horizontal_rule_outlined,
-    color: darkGrey,
-  ),
-),
-const SizedBox(width: 15),
-CustomText(
-  text: maleGuestNum.toString(),
-  color: tileGreyColor,
-  fontSize: 18,
-  fontWeight: FontWeight.w400,
-),
-const SizedBox(width: 15),
-GestureDetector(
-  onTap: () {
-    setState(() {
-      guestNum = guestNum + 1;
-      maleGuestNum = maleGuestNum + 1;
-    });
-  },
-  child: const Icon(
-    Icons.add,
-    color: darkGrey,
-  ),
-),
+                                      GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            if (guestNum > 0) {
+                                              guestNum = guestNum - 1;
+                                              maleGuestNum = maleGuestNum - 1;
+                                            }
+                                          });
+                                        },
+                                        child: const Icon(
+                                          Icons.horizontal_rule_outlined,
+                                          color: darkGrey,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 15),
+                                      CustomText(
+                                        text: maleGuestNum.toString(),
+                                        color: tileGreyColor,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                      const SizedBox(width: 15),
+                                      GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            guestNum = guestNum + 1;
+                                            maleGuestNum = maleGuestNum + 1;
+                                          });
+                                        },
+                                        child: const Icon(
+                                          Icons.add,
+                                          color: darkGrey,
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ),
 
                                 if (showErrorGuests)
-      Padding(
-        padding: const EdgeInsets.only(left: 15),
-        child: Text(
-          'You need to add at least one guest',
-          style: TextStyle(
-            color: Colors.red,
-            fontSize: 12,
-          ),
-        ),
-      ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 15),
+                                    child: Text(
+                                      'You need to add at least one guest',
+                                      style: TextStyle(
+                                        color: Colors.red,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ),
                                 // Container(
                                 //   height: 64,
                                 //   width: 380,
@@ -936,223 +927,216 @@ GestureDetector(
                               height: height * 0.02,
                             ),
                             //date
-      //                       CustomText(
-      //                         text: "date".tr,
-      //                         color: Colors.black,
-      //                         fontSize: 17,
-      //                         fontWeight: FontWeight.w600,
-      //                       ),
-      //                       SizedBox(
-      //                         height: height * 0.02,
-      //                       ),
-      //                       Align(
-      //                         alignment: !AppUtil.rtlDirection2(context)
-      //                             ? Alignment.centerLeft
-      //                             : Alignment.centerRight,
-      //                         child: CustomTextWithIconButton(
-      //                           onTap: () {
-      //                             print("object");
-      //                             setState(() {
-      //                               selectedChoice = 3;
-      //                             });
-      //                             showDialog(
-      //                                 context: context,
-      //                                 builder: (BuildContext context) {
-      //                                   return CalenderDialog(
-      //                                     fromAjwady: false,
-      //                                     type: 'hospitality',
-      //                                     avilableDate: widget.avilableDate,
-      //                                     srvicesController:
-      //                                         widget.serviceController,
-      //                                     hospitality: widget.hospitality,
-      //                                   );
-      //                                 });
-      //                           },
-      //                            height: height * 0.060,
-      //                            width: width * 0.95,
-      //                           title: widget.serviceController
-      //                                   .isHospatilityDateSelcted.value
-      //                               ? widget
-      //                                   .serviceController.selectedDate.value
-      //                                   .toString()
-      //                                   .substring(0, 10)
-      //                               : 'mm/dd/yyy'.tr,
-      //                           borderColor: lightGreyColor,
-      //                           prefixIcon: SvgPicture.asset(
-      //                             'assets/icons/Time (2).svg',
-      //                             //  color: widget.color,
-      //                           ),
-      //                           suffixIcon: const Icon(
-      //                             Icons.arrow_forward_ios,
-      //                             color: almostGrey,
-      //                             size: 15,
-      //                           ),
-      //                           textColor: almostGrey,
-      //                         ),
-      //                       ),
-                            
-      //                           if (showErrorDate)
-      // Padding(
-      //   padding: const EdgeInsets.only(left: 15),
-      //   child: Text(
-      //     'You need to select date',
-      //     style: TextStyle(
-      //       color: Colors.red,
-      //       fontSize: 12,
-      //     ),
-      //   ),
-      // ),
+                            //                       CustomText(
+                            //                         text: "date".tr,
+                            //                         color: Colors.black,
+                            //                         fontSize: 17,
+                            //                         fontWeight: FontWeight.w600,
+                            //                       ),
+                            //                       SizedBox(
+                            //                         height: height * 0.02,
+                            //                       ),
+                            //                       Align(
+                            //                         alignment: !AppUtil.rtlDirection2(context)
+                            //                             ? Alignment.centerLeft
+                            //                             : Alignment.centerRight,
+                            //                         child: CustomTextWithIconButton(
+                            //                           onTap: () {
+                            //                             print("object");
+                            //                             setState(() {
+                            //                               selectedChoice = 3;
+                            //                             });
+                            //                             showDialog(
+                            //                                 context: context,
+                            //                                 builder: (BuildContext context) {
+                            //                                   return CalenderDialog(
+                            //                                     fromAjwady: false,
+                            //                                     type: 'hospitality',
+                            //                                     avilableDate: widget.avilableDate,
+                            //                                     srvicesController:
+                            //                                         widget.serviceController,
+                            //                                     hospitality: widget.hospitality,
+                            //                                   );
+                            //                                 });
+                            //                           },
+                            //                            height: height * 0.060,
+                            //                            width: width * 0.95,
+                            //                           title: widget.serviceController
+                            //                                   .isHospatilityDateSelcted.value
+                            //                               ? widget
+                            //                                   .serviceController.selectedDate.value
+                            //                                   .toString()
+                            //                                   .substring(0, 10)
+                            //                               : 'mm/dd/yyy'.tr,
+                            //                           borderColor: lightGreyColor,
+                            //                           prefixIcon: SvgPicture.asset(
+                            //                             'assets/icons/Time (2).svg',
+                            //                             //  color: widget.color,
+                            //                           ),
+                            //                           suffixIcon: const Icon(
+                            //                             Icons.arrow_forward_ios,
+                            //                             color: almostGrey,
+                            //                             size: 15,
+                            //                           ),
+                            //                           textColor: almostGrey,
+                            //                         ),
+                            //                       ),
 
+                            //                           if (showErrorDate)
+                            // Padding(
+                            //   padding: const EdgeInsets.only(left: 15),
+                            //   child: Text(
+                            //     'You need to select date',
+                            //     style: TextStyle(
+                            //       color: Colors.red,
+                            //       fontSize: 12,
+                            //     ),
+                            //   ),
+                            // ),
 
-                       //time 
-                        //      SizedBox(
-                        //       height: height * 0.02,
-                        //     ),
+                            //time
+                            //      SizedBox(
+                            //       height: height * 0.02,
+                            //     ),
 
-                        //  CustomText(
-                        //     text: "Time",
-                        //     color: Colors.black,
-                        //     fontSize: 17,
-                        //     fontWeight: FontWeight.w600,
-                        //   ),
-                        //   SizedBox(
-                        //     height: height * 0.01,
-                        //   ),
-                        //   Align(
-                        //     alignment: !AppUtil.rtlDirection2(context)
-                        //         ? Alignment.centerLeft
-                        //         : Alignment.centerRight,
-                        //     child: CustomTextWithIconButton(
-                        //       onTap: () {
-                        //         showCupertinoModalPopup<void>(
-                        //             context: context,
-                        //             // barrierColor: Colors.white,
-                        //             barrierDismissible: false,
-                        //             builder: (BuildContext context) {
-                        //               return Column(
-                        //                 mainAxisAlignment:
-                        //                     MainAxisAlignment.end,
-                        //                 children: [
-                        //                   Container(
-                                            
-                        //                     decoration: const BoxDecoration(
-                        //                       color: Color(0xffffffff),
-                        //                       border: Border(
-                        //                         bottom: BorderSide(
-                        //                           //  color: Color(0xff999999),
-                        //                           width: 0.0,
-                        //                         ),
-                        //                       ),
-                        //                     ),
-                        //                     child: Row(
-                        //                       mainAxisAlignment:
-                        //                           MainAxisAlignment
-                        //                               .spaceBetween,
-                        //                       children: <Widget>[
-                        //                         CupertinoButton(
-                        //                           onPressed: () {
-                        //                             widget.serviceController.isAdventureTimeSelcted
-                        //                                 (
-                        //                                     true);
-                        //                             setState(() {
-                        //                               Get.back();
-                        //                               time = newTimeToGo;
-                        //                             });
-                        //                           },
-                        //                           padding: const EdgeInsets
-                        //                               .symmetric(
-                        //                             horizontal: 16.0,
-                        //                             vertical: 5.0,
-                        //                           ),
-                        //                           child: CustomText(
-                        //                             text: "confirm".tr,
-                        //                             color: colorGreen,
-                        //                           ),
-                        //                         )
-                        //                       ],
-                        //                     ),
-                        //                   ),
-                        //                   Container(
-                        //                     height: 220,
-                        //                     width: width,
-                        //                     margin: EdgeInsets.only(
-                        //                       bottom: MediaQuery.of(context)
-                        //                           .viewInsets
-                        //                           .bottom,
-                        //                     ),
-                        //                     child: Container(
-                        //                       width: width,
-                        //                       color: Colors.white,
-                        //                       child: CupertinoDatePicker(
-                        //                         backgroundColor: Colors.white,
-                        //                         initialDateTime: newTimeToGo,
-                        //                         mode: CupertinoDatePickerMode
-                        //                             .time,
-                        //                         use24hFormat: false,
-                        //                         onDateTimeChanged:
-                        //                             (DateTime newT) {
-                        //                           print(DateFormat('HH:mm:ss')
-                        //                               .format(newTimeToGo));
-                        //                           setState(() {
-                        //                             newTimeToGo = newT;
-                        //                             //   print(newTime);
-                        //                           });
-                        //                         },
-                        //                       ),
-                        //                     ),
-                        //                   ),
-                        //                 ],
-                        //               );
-                        //             });
-                        //       },
-                        //       height: height * 0.060,
-                        //          width: width * 0.95,
-                        //       title: !widget.serviceController.isAdventureTimeSelcted
-                        //               .value
-                        //           ? "00 :00 AM"
-                        //           : DateFormat('hh:mm a').format(newTimeToGo),
-                        //       //  test,
-                        //       borderColor: lightGreyColor,
-                        //       prefixIcon: SvgPicture.asset(
-                        //         "assets/icons/time_icon.svg",
-                        //       ),
-                        //       // suffixIcon: Container(),
-                        //        suffixIcon: const Icon(
-                        //           Icons.arrow_forward_ios,
-                        //           color: almostGrey,
-                        //           size: 15,
-                        //         ),
-                        //         textColor: almostGrey,
-                        //     ),
-                        //   ),
-                     
+                            //  CustomText(
+                            //     text: "Time",
+                            //     color: Colors.black,
+                            //     fontSize: 17,
+                            //     fontWeight: FontWeight.w600,
+                            //   ),
+                            //   SizedBox(
+                            //     height: height * 0.01,
+                            //   ),
+                            //   Align(
+                            //     alignment: !AppUtil.rtlDirection2(context)
+                            //         ? Alignment.centerLeft
+                            //         : Alignment.centerRight,
+                            //     child: CustomTextWithIconButton(
+                            //       onTap: () {
+                            //         showCupertinoModalPopup<void>(
+                            //             context: context,
+                            //             // barrierColor: Colors.white,
+                            //             barrierDismissible: false,
+                            //             builder: (BuildContext context) {
+                            //               return Column(
+                            //                 mainAxisAlignment:
+                            //                     MainAxisAlignment.end,
+                            //                 children: [
+                            //                   Container(
 
-      //                           if (showErrorTime)
-      // Padding(
-      //   padding: const EdgeInsets.only(left: 15),
-      //   child: Text(
-      //     'You need to select the time',
-      //     style: TextStyle(
-      //       color: Colors.red,
-      //       fontSize: 12,
-      //     ),
-      //   ),
-      // ),
+                            //                     decoration: const BoxDecoration(
+                            //                       color: Color(0xffffffff),
+                            //                       border: Border(
+                            //                         bottom: BorderSide(
+                            //                           //  color: Color(0xff999999),
+                            //                           width: 0.0,
+                            //                         ),
+                            //                       ),
+                            //                     ),
+                            //                     child: Row(
+                            //                       mainAxisAlignment:
+                            //                           MainAxisAlignment
+                            //                               .spaceBetween,
+                            //                       children: <Widget>[
+                            //                         CupertinoButton(
+                            //                           onPressed: () {
+                            //                             widget.serviceController.isAdventureTimeSelcted
+                            //                                 (
+                            //                                     true);
+                            //                             setState(() {
+                            //                               Get.back();
+                            //                               time = newTimeToGo;
+                            //                             });
+                            //                           },
+                            //                           padding: const EdgeInsets
+                            //                               .symmetric(
+                            //                             horizontal: 16.0,
+                            //                             vertical: 5.0,
+                            //                           ),
+                            //                           child: CustomText(
+                            //                             text: "confirm".tr,
+                            //                             color: colorGreen,
+                            //                           ),
+                            //                         )
+                            //                       ],
+                            //                     ),
+                            //                   ),
+                            //                   Container(
+                            //                     height: 220,
+                            //                     width: width,
+                            //                     margin: EdgeInsets.only(
+                            //                       bottom: MediaQuery.of(context)
+                            //                           .viewInsets
+                            //                           .bottom,
+                            //                     ),
+                            //                     child: Container(
+                            //                       width: width,
+                            //                       color: Colors.white,
+                            //                       child: CupertinoDatePicker(
+                            //                         backgroundColor: Colors.white,
+                            //                         initialDateTime: newTimeToGo,
+                            //                         mode: CupertinoDatePickerMode
+                            //                             .time,
+                            //                         use24hFormat: false,
+                            //                         onDateTimeChanged:
+                            //                             (DateTime newT) {
+                            //                           print(DateFormat('HH:mm:ss')
+                            //                               .format(newTimeToGo));
+                            //                           setState(() {
+                            //                             newTimeToGo = newT;
+                            //                             //   print(newTime);
+                            //                           });
+                            //                         },
+                            //                       ),
+                            //                     ),
+                            //                   ),
+                            //                 ],
+                            //               );
+                            //             });
+                            //       },
+                            //       height: height * 0.060,
+                            //          width: width * 0.95,
+                            //       title: !widget.serviceController.isAdventureTimeSelcted
+                            //               .value
+                            //           ? "00 :00 AM"
+                            //           : DateFormat('hh:mm a').format(newTimeToGo),
+                            //       //  test,
+                            //       borderColor: lightGreyColor,
+                            //       prefixIcon: SvgPicture.asset(
+                            //         "assets/icons/time_icon.svg",
+                            //       ),
+                            //       // suffixIcon: Container(),
+                            //        suffixIcon: const Icon(
+                            //           Icons.arrow_forward_ios,
+                            //           color: almostGrey,
+                            //           size: 15,
+                            //         ),
+                            //         textColor: almostGrey,
+                            //     ),
+                            //   ),
 
-
-
-
+                            //                           if (showErrorTime)
+                            // Padding(
+                            //   padding: const EdgeInsets.only(left: 15),
+                            //   child: Text(
+                            //     'You need to select the time',
+                            //     style: TextStyle(
+                            //       color: Colors.red,
+                            //       fontSize: 12,
+                            //     ),
+                            //   ),
+                            // ),
 
                             SizedBox(
                               height: height * 0.03,
                             ),
-                            if (widget
-                                    .serviceController.selectedDateIndex.value !=
+                            if (widget.serviceController.selectedDateIndex
+                                    .value !=
                                 -1)
-
-                            const SizedBox(
-                              height: 10,
-                            ),
+                              const SizedBox(
+                                height: 10,
+                              ),
                             widget.serviceController.isCheckAndBookLoading
                                         .value ||
                                     paymentController
@@ -1167,13 +1151,12 @@ GestureDetector(
                                         : darkPink,
                                     title: "confirm".tr,
                                     onPressed: () async {
-                                       
-                                        setState(() {
-                                          showErrorGuests = guestNum == 0 ;
-                                          // showErrorGuests = guestNum == 0 && widget.serviceController.isHospatilityDateSelcted.value==true || guestNum == 0 && widget.serviceController.isAdventureTimeSelcted.value==true;
-                                          //  showErrorDate = guestNum == 1 && widget.serviceController.isHospatilityDateSelcted.value==false  || widget.serviceController.isHospatilityDateSelcted.value==false &&  widget.serviceController.isAdventureTimeSelcted.value==true ;
-                                          // showErrorTime = guestNum == 1 && widget.serviceController.isAdventureTimeSelcted.value==false || widget.serviceController.isAdventureTimeSelcted.value==false && widget.serviceController.isHospatilityDateSelcted.value== true;
-                                          });
+                                      setState(() {
+                                        showErrorGuests = guestNum == 0;
+                                        // showErrorGuests = guestNum == 0 && widget.serviceController.isHospatilityDateSelcted.value==true || guestNum == 0 && widget.serviceController.isAdventureTimeSelcted.value==true;
+                                        //  showErrorDate = guestNum == 1 && widget.serviceController.isHospatilityDateSelcted.value==false  || widget.serviceController.isHospatilityDateSelcted.value==false &&  widget.serviceController.isAdventureTimeSelcted.value==true ;
+                                        // showErrorTime = guestNum == 1 && widget.serviceController.isAdventureTimeSelcted.value==false || widget.serviceController.isAdventureTimeSelcted.value==false && widget.serviceController.isHospatilityDateSelcted.value== true;
+                                      });
                                       // if (guestNum == 0 && widget
                                       //             .serviceController
                                       //             .isHospatilityDateSelcted
@@ -1181,12 +1164,10 @@ GestureDetector(
                                       //         ) {
                                       //   AppUtil.errorToast(
                                       //       context, 'Enter all data');
-                                     
-                                     
-                                      // } 
-                                      // else {
-                                        if (guestNum != 0){
 
+                                      // }
+                                      // else {
+                                      if (guestNum != 0) {
                                         final isSuccess = await widget
                                             .serviceController
                                             .checkAndBookHospitality(

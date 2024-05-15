@@ -4,14 +4,20 @@ import 'package:flutter/material.dart';
 
 class ServicesProfileCard extends StatelessWidget {
   const ServicesProfileCard(
-      {super.key, required this.name, required this.image, required this.onTap});
+      {super.key,
+      required this.name,
+      required this.image,
+      required this.onTap});
   final String name;
   final String image;
   final void Function() onTap;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        print("Image");
+        print(image);
+      },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         height: 60,
@@ -29,10 +35,10 @@ class ServicesProfileCard extends StatelessWidget {
         ),
         child: Row(
           children: [
-            image != null
+            image != ""
                 ? CircleAvatar(
                     radius: 25.5,
-                    backgroundImage: NetworkImage(image!),
+                    backgroundImage: NetworkImage(image),
                   )
                 : const CircleAvatar(
                     radius: 25.5,
