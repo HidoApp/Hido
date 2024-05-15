@@ -9,6 +9,7 @@ import 'package:ajwad_v4/request/widgets/NotificationCard.dart';
 import 'package:get/get.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
+import 'package:intl/intl.dart' as intel;
 
 class NotificationScreen extends StatefulWidget {
 NotificationScreen({Key? key, this.hasNotifications = true}) : super(key: key);
@@ -49,9 +50,13 @@ class _NotificationScreenState extends State<NotificationScreen> {
   }
 }
 
-  void getUpcomingBookings() async {
+//notification in day 
+
+
+
+  void getUpcomingBookingsNotification() async {
 if (_upcomingTicket.isEmpty) {
-  print('love');
+  print('love null');
 }
   for (Booking booking in _upcomingTicket ) {
     DateTime bookingDate = DateTime.parse(booking.date);
@@ -89,6 +94,54 @@ if (_upcomingTicket.isEmpty) {
 
    
   }
+  }
+
+
+  void getUpcomingBookings() async {
+if (_upcomingTicket.isEmpty) {
+  print('love null');
+}
+  for (Booking booking in _upcomingTicket ) {
+    DateTime bookingDate = DateTime.parse(booking.date);
+     String combinedTimeString = intel.DateFormat("yyyy-MM-dd").format(bookingDate) + " " + booking.timeToGo;
+     DateTime parsedTime = intel.DateFormat("yyyy-MM-dd HH:mm:ss").parse(combinedTimeString);
+    int daysDifference = parsedTime.difference(DateTime.now()).inHours;
+    print(daysDifference);
+ 
+ print(parsedTime);
+ print(DateTime.now());
+  DateTime bookingDateWithoutTime = DateTime(bookingDate.year, bookingDate.month, bookingDate.day);
+  DateTime todayWithoutTime = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+
+  if (bookingDateWithoutTime == todayWithoutTime) {
+       if (daysDifference == 2) {
+      _upcomingBookings.add(booking);
+      print(_upcomingBookings.length);
+      AppUtil.rtlDirection2(context)? days="بعد ساعتين عند" + booking.timeToGo: days=" is after two hour at"+ booking.timeToGo;
+    }
+       else if(daysDifference == 1){
+        _upcomingBookings.add(booking);
+      print(_upcomingBookings.length);
+      AppUtil.rtlDirection2(context)? days="بعد ساعة عند" + booking.timeToGo: days=" is after one hour at"+ booking.timeToGo;
+       }
+       else if(daysDifference == 0){
+        _upcomingBookings.add(booking);
+      print(_upcomingBookings.length);
+      AppUtil.rtlDirection2(context)? days=" الان عند" + booking.timeToGo: days=" is now at"+ booking.timeToGo;
+       }
+    
+    else{
+      setState(() {
+     widget.hasNotifications=false;
+
+    }); 
+    }
+  }
+    else{
+    widget.hasNotifications=false;
+
+    }
+       }
 
 }
 

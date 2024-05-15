@@ -18,6 +18,8 @@ class CustomChatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+
     return InkWell(
       onTap: () {
         Get.to(() => 
