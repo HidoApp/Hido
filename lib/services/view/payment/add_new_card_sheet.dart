@@ -1,6 +1,6 @@
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/payment/controller/payment_controller.dart';
-import 'package:ajwad_v4/services/controller/serivces_controller.dart';
+import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
@@ -23,7 +23,7 @@ class GeneralAddNewCreditCard extends StatefulWidget {
   }) : super(key: key);
 
   final int total;
-  final SrvicesController srvicesController;
+  final HospitalityController srvicesController;
   final String hospitalityId;
   final String date;
 

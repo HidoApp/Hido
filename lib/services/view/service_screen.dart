@@ -6,7 +6,7 @@ import 'package:ajwad_v4/profile/view/ticket_screen.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/view/messages_screen.dart';
 import 'package:ajwad_v4/request/tourist/view/tourist_chat_screen.dart';
-import 'package:ajwad_v4/services/controller/serivces_controller.dart';
+import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/services/view/tabs/adventures_tab.dart';
 import 'package:ajwad_v4/services/view/tabs/events_tab.dart';
 import 'package:ajwad_v4/services/view/tabs/restaurants_tab.dart';
@@ -34,7 +34,7 @@ class _ServiceScreenState extends State<ServiceScreen>
   late TabController _tabController;
   int _tabIndex = 0;
 
-  final _srvicesController = Get.put(SrvicesController());
+  final _srvicesController = Get.put(HospitalityController());
 
   @override
   void initState() {

@@ -14,7 +14,10 @@ class ServicesProfileCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        print("Image");
+        print(image);
+      },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         height: 60,
@@ -32,10 +35,10 @@ class ServicesProfileCard extends StatelessWidget {
         ),
         child: Row(
           children: [
-            image != null
+            image != ""
                 ? CircleAvatar(
                     radius: 25.5,
-                    backgroundImage: NetworkImage(image!),
+                    backgroundImage: NetworkImage(image),
                   )
                 : const CircleAvatar(
                     radius: 25.5,
