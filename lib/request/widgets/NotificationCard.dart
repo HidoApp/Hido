@@ -4,6 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
+import 'package:get/get.dart';
+
+import '../../profile/controllers/profile_controller.dart';
+import '../../profile/view/ticket_screen.dart';
 
 
 class NotificationCrd extends StatelessWidget {
@@ -30,7 +34,16 @@ class NotificationCrd extends StatelessWidget {
 Widget build(BuildContext context) {
   return isDisabled
         ? SizedBox() // Return an empty SizedBox if disabled
-        : Column(
+        :GestureDetector(
+           onTap: () {
+               ProfileController _profileController =
+               Get.put(ProfileController());
+               Get.to(() => TicketScreen(
+               profileController: _profileController));
+             },
+  
+        
+        child: Column(
     children: [
       const SizedBox(height: 16),
       Padding(
@@ -81,6 +94,7 @@ Widget build(BuildContext context) {
       ),
       // const Divider(),
     ],
+        ),
   );
 }
 

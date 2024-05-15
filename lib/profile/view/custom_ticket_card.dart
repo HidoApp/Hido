@@ -37,24 +37,24 @@ class CustomTicketCard extends StatelessWidget {
           Get.to(() => TicketDetailsScreen(booking: booking));
         }
       : booking.orderStatus == 'PENDING' ? () {
-          // _touristExploreController
-          //     .getPlaceById(
-          //       id:booking!.placeId!,
-          //       context: context,
-          //     )
-          //     .then((place) {
-          //   thePlace = place;
-          //   Get.to(
-          //     () => FindAjwady(
-          //       booking: thePlace!.booking![0],
-          //       place: booking.place!,
-          //       placeId: thePlace!.id!,
-          //     ),);
-          //   //   ?.then((value) {
-          //   //   return getPlaceBooking();
-          //   // });
-          // });
-         Get.to(() => TicketDetailsScreen(booking: booking));
+          _touristExploreController
+              .getPlaceById(
+                id:booking!.placeId!,
+                context: context,
+              )
+              .then((place) {
+            thePlace = place;
+            Get.to(
+              () => FindAjwady(
+                booking: thePlace!.booking![0],
+                place: booking.place!,
+                placeId: thePlace!.id!,
+              ),);
+            //   ?.then((value) {
+            //   return getPlaceBooking();
+            // });
+          });
+        // Get.to(() => TicketDetailsScreen(booking: booking));
 
         }
         :() {

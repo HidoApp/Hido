@@ -115,7 +115,8 @@ static Future init()async{
   @override
   Widget build(BuildContext context) {
    width = MediaQuery.of(context).size.width;
- 
+   print('kjhbgvfcdxszasxdcfvgbhnjklkjnhbgvfcdxsza\zxcfvgbhjmk,l');
+ print(widget.booking?.timeToGo);
     return Scaffold(
       backgroundColor: lightGreyBackground,
        body: Column(
@@ -314,7 +315,7 @@ static Future init()async{
       ),
 
 
-      if (widget.chatId != null && isDetailsTapped3 )
+      if (isDetailsTapped3)
         Container(
           decoration: const BoxDecoration(
             color: Colors.white,
@@ -482,7 +483,7 @@ static Future init()async{
                     //       height: 13,
                     //     ),
 
-                       if(languageSelected)
+                       if(widget.chatId != null && languageSelected)
                         Container(
                           width: width,
                           padding: const EdgeInsets.symmetric(
@@ -675,20 +676,39 @@ static Future init()async{
                 Expanded(
                   child: SingleChildScrollView(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 6),
+                          vertical: 6),
                       child: Column(
                         children: [
                           CheckContainerWidget(
                               offerController: widget.offerController),
+
+                              SizedBox(height: 10),
+                               SizedBox(
+                                  width: 358,
+                                        child: Text(
+                                '*Please note that the prices listed are per person',
+                                           style: TextStyle(
+                                          color: Color(0xFF9392A0),
+                                           fontSize: 12,
+                                           fontFamily: 'SF Pro',
+                                          fontWeight: FontWeight.w400,
+                                                 height: 0,
+                                                  ),
+                                       ),
+                                   ),
+                                                SizedBox(height: 170),
+
                           Container(
                             width: double.infinity,
                             padding: const EdgeInsets.only(
                               top: 15,
                               bottom: 15,
                             ),
+                            
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
+                                
                                 ...List.generate(
                                     10,
                                     (index) => Container(
@@ -703,11 +723,21 @@ static Future init()async{
                                               ),
                                             ),
                                           ),
-                                        ))
+                                        )
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        )
+                                        
                               ],
+                              
                             ),
+                            
                           ),
-                          //  const AvailableContainerWidget(),
+
+                            //  const AvailableContainerWidget(),
                           TotalWidget(
                             offerController: widget.offerController,
                             place: widget.place!,
@@ -840,7 +870,7 @@ static Future init()async{
                                                             ),
                                                           );
                                                         });
-                                               LocalNotification().showNotification(context,widget.booking?.id, widget.booking?.date ,widget.offerController?.offerDetails.value.name ?? "", widget.booking?.place?.nameAr,widget.booking?.place?.nameEn);
+                                              // LocalNotification().showNotification(context,widget.booking?.id, widget.booking?.date ,widget.offerController?.offerDetails.value.name ?? "", widget.booking?.place?.nameAr,widget.booking?.place?.nameEn);
 
                                                   }
                                                 }
@@ -880,7 +910,7 @@ static Future init()async{
                                     //   //  Get.back();
                                     // });
 
-                                    // LocalNotification().showNotification(context,widget.booking?.id, widget.booking?.date ,widget.offerController?.offerDetails.value.name ?? "", widget.booking?.place?.nameAr,widget.booking?.place?.nameEn);
+                                     LocalNotification().showNotification(context,widget.booking?.id, widget.booking?.timeToGo, widget.booking?.date,widget.offerController?.offerDetails.value.name ?? "", widget.booking?.place?.nameAr,widget.booking?.place?.nameEn);
                                   },
                                 )
                         ],
@@ -994,6 +1024,7 @@ static Future init()async{
           ),
         ),
          // Send Button
+         if(widget.chatId != null)
          Container(
                   width: 390,
 height: 90,
