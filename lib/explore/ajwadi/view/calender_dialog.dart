@@ -1,7 +1,7 @@
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/controllers/ajwadi_explore_controller.dart';
 import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
-import 'package:ajwad_v4/services/controller/serivces_controller.dart';
+import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/services/model/hospitality.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +22,7 @@ class CalenderDialog extends StatefulWidget {
   final bool fromAjwady;
   final String type;
   final AjwadiExploreController? ajwadiExploreController;
-  final SrvicesController? srvicesController;
+  final HospitalityController? srvicesController;
   final TouristExploreController? touristExploreController;
   final List<DateTime>? avilableDate;
   final Hospitality? hospitality;

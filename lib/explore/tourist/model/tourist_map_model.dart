@@ -1,11 +1,11 @@
-import 'package:ajwad_v4/adventure/model/adventure.dart';
 import 'package:ajwad_v4/event/model/event.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
+import 'package:ajwad_v4/services/model/adventure.dart';
 
 class TouristMapModel {
-   List<Place>? places;
-   List<Event>? events;
-   List<Adventure>? adventures;
+  List<Place>? places;
+  List<Event>? events;
+  List<Adventure>? adventures;
 
   TouristMapModel({this.places, this.adventures, this.events});
 

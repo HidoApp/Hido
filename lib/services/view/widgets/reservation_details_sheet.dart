@@ -1,6 +1,6 @@
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/calender_dialog.dart';
-import 'package:ajwad_v4/services/controller/serivces_controller.dart';
+import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/services/model/hospitality.dart';
 import 'package:ajwad_v4/services/view/payment/check_out_screen.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
@@ -15,17 +15,16 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:intl/intl.dart';
 
-
 void showReservationDetailsSheet({
   required BuildContext context,
   required Color color,
   required double height,
   required double width,
   Hospitality? hospitality,
-  required SrvicesController serviceController,
+  required HospitalityController serviceController,
   List<DateTime>? avilableDate,
 }) {
- // late DateTime  newTime = DateTime.now();
+  // late DateTime  newTime = DateTime.now();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -138,15 +137,15 @@ void showReservationDetailsSheet({
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                     CustomText(
-                                              text: "time".tr,
-                                              color:  Colors.black,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w700,
-                                            ),
+                                    CustomText(
+                                      text: "time".tr,
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w700,
+                                    ),
                                     // Row(
                                     //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                      
+
                                     //   children: [
                                     //     Column(
                                     //       crossAxisAlignment: CrossAxisAlignment.start,
@@ -157,7 +156,7 @@ void showReservationDetailsSheet({
                                     //           fontSize: 14,
                                     //           fontWeight: FontWeight.w700,
                                     //         ),
-                                    
+
                                     //          CustomText(
                                     //           text: DateFormat('hh:mm a')
                                     //         .format(DateTime.parse(hospitality!
@@ -172,10 +171,9 @@ void showReservationDetailsSheet({
                                     //         ),
                                     //       ],
                                     //     ),
-                                    
+
                                     //  //   Spacer(),
-                                    
-                                    
+
                                     //      Column(
                                     //       crossAxisAlignment: CrossAxisAlignment.start,
                                     //       children: [
@@ -185,7 +183,7 @@ void showReservationDetailsSheet({
                                     //           fontSize: 14,
                                     //           fontWeight: FontWeight.w700,
                                     //         ),
-                                    
+
                                     //          CustomText(
                                     //           text: DateFormat('hh:mm a')
                                     //         .format(DateTime.parse(hospitality!
@@ -202,7 +200,7 @@ void showReservationDetailsSheet({
                                     //     ),
                                     //   ],
                                     // ),
-                                     SizedBox(
+                                    SizedBox(
                                       height: height * 0.01,
                                     ),
                                     Align(
@@ -240,7 +238,7 @@ void showReservationDetailsSheet({
                                                             onPressed: () {
                                                               setState(() {
                                                                 Get.back();
-                                                            //    serviceController.selectedTime.value = newTime.toString();
+                                                                //    serviceController.selectedTime.value = newTime.toString();
                                                               });
                                                             },
                                                             padding:
@@ -266,7 +264,6 @@ void showReservationDetailsSheet({
                                                       ),
                                                       child:
                                                           CupertinoDatePicker(
-                                                            
                                                         backgroundColor:
                                                             Colors.white,
                                                         initialDateTime: DateTime
@@ -276,16 +273,20 @@ void showReservationDetailsSheet({
                                                                         .selectedDateIndex
                                                                         .value]
                                                                 .startTime),
-                                                                minimumDate: DateTime.parse(hospitality
+                                                        minimumDate: DateTime
+                                                            .parse(hospitality
                                                                 .daysInfo[
                                                                     serviceController
                                                                         .selectedDateIndex
-                                                                        .value].startTime),
-                                                                maximumDate:DateTime.parse(hospitality
+                                                                        .value]
+                                                                .startTime),
+                                                        maximumDate: DateTime
+                                                            .parse(hospitality
                                                                 .daysInfo[
                                                                     serviceController
                                                                         .selectedDateIndex
-                                                                        .value].endTime) ,
+                                                                        .value]
+                                                                .endTime),
                                                         // minimumDate: DateTime
                                                         //     .parse(hospitality
                                                         //         .daysInfo[
@@ -306,20 +307,23 @@ void showReservationDetailsSheet({
                                                         use24hFormat: false,
                                                         onDateTimeChanged:
                                                             (DateTime newT) {
-                                                              // print(DateTime.parse(hospitality
-                                                              //   .daysInfo[
-                                                              //       serviceController
-                                                              //           .selectedDateIndex
-                                                              //           .value]
-                                                              //   .startTime));
-                                                        //  setState(() {
-                                                         serviceController.selectedTime ( newT.toString());
-                                                            // print(newT);
+                                                          // print(DateTime.parse(hospitality
+                                                          //   .daysInfo[
+                                                          //       serviceController
+                                                          //           .selectedDateIndex
+                                                          //           .value]
+                                                          //   .startTime));
+                                                          //  setState(() {
+                                                          serviceController
+                                                              .selectedTime(newT
+                                                                  .toString());
+                                                          // print(newT);
                                                           //   print(  serviceController.selectedTime );
-                                                             print('PARSING');
-                                                             print("PARSING ${ DateFormat('hh:mm:ss').format(DateTime.parse( newT.toString())) }");
-                                                            //   print(newTime);
-                                                        //  });
+                                                          print('PARSING');
+                                                          print(
+                                                              "PARSING ${DateFormat('hh:mm:ss').format(DateTime.parse(newT.toString()))}");
+                                                          //   print(newTime);
+                                                          //  });
                                                         },
                                                       ),
                                                     ),
@@ -329,8 +333,13 @@ void showReservationDetailsSheet({
                                         },
                                         height: height * 0.06,
                                         width: width * 0.4,
-                                        title: serviceController.selectedTime.value == "" ? ""  :DateFormat('hh:mm a')
-                                            .format( DateTime.parse(serviceController.selectedTime.value)),
+                                        title: serviceController
+                                                    .selectedTime.value ==
+                                                ""
+                                            ? ""
+                                            : DateFormat('hh:mm a').format(
+                                                DateTime.parse(serviceController
+                                                    .selectedTime.value)),
                                         //  test,
                                         borderColor: lightGreyColor,
                                         prefixIcon: SvgPicture.asset(
@@ -343,9 +352,7 @@ void showReservationDetailsSheet({
                                         textColor: almostGrey,
                                       ),
                                     ),
-                                   
-                                   
-                                   
+
                                     SizedBox(
                                       height: height * 0.02,
                                     ),
@@ -530,7 +537,8 @@ void showReservationDetailsSheet({
                                         height: 6,
                                       ),
                                       CustomText(
-                                        text: (hospitality!.price *guestNum ).toString() +
+                                        text: (hospitality!.price * guestNum)
+                                                .toString() +
                                             ' ' +
                                             'sar'.tr,
                                         fontWeight: FontWeight.w900,
@@ -544,45 +552,55 @@ void showReservationDetailsSheet({
                                     iconColor:
                                         color == purple ? darkPurple : darkPink,
                                     title: "reserve".tr,
-                                    onPressed: ()async {
-
-                                   
-
-
+                                    onPressed: () async {
                                       print(serviceController.selectedTime);
-                                 if(guestNum == 0 || serviceController.isHospatilityDateSelcted.value == false) {
-                                  AppUtil.errorToast(context, 'Enter all data');
-                                 } else {
+                                      if (guestNum == 0 ||
+                                          serviceController
+                                                  .isHospatilityDateSelcted
+                                                  .value ==
+                                              false) {
+                                        AppUtil.errorToast(
+                                            context, 'Enter all data');
+                                      } else {
+                                        final isSuccess = await serviceController
+                                            .checkAndBookHospitality(
+                                                context: context,
+                                                check: false,
+                                                hospitalityId: hospitality.id,
+                                                date: serviceController
+                                                    .selectedDate.value,
+                                                dayId: hospitality
+                                                    .daysInfo[serviceController
+                                                        .selectedDateIndex
+                                                        .value]
+                                                    .id,
+                                                numOfMale: maleGuestNum,
+                                                numOfFemale: femaleGuestNum,
+                                                cost: (hospitality.price *
+                                                    guestNum));
 
-                                  
-                                  
-                               final isSuccess =  await  serviceController.checkAndBookHospitality(
-                                    context: context, 
-                                    check: false, 
-                                    hospitalityId: hospitality.id, 
-                                    date:serviceController.selectedDate.value, 
-                                    dayId: hospitality.daysInfo[serviceController.selectedDateIndex.value].id, 
-                                    numOfMale: maleGuestNum, 
-                                    numOfFemale: femaleGuestNum, 
-                                    cost: ( hospitality.price *guestNum  )
-                                    );
+                                        print("isSuccess : $isSuccess");
 
-                                    print("isSuccess : $isSuccess");
-
-                                    if(isSuccess) {
-                                      Get.to(() => GeneralCheckOutScreen(
-                                        total: hospitality.price *guestNum ,
-                                        serviceController: serviceController,
-                                        hospitalityId: hospitality.id ,
-                                        date: serviceController.selectedDate.value,  
-                                    dayId: hospitality.daysInfo[serviceController.selectedDateIndex.value].id, 
-                                    numOfMale: maleGuestNum, 
-                                    numOfFemale: femaleGuestNum, 
-                              
-                                        ));
-                                     // serviceController.hospitalityPayment(context: context, hospitalityId:  hospitality.id);
-                                    }
-                                 }
+                                        if (isSuccess) {
+                                          Get.to(() => GeneralCheckOutScreen(
+                                                total: hospitality.price *
+                                                    guestNum,
+                                                serviceController:
+                                                    serviceController,
+                                                hospitalityId: hospitality.id,
+                                                date: serviceController
+                                                    .selectedDate.value,
+                                                dayId: hospitality
+                                                    .daysInfo[serviceController
+                                                        .selectedDateIndex
+                                                        .value]
+                                                    .id,
+                                                numOfMale: maleGuestNum,
+                                                numOfFemale: femaleGuestNum,
+                                              ));
+                                          // serviceController.hospitalityPayment(context: context, hospitalityId:  hospitality.id);
+                                        }
+                                      }
                                     },
                                     icon: !AppUtil.rtlDirection(context)
                                         ? const Icon(Icons.arrow_back_ios)
