@@ -27,13 +27,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:intl/intl.dart' ;
+import 'package:intl/intl.dart';
 import 'package:ajwad_v4/request/widgets/CansleDialog.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:ajwad_v4/request/local_notification.dart';
 
 
-
+import 'package:intl/intl.dart' as intel;
 
 class ChatScreenLive extends StatefulWidget {
   // final String senderId;
@@ -42,7 +42,7 @@ class ChatScreenLive extends StatefulWidget {
   final RequestController? requestController;
   final OfferController? offerController;
   final bool isAjwadi;
-  final Booking ?booking;
+  final Booking? booking;
   final Place? place;
   ChatScreenLive({
     super.key,
@@ -59,7 +59,8 @@ class ChatScreenLive extends StatefulWidget {
 }
 
 class _ChatScreenLiveState extends State<ChatScreenLive> {
-static FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  static FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
 
   final TextEditingController messageController = TextEditingController();
   final chatController = Get.put(ChatController());
@@ -67,25 +68,25 @@ static FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = Flutter
 
   final getStorage = GetStorage();
   String? userId;
-    bool isDetailsTapped = false;
+  bool isDetailsTapped = false;
   late double width, height;
 
 
 RxBool isDetailsTapped2 = false.obs;
 bool isDetailsTapped3 = false;
 
+
   PaymentController paymentController = Get.put(PaymentController());
   Invoice? invoice;
-    bool isCheckingForPayment = false;
+  bool isCheckingForPayment = false;
 
-static Future init()async{
-  InitializationSettings settings = InitializationSettings(
-   android: AndroidInitializationSettings("@mipmap/ic_launcher"),
-   iOS: DarwinInitializationSettings()
+  static Future init() async {
+    InitializationSettings settings = InitializationSettings(
+        android: AndroidInitializationSettings("@mipmap/ic_launcher"),
+        iOS: DarwinInitializationSettings());
+    flutterLocalNotificationsPlugin.initialize(settings);
+  }
 
-  );
-  flutterLocalNotificationsPlugin.initialize(settings);
-}
   @override
   void initState() {
     log("\n \n");
@@ -98,6 +99,7 @@ static Future init()async{
     final Token jwtToken = AuthService.jwtForToken(token)!;
     userId = jwtToken.id;
     log(userId ?? "");
+
     super.initState();
   }
 
@@ -492,6 +494,7 @@ static Future init()async{
                     ? widget.chatId == null
                         ? Expanded(
                             child: SingleChildScrollView(
+
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 16, vertical: 6),
                               child: ShowRequestWidget(
@@ -581,54 +584,34 @@ static Future init()async{
 
 
 
+                                      Get.to(() => PaymentWebView(
+                                              url: invoice!.url!,
+                                              title: 'Payment'))
+                                          ?.then((value) async {
+                                        setState(() {
+                                          isCheckingForPayment = true;
+                                        });
 
-                                icon: Icon(Icons.keyboard_arrow_right,color: Colors.white),
-                                  onPressed: () async {
-                                    invoice ??=
-                                        await paymentController.paymentInvoice(
-                                            context: context,
-                                            description: 'Book place',
-                                            amount: (widget.place!.price! *
-                                                    widget
-                                                        .offerController!
-                                                        .offerDetails
-                                                        .value
-                                                        .booking!
-                                                        .guestNumber!) +
-                                                (widget.offerController!
-                                                        .totalPrice.value *
-                                                    widget
-                                                        .offerController!
-                                                        .offerDetails
-                                                        .value
-                                                        .booking!
-                                                        .guestNumber!));
+                                        final checkInvoice =
+                                            await paymentController
+                                                .paymentInvoiceById(
+                                                    context: context,
+                                                    id: invoice!.id);
 
-                                    Get.to(() => PaymentWebView(
-                                        url: invoice!.url!,
-                                        title: 'Payment'))?.then((value) async {
-                                    
-                                       setState(() {
-                                                  isCheckingForPayment = true;
-                                                });
+                                        print("checkInvoice!.invoiceStatus");
+                                        print(checkInvoice!.invoiceStatus);
 
-                                                        final checkInvoice =
-                                                    await paymentController
-                                                        .paymentInvoiceById(
-                                                            context: context,
-                                                            id: invoice!.id);
+                                        if (checkInvoice.invoiceStatus !=
+                                            'faild') {
+                                          setState(() {
+                                            isCheckingForPayment = false;
+                                          });
 
-                                                            print("checkInvoice!.invoiceStatus");
-                                                            print(checkInvoice!.invoiceStatus);
-
-                                                                         if (checkInvoice
-                                                        .invoiceStatus !=
-                                                    'faild') {
-                                                
-                                                  setState(() {
-                                                    isCheckingForPayment =
-                                                        false;
-                                                  });
+                                          if (checkInvoice.invoiceStatus ==
+                                                  'failed' ||
+                                              checkInvoice.invoiceStatus ==
+                                                  'initiated') {
+                                            //  Get.back();
 
                                                   if (checkInvoice
                                                               .invoiceStatus ==
@@ -729,11 +712,11 @@ static Future init()async{
                                     //           offerId: widget.offerController!
                                     //               .offerDetails.value.id!);
 
-                                    //   widget.chatId = widget.offerController!
-                                    //       .offerDetails.value.booking!.chatId;
+                                      //   widget.chatId = widget.offerController!
+                                      //       .offerDetails.value.booking!.chatId;
 
-                                    //   //  Get.back();
-                                    // });
+                                      //   //  Get.back();
+                                      // });
 
                                     //LocalNotification().showNotification(context,widget.booking?.id, widget.booking?.date ,widget.offerController?.offerDetails.value.name ?? "", widget.booking?.place?.nameAr,widget.booking?.place?.nameEn);
                                   },
@@ -741,13 +724,13 @@ static Future init()async{
                         ],
                       )
 
-                      // ShowOfferWidget(
-                      //   offerController: widget.offerController!,
-                      //   place: widget.place!,
-                      // ),
-                      ),
-                ),
-              ],
+                        // ShowOfferWidget(
+                        //   offerController: widget.offerController!,
+                        //   place: widget.place!,
+                        // ),
+                        ),
+                  ),
+                ],
 
               // if (widget.chatId != null) ...[
               //   //? ==========  Chat List View  ==========
@@ -910,6 +893,7 @@ static Future init()async{
             ],
           ),
         ),
+
       ),
     );
   }

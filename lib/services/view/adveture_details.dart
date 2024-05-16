@@ -1,5 +1,7 @@
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/explore/tourist/view/share_sheet.dart';
+import 'package:ajwad_v4/request/tourist/view/local_offer_info.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
 
@@ -87,23 +89,20 @@ class _AdventureDetailsState extends State<AdventureDetails> {
     return Obx(
       () => _adventureController.isAdventureByIdLoading.value
           ? const Scaffold(
-              backgroundColor: Color.fromARGB(255, 255, 255, 255),
+              backgroundColor: Colors.white,
               extendBodyBehindAppBar: true,
+              appBar: CustomAppBar(""),
               body: Center(
-                child: CircularProgressIndicator(
-                  color: purple,
-                ),
+                child: CircularProgressIndicator(),
               ),
             )
           : Scaffold(
               bottomNavigationBar: SizedBox(
                 child: Padding(
                   padding: const EdgeInsets.only(top: 10),
-                  // child: BottomBookingWidgetAdventure(
-                  //   hospitalityObj: hospitalityObj!,
-                  //   servicesController: _servicesController,
-                  //   avilableDate: avilableDate,
-                  // ),
+                  child: BottomBookingWidgetAdventure(
+                    adventure: adventure!,
+                  ),
                 ),
               ),
               backgroundColor: Colors.white,
@@ -220,28 +219,6 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                               // ),
                             ],
                           ),
-                          // const SizedBox(
-                          //   height: 10,
-                          // ),
-                          // Row(
-                          //   children: [
-                          //     SvgPicture.asset(
-                          //       "assets/icons/meal_icon.svg",
-                          //       color: colorDarkGrey,
-                          //     ),
-                          //     const SizedBox(
-                          //       width: 5,
-                          //     ),
-                          //     CustomText(
-                          //       text: AppUtil.rtlDirection(context)
-                          //           ? hospitalityObj!.mealTypeEn
-                          //           : hospitalityObj!.mealTypeAr,
-                          //       color: colorDarkGrey,
-                          //       fontSize: 15,
-                          //       fontWeight: FontWeight.w300,
-                          //     ),
-                          //   ],
-                          // ),
                           const SizedBox(
                             height: 10,
                           ),
@@ -369,21 +346,6 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                   },
                                 ),
                               ),
-                              // if (hospitalityObj!.booking!.isEmpty)
-                              //   Container(
-                              //     height: height * 0.2,
-                              //     width: width * 0.9,
-                              //     color: textGreyColor.withOpacity(0.7),
-                              //     child: Center(
-                              //       child: CustomText(
-                              //         text:
-                              //             'locationWillBeAvailableAfterBooking'
-                              //                 .tr,
-                              //         color: Colors.white,
-                              //         fontWeight: FontWeight.w300,
-                              //       ),
-                              //     ),
-                              //   ),
                             ],
                           ),
                           const SizedBox(
@@ -477,7 +439,20 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                     left: width * 0.1,
                     // local profile
                     child: ServicesProfileCard(
-                      onTap: () {},
+                      onTap: () {
+                        Get.to(
+                          () => LocalOfferInfo(
+                              fromService: true,
+                              image: "",
+                              name: "Abdllah alqurashi",
+                              price: 400,
+                              rating: 5,
+                              tripNumber: 4,
+                              place: Place(),
+                              profileId:
+                                  "447aad72-25f2-4f90-85fd-51743cf8c9ed"),
+                        );
+                      },
                       image: adventure!.user!.profileImage ?? '',
                       name: adventure!.user!.name!,
                     )),
