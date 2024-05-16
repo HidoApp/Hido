@@ -697,6 +697,8 @@ static Future init()async{
                                                             ),
                                                           );
                                                         });
+                                                       // LocalNotification().showNotification(context,widget.booking?.id, widget.booking?.date ,widget.offerController?.offerDetails.value.name ?? "", widget.booking?.place?.nameAr,widget.booking?.place?.nameEn);
+
                                                   }
                                                 }
                                     });
