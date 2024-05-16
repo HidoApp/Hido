@@ -74,6 +74,7 @@ class _CheckContainerWidgetState extends State<CheckContainerWidget> {
                     fontWeight: FontWeight.w500,
                   ),
                 )
+                
               ],
             ),
             const SizedBox(
@@ -90,7 +91,22 @@ class _CheckContainerWidgetState extends State<CheckContainerWidget> {
               ),
             ),
             const SizedBox(
-              height: 8,
+              height: 10,
+            ),
+            Container(
+         width: 318,
+      decoration: ShapeDecoration(
+        shape: RoundedRectangleBorder(
+     side: BorderSide(
+        width: 1,
+           strokeAlign: BorderSide.strokeAlignCenter,
+           color: Color(0xFFDCDCE0),
+        ),
+          ),
+        ),
+),
+            const SizedBox(
+              height: 28,
             ),
             Obx(
               () => Column(
@@ -137,30 +153,32 @@ class _CustomCheckWidget extends StatelessWidget {
   });
 
   TextStyle titleStyle = const TextStyle(
-    color: colorDarkGrey,
-    fontSize: 14,
-    fontFamily: 'HT Rakik',
-    fontWeight: FontWeight.w300,
+    color: Color(0xFF070708),
+    fontSize: 15,
+    fontFamily: 'SF Pro',
+    fontWeight: FontWeight.w600,
   );
   TextStyle titleBold = const TextStyle(
-    color: darkBlue,
-    fontSize: 14,
-    fontFamily: 'HT Rakik',
-    fontWeight: FontWeight.w500,
+    color: Color(0xFF070708),
+    fontSize: 15,
+    fontFamily: 'SF Pro',
+    fontWeight: FontWeight.w600,
   );
 
   TextStyle priceBold = const TextStyle(
-    color: Colors.black,
-    fontSize: 12,
-    fontFamily: 'HT Rakik',
-    fontWeight: FontWeight.w500,
+    color: Color(0xFF37B268),
+    fontSize: 13,
+    fontFamily: 'SF Pro',
+    fontWeight: FontWeight.w600,
+    height: 0,
   );
 
   TextStyle priceStyle = const TextStyle(
-    color: darkBlue,
-    fontSize: 12,
-    fontFamily: 'HT Rakik',
-    fontWeight: FontWeight.w300,
+    color: Color(0xFF37B268),
+    fontSize: 13,
+    fontFamily: 'SF Pro',
+    fontWeight: FontWeight.w600,
+    height: 0,
   );
 
   String convertTo12HourFormat(String time) {
@@ -195,35 +213,37 @@ class _CustomCheckWidget extends StatelessWidget {
                   const SizedBox(
                     width: 22,
                   ),
-                  Text.rich(
-                    TextSpan(
-                      children: [
-                        TextSpan(
-                          text: '${schedule?.price ?? 0}\n',
-                          style: isBold ? priceBold : priceStyle,
-                        ),
-                        const TextSpan(
-                          text: 'للشخص',
-                          style: TextStyle(
-                            color: colorDarkGrey,
-                            fontSize: 8,
-                            fontFamily: 'HT Rakik',
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    ),
-                    textAlign: TextAlign.right,
-                  ),
-                  const SizedBox(
-                    width: 22,
-                  ),
+                  // Text.rich(
+                  //   TextSpan(
+                  //     children: [
+                  //       TextSpan(
+                  //         text: '${schedule?.price ?? 0}\n',
+                  //         style: isBold ? priceBold : priceStyle,
+                  //       ),
+                  //       const TextSpan(
+                  //         text: 'للشخص',
+                  //         style: TextStyle(
+                  //           color: colorDarkGrey,
+                  //           fontSize: 8,
+                  //           fontFamily: 'HT Rakik',
+                  //           fontWeight: FontWeight.w500,
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  //   textAlign: TextAlign.right,
+                  // ),
+                  // const SizedBox(
+                  //   width: 22,
+                  // ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         schedule?.scheduleName ?? '',
-                        style: isBold ? titleBold : titleStyle,
+                       style: isBold ? titleBold : titleStyle,
+
+
                       ),
                       const SizedBox(
                         height: 1,
@@ -236,33 +256,64 @@ class _CustomCheckWidget extends StatelessWidget {
                                   schedule?.scheduleTime!['from']),
                               style: const TextStyle(
                                 color: Color(0xFF676767),
-                                fontSize: 10,
-                                fontFamily: 'HT Rakik',
-                                fontWeight: FontWeight.w300,
+                                fontSize: 13,
+                                fontFamily: 'SF Pro',
+                                fontWeight: FontWeight.w400,
                               ),
+                              
                             ),
                             const Text(
                               " - ",
                               style: TextStyle(
                                 color: Color(0xFF676767),
-                                fontSize: 10,
-                                fontFamily: 'HT Rakik',
-                                fontWeight: FontWeight.w300,
+                                fontSize: 13,
+                                fontFamily: 'SF Pro',
+                                fontWeight: FontWeight.w400,
                               ),
                             ),
                             Text(
                               "${convertTo12HourFormat(schedule?.scheduleTime!['to'])} ",
                               style: const TextStyle(
                                 color: Color(0xFF676767),
-                                fontSize: 10,
-                                fontFamily: 'HT Rakik',
-                                fontWeight: FontWeight.w300,
+                                fontSize: 13,
+                                fontFamily: 'SF Pro',
+                                fontWeight: FontWeight.w400,
                               ),
                             ),
                           ],
                         )
                     ],
-                  )
+                  ),
+                  Spacer(),
+                   Row(
+                //     mainAxisAlignment: MainAxisAlignment.end,
+                // crossAxisAlignment: CrossAxisAlignment.end,
+                  children:[
+                     Text.rich(
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                          text: '${schedule?.price ?? 0} SAR ',
+                          style: isBold ? priceBold : priceStyle,
+                        ),
+                        // const TextSpan(
+                        //   text: 'للشخص',
+                        //   style: TextStyle(
+                        //     color: colorDarkGrey,
+                        //     fontSize: 8,
+                        //     fontFamily: 'HT Rakik',
+                        //     fontWeight: FontWeight.w500,
+                        //   ),
+                        // ),
+                      ],
+                    ),
+                    textAlign: TextAlign.right,
+                  ),
+                  ],
+                  ),
+                  // const SizedBox(
+                  //   width: 22,
+                  // ),
                 ]),
           ),
           if (!isLast)

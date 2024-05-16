@@ -12,7 +12,7 @@ class ChatModel {
   LocalInChat? localInChat;
   TouristInChat? touristInChat;
   Booking? booking;
-
+  String? bookingId;
 
   ChatModel(
       {this.id,
@@ -35,6 +35,8 @@ class ChatModel {
     language = json['language'];
     localId = json['localId'];
     touristId = json['touristId'];
+    bookingId = json['bookingId'];
+
     if (json['messages'] != null) {
       messages = <ChatMessage>[];
       json['messages'].forEach((v) {

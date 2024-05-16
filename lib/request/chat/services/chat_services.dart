@@ -96,7 +96,8 @@ class ChatService {
       var chat = jsonDecode(response.body);
       log("chat \n $chat");
       ChatModel chatModel = ChatModel.fromJson(chat);
-      // log(chatModel.messages![0].toString());
+      log('this is booking by id');
+      log(chatModel.bookingId!);
       return chatModel;
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
