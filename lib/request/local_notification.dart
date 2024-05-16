@@ -1,5 +1,6 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:intl/intl.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
@@ -65,31 +66,54 @@ print(twoDaysBefore);
 }
 
 
-void checkBooking2(String? bookdate) {
-DateTime currentTime = DateTime.now();
-DateTime bookingDate = DateTime.parse(bookdate!);
+void checkBooking2(String? timeToGo,String? Date) {
 
- twoHoursBefore = bookingDate.subtract(Duration(hours: 2));
+// Parse the booking date and time
+  DateTime bookingDate = DateTime.parse(Date!);
+  String combinedTimeString = DateFormat("yyyy-MM-dd").format(bookingDate) + " " + timeToGo!;
+  DateTime parsedTime = DateFormat("yyyy-MM-dd HH:mm:ss").parse(combinedTimeString);
+print(parsedTime);
+  // Calculate two hours before the booking time
+   DateTime reminderTime = parsedTime.subtract(Duration(hours: 2));
 
-//  DateTime twoHoursBeforeWithoutDate = DateTime(0, 0, 0, twoHoursBefore.hour, twoHoursBefore.minute, twoHoursBefore.second);
-//  DateTime currentTimeWithoutDate =  DateTime(0, 0, 0, DateTime.now().hour, DateTime.now().minute, DateTime.now().second);
-   // Check if two hours before is before the current time on the same date
-  if (twoHoursBefore.day == currentTime.day) {
-    int hourDifference = currentTime.hour - twoHoursBefore.hour;
-    if (hourDifference == 1) {
-      twoHoursBefore = bookingDate.subtract(Duration(hours: 1));
-      time='one hour';
-    } else if (hourDifference > 1) {
-      // Set text to 'now'
-      twoHoursBefore = currentTime;
-      time='now';
-    }
-    else{
-      time='two hours';
+print(reminderTime);
 
-    }
+  // Get the current time
+  DateTime currentTime = DateTime.now();
+  DateTime newTime = DateTime(currentTime.year, currentTime.month, currentTime.day, currentTime.hour, 0, 0, 0);
+
+
+DateTime BookDateWithoutTime = DateTime(parsedTime.year, parsedTime.month, parsedTime.day);
+DateTime currentDateeWithoutTime = DateTime(currentTime.year, currentTime.month, currentTime.day);
+
+print(currentTime);
+  // Calculate the difference in hours between the current time and the booking time
+  int hoursDifference = reminderTime.difference(newTime).inHours;
+
+print('dev');
+print(hoursDifference);
+  // Set the reminder message based on the current time and the booking time
+
+  if(BookDateWithoutTime==currentDateeWithoutTime){
+
+    if (hoursDifference == -1) {
+    time = "1 hour ";
+    twoHoursBefore = DateTime.now();
+  } else if (hoursDifference == 0) {
+     twoHoursBefore=DateTime.now();
+    time = "now";
+  } else {
+    time = "2 hours";
+    twoHoursBefore=reminderTime;
   }
+
+  
 }
+else{
+    twoHoursBefore=reminderTime;
+}
+}
+
   
 
   
@@ -139,8 +163,8 @@ static Future init()async{
  
 // }
 
-void showNotification(BuildContext context, String? id , String? date ,  String? name, String? placeeEn,String? placeeAr) async {
-checkBooking2(date);
+void showNotification(BuildContext context, String? id , String? timeToGo, String? Date , String? name, String? placeeEn,String? placeeAr) async {
+checkBooking2(timeToGo,Date);
 // checkBooking(date);
 
 //DateTime notificationTime = DateTime(twoDaysBefore.year, twoDaysBefore.month, twoDaysBefore.day, 21, 00, 3);
@@ -148,6 +172,8 @@ DateTime notificationTime =  twoHoursBefore;
 DateTime increasedTime = notificationTime.add(Duration(hours: 3));
 
 
+print('note info');
+print( tz.TZDateTime.from(increasedTime,tz.local));
 print(notificationTime);
 print(placeeAr);
 print(placeeEn);
@@ -158,7 +184,6 @@ print(id);
   String ids= id ??"0 ";
 
   String placeName = AppUtil.rtlDirection2(context) ? placeeAr ?? '' : placeeEn ?? '';
-print(placeeEn);
 
 
  AndroidNotificationDetails android =AndroidNotificationDetails(
