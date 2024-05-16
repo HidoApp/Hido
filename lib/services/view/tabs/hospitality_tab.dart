@@ -87,9 +87,7 @@ class _HospitalityTabState extends State<HospitalityTab> {
                           height: height * 0.4,
                           width: width,
                           child: const Center(
-                            child: CircularProgressIndicator(
-                              color: purple,
-                            ),
+                            child: CircularProgressIndicator(),
                           ),
                         )
                       //List of hospitalities

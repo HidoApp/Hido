@@ -22,6 +22,7 @@ import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 import 'package:flutter/services.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text_area.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -324,7 +325,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
     _googleMapController = await _controller.future;
     CameraPosition newCameraPosition = CameraPosition(
       target: LatLng(latitude, longitude),
-      zoom: 18,
+      zoom: 10,
     );
     _googleMapController
         .animateCamera(CameraUpdate.newCameraPosition(newCameraPosition));
@@ -473,7 +474,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
               myLocationButtonEnabled: false,
               initialCameraPosition: CameraPosition(
                 target: _currentLocation,
-                zoom: 18,
+                zoom: 10,
               ),
               markers: _markers,
               mapType: MapType.normal,
@@ -570,20 +571,20 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  InkWell(
+                                  GestureDetector(
                                     onTap: () {
-                                      ProfileController _profileController =
-                                          Get.put(ProfileController());
-                                      Get.to(() => AppUtil.isGuest()
-                                          ? const SignInScreen()
-                                          : MessagesScreen(
-                                              profileController:
-                                                  _profileController));
+                                      // ProfileController _profileController =
+                                      //     Get.put(ProfileController());
+                                      // Get.to(() => AppUtil.isGuest()
+                                      //     ? const SignInScreen()
+                                      //     : MessagesScreen(
+                                      //         profileController:
+                                      //             _profileController));
                                     },
                                     child: SvgPicture.asset(
                                         'assets/icons/Communication.svg'),
                                   ),
-                                  InkWell(
+                                  GestureDetector(
                                       onTap: () => Get.to(() =>
                                           AppUtil.isGuest()
                                               ? const SignInScreen()
@@ -597,18 +598,18 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                           ],
                         )
                         //chats
-                        ,
-                        Container(
-                          width: 36,
-                          height: 36,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: colorGreen,
-                          ),
-                          alignment: Alignment.center,
-                          child: SvgPicture.asset(
-                              'assets/icons/notifications.svg'),
-                        ),
+                        // ,
+                        // Container(
+                        //   width: 36,
+                        //   height: 36,
+                        //   decoration: const BoxDecoration(
+                        //     shape: BoxShape.circle,
+                        //     color: colorGreen,
+                        //   ),
+                        //   alignment: Alignment.center,
+                        //   child: SvgPicture.asset(
+                        //       'assets/icons/notifications.svg'),
+                        // ),
                       ],
                     ),
                   ),

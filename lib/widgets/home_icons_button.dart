@@ -8,11 +8,20 @@ class HomeIconButton extends StatelessWidget {
   final String icon;
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
       onTap: onTap,
       child: Container(
         width: 36,
         height: 36,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Colors.white.withOpacity(0.6),
+              Colors.white.withOpacity(0.1)
+            ],
+          ),
+          shape: BoxShape.circle,
+        ),
         alignment: Alignment.center,
         child: SvgPicture.asset(icon),
       ),
