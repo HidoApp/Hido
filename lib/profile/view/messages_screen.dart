@@ -92,6 +92,10 @@ OfferController offerController = Get.put(OfferController());
                         itemBuilder: (context, index) {
                          return CustomChatCard(
                           chatModel:  widget.profileController.chatList[index],
+                          // chatId2: offerController
+                          //           .offerDetails.value.booking!.chatId!,
+                          // booking2: offerController
+                          //             .offerDetails.value.booking!,
                          );
                         }),
                   ],

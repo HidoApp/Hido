@@ -21,6 +21,11 @@ import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+
+import '../../chat/controllers/chat_controller.dart';
+import '../../chat/model/chat_model.dart';
+import '../../chat/view/chat_screen.dart';
 
 class LocalOfferInfo extends StatefulWidget {
   const LocalOfferInfo(
@@ -48,6 +53,10 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
   late double width, height;
   final _offerController = Get.put(OfferController());
   final _profileController = Get.put(ProfileController());
+    final chatController = Get.put(ChatController());
+ late ChatMessage? message;
+     final getStorage = GetStorage();
+
   late Profile? profile;
   void getProfile() async {
     await _profileController.getProfile(
@@ -60,6 +69,7 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
 
     super.initState();
     getProfile();
+
   }
 
   @override
@@ -67,7 +77,8 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
     return DefaultTabController(
-      //animationDuration: Durations.long1,
+      //animationDuration: Durations.long1
+      //,
       length: widget.fromService ? 2 : 3,
       child: Scaffold(
         appBar: CustomAppBar(""),
@@ -146,17 +157,28 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
                         'ACCEPTED') {
                       return CustomAcceptButton(
                         onPressed: () {
-                          Get.to(() => ChatScreenLive(
-                                isAjwadi: false,
-                                offerController: _offerController,
-                                booking: _offerController
-                                    .offerDetails.value.booking!,
+                          // Get.to(() => ChatScreenLive(
+                          //       isAjwadi: false,
+                          //       offerController: _offerController,
+                          //       booking: _offerController
+                          //           .offerDetails.value.booking!,
+                          //       chatId: _offerController
+                          //           .offerDetails.value.booking!.chatId!,
+                          //       place: widget.place,
+                          //     ));
+                          //  String userId = getStorage.read('userId');
+
+
+                          Get.to(() => ChatScreen(
                                 chatId: _offerController
                                     .offerDetails.value.booking!.chatId!,
-                                place: widget.place,
+                                 booking: _offerController
+                                      .offerDetails.value.booking!,
+
                               ));
-                          // }
-                        },
+
+                              
+                          },
                         title: 'chat'.tr,
                         icon: 'chat',
                       );

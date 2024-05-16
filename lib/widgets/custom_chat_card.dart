@@ -3,6 +3,7 @@ import 'package:ajwad_v4/request/ajwadi/controllers/request_controller.dart';
 import 'package:ajwad_v4/request/chat/model/chat_model.dart';
 import 'package:ajwad_v4/request/chat/view/chat_screen_live.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
+import 'package:ajwad_v4/request/tourist/models/offer_details.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -11,26 +12,33 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:ajwad_v4/request/tourist/view/tourist_chat_screen.dart';
 
+import '../request/chat/view/chat_screen.dart';
+
 class CustomChatCard extends StatelessWidget {
   final ChatModel chatModel;
+  final Booking ?booking2;
+   String ?chatId2;
 
-  const CustomChatCard({super.key, required this.chatModel});
+  CustomChatCard({super.key, required this.chatModel,this.booking2,this.chatId2});
 
   @override
   Widget build(BuildContext context) {
 
-
     return InkWell(
-      onTap: () {
+      onTap: () async{
+
         Get.to(() => 
         
-        ChatScreenLive(
-          offerController: Get.put(OfferController()),
-            chatId: chatModel.id,
-            booking: chatModel.booking!,
-            requestController: Get.put(RequestController()),
-            isAjwadi: chatModel.localInChat == null ? true : false)
+        // ChatScreenLive(
+        //   offerController: Get.put(OfferController()),
+        //     chatId: chatModel.id,
+        //     booking: chatModel.booking!,
+        //     requestController: Get.put(RequestController()),
+        //     isAjwadi: chatModel.localInChat == null ? true : false)
             
+         ChatScreen(
+           chatId: chatModel.id,
+           booking: Get.put(OfferController()).offerDetails.value.booking??null)
             
             );
       },
