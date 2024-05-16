@@ -27,15 +27,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:intl/intl.dart' ;
+import 'package:intl/intl.dart';
 import 'package:ajwad_v4/request/widgets/CansleDialog.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:ajwad_v4/request/local_notification.dart';
 
 import 'package:intl/intl.dart' as intel;
-
-
-
 
 class ChatScreenLive extends StatefulWidget {
   // final String senderId;
@@ -44,7 +41,7 @@ class ChatScreenLive extends StatefulWidget {
   final RequestController? requestController;
   final OfferController? offerController;
   final bool isAjwadi;
-  final Booking ?booking;
+  final Booking? booking;
   final Place? place;
   ChatScreenLive({
     super.key,
@@ -61,7 +58,8 @@ class ChatScreenLive extends StatefulWidget {
 }
 
 class _ChatScreenLiveState extends State<ChatScreenLive> {
-static FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  static FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
 
   final TextEditingController messageController = TextEditingController();
   final chatController = Get.put(ChatController());
@@ -69,32 +67,30 @@ static FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = Flutter
 
   final getStorage = GetStorage();
   String? userId;
-    bool isDetailsTapped = false;
+  bool isDetailsTapped = false;
   late double width, height;
 
   bool isDetailsTapped1 = false;
-bool isDetailsTapped3 = false;
+  bool isDetailsTapped3 = false;
 
   late bool isArabicSelected;
   int startIndex = -1;
   bool isSendTapped = false;
-static bool languageSelected = false;
+  static bool languageSelected = false;
 
- 
-RxBool isDetailsTapped2 = false.obs;
+  RxBool isDetailsTapped2 = false.obs;
 
   PaymentController paymentController = Get.put(PaymentController());
   Invoice? invoice;
-    bool isCheckingForPayment = false;
+  bool isCheckingForPayment = false;
 
-static Future init()async{
-  InitializationSettings settings = InitializationSettings(
-   android: AndroidInitializationSettings("@mipmap/ic_launcher"),
-   iOS: DarwinInitializationSettings()
+  static Future init() async {
+    InitializationSettings settings = InitializationSettings(
+        android: AndroidInitializationSettings("@mipmap/ic_launcher"),
+        iOS: DarwinInitializationSettings());
+    flutterLocalNotificationsPlugin.initialize(settings);
+  }
 
-  );
-  flutterLocalNotificationsPlugin.initialize(settings);
-}
   @override
   void initState() {
     log("\n \n");
@@ -107,396 +103,397 @@ static Future init()async{
     final Token jwtToken = AuthService.jwtForToken(token)!;
     userId = jwtToken.id;
     log(userId ?? "");
-        isArabicSelected = AppUtil.rtlDirection(context);
+    isArabicSelected = AppUtil.rtlDirection(context);
 
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-   width = MediaQuery.of(context).size.width;
-   print('kjhbgvfcdxszasxdcfvgbhnjklkjnhbgvfcdxsza\zxcfvgbhjmk,l');
- print(widget.booking?.timeToGo);
+    width = MediaQuery.of(context).size.width;
+    print('kjhbgvfcdxszasxdcfvgbhnjklkjnhbgvfcdxsza\zxcfvgbhjmk,l');
+    print(widget.booking?.timeToGo);
     return Scaffold(
       backgroundColor: lightGreyBackground,
-       body: Column(
-    children: [
-      SafeArea(
-        
+      body: Column(
+        children: [
+          SafeArea(
             child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            InkWell(
-              onTap: () {
-                Get.back();
-              },
-
-            child: Padding(
-              padding: AppUtil.rtlDirection2(context)? const EdgeInsets.only(left:20):const EdgeInsets.only(left:20),
-                child: AppUtil.rtlDirection2(context)
-                    ? const Icon(
-                        Icons.keyboard_arrow_right,
-                        color: black,
-                        size: 30,
-                      )
-                    : const Icon(
-                        Icons.keyboard_arrow_left_outlined,
-                        color: black,
-                        size: 30,
-                      ),
-             ),
-            ),
-           const SizedBox(width:100),
-
-           Padding(
-              padding: const EdgeInsets.only(left:10),
-              
-           child: widget.chatId != null
-            ? Text(
-              'chat'.tr,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w500,
-                
-                
-              ),
-            ):Text(
-              'showOffer'.tr,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w500,
-                
-                
-              ),
-            ),
-            ),
-          ],
-        ),
-      ),
-                      const SizedBox(height: 32),
-
-  Expanded(
-        child: ListView(
-      padding: const EdgeInsets.only(left:16,right:16,top:12,bottom: 12),
-      children: [
-               
-             Column(
-                children: [
-    Container(
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(12)),
-        ),
-        child: ListTile(
-          onTap: () {
-            setState(() {
-              isDetailsTapped1 = !isDetailsTapped1;
-            });
-          },
-          title: CustomText(
-            text: 'tripDetails'.tr,
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            color: Colors.black,
-            textAlign: AppUtil.rtlDirection2(context)
-                ? TextAlign.right
-                : TextAlign.left,
-          ),
-          trailing: Icon(
-            isDetailsTapped1
-                ? Icons.keyboard_arrow_up
-                : Icons.keyboard_arrow_down,
-            color: darkGrey,
-            size: 24,
-          ),
-        ),
-      ),
-
-      if (isDetailsTapped1)
-        Container(
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(12)),
-          ),
-          padding: EdgeInsets.only(top: 20),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    SvgPicture.asset('assets/icons/guests.svg'),
-                    const SizedBox(width: 10),
-                    CustomText(
-                      text: '${widget.booking?.guestNumber ?? 0} ${'guests'.tr}',
-                      color: almostGrey,
-                      fontSize: 10,
-                      fontWeight: FontWeight.w300,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  children: [
-                    SvgPicture.asset('assets/icons/date.svg'),
-                    const SizedBox(width: 10),
-                    CustomText(
-                      text: '${intel.DateFormat('dd/MM/yyyy').format(DateTime.parse(widget.booking?.date ?? '2022-01-01'))} - ${widget.booking?.timeToGo}',
-                      color: almostGrey,
-                      fontSize: 10,
-                      fontWeight: FontWeight.w300,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  children: [
-                    SvgPicture.asset(
-                      'assets/icons/unselected_${widget.booking?.vehicleType!}_icon.svg',
-                      width: 20,
-                    ),
-                    const SizedBox(width: 10),
-                    CustomText(
-                      text: widget.booking?.vehicleType ?? '',
-                      color: almostGrey,
-                      fontSize: 10,
-                      fontWeight: FontWeight.w300,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-
-      const SizedBox(
-        height: 13,
-      ),
-
-      Container(
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(12)),
-        ),
-        child: ListTile(
-          onTap: () {
-            setState(() {
-              isDetailsTapped3 = !isDetailsTapped3;
-            });
-          },
-          title: Row(
-            children: [
-              const CircleAvatar(
-                backgroundImage: AssetImage('assets/images/ajwadi_image.png'),
-              ),
-              const SizedBox(width: 12),
-              CustomText(
-                text: AppUtil.rtlDirection2(context) ? 'محمد علي' : 'Mohamed Ali',
-                fontSize: 14,
-                fontWeight: FontWeight.w700,
-                fontFamily: 'Kufam',
-                textAlign: AppUtil.rtlDirection2(context)
-                ? TextAlign.right
-                : TextAlign.left,
-              ),
-            ],
-          ),
-          trailing: Icon(
-            isDetailsTapped3
-                ? Icons.keyboard_arrow_up
-                : Icons.keyboard_arrow_down,
-            color: const Color(0xFF454545),
-            size: 24,
-          ),
-        ),
-      ),
-
-
-      if (isDetailsTapped3)
-        Container(
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(12)),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 12,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomText(
-                  text: AppUtil.rtlDirection2(context)
-                      ? 'يسعدني مساعدتك,  هذا هو جدول الرحلة ، تحقق من الأشياء التي تريد القيام بها'
-                      : 'I\'m happy to help you, this is the flight schedule check out the things you want to do',
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
-                  color: colorDarkGrey,
-                  textAlign: AppUtil.rtlDirection2(context) ? TextAlign.right :  TextAlign.left,
-
-                ),
-              ],
-            ),
-          ),
-        ),
-
-                  const SizedBox(
-                    height: 13,
+                InkWell(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: Padding(
+                    padding: AppUtil.rtlDirection2(context)
+                        ? const EdgeInsets.only(left: 20)
+                        : const EdgeInsets.only(left: 20),
+                    child: AppUtil.rtlDirection2(context)
+                        ? const Icon(
+                            Icons.keyboard_arrow_right,
+                            color: black,
+                            size: 30,
+                          )
+                        : const Icon(
+                            Icons.keyboard_arrow_left_outlined,
+                            color: black,
+                            size: 30,
+                          ),
                   ),
-                  if (widget.chatId != null &&  (!widget.isAjwadi)) ...[
-                    
-                  
-                    Visibility(
-                        visible: !languageSelected ,
-                         child:Column(
-                      children: [
-                        Align(
-                          alignment: AppUtil.rtlDirection2(context)?Alignment.centerRight:Alignment.centerLeft,
-                          child: Container(
-                            width: width * double.infinity,
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 16, horizontal: 16),
-                            decoration: const BoxDecoration(
-                              color: Colors.white,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(12)),
+                ),
+                const SizedBox(width: 100),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: widget.chatId != null
+                      ? Text(
+                          'chat'.tr,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        )
+                      : Text(
+                          'showOffer'.tr,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 32),
+
+          Expanded(
+            child: ListView(
+              padding: const EdgeInsets.only(
+                  left: 16, right: 16, top: 12, bottom: 12),
+              children: [
+                Column(
+                  children: [
+                    Container(
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                      ),
+                      child: ListTile(
+                        onTap: () {
+                          setState(() {
+                            isDetailsTapped1 = !isDetailsTapped1;
+                          });
+                        },
+                        title: CustomText(
+                          text: 'tripDetails'.tr,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black,
+                          textAlign: AppUtil.rtlDirection2(context)
+                              ? TextAlign.right
+                              : TextAlign.left,
+                        ),
+                        trailing: Icon(
+                          isDetailsTapped1
+                              ? Icons.keyboard_arrow_up
+                              : Icons.keyboard_arrow_down,
+                          color: darkGrey,
+                          size: 24,
+                        ),
+                      ),
+                    ),
+
+                    if (isDetailsTapped1)
+                      Container(
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(12)),
+                        ),
+                        padding: EdgeInsets.only(top: 20),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  SvgPicture.asset('assets/icons/guests.svg'),
+                                  const SizedBox(width: 10),
+                                  CustomText(
+                                    text:
+                                        '${widget.booking?.guestNumber ?? 0} ${'guests'.tr}',
+                                    color: almostGrey,
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w300,
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 10),
+                              Row(
+                                children: [
+                                  SvgPicture.asset('assets/icons/date.svg'),
+                                  const SizedBox(width: 10),
+                                  CustomText(
+                                    text:
+                                        '${intel.DateFormat('dd/MM/yyyy').format(DateTime.parse(widget.booking?.date ?? '2022-01-01'))} - ${widget.booking?.timeToGo}',
+                                    color: almostGrey,
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w300,
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 10),
+                              Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    'assets/icons/unselected_${widget.booking?.vehicleType!}_icon.svg',
+                                    width: 20,
+                                  ),
+                                  const SizedBox(width: 10),
+                                  CustomText(
+                                    text: widget.booking?.vehicleType ?? '',
+                                    color: almostGrey,
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w300,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                    const SizedBox(
+                      height: 13,
+                    ),
+
+                    Container(
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                      ),
+                      child: ListTile(
+                        onTap: () {
+                          setState(() {
+                            isDetailsTapped3 = !isDetailsTapped3;
+                          });
+                        },
+                        title: Row(
+                          children: [
+                            const CircleAvatar(
+                              backgroundImage:
+                                  AssetImage('assets/images/ajwadi_image.png'),
                             ),
-                            alignment: Alignment.center,
-                            child: CustomText(
+                            const SizedBox(width: 12),
+                            CustomText(
                               text: AppUtil.rtlDirection2(context)
-                                  ? 'ما هي اللغة التي تفضلها ؟'
-                                  : 'What language would you prefer ?',
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                              color: colorDarkGrey,
-                              textAlign: TextAlign.center,
+                                  ? 'محمد علي'
+                                  : 'Mohamed Ali',
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                              fontFamily: 'Kufam',
+                              textAlign: AppUtil.rtlDirection2(context)
+                                  ? TextAlign.right
+                                  : TextAlign.left,
                             ),
+                          ],
+                        ),
+                        trailing: Icon(
+                          isDetailsTapped3
+                              ? Icons.keyboard_arrow_up
+                              : Icons.keyboard_arrow_down,
+                          color: const Color(0xFF454545),
+                          size: 24,
+                        ),
+                      ),
+                    ),
+
+                    if (isDetailsTapped3)
+                      Container(
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(12)),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 12,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CustomText(
+                                text: AppUtil.rtlDirection2(context)
+                                    ? 'يسعدني مساعدتك,  هذا هو جدول الرحلة ، تحقق من الأشياء التي تريد القيام بها'
+                                    : 'I\'m happy to help you, this is the flight schedule check out the things you want to do',
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                                color: colorDarkGrey,
+                                textAlign: AppUtil.rtlDirection2(context)
+                                    ? TextAlign.right
+                                    : TextAlign.left,
+                              ),
+                            ],
                           ),
                         ),
-                        const SizedBox(
-                          height: 16,
-                        ),
-                        Align(
-                          alignment: Alignment.center,
-                          child: Container(
-                            width: width,
-                            alignment: Alignment.center,
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        isArabicSelected = false;
-                                    chatController.chat.value.language='English';
-                                        languageSelected = true;
+                      ),
 
-                                      });
-                                    },
-                                    child: Container(
-                                      height: 40,
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                        border: isArabicSelected
-                                            ? Border.all(
-                                                color: colorGreen,
-                                                width: 1.5,
-                                              )
-                                            : null,
-                                        color: isArabicSelected
-                                            ? null
-                                            : colorGreen,
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(10)),
-                                      ),
-                                      child: CustomText(
-                                        text: 'English',
-                                        color: isArabicSelected
-                                            ? colorGreen
-                                            : Colors.white,
-                                        fontFamily: 'Kufam',
-                                        fontSize: isArabicSelected ? 14 : 16,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                  ),
+                    const SizedBox(
+                      height: 13,
+                    ),
+                    if (widget.chatId != null && (!widget.isAjwadi)) ...[
+                      Visibility(
+                        visible: !languageSelected,
+                        child: Column(
+                          children: [
+                            Align(
+                              alignment: AppUtil.rtlDirection2(context)
+                                  ? Alignment.centerRight
+                                  : Alignment.centerLeft,
+                              child: Container(
+                                width: width * double.infinity,
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 16, horizontal: 16),
+                                decoration: const BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(12)),
                                 ),
-                                const SizedBox(
-                                  width: 8,
+                                alignment: Alignment.center,
+                                child: CustomText(
+                                  text: AppUtil.rtlDirection2(context)
+                                      ? 'ما هي اللغة التي تفضلها ؟'
+                                      : 'What language would you prefer ?',
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400,
+                                  color: colorDarkGrey,
+                                  textAlign: TextAlign.center,
                                 ),
-                                Expanded(
-                                  child: InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        isArabicSelected = true;
-                                       languageSelected = true;
-                                       chatController.chat.value.language='العربية';
-
-                                      });
-                                    },
-                                    child: Container(
-                                      height: 40,
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                        border: !isArabicSelected
-                                            ? Border.all(
-                                                color: colorGreen,
-                                                width: 1.5,
-                                              )
-                                            : null,
-                                        color: !isArabicSelected
-                                            ? null
-                                            : colorGreen,
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(10)),
-                                      ),
-                                      child: CustomText(
-                                        text: 'العربية',
-                                        color: !isArabicSelected
-                                            ? colorGreen
-                                            : Colors.white,
-                                        fontFamily: 'Kufam',
-                                        fontSize: !isArabicSelected ? 14 : 16,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
-                          ),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            Align(
+                              alignment: Alignment.center,
+                              child: Container(
+                                width: width,
+                                alignment: Alignment.center,
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            isArabicSelected = false;
+                                            chatController.chat.value.language =
+                                                'English';
+                                            languageSelected = true;
+                                          });
+                                        },
+                                        child: Container(
+                                          height: 40,
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                            border: isArabicSelected
+                                                ? Border.all(
+                                                    color: colorGreen,
+                                                    width: 1.5,
+                                                  )
+                                                : null,
+                                            color: isArabicSelected
+                                                ? null
+                                                : colorGreen,
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(10)),
+                                          ),
+                                          child: CustomText(
+                                            text: 'English',
+                                            color: isArabicSelected
+                                                ? colorGreen
+                                                : Colors.white,
+                                            fontFamily: 'Kufam',
+                                            fontSize:
+                                                isArabicSelected ? 14 : 16,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 8,
+                                    ),
+                                    Expanded(
+                                      child: InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            isArabicSelected = true;
+                                            languageSelected = true;
+                                            chatController.chat.value.language =
+                                                'العربية';
+                                          });
+                                        },
+                                        child: Container(
+                                          height: 40,
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                            border: !isArabicSelected
+                                                ? Border.all(
+                                                    color: colorGreen,
+                                                    width: 1.5,
+                                                  )
+                                                : null,
+                                            color: !isArabicSelected
+                                                ? null
+                                                : colorGreen,
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(10)),
+                                          ),
+                                          child: CustomText(
+                                            text: 'العربية',
+                                            color: !isArabicSelected
+                                                ? colorGreen
+                                                : Colors.white,
+                                            fontFamily: 'Kufam',
+                                            fontSize:
+                                                !isArabicSelected ? 14 : 16,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+
+                            // const SizedBox(
+                            //   height: 13,
+                            // ),
+                          ],
                         ),
-                      
-                   
-                        // const SizedBox(
-                        //   height: 13,
-                        // ),
-                      ],
-                    ),
-                    ),
-                  ],
+                      ),
+                    ],
                     // const SizedBox(
                     //       height: 13,
                     //     ),
 
-                       if(widget.chatId != null && languageSelected)
-                        Container(
-                          width: width,
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 16, horizontal: 16),
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.all(Radius.circular(12)),
-                          ),
-                          alignment: Alignment.center,
-
-                          child:Column(
-                          children:[
-                          
+                    if (widget.chatId != null && languageSelected)
+                      Container(
+                        width: width,
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 16, horizontal: 16),
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(12)),
+                        ),
+                        alignment: Alignment.center,
+                        child: Column(children: [
                           CustomText(
                             text: isArabicSelected
                                 ? 'رائع ، سآتي اصطحابك الساعة 10:00 صباحًا في سيارة جي إم سي - سوداء - الرقم: S B A 0 9 9'
@@ -504,439 +501,418 @@ static Future init()async{
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
                             color: colorDarkGrey,
-                            textAlign: isArabicSelected ?  TextAlign.right :  TextAlign.left,
-
+                            textAlign: isArabicSelected
+                                ? TextAlign.right
+                                : TextAlign.left,
                           ),
-                          
-                        const SizedBox(
-                          height: 13,
-                        ),
-                             if ((widget.isAjwadi)) ...[
-
+                          const SizedBox(
+                            height: 13,
+                          ),
+                          if ((widget.isAjwadi)) ...[
                             CustomText(
-                            text: chatController.chat.value.language??'ar',
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                            color: colorDarkGrey,
-                            textAlign: isArabicSelected ?  TextAlign.right :  TextAlign.left,
-
-                          ),
-                             ]
+                              text: chatController.chat.value.language ?? 'ar',
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              color: colorDarkGrey,
+                              textAlign: isArabicSelected
+                                  ? TextAlign.right
+                                  : TextAlign.left,
+                            ),
                           ]
-                          ),
-                        ),
-                ],
-              ),
-            
-      //  const SizedBox(height: 30),
+                        ]),
+                      ),
+                  ],
+                ),
 
-                          // Padding(
-              //   padding: const EdgeInsets.all(16.0),
-              //   child: Row(
-              //     crossAxisAlignment: CrossAxisAlignment.center,
-              //     children: [
-              //       Expanded(
-              //         flex: 2,
-              //         child: InkWell(
-              //           onTap: () {
-              //             isDetailsTapped.value = !isDetailsTapped.value;
-              //           },
-              //           child: Container(
-              //             height: 56,
-              //             padding: const EdgeInsets.only(
-              //               left: 11,
-              //               right: 12,
-              //             ),
-              //             decoration: ShapeDecoration(
-              //               color: Colors.white,
-              //               shape: RoundedRectangleBorder(
-              //                 borderRadius: BorderRadius.circular(12),
-              //               ),
-              //             ),
-              //             child: Row(
-              //                 mainAxisAlignment: MainAxisAlignment.start,
-              //                 crossAxisAlignment: CrossAxisAlignment.center,
-              //                 children: [
-              //                   CustomText(
-              //                     text: 'tripDetails'.tr,
-              //                     color: darkBlue,
-              //                   ),
-              //                   const Spacer(),
-              //                   // Obx(
-              //                   //   () =>
-              //                   Icon(
-              //                     isDetailsTapped.value
-              //                         ? Icons.keyboard_arrow_up
-              //                         : Icons.keyboard_arrow_down,
-              //                     color: darkBlue,
-              //                     size: 24,
-              //                   ),
-              //                   // )
-              //                 ]),
-              //           ),
-              //         ),
-              //       ),
-              //       // End Request
-              //       if (widget.isAjwadi)
-              //         Expanded(
-              //           child:
-              //               //  Obx(
-              //               //   () =>
-              //               widget.requestController!.isRequestEndLoading.value
-              //                   ? const Center(
-              //                       child: CircularProgressIndicator(
-              //                           color: Color(0xffD75051)),
-              //                     )
-              //                   : InkWell(
-              //                       onTap: () async {
-              //                         log("requestModel.value.id! ${widget.requestController!.requestModel.value.id!}");
-              //                         bool requestEnd = await widget
-              //                                 .requestController!
-              //                                 .requestEnd(
-              //                                     id: widget.requestController!
-              //                                         .requestModel.value.id!,
-              //                                     context: context) ??
-              //                             false;
-              //                         if (requestEnd) {
-              //                           if (context.mounted) {
-              //                             AppUtil.successToast(
-              //                                 context, 'EndRound'.tr);
-              //                             await Future.delayed(
-              //                                 const Duration(seconds: 1));
-              //                           }
-              //                           Get.offAll(const AjwadiBottomBar());
-              //                         }
-              //                       },
-              //                       child: Container(
-              //                         height: 55,
-              //                         width: 120,
-              //                         padding: const EdgeInsets.symmetric(
-              //                             horizontal: 8),
-              //                         alignment: Alignment.center,
-              //                         decoration: BoxDecoration(
-              //                             border: Border.all(
-              //                                 color: const Color(0xffD75051)),
-              //                             borderRadius:
-              //                                 BorderRadius.circular(12)),
-              //                         child: Row(
-              //                           children: [
-              //                             if (!AppUtil.rtlDirection(context))
-              //                               const Icon(Icons.close,
-              //                                   size: 14,
-              //                                   color: Color(0xffD75051)),
-              //                             if (!AppUtil.rtlDirection(context))
-              //                               const Spacer(),
-              //                             CustomText(
-              //                               text: 'EndRound'.tr,
-              //                               color: const Color(0xffD75051),
-              //                               fontSize: 14,
-              //                             ),
-              //                             if (AppUtil.rtlDirection(context))
-              //                               const Spacer(),
-              //                             if (AppUtil.rtlDirection(context))
-              //                               const Icon(Icons.close,
-              //                                   size: 14,
-              //                                   color: Color(0xffD75051)),
-              //                           ],
-              //                         ),
-              //                       ),
-              //                     ),
-              //           // ),
-              //         ),
-              //     ],
-              //   ),
-              // ),
-              // ?  ============== Request Case =================
-              if ((widget.isAjwadi)) ...[
-                 Obx(() =>
-                isDetailsTapped2.value
-                    ? widget.chatId == null
-                        ? Expanded(
-                            child: SingleChildScrollView(
+                //  const SizedBox(height: 30),
+
+                // Padding(
+                //   padding: const EdgeInsets.all(16.0),
+                //   child: Row(
+                //     crossAxisAlignment: CrossAxisAlignment.center,
+                //     children: [
+                //       Expanded(
+                //         flex: 2,
+                //         child: InkWell(
+                //           onTap: () {
+                //             isDetailsTapped.value = !isDetailsTapped.value;
+                //           },
+                //           child: Container(
+                //             height: 56,
+                //             padding: const EdgeInsets.only(
+                //               left: 11,
+                //               right: 12,
+                //             ),
+                //             decoration: ShapeDecoration(
+                //               color: Colors.white,
+                //               shape: RoundedRectangleBorder(
+                //                 borderRadius: BorderRadius.circular(12),
+                //               ),
+                //             ),
+                //             child: Row(
+                //                 mainAxisAlignment: MainAxisAlignment.start,
+                //                 crossAxisAlignment: CrossAxisAlignment.center,
+                //                 children: [
+                //                   CustomText(
+                //                     text: 'tripDetails'.tr,
+                //                     color: darkBlue,
+                //                   ),
+                //                   const Spacer(),
+                //                   // Obx(
+                //                   //   () =>
+                //                   Icon(
+                //                     isDetailsTapped.value
+                //                         ? Icons.keyboard_arrow_up
+                //                         : Icons.keyboard_arrow_down,
+                //                     color: darkBlue,
+                //                     size: 24,
+                //                   ),
+                //                   // )
+                //                 ]),
+                //           ),
+                //         ),
+                //       ),
+                //       // End Request
+                //       if (widget.isAjwadi)
+                //         Expanded(
+                //           child:
+                //               //  Obx(
+                //               //   () =>
+                //               widget.requestController!.isRequestEndLoading.value
+                //                   ? const Center(
+                //                       child: CircularProgressIndicator(
+                //                           color: Color(0xffD75051)),
+                //                     )
+                //                   : InkWell(
+                //                       onTap: () async {
+                //                         log("requestModel.value.id! ${widget.requestController!.requestModel.value.id!}");
+                //                         bool requestEnd = await widget
+                //                                 .requestController!
+                //                                 .requestEnd(
+                //                                     id: widget.requestController!
+                //                                         .requestModel.value.id!,
+                //                                     context: context) ??
+                //                             false;
+                //                         if (requestEnd) {
+                //                           if (context.mounted) {
+                //                             AppUtil.successToast(
+                //                                 context, 'EndRound'.tr);
+                //                             await Future.delayed(
+                //                                 const Duration(seconds: 1));
+                //                           }
+                //                           Get.offAll(const AjwadiBottomBar());
+                //                         }
+                //                       },
+                //                       child: Container(
+                //                         height: 55,
+                //                         width: 120,
+                //                         padding: const EdgeInsets.symmetric(
+                //                             horizontal: 8),
+                //                         alignment: Alignment.center,
+                //                         decoration: BoxDecoration(
+                //                             border: Border.all(
+                //                                 color: const Color(0xffD75051)),
+                //                             borderRadius:
+                //                                 BorderRadius.circular(12)),
+                //                         child: Row(
+                //                           children: [
+                //                             if (!AppUtil.rtlDirection(context))
+                //                               const Icon(Icons.close,
+                //                                   size: 14,
+                //                                   color: Color(0xffD75051)),
+                //                             if (!AppUtil.rtlDirection(context))
+                //                               const Spacer(),
+                //                             CustomText(
+                //                               text: 'EndRound'.tr,
+                //                               color: const Color(0xffD75051),
+                //                               fontSize: 14,
+                //                             ),
+                //                             if (AppUtil.rtlDirection(context))
+                //                               const Spacer(),
+                //                             if (AppUtil.rtlDirection(context))
+                //                               const Icon(Icons.close,
+                //                                   size: 14,
+                //                                   color: Color(0xffD75051)),
+                //                           ],
+                //                         ),
+                //                       ),
+                //                     ),
+                //           // ),
+                //         ),
+                //     ],
+                //   ),
+                // ),
+                // ?  ============== Request Case =================
+                if ((widget.isAjwadi)) ...[
+                  Obx(() => isDetailsTapped2.value
+                      ? widget.chatId == null
+                          ? Expanded(
+                              child: SingleChildScrollView(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 6),
+                                child: ShowRequestWidget(
+                                  requestController: widget.requestController!,
+                                ),
+                              ),
+                            )
+                          : Padding(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 16, vertical: 6),
                               child: ShowRequestWidget(
                                 requestController: widget.requestController!,
                               ),
-                            ),
-                          )
-                        : Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 6),
-                            child: ShowRequestWidget(
-                              requestController: widget.requestController!,
-                            ),
-                          )
-                    : const SizedBox()
-                ),
-              ],
-              
-              // ?  ============== Offers Case =================
-              if (widget.chatId == null && (!widget.isAjwadi)) ...[
-                Expanded(
-                  child: SingleChildScrollView(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 6),
-                      child: Column(
-                        children: [
-                          CheckContainerWidget(
-                              offerController: widget.offerController),
+                            )
+                      : const SizedBox()),
+                ],
 
-                              SizedBox(height: 10),
-                               SizedBox(
-                                  width: 358,
-                                        child: Text(
+                // ?  ============== Offers Case =================
+                if (widget.chatId == null && (!widget.isAjwadi)) ...[
+                  Expanded(
+                    child: SingleChildScrollView(
+                        padding: const EdgeInsets.symmetric(vertical: 6),
+                        child: Column(
+                          children: [
+                            CheckContainerWidget(
+                                offerController: widget.offerController),
+
+                            SizedBox(height: 10),
+                            SizedBox(
+                              width: 358,
+                              child: Text(
                                 '*Please note that the prices listed are per person',
-                                           style: TextStyle(
-                                          color: Color(0xFF9392A0),
-                                           fontSize: 12,
-                                           fontFamily: 'SF Pro',
-                                          fontWeight: FontWeight.w400,
-                                                 height: 0,
-                                                  ),
-                                       ),
-                                   ),
-                                                SizedBox(height: 170),
-
-                          Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.only(
-                              top: 15,
-                              bottom: 15,
+                                style: TextStyle(
+                                  color: Color(0xFF9392A0),
+                                  fontSize: 12,
+                                  fontFamily: 'SF Pro',
+                                  fontWeight: FontWeight.w400,
+                                  height: 0,
+                                ),
+                              ),
                             ),
-                            
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                
-                                ...List.generate(
-                                    10,
-                                    (index) => Container(
-                                          width: 20,
-                                          decoration: const ShapeDecoration(
-                                            shape: RoundedRectangleBorder(
-                                              side: BorderSide(
-                                                width: 0.24,
-                                                strokeAlign: BorderSide
-                                                    .strokeAlignCenter,
-                                                color: Color(0xFF979797),
+                            SizedBox(height: 170),
+
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.only(
+                                top: 15,
+                                bottom: 15,
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  ...List.generate(
+                                      10,
+                                      (index) => Container(
+                                            width: 20,
+                                            decoration: const ShapeDecoration(
+                                              shape: RoundedRectangleBorder(
+                                                side: BorderSide(
+                                                  width: 0.24,
+                                                  strokeAlign: BorderSide
+                                                      .strokeAlignCenter,
+                                                  color: Color(0xFF979797),
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        )
-                                        
-                                        
-                                        
-                                        
-                                        
-                                        )
-                                        
-                              ],
-                              
+                                          ))
+                                ],
+                              ),
                             ),
-                            
-                          ),
 
                             //  const AvailableContainerWidget(),
-                          TotalWidget(
-                            offerController: widget.offerController,
-                            place: widget.place!,
-                          ),
-                          paymentController.isPaymenInvoiceLoading.value
-                              ? CircularProgressIndicator(
-                                  color: colorGreen,
-                                )
-                                
-                              : CustomButton(
-                                
-                                title: 'pay'.tr,
+                            TotalWidget(
+                              offerController: widget.offerController,
+                              place: widget.place!,
+                            ),
+                            paymentController.isPaymenInvoiceLoading.value
+                                ? CircularProgressIndicator(
+                                    color: colorGreen,
+                                  )
+                                : CustomButton(
+                                    title: 'pay'.tr,
+                                    icon: Icon(Icons.keyboard_arrow_right,
+                                        color: Colors.white),
+                                    onPressed: () async {
+                                      invoice ??= await paymentController
+                                          .paymentInvoice(
+                                              context: context,
+                                              description: 'Book place',
+                                              amount: (widget.place!.price! *
+                                                      widget
+                                                          .offerController!
+                                                          .offerDetails
+                                                          .value
+                                                          .booking!
+                                                          .guestNumber!) +
+                                                  (widget.offerController!
+                                                          .totalPrice.value *
+                                                      widget
+                                                          .offerController!
+                                                          .offerDetails
+                                                          .value
+                                                          .booking!
+                                                          .guestNumber!));
 
-                                
+                                      Get.to(() => PaymentWebView(
+                                              url: invoice!.url!,
+                                              title: 'Payment'))
+                                          ?.then((value) async {
+                                        setState(() {
+                                          isCheckingForPayment = true;
+                                        });
 
+                                        final checkInvoice =
+                                            await paymentController
+                                                .paymentInvoiceById(
+                                                    context: context,
+                                                    id: invoice!.id);
 
+                                        print("checkInvoice!.invoiceStatus");
+                                        print(checkInvoice!.invoiceStatus);
 
-                                icon: Icon(Icons.keyboard_arrow_right,color: Colors.white),
-                                  onPressed: () async {
-                                    invoice ??=
-                                        await paymentController.paymentInvoice(
-                                            context: context,
-                                            description: 'Book place',
-                                            amount: (widget.place!.price! *
-                                                    widget
-                                                        .offerController!
-                                                        .offerDetails
-                                                        .value
-                                                        .booking!
-                                                        .guestNumber!) +
-                                                (widget.offerController!
-                                                        .totalPrice.value *
-                                                    widget
-                                                        .offerController!
-                                                        .offerDetails
-                                                        .value
-                                                        .booking!
-                                                        .guestNumber!));
+                                        if (checkInvoice.invoiceStatus !=
+                                            'faild') {
+                                          setState(() {
+                                            isCheckingForPayment = false;
+                                          });
 
-                                    Get.to(() => PaymentWebView(
-                                        url: invoice!.url!,
-                                        title: 'Payment'))?.then((value) async {
-                                    
-                                       setState(() {
-                                                  isCheckingForPayment = true;
+                                          if (checkInvoice.invoiceStatus ==
+                                                  'failed' ||
+                                              checkInvoice.invoiceStatus ==
+                                                  'initiated') {
+                                            //  Get.back();
+
+                                            showDialog(
+                                                context: context,
+                                                builder: (ctx) {
+                                                  return AlertDialog(
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    content: Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: [
+                                                        Image.asset(
+                                                            'assets/images/paymentFaild.gif'),
+                                                        CustomText(
+                                                            text: "paymentFaild"
+                                                                .tr),
+                                                      ],
+                                                    ),
+                                                  );
                                                 });
+                                          } else {
+                                            print('YES sucssefly the payment');
+                                            // Get.back();
+                                            // Get.back();
 
-                                                        final checkInvoice =
-                                                    await paymentController
-                                                        .paymentInvoiceById(
-                                                            context: context,
-                                                            id: invoice!.id);
+                                            final acceptedOffer = await widget
+                                                .offerController!
+                                                .acceptOffer(
+                                              context: context,
+                                              offerId: widget.offerController!
+                                                  .offerDetails.value.id!,
+                                              invoiceId: checkInvoice.id,
+                                              schedules: widget.offerController!
+                                                  .offerDetails.value.schedule!,
+                                            );
+                                            //     Get.back();
+                                            //    Get.back();
 
-                                                            print("checkInvoice!.invoiceStatus");
-                                                            print(checkInvoice!.invoiceStatus);
+                                            showDialog(
+                                                context: context,
+                                                builder: (ctx) {
+                                                  return AlertDialog(
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    content: Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: [
+                                                        Image.asset(
+                                                            'assets/images/paymentSuccess.gif'),
+                                                        CustomText(
+                                                            text:
+                                                                "paymentSuccess"
+                                                                    .tr),
+                                                      ],
+                                                    ),
+                                                  );
+                                                });
+                                            // LocalNotification().showNotification(context,widget.booking?.id, widget.booking?.date ,widget.offerController?.offerDetails.value.name ?? "", widget.booking?.place?.nameAr,widget.booking?.place?.nameEn);
+                                          }
+                                        }
+                                      });
+                                      // Get.to(
+                                      //   () => CheckOutScreen(
+                                      //     total: (widget.place!.price! *
+                                      //             widget
+                                      //                 .offerController!
+                                      //                 .offerDetails
+                                      //                 .value
+                                      //                 .booking!
+                                      //                 .guestNumber!) +
+                                      //         (widget.offerController!.totalPrice
+                                      //                 .value *
+                                      //             widget
+                                      //                 .offerController!
+                                      //                 .offerDetails
+                                      //                 .value
+                                      //                 .booking!
+                                      //                 .guestNumber!),
+                                      //     offerDetails: widget.offerController!
+                                      //         .offerDetails.value,
+                                      //     offerController: widget.offerController,
+                                      //   ),
+                                      // )?.then((value) async {
+                                      //   final offer = await widget
+                                      //       .offerController!
+                                      //       .getOfferById(
+                                      //           context: context,
+                                      //           offerId: widget.offerController!
+                                      //               .offerDetails.value.id!);
 
-                                                                         if (checkInvoice
-                                                        .invoiceStatus !=
-                                                    'faild') {
-                                                
-                                                  setState(() {
-                                                    isCheckingForPayment =
-                                                        false;
-                                                  });
+                                      //   widget.chatId = widget.offerController!
+                                      //       .offerDetails.value.booking!.chatId;
 
-                                                  if (checkInvoice
-                                                              .invoiceStatus ==
-                                                          'failed' ||
-                                                      checkInvoice
-                                                              .invoiceStatus ==
-                                                          'initiated') {
-                                                    //  Get.back();
+                                      //   //  Get.back();
+                                      // });
 
-                                                    showDialog(
-                                                        context: context,
-                                                        builder: (ctx) {
-                                                          return AlertDialog(
-                                                            backgroundColor:
-                                                                Colors.white,
-                                                            content: Column(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .min,
-                                                              children: [
-                                                                Image.asset(
-                                                                    'assets/images/paymentFaild.gif'),
-                                                                CustomText(
-                                                                    text:
-                                                                        "paymentFaild"
-                                                                            .tr),
-                                                              ],
-                                                            ),
-                                                          );
-                                                        });
-                                                  } else {
-                                                    print('YES sucssefly the payment');
-                                                    // Get.back();
-                                                    // Get.back();
-                                                      
-                                                        final acceptedOffer = await widget
-                                        .offerController!
-                                        .acceptOffer(
-                                      context: context,
-                                      offerId: widget.offerController!.offerDetails.value.id!,
-                                      invoiceId: checkInvoice.id,
-                                      schedules: widget.offerController!
-                                          .offerDetails.value.schedule!,
-                                    );
-                               //     Get.back();
-                                //    Get.back();
+                                      LocalNotification().showNotification(
+                                          context,
+                                          widget.booking?.id,
+                                          widget.booking?.timeToGo,
+                                          widget.booking?.date,
+                                          widget.offerController?.offerDetails
+                                                  .value.name ??
+                                              "",
+                                          widget.booking?.place?.nameAr,
+                                          widget.booking?.place?.nameEn);
+                                    },
+                                  )
+                          ],
+                        )
 
-                                                    showDialog(
-                                                        context: context,
-                                                        builder: (ctx) {
-                                                          return AlertDialog(
-                                                            backgroundColor:
-                                                                Colors.white,
-                                                            content: Column(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .min,
-                                                              children: [
-                                                                Image.asset(
-                                                                    'assets/images/paymentSuccess.gif'),
-                                                                CustomText(
-                                                                    text:
-                                                                        "paymentSuccess"
-                                                                            .tr),
-                                                              ],
-                                                            ),
-                                                          );
-                                                        });
-                                              // LocalNotification().showNotification(context,widget.booking?.id, widget.booking?.date ,widget.offerController?.offerDetails.value.name ?? "", widget.booking?.place?.nameAr,widget.booking?.place?.nameEn);
+                        // ShowOfferWidget(
+                        //   offerController: widget.offerController!,
+                        //   place: widget.place!,
+                        // ),
+                        ),
+                  ),
+                ],
 
-                                                  }
-                                                }
-                                    });
-                                    // Get.to(
-                                    //   () => CheckOutScreen(
-                                    //     total: (widget.place!.price! *
-                                    //             widget
-                                    //                 .offerController!
-                                    //                 .offerDetails
-                                    //                 .value
-                                    //                 .booking!
-                                    //                 .guestNumber!) +
-                                    //         (widget.offerController!.totalPrice
-                                    //                 .value *
-                                    //             widget
-                                    //                 .offerController!
-                                    //                 .offerDetails
-                                    //                 .value
-                                    //                 .booking!
-                                    //                 .guestNumber!),
-                                    //     offerDetails: widget.offerController!
-                                    //         .offerDetails.value,
-                                    //     offerController: widget.offerController,
-                                    //   ),
-                                    // )?.then((value) async {
-                                    //   final offer = await widget
-                                    //       .offerController!
-                                    //       .getOfferById(
-                                    //           context: context,
-                                    //           offerId: widget.offerController!
-                                    //               .offerDetails.value.id!);
+                if (widget.chatId != null) ...[
+                  //? ==========  Chat List View  ==========
+                  Expanded(
+                    child: StreamBuilder<ChatModel?>(
+                        stream: chatController.getChatByIdStream(
+                            id: widget.chatId!, context: context),
+                        builder: ((context, snapshot) {
+                          log("snapshot ${snapshot.data}");
 
-                                    //   widget.chatId = widget.offerController!
-                                    //       .offerDetails.value.booking!.chatId;
-
-                                    //   //  Get.back();
-                                    // });
-
-                                     LocalNotification().showNotification(context,widget.booking?.id, widget.booking?.timeToGo, widget.booking?.date,widget.offerController?.offerDetails.value.name ?? "", widget.booking?.place?.nameAr,widget.booking?.place?.nameEn);
-                                  },
-                                )
-                        ],
-                      )
-
-                      // ShowOfferWidget(
-                      //   offerController: widget.offerController!,
-                      //   place: widget.place!,
-                      // ),
-                      ),
-                ),
-              ],
-
-              if (widget.chatId != null) ...[
-                //? ==========  Chat List View  ==========
-                Expanded(
-                  child: StreamBuilder<ChatModel?>(
-                      stream: chatController.getChatByIdStream(
-                          id: widget.chatId!, context: context),
-                      builder: ((context, snapshot) {
-                        log("snapshot ${snapshot.data}");
-
-                        return
-                            Obx(
-                             () =>
-                            chatController.isGetChatByIdLoading.value
+                          return Obx(
+                            () => chatController.isGetChatByIdLoading.value
                                 ? Center(
                                     child: Padding(
                                         padding:
@@ -1012,180 +988,185 @@ static Future init()async{
                                             );
                                           },
                                         ),
-                                         ),
-                                      );
-                      })),
-                ),
-
-                // // Send Button
-               
-              ],
-                ],
-          ),
-        ),
-         // Send Button
-         if(widget.chatId != null)
-         Container(
-                  width: 390,
-height: 90,
-padding: const EdgeInsets.only(
-top: 14,
-left: 1,
-right: 1,
-bottom: 16,
-),
-decoration: BoxDecoration(color: Colors.white),
-
-                  child: Row(
-                    children: [
-                      // Obx(
-                      //   () =>
-
-                      chatController.isPostMessageLoading.value
-                          ? Center(
-                              child: CircularProgressIndicator(
-                                  color: Colors.green[800]))
-                                  :
-                          // : IconButton(
-                          //   icon: Icon(
-                          //     Icons.send,
-                          //     size: 30,
-                          //     color: Colors.green[800],
-                          //   ),
-                          //   onPressed: () async {
-                          //     if (messageController.text.trim() != '') {
-                          //       bool? send =
-                          //           await chatController.postMessage(
-                          //               chatId: widget.chatId!,
-                          //               message: messageController.text,
-                          //               context: context);
-                          //       if (send == true) {
-                          //         setState(() {
-                          //           chatController.chat.value.messages!.add(
-                          //               ChatMessage(
-                          //                   // senderName: "",
-                          //                   // senderImage: "",
-                          //                   senderId: userId,
-                          //                   message: messageController.text,
-                          //                   created:
-                          //                       DateTime.now().toString()));
-                          //         });
-                          //         messageController.clear();
-                          //         if (chatController.chat.value.messages !=
-                          //                 null &&
-                          //             chatController
-                          //                     .chat.value.messages!.length >
-                          //                 2) {
-                          //           chatController.scrollController.jumpTo(
-                          //               chatController.scrollController
-                          //                       .position.maxScrollExtent *
-                          //                   1.4);
-                          //         }
-                          //       }
-                          //     }
-                          //   },
-                          // ),
-                      Expanded(
-                        child: CustomTextField(
-                          controller: messageController,
-                          hintText: 'HintMessage'.tr,
-
-                          suffixIcon: !AppUtil.rtlDirection2(context)?
-                           IconButton(
-                            icon: Icon(
-                              Icons.send ,
-                              size: 24,
-                              color: Colors.green[800],
-                            ),
-                            onPressed: () async {
-                              if (messageController.text.trim() != '') {
-                                bool? send =
-                                    await chatController.postMessage(
-                                        chatId: widget.chatId!,
-                                        message: messageController.text,
-                                        context: context);
-                                if (send == true) {
-                                  setState(() {
-                                    chatController.chat.value.messages!.add(
-                                        ChatMessage(
-                                            // senderName: "",
-                                            // senderImage: "",
-                                            senderId: userId,
-                                            message: messageController.text,
-                                            created:
-                                                DateTime.now().toString()));
-                                  });
-                                  messageController.clear();
-                                  if (chatController.chat.value.messages !=
-                                          null &&
-                                      chatController
-                                              .chat.value.messages!.length >
-                                          2) {
-                                    chatController.scrollController.jumpTo(
-                                        chatController.scrollController
-                                                .position.maxScrollExtent *
-                                            1.4);
-                                  }
-                                }
-                              }
-                            },
-                          ):null, 
-                          prefixIcon: AppUtil.rtlDirection2(context)?
-                            IconButton(
-                            icon: Icon(
-                              Icons.send ,
-                              size: 24,
-                              color: Colors.green[800],
-                            ),
-                            onPressed: () async {
-                              if (messageController.text.trim() != '') {
-                                bool? send =
-                                    await chatController.postMessage(
-                                        chatId: widget.chatId!,
-                                        message: messageController.text,
-                                        context: context);
-                                if (send == true) {
-                                  setState(() {
-                                    chatController.chat.value.messages!.add(
-                                        ChatMessage(
-                                            // senderName: "",
-                                            // senderImage: "",
-                                            senderId: userId,
-                                            message: messageController.text,
-                                            created:
-                                                DateTime.now().toString()));
-                                  });
-                                  messageController.clear();
-                                  if (chatController.chat.value.messages !=
-                                          null &&
-                                      chatController
-                                              .chat.value.messages!.length >
-                                          2) {
-                                    chatController.scrollController.jumpTo(
-                                        chatController.scrollController
-                                                .position.maxScrollExtent *
-                                            1.4);
-                                  }
-                                }
-                              }
-                              }
-                            ): null,
-                          height:  MediaQuery.of(context).size.height * 0.06,
-                           maxLines: 5,
-                           minLines: 1,
-                          onChanged: (String value) {},
-                        ),
-                      ),
-                    ],
+                                      ),
+                          );
+                        })),
                   ),
-         ),
-              const SizedBox(height: 8)
-        //     ],
-        //   ),
-        // ),
-      
-    ],
-  ),
-);
+
+                  // // Send Button
+                ],
+              ],
+            ),
+          ),
+          // Send Button
+          if (widget.chatId != null)
+            Container(
+              width: 390,
+              height: 90,
+              padding: const EdgeInsets.only(
+                top: 14,
+                left: 1,
+                right: 1,
+                bottom: 16,
+              ),
+              decoration: BoxDecoration(color: Colors.white),
+              child: Row(
+                children: [
+                  // Obx(
+                  //   () =>
+
+                  chatController.isPostMessageLoading.value
+                      ? Center(
+                          child: CircularProgressIndicator(
+                              color: Colors.green[800]))
+                      :
+                      // : IconButton(
+                      //   icon: Icon(
+                      //     Icons.send,
+                      //     size: 30,
+                      //     color: Colors.green[800],
+                      //   ),
+                      //   onPressed: () async {
+                      //     if (messageController.text.trim() != '') {
+                      //       bool? send =
+                      //           await chatController.postMessage(
+                      //               chatId: widget.chatId!,
+                      //               message: messageController.text,
+                      //               context: context);
+                      //       if (send == true) {
+                      //         setState(() {
+                      //           chatController.chat.value.messages!.add(
+                      //               ChatMessage(
+                      //                   // senderName: "",
+                      //                   // senderImage: "",
+                      //                   senderId: userId,
+                      //                   message: messageController.text,
+                      //                   created:
+                      //                       DateTime.now().toString()));
+                      //         });
+                      //         messageController.clear();
+                      //         if (chatController.chat.value.messages !=
+                      //                 null &&
+                      //             chatController
+                      //                     .chat.value.messages!.length >
+                      //                 2) {
+                      //           chatController.scrollController.jumpTo(
+                      //               chatController.scrollController
+                      //                       .position.maxScrollExtent *
+                      //                   1.4);
+                      //         }
+                      //       }
+                      //     }
+                      //   },
+                      // ),
+                      Expanded(
+                          child: CustomTextField(
+                            controller: messageController,
+                            hintText: 'HintMessage'.tr,
+                            suffixIcon: !AppUtil.rtlDirection2(context)
+                                ? IconButton(
+                                    icon: Icon(
+                                      Icons.send,
+                                      size: 24,
+                                      color: Colors.green[800],
+                                    ),
+                                    onPressed: () async {
+                                      if (messageController.text.trim() != '') {
+                                        bool? send =
+                                            await chatController.postMessage(
+                                                chatId: widget.chatId!,
+                                                message: messageController.text,
+                                                context: context);
+                                        if (send == true) {
+                                          setState(() {
+                                            chatController.chat.value.messages!
+                                                .add(ChatMessage(
+                                                    // senderName: "",
+                                                    // senderImage: "",
+                                                    senderId: userId,
+                                                    message:
+                                                        messageController.text,
+                                                    created: DateTime.now()
+                                                        .toString()));
+                                          });
+                                          messageController.clear();
+                                          if (chatController
+                                                      .chat.value.messages !=
+                                                  null &&
+                                              chatController.chat.value
+                                                      .messages!.length >
+                                                  2) {
+                                            chatController.scrollController
+                                                .jumpTo(chatController
+                                                        .scrollController
+                                                        .position
+                                                        .maxScrollExtent *
+                                                    1.4);
+                                          }
+                                        }
+                                      }
+                                    },
+                                  )
+                                : null,
+                            prefixIcon: AppUtil.rtlDirection2(context)
+                                ? IconButton(
+                                    icon: Icon(
+                                      Icons.send,
+                                      size: 24,
+                                      color: Colors.green[800],
+                                    ),
+                                    onPressed: () async {
+                                      if (messageController.text.trim() != '') {
+                                        bool? send =
+                                            await chatController.postMessage(
+                                                chatId: widget.chatId!,
+                                                message: messageController.text,
+                                                context: context);
+                                        if (send == true) {
+                                          setState(() {
+                                            chatController.chat.value.messages!
+                                                .add(ChatMessage(
+                                                    // senderName: "",
+                                                    // senderImage: "",
+                                                    senderId: userId,
+                                                    message:
+                                                        messageController.text,
+                                                    created: DateTime.now()
+                                                        .toString()));
+                                          });
+                                          messageController.clear();
+                                          if (chatController
+                                                      .chat.value.messages !=
+                                                  null &&
+                                              chatController.chat.value
+                                                      .messages!.length >
+                                                  2) {
+                                            chatController.scrollController
+                                                .jumpTo(chatController
+                                                        .scrollController
+                                                        .position
+                                                        .maxScrollExtent *
+                                                    1.4);
+                                          }
+                                        }
+                                      }
+                                    })
+                                : null,
+                            height: MediaQuery.of(context).size.height * 0.06,
+                            maxLines: 5,
+                            minLines: 1,
+                            onChanged: (String value) {},
+                          ),
+                        ),
+                ],
+              ),
+            ),
+          const SizedBox(height: 8)
+          //     ],
+          //   ),
+          // ),
+        ],
+      ),
+    );
   }
 }

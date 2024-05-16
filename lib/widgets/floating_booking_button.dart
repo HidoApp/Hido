@@ -1,5 +1,6 @@
 import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/request/tourist/view/review_ticket_screen.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
@@ -9,6 +10,7 @@ import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class BottomBookingWidget extends StatelessWidget {
@@ -93,15 +95,19 @@ class BottomBookingWidget extends StatelessWidget {
   }
 }
 
-class BottomBookingWidgetAdventure extends StatelessWidget {
+class BottomBookingWidgetAdventure extends StatefulWidget {
   const BottomBookingWidgetAdventure({
-    super.key,
-    required this.hospitalityObj,
-    required this.adventureController,
+    super.key, required this.adventure,
   });
-  final Adventure hospitalityObj;
+  final Adventure adventure;
+  @override
+  State<BottomBookingWidgetAdventure> createState() =>
+      _BottomBookingWidgetAdventureState();
+}
 
-  final AdventureController adventureController;
+class _BottomBookingWidgetAdventureState
+    extends State<BottomBookingWidgetAdventure> {
+  var person = 0;
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -128,7 +134,7 @@ class BottomBookingWidgetAdventure extends StatelessWidget {
                 color: Colors.black,
               ),
               CustomText(
-                text: '${hospitalityObj!.price} ${'sar'.tr}',
+                text: '400 ${'sar'.tr}',
                 fontWeight: FontWeight.w900,
                 fontSize: 17,
                 fontFamily: 'HT Rakik',
@@ -146,19 +152,108 @@ class BottomBookingWidgetAdventure extends StatelessWidget {
 
               child: CustomButton(
                 onPressed: () {
-                  // AppUtil.isGuest()
-                  //     ? Get.to(() => const SignInScreen())
-                  //     : Get.bottomSheet(
-                  //         ReservaationDetailsAdventureWidget(
-                  //             color: Colors.green,
-                  //             hospitality: hospitalityObj,
-                  //             serviceController: adventureController),
-                  //         backgroundColor: Colors.white,
-                  //         elevation: 0,
-                  //         shape: RoundedRectangleBorder(
-                  //           borderRadius: BorderRadius.circular(24),
-                  //         ),
-                  //       );
+                  AppUtil.isGuest()
+                      ? Get.to(() => const SignInScreen())
+                      : Get.bottomSheet(
+                          StatefulBuilder(
+                            builder: (context, setState) => Container(
+                              height: 268,
+                              width: double.infinity,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 24, vertical: 20),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const CustomText(
+                                    text: "Booking Details",
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  const SizedBox(
+                                    height: 12,
+                                  ),
+                                  const CustomText(
+                                    text: 'Number of People ',
+                                    fontSize: 17,
+                                  ),
+                                  Container(
+                                    height: 48,
+                                    width: 342,
+                                    padding: const EdgeInsets.only(
+                                      left: 10,
+                                      right: 10,
+                                    ),
+                                    margin: EdgeInsets.only(
+                                        top: height * 0.02, bottom: 5),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                      border: Border.all(
+                                        color: lightGreyColor,
+                                      ),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        CustomText(
+                                          text: "guests2".tr,
+                                          fontWeight: FontWeight.w200,
+                                          color: textGreyColor,
+                                        ),
+                                        const Spacer(),
+                                        GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              if (person > 0) {
+                                                person = person - 1;
+                                              }
+                                            });
+                                          },
+                                          child: const Icon(
+                                            Icons.horizontal_rule_outlined,
+                                            color: darkGrey,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 15),
+                                        CustomText(
+                                          text: person.toString(),
+                                          color: tileGreyColor,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                        const SizedBox(width: 15),
+                                        GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              person = person + 1;
+                                            });
+                                          },
+                                          child: const Icon(
+                                            Icons.add,
+                                            color: darkGrey,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 24,
+                                  ),
+                                  CustomButton(
+                                      onPressed: () {
+                                        Get.to(() =>  ReviewTicket(adventure: widget.adventure ,person: person,));
+                                      },
+                                      title: 'confirm'.tr)
+                                ],
+                              ),
+                            ),
+                          ),
+                          backgroundColor: Colors.white,
+                          elevation: 0,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(24),
+                                topRight: Radius.circular(24)),
+                          ),
+                        );
                 },
                 iconColor: darkPurple,
                 title: "book".tr,

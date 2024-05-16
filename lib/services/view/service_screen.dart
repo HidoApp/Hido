@@ -66,16 +66,8 @@ class _ServiceScreenState extends State<ServiceScreen>
               actions: [
                 Padding(
                   padding: EdgeInsets.only(right: width * 0.06),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                  child: Row(
                     children: [
-                      HomeIconButton(
-                          onTap: () {
-                            Get.to(() => AppUtil.isGuest()
-                                ? const SignInScreen()
-                                : const TouristChatScreen(isChat: true));
-                          },
-                          icon: 'assets/icons/Communication_white.svg'),
                       HomeIconButton(
                           onTap: () {
                             ProfileController _profileController =
@@ -86,6 +78,19 @@ class _ServiceScreenState extends State<ServiceScreen>
                                     profileController: _profileController));
                           },
                           icon: 'assets/icons/ticket_icon.svg'),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      HomeIconButton(
+                          onTap: () {
+                            // Get.to(() => AppUtil.isGuest()
+                            //     ? const SignInScreen()
+                            //     : const TouristChatScreen(isChat: true));
+                          },
+                          icon: 'assets/icons/Communication_white.svg'),
+                      SizedBox(
+                        width: 8,
+                      ),
                       HomeIconButton(
                           onTap: () {
                             Get.to(() => AppUtil.isGuest()

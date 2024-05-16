@@ -1,6 +1,8 @@
 import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/explore/tourist/view/view_trip_images.dart';
+import 'package:ajwad_v4/request/tourist/view/local_offer_info.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/services/model/hospitality.dart';
 import 'package:ajwad_v4/services/view/widgets/images_services_widget.dart';
@@ -95,10 +97,9 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
           ? const Scaffold(
               backgroundColor: Colors.white,
               extendBodyBehindAppBar: true,
+              appBar: CustomAppBar(""),
               body: Center(
-                child: CircularProgressIndicator(
-                  color: purple,
-                ),
+                child: CircularProgressIndicator(),
               ),
             )
           : Scaffold(
@@ -457,7 +458,20 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                     left: width * 0.1,
                     // local profile
                     child: ServicesProfileCard(
-                      onTap: () {},
+                      onTap: () {
+                        Get.to(
+                          () => LocalOfferInfo(
+                              fromService: true,
+                              image: hospitalityObj!.familyImage,
+                              name: hospitalityObj!.familyName,
+                              price: 400,
+                              rating: 5,
+                              tripNumber: 4,
+                              place: Place(),
+                              profileId:
+                                  "447aad72-25f2-4f90-85fd-51743cf8c9ed"),
+                        );
+                      },
                       image: hospitalityObj!.familyImage,
                       name: hospitalityObj!.familyName,
                     )),
