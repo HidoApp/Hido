@@ -59,17 +59,17 @@ print('Total price: ${(widget.place.price! * widget.offerController!.offerDetail
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  "discount".tr,
-                  textAlign: TextAlign.right,
-                  style: const TextStyle(
-                    color: Color(0xFF9E9E9E),
-                    fontSize: 14,
-                    fontFamily: 'HT Rakik',
-                    fontWeight: FontWeight.w300,
-                  ),
-                ),
+                // const SizedBox(height: 4),
+                // Text(
+                //   "discount".tr,
+                //   textAlign: TextAlign.right,
+                //   style: const TextStyle(
+                //     color: Color(0xFF9E9E9E),
+                //     fontSize: 14,
+                //     fontFamily: 'HT Rakik',
+                //     fontWeight: FontWeight.w300,
+                //   ),
+                // ),
               ],
             ),
           ),
@@ -88,7 +88,8 @@ print('Total price: ${(widget.place.price! * widget.offerController!.offerDetail
                         TextSpan(
                           text:
                             // ' ${(widget.place.price! * widget.offerController!.offerDetails.value.booking!.guestNumber!) + (widget.offerController!.totalPrice.value * widget.offerController!.offerDetails.value.booking!.guestNumber!)} ',
-                              '${(widget.place?.price ?? 0) * (widget.offerController?.offerDetails.value?.booking?.guestNumber ?? 0) + (widget.offerController?.totalPrice.value ?? 0) * (widget.offerController?.offerDetails.value?.booking?.guestNumber ?? 0)}',
+                             // '${(widget.place?.price ?? 0) * (widget.offerController?.offerDetails.value?.booking?.guestNumber ?? 0) + (widget.offerController?.totalPrice.value ?? 0) * (widget.offerController?.offerDetails.value?.booking?.guestNumber ?? 0)}',
+                              '${ (widget.offerController?.totalPrice.value ?? 0) * (widget.offerController?.offerDetails.value?.booking?.guestNumber ?? 0)}',
 
                           
                           style: const TextStyle(
@@ -112,31 +113,31 @@ print('Total price: ${(widget.place.price! * widget.offerController!.offerDetail
                   ),
                   const SizedBox(height: 4),
                   // Discount
-                  const Text.rich(
-                    TextSpan(
-                      children: [
-                        TextSpan(
-                          text: ' 00.00 ',
-                          style: TextStyle(
-                            color: Color(0xFF9E9E9E),
-                            fontSize: 14,
-                            fontFamily: 'HT Rakik',
-                            fontWeight: FontWeight.w300,
-                          ),
-                        ),
-                        TextSpan(
-                          text: 'ريال سعودي',
-                          style: TextStyle(
-                            color: Color(0xFF9E9E9E),
-                            fontSize: 10,
-                            fontFamily: 'HT Rakik',
-                            fontWeight: FontWeight.w300,
-                          ),
-                        ),
-                      ],
-                    ),
-                    textAlign: TextAlign.right,
-                  )
+                  // const Text.rich(
+                  //   TextSpan(
+                  //     children: [
+                  //       TextSpan(
+                  //         text: ' 00.00 ',
+                  //         style: TextStyle(
+                  //           color: Color(0xFF9E9E9E),
+                  //           fontSize: 14,
+                  //           fontFamily: 'HT Rakik',
+                  //           fontWeight: FontWeight.w300,
+                  //         ),
+                  //       ),
+                  //       TextSpan(
+                  //         text: 'ريال سعودي',
+                  //         style: TextStyle(
+                  //           color: Color(0xFF9E9E9E),
+                  //           fontSize: 10,
+                  //           fontFamily: 'HT Rakik',
+                  //           fontWeight: FontWeight.w300,
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  //   textAlign: TextAlign.right,
+                  // )
                 ],
               ),
             ),

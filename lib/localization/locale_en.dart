@@ -222,7 +222,7 @@ const localeEn = {
   "van": "Van",
   "ffx": "preliminary cost",
   "findAjwady": "Find Ajwady",
-  "findLocal": "Find locals",
+  "findLocal": "Find Locals",
   "myTickets": "My tickets",
   "myFav": "My Whish list",
   "notifications": "Notifications",
@@ -334,7 +334,7 @@ const localeEn = {
   "creditCard": 'Credit card',
   "placeBooked": 'Booked',
   "checkText":
-      "I am happy to help you, this is the tour schedule, check the things you want to do",
+     " It's a pleasure to accompany you, This is the itinerary that I suggested to you. Select what you want and create a memorable day! ",
   "showOffer": "View offer",
   "noMessages": "No messages",
   "approximateLocation":
@@ -372,5 +372,10 @@ const localeEn = {
   "HintMessage": "write your message here",
   "pricePerPerson": "price per person",
   "cancellationPolicyBreifAdventure": "Our cancellation policy requires a 48-hour prior notice for a full refund and a 24-hour prior notice for a partial refund." ,
-  "cancellationPolicyNote":"Please note that no refunds will be issued for cancellations made on the same day as the booking."
+  "cancellationPolicyNote":"Please note that no refunds will be issued for cancellations made on the same day as the booking.",
+  "notFind":"We couldn't find any local guides available for your chosen date and location",
+  "Expand":"Expand Search",
+  "notePrice":"Please note that the prices listed are per person"
+
+  
 };

@@ -197,7 +197,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                               ),
                               CustomText(
                                 text:
-                                    '${'from'.tr}  ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(hospitalityObj!.daysInfo[0].startTime))} ${'to'.tr}  ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(hospitalityObj!.daysInfo[0].endTime))}',
+                                    AppUtil.rtlDirection2(context)?'${'from'.tr}  ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(hospitalityObj!.daysInfo[0].startTime))} ${'to'.tr}  ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(hospitalityObj!.daysInfo[0].endTime))}':'${'from'.tr}  ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(hospitalityObj!.daysInfo[0].startTime))} ${'to'.tr}  ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(hospitalityObj!.daysInfo[0].endTime))}',
                                 color: colorDarkGrey,
                                 fontSize: 15,
                                 fontWeight: FontWeight.w300,
@@ -267,23 +267,29 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                           ),
                           isExpanded
                               ? Align(
-                                  alignment: Alignment.bottomLeft,
+                                  alignment: AppUtil.rtlDirection2(context)?Alignment.bottomRight:Alignment.bottomLeft,
                                   child: GestureDetector(
                                     onTap: () {
                                       setState(() => isExpanded = false);
                                     },
-                                    child: const CustomText(
-                                      text: "Show less",
+                                    child: CustomText(
+                                       textDirection: AppUtil.rtlDirection2(context)
+                                    ? TextDirection.rtl
+                                    : TextDirection.ltr,
+                                      text: AppUtil.rtlDirection2(context)?"القليل": "Show less",
                                       color: blue,
                                     ),
                                   ),
                                 )
                               : Align(
-                                  alignment: Alignment.bottomLeft,
+                                  alignment: AppUtil.rtlDirection2(context)?Alignment.bottomRight:Alignment.bottomLeft,
                                   child: GestureDetector(
                                     onTap: () =>
                                         setState(() => isExpanded = true),
                                     child: CustomText(
+                                        textDirection: AppUtil.rtlDirection2(context)
+                                    ? TextDirection.rtl
+                                    : TextDirection.ltr,
                                       text: "readMore".tr,
                                       color: blue,
                                     ),
@@ -405,7 +411,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                         SizedBox(
                                           width: 326,
                                           child: CustomText(
-                                            text: "cancellationPolicyBreif".tr,
+                                            text: "cancellationPolicyBreifAdventure".tr,
                                             fontSize: 13,
                                             fontWeight: FontWeight.w400,
                                             maxlines: 2,

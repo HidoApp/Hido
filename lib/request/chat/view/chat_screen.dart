@@ -15,11 +15,15 @@ import 'package:ajwad_v4/request/tourist/models/offer_details.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart' as intel;
 
+import '../../../widgets/custom_app_bar.dart';
+
 class ChatScreen extends StatefulWidget {
    String? chatId;
   final Booking ?booking;
+    final String ?booking2;
 
-   ChatScreen({super.key, required this.chatId, this.booking,
+
+   ChatScreen({super.key, required this.chatId, this.booking,this.booking2
 });
 
   @override
@@ -68,50 +72,53 @@ RxBool isDetailsTapped2 = false.obs;
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: lightGreyBackground,
+       appBar: CustomAppBar(
+        "findLocal".tr,
+       ),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // App Bar
-            Row(
-              children: [
-                if (AppUtil.rtlDirection(context))
-                  IconButton(
-                    onPressed: () {
-                      Get.back();
-                    },
-                    icon: const Icon(
-                      Icons.arrow_back,
-                      color: black,
-                      size: 26,
-                    ),
-                  ),
-                if (AppUtil.rtlDirection(context))
-                  const SizedBox(
-                    width: 4,
-                  ),
-                CustomText(
-                  text: 'chat'.tr,
-                  fontSize: 24,
-                  fontWeight: FontWeight.w500,
-                ),
-                if (!AppUtil.rtlDirection(context))
-                  const SizedBox(
-                    width: 4,
-                  ),
-                if (!AppUtil.rtlDirection(context))
-                  IconButton(
-                    onPressed: () {
-                      Get.back();
-                    },
-                    icon: const Icon(
-                      Icons.arrow_forward,
-                      color: black,
-                      size: 26,
-                    ),
-                  ),
-              ],
-            ),
+            // Row(
+            //   children: [
+            //     if (AppUtil.rtlDirection(context))
+            //       IconButton(
+            //         onPressed: () {
+            //           Get.back();
+            //         },
+            //         icon: const Icon(
+            //           Icons.arrow_back,
+            //           color: black,
+            //           size: 26,
+            //         ),
+            //       ),
+            //     if (AppUtil.rtlDirection(context))
+            //       const SizedBox(
+            //         width: 4,
+            //       ),
+            //     CustomText(
+            //       text: 'chat'.tr,
+            //       fontSize: 24,
+            //       fontWeight: FontWeight.w500,
+            //     ),
+            //     if (!AppUtil.rtlDirection(context))
+            //       const SizedBox(
+            //         width: 4,
+            //       ),
+            //     if (!AppUtil.rtlDirection(context))
+            //       IconButton(
+            //         onPressed: () {
+            //           Get.back();
+            //         },
+            //         icon: const Icon(
+            //           Icons.arrow_forward,
+            //           color: black,
+            //           size: 26,
+            //         ),
+            //       ),
+            //   ],
+            // ),
             const SizedBox(height: 12),
             // Chat List View
            Expanded(

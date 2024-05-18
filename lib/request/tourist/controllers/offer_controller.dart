@@ -38,6 +38,9 @@ class OfferController extends GetxController {
     }
   }
 
+
+  List<String?> get firstThreeImages => offers.take(3).map((offer) => offer.image).toList();
+
   Future<OfferDetails?> getOfferById({
     required BuildContext context,
     required String offerId,

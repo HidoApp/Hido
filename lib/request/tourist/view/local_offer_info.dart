@@ -7,7 +7,9 @@ import 'package:ajwad_v4/profile/models/profile.dart';
 import 'package:ajwad_v4/request/chat/view/chat_screen_live.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
 import 'package:ajwad_v4/request/tourist/controllers/rating_controller.dart';
-import 'package:ajwad_v4/request/tourist/models/offer_details.dart';
+ import 'package:ajwad_v4/request/tourist/models/offer_details.dart';
+import '../../../explore/tourist/model/booking.dart';
+
 import 'package:ajwad_v4/request/tourist/services/rating_service.dart';
 import 'package:ajwad_v4/request/tourist/view/about_screen.dart';
 import 'package:ajwad_v4/request/tourist/view/expert_screen.dart';

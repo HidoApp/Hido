@@ -5,6 +5,7 @@ import 'package:ajwad_v4/profile/view/order_screen.dart';
 import 'package:ajwad_v4/profile/view/ticket_screen.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/view/messages_screen.dart';
+import 'package:ajwad_v4/request/chat/view/chat_screen.dart';
 import 'package:ajwad_v4/request/tourist/view/tourist_chat_screen.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/services/view/tabs/adventures_tab.dart';
@@ -65,8 +66,12 @@ class _ServiceScreenState extends State<ServiceScreen>
               pinned: true,
               actions: [
                 Padding(
-                  padding: EdgeInsets.only(right: width * 0.06),
+                // padding: EdgeInsets.only(right: width * 0.06,),
+                  padding: AppUtil.rtlDirection2(context)? EdgeInsets.only(left: width * 0.061,bottom:height*0.10 ): EdgeInsets.only(right: width * 0.06,),
+
                   child: Row(
+                  // textDirection:TextDirection.ltr,
+
                     children: [
                       HomeIconButton(
                           onTap: () {
@@ -83,9 +88,11 @@ class _ServiceScreenState extends State<ServiceScreen>
                       ),
                       HomeIconButton(
                           onTap: () {
-                            // Get.to(() => AppUtil.isGuest()
-                            //     ? const SignInScreen()
-                            //     : const TouristChatScreen(isChat: true));
+                           ProfileController _profileController =
+                                Get.put(ProfileController());
+                            Get.to(() => AppUtil.isGuest()
+                                ? const SignInScreen()
+                                : MessagesScreen(profileController: _profileController));
                           },
                           icon: 'assets/icons/Communication_white.svg'),
                       SizedBox(

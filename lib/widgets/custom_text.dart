@@ -41,7 +41,7 @@ class CustomText extends StatelessWidget {
     return Text(
       text,
       textAlign: textAlign ??
-          (!AppUtil.rtlDirection(context) ? TextAlign.right : TextAlign.left),
+          (AppUtil.rtlDirection2(context) ? TextAlign.right : TextAlign.left),
       maxLines: maxlines,
       overflow: textOverflow,
       style: TextStyle(
@@ -56,7 +56,7 @@ class CustomText extends StatelessWidget {
           decorationColor: color,
           decorationThickness: 0.3),
       textDirection: textDirection ??
-          (!AppUtil.rtlDirection(context)
+          (AppUtil.rtlDirection2(context)
               ? TextDirection.rtl
               : TextDirection.ltr),
     );

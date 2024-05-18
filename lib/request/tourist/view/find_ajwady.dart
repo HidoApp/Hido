@@ -11,6 +11,7 @@ import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/StackWidgets.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -52,19 +53,21 @@ class _FindAjwadyState extends State<FindAjwady> {
   @override
   void initState() {
     super.initState();
-    if (_offerController.offers.isNotEmpty) {
-      showCancelDialogAfterDelay();
-    }
+    
 
     _offerController.getOffers(
       context: context,
       placeId: widget.placeId,
       bookingId: widget.booking.id!,
     );
+
+         if (_offerController.acceptedOffer==null||_offerController.acceptedOffer==[]){
+      showCancelDialogAfterDelay();
+     }
   }
 
   void showCancelDialogAfterDelay() {
-    if (_offerController.offers.isEmpty) {
+         if (_offerController.acceptedOffer==null||_offerController.acceptedOffer==[]){
       Future.delayed(const Duration(minutes: 5), () {
         showDialog(
           context: context,
@@ -73,54 +76,67 @@ class _FindAjwadyState extends State<FindAjwady> {
               backgroundColor: Colors.white,
               surfaceTintColor: Colors.white,
               shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(32.0))),
-              content: Column(
+                  borderRadius: BorderRadius.all(Radius.circular(8.0))),
+              content: Container(
+              width: 258,
+              height: AppUtil.rtlDirection2(context)?170: 165, // Set the width here
+               child:Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   const SizedBox(
-                    height: 10,
+                    height: 4,
                   ),
-                  const CustomText(
+                  CustomText(
                       textAlign: TextAlign.center,
-                      fontSize: 20,
+                      fontSize: 18,
+                      fontFamily: 'SF Pro',
                       fontWeight: FontWeight.w500,
-                      color: Colors.red,
-                      text: "Oops! "),
-                  const CustomText(
-                      textAlign: TextAlign.center,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w300,
-                      color: almostGrey,
-                      text:
-                          "It looks like there aren't any available guides in your area right now"),
-                  const SizedBox(
-                    height: 20,
+                      color: Color(0xFFDC362E),
+                      text: AppUtil.rtlDirection2(context)?"!عذرا":"Sorry!",
+                     ),
+                     const SizedBox(
+                    height: 4,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: GestureDetector(
+                   CustomText(
+                      textAlign: TextAlign.center,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFF070708),
+                      text:'notFind'.tr,
+                      //!AppUtil.rtlDirection2(context)?"We couldn't find any local guides available for your chosen date and location":"لم نتمكن من العثور على أي مرشدين محليين متاحين في التاريخ والموقع الذي اخترته",
+                      fontFamily: 'SF Pro',                      
+                      ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                 
+                    GestureDetector(
                       onTap: () {
                         Get.back();
                       },
                       child: Container(
-                        height: 40,
-                        width: 357,
-                        alignment: Alignment.center,
+                        width: 268,
+                        height: 34,
+                        padding: const EdgeInsets.symmetric(vertical: 3),
                         decoration: BoxDecoration(
                           color: colorGreen,
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(4),
                         ),
-                        child: const CustomText(
-                          text: "Try again",
+                        child:  CustomText(
+                        textAlign: TextAlign.center,
+
+                          text: "Expand".tr,
                           color: Colors.white,
-                          fontSize: 16,
+                            fontSize: 15,
+                           fontFamily: 'SF Pro',
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),
-                  ),
+                  
                   const SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   Obx(() => _offerController.isBookingCancelLoading.value
                       ? const Center(
@@ -145,14 +161,27 @@ class _FindAjwadyState extends State<FindAjwady> {
                               );
                             }
                           },
-                          child: const CustomText(
+                          child: Container(
+                            width: 268,
+                        height: 34,
+                        padding: const EdgeInsets.symmetric(vertical: 2),
+                         decoration: BoxDecoration(
+                            border: Border.all(
+                        color: Color(0xFFDC362E) ,                          
+                         width: 2, 
+                           ),
+                             borderRadius: BorderRadius.circular(4), 
+                                  ),
+                          child:CustomText(
                               textAlign: TextAlign.center,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: black,
-                              text: "Cancel Tour"),
+                              fontSize: 15,
+                           fontFamily: 'SF Pro',
+                          fontWeight: FontWeight.w500,
+                         color: Color(0xFFDC362E),
+                              text:AppUtil.rtlDirection2(context)?'الغاء الطلب' :'Cancel Request')),
                         )),
                 ],
+              ),
               ),
             );
           },
@@ -166,22 +195,23 @@ class _FindAjwadyState extends State<FindAjwady> {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
     return Scaffold(
+    
       appBar: CustomAppBar(
         "findLocal".tr,
         action: true,
         onPressedAction: () async {
-          // await showBottomSheetCancelBooking(height: height, width: width);
           showDialog(
             context: context,
             builder: (BuildContext context) {
               return CancelBookingDialog(
                 dialogWidth: MediaQuery.of(context).size.width * 0.588,
-                buttonWidth: MediaQuery.of(context).size.width * 1.191,
+                buttonWidth: MediaQuery.of(context).size.width * 0.191,
                 booking: widget.booking,
                 offerController: _offerController,
               );
             },
           );
+          //await showBottomSheetCancelBooking(height: height, width: width);
 
           // showModalBottomSheet(
           //     isScrollControlled: true,
@@ -200,6 +230,7 @@ class _FindAjwadyState extends State<FindAjwady> {
           //     });
         },
       ),
+      
       body: Obx(() {
         if (_offerController.isOffersLoading.value) {
           return const Center(
@@ -214,18 +245,145 @@ class _FindAjwadyState extends State<FindAjwady> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                      Container(
+                  width: 0.999 * width,
+                  padding: const EdgeInsets.symmetric(vertical: 1),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Column(
+                   crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ListTile(
+                        onTap: () {
+                          setState(() {
+                            isDetailsTapped = !isDetailsTapped;
+                          });
+                        },
+                        title: CustomText(
+                          text: 'tripDetails'.tr,
+                          fontSize: 17,
+                          fontFamily: 'HT Rakik',
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black,
+                        
+      
+                  ),
+                        trailing: Icon(
+                          isDetailsTapped
+                              ? Icons.keyboard_arrow_up
+                              : Icons.keyboard_arrow_down,
+                          color: darkGrey,
+                          size: 24,
+                        ),
+                      ),
+                      if (isDetailsTapped)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  SvgPicture.asset('assets/icons/date.svg'),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  CustomText(
+                                    text:
+                                        '${DateFormat('EEE, dd MMMM yyyy').format(DateTime.parse(widget.booking.date!))}',
+                                    color: almostGrey,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: 'SF Pro',
+
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                                 Row(
+                                children: [
+                                  SvgPicture.asset('assets/icons/time3.svg'),
+                                  const SizedBox(
+                                    width: 9,
+                                  ),
+                                  CustomText(
+                                    text:AppUtil.rtlDirection2(context)?' ${DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking.timeToGo}'))} إلى ${DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking.timeToReturn}'))} ':'Pick up: ${DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking.timeToGo}'))}, Drop off: ${DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking.timeToReturn}'))}',
+                                    color: almostGrey,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: 'SF Pro',
+
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              
+                              Row(
+                                children: [
+                                  SvgPicture.asset('assets/icons/guests.svg'),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  CustomText(
+                                    text:
+                                        '${widget.booking.guestNumber} ${'guests'.tr}',
+                                    color: almostGrey,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: 'SF Pro',
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              
+                              Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    'assets/icons/unselected_${widget.booking.vehicleType!}_icon.svg',
+                                    width: 20,
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  CustomText(
+                                    text: widget.booking.vehicleType!,
+                                    color: almostGrey,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: 'SF Pro',
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+                 const SizedBox(
+                  height: 17,
+                ),
                 Center(
                   child: Visibility(
                     visible: _offerController.offers.isEmpty,
                     child: Container(
-                      height: height * 0.2,
-                      width: 0.84 * width,
+                      height: height * 0.219,
+                      width: 0.999 * width,
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(8),
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.all(10.0),
+                        padding: const EdgeInsets.all(24.0),
                         child: Column(
                           children: [
                             const SizedBox(
@@ -254,120 +412,33 @@ class _FindAjwadyState extends State<FindAjwady> {
                               textAlign: TextAlign.center,
                               fontSize: 12,
                             )),
+                             const SizedBox(
+                               height: 10,
+                             ),
                           ],
+                          
                         ),
+                        
                       ),
+                      
                     ),
+                    
                   ),
+                  
                 ),
-                const SizedBox(
-                  height: 30,
-                ),
-                Container(
-                  width: 0.84 * width,
-                  padding: const EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ListTile(
-                        onTap: () {
-                          setState(() {
-                            isDetailsTapped = !isDetailsTapped;
-                          });
-                        },
-                        title: CustomText(
-                          text: 'tripDetails'.tr,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
-                        ),
-                        trailing: Icon(
-                          isDetailsTapped
-                              ? Icons.keyboard_arrow_up
-                              : Icons.keyboard_arrow_down,
-                          color: darkGrey,
-                          size: 24,
-                        ),
-                      ),
-                      if (isDetailsTapped)
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  SvgPicture.asset('assets/icons/guests.svg'),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  CustomText(
-                                    text:
-                                        '${widget.booking.guestNumber} ${'guests'.tr}',
-                                    color: almostGrey,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w300,
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                children: [
-                                  SvgPicture.asset('assets/icons/date.svg'),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  CustomText(
-                                    text:
-                                        '${DateFormat('dd/MM/yyyy').format(DateTime.parse(widget.booking.date!))} - ${widget.booking.timeToGo}',
-                                    color: almostGrey,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w300,
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                children: [
-                                  SvgPicture.asset(
-                                    'assets/icons/unselected_${widget.booking.vehicleType!}_icon.svg',
-                                    width: 20,
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  CustomText(
-                                    text: widget.booking.vehicleType!,
-                                    color: almostGrey,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w300,
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
+                if (_offerController.offers.isEmpty)...[
+                   SizedBox(
+                               height: 17,
+                             ),
+                 
+              ],
                 if (_offerController.offers.isNotEmpty)
                   GestureDetector(
                     //TODO: offer screen will be there
                     onTap: () {
                       Get.to(() => OfferScreen(
                             place: widget.place,
+                            booking:widget.booking,
                           ));
                       // showModalBottomSheet(
                       //     isScrollControlled: true,
@@ -386,56 +457,78 @@ class _FindAjwadyState extends State<FindAjwady> {
                       //     });
                     },
                     child: Container(
-                      height: 60,
-                      width: 0.84 * width,
+                      height: 0.08*height,
+                      width: 0.999 * width,
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(20)),
+                          borderRadius: BorderRadius.circular(8)),
                       child: Row(children: [
+                        
                         ListView.builder(
                             scrollDirection: Axis.horizontal,
                             shrinkWrap: true,
-                            itemCount: 3,
+                            itemCount:_offerController.firstThreeImages.isNotEmpty
+                            ? _offerController.firstThreeImages.length
+                            : 1,
                             itemBuilder: (context, index) {
-                              return const Align(
-                                widthFactor: 0.5,
-                                child: CircleAvatar(
-                                  radius: 12,
-                                  backgroundImage: AssetImage(
-                                      'assets/images/ajwadi_image.png'),
-                                ),
-                              );
+                              String? image = _offerController.firstThreeImages[index];
+
+                             return Align(
+                             widthFactor: 0.5,
+                              child: CircleAvatar(
+                             radius: 22,
+                             backgroundImage: image!.isNotEmpty
+                             ? CachedNetworkImageProvider(image)
+                             : const AssetImage('assets/images/ajwadi_image.png') as ImageProvider,
+                              )
+                             );
+                            //_offerController.offers.length,
+                            // itemBuilder: (context, index) {
+                            //   return const Align(
+                            //     widthFactor: 0.5,
+                            //     child: CircleAvatar(
+                            //       radius: 22,
+                            //       backgroundImage: 
+                            //       AssetImage(
+                            //           'assets/images/ajwadi_image.png'),
+                            //     ),
+                            //   );
+
                             }),
                         Align(
                           widthFactor: 0.7,
+                           child: Visibility(
+                            visible: _offerController.offers.length > _offerController.firstThreeImages.length,
                           child: CircleAvatar(
-                            radius: 12,
-                            backgroundColor: colorGreen,
-                            child: CustomText(
-                              text: _offerController.offers.length.toString(),
-                              color: Colors.white,
-                              textAlign: TextAlign.center,
-                              fontFamily: 'Kufam',
-                              fontSize: 8,
-                              fontWeight: FontWeight.w400,
+                            radius: 18,
+                            backgroundColor:  Color(0xFFD4F2E0),
+                           child: CustomText(
+                           text: (_offerController.offers.length - _offerController.firstThreeImages.length).toString(),
+                           color: Colors.white,
+                           textAlign: TextAlign.center,
+                           fontFamily: 'Kufam',
+                            fontSize: 12,
+                           fontWeight: FontWeight.w400,
                             ),
+                              ),
                           ),
                         ),
                         const SizedBox(
-                          width: 20,
+                          width: 23,
                         ),
                         CustomText(
                           text:
                               "${_offerController.offers.length} ${"offers".tr}",
                           color: black,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w900,
+                          fontSize: 17,
+                          fontFamily: 'HT Rakik',
+                          fontWeight: FontWeight.w700,
                         ),
                         const Spacer(),
                         const Icon(
                           Icons.arrow_forward_ios_sharp,
-                          size: 22,
+                          size: 15,
                         )
                       ]),
                     ),
