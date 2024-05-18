@@ -84,13 +84,11 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
       setState(() {
         _EndTicket = bookings;
         getEndBookings();
-        print(
-            "loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
+        
       });
       print(_EndTicket.length);
     } else {
-      print(
-          "loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo2");
+     
     }
   }
 

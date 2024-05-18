@@ -293,7 +293,7 @@ class _CustomCheckWidget extends StatelessWidget {
                     TextSpan(
                       children: [
                         TextSpan(
-                          text: '${schedule?.price ?? 0} SAR ',
+                          text: AppUtil.rtlDirection2(context)?'${schedule?.price ?? 0} ريال ':'${schedule?.price ?? 0} SAR ',
                           style: isBold ? priceBold : priceStyle,
                         ),
                         // const TextSpan(

@@ -17,6 +17,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
+import '../../chat/view/chat_screen.dart';
+
 class ShowAjwadiInfoSheet extends StatefulWidget {
   const ShowAjwadiInfoSheet({
     Key? key,
@@ -201,14 +203,22 @@ class _ShowAjwadiInfoSheetState extends State<ShowAjwadiInfoSheet>
                   //       senderId: userId,
                   //       chatId: offerDetails.chatId!,
                   //     ));
-                  Get.to(() => ChatScreenLive(
-                        isAjwadi: false,
-                        offerController: _offerController,
-                        booking: _offerController.offerDetails.value.booking!,
-                        chatId: _offerController
-                            .offerDetails.value.booking!.chatId!,
-                        place: widget.place,
-                      ));
+                  // Get.to(() => ChatScreenLive(
+                  //       isAjwadi: false,
+                  //       offerController: _offerController,
+                  //       booking: _offerController.offerDetails.value.booking!,
+                  //       chatId: _offerController
+                  //           .offerDetails.value.booking!.chatId!,
+                  //       place: widget.place,
+                  //     ));
+                  
+                          Get.to(() => ChatScreen(
+                                chatId: _offerController
+                                    .offerDetails.value.booking!.chatId!,
+                                 booking: _offerController
+                                      .offerDetails.value.booking!,
+
+                              ));
                   // }
                 },
                 title: 'chat'.tr,
@@ -247,13 +257,22 @@ class _ShowAjwadiInfoSheetState extends State<ShowAjwadiInfoSheet>
                               //       senderId: userId,
                               //       chatId: offerDetails.chatId!,
                               //     ));
-                              Get.to(() => ChatScreenLive(
-                                    isAjwadi: false,
-                                    offerController: _offerController,
-                                    booking: offerDetails.booking!,
-                                    chatId: offerDetails.booking!.chatId!,
-                                    place: widget.place,
-                                  ));
+                              // Get.to(() => ChatScreenLive(
+                              //       isAjwadi: false,
+                              //       offerController: _offerController,
+                              //       booking: offerDetails.booking!,
+                              //       chatId: offerDetails.booking!.chatId!,
+                              //       place: widget.place,
+                              //     ));
+
+                              
+                          Get.to(() => ChatScreen(
+                                chatId: _offerController
+                                    .offerDetails.value.booking!.chatId!,
+                                 booking: _offerController
+                                      .offerDetails.value.booking!,
+
+                              ));
                             }
                           },
                           title: 'chat'.tr,

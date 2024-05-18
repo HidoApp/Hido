@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/request/tourist/view/find_ajwady.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart' as intel;
 
 
 
@@ -107,13 +107,14 @@ class CustomTicketCard extends StatelessWidget {
                         color: black,
                       ),
                       Row(
+                        textDirection: AppUtil.rtlDirection2(context)?TextDirection.rtl:TextDirection.ltr,
                         children: [
                           SvgPicture.asset('assets/icons/Polygon_host.svg'),
                           const SizedBox(
                             width: 4,
                           ),
                           CustomText(
-                            text: 'Tour',
+                            text: AppUtil.rtlDirection2(context)?'جولة':'Tour',
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
                             color: black,
@@ -127,6 +128,7 @@ class CustomTicketCard extends StatelessWidget {
                   height: 5,
                 ),
                 Row(
+                  
                   children: [
                     SvgPicture.asset('assets/icons/map_pin.svg'),
                     const SizedBox(
@@ -154,7 +156,7 @@ class CustomTicketCard extends StatelessWidget {
                       width: 4,
                     ),
                     CustomText(
-                      text: DateFormat.yMMMMd().format(DateTime.parse(booking.date)),
+                      text:intel.DateFormat.yMMMMd().format(DateTime.parse(booking.date)),
                       fontSize: 10,
                       fontWeight: FontWeight.w400,
                       color: textGreyColor,
@@ -168,7 +170,10 @@ class CustomTicketCard extends StatelessWidget {
                    Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisAlignment: MainAxisAlignment.end,
+
+
                     children:[
+                      
                     SvgPicture.asset(
                       'assets/icons/${booking.orderStatus! == 'ACCEPTED' ? 'confirmed.svg' : booking.orderStatus! == 'CANCELED'? 'canceled.svg' : 'waiting.svg'}',
                     ),
@@ -177,6 +182,7 @@ class CustomTicketCard extends StatelessWidget {
                     ),
                     
                     CustomText(
+
                       text: booking.orderStatus!,
                       fontSize: 10,
                       fontWeight: FontWeight.w400,

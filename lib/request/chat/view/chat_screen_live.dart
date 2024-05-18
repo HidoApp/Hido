@@ -1,3 +1,4 @@
+
 import 'dart:developer';
 import 'dart:ffi';
 import 'package:ajwad_v4/auth/models/token.dart';
@@ -32,6 +33,8 @@ import 'package:ajwad_v4/request/widgets/CansleDialog.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:ajwad_v4/request/local_notification.dart';
 
+import 'package:intl/intl.dart' as intel;
+
 
 
 
@@ -61,6 +64,7 @@ class ChatScreenLive extends StatefulWidget {
 class _ChatScreenLiveState extends State<ChatScreenLive> {
 static FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
+
   final TextEditingController messageController = TextEditingController();
   final chatController = Get.put(ChatController());
   final _offerController = Get.put(OfferController());
@@ -69,7 +73,8 @@ static FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = Flutter
   String? userId;
     bool isDetailsTapped = false;
   late double width, height;
-
+  int startIndex = -1;
+  bool isSendTapped = false;
 
 RxBool isDetailsTapped2 = false.obs;
 bool isDetailsTapped3 = false;
@@ -84,7 +89,7 @@ static Future init()async{
    iOS: DarwinInitializationSettings()
 
   );
-  flutterLocalNotificationsPlugin.initialize(settings);
+   flutterLocalNotificationsPlugin.initialize(settings);
 }
   @override
   void initState() {
@@ -227,55 +232,93 @@ static Future init()async{
         ),
       ),
       if (isDetailsTapped)
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  SvgPicture.asset('assets/icons/guests.svg'),
-                  const SizedBox(width: 10),
-                  CustomText(
-                    text: '${widget.booking?.guestNumber ?? 0} ${'guests'.tr}',
-                    color: almostGrey,
-                    fontSize: 10,
-                    fontWeight: FontWeight.w300,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  SvgPicture.asset('assets/icons/date.svg'),
-                  const SizedBox(width: 10),
-                  CustomText(
-                    text: '${DateFormat('dd/MM/yyyy').format(DateTime.parse(widget.booking?.date ?? ''))} - ${widget.booking?.timeToGo}',
-                    color: almostGrey,
-                    fontSize: 10,
-                    fontWeight: FontWeight.w300,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  SvgPicture.asset(
-                    'assets/icons/unselected_${widget.booking?.vehicleType!}_icon.svg',
-                    width: 20,
-                  ),
-                  const SizedBox(width: 10),
-                  CustomText(
-                    text: widget.booking?.vehicleType ?? '',
-                    color: almostGrey,
-                    fontSize: 10,
-                    fontWeight: FontWeight.w300,
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  SvgPicture.asset('assets/icons/date.svg'),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  CustomText(
+                                    text:
+                                        '${DateFormat('EEE, dd MMMM yyyy').format(DateTime.parse(widget.booking!.date!))}',
+                                    color: almostGrey,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: 'SF Pro',
+
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                                 Row(
+                                children: [
+                                  SvgPicture.asset('assets/icons/time3.svg'),
+                                  const SizedBox(
+                                    width: 9,
+                                  ),
+                                  CustomText(
+                                    text:AppUtil.rtlDirection2(context)?' ${DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking?.timeToGo}'))} إلى ${DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking?.timeToReturn}'))} ':'Pick up: ${DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking?.timeToGo}'))}, Drop off: ${DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking?.timeToReturn}'))}',
+                                    color: almostGrey,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: 'SF Pro',
+
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              
+                              Row(
+                                children: [
+                                  SvgPicture.asset('assets/icons/guests.svg'),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  CustomText(
+                                    text:
+                                        '${widget.booking?.guestNumber} ${'guests'.tr}',
+                                    color: almostGrey,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: 'SF Pro',
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              
+                              Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    'assets/icons/unselected_${widget.booking?.vehicleType!}_icon.svg',
+                                    width: 20,
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  CustomText(
+                                    text: widget.booking!.vehicleType!,
+                                    color: almostGrey,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: 'SF Pro',
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
     ],
   ),
 ),
@@ -525,7 +568,7 @@ static Future init()async{
                                SizedBox(
                                   width: 358,
                                         child: Text(
-                                '*Please note that the prices listed are per person',
+                                         'notePrice'.tr,
                                            style: TextStyle(
                                           color: Color(0xFF9392A0),
                                            fontSize: 12,
@@ -576,7 +619,7 @@ static Future init()async{
                                 )
                               : CustomButton(
                                 
-                                title: 'pay'.tr,
+                                title: 'confirm'.tr,
 
 
 
@@ -588,14 +631,7 @@ static Future init()async{
                                         await paymentController.paymentInvoice(
                                             context: context,
                                             description: 'Book place',
-                                            amount: (widget.place!.price! *
-                                                    widget
-                                                        .offerController!
-                                                        .offerDetails
-                                                        .value
-                                                        .booking!
-                                                        .guestNumber!) +
-                                                (widget.offerController!
+                                              amount: (widget.offerController!
                                                         .totalPrice.value *
                                                     widget
                                                         .offerController!
@@ -604,9 +640,25 @@ static Future init()async{
                                                         .booking!
                                                         .guestNumber!));
 
+                                            // amount: (widget.place!.price! *
+                                            //         widget
+                                            //             .offerController!
+                                            //             .offerDetails
+                                            //             .value
+                                            //             .booking!
+                                            //             .guestNumber!) +
+                                            //     (widget.offerController!
+                                            //             .totalPrice.value *
+                                            //         widget
+                                            //             .offerController!
+                                            //             .offerDetails
+                                            //             .value
+                                            //             .booking!
+                                            //             .guestNumber!));
+
                                     Get.to(() => PaymentWebView(
                                         url: invoice!.url!,
-                                        title: 'Payment'))?.then((value) async {
+                                        title: AppUtil.rtlDirection2(context)?'الدفع':'Checkout'))?.then((value) async {
                                     
                                        setState(() {
                                                   isCheckingForPayment = true;
@@ -697,7 +749,8 @@ static Future init()async{
                                                             ),
                                                           );
                                                         });
-                                                       // LocalNotification().showNotification(context,widget.booking?.id, widget.booking?.date ,widget.offerController?.offerDetails.value.name ?? "", widget.booking?.place?.nameAr,widget.booking?.place?.nameEn);
+                                                LocalNotification().showNotification(context,widget.booking?.id, widget.booking?.timeToGo, widget.booking?.date ,widget.offerController?.offerDetails.value.name ?? "", widget.booking?.place?.nameAr,widget.booking?.place?.nameEn);
+
 
                                                   }
                                                 }
@@ -737,7 +790,7 @@ static Future init()async{
                                     //   //  Get.back();
                                     // });
 
-                                    //LocalNotification().showNotification(context,widget.booking?.id, widget.booking?.date ,widget.offerController?.offerDetails.value.name ?? "", widget.booking?.place?.nameAr,widget.booking?.place?.nameEn);
+                                    // LocalNotification().showNotification(context,widget.booking?.id, widget.booking?.timeToGo, widget.booking?.date ,widget.offerController?.offerDetails.value.name ?? "", widget.booking?.place?.nameAr,widget.booking?.place?.nameEn);
                                   },
                                 )
                         ],

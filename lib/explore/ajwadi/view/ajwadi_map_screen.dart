@@ -17,6 +17,10 @@ import 'package:get_storage/get_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 
+import '../../../auth/view/sigin_in/signin_screen.dart';
+import '../../../profile/controllers/profile_controller.dart';
+import '../../../profile/view/messages_screen.dart';
+
 class AjwadiMapScreen extends StatefulWidget {
   const AjwadiMapScreen({super.key, this.fromAjwady = true});
 
@@ -219,8 +223,13 @@ class _AjwadiMapScreenState extends State<AjwadiMapScreen> {
                 ),
                 InkWell(
                   onTap: () {
-                    Get.to(() => NotificationScreen());
-                  },
+                        ProfileController _profileController =
+                                          Get.put(ProfileController());
+                                      Get.to(() =>
+                                        MessagesScreen(
+                                              profileController:
+                                                  _profileController)); 
+                                                   },
                   child: Container(
                     width: 36,
                     height: 36,

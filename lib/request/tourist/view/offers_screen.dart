@@ -3,16 +3,20 @@ import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
 import 'package:ajwad_v4/request/tourist/view/custom_ajwadi_card.dart';
 import 'package:ajwad_v4/request/tourist/view/local_offer_info.dart';
 import 'package:ajwad_v4/request/tourist/view/show_ajwadi_info_sheet.dart';
+import 'package:ajwad_v4/request/widgets/CansleDialog.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 
 class OfferScreen extends StatefulWidget {
-  const OfferScreen({super.key, required this.place});
+  const OfferScreen({super.key, required this.place,required this.booking,});
   final Place place;
+  final Booking booking;
+
 
   @override
   State<OfferScreen> createState() => _OfferScreenState();
@@ -28,7 +32,25 @@ class _OfferScreenState extends State<OfferScreen> {
         appBar: CustomAppBar(
           'offers'.tr,
           action: true,
-          onPressedAction: () {},
+          onPressedAction: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return CancelBookingDialog(
+                dialogWidth: MediaQuery.of(context).size.width * 0.588,
+                buttonWidth: MediaQuery.of(context).size.width * 0.191,
+                booking: widget.booking,
+                offerController: _offerController,
+              );
+            },
+          );
+
+
+
+
+
+
+          },
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

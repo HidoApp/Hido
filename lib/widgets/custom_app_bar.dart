@@ -1,4 +1,5 @@
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,7 +14,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.onPressedAction,
     this.backgroundColor,
     this.isAjwadi = false,
-  })  : preferredSize = const Size.fromHeight(50.0),
+  })  : preferredSize = const Size.fromHeight(75.0),
+  
+  
         super(key: key);
 
   final String title;
@@ -28,37 +31,51 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-        centerTitle: false,
-        // forceMaterialTransparency: true,
-        title: CustomText(
+   return PreferredSize(
+    preferredSize: const Size.fromHeight(75.0),
+    child: Directionality(
+      textDirection: AppUtil.rtlDirection2(context) ? TextDirection.rtl : TextDirection.ltr,
+
+    
+   child: AppBar(
+      
+    backgroundColor:  backgroundColor?? Colors.transparent,
+    elevation: 0,
+    title: Padding(
+      padding: AppUtil.rtlDirection2(context)? EdgeInsets.only(top: 0, left: 0, right: 0,bottom: 18):EdgeInsets.only(top: 0, left: 20, right: 20,bottom: 18),
+      child: CustomText(
           text: title,
           color: color ?? const Color(0xFF333333),
           fontWeight: FontWeight.w600,
           fontSize: 24,
         ),
-        backgroundColor:Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: SizedBox(
-              child: Icon(
+    ),
+      centerTitle: true,
+
+        leading: Padding(
+        padding: AppUtil.rtlDirection2(context)?EdgeInsets.only(bottom:10, right:30):EdgeInsets.only(bottom:23, left:30),
+        child: IconButton(
+          icon: Icon(
             Icons.arrow_back_ios,
             size: 22,
-            color: iconColor ?? black,
-          )),
+            color: iconColor ?? Colors.black,
+          ),
           onPressed: () => Get.back(),
-          color: color ?? Colors.black,
         ),
-        actions: action
+      ),
+      actions: action
             ? [
-                IconButton(
+              Padding(
+                padding: AppUtil.rtlDirection2(context)?EdgeInsets.only(bottom:111, left:15,top:0):EdgeInsets.only(bottom:80, top:0,right:15),
+               child: IconButton(
                     onPressed: onPressedAction,
                     icon: Icon(
                       Icons.more_vert,
                       size: 32,
                       color: color ?? Colors.black,
-                    ))
+                    )))
               ]
-            : []);
+            : [],
+)));
   }
 }
