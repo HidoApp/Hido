@@ -8,9 +8,11 @@ class ImagesServicesWidget extends StatelessWidget {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: ClipRRect(
-        borderRadius: const BorderRadius.only(
-            bottomLeft: Radius.circular(16), bottomRight: Radius.circular(16)
-            ),
+        borderRadius: BorderRadius.only(
+            bottomLeft:
+                Radius.circular(MediaQuery.of(context).size.width * 0.04),
+            bottomRight:
+                Radius.circular(MediaQuery.of(context).size.width * 0.04)),
         child: Image.network(
           image,
           fit: BoxFit.fill,

@@ -1,11 +1,11 @@
 import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/constants/colors.dart';
-import 'package:ajwad_v4/request/tourist/view/review_ticket_screen.dart';
+import 'package:ajwad_v4/services/view/review_adventure_screen.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
 import 'package:ajwad_v4/services/model/hospitality.dart';
-import 'package:ajwad_v4/services/view/widgets/reservation_details_widget.dart';
+import 'package:ajwad_v4/services/view/widgets/hospitality_booking_sheet.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
@@ -13,8 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
-class BottomBookingWidget extends StatelessWidget {
-  const BottomBookingWidget(
+class BottomHospitalityBooking extends StatelessWidget {
+  const BottomHospitalityBooking(
       {super.key,
       required this.hospitalityObj,
       required this.servicesController,
@@ -69,7 +69,7 @@ class BottomBookingWidget extends StatelessWidget {
                   AppUtil.isGuest()
                       ? Get.to(() => const SignInScreen())
                       : Get.bottomSheet(
-                          ReservaationDetailsWidget(
+                          HospitalityBookingSheet(
                               color: Colors.green,
                               hospitality: hospitalityObj,
                               avilableDate: avilableDate,
@@ -78,8 +78,7 @@ class BottomBookingWidget extends StatelessWidget {
                           elevation: 0,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(24),
-                          ),
-                        );
+                          ));
                 },
                 iconColor: darkPurple,
                 title: "book".tr,
@@ -95,18 +94,17 @@ class BottomBookingWidget extends StatelessWidget {
   }
 }
 
-class BottomBookingWidgetAdventure extends StatefulWidget {
-  const BottomBookingWidgetAdventure({
-    super.key, required this.adventure,
+class BottomAdventureBooking extends StatefulWidget {
+  const BottomAdventureBooking({
+    super.key,
+    required this.adventure,
   });
   final Adventure adventure;
   @override
-  State<BottomBookingWidgetAdventure> createState() =>
-      _BottomBookingWidgetAdventureState();
+  State<BottomAdventureBooking> createState() => _BottomAdventureBookingState();
 }
 
-class _BottomBookingWidgetAdventureState
-    extends State<BottomBookingWidgetAdventure> {
+class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
   var person = 0;
   @override
   Widget build(BuildContext context) {
@@ -164,14 +162,6 @@ class _BottomBookingWidgetAdventureState
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const CustomText(
-                                    text: "Booking Details",
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
                                   const CustomText(
                                     text: 'Number of People ',
                                     fontSize: 17,
@@ -234,12 +224,22 @@ class _BottomBookingWidgetAdventureState
                                       ],
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 24,
                                   ),
                                   CustomButton(
                                       onPressed: () {
-                                        Get.to(() =>  ReviewTicket(adventure: widget.adventure ,person: person,));
+                                        Get.to(() => ReviewAdventure(
+                                                  adventure: widget.adventure,
+                                                  person: person,
+                                                ))!
+                                            .then(
+                                          (value) {
+                                            person = 0;
+                                            print(value);
+                                            Get.back();
+                                          },
+                                        );
                                       },
                                       title: 'confirm'.tr)
                                 ],
@@ -253,7 +253,7 @@ class _BottomBookingWidgetAdventureState
                                 topLeft: Radius.circular(24),
                                 topRight: Radius.circular(24)),
                           ),
-                        );
+                        ).then((value) => person = 0);
                 },
                 iconColor: darkPurple,
                 title: "book".tr,

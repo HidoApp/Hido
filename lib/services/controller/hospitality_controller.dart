@@ -1,5 +1,4 @@
 import 'package:ajwad_v4/payment/model/payment_result.dart';
-import 'package:ajwad_v4/services/model/adventure.dart';
 import 'package:ajwad_v4/services/model/hospitality.dart';
 import 'package:ajwad_v4/services/model/payment.dart';
 import 'package:ajwad_v4/services/service/hospitality_service.dart';

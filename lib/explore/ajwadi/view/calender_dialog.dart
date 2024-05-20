@@ -84,8 +84,7 @@ class _CalenderDialogState extends State<CalenderDialog> {
                       selectableDayPredicate:
                           widget.avilableDate != null ? defineSelectable : null,
                       selectionMode: DateRangePickerSelectionMode.single,
-                      selectionColor:
-                          widget.type == 'hospitality' ? purple : Colors.green,
+                      selectionColor: Colors.green,
                       selectionTextStyle: TextStyle(),
                       selectionShape: DateRangePickerSelectionShape.circle,
                       todayHighlightColor: colorGreen,
@@ -107,7 +106,6 @@ class _CalenderDialogState extends State<CalenderDialog> {
             CustomButton(
                 height: 40,
                 customWidth: 260,
-                buttonColor: widget.type == 'hospitality' ? purple : null,
                 onPressed: () {
                   if (selectedDate == '') {
                   } else {
