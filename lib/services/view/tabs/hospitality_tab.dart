@@ -54,13 +54,13 @@ class _HospitalityTabState extends State<HospitalityTab> {
                   children: [
                     CustomText(
                       text: 'saudiHospitality'.tr,
-                      fontSize: 20,
+                      fontSize: width * 0.05,
                       fontWeight: FontWeight.w500,
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 8,
+                SizedBox(
+                  height: width * 0.02,
                 ),
                 //cities list view
                 SizedBox(
@@ -131,8 +131,8 @@ class _HospitalityTabState extends State<HospitalityTab> {
                             );
                           },
                           separatorBuilder: (context, index) {
-                            return const SizedBox(
-                              height: 16,
+                            return SizedBox(
+                              height: width * 0.041,
                             );
                           },
                         ),

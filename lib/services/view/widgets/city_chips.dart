@@ -8,17 +8,19 @@ class CityChips extends StatelessWidget {
   final String city;
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+      padding: EdgeInsets.symmetric(
+          horizontal: width * 0.030, vertical: width * 0.01),
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        border: Border.all(width: 1, color: colorDarkGreen),
-        borderRadius: const BorderRadius.all(Radius.circular(20)),
+        border: Border.all(width: width * 0.0025, color: colorDarkGreen),
+        borderRadius: BorderRadius.all(Radius.circular(width * 0.051)),
       ),
       child: CustomText(
         text: city,
-        fontSize: 17,
-        fontWeight: FontWeight.w400,
+        fontSize: width * 0.038,
+        fontWeight: FontWeight.w600,
         color: colorDarkGreen,
         textAlign: TextAlign.center,
       ),

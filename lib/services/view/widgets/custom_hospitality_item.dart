@@ -102,7 +102,7 @@ class ServicesCard extends StatelessWidget {
                       ],
                     ),
                     SizedBox(
-                      height: 4,
+                      height: width * 0.01,
                     ),
                     Row(
                       children: [
@@ -132,7 +132,7 @@ class ServicesCard extends StatelessWidget {
                       ],
                     ),
                     SizedBox(
-                      height: 4,
+                      height: width * 0.01,
                     ),
                     Row(
                       children: [
@@ -141,16 +141,13 @@ class ServicesCard extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            SvgPicture.asset('assets/icons/grey_calender.svg'),
+                            SvgPicture.asset('assets/icons/meal.svg'),
                             SizedBox(
                               width: width * 0.01,
                             ),
                             if (dayInfo != null || dayInfo != [])
                               CustomText(
-                                text: DateFormat('E-dd-MMM').format(
-                                    DateTime.parse(dayInfo![0]
-                                        .startTime
-                                        .substring(0, 10))),
+                                text: meal,
                                 fontSize: width * 0.025,
                                 fontWeight: FontWeight.w400,
                                 color: starGreyColor,

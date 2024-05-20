@@ -378,5 +378,12 @@ const localeEn = {
   "notFind":
       "We couldn't find any local guides available for your chosen date and location",
   "Expand": "Expand Search",
-  "notePrice": "Please note that the prices listed are per person"
+  "notePrice": "Please note that the prices listed are per person",
+  'mm/dd/yyy': 'mm/dd/yyy',
+  'reviewbooking': 'Review Booking',
+  'hospitalitydetails': 'Hospitality Details',
+  "numberofpeople": 'Number of People',
+  'bookingdate': 'Booking Date & Time ',
+  'applied': 'Applied',
+  'addpromocode': 'Add Promocode'
 };

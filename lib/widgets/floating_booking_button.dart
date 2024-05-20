@@ -25,32 +25,32 @@ class BottomHospitalityBooking extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
-
+    final width = MediaQuery.of(context).size.width;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.symmetric(horizontal: width * 0.041),
       color: Colors.white,
       width: double.infinity,
-      height: 150,
+      height: width * 0.38,
       child: Column(
         children: [
           Row(
             children: [
               CustomText(
                 text: "pricePerPerson".tr,
-                fontSize: 15,
+                fontSize: width * 0.038,
                 color: colorDarkGrey,
                 fontWeight: FontWeight.w400,
               ),
-              const CustomText(
+              CustomText(
                 text: " /  ",
                 fontWeight: FontWeight.w900,
-                fontSize: 17,
+                fontSize: width * 0.043,
                 color: Colors.black,
               ),
               CustomText(
                 text: '${hospitalityObj!.price} ${'sar'.tr}',
                 fontWeight: FontWeight.w900,
-                fontSize: 17,
+                fontSize: width * 0.043,
                 fontFamily: 'HT Rakik',
               ),
             ],
@@ -62,7 +62,10 @@ class BottomHospitalityBooking extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             child: Padding(
               //padding: const EdgeInsets.only(right: 16, left: 16, bottom: 32),
-              padding: const EdgeInsets.only(right: 1, left: 1, bottom: 32),
+              padding: EdgeInsets.only(
+                  right: width * 0.0025,
+                  left: width * 0.0025,
+                  bottom: width * 0.08),
 
               child: CustomButton(
                 onPressed: () {
@@ -77,7 +80,9 @@ class BottomHospitalityBooking extends StatelessWidget {
                           backgroundColor: Colors.white,
                           elevation: 0,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(24),
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(width * 0.06),
+                                topRight: Radius.circular(width * 0.06)),
                           ));
                 },
                 iconColor: darkPurple,
@@ -109,32 +114,32 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
-
+    final width = MediaQuery.of(context).size.width;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.symmetric(horizontal: width * 0.041),
       color: Colors.white,
       width: double.infinity,
-      height: 150,
+      height: width * 0.38,
       child: Column(
         children: [
           Row(
             children: [
               CustomText(
                 text: "pricePerPerson".tr,
-                fontSize: 15,
+                fontSize: width * 0.038,
                 color: colorDarkGrey,
                 fontWeight: FontWeight.w400,
               ),
-              const CustomText(
+              CustomText(
                 text: " /  ",
                 fontWeight: FontWeight.w900,
-                fontSize: 17,
+                fontSize: width * 0.043,
                 color: Colors.black,
               ),
               CustomText(
                 text: '400 ${'sar'.tr}',
                 fontWeight: FontWeight.w900,
-                fontSize: 17,
+                fontSize: width * 0.043,
                 fontFamily: 'HT Rakik',
               ),
             ],
@@ -146,7 +151,10 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
             alignment: Alignment.bottomCenter,
             child: Padding(
               //padding: const EdgeInsets.only(right: 16, left: 16, bottom: 32),
-              padding: const EdgeInsets.only(right: 1, left: 1, bottom: 32),
+              padding: EdgeInsets.only(
+                  right: width * 0.0025,
+                  left: width * 0.0025,
+                  bottom: width * 0.08),
 
               child: CustomButton(
                 onPressed: () {
@@ -155,28 +163,30 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
                       : Get.bottomSheet(
                           StatefulBuilder(
                             builder: (context, setState) => Container(
-                              height: 268,
+                              height: width * 0.687,
                               width: double.infinity,
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 24, vertical: 20),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: width * 0.06,
+                                vertical: width * 0.05,
+                              ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const CustomText(
+                                  CustomText(
                                     text: 'Number of People ',
-                                    fontSize: 17,
+                                    fontSize: width * 0.043,
                                   ),
                                   Container(
-                                    height: 48,
-                                    width: 342,
-                                    padding: const EdgeInsets.only(
-                                      left: 10,
-                                      right: 10,
-                                    ),
+                                    height: width * 0.123,
+                                    width: width * 0.87,
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: width * 0.025),
                                     margin: EdgeInsets.only(
-                                        top: height * 0.02, bottom: 5),
+                                        top: height * 0.02,
+                                        bottom: width * 0.012),
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(8),
+                                      borderRadius:
+                                          BorderRadius.circular(width * 0.02),
                                       border: Border.all(
                                         color: lightGreyColor,
                                       ),
@@ -202,14 +212,14 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
                                             color: darkGrey,
                                           ),
                                         ),
-                                        const SizedBox(width: 15),
+                                        SizedBox(width: width * 0.038),
                                         CustomText(
                                           text: person.toString(),
                                           color: tileGreyColor,
                                           fontSize: 18,
                                           fontWeight: FontWeight.w400,
                                         ),
-                                        const SizedBox(width: 15),
+                                        SizedBox(width: width * 0.038),
                                         GestureDetector(
                                           onTap: () {
                                             setState(() {
@@ -224,8 +234,8 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
                                       ],
                                     ),
                                   ),
-                                  const SizedBox(
-                                    height: 24,
+                                  SizedBox(
+                                    height: width * 0.06,
                                   ),
                                   CustomButton(
                                       onPressed: () {
@@ -235,9 +245,9 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
                                                 ))!
                                             .then(
                                           (value) {
-                                            person = 0;
-                                            print(value);
-                                            Get.back();
+                                            // person = 0;
+                                            // print(value);
+                                            // Get.back();
                                           },
                                         );
                                       },
@@ -248,10 +258,10 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
                           ),
                           backgroundColor: Colors.white,
                           elevation: 0,
-                          shape: const RoundedRectangleBorder(
+                          shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(24),
-                                topRight: Radius.circular(24)),
+                                topLeft: Radius.circular(width * 0.06),
+                                topRight: Radius.circular(width * 0.06)),
                           ),
                         ).then((value) => person = 0);
                 },

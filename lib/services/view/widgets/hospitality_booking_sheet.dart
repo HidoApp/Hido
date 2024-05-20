@@ -70,51 +70,51 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
               child: Column(
                 children: [
                   Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      padding: EdgeInsets.symmetric(horizontal: width * 0.06),
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(35),
+                        borderRadius: BorderRadius.circular(width * 0.089),
                       ),
                       child: Form(
                         key: _formKey,
                         child: ListView(shrinkWrap: true, children: [
-                          const SizedBox(
-                            height: 5,
+                          SizedBox(
+                            height: width * 0.012,
                           ),
 
                           Align(
                               child: Container(
-                            width: 65,
-                            height: 4,
+                            width: width * 0.16,
+                            height: width * 0.010,
                             decoration: BoxDecoration(
                                 color: lightGreyColor,
-                                borderRadius: BorderRadius.circular(20)),
+                                borderRadius:
+                                    BorderRadius.circular(width * 0.051)),
                           )),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              const SizedBox(
-                                height: 12,
+                              SizedBox(
+                                height: width * 0.03,
                               ),
                               CustomText(
-                                text: "guests2".tr,
+                                text: "numberofpeople".tr,
                                 color: Colors.black,
-                                fontSize: 14,
+                                fontSize: width * .035,
                                 fontWeight: FontWeight.w500,
                               ),
                               Container(
                                 //male counter
-                                height: 64,
-                                width: 380,
-                                padding: const EdgeInsets.only(
-                                  left: 15,
-                                  right: 15,
-                                ),
+                                height: width * 0.164,
+                                width: width * 0.97,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: width * 0.038),
                                 margin: EdgeInsets.only(
-                                    top: height * 0.02, bottom: 5),
+                                    top: height * 0.02, bottom: width * 0.012),
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
+                                  borderRadius:
+                                      BorderRadius.circular(width * 0.05),
                                   border: Border.all(
                                       color: showErrorGuests
                                           ? Colors.red
@@ -127,7 +127,7 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
                                       fontWeight: FontWeight.w200,
                                       color: textGreyColor,
                                     ),
-                                    Spacer(),
+                                    const Spacer(),
                                     // - button
                                     GestureDetector(
                                       onTap: () {
@@ -143,17 +143,17 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
                                           Icons.horizontal_rule_outlined,
                                           color: darkGrey),
                                     ),
-                                    const SizedBox(
-                                      width: 15,
+                                    SizedBox(
+                                      width: width * 0.038,
                                     ),
                                     CustomText(
                                       text: maleGuestNum.toString(),
                                       color: tileGreyColor,
-                                      fontSize: 18,
+                                      fontSize: width * 0.046,
                                       fontWeight: FontWeight.w400,
                                     ),
-                                    const SizedBox(
-                                      width: 15,
+                                    SizedBox(
+                                      width: width * 0.038,
                                     ),
                                     GestureDetector(
                                         onTap: () {
@@ -178,28 +178,27 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
                                 ),
                               ),
                               if (showErrorGuests)
-                                const Padding(
-                                  padding: EdgeInsets.only(left: 15),
+                                Padding(
+                                  padding: EdgeInsets.only(left: width * 0.038),
                                   child: Text(
-                                    'You need to add at least one guest',
+                                    '*You need to add at least one guest',
                                     style: TextStyle(
                                       color: Colors.red,
-                                      fontSize: 12,
+                                      fontSize: width * 0.03,
                                     ),
                                   ),
                                 ),
                               Container(
                                 // female conuter
-                                height: 64,
-                                width: 380,
-                                padding: const EdgeInsets.only(
-                                  left: 15,
-                                  right: 15,
-                                ),
+                                height: width * 0.164,
+                                width: width * 0.97,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: width * 0.038),
                                 margin: EdgeInsets.only(
-                                    top: height * 0.02, bottom: 5),
+                                    top: height * 0.02, bottom: width * 0.0128),
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
+                                  borderRadius:
+                                      BorderRadius.circular(width * 0.05),
                                   border: Border.all(
                                       color: showErrorGuests
                                           ? colorRed
@@ -211,9 +210,8 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
                                       text: "female".tr,
                                       fontWeight: FontWeight.w200,
                                       color: textGreyColor,
-                                      fontSize: 14,
                                     ),
-                                    Spacer(),
+                                    const Spacer(),
                                     GestureDetector(
                                         onTap: () {
                                           if (guestNum > 0 &&
@@ -229,17 +227,17 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
                                         child: const Icon(
                                             Icons.horizontal_rule_outlined,
                                             color: darkGrey)),
-                                    const SizedBox(
-                                      width: 15,
+                                    SizedBox(
+                                      width: width * 0.038,
                                     ),
                                     CustomText(
                                       text: femaleGuestNum.toString(),
                                       color: tileGreyColor,
-                                      fontSize: 18,
+                                      fontSize: width * 0.046,
                                       fontWeight: FontWeight.w700,
                                     ),
-                                    const SizedBox(
-                                      width: 15,
+                                    SizedBox(
+                                      width: width * 0.038,
                                     ),
                                     GestureDetector(
                                         onTap: () {
@@ -265,13 +263,13 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
                                 ),
                               ),
                               if (showErrorGuests)
-                                const Padding(
-                                  padding: EdgeInsets.only(left: 15),
+                                Padding(
+                                  padding: EdgeInsets.only(left: width * 0.038),
                                   child: Text(
                                     '*You need to add at least one guest',
                                     style: TextStyle(
                                       color: Colors.red,
-                                      fontSize: 12,
+                                      fontSize: width * 0.03,
                                     ),
                                   ),
                                 ),
@@ -280,7 +278,7 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
                           CustomText(
                             text: "date".tr,
                             color: Colors.black,
-                            fontSize: 14,
+                            fontSize: width * 0.035,
                             fontWeight: FontWeight.w500,
                           ),
                           SizedBox(
@@ -322,10 +320,10 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
                                 'assets/icons/Time (2).svg',
                                 //  color: widget.color,
                               ),
-                              suffixIcon: const Icon(
+                              suffixIcon: Icon(
                                 Icons.arrow_forward_ios,
                                 color: almostGrey,
-                                size: 15,
+                                size: width * 0.038,
                               ),
                               textColor: almostGrey,
                             ),

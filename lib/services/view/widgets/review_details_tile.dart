@@ -15,19 +15,21 @@ class ReviewDetailsTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         SvgPicture.asset(
-          "assets/icons/locationHos.svg",
+          image,
         ),
-        const SizedBox(
-          width: 5,
+        SizedBox(
+          width: width * 0.012,
         ),
         CustomText(
           text: title,
           color: colorDarkGrey,
-          fontSize: 15,
+          fontSize: width * 0.038,
           fontWeight: FontWeight.w300,
         ),
       ],

@@ -1,6 +1,7 @@
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
 import 'package:ajwad_v4/services/view/widgets/review_details_tile.dart';
+import 'package:ajwad_v4/services/view/widgets/review_guests.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
@@ -44,44 +45,17 @@ class ReviewAdventure extends StatelessWidget {
             const SizedBox(
               height: 4,
             ),
-            Row(
-              children: [
-                SvgPicture.asset(
-                  'assets/icons/grey_calender.svg',
-                  color: starGreyColor,
+            // Details
+            ReviewDetailsTile(
+                title: DateFormat('E-dd-MMM').format(
+                  DateTime.parse(adventure!.date!),
                 ),
-                const SizedBox(
-                  width: 5,
-                ),
-                CustomText(
-                  text: DateFormat('E-dd-MMM')
-                      .format(DateTime.parse(adventure!.date!)),
-                  color: colorDarkGrey,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w300,
-                ),
-              ],
-            ),
+                image: 'assets/icons/grey_calender.svg'),
             const SizedBox(
               height: 4,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SvgPicture.asset(
-                  "assets/icons/t",
-                ),
-                const SizedBox(
-                  width: 5,
-                ),
-                const CustomText(
-                  text: "5:00-8:00 AM ",
-                  color: colorDarkGrey,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w300,
-                ),
-              ],
-            ),
+            const ReviewDetailsTile(
+                title: "5:00-8:00 AM ", image: "assets/icons/timeGrey.svg"),
             const SizedBox(
               height: 20,
             ),
@@ -95,20 +69,9 @@ class ReviewAdventure extends StatelessWidget {
               text: "Number of People",
               fontSize: 18,
             ),
-            Row(
-              children: [
-                const CustomText(
-                  text: "person",
-                  color: almostGrey,
-                  fontSize: 15,
-                ),
-                const Spacer(),
-                CustomText(
-                  text: person.toString(),
-                  color: almostGrey,
-                  fontSize: 15,
-                ),
-              ],
+            ReviewGuestsTile(
+              guest: person,
+              title: "person",
             ),
             const Divider(
               color: almostGrey,
@@ -119,6 +82,7 @@ class ReviewAdventure extends StatelessWidget {
             const SizedBox(
               height: 268,
             ),
+            //discount widget
             Container(
               child: Text("sss"),
             ),
@@ -153,30 +117,4 @@ class ReviewAdventure extends StatelessWidget {
     );
   }
 }
-  // const CustomText(
-  //             text: "Booking Date & Time ",
-  //             fontSize: 18,
-  //           ),
-  //           Row(
-  //             children: [
-  //               CustomText(
-  //                 color: almostGrey,
-  //                 text: DateFormat('d MMMM y')
-  //                     .format(DateTime.parse(DateTime.now().toString())),
-  //               ),
-  //               const SizedBox(
-  //                 width: 10,
-  //               ),
-  //               CustomText(
-  //                 color: almostGrey,
-  //                 text: DateFormat('h:mm a')
-  //                     .format(DateTime.parse(DateTime.now().toString())),
-  //               ),
-  //             ],
-  //           ),
-  //           const SizedBox(
-  //             height: 16,
-  //           ),
-  //           const Divider(
-  //             color: almostGrey,
-  //           ),
+

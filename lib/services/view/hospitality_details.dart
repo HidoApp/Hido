@@ -105,7 +105,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
           : Scaffold(
               bottomNavigationBar: SizedBox(
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 10),
+                  padding: EdgeInsets.only(top: width * 0.025),
                   child: BottomHospitalityBooking(
                     hospitalityObj: hospitalityObj!,
                     servicesController: _servicesController,
@@ -197,8 +197,8 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                               ),
                               CustomText(
                                 text: AppUtil.rtlDirection2(context)
-                                    ? '${'from'.tr}  ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(hospitalityObj!.daysInfo[0].startTime))} ${'to'.tr}  ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(hospitalityObj!.daysInfo[0].endTime))}'
-                                    : '${'from'.tr}  ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(hospitalityObj!.daysInfo[0].startTime))} ${'to'.tr}  ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(hospitalityObj!.daysInfo[0].endTime))}',
+                                    ? '${'From'.tr}  ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(hospitalityObj!.daysInfo[0].startTime))} ${'To'.tr}  ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(hospitalityObj!.daysInfo[0].endTime))}'
+                                    : '${'From'.tr}  ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(hospitalityObj!.daysInfo[0].startTime))} ${'To'.tr}  ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(hospitalityObj!.daysInfo[0].endTime))}',
                                 color: colorDarkGrey,
                                 fontSize: 15,
                                 fontWeight: FontWeight.w300,
@@ -485,8 +485,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                               rating: 5,
                               tripNumber: 4,
                               place: Place(),
-                              profileId:
-                                  "447aad72-25f2-4f90-85fd-51743cf8c9ed"),
+                              profileId: ""),
                         );
                       },
                       image: hospitalityObj!.familyImage,
