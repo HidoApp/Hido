@@ -66,11 +66,16 @@ class _ServiceScreenState extends State<ServiceScreen>
               pinned: true,
               actions: [
                 Padding(
-                // padding: EdgeInsets.only(right: width * 0.06,),
-                  padding: AppUtil.rtlDirection2(context)? EdgeInsets.only(left: width * 0.061,bottom:height*0.10 ): EdgeInsets.only(right: width * 0.06,),
+                  // padding: EdgeInsets.only(right: width * 0.06,),
+                  padding: AppUtil.rtlDirection2(context)
+                      ? EdgeInsets.only(
+                          left: width * 0.061, bottom: height * 0.10)
+                      : EdgeInsets.only(
+                          right: width * 0.06,
+                        ),
 
                   child: Row(
-                  // textDirection:TextDirection.ltr,
+                    // textDirection:TextDirection.ltr,
 
                     children: [
                       HomeIconButton(
@@ -84,19 +89,20 @@ class _ServiceScreenState extends State<ServiceScreen>
                           },
                           icon: 'assets/icons/ticket_icon.svg'),
                       SizedBox(
-                        width: 8,
+                        width: width * 0.02,
                       ),
                       HomeIconButton(
                           onTap: () {
-                           ProfileController _profileController =
+                            ProfileController _profileController =
                                 Get.put(ProfileController());
                             Get.to(() => AppUtil.isGuest()
                                 ? const SignInScreen()
-                                : MessagesScreen(profileController: _profileController));
+                                : MessagesScreen(
+                                    profileController: _profileController));
                           },
                           icon: 'assets/icons/Communication_white.svg'),
                       SizedBox(
-                        width: 8,
+                        width: width * 0.02,
                       ),
                       HomeIconButton(
                           onTap: () {
@@ -132,7 +138,7 @@ class _ServiceScreenState extends State<ServiceScreen>
                   color: Colors.white,
                 ),
                 labelPadding: EdgeInsets.all(width * 0.02),
-                padding: const EdgeInsets.symmetric(horizontal: 2),
+                padding: EdgeInsets.symmetric(horizontal: width * 0.005),
                 onTap: (index) {
                   print(tabIndex);
                   setState(() {
@@ -144,19 +150,22 @@ class _ServiceScreenState extends State<ServiceScreen>
                     padding: EdgeInsets.symmetric(
                         horizontal:
                             // !AppUtil.rtlDirection(context) ? 15 : 5),
-                            AppUtil.rtlDirection2(context) ? 15 : 5),
+                            AppUtil.rtlDirection2(context)
+                                ? width * 0.038
+                                : width * 0.012),
                     child: Container(
                       alignment: Alignment.center,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                           borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(12),
-                              topRight: Radius.circular(12))),
+                              topLeft: Radius.circular(width * 0.03),
+                              topRight: Radius.circular(width * 0.03))),
                       child: CustomText(
                         text: "hospitality".tr,
                         color: _tabIndex == 0 ? darkBlue : Colors.white,
                         fontWeight:
                             _tabIndex == 0 ? FontWeight.w700 : FontWeight.w400,
-                        fontSize: _tabIndex == 0 ? 13 : 11,
+                        fontSize:
+                            _tabIndex == 0 ? width * 0.033 : width * 0.028,
                       ),
                     ),
                   ),
@@ -181,19 +190,22 @@ class _ServiceScreenState extends State<ServiceScreen>
                     padding: EdgeInsets.symmetric(
                         horizontal:
                             // !AppUtil.rtlDirection(context) ? 15 : 5),
-                            AppUtil.rtlDirection2(context) ? 15 : 5),
+                            AppUtil.rtlDirection2(context)
+                                ? width * 0.038
+                                : width * 0.012),
                     child: Container(
                       alignment: Alignment.center,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                           borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(12),
-                              topRight: Radius.circular(12))),
+                              topLeft: Radius.circular(width * 0.03),
+                              topRight: Radius.circular(width * 0.03))),
                       child: CustomText(
                         text: "adventures".tr,
                         color: _tabIndex == 1 ? darkBlue : Colors.white,
                         fontWeight:
                             _tabIndex == 1 ? FontWeight.w700 : FontWeight.w400,
-                        fontSize: _tabIndex == 1 ? 13 : 11,
+                        fontSize:
+                            _tabIndex == 1 ? width * 0.033 : width * 0.028,
                       ),
                     ),
                   ),

@@ -12,42 +12,42 @@ class CustomPloicySheet extends StatelessWidget {
     return Container(
       width: width,
       decoration: BoxDecoration(
-          color: Colors.white,
-          // borderRadius: BorderRadius.circular(36)
-          borderRadius: BorderRadius.only(
-      topLeft: Radius.circular(24),
-      topRight: Radius.circular(24),
-    ),
-          
-          ),
+        color: Colors.white,
+        // borderRadius: BorderRadius.circular(36)
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(width * 0.06),
+          topRight: Radius.circular(width * 0.06),
+        ),
+      ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12),
+        padding: EdgeInsets.symmetric(
+            horizontal: width * 0.06, vertical: width * 0.03),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Center(child: Icon(Icons.keyboard_arrow_down)),
-            const SizedBox(
-              height: 24,
+            SizedBox(
+              height: width * 0.06,
             ),
             CustomText(
               text: 'cancellationPolicy'.tr,
-              fontSize: 18,
+              fontSize: width * 0.046,
             ),
-            const SizedBox(
-              height: 24,
+            SizedBox(
+              height: width * 0.06,
             ),
             CustomText(
               text: 'cancellationPolicyBreifAdventure'.tr,
-              fontSize: 14,
+              fontSize: width * 0.038,
               fontWeight: FontWeight.w300,
             ),
-            const SizedBox(
-              height: 15,
+            SizedBox(
+              height: width * 0.038,
             ),
             CustomText(
               text: 'cancellationPolicyNote'.tr,
-              fontSize: 14,
+              fontSize: width * 0.038,
               fontWeight: FontWeight.w300,
             ),
           ],

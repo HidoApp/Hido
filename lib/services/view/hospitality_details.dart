@@ -7,7 +7,7 @@ import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/services/model/hospitality.dart';
 import 'package:ajwad_v4/services/view/widgets/images_services_widget.dart';
 import 'package:ajwad_v4/services/view/widgets/reservation_details_sheet.dart';
-import 'package:ajwad_v4/services/view/widgets/reservation_details_widget.dart';
+import 'package:ajwad_v4/services/view/widgets/hospitality_booking_sheet.dart';
 import 'package:ajwad_v4/services/view/widgets/service_profile_card.dart';
 
 import 'package:ajwad_v4/utils/app_util.dart';
@@ -105,8 +105,8 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
           : Scaffold(
               bottomNavigationBar: SizedBox(
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: BottomBookingWidget(
+                  padding: EdgeInsets.only(top: width * 0.025),
+                  child: BottomHospitalityBooking(
                     hospitalityObj: hospitalityObj!,
                     servicesController: _servicesController,
                     avilableDate: avilableDate,
@@ -196,8 +196,9 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                 width: 5,
                               ),
                               CustomText(
-                                text:
-                                    AppUtil.rtlDirection2(context)?'${'from'.tr}  ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(hospitalityObj!.daysInfo[0].startTime))} ${'to'.tr}  ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(hospitalityObj!.daysInfo[0].endTime))}':'${'from'.tr}  ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(hospitalityObj!.daysInfo[0].startTime))} ${'to'.tr}  ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(hospitalityObj!.daysInfo[0].endTime))}',
+                                text: AppUtil.rtlDirection2(context)
+                                    ? '${'From'.tr}  ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(hospitalityObj!.daysInfo[0].startTime))} ${'To'.tr}  ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(hospitalityObj!.daysInfo[0].endTime))}'
+                                    : '${'From'.tr}  ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(hospitalityObj!.daysInfo[0].startTime))} ${'To'.tr}  ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(hospitalityObj!.daysInfo[0].endTime))}',
                                 color: colorDarkGrey,
                                 fontSize: 15,
                                 fontWeight: FontWeight.w300,
@@ -267,29 +268,37 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                           ),
                           isExpanded
                               ? Align(
-                                  alignment: AppUtil.rtlDirection2(context)?Alignment.bottomRight:Alignment.bottomLeft,
+                                  alignment: AppUtil.rtlDirection2(context)
+                                      ? Alignment.bottomRight
+                                      : Alignment.bottomLeft,
                                   child: GestureDetector(
                                     onTap: () {
                                       setState(() => isExpanded = false);
                                     },
                                     child: CustomText(
-                                       textDirection: AppUtil.rtlDirection2(context)
-                                    ? TextDirection.rtl
-                                    : TextDirection.ltr,
-                                      text: AppUtil.rtlDirection2(context)?"القليل": "Show less",
+                                      textDirection:
+                                          AppUtil.rtlDirection2(context)
+                                              ? TextDirection.rtl
+                                              : TextDirection.ltr,
+                                      text: AppUtil.rtlDirection2(context)
+                                          ? "القليل"
+                                          : "Show less",
                                       color: blue,
                                     ),
                                   ),
                                 )
                               : Align(
-                                  alignment: AppUtil.rtlDirection2(context)?Alignment.bottomRight:Alignment.bottomLeft,
+                                  alignment: AppUtil.rtlDirection2(context)
+                                      ? Alignment.bottomRight
+                                      : Alignment.bottomLeft,
                                   child: GestureDetector(
                                     onTap: () =>
                                         setState(() => isExpanded = true),
                                     child: CustomText(
-                                        textDirection: AppUtil.rtlDirection2(context)
-                                    ? TextDirection.rtl
-                                    : TextDirection.ltr,
+                                      textDirection:
+                                          AppUtil.rtlDirection2(context)
+                                              ? TextDirection.rtl
+                                              : TextDirection.ltr,
                                       text: "readMore".tr,
                                       color: blue,
                                     ),
@@ -411,7 +420,9 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                         SizedBox(
                                           width: 326,
                                           child: CustomText(
-                                            text: "cancellationPolicyBreifAdventure".tr,
+                                            text:
+                                                "cancellationPolicyBreifAdventure"
+                                                    .tr,
                                             fontSize: 13,
                                             fontWeight: FontWeight.w400,
                                             maxlines: 2,
@@ -474,8 +485,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                               rating: 5,
                               tripNumber: 4,
                               place: Place(),
-                              profileId:
-                                  "447aad72-25f2-4f90-85fd-51743cf8c9ed"),
+                              profileId: ""),
                         );
                       },
                       image: hospitalityObj!.familyImage,

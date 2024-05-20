@@ -1,11 +1,11 @@
 import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/constants/colors.dart';
-import 'package:ajwad_v4/request/tourist/view/review_ticket_screen.dart';
+import 'package:ajwad_v4/services/view/review_adventure_screen.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
 import 'package:ajwad_v4/services/model/hospitality.dart';
-import 'package:ajwad_v4/services/view/widgets/reservation_details_widget.dart';
+import 'package:ajwad_v4/services/view/widgets/hospitality_booking_sheet.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
@@ -13,8 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
-class BottomBookingWidget extends StatelessWidget {
-  const BottomBookingWidget(
+class BottomHospitalityBooking extends StatelessWidget {
+  const BottomHospitalityBooking(
       {super.key,
       required this.hospitalityObj,
       required this.servicesController,
@@ -25,32 +25,32 @@ class BottomBookingWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
-
+    final width = MediaQuery.of(context).size.width;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.symmetric(horizontal: width * 0.041),
       color: Colors.white,
       width: double.infinity,
-      height: 150,
+      height: width * 0.38,
       child: Column(
         children: [
           Row(
             children: [
               CustomText(
                 text: "pricePerPerson".tr,
-                fontSize: 15,
+                fontSize: width * 0.038,
                 color: colorDarkGrey,
                 fontWeight: FontWeight.w400,
               ),
-              const CustomText(
+              CustomText(
                 text: " /  ",
                 fontWeight: FontWeight.w900,
-                fontSize: 17,
+                fontSize: width * 0.043,
                 color: Colors.black,
               ),
               CustomText(
                 text: '${hospitalityObj!.price} ${'sar'.tr}',
                 fontWeight: FontWeight.w900,
-                fontSize: 17,
+                fontSize: width * 0.043,
                 fontFamily: 'HT Rakik',
               ),
             ],
@@ -62,14 +62,17 @@ class BottomBookingWidget extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             child: Padding(
               //padding: const EdgeInsets.only(right: 16, left: 16, bottom: 32),
-              padding: const EdgeInsets.only(right: 1, left: 1, bottom: 32),
+              padding: EdgeInsets.only(
+                  right: width * 0.0025,
+                  left: width * 0.0025,
+                  bottom: width * 0.08),
 
               child: CustomButton(
                 onPressed: () {
                   AppUtil.isGuest()
                       ? Get.to(() => const SignInScreen())
                       : Get.bottomSheet(
-                          ReservaationDetailsWidget(
+                          HospitalityBookingSheet(
                               color: Colors.green,
                               hospitality: hospitalityObj,
                               avilableDate: avilableDate,
@@ -77,9 +80,10 @@ class BottomBookingWidget extends StatelessWidget {
                           backgroundColor: Colors.white,
                           elevation: 0,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                        );
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(width * 0.06),
+                                topRight: Radius.circular(width * 0.06)),
+                          ));
                 },
                 iconColor: darkPurple,
                 title: "book".tr,
@@ -95,48 +99,47 @@ class BottomBookingWidget extends StatelessWidget {
   }
 }
 
-class BottomBookingWidgetAdventure extends StatefulWidget {
-  const BottomBookingWidgetAdventure({
-    super.key, required this.adventure,
+class BottomAdventureBooking extends StatefulWidget {
+  const BottomAdventureBooking({
+    super.key,
+    required this.adventure,
   });
   final Adventure adventure;
   @override
-  State<BottomBookingWidgetAdventure> createState() =>
-      _BottomBookingWidgetAdventureState();
+  State<BottomAdventureBooking> createState() => _BottomAdventureBookingState();
 }
 
-class _BottomBookingWidgetAdventureState
-    extends State<BottomBookingWidgetAdventure> {
+class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
   var person = 0;
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
-
+    final width = MediaQuery.of(context).size.width;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.symmetric(horizontal: width * 0.041),
       color: Colors.white,
       width: double.infinity,
-      height: 150,
+      height: width * 0.38,
       child: Column(
         children: [
           Row(
             children: [
               CustomText(
                 text: "pricePerPerson".tr,
-                fontSize: 15,
+                fontSize: width * 0.038,
                 color: colorDarkGrey,
                 fontWeight: FontWeight.w400,
               ),
-              const CustomText(
+              CustomText(
                 text: " /  ",
                 fontWeight: FontWeight.w900,
-                fontSize: 17,
+                fontSize: width * 0.043,
                 color: Colors.black,
               ),
               CustomText(
                 text: '400 ${'sar'.tr}',
                 fontWeight: FontWeight.w900,
-                fontSize: 17,
+                fontSize: width * 0.043,
                 fontFamily: 'HT Rakik',
               ),
             ],
@@ -148,7 +151,10 @@ class _BottomBookingWidgetAdventureState
             alignment: Alignment.bottomCenter,
             child: Padding(
               //padding: const EdgeInsets.only(right: 16, left: 16, bottom: 32),
-              padding: const EdgeInsets.only(right: 1, left: 1, bottom: 32),
+              padding: EdgeInsets.only(
+                  right: width * 0.0025,
+                  left: width * 0.0025,
+                  bottom: width * 0.08),
 
               child: CustomButton(
                 onPressed: () {
@@ -157,36 +163,30 @@ class _BottomBookingWidgetAdventureState
                       : Get.bottomSheet(
                           StatefulBuilder(
                             builder: (context, setState) => Container(
-                              height: 268,
+                              height: width * 0.687,
                               width: double.infinity,
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 24, vertical: 20),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: width * 0.06,
+                                vertical: width * 0.05,
+                              ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const CustomText(
-                                    text: "Booking Details",
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
-                                  const CustomText(
+                                  CustomText(
                                     text: 'Number of People ',
-                                    fontSize: 17,
+                                    fontSize: width * 0.043,
                                   ),
                                   Container(
-                                    height: 48,
-                                    width: 342,
-                                    padding: const EdgeInsets.only(
-                                      left: 10,
-                                      right: 10,
-                                    ),
+                                    height: width * 0.123,
+                                    width: width * 0.87,
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: width * 0.025),
                                     margin: EdgeInsets.only(
-                                        top: height * 0.02, bottom: 5),
+                                        top: height * 0.02,
+                                        bottom: width * 0.012),
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(8),
+                                      borderRadius:
+                                          BorderRadius.circular(width * 0.02),
                                       border: Border.all(
                                         color: lightGreyColor,
                                       ),
@@ -212,14 +212,14 @@ class _BottomBookingWidgetAdventureState
                                             color: darkGrey,
                                           ),
                                         ),
-                                        const SizedBox(width: 15),
+                                        SizedBox(width: width * 0.038),
                                         CustomText(
                                           text: person.toString(),
                                           color: tileGreyColor,
                                           fontSize: 18,
                                           fontWeight: FontWeight.w400,
                                         ),
-                                        const SizedBox(width: 15),
+                                        SizedBox(width: width * 0.038),
                                         GestureDetector(
                                           onTap: () {
                                             setState(() {
@@ -235,11 +235,21 @@ class _BottomBookingWidgetAdventureState
                                     ),
                                   ),
                                   SizedBox(
-                                    height: 24,
+                                    height: width * 0.06,
                                   ),
                                   CustomButton(
                                       onPressed: () {
-                                        Get.to(() =>  ReviewTicket(adventure: widget.adventure ,person: person,));
+                                        Get.to(() => ReviewAdventure(
+                                                  adventure: widget.adventure,
+                                                  person: person,
+                                                ))!
+                                            .then(
+                                          (value) {
+                                            // person = 0;
+                                            // print(value);
+                                            // Get.back();
+                                          },
+                                        );
                                       },
                                       title: 'confirm'.tr)
                                 ],
@@ -248,12 +258,12 @@ class _BottomBookingWidgetAdventureState
                           ),
                           backgroundColor: Colors.white,
                           elevation: 0,
-                          shape: const RoundedRectangleBorder(
+                          shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(24),
-                                topRight: Radius.circular(24)),
+                                topLeft: Radius.circular(width * 0.06),
+                                topRight: Radius.circular(width * 0.06)),
                           ),
-                        );
+                        ).then((value) => person = 0);
                 },
                 iconColor: darkPurple,
                 title: "book".tr,

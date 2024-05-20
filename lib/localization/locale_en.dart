@@ -212,7 +212,7 @@ const localeEn = {
   "cancel": "Cancel",
   "date": "Date",
   "confirm": "Confirm",
-  "guests2": "Guests",
+  "guests2": "Number of Guests",
   "forMoreThan10": "For more than 10 you can choose the van as a ride",
   "pickUpLocation": "Pick up location",
   "pickUpRide": "Pick up Ride",
@@ -334,7 +334,7 @@ const localeEn = {
   "creditCard": 'Credit card',
   "placeBooked": 'Booked',
   "checkText":
-     " It's a pleasure to accompany you, This is the itinerary that I suggested to you. Select what you want and create a memorable day! ",
+      " It's a pleasure to accompany you, This is the itinerary that I suggested to you. Select what you want and create a memorable day! ",
   "showOffer": "View offer",
   "noMessages": "No messages",
   "approximateLocation":
@@ -371,11 +371,19 @@ const localeEn = {
   "noReviews": "No Reviews yet",
   "HintMessage": "write your message here",
   "pricePerPerson": "price per person",
-  "cancellationPolicyBreifAdventure": "Our cancellation policy requires a 48-hour prior notice for a full refund and a 24-hour prior notice for a partial refund." ,
-  "cancellationPolicyNote":"Please note that no refunds will be issued for cancellations made on the same day as the booking.",
-  "notFind":"We couldn't find any local guides available for your chosen date and location",
-  "Expand":"Expand Search",
-  "notePrice":"Please note that the prices listed are per person"
-
-  
+  "cancellationPolicyBreifAdventure":
+      "Our cancellation policy requires a 48-hour prior notice for a full refund and a 24-hour prior notice for a partial refund.",
+  "cancellationPolicyNote":
+      "Please note that no refunds will be issued for cancellations made on the same day as the booking.",
+  "notFind":
+      "We couldn't find any local guides available for your chosen date and location",
+  "Expand": "Expand Search",
+  "notePrice": "Please note that the prices listed are per person",
+  'mm/dd/yyy': 'mm/dd/yyy',
+  'reviewbooking': 'Review Booking',
+  'hospitalitydetails': 'Hospitality Details',
+  "numberofpeople": 'Number of People',
+  'bookingdate': 'Booking Date & Time ',
+  'applied': 'Applied',
+  'addpromocode': 'Add Promocode'
 };

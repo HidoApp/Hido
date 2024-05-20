@@ -29,7 +29,6 @@ void main() async {
   runApp(const MyApp());
 }
 
-
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
@@ -52,10 +51,9 @@ class _MyAppState extends State<MyApp> {
 
     local = Platform.localeName.toLocale().languageCode;
     //local = Platform.localeName.toLocale().languageCode;
-    
+
     // print('${Platform.localeName.split('_').first}');
     // local = Platform.localeName.split('_').first.toLowerCase();
-
   }
 
   @override
@@ -69,6 +67,8 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
           fontFamily: 'HT Rakik',
           primaryColor: colorGreen,
+          highlightColor: Colors.transparent,
+          splashColor: Colors.transparent,
           colorScheme: const ColorScheme.light(primary: colorGreen),
           useMaterial3: true),
       title: 'Ajwad',

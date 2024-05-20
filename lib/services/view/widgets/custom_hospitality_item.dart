@@ -4,9 +4,12 @@ import 'package:ajwad_v4/services/model/days_info.dart';
 import 'package:ajwad_v4/services/view/adveture_details.dart';
 import 'package:ajwad_v4/services/view/event_details.dart';
 import 'package:ajwad_v4/services/view/hospitality_details.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class ServicesCard extends StatelessWidget {
   const ServicesCard({
@@ -76,9 +79,9 @@ class ServicesCard extends StatelessWidget {
                       fontSize: width * 0.05,
                       fontWeight: FontWeight.w500,
                     ),
-                    SizedBox(
-                      height: width * 0.030,
-                    ),
+                    // SizedBox(
+                    //   height: width * 0.010,
+                    // ),
                     Row(
                       children: [
                         SizedBox(
@@ -99,22 +102,52 @@ class ServicesCard extends StatelessWidget {
                       ],
                     ),
                     SizedBox(
-                      height: width * 0.02,
+                      height: width * 0.01,
                     ),
                     Row(
                       children: [
                         SizedBox(
                           width: width * 0.01,
                         ),
+                        SvgPicture.asset(
+                          'assets/icons/timeGrey.svg',
+                        ),
+                        SizedBox(
+                          width: width * 0.01,
+                        ),
+                        // CustomText(
+                        //   text: dayInfo[0].startTime,
+                        //   fontSize: width * 0.025,
+                        //   fontWeight: FontWeight.w400,
+                        //   color: starGreyColor,
+                        // ),
+                        CustomText(
+                          text: AppUtil.rtlDirection2(context)
+                              ? '${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(dayInfo![0].startTime))} -  ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(dayInfo![0].endTime))}'
+                              : ' ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(dayInfo![0].startTime))} -  ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(dayInfo![0].endTime))}',
+                          color: starGreyColor,
+                          fontSize: width * 0.025,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: width * 0.01,
+                    ),
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: width * 0.015,
+                        ),
                         Row(
                           children: [
-                            SvgPicture.asset('assets/icons/grey_calender.svg'),
+                            SvgPicture.asset('assets/icons/meal.svg'),
                             SizedBox(
                               width: width * 0.01,
                             ),
                             if (dayInfo != null || dayInfo != [])
                               CustomText(
-                                text: dayInfo![0].startTime.substring(0, 10),
+                                text: meal,
                                 fontSize: width * 0.025,
                                 fontWeight: FontWeight.w400,
                                 color: starGreyColor,
