@@ -111,6 +111,7 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
             label: 'explore'.tr,
           ),
           BottomNavigationBarItem(
+            
             icon: Padding(
               padding: const EdgeInsets.all(8.0),
               child: SvgPicture.asset(

@@ -1,6 +1,7 @@
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/explore/tourist/view/share_sheet.dart';
+import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
 import 'package:ajwad_v4/request/tourist/view/local_offer_info.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
@@ -70,7 +71,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    //    initializeDateFormatting(); //very important
+    //  initializeDateFormatting(); //very important
 
     addCustomIcon();
     getAdventureById();
@@ -99,8 +100,8 @@ class _AdventureDetailsState extends State<AdventureDetails> {
           : Scaffold(
               bottomNavigationBar: SizedBox(
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: BottomBookingWidgetAdventure(
+                  padding: EdgeInsets.only(top: width * 0.025),
+                  child: BottomAdventureBooking(
                     adventure: adventure!,
                   ),
                 ),
@@ -137,11 +138,11 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                         },
                       ),
                     ),
-                    const SizedBox(
-                      height: 40,
+                    SizedBox(
+                      height: width * 0.1,
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      padding: EdgeInsets.symmetric(horizontal: width * 0.05),
                       child: Column(
                         children: [
                           Align(
@@ -152,11 +153,11 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                 text: AppUtil.rtlDirection2(context)
                                     ? adventure!.nameAr!
                                     : adventure!.nameEn!,
-                                fontSize: 28,
-                                fontWeight: FontWeight.w700,
+                                fontSize: width * 0.07,
+                                fontWeight: FontWeight.w500,
                               )),
-                          const SizedBox(
-                            height: 10,
+                          SizedBox(
+                            height: width * 0.025,
                           ),
                           Row(
                             children: [
@@ -164,21 +165,21 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                 "assets/icons/locationHos.svg",
                                 color: starGreyColor,
                               ),
-                              const SizedBox(
-                                width: 5,
+                              SizedBox(
+                                width: width * 0.012,
                               ),
                               CustomText(
                                 text: AppUtil.rtlDirection2(context)
                                     ? adventure!.regionAr!
                                     : adventure!.regionEn!,
                                 color: colorDarkGrey,
-                                fontSize: 15,
+                                fontSize: width * 0.038,
                                 fontWeight: FontWeight.w300,
                               ),
                             ],
                           ),
-                          const SizedBox(
-                            height: 10,
+                          SizedBox(
+                            height: width * 0.025,
                           ),
                           Row(
                             children: [
@@ -186,20 +187,20 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                 'assets/icons/grey_calender.svg',
                                 color: starGreyColor,
                               ),
-                              const SizedBox(
-                                width: 5,
+                              SizedBox(
+                                width: width * 0.012,
                               ),
                               CustomText(
                                 text: DateFormat('E-dd-MMM')
                                     .format(DateTime.parse(adventure!.date!)),
                                 color: colorDarkGrey,
-                                fontSize: 15,
+                                fontSize: width * 0.038,
                                 fontWeight: FontWeight.w300,
                               ),
                             ],
                           ),
-                          const SizedBox(
-                            height: 10,
+                          SizedBox(
+                            height: width * 0.025,
                           ),
                           Row(
                             children: [
@@ -207,23 +208,23 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                 "assets/icons/timeGrey.svg",
                                 color: starGreyColor,
                               ),
-                              const SizedBox(
-                                width: 5,
+                              SizedBox(
+                                width: width * 0.012,
                               ),
-                              // CustomText(
-                              //   text:
-                              //       '${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(hospitalityObj!.daysInfo[0].startTime))} ${'-'}  ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(hospitalityObj!.daysInfo[0].endTime))}',
-                              //   color: colorDarkGrey,
-                              //   fontSize: 15,
-                              //   fontWeight: FontWeight.w300,
-                              // ),
+                              //time
+                              CustomText(
+                                text: '5:00-8:00 AM',
+                                color: colorDarkGrey,
+                                fontSize: width * 0.038,
+                                fontWeight: FontWeight.w300,
+                              ),
                             ],
                           ),
-                          const SizedBox(
-                            height: 10,
+                          SizedBox(
+                            height: width * 0.025,
                           ),
-                          const SizedBox(
-                            height: 15,
+                          SizedBox(
+                            height: width * 0.038,
                           ),
                           Align(
                               alignment: AppUtil.rtlDirection2(context)
@@ -231,16 +232,16 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                   : Alignment.centerLeft,
                               child: CustomText(
                                 text: "About".tr,
-                                fontSize: 18,
+                                fontSize: width * 0.046,
                                 fontWeight: FontWeight.w400,
                               )),
-                          const SizedBox(
-                            height: 10,
+                          SizedBox(
+                            height: width * 0.025,
                           ),
                           ConstrainedBox(
                             constraints: isExpanded
                                 ? const BoxConstraints()
-                                : const BoxConstraints(maxHeight: 40),
+                                : BoxConstraints(maxHeight: width * 0.102),
                             child: CustomText(
                               //   textAlign: AppUtil.rtlDirection(context) ? TextAlign.end : TextAlign.start ,
                               textDirection: AppUtil.rtlDirection2(context)
@@ -250,14 +251,14 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                   ? TextOverflow.visible
                                   : TextOverflow.clip,
                               fontFamily: "Noto Kufi Arabic",
-                              fontSize: 14,
+                              fontSize: width * 0.035,
                               text: AppUtil.rtlDirection2(context)
                                   ? adventure!.descriptionAr!
                                   : adventure!.descriptionEn!,
                             ),
                           ),
-                          const SizedBox(
-                            height: 5,
+                          SizedBox(
+                            height: width * 0.012,
                           ),
                           isExpanded
                               ? Align(
@@ -283,14 +284,14 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                     ),
                                   ),
                                 ),
-                          const SizedBox(
-                            height: 10,
+                          SizedBox(
+                            height: width * 0.025,
                           ),
                           const Divider(
                             color: lightGrey,
                           ),
-                          const SizedBox(
-                            height: 10,
+                          SizedBox(
+                            height: width * 0.025,
                           ),
                           Align(
                               alignment: !AppUtil.rtlDirection(context)
@@ -298,21 +299,21 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                   : Alignment.centerLeft,
                               child: CustomText(
                                 text: "whereWeWillBe".tr,
-                                fontSize: 18,
+                                fontSize: width * 0.046,
                                 fontWeight: FontWeight.w500,
                               )),
-                          const SizedBox(
-                            height: 10,
+                          SizedBox(
+                            height: width * 0.025,
                           ),
                           Stack(
                             children: [
                               Container(
                                 decoration: BoxDecoration(
                                   color: almostGrey.withOpacity(0.2),
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(20)),
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(width * 0.051)),
                                 ),
-                                height: height * 0.2,
+                                height: width * 0.5,
                                 width: width * 0.9,
                                 child: GoogleMap(
                                   scrollGesturesEnabled: false,
@@ -348,14 +349,14 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                               ),
                             ],
                           ),
-                          const SizedBox(
-                            height: 10,
+                          SizedBox(
+                            height: width * 0.025,
                           ),
                           const Divider(
                             color: lightGrey,
                           ),
-                          const SizedBox(
-                            height: 20,
+                          SizedBox(
+                            height: width * 0.05,
                           ),
                           InkWell(
                             onTap: () {
@@ -375,19 +376,19 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                       children: [
                                         CustomText(
                                           text: "cancellationPolicy".tr,
-                                          fontSize: 18,
+                                          fontSize: width * 0.046,
                                           fontWeight: FontWeight.w400,
                                         ),
-                                        const SizedBox(
-                                          height: 4,
+                                        SizedBox(
+                                          height: width * 0.01,
                                         ),
                                         SizedBox(
-                                          width: 326,
+                                          width: width * 0.8,
                                           child: CustomText(
                                             text:
                                                 "cancellationPolicyBreifAdventure"
                                                     .tr,
-                                            fontSize: 13,
+                                            fontSize: width * 0.03,
                                             fontWeight: FontWeight.w400,
                                             maxlines: 2,
                                             color: tileGreyColor,
@@ -396,10 +397,10 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                       ],
                                     ),
                                     const Spacer(),
-                                    const Icon(
+                                    Icon(
                                       Icons.arrow_forward_ios,
                                       color: tileGreyColor,
-                                      size: 18,
+                                      size: width * 0.046,
                                     )
                                   ],
                                 )),
@@ -419,7 +420,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                         : width * 0.05,
                     child: SvgPicture.asset(
                       "assets/icons/white_bookmark.svg",
-                      height: 30,
+                      height: width * 0.07,
                     )),
                 Positioned(
                   top: height * 0.06,
@@ -427,8 +428,8 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                       ? width * 0.85
                       : width * 0.06,
                   child: IconButton(
-                    icon: const Icon(Icons.arrow_back_ios,
-                        size: 24, color: Colors.white),
+                    icon: Icon(Icons.arrow_back_ios,
+                        size: width * 0.061, color: Colors.white),
                     onPressed: () => Get.back(),
                     color: Colors.white,
                   ),
@@ -465,10 +466,10 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                     children: adventure!.image!.map((imageUrl) {
                       int index = adventure!.image!.indexOf(imageUrl);
                       return Container(
-                        width: 10.0,
-                        height: 10.0,
-                        margin: const EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 2.0),
+                        width: width * 0.025,
+                        height: width * 0.025,
+                        margin: EdgeInsets.symmetric(
+                            vertical: width * 0.025, horizontal: width * 0.005),
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: _currentIndex == index
@@ -490,460 +491,4 @@ class _AdventureDetailsState extends State<AdventureDetails> {
               ]))),
     );
   }
-
-  // return Scaffold(
-  //     backgroundColor: Colors.white,
-  //     extendBodyBehindAppBar: true,
-  //     appBar: CustomAppBar(
-  //       AppUtil.rtlDirection(context) ? 'ربع الخالي' : 'Empty Quarter',
-  //       color: Colors.white,
-  //       iconColor:  Colors.white,
-  //     ),
-  //     body: SingleChildScrollView(
-  //         child: Stack(children: [
-  //       Column(
-  //         children: [
-  //           GestureDetector(
-  //             onTap: () {
-  //               // Get.to(ViewTripImages(tripImageUrl: _AdventureUrlImages));
-  //             },
-  //             child: CarouselSlider.builder(
-  //               options: CarouselOptions(
-  //                   height: height * 0.3,
-  //                   viewportFraction: 1,
-  //                   onPageChanged: (i, reason) {
-  //                     setState(() {
-  //                       _currentIndex = i;
-  //                     });
-  //                   }),
-  //               itemCount: _AdventureUrlImages.length,
-  //               itemBuilder: (context, index, realIndex) {
-  //                 return Container(
-  //                   width: MediaQuery.of(context).size.width,
-  //                   child: Image.asset(
-  //                     _AdventureUrlImages[0],
-  //                     fit: BoxFit.fill,
-  //                   ),
-  //                 );
-  //               },
-  //             ),
-  //           ),
-  //           SizedBox(
-  //             height: 40,
-  //           ),
-  //           SizedBox(
-  //             height: height*0.6,
-  //             child: Padding(
-  //               padding: EdgeInsets.symmetric(horizontal: 20),
-  //               child: Column(
-  //                 children: [
-  //                   Align(
-  //                       alignment: AppUtil.rtlDirection(context)
-  //                           ? Alignment.centerRight
-  //                           : Alignment.centerLeft,
-  //                       child: CustomText(
-  //                         text: AppUtil.rtlDirection(context)
-  //                             ? 'ربع الخالي'
-  //                             : 'Empty Quarter',
-  //                         fontSize: 28,
-  //                         fontWeight: FontWeight.w700,
-  //                       )),
-  //                   SizedBox(
-  //                     height: 5,
-  //                   ),
-  //                   Row(
-  //                     children: [
-  //                       SvgPicture.asset(
-  //                         "assets/icons/location_pin.svg",
-  //                         color: pink,
-  //                       ),
-  //                       CustomText(
-  //                         text: " riyadhSaudiArabia".tr,
-  //                         color: dividerColor,
-  //                       ),
-  //                       Spacer(),
-  //                       SvgPicture.asset(
-  //                         "assets/icons/purple_calendar.svg",
-  //                         height: 13,
-  //                         color: pink,
-  //                       ),
-  //                       CustomText(
-  //                         text: " Wed, Apr 28 ",
-  //                         color: dividerColor,
-  //                       ),
-  //                     ],
-  //                   ),
-  //                   SizedBox(
-  //                     height: 15,
-  //                   ),
-  //                   Center(
-  //                             child: Row(
-  //                               mainAxisAlignment: MainAxisAlignment.center,
-  //                               children: [
-  //                                 Container(
-  //                                     height: 40,
-  //                                     width: 40,
-  //                                     padding: const EdgeInsets.all(10),
-  //                                     decoration: BoxDecoration(
-  //                                         shape: BoxShape.circle,
-  //                                         color: Colors.white,
-  //                                         boxShadow: [
-  //                                           BoxShadow(
-  //                                               offset: Offset(2, 3),
-  //                                               blurRadius: 3,
-  //                                               color: dotGreyColor
-  //                                                   .withOpacity(0.5),
-  //                                               spreadRadius: 1)
-  //                                         ]),
-  //                                     child: SvgPicture.asset(
-  //                                         "assets/icons/visit_icon.svg")),
-  //                                 const SizedBox(
-  //                                   width: 10,
-  //                                 ),
-  //                                 Column(
-  //                                   children: [
-  //                                     CustomText(
-  //                                       text: "visit".tr,
-  //                                       color: colorDarkGrey,
-  //                                       fontWeight: FontWeight.w300,
-  //                                     ),
-  //                                     CustomText(
-  //                                       text: "108 ",
-  //                                       fontWeight: FontWeight.w300,
-  //                                     )
-  //                                   ],
-  //                                 ),
-  //                                 Spacer(),
-  //                                 Container(
-  //                                     height: 40,
-  //                                     width: 40,
-  //                                     padding: const EdgeInsets.all(10),
-  //                                     decoration: BoxDecoration(
-  //                                         shape: BoxShape.circle,
-  //                                         color: Colors.white,
-  //                                         boxShadow: [
-  //                                           BoxShadow(
-  //                                               offset: Offset(2, 3),
-  //                                               blurRadius: 3,
-  //                                               color: dotGreyColor
-  //                                                   .withOpacity(0.5),
-  //                                               spreadRadius: 1)
-  //                                         ]),
-  //                                     child: SvgPicture.asset(
-  //                                         "assets/icons/distance_icon.svg")),
-  //                                 const SizedBox(
-  //                                   width: 10,
-  //                                 ),
-  //                                 Column(
-  //                                   children: [
-  //                                     CustomText(
-  //                                       text: "distance".tr,
-  //                                       color: colorDarkGrey,
-  //                                       fontWeight: FontWeight.w300,
-  //                                     ),
-  //                                     CustomText(
-  //                                       text: "3000 km",
-  //                                       fontWeight: FontWeight.w300,
-  //                                     )
-  //                                   ],
-  //                                 ),
-  //                                 Spacer(),
-  //                                 Container(
-  //                                     height: 40,
-  //                                     width: 40,
-  //                                     padding: const EdgeInsets.all(10),
-  //                                     decoration: BoxDecoration(
-  //                                         shape: BoxShape.circle,
-  //                                         color: Colors.white,
-  //                                         boxShadow: [
-  //                                           BoxShadow(
-  //                                               offset: Offset(2, 3),
-  //                                               blurRadius: 3,
-  //                                               color: dotGreyColor
-  //                                                   .withOpacity(0.5),
-  //                                               spreadRadius: 1)
-  //                                         ]),
-  //                                     child: SvgPicture.asset(
-  //                                         "assets/icons/rate_icon.svg")),
-  //                                 const SizedBox(
-  //                                   width: 10,
-  //                                 ),
-  //                                 Column(
-  //                                   children: [
-  //                                     CustomText(
-  //                                       text: "rating".tr,
-  //                                       color: colorDarkGrey,
-  //                                       fontWeight: FontWeight.w300,
-  //                                     ),
-  //                                     CustomText(
-  //                                       text: "4.8 (3.2k)",
-  //                                       fontWeight: FontWeight.w300,
-  //                                     )
-  //                                   ],
-  //                                 ),
-  //                               ],
-  //                             ),
-  //                           ),
-  //                   SizedBox(
-  //                     height: 20,
-  //                   ),
-  //                   Align(
-  //                       alignment: AppUtil.rtlDirection(context)
-  //                           ? Alignment.centerRight
-  //                           : Alignment.centerLeft,
-  //                       child: CustomText(
-  //                         text: "aboutTheTrip".tr,
-  //                         fontSize: 18,
-  //                         fontWeight: FontWeight.w400,
-  //                       )),
-  //                   SizedBox(
-  //                     height: 10,
-  //                   ),
-  //                   ConstrainedBox(
-  //                     constraints: isExpanded
-  //                         ? new BoxConstraints()
-  //                         : new BoxConstraints(maxHeight: 50.0),
-  //                     child: CustomText(
-
-  //                         //   textAlign: AppUtil.rtlDirection(context) ? TextAlign.end : TextAlign.start ,
-  //                         textDirection: AppUtil.rtlDirection(context)
-  //                             ? TextDirection.ltr
-  //                             : TextDirection.rtl,
-  //                         textOverflow: TextOverflow.fade,
-  //                         fontFamily: "Noto Kufi Arabic",
-  //                         fontSize: 14,
-  //                         text: "aboutTheTripBrief".tr),
-  //                   ),
-  //                   isExpanded
-  //                       ? new Container()
-  //                       : Align(
-  //                           alignment: Alignment.bottomLeft,
-  //                           child: new TextButton(
-  //                               child: CustomText(
-  //                                 text: "readMore".tr,
-  //                                 color: pink,
-  //                               ),
-  //                               onPressed: () =>
-  //                                   setState(() => isExpanded = true)),
-  //                         ),
-  //                   SizedBox(
-  //                     height: 10,
-  //                   ),
-  //                   Row(
-  //                     children: [
-  //                       CustomText(
-  //                         text: "startFrom".tr,
-  //                         fontSize: 12,
-  //                       ),
-  //                       SizedBox(
-  //                         width: 10,
-  //                       ),
-  //                       CustomText(
-  //                         text: " /  ",
-  //                         fontWeight: FontWeight.w900,
-  //                         fontSize: 17,
-  //                       ),
-  //                       CustomText(
-  //                         text: " 150 SAR",
-  //                         fontWeight: FontWeight.w900,
-  //                         fontSize: 17,
-  //                       ),
-  //                     ],
-  //                   ),
-  //                   SizedBox(
-  //                     height: 10,
-  //                   ),
-  //                   Container(
-  //                     decoration: BoxDecoration(
-  //                       color: almostGrey.withOpacity(0.2),
-  //                       borderRadius: BorderRadius.all(Radius.circular(20)),
-  //                     ),
-  //                     height: height * 0.16,
-  //                     width: width * 0.9,
-  //                     child: GoogleMap(
-  //                       initialCameraPosition: CameraPosition(
-  //                         target: locLatLang,
-  //                         zoom: 15,
-  //                       ),
-  //                       markers: {
-  //                         Marker(
-  //                           markerId: const MarkerId("marker1"),
-  //                           position: locLatLang,
-  //                           draggable: true,
-  //                           onDragEnd: (value) {
-  //                             // value is the new position
-  //                           },
-  //                           icon: markerIcon,
-  //                         ),
-  //                       },
-  //                     ),
-  //                   ),
-  //                   SizedBox(
-  //                     height: 10,
-  //                   ),
-  //                   Spacer(),
-  //                   Padding(
-  //                     padding:
-  //                         EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-  //                     child: CustomButton(
-  //                       onPressed: () {
-  //                      //   Get.to(() => CheckOutScreen());
-
-  //                         // showReservationDetailsSheet(
-  //                         //       context: context,
-  //                         //       color: pink,
-  //                         //       height: height,
-  //                         //       width: width);
-  //                       },
-  //                       title: "join".tr.toUpperCase(),
-  //                       icon: AppUtil.rtlDirection(context)
-  //                           ? const Icon(Icons.arrow_back)
-  //                           : const Icon(Icons.arrow_forward),
-  //                       buttonColor: pink,
-  //                       iconColor: darkPink,
-  //                     ),
-  //                   ),
-  //                 ],
-  //               ),
-  //             ),
-  //           )
-  //         ],
-  //       ),
-  //       Positioned(
-  //           top: height * 0.06,
-  //           right:
-  //               AppUtil.rtlDirection(context) ? width * 0.85 : width * 0.05,
-  //           //  left: AppUtil.rtlDirection(context) ?  width *0.05: 0,
-  //           child: SvgPicture.asset(
-  //             "assets/icons/white_bookmark.svg",
-  //             height: 40,
-  //           )),
-  //       Positioned(
-  //           top: height * 0.265,
-  //           right: width * 0.1,
-  //           left: width * 0.1,
-  //           child: Container(
-  //             padding: EdgeInsets.symmetric(horizontal: 10),
-  //             height: 60,
-  //             width: 300,
-  //             decoration: BoxDecoration(
-  //               color: Colors.white,
-  //               borderRadius: BorderRadius.all(Radius.circular(30)),
-  //               boxShadow: [
-  //                 BoxShadow(
-  //                     color: almostGrey.withOpacity(0.2),
-  //                     spreadRadius: -3,
-  //                     blurRadius: 5,
-  //                     offset: Offset(4, 6))
-  //               ],
-  //             ),
-  //             child: Row(
-  //               children: [
-  //                 GestureDetector(
-  //                   onTap: () {
-  //                     showModalBottomSheet(
-  //                         useRootNavigator: true,
-  //                         isScrollControlled: true,
-  //                         backgroundColor: Colors.transparent,
-  //                         shape: const RoundedRectangleBorder(
-  //                             borderRadius: BorderRadius.only(
-  //                           topRight: Radius.circular(30),
-  //                           topLeft: Radius.circular(30),
-  //                         )),
-  //                         context: context,
-  //                         builder: (context) {
-  //                           return ShareSheet(
-  //                             fromAjwady: false,
-  //                           );
-  //                         });
-  //                   },
-  //                   child: Container(
-  //                     padding: EdgeInsets.symmetric(horizontal: 7),
-  //                     height: 28,
-  //                     width: 80,
-  //                     decoration: const BoxDecoration(
-  //                       color: pink,
-  //                       borderRadius: BorderRadius.all(Radius.circular(7)),
-  //                     ),
-  //                     child: Row(
-  //                       children: [
-  //                         CustomText(
-  //                           text: "invite".tr,
-  //                           color: Colors.white,
-  //                           fontSize: 12,
-  //                         ),
-  //                         Spacer(),
-  //                         SvgPicture.asset("assets/icons/share_icon.svg"),
-  //                       ],
-  //                     ),
-  //                   ),
-  //                 ),
-  //                 const Spacer(),
-  //                 ajwadiImages()
-  //               ],
-  //             ),
-  //           )),
-  //       Positioned(
-  //         top: height * 0.22,
-  //         left: width * 0.45,
-  //         child: Row(
-  //           mainAxisAlignment: MainAxisAlignment.center,
-  //           children: _AdventureUrlImages.map((imageUrl) {
-  //             int index = _AdventureUrlImages.indexOf(imageUrl);
-  //             return Container(
-  //               width: 10.0,
-  //               height: 10.0,
-  //               margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-  //               decoration: BoxDecoration(
-  //                 shape: BoxShape.circle,
-  //                 color: _currentIndex == index
-  //                     ? Colors.white
-  //                     : Colors.white.withOpacity(0.4),
-  //                 boxShadow: _currentIndex == index
-  //                     ? [
-  //                         BoxShadow(
-  //                             color: Colors.white,
-  //                             blurRadius: 5,
-  //                             spreadRadius: 1)
-  //                       ]
-  //                     : [],
-  //               ),
-  //             );
-  //           }).toList(),
-  //         ),
-  //       ),
-  //     ])));
-  // }
 }
-  // Widget ajwadiImages() {
-  //   var items = _ajwadiUrlImages.map((url) => buildImage(url)).toList();
-  //   final emptyUrl = " ";
-  //   items = items + [buildImage(emptyUrl)];
-  //   return StackWidgets(
-  //     items: items,
-  //     size: 30,
-  //   );
-  // }
-
-  // buildImage(String url) {
-  //   return url == " "
-  //       ? ClipOval(
-  //           child: Container(
-  //             color: pink,
-  //             child: Center(
-  //               child: CustomText(
-  //                 text: "23+",
-  //                 color: Colors.white,
-  //                 fontWeight: FontWeight.w900,
-  //                 fontSize: 12,
-  //               ),
-  //             ),
-  //           ),
-  //         )
-  //       : ClipOval(
-  //           child: Image.asset(
-  //           url,
-  //           fit: BoxFit.fill,
-  //         ));
-  // }
-

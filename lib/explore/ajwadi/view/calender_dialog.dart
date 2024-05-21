@@ -59,8 +59,10 @@ class _CalenderDialogState extends State<CalenderDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return AlertDialog(
-        backgroundColor: widget.fromAjwady ? lightBlack : Colors.white,
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.white,
         content: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -75,8 +77,8 @@ class _CalenderDialogState extends State<CalenderDialog> {
                       onSurface: black,
                     )),
                 child: Container(
-                  height: 300,
-                  width: 300,
+                  height: width * 0.76,
+                  width: width * 0.76,
                   alignment: Alignment.bottomRight,
                   child: SfDateRangePicker(
                       minDate: DateTime.now(),
@@ -84,8 +86,7 @@ class _CalenderDialogState extends State<CalenderDialog> {
                       selectableDayPredicate:
                           widget.avilableDate != null ? defineSelectable : null,
                       selectionMode: DateRangePickerSelectionMode.single,
-                      selectionColor:
-                          widget.type == 'hospitality' ? purple : Colors.green,
+                      selectionColor: Colors.green,
                       selectionTextStyle: TextStyle(),
                       selectionShape: DateRangePickerSelectionShape.circle,
                       todayHighlightColor: colorGreen,
@@ -105,9 +106,8 @@ class _CalenderDialogState extends State<CalenderDialog> {
               ),
             ),
             CustomButton(
-                height: 40,
-                customWidth: 260,
-                buttonColor: widget.type == 'hospitality' ? purple : null,
+                height: width * 0.1,
+                customWidth: width * 0.66,
                 onPressed: () {
                   if (selectedDate == '') {
                   } else {
