@@ -85,12 +85,17 @@ class _TicketScreenState extends State<TicketScreen>
                                 color: colorGreen,
                               ),
                             )
-                          : widget.profileController.upcommingTicket.isEmpty
-                              ? CustomEmptyWidget(
-                                  title: 'noTicket'.tr,
-                                  image: 'no_tickets',
-                                  subtitle: 'noTicketSub'.tr,
-                                )
+                          : widget.profileController.upcommingTicket.isNotEmpty
+                              // ? CustomEmptyWidget(
+                              //     title: 'noTicket'.tr,
+                              //     image: 'no_tickets',
+                              //     subtitle: 'noTicketSub'.tr,
+                              //   )
+                              ?Column(
+                                children: [
+                                  Text('true'),
+                                ],
+                              )
                               : ListView.separated(
                                   shrinkWrap: true,
                                   itemCount: widget

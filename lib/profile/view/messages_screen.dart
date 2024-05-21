@@ -32,6 +32,7 @@ OfferController offerController = Get.put(OfferController());
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CustomAppBar(
@@ -48,20 +49,19 @@ OfferController offerController = Get.put(OfferController());
                     color: colorGreen,
                   ),
                 ))
+                
             :SizedBox(
                 height: height,
                 width: width,
-              child: widget.profileController.chatList.isEmpty ?
-
-              
+              child: widget.profileController.chatList.isEmpty?
                   CustomEmptyWidget(
                               title: 'noMessages'.tr,
                               image: 'no_tickets',
-                            ):
+
+                            )
             
               
-              
-               Column(
+               :Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                  mainAxisSize: MainAxisSize.max,
                   children: [

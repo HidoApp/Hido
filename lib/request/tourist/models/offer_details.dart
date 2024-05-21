@@ -1,6 +1,9 @@
+import 'package:ajwad_v4/event/model/event.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/request/chat/model/chat_model.dart';
 import 'package:ajwad_v4/request/tourist/models/schedule.dart';
+import 'package:ajwad_v4/services/model/adventure.dart';
+import 'package:ajwad_v4/services/model/hospitality.dart';
 
 class OfferDetails {
   String? id;
@@ -135,6 +138,10 @@ class Booking {
   String? orderStatus;
   String? created;
   PlaceInChat? place;
+  //  String? bookingType;
+ Hospitality? hospitality;
+  // Adventure? adventure;
+  // Event? event;
 
   Booking({
     this.id,
@@ -150,6 +157,10 @@ class Booking {
     this.orderStatus,
     this.created,
     this.place,
+    // this.bookingType,
+    this.hospitality,
+    // this.adventure,
+    // this.event,
   });
 
   Booking.fromJson(Map<String, dynamic> json) {
@@ -167,7 +178,11 @@ class Booking {
     status = json['status'];
     orderStatus = json['orderStatus'];
     created = json['created'];
+  //  bookingType:json['bookingType'];
+
     place = json['place'] == null ? null : PlaceInChat.fromJson(json['place']);
+    hospitality: json['hospitality'] == null? null :Hospitality.fromJson(json['hospitality']);
+    // adventure: json['adventure'] == null? null :Adventure.fromJson(json['adventure']);
   }
 
   Map<String, dynamic> toJson() {
@@ -186,6 +201,8 @@ class Booking {
     data['status'] = status;
     data['orderStatus'] = orderStatus;
     data['created'] = created;
+    // data['bookingType']=bookingType ;
+
     return data;
   }
 }

@@ -56,6 +56,8 @@ class TouristExploreController extends GetxController {
       isPlaceIsLoading(true);
       final data =
           await TouristExploreService.getPlaceById(context: context, id: id);
+          print("this place by id in controller");
+          print('${data?.booking?.first.orderStatus}');
       if (data != null) {
         return data;
       } else {
@@ -118,6 +120,7 @@ class TouristExploreController extends GetxController {
 
       var date =
           await TouristExploreService.getTouristBooking(context: context);
+          print("this booking list");
       bookingList(date);
       return date;
     } catch (e) {

@@ -6,11 +6,11 @@ class CustomEmptyWidget extends StatelessWidget {
     super.key,
     required this.title,
     required this.image,
-     this.subtitle,
+     this.subtitle='',
   });
 
   final String title;
-  final String? subtitle;
+   final String? subtitle;
   final String image;
 
   @override
@@ -44,6 +44,11 @@ class CustomEmptyWidget extends StatelessWidget {
         textAlign: TextAlign.center,
       ),
         
+      ] else ...[
+        SizedBox(
+        height: 0, // Set a meaningful height for spacing
+      ),
+      
       ],
       ],
     );
