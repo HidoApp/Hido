@@ -466,34 +466,55 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
           children: [
             //  isLoaded ?
             CustomGoogleMapMarkerBuilder(
-                customMarkers: [
-                  MarkerData(
-                      marker: Marker(
-                          onTap: () {
-                            print('Ohhhhhhhh kevin De Brunyyyee');
-                          },
-                          markerId: MarkerId("value"),
-                          position: LatLng(21.422510, 39.826168)),
-                      child: GestureDetector(
-                        onTap: () {},
-                        child: Column(children: [
-                          Container(
-                            height: 45,
-                            width: 45,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                color: Colors.red,
-                                shape: BoxShape.circle,
-                                border:
-                                    Border.all(color: Colors.white, width: 1)),
-                          ),
-                          CustomText(
-                            text: 'Edge of the world',
-                            fontSize: 12,
-                          )
-                        ]),
-                      ))
-                ],
+                customMarkers: List.generate(
+                    _touristExploreController
+                        .touristModel.value!.places!.length,
+                    (index) => MarkerData(
+                        marker: Marker(
+                            onTap: () {},
+                            markerId: MarkerId(_touristExploreController
+                                .touristModel.value!.places![index].id!),
+                            position: LatLng(
+                              double.parse(_touristExploreController
+                                  .touristModel
+                                  .value!
+                                  .places![index]
+                                  .coordinates!
+                                  .latitude!),
+                              double.parse(_touristExploreController
+                                  .touristModel
+                                  .value!
+                                  .places![index]
+                                  .coordinates!
+                                  .longitude!),
+                            )),
+                        child: GestureDetector(
+                          onTap: () {},
+                          child: Column(children: [
+                            Container(
+                              height: 45,
+                              width: 45,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: NetworkImage(
+                                          _touristExploreController
+                                              .touristModel
+                                              .value!
+                                              .places![index]
+                                              .image!
+                                              .first),
+                                      fit: BoxFit.cover),
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                      color: Colors.white, width: 1)),
+                            ),
+                            CustomText(
+                              text: 'Edge of the world',
+                              fontSize: 12,
+                            )
+                          ]),
+                        ))),
                 builder: (context, markers) {
                   if (markers == null) {
                     return GoogleMap(
