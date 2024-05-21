@@ -14,16 +14,21 @@ import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
 import 'package:ajwad_v4/explore/widget/trip_card.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/view/messages_screen.dart';
+import 'package:ajwad_v4/profile/view/ticket_screen.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:custom_map_markers/custom_map_markers.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text_area.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -449,16 +454,39 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   //   }
   // }
 
-  // List<Place> placesList() {
-  //   if (searchTextController.text.isEmpty) {
-  //     return _touristExploreController.touristModel.value!.places!.toList();
-  //   } else {
-  //     return searchedPlaces;
-  //   }
-  // }
+  void toTripDetails(int index, double distance) async {
+    if (userLocation != null) {
+      distance = calculateDistanceBtwUserAndPlace(
+        userLocation!.latitude,
+        userLocation!.longitude,
+        double.parse(_touristExploreController
+            .touristModel.value!.places![index].coordinates!.latitude!),
+        double.parse(_touristExploreController
+            .touristModel.value!.places![index].coordinates!.longitude!),
+      );
+    } else {
+      print('CAN NOT CALCULATE DISTANCE');
+    }
+
+    Get.to(
+      () => TripDetails(
+        fromAjwady: false,
+        place: _touristExploreController.touristModel.value!.places![index],
+        distance: distance != 0.0 ? distance.roundToDouble() : distance,
+        userLocation: userLocation,
+      ),
+    )?.then(
+      (value) {
+        getScrollingCards('ALL');
+        selectedTitle = titles[0];
+        return;
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.white,
       body: Obx(
@@ -467,59 +495,73 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
             //  isLoaded ?
             CustomGoogleMapMarkerBuilder(
                 customMarkers: List.generate(
-                    _touristExploreController
-                        .touristModel.value!.places!.length,
-                    (index) => MarkerData(
-                        marker: Marker(
-                            onTap: () {},
-                            markerId: MarkerId(_touristExploreController
-                                .touristModel.value!.places![index].id!),
-                            position: LatLng(
-                              double.parse(_touristExploreController
-                                  .touristModel
-                                  .value!
-                                  .places![index]
-                                  .coordinates!
-                                  .latitude!),
-                              double.parse(_touristExploreController
-                                  .touristModel
-                                  .value!
-                                  .places![index]
-                                  .coordinates!
-                                  .longitude!),
-                            )),
-                        child: GestureDetector(
-                          onTap: () {},
-                          child: Column(children: [
-                            Container(
-                              height: 45,
-                              width: 45,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      image: NetworkImage(
-                                          _touristExploreController
-                                              .touristModel
-                                              .value!
-                                              .places![index]
-                                              .image!
-                                              .first),
-                                      fit: BoxFit.cover),
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                      color: Colors.white, width: 1)),
+                  _touristExploreController.touristModel.value!.places!.length,
+                  (index) {
+                    double distance = 0.0;
+                    return MarkerData(
+                      marker: Marker(
+                          onTap: () {
+                            toTripDetails(index, distance);
+                          },
+                          markerId: MarkerId(_touristExploreController
+                              .touristModel.value!.places![index].id!),
+                          position: LatLng(
+                            double.parse(_touristExploreController.touristModel
+                                .value!.places![index].coordinates!.latitude!),
+                            double.parse(_touristExploreController.touristModel
+                                .value!.places![index].coordinates!.longitude!),
+                          )),
+                      child: Column(children: [
+                        Container(
+                          height: width * 0.1,
+                          width: width * 0.1,
+                          padding: EdgeInsets.all(width * 0.025),
+                          margin: EdgeInsets.all(width * 0.025),
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: index % 2 == 0 ? colorGreen : yellow,
+                                  blurRadius: width * 0.035,
+                                )
+                              ],
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: CachedNetworkImageProvider(
+                                  errorListener: (p0) =>
+                                      const CircularProgressIndicator(),
+                                  _touristExploreController.touristModel.value!
+                                      .places![index].image!.first,
+                                ),
+                              ),
+                              border: Border.all(
+                                  color: Colors.white, width: width * 0.0025)),
+                        ),
+                        CustomText(
+                          text: AppUtil.rtlDirection2(context)
+                              ? _touristExploreController
+                                  .touristModel.value!.places![index].nameAr!
+                              : _touristExploreController
+                                  .touristModel.value!.places![index].nameEn!,
+                          fontSize: width * 0.03,
+                          fontWeight: ui.FontWeight.w700,
+                          shadows: const [
+                            BoxShadow(
+                              color: Colors.white,
+                              offset: ui.Offset(1, 1),
                             ),
-                            CustomText(
-                              text: 'Edge of the world',
-                              fontSize: 12,
-                            )
-                          ]),
-                        ))),
+                          ],
+                        )
+                      ]),
+                    );
+                  },
+                ),
                 builder: (context, markers) {
                   if (markers == null) {
                     return GoogleMap(
                       zoomControlsEnabled: false,
                       myLocationButtonEnabled: false,
+                      markers: _userMarkers,
                       initialCameraPosition: CameraPosition(
                         target: _currentLocation,
                         zoom: 10,
@@ -557,269 +599,156 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                   );
                 }),
             Positioned(
-              top: 49,
-              left: 16,
-              right: 16,
+              top: width * .125,
+              left: width * 0.041,
+              right: width * 0.041,
               child: Column(
                 children: [
                   // text field and icons
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        //text field
-                        Container(
-                          alignment: Alignment.center,
-                          width: 278,
-                          height: 34,
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(12),
-                            ),
-                          ),
-                          child: TextField(
-                            controller: searchTextController,
-                            style: const TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.normal),
-                            textInputAction: TextInputAction.search,
-                            decoration: InputDecoration(
-                              prefixIcon: SvgPicture.asset(
-                                'assets/icons/General.svg',
-                              ),
-                              contentPadding: const EdgeInsets.only(
-                                  top: 8, left: 44, right: 12),
-                              disabledBorder: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(12),
-                                  ),
-                                  borderSide:
-                                      BorderSide(color: Colors.grey, width: 1)),
-                              enabledBorder: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(12),
-                                  ),
-                                  borderSide:
-                                      BorderSide(color: Colors.grey, width: 1)),
-                              focusedBorder: const OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(12)),
-                                borderSide:
-                                    BorderSide(color: Colors.grey, width: 1),
-                              ),
-                              hintText: "Search",
-                              hintStyle: const TextStyle(
-                                  color: lightGrey,
-                                  fontSize: 16,
-                                  fontWeight: ui.FontWeight.w400),
-                            ),
-                            onChanged: (value) {
-                              setState(() {});
-                            },
-                          ),
-                        ),
-                      ],
+                  Container(
+                    alignment: Alignment.center,
+                    width: width * 0.87,
+                    height: width * 0.087,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(width * 0.051),
+                      ),
                     ),
+                    child: TextField(
+                      controller: searchTextController,
+                      style: TextStyle(
+                          fontSize: width * 0.035,
+                          fontWeight: FontWeight.normal),
+                      textInputAction: TextInputAction.search,
+                      decoration: InputDecoration(
+                        prefixIcon: SvgPicture.asset(
+                          'assets/icons/General.svg',
+                        ),
+                        contentPadding: EdgeInsets.only(
+                            top: width * .02,
+                            left: width * 0.11,
+                            right: width * 0.030),
+                        disabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(width * 0.051),
+                            ),
+                            borderSide: BorderSide(
+                                color: Colors.grey, width: width * .002)),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(width * 0.051),
+                            ),
+                            borderSide: BorderSide(
+                                color: Colors.grey, width: width * .002)),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(width * 0.051),
+                          ),
+                          borderSide: BorderSide(
+                              color: Colors.grey, width: width * .002),
+                        ),
+                        hintText: "Search",
+                        hintStyle: TextStyle(
+                            color: lightGrey,
+                            fontSize: width * 0.041,
+                            fontWeight: ui.FontWeight.w400),
+                      ),
+                      onChanged: (value) {
+                        setState(() {});
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: width * 0.03,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
+                      //ticket
                       Container(
-                        width: 88,
-                        height: 34,
-                        padding: const EdgeInsets.symmetric(horizontal: 9),
+                        padding: EdgeInsets.all(width * 0.012),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.3),
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(16),
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(width * 0.04),
                           ),
                         ),
-                        alignment: Alignment.center,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                ProfileController _profileController =
-                                    Get.put(ProfileController());
-                                Get.to(() => AppUtil.isGuest()
-                                    ? const SignInScreen()
-                                    : MessagesScreen(
-                                        profileController: _profileController));
-                              },
-                              child: SvgPicture.asset(
-                                  'assets/icons/Communication.svg'),
-                            ),
-                            GestureDetector(
-                                onTap: () => Get.to(() => AppUtil.isGuest()
-                                    ? const SignInScreen()
-                                    : NotificationScreen()),
-                                child: SvgPicture.asset(
-                                    'assets/icons/Alerts.svg')),
-                          ],
+                        child: GestureDetector(
+                            onTap: () {
+                              ProfileController profileController =
+                                  Get.put(ProfileController());
+                              Get.to(() => AppUtil.isGuest()
+                                  ? const SignInScreen()
+                                  : TicketScreen(
+                                      profileController: profileController,
+                                    ));
+                            },
+                            child: SvgPicture.asset(
+                              'assets/icons/ticket_icon.svg',
+                              color: colorGreen,
+                            )),
+                      ),
+                      SizedBox(
+                        width: width * 0.030,
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(width * 0.0128),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(width * 0.04),
+                          ),
+                        ),
+                        child: GestureDetector(
+                          onTap: () {
+                            // ProfileController _profileController =
+                            //     Get.put(ProfileController());
+                            // Get.to(() => AppUtil.isGuest()
+                            //     ? const SignInScreen()
+                            //     : MessagesScreen(
+                            //         profileController: _profileController));
+                          },
+                          child: SvgPicture.asset(
+                            'assets/icons/Communication.svg',
+                            color: colorGreen,
+                          ),
                         ),
                       ),
-                      //ticket
+                      SizedBox(
+                        width: width * 0.030,
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(width * 0.0128),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(width * 0.04),
+                          ),
+                        ),
+                        child: GestureDetector(
+                            onTap: () => Get.to(
+                                  () => AppUtil.isGuest()
+                                      ? const SignInScreen()
+                                      : NotificationScreen(),
+                                ),
+                            child: SvgPicture.asset(
+                              'assets/icons/Alerts.svg',
+                              color: colorGreen,
+                            )),
+                      ),
+                      SizedBox(
+                        width: width * 0.030,
+                      ),
                     ],
                   )
                 ],
               ),
             ),
-            !_touristExploreController.isTouristMapLoading.value
-                ? Positioned(
-                    bottom: 12,
-                    left: 24,
-                    right: 16,
-                    child: Align(
-                      alignment: AlignmentDirectional.bottomCenter,
-                      child: SizedBox(
-                        height: 120,
-                        child: Row(
-                          children: [
-                            _touristExploreController
-                                        .touristModel.value!.places ==
-                                    null
-                                ? Container(
-                                    child: const Text("Loading "),
-                                  )
-                                : Expanded(
-                                    child: PageView.builder(
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount: _touristExploreController
-                                          .touristModel.value!.places!.length,
-                                      itemBuilder: (context, index) {
-                                        double distance = 0.0;
-                                        return GestureDetector(
-                                          onTap: () async {
-                                            if (userLocation != null) {
-                                              distance =
-                                                  calculateDistanceBtwUserAndPlace(
-                                                userLocation!.latitude,
-                                                userLocation!.longitude,
-                                                double.parse(
-                                                    _touristExploreController
-                                                        .touristModel
-                                                        .value!
-                                                        .places![index]
-                                                        .coordinates!
-                                                        .latitude!),
-                                                double.parse(
-                                                    _touristExploreController
-                                                        .touristModel
-                                                        .value!
-                                                        .places![index]
-                                                        .coordinates!
-                                                        .longitude!),
-                                              );
-                                            } else {
-                                              print(
-                                                  'CAN NOT CALCULATE DISTANCE');
-                                            }
-
-                                            Get.to(
-                                              () => TripDetails(
-                                                fromAjwady: false,
-                                                place: _touristExploreController
-                                                    .touristModel
-                                                    .value!
-                                                    .places![index],
-                                                distance: distance != 0.0
-                                                    ? distance.roundToDouble()
-                                                    : distance,
-                                                userLocation: userLocation,
-                                              ),
-                                            )?.then(
-                                              (value) {
-                                                getScrollingCards('ALL');
-                                                selectedTitle = titles[0];
-                                                return;
-                                              },
-                                            );
-                                          },
-                                          child: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                              horizontal: 4,
-                                            ),
-                                            child: TripCard(
-                                              title: !AppUtil.rtlDirection(
-                                                      context)
-                                                  ? _touristExploreController
-                                                      .touristModel
-                                                      .value!
-                                                      .places![index]
-                                                      .nameAr!
-                                                  : _touristExploreController
-                                                      .touristModel
-                                                      .value!
-                                                      .places![index]
-                                                      .nameEn!,
-                                              location: !AppUtil.rtlDirection(
-                                                      context)
-                                                  ? _touristExploreController
-                                                              .touristModel
-                                                              .value!
-                                                              .places![index]
-                                                              .regionAr ==
-                                                          null
-                                                      ? ""
-                                                      : _touristExploreController
-                                                          .touristModel
-                                                          .value!
-                                                          .places![index]
-                                                          .regionAr!
-                                                  : _touristExploreController
-                                                      .touristModel
-                                                      .value!
-                                                      .places![index]
-                                                      .regionEn!,
-                                              image: _touristExploreController
-                                                  .touristModel
-                                                  .value!
-                                                  .places![index]
-                                                  .image![0],
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  )
-                : Container(),
           ],
         ),
       ),
     );
-  }
-
-  Future<BitmapDescriptor> getBitmapDescriptorFromSVGAsset(
-    BuildContext context,
-    String svgAssetLink, {
-    Size size = const Size(30, 30),
-  }) async {
-    String svgString = await DefaultAssetBundle.of(context).loadString(
-      svgAssetLink,
-    );
-    final drawableRoot = await svg.fromSvgString(
-      svgString,
-      'debug: $svgAssetLink',
-    );
-    final ratio = ui.window.devicePixelRatio.ceil();
-    final width = size.width.ceil() * ratio;
-    final height = size.height.ceil() * ratio;
-    final picture = drawableRoot.toPicture(
-      size: Size(
-        width.toDouble(),
-        height.toDouble(),
-      ),
-    );
-    final image = await picture.toImage(width, height);
-    final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-    final uInt8List = byteData!.buffer.asUint8List();
-    return BitmapDescriptor.fromBytes(uInt8List);
   }
 
   double calculateDistanceBtwUserAndPlace(lat1, lon1, lat2, lon2) {
@@ -907,20 +836,6 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
     Uint8List data = Uint8List.view(pngBytes!.buffer);
 
     return BitmapDescriptor.fromBytes(data);
-  }
-
-  Future<ui.Image> getImageFromPath(String imagePath) async {
-    File imageFile = File(imagePath);
-
-    Uint8List imageBytes = imageFile.readAsBytesSync();
-
-    final Completer<ui.Image> completer = new Completer();
-
-    ui.decodeImageFromList(imageBytes, (ui.Image img) {
-      return completer.complete(img);
-    });
-
-    return completer.future;
   }
 
   Future<BitmapDescriptor> getMarkerIcon(
