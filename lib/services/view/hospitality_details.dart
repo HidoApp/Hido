@@ -176,7 +176,9 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                 width: 5,
                               ),
                               CustomText(
-                                text: hospitalityObj!.region,
+                                text: AppUtil.rtlDirection2(context)
+                                    ? hospitalityObj!.regionAr ?? ""
+                                    : hospitalityObj!.regionEn,
                                 color: colorDarkGrey,
                                 fontSize: 15,
                                 fontWeight: FontWeight.w300,

@@ -113,8 +113,12 @@ class _HospitalityTabState extends State<HospitalityTab> {
                                       .hospitalityList[index].titleAr
                                   : _srvicesController
                                       .hospitalityList[index].titleEn,
-                              location: _srvicesController
-                                  .hospitalityList[index].region,
+                              location: AppUtil.rtlDirection2(context)
+                                  ? _srvicesController
+                                          .hospitalityList[index].regionAr ??
+                                      ""
+                                  : _srvicesController
+                                      .hospitalityList[index].regionEn,
                               meal: !AppUtil.rtlDirection(context)
                                   ? _srvicesController
                                       .hospitalityList[index].mealTypeAr

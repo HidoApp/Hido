@@ -21,7 +21,8 @@ class Hospitality {
   final String iban;
   final String? location;
   final int price;
-  final String region;
+  final String? regionAr;
+  final String regionEn;
   final List<DayInfo> daysInfo;
 
   Hospitality(
@@ -42,7 +43,8 @@ class Hospitality {
       required this.iban,
       required this.location,
       required this.price,
-      required this.region,
+      this.regionAr,
+      required this.regionEn,
       required this.coordinate,
       required this.daysInfo});
   factory Hospitality.fromJson(Map<String, dynamic> json) {
@@ -69,7 +71,8 @@ class Hospitality {
       iban: json['iban'],
       location: json['location'],
       price: json['price'],
-      region: json['region'],
+      regionAr: json['regionAr'],
+      regionEn: json['regionEn'],
       daysInfo:
           (json['daysInfo'] as List).map((e) => DayInfo.fromJson(e)).toList(),
     );
