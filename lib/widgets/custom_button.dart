@@ -17,7 +17,7 @@ class CustomButton extends StatelessWidget {
 });
 
   final VoidCallback onPressed;
-  final String title;
+  final  title;
   final Widget? icon;
   final Color? buttonColor;
   final Color? iconColor;
@@ -74,8 +74,8 @@ class CustomButton extends StatelessWidget {
              CustomText(
               text: title,
               textAlign: TextAlign.center,
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
+              fontSize: 17,
+              fontWeight: FontWeight.w600,
               color: Colors.red,
               fontStyle: italic ? FontStyle.italic : FontStyle.normal,
             ),

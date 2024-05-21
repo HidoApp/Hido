@@ -49,7 +49,7 @@ class _TicketScreenState extends State<TicketScreen>
           
           Padding(
         padding: const EdgeInsets.only(
-          top: 20,
+          top: 3,
         ),
         child: Column(
           children: [
@@ -66,13 +66,15 @@ class _TicketScreenState extends State<TicketScreen>
                 Tab(text: "pastTrips".tr),
               ],
             ),
-            const SizedBox(
-              height: 24,
-            ),
+            // const SizedBox(
+            //   height: 24,
+            // ),
             Expanded(
+              child: Container(
+                        color: lightGreyBackground,
               child: Obx(
                 () => Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 24),
                   child: TabBarView(
                     controller: _tabController,
                     children: [
@@ -87,6 +89,7 @@ class _TicketScreenState extends State<TicketScreen>
                               ? CustomEmptyWidget(
                                   title: 'noTicket'.tr,
                                   image: 'no_tickets',
+                                  subtitle: 'noTicketSub'.tr,
                                 )
                               : ListView.separated(
                                   shrinkWrap: true,
@@ -120,6 +123,8 @@ class _TicketScreenState extends State<TicketScreen>
                               ? CustomEmptyWidget(
                                   title: 'noTicket'.tr,
                                   image: 'no_tickets',
+                                   subtitle: 'noTicketSub'.tr,
+
                                 )
                               : ListView.separated(
                                   shrinkWrap: true,
@@ -140,6 +145,7 @@ class _TicketScreenState extends State<TicketScreen>
                     ],
                   ),
                 ),
+              ),
               ),
             ),
           ],

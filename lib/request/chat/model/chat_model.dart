@@ -25,6 +25,7 @@ class ChatModel {
       this.localInChat,
       this.touristInChat,
       this.booking,
+      this.bookingId,
 
       
       });
@@ -61,12 +62,17 @@ class ChatModel {
     data['tourist'] = touristInChat;
 
     data['touristId'] = touristId;
+    data['bookingId'] = bookingId;//ne
+
+
 
     if (messages != null) {
       data['messages'] = messages!.map((v) => v.toJson()).toList();
     }
     data['created'] = created;
     data['booking'] = booking;
+    data['bookingId'] = bookingId;//new
+
     return data;
   }
 }

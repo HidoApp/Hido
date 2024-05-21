@@ -15,6 +15,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
+import '../bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
+import '../request/chat/view/chat_screen.dart';
+
 // ignore: must_be_immutable
 class CustomRequestItem extends StatelessWidget {
   CustomRequestItem({
@@ -142,7 +145,7 @@ class CustomRequestItem extends StatelessWidget {
                         child:
                             CircularProgressIndicator(color: Colors.green[700]))
                     : CustomAcceptButton(
-                        onPressed: () async {
+                       onPressed: () async {
                           if (fromAjwady) {
                             // var userID = offer![0].userId;
                             // log("userId ${userID!}");
@@ -152,29 +155,116 @@ class CustomRequestItem extends StatelessWidget {
                                     requestId: requestId!, context: context);
                             loading.value = false;
 
-                            if (requestModel != null) {
+                            if (requestModel != null ) {
                               log("chatId ${requestModel.chatId}");
-                              // Get.to(() => ChatScreen(
-                              //       senderId: userID,
-                              //       chatId: requestModel.chatId!,
-                              //     ));
-                              Get.to(() => ChatScreenLive(
-                                    isAjwadi: true,
-                                    requestController: requestController,
-                                    // senderId: userID,
-                                    offerController: Get.put(OfferController()),
-                                    chatId: requestModel.chatId,
-                                    booking: requestModel.booking!,
+                              Get.to(() => ChatScreen(
+                                     chatId: requestModel.chatId,
+                                     booking: requestModel.booking!,
                                   ));
+                              // Get.to(() => ChatScreenLive(
+                              //       isAjwadi: true,
+                              //       requestController: requestController,
+                              //       // senderId: userID,
+                              //       offerController: Get.put(OfferController()),
+                              //       chatId: requestModel.chatId,
+                              //       booking: requestModel.booking!,
+                              //     ));
                             }
                           } else {
                             log("TouristChatScreen");
                             Get.to(() => const TouristChatScreen(isChat: true));
                           }
-                        },
-                        title: 'chat'.tr,
-                        icon: 'chat',
+
+                       // End Request
+    // log("Ending the trip");
+    // requestController!.isRequestEndLoading.value = true;
+    // bool requestEnd = await requestController!.requestEnd(
+    //   id: requestId!,
+    //   context: context,
+    // ) ?? false;
+    // requestController!.isRequestEndLoading.value = false;
+
+    // if (requestEnd) {
+    //   if (context.mounted) {
+    //     AppUtil.successToast(context, 'EndRound'.tr);
+    //     await Future.delayed(const Duration(seconds: 1));
+    //     Get.offAll(const AjwadiBottomBar());
+    //   }
+    // }
+  
+
+                    // End Request
+              //       if (widget.isAjwadi)
+              //         Expanded(
+              //           child:
+              //               //  Obx(
+              //               //   () =>
+              //               widget.requestController!.isRequestEndLoading.value
+              //                   ? const Center(
+              //                       child: CircularProgressIndicator(
+              //                           color: Color(0xffD75051)),
+              //                     )
+              //                   : InkWell(
+              //                       onTap: () async {
+              //                         log("requestModel.value.id! ${widget.requestController!.requestModel.value.id!}");
+              //                         bool requestEnd = await widget
+              //                                 .requestController!
+              //                                 .requestEnd(
+              //                                     id: widget.requestController!
+              //                                         .requestModel.value.id!,
+              //                                     context: context) ??
+              //                             false;
+              //                         if (requestEnd) {
+              //                           if (context.mounted) {
+              //                             AppUtil.successToast(
+              //                                 context, 'EndRound'.tr);
+              //                             await Future.delayed(
+              //                                 const Duration(seconds: 1));
+              //                           }
+              //                           Get.offAll(const AjwadiBottomBar());
+              //                         }
+              //                       },
+              //                       child: Container(
+              //                         height: 55,
+              //                         width: 120,
+              //                         padding: const EdgeInsets.symmetric(
+              //                             horizontal: 8),
+              //                         alignment: Alignment.center,
+              //                         decoration: BoxDecoration(
+              //                             border: Border.all(
+              //                                 color: const Color(0xffD75051)),
+              //                             borderRadius:
+              //                                 BorderRadius.circular(12)),
+              //                         child: Row(
+              //                           children: [
+              //                             if (!AppUtil.rtlDirection(context))
+              //                               const Icon(Icons.close,
+              //                                   size: 14,
+              //                                   color: Color(0xffD75051)),
+              //                             if (!AppUtil.rtlDirection(context))
+              //                               const Spacer(),
+              //                             CustomText(
+              //                               text: 'EndRound'.tr,
+              //                               color: const Color(0xffD75051),
+              //                               fontSize: 14,
+              //                             ),
+              //                             if (AppUtil.rtlDirection(context))
+              //                               const Spacer(),
+              //                             if (AppUtil.rtlDirection(context))
+              //                               const Icon(Icons.close,
+              //                                   size: 14,
+              //                                   color: Color(0xffD75051)),
+              //                           ],
+              //                         ),
+              //                       ),
+              //                     ),
+              //           // ),
+                       },
+                       title: 'chat'.tr,
+                       icon: 'chat',
                       ),
+
+                     
               ),
             ),
           )

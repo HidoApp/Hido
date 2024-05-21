@@ -210,6 +210,8 @@ class TouristExploreService {
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
       print(inspect(data));
+      print('this states code from service');
+      print(response.statusCode);
       return Booking.fromJson(data);
     } else {
       String errorMessage = jsonDecode(response.body)['message'];

@@ -1,8 +1,11 @@
 import 'dart:developer';
+import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 import 'package:ajwad_v4/request/chat/model/chat_model.dart';
 import 'package:ajwad_v4/request/chat/services/chat_services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../../explore/tourist/service/tourist_explore_service.dart';
 
 class ChatController extends GetxController {
   /* ?
@@ -31,15 +34,19 @@ class ChatController extends GetxController {
   */
 
   var isGetChatByIdLoading = false.obs;
-  var chat = ChatModel().obs;
+  var chat = ChatModel();
 
   Future<ChatModel?> getChatById(
       {required String id, required BuildContext context}) async {
     try {
       isGetChatByIdLoading(true);
       final data = await ChatService.getChatById(id: id, context: context);
-      chat(data);
-      return chat.value;
+      chat= data!;
+      print("this booking id in chat controller");
+      print(data?.bookingId);
+      print(chat.bookingId);
+
+      return chat;
     } catch (e) {
       log(e.toString());
       return null;
@@ -47,7 +54,29 @@ class ChatController extends GetxController {
       isGetChatByIdLoading(false);
     }
   }
+  
+  
+  // var isGetBookByIdLoading = false.obs;
+  // var book = Booking().obs;
 
+  // Future<Booking?> getBookById(
+  //     {required String id, required BuildContext context}) async {
+  //   try {
+  //     isGetChatByIdLoading(true);
+  //     final data =  await TouristExploreService.getTouristBookingById(bookingId: id, context: context);
+  //     book(data);
+  //     return book.value;
+  //   } catch (e) {
+  //     log(e.toString());
+  //     return null;
+  //   } finally {
+  //     isGetBookByIdLoading(false);
+  //   }
+  // }
+  
+
+
+  
   //  ========= ======= =========
   //? ====== Try Stream ======
   // =======  ======= =========
@@ -76,16 +105,16 @@ class ChatController extends GetxController {
           final data = await ChatService.getChatById(id: id, context: context);
 
           bool sameData =
-              data?.messages?.last.id == chat.value.messages?.last.id;
+              data?.messages?.last.id == chat.messages?.last.id;
           if (sameData) {
-            chat(data);
+            chat=data!;
             log("\n First \n ");
             log(" chat(data)  $data");
           } else {
-            chat(data);
+            chat=data!;
             log("\n First \n ");
             log(" chat(data)  $data");
-            if (chat.value.messages!.length > 2) {
+            if (chat.messages!.length > 2) {
               scrollController
                   .jumpTo(scrollController.position.maxScrollExtent * 1.4);
             }
@@ -93,7 +122,7 @@ class ChatController extends GetxController {
         }
         // isGetChatByIdLoading(false);
 
-        yield chat.value;
+        yield chat;
       }
       // isGetChatByIdLoading(true);
       // final data = await ChatService.getChatById(id: id, context: context);
