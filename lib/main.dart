@@ -8,11 +8,14 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'localization/locale_string.dart';
 import 'package:ajwad_v4/request/local_notification.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+    await initializeDateFormatting('ar');
+
   await LocalNotification.init();
   // AwesomeNotifications().initialize(
   //   '',

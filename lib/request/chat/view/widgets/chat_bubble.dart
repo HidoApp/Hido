@@ -35,7 +35,7 @@ class ChatBubble extends StatelessWidget {
      Container(
         alignment: isSender ? AppUtil.rtlDirection2(context)? Alignment.centerRight:Alignment.centerLeft :  AppUtil.rtlDirection2(context)? Alignment.centerRight:Alignment.centerLeft,
         margin: const EdgeInsets.all(8.0),
-        padding: const EdgeInsets.all(12.0),
+        padding: const EdgeInsets.all(14.0),
         decoration: BoxDecoration(
           color: isSender ?  Color(0xFFECF9F1): Color.fromARGB(255, 255, 255, 255),
 
@@ -100,7 +100,7 @@ class ChatBubble extends StatelessWidget {
   children: [
     Expanded(
       child:CustomText(
-                text: message.created!,
+                text:  message.created!,
                 textAlign: TextAlign.center,
                 // textDirection: AppUtil.rtlDirection2(context)? TextDirection.rtl:TextDirection.ltr,
                 fontSize: 10,

@@ -6,9 +6,11 @@ class CustomEmptyWidget extends StatelessWidget {
     super.key,
     required this.title,
     required this.image,
+     this.subtitle,
   });
 
   final String title;
+  final String? subtitle;
   final String image;
 
   @override
@@ -21,10 +23,28 @@ class CustomEmptyWidget extends StatelessWidget {
         Image.asset('assets/images/$image.png'),
         CustomText(
           text: title,
+          color: Color(0xFF9392A0),
           fontSize: 18,
-          fontWeight: FontWeight.w700,
+          fontFamily: 'HT Rakik',
+         fontWeight: FontWeight.w700,
+         height: 0.10,
           textAlign: TextAlign.center,
         ),
+        if (subtitle != '' || subtitle != null) ...[
+      SizedBox(
+        height: 10, // Set a meaningful height for spacing
+      ),
+      CustomText(
+        text: subtitle!,
+        color: Color(0xFFB9B8C1),
+        fontSize: 17,
+        fontFamily: 'SF Pro',
+        fontWeight: FontWeight.w500,
+        height: 1.0, // Use a meaningful height if necessary
+        textAlign: TextAlign.center,
+      ),
+        
+      ],
       ],
     );
   }

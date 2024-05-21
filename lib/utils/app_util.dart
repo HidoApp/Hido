@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:intl/intl.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 class AppUtil {
@@ -51,6 +52,45 @@ class AppUtil {
     return isExpired;
   }
 
+static String formatBookingDate(BuildContext context, String date) {
+  DateTime dateTime = DateTime.parse(date);
+  if (AppUtil.rtlDirection2(context)) {
+    // Set Arabic locale for date formatting
+    return DateFormat('EEEE، d MMMM yyyy', 'ar').format(dateTime);
+  } else {
+    // Default to English locale
+    return DateFormat('E dd MMM yyyy').format(dateTime);
+  }
+}
+static String formatTimeWithLocale(BuildContext context, String dateTimeString,String format) {
+  DateTime dateTime = DateTime.parse(dateTimeString);
+  String formattedTime = DateFormat(format).format(dateTime);
+
+  if (AppUtil.rtlDirection2(context)) {
+    // Arabic locale
+    String suffix = dateTime.hour < 12 ? 'صباحًا' : 'مساءً';
+    formattedTime = formattedTime.replaceAll('AM', '').replaceAll('PM', '').trim(); // Remove AM/PM
+    return '$formattedTime $suffix';
+  } else {
+    // Default to English locale
+    return formattedTime;
+  }
+}
+
+static String formatStringTimeWithLocale(BuildContext context, String dateTimeString) {
+ 
+  DateTime time = DateFormat("HH:mm").parse(dateTimeString);
+    String formattedTime = DateFormat.jm().format(time);
+  if (AppUtil.rtlDirection2(context)) {
+    // Arabic locale
+    String suffix = time.hour < 12 ? 'صباحًا' : 'مساءً';
+    formattedTime = formattedTime.replaceAll('AM', '').replaceAll('PM', '').trim(); // Remove AM/PM
+    return '$formattedTime $suffix';
+  } else {
+    // Default to English locale
+    return formattedTime;
+  }
+}
   static bool isGuest() {
     final _getStorage = GetStorage();
     final String token = _getStorage.read('accessToken') ?? '';

@@ -62,24 +62,28 @@ class CustomTicketCard extends StatelessWidget {
 
   child: Container(
   width: 334,
-  height: 120,
+  height: 130,
+
   child: Card(
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.all(Radius.circular(7.36))),
     color: const Color.fromARGB(255, 255, 255, 255),
+    surfaceTintColor:const Color.fromARGB(255, 255, 255, 255) ,
+    // shadowColor: const Color.fromARGB(255, 255, 255, 255),
+    
     child: Padding(
-      padding: const EdgeInsets.only(bottom: 10, left: 9, right: 8, top: 8),
+      padding: const EdgeInsets.only(bottom: 12, left: 12, right: 8, top: 12),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Padding(
-            padding: const EdgeInsets.only(bottom: 20),
+            padding: const EdgeInsets.only(bottom: 37),
             child: ClipRRect(
-              borderRadius: const BorderRadius.all(Radius.circular(8)),
+              borderRadius: const BorderRadius.all(Radius.circular(4)),
               child: Image.network(
                 booking.place!.image![0],
-                height: height * 0.08,
-                width: width * 0.2,
+                height: height * 0.076,
+                width: width * 0.16,
                 fit: BoxFit.cover,
               ),
             ),
@@ -93,7 +97,7 @@ class CustomTicketCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 6),
+                  padding: const EdgeInsets.only(top: 1),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -101,10 +105,10 @@ class CustomTicketCard extends StatelessWidget {
                         text: AppUtil.rtlDirection(context)
                             ? booking.place!.nameEn!
                             : booking.place!.nameAr!,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                        fontFamily: 'SF Pro',
-                        color: black,
+                        fontSize: 19,
+                        fontWeight: FontWeight.w700,
+                        fontFamily:  AppUtil.rtlDirection(context)?'SF Pro':'SF Arabic',
+
                       ),
                       Row(
                         textDirection: AppUtil.rtlDirection2(context)?TextDirection.rtl:TextDirection.ltr,
@@ -125,7 +129,7 @@ class CustomTicketCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(
-                  height: 5,
+                  height: 2,
                 ),
                 Row(
                   
@@ -138,14 +142,14 @@ class CustomTicketCard extends StatelessWidget {
                       text: AppUtil.rtlDirection2(context)
                           ? booking.place!.regionAr!
                           : booking.place!.regionEn!,
-                      fontSize: 11,
-                      fontWeight: FontWeight.w400,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
                       color: textGreyColor,
                     ),
                   ],
                 ),
                 const SizedBox(
-                  height: 5,
+                  height: 2,
                 ),
                 Row(
                   children: [
@@ -153,12 +157,13 @@ class CustomTicketCard extends StatelessWidget {
                       'assets/icons/grey_calender.svg',
                     ),
                     const SizedBox(
-                      width: 4,
+                      width: 5,
                     ),
                     CustomText(
-                      text:intel.DateFormat.yMMMMd().format(DateTime.parse(booking.date)),
-                      fontSize: 10,
-                      fontWeight: FontWeight.w400,
+                     // text:intel.DateFormat.yMMMMd().format(DateTime.parse(booking.date!)),
+                     text:formatBookingDate(context, booking.date),
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
                       color: textGreyColor,
                     ),
                      ],
@@ -175,18 +180,18 @@ class CustomTicketCard extends StatelessWidget {
                     children:[
                       
                     SvgPicture.asset(
-                      'assets/icons/${booking.orderStatus! == 'ACCEPTED' ? 'confirmed.svg' : booking.orderStatus! == 'CANCELED'? 'canceled.svg' : 'waiting.svg'}',
+                      'assets/icons/${booking.orderStatus! == 'ACCEPTED' ||  booking.orderStatus! == 'Finished' ? 'confirmed.svg' : booking.orderStatus! == 'CANCELED'? 'canceled.svg' : 'waiting.svg'}',
                     ),
                     const SizedBox(
                       width: 4,
                     ),
                     
                     CustomText(
-
-                      text: booking.orderStatus!,
-                      fontSize: 10,
-                      fontWeight: FontWeight.w400,
-                      color: booking.orderStatus! == 'ACCEPTED' ? colorGreen : booking.orderStatus! == 'CANCELED'? Color(0xFFDC362E) : colorDarkGrey,
+                      text: getOrderStatusText(context, booking.orderStatus!),
+                      //text:booking.orderStatus!,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                      color: booking.orderStatus! == 'ACCEPTED' ||  booking.orderStatus! == 'Finished'  ? colorGreen : booking.orderStatus! == 'CANCELED'? Color(0xFFDC362E) : colorDarkGrey,
                     ),
                 ],
                  ),
@@ -201,4 +206,35 @@ class CustomTicketCard extends StatelessWidget {
 
     );
   }
+
+  String getOrderStatusText(BuildContext context, String orderStatus) {
+  if (AppUtil.rtlDirection2(context)) {
+    switch (orderStatus) {
+      case 'ACCEPTED':
+        return 'مؤكد';
+      case 'Uppending':
+        return 'في الانتظار';
+      case 'Finished':
+        return 'اكتملت';
+      case 'CANCELED':
+        return 'تم الالغاء';
+      default:
+        return orderStatus; 
+    }
+  } else {
+    return orderStatus; 
+}
+
+}
+String formatBookingDate(BuildContext context, String date) {
+  DateTime dateTime = DateTime.parse(date);
+  if (AppUtil.rtlDirection2(context)) {
+    // Set Arabic locale for date formatting
+    return intel.DateFormat('EEEE، d MMMM yyyy', 'ar').format(dateTime);
+  } else {
+    // Default to English locale
+    return intel.DateFormat('EEEE, d MMMM yyyy').format(dateTime);
+  }
+}
+
 }

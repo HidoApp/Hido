@@ -208,7 +208,7 @@ const localeEn = {
   "twitter": "Twitter",
   "instagram": "Instagram",
   "skype": "Skype",
-  "massages": "Massages",
+  "massages": "Chats",
   "cancel": "Cancel",
   "date": "Date",
   "confirm": "Confirm",
@@ -223,15 +223,16 @@ const localeEn = {
   "ffx": "preliminary cost",
   "findAjwady": "Find Ajwady",
   "findLocal": "Find Locals",
-  "myTickets": "My tickets",
+  "myTickets": "Tickets",
   "myFav": "My Whish list",
   "notifications": "Notifications",
-  "pastTrips": "Past Tour",
-  "upcomingTrips": "Upcoming Tour",
+  "pastTrips": "Past",
+  "upcomingTrips": "Upcoming",
   "canceled": "Canceled",
   "confirmed": "Confirmed",
   "waiting": "Waiting",
-  "noTicket": "No tickets",
+  "noTicket": "No Tickets Yet",
+  "noTicketSub":"All your booking and request ticket will appear here",
   "noNotification": "No notifications",
   "pay": "Pay",
   "discount": "Discount",
@@ -375,7 +376,12 @@ const localeEn = {
   "cancellationPolicyNote":"Please note that no refunds will be issued for cancellations made on the same day as the booking.",
   "notFind":"We couldn't find any local guides available for your chosen date and location",
   "Expand":"Expand Search",
-  "notePrice":"Please note that the prices listed are per person"
+  "notePrice":"Please note that the prices listed are per person",
+  "ItineraryDetails":"Itinerary Details",
+  "BookingDetails":"Booking Details",
+  "CancelBooking":"Cancel Booking",
+  "CancelBookingConfirm":'Are you sure you want to cancel your booking?',
+  'Confirm':'Confirm'
 
   
 };

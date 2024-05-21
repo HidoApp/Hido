@@ -35,7 +35,7 @@ OfferController offerController = Get.put(OfferController());
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CustomAppBar(
-        "massage".tr,
+        "massages".tr,
         color: black,
       ),
       body: Obx(

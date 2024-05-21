@@ -205,7 +205,7 @@ const localeAr = {
   "twitter": "تويتر",
   "instagram": "انستغرام",
   "skype": "سكايب",
-  "massages": "الرسائل",
+  "massages": "المحادثات",
   "cancel": "إلغاء",
   "date": "تاريخ الرحلة",
   "confirm": "تأكيد",
@@ -220,15 +220,16 @@ const localeAr = {
   "preliminaryCost": "سعر تقريبي",
   "findAjwady": "أبحث عن أجودي",
   "findLocal": "أبحث عن مرشد محلي",
-  "myTickets": "تذاكري",
+  "myTickets": "التذاكر",
   "myFav": "مفضلتي",
   "notifications": "تنبيهات",
-  "pastTrips": "رحلات سابقة",
-  "upcomingTrips": "رحلات قادمة",
+  "pastTrips": "الماضية",
+  "upcomingTrips": "القادمة",
   "canceled": "ملغي",
   "confirmed": "تأكد",
   "waiting": "بالانتظار",
-  "noTicket": "لا توجد رحلات جديده",
+  "noTicket": "لا توجد تذاكر بعد",
+  "noTicketSub":"جميع تذاكر حجوزاتك و طلباتك ستظهر هنا ",
   "noNotification": "لا توجد تنبيهات جديده",
   "pay": "ادفع",
   "discount": "خصم",
@@ -365,6 +366,12 @@ const localeAr = {
   "cancellationPolicyNote":"يرجى ملاحظة أنه لن يتم استرداد أية مبالغ مقابل الإلغاءات التي تتم في نفس يوم الحجز.",
   "notFind":"لم نتمكن من العثور على أي مرشدين محليين متاحين في التاريخ والموقع الذي اخترته",
   "Expand":"توسيع البحث",
-  "notePrice":"يرجى ملاحظة أن الأسعار المذكورة هي للشخص الواحد"
+  "notePrice":"يرجى ملاحظة أن الأسعار المذكورة هي للشخص الواحد",
+  "ItineraryDetails":"تفاصيل مسار الجولة",
+  "BookingDetails":"تفاصيل الحجز",
+   "CancelBooking":"إلغاء الحجز",
+   "CancelBookingConfirm":'هل أنت متأكد من رغبتك في إلغاء الحجز؟ ',
+   'Confirm':"تأكيد"
+
 
 };
