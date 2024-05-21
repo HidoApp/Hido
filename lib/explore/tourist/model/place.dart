@@ -1,9 +1,8 @@
-
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 import 'package:ajwad_v4/explore/tourist/model/coordinates.dart';
 
 class Place {
-  
+  final String? place;
   final String? id;
   final String? descriptionAr;
   final String? descriptionEn;
@@ -19,40 +18,42 @@ class Place {
   final int? price;
   final List<Booking>? booking;
 
-
-  Place({
-     this.id,
-     this.descriptionAr,
-     this.descriptionEn,
-     this.nameAr,
-     this.nameEn,
-     this.regionAr,
-     this.regionEn,
-     this.image,
-     this.price,
-    this.locationUrl,
-     this.visitors,
-     this.rating,
-     this.coordinates,
-    this.booking,
-  });
+  Place(
+      {this.id,
+      this.descriptionAr,
+      this.descriptionEn,
+      this.nameAr,
+      this.nameEn,
+      this.regionAr,
+      this.regionEn,
+      this.image,
+      this.price,
+      this.locationUrl,
+      this.visitors,
+      this.rating,
+      this.coordinates,
+      this.booking,
+      this.place});
 
   factory Place.fromJson(Map<String, dynamic> json) {
     return Place(
       id: json['id'],
+      place: json['place'],
       descriptionAr: json['descriptionAr'],
       descriptionEn: json['descriptionEn'],
       nameAr: json['nameAr'],
       nameEn: json['nameEn'],
       regionAr: json['regionAr'],
       regionEn: json['regionEn'],
-       image:List<String>.from(json["image"]),
-       price: json['price'],
-       locationUrl: json['locationUrl'],
+      image: List<String>.from(json["image"]),
+      price: json['price'],
+      locationUrl: json['locationUrl'],
       visitors: json['visitors'],
       rating: json['rating'],
-      coordinates: Coordinate.fromJson( json['coordinates']),
-   booking: json['booking'] == null ? null : ( json['booking'] as List ).map((e) => Booking.fromJson(e) ).toList(),
+      coordinates: Coordinate.fromJson(json['coordinates']),
+      booking: json['booking'] == null
+          ? null
+          : (json['booking'] as List).map((e) => Booking.fromJson(e)).toList(),
     );
   }
 
@@ -69,12 +70,7 @@ class Place {
       'price': price,
       'locationUrl': locationUrl,
       'rating': rating,
-     'coordinates': coordinates,
+      'coordinates': coordinates,
     };
   }
 }
-
-
-
-
-

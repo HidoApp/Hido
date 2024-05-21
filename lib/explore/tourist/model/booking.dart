@@ -1,4 +1,3 @@
-
 import 'package:ajwad_v4/explore/tourist/model/coordinates.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
@@ -11,12 +10,13 @@ class Booking {
   final String date;
   final String timeToGo;
   final String timeToReturn;
-  final int? guestNumber;
+  final String? guestNumber;
+  final GuestInfo? guestInfo;
   final dynamic cost;
   final String? vehicleType;
   final String? orderStatus;
   final Coordinate? coordinates;
-  // final String? bookingType;
+  final String? bookingType;
   final Place? place;
   final Hospitality? hospitality;
   // final Adventure? adventure;
@@ -34,7 +34,8 @@ class Booking {
     this.vehicleType,
     this.coordinates,
     this.orderStatus,
-    // this.bookingType,
+    this.guestInfo,
+    this.bookingType,
     this.place,
     this.hospitality,
     // this.adventure,
@@ -51,16 +52,19 @@ class Booking {
       timeToGo: json['timeToGo'],
       timeToReturn: json['timeToReturn'],
       guestNumber: json['guestNumber'],
+      guestInfo: json["guestInfo"] == null
+          ? null
+          : GuestInfo.fromJson(json["guestInfo"]),
       cost: json['cost'],
       vehicleType: json['vehicleType'],
       coordinates: json['coordinates'] == null
           ? null
           : Coordinate.fromJson(json['coordinates']),
-      // bookingType:json['bookingType'],
+      bookingType: json['bookingType'],
       place: json['place'] == null ? null : Place.fromJson(json['place']),
-      hospitality: json['hospitality'] == null? null :Hospitality.fromJson(json['hospitality']),
-      // adventure: json['adventure'] == null? null :Adventure.fromJson(json['adventure']),
-
+      hospitality: json['hospitality'] == null
+          ? null
+          : Hospitality.fromJson(json['hospitality']),
     );
   }
 
@@ -76,6 +80,28 @@ class Booking {
       'coordinates': coordinates,
     };
   }
+}
+
+class GuestInfo {
+  GuestInfo({
+    required this.male,
+    required this.female,
+  });
+
+  final int? male;
+  final int? female;
+
+  factory GuestInfo.fromJson(Map<String, dynamic> json) {
+    return GuestInfo(
+      male: json["male"],
+      female: json["female"],
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        "male": male,
+        "female": female,
+      };
 }
 
 

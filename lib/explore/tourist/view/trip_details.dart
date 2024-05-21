@@ -105,15 +105,9 @@ class _TripDetailsState extends State<TripDetails> {
         if (booking.placeId == widget.place!.id) {
           isViewBooking.value = true;
           lockPlaces.value = false;
-          print(
-            'THIS USER HAS A BOOKING IN ${widget.place!.nameAr}',
-          );
-          print(isViewBooking.value);
         }
       }
     }
-    print("locked");
-    print(_touristExploreController.isPlaceNotLocked);
   }
 
   @override

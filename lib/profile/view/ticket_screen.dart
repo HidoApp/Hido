@@ -39,14 +39,13 @@ class _TicketScreenState extends State<TicketScreen>
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.white,
-
       appBar: CustomAppBar(
         'myTickets'.tr,
       ),
       body:
           // Obx(
           //   () =>
-          
+
           Padding(
         padding: const EdgeInsets.only(
           top: 3,
@@ -71,86 +70,86 @@ class _TicketScreenState extends State<TicketScreen>
             // ),
             Expanded(
               child: Container(
-                        color: lightGreyBackground,
-              child: Obx(
-                () => Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 24),
-                  child: TabBarView(
-                    controller: _tabController,
-                    children: [
-                      // Tab 1 content (upcomingTrips)
-                      widget.profileController.isUpcommingTicketLoading.value
-                          ? const Center(
-                              child: CircularProgressIndicator(
-                                color: colorGreen,
-                              ),
-                            )
-                          : widget.profileController.upcommingTicket.isNotEmpty
-                              // ? CustomEmptyWidget(
-                              //     title: 'noTicket'.tr,
-                              //     image: 'no_tickets',
-                              //     subtitle: 'noTicketSub'.tr,
-                              //   )
-                              ?Column(
-                                children: [
-                                  Text('true'),
-                                ],
-                              )
-                              : ListView.separated(
-                                  shrinkWrap: true,
-                                  itemCount: widget
-                                      .profileController.upcommingTicket.length,
-                                  separatorBuilder: (context, index) {
-                                    return const SizedBox(
-                                      height: 11,
-                                    );
-                                  },
-                                  itemBuilder: (context, index) {
-                                    return CustomTicketCard(
-                                      booking: widget.profileController
-                                          .upcommingTicket[index],
-                                    );
-                                  },
-                                ),
-
-                      // Tab 2 content (pastTrips)
-                      widget.profileController.isPastTicketLoading.value
-                          ? const Center(
-                              child: SizedBox(
-                                height: 40,
-                                width: 40,
+                color: lightGreyBackground,
+                child: Obx(
+                  () => Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 24),
+                    child: TabBarView(
+                      controller: _tabController,
+                      children: [
+                        // Tab 1 content (upcomingTrips)
+                        widget.profileController.isUpcommingTicketLoading.value
+                            ? const Center(
                                 child: CircularProgressIndicator(
                                   color: colorGreen,
                                 ),
-                              ),
-                            )
-                          : widget.profileController.pastTicket.isEmpty
-                              ? CustomEmptyWidget(
-                                  title: 'noTicket'.tr,
-                                  image: 'no_tickets',
-                                   subtitle: 'noTicketSub'.tr,
+                              )
+                            : widget.profileController.upcommingTicket.isEmpty
+                                ? CustomEmptyWidget(
+                                    title: 'noTicket'.tr,
+                                    image: 'no_tickets',
+                                    subtitle: 'noTicketSub'.tr,
+                                  )
+                                // ? Column(
+                                //     children: [
+                                //       Text('true'),
+                                //     ],
+                                //   )
+                                : ListView.separated(
+                                    shrinkWrap: true,
+                                    itemCount: widget.profileController
+                                        .upcommingTicket.length,
+                                    separatorBuilder: (context, index) {
+                                      return const SizedBox(
+                                        height: 11,
+                                      );
+                                    },
+                                    itemBuilder: (context, index) {
+                                      return CustomTicketCard(
+                                        booking: widget.profileController
+                                            .upcommingTicket[index],
+                                      );
+                                    },
+                                  ),
 
-                                )
-                              : ListView.separated(
-                                  shrinkWrap: true,
-                                  itemCount: widget
-                                      .profileController.pastTicket.length,
-                                  separatorBuilder: (context, index) {
-                                    return const SizedBox(
-                                      height: 11,
-                                    );
-                                  },
-                                  itemBuilder: (context, index) {
-                                    return CustomTicketCard(
-                                      booking: widget
-                                          .profileController.pastTicket[index],
-                                    );
-                                  },
+                        // Tab 2 content (pastTrips)
+                        widget.profileController.isPastTicketLoading.value
+                            ? const Center(
+                                child: SizedBox(
+                                  height: 40,
+                                  width: 40,
+                                  child: CircularProgressIndicator(
+                                    color: colorGreen,
+                                  ),
                                 ),
-                    ],
+                              )
+                            : widget.profileController.pastTicket.isEmpty
+                                ? CustomEmptyWidget(
+                                    title: 'noTicket'.tr,
+                                    image: 'no_tickets',
+                                    subtitle: 'noTicketSub'.tr,
+                                  )
+                                : ListView.separated(
+                                    shrinkWrap: true,
+                                    itemCount: widget
+                                        .profileController.pastTicket.length,
+                                    separatorBuilder: (context, index) {
+                                      return const SizedBox(
+                                        height: 11,
+                                      );
+                                    },
+                                    itemBuilder: (context, index) {
+                                      return CustomTicketCard(
+                                        booking: widget.profileController
+                                            .pastTicket[index],
+                                      );
+                                    },
+                                  ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
               ),
             ),
           ],
