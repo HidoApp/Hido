@@ -126,7 +126,9 @@ class CustomChatCard extends StatelessWidget {
               text:chatModel.messages!.isNotEmpty
             //  ? DateFormat('jm').format(DateTime.parse(chatModel.messages!.last.created!))
             //  'HH:mm'
-            ?AppUtil.formatTimeWithLocale(context, chatModel.messages!.last.created!,'jm')
+           // ?AppUtil.formatTimeWithLocale(context, chatModel.messages!.last.created!,'jm')
+           ? formatTimeWithLocale(context, chatModel.messages!.last.created!)
+
             : '',
               color: Color(0xFF37B268),
              fontSize: 13,

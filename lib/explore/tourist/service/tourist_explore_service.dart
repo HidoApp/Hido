@@ -78,6 +78,9 @@ class TouristExploreService {
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
+      var place= Place.fromJson(data);
+      log("this place by id from service");
+      log('${place.booking?.first.id}');
       return Place.fromJson(data);
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
@@ -173,6 +176,12 @@ class TouristExploreService {
     if (response.statusCode == 200) {
       List<dynamic> data = jsonDecode(response.body);
       print(inspect(data));
+
+      var dse =data.map((booking) => Booking.fromJson(booking)).toList();
+      log("this place from UI");
+      log('${dse.first.id}');
+      log('${dse.first.place?.id}');
+
       return data.map((booking) => Booking.fromJson(booking)).toList();
     } else {
       String errorMessage = jsonDecode(response.body)['message'];

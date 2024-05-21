@@ -1,5 +1,8 @@
+
 import 'package:ajwad_v4/explore/tourist/model/coordinates.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
+import 'package:ajwad_v4/services/model/adventure.dart';
+import 'package:ajwad_v4/services/model/hospitality.dart';
 
 class Booking {
   final String? id;
@@ -13,7 +16,11 @@ class Booking {
   final String? vehicleType;
   final String? orderStatus;
   final Coordinate? coordinates;
+  // final String? bookingType;
   final Place? place;
+  final Hospitality? hospitality;
+  // final Adventure? adventure;
+  // final Event? event;
 
   Booking({
     required this.id,
@@ -27,7 +34,11 @@ class Booking {
     this.vehicleType,
     this.coordinates,
     this.orderStatus,
+    // this.bookingType,
     this.place,
+    this.hospitality,
+    // this.adventure,
+    // this.event,
   });
 
   factory Booking.fromJson(Map<String, dynamic> json) {
@@ -45,7 +56,11 @@ class Booking {
       coordinates: json['coordinates'] == null
           ? null
           : Coordinate.fromJson(json['coordinates']),
+      // bookingType:json['bookingType'],
       place: json['place'] == null ? null : Place.fromJson(json['place']),
+      hospitality: json['hospitality'] == null? null :Hospitality.fromJson(json['hospitality']),
+      // adventure: json['adventure'] == null? null :Adventure.fromJson(json['adventure']),
+
     );
   }
 
