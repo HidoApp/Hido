@@ -1,6 +1,7 @@
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
+import 'package:ajwad_v4/services/controller/regions_controller.dart';
 import 'package:ajwad_v4/services/view/adveture_details.dart';
 import 'package:ajwad_v4/services/view/event_details.dart';
 import 'package:ajwad_v4/services/view/hospitality_details.dart';
@@ -24,13 +25,16 @@ class HospitalityTab extends StatefulWidget {
 
 class _HospitalityTabState extends State<HospitalityTab> {
   final _srvicesController = Get.put(HospitalityController());
+  final _regionsController = Get.put(RegionsController());
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _srvicesController.getAllHospitality(context: context);
+    _regionsController.getRegions(context: context, regionType: "HOSPITALITY");
   }
 
+  var selectedValue = 0;
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
@@ -48,6 +52,7 @@ class _HospitalityTabState extends State<HospitalityTab> {
               height: width * 0.051,
             ),
             Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -65,16 +70,71 @@ class _HospitalityTabState extends State<HospitalityTab> {
                 //cities list view
                 SizedBox(
                   height: width * 0.087,
-                  child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    shrinkWrap: true,
-                    itemCount: 10,
-                    separatorBuilder: (context, index) => SizedBox(
-                      width: width * 0.025,
-                    ),
-                    itemBuilder: (context, index) => CityChips(
-                      city: index == 0 ? 'All' : "Makkah",
-                    ),
+                  child: Obx(
+                    () => !_regionsController.isRegionsLoading.value
+                        ? ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            shrinkWrap: true,
+                            itemCount: _regionsController
+                                    .regionsHospitalty.value.regionEn!.length +
+                                1,
+                            separatorBuilder: (context, index) => SizedBox(
+                              width: width * 0.025,
+                            ),
+                            itemBuilder: (context, index) => Obx(
+                              () => GestureDetector(
+                                onTap: () {
+                                  if (index !=
+                                      _regionsController.selectedHospitaltyIndex
+                                          .value) // for handle user clicks
+                                  {
+                                    _regionsController
+                                        .selectedHospitaltyIndex.value = index;
+                                    print(_regionsController
+                                        .regionsHospitalty
+                                        .value
+                                        .regionEn![index != 0 ? index - 1 : 0]);
+                                    if (index == 0) {
+                                      _srvicesController.getAllHospitality(
+                                          context: context);
+                                    } else {
+                                      _srvicesController.getAllHospitality(
+                                          context: context,
+                                          region: index != 0
+                                              ? _regionsController
+                                                      .regionsHospitalty
+                                                      .value
+                                                      .regionEn![
+                                                  index != 0 ? index - 1 : 0]
+                                              : null);
+                                    }
+                                  }
+                                },
+                                child: CityChips(
+                                  color: _regionsController
+                                              .selectedHospitaltyIndex.value ==
+                                          index
+                                      ? colorDarkGreen
+                                      : almostGrey,
+                                  backgroundColor: _regionsController
+                                              .selectedHospitaltyIndex.value ==
+                                          index
+                                      ? colorGreen
+                                      : Colors.transparent,
+                                  textColor: _regionsController
+                                              .selectedHospitaltyIndex.value ==
+                                          index
+                                      ? Colors.white
+                                      : almostGrey,
+                                  city: index == 0
+                                      ? 'All'
+                                      : _regionsController.regionsHospitalty
+                                          .value.regionEn![index - 1],
+                                ),
+                              ),
+                            ),
+                          )
+                        : CircularProgressIndicator.adaptive(),
                   ),
                 ),
                 SizedBox(

@@ -21,12 +21,12 @@ class HospitalityController extends GetxController {
   var isHospatilityDateSelcted = false.obs;
   var isAdventureTimeSelcted = false.obs;
 
-  Future<RxList<Hospitality>?> getAllHospitality({
-    required BuildContext context,
-  }) async {
+  Future<RxList<Hospitality>?> getAllHospitality(
+      {required BuildContext context, String? region}) async {
     try {
       isHospitalityLoading(true);
-      final data = await HospitalityService.getAllHospitality(context: context);
+      final data = await HospitalityService.getAllHospitality(
+          context: context, region: region);
       if (data != null) {
         hospitalityList(data);
       }

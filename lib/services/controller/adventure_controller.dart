@@ -11,10 +11,11 @@ class AdventureController extends GetxController {
   var isAdventureListLoading = false.obs;
   var isAdventureByIdLoading = false.obs;
   Future<List<Adventure>?> getAdvdentureList(
-      {required BuildContext context}) async {
+      {required BuildContext context, String? region}) async {
     try {
       isAdventureListLoading(true);
-      final data = await AdventureService.getAdvdentureList(context: context);
+      final data = await AdventureService.getAdvdentureList(
+          context: context, region: region);
       if (data != null) {
         adventureList(data);
       }
