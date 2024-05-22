@@ -1,4 +1,5 @@
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -51,39 +52,14 @@ class CustomAdventureItem extends StatelessWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Stack(
-                    alignment: AlignmentDirectional.bottomStart,
-                    children: [
-                      ClipRRect(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10)),
-                        child: Image.network(
-                          image,
-                          width: width * 0.23,
-                          height: width * 0.23,
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                      Positioned.directional(
-                        textDirection: Directionality.of(context),
-                        bottom: 7,
-                        start: 7,
-                        child: personImage == null
-                            ? const CircleAvatar(
-                                radius: 12.5,
-                                backgroundImage: AssetImage(
-                                    'assets/images/profile_image.png'),
-                              )
-                            : CircleAvatar(
-                                radius: 13.5,
-                                backgroundColor: Colors.white,
-                                child: CircleAvatar(
-                                  radius: 12.5,
-                                  backgroundImage: NetworkImage(personImage!),
-                                ),
-                              ),
-                      ),
-                    ],
+                  ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    child: Image.network(
+                      image,
+                      width: width * 0.23,
+                      height: width * 0.23,
+                      fit: BoxFit.fill,
+                    ),
                   ),
                   const SizedBox(
                     width: 11,
@@ -137,14 +113,14 @@ class CustomAdventureItem extends StatelessWidget {
                               CustomText(
                                 text: DateFormat('E-dd-MMM')
                                     .format(DateTime.parse(date)),
-                                fontSize: 10,
+                                fontSize: width * 0.025,
                                 fontWeight: FontWeight.w400,
                                 color: starGreyColor,
                               ),
                             ],
                           ),
-                          const SizedBox(
-                            width: 16,
+                          SizedBox(
+                            width: width * 0.041,
                           ),
                           // Row(
                           //   children: [
@@ -173,21 +149,34 @@ class CustomAdventureItem extends StatelessWidget {
               ),
               const Spacer(),
               Padding(
-                padding: const EdgeInsets.only(top: 5),
+                padding: EdgeInsets.only(top: width * 0.0128),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
+                    if (AppUtil.rtlDirection2(context))
+                      CustomText(
+                        text: rate,
+                        fontSize: width * 0.025,
+                        fontWeight: FontWeight.w700,
+                        color: colorDarkGreen,
+                        fontFamily: 'Kufam',
+                      ),
+                    if (AppUtil.rtlDirection2(context))
+                      SizedBox(
+                        width: width * 0.01,
+                      ),
                     SvgPicture.asset('assets/icons/star.svg'),
                     SizedBox(
                       width: width * 0.01,
                     ),
-                    CustomText(
-                      text: rate,
-                      fontSize: width * 0.025,
-                      fontWeight: FontWeight.w700,
-                      color: colorDarkGreen,
-                      fontFamily: 'Kufam',
-                    ),
+                    if (!AppUtil.rtlDirection2(context))
+                      CustomText(
+                        text: rate,
+                        fontSize: width * 0.025,
+                        fontWeight: FontWeight.w700,
+                        color: colorDarkGreen,
+                        fontFamily: 'Kufam',
+                      ),
                   ],
                 ),
               ),

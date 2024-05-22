@@ -8,6 +8,7 @@ import 'package:ajwad_v4/profile/view/messages_screen.dart';
 import 'package:ajwad_v4/request/chat/view/chat_screen.dart';
 import 'package:ajwad_v4/request/tourist/view/tourist_chat_screen.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
+import 'package:ajwad_v4/services/service/regions_service.dart';
 import 'package:ajwad_v4/services/view/tabs/adventures_tab.dart';
 import 'package:ajwad_v4/services/view/tabs/events_tab.dart';
 import 'package:ajwad_v4/services/view/tabs/restaurants_tab.dart';
@@ -41,14 +42,15 @@ class _ServiceScreenState extends State<ServiceScreen>
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+    // getReg();
   }
 
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    _tabController.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   // TODO: implement dispose
+  //   _tabController.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {

@@ -13,7 +13,7 @@ import 'package:http/http.dart' as http;
 
 class AdventureService {
   static Future<List<Adventure>?> getAdvdentureList(
-      {required BuildContext context}) async {
+      {required BuildContext context, String? region}) async {
     final getStorage = GetStorage();
     String token = getStorage.read('accessToken') ?? "";
     if (token != '' && JwtDecoder.isExpired(token)) {
@@ -25,7 +25,8 @@ class AdventureService {
       token = getStorage.read('accessToken');
     }
     final response = await http.get(
-      Uri.parse('$baseUrl/adventure'),
+      Uri.parse('$baseUrl/adventure')
+          .replace(queryParameters: region != null ? {'region': region} : {}),
       headers: {
         'Accept': 'application/json',
         if (token != '') 'Authorization': 'Bearer $token',

@@ -231,7 +231,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                   ? Alignment.centerRight
                                   : Alignment.centerLeft,
                               child: CustomText(
-                                text: "About".tr,
+                                text: "about".tr,
                                 fontSize: width * 0.046,
                                 fontWeight: FontWeight.w400,
                               )),
@@ -267,8 +267,10 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                     onTap: () {
                                       setState(() => isExpanded = false);
                                     },
-                                    child: const CustomText(
-                                      text: "Show less",
+                                    child: CustomText(
+                                      text: AppUtil.rtlDirection2(context)
+                                          ? "القليل"
+                                          : "Show less",
                                       color: blue,
                                     ),
                                   ),
@@ -413,15 +415,15 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                     )
                   ],
                 ),
-                Positioned(
-                    top: height * 0.07,
-                    right: AppUtil.rtlDirection2(context)
-                        ? width * 0.85
-                        : width * 0.05,
-                    child: SvgPicture.asset(
-                      "assets/icons/white_bookmark.svg",
-                      height: width * 0.07,
-                    )),
+                // Positioned(
+                //     top: height * 0.07,
+                //     right: AppUtil.rtlDirection2(context)
+                //         ? width * 0.85
+                //         : width * 0.05,
+                //     child: SvgPicture.asset(
+                //       "assets/icons/white_bookmark.svg",
+                //       height: width * 0.07,
+                //     )),
                 Positioned(
                   top: height * 0.06,
                   left: AppUtil.rtlDirection2(context)

@@ -173,7 +173,7 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   CustomText(
-                                    text: 'Number of People ',
+                                    text: 'numberofpeorson'.tr,
                                     fontSize: width * 0.043,
                                   ),
                                   Container(

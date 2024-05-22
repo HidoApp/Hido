@@ -15,9 +15,8 @@ import 'package:http/http.dart' as http;
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 class HospitalityService {
-  static Future<List<Hospitality>?> getAllHospitality({
-    required BuildContext context,
-  }) async {
+  static Future<List<Hospitality>?> getAllHospitality(
+      {required BuildContext context, String? region}) async {
     final getStorage = GetStorage();
     String token = getStorage.read('accessToken') ?? "";
 
@@ -30,7 +29,8 @@ class HospitalityService {
       token = getStorage.read('accessToken');
     }
     final response = await http.get(
-      Uri.parse('$baseUrl/hospitality'),
+      Uri.parse('$baseUrl/hospitality')
+          .replace(queryParameters: region != null ? {'region': region} : {}),
       headers: {
         'Accept': 'application/json',
         if (token != '') 'Authorization': 'Bearer $token',
