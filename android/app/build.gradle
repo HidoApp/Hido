@@ -34,8 +34,8 @@ if (keystorePropertiesFile.exists()) {
 android {
     //compileSdkVersion flutter.compileSdkVersion
     compileSdkVersion 34
-
-    ndkVersion flutter.ndkVersion
+    namespace 'com.hido.hidoapp'
+    ndkVersion "25.1.8937393"
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -60,6 +60,7 @@ android {
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true
+        
     }
    signingConfigs {
        release {
