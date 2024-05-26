@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class HomeIconButton extends StatelessWidget {
-  const HomeIconButton({super.key, required this.onTap, required this.icon});
-  final void Function() onTap;
+  const HomeIconButton({super.key, this.onTap, required this.icon});
+  final void Function()? onTap;
   final String icon;
   @override
   Widget build(BuildContext context) {

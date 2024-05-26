@@ -35,6 +35,8 @@ import 'package:ajwad_v4/request/local_notification.dart';
 
 import 'package:intl/intl.dart' as intel;
 
+import '../../../services/view/review_request_screen.dart';
+
 
 
 
@@ -613,186 +615,200 @@ static Future init()async{
                             offerController: widget.offerController,
                             place: widget.place!,
                           ),
-                          paymentController.isPaymenInvoiceLoading.value
-                              ? CircularProgressIndicator(
-                                  color: colorGreen,
-                                )
-                              : CustomButton(
+                          CustomButton(
+                            
+                             onPressed: () {
+                                        Get.to(() => ReviewRequest(
+                                                  booking: widget.booking,
+                                                  scheduleList: widget.offerController?.offerDetails.value.schedule,
+                                                  offerController: widget.offerController,
+                                                  place: widget.place!,
+                                                ));
+                             },
+                            
+                            
+                            
+                             title: 'confirm'.tr,),
+                          // paymentController.isPaymenInvoiceLoading.value
+                          //     ? CircularProgressIndicator(
+                          //         color: colorGreen,
+                          //       )
+                          //     : CustomButton(
                                 
-                                title: 'confirm'.tr,
+                          //       title: 'confirm'.tr,
 
 
 
 
 
-                                icon: Icon(Icons.keyboard_arrow_right,color: Colors.white),
-                                  onPressed: () async {
-                                    invoice ??=
-                                        await paymentController.paymentInvoice(
-                                            context: context,
-                                            description: 'Book place',
-                                              amount: (widget.offerController!
-                                                        .totalPrice.value *
-                                                    widget
-                                                        .offerController!
-                                                        .offerDetails
-                                                        .value
-                                                        .booking!
-                                                        .guestNumber!));
+                          //       icon: Icon(Icons.keyboard_arrow_right,color: Colors.white),
+                          //         onPressed: () async {
+                          //           invoice ??=
+                          //               await paymentController.paymentInvoice(
+                          //                   context: context,
+                          //                   description: 'Book place',
+                          //                     amount: (widget.offerController!
+                          //                               .totalPrice.value *
+                          //                           widget
+                          //                               .offerController!
+                          //                               .offerDetails
+                          //                               .value
+                          //                               .booking!
+                          //                               .guestNumber!));
 
-                                            // amount: (widget.place!.price! *
-                                            //         widget
-                                            //             .offerController!
-                                            //             .offerDetails
-                                            //             .value
-                                            //             .booking!
-                                            //             .guestNumber!) +
-                                            //     (widget.offerController!
-                                            //             .totalPrice.value *
-                                            //         widget
-                                            //             .offerController!
-                                            //             .offerDetails
-                                            //             .value
-                                            //             .booking!
-                                            //             .guestNumber!));
+                          //                   // amount: (widget.place!.price! *
+                          //                   //         widget
+                          //                   //             .offerController!
+                          //                   //             .offerDetails
+                          //                   //             .value
+                          //                   //             .booking!
+                          //                   //             .guestNumber!) +
+                          //                   //     (widget.offerController!
+                          //                   //             .totalPrice.value *
+                          //                   //         widget
+                          //                   //             .offerController!
+                          //                   //             .offerDetails
+                          //                   //             .value
+                          //                   //             .booking!
+                          //                   //             .guestNumber!));
 
-                                    Get.to(() => PaymentWebView(
-                                        url: invoice!.url!,
-                                        title: AppUtil.rtlDirection2(context)?'الدفع':'Checkout'))?.then((value) async {
+                          //           Get.to(() => PaymentWebView(
+                          //               url: invoice!.url!,
+                          //               title: AppUtil.rtlDirection2(context)?'الدفع':'Checkout'))?.then((value) async {
                                     
-                                       setState(() {
-                                                  isCheckingForPayment = true;
-                                                });
+                          //              setState(() {
+                          //                         isCheckingForPayment = true;
+                          //                       });
 
-                                                        final checkInvoice =
-                                                    await paymentController
-                                                        .paymentInvoiceById(
-                                                            context: context,
-                                                            id: invoice!.id);
+                          //                               final checkInvoice =
+                          //                           await paymentController
+                          //                               .paymentInvoiceById(
+                          //                                   context: context,
+                          //                                   id: invoice!.id);
 
-                                                            print("checkInvoice!.invoiceStatus");
-                                                            print(checkInvoice!.invoiceStatus);
+                          //                                   print("checkInvoice!.invoiceStatus");
+                          //                                   print(checkInvoice!.invoiceStatus);
 
-                                                                         if (checkInvoice
-                                                        .invoiceStatus !=
-                                                    'faild') {
+                          //                                                if (checkInvoice
+                          //                               .invoiceStatus !=
+                          //                           'faild') {
                                                 
-                                                  setState(() {
-                                                    isCheckingForPayment =
-                                                        false;
-                                                  });
+                          //                         setState(() {
+                          //                           isCheckingForPayment =
+                          //                               false;
+                          //                         });
 
-                                                  if (checkInvoice
-                                                              .invoiceStatus ==
-                                                          'failed' ||
-                                                      checkInvoice
-                                                              .invoiceStatus ==
-                                                          'initiated') {
-                                                    //  Get.back();
+                          //                         if (checkInvoice
+                          //                                     .invoiceStatus ==
+                          //                                 'failed' ||
+                          //                             checkInvoice
+                          //                                     .invoiceStatus ==
+                          //                                 'initiated') {
+                          //                           //  Get.back();
 
-                                                    showDialog(
-                                                        context: context,
-                                                        builder: (ctx) {
-                                                          return AlertDialog(
-                                                            backgroundColor:
-                                                                Colors.white,
-                                                            content: Column(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .min,
-                                                              children: [
-                                                                Image.asset(
-                                                                    'assets/images/paymentFaild.gif'),
-                                                                CustomText(
-                                                                    text:
-                                                                        "paymentFaild"
-                                                                            .tr),
-                                                              ],
-                                                            ),
-                                                          );
-                                                        });
-                                                  } else {
-                                                    print('YES');
-                                                    // Get.back();
-                                                    // Get.back();
+                          //                           showDialog(
+                          //                               context: context,
+                          //                               builder: (ctx) {
+                          //                                 return AlertDialog(
+                          //                                   backgroundColor:
+                          //                                       Colors.white,
+                          //                                   content: Column(
+                          //                                     mainAxisSize:
+                          //                                         MainAxisSize
+                          //                                             .min,
+                          //                                     children: [
+                          //                                       Image.asset(
+                          //                                           'assets/images/paymentFaild.gif'),
+                          //                                       CustomText(
+                          //                                           text:
+                          //                                               "paymentFaild"
+                          //                                                   .tr),
+                          //                                     ],
+                          //                                   ),
+                          //                                 );
+                          //                               });
+                          //                         } else {
+                          //                           print('YES');
+                          //                           // Get.back();
+                          //                           // Get.back();
 
-                                                        final acceptedOffer = await widget
-                                        .offerController!
-                                        .acceptOffer(
-                                      context: context,
-                                      offerId: widget.offerController!.offerDetails.value.id!,
-                                      invoiceId: checkInvoice.id,
-                                      schedules: widget.offerController!
-                                          .offerDetails.value.schedule!,
-                                    );
-                               //     Get.back();
-                                //    Get.back();
+                          //                               final acceptedOffer = await widget
+                          //               .offerController!
+                          //               .acceptOffer(
+                          //             context: context,
+                          //             offerId: widget.offerController!.offerDetails.value.id!,
+                          //             invoiceId: checkInvoice.id,
+                          //             schedules: widget.offerController!
+                          //                 .offerDetails.value.schedule!,
+                          //           );
+                          //      //     Get.back();
+                          //       //    Get.back();
 
-                                                    showDialog(
-                                                        context: context,
-                                                        builder: (ctx) {
-                                                          return AlertDialog(
-                                                            backgroundColor:
-                                                                Colors.white,
-                                                            content: Column(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .min,
-                                                              children: [
-                                                                Image.asset(
-                                                                    'assets/images/paymentSuccess.gif'),
-                                                                CustomText(
-                                                                    text:
-                                                                        "paymentSuccess"
-                                                                            .tr),
-                                                              ],
-                                                            ),
-                                                          );
-                                                        });
-                                                LocalNotification().showNotification(context,widget.booking?.id, widget.booking?.timeToGo, widget.booking?.date ,widget.offerController?.offerDetails.value.name ?? "", widget.booking?.place?.nameAr,widget.booking?.place?.nameEn);
+                          //                           showDialog(
+                          //                               context: context,
+                          //                               builder: (ctx) {
+                          //                                 return AlertDialog(
+                          //                                   backgroundColor:
+                          //                                       Colors.white,
+                          //                                   content: Column(
+                          //                                     mainAxisSize:
+                          //                                         MainAxisSize
+                          //                                             .min,
+                          //                                     children: [
+                          //                                       Image.asset(
+                          //                                           'assets/images/paymentSuccess.gif'),
+                          //                                       CustomText(
+                          //                                           text:
+                          //                                               "paymentSuccess"
+                          //                                                   .tr),
+                          //                                     ],
+                          //                                   ),
+                          //                                 );
+                          //                               });
+                          //                       LocalNotification().showNotification(context,widget.booking?.id, widget.booking?.timeToGo, widget.booking?.date ,widget.offerController?.offerDetails.value.name ?? "", widget.booking?.place?.nameAr,widget.booking?.place?.nameEn);
 
 
-                                                  }
-                                                }
-                                    });
-                                    // Get.to(
-                                    //   () => CheckOutScreen(
-                                    //     total: (widget.place!.price! *
-                                    //             widget
-                                    //                 .offerController!
-                                    //                 .offerDetails
-                                    //                 .value
-                                    //                 .booking!
-                                    //                 .guestNumber!) +
-                                    //         (widget.offerController!.totalPrice
-                                    //                 .value *
-                                    //             widget
-                                    //                 .offerController!
-                                    //                 .offerDetails
-                                    //                 .value
-                                    //                 .booking!
-                                    //                 .guestNumber!),
-                                    //     offerDetails: widget.offerController!
-                                    //         .offerDetails.value,
-                                    //     offerController: widget.offerController,
-                                    //   ),
-                                    // )?.then((value) async {
-                                    //   final offer = await widget
-                                    //       .offerController!
-                                    //       .getOfferById(
-                                    //           context: context,
-                                    //           offerId: widget.offerController!
-                                    //               .offerDetails.value.id!);
+                          //                         }
+                          //                       }
+                          //           });
+                          //           // Get.to(
+                          //           //   () => CheckOutScreen(
+                          //           //     total: (widget.place!.price! *
+                          //           //             widget
+                          //           //                 .offerController!
+                          //           //                 .offerDetails
+                          //           //                 .value
+                          //           //                 .booking!
+                          //           //                 .guestNumber!) +
+                          //           //         (widget.offerController!.totalPrice
+                          //           //                 .value *
+                          //           //             widget
+                          //           //                 .offerController!
+                          //           //                 .offerDetails
+                          //           //                 .value
+                          //           //                 .booking!
+                          //           //                 .guestNumber!),
+                          //           //     offerDetails: widget.offerController!
+                          //           //         .offerDetails.value,
+                          //           //     offerController: widget.offerController,
+                          //           //   ),
+                          //           // )?.then((value) async {
+                          //           //   final offer = await widget
+                          //           //       .offerController!
+                          //           //       .getOfferById(
+                          //           //           context: context,
+                          //           //           offerId: widget.offerController!
+                          //           //               .offerDetails.value.id!);
 
-                                    //   widget.chatId = widget.offerController!
-                                    //       .offerDetails.value.booking!.chatId;
+                          //           //   widget.chatId = widget.offerController!
+                          //           //       .offerDetails.value.booking!.chatId;
 
-                                    //   //  Get.back();
-                                    // });
+                          //           //   //  Get.back();
+                          //           // });
 
-                                    // LocalNotification().showNotification(context,widget.booking?.id, widget.booking?.timeToGo, widget.booking?.date ,widget.offerController?.offerDetails.value.name ?? "", widget.booking?.place?.nameAr,widget.booking?.place?.nameEn);
-                                  },
-                                )
+                          //           // LocalNotification().showNotification(context,widget.booking?.id, widget.booking?.timeToGo, widget.booking?.date ,widget.offerController?.offerDetails.value.name ?? "", widget.booking?.place?.nameAr,widget.booking?.place?.nameEn);
+                          //         },
+                          //       )
                         ],
                       )
 

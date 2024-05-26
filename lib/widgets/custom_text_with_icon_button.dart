@@ -31,10 +31,12 @@ class CustomTextWithIconButton extends StatelessWidget {
             size.width * 0.025,
           ),
           decoration: BoxDecoration(
-              border: Border.all(color: borderColor),
+              border: Border.all(width: 2,color: borderColor),
+
               borderRadius: BorderRadius.circular(
                 size.width * 0.025,
               )),
+
           child: Row(
             children: [
               prefixIcon,

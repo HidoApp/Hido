@@ -4,7 +4,7 @@ class Offer {
   final String? image;
   final int? rating;
   final String? name;
-  final int? tripNumber;
+  final int? tourNumber;
   final int? price;
   final String? created;
 
@@ -14,7 +14,7 @@ class Offer {
     this.image,
     this.rating,
     this.name,
-    this.tripNumber,
+    this.tourNumber,
     this.price,
     this.created,
   });
@@ -26,7 +26,7 @@ class Offer {
       image: json['image'],
       rating: json['rating'],
       name: json['name'],
-      tripNumber: json['tripNumber'],
+      tourNumber: json['tourNumber'],
       price: json['price'],
       created: json['created'],
     );
@@ -39,7 +39,7 @@ class Offer {
       'image': image,
       'rating': rating,
       'name': name,
-      'tripNumber': tripNumber,
+      'tourNumber': tourNumber,
       'price': price,
       'created': created,
     };

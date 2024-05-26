@@ -32,10 +32,10 @@ class _TotalWidgetState extends State<TotalWidget> {
 
   @override
   Widget build(BuildContext context) {
-    print('Price per night: ${widget.place.price!}');
+//     print('Price per night: ${widget.place.price!}');
 print('Number of guests: ${widget.offerController!.offerDetails.value.booking!.guestNumber!}');
-print('Additional charges total: ${widget.offerController!.totalPrice.value}');
-print('Total price: ${(widget.place.price! * widget.offerController!.offerDetails.value.booking!.guestNumber!) + (widget.offerController!.totalPrice.value * widget.offerController!.offerDetails.value.booking!.guestNumber!)}');
+ print('Additional charges total: ${widget.offerController!.totalPrice.value}');
+// print('Total price: ${(widget.place.price! * widget.offerController!.offerDetails.value.booking!.guestNumber!) + (widget.offerController!.totalPrice.value * widget.offerController!.offerDetails.value.booking!.guestNumber!)}');
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16),
@@ -43,7 +43,7 @@ print('Total price: ${(widget.place.price! * widget.offerController!.offerDetail
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20),
+            padding: const EdgeInsets.only(left: 10, right: 10),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -56,7 +56,7 @@ print('Total price: ${(widget.place.price! * widget.offerController!.offerDetail
                     color: black,
                     fontSize: 20,
                     fontFamily: 'HT Rakik',
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
                 // const SizedBox(height: 4),
@@ -89,7 +89,7 @@ print('Total price: ${(widget.place.price! * widget.offerController!.offerDetail
                           text:
                             // ' ${(widget.place.price! * widget.offerController!.offerDetails.value.booking!.guestNumber!) + (widget.offerController!.totalPrice.value * widget.offerController!.offerDetails.value.booking!.guestNumber!)} ',
                              // '${(widget.place?.price ?? 0) * (widget.offerController?.offerDetails.value?.booking?.guestNumber ?? 0) + (widget.offerController?.totalPrice.value ?? 0) * (widget.offerController?.offerDetails.value?.booking?.guestNumber ?? 0)}',
-                              '${ (widget.offerController?.totalPrice.value ?? 0) * (widget.offerController?.offerDetails.value?.booking?.guestNumber ?? 0)}',
+                              '${ (widget.offerController?.totalPrice.value ?? 0) * (widget.offerController?.offerDetails.value.booking?.guestNumber ?? 0)}',
 
                           
                           style: const TextStyle(
@@ -99,11 +99,12 @@ print('Total price: ${(widget.place.price! * widget.offerController!.offerDetail
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                        const TextSpan(
-                          text: 'ريال سعودي',
+                      TextSpan(text:'  '),
+                         TextSpan(
+                          text: 'sar'.tr,
                           style: TextStyle(
                             color: black,
-                            fontSize: 12,
+                            fontSize: 20,
                             fontFamily: 'HT Rakik',
                             fontWeight: FontWeight.w500,
                           ),

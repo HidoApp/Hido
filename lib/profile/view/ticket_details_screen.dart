@@ -1,4 +1,5 @@
 import 'package:ajwad_v4/new-onboarding/view/splash_screen.dart';
+import 'package:ajwad_v4/widgets/dotted_line_separator.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:ticket_widget/ticket_widget.dart';
@@ -15,10 +16,10 @@ import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:ajwad_v4/request/widgets/ContactDialog.dart';
 import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
-import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'dart:developer';
+import 'package:ajwad_v4/profile/widget/HospitalityTicketData.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 
@@ -27,9 +28,14 @@ class TicketDetailsScreen extends StatelessWidget {
    TicketDetailsScreen({
     Key? key,
     required this.booking,
+    this.icon,
+    this.bookTypeText,
   }) : super(key: key);
 
-  final Booking booking;
+  final Booking? booking;
+  final SvgPicture? icon;
+  final String? bookTypeText;
+
   final _offerController = Get.put(OfferController());
 
 @override
@@ -57,7 +63,10 @@ return Scaffold(
               isCornerRounded: true,
               padding:const EdgeInsets.symmetric(horizontal: 24, vertical: 23),
               color: Color.fromRGBO(255, 255, 255, 1),
-              child: TicketData(booking: booking),
+              child: getBookingTypeWidget(context,bookTypeText!),
+              
+              
+              //TicketData(booking: booking,icon: icon,bookTypeText: bookTypeText,),
             ),
           ),
           Expanded(child: SizedBox()), // Takes up remaining space
@@ -208,14 +217,34 @@ return Scaffold(
   ),
 );
 }
+
+ Widget getBookingTypeWidget(BuildContext context, String bookingType){
+      switch (bookingType) {
+      case 'place':
+        return TicketData(booking: booking!,icon: icon,bookTypeText: bookTypeText);
+ 
+      case 'adventure':
+        return TicketData(booking: booking!,icon: icon,bookTypeText: bookTypeText);
+      case 'hospitality':
+        return HostTicketData(booking: booking!,icon: icon,bookTypeText: bookTypeText);
+   
+      default:
+        return TicketData(booking: booking!,icon: icon,bookTypeText: bookTypeText);
+
+    }
+}
 }
 
 class TicketData extends StatelessWidget {
   final Booking booking;
+  final SvgPicture? icon;
+  final String? bookTypeText;
 
    TicketData({
     Key? key,
     required this.booking,
+    this.icon,
+    this.bookTypeText,
   }) : super(key: key);
 
 
@@ -230,18 +259,20 @@ class TicketData extends StatelessWidget {
           children: [
             Text("BookingDetails".tr,
             style: TextStyle(
-color: Color(0xFF070708),
-fontSize: 17,
-fontFamily: 'SF Pro',
-fontWeight: FontWeight.w600,
-height: 0,
-)
+           color: Color(0xFF070708),
+            fontSize: 17,
+              fontFamily: 'SF Pro',
+            fontWeight: FontWeight.w600,
+                  height: 0,
+              )
             ),
             Row(
               children: [
-                SvgPicture.asset('assets/icons/Polygon_host.svg'),
-
-                Text(AppUtil.rtlDirection2(context)?"جولة":'Tour',
+             // SvgPicture.asset('assets/icons/Polygon_host.svg'),
+              icon!,
+              //Text(AppUtil.rtlDirection2(context)?"جولة":'Tour',
+              Text(bookTypeText!,
+                
                 style: TextStyle(
 color: Color(0xFF070708),
 fontSize: 13,
@@ -329,7 +360,7 @@ height: 0,
                                     ),
                                     Text(
                                         //'Fri 24 May 2024',
-                                        formatBookingDate(context,booking.date),
+                                        AppUtil.formatBookingDate(context,booking.date),
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                             color: Color(0xFF111113),
@@ -458,8 +489,8 @@ height: 0,
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                                 Text(
-                                                    //'1',
-                                                   '${booking?.guestNumber ?? 0} ${'guests'.tr}',
+                                                    '0',
+                                                   //'${booking?.guestNumber ?? 0} ${'guests'.tr}',
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                         color: Color(0xFF111113),
@@ -561,13 +592,16 @@ height: 0,
     
 ),
   // SizedBox(height: 10),
-              Divider(color: colorDarkGrey,height:5
-              ),
+              // Divider(color: colorDarkGrey,height:5
+              // ),
 
-          
+          DottedSeparator(
+                  color: almostGrey,
+                  height: 1,
+                ),
         // SizedBox(height: 30),
         // Divider(),
-        // SizedBox(height: 5),
+       SizedBox(height: 20),
         // Row(
         //   mainAxisAlignment: MainAxisAlignment.end,
         //   children: [
@@ -613,7 +647,9 @@ height: 0,
                                             children: [
                                                 Text(
                                                    // '380.00',
-                                                   booking.place!.price.toString(),
+                                                    booking.cost.toString(),
+
+                                                   //booking.place!.price.toString(),
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                         color: Color(0xFF111113),
@@ -675,4 +711,21 @@ String formatTimeWithLocale(BuildContext context, String dateTimeString) {
     return formattedTime;
   }
 }
+
+//   Widget getBookingTypeWidget(BuildContext context, String bookingType){
+//       switch (bookingType) {
+//       case 'place':
+//         return TicketData(booking: booking,icon: icon,bookTypeText: bookTypeText);
+ 
+//       case 'adventure':
+//         return TicketData(booking: booking,icon: icon,bookTypeText: bookTypeText);
+//       case 'hospitality':
+//         return HostTicketData(booking: booking,icon: icon,bookTypeText: bookTypeText);
+   
+//       default:
+//         return TicketData(booking: booking,icon: icon,bookTypeText: bookTypeText);
+
+//     }
+// }
+
 }

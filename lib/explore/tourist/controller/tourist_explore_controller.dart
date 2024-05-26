@@ -49,13 +49,13 @@ class TouristExploreController extends GetxController {
   }
 
   Future<Place?> getPlaceById({
-    required String id,
+    required String? id,
     required BuildContext context,
   }) async {
     try {
       isPlaceIsLoading(true);
       final data =
-          await TouristExploreService.getPlaceById(context: context, id: id);
+          await TouristExploreService.getPlaceById(context: context, id: id!);
       print("this place by id in controller");
       print('${data?.booking?.first.orderStatus}');
       if (data != null) {

@@ -36,6 +36,10 @@ class RequestController extends GetxController {
     try {
       isBookingLoading(true);
       final data = await RequestService.getBookingById(context: context,bookingId: bookingId);
+            print('this offer book from controller');
+            print(data?.orderStatus);
+            print(data?.offers!.length);
+
       return data;
     } catch (e) {
       log(e.toString());

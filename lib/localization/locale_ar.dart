@@ -383,5 +383,7 @@ const localeAr = {
   "numberofpeople": 'عدد الضيوف',
   'bookingdate': 'تاريخ الحجز ',
   'applied': 'تم التطبيق',
-  'addpromocode': 'أضف كوبون الخصم'
+  'addpromocode': 'أضف كوبون الخصم',
+  'ReviewRequest': "مراجعة الطلب",
+  'RequestedTourDetails':'تفاصيل طلب الجولة'
 };

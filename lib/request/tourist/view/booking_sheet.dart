@@ -118,7 +118,7 @@ class _BookingSheetState extends State<BookingSheet> {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
     time = DateTime.now();
-    
+    bool? errorMessage;
     returnTime = DateTime.now();
     // h = time.hour.toString();
     return DraggableScrollableSheet(
@@ -136,8 +136,8 @@ class _BookingSheetState extends State<BookingSheet> {
               padding: const EdgeInsets.all(16),
               child: Padding(
                 padding: EdgeInsets.only(
-                    left: width * 0.03,
-                    right: width * 0.03,
+                    left: width * 0.023,
+                    right: width * 0.023,
                     bottom: height * 0.03),
                 child: ListView(children: [
                   const Icon(
@@ -146,12 +146,15 @@ class _BookingSheetState extends State<BookingSheet> {
                   ),
                   CustomText(
                     text: "date".tr,
-                    color: Colors.black,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                  ),
+                    color: Color(0xFF070708),
+                    fontSize: 17,
+                    fontFamily: 'SF Pro',
+                    fontWeight: FontWeight.w600,
+                    height: 0,
+                    ),
+                  
                   const SizedBox(
-                    height: 4,
+                    height: 8,
                   ),
                   Align(
                     alignment: AppUtil.rtlDirection(context)
@@ -163,6 +166,7 @@ class _BookingSheetState extends State<BookingSheet> {
                         setState(() {
                           selectedChoice = 3;
                         });
+                        
                         showDialog(
                             context: context,
                             builder: (BuildContext context) {
@@ -174,13 +178,15 @@ class _BookingSheetState extends State<BookingSheet> {
                               );
                             });
                       },
-                      height: height * 0.06,
-                      width: width * 0.65,
+                      height: height * 0.063,
+                      width: width * 0.90,
                       title:
                           !_touristExploreController.isBookingDateSelected.value
-                              ? 'chooseFromCalender'.tr
+                              ? 'mm/dd/yyy'.tr
                               : _touristExploreController.selectedDate.value
                                   .substring(0, 10),
+                   //  borderColor:  errorMessage ?? false ?Colors.red: lightGreyColor,
+
                       borderColor: lightGreyColor,
                       prefixIcon: SvgPicture.asset(
                         "assets/icons/green_calendar.svg",
@@ -192,7 +198,19 @@ class _BookingSheetState extends State<BookingSheet> {
                       ),
                       textColor: almostGrey,
                     ),
+                    
                   ),
+                   if ( errorMessage??false)
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Text(
+                    "enter date",
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
                   const SizedBox(
                     height: 12,
                   ),
@@ -202,11 +220,12 @@ class _BookingSheetState extends State<BookingSheet> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const CustomText(
-                            text: "Time to go",
+                           CustomText(
+                            text: AppUtil.rtlDirection2(context)?"وقت الذهاب":"Pick up time",
                             color: Colors.black,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
+                            fontSize: 17,
+                            fontFamily: 'SF Pro',
+                               fontWeight: FontWeight.w600,
                           ),
                           SizedBox(
                             height: height * 0.01,
@@ -260,6 +279,9 @@ class _BookingSheetState extends State<BookingSheet> {
                                                   child: CustomText(
                                                     text: "confirm".tr,
                                                     color: colorGreen,
+                                                     fontSize: 15,
+                                                     fontFamily: 'SF Pro',
+                                                    fontWeight: FontWeight.w500,
                                                   ),
                                                 )
                                               ],
@@ -299,7 +321,7 @@ class _BookingSheetState extends State<BookingSheet> {
                                     });
                               },
                               height: height * 0.06,
-                              width: width * 0.4,
+                              width: width * 0.41,
                               title: !_touristExploreController
                                       .isBookingTimeSelected.value
                                   ? "00 :00 PM"
@@ -316,16 +338,16 @@ class _BookingSheetState extends State<BookingSheet> {
                         ],
                       ),
                       const SizedBox(
-                        width: 8,
+                        width: 20,
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const CustomText(
-                            text: "Return Time",
+                           CustomText(
+                            text: AppUtil.rtlDirection2(context)?"وقت العودة":"Drop off time",
                             color: Colors.black,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w600,
                           ),
                           SizedBox(
                             height: height * 0.01,
@@ -420,7 +442,7 @@ class _BookingSheetState extends State<BookingSheet> {
                                     });
                               },
                               height: height * 0.06,
-                              width: width * 0.4,
+                              width: width * 0.41,
                               title: !_touristExploreController
                                       .isBookingTimeSelected.value
                                   ? "00 :00 PM"
@@ -440,30 +462,33 @@ class _BookingSheetState extends State<BookingSheet> {
                     ],
                   ),
                   const SizedBox(
-                    height: 8,
+                    height: 12,
                   ),
                   CustomText(
-                    text: "guests2".tr,
+                    text: "numberofpeople".tr,
                     color: Colors.black,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
+                    fontSize: 17,
+                    fontWeight: FontWeight.w600,
                   ),
+                  SizedBox(
+                   height: height * 0.01,
+                          ),
                   Container(
-                    height: 64,
-                    width: 380,
+                    height: height * 0.063,
+                    width: width * 0.90,
                     padding: const EdgeInsets.only(
                       left: 15,
                       right: 15,
                     ),
-                    margin: EdgeInsets.only(top: height * 0.02, bottom: 5),
+                   // margin: EdgeInsets.only(top: height * 0.02, bottom: 5),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: lightGreyColor),
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(width:2,color: lightGreyColor),
                     ),
                     child: Row(
                       children: [
                         CustomText(
-                          text: "guests".tr,
+                          text: "Person".tr,
                           fontWeight: FontWeight.w700,
                           color: textGreyColor,
                         ),
@@ -519,25 +544,26 @@ class _BookingSheetState extends State<BookingSheet> {
                         color: almostGrey,
                       )),
                   SizedBox(
-                    height: height * 0.02,
+                    height: height * 0.015,
                   ),
                   CustomText(
                     text: "pickUpLocation".tr,
                     color: Colors.black,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
+                     fontSize: 18,
+                      fontFamily: 'HT Rakik',
+                     fontWeight: FontWeight.w600,
                   ),
                   SizedBox(
-                    height: height * 0.02,
+                    height: height * 0.01,
                   ),
                   //  Obx( () =>
                   Stack(
                     children: [
                       Container(
-                        height: 130,
-                        width: 320,
+                        height: height*0.15,
+                        width: width*0.9,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(15),
                           color: lightGrey,
                         ),
                         child: GoogleMap(
@@ -587,50 +613,51 @@ class _BookingSheetState extends State<BookingSheet> {
                   SizedBox(
                     height: height * 0.02,
                   ),
-                  SizedBox(
-                    height: height * 0.02,
-                  ),
+                  // SizedBox(
+                  //   height: height * 0.02,
+                  // ),
                   CustomText(
                     text: "pickUpRide".tr,
                     color: Colors.black,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
+                    fontSize: 17,
+                    fontWeight: FontWeight.w600,
                   ),
                   SizedBox(
                     height: height * 0.02,
                   ),
                   pickupRide(),
                   SizedBox(
-                    height: height * 0.02,
+                    height: height * 0.025,
                   ),
-                  SizedBox(
-                    height: height * 0.01,
-                  ),
+                  // SizedBox(
+                  //   height: height * 0.01,
+                  // ),
                   Row(
                     children: [
-                      Column(
-                        children: [
-                          CustomText(
-                            text: "startFrom".tr,
-                            fontSize: 12,
-                          ),
-                          const SizedBox(
-                            height: 6,
-                          ),
-                          CustomText(
-                            text: '${widget.place!.price} ${'sar'.tr}',
-                            fontWeight: FontWeight.w900,
-                            fontSize: 22,
-                          )
-                        ],
-                      ),
-                      const Spacer(),
+                      // Column(
+                      //   children: [
+                      //     CustomText(
+                      //       text: "startFrom".tr,
+                      //       fontSize: 12,
+                      //     ),
+                      //     const SizedBox(
+                      //       height: 6,
+                      //     ),
+                      //     CustomText(
+                      //       text: '${widget.place!.price} ${'sar'.tr}',
+                      //       fontWeight: FontWeight.w900,
+                      //       fontSize: 22,
+                      //     )
+                      //   ],
+                      // ),
+                      //const Spacer(),
                       _touristExploreController.isBookingIsMaking.value ||
                               _touristExploreController.isPlaceIsLoading.value
                           ? const CircularProgressIndicator(
                               color: colorGreen,
                             )
-                          : CustomButton(
+                          : 
+                        CustomButton(
                               title: "findLocal".tr,
                               onPressed: () async {
                              
@@ -638,6 +665,15 @@ class _BookingSheetState extends State<BookingSheet> {
                           //         if(!_touristExploreController.isBookingDateSelected.value){
                           //      AppUtil.errorToast(context, 'hello');
                           // }
+//                           if (selectedRide != "") {
+  setState(() {
+    errorMessage = true;
+  });
+// } else {
+//   setState(() {
+//     errorMessage = false;
+//   });
+
                                 if (_touristExploreController.isBookingDateSelected.value &&
                                     _touristExploreController
                                         .isBookingTimeSelected.value &&
@@ -708,8 +744,8 @@ class _BookingSheetState extends State<BookingSheet> {
                               icon: !AppUtil.rtlDirection(context)
                                   ? const Icon(Icons.arrow_back_ios)
                                   : const Icon(Icons.arrow_forward_ios),
-                              customWidth: width * 0.53,
-                            )
+                             customWidth: width * 0.87,
+                            ),
                     ],
                   )
                 ]),
@@ -735,8 +771,8 @@ class _BookingSheetState extends State<BookingSheet> {
                 });
               },
               child: Container(
-                height: 70,
-                width: 70,
+                height: height*0.1,
+                width: width*0.2,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
@@ -744,14 +780,14 @@ class _BookingSheetState extends State<BookingSheet> {
                         ? Colors.transparent
                         : selectedRide == key
                             ? colorGreen
-                            : Colors.transparent,
+                            :Colors.black,
                   ),
-                  boxShadow: [
-                    BoxShadow(
-                        color: lightGreyColor.withOpacity(0.4),
-                        blurRadius: 9,
-                        spreadRadius: 8)
-                  ],
+                  // boxShadow: [
+                  //   BoxShadow(
+                  //       color: lightGreyColor.withOpacity(0.4),
+                  //       blurRadius: 9,
+                  //       spreadRadius: 8)
+                  // ],
                   color: (key == 'van' && guestNum <= 10)
                       ? lightGreyColor
                       : selectedRide == key
@@ -767,7 +803,8 @@ class _BookingSheetState extends State<BookingSheet> {
                           ? tileGreyColor
                           : null,
                     ),
-                    Spacer(),
+                   Spacer(),
+                  
                     CustomText(
                       text: "$key".tr,
                       color: (key == 'van' && guestNum <= 10)
@@ -775,7 +812,10 @@ class _BookingSheetState extends State<BookingSheet> {
                           : selectedRide == key
                               ? colorGreen
                               : dividerColor,
-                    )
+                    ),
+                     SizedBox(
+                    height: height * 0.01,
+                  ),
                   ],
                 ),
               ),

@@ -111,7 +111,7 @@ class _SelectAjwadySheet extends State<SelectAjwadySheet> {
                                     price:
                                         _offerController.offers[index].price!,
                                     tripNumber: _offerController
-                                        .offers[index].tripNumber!);
+                                        .offers[index].tourNumber!);
                               });
                             });
                       },
@@ -120,7 +120,7 @@ class _SelectAjwadySheet extends State<SelectAjwadySheet> {
                         name: _offerController.offers[index].name!,
                         rating: _offerController.offers[index].rating!,
                         price: _offerController.offers[index].price!,
-                        tripNumber: _offerController.offers[index].tripNumber!,
+                        tripNumber: _offerController.offers[index].tourNumber!,
                       ),
                     );
                   },

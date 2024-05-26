@@ -213,9 +213,10 @@ const localeEn = {
   "date": "Date",
   "confirm": "Confirm",
   "guests2": "Number of Guests",
+
   "forMoreThan10": "For more than 10 you can choose the van as a ride",
   "pickUpLocation": "Pick up location",
-  "pickUpRide": "Pick up Ride",
+  "pickUpRide": "Vehicle type",
   "sedan": "Sedan",
   "SUV": "SUV",
   "4x4": "4x4",
@@ -391,5 +392,7 @@ const localeEn = {
   "numberofpeople": 'Number of People',
   'bookingdate': 'Booking Date & Time ',
   'applied': 'Applied',
-  'addpromocode': 'Add Promocode'
+  'addpromocode': 'Add Promocode',
+  'ReviewRequest': "Review Request",
+  'RequestedTourDetails':"Requested Tour Details",
 };

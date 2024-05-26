@@ -81,6 +81,7 @@ class _OfferScreenState extends State<OfferScreen> {
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () {
+                   
                     _offerController.getOfferById(
                       context: context,
                       offerId: _offerController.offers[index].offerId!,
@@ -93,14 +94,14 @@ class _OfferScreenState extends State<OfferScreen> {
                         rating: _offerController.offers[index].rating!,
                         price: _offerController.offers[index].price!,
                         tripNumber:
-                            _offerController.offers[index].tripNumber!));
+                            _offerController.offers[index].tourNumber??0));
                   },
                   child: CustomAjwadiCard(
                     image: _offerController.offers[index].image ?? '',
                     name: _offerController.offers[index].name!,
                     rating: _offerController.offers[index].rating!,
                     price: _offerController.offers[index].price!,
-                    tripNumber: _offerController.offers[index].tripNumber!,
+                    tripNumber: _offerController.offers[index].tourNumber??0,
                   ),
                 );
               },

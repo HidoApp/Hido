@@ -5,9 +5,12 @@ import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/request/chat/controllers/chat_controller.dart';
 import 'package:ajwad_v4/request/chat/model/chat_model.dart';
 import 'package:ajwad_v4/request/chat/view/widgets/chat_bubble.dart';
+import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
+import 'package:ajwad_v4/request/tourist/models/offer.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/custom_textfield.dart';
+import 'package:ajwad_v4/widgets/schedule_container_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -39,7 +42,7 @@ class _ChatScreenState extends State<ChatScreen> {
     final getStorage = GetStorage();
    late  String userId;
    book.Booking? booking2;
-
+  late List<book.Offer>? offers;
     bool isDetailsTapped = false;
   late double width, height;
 
@@ -54,6 +57,7 @@ bool isDetailsTapped3 = false;
 
  final TouristExploreController _touristExploreController =
       Get.put(TouristExploreController());
+  final _offerController = Get.put(OfferController());
 
 RxBool isDetailsTapped2 = false.obs;
 
@@ -198,6 +202,7 @@ RxBool isDetailsTapped2 = false.obs;
                     if(booking2!=null|| widget.booking!=null){
                     print("this is widget book");
                     print(chat!.bookingId!);
+
                     setState(() {
                       isDetailsTapped1 = !isDetailsTapped1;
           });
@@ -236,8 +241,7 @@ RxBool isDetailsTapped2 = false.obs;
                                     width: 10,
                                   ),
                                   CustomText(
-                                    text:
-                                      widget.booking!=null?AppUtil.formatBookingDate(context, widget.booking!.date!):AppUtil.formatBookingDate(context, booking2!.date!),
+                                    text:widget.booking!=null?AppUtil.formatBookingDate(context, widget.booking!.date!):AppUtil.formatBookingDate(context, booking2!.date!),
                                     color: almostGrey,
                                     fontSize: 13,
                                     fontWeight: FontWeight.w400,
@@ -256,7 +260,8 @@ RxBool isDetailsTapped2 = false.obs;
                                     width: 9,
                                   ),
                                   CustomText(
-                                    text:widget.booking != null 
+                                    text:
+                                    widget.booking != null 
                                ? 'Pick up: ${intel.DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking?.timeToGo}'))}, Drop off: ${intel.DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking?.timeToReturn}'))}'
                                : 'Pick up: ${intel.DateFormat.jm().format(DateTime.parse('1970-01-01T${booking2?.timeToGo}'))}, Drop off: ${intel.DateFormat.jm().format(DateTime.parse('1970-01-01T${booking2?.timeToReturn}'))}',
                                   
@@ -279,7 +284,8 @@ RxBool isDetailsTapped2 = false.obs;
                                     width: 10,
                                   ),
                                   CustomText(
-                                    text: widget.booking!=null?'${widget.booking?.guestNumber ?? 0} ${'guests'.tr}':'${booking2?.guestNumber ?? 0} ${'guests'.tr}',
+                                    text:
+                                    widget.booking!=null?'${widget.booking?.guestNumber ?? 0} ${'guests'.tr}':'${booking2?.guestNumber ?? 0} ${'guests'.tr}',
                                     color: almostGrey,
                                     fontSize: 13,
                                     fontWeight: FontWeight.w400,
@@ -293,7 +299,7 @@ RxBool isDetailsTapped2 = false.obs;
                               
                               Row(
                                 children: [
-                                   widget.booking!=null?
+                              widget.booking!=null?
                             SvgPicture.asset(
                               'assets/icons/unselected_${widget.booking?.vehicleType!}_icon.svg',
                               width: 20,
@@ -305,7 +311,8 @@ RxBool isDetailsTapped2 = false.obs;
                                     width: 10,
                                   ),
                                   CustomText(
-                                    text: widget.booking!=null?widget.booking?.vehicleType ?? '':booking2?.vehicleType ?? '',
+                                    text:
+                                    widget.booking!=null?widget.booking?.vehicleType ?? '':booking2?.vehicleType ?? '',
                                     color: almostGrey,
                                     fontSize: 13,
                                     fontWeight: FontWeight.w400,
@@ -434,11 +441,23 @@ RxBool isDetailsTapped2 = false.obs;
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       ListTile(
-                  onTap: () {
+                  onTap: () async{
+                     booking2 = await _touristExploreController.getTouristBookingById(
+                   context: context,
+                  bookingId: chat!.bookingId!,
+                            );
+                    if(booking2!=null|| widget.booking!=null){
+                    if(booking2?.offers!=[]){
+                    offers=booking2?.offers!;
+                  //  await _offerController.getOfferById(context: context, offerId:booking2?.offers!.last.id??'');
+                    }
                     setState(() {
                       isDetailsTapped3 = !isDetailsTapped3;
                     });
+                    }
+                    
                   },
+                  
     
                  title: Row(
                     children: [
@@ -470,19 +489,27 @@ RxBool isDetailsTapped2 = false.obs;
       if (isDetailsTapped3)
                         Padding(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 10),
+                              horizontal: 7,vertical: 0),
                            child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        CustomText(
-                          text: AppUtil.rtlDirection2(context)
-                              ? 'يسعدني مساعدتك,  هذا هو جدول الرحلة ، تحقق من الأشياء التي تريد القيام بها'
-                              : 'I\'m happy to help you, this is the flight schedule check out the things you want to do',
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          color: colorDarkGrey,
-                          textAlign: AppUtil.rtlDirection2(context) ? TextAlign.right : TextAlign.left,
-                        ),
+                        ScheduleContainerWidget(
+                              scheduleList: offers?.last.schedule),
+                        // CustomText(
+                        //   text: !AppUtil.rtlDirection2(context)
+                        //       ?  ScheduleContainerWidget(
+                        //       offerController: _offerController),
+                        //       : 'I\'m happy to help you, this is the flight schedule check out the things you want to do',
+
+                              
+                        //      // _offerController.offerDetails.value.schedule?.last.scheduleName??'bn'
+                        //       //'يسعدني مساعدتك,  هذا هو جدول الرحلة ، تحقق من الأشياء التي تريد القيام بها'
+                        //       // : 'I\'m happy to help you, this is the flight schedule check out the things you want to do',
+                        //   fontSize: 12,
+                        //   fontWeight: FontWeight.w400,
+                        //   color: colorDarkGrey,
+                        //   textAlign: AppUtil.rtlDirection2(context) ? TextAlign.right : TextAlign.left,
+                        // ),
                       ],
                     ),
                         ),
