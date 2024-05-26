@@ -383,6 +383,8 @@ const localeAr = {
   'bookingdate': 'تاريخ الحجز ',
   'applied': 'تم التطبيق',
   'addpromocode': 'أضف كوبون الخصم',
+  'ReviewRequest': "مراجعة الطلب",
+  'RequestedTourDetails':'تفاصيل طلب الجولة',
   "saudiAdventure": "مغامرات سعودية",
   "numberofpeorson": "عدد الأشخاص"
 };

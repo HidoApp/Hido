@@ -3,6 +3,7 @@ import 'package:ajwad_v4/explore/ajwadi/controllers/ajwadi_explore_controller.da
 import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/services/model/hospitality.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -79,6 +80,8 @@ class _CalenderDialogState extends State<CalenderDialog> {
                 child: Container(
                   height: width * 0.76,
                   width: width * 0.76,
+                  decoration: ShapeDecoration(
+                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
                   alignment: Alignment.bottomRight,
                   child: SfDateRangePicker(
                       minDate: DateTime.now(),
@@ -93,10 +96,46 @@ class _CalenderDialogState extends State<CalenderDialog> {
                       startRangeSelectionColor: colorGreen,
                       endRangeSelectionColor: colorGreen,
                       rangeSelectionColor: colorGreen.withOpacity(0.1),
-                      monthCellStyle: DateRangePickerMonthCellStyle(),
-                      headerStyle: const DateRangePickerHeaderStyle(
-                          textAlign: TextAlign.center,
-                          textStyle: TextStyle(color: lightBlack)),
+                      monthCellStyle: const DateRangePickerMonthCellStyle(
+                           textStyle: TextStyle(
+                             fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                               color: Color(0xFF37B268),
+                                   ),
+                            todayTextStyle: TextStyle(
+                            fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                             color: Colors.red,
+                                    ),
+                              //  weekendTextStyle: TextStyle(
+                              //    fontSize: 12,
+                              //  fontWeight: FontWeight.w500,
+                              //      color: Colors.blue,
+                              //      ),
+                                ),
+                 monthViewSettings: const DateRangePickerMonthViewSettings(
+                     dayFormat: 'EEE', // Short format for day names (e.g., Mon, Tue)
+                     
+                   viewHeaderStyle: DateRangePickerViewHeaderStyle(
+                textStyle: TextStyle(
+                  color: Color(0xFF070708),
+             fontSize: 12,
+            fontFamily: 'SF Pro',
+               fontWeight: FontWeight.w600,
+             height: 0,
+                ),
+                 
+              ),
+              
+            ),
+                      //  showNavigationArrow: true,
+
+                          headerStyle: const DateRangePickerHeaderStyle(
+                          textAlign: TextAlign.left,
+                          textStyle: TextStyle(color:Color(0xFF37B268),)
+                          ),
+                           showNavigationArrow: true,
+
                       onSelectionChanged: (selected) {
                         print(selected.value);
                         selectedDate = selected.value.toString();
@@ -106,8 +145,8 @@ class _CalenderDialogState extends State<CalenderDialog> {
               ),
             ),
             CustomButton(
-                height: width * 0.1,
-                customWidth: width * 0.66,
+                height: width * 0.11,
+                customWidth: width * 0.8,
                 onPressed: () {
                   if (selectedDate == '') {
                   } else {
@@ -179,7 +218,7 @@ class _CalenderDialogState extends State<CalenderDialog> {
                     Get.back();
                   }
                 },
-                title: "done".tr)
+                title:"confirm".tr)
           ],
         ));
   }

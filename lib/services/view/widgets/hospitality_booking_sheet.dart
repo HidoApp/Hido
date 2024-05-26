@@ -99,7 +99,7 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
                                 height: width * 0.03,
                               ),
                               CustomText(
-                                text: "numberofpeople".tr,
+                                text: "guests2".tr,
                                 color: Colors.black,
                                 fontSize: width * .035,
                                 fontWeight: FontWeight.w500,

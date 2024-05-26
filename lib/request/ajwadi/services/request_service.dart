@@ -101,6 +101,8 @@ class RequestService {
     log(response.statusCode.toString());
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
+      print('this offer book from services');
+      print(data);
       return Booking.fromJson(data);
     } else {
       String errorMessage = jsonDecode(response.body)['message'];

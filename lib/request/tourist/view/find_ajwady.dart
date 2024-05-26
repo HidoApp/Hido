@@ -436,6 +436,7 @@ class _FindAjwadyState extends State<FindAjwady> {
                   GestureDetector(
                     //TODO: offer screen will be there
                     onTap: () {
+                   
                       Get.to(() => OfferScreen(
                             place: widget.place,
                             booking:widget.booking,

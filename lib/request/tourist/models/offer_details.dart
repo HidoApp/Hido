@@ -64,6 +64,7 @@ class OfferDetails {
       data['booking'] = booking!.toJson();
     }
     data['payment'] = payment;
+    
     return data;
   }
 }

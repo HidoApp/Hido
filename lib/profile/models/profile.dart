@@ -6,7 +6,7 @@ class Profile {
   // final String? userId;
   final String? name;
   final int? rating;
-  final int? tripNumber;
+  //final int? tripNumber;
    String? profileImage;
   final String? phoneNumber;
   // final String? governmentIssuedId;
@@ -14,6 +14,8 @@ class Profile {
   //final String? carPlate;
   //final String? carModel;
   //final CarType? carType;
+  //final dynamic image;
+  final int? tourNumber;
   final ExperienceLevel? experienceLevel;
   final String? descriptionAboutMe;
   final List<String>? userInterests;
@@ -25,7 +27,7 @@ class Profile {
     //  this.userId,
     this.name,
     this.rating,
-    this.tripNumber,
+    //this.tripNumber,
      this.profileImage,
     this.phoneNumber,
     // this.governmentIssuedId,
@@ -38,6 +40,8 @@ class Profile {
     this.userInterests,
     this.nationality,
     this.userRole,
+    //this.image,
+    this.tourNumber,
   });
 
   factory Profile.fromJson(Map<String, dynamic> json) {
@@ -46,7 +50,9 @@ class Profile {
       //   userId: json['user_id'],
       name: json['name'],
       rating: json['rating'],
-      tripNumber: json['tripNumber'],
+      //image: json['image'],
+      tourNumber: json['tourNumber'],
+      //tripNumber: json['tripNumber'],
      profileImage: json['image'],
       phoneNumber: json['phoneNumber'],
       // governmentIssuedId: json['governmentIssuedId'],
@@ -69,7 +75,9 @@ class Profile {
       //'user_id': userId,
       'name': name,
       'rating': rating,
-      'tripNumber': tripNumber,
+      //'image': image,
+      'tourNumber': tourNumber,
+      //'tripNumber': tripNumber,
       // 'image': profileImage,
       'phoneNumber': phoneNumber,
       // 'experienceLevel': governmentIssuedId,

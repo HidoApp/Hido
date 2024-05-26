@@ -33,16 +33,26 @@ class CustomTicketCard extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     return InkWell(
    onTap: booking.orderStatus == 'ACCEPTED'
+   //'ACCEPTED'
       ? () {
-          Get.to(() => TicketDetailsScreen(booking: booking));
+          Get.to(() => TicketDetailsScreen(
+          booking: booking,
+          icon: SvgPicture.asset(
+                         'assets/icons/${booking.bookingType! == 'place'?'place.svg' :booking.bookingType! == 'hospitality' ? 'hospitality.svg' : 'adventure.svg'}',),
+          bookTypeText:getBookingTypeText(context, booking.bookingType!) ,                 
+                            
+        ));
         }
       : booking.orderStatus == 'PENDING' ? () {
-          _touristExploreController
+print("id place");
+print(booking.placeId??'') ;    
+     _touristExploreController
               .getPlaceById(
-                id:booking!.placeId!,
+                id:booking.place?.id,
                 context: context,
               )
               .then((place) {
+
             thePlace = place;
             Get.to(
               () => FindAjwady(
@@ -53,7 +63,9 @@ class CustomTicketCard extends StatelessWidget {
             //   ?.then((value) {
             //   return getPlaceBooking();
             // });
+        
           });
+        
         // Get.to(() => TicketDetailsScreen(booking: booking));
 
         }
@@ -113,12 +125,14 @@ class CustomTicketCard extends StatelessWidget {
                       Row(
                         textDirection: AppUtil.rtlDirection2(context)?TextDirection.rtl:TextDirection.ltr,
                         children: [
-                          SvgPicture.asset('assets/icons/Polygon_host.svg'),
+                          SvgPicture.asset(
+                         'assets/icons/${booking.bookingType! == 'place'?'place.svg' :booking.bookingType! == 'hospitality' ? 'hospitality.svg' : 'adventure.svg'}',
+                            ),
                           const SizedBox(
                             width: 4,
                           ),
                           CustomText(
-                            text: AppUtil.rtlDirection2(context)?'جولة':'Tour',
+                            text: getBookingTypeText(context, booking.bookingType!),
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
                             color: black,
@@ -134,7 +148,9 @@ class CustomTicketCard extends StatelessWidget {
                 Row(
                   
                   children: [
-                    SvgPicture.asset('assets/icons/map_pin.svg'),
+                    SvgPicture.asset('assets/icons/map_pin.svg'
+                    
+                    ),
                     const SizedBox(
                       width: 4,
                     ),
@@ -226,6 +242,31 @@ class CustomTicketCard extends StatelessWidget {
 }
 
 }
+
+String getBookingTypeText(BuildContext context, String bookingType) {
+  if (AppUtil.rtlDirection2(context)) {
+    switch (bookingType) {
+      case 'place':
+        return 'جولة';
+      case 'adventure':
+        return 'مغامرة';
+      case 'hospitality':
+        return 'ضيافة';
+      case 'event':
+        return 'فعالية';
+      default:
+        return bookingType; 
+    }
+  } else {
+    if(bookingType=='place'){
+      return "Tour";
+    }
+    else{
+    return bookingType; 
+    }
+}
+}
+
 String formatBookingDate(BuildContext context, String date) {
   DateTime dateTime = DateTime.parse(date);
   if (AppUtil.rtlDirection2(context)) {

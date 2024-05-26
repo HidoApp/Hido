@@ -47,7 +47,7 @@ class CustomButton extends StatelessWidget {
           ),
         ),
         fixedSize:
-            MaterialStateProperty.all(Size(customWidth ?? width, height ?? 58)),
+            MaterialStateProperty.all(Size(customWidth ?? width, height ?? 56)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -65,7 +65,7 @@ class CustomButton extends StatelessWidget {
             CustomText(
               text: title,
               textAlign: TextAlign.center,
-              fontSize: 16,
+              fontSize: 17,
               fontWeight: FontWeight.w500,
               color: Colors.white,
               fontStyle: italic ? FontStyle.italic : FontStyle.normal,

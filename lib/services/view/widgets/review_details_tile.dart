@@ -22,16 +22,19 @@ class ReviewDetailsTile extends StatelessWidget {
       children: [
         SvgPicture.asset(
           image,
+         width: 20,
+
         ),
         SizedBox(
           width: width * 0.012,
         ),
         CustomText(
           text: title,
-          color: colorDarkGrey,
-          fontSize: width * 0.038,
-          fontWeight: FontWeight.w300,
+          color:Color(0xFF9392A0),
+          fontSize: width * 0.037,
+          fontWeight: FontWeight.w400,
         ),
+       
       ],
     );
   }
