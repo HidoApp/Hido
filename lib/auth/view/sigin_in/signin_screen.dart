@@ -162,28 +162,28 @@ class _SignInScreenState extends State<SignInScreen> {
                         ),
                         Row(
                           children: [
-                            FlutterSwitch(
-                              width: 45.0,
-                              height: 28.0,
-                              activeColor: const Color(0xFF5AC28F),
-                              inactiveColor: const Color(0xFFE8ECEF),
-                              onToggle: (bool value) {
-                                //  toggleSwitch();
-                                //  bookingController.toggleSwitch();
-                                setState(() {
-                                  isSwitched = !isSwitched;
-                                });
-                              },
-                              value: isSwitched,
-                            ),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            CustomText(
-                              text: "rememberMe".tr,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w300,
-                            ),
+                            // FlutterSwitch(
+                            //   width: 45.0,
+                            //   height: 28.0,
+                            //   activeColor: const Color(0xFF5AC28F),
+                            //   inactiveColor: const Color(0xFFE8ECEF),
+                            //   onToggle: (bool value) {
+                            //     //  toggleSwitch();
+                            //     //  bookingController.toggleSwitch();
+                            //     setState(() {
+                            //       isSwitched = !isSwitched;
+                            //     });
+                            //   },
+                            //   value: isSwitched,
+                            // ),
+                            // const SizedBox(
+                            //   width: 8,
+                            // ),
+                            // CustomText(
+                            //   text: "rememberMe".tr,
+                            //   fontSize: 14,
+                            //   fontWeight: FontWeight.w300,
+                            // ),
                             const Spacer(),
                             TextButton(
                               onPressed: () {
@@ -225,7 +225,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                                   email: _emailController.text,
                                                   password:
                                                       _passwordController.text,
-                                                  rememberMe: isSwitched,
+                                                  rememberMe: true,
                                                   context: context);
 
                                           print('logged $user');

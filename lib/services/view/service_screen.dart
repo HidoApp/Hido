@@ -62,60 +62,100 @@ class _ServiceScreenState extends State<ServiceScreen>
           controller: ScrollController(),
           headerSliverBuilder: (context, isScrolled) => [
             SliverAppBar(
-              automaticallyImplyLeading: true,
+              automaticallyImplyLeading: false,
               // expandedHeight: width * 0.51,
               toolbarHeight: width * 0.31,
+              forceMaterialTransparency: true,
+
               pinned: true,
+              centerTitle: false,
+              // collapsedHeight: 150,
+              // expandedHeight: 300,
+              leading: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomText(
+                      text: "serviceTitle".tr,
+                      color: Colors.white,
+                      maxlines: 2,
+                      fontSize: 20,
+                    ),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    CustomText(
+                      text: _tabIndex == 0
+                          ? "hospitalityDetails".tr
+                          : "adventureDetails".tr,
+                      color: Colors.white,
+                      fontSize: 11,
+                      maxlines: 2,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ],
+                ),
+              ),
+              leadingWidth: 400,
+
               actions: [
                 Padding(
-                  // padding: EdgeInsets.only(right: width * 0.06,),
-                  padding: AppUtil.rtlDirection2(context)
-                      ? EdgeInsets.only(
-                          left: width * 0.061, bottom: height * 0.10)
-                      : EdgeInsets.only(
-                          right: width * 0.06,
-                        ),
+                    // padding: EdgeInsets.only(right: width * 0.06,),
+                    padding: AppUtil.rtlDirection2(context)
+                        ? EdgeInsets.only(
+                            left: width * 0.061, bottom: height * 0.10)
+                        : EdgeInsets.only(
+                            right: width * 0.06,
+                          ),
+                    child: Align(
+                      alignment: Alignment.topCenter,
+                      child: !AppUtil.isGuest()
+                          ? Row(
+                              // textDirection:TextDirection.ltr,
 
-                  child: Row(
-                    // textDirection:TextDirection.ltr,
-
-                    children: [
-                      HomeIconButton(
-                          onTap: () {
-                            ProfileController _profileController =
-                                Get.put(ProfileController());
-                            Get.to(() => AppUtil.isGuest()
-                                ? const SignInScreen()
-                                : TicketScreen(
-                                    profileController: _profileController));
-                          },
-                          icon: 'assets/icons/ticket_icon.svg'),
-                      SizedBox(
-                        width: width * 0.02,
-                      ),
-                      HomeIconButton(
-                          onTap: () {
-                            ProfileController _profileController =
-                                Get.put(ProfileController());
-                            Get.to(() => AppUtil.isGuest()
-                                ? const SignInScreen()
-                                : MessagesScreen(
-                                    profileController: _profileController));
-                          },
-                          icon: 'assets/icons/Communication_white.svg'),
-                      SizedBox(
-                        width: width * 0.02,
-                      ),
-                      HomeIconButton(
-                          onTap: () {
-                            Get.to(() => AppUtil.isGuest()
-                                ? const SignInScreen()
-                                : NotificationScreen());
-                          },
-                          icon: 'assets/icons/Alerts_white.svg')
-                    ],
-                  ),
-                )
+                              children: [
+                                HomeIconButton(
+                                    onTap: () {
+                                      ProfileController _profileController =
+                                          Get.put(ProfileController());
+                                      Get.to(() => AppUtil.isGuest()
+                                          ? const SignInScreen()
+                                          : TicketScreen(
+                                              profileController:
+                                                  _profileController));
+                                    },
+                                    icon: 'assets/icons/ticket_icon.svg'),
+                                SizedBox(
+                                  width: width * 0.02,
+                                ),
+                                HomeIconButton(
+                                    onTap: () {
+                                      ProfileController _profileController =
+                                          Get.put(ProfileController());
+                                      Get.to(() => AppUtil.isGuest()
+                                          ? const SignInScreen()
+                                          : MessagesScreen(
+                                              profileController:
+                                                  _profileController));
+                                    },
+                                    icon:
+                                        'assets/icons/Communication_white.svg'),
+                                SizedBox(
+                                  width: width * 0.02,
+                                ),
+                                HomeIconButton(
+                                    onTap: () {
+                                      Get.to(() => AppUtil.isGuest()
+                                          ? const SignInScreen()
+                                          : NotificationScreen());
+                                    },
+                                    icon: 'assets/icons/Alerts_white.svg')
+                              ],
+                            )
+                          : const SizedBox(),
+                    ))
               ],
               flexibleSpace: ClipRRect(
                 // borderRadius: const BorderRadius.only(
@@ -142,10 +182,11 @@ class _ServiceScreenState extends State<ServiceScreen>
                 labelPadding: EdgeInsets.all(width * 0.02),
                 padding: EdgeInsets.symmetric(horizontal: width * 0.005),
                 onTap: (index) {
-                  print(tabIndex);
                   setState(() {
                     _tabIndex = index;
                   });
+                  print(_tabController.index);
+                  print("_tabController");
                 },
                 tabs: [
                   Padding(

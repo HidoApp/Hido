@@ -22,6 +22,11 @@ class AuthController extends GetxController {
   var nationalId = ''.obs;
   var birthDate = ''.obs;
 
+  //valditon vars
+  var hidePassword = true.obs;
+  var isEmailValid = false.obs;
+  var isPasswordValid = false.obs;
+
   // 1 GET COUNTRIES ..
   Future<List<String>?> getListOfCountries(BuildContext context) async {
     try {
