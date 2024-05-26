@@ -157,11 +157,9 @@ class TouristExploreController extends GetxController {
   }) async {
     try {
       touristModel.value?.places = [];
-      touristModel.value?.events = [];
-      touristModel.value?.adventures = [];
       isTouristMapLoading(true);
       TouristMapModel? data = await TouristExploreService.touristMap(
-          context: context, tourType: tourType);
+          context: context, tourType: "PLACE");
       touristModel(data);
 
       return data;

@@ -17,11 +17,9 @@ class CustomText extends StatelessWidget {
       this.height,
       this.fontFamily,
       this.fontStyle,
-      this.textDecorationStyle}) 
+      this.shadows,
+      this.textDecorationStyle})
       : super(key: key);
-
-
-
 
   final String text;
   final double fontSize;
@@ -36,6 +34,7 @@ class CustomText extends StatelessWidget {
   final String? fontFamily;
   final FontStyle? fontStyle;
   final TextDecorationStyle? textDecorationStyle;
+  final List<Shadow>? shadows;
   @override
   Widget build(BuildContext context) {
     return Text(
@@ -53,6 +52,7 @@ class CustomText extends StatelessWidget {
           decoration: textDecoration,
           decorationStyle: textDecorationStyle,
           height: height,
+          shadows: shadows,
           decorationColor: color,
           decorationThickness: 0.3),
       textDirection: textDirection ??

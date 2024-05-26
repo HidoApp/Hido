@@ -193,13 +193,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             );
                           },
                         ),
-                      CustomListTile(
-                        title: "bookmark".tr,
-                        leading: "assets/icons/bookmark_icon.svg",
-                        onTap: () {
-                          Get.to(() => const BookmarkScreen());
-                        },
-                      ),
+                      // CustomListTile(
+                      //   title: "bookmark".tr,
+                      //   leading: "assets/icons/bookmark_icon.svg",
+                      //   onTap: () {
+                      //     Get.to(() => const BookmarkScreen());
+                      //   },
+                      // ),
                     ],
                   ),
                   const Padding(
@@ -212,25 +212,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Expanded(
                     child: Column(
                       children: [
-                        CustomListTile(
-                          title: "paymentMethods".tr,
-                          leading: "assets/icons/payment_icon.svg",
-                          iconColor: colorGreen,
-                          onTap: () {
-                            // showModalBottomSheet(
-                            //     isScrollControlled: true,
-                            //     backgroundColor: Colors.transparent,
-                            //     shape: const RoundedRectangleBorder(
-                            //         borderRadius: BorderRadius.only(
-                            //       topRight: Radius.circular(30),
-                            //       topLeft: Radius.circular(30),
-                            //     )),
-                            //     context: context,
-                            //     builder: (context) {
-                            //       return PaymentMethod();
-                            //     });
-                          },
-                        ),
+                        // CustomListTile(
+                        //   title: "paymentMethods".tr,
+                        //   leading: "assets/icons/payment_icon.svg",
+                        //   iconColor: colorGreen,
+                        //   onTap: () {
+                        //     // showModalBottomSheet(
+                        //     //     isScrollControlled: true,
+                        //     //     backgroundColor: Colors.transparent,
+                        //     //     shape: const RoundedRectangleBorder(
+                        //     //         borderRadius: BorderRadius.only(
+                        //     //       topRight: Radius.circular(30),
+                        //     //       topLeft: Radius.circular(30),
+                        //     //     )),
+                        //     //     context: context,
+                        //     //     builder: (context) {
+                        //     //       return PaymentMethod();
+                        //     //     });
+                        //   },
+                        // ),
                         CustomListTile(
                           title: "helpsFAQs".tr,
                           leading: "assets/icons/help_icon.svg",

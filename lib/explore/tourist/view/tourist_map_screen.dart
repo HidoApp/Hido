@@ -14,15 +14,21 @@ import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
 import 'package:ajwad_v4/explore/widget/trip_card.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/view/messages_screen.dart';
+import 'package:ajwad_v4/profile/view/ticket_screen.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:custom_map_markers/custom_map_markers.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text_area.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -59,7 +65,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
     'PLACE',
     'ADVENTURE',
   ];
-  late List<Place> searchedPlaces;
+  // late List<Place> searchedPlaces;
   String? selectedTitle;
 
   BitmapDescriptor markerIcon = BitmapDescriptor.defaultMarker;
@@ -84,12 +90,9 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
       setState(() {
         _EndTicket = bookings;
         getEndBookings();
-        
       });
       print(_EndTicket.length);
-    } else {
-     
-    }
+    } else {}
   }
 
   void getEndBookings() async {
@@ -440,908 +443,312 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
     });
   }
 
-  void searchForPlace(String letters) {
-    //for searching feature
-    searchedPlaces = _touristExploreController.touristModel.value!.places!
-        .where((place) =>
-            place.nameEn!.toLowerCase().startsWith(letters.toLowerCase()))
-        .toList();
-    if (searchedPlaces.isEmpty) {
-      searchedPlaces = _touristExploreController.touristModel.value!.places!;
-    }
-  }
-
-  // List<Place> placesList() {
-  //   if (searchTextController.text.isEmpty) {
-  //     return _touristExploreController.touristModel.value!.places!.toList();
-  //   } else {
-  //     return searchedPlaces;
+  // void searchForPlace(String letters) {
+  //   //for searching feature
+  //   searchedPlaces = _touristExploreController.touristModel.value!.places!
+  //       .where((place) =>
+  //           place.nameEn!.toLowerCase().startsWith(letters.toLowerCase()))
+  //       .toList();
+  //   if (searchedPlaces.isEmpty) {
+  //     searchedPlaces = _touristExploreController.touristModel.value!.places!;
   //   }
   // }
 
+  void toTripDetails(int index, double distance) async {
+    if (userLocation != null) {
+      distance = calculateDistanceBtwUserAndPlace(
+        userLocation!.latitude,
+        userLocation!.longitude,
+        double.parse(_touristExploreController
+            .touristModel.value!.places![index].coordinates!.latitude!),
+        double.parse(_touristExploreController
+            .touristModel.value!.places![index].coordinates!.longitude!),
+      );
+    } else {
+      print('CAN NOT CALCULATE DISTANCE');
+    }
+
+    Get.to(
+      () => TripDetails(
+        fromAjwady: false,
+        place: _touristExploreController.touristModel.value!.places![index],
+        distance: distance != 0.0 ? distance.roundToDouble() : distance,
+        userLocation: userLocation,
+      ),
+    )?.then(
+      (value) {
+        getScrollingCards('ALL');
+        selectedTitle = titles[0];
+        return;
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.white,
       body: Obx(
         () => Stack(
           children: [
             //  isLoaded ?
-            GoogleMap(
-              zoomControlsEnabled: false,
-              myLocationButtonEnabled: false,
-              initialCameraPosition: CameraPosition(
-                target: _currentLocation,
-                zoom: 10,
-              ),
-              markers: _markers,
-              mapType: MapType.normal,
-              onMapCreated: (controller) {
-                _controller.complete(controller);
-                _loadMapStyles();
-              },
-              onCameraMove: (position) {
-                setState(() {
-                  _currentLocation = position.target;
-                });
-              },
-            ),
+            CustomGoogleMapMarkerBuilder(
+                customMarkers: List.generate(
+                  _touristExploreController.touristModel.value!.places!.length,
+                  (index) {
+                    double distance = 0.0;
+                    return MarkerData(
+                      marker: Marker(
+                          onTap: () {
+                            toTripDetails(index, distance);
+                          },
+                          markerId: MarkerId(_touristExploreController
+                              .touristModel.value!.places![index].id!),
+                          position: LatLng(
+                            double.parse(_touristExploreController.touristModel
+                                .value!.places![index].coordinates!.latitude!),
+                            double.parse(_touristExploreController.touristModel
+                                .value!.places![index].coordinates!.longitude!),
+                          )),
+                      child: Column(children: [
+                        Container(
+                          height: width * 0.1,
+                          width: width * 0.1,
+                          padding: EdgeInsets.all(width * 0.025),
+                          margin: EdgeInsets.all(width * 0.025),
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: index % 2 == 0 ? colorGreen : yellow,
+                                  blurRadius: width * 0.035,
+                                )
+                              ],
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: CachedNetworkImageProvider(
+                                  errorListener: (p0) =>
+                                      const CircularProgressIndicator(),
+                                  _touristExploreController.touristModel.value!
+                                      .places![index].image!.first,
+                                ),
+                              ),
+                              border: Border.all(
+                                  color: Colors.white, width: width * 0.0025)),
+                        ),
+                        CustomText(
+                          text: AppUtil.rtlDirection2(context)
+                              ? _touristExploreController
+                                  .touristModel.value!.places![index].nameAr!
+                              : _touristExploreController
+                                  .touristModel.value!.places![index].nameEn!,
+                          fontSize: width * 0.03,
+                          fontWeight: ui.FontWeight.w700,
+                          shadows: const [
+                            BoxShadow(
+                              color: Colors.white,
+                              offset: ui.Offset(1, 1),
+                            ),
+                          ],
+                        )
+                      ]),
+                    );
+                  },
+                ),
+                builder: (context, markers) {
+                  if (markers == null) {
+                    return GoogleMap(
+                      zoomControlsEnabled: false,
+                      myLocationButtonEnabled: false,
+                      markers: _userMarkers,
+                      initialCameraPosition: CameraPosition(
+                        target: _currentLocation,
+                        zoom: 10,
+                      ),
+                      mapType: MapType.normal,
+                      onMapCreated: (controller) {
+                        _controller.complete(controller);
+                        _loadMapStyles();
+                      },
+                      onCameraMove: (position) {
+                        setState(() {
+                          _currentLocation = position.target;
+                        });
+                      },
+                    );
+                  }
+                  return GoogleMap(
+                    zoomControlsEnabled: false,
+                    myLocationButtonEnabled: false,
+                    initialCameraPosition: CameraPosition(
+                      target: _currentLocation,
+                      zoom: 10,
+                    ),
+                    markers: markers,
+                    mapType: MapType.normal,
+                    onMapCreated: (controller) {
+                      _controller.complete(controller);
+                      _loadMapStyles();
+                    },
+                    onCameraMove: (position) {
+                      setState(() {
+                        _currentLocation = position.target;
+                      });
+                    },
+                  );
+                }),
             Positioned(
-              top: 49,
-              left: 16,
-              right: 16,
+              top: width * .125,
+              left: width * 0.041,
+              right: width * 0.041,
               child: Column(
                 children: [
                   // text field and icons
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        //text field
-                        Container(
-                          alignment: Alignment.center,
-                          width: 278,
-                          height: 34,
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(12),
-                            ),
-                          ),
-                          child: TextField(
-                            controller: searchTextController,
-                            style: const TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.normal),
-                            textInputAction: TextInputAction.search,
-                            decoration: InputDecoration(
-                              prefixIcon: SvgPicture.asset(
-                                'assets/icons/General.svg',
-                              ),
-                              contentPadding: const EdgeInsets.only(
-                                  top: 8, left: 44, right: 12),
-                              disabledBorder: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(12),
-                                  ),
-                                  borderSide:
-                                      BorderSide(color: Colors.grey, width: 1)),
-                              enabledBorder: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(12),
-                                  ),
-                                  borderSide:
-                                      BorderSide(color: Colors.grey, width: 1)),
-                              focusedBorder: const OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(12)),
-                                borderSide:
-                                    BorderSide(color: Colors.grey, width: 1),
-                              ),
-                              hintText: "Search",
-                              hintStyle: const TextStyle(
-                                  color: lightGrey,
-                                  fontSize: 16,
-                                  fontWeight: ui.FontWeight.w400),
-                            ),
-                            onChanged: (value) {
-                              setState(() {
-                                searchForPlace(value);
-                              });
-                            },
-                          ),
+                  Container(
+                    alignment: Alignment.center,
+                    width: width * 0.87,
+                    height: width * 0.087,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(width * 0.051),
+                      ),
+                    ),
+                    child: TextField(
+                      controller: searchTextController,
+                      style: TextStyle(
+                          fontSize: width * 0.035,
+                          fontWeight: FontWeight.normal),
+                      textInputAction: TextInputAction.search,
+                      decoration: InputDecoration(
+                        prefixIcon: SvgPicture.asset(
+                          'assets/icons/General.svg',
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Container(
-                              width: 88,
-                              height: 34,
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 9),
-                              decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.3),
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(16),
-                                ),
-                              ),
-                              alignment: Alignment.center,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      ProfileController _profileController =
-                                          Get.put(ProfileController());
-                                      Get.to(() => AppUtil.isGuest()
-                                          ? const SignInScreen()
-                                          : MessagesScreen(
-                                              profileController:
-                                                  _profileController));
-                                    },
-                                    child: SvgPicture.asset(
-                                        'assets/icons/Communication.svg'),
-                                  ),
-                                  GestureDetector(
-                                      onTap: () => Get.to(() =>
-                                          AppUtil.isGuest()
-                                              ? const SignInScreen()
-                                              : NotificationScreen()),
-                                      child: SvgPicture.asset(
-                                          'assets/icons/Alerts.svg')),
-                                ],
-                              ),
+                        contentPadding: EdgeInsets.only(
+                            top: width * .02,
+                            left: width * 0.11,
+                            right: width * 0.030),
+                        disabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(width * 0.051),
                             ),
-                            //ticket
-                          ],
-                        )
-                        //chats
-                        // ,
-                        // Container(
-                        //   width: 36,
-                        //   height: 36,
-                        //   decoration: const BoxDecoration(
-                        //     shape: BoxShape.circle,
-                        //     color: colorGreen,
-                        //   ),
-                        //   alignment: Alignment.center,
-                        //   child: SvgPicture.asset(
-                        //       'assets/icons/notifications.svg'),
-                        // ),
-                      ],
+                            borderSide: BorderSide(
+                                color: Colors.grey, width: width * .002)),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(width * 0.051),
+                            ),
+                            borderSide: BorderSide(
+                                color: Colors.grey, width: width * .002)),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(width * 0.051),
+                          ),
+                          borderSide: BorderSide(
+                              color: Colors.grey, width: width * .002),
+                        ),
+                        hintText: "Search",
+                        hintStyle: TextStyle(
+                            color: lightGrey,
+                            fontSize: width * 0.041,
+                            fontWeight: ui.FontWeight.w400),
+                      ),
+                      onChanged: (value) {
+                        setState(() {});
+                      },
                     ),
                   ),
-                  if (!widget.fromAjwady)
-                    const SizedBox(
-                      height: 12,
-                    ),
-                  if (!widget.fromAjwady)
-                    SizedBox(
-                      height: 42,
-                      child: ListView.separated(
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          itemCount: titles.length,
-                          separatorBuilder: (context, index) {
-                            return const SizedBox(
-                              width: 16,
-                            );
+                  SizedBox(
+                    height: width * 0.03,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      //ticket
+                      Container(
+                        padding: EdgeInsets.all(width * 0.012),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(width * 0.04),
+                          ),
+                        ),
+                        child: GestureDetector(
+                            onTap: () {
+                              ProfileController profileController =
+                                  Get.put(ProfileController());
+                              Get.to(() => AppUtil.isGuest()
+                                  ? const SignInScreen()
+                                  : TicketScreen(
+                                      profileController: profileController,
+                                    ));
+                            },
+                            child: SvgPicture.asset(
+                              'assets/icons/ticket_icon.svg',
+                              color: colorGreen,
+                            )),
+                      ),
+                      SizedBox(
+                        width: width * 0.030,
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(width * 0.0128),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(width * 0.04),
+                          ),
+                        ),
+                        child: GestureDetector(
+                          onTap: () {
+                            // ProfileController _profileController =
+                            //     Get.put(ProfileController());
+                            // Get.to(() => AppUtil.isGuest()
+                            //     ? const SignInScreen()
+                            //     : MessagesScreen(
+                            //         profileController: _profileController));
                           },
-                          itemBuilder: (context, index) {
-                            return InkWell(
-                              onTap: () {
-                                setState(() {
-                                  selectedTitle = titles[index];
-                                });
-
-                                getScrollingCards(selectedTitle!);
-                              },
-                              child: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 12),
-                                height: 42,
-                                decoration: const BoxDecoration(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(24),
-                                    ),
-                                    color: Colors.white),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    CustomText(
-                                      text: titles[index].toLowerCase().tr,
-                                      color: selectedTitle != null &&
-                                              selectedTitle == titles[index]
-                                          ? colorGreen
-                                          : black,
-                                      fontSize: selectedTitle != null &&
-                                              selectedTitle == titles[index]
-                                          ? 16
-                                          : 14,
-                                      fontWeight: selectedTitle != null &&
-                                              selectedTitle == titles[index]
-                                          ? FontWeight.w600
-                                          : FontWeight.w400,
-                                    ),
-                                    const SizedBox(
-                                      width: 16,
-                                    ),
-                                    if (index == 0)
-                                      SvgPicture.asset(
-                                        'assets/icons/all.svg',
-                                        color:
-                                            index != 0 ? colors[index] : null,
-                                      ),
-                                  ],
+                          child: SvgPicture.asset(
+                            'assets/icons/Communication.svg',
+                            color: colorGreen,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: width * 0.030,
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(width * 0.0128),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(width * 0.04),
+                          ),
+                        ),
+                        child: GestureDetector(
+                            onTap: () => Get.to(
+                                  () => AppUtil.isGuest()
+                                      ? const SignInScreen()
+                                      : NotificationScreen(),
                                 ),
-                              ),
-                            );
-                          }),
-                    ),
+                            child: SvgPicture.asset(
+                              'assets/icons/Alerts.svg',
+                              color: colorGreen,
+                            )),
+                      ),
+                      SizedBox(
+                        width: width * 0.030,
+                      ),
+                    ],
+                  )
                 ],
               ),
             ),
-
-            !_touristExploreController.isTouristMapLoading.value
-                ? Positioned(
-                    bottom: 12,
-                    left: 24,
-                    right: 16,
-                    child: Align(
-                      alignment: AlignmentDirectional.bottomCenter,
-                      child: SizedBox(
-                        height: 120,
-                        child: Row(
-                          children: [
-                            _touristExploreController
-                                        .touristModel.value!.places ==
-                                    null
-                                ? Container(
-                                    child: const Text("Loading "),
-                                  )
-                                : Expanded(
-                                    child: PageView.builder(
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount:
-                                          searchTextController.text.isEmpty
-                                              ? _touristExploreController
-                                                  .touristModel
-                                                  .value!
-                                                  .places!
-                                                  .length
-                                              : searchedPlaces.length,
-                                      itemBuilder: (context, index) {
-                                        double distance = 0.0;
-                                        return GestureDetector(
-                                          onTap: () async {
-                                            if (userLocation != null) {
-                                              distance =
-                                                  calculateDistanceBtwUserAndPlace(
-                                                      userLocation!.latitude,
-                                                      userLocation!.longitude,
-                                                      double.parse(
-                                                        searchTextController
-                                                                .text.isEmpty
-                                                            ? _touristExploreController
-                                                                .touristModel
-                                                                .value!
-                                                                .places![index]
-                                                                .coordinates!
-                                                                .latitude!
-                                                            : searchedPlaces[
-                                                                    index]
-                                                                .coordinates!
-                                                                .latitude!,
-                                                      ),
-                                                      double.parse(
-                                                          searchTextController
-                                                                  .text.isEmpty
-                                                              ? _touristExploreController
-                                                                  .touristModel
-                                                                  .value!
-                                                                  .places![
-                                                                      index]
-                                                                  .coordinates!
-                                                                  .longitude!
-                                                              : searchedPlaces[
-                                                                      index]
-                                                                  .coordinates!
-                                                                  .longitude!));
-                                            } else {
-                                              print(
-                                                  'CAN NOT CALCULATE DISTANCE');
-                                            }
-
-                                            Get.to(
-                                              () => TripDetails(
-                                                fromAjwady: false,
-                                                place: searchTextController
-                                                        .text.isEmpty
-                                                    ? _touristExploreController
-                                                        .touristModel
-                                                        .value!
-                                                        .places![index]
-                                                    : searchedPlaces[index],
-                                                distance: distance != 0.0
-                                                    ? distance.roundToDouble()
-                                                    : distance,
-                                                userLocation: userLocation,
-                                              ),
-                                            )?.then(
-                                              (value) {
-                                                getScrollingCards('ALL');
-                                                selectedTitle = titles[0];
-                                                return;
-                                              },
-                                            );
-                                          },
-                                          child: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                              horizontal: 4,
-                                            ),
-                                            child: TripCard(
-                                              title: !AppUtil.rtlDirection(
-                                                      context)
-                                                  ? searchTextController
-                                                          .text.isEmpty
-                                                      ? _touristExploreController
-                                                          .touristModel
-                                                          .value!
-                                                          .places![index]
-                                                          .nameAr!
-                                                      : searchedPlaces[index]
-                                                          .nameAr!
-                                                  : searchTextController
-                                                          .text.isEmpty
-                                                      ? _touristExploreController
-                                                          .touristModel
-                                                          .value!
-                                                          .places![index]
-                                                          .nameEn!
-                                                      : searchedPlaces[index]
-                                                          .nameEn!,
-                                              location: !AppUtil.rtlDirection(
-                                                      context)
-                                                  ? searchTextController
-                                                          .text.isEmpty
-                                                      ? _touristExploreController
-                                                                  .touristModel
-                                                                  .value!
-                                                                  .places![
-                                                                      index]
-                                                                  .regionAr ==
-                                                              null
-                                                          ? ""
-                                                          : searchedPlaces[
-                                                                          index]
-                                                                      .regionAr ==
-                                                                  null
-                                                              ? ""
-                                                              : _touristExploreController
-                                                                  .touristModel
-                                                                  .value!
-                                                                  .places![
-                                                                      index]
-                                                                  .regionAr!
-                                                      : searchedPlaces[index]
-                                                          .regionAr!
-                                                  : searchTextController
-                                                          .text.isEmpty
-                                                      ? _touristExploreController
-                                                          .touristModel
-                                                          .value!
-                                                          .places![index]
-                                                          .regionEn!
-                                                      : searchedPlaces[index]
-                                                          .regionEn!,
-                                              image: searchTextController
-                                                      .text.isEmpty
-                                                  ? _touristExploreController
-                                                      .touristModel
-                                                      .value!
-                                                      .places![index]
-                                                      .image![0]
-                                                  : searchedPlaces[index]
-                                                      .image![0],
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                            _touristExploreController
-                                        .touristModel.value!.events ==
-                                    null
-                                ? Container()
-                                : ListView.separated(
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: _touristExploreController
-                                        .touristModel.value!.events!.length,
-                                    separatorBuilder: (context, index) {
-                                      return const SizedBox(
-                                        width: 13,
-                                      );
-                                    },
-                                    itemBuilder: (context, index) {
-                                      double distance = 0.0;
-
-                                      //     return CustomText(text: "HI");
-
-                                      return GestureDetector(
-                                        onTap: () async {
-                                          // Place? place =
-                                          //     await _touristExploreController
-                                          //         .getPlaceById(
-                                          //             id: _touristExploreController
-                                          //                 .allPlaces[index].id,
-                                          //             context: context);
-                                          // if (userLocation != null) {
-                                          //   distance =
-                                          //       calculateDistanceBtwUserAndPlace(
-                                          //           userLocation!.latitude,
-                                          //           userLocation!.longitude,
-                                          //           double.parse(place!
-                                          //               .coordinates!.latitude),
-                                          //           double.parse(place
-                                          //               .coordinates!
-                                          //               .longitude));
-
-                                          //   print('Distance : $distance');
-                                          // } else {
-                                          //   print('CAN NOT CALCULATE DISTANCE');
-                                          // }
-                                          // // var distance = Distance.calculateDistance(
-                                          // //  lat1:   _currentLocation.latitude,
-                                          // //  lon1:   _currentLocation.longitude,
-                                          // //     _placeController.allPlaces[index]
-                                          // //         .coordinates!.latitude,
-                                          // //     _placeController.allPlaces[index]
-                                          // //         .coordinates!.longitude);
-                                          // // print(distance);
-                                          // Get.to(() => TripDetails(
-                                          //       fromAjwady: false,
-                                          //       place: place,
-                                          //       distance: distance != 0.0
-                                          //           ? distance.roundToDouble()
-                                          //           : distance,
-                                          //       userLocation: userLocation,
-                                          //     ));
-                                        },
-                                        child: Card(
-                                          shape: const RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(16))),
-                                          color: Colors.white,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(12),
-                                            child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                ClipRRect(
-                                                    borderRadius:
-                                                        const BorderRadius.all(
-                                                            Radius.circular(8)),
-                                                    child: Image.network(
-                                                      _touristExploreController
-                                                          .touristModel
-                                                          .value!
-                                                          .events![index]
-                                                          .image![0],
-                                                      fit: BoxFit.fill,
-                                                      width: width * 0.2,
-                                                      height: height * 0.1,
-                                                    )),
-                                                const SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      children: [
-                                                        CustomText(
-                                                          text:
-                                                              _touristExploreController
-                                                                  .touristModel
-                                                                  .value!
-                                                                  .events![
-                                                                      index]
-                                                                  .date!
-                                                                  .substring(
-                                                                      0, 10),
-                                                          fontSize: 10,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          color: yellowDark,
-                                                        ),
-                                                        const SizedBox(
-                                                          width: 3,
-                                                        ),
-                                                        Container(
-                                                          height: 6,
-                                                          width: 6,
-                                                          decoration:
-                                                              const BoxDecoration(
-                                                                  shape: BoxShape
-                                                                      .circle,
-                                                                  color:
-                                                                      yellowDark),
-                                                        ),
-                                                        const SizedBox(
-                                                          width: 3,
-                                                        ),
-                                                        CustomText(
-                                                          text:
-                                                              '${DateTime.parse(_touristExploreController.touristModel.value!.events![index].date!).hour.toString()}:${DateTime.parse(_touristExploreController.touristModel.value!.events![index].date!).minute.toString()} ',
-                                                          fontSize: 10,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          color: yellowDark,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      height: height * 0.006,
-                                                    ),
-                                                    // Row(
-                                                    //   children: [
-                                                    //     const CustomText(
-                                                    //       text: '',
-                                                    //       fontSize: 10,
-                                                    //       fontWeight: FontWeight.w400,
-                                                    //       color: colorGreen,
-                                                    //     ),
-                                                    //     Container(
-                                                    //       width: 0,
-                                                    //       height: 0,
-                                                    //       decoration: const BoxDecoration(
-                                                    //         color: colorGreen,
-                                                    //       ),
-                                                    //     ),
-                                                    //     const CustomText(
-                                                    //       text: '',
-                                                    //       fontSize: 10,
-                                                    //       fontWeight: FontWeight.w400,
-                                                    //       color: colorGreen,
-                                                    //     ),
-                                                    //   ],
-                                                    // ),
-
-                                                    SizedBox(
-                                                      height: height * 0.01,
-                                                    ),
-                                                    CustomText(
-                                                      text: !AppUtil
-                                                              .rtlDirection(
-                                                                  context)
-                                                          ? _touristExploreController
-                                                              .touristModel
-                                                              .value!
-                                                              .events![index]
-                                                              .nameAr!
-                                                          : _touristExploreController
-                                                              .touristModel
-                                                              .value!
-                                                              .events![index]
-                                                              .nameEn!,
-                                                      fontSize: 20,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: black,
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        SvgPicture.asset(
-                                                            'assets/images/gold-pin.svg'),
-                                                        const SizedBox(
-                                                          width: 4,
-                                                        ),
-                                                        CustomText(
-                                                          text: !AppUtil
-                                                                  .rtlDirection(
-                                                                      context)
-                                                              ? _touristExploreController
-                                                                          .touristModel
-                                                                          .value!
-                                                                          .events![
-                                                                              index]
-                                                                          .regionAr ==
-                                                                      null
-                                                                  ? ""
-                                                                  : _touristExploreController
-                                                                      .touristModel
-                                                                      .value!
-                                                                      .events![
-                                                                          index]
-                                                                      .regionAr!
-                                                              : _touristExploreController
-                                                                  .touristModel
-                                                                  .value!
-                                                                  .events![
-                                                                      index]
-                                                                  .regionEn!,
-                                                          fontSize: 10,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          color: textGreyColor,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                                SvgPicture.asset(
-                                                  'assets/icons/bookmark.svg',
-                                                  color: yellowDark,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                            _touristExploreController
-                                        .touristModel.value!.adventures ==
-                                    null
-                                ? Container()
-                                : ListView.separated(
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: _touristExploreController
-                                        .touristModel.value!.adventures!.length,
-                                    separatorBuilder: (context, index) {
-                                      return const SizedBox(
-                                        width: 13,
-                                      );
-                                    },
-                                    itemBuilder: (context, index) {
-                                      double distance = 0.0;
-
-                                      // return CustomText(text: "HI");
-
-                                      return GestureDetector(
-                                        onTap: () async {
-                                          // Place? place =
-                                          //     await _touristExploreController
-                                          //         .getPlaceById(
-                                          //             id: _touristExploreController
-                                          //                 .allPlaces[index].id,
-                                          //             context: context);
-                                          // if (userLocation != null) {
-                                          //   distance =
-                                          //       calculateDistanceBtwUserAndPlace(
-                                          //           userLocation!.latitude,
-                                          //           userLocation!.longitude,
-                                          //           double.parse(place!
-                                          //               .coordinates!.latitude),
-                                          //           double.parse(place
-                                          //               .coordinates!
-                                          //               .longitude));
-
-                                          //   print('Distance : $distance');
-                                          // } else {
-                                          //   print('CAN NOT CALCULATE DISTANCE');
-                                          // }
-                                          // // var distance = Distance.calculateDistance(
-                                          // //  lat1:   _currentLocation.latitude,
-                                          // //  lon1:   _currentLocation.longitude,
-                                          // //     _placeController.allPlaces[index]
-                                          // //         .coordinates!.latitude,
-                                          // //     _placeController.allPlaces[index]
-                                          // //         .coordinates!.longitude);
-                                          // // print(distance);
-                                          // Get.to(() => TripDetails(
-                                          //       fromAjwady: false,
-                                          //       place: place,
-                                          //       distance: distance != 0.0
-                                          //           ? distance.roundToDouble()
-                                          //           : distance,
-                                          //       userLocation: userLocation,
-                                          //     ));
-                                        },
-                                        child: Card(
-                                          shape: const RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(16))),
-                                          color: Colors.white,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(12),
-                                            child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                ClipRRect(
-                                                    borderRadius:
-                                                        const BorderRadius.all(
-                                                            Radius.circular(8)),
-                                                    child: Image.network(
-                                                      _touristExploreController
-                                                          .touristModel
-                                                          .value!
-                                                          .adventures![index]
-                                                          .image![0],
-                                                      fit: BoxFit.fill,
-                                                      width: width * 0.2,
-                                                      height: height * 0.1,
-                                                    )),
-                                                const SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      children: [
-                                                        CustomText(
-                                                          text:
-                                                              _touristExploreController
-                                                                  .touristModel
-                                                                  .value!
-                                                                  .adventures![
-                                                                      index]
-                                                                  .date!
-                                                                  .substring(
-                                                                      0, 10),
-                                                          fontSize: 10,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          color: darkPink,
-                                                        ),
-                                                        const SizedBox(
-                                                          width: 3,
-                                                        ),
-                                                        Container(
-                                                          height: 6,
-                                                          width: 6,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                                  shape:
-                                                                      BoxShape
-                                                                          .circle,
-                                                                  color:
-                                                                      darkPink),
-                                                        ),
-                                                        const SizedBox(
-                                                          width: 3,
-                                                        ),
-                                                        CustomText(
-                                                          text:
-                                                              '${DateTime.parse(_touristExploreController.touristModel.value!.adventures![index].date!).hour.toString()}:${DateTime.parse(_touristExploreController.touristModel.value!.adventures![index].date!).minute.toString()} ',
-                                                          fontSize: 10,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          color: darkPink,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      height: height * 0.006,
-                                                    ),
-                                                    CustomText(
-                                                      text: !AppUtil
-                                                              .rtlDirection(
-                                                                  context)
-                                                          ? _touristExploreController
-                                                              .touristModel
-                                                              .value!
-                                                              .adventures![
-                                                                  index]
-                                                              .nameAr!
-                                                          : _touristExploreController
-                                                              .touristModel
-                                                              .value!
-                                                              .adventures![
-                                                                  index]
-                                                              .nameEn!,
-                                                      fontSize: 20,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: black,
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        SvgPicture.asset(
-                                                            'assets/icons/pink-pin.svg'),
-                                                        const SizedBox(
-                                                          width: 4,
-                                                        ),
-                                                        CustomText(
-                                                          text: !AppUtil
-                                                                  .rtlDirection(
-                                                                      context)
-                                                              ? _touristExploreController
-                                                                          .touristModel
-                                                                          .value!
-                                                                          .adventures![
-                                                                              index]
-                                                                          .regionAr ==
-                                                                      null
-                                                                  ? ""
-                                                                  : _touristExploreController
-                                                                      .touristModel
-                                                                      .value!
-                                                                      .adventures![
-                                                                          index]
-                                                                      .regionAr!
-                                                              : _touristExploreController
-                                                                  .touristModel
-                                                                  .value!
-                                                                  .adventures![
-                                                                      index]
-                                                                  .regionEn!,
-                                                          fontSize: 10,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          color: textGreyColor,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                                SvgPicture.asset(
-                                                    'assets/icons/bookmark.svg',
-                                                    color: darkPink),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  )
-                : Container(),
           ],
         ),
       ),
     );
-  }
-
-  Future<BitmapDescriptor> getBitmapDescriptorFromSVGAsset(
-    BuildContext context,
-    String svgAssetLink, {
-    Size size = const Size(30, 30),
-  }) async {
-    String svgString = await DefaultAssetBundle.of(context).loadString(
-      svgAssetLink,
-    );
-    final drawableRoot = await svg.fromSvgString(
-      svgString,
-      'debug: $svgAssetLink',
-    );
-    final ratio = ui.window.devicePixelRatio.ceil();
-    final width = size.width.ceil() * ratio;
-    final height = size.height.ceil() * ratio;
-    final picture = drawableRoot.toPicture(
-      size: Size(
-        width.toDouble(),
-        height.toDouble(),
-      ),
-    );
-    final image = await picture.toImage(width, height);
-    final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-    final uInt8List = byteData!.buffer.asUint8List();
-    return BitmapDescriptor.fromBytes(uInt8List);
   }
 
   double calculateDistanceBtwUserAndPlace(lat1, lon1, lat2, lon2) {
@@ -1429,20 +836,6 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
     Uint8List data = Uint8List.view(pngBytes!.buffer);
 
     return BitmapDescriptor.fromBytes(data);
-  }
-
-  Future<ui.Image> getImageFromPath(String imagePath) async {
-    File imageFile = File(imagePath);
-
-    Uint8List imageBytes = imageFile.readAsBytesSync();
-
-    final Completer<ui.Image> completer = new Completer();
-
-    ui.decodeImageFromList(imageBytes, (ui.Image img) {
-      return completer.complete(img);
-    });
-
-    return completer.future;
   }
 
   Future<BitmapDescriptor> getMarkerIcon(

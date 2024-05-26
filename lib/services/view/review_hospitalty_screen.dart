@@ -73,7 +73,9 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                   height: width * 0.010,
                 ),
                 ReviewDetailsTile(
-                    title: widget.hospitality.region,
+                    title: AppUtil.rtlDirection2(context)
+                        ? widget.hospitality.regionAr ?? ""
+                        : widget.hospitality.regionEn,
                     image: "assets/icons/locationHos.svg"),
                 SizedBox(
                   height: width * 0.010,

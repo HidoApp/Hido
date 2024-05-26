@@ -145,11 +145,11 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                         },
                       ),
                     ),
-                    const SizedBox(
-                      height: 40,
+                    SizedBox(
+                      height: width * 0.10,
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      padding: EdgeInsets.symmetric(horizontal: width * 0.05),
                       child: Column(
                         children: [
                           Align(
@@ -160,11 +160,11 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                 text: !AppUtil.rtlDirection(context)
                                     ? hospitalityObj!.titleAr
                                     : hospitalityObj!.titleEn,
-                                fontSize: 28,
+                                fontSize: width * 0.07,
                                 fontWeight: FontWeight.w700,
                               )),
-                          const SizedBox(
-                            height: 10,
+                          SizedBox(
+                            height: width * 0.025,
                           ),
                           Row(
                             children: [
@@ -172,19 +172,21 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                 "assets/icons/locationHos.svg",
                                 color: starGreyColor,
                               ),
-                              const SizedBox(
-                                width: 5,
+                              SizedBox(
+                                width: width * 0.012,
                               ),
                               CustomText(
-                                text: hospitalityObj!.region,
+                                text: AppUtil.rtlDirection2(context)
+                                    ? hospitalityObj!.regionAr ?? ""
+                                    : hospitalityObj!.regionEn,
                                 color: colorDarkGrey,
-                                fontSize: 15,
+                                fontSize: width * 0.038,
                                 fontWeight: FontWeight.w300,
                               ),
                             ],
                           ),
-                          const SizedBox(
-                            height: 10,
+                          SizedBox(
+                            height: width * 0.025,
                           ),
                           Row(
                             children: [
@@ -192,21 +194,21 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                 "assets/icons/timeGrey.svg",
                                 color: almostGrey,
                               ),
-                              const SizedBox(
-                                width: 5,
+                              SizedBox(
+                                width: width * .012,
                               ),
                               CustomText(
                                 text: AppUtil.rtlDirection2(context)
                                     ? '${'From'.tr}  ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(hospitalityObj!.daysInfo[0].startTime))} ${'To'.tr}  ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(hospitalityObj!.daysInfo[0].endTime))}'
                                     : '${'From'.tr}  ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(hospitalityObj!.daysInfo[0].startTime))} ${'To'.tr}  ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(hospitalityObj!.daysInfo[0].endTime))}',
                                 color: colorDarkGrey,
-                                fontSize: 15,
+                                fontSize: width * 0.038,
                                 fontWeight: FontWeight.w300,
                               ),
                             ],
                           ),
-                          const SizedBox(
-                            height: 10,
+                          SizedBox(
+                            height: width * 0.025,
                           ),
                           Row(
                             children: [
@@ -214,24 +216,24 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                 "assets/icons/meal_icon.svg",
                                 color: colorDarkGrey,
                               ),
-                              const SizedBox(
-                                width: 5,
+                              SizedBox(
+                                width: width * 0.012,
                               ),
                               CustomText(
                                 text: AppUtil.rtlDirection(context)
                                     ? hospitalityObj!.mealTypeEn
                                     : hospitalityObj!.mealTypeAr,
                                 color: colorDarkGrey,
-                                fontSize: 15,
+                                fontSize: width * 0.038,
                                 fontWeight: FontWeight.w300,
                               ),
                             ],
                           ),
-                          const SizedBox(
-                            height: 10,
+                          SizedBox(
+                            height: width * 0.025,
                           ),
-                          const SizedBox(
-                            height: 15,
+                          SizedBox(
+                            height: width * 0.038,
                           ),
                           Align(
                               alignment: !AppUtil.rtlDirection(context)
@@ -239,16 +241,16 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                   : Alignment.centerLeft,
                               child: CustomText(
                                 text: "aboutTheTrip".tr,
-                                fontSize: 18,
+                                fontSize: width * 0.046,
                                 fontWeight: FontWeight.w400,
                               )),
-                          const SizedBox(
-                            height: 10,
+                          SizedBox(
+                            height: width * 0.025,
                           ),
                           ConstrainedBox(
                             constraints: isExpanded
                                 ? const BoxConstraints()
-                                : const BoxConstraints(maxHeight: 20),
+                                : BoxConstraints(maxHeight: width * 0.05),
                             child: CustomText(
                                 //   textAlign: AppUtil.rtlDirection(context) ? TextAlign.end : TextAlign.start ,
                                 textDirection: AppUtil.rtlDirection(context)
@@ -258,13 +260,13 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                     ? TextOverflow.visible
                                     : TextOverflow.clip,
                                 fontFamily: "Noto Kufi Arabic",
-                                fontSize: 14,
+                                fontSize: width * 0.035,
                                 text: !AppUtil.rtlDirection(context)
                                     ? hospitalityObj!.bioAr
                                     : hospitalityObj!.bioEn),
                           ),
-                          const SizedBox(
-                            height: 5,
+                          SizedBox(
+                            width: width * 0.012,
                           ),
                           isExpanded
                               ? Align(
@@ -304,14 +306,14 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                     ),
                                   ),
                                 ),
-                          const SizedBox(
-                            height: 10,
+                          SizedBox(
+                            height: width * 0.025,
                           ),
                           const Divider(
                             color: lightGrey,
                           ),
-                          const SizedBox(
-                            height: 10,
+                          SizedBox(
+                            height: width * 0.025,
                           ),
                           Align(
                               alignment: !AppUtil.rtlDirection(context)
@@ -319,19 +321,19 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                   : Alignment.centerLeft,
                               child: CustomText(
                                 text: "whereWeWillBe".tr,
-                                fontSize: 18,
+                                fontSize: width * 0.046,
                                 fontWeight: FontWeight.w400,
                               )),
-                          const SizedBox(
-                            height: 10,
+                          SizedBox(
+                            height: width * 0.025,
                           ),
                           Stack(
                             children: [
                               Container(
                                 decoration: BoxDecoration(
                                   color: almostGrey.withOpacity(0.2),
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(20)),
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(width * 0.051)),
                                 ),
                                 height: height * 0.2,
                                 width: width * 0.9,
@@ -384,14 +386,14 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                 ),
                             ],
                           ),
-                          const SizedBox(
-                            height: 10,
+                          SizedBox(
+                            height: width * 0.025,
                           ),
                           const Divider(
                             color: lightGrey,
                           ),
-                          const SizedBox(
-                            height: 20,
+                          SizedBox(
+                            height: width * 0.051,
                           ),
                           InkWell(
                             onTap: () {
@@ -411,19 +413,19 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                       children: [
                                         CustomText(
                                           text: "cancellationPolicy".tr,
-                                          fontSize: 18,
+                                          fontSize: width * 0.0461,
                                           fontWeight: FontWeight.w400,
                                         ),
-                                        const SizedBox(
-                                          height: 4,
+                                        SizedBox(
+                                          height: width * 0.010,
                                         ),
                                         SizedBox(
-                                          width: 326,
+                                          width: width * 0.83,
                                           child: CustomText(
                                             text:
                                                 "cancellationPolicyBreifAdventure"
                                                     .tr,
-                                            fontSize: 13,
+                                            fontSize: width * 0.03,
                                             fontWeight: FontWeight.w400,
                                             maxlines: 2,
                                             color: tileGreyColor,
@@ -432,10 +434,10 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                       ],
                                     ),
                                     const Spacer(),
-                                    const Icon(
+                                    Icon(
                                       Icons.arrow_forward_ios,
                                       color: tileGreyColor,
-                                      size: 18,
+                                      size: width * 0.046,
                                     )
                                   ],
                                 )),
@@ -448,23 +450,23 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                     )
                   ],
                 ),
-                Positioned(
-                    top: height * 0.08,
-                    right: !AppUtil.rtlDirection(context)
-                        ? width * 0.85
-                        : width * 0.05,
-                    child: SvgPicture.asset(
-                      "assets/icons/white_bookmark.svg",
-                      height: 40,
-                    )),
+                // Positioned(
+                //     top: height * 0.08,
+                //     right: !AppUtil.rtlDirection(context)
+                //         ? width * 0.85
+                //         : width * 0.05,
+                //     child: SvgPicture.asset(
+                //       "assets/icons/white_bookmark.svg",
+                //       height: 40,
+                //     )),
                 Positioned(
                   top: height * 0.06,
                   left: !AppUtil.rtlDirection(context)
                       ? width * 0.85
                       : width * 0.06,
                   child: IconButton(
-                    icon: const Icon(Icons.arrow_back_ios,
-                        size: 24, color: Colors.white),
+                    icon: Icon(Icons.arrow_back_ios,
+                        size: width * 0.061, color: Colors.white),
                     onPressed: () => Get.back(),
                     color: Colors.white,
                   ),
@@ -500,10 +502,10 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                     children: hospitalityObj!.images.map((imageUrl) {
                       int index = hospitalityObj!.images.indexOf(imageUrl);
                       return Container(
-                        width: 10.0,
-                        height: 10.0,
-                        margin: const EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 2.0),
+                        width: width * 0.025,
+                        height: width * 0.025,
+                        margin: EdgeInsets.symmetric(
+                            vertical: width * 0.025, horizontal: width * 0.005),
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: _currentIndex == index
