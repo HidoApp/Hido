@@ -1,3 +1,5 @@
+import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:ajwad_v4/request/widgets/ContactDialog.dart';
 import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
@@ -26,47 +28,74 @@ class CancelBookingDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-      shape: const RoundedRectangleBorder(
+         backgroundColor: Colors.white,
+         surfaceTintColor: Colors.white,
+        shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(8.0)),
       ),
       content: Container(
         width: dialogWidth,
-        height: 118,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            const SizedBox(height: 20),
+        height:  AppUtil.rtlDirection2(context)?170: 135,
+       child:Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  const SizedBox(
+                    height: 4,
+                  ),
+                  CustomText(
+                      textAlign: TextAlign.center,
+                      color: Color(0xFF070708),
+                      fontSize: 15,
+                      fontFamily: 'SF Pro',
+                     fontWeight: FontWeight.w500,
+                      text: AppUtil.rtlDirection2(context)?"نعتذر عن أي مشكلة واجهتك ":"Sorry for any inconveniences",
+                     ),
+                     const SizedBox(
+                     height: 1,
+                  ),
+                   CustomText(
+                      textAlign: TextAlign.center,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w400,
+                      color: Color(0xFF41404A),
+                      text:'notFind'.tr,
+                   // text:!AppUtil.rtlDirection2(context)?"Here is what you can do":"لم نتمكن من العثور على أي مرشدين محليين متاحين في التاريخ والموقع الذي اخترته",
+                      fontFamily: 'SF Pro',                      
+                      ),
+                  const SizedBox(
+                    height: 10,
+                  ),
             GestureDetector(
               onTap: () {
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
-                    return ContactDialog(dialogWidth: MediaQuery.of(context).size.width * 0.588,buttonWidth:MediaQuery.of(context).size.width * 1.191);
+                    return ContactDialog(dialogWidth: dialogWidth,buttonWidth:buttonWidth);
                   },
                 );
               },
               child: Container(
-                height: 40,
+                height:34,
                 width: buttonWidth,
+                
+              padding: const EdgeInsets.symmetric(vertical: 3),
                 alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(color: const Color(0xFF37B268)),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Text(
-                  "contact".tr,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: const Color(0xFF37B268),
-                    fontSize: 16,
-                  ),
-                ),
+                 decoration: BoxDecoration(
+                    color: colorGreen,
+                    borderRadius: BorderRadius.circular(4),
+                        ),
+               child:CustomText(
+                        textAlign: TextAlign.center,
+                          text: "contact".tr,
+                          color: Colors.white,
+                            fontSize: 15,
+                           fontFamily: 'SF Pro',
+                          fontWeight: FontWeight.w500,
+                        ),
               ),
             ),
-            const SizedBox(height: 15),
+            const SizedBox(height: 10),
             Obx(() => offerController.isBookingCancelLoading.value
                 ? const Center(
                     child: CircularProgressIndicator(color: Colors.black),
@@ -88,15 +117,24 @@ class CancelBookingDialog extends StatelessWidget {
                         Get.offAll(const TouristBottomBar());
                       }
                     },
-                    child: Text(
-                      "cancel".tr,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: const Color(0xFFDC362E),
-                      ),
-                    ),
+                     child: Container(
+                       width: buttonWidth,
+                        height: 34,
+                        padding: const EdgeInsets.symmetric(vertical: 2),
+                         decoration: BoxDecoration(
+                            border: Border.all(
+                        color: Color(0xFFDC362E) ,                          
+                         width: 2, 
+                           ),
+                             borderRadius: BorderRadius.circular(4), 
+                                  ),
+                          child:CustomText(
+                              textAlign: TextAlign.center,
+                              fontSize: 15,
+                           fontFamily: 'SF Pro',
+                          fontWeight: FontWeight.w500,
+                         color: Color(0xFFDC362E),
+                              text:AppUtil.rtlDirection2(context)?'الغاءالجولة' :'Cancel Tour')),
                   )),
           ],
         ),

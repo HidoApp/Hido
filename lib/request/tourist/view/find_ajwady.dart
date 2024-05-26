@@ -200,12 +200,13 @@ class _FindAjwadyState extends State<FindAjwady> {
         "findLocal".tr,
         action: true,
         onPressedAction: () async {
+          print("enter");
           showDialog(
             context: context,
             builder: (BuildContext context) {
               return CancelBookingDialog(
-                dialogWidth: MediaQuery.of(context).size.width * 0.588,
-                buttonWidth: MediaQuery.of(context).size.width * 0.191,
+                dialogWidth: 256,
+                buttonWidth:268,
                 booking: widget.booking,
                 offerController: _offerController,
               );
@@ -239,9 +240,11 @@ class _FindAjwadyState extends State<FindAjwady> {
         }
         return Container(
           color: lightGreyBackground,
+          
           child: Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: width * 0.05, vertical: height * 0.04),
+                
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [

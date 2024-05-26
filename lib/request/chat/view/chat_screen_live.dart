@@ -114,8 +114,7 @@ static Future init()async{
 
     return Scaffold(
       backgroundColor: lightGreyBackground,
-      body: Obx(
-        () => SafeArea(
+      body: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
@@ -981,7 +980,7 @@ static Future init()async{
             ],
           ),
         ),
-      ),
+      
     );
   }
 }

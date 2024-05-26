@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart' as book;
 import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
 import 'package:ajwad_v4/payment/controller/payment_controller.dart';
@@ -24,6 +27,7 @@ import 'package:intl/intl.dart';
 
 import '../../explore/tourist/model/place.dart';
 import '../../profile/view/ticket_details_screen.dart';
+import '../../request/ajwadi/controllers/request_controller.dart';
 import '../../request/local_notification.dart';
 import '../../request/tourist/controllers/offer_controller.dart';
 import '../../request/tourist/models/schedule.dart';
@@ -46,27 +50,67 @@ class ReviewRequest extends StatefulWidget {
 
   @override
   State<ReviewRequest> createState() => _ReviewRequestState();
+  
 }
 
 class _ReviewRequestState extends State<ReviewRequest> {
   Invoice? invoice;
   bool isCheckingForPayment = false;
   int finalCost = 0;
-  //late book.Booking booking2;
+  final RequestController _RequestController= Get.put(RequestController());
+    final TouristExploreController _touristExploreController =
+      Get.put(TouristExploreController());
+  final _offerController = Get.put(OfferController());
+    Place? thePlace;
+
+  late book.Booking? fetchedBooking2;
   @override
-  void initState() {
+   initState() {
     // TODO: implement initState
     super.initState();
-    // finalCost = widget.hospitality.price *
-    //     (widget.maleGuestNum + widget.femaleGuestNum);
-    // print(finalCost);
+    getBokking();
+
   }
 
+ void getBokking()async{
+ 
+  book.Booking? fetchedBooking = await _RequestController.getBookingById(
+      context: context,
+      bookingId: widget.booking!.id!,
+    );
+    print("this book");
+    print(fetchedBooking?.id);
+    fetchedBooking2=fetchedBooking;
+    print(fetchedBooking2?.id);
+
+    print("lingth");
+    // print(fetchedBooking2!.offers!.length);
+    // if(fetchedBooking2!.offers!!=[]){
+    // await widget.offerController?.getOfferById(context: context, offerId:fetchedBooking!.offers!.last.id);
+    // }
+    await _offerController.getOffers(context: context, placeId:widget.place!.id! , bookingId:  widget.booking!.id!);
+    print('First Offer ID: ${_offerController.offers.length}');
+    print(_offerController.offers.last.offerId);
+      thePlace = await _touristExploreController.getPlaceById(
+        id: widget.place!.id!, context: context);
+
+
+
+  
+ }
   PaymentController paymentController = Get.put(PaymentController());
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    return Scaffold(
+   return Obx(
+      ()=> _RequestController.isBookingLoading.value? 
+      
+      Scaffold(
+       body: Center(
+              child: CircularProgressIndicator(
+        color: Colors.green[800]))
+
+      ):Scaffold(
       extendBodyBehindAppBar: false,
       appBar: CustomAppBar(
         "ReviewRequest".tr,
@@ -293,14 +337,18 @@ class _ReviewRequestState extends State<ReviewRequest> {
                                                               ],
                                                             ),
                                                           );
-                                                        });
-                                                LocalNotification().showNotification(context,widget.booking?.id, widget.booking?.timeToGo, widget.booking?.date ,widget.offerController?.offerDetails.value.name ?? "", widget.booking?.place?.nameAr,widget.booking?.place?.nameEn);
-                                                  // Get.to(() => TicketDetailsScreen(
-                                                  //           booking: booking2,
-                                                  //            icon: SvgPicture.asset(
-                                                  //           'assets/icons/${booking2.bookingType == 'place'?'place.svg' :booking2.bookingType! == 'hospitality' ? 'hospitality.svg' : 'adventure.svg'}',),
-                                                  //            bookTypeText:getBookingTypeText(context, booking2.bookingType!)
-                                                  // ));
+                                                        }).then((_) {
+                                                  LocalNotification().showNotification(context,widget.booking?.id, widget.booking?.timeToGo, widget.booking?.date ,_offerController.offers.last.name, thePlace?.nameAr,thePlace?.nameEn);
+
+                                                  Get.to(() =>  TicketDetailsScreen(
+                                                            booking: fetchedBooking2,
+                                                             icon: SvgPicture.asset(
+                                                            'assets/icons/place.svg'),
+                                                             bookTypeText:getBookingTypeText(context, 'place')
+                                                  ));
+                                                          });
+                                                  
+                                                  
 
                                                   }
                                                 }
@@ -340,13 +388,14 @@ class _ReviewRequestState extends State<ReviewRequest> {
                                     //   //  Get.back();
                                     // });
 
-                                    // LocalNotification().showNotification(context,widget.booking?.id, widget.booking?.timeToGo, widget.booking?.date ,widget.offerController?.offerDetails.value.name ?? "", widget.booking?.place?.nameAr,widget.booking?.place?.nameEn);
+                                //  LocalNotification().showNotification(context,widget.booking?.id, widget.booking?.timeToGo, widget.booking?.date ,_offerController.offers.last.name, thePlace?.nameAr,thePlace?.nameEn);
                                   },
                                 )
               ],
             ),
           ),
         ),
+      ),
       ),
     );
   }

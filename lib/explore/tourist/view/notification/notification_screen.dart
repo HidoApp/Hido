@@ -5,7 +5,8 @@ import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ajwad_v4/request/widgets/NotificationCard.dart';
-
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:get/get.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
@@ -60,7 +61,17 @@ if (_upcomingTicket.isEmpty) {
 }
   for (Booking booking in _upcomingTicket ) {
     DateTime bookingDate = DateTime.parse(booking.date);
-    int daysDifference = bookingDate.difference(DateTime.now()).inDays;
+     tz.initializeTimeZones();
+
+  // Get the Riyadh time zone location
+  final String timeZoneName = 'Asia/Riyadh';
+  final tz.Location location = tz.getLocation(timeZoneName);
+
+  DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
+
+    //int daysDifference = bookingDate.difference(DateTime.now()).inDays;
+    int daysDifference = bookingDate.difference(currentDateInRiyadh).inDays;
+
     print(daysDifference);
     if (daysDifference == 2) {
       _upcomingBookings.add(booking);
@@ -75,9 +86,11 @@ if (_upcomingTicket.isEmpty) {
     }
     else {
       print(bookingDate);
-      print(DateTime.now());
-  DateTime bookingDateWithoutTime = DateTime(bookingDate.year, bookingDate.month, bookingDate.day);
-  DateTime todayWithoutTime = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+      print(currentDateInRiyadh);
+     DateTime bookingDateWithoutTime = DateTime(bookingDate.year, bookingDate.month, bookingDate.day);
+     DateTime todayWithoutTime = DateTime(currentDateInRiyadh.year, currentDateInRiyadh.month, currentDateInRiyadh.day);
+
+  // DateTime todayWithoutTime = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
 
   if (bookingDateWithoutTime == todayWithoutTime) {
        _upcomingBookings.add(booking);
