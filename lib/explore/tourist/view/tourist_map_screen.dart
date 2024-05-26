@@ -702,12 +702,12 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                         ),
                         child: GestureDetector(
                           onTap: () {
-                            // ProfileController _profileController =
-                            //     Get.put(ProfileController());
-                            // Get.to(() => AppUtil.isGuest()
-                            //     ? const SignInScreen()
-                            //     : MessagesScreen(
-                            //         profileController: _profileController));
+                            ProfileController _profileController =
+                                Get.put(ProfileController());
+                            Get.to(() => AppUtil.isGuest()
+                                ? const SignInScreen()
+                                : MessagesScreen(
+                                    profileController: _profileController));
                           },
                           child: SvgPicture.asset(
                             'assets/icons/Communication.svg',
