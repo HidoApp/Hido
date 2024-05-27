@@ -109,7 +109,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           CustomText(
                             text: _profileController.isProfileLoading.value
                                 ? ""
-                                : _profileController.profile.name ?? "NO",
+                                : _profileController.profile.name ?? "",
                             //   widget.profileController.,
                             color: black,
                             fontSize: 20,
@@ -121,7 +121,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               CustomText(
                                 text: widget.fromAjwady
                                     ? "Ajwady   | ${_profileController.isProfileLoading.value ? "" : _profileController.profile.rating}  "
-                                    : "Tourist   | ${_profileController.isProfileLoading.value ? "" : _profileController.profile.rating}  ",
+                                    : "Tourist   | ${_profileController.isProfileLoading.value ? "" : _profileController.profile.rating ?? "0"}  ",
                                 color: colorDarkGrey,
                                 fontSize: 12,
                                 fontWeight: FontWeight.w500,
@@ -134,7 +134,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       const Spacer(),
                       //button
                       Padding(
-                        padding: const EdgeInsets.only(right: 24),
+                        padding: EdgeInsets.symmetric(horizontal: 24),
                         child: GestureDetector(
                           onTap: () {
                             Get.to(() => ProfileDetails(
@@ -235,7 +235,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           title: "helpsFAQs".tr,
                           leading: "assets/icons/help_icon.svg",
                           // fromAjwady: widget.fromAjwady,
-                          iconColor: colorGreen,
+
                           onTap: () {
                             Get.to(() => HelpAndFAQsScreen(
                                   fromAjwady: false,

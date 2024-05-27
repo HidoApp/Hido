@@ -45,7 +45,6 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
     super.initState();
     finalCost = widget.hospitality.price *
         (widget.maleGuestNum + widget.femaleGuestNum);
-    print(finalCost);
   }
 
   PaymentController paymentController = Get.put(PaymentController());
@@ -285,23 +284,23 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                                       Get.back();
 
                                       showDialog(
-                                          context: context,
-                                          builder: (ctx) {
-                                            return AlertDialog(
-                                              backgroundColor: Colors.white,
-                                              surfaceTintColor: Colors.white,
-                                              content: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  Image.asset(
-                                                      'assets/images/paymentSuccess.gif'),
-                                                  CustomText(
-                                                      text:
-                                                          "paymentSuccess".tr),
-                                                ],
-                                              ),
-                                            );
-                                          });
+                                        context: context,
+                                        builder: (ctx) {
+                                          return AlertDialog(
+                                            backgroundColor: Colors.white,
+                                            surfaceTintColor: Colors.white,
+                                            content: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Image.asset(
+                                                    'assets/images/paymentSuccess.gif'),
+                                                CustomText(
+                                                    text: "paymentSuccess".tr),
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                      );
                                     }
                                   } else {}
                                 });

@@ -385,7 +385,16 @@ const localeAr = {
   'applied': 'تم التطبيق',
   'addpromocode': 'أضف كوبون الخصم',
   'ReviewRequest': "مراجعة الطلب",
-  'RequestedTourDetails':'تفاصيل طلب الجولة',
+  'RequestedTourDetails': 'تفاصيل طلب الجولة',
   "saudiAdventure": "مغامرات سعودية",
-  "numberofpeorson": "عدد الأشخاص"
+  "numberofpeorson": "عدد الأشخاص",
+  "serviceTitle": "اختر تجربة فريدة",
+  "hospitalityDetails":
+      'اغمر نفسك في عادات وتقاليد الضيافة السعودية من خلال مشاركة وجبة طعام مع عائلة محلية.وكما يقال، "الناس الذين يقدمون لك طعامهم يقدمون لك قلوبهم',
+  "adventureDetails": "عِش مغامرات سعودية أصيلة برفقة السكان المحليين",
+  "signAsTourist": "تسجيل الدخول كسائح ",
+  'welcomeHido': "اهلا بك في هايدو!",
+  "signUpTourist": "إنشاء حساب كسائح",
+  "signUpLocal": "إنشاء حساب كمواطن محلي",
+  "guestSubtitle": "انضم إلينا واحصل على تجربة فريدة"
 };

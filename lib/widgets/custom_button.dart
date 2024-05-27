@@ -3,21 +3,22 @@ import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
-  const CustomButton(
-      {super.key,
-      required this.onPressed,
-      required this.title,
-      this.icon,
-      this.buttonColor,
-      this.iconColor,
-      this.customWidth,
-      this.height,
-      this.italic = false,
-     this.textColor, // Default text color
-});
+  const CustomButton({
+    super.key,
+    required this.onPressed,
+    required this.title,
+    this.icon,
+    this.buttonColor,
+    this.iconColor,
+    this.customWidth,
+    this.height,
+    this.italic = false,
+    this.textColor,
+    this.raduis, // Default text color
+  });
 
   final VoidCallback onPressed;
-  final  title;
+  final title;
   final Widget? icon;
   final Color? buttonColor;
   final Color? iconColor;
@@ -25,8 +26,7 @@ class CustomButton extends StatelessWidget {
   final double? height;
   final bool italic;
   final Color? textColor;
-
-  
+  final double? raduis;
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +40,9 @@ class CustomButton extends StatelessWidget {
             : MaterialStateProperty.all(colorGreen),
         foregroundColor: MaterialStateProperty.all(Colors.white),
         shape: MaterialStateProperty.all(
-          const RoundedRectangleBorder(
+          RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
-              Radius.circular(12),
+              Radius.circular(raduis ?? 12),
             ),
           ),
         ),
@@ -60,18 +60,18 @@ class CustomButton extends StatelessWidget {
               width: 30,
               height: 30,
             ),
-          if (title != "" )
-            if(textColor == null)
+          if (title != "")
+            if (textColor == null)
+              CustomText(
+                text: title,
+                textAlign: TextAlign.center,
+                fontSize: 17,
+                fontWeight: FontWeight.w500,
+                color: Colors.white,
+                fontStyle: italic ? FontStyle.italic : FontStyle.normal,
+              ),
+          if (textColor != null)
             CustomText(
-              text: title,
-              textAlign: TextAlign.center,
-              fontSize: 17,
-              fontWeight: FontWeight.w500,
-              color: Colors.white,
-              fontStyle: italic ? FontStyle.italic : FontStyle.normal,
-            ),
-            if(textColor !=null)
-             CustomText(
               text: title,
               textAlign: TextAlign.center,
               fontSize: 17,

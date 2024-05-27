@@ -7,6 +7,7 @@ import 'package:ajwad_v4/services/model/hospitality.dart';
 import 'package:ajwad_v4/services/view/payment/check_out_screen.dart';
 import 'package:ajwad_v4/services/view/review_hospitalty_screen.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
+import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/custom_text_with_icon_button.dart';
@@ -82,15 +83,7 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
                             height: width * 0.012,
                           ),
 
-                          Align(
-                              child: Container(
-                            width: width * 0.16,
-                            height: width * 0.010,
-                            decoration: BoxDecoration(
-                                color: lightGreyColor,
-                                borderRadius:
-                                    BorderRadius.circular(width * 0.051)),
-                          )),
+                          const BottomSheetIndicator(),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,

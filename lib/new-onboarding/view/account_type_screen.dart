@@ -573,7 +573,7 @@ class _AccountTypeScreenState extends State<AccountTypeScreen>
                       ),
                       InkWell(
                           onTap: () {
-                            Get.to(const TouristBottomBar());
+                            Get.to(() => const TouristBottomBar());
                           },
                           child: CustomText(
                             text: 'exploreAsGuest'.tr,

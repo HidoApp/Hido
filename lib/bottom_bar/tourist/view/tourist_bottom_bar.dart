@@ -4,6 +4,7 @@ import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/view/tourist_map_screen.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/models/profile.dart';
+import 'package:ajwad_v4/profile/view/guest_sign_in.dart';
 import 'package:ajwad_v4/profile/view/profle_screen.dart';
 import 'package:ajwad_v4/services/view/service_screen.dart';
 import 'package:ajwad_v4/shop/view/shop_screen.dart';
@@ -36,7 +37,6 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
     if (!AppUtil.isGuest()) {
       getProfile();
     }
-    
   }
 
   void getProfile() async {
@@ -54,9 +54,7 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
           const ServiceScreen(),
           // const ShopScreen(),
           AppUtil.isGuest()
-              ? const SignInScreen(
-                  isGuest: true,
-                )
+              ? const GuestSignInScreen()
               : ProfileScreen(
                   fromAjwady: false,
                   profileController: _profileController,
@@ -111,7 +109,6 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
             label: 'explore'.tr,
           ),
           BottomNavigationBarItem(
-            
             icon: Padding(
               padding: const EdgeInsets.all(8.0),
               child: SvgPicture.asset(
