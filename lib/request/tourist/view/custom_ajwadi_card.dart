@@ -22,6 +22,10 @@ class CustomAjwadiCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+     print("inter");
+     print(name);
+     print(price);
+
     return Container(
       color: Colors.white,
       child: Padding(

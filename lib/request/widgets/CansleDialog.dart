@@ -35,7 +35,7 @@ class CancelBookingDialog extends StatelessWidget {
       ),
       content: Container(
         width: dialogWidth,
-        height:  AppUtil.rtlDirection2(context)?170: 135,
+        height:  AppUtil.rtlDirection2(context)?170: 138,
        child:Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,

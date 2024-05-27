@@ -41,8 +41,10 @@ class _OfferScreenState extends State<OfferScreen> {
             context: context,
             builder: (BuildContext context) {
               return CancelBookingDialog(
-                dialogWidth: MediaQuery.of(context).size.width * 0.588,
-                buttonWidth: MediaQuery.of(context).size.width * 0.191,
+                // dialogWidth: MediaQuery.of(context).size.width * 0.588,
+                // buttonWidth: MediaQuery.of(context).size.width * 0.191,
+                dialogWidth: 256,
+                buttonWidth:268,
                 booking: widget.booking,
                 offerController: _offerController,
               );
@@ -85,7 +87,6 @@ class _OfferScreenState extends State<OfferScreen> {
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () {
-                   print("inter");
                     _offerController.getOfferById(
                       context: context,
                       offerId: _offerController.offers[index].offerId!,
@@ -101,16 +102,17 @@ class _OfferScreenState extends State<OfferScreen> {
                         image: _offerController.offers[index].image ?? '',
                         name: _offerController.offers[index].name!,
                         profileId: _offerController.offers[index].profileId!,
-                        rating: _offerController.offers[index].rating!,
+                        rating: _offerController.offers[index].tourRating??0,
                         price: _offerController.offers[index].price!,
                         tripNumber:
                             _offerController.offers[index].tourNumber??0));
                   },
+
                   child: CustomAjwadiCard(
                     image: _offerController.offers[index].image ?? '',
-                    name: _offerController.offers[index].name!??'',
-                    rating: _offerController.offers[index].rating!??0,
-                    price: _offerController.offers[index].price!??0,
+                    name: _offerController.offers[index].name??'',
+                    rating: _offerController.offers[index].tourRating??0,
+                    price: _offerController.offers[index].price??0,
                     tripNumber: _offerController.offers[index].tourNumber??0,
                   ),
                 );

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
@@ -49,7 +50,10 @@ class _FindAjwadyState extends State<FindAjwady> {
     'assets/images/ajwadi4.png',
     'assets/images/ajwadi5.png',
   ];
+   Timer? countdownTimer;
 
+  
+  
   @override
   void initState() {
     super.initState();
@@ -62,18 +66,59 @@ class _FindAjwadyState extends State<FindAjwady> {
     );
     print("place");
     
-//  if (_offerController.acceptedOffer!=null||_offerController.acceptedOffer!=[] ){
-//       showCancelDialogAfterDelay(1,"1");
-//      }
-//          if (_offerController.acceptedOffer==null||_offerController.acceptedOffer==[]){
-//       showCancelDialogAfterDelay(1,"soory");
-//      }
+ if (_offerController.acceptedOffer!=null||_offerController.acceptedOffer!=[] ){
+      showCancelDialogAfterDelay(1);
+     }
+ if (_offerController.acceptedOffer==null||_offerController.acceptedOffer==[]){
+      showCancelDialogAfterDelay(1);
+     }
      
   }
 
-  void showCancelDialogAfterDelay(int minute,String text1){
-        //  if (_offerController.acceptedOffer==null||_offerController.acceptedOffer==[] ){
-      Future.delayed(Duration(minutes:2), () {
+
+void startCountdown() {
+      countdownTimer = Timer(Duration(minutes: 10), () async {
+      if(_offerController.acceptedOffer.value.orderStatus==null){
+
+      // Cancel the booking and navigate to the home page
+      // bool bookingCancel = await _offerController.bookingCancel(
+      //         context: context, bookingId: widget.booking.id!) ??
+      //     false;
+      // if (bookingCancel) {
+      //   if (context.mounted) {
+      //     AppUtil.successToast(context, 'EndTrip'.tr);
+      //     await Future.delayed(const Duration(seconds: 1));
+      //   }
+      //   Get.offAll(const TouristBottomBar());
+      // }
+       log("End Trip Taped ${widget.booking.id}");
+
+                            bool bookingCancel =
+                                await _offerController.bookingCancel(
+                                        context: context,
+                                        bookingId: widget.booking.id!) ??
+                                    false;
+                            if (bookingCancel) {
+                              if (context.mounted) {
+                                AppUtil.successToast(context, 'EndTrip'.tr);
+                                await Future.delayed(
+                                    const Duration(seconds: 1));
+                              }
+                              Get.offAll(
+                                const TouristBottomBar(),
+                              );
+      }
+      }
+      else{
+        print("this state");
+        print(_offerController.acceptedOffer.value.orderStatus);
+      }
+    });
+  }
+  void showCancelDialogAfterDelay(int minute){
+
+  //  if (_offerController.acceptedOffer==null||_offerController.acceptedOffer==[] ){
+      Future.delayed(Duration(seconds:minute), () {
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -108,7 +153,7 @@ class _FindAjwadyState extends State<FindAjwady> {
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
                       color: Color(0xFF070708),
-                      text:_offerController.acceptedOffer==null||_offerController.acceptedOffer==[]?'notFind'.tr:"You took a long time to accept ",
+                      text:_offerController.acceptedOffer==null||_offerController.acceptedOffer==[]?'notFind'.tr:"You took a long time to accept an offer!",
                       //!AppUtil.rtlDirection2(context)?"We couldn't find any local guides available for your chosen date and location":"لم نتمكن من العثور على أي مرشدين محليين متاحين في التاريخ والموقع الذي اخترته",
                       fontFamily: 'SF Pro',                      
                       ),
@@ -118,7 +163,14 @@ class _FindAjwadyState extends State<FindAjwady> {
                  
                     GestureDetector(
                       onTap: () {
-                        Get.back();
+                     Get.back();
+
+                     if (_offerController.acceptedOffer!= null||_offerController.acceptedOffer!=[] ){
+
+                      startCountdown();
+                      print('enter');
+                      print(widget.booking.orderStatus);
+                     }
                       },
                       child: Container(
                         width: 268,
@@ -131,7 +183,7 @@ class _FindAjwadyState extends State<FindAjwady> {
                         child:  CustomText(
                         textAlign: TextAlign.center,
 
-                          text: "Expand".tr,
+                          text:_offerController.acceptedOffer==null||_offerController.acceptedOffer==[]? "Expand".tr:"Continue viewing offers",
                           color: Colors.white,
                             fontSize: 15,
                            fontFamily: 'SF Pro',

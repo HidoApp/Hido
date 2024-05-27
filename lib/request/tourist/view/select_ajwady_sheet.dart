@@ -107,7 +107,7 @@ class _SelectAjwadySheet extends State<SelectAjwadySheet> {
                                             '',
                                     name: _offerController.offers[index].name!,
                                     rating:
-                                        _offerController.offers[index].rating!,
+                                        _offerController.offers[index].tourRating!,
                                     price:
                                         _offerController.offers[index].price!,
                                     tripNumber: _offerController
@@ -118,7 +118,7 @@ class _SelectAjwadySheet extends State<SelectAjwadySheet> {
                       child: CustomAjwadiCard(
                         image: _offerController.offers[index].image ?? '',
                         name: _offerController.offers[index].name!,
-                        rating: _offerController.offers[index].rating!,
+                        rating: _offerController.offers[index].tourRating!,
                         price: _offerController.offers[index].price!,
                         tripNumber: _offerController.offers[index].tourNumber!,
                       ),

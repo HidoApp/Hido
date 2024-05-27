@@ -16,6 +16,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:ajwad_v4/explore/tourist/model/booking.dart' as book;
 
 import '../../chat/view/chat_screen.dart';
 

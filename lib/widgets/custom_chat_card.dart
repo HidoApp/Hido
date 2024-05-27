@@ -24,7 +24,6 @@ class CustomChatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return InkWell(
       onTap: () async{
 
@@ -60,7 +59,7 @@ class CustomChatCard extends StatelessWidget {
                             width: 45,
                             fit: BoxFit.cover,
                           )
-                        : CircleAvatar(backgroundImage: CachedNetworkImageProvider(chatModel.localInChat!.profileInChat!.image!),radius: 30,)
+                        : CircleAvatar(backgroundImage: CachedNetworkImageProvider(chatModel.localInChat!.profileInChat!.image??''),radius: 30,)
                         
                         // Image.network(
                         //     chatModel.localInChat!.profileInChat!.image!,
@@ -76,8 +75,8 @@ class CustomChatCard extends StatelessWidget {
                           )
                         : chatModel.localInChat== null ?
                         
-                        CircleAvatar(backgroundImage: CachedNetworkImageProvider(chatModel.touristInChat!.profileInChat!.image!),radius: 25,) :
-                        CircleAvatar(backgroundImage: CachedNetworkImageProvider(chatModel.localInChat!.profileInChat!.image!),radius: 25,)
+                       CircleAvatar(backgroundImage: CachedNetworkImageProvider(chatModel.touristInChat!.profileInChat!.image??''),radius: 25,) :
+                       CircleAvatar(backgroundImage: CachedNetworkImageProvider(chatModel.localInChat!.profileInChat!.image??''),radius: 25,)
                         
                         // Image.network(
                         //     chatModel.localInChat!.profileInChat!.image!,
@@ -86,6 +85,7 @@ class CustomChatCard extends StatelessWidget {
                         //   )
                           
                           ),
+           
             const SizedBox(
               width: 15,
             ),
@@ -94,30 +94,33 @@ class CustomChatCard extends StatelessWidget {
               children: [
                 CustomText(
                   text: chatModel.localInChat != null
-                      ? chatModel.localInChat!.profileInChat!.name!
-                      : chatModel.touristInChat!.profileInChat!.name!,
+                      ? chatModel.localInChat!.profileInChat!.name??''
+                      : chatModel.touristInChat!.profileInChat!.name??'',
                   color: Color(0xFF070708),
                fontSize: 16,
                 fontFamily: 'SF Pro',
               fontWeight: FontWeight.w500,
-                height: 0,
+                height:chatModel.messages!.isNotEmpty?0: 3,
                 ),
                 // CustomText(
                 //   text:
                 //       '( ${AppUtil.rtlDirection(context) ? chatModel.booking!.place!.nameEn ?? "" : chatModel.booking!.place!.nameAr ?? ""} )',
                 //   fontSize: 10,
                 // ),
-                const SizedBox(
-              height: 6,
+
+            if(chatModel.messages!.isNotEmpty)...[
+             SizedBox(
+              height:6,
             ),
                  CustomText(
-                  text:
-                    chatModel.messages!.last.message!,
+                  text:chatModel.messages!.last.message!,
                   color: Color(0xFF9392A0),
                   fontSize: 13,
                  fontFamily: 'SF Pro',
                  fontWeight: FontWeight.w500,
-                  height: 0,                )
+                  height: 0,               
+                   )
+              ],
               ],
             ),
             const Spacer(),
@@ -137,21 +140,22 @@ class CustomChatCard extends StatelessWidget {
             height: 0
             ),
 
-            //  const SizedBox(
-            //   width: 5,
-            // ),
+           SizedBox(
+              width:chatModel.messages!.isNotEmpty? 5:0,
+            ),
 
             
-           
-        //     const Icon(
-        //   Icons.arrow_forward_ios_rounded,
-        //   color: colorGreen,
-        //   size: 18,
-        // ),
-     
+          Padding(padding:chatModel.messages!.isNotEmpty?EdgeInsets.only(top:0) :EdgeInsets.only(top:14),
+          child:Icon(
+          Icons.arrow_forward_ios_rounded,
+          color: colorGreen,
+          size: 18,
+        ),
+           ),
      
           ],
         ),
+        if(chatModel.messages!.isNotEmpty)...[
        SizedBox(
              height: 25,
             ),
@@ -167,6 +171,7 @@ class CustomChatCard extends StatelessWidget {
          ),
         ),
        )
+        ]
           ],
         ),
       ),

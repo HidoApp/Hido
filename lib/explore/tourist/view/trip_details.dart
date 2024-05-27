@@ -136,7 +136,7 @@ void getOfferinfo() async {
     );
       print("2");
 
-  if(fetchedBooking!.offers != []){
+  if(fetchedBooking!.offers?.length !=0){
       print("3");
 
    offers = fetchedBooking.offers!;
@@ -563,7 +563,7 @@ await _offerController.getOffers(context: context, placeId:widget.place!.id! , b
                                            image: _offerController.offerDetails.value.image ?? '',
                                             name:  _offerController.offerDetails.value.name?? '',
                                            profileId:  _offerController.offers.last.profileId??'',
-                                           rating: _offerController.offers.last.rating??0,
+                                           rating: _offerController.offers.last.tourRating??0,
                                            price: _offerController.offers.last.price??0,
                                            tripNumber:_offerController.offers.last.tourNumber??0
                                            ));
