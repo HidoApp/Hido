@@ -474,8 +474,8 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                       child: IconButton(
                         icon: Icon(Icons.arrow_back_ios,
                             textDirection: AppUtil.rtlDirection2(context)
-                                ? TextDirection.ltr
-                                : TextDirection.rtl,
+                                ? TextDirection.rtl
+                                : TextDirection.ltr,
                             size: width * 0.061,
                             color: Colors.white),
                         onPressed: () => Get.back(),
