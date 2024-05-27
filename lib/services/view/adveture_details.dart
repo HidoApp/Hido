@@ -426,12 +426,16 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                 //     )),
                 Positioned(
                   top: height * 0.06,
-                  left: AppUtil.rtlDirection2(context)
+                  left: !AppUtil.rtlDirection(context)
                       ? width * 0.85
                       : width * 0.06,
                   child: IconButton(
                     icon: Icon(Icons.arrow_back_ios,
-                        size: width * 0.061, color: Colors.white),
+                        textDirection: AppUtil.rtlDirection2(context)
+                            ? TextDirection.ltr
+                            : TextDirection.rtl,
+                        size: width * 0.061,
+                        color: Colors.white),
                     onPressed: () => Get.back(),
                     color: Colors.white,
                   ),

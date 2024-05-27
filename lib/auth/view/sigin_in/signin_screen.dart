@@ -323,10 +323,12 @@ class _SignInScreenState extends State<SignInScreen> {
                                   {
                                 // var countries =
                                 //     await _authController.getListOfCountries();
-                                Get.to(() => RegisterScreen(
-                                      authController: _authController,
-                                      //  countries: countries,
-                                    ));
+                                Get.to(
+                                  () => RegisterScreen(
+                                    authController: _authController,
+                                    //  countries: countries,
+                                  ),
+                                );
                               },
                               child: CustomText(
                                 text: 'signUp'.tr,

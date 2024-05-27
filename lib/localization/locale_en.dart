@@ -401,4 +401,8 @@ const localeEn = {
       "Immerse yourself in Saudi customs and traditions of hospitality by sharing a meal with a local family.",
   "adventureDetails": "Immerse yourself in Saudi adventures with locals",
   "signAsTourist": "Sign in as Tourist ",
+  'welcomeHido': "Welcom to Hido! ",
+  "signUpTourist": "Sign Up As Tourist",
+  "signUpLocal": "Sign Up As Local",
+  "guestSubtitle": "Join us and get to have unique experience"
 };
