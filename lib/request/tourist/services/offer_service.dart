@@ -161,6 +161,7 @@ class OfferService {
     print(response.body);
     if (response.statusCode == 200) {
       var acceptedOfferData = jsonDecode(response.body);
+      print("pay from services");
       print(acceptedOfferData);
       AcceptedOffer acceptedOffer = AcceptedOffer.fromJson(acceptedOfferData);
       String? userId = acceptedOffer.userId;
@@ -202,6 +203,7 @@ class OfferService {
 
     final response = await http.post(
       Uri.parse('$baseUrl/booking/cancel/$bookingId'),
+
       headers: {
         'Accept': 'application/json',
         "Content-Type": "application/json",

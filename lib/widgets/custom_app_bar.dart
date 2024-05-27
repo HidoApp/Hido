@@ -50,6 +50,22 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           fontSize: 24,
         ),
     ),
+     actions: <Widget>[
+      if(action)
+       Padding(
+        padding: AppUtil.rtlDirection2(context)
+            ? EdgeInsets.only(bottom: 35, left: 15,)
+            : EdgeInsets.only(bottom: 35, right: 15),
+          child:IconButton(
+            icon: Icon(Icons.more_vert,
+              size: 29,
+             color: color ?? Colors.black,
+             ),
+            tooltip:"more",
+            onPressed: onPressedAction,
+          ),
+       ),
+        ], //
       centerTitle: true,
 
         leading: Padding(
@@ -63,19 +79,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           onPressed: () => Get.back(),
         ),
       ),
-      actions: action
-            ? [
-              Padding(
-                padding: AppUtil.rtlDirection2(context)?EdgeInsets.only(bottom:111, left:15,top:0):EdgeInsets.only(bottom:80, top:0,right:15),
-               child: IconButton(
-                    onPressed: onPressedAction,
-                    icon: Icon(
-                      Icons.more_vert,
-                      size: 32,
-                      color: color ?? Colors.black,
-                    )))
-              ]
-            : [],
+      
 )));
   }
 }

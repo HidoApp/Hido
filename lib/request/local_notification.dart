@@ -33,31 +33,48 @@ static onTap(NotificationResponse notificationResponse){}
   late DateTime timeToGo;
   late DateTime timeToReturn;
     late String descreption;
-
+late int hour;
+late int minute;
    String day="2 days";
    String time="2 hours";
-
+   final String timeZoneName = 'Asia/Riyadh';
+ late tz.Location location;
 
 void checkBooking(String? bookdate) {
-DateTime currentDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
-DateTime bookingDate = DateTime.parse(bookdate!);
+  //DateFormat dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss', 'en_US').add_Hms();
+    tz.initializeTimeZones();
 
-twoDaysBefore = bookingDate.subtract(Duration(days: 2));
+  location = tz.getLocation(timeZoneName);
 
-DateTime twoDaysBeforeWithoutTime = DateTime(twoDaysBefore.year, twoDaysBefore.month, twoDaysBefore.day);
+  DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
+  DateTime currentDate = DateTime(currentDateInRiyadh.year, currentDateInRiyadh.month, currentDateInRiyadh.day);
+  // DateTime currentDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+  // Get the current date and time in the Riyadh time zone
+  //String formattedDate = dateFormat.format(DateTime.now().toUtc().add(Duration(hours: 3))); // Riyadh is UTC+3
+  //DateTime currentDateInRiyadh = DateTime.parse(formattedDate);
+  DateTime bookingDate = DateTime.parse(bookdate!);
 
-  if (twoDaysBeforeWithoutTime.isBefore(currentDate)) {
+     twoDaysBefore = bookingDate.subtract(Duration(days: 2));
+
+    DateTime twoDaysBeforeWithoutTime = DateTime(twoDaysBefore.year, twoDaysBefore.month, twoDaysBefore.day);
+
+    if (twoDaysBeforeWithoutTime.isBefore(currentDateInRiyadh)) {
     // If it's in the past, set it to the current date
-    twoDaysBefore = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
-    if(twoDaysBefore == DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)){
+    twoDaysBefore = currentDate;
+    }
+    if(twoDaysBefore == currentDate){
+     twoDaysBefore = currentDate;
+
       day="towday";
+      hour=currentDateInRiyadh.hour+1;
+      minute=currentDateInRiyadh.minute;
     }
     else{
       day="1 day";
     }
-  }
-print("datebe");
-print(twoDaysBefore);
+  
+     print("datebe");
+      print(twoDaysBefore);
   
 
   
@@ -66,53 +83,53 @@ print(twoDaysBefore);
 }
 
 
-void checkBooking2(String? timeToGo,String? Date) {
+// void checkBooking2(String? timeToGo,String? Date) {
 
-// Parse the booking date and time
-  DateTime bookingDate = DateTime.parse(Date!);
-  String combinedTimeString = DateFormat("yyyy-MM-dd").format(bookingDate) + " " + timeToGo!;
-  DateTime parsedTime = DateFormat("yyyy-MM-dd HH:mm:ss").parse(combinedTimeString);
-print(parsedTime);
-  // Calculate two hours before the booking time
-   DateTime reminderTime = parsedTime.subtract(Duration(hours: 2));
+// // Parse the booking date and time
+//   DateTime bookingDate = DateTime.parse(Date!);
+//   String combinedTimeString = DateFormat("yyyy-MM-dd").format(bookingDate) + " " + timeToGo!;
+//   DateTime parsedTime = DateFormat("yyyy-MM-dd HH:mm:ss").parse(combinedTimeString);
+// print(parsedTime);
+//   // Calculate two hours before the booking time
+//    DateTime reminderTime = parsedTime.subtract(Duration(hours: 2));
 
-print(reminderTime);
+// print(reminderTime);
 
-  // Get the current time
-  DateTime currentTime = DateTime.now();
-  DateTime newTime = DateTime(currentTime.year, currentTime.month, currentTime.day, currentTime.hour, 0, 0, 0);
+//   // Get the current time
+//   DateTime currentTime = DateTime.now();
+//   DateTime newTime = DateTime(currentTime.year, currentTime.month, currentTime.day, currentTime.hour, 0, 0, 0);
 
 
-DateTime BookDateWithoutTime = DateTime(parsedTime.year, parsedTime.month, parsedTime.day);
-DateTime currentDateeWithoutTime = DateTime(currentTime.year, currentTime.month, currentTime.day);
+// DateTime BookDateWithoutTime = DateTime(parsedTime.year, parsedTime.month, parsedTime.day);
+// DateTime currentDateeWithoutTime = DateTime(currentTime.year, currentTime.month, currentTime.day);
 
-print(currentTime);
-  // Calculate the difference in hours between the current time and the booking time
-  int hoursDifference = reminderTime.difference(newTime).inHours;
+// print(currentTime);
+//   // Calculate the difference in hours between the current time and the booking time
+//   int hoursDifference = reminderTime.difference(newTime).inHours;
 
-print('dev');
-print(hoursDifference);
-  // Set the reminder message based on the current time and the booking time
+// print('dev');
+// print(hoursDifference);
+//   // Set the reminder message based on the current time and the booking time
 
-  if(BookDateWithoutTime==currentDateeWithoutTime){
+//   if(BookDateWithoutTime==currentDateeWithoutTime){
 
-    if (hoursDifference == -1) {
-    time = "1 hour ";
-    twoHoursBefore = DateTime.now();
-  } else if (hoursDifference == 0) {
-     twoHoursBefore=DateTime.now();
-    time = "now";
-  } else {
-    time = "2 hours";
-    twoHoursBefore=reminderTime;
-  }
+//     if (hoursDifference == -1) {
+//     time = "1 hour ";
+//     twoHoursBefore = DateTime.now();
+//   } else if (hoursDifference == 0) {
+//      twoHoursBefore=DateTime.now();
+//     time = "now";
+//   } else {
+//     time = "2 hours";
+//     twoHoursBefore=reminderTime;
+//   }
 
   
-}
-else{
-    twoHoursBefore=reminderTime;
-}
-}
+// }
+// else{
+//     twoHoursBefore=reminderTime;
+// }
+// }
 
   
 
@@ -164,16 +181,34 @@ static Future init()async{
 // }
 
 void showNotification(BuildContext context, String? id , String? timeToGo, String? Date , String? name, String? placeeEn,String? placeeAr) async {
-checkBooking2(timeToGo,Date);
-// checkBooking(date);
+//checkBooking2(timeToGo,Date);
+ checkBooking(Date);
 
-//DateTime notificationTime = DateTime(twoDaysBefore.year, twoDaysBefore.month, twoDaysBefore.day, 21, 00, 3);
-DateTime notificationTime =  twoHoursBefore;
-DateTime increasedTime = notificationTime.add(Duration(hours: 3));
+// DateTime notificationTime = DateTime(twoDaysBefore.year, twoDaysBefore.month, twoDaysBefore.day, 21, 00, 3);
+// DateTime notificationTime;
+tz.TZDateTime notificationTime;
+if(hour!=0 && minute!=0){
+ //notificationTime = DateTime(twoDaysBefore.year, twoDaysBefore.month, twoDaysBefore.day, hour,minute,3);
+  notificationTime = tz.TZDateTime(location, twoDaysBefore.year, twoDaysBefore.month, twoDaysBefore.day, hour,minute,3);
+ print("inter1");
+
+}
+else{
+    notificationTime = tz.TZDateTime(location, twoDaysBefore.year, twoDaysBefore.month, twoDaysBefore.day, 24,00,3);
+
+//  notificationTime = DateTime(twoDaysBefore.year, twoDaysBefore.month, twoDaysBefore.day, 24,00,3);
+}
+
+//DateTime notificationTimeInRiyadh = notificationTime.toUtc().add(Duration(hours: 3)); // Adjust to Riyadh time zone
+
+  print("Notification Time:");
+  //print(notificationTimeInRiyadh);
+//DateTime notificationTime =  twoHoursBefore;
+//DateTime increasedTime = notificationTime.add(Duration(hours: 3));
 
 
 print('note info');
-print( tz.TZDateTime.from(increasedTime,tz.local));
+//print( tz.TZDateTime.from(notificationTime,tz.local));
 print(notificationTime);
 print(placeeAr);
 print(placeeEn);
@@ -200,24 +235,26 @@ print(id);
   // tz.setLocalLocation(tz.getLocation('Asia/Riyadh'));
 
   print(tz.local);
+print(day);
+if(day=='today'){
 
-if(time=='now'){
-
-  descreption = " your experience to discover "+ placeName +" with " + "start"+time;
+  descreption = " your experience to discover "+ placeName +" with " +name!+ " start"+day;
 }
 else{
-  descreption = time + "  left and  your experience to discover "+ placeName +" with " + "begins";
+  descreption = day + "  left and  your experience to discover "+ placeName +" with " +name!+ " begins";
 
 }
     await flutterLocalNotificationsPlugin.zonedSchedule(
      parsedId,
     'Hi'+ " NAME "+", Reminder",
     descreption,
+    notificationTime,
+
     // time + " and your journey to discover "+ placeName +" with " + 'begins', 
     //  tz.TZDateTime.now(tz.local).add(const Duration(seconds: 1)),
-    tz.TZDateTime.from(increasedTime,tz.local), 
+    // tz.TZDateTime.from(notificationTime,tz.local), 
     details,uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime
-     
+
      );
  
 }

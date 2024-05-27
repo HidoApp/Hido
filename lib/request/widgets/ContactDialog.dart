@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart' as launcher;
 
+import '../../constants/colors.dart';
+import '../../utils/app_util.dart';
+import '../../widgets/custom_text.dart';
+
 class ContactDialog extends StatelessWidget {
 
   final double dialogWidth;
@@ -19,18 +23,30 @@ class ContactDialog extends StatelessWidget {
 
     return Center(
       child: AlertDialog(
-        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+         backgroundColor: Colors.white,
+         surfaceTintColor: Colors.white,
         shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+        borderRadius: BorderRadius.all(Radius.circular(8.0)),
         ),
         content: Container(
           width: dialogWidth,
-          height: 118,
+           height:  AppUtil.rtlDirection2(context)?170: 155,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 20),
+              const SizedBox(height: 4),
+               CustomText(
+                      textAlign: TextAlign.center,
+                      color: Color(0xFF070708),
+                      fontSize: 15,
+                      fontFamily: 'SF Pro',
+                     fontWeight: FontWeight.w500,
+                      text: AppUtil.rtlDirection2(context)?"نعتذر عن أي مشكلة واجهتك ":"Contact our support team via email or call for assistance. We're here to help!",
+                     ),
+                     const SizedBox(
+                    height: 10,
+                  ),
               GestureDetector(
                 onTap: () async {
                   Uri uri = Uri.parse(
@@ -41,27 +57,28 @@ class ContactDialog extends StatelessWidget {
                         "Could not launch the uri"); // because the simulator doesn't have the email app
                   }
                 },
-                child: Container(
-                  width: buttonWidth,
-                  height: 40,
-                  margin: EdgeInsets.only(bottom: 10),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: const Color(0xFF37B268)),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Center(
-                    child: Text(
-                      "mail".tr,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: const Color(0xFF37B268),
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                ),
+                 child: Container(
+                height:34,
+                width: buttonWidth,
+                
+              padding: const EdgeInsets.symmetric(vertical: 3),
+                alignment: Alignment.center,
+                 decoration: BoxDecoration(
+                    color: colorGreen,
+                    borderRadius: BorderRadius.circular(4),
+                        ),
+                     child:CustomText(
+                        textAlign: TextAlign.center,
+                          text: "mail".tr,
+                          color: Colors.white,
+                            fontSize: 15,
+                           fontFamily: 'SF Pro',
+                          fontWeight: FontWeight.w500,
+                        ),
               ),
+              ),
+                const SizedBox(height: 10),
+
               GestureDetector(
                 onTap: () async {
                   Uri uri = Uri.parse('tel:0533606069');
@@ -70,25 +87,25 @@ class ContactDialog extends StatelessWidget {
                         "Could not launch the uri"); // because the simulator doesn't have the phone app
                   }
                 },
-                child: Container(
-                  width: 251,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: const Color(0xFF37B268)),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Center(
-                    child: Text(
-                      "Call",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: const Color(0xFF37B268),
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                ),
+                
+               child: Container(
+                       width: buttonWidth,
+                        height: 34,
+                        padding: const EdgeInsets.symmetric(vertical: 2),
+                         decoration: BoxDecoration(
+                            border: Border.all(
+                        color:  Color(0xFF37B268) ,                          
+                         width: 2, 
+                           ),
+                             borderRadius: BorderRadius.circular(4), 
+                                  ),
+                          child:CustomText(
+                              textAlign: TextAlign.center,
+                              fontSize: 15,
+                           fontFamily: 'SF Pro',
+                          fontWeight: FontWeight.w500,
+                         color: Color(0xFF37B268),
+                              text:AppUtil.rtlDirection2(context)?'اتصل' :'Call')),
               ),
             ],
           ),

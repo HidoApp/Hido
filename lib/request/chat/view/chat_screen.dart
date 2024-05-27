@@ -517,8 +517,8 @@ RxBool isDetailsTapped2 = false.obs;
   ),
 ),
        ),         
-        const SizedBox(
-           height: 13,
+        SizedBox(
+           height:chatController.chat.messages!.isEmpty?40:13,
            ),
            ],
           ),

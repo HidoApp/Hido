@@ -36,6 +36,7 @@ import 'package:ajwad_v4/request/local_notification.dart';
 import 'package:intl/intl.dart' as intel;
 
 import '../../../services/view/review_request_screen.dart';
+import '../../../widgets/custom_app_bar.dart';
 
 
 
@@ -114,44 +115,16 @@ static Future init()async{
 
     return Scaffold(
       backgroundColor: lightGreyBackground,
-      body: Obx(
-        () => SafeArea(
+       appBar: CustomAppBar(
+          'showOffer'.tr
+        ),
+        body: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
                   const SizedBox(height: 10),
 
-                  Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              InkWell(
-                onTap: () {
-                  Get.back();
-                },
-                child: Padding(
-                padding: AppUtil.rtlDirection2(context)? const EdgeInsets.only(right:15,left:86):const EdgeInsets.only(left:15,right:86),
-                  child: AppUtil.rtlDirection2(context)
-                      ? const Icon(
-                          Icons.keyboard_arrow_right,
-                          color: black,
-                          size: 30,
-                        )
-                      : const Icon(
-                          Icons.keyboard_arrow_left_outlined,
-                          color: black,
-                          size: 30,
-                        ),
-                ),
-              ),
-              Text(
-              'showOffer'.tr,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w500,
-                
-                  ),
-                ),
+            
               // InkWell(
               //   onTap: () async {
               //     showDialog(
@@ -195,9 +168,7 @@ static Future init()async{
 //                       ),
 //                     ),
 //   ),
-                ],
-              ),
-              const SizedBox(height: 32),
+             
               Padding(padding: const EdgeInsets.only(left: 90)),
        Center(
           child:  Container(
@@ -981,7 +952,7 @@ static Future init()async{
             ],
           ),
         ),
-      ),
+      
     );
   }
 }

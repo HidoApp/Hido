@@ -136,8 +136,8 @@ class _TripDetailsState extends State<TripDetails> {
       );
       print("2");
 
-      if (fetchedBooking!.offers != []) {
-        print("3");
+  if(fetchedBooking!.offers?.length !=0){
+      print("3");
 
         offers = fetchedBooking.offers!;
         print(offers.length);
@@ -537,116 +537,95 @@ class _TripDetailsState extends State<TripDetails> {
                       //   ],
                       // ),
 
-                      Obx(() => _RequestController.isBookingLoading.value
-                              ? const CircularProgressIndicator()
-                              // : Padding(
-                              //     padding: const EdgeInsets.symmetric(
-                              //         horizontal: 30, vertical: 7),
-                              : !AppUtil.isGuest() && isHasOffers.value
-                                  ? CustomButton(
-                                      onPressed: () async {
-                                        print(isHasOffers.value);
-                                        //print(offers.last.name);
-                                        Get.to(() => LocalOfferInfo(
-                                            place: thePlace!,
-                                            image: _offerController
-                                                    .offerDetails.value.image ??
-                                                '',
-                                            name: _offerController
-                                                    .offerDetails.value.name ??
-                                                '',
-                                            profileId: _offerController
-                                                    .offers.last.profileId ??
-                                                '',
-                                            rating: _offerController
-                                                    .offers.last.rating ??
-                                                0,
-                                            price: _offerController
-                                                    .offers.last.price ??
-                                                0,
-                                            tripNumber: _offerController
-                                                    .offers.last.tourNumber ??
-                                                0));
-                                      },
-                                      title: AppUtil.rtlDirection2(context)
-                                          ? "طلبك"
-                                          : "Your Request",
+                      Obx(
+                        () =>_RequestController.isBookingLoading.value
+                            ? const CircularProgressIndicator()
+                            // : Padding(
+                            //     padding: const EdgeInsets.symmetric(
+                            //         horizontal: 30, vertical: 7),
+                                :!AppUtil.isGuest() &&
+                                        isHasOffers.value 
+                                    ?CustomButton(
+                                      
+                                        onPressed: () async {
+                                         print(isHasOffers.value);
+                                         //print(offers.last.name);
+                                          Get.to(() => LocalOfferInfo(
+                                           place: thePlace!,
+                                           image: _offerController.offerDetails.value.image ?? '',
+                                            name:  _offerController.offerDetails.value.name?? '',
+                                           profileId:  _offerController.offers.last.profileId??'',
+                                           rating: _offerController.offers.last.tourRating??0,
+                                           price: _offerController.offers.last.price??0,
+                                           tripNumber:_offerController.offers.last.tourNumber??0
+                                           ));
+                                        },
+                                        title: AppUtil.rtlDirection2(context)?"طلبك":"Your Request",
+                                        
+                                        //  icon: AppUtil.rtlDirection(context)
+                                        // ? const Icon(Icons.arrow_back)
+                                        // : const Icon(Icons.arrow_forward),
+                                      )
+                                      
+                                    //TODO:fix the condition Ammar
+                                    // : _touristExploreController.isPlaceNotLocked
+                                    //   
+                                    //      .value // booking OR Empty button
 
-                                      //  icon: AppUtil.rtlDirection(context)
-                                      // ? const Icon(Icons.arrow_back)
-                                      // : const Icon(Icons.arrow_forward),
-                                    )
+                                    :(isViewBooking.value 
+                                      ? 
+                                        CustomButton(
+                                        onPressed: () async {
 
-                                  //TODO:fix the condition Ammar
-                                  // : _touristExploreController.isPlaceNotLocked
-                                  //
-                                  //      .value // booking OR Empty button
+                                          Place? thePlace =
+                                              await _touristExploreController
+                                                  .getPlaceById(
+                                                      id: widget.place!.id!,
+                                                      context: context);
+                                              getOfferinfo();
+                                          Get.to(
+                                            () => FindAjwady(
+                                              booking: thePlace!.booking![0],
+                                              place: widget.place!,
+                                              placeId: thePlace.id!,
+                                            ),
+                                          )?.then((value) async {
 
-                                  : (isViewBooking.value
-                                      ? CustomButton(
-                                          onPressed: () async {
-                                            Place? thePlace =
-                                                await _touristExploreController
-                                                    .getPlaceById(
-                                                        id: widget.place!.id!,
-                                                        context: context);
-                                            getOfferinfo();
-                                            Get.to(
-                                              () => FindAjwady(
-                                                booking: thePlace!.booking![0],
-                                                place: widget.place!,
-                                                placeId: thePlace.id!,
-                                              ),
-                                            )?.then((value) async {
-                                              return getPlaceBooking();
-                                            });
-                                          },
+                                            return getPlaceBooking();
+                                          });
+                                        },
+                                        
+                                        title:AppUtil.rtlDirection2(context)?"العروض":"View Offers",
+                                        //  icon: AppUtil.rtlDirection(context)
+                                        // ? const Icon(Icons.arrow_back)
+                                        // : const Icon(Icons.arrow_forward),
+                                      )
+                                        
+                                      
+                                        : CustomButton(
+                                            onPressed: () {
+                                              AppUtil.isGuest()
+                                                  ? Get.to(
+                                                      () =>
+                                                          const SignInScreen(),
+                                                    )
+                                                  : showModalBottomSheet(
+                                                      useRootNavigator: true,
+                                                      isScrollControlled: true,
+                                                      backgroundColor:
+                                                          Colors.transparent,
+                                                      shape:
+                                                          const RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius.only(
+                                                          topRight:
+                                                              Radius.circular(
+                                                                  30),
+                                                          topLeft:
+                                                              Radius.circular(
+                                                                  30),
+                                                        ),
 
-                                          title: AppUtil.rtlDirection2(context)
-                                              ? "العروض"
-                                              : "View Offers",
-                                          //  icon: AppUtil.rtlDirection(context)
-                                          // ? const Icon(Icons.arrow_back)
-                                          // : const Icon(Icons.arrow_forward),
-                                        )
-                                      : CustomButton(
-                                          onPressed: () {
-                                            AppUtil.isGuest()
-                                                ? showModalBottomSheet(
-                                                    context: context,
-                                                    builder: (context) =>
-                                                        const SignInSheet(),
-                                                    isScrollControlled: true,
-                                                    enableDrag: true,
-                                                    backgroundColor:
-                                                        Colors.white,
-                                                    elevation: 0,
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.only(
-                                                              topLeft: Radius
-                                                                  .circular(
-                                                                      width *
-                                                                          0.06),
-                                                              topRight: Radius
-                                                                  .circular(
-                                                                      width *
-                                                                          0.06)),
-                                                    ))
-                                                : showModalBottomSheet(
-                                                    useRootNavigator: true,
-                                                    isScrollControlled: true,
-                                                    backgroundColor:
-                                                        Colors.transparent,
-                                                    shape:
-                                                        const RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.only(
-                                                        topRight:
-                                                            Radius.circular(30),
-                                                        topLeft:
-                                                            Radius.circular(30),
                                                       ),
                                                     ),
                                                     context: context,

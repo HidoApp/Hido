@@ -77,6 +77,8 @@ class OfferController extends GetxController {
         schedules: schedules,
       );
       acceptedOffer(data);
+      print("pay from services");
+      print(data?.orderStatus);
       return acceptedOffer.value;
     } catch (e) {
       print(e);
