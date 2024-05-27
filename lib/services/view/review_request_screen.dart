@@ -314,6 +314,8 @@ class _ReviewRequestState extends State<ReviewRequest> {
                                       schedules: widget.offerController!
                                           .offerDetails.value.schedule!,
                                     );
+                                    print(acceptedOffer?.orderStatus);
+                                    print("pay from ui");
                                  //Get.back();
                                 //    Get.back();
 

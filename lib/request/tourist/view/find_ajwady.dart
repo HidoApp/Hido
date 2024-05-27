@@ -60,15 +60,20 @@ class _FindAjwadyState extends State<FindAjwady> {
       placeId: widget.placeId,
       bookingId: widget.booking.id!,
     );
-
-         if (_offerController.acceptedOffer==null||_offerController.acceptedOffer==[]){
-      showCancelDialogAfterDelay();
-     }
+    print("place");
+    
+//  if (_offerController.acceptedOffer!=null||_offerController.acceptedOffer!=[] ){
+//       showCancelDialogAfterDelay(1,"1");
+//      }
+//          if (_offerController.acceptedOffer==null||_offerController.acceptedOffer==[]){
+//       showCancelDialogAfterDelay(1,"soory");
+//      }
+     
   }
 
-  void showCancelDialogAfterDelay() {
-         if (_offerController.acceptedOffer==null||_offerController.acceptedOffer==[]){
-      Future.delayed(const Duration(minutes: 5), () {
+  void showCancelDialogAfterDelay(int minute,String text1){
+        //  if (_offerController.acceptedOffer==null||_offerController.acceptedOffer==[] ){
+      Future.delayed(Duration(minutes:2), () {
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -103,7 +108,7 @@ class _FindAjwadyState extends State<FindAjwady> {
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
                       color: Color(0xFF070708),
-                      text:'notFind'.tr,
+                      text:_offerController.acceptedOffer==null||_offerController.acceptedOffer==[]?'notFind'.tr:"You took a long time to accept ",
                       //!AppUtil.rtlDirection2(context)?"We couldn't find any local guides available for your chosen date and location":"لم نتمكن من العثور على أي مرشدين محليين متاحين في التاريخ والموقع الذي اخترته",
                       fontFamily: 'SF Pro',                      
                       ),
@@ -187,7 +192,7 @@ class _FindAjwadyState extends State<FindAjwady> {
           },
         );
       });
-    }
+    //}
   }
 
   @override

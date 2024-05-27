@@ -382,8 +382,8 @@ const localeEn = {
       "Our cancellation policy requires a 48-hour prior notice for a full refund and a 24-hour prior notice for a partial refund.",
   "cancellationPolicyNote":
       "Please note that no refunds will be issued for cancellations made on the same day as the booking.",
-  "notFind":
-      "Here is what you can do",
+  "notFind": "We couldn't find any local guides available for your chosen date and location",
+  "noteDo": "Here is what you can do",
   "Expand": "Expand Search",
   "notePrice": "Please note that the prices listed are per person",
   'mm/dd/yyy': 'mm/dd/yyy',

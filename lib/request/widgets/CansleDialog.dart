@@ -59,7 +59,7 @@ class CancelBookingDialog extends StatelessWidget {
                       fontSize: 15,
                       fontWeight: FontWeight.w400,
                       color: Color(0xFF41404A),
-                      text:'notFind'.tr,
+                      text:'noteDo'.tr,
                    // text:!AppUtil.rtlDirection2(context)?"Here is what you can do":"لم نتمكن من العثور على أي مرشدين محليين متاحين في التاريخ والموقع الذي اخترته",
                       fontFamily: 'SF Pro',                      
                       ),

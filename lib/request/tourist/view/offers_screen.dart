@@ -24,10 +24,14 @@ class OfferScreen extends StatefulWidget {
 
 class _OfferScreenState extends State<OfferScreen> {
   final _offerController = Get.put(OfferController());
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+    print("offer");
+      print(_offerController.offers.length);
+
     return Scaffold(
         appBar: CustomAppBar(
           'offers'.tr,
@@ -81,11 +85,17 @@ class _OfferScreenState extends State<OfferScreen> {
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () {
-                   
+                   print("inter");
                     _offerController.getOfferById(
                       context: context,
                       offerId: _offerController.offers[index].offerId!,
                     );
+                    print('image');
+                     print(_offerController.offers[index].image ?? '');
+                    // name: _offerController.offers[index].name!??'',
+                    // rating: _offerController.offers[index].rating!??0,
+                    // price: _offerController.offers[index].price!??0,
+                    // tripNumber: _offerController.offers[index].tourNumber??0,
                     Get.to(() => LocalOfferInfo(
                         place: widget.place,
                         image: _offerController.offers[index].image ?? '',
@@ -98,9 +108,9 @@ class _OfferScreenState extends State<OfferScreen> {
                   },
                   child: CustomAjwadiCard(
                     image: _offerController.offers[index].image ?? '',
-                    name: _offerController.offers[index].name!,
-                    rating: _offerController.offers[index].rating!,
-                    price: _offerController.offers[index].price!,
+                    name: _offerController.offers[index].name!??'',
+                    rating: _offerController.offers[index].rating!??0,
+                    price: _offerController.offers[index].price!??0,
                     tripNumber: _offerController.offers[index].tourNumber??0,
                   ),
                 );
