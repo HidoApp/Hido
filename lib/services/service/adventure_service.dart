@@ -86,4 +86,51 @@ class AdventureService {
       return null;
     }
   }
+
+  static Future<bool> checkAdventureBooking(
+      {required BuildContext context,
+      required String adventureID,
+      String? invoiceId,
+      required int personNumber}) async {
+    final getStorage = GetStorage();
+    String token = getStorage.read('accessToken') ?? "";
+
+    if (JwtDecoder.isExpired(token)) {
+      final _authController = Get.put(AuthController());
+
+      String refreshToken = getStorage.read('refreshToken');
+      var user = await _authController.refreshToken(
+          refreshToken: refreshToken, context: context);
+      token = getStorage.read('accessToken');
+    }
+    Map<String, dynamic> queryParameters = {
+      if (invoiceId != null) 'invoiceId': invoiceId,
+      'adventureId': adventureID,
+    };
+    final response = await http.post(
+        Uri.parse('$baseUrl/adventure/booking/$adventureID')
+            .replace(queryParameters: queryParameters),
+        headers: {
+          'Accept': 'application/json',
+          "Content-Type": "application/json",
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode({'guestNumber': personNumber}));
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      print(data['orderStatus']);
+      if (data['orderStatus'] == 'checked') {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      String errorMessage = jsonDecode(response.body)['orderStatus'];
+      print(errorMessage);
+      if (context.mounted) {
+        AppUtil.errorToast(context, errorMessage);
+      }
+      return false;
+    }
+  }
 }

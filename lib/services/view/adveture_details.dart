@@ -432,8 +432,8 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                   child: IconButton(
                     icon: Icon(Icons.arrow_back_ios,
                         textDirection: AppUtil.rtlDirection2(context)
-                            ? TextDirection.ltr
-                            : TextDirection.rtl,
+                            ? TextDirection.rtl
+                            : TextDirection.ltr,
                         size: width * 0.061,
                         color: Colors.white),
                     onPressed: () => Get.back(),
@@ -457,7 +457,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                               tripNumber: 4,
                               place: Place(),
                               profileId:
-                                  "447aad72-25f2-4f90-85fd-51743cf8c9ed"),
+                                  "439dc741-ff26-4b8f-abf0-467a9b91d75f"),
                         );
                       },
                       image: adventure!.user!.profileImage ?? '',

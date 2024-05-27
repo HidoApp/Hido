@@ -7,7 +7,7 @@ import 'package:ajwad_v4/profile/models/profile.dart';
 import 'package:ajwad_v4/request/chat/view/chat_screen_live.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
 import 'package:ajwad_v4/request/tourist/controllers/rating_controller.dart';
- import 'package:ajwad_v4/request/tourist/models/offer_details.dart';
+import 'package:ajwad_v4/request/tourist/models/offer_details.dart';
 import '../../../explore/tourist/model/booking.dart';
 
 import 'package:ajwad_v4/request/tourist/services/rating_service.dart';
@@ -55,9 +55,9 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
   late double width, height;
   final _offerController = Get.put(OfferController());
   final _profileController = Get.put(ProfileController());
-    final chatController = Get.put(ChatController());
- late ChatMessage? message;
-     final getStorage = GetStorage();
+  final chatController = Get.put(ChatController());
+  late ChatMessage? message;
+  final getStorage = GetStorage();
 
   late Profile? profile;
   void getProfile() async {
@@ -71,7 +71,6 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
 
     super.initState();
     getProfile();
-
   }
 
   @override
@@ -170,17 +169,13 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
                           //     ));
                           //  String userId = getStorage.read('userId');
 
-
                           Get.to(() => ChatScreen(
                                 chatId: _offerController
                                     .offerDetails.value.booking!.chatId!,
-                                 booking: _offerController
-                                      .offerDetails.value.booking!,
-
+                                booking: _offerController
+                                    .offerDetails.value.booking!,
                               ));
-
-                              
-                          },
+                        },
                         title: 'chat'.tr,
                         icon: 'chat',
                       );
