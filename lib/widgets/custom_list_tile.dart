@@ -32,6 +32,7 @@ class CustomListTile extends StatelessWidget {
           leading,
           width: 20,
           height: 20,
+          color: iconColor ?? null,
         ),
         trailing: const Icon(
           Icons.arrow_forward_ios_rounded,

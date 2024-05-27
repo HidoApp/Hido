@@ -62,9 +62,9 @@ const localeEn = {
   "letsSignUp": "Lets Register Account",
   "fullName": "Full name",
   "email": "Email",
-  "yourEmail": "Your email",
+  "yourEmail": "Enter your email",
   "password": "Password",
-  "yourPassword": "Your password",
+  "yourPassword": "Enter your password",
   "confirmPass": "Confirm password",
   "signUp": "SIGN UP",
   "lastStep": "Last Step",
@@ -213,7 +213,6 @@ const localeEn = {
   "date": "Date",
   "confirm": "Confirm",
   "guests2": "Number of Guests",
-
   "forMoreThan10": "For more than 10 you can choose the van as a ride",
   "pickUpLocation": "Pick up location",
   "pickUpRide": "Vehicle type",
@@ -395,6 +394,15 @@ const localeEn = {
   'applied': 'Applied',
   'addpromocode': 'Add Promocode',
   'ReviewRequest': "Review Request",
-  'RequestedTourDetails':"Requested Tour Details",
-  "saudiAdventure": "Saudi Adventure"
+  'RequestedTourDetails': "Requested Tour Details",
+  "saudiAdventure": "Saudi Adventure",
+  "serviceTitle": "Choose a unique experience",
+  "hospitalityDetails":
+      "Immerse yourself in Saudi customs and traditions of hospitality by sharing a meal with a local family.",
+  "adventureDetails": "Immerse yourself in Saudi adventures with locals",
+  "signAsTourist": "Sign in as Tourist ",
+  'welcomeHido': "Welcom to Hido! ",
+  "signUpTourist": "Sign Up As Tourist",
+  "signUpLocal": "Sign Up As Local",
+  "guestSubtitle": "Join us and get to have unique experience"
 };

@@ -432,15 +432,16 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
     super.initState();
     getScrollingCards('ALL');
 
-    selectedTitle = titles[0];
     addCustomIcon();
     getLocation();
-    getBooking();
+    if (!AppUtil.isGuest()) {
+      getBooking();
+    }
 
     // Show the bottom sheet after a short delay
-    Future.delayed(Duration(milliseconds: 500), () {
-      getEndBookings();
-    });
+    // Future.delayed(Duration(milliseconds: 500), () {
+    //   getEndBookings();
+    // });
   }
 
   // void searchForPlace(String letters) {
@@ -475,12 +476,6 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
         distance: distance != 0.0 ? distance.roundToDouble() : distance,
         userLocation: userLocation,
       ),
-    )?.then(
-      (value) {
-        getScrollingCards('ALL');
-        selectedTitle = titles[0];
-        return;
-      },
     );
   }
 
@@ -662,86 +657,87 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                   SizedBox(
                     height: width * 0.03,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      //ticket
-                      Container(
-                        padding: EdgeInsets.all(width * 0.012),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(width * 0.04),
+                  if (!AppUtil.isGuest())
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        //ticket
+                        Container(
+                          padding: EdgeInsets.all(width * 0.012),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(width * 0.04),
+                            ),
                           ),
+                          child: GestureDetector(
+                              onTap: () {
+                                ProfileController profileController =
+                                    Get.put(ProfileController());
+                                Get.to(() => AppUtil.isGuest()
+                                    ? const SignInScreen()
+                                    : TicketScreen(
+                                        profileController: profileController,
+                                      ));
+                              },
+                              child: SvgPicture.asset(
+                                'assets/icons/ticket_icon.svg',
+                                color: colorGreen,
+                              )),
                         ),
-                        child: GestureDetector(
+                        SizedBox(
+                          width: width * 0.030,
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(width * 0.0128),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(width * 0.04),
+                            ),
+                          ),
+                          child: GestureDetector(
                             onTap: () {
-                              ProfileController profileController =
-                                  Get.put(ProfileController());
-                              Get.to(() => AppUtil.isGuest()
-                                  ? const SignInScreen()
-                                  : TicketScreen(
-                                      profileController: profileController,
-                                    ));
+                              // ProfileController _profileController =
+                              //     Get.put(ProfileController());
+                              // Get.to(() => AppUtil.isGuest()
+                              //     ? const SignInScreen()
+                              //     : MessagesScreen(
+                              //         profileController: _profileController));
                             },
                             child: SvgPicture.asset(
-                              'assets/icons/ticket_icon.svg',
+                              'assets/icons/Communication.svg',
                               color: colorGreen,
-                            )),
-                      ),
-                      SizedBox(
-                        width: width * 0.030,
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(width * 0.0128),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(width * 0.04),
+                            ),
                           ),
                         ),
-                        child: GestureDetector(
-                          onTap: () {
-                            // ProfileController _profileController =
-                            //     Get.put(ProfileController());
-                            // Get.to(() => AppUtil.isGuest()
-                            //     ? const SignInScreen()
-                            //     : MessagesScreen(
-                            //         profileController: _profileController));
-                          },
-                          child: SvgPicture.asset(
-                            'assets/icons/Communication.svg',
-                            color: colorGreen,
-                          ),
+                        SizedBox(
+                          width: width * 0.030,
                         ),
-                      ),
-                      SizedBox(
-                        width: width * 0.030,
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(width * 0.0128),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(width * 0.04),
+                        Container(
+                          padding: EdgeInsets.all(width * 0.0128),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(width * 0.04),
+                            ),
                           ),
+                          child: GestureDetector(
+                              onTap: () => Get.to(
+                                    () => AppUtil.isGuest()
+                                        ? const SignInScreen()
+                                        : NotificationScreen(),
+                                  ),
+                              child: SvgPicture.asset(
+                                'assets/icons/Alerts.svg',
+                                color: colorGreen,
+                              )),
                         ),
-                        child: GestureDetector(
-                            onTap: () => Get.to(
-                                  () => AppUtil.isGuest()
-                                      ? const SignInScreen()
-                                      : NotificationScreen(),
-                                ),
-                            child: SvgPicture.asset(
-                              'assets/icons/Alerts.svg',
-                              color: colorGreen,
-                            )),
-                      ),
-                      SizedBox(
-                        width: width * 0.030,
-                      ),
-                    ],
-                  )
+                        SizedBox(
+                          width: width * 0.030,
+                        ),
+                      ],
+                    )
                 ],
               ),
             ),

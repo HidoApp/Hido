@@ -9,6 +9,7 @@ import 'package:ajwad_v4/services/view/widgets/hospitality_booking_sheet.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
+import 'package:ajwad_v4/widgets/sign_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -70,7 +71,18 @@ class BottomHospitalityBooking extends StatelessWidget {
               child: CustomButton(
                 onPressed: () {
                   AppUtil.isGuest()
-                      ? Get.to(() => const SignInScreen())
+                      ? showModalBottomSheet(
+                          context: context,
+                          builder: (context) => const SignInSheet(),
+                          isScrollControlled: true,
+                          enableDrag: true,
+                          backgroundColor: Colors.white,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(width * 0.06),
+                                topRight: Radius.circular(width * 0.06)),
+                          ))
                       : Get.bottomSheet(
                           HospitalityBookingSheet(
                               color: Colors.green,
@@ -159,7 +171,18 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
               child: CustomButton(
                 onPressed: () {
                   AppUtil.isGuest()
-                      ? Get.to(() => const SignInScreen())
+                      ? showModalBottomSheet(
+                          context: context,
+                          builder: (context) => const SignInSheet(),
+                          isScrollControlled: true,
+                          enableDrag: true,
+                          backgroundColor: Colors.white,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(width * 0.06),
+                                topRight: Radius.circular(width * 0.06)),
+                          ))
                       : Get.bottomSheet(
                           StatefulBuilder(
                             builder: (context, setState) => Container(
