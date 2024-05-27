@@ -18,9 +18,11 @@ class Adventure {
   final int seats;
   final String? status;
   final Profile? user;
+  final String userId;
 
   Adventure({
     required this.id,
+    required this.userId,
     this.descriptionAr,
     this.descriptionEn,
     this.nameAr,
@@ -40,6 +42,7 @@ class Adventure {
 
   factory Adventure.fromJson(Map<String, dynamic> json) {
     return Adventure(
+      userId: json['userId'],
       id: json['id'],
       nameAr: json['nameAr'],
       nameEn: json['nameEn'],

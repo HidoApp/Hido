@@ -491,7 +491,6 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                           onTap: () {
                             Get.to(
                               () => LocalOfferInfo(
-                                  fromService: true,
                                   image: hospitalityObj!.familyImage,
                                   name: hospitalityObj!.familyName,
                                   price: 400,
