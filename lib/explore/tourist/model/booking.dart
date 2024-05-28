@@ -28,8 +28,7 @@ class Booking {
   final Place? place;
   final Hospitality? hospitality;
   final List<Offer>? offers;
-
-  // final Adventure? adventure;
+  final Adventure? adventure;
   // final Event? event;
 
   Booking({
@@ -49,40 +48,33 @@ class Booking {
     this.place,
     this.hospitality,
     this.offers,
-
-    // this.adventure,
+    this.adventure,
     // this.event,
   });
 
   factory Booking.fromJson(Map<String, dynamic> json) {
     return Booking(
-      id: json['id'],
-      placeId: json['placeId'],
-      chatId: json['chatId'],
-      date: json['date'],
+       id: json['id']??'',
+      placeId: json['placeId']??'',
+      chatId: json['chatId']??'',
+      date: json['date'] ?? '',
       orderStatus: json['orderStatus'],
-      timeToGo: json['timeToGo'],
-      timeToReturn: json['timeToReturn'],
+      timeToGo: json['timeToGo'] ?? '',
+      timeToReturn: json['timeToReturn'] ?? '',
       guestNumber: json['guestNumber'],
-      guestInfo: json["guestInfo"] == null
-          ? null
-          : GuestInfo.fromJson(json["guestInfo"]),
-      cost: json['cost'],
-      vehicleType: json['vehicleType'],
-      coordinates: json['coordinates'] == null
-          ? null
-          : Coordinate.fromJson(json['coordinates']),
-      bookingType: json['bookingType'],
-      place: json['place'] == null ? null : Place.fromJson(json['place']),
-      hospitality: json['hospitality'] == null
-          ? null
-          : Hospitality.fromJson(json['hospitality']),
-     offers: json['offers'] == null
-  ? null
-  : (json['offers'] as List)
-      .map((offer) => Offer.fromJson(offer as Map<String, dynamic>))
-      .toList(),
+      //guestInfo: json["guestInfo"] == null ? null : GuestInfo.fromJson(json["guestInfo"]),
+      guestInfo: GuestInfo.fromJson(json['guestInfo'] ?? {}),
 
+      cost: json['cost'],
+      vehicleType: json['vehicleType']??'',
+      coordinates: json['coordinates'] == null ? null : Coordinate.fromJson(json['coordinates']),
+      bookingType: json['bookingType']??'',
+      place: json['place'] == null ? null : Place.fromJson(json['place']),
+      hospitality: json['hospitality'] == null ? null : Hospitality.fromJson(json['hospitality']),
+      adventure: json['adventure'] == null ? null : Adventure.fromJson(json['adventure']),
+
+      //offers: json['offers'] == null ? null : (json['offers'] as List).map((offer) => Offer.fromJson(offer as Map<String, dynamic>)).toList(),
+       offers: json['offers'] == null ? null : (json['offers'] as List<dynamic>).map((offer) => Offer.fromJson(offer as Map<String, dynamic>)).toList(),
     );
   }
 
@@ -96,34 +88,42 @@ class Booking {
       'cost': cost,
       'vehicleType': vehicleType,
       'coordinates': coordinates,
-    'offers': offers?.map((offer) => offer.toJson()).toList(),
+      'offers': offers?.map((offer) => offer.toJson()).toList(),
+      'guestInfo': guestInfo?.toJson(),
+
+    
 
     };
   }
 }
 
 class GuestInfo {
-  GuestInfo({
-    required this.male,
-    required this.female,
-  });
+  final int female;
+  final int male;
+  final String dayId;
 
-  final String? male;
-  final String? female;
+  GuestInfo({
+    required this.female,
+    required this.male,
+    required this.dayId
+  });
 
   factory GuestInfo.fromJson(Map<String, dynamic> json) {
     return GuestInfo(
-      male: json["male"],
-      female: json["female"],
+      female: json['female'] ?? 0,
+      male: json['male'] ?? 0,
+      dayId: json['dayId']??'',
     );
   }
 
-  Map<String, dynamic> toJson() => {
-        "male": male,
-        "female": female,
-      };
+  Map<String, dynamic> toJson() {
+    return {
+      'female': female,
+      'male': male,
+      'dayId':dayId
+    };
+  }
 }
-
 class Offer {
   final String id;
   final String userId;
@@ -170,6 +170,53 @@ class Offer {
       };
 }
 
+// class Hospitality {
+//   final String id;
+//   final String titleAr;
+//   final String titleEn;
+//   final String regionAr;
+//   final String regionEn;
+//   final List<String> images;
+//   final Coordinate coordinates;
+//   final String location;
+
+//   Hospitality({
+//     required this.id,
+//     required this.titleAr,
+//     required this.titleEn,
+//     required this.regionAr,
+//     required this.regionEn,
+//     required this.images,
+//     required this.coordinates,
+//     required this.location,
+//   });
+
+//   factory Hospitality.fromJson(Map<String, dynamic> json) {
+//     return Hospitality(
+//       id: json['id'],
+//       titleAr: json['titleAr'],
+//       titleEn: json['titleEn'],
+//       regionAr: json['regionAr'],
+//       regionEn: json['regionEn'],
+//       images: List<String>.from(json['image']),
+//       coordinates: Coordinate.fromJson(json['coordinates']),
+//       location: json['location'],
+//     );
+//   }
+
+//   Map<String, dynamic> toJson() {
+//     return {
+//       'id': id,
+//       'titleAr': titleAr,
+//       'titleEn': titleEn,
+//       'regionAr': regionAr,
+//       'regionEn': regionEn,
+//       'image': images,
+//       'coordinates': coordinates.toJson(),
+//       'location': location,
+//     };
+//   }
+// }
 
 // class Profile {
 //   final String id;

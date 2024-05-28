@@ -25,6 +25,8 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 
+import 'review_hospitalty_screen.dart';
+
 class HospitalityDetails extends StatefulWidget {
   const HospitalityDetails({
     Key? key,
@@ -116,6 +118,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                     servicesController: _servicesController,
                     avilableDate: avilableDate,
                   ),
+                 
                 ),
               ),
               backgroundColor: Colors.white,

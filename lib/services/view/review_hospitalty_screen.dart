@@ -1,4 +1,5 @@
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
 import 'package:ajwad_v4/payment/controller/payment_controller.dart';
 import 'package:ajwad_v4/payment/model/invoice.dart';
@@ -16,8 +17,13 @@ import 'package:ajwad_v4/widgets/promocode_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+
+import '../../profile/view/ticket_details_screen.dart';
+import '../../request/ajwadi/controllers/request_controller.dart';
+import '../../request/local_notification.dart';
 
 class ReviewHospitalty extends StatefulWidget {
   const ReviewHospitalty(
@@ -39,17 +45,31 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
   Invoice? invoice;
   bool isCheckingForPayment = false;
   int finalCost = 0;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     finalCost = widget.hospitality.price *
         (widget.maleGuestNum + widget.femaleGuestNum);
+    
   }
+  final RequestController _RequestController= Get.put(RequestController());
 
   PaymentController paymentController = Get.put(PaymentController());
+
+  
   @override
   Widget build(BuildContext context) {
+    print('hospitalityDate');
+    print(widget.hospitality.id);
+     
+                // print(fetchedBooking?.bookingType);
+  
+
+
+
+
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
       extendBodyBehindAppBar: false,
@@ -81,9 +101,10 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                 ),
                 // Details
                 ReviewDetailsTile(
-                    title: AppUtil.rtlDirection2(context)
-                        ? '${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(widget.hospitality.daysInfo![0].startTime))} -  ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(widget.hospitality.daysInfo![0].endTime))}'
-                        : ' ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(widget.hospitality.daysInfo![0].startTime))} -  ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(widget.hospitality.daysInfo![0].endTime))}',
+                    title: 
+                    AppUtil.rtlDirection2(context)
+                        ? '${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(widget.hospitality.daysInfo.first.startTime))} -  ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(widget.hospitality.daysInfo.first.endTime))}'
+                        : ' ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(widget.hospitality.daysInfo.first.startTime))} -  ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(widget.hospitality.daysInfo.first.endTime))}',
                     image: "assets/icons/timeGrey.svg"),
                 ReviewDetailsTile(
                     title: AppUtil.rtlDirection2(context)
@@ -133,6 +154,11 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                       widget.servicesController.selectedDate.value,
                     ),
                   ),
+                  // text: DateFormat('d MMMM y').format(
+                  //   DateTime.parse(
+                  //     widget.servicesController.selectedDate.value,
+                  //   ),
+                  // ),
                 ),
                 SizedBox(
                   height: width * .041,
@@ -165,7 +191,9 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                     Row(
                       children: [
                         CustomText(
-                          text: ' ${widget.hospitality.price.toString()} ',
+                          // text: ' ${widget.hospitality.price.toString()} ',
+                         text: ' ${finalCost.toString()} ',
+
                           fontSize: width * 0.051,
                         ),
                         CustomText(
@@ -185,6 +213,8 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                       ? const Center(child: CircularProgressIndicator())
                       : CustomButton(
                           onPressed: (() async {
+                                        
+                      
                             final isSuccess = await widget.servicesController
                                 .checkAndBookHospitality(
                                     context: context,
@@ -298,14 +328,31 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                                                     text: "paymentSuccess".tr),
                                               ],
                                             ),
-                                          );
-                                        },
-                                      );
-                                    }
-                                  } else {}
-                                });
-                              }
+                                    );
+                                  },
+                                  // );
+                                      ).then((_) {
+                                      //  //LocalNotification().showNotification(context,widget.booking?.id, widget.booking?.timeToGo, widget.booking?.date ,_offerController.offers.last.name, thePlace?.nameAr,thePlace?.nameEn);
+                                     LocalNotification().showHospitalityNotification(context,widget.hospitality.booking?.last.id,  widget
+                                        .servicesController.selectedDate.value ,widget.hospitality.mealTypeEn,widget.hospitality.mealTypeAr ,widget.hospitality.titleEn,widget.hospitality.titleAr);
+                                     Get.to(() =>  TicketDetailsScreen(
+                                                             hospitality: widget.hospitality,
+                                                             icon: SvgPicture.asset(
+                                                            'assets/icons/place.svg'),
+                                                             bookTypeText:'hospitality',
+                                               
+                                           ));
+                                         });
+                                  }
+                                
+                                    
+                          }});
                             }
+                           }
+                         
+                          // LocalNotification().showHospitalityNotification(context,widget.hospitality.id,  widget.hospitality.booking?.first.date ,widget.hospitality.mealTypeEn,widget.hospitality.mealTypeAr ,widget.hospitality.titleEn,widget.hospitality.titleAr);
+
+                         
                           }),
                           title: 'checkout'.tr),
                 ),

@@ -32,8 +32,7 @@ class CustomTicketCard extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return InkWell(
-   onTap: booking.orderStatus == 'ACCEPTED'
-   //'ACCEPTED'
+   onTap: booking.orderStatus == 'ACCEPTED' || booking.bookingType=='hospitality'
       ? () {
           Get.to(() => TicketDetailsScreen(
           booking: booking,
@@ -93,7 +92,7 @@ print(booking.placeId??'') ;
             child: ClipRRect(
               borderRadius: const BorderRadius.all(Radius.circular(4)),
               child: Image.network(
-                booking.place!.image![0],
+                booking.bookingType =="place" ?booking.place!.image![0]:booking.hospitality!.images[0],
                 height: height * 0.076,
                 width: width * 0.16,
                 fit: BoxFit.cover,
@@ -115,8 +114,8 @@ print(booking.placeId??'') ;
                     children: [
                       CustomText(
                         text: AppUtil.rtlDirection(context)
-                            ? booking.place!.nameEn!
-                            : booking.place!.nameAr!,
+                            ?booking.bookingType =="place" ? booking.place!.nameEn! : booking.hospitality!.titleEn
+                            :booking.bookingType =="place" ? booking.place!.nameAr! : booking.hospitality!.titleAr,
                         fontSize: 19,
                         fontWeight: FontWeight.w700,
                         fontFamily:  AppUtil.rtlDirection(context)?'SF Pro':'SF Arabic',
@@ -156,8 +155,8 @@ print(booking.placeId??'') ;
                     ),
                     CustomText(
                       text: AppUtil.rtlDirection2(context)
-                          ? booking.place!.regionAr!
-                          : booking.place!.regionEn!,
+                          ?booking.bookingType =="place" ? booking.place!.regionAr!:booking.hospitality!.regionAr!
+                          :booking.bookingType =="place" ? booking.place!.regionEn!:booking.hospitality!.regionEn ,
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
                       color: textGreyColor,

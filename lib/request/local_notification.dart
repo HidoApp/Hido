@@ -60,8 +60,8 @@ void checkBooking(String? bookdate) {
 
     if (twoDaysBeforeWithoutTime.isBefore(currentDateInRiyadh)) {
     // If it's in the past, set it to the current date
-    twoDaysBefore = currentDate;
-    }
+    // twoDaysBefore = currentDate;
+    
     if(twoDaysBefore == currentDate){
      twoDaysBefore = currentDate;
 
@@ -70,9 +70,14 @@ void checkBooking(String? bookdate) {
       minute=currentDateInRiyadh.minute;
     }
     else{
+      twoDaysBefore = bookingDate.subtract(Duration(days: 1));
       day="1 day";
+       hour=currentDateInRiyadh.hour;
+      minute=currentDateInRiyadh.minute+3;
     }
   
+    }
+
      print("datebe");
       print(twoDaysBefore);
   
@@ -236,6 +241,7 @@ print(id);
 
   print(tz.local);
 print(day);
+
 if(day=='today'){
 
   descreption = " your experience to discover "+ placeName +" with " +name!+ " start"+day;
@@ -246,13 +252,83 @@ else{
 }
     await flutterLocalNotificationsPlugin.zonedSchedule(
      parsedId,
-    'Hi'+ " NAME "+", Reminder",
+    'Hi'+ name!+", Reminder",
     descreption,
     notificationTime,
 
     // time + " and your journey to discover "+ placeName +" with " + 'begins', 
     //  tz.TZDateTime.now(tz.local).add(const Duration(seconds: 1)),
     // tz.TZDateTime.from(notificationTime,tz.local), 
+    details,uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime
+
+     );
+
+}
+
+
+ 
+ void showHospitalityNotification(BuildContext context, String? id ,String? Date , String? mealEn,String? mealAr, String? titleEn,String? tiltleAr) async {
+ checkBooking(Date);
+
+
+tz.TZDateTime notificationTime;
+if(hour!=0 && minute!=0){
+  notificationTime = tz.TZDateTime(location, twoDaysBefore.year, twoDaysBefore.month, twoDaysBefore.day, hour,minute,3);
+ print("inter1");
+
+}
+else{
+    notificationTime = tz.TZDateTime(location, twoDaysBefore.year, twoDaysBefore.month, twoDaysBefore.day, 24,00,3);
+
+}
+
+
+  print("Notification Time:");
+  
+
+print('note info');
+print(notificationTime);
+
+print(id);
+
+
+  int parsedId = int.tryParse(id ?? '') ?? 0;
+  String ids= id ??"0 ";
+
+  String FamilyName = AppUtil.rtlDirection2(context) ? tiltleAr ?? '' : titleEn ?? '';
+  String mealName = AppUtil.rtlDirection2(context) ? mealAr ?? '' : mealEn ?? '';
+
+
+ AndroidNotificationDetails android =AndroidNotificationDetails(
+  ids , 'schduled', 
+  importance: Importance.max,
+  priority: Priority.high,
+  
+  
+  
+  );
+  
+  NotificationDetails details =   NotificationDetails(android: android);
+  tz.initializeTimeZones();
+  // tz.setLocalLocation(tz.getLocation('Asia/Riyadh'));
+
+  print(tz.local);
+print(day);
+if(day=='today'){
+
+  descreption = " Hosting You "+ "for "+mealName+ " at the "+FamilyName + " will begin " +day;
+}
+else{
+  descreption = day + "  left and your hosting begins at "+FamilyName+" for " +mealName;
+
+}
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+     parsedId,
+    'Hi'+", Reminder",
+    descreption,
+    notificationTime,
+
+   
     details,uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime
 
      );

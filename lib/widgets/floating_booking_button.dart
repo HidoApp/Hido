@@ -149,7 +149,8 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
                 color: Colors.black,
               ),
               CustomText(
-                text: '400 ${'sar'.tr}',
+                //text: '400 ${'sar'.tr}',
+               text: '${widget.adventure.price} ${'sar'.tr}',
                 fontWeight: FontWeight.w900,
                 fontSize: width * 0.043,
                 fontFamily: 'HT Rakik',

@@ -37,6 +37,7 @@ import 'package:intl/intl.dart' as intel;
 
 import '../../../services/view/review_request_screen.dart';
 import '../../../widgets/custom_app_bar.dart';
+import '../../tourist/view/find_ajwady.dart';
 
 
 
@@ -600,6 +601,21 @@ static Future init()async{
                             
                             
                              title: 'confirm'.tr,),
+                             SizedBox(height: 10),
+
+                            CustomButton(
+                            
+                             onPressed: () {
+                             Get.until((route) => Get.currentRoute == '/FindAjwady');
+
+                             },
+                            
+                            
+                             title:AppUtil.rtlDirection2(context)?'عودة للعروض' :'Return to Offers'.tr,
+                             buttonColor: Colors.white.withOpacity(0.3),
+                             textColor:Color(0xFF070708)),
+              
+              
                           // paymentController.isPaymenInvoiceLoading.value
                           //     ? CircularProgressIndicator(
                           //         color: colorGreen,

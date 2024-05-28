@@ -156,7 +156,10 @@ class ProfileController extends GetxController {
         bookingType: 'PAST',
         context: context,
       );
+              print("this pas 1ticket");
+
       if (data != null) {
+        print("this pas ticket");
         pastTicket(data);
         return pastTicket;
       } else {

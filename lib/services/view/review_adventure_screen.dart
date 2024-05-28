@@ -36,8 +36,15 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
   final paymentController = Get.put(PaymentController());
   Invoice? invoice;
   bool isCheckingForPayment = false;
+  int finalCost = 0;
 
-  @override
+
+ void initState() {
+    // TODO: implement initState
+    super.initState();
+    finalCost = widget.adventure.price * widget.person;
+    
+  }  @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
 
@@ -75,8 +82,11 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                 const SizedBox(
                   height: 4,
                 ),
-                const ReviewDetailsTile(
-                    title: "5:00-8:00 AM ", image: "assets/icons/timeGrey.svg"),
+                 ReviewDetailsTile(
+                    title: widget.adventure.times != null && widget.adventure.times!.isNotEmpty
+                                ? widget.adventure.times!.join(' - ')
+                                : '5:00-8:00 AM',  
+                        image: "assets/icons/timeGrey.svg"),
                 const SizedBox(
                   height: 20,
                 ),
@@ -125,7 +135,9 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                     ),
                     Spacer(),
                     CustomText(
-                      text: 'SAR ${widget.adventure.price.toString()}',
+                     // text: 'SAR ${widget.adventure.price.toString()}',
+                       text: 'SAR ${finalCost.toString()}',
+
                       fontSize: 20,
                     )
                   ],
