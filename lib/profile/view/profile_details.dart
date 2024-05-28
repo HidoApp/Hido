@@ -92,15 +92,6 @@ class _ProfileDetailsState extends State<ProfileDetails> {
 
   late double width, height;
 
-  var interestList = [
-    "gamesOnline".tr,
-    "concert".tr,
-    "music".tr,
-    "art".tr,
-    "movie".tr,
-    "others".tr,
-  ];
-
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
@@ -137,6 +128,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
         ),
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Obx(
             () => ListView(
@@ -148,74 +140,67 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                       ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       InkWell(
                         onTap: () {
                           getImage(ImageSource.gallery, context);
                         },
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(50.0),
-                          child: widget.profileController!.isImagesLoading.value
-                              ? const CircularProgressIndicator(
-                                  color: colorGreen,
-                                )
-                              // : xfilePick.path.isNotEmpty
-                              //     ? Image.file(
-                              //         File(xfilePick.path),
-                              //         fit: BoxFit.cover,
-                              //         width: 100,
-                              //         height: 100,
-                              //       )
-                              : widget.profileController!.profile
-                                              .profileImage !=
-                                          "" &&
-                                      widget.profileController!.profile
-                                              .profileImage !=
-                                          null
-                                  ? Image.network(
-                                      widget.profileController!.profile
-                                          .profileImage!,
-                                      height: 100,
-                                      width: 100,
-                                      fit: BoxFit.cover,
-                                    )
-                                  : Image.asset(
-                                      "assets/images/profile_image.png",
-                                      height: 100,
-                                      width: 100,
-                                      fit: BoxFit.cover,
-                                    ),
+                        child: Center(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(50.0),
+                            child:
+                                widget.profileController!.isImagesLoading.value
+                                    ? const CircularProgressIndicator(
+                                        color: colorGreen,
+                                      )
+                                    : widget.profileController!.profile
+                                                    .profileImage !=
+                                                "" &&
+                                            widget.profileController!.profile
+                                                    .profileImage !=
+                                                null
+                                        ? Image.network(
+                                            widget.profileController!.profile
+                                                .profileImage!,
+                                            height: 100,
+                                            width: 100,
+                                            fit: BoxFit.cover,
+                                          )
+                                        : Image.asset(
+                                            "assets/images/profile_image.png",
+                                            height: 100,
+                                            width: 100,
+                                            fit: BoxFit.cover,
+                                          ),
+                          ),
                         ),
                       ),
                       const SizedBox(
                         height: 12,
                       ),
+                      const Divider(
+                        color: lightGrey,
+                        thickness: 1,
+                      ),
+                      SizedBox(
+                        height: width * 0.061,
+                      ),
                       CustomText(
-                        text: widget.profileController!.profile.name ?? "NAME",
-                        color: widget.fromAjwady ? Colors.white : darkBlue,
-                        fontSize: 24,
+                        text: "fullName".tr,
+                        color: black,
+                        fontSize: 16,
                         fontWeight: FontWeight.w500,
                       ),
-                      const SizedBox(
-                        height: 24,
+                      SizedBox(
+                        height: 8,
                       ),
-                      Row(
-                        children: [
-                          CustomText(
-                            text: "aboutMe".tr,
-                            color: widget.fromAjwady ? Colors.white : darkBlue,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          // GestureDetector(
-                          //     onTap: () {
-                          //       print("About Me ");
-                          //     },
-                          //     child: SvgPicture.asset(
-                          //         "assets/icons/edite_icon.svg"))
-                        ],
+                      CustomText(
+                        text: widget.profileController!.profile.name ?? "NAME",
+                        color: almostGrey,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
                       ),
                       const SizedBox(
                         height: 4,
@@ -235,7 +220,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                         padding: EdgeInsets.symmetric(vertical: 12),
                         child: Divider(
                           color: lightGrey,
-                          thickness: 2,
+                          thickness: 1,
                         ),
                       ),
                       const SizedBox(

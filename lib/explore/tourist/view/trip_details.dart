@@ -16,7 +16,6 @@ import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_policy_sheet.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/home_icons_button.dart';
-import 'package:ajwad_v4/widgets/sign_sheet.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -136,8 +135,8 @@ class _TripDetailsState extends State<TripDetails> {
       );
       print("2");
 
-  if(fetchedBooking!.offers?.length !=0){
-      print("3");
+      if (fetchedBooking!.offers?.length != 0) {
+        print("3");
 
         offers = fetchedBooking.offers!;
         print(offers.length);
@@ -537,95 +536,97 @@ class _TripDetailsState extends State<TripDetails> {
                       //   ],
                       // ),
 
-                      Obx(
-                        () =>_RequestController.isBookingLoading.value
-                            ? const CircularProgressIndicator()
-                            // : Padding(
-                            //     padding: const EdgeInsets.symmetric(
-                            //         horizontal: 30, vertical: 7),
-                                :!AppUtil.isGuest() &&
-                                        isHasOffers.value 
-                                    ?CustomButton(
-                                      
-                                        onPressed: () async {
-                                         print(isHasOffers.value);
-                                         //print(offers.last.name);
-                                          Get.to(() => LocalOfferInfo(
-                                           place: thePlace!,
-                                           image: _offerController.offerDetails.value.image ?? '',
-                                            name:  _offerController.offerDetails.value.name?? '',
-                                           profileId:  _offerController.offers.last.profileId??'',
-                                           rating: _offerController.offers.last.tourRating??0,
-                                           price: _offerController.offers.last.price??0,
-                                           tripNumber:_offerController.offers.last.tourNumber??0
-                                           ));
-                                        },
-                                        title: AppUtil.rtlDirection2(context)?"طلبك":"Your Request",
-                                        
-                                        //  icon: AppUtil.rtlDirection(context)
-                                        // ? const Icon(Icons.arrow_back)
-                                        // : const Icon(Icons.arrow_forward),
-                                      )
-                                      
-                                    //TODO:fix the condition Ammar
-                                    // : _touristExploreController.isPlaceNotLocked
-                                    //   
-                                    //      .value // booking OR Empty button
+                      Obx(() => _RequestController.isBookingLoading.value
+                              ? const CircularProgressIndicator()
+                              // : Padding(
+                              //     padding: const EdgeInsets.symmetric(
+                              //         horizontal: 30, vertical: 7),
+                              : !AppUtil.isGuest() && isHasOffers.value
+                                  ? CustomButton(
+                                      onPressed: () async {
+                                        print(isHasOffers.value);
+                                        //print(offers.last.name);
+                                        Get.to(() => LocalOfferInfo(
+                                            place: thePlace!,
+                                            image: _offerController
+                                                    .offerDetails.value.image ??
+                                                '',
+                                            name: _offerController
+                                                    .offerDetails.value.name ??
+                                                '',
+                                            profileId: _offerController
+                                                    .offers.last.profileId ??
+                                                '',
+                                            rating: _offerController
+                                                    .offers.last.tourRating ??
+                                                0,
+                                            price: _offerController
+                                                    .offers.last.price ??
+                                                0,
+                                            tripNumber: _offerController
+                                                    .offers.last.tourNumber ??
+                                                0));
+                                      },
+                                      title: AppUtil.rtlDirection2(context)
+                                          ? "طلبك"
+                                          : "Your Request",
 
-                                    :(isViewBooking.value 
-                                      ? 
-                                        CustomButton(
-                                        onPressed: () async {
+                                      //  icon: AppUtil.rtlDirection(context)
+                                      // ? const Icon(Icons.arrow_back)
+                                      // : const Icon(Icons.arrow_forward),
+                                    )
 
-                                          Place? thePlace =
-                                              await _touristExploreController
-                                                  .getPlaceById(
-                                                      id: widget.place!.id!,
-                                                      context: context);
-                                              getOfferinfo();
-                                          Get.to(
-                                            () => FindAjwady(
-                                              booking: thePlace!.booking![0],
-                                              place: widget.place!,
-                                              placeId: thePlace.id!,
-                                            ),
-                                          )?.then((value) async {
+                                  //TODO:fix the condition Ammar
+                                  // : _touristExploreController.isPlaceNotLocked
+                                  //
+                                  //      .value // booking OR Empty button
 
-                                            return getPlaceBooking();
-                                          });
-                                        },
-                                        
-                                        title:AppUtil.rtlDirection2(context)?"العروض":"View Offers",
-                                        //  icon: AppUtil.rtlDirection(context)
-                                        // ? const Icon(Icons.arrow_back)
-                                        // : const Icon(Icons.arrow_forward),
-                                      )
-                                        
-                                      
-                                        : CustomButton(
-                                            onPressed: () {
-                                              AppUtil.isGuest()
-                                                  ? Get.to(
-                                                      () =>
-                                                          const SignInScreen(),
-                                                    )
-                                                  : showModalBottomSheet(
-                                                      useRootNavigator: true,
-                                                      isScrollControlled: true,
-                                                      backgroundColor:
-                                                          Colors.transparent,
-                                                      shape:
-                                                          const RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius.only(
-                                                          topRight:
-                                                              Radius.circular(
-                                                                  30),
-                                                          topLeft:
-                                                              Radius.circular(
-                                                                  30),
-                                                        ),
+                                  : (isViewBooking.value
+                                      ? CustomButton(
+                                          onPressed: () async {
+                                            Place? thePlace =
+                                                await _touristExploreController
+                                                    .getPlaceById(
+                                                        id: widget.place!.id!,
+                                                        context: context);
+                                            getOfferinfo();
+                                            Get.to(
+                                              () => FindAjwady(
+                                                booking: thePlace!.booking![0],
+                                                place: widget.place!,
+                                                placeId: thePlace.id!,
+                                              ),
+                                            )?.then((value) async {
+                                              return getPlaceBooking();
+                                            });
+                                          },
 
+                                          title: AppUtil.rtlDirection2(context)
+                                              ? "العروض"
+                                              : "View Offers",
+                                          //  icon: AppUtil.rtlDirection(context)
+                                          // ? const Icon(Icons.arrow_back)
+                                          // : const Icon(Icons.arrow_forward),
+                                        )
+                                      : CustomButton(
+                                          onPressed: () {
+                                            AppUtil.isGuest()
+                                                ? Get.to(
+                                                    () => const SignInScreen(),
+                                                  )
+                                                : showModalBottomSheet(
+                                                    useRootNavigator: true,
+                                                    isScrollControlled: true,
+                                                    backgroundColor:
+                                                        Colors.transparent,
+                                                    shape:
+                                                        const RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.only(
+                                                        topRight:
+                                                            Radius.circular(30),
+                                                        topLeft:
+                                                            Radius.circular(30),
                                                       ),
                                                     ),
                                                     context: context,

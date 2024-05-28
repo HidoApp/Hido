@@ -36,13 +36,35 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
   final paymentController = Get.put(PaymentController());
   Invoice? invoice;
   bool isCheckingForPayment = false;
+  bool isDateBeforeToday() {
+    DateTime adventureDate =
+        DateFormat('yyyy-MM-dd').parse(widget.adventure.date!);
+    DateTime currentDate = DateTime.now();
+    return adventureDate.isBefore(currentDate);
+  }
+
+  bool isSameDay() {
+    DateTime adventureDate =
+        DateFormat('yyyy-MM-dd').parse(widget.adventure.date!);
+    DateTime currentDate = DateTime.now();
+    print(adventureDate);
+    print(currentDate);
+
+    return adventureDate.year == currentDate.year &&
+        adventureDate.month == currentDate.month &&
+        adventureDate.day == currentDate.day;
+  }
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      appBar: const CustomAppBar("Review Booking"),
+      appBar: CustomAppBar(
+        "Review Booking",
+        action: true,
+        onPressedAction: () {},
+      ),
       extendBodyBehindAppBar: false,
       body: Container(
         padding: EdgeInsets.all(width * 0.041),
@@ -138,49 +160,79 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                     ? const Center(child: CircularProgressIndicator())
                     : CustomButton(
                         onPressed: () async {
-                          print("invoice != null");
-                          print(invoice != null);
+                          if (isSameDay()) {
+                            AppUtil.errorToast(
+                                context, "You must booking before 24 hours");
+                          } else if (isDateBeforeToday()) {
+                            AppUtil.errorToast(context, "not avalible ");
+                          } else {
+                            print("invoice != null");
+                            print(invoice != null);
 
-                          invoice ??= await paymentController.paymentInvoice(
-                              context: context,
-                              description: 'DESCRIPTION ADVENTURE',
-                              amount: widget.adventure.price * widget.person);
-                          if (invoice != null) {
-                            await _adventureController.checkAdventureBooking(
-                                adventureID: widget.adventure.id,
+                            invoice ??= await paymentController.paymentInvoice(
                                 context: context,
-                                personNumber: widget.person,
-                                invoiceId: invoice!.id);
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => PaymentWebView(
-                                        url: invoice!.url!,
-                                        title: 'Payment'))).then((value) async {
-                              setState(() {
-                                isCheckingForPayment = true;
-                              });
-
-                              final checkInvoice =
-                                  await paymentController.paymentInvoiceById(
-                                      context: context, id: invoice!.id);
-
-                              if (checkInvoice!.invoiceStatus != 'faild') {
-                                await _adventureController
-                                    .checkAdventureBooking(
-                                        adventureID: widget.adventure.id,
-                                        context: context,
-                                        personNumber: widget.person,
-                                        invoiceId: invoice!.id);
+                                description: 'DESCRIPTION ADVENTURE',
+                                amount: widget.adventure.price * widget.person);
+                            if (invoice != null) {
+                              await _adventureController.checkAdventureBooking(
+                                  adventureID: widget.adventure.id,
+                                  context: context,
+                                  personNumber: widget.person,
+                                  invoiceId: invoice!.id);
+                              Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => PaymentWebView(
+                                              url: invoice!.url!,
+                                              title: 'Payment')))
+                                  .then((value) async {
                                 setState(() {
-                                  isCheckingForPayment = false;
+                                  isCheckingForPayment = true;
                                 });
 
-                                if (checkInvoice.invoiceStatus == 'failed' ||
-                                    checkInvoice.invoiceStatus == 'initiated') {
-                                  Get.back();
+                                final checkInvoice =
+                                    await paymentController.paymentInvoiceById(
+                                        context: context, id: invoice!.id);
 
-                                  showDialog(
+                                if (checkInvoice!.invoiceStatus != 'faild') {
+                                  await _adventureController
+                                      .checkAdventureBooking(
+                                          adventureID: widget.adventure.id,
+                                          context: context,
+                                          personNumber: widget.person,
+                                          invoiceId: invoice!.id);
+                                  setState(() {
+                                    isCheckingForPayment = false;
+                                  });
+
+                                  if (checkInvoice.invoiceStatus == 'failed' ||
+                                      checkInvoice.invoiceStatus ==
+                                          'initiated') {
+                                    Get.back();
+
+                                    showDialog(
+                                        context: context,
+                                        builder: (ctx) {
+                                          return AlertDialog(
+                                            backgroundColor: Colors.white,
+                                            surfaceTintColor: Colors.white,
+                                            content: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Image.asset(
+                                                    'assets/images/paymentFaild.gif'),
+                                                CustomText(
+                                                    text: "paymentFaild"),
+                                              ],
+                                            ),
+                                          );
+                                        });
+                                  } else {
+                                    print('YES');
+                                    Get.back();
+                                    Get.back();
+
+                                    showDialog(
                                       context: context,
                                       builder: (ctx) {
                                         return AlertDialog(
@@ -190,37 +242,18 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
                                               Image.asset(
-                                                  'assets/images/paymentFaild.gif'),
-                                              CustomText(text: "paymentFaild"),
+                                                  'assets/images/paymentSuccess.gif'),
+                                              CustomText(
+                                                  text: "paymentSuccess"),
                                             ],
                                           ),
                                         );
-                                      });
-                                } else {
-                                  print('YES');
-                                  Get.back();
-                                  Get.back();
-
-                                  showDialog(
-                                    context: context,
-                                    builder: (ctx) {
-                                      return AlertDialog(
-                                        backgroundColor: Colors.white,
-                                        surfaceTintColor: Colors.white,
-                                        content: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Image.asset(
-                                                'assets/images/paymentSuccess.gif'),
-                                            CustomText(text: "paymentSuccess"),
-                                          ],
-                                        ),
-                                      );
-                                    },
-                                  );
-                                }
-                              } else {}
-                            });
+                                      },
+                                    );
+                                  }
+                                } else {}
+                              });
+                            }
                           }
                         },
                         title: 'Checkout'))
