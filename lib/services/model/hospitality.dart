@@ -22,6 +22,8 @@ class Hospitality {
   final String? location;
   final int price;
   final String? regionAr;
+  final String userId;
+
   final String regionEn;
   final List<DayInfo> daysInfo;
 
@@ -29,6 +31,7 @@ class Hospitality {
       {required this.id,
       required this.bioAr,
       this.booking,
+      required this.userId,
       required this.bioEn,
       required this.mealTypeAr,
       required this.mealTypeEn,
@@ -49,6 +52,7 @@ class Hospitality {
       required this.daysInfo});
   factory Hospitality.fromJson(Map<String, dynamic> json) {
     return Hospitality(
+      userId: json['userId'],
       id: json['id'],
       bioAr: json['bioAr'],
       bioEn: json['bioEn'],

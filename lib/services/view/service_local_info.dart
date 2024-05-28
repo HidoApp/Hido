@@ -12,8 +12,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ServicesLocalInfo extends StatefulWidget {
-  const ServicesLocalInfo({super.key, required this.profileId});
+  const ServicesLocalInfo(
+      {super.key, required this.profileId, this.isHospitality = false});
   final String profileId;
+  final bool isHospitality;
   @override
   State<ServicesLocalInfo> createState() => _ServicesLocalInfoState();
 }
@@ -35,10 +37,12 @@ class _ServicesLocalInfoState extends State<ServicesLocalInfo> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+
     return DefaultTabController(
       //animationDuration: Durations.long1
       //,
-      length: 3,
+      length: 2,
       child: Obx(
         () => _profileController.isProfileLoading.value
             ? const Scaffold(
@@ -48,36 +52,36 @@ class _ServicesLocalInfoState extends State<ServicesLocalInfo> {
                 ),
               )
             : Scaffold(
-                appBar: const CustomAppBar("Local info"),
+                appBar: CustomAppBar("loclaInfo".tr),
                 body: Scaffold(
                   appBar: AppBar(
                     automaticallyImplyLeading: false,
                     centerTitle: true,
-                    toolbarHeight: 300,
+                    toolbarHeight: width * 0.76,
                     title: Column(
                       children: [
-                        profile!.profileImage!.isNotEmpty
+                        profile!.profileImage != null
                             ? CircleAvatar(
                                 backgroundImage: CachedNetworkImageProvider(
                                     profile!.profileImage!),
-                                radius: 40,
+                                radius: width * 0.102,
                               )
-                            : const CircleAvatar(
-                                backgroundImage: AssetImage(
+                            : CircleAvatar(
+                                backgroundImage: const AssetImage(
                                   'assets/images/profile_image.png',
                                 ),
-                                radius: 50,
+                                radius: width * 0.128,
                               ),
-                        const SizedBox(
-                          height: 14,
+                        SizedBox(
+                          height: width * 0.035,
                         ),
                         CustomText(
                           text: profile!.name!,
-                          fontSize: 24,
+                          fontSize: width * 0.061,
                           fontWeight: FontWeight.w500,
                         ),
-                        const SizedBox(
-                          height: 14,
+                        SizedBox(
+                          height: width * .035,
                         ),
                         //local details
                         Row(
@@ -85,15 +89,19 @@ class _ServicesLocalInfoState extends State<ServicesLocalInfo> {
                           children: [
                             //number of tours tile
                             LocalTile(
-                              tripNumber: profile!.adventureNumber!,
-                              subtitle: 'adventure'.tr,
+                              tripNumber: widget.isHospitality
+                                  ? profile!.hostNumber!
+                                  : profile!.adventureNumber!,
+                              subtitle: widget.isHospitality
+                                  ? "hospitality".tr
+                                  : 'adventure'.tr,
                             ),
-                            const SizedBox(
-                              width: 14,
+                            SizedBox(
+                              width: width * 0.035,
                             ),
-                            const SizedBox(
-                              height: 44,
-                              child: VerticalDivider(
+                            SizedBox(
+                              height: width * 0.1128,
+                              child: const VerticalDivider(
                                 color: tileGreyColor,
                                 thickness: 1,
                                 indent: 10,
@@ -102,19 +110,21 @@ class _ServicesLocalInfoState extends State<ServicesLocalInfo> {
                                 //width: 20,
                               ),
                             ),
-                            const SizedBox(
-                              width: 10,
+                            SizedBox(
+                              width: width * 0.025,
                             ),
                             //review tile
                             LocalTile(
-                              tripNumber: profile!.adventureRating!,
+                              tripNumber: widget.isHospitality
+                                  ? profile!.hostRating!
+                                  : profile!.adventureRating!,
                               isRating: true,
-                              subtitle: 'rating'.tr,
+                              subtitle: 'rating '.tr,
                             ),
                           ],
                         ),
-                        const SizedBox(
-                          height: 21,
+                        SizedBox(
+                          height: width * 0.053,
                         ),
                         //view offer button
                       ],
@@ -123,13 +133,11 @@ class _ServicesLocalInfoState extends State<ServicesLocalInfo> {
                       indicatorSize: TabBarIndicatorSize.tab,
                       labelColor: black,
                       unselectedLabelColor: almostGrey,
-                      indicatorPadding: EdgeInsets.symmetric(horizontal: 14),
+                      indicatorPadding:
+                          EdgeInsets.symmetric(horizontal: width * 0.035),
                       tabs: [
                         Tab(
                           text: "about".tr,
-                        ),
-                        Tab(
-                          text: "expertise".tr,
                         ),
                         Tab(
                           text: "reviews".tr,
@@ -141,7 +149,6 @@ class _ServicesLocalInfoState extends State<ServicesLocalInfo> {
                     AboutScreen(
                       profileController: _profileController,
                     ),
-                    const ExpertScreen(),
                     ReviewsScreen(
                       profileId: widget.profileId,
                     )

@@ -7,6 +7,7 @@ import 'package:ajwad_v4/explore/tourist/view/view_trip_images.dart';
 import 'package:ajwad_v4/request/tourist/view/local_offer_info.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/services/model/hospitality.dart';
+import 'package:ajwad_v4/services/view/service_local_info.dart';
 import 'package:ajwad_v4/services/view/widgets/images_services_widget.dart';
 import 'package:ajwad_v4/services/view/widgets/reservation_details_sheet.dart';
 import 'package:ajwad_v4/services/view/widgets/hospitality_booking_sheet.dart';
@@ -490,14 +491,9 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                         child: ServicesProfileCard(
                           onTap: () {
                             Get.to(
-                              () => LocalOfferInfo(
-                                  image: hospitalityObj!.familyImage,
-                                  name: hospitalityObj!.familyName,
-                                  price: 400,
-                                  rating: 5,
-                                  tripNumber: 4,
-                                  place: Place(),
-                                  profileId: ""),
+                              () => ServicesLocalInfo(
+                                  isHospitality: true,
+                                  profileId: hospitalityObj!.userId),
                             );
                           },
                           image: hospitalityObj!.familyImage,

@@ -18,10 +18,12 @@ class Profile {
   final ExperienceLevel? experienceLevel;
   final String? descriptionAboutMe;
   final List<String>? userInterests;
+  final List<String>? spokenLanguage;
   final String? nationality;
   final UserRole? userRole;
 
   Profile({
+    this.spokenLanguage,
     this.id,
     //  this.userId,
     this.name,
@@ -65,6 +67,9 @@ class Profile {
       descriptionAboutMe: json['descriptionAboutMe'],
 
       nationality: json['nationality'],
+      spokenLanguage: json["spokenLanguage"] == null
+          ? []
+          : List<String>.from(json["spokenLanguage"]!.map((x) => x)),
     );
   }
 
