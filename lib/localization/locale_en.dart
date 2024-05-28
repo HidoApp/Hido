@@ -384,6 +384,7 @@ const localeEn = {
   "notFind":
       "We couldn't find any local guides available for your chosen date and location",
   "noteDo": "Here is what you can do",
+  "noteCansle":"You took a long time to accept an offer!",
   "Expand": "Expand Search",
   "notePrice": "Please note that the prices listed are per person",
   'mm/dd/yyy': 'mm/dd/yyy',

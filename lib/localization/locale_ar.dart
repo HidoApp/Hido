@@ -361,6 +361,7 @@ const localeAr = {
   "tour": "جولة",
   "expertise": "خبرات",
   "noReviews": "لا توجد مراجعات حتى الآن ",
+  "noteCansle":"لقد استغرقت وقتا طويلا لقبول عرض",
   "HintMessage": "اكتب رسالتك هنا",
   "ItineraryDetails": "تفاصيل مسار الجولة",
   "BookingDetails": "تفاصيل الحجز",

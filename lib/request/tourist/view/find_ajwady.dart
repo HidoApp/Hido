@@ -67,10 +67,10 @@ class _FindAjwadyState extends State<FindAjwady> {
     print("place");
     
  if (_offerController.acceptedOffer!=null||_offerController.acceptedOffer!=[] ){
-      showCancelDialogAfterDelay(1);
+      showCancelDialogAfterDelay(10);
      }
  if (_offerController.acceptedOffer==null||_offerController.acceptedOffer==[]){
-      showCancelDialogAfterDelay(1);
+      showCancelDialogAfterDelay(10);
      }
      
   }
@@ -118,7 +118,7 @@ void startCountdown() {
   void showCancelDialogAfterDelay(int minute){
 
   //  if (_offerController.acceptedOffer==null||_offerController.acceptedOffer==[] ){
-      Future.delayed(Duration(seconds:minute), () {
+      Future.delayed(Duration(minutes:minute), () {
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -153,7 +153,7 @@ void startCountdown() {
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
                       color: Color(0xFF070708),
-                      text:_offerController.acceptedOffer==null||_offerController.acceptedOffer==[]?'notFind'.tr:"You took a long time to accept an offer!",
+                      text:_offerController.acceptedOffer==null||_offerController.acceptedOffer==[]?'notFind'.tr:'noteCansle'.tr,
                       //!AppUtil.rtlDirection2(context)?"We couldn't find any local guides available for your chosen date and location":"لم نتمكن من العثور على أي مرشدين محليين متاحين في التاريخ والموقع الذي اخترته",
                       fontFamily: 'SF Pro',                      
                       ),
@@ -183,7 +183,7 @@ void startCountdown() {
                         child:  CustomText(
                         textAlign: TextAlign.center,
 
-                          text:_offerController.acceptedOffer==null||_offerController.acceptedOffer==[]? "Expand".tr:"Continue viewing offers",
+                          text:_offerController.acceptedOffer==null||_offerController.acceptedOffer==[]? "Expand".tr:AppUtil.rtlDirection2(context)?"الإستمرار في مشاهدة العروض": "Continue viewing offers",
                           color: Colors.white,
                             fontSize: 15,
                            fontFamily: 'SF Pro',

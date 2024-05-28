@@ -22,22 +22,33 @@ import 'dart:developer';
 import 'package:ajwad_v4/profile/widget/HospitalityTicketData.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
+import 'package:ajwad_v4/services/model/hospitality.dart';
+
+import '../../services/controller/hospitality_controller.dart';
+
 
 class TicketDetailsScreen extends StatelessWidget {
 
    TicketDetailsScreen({
     Key? key,
-    required this.booking,
+    this.booking,
     this.icon,
     this.bookTypeText,
+    this.hospitality,
+    // this.femaleGuestNum,
+    // this.maleGuestNum
   }) : super(key: key);
 
   final Booking? booking;
   final SvgPicture? icon;
   final String? bookTypeText;
+  final Hospitality? hospitality;
+  // final int? maleGuestNum;
+  // final int? femaleGuestNum;
 
   final _offerController = Get.put(OfferController());
-
+  final _hospitalityController = Get.put(HospitalityController());
+  
 @override
 Widget build(BuildContext context) {
   final width = MediaQuery.of(context).size.width;
@@ -226,7 +237,11 @@ return Scaffold(
       case 'adventure':
         return TicketData(booking: booking!,icon: icon,bookTypeText: bookTypeText);
       case 'hospitality':
+      if(hospitality==null)
         return HostTicketData(booking: booking!,icon: icon,bookTypeText: bookTypeText);
+      else
+        return HostTicketData(hospitality:hospitality!,icon: icon,bookTypeText: bookTypeText);
+
    
       default:
         return TicketData(booking: booking!,icon: icon,bookTypeText: bookTypeText);
@@ -489,8 +504,7 @@ height: 0,
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                                 Text(
-                                                    '0',
-                                                   //'${booking?.guestNumber ?? 0} ${'guests'.tr}',
+                                                  '${booking.guestNumber ?? 0} ${'guests'.tr}',
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                         color: Color(0xFF111113),

@@ -18,6 +18,10 @@ class Adventure {
   final int seats;
   final String? status;
   final Profile? user;
+  final List<String>? times;
+    final List<AdventureBooking>? booking;
+
+
   final String userId;
 
   Adventure({
@@ -38,6 +42,8 @@ class Adventure {
     required this.seats,
     required this.status,
     this.coordinates,
+    this.times,
+    this.booking
   });
 
   factory Adventure.fromJson(Map<String, dynamic> json) {
@@ -59,6 +65,8 @@ class Adventure {
       status: json['status'],
       date: json['date'],
       coordinates: Coordinate.fromJson(json['coordinates']),
+      times: (json['times'] as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
+
       // booking: json['booking'] == null
       //     ? null
       //     : (json['booking'] as List).map((e) => Booking.fromJson(e)).toList(),
@@ -79,6 +87,56 @@ class Adventure {
       'locationUrl': locationUrl,
       'date': date,
       'coordinates': coordinates,
+      'times': times,
+
     };
   }
+
+}
+class AdventureBooking {
+ final String id;
+  final String userId;
+  final String adventureId;
+  final String date;
+  final String timeToGo;
+  final String timeToReturn;
+  final int guestNumber;
+  final int cost;
+  final String status;
+  final String orderStatus;
+  final DateTime created;
+
+ AdventureBooking({
+    required this.id,
+    required this.userId,
+    required this.adventureId,
+    required this.date,
+    required this.timeToGo,
+    required this.timeToReturn,
+    required this.guestNumber,
+    required this.cost,
+    required this.status,
+    required this.orderStatus,
+    required this.created,
+  });
+
+
+  factory AdventureBooking.fromJson(Map<String, dynamic> json) {
+    return AdventureBooking(
+  
+      id: json['id']??'',
+      userId: json['userId']??'',
+      adventureId: json['adventureId']??'',
+      date: json['date']??'',
+      timeToGo: json['timeToGo'],
+      timeToReturn: json['timeToReturn'],
+      guestNumber: json['guestNumber']??0,
+      cost: json['cost']??0,
+      status: json['status']??'',
+      orderStatus: json['orderStatus']??'',
+      created: DateTime.parse(json['created']),
+
+    );
+  }
+    
 }

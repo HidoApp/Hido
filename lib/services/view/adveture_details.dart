@@ -214,8 +214,10 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                               ),
                               //time
                               CustomText(
-                                text: '5:00-8:00 AM',
-                                color: colorDarkGrey,
+                            text: adventure?.times != null && adventure!.times!.isNotEmpty
+                                ? adventure!.times!.join(' - ')
+                                : '5:00-8:00 AM',                               
+                                 color: colorDarkGrey,
                                 fontSize: width * 0.038,
                                 fontWeight: FontWeight.w300,
                               ),

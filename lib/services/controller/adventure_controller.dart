@@ -65,6 +65,8 @@ class AdventureController extends GetxController {
           adventureID: adventureID,
           personNumber: personNumber,
           invoiceId: invoiceId);
+          print("Date of adventure");
+          print(data);
       return data;
     } catch (e) {
       // AppUtil.errorToast(context, e.toString());

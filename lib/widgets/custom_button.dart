@@ -76,7 +76,7 @@ class CustomButton extends StatelessWidget {
               textAlign: TextAlign.center,
               fontSize: 17,
               fontWeight: FontWeight.w600,
-              color: Colors.red,
+              color: textColor!,
               fontStyle: italic ? FontStyle.italic : FontStyle.normal,
             ),
           if (icon != null) const Spacer(),

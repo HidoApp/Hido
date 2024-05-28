@@ -18,6 +18,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest_all.dart' as tz;
 
 class BookingSheet extends StatefulWidget {
   const BookingSheet(
@@ -49,6 +51,7 @@ class _BookingSheetState extends State<BookingSheet> {
   final Completer<GoogleMapController> _controller = Completer();
   late GoogleMapController mapController;
   late final GoogleMapController _googleMapController;
+
   String? _darkMapStyle;
 
   Future<void> _loadMapStyles() async {
@@ -98,9 +101,18 @@ class _BookingSheetState extends State<BookingSheet> {
   
   DateTime newTimeToReturn = DateTime.now();
   bool isNew = false;
+  final String timeZoneName = 'Asia/Riyadh';
+ late tz.Location location;
+  bool? DateErrorMessage;
+  bool? TimeErrorMessage;
+  bool? GuestErrorMessage;
+  bool? vehicleErrorMessage;
+
+
+
 
   //var locLatLang = const LatLng(24.9470921, 45.9903698);
-
+late DateTime newTimeToGoInRiyadh;
   void addCustomIcon() {
     BitmapDescriptor.fromAssetImage(
             const ImageConfiguration(), "assets/images/pin_marker.png")
@@ -118,9 +130,22 @@ class _BookingSheetState extends State<BookingSheet> {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
     time = DateTime.now();
-    bool? errorMessage;
     returnTime = DateTime.now();
+
+
+    tz.initializeTimeZones();
+
+     location = tz.getLocation(timeZoneName);
+
+     
+
+  DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
+  //DateTime currentDate = DateTime(currentDateInRiyadh.year, currentDateInRiyadh.month, currentDateInRiyadh.day,currentDateInRiyadh.hour+2,currentDateInRiyadh.minute);
     // h = time.hour.toString();
+  
+  DateTime nowPlusTwoHours = currentDateInRiyadh.add(Duration(hours: 2));
+      
+
     return DraggableScrollableSheet(
         initialChildSize: 0.8,
         minChildSize: 0.8,
@@ -144,6 +169,7 @@ class _BookingSheetState extends State<BookingSheet> {
                     Icons.keyboard_arrow_up_outlined,
                     size: 30,
                   ),
+                 
                   CustomText(
                     text: "date".tr,
                     color: Color(0xFF070708),
@@ -185,9 +211,9 @@ class _BookingSheetState extends State<BookingSheet> {
                               ? 'mm/dd/yyy'.tr
                               : _touristExploreController.selectedDate.value
                                   .substring(0, 10),
-                   //  borderColor:  errorMessage ?? false ?Colors.red: lightGreyColor,
+                          borderColor: DateErrorMessage ?? false ?Colors.red: lightGreyColor,
 
-                      borderColor: lightGreyColor,
+                     // borderColor: lightGreyColor,
                       prefixIcon: SvgPicture.asset(
                         "assets/icons/green_calendar.svg",
                       ),
@@ -200,17 +226,18 @@ class _BookingSheetState extends State<BookingSheet> {
                     ),
                     
                   ),
-                   if ( errorMessage??false)
+                   if ( DateErrorMessage??false)
                 Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
+                  padding: const EdgeInsets.only(top:10),
                   child: Text(
-                    "enter date",
+                    AppUtil.rtlDirection2(context) ?"اختر التاريخ" :"Select Date",
                     style: TextStyle(
                       color: Colors.red,
                       fontSize: 12,
                     ),
                   ),
                 ),
+                
                   const SizedBox(
                     height: 12,
                   ),
@@ -246,14 +273,16 @@ class _BookingSheetState extends State<BookingSheet> {
                                             MainAxisAlignment.end,
                                         children: [
                                           Container(
-                                            decoration: const BoxDecoration(
+                                            decoration:  BoxDecoration(
                                               color: Color(0xffffffff),
                                               border: Border(
                                                 bottom: BorderSide(
                                                   //  color: Color(0xff999999),
+
                                                   width: 0.0,
-                                                ),
+                                                ),  
                                               ),
+                                              
                                             ),
                                             child: Row(
                                               mainAxisAlignment:
@@ -269,6 +298,12 @@ class _BookingSheetState extends State<BookingSheet> {
                                                     setState(() {
                                                       Get.back();
                                                       time = newTimeToGo;
+                                                     DateTime Date = DateTime.parse(_touristExploreController
+                                                    .selectedDate.value
+                                                    .substring(0, 10));
+
+                                              newTimeToGoInRiyadh = tz.TZDateTime(location, Date.year, Date.month, Date.day, newTimeToGo.hour, newTimeToGo.minute, newTimeToGo.second);
+
                                                     });
                                                   },
                                                   padding: const EdgeInsets
@@ -327,7 +362,8 @@ class _BookingSheetState extends State<BookingSheet> {
                                   ? "00 :00 PM"
                                   : DateFormat('hh:mm a').format(newTimeToGo),
                               //  test,
-                              borderColor: lightGreyColor,
+                              borderColor: TimeErrorMessage ?? false ?Colors.red: lightGreyColor,
+
                               prefixIcon: SvgPicture.asset(
                                 "assets/icons/time_icon.svg",
                               ),
@@ -335,6 +371,17 @@ class _BookingSheetState extends State<BookingSheet> {
                               textColor: almostGrey,
                             ),
                           ),
+                          if ( TimeErrorMessage??false)
+                          Padding(
+                          padding: const EdgeInsets.only(top:10),
+                         child: Text(
+                          AppUtil.rtlDirection2(context)?"اختر الوقت":"Select Time",
+                          style: TextStyle(
+                           color: Colors.red,
+                           fontSize: 12,
+                    ),
+                  ),
+                ),
                         ],
                       ),
                       const SizedBox(
@@ -368,7 +415,7 @@ class _BookingSheetState extends State<BookingSheet> {
                                             MainAxisAlignment.end,
                                         children: [
                                           Container(
-                                            decoration: const BoxDecoration(
+                                            decoration: BoxDecoration(
                                               color: Color(0xffffffff),
                                               border: Border(
                                                 bottom: BorderSide(
@@ -449,7 +496,8 @@ class _BookingSheetState extends State<BookingSheet> {
                                   : DateFormat('hh:mm a')
                                       .format(newTimeToReturn),
                               //  test,
-                              borderColor: lightGreyColor,
+                              borderColor:TimeErrorMessage ?? false ?Colors.red: lightGreyColor,
+
                               prefixIcon: SvgPicture.asset(
                                 "assets/icons/time_icon.svg",
                               ),
@@ -457,6 +505,17 @@ class _BookingSheetState extends State<BookingSheet> {
                               textColor: almostGrey,
                             ),
                           ),
+                      if ( TimeErrorMessage??false)
+                           Padding(
+                            padding: const EdgeInsets.only(top:10),
+                             child: Text(
+                            AppUtil.rtlDirection2(context)?"اختر الوقت":"Select Time",
+                              style: TextStyle(
+                                 color: Colors.red,
+                                fontSize: 12,
+                             ),
+                          ),
+                           ),
                         ],
                       )
                     ],
@@ -536,6 +595,7 @@ class _BookingSheetState extends State<BookingSheet> {
                       ],
                     ),
                   ),
+                 
                   Align(
                       alignment: Alignment.centerLeft,
                       child: CustomText(
@@ -626,6 +686,17 @@ class _BookingSheetState extends State<BookingSheet> {
                     height: height * 0.02,
                   ),
                   pickupRide(),
+                  if ( vehicleErrorMessage??false)
+                           Padding(
+                            padding: const EdgeInsets.only(top:10),
+                             child: Text(
+                            AppUtil.rtlDirection2(context)?"اختر نوع السيارة":"Select vehicle type",
+                              style: TextStyle(
+                                 color: Colors.red,
+                                fontSize: 12,
+                             ),
+                          ),
+                           ),
                   SizedBox(
                     height: height * 0.025,
                   ),
@@ -665,19 +736,49 @@ class _BookingSheetState extends State<BookingSheet> {
                           //         if(!_touristExploreController.isBookingDateSelected.value){
                           //      AppUtil.errorToast(context, 'hello');
                           // }
-//                           if (selectedRide != "") {
-  setState(() {
-    errorMessage = true;
-  });
-// } else {
-//   setState(() {
-//     errorMessage = false;
-//   });
+                        
 
+
+                           if(!_touristExploreController.isBookingDateSelected.value)
+                              setState(() {
+                                      DateErrorMessage = true;
+                                       });
+                            else{
+                               setState(() {
+                                     DateErrorMessage = false;
+                                       });
+                            }
+                            if(!_touristExploreController.isBookingTimeSelected.value)
+                              setState(() {
+                                      TimeErrorMessage = true;
+                                       });
+                            // else{
+                            //    setState(() {
+                            //         TimeErrorMessage = false;
+                            //            });
+                            // }
+                            if( selectedRide == "")
+                             setState(() {
+                                     vehicleErrorMessage = true;
+                                       });
+                            else{
+                               setState(() {
+                                    vehicleErrorMessage = false;
+                                       });
+                            }
+                                     
+                               print(newTimeToGoInRiyadh.isAfter(nowPlusTwoHours));
+                               print(newTimeToGoInRiyadh);
+                               print(nowPlusTwoHours);
+                             
                                 if (_touristExploreController.isBookingDateSelected.value &&
                                     _touristExploreController
                                         .isBookingTimeSelected.value &&
                                     selectedRide != "") {
+                                      
+
+                            if(newTimeToGoInRiyadh.isAfter(nowPlusTwoHours)){
+
                                   _touristExploreController.isBookedMade(true);
 
                                   // AppUtil.successToast(
@@ -734,11 +835,17 @@ class _BookingSheetState extends State<BookingSheet> {
                                           context, 'somthingWentWrong'.tr);
                                     }
                                   }
-                                } else {// here to change the toast 
-                                
-                                  AppUtil.errorToast(
-                                      context, 'bookingValidation'.tr);
-                                 
+                                } else{
+                                      AppUtil.errorToast(
+                                      context, AppUtil.rtlDirection2(context)?"يجب أن يكون وقت الجولة بعد ساعتين على الأقل من الوقت الحالي"
+                                      :"The tour time must be at least two hours after the current time.");
+                               
+
+                                }}else {
+                                  //  AppUtil.errorToast(
+                                  //     context, 'bookingValidation'.tr);
+
+                                   
                                 }
                               },
                               icon: !AppUtil.rtlDirection(context)
