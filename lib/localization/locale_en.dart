@@ -406,6 +406,6 @@ const localeEn = {
   "signUpTourist": "Sign Up As Tourist",
   "signUpLocal": "Sign Up As Local",
   "guestSubtitle": "Join us and get to have unique experience",
-  "languages": "Languages",
+  "languages": "Spoken Language",
   "loclaInfo": "Local info"
 };

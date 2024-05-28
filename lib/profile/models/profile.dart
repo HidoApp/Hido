@@ -93,6 +93,7 @@ class Profile {
       'descriptionAboutMe': descriptionAboutMe,
       'userInterest': userInterests,
       'nationality': nationality,
+      "spokenLanguage": spokenLanguage!.map((x) => x).toList(),
       //'userRole': userRole,
     };
   }
