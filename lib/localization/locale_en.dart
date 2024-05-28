@@ -381,7 +381,8 @@ const localeEn = {
       "Our cancellation policy requires a 48-hour prior notice for a full refund and a 24-hour prior notice for a partial refund.",
   "cancellationPolicyNote":
       "Please note that no refunds will be issued for cancellations made on the same day as the booking.",
-  "notFind": "We couldn't find any local guides available for your chosen date and location",
+  "notFind":
+      "We couldn't find any local guides available for your chosen date and location",
   "noteDo": "Here is what you can do",
   "noteCansle":"You took a long time to accept an offer!",
   "Expand": "Expand Search",
@@ -405,5 +406,7 @@ const localeEn = {
   'welcomeHido': "Welcom to Hido! ",
   "signUpTourist": "Sign Up As Tourist",
   "signUpLocal": "Sign Up As Local",
-  "guestSubtitle": "Join us and get to have unique experience"
+  "guestSubtitle": "Join us and get to have unique experience",
+  "languages": "Languages",
+  "loclaInfo": "Local info"
 };

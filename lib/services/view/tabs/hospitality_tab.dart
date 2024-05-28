@@ -6,7 +6,7 @@ import 'package:ajwad_v4/services/view/adveture_details.dart';
 import 'package:ajwad_v4/services/view/event_details.dart';
 import 'package:ajwad_v4/services/view/hospitality_details.dart';
 import 'package:ajwad_v4/services/view/widgets/ad_cards.dart';
-import 'package:ajwad_v4/services/view/widgets/city_chips.dart';
+import 'package:ajwad_v4/services/view/widgets/custom_chips.dart';
 import 'package:ajwad_v4/services/view/widgets/custom_hospitality_item.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
@@ -110,8 +110,8 @@ class _HospitalityTabState extends State<HospitalityTab> {
                                     }
                                   }
                                 },
-                                child: CityChips(
-                                  color: _regionsController
+                                child: CustomChips(
+                                  borderColor: _regionsController
                                               .selectedHospitaltyIndex.value ==
                                           index
                                       ? colorDarkGreen
@@ -126,7 +126,7 @@ class _HospitalityTabState extends State<HospitalityTab> {
                                           index
                                       ? Colors.white
                                       : almostGrey,
-                                  city: index == 0
+                                  title: index == 0
                                       ? 'All'
                                       : _regionsController.regionsHospitalty
                                           .value.regionEn![index - 1],

@@ -5,6 +5,7 @@ import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
 import 'package:ajwad_v4/request/tourist/view/local_offer_info.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
+import 'package:ajwad_v4/services/view/service_local_info.dart';
 
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/StackWidgets.dart';
@@ -449,18 +450,8 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                     // local profile
                     child: ServicesProfileCard(
                       onTap: () {
-                        Get.to(
-                          () => LocalOfferInfo(
-                              fromService: true,
-                              image: "",
-                              name: "Abdllah alqurashi",
-                              price: 400,
-                              rating: 5,
-                              tripNumber: 4,
-                              place: Place(),
-                              profileId:
-                                  "439dc741-ff26-4b8f-abf0-467a9b91d75f"),
-                        );
+                        Get.to(() =>
+                            ServicesLocalInfo(profileId: adventure!.userId));
                       },
                       image: adventure!.user!.profileImage ?? '',
                       name: adventure!.user!.name!,

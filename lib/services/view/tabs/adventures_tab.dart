@@ -15,7 +15,7 @@ import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 
 import 'package:ajwad_v4/services/view/hospitality_details.dart';
 import 'package:ajwad_v4/services/view/widgets/ad_cards.dart';
-import 'package:ajwad_v4/services/view/widgets/city_chips.dart';
+import 'package:ajwad_v4/services/view/widgets/custom_chips.dart';
 import 'package:ajwad_v4/services/view/widgets/custom_hospitality_item.dart';
 import 'package:ajwad_v4/services/view/widgets/custom_adventure_item.dart';
 
@@ -127,8 +127,8 @@ class _AdventuresTabState extends State<AdventuresTab> {
                                   }
                                 }
                               },
-                              child: CityChips(
-                                color: _regionsController
+                              child: CustomChips(
+                                borderColor: _regionsController
                                             .selectedAdventureIndex.value ==
                                         index
                                     ? colorDarkGreen
@@ -143,7 +143,7 @@ class _AdventuresTabState extends State<AdventuresTab> {
                                         index
                                     ? Colors.white
                                     : almostGrey,
-                                city: index == 0
+                                title: index == 0
                                     ? 'all'.tr
                                     : AppUtil.rtlDirection2(context)
                                         ? _regionsController.regionsHospitalty

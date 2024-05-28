@@ -3,44 +3,46 @@ import 'package:ajwad_v4/constants/user_roles.dart';
 
 class Profile {
   final String? id;
-  // final String? userId;
   final String? name;
   final int? rating;
-  //final int? tripNumber;
-   String? profileImage;
+  String? profileImage;
   final String? phoneNumber;
-  // final String? governmentIssuedId;
-  // final String? carColor;
-  //final String? carPlate;
-  //final String? carModel;
-  //final CarType? carType;
-  //final dynamic image;
   final int? tourNumber;
+  final int? eventNumber;
+  final int? hostNumber;
+  final int? adventureNumber;
+  final int? tourRating;
+  final int? eventRating;
+  final int? hostRating;
+  final int? adventureRating;
   final ExperienceLevel? experienceLevel;
   final String? descriptionAboutMe;
   final List<String>? userInterests;
+  final List<String>? spokenLanguage;
   final String? nationality;
   final UserRole? userRole;
 
   Profile({
+    this.spokenLanguage,
     this.id,
     //  this.userId,
     this.name,
     this.rating,
     //this.tripNumber,
-     this.profileImage,
+    this.profileImage,
     this.phoneNumber,
-    // this.governmentIssuedId,
-    // this.carColor,
-    // this.carPlate,
-    // this.carModel,
-    // this.carType,
+    this.eventNumber,
+    this.hostNumber,
+    this.adventureNumber,
+    this.tourRating,
+    this.eventRating,
+    this.hostRating,
+    this.adventureRating,
     this.experienceLevel,
     this.descriptionAboutMe,
     this.userInterests,
     this.nationality,
     this.userRole,
-    //this.image,
     this.tourNumber,
   });
 
@@ -50,22 +52,24 @@ class Profile {
       //   userId: json['user_id'],
       name: json['name'],
       rating: json['rating'],
-      //image: json['image'],
       tourNumber: json['tourNumber'],
+      tourRating: json['tourRating'],
+      hostNumber: json['hostNumber'],
+      hostRating: json['hostRating'],
+      adventureNumber: json['adventureNumber'],
+      adventureRating: json['adventureRating'],
+      eventNumber: json['eventNumber'],
+      eventRating: json['eventRating'],
       //tripNumber: json['tripNumber'],
-     profileImage: json['image'],
+      profileImage: json['image'],
       phoneNumber: json['phoneNumber'],
-      // governmentIssuedId: json['governmentIssuedId'],
-      // carColor: json['car_color'],
-      // carPlate: json['car_plate'],
-      // carModel: json['car_model'],
-      // carType: json['car_type'],
-//   experienceLevel: json['experienceLevel'],
+
       descriptionAboutMe: json['descriptionAboutMe'],
 
-      /// userInterests: json['userInterest'],
       nationality: json['nationality'],
-      // userRole: json['userRole'],
+      spokenLanguage: json["spokenLanguage"] == null
+          ? []
+          : List<String>.from(json["spokenLanguage"]!.map((x) => x)),
     );
   }
 
@@ -92,6 +96,4 @@ class Profile {
       //'userRole': userRole,
     };
   }
-
-  
 }

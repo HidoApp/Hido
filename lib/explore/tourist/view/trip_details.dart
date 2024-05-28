@@ -139,6 +139,7 @@ void getOfferinfo() async {
   if(fetchedBooking!.offers?.length != 0){
       print("3");
 
+
    offers = fetchedBooking.offers!;
    print(offers.length);
    isHasOffers.value=true;
@@ -633,6 +634,7 @@ await _offerController.getOffers(context: context, placeId:widget.place!.id! , b
                                                               Radius.circular(
                                                                   30),
                                                         ),
+
                                                       ),
                                                       context: context,
                                                       builder: (context) {

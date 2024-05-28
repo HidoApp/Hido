@@ -22,6 +22,8 @@ class Hospitality {
   final String? location;
   final int price;
   final String? regionAr;
+  final String userId;
+
   final String regionEn;
   final List<DayInfo> daysInfo;
 
@@ -29,6 +31,7 @@ class Hospitality {
       {required this.id,
       required this.bioAr,
       this.booking,
+      required this.userId,
       required this.bioEn,
       required this.mealTypeAr,
       required this.mealTypeEn,
@@ -88,6 +91,8 @@ class Hospitality {
       titleEn: json['titleEn'] ?? '',
       email: json['email'] ?? '',
       coordinate: Coordinate.fromJson(json['coordinates'] ?? {}),
+      userId: json['userId'],
+     
       booking: json['booking'] != null
           ? (json['booking'] as List)
               .map((e) => HospitalityBooking.fromJson(e))

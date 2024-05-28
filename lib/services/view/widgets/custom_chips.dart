@@ -1,18 +1,17 @@
-import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class CityChips extends StatelessWidget {
-  const CityChips(
+class CustomChips extends StatelessWidget {
+  const CustomChips(
       {super.key,
-      required this.city,
+      required this.title,
       required this.backgroundColor,
-      required this.color,
+      required this.borderColor,
       required this.textColor});
-  final String city;
+  final String title;
   final Color backgroundColor;
-  final Color color;
+  final Color borderColor;
   final Color textColor;
   @override
   Widget build(BuildContext context) {
@@ -23,11 +22,11 @@ class CityChips extends StatelessWidget {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: backgroundColor,
-        border: Border.all(width: width * 0.0025, color: color),
+        border: Border.all(width: width * 0.0025, color: borderColor),
         borderRadius: BorderRadius.all(Radius.circular(width * 0.051)),
       ),
       child: CustomText(
-        text: city,
+        text: title,
         fontSize: width * 0.038,
         fontWeight: FontWeight.w600,
         color: textColor,
