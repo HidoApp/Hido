@@ -1,5 +1,7 @@
+import 'dart:developer';
 import 'dart:io';
 
+import 'package:ajwad_v4/auth/models/image.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/services/view/widgets/custom_chips.dart';
@@ -38,12 +40,21 @@ final ImagePicker picker = ImagePicker();
 var pickedFile;
 late XFile xfilePick;
 bool isEditing = false;
-late String newProfileImage;
+String? newProfileImage;
 bool isStarChecked = false;
 int startIndex = -1;
 bool isSendTapped = false;
+List<String> languages = [];
 
 class _ProfileDetailsState extends State<ProfileDetails> {
+  @override
+  void dispose() {
+    _userName.dispose();
+    // _controller.dispose();
+    // TODO: implement dispose
+    super.dispose();
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -77,15 +88,20 @@ class _ProfileDetailsState extends State<ProfileDetails> {
           newProfileImage = image!.filePath;
           print(image.filePath);
 
-          await widget.profileController!
-              .editProfile(context: context, profileImage: image.filePath);
+          // await widget.profileController!.editProfile(
+          //   context: context,
+          //   profileImage: image.filePath,
+          //   name: _userName.text.isEmpty
+          //       ? widget.profileController.profile.name
+          //       : _userName.text,
+          //   spokenLanguage: languages.isEmpty
+          //       ? widget.profileController.profile.spokenLanguage
+          //       : languages,
+          // );
 
-          setState(() {
-            widget.profileController!.profile.profileImage = image.filePath;
-          });
-          await widget.profileController!.getProfile(
-            context: context,
-          );
+          // await widget.profileController.getProfile(
+          //   context: context,
+          // );
         }
       } else {
         AppUtil.errorToast(
@@ -94,6 +110,12 @@ class _ProfileDetailsState extends State<ProfileDetails> {
     }
   }
 
+  void generateSpokenLanguges() {
+    languages = List.generate(_controller.selectedOptions.length,
+        (index) => _controller.selectedOptions[index].value);
+  }
+
+  final _userName = TextEditingController();
   late double width, height;
   final _controller = MultiSelectController();
   @override
@@ -101,240 +123,295 @@ class _ProfileDetailsState extends State<ProfileDetails> {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-          Obx(
-            () => GestureDetector(
-              onTap: () {
-                widget.profileController.isEditing.value =
-                    !widget.profileController.isEditing.value;
-              },
-              child: Padding(
-                padding: EdgeInsets.only(right: 24),
-                child: Text(
-                  widget.profileController.isEditing.value
-                      ? 'save'.tr
-                      : 'edit'.tr,
-                  style: TextStyle(
-                      color: darkBlue,
-                      fontSize: 16,
-                      decoration: TextDecoration.underline,
-                      decorationColor: darkBlue),
+        appBar: AppBar(
+          actions: [
+            Obx(
+              () => GestureDetector(
+                onTap: () async {
+                  generateSpokenLanguges();
+                  if (_userName.text.isNotEmpty ||
+                      languages.isNotEmpty ||
+                      newProfileImage != null) {
+                    _controller.clearAllSelection();
+                    widget.profileController.editProfile(
+                        context: context,
+                        name: _userName.text.isEmpty
+                            ? widget.profileController.profile.name
+                            : _userName.text,
+                        spokenLanguage: languages.isEmpty
+                            ? widget.profileController.profile.spokenLanguage
+                            : languages,
+                        profileImage: newProfileImage ??
+                            widget.profileController.profile.profileImage);
+
+                    await widget.profileController.getProfile(
+                      context: context,
+                    );
+                    AppUtil.successToast(context, "account upadted");
+                    newProfileImage = null;
+                  } else {
+                    log("message");
+                  }
+                  widget.profileController.isEditing.value =
+                      !widget.profileController.isEditing.value;
+                  _userName.clear();
+                },
+                child: Padding(
+                  padding: EdgeInsets.only(right: 24),
+                  child: Text(
+                    widget.profileController.isEditing.value
+                        ? 'save'.tr
+                        : 'edit'.tr,
+                    style: TextStyle(
+                        color: darkBlue,
+                        fontSize: 16,
+                        decoration: TextDecoration.underline,
+                        decorationColor: darkBlue),
+                  ),
                 ),
               ),
+            )
+          ],
+          leading: Padding(
+            padding: const EdgeInsets.only(left: 24),
+            child: IconButton(
+              icon: const Icon(
+                Icons.arrow_back_ios,
+                size: 24,
+                color: black,
+              ),
+              onPressed: () => Get.back(),
+              color: Colors.black,
             ),
-          )
-        ],
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 24),
-          child: IconButton(
-            icon: const Icon(
-              Icons.arrow_back_ios,
-              size: 24,
-              color: black,
-            ),
-            onPressed: () => Get.back(),
-            color: Colors.black,
           ),
         ),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Obx(
-              () => ListView(
-                shrinkWrap: true,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 22
-                        // bottom: height
-                        ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Center(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(50.0),
-                            child:
-                                widget.profileController!.isImagesLoading.value
-                                    ? const CircularProgressIndicator(
-                                        color: colorGreen,
-                                      )
-                                    : widget.profileController!.profile
-                                                    .profileImage !=
-                                                "" &&
-                                            widget.profileController!.profile
-                                                    .profileImage !=
-                                                null
-                                        ? Image.network(
-                                            widget.profileController!.profile
-                                                .profileImage!,
-                                            height: 100,
-                                            width: 100,
-                                            fit: BoxFit.cover,
-                                          )
-                                        : Image.asset(
-                                            "assets/images/profile_image.png",
-                                            height: 100,
-                                            width: 100,
-                                            fit: BoxFit.cover,
-                                          ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        if (widget.profileController.isEditing.value)
-                          GestureDetector(
-                            onTap: () => getImage(ImageSource.gallery, context),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+        body: Obx(
+          () => widget.profileController.isProfileLoading.value
+              ? Center(
+                  child: CircularProgressIndicator.adaptive(),
+                )
+              : SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      ListView(
+                        shrinkWrap: true,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 22
+                                // bottom: height
+                                ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Icon(
-                                  Icons.camera_alt_outlined,
-                                  size: 18,
+                                Center(
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(50.0),
+                                    child: widget.profileController!
+                                            .isImagesLoading.value
+                                        ? const CircularProgressIndicator(
+                                            color: colorGreen,
+                                          )
+                                        : widget.profileController!.profile
+                                                        .profileImage !=
+                                                    "" &&
+                                                widget.profileController!
+                                                        .profile.profileImage !=
+                                                    null
+                                            ? Image.network(
+                                                newProfileImage ??
+                                                    widget.profileController!
+                                                        .profile.profileImage!,
+                                                height: 100,
+                                                width: 100,
+                                                fit: BoxFit.cover,
+                                              )
+                                            : Image.asset(
+                                                "assets/images/profile_image.png",
+                                                height: 100,
+                                                width: 100,
+                                                fit: BoxFit.cover,
+                                              ),
+                                  ),
                                 ),
                                 SizedBox(
-                                  width: 2,
+                                  height: 5,
+                                ),
+                                if (widget.profileController.isEditing.value)
+                                  GestureDetector(
+                                    onTap: () =>
+                                        getImage(ImageSource.gallery, context),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.camera_alt_outlined,
+                                          size: 18,
+                                        ),
+                                        SizedBox(
+                                          width: 2,
+                                        ),
+                                        CustomText(
+                                          text: 'change'.tr,
+                                          textDecoration:
+                                              TextDecoration.underline,
+                                          color: Colors.black,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                const SizedBox(
+                                  height: 12,
+                                ),
+                                const Divider(
+                                  color: lightGrey,
+                                  thickness: 1,
+                                ),
+                                SizedBox(
+                                  height: width * 0.061,
                                 ),
                                 CustomText(
-                                  text: 'change'.tr,
-                                  textDecoration: TextDecoration.underline,
-                                  color: Colors.black,
+                                  text: "fullName".tr,
+                                  color: black,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
                                 ),
+                                SizedBox(
+                                  height: 8,
+                                ),
+                                widget.profileController.isEditing.value
+                                    ? CustomTextField(
+                                        controller: _userName,
+                                        height: 42,
+                                        onChanged: (value) {},
+                                        hintText: widget.profileController
+                                                .profile.name ??
+                                            "NAME",
+                                      )
+                                    : CustomText(
+                                        text: widget.profileController.profile
+                                                .name ??
+                                            "NAME",
+                                        color: almostGrey,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                const SizedBox(
+                                  height: 4,
+                                ),
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: CustomText(
+                                    text: widget.profileController.profile
+                                            .descriptionAboutMe ??
+                                        "DESC",
+                                    color: lightGrey,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w300,
+                                  ),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 12),
+                                  child: Divider(
+                                    color: lightGrey,
+                                    thickness: 1,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 1,
+                                ),
+                                CustomText(
+                                  text: "languages".tr,
+                                  color: black,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                SizedBox(
+                                  height: 8,
+                                ),
+                                widget.profileController.isEditing.value
+                                    ? MultiSelectDropDown(
+                                        controller: _controller,
+
+                                        onOptionSelected: (options) {
+                                          debugPrint(options.toString());
+                                        },
+                                        options: const <ValueItem>[
+                                          ValueItem(
+                                              label: 'Arabic', value: 'Arabic'),
+                                          ValueItem(
+                                              label: 'English',
+                                              value: 'English'),
+                                          ValueItem(
+                                              label: 'French', value: 'French'),
+                                          ValueItem(
+                                              label: 'German', value: 'German'),
+                                          ValueItem(
+                                              label: 'Chinese',
+                                              value: 'Chinese'),
+                                          ValueItem(
+                                              label: 'Spanish',
+                                              value: 'Spanish'),
+                                          ValueItem(
+                                              label: 'Russian',
+                                              value: 'Russian'),
+                                        ],
+
+                                        selectionType: SelectionType.multi,
+                                        chipConfig: const ChipConfig(
+                                            wrapType: WrapType.scroll),
+                                        dropdownHeight: 300,
+                                        optionTextStyle:
+                                            const TextStyle(fontSize: 16),
+
+                                        // selectedOptionIcon:
+                                        //     const Icon(Icons.check_circle),
+                                      )
+                                    : SizedBox(
+                                        height: width * 0.087,
+                                        child: ListView.separated(
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: widget.profileController
+                                              .profile.spokenLanguage!.length,
+                                          shrinkWrap: true,
+                                          separatorBuilder: (context, index) =>
+                                              const SizedBox(
+                                            width: 5,
+                                          ),
+                                          itemBuilder: (context, index) => Obx(
+                                            () => widget.profileController
+                                                    .isProfileLoading.value
+                                                ? const CircularProgressIndicator
+                                                    .adaptive()
+                                                : CustomChips(
+                                                    title: widget
+                                                        .profileController
+                                                        .profile
+                                                        .spokenLanguage![index],
+                                                    backgroundColor:
+                                                        Colors.transparent,
+                                                    borderColor: almostGrey,
+                                                    textColor: almostGrey),
+                                          ),
+                                        ),
+                                      ),
+                                if (widget.profileController.isEditing.value)
+                                  SizedBox(
+                                    height: 8,
+                                  ),
+                                const Divider(
+                                  color: lightGrey,
+                                )
                               ],
                             ),
-                          ),
-                        const SizedBox(
-                          height: 12,
-                        ),
-                        const Divider(
-                          color: lightGrey,
-                          thickness: 1,
-                        ),
-                        SizedBox(
-                          height: width * 0.061,
-                        ),
-                        CustomText(
-                          text: "fullName".tr,
-                          color: black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        widget.profileController.isEditing.value
-                            ? CustomTextField(
-                                height: 42,
-                                onChanged: (value) {},
-                                hintText:
-                                    widget.profileController.profile.name ??
-                                        "NAME",
-                              )
-                            : CustomText(
-                                text: widget.profileController.profile.name ??
-                                    "NAME",
-                                color: almostGrey,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500,
-                              ),
-                        const SizedBox(
-                          height: 4,
-                        ),
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: CustomText(
-                            text: widget.profileController.profile
-                                    .descriptionAboutMe ??
-                                "DESC",
-                            color: lightGrey,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w300,
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 12),
-                          child: Divider(
-                            color: lightGrey,
-                            thickness: 1,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 1,
-                        ),
-                        CustomText(
-                          text: "languages".tr,
-                          color: black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        widget.profileController.isEditing.value
-                            ? MultiSelectDropDown(
-                                controller: _controller,
-                                onOptionSelected: (options) {
-                                  debugPrint(options.toString());
-                                },
-                                options: const <ValueItem>[
-                                  ValueItem(label: 'Option 1', value: '1'),
-                                  ValueItem(label: 'Option 2', value: '2'),
-                                  ValueItem(label: 'Option 3', value: '3'),
-                                  ValueItem(label: 'Option 4', value: '4'),
-                                  ValueItem(label: 'Option 5', value: '5'),
-                                  ValueItem(label: 'Option 6', value: '6'),
-                                ],
-                                disabledOptions: const [
-                                  ValueItem(label: 'Option 1', value: '1')
-                                ],
-                                selectionType: SelectionType.multi,
-                                chipConfig:
-                                    const ChipConfig(wrapType: WrapType.wrap),
-                                dropdownHeight: 300,
-                                optionTextStyle: const TextStyle(fontSize: 16),
-                                selectedOptionIcon:
-                                    const Icon(Icons.check_circle),
-                              )
-                            : SizedBox(
-                                height: width * 0.087,
-                                child: ListView.separated(
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: widget.profileController.profile
-                                      .spokenLanguage!.length,
-                                  shrinkWrap: true,
-                                  separatorBuilder: (context, index) =>
-                                      const SizedBox(
-                                    width: 5,
-                                  ),
-                                  itemBuilder: (context, index) => Obx(
-                                    () => CustomChips(
-                                        title: widget.profileController.profile
-                                            .spokenLanguage![index],
-                                        backgroundColor: Colors.transparent,
-                                        borderColor: almostGrey,
-                                        textColor: almostGrey),
-                                  ),
-                                ),
-                              ),
-                        if (widget.profileController.isEditing.value)
-                          SizedBox(
-                            height: 8,
-                          ),
-                        const Divider(
-                          color: lightGrey,
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+        ));
   }
 }
 // GestureDetector(

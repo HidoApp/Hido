@@ -51,7 +51,7 @@ class ProfileService {
     if (profileId != "") {
       id = profileId;
     }
-    
+
     final response = await http.get(
       Uri.parse('$baseUrl/profile/$id'),
       headers: {
@@ -134,13 +134,12 @@ class ProfileService {
     String? profileImage,
     String? descripttion,
     String? phone,
-    List<String>? intrest,
+    List<String>? spokenLanguage,
     required BuildContext context,
   }) async {
     print(" Update profile ");
     final getStorage = GetStorage();
     final String? token = getStorage.read('accessToken');
-    print(token);
 
     final response = await http.put(Uri.parse('$baseUrl/profile'),
         headers: {
@@ -152,8 +151,11 @@ class ProfileService {
           if (name != null) "name": name.trim(),
           "image": profileImage,
           if (descripttion != null) "descriptionAboutMe": descripttion.trim(),
-          if (intrest != null) "userInterest": intrest,
-          if (phone != null) "phoneNumber": phone.trim()
+          "userInterest": ["string"],
+          
+          if (spokenLanguage != null) "spokenLanguage": spokenLanguage,
+        
+          if (phone != null) "phoneNumber": phone.trim(),  "gender": "MALE",
         }));
 
     print("response.statusCode Update profile ");

@@ -318,11 +318,23 @@ class AuthService {
     required String email,
     required BuildContext context,
   }) async {
+    final getStorage = GetStorage();
+    String token = getStorage.read('accessToken') ?? "";
+
+    if (JwtDecoder.isExpired(token)) {
+      final _authController = Get.put(AuthController());
+
+      String refreshToken = getStorage.read('refreshToken');
+      var user = await _authController.refreshToken(
+          refreshToken: refreshToken, context: context);
+      token = getStorage.read('accessToken');
+    }
     print(email);
-    final response = await http.post(Uri.parse('$baseUrl/user/send-otp'),
+    final response = await http.post(Uri.parse('$baseUrl/user/otp/email'),
         headers: {
           'Accept': 'application/json',
           "Content-Type": "application/json",
+          'Authorization': 'Bearer $token',
         },
         body: json.encode({
           "email": email.trim(),
@@ -361,7 +373,65 @@ class AuthService {
     required String email,
     required BuildContext context,
   }) async {
-    final response = await http.post(Uri.parse('$baseUrl/user/rest-password'),
+    final getStorage = GetStorage();
+    String token = getStorage.read('accessToken') ?? "";
+
+    if (JwtDecoder.isExpired(token)) {
+      final _authController = Get.put(AuthController());
+
+      String refreshToken = getStorage.read('refreshToken');
+      var user = await _authController.refreshToken(
+          refreshToken: refreshToken, context: context);
+      token = getStorage.read('accessToken');
+    }
+    final response = await http.put(Uri.parse('$baseUrl/user/rest/password'),
+        headers: {
+          'Accept': 'application/json',
+          "Content-Type": "application/json"
+        },
+        body: json.encode({
+          "password": newPassword.trim(),
+          "email": email.trim(),
+        }));
+
+    print("response.statusCode");
+    print(response.statusCode);
+
+    print("response.body");
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      // String successMessage = jsonDecode(response.body);
+      // if (context.mounted) {
+      //   AppUtil.successToast(context, successMessage);
+      // }
+      return true;
+    } else {
+      String errorMessage = jsonDecode(response.body)['message'];
+      if (context.mounted) {
+        AppUtil.errorToast(context, errorMessage);
+      }
+      return false;
+    }
+  }
+
+  static Future<bool> resetEmail({
+    required String newPassword,
+    required String email,
+    required BuildContext context,
+  }) async {
+    final getStorage = GetStorage();
+    String token = getStorage.read('accessToken') ?? "";
+
+    if (JwtDecoder.isExpired(token)) {
+      final _authController = Get.put(AuthController());
+
+      String refreshToken = getStorage.read('refreshToken');
+      var user = await _authController.refreshToken(
+          refreshToken: refreshToken, context: context);
+      token = getStorage.read('accessToken');
+    }
+    final response = await http.put(Uri.parse('$baseUrl/user/rest/email'),
         headers: {
           'Accept': 'application/json',
           "Content-Type": "application/json"

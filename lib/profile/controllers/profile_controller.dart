@@ -22,7 +22,8 @@ class ProfileController extends GetxController {
   var profile = Profile();
 
   var isEditing = false.obs;
-
+  var isEmailNotValid = false.obs;
+  var isNumberNotValid = false.obs;
   Future<Profile?> getProfile(
       {required BuildContext context, String profileId = ""}) async {
     try {
@@ -65,7 +66,7 @@ class ProfileController extends GetxController {
     String? profileImage,
     String? descripttion,
     String? phone,
-    List<String>? intrest,
+    List<String>? spokenLanguage,
     required BuildContext context,
   }) async {
     try {
@@ -76,7 +77,7 @@ class ProfileController extends GetxController {
         profileImage: profileImage,
         descripttion: descripttion,
         phone: phone,
-        intrest: intrest,
+        spokenLanguage: spokenLanguage,
         context: context,
       );
       if (profile != null) {

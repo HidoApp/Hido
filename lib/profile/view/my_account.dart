@@ -3,6 +3,7 @@ import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/new-onboarding/view/account_type_screen.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/models/profile.dart';
+import 'package:ajwad_v4/profile/widget/account_edit_sheet.dart';
 import 'package:ajwad_v4/profile/widget/account_tile.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
@@ -11,31 +12,27 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 
 class MyAccount extends StatefulWidget {
-  const MyAccount({super.key});
-
+  const MyAccount({super.key, required this.profileController});
+  final ProfileController profileController;
   @override
   State<MyAccount> createState() => _MyAccountState();
 }
 
 class _MyAccountState extends State<MyAccount> {
-  final _profileController = Get.put(ProfileController());
   late Profile profile;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getProfile();
-  }
-
-  void getProfile() async {
-    await _profileController.getProfile(context: context);
   }
 
   String getPhoneNumber() {
     //to secure phone number
-    final String number = _profileController.profile.phoneNumber!;
+    final String number = widget.profileController.profile.phoneNumber!;
     return number.substring(0, 2) +
         '*' * (number.length - 4) +
         number.substring(number.length - 2);
@@ -44,16 +41,29 @@ class _MyAccountState extends State<MyAccount> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar("My account"),
+      resizeToAvoidBottomInset: true,
+      appBar: CustomAppBar("account".tr),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 41),
         child: Column(
           children: [
-            //TODO: replace email subtitle
-            AccountTile(
-              title: "Email",
-              subtitle: "Norah@hido.app",
-              onTap: () {},
+            Obx(
+              () => widget.profileController.isProfileLoading.value
+                  ? Container()
+                  : AccountTile(
+                      title: "email".tr,
+                      subtitle: widget.profileController.profile.email!,
+                      onTap: () {
+                        showModalBottomSheet(
+                          isScrollControlled: true,
+                          enableDrag: true,
+                          context: context,
+                          builder: (context) => AccountEditSheet(
+                            profileController: widget.profileController,
+                          ),
+                        );
+                      },
+                    ),
             ),
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 12),
@@ -61,10 +71,25 @@ class _MyAccountState extends State<MyAccount> {
                 color: lightGrey,
               ),
             ),
-            AccountTile(
-              title: "Phone number",
-              subtitle: getPhoneNumber(),
-              onTap: () {},
+            Obx(
+              () => widget.profileController.isProfileLoading.value
+                  ? Container()
+                  : AccountTile(
+                      title: "Phone number",
+                      subtitle: getPhoneNumber(),
+                      onTap: () {
+                        showModalBottomSheet(
+                          isScrollControlled: true,
+                          enableDrag: true,
+                          backgroundColor: Colors.white,
+                          context: context,
+                          builder: (context) => AccountEditSheet(
+                            isEditEmail: false,
+                            profileController: widget.profileController,
+                          ),
+                        );
+                      },
+                    ),
             ),
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 12),
