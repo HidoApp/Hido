@@ -78,6 +78,7 @@ dependencies:
   ticket_widget: ^1.0.2 
   flutter_rating_bar: ^4.0.1
   custom_map_markers: ^0.0.2+1
+  multi_dropdown: ^2.1.4
   # workmanager: ^0.4.1
 
 

@@ -4,6 +4,7 @@ import 'package:ajwad_v4/constants/user_roles.dart';
 class Profile {
   final String? id;
   final String? name;
+  final String? email;
   final int? rating;
   String? profileImage;
   final String? phoneNumber;
@@ -43,6 +44,7 @@ class Profile {
     this.userInterests,
     this.nationality,
     this.userRole,
+    this.email,
     this.tourNumber,
   });
 
@@ -63,7 +65,7 @@ class Profile {
       //tripNumber: json['tripNumber'],
       profileImage: json['image'],
       phoneNumber: json['phoneNumber'],
-
+      email: json['email'],
       descriptionAboutMe: json['descriptionAboutMe'],
 
       nationality: json['nationality'],
@@ -93,6 +95,7 @@ class Profile {
       'descriptionAboutMe': descriptionAboutMe,
       'userInterest': userInterests,
       'nationality': nationality,
+      "spokenLanguage": spokenLanguage!.map((x) => x).toList(),
       //'userRole': userRole,
     };
   }

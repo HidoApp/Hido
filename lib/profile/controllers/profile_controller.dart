@@ -21,15 +21,16 @@ class ProfileController extends GetxController {
 
   var profile = Profile();
 
-  Future<Profile?> getProfile({
-    required BuildContext context,String profileId =""
-  }) async {
+  var isEditing = false.obs;
+  var isEmailNotValid = false.obs;
+  var isNumberNotValid = false.obs;
+  Future<Profile?> getProfile(
+      {required BuildContext context, String profileId = ""}) async {
     try {
       isProfileLoading(true);
       print('YES');
       profile = (await ProfileService.getProfile(
-        context: context,profileId: profileId
-      ))!;
+          context: context, profileId: profileId))!;
       //! cache
       print('YES');
 
@@ -65,7 +66,7 @@ class ProfileController extends GetxController {
     String? profileImage,
     String? descripttion,
     String? phone,
-    List<String>? intrest,
+    List<String>? spokenLanguage,
     required BuildContext context,
   }) async {
     try {
@@ -76,7 +77,7 @@ class ProfileController extends GetxController {
         profileImage: profileImage,
         descripttion: descripttion,
         phone: phone,
-        intrest: intrest,
+        spokenLanguage: spokenLanguage,
         context: context,
       );
       if (profile != null) {
@@ -119,32 +120,32 @@ class ProfileController extends GetxController {
       isUpcommingTicketLoading(false);
     }
   }
+
   Future<List<Booking>?> getUpcommingTicket2({
-  required BuildContext context,
-}) async {
-  try {
-    isUpcommingTicketLoading(true);
+    required BuildContext context,
+  }) async {
+    try {
+      isUpcommingTicketLoading(true);
 
-    final data = await ProfileService.getUserTicket(
-      bookingType: 'UPCOMING',
-      context: context,
-    );
-    if (data != null) {
-      upcommingTicket(data);
-    
-      return upcommingTicket.value; // Return the value of upcommingTicket
-    } else {
+      final data = await ProfileService.getUserTicket(
+        bookingType: 'UPCOMING',
+        context: context,
+      );
+      if (data != null) {
+        upcommingTicket(data);
+
+        return upcommingTicket.value; // Return the value of upcommingTicket
+      } else {
+        return null;
+      }
+    } catch (e) {
+      isUpcommingTicketLoading(false);
+      print(e);
       return null;
+    } finally {
+      isUpcommingTicketLoading(false);
     }
-  } catch (e) {
-    isUpcommingTicketLoading(false);
-    print(e);
-    return null;
-  } finally {
-    isUpcommingTicketLoading(false);
   }
-}
-
 
   Future<List<Booking>?> getPastTicket({
     required BuildContext context,
