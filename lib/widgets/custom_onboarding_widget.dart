@@ -19,7 +19,7 @@ class CustomOnBoardingWidget extends StatelessWidget {
         children: [
           Image.asset("assets/images/onboarding/$backgroundImage.png",fit: BoxFit.cover,),
           Positioned(
-            top: size.width * 0.894,
+            top: size.width * 0.899,
             child:  SizedBox(
               width: size.width,
               child: Padding(
@@ -50,7 +50,7 @@ class CustomOnBoardingWidget extends StatelessWidget {
           ),
 
           Positioned(
-            bottom: size.width * 0.790,
+            bottom: size.width * 0.800,
             left: size.width *  0.0256,
             right: size.width * 0.0384,
             child:  Padding(
