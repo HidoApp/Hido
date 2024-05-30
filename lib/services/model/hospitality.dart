@@ -23,7 +23,6 @@ class Hospitality {
   final int price;
   final String? regionAr;
   final String userId;
-
   final String regionEn;
   final List<DayInfo> daysInfo;
 
@@ -91,7 +90,7 @@ class Hospitality {
       titleEn: json['titleEn'] ?? '',
       email: json['email'] ?? '',
       coordinate: Coordinate.fromJson(json['coordinates'] ?? {}),
-      userId: json['userId'],
+      userId: json['userId']??'',
      
       booking: json['booking'] != null
           ? (json['booking'] as List)

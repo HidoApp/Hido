@@ -141,6 +141,8 @@ class OfferService {
         token = jwtToken.id;
       }
     }
+    print(invoiceId);
+    print(offerId);
 
     final response = await http.post(
       Uri.parse('$baseUrl/offer/$offerId/accept').replace(queryParameters: {

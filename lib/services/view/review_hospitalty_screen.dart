@@ -242,8 +242,8 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                               invoice ??=
                                   await paymentController.paymentInvoice(
                                       context: context,
-                                      description: 'DESCRIPTION',
-                                      amount: finalCost);
+                                      // description: 'DESCRIPTION',
+                                      InvoiceValue: finalCost);
                               if (invoice != null) {
                                 Navigator.push(
                                     context,
@@ -260,7 +260,8 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                                       .paymentInvoiceById(
                                           context: context, id: invoice!.id);
 
-                                  if (checkInvoice!.invoiceStatus != 'faild') {
+                                  if (checkInvoice!.invoiceStatus == 'Pending') {
+                                    print('no');
                                     final isSuccess = await widget
                                         .servicesController
                                         .checkAndBookHospitality(
@@ -285,10 +286,10 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                                       isCheckingForPayment = false;
                                     });
 
-                                    if (checkInvoice.invoiceStatus ==
-                                            'failed' ||
-                                        checkInvoice.invoiceStatus ==
-                                            'initiated') {
+                                    // if (checkInvoice.invoiceStatus ==
+                                    //         'failed' ||
+                                    //     checkInvoice.invoiceStatus ==
+                                    //         'initiated') {
                                       //  Get.back();
 
                                       showDialog(
@@ -310,8 +311,9 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                                           });
                                     } else {
                                       print('YES');
-                                      Get.back();
-                                      Get.back();
+                                      // Get.back();
+                                      // Get.back();
+                                     print(invoice?.invoiceStatus);
 
                                       showDialog(
                                         context: context,
@@ -329,10 +331,11 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                                               ],
                                             ),
                                     );
-                                  },
+                                 },
                                   // );
                                       ).then((_) {
-                                      //  //LocalNotification().showNotification(context,widget.booking?.id, widget.booking?.timeToGo, widget.booking?.date ,_offerController.offers.last.name, thePlace?.nameAr,thePlace?.nameEn);
+                                        print("inter notif");
+                                        print(widget.hospitality.booking?.last.id);
                                      LocalNotification().showHospitalityNotification(context,widget.hospitality.booking?.last.id,  widget
                                         .servicesController.selectedDate.value ,widget.hospitality.mealTypeEn,widget.hospitality.mealTypeAr ,widget.hospitality.titleEn,widget.hospitality.titleAr);
                                      Get.to(() =>  TicketDetailsScreen(
@@ -346,7 +349,7 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                                   }
                                 
                                     
-                          }});
+                          });
                             }
                            }
                          

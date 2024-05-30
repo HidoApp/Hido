@@ -13,6 +13,9 @@ import 'package:ajwad_v4/widgets/sign_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest_all.dart' as tz;
 
 class BottomHospitalityBooking extends StatelessWidget {
   const BottomHospitalityBooking(
@@ -122,6 +125,48 @@ class BottomAdventureBooking extends StatefulWidget {
 }
 
 class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
+  final String timeZoneName = 'Asia/Riyadh';
+  late tz.Location location;
+
+  
+  bool isDateBeforeToday() {
+    DateTime adventureDate =
+    DateFormat('yyyy-MM-dd').parse(widget.adventure.date!);
+      tz.initializeTimeZones();
+    location = tz.getLocation(timeZoneName);
+
+    DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
+    return adventureDate.isBefore(currentDateInRiyadh);
+  }
+
+  bool isSameDay() {
+    tz.initializeTimeZones();
+    location = tz.getLocation(timeZoneName);
+
+    DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
+    DateTime adventureDate =
+    DateFormat('yyyy-MM-dd').parse(widget.adventure.date!);
+
+     DateTime Date =
+    DateFormat('HH:mm').parse(widget.adventure.times!.last.startTime!);
+
+    
+
+
+    DateTime AdventureStartDate = DateTime(adventureDate.year, adventureDate.month,adventureDate.day,Date.hour, Date.minute,Date.second);
+
+
+    DateTime bookingDeadline = AdventureStartDate.subtract(Duration(hours: 24));
+
+
+    print (AdventureStartDate);
+    print(currentDateInRiyadh);
+    print(bookingDeadline);
+
+    return bookingDeadline.isBefore(currentDateInRiyadh);
+  }
+
+
   var person = 0;
   @override
   Widget build(BuildContext context) {
@@ -263,6 +308,12 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
                                   ),
                                   CustomButton(
                                       onPressed: () {
+                                        if (isSameDay()) {
+                            AppUtil.errorToast(
+                                context, "You must booking before 24 hours");
+                          } else if (isDateBeforeToday()) {
+                            AppUtil.errorToast(context, "not avalible ");
+                          } else {
                                         Get.to(() => ReviewAdventure(
                                                   adventure: widget.adventure,
                                                   person: person,
@@ -274,6 +325,7 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
                                             // Get.back();
                                           },
                                         );
+                          }
                                       },
                                       title: 'confirm'.tr)
                                 ],

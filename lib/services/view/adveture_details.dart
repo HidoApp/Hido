@@ -152,8 +152,8 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                   : Alignment.centerLeft,
                               child: CustomText(
                                 text: AppUtil.rtlDirection2(context)
-                                    ? adventure!.nameAr!
-                                    : adventure!.nameEn!,
+                                    ? adventure!.nameAr??''
+                                    : adventure!.nameEn??'',
                                 fontSize: width * 0.07,
                                 fontWeight: FontWeight.w500,
                               )),
@@ -193,7 +193,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                               ),
                               CustomText(
                                 text: DateFormat('E-dd-MMM')
-                                    .format(DateTime.parse(adventure!.date!)),
+                                    .format(DateTime.parse(adventure!.date??'')),
                                 color: colorDarkGrey,
                                 fontSize: width * 0.038,
                                 fontWeight: FontWeight.w300,
@@ -214,9 +214,9 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                               ),
                               //time
                               CustomText(
-                            text: adventure?.times != null && adventure!.times!.isNotEmpty
-                                ? adventure!.times!.join(' - ')
-                                : '5:00-8:00 AM',                               
+                                text:adventure?.times != null && adventure!.times!.isNotEmpty
+                                ?'${adventure?.times!.map((time) => AppUtil.formatStringTimeWithLocale(context, time.startTime) ).join(', ')} - ${adventure?.times!.map((time) => AppUtil.formatStringTimeWithLocale(context, time.endTime) ).join(', ')}':
+                                '5:00-8:00 AM',
                                  color: colorDarkGrey,
                                 fontSize: width * 0.038,
                                 fontWeight: FontWeight.w300,
@@ -256,8 +256,8 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                               fontFamily: "Noto Kufi Arabic",
                               fontSize: width * 0.035,
                               text: AppUtil.rtlDirection2(context)
-                                  ? adventure!.descriptionAr!
-                                  : adventure!.descriptionEn!,
+                                  ? adventure!.descriptionAr??''
+                                  : adventure!.descriptionEn??'',
                             ),
                           ),
                           SizedBox(
@@ -418,15 +418,15 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                     )
                   ],
                 ),
-                // Positioned(
-                //     top: height * 0.07,
-                //     right: AppUtil.rtlDirection2(context)
-                //         ? width * 0.85
-                //         : width * 0.05,
-                //     child: SvgPicture.asset(
-                //       "assets/icons/white_bookmark.svg",
-                //       height: width * 0.07,
-                //     )),
+                Positioned(
+                    top: height * 0.07,
+                    right: AppUtil.rtlDirection2(context)
+                        ? width * 0.85
+                        : width * 0.05,
+                    child: SvgPicture.asset(
+                      "assets/icons/white_bookmark.svg",
+                      height: width * 0.07,
+                    )),
                 Positioned(
                   top: height * 0.06,
                   left: !AppUtil.rtlDirection(context)
@@ -454,8 +454,9 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                             ServicesLocalInfo(profileId: adventure!.userId));
                       },
                       image: adventure!.user!.profileImage ?? '',
-                      name: adventure!.user!.name!,
-                    )),
+                      name: adventure!.user!.name??'',
+                    )
+                    ),
                 //indicator
                 Positioned(
                   top: height * 0.22,

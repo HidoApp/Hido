@@ -293,6 +293,7 @@ RxBool isDetailsTapped2 = false.obs;
                                   ),
                                 ],
                               ),
+                              
                               const SizedBox(
                                 height: 10,
                               ),

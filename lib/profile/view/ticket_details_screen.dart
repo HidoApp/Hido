@@ -1,4 +1,6 @@
 import 'package:ajwad_v4/new-onboarding/view/splash_screen.dart';
+import 'package:ajwad_v4/profile/widget/AdventureTicketData.dart';
+import 'package:ajwad_v4/services/model/adventure.dart';
 import 'package:ajwad_v4/widgets/dotted_line_separator.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
@@ -35,6 +37,7 @@ class TicketDetailsScreen extends StatelessWidget {
     this.icon,
     this.bookTypeText,
     this.hospitality,
+    this.adventure,
     // this.femaleGuestNum,
     // this.maleGuestNum
   }) : super(key: key);
@@ -43,6 +46,7 @@ class TicketDetailsScreen extends StatelessWidget {
   final SvgPicture? icon;
   final String? bookTypeText;
   final Hospitality? hospitality;
+  final Adventure? adventure;
   // final int? maleGuestNum;
   // final int? femaleGuestNum;
 
@@ -233,9 +237,13 @@ return Scaffold(
       switch (bookingType) {
       case 'place':
         return TicketData(booking: booking!,icon: icon,bookTypeText: bookTypeText);
- 
+      
       case 'adventure':
-        return TicketData(booking: booking!,icon: icon,bookTypeText: bookTypeText);
+        if(adventure==null)
+        return AdventureTicketData(booking: booking!,icon: icon,bookTypeText: bookTypeText);
+        else
+        return AdventureTicketData(adventure: adventure,icon: icon,bookTypeText: bookTypeText);
+
       case 'hospitality':
       if(hospitality==null)
         return HostTicketData(booking: booking!,icon: icon,bookTypeText: bookTypeText);

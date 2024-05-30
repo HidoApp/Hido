@@ -21,7 +21,7 @@ class CustomText extends StatelessWidget {
       this.textDecorationStyle})
       : super(key: key);
 
-  final String text;
+  final String? text;
   final double fontSize;
   final TextAlign? textAlign;
   final FontWeight fontWeight;
@@ -38,7 +38,7 @@ class CustomText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      text,
+      text!,
       textAlign: textAlign ??
           (AppUtil.rtlDirection2(context) ? TextAlign.right : TextAlign.left),
       maxLines: maxlines,

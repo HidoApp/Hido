@@ -141,7 +141,7 @@ class Booking {
   PlaceInChat? place;
   //  String? bookingType;
  Hospitality? hospitality;
-  // Adventure? adventure;
+// Adventure? adventure;
   // Event? event;
 
   Booking({

@@ -70,14 +70,14 @@ class _FindAjwadyState extends State<FindAjwady> {
       showCancelDialogAfterDelay(10);
      }
  if (_offerController.acceptedOffer==null||_offerController.acceptedOffer==[]){
-      showCancelDialogAfterDelay(10);
+      showCancelDialogAfterDelay(5);
      }
      
   }
 
 
 void startCountdown() {
-      countdownTimer = Timer(Duration(minutes: 10), () async {
+      countdownTimer = Timer(Duration(minutes: 5), () async {
       if(_offerController.acceptedOffer.value.orderStatus==null){
 
       // Cancel the booking and navigate to the home page

@@ -18,8 +18,9 @@ class Adventure {
   final int seats;
   final String? status;
   final Profile? user;
-  final List<String>? times;
     final List<AdventureBooking>? booking;
+   final List<Time>? times;
+
 
 
   final String userId;
@@ -42,31 +43,42 @@ class Adventure {
     required this.seats,
     required this.status,
     this.coordinates,
-    this.times,
-    this.booking
+    this.booking,
+    this.times
   });
 
   factory Adventure.fromJson(Map<String, dynamic> json) {
     return Adventure(
-      userId: json['userId'],
-      id: json['id'],
-      nameAr: json['nameAr'],
-      nameEn: json['nameEn'],
-      user: Profile.fromJson(json['user']['profile']),
-      descriptionAr: json['descriptionAr'],
-      descriptionEn: json['descriptionEn'],
-      regionAr: json['regionAr'],
-      regionEn: json['regionEn'],
+      userId: json['userId']??'',
+      id: json['id']??'',
+      nameAr: json['nameAr']??'',
+      nameEn: json['nameEn']??'',
+    //user: Profile.fromJson(json['user']['profile']),
+    user: json['user'] != null && json['user']['profile'] != null
+          ? Profile.fromJson(json['user']['profile'])
+          : null,
+      descriptionAr: json['descriptionAr']??'',
+      descriptionEn: json['descriptionEn']??'',
+      regionAr: json['regionAr']??'',
+      regionEn: json['regionEn']??'',
       image: List<String>.from(json["image"]),
-      price: json['price'],
+      price: json['price']??0,
       locationUrl: json['locationUrl'],
-      seats: json['seats'],
-      adventureGenre: json['adventureGenre'],
-      status: json['status'],
-      date: json['date'],
+      seats: json['seats']??0,
+      adventureGenre: json['adventureGenre']??'',
+      status: json['status']??'',
+      date: json['date']??'',
       coordinates: Coordinate.fromJson(json['coordinates']),
-      times: (json['times'] as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
-
+      times: json['times'] != null
+          ? (json['times'] as List)
+              .map((e) => Time.fromJson(e))
+              .toList()
+          : [],
+        booking: json['booking'] != null
+          ? (json['booking'] as List)
+              .map((e) => AdventureBooking.fromJson(e))
+              .toList()
+          : null,
       // booking: json['booking'] == null
       //     ? null
       //     : (json['booking'] as List).map((e) => Booking.fromJson(e)).toList(),
@@ -87,7 +99,6 @@ class Adventure {
       'locationUrl': locationUrl,
       'date': date,
       'coordinates': coordinates,
-      'times': times,
 
     };
   }
@@ -128,8 +139,8 @@ class AdventureBooking {
       userId: json['userId']??'',
       adventureId: json['adventureId']??'',
       date: json['date']??'',
-      timeToGo: json['timeToGo'],
-      timeToReturn: json['timeToReturn'],
+      timeToGo: json['timeToGo']??'',
+      timeToReturn: json['timeToReturn']??'',
       guestNumber: json['guestNumber']??0,
       cost: json['cost']??0,
       status: json['status']??'',
@@ -139,4 +150,31 @@ class AdventureBooking {
     );
   }
     
+}
+class Time {
+  final String id;
+  final String startTime;
+  final String endTime;
+
+  Time({
+    required this.id,
+    required this.startTime,
+    required this.endTime,
+  });
+
+  factory Time.fromJson(Map<String, dynamic> json) {
+    return Time(
+      id: json['id'],
+      startTime: json['startTime'],
+      endTime: json['endTime'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'startTime': startTime,
+      'endTime': endTime,
+    };
+  }
 }
