@@ -17,6 +17,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
@@ -54,6 +56,61 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
   bool showErrorGuests = false;
   bool showErrorDate = false;
   bool showErrorTime = false;
+  final String timeZoneName = 'Asia/Riyadh';
+  late tz.Location location;
+
+  bool isDateBeforeToday() {
+    DateTime hospitalityDate =
+    DateFormat('yyyy-MM-dd').parse( widget.serviceController.selectedDate.value);
+     tz.initializeTimeZones();
+    location = tz.getLocation(timeZoneName);
+
+   DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
+   DateTime currentDate = DateTime(currentDateInRiyadh.year, currentDateInRiyadh.month, currentDateInRiyadh.day);
+  print(hospitalityDate.isBefore(currentDate));
+  print(hospitalityDate);
+  print(currentDate);
+
+    return hospitalityDate.isBefore(currentDate);
+  }
+
+  bool isSameDay() {
+  
+    tz.initializeTimeZones();
+    location = tz.getLocation(timeZoneName);
+
+    DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
+   //DateTime currentDate = DateTime(currentDateInRiyadh.year, currentDateInRiyadh.month, currentDateInRiyadh.day);
+    
+    
+    //DateTime selectedDate = DateTime.parse(widget.serviceController.selectedDate.value);
+
+    // print(selectedDate);
+    // print(currentDate);
+    // ignore: unrelated_type_equality_checks
+   // print(selectedDate == currentDate);
+    // ignore: unrelated_type_equality_checks
+    //return selectedDate== currentDate;
+
+    
+    DateTime selectedDate = DateTime.parse(widget.serviceController.selectedDate.value);
+  DateTime Date =
+    DateFormat('HH:mm').parse(DateFormat('hh:mm a', 'en_US').format(DateTime.parse(widget.hospitality!.daysInfo.first.startTime)));
+
+
+    DateTime hostStartDate = DateTime(selectedDate.year, selectedDate.month,selectedDate.day,Date.hour, Date.minute,Date.second);
+    
+
+    DateTime bookingDeadline = hostStartDate.subtract(Duration(hours: 24));
+
+
+    print (hostStartDate);
+    print(currentDateInRiyadh);
+    print(bookingDeadline);
+
+    return bookingDeadline.isBefore(currentDateInRiyadh);
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -339,7 +396,12 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
                                           .isHospatilityDateSelcted.value ==
                                       false) {
                                 setState(() => showErrorGuests = true);
-                              } else {
+                              } else if (isSameDay()) {
+                            AppUtil.errorToast(
+                                context, "You must booking before 24 hours");
+                          } else if (isDateBeforeToday()) {
+                            AppUtil.errorToast(context, "not avalible ");
+                          } else {
                                 Get.to(() => ReviewHospitalty(
                                     hospitality: widget.hospitality!,
                                     maleGuestNum: maleGuestNum,
@@ -992,6 +1054,7 @@ class _ReservaationDetailsAdventureWidgetState
 
                                       // }
                                       // else {
+                                      
                                       if (guestNum != 0) {
                                         final isSuccess = await widget
                                             .serviceController
@@ -1026,8 +1089,8 @@ class _ReservaationDetailsAdventureWidgetState
                                           invoice ??= await paymentController
                                               .paymentInvoice(
                                                   context: context,
-                                                  description: 'DESCRIPTION',
-                                                  amount: (widget
+                                                  // description: 'DESCRIPTION',
+                                                  InvoiceValue: (widget
                                                           .hospitality!.price *
                                                       guestNum));
                                           if (invoice != null) {

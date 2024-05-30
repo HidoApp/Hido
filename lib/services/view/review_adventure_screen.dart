@@ -1,6 +1,9 @@
+
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/payment/controller/payment_controller.dart';
 import 'package:ajwad_v4/payment/model/invoice.dart';
+import 'package:ajwad_v4/profile/view/ticket_details_screen.dart';
+import 'package:ajwad_v4/request/local_notification.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
 import 'package:ajwad_v4/services/view/widgets/review_details_tile.dart';
@@ -15,8 +18,10 @@ import 'package:ajwad_v4/widgets/promocode_field.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest_all.dart' as tz;
 
 class ReviewAdventure extends StatefulWidget {
   const ReviewAdventure({
@@ -37,24 +42,46 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
   Invoice? invoice;
   bool isCheckingForPayment = false;
   int finalCost = 0;
-  bool isDateBeforeToday() {
-    DateTime adventureDate =
-        DateFormat('yyyy-MM-dd').parse(widget.adventure.date!);
-    DateTime currentDate = DateTime.now();
-    return adventureDate.isBefore(currentDate);
-  }
+//   final String timeZoneName = 'Asia/Riyadh';
+//   late tz.Location location;
 
-  bool isSameDay() {
-    DateTime adventureDate =
-        DateFormat('yyyy-MM-dd').parse(widget.adventure.date!);
-    DateTime currentDate = DateTime.now();
-    print(adventureDate);
-    print(currentDate);
+  
+//   bool isDateBeforeToday() {
+//     DateTime adventureDate =
+//         DateFormat('yyyy-MM-dd').parse(widget.adventure.date!);
+// tz.initializeTimeZones();
+//     location = tz.getLocation(timeZoneName);
 
-    return adventureDate.year == currentDate.year &&
-        adventureDate.month == currentDate.month &&
-        adventureDate.day == currentDate.day;
-  }
+//     DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
+//     return adventureDate.isBefore(currentDateInRiyadh);
+//   }
+
+//   bool isSameDay() {
+//     tz.initializeTimeZones();
+//     location = tz.getLocation(timeZoneName);
+
+//     DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
+//     DateTime adventureDate =
+//     DateFormat('yyyy-MM-dd').parse(widget.adventure.date!);
+
+//      DateTime Date =
+//     DateFormat('HH:mm').parse(widget.adventure.times!.last.startTime!);
+
+    
+
+
+//     DateTime AdventureStartDate = DateTime(adventureDate.year, adventureDate.month,adventureDate.day,Date.hour, Date.minute,Date.second);
+
+
+//     DateTime bookingDeadline = AdventureStartDate.subtract(Duration(hours: 24));
+
+
+//     print (AdventureStartDate);
+//     print(currentDateInRiyadh);
+//     print(bookingDeadline);
+
+//     return bookingDeadline.isBefore(currentDateInRiyadh);
+//   }
 
 
  void initState() {
@@ -65,6 +92,7 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
   }  @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
+    print(widget.adventure.times?.last.startTime);
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -104,10 +132,11 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                 const SizedBox(
                   height: 4,
                 ),
+              
                  ReviewDetailsTile(
-                    title: widget.adventure.times != null && widget.adventure.times!.isNotEmpty
-                                ? widget.adventure.times!.join(' - ')
-                                : '5:00-8:00 AM',  
+                  title: widget.adventure.times != null && widget.adventure.times!.isNotEmpty
+                    ?widget.adventure.times!.map((time) => AppUtil.formatStringTimeWithLocale(context, time.startTime) ).join(', ')
+                         : '5:00-8:00 AM',
                         image: "assets/icons/timeGrey.svg"),
                 const SizedBox(
                   height: 20,
@@ -172,20 +201,17 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                     ? const Center(child: CircularProgressIndicator())
                     : CustomButton(
                         onPressed: () async {
-                          if (isSameDay()) {
-                            AppUtil.errorToast(
-                                context, "You must booking before 24 hours");
-                          } else if (isDateBeforeToday()) {
-                            AppUtil.errorToast(context, "not avalible ");
-                          } else {
+                          
                             print("invoice != null");
                             print(invoice != null);
 
                             invoice ??= await paymentController.paymentInvoice(
                                 context: context,
-                                description: 'DESCRIPTION ADVENTURE',
-                                amount: widget.adventure.price * widget.person);
-                            if (invoice != null) {
+                               // description: 'DESCRIPTION ADVENTURE',
+                                InvoiceValue: widget.adventure.price * widget.person);
+                            if (invoice != null)
+                            {
+                               print('inside check');
                               await _adventureController.checkAdventureBooking(
                                   adventureID: widget.adventure.id,
                                   context: context,
@@ -200,13 +226,16 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                                   .then((value) async {
                                 setState(() {
                                   isCheckingForPayment = true;
+                                  print("this state");
+                                  print(invoice?.invoiceStatus);
+
                                 });
 
                                 final checkInvoice =
                                     await paymentController.paymentInvoiceById(
                                         context: context, id: invoice!.id);
 
-                                if (checkInvoice!.invoiceStatus != 'faild') {
+                                if (checkInvoice!.invoiceStatus == 'Pending') {
                                   await _adventureController
                                       .checkAdventureBooking(
                                           adventureID: widget.adventure.id,
@@ -216,11 +245,11 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                                   setState(() {
                                     isCheckingForPayment = false;
                                   });
-
-                                  if (checkInvoice.invoiceStatus == 'failed' ||
-                                      checkInvoice.invoiceStatus ==
-                                          'initiated') {
-                                    Get.back();
+                                  print('No');
+                                  // if (checkInvoice.invoiceStatus == 'failed' ||
+                                  //     checkInvoice.invoiceStatus ==
+                                  //         'initiated') {
+                                   // Get.back();
 
                                     showDialog(
                                         context: context,
@@ -241,8 +270,10 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                                         });
                                   } else {
                                     print('YES');
-                                    Get.back();
-                                    Get.back();
+                                    print(invoice?.invoiceStatus);
+
+                                    //Get.back();
+                                   // Get.back();
 
                                     showDialog(
                                       context: context,
@@ -261,13 +292,22 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                                           ),
                                         );
                                       },
-                                    );
+                                    ).then((_) {
+                                      print("inside notifi");
+                                    LocalNotification().showAdventureNotification(context,widget.adventure.booking?.last.id,  widget.adventure.date,widget.adventure.nameEn,widget.adventure.nameAr);
+                                     Get.to(() =>  TicketDetailsScreen(
+                                                             adventure: widget.adventure,
+                                                             icon: SvgPicture.asset(
+                                                            'assets/icons/adventure.svg'),
+                                                             bookTypeText:'adventure',
+                                               
+                                           ));
+                                         });
                                   }
-                                } else {}
                               });
                             }
-                          }
-                        },
+                          },
+                        
                         title: 'Checkout'))
               ],
             ),

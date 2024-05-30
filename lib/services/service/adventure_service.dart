@@ -38,7 +38,7 @@ class AdventureService {
 
       final adventureList =
           data.map((adventure) => Adventure.fromJson(adventure)).toList();
-
+print('this from adventure');
       return adventureList;
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
@@ -118,6 +118,9 @@ class AdventureService {
         body: jsonEncode({'guestNumber': personNumber}));
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
+
+      print('adventure data');
+      print(response.body);
       print(data['orderStatus']);
       if (data['orderStatus'] == 'checked') {
         return true;

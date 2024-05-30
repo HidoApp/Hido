@@ -19,11 +19,11 @@ class CustomOnBoardingWidget extends StatelessWidget {
         children: [
           Image.asset("assets/images/onboarding/$backgroundImage.png",fit: BoxFit.cover,),
           Positioned(
-            top: size.width * 0.794,
+            top: size.width * 0.894,
             child:  SizedBox(
               width: size.width,
               child: Padding(
-                padding: EdgeInsets.only(left: size.width * 0.0666 , right: size.width * 0.0666),
+                padding: EdgeInsets.only(left: size.width * 0.06 , right: size.width * 0.06),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -34,7 +34,7 @@ class CustomOnBoardingWidget extends StatelessWidget {
                         text: text,
                         fontStyle: FontStyle.normal,
                         color: Colors.white ,
-                        fontSize: !AppUtil.rtlDirection(context)? size.width*0.164:size.width * 0.1282,
+                        fontSize: !AppUtil.rtlDirection(context)? size.width*0.164:size.width * 0.12,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -50,18 +50,19 @@ class CustomOnBoardingWidget extends StatelessWidget {
           ),
 
           Positioned(
-            bottom: size.width * 0.128,
+            bottom: size.width * 0.790,
             left: size.width *  0.0256,
             right: size.width * 0.0384,
             child:  Padding(
-              padding: EdgeInsets.only(left: size.width * 0.0666 , right: size.width * 0.0666),
+              padding: EdgeInsets.only(left: size.width * 0.04 , right: size.width * 0.04),
               child:   CustomText(
                 maxlines: 4,
                 textAlign:!AppUtil.rtlDirection(context) ? TextAlign.right :TextAlign.left,
                 text: description,
                 color: Colors.white ,
-                fontSize: size.width *0.046,
+                fontSize: size.width *0.041,
                 fontWeight: FontWeight.w500,
+                
               ),
             ),
           ),

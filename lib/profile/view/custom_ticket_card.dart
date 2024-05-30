@@ -32,7 +32,7 @@ class CustomTicketCard extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return InkWell(
-   onTap: booking.orderStatus == 'ACCEPTED' || booking.bookingType=='hospitality'
+   onTap: booking.orderStatus == 'ACCEPTED' || booking.bookingType=='hospitality'||booking.bookingType=='adventure'
       ? () {
           Get.to(() => TicketDetailsScreen(
           booking: booking,
@@ -92,7 +92,7 @@ print(booking.placeId??'') ;
             child: ClipRRect(
               borderRadius: const BorderRadius.all(Radius.circular(4)),
               child: Image.network(
-                booking.bookingType =="place" ?booking.place!.image![0]:booking.hospitality!.images[0],
+                booking.bookingType =="place" ?booking.place!.image![0]:booking.bookingType =="hospitality"?booking.hospitality!.images[0]:booking.adventure!.image![0],
                 height: height * 0.076,
                 width: width * 0.16,
                 fit: BoxFit.cover,
@@ -113,9 +113,10 @@ print(booking.placeId??'') ;
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CustomText(
-                        text: AppUtil.rtlDirection(context)
-                            ?booking.bookingType =="place" ? booking.place!.nameEn! : booking.hospitality!.titleEn
-                            :booking.bookingType =="place" ? booking.place!.nameAr! : booking.hospitality!.titleAr,
+                         text:
+                        AppUtil.rtlDirection(context)
+                            ?booking.bookingType =="place" ? booking.place!.nameEn! :booking.bookingType =="hospitality"? booking.hospitality!.titleEn:booking.adventure!.nameEn??''
+                            :booking.bookingType =="place" ? booking.place!.nameAr! : booking.bookingType =="hospitality"?booking.hospitality!.titleAr:booking.adventure!.nameAr??'',
                         fontSize: 19,
                         fontWeight: FontWeight.w700,
                         fontFamily:  AppUtil.rtlDirection(context)?'SF Pro':'SF Arabic',
@@ -154,9 +155,10 @@ print(booking.placeId??'') ;
                       width: 4,
                     ),
                     CustomText(
-                      text: AppUtil.rtlDirection2(context)
-                          ?booking.bookingType =="place" ? booking.place!.regionAr!:booking.hospitality!.regionAr!
-                          :booking.bookingType =="place" ? booking.place!.regionEn!:booking.hospitality!.regionEn ,
+                      text: 
+                      AppUtil.rtlDirection2(context)
+                          ?booking.bookingType =="place" ? booking.place!.regionAr!:booking.bookingType! == 'hospitality' ?booking.hospitality!.regionAr!:booking.adventure!.regionAr??''
+                          :booking.bookingType =="place" ? booking.place!.regionEn!:booking.bookingType! == 'hospitality' ?booking.hospitality!.regionEn:booking.adventure!.regionEn??'' ,
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
                       color: textGreyColor,

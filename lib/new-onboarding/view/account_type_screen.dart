@@ -28,11 +28,11 @@ class _AccountTypeScreenState extends State<AccountTypeScreen>
   bool secondAnimation = false;
   bool thirsdAnimation = false;
 
-  double localHeight = 150.0;
-  double localWeidth = 140.0;
+  double localHeight = 140.0;
+  double localWeidth = 153.0;
 
-  double touristHeight = 150.0;
-  double touristWeidth = 140.0;
+  double touristHeight = 140.0;
+  double touristWeidth = 153.0;
 
   void _updateSize(int index) {
     setState(() {
@@ -63,11 +63,14 @@ class _AccountTypeScreenState extends State<AccountTypeScreen>
       });
     });
   }
-
+// 'assets/images/account_type1.png',
+//     'assets/images/account_type2.png',
+//     'assets/images/account_type3.png',
   final List<String> _accountTypeImages = [
     'assets/images/account_type1.png',
-    'assets/images/account_type2.png',
-    'assets/images/account_type3.png',
+    'assets/images/Sign-in-Local.png',
+    'assets/images/Sign-in-Tourist.png',
+    
   ];
 
   @override
@@ -114,7 +117,7 @@ class _AccountTypeScreenState extends State<AccountTypeScreen>
                             _accountTypeImages[1],
                             width: width,
                             height: height,
-                            fit: BoxFit.fill,
+                            fit: BoxFit.cover,
                           )
                         : firstAnimation
                             ? Image.asset(
@@ -167,14 +170,15 @@ class _AccountTypeScreenState extends State<AccountTypeScreen>
                         _activeIndex == 0
                             ? beige
                             : _activeIndex == 1
-                                ? black
-                                : brown,
+                                ? Colors.black54
+                                :Colors.transparent,
                       ],
                     ))),
                 Positioned(
                   top: height * 0.45,
-                  left: 35,
-                  right: 35,
+                  left: 30,
+                  right: 30,
+                  bottom: 60,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -184,13 +188,18 @@ class _AccountTypeScreenState extends State<AccountTypeScreen>
                           duration: const Duration(milliseconds: 700),
                           child: CustomText(
                             text: "selectType".tr + '!',
-                            fontWeight: FontWeight.w700,
-                            fontSize: 20,
-                            height: 1.4,
+                            //fontWeight: FontWeight.w700,
+                            //fontSize: 20,
+                            //height: 1.4,
+                            color: Colors.white,
+                            fontSize: 34,
+                            fontFamily: 'HT Rakik',
+                            fontWeight: FontWeight.w500,
+                           // height: 0.03,
+
                             textAlign: AppUtil.rtlDirection(context)
                                 ? TextAlign.left
                                 : TextAlign.right,
-                            color: black,
                           ),
                         ),
                       if (_activeIndex == 1)
@@ -199,9 +208,13 @@ class _AccountTypeScreenState extends State<AccountTypeScreen>
                           duration: Duration(seconds: 1),
                           child: CustomText(
                             text: secondAnimation ? "selectType2".tr : "",
-                            fontWeight: FontWeight.w700,
-                            fontSize: 20,
-                            height: 1.4,
+                            //fontWeight: FontWeight.w700,
+                            //fontSize: 20,
+                            height: 1.3,
+                             fontSize: 32,
+                            fontFamily: 'HT Rakik',
+                            fontWeight: FontWeight.w500,
+                            // height: 0.03,
                             textAlign: AppUtil.rtlDirection(context)
                                 ? TextAlign.left
                                 : TextAlign.right,
@@ -214,9 +227,13 @@ class _AccountTypeScreenState extends State<AccountTypeScreen>
                           duration: Duration(seconds: 1),
                           child: CustomText(
                             text: thirsdAnimation ? "selectType3".tr : "",
-                            fontWeight: FontWeight.w700,
-                            fontSize: 20,
-                            height: 1.4,
+                            // fontWeight: FontWeight.w700,
+                            // fontSize: 20,
+                             height: 1.3,
+                             fontSize: 33,
+                            fontFamily: 'HT Rakik',
+                            fontWeight: FontWeight.w500,
+                            // height: 0.03,
                             textAlign: AppUtil.rtlDirection(context)
                                 ? TextAlign.left
                                 : TextAlign.right,
@@ -232,14 +249,17 @@ class _AccountTypeScreenState extends State<AccountTypeScreen>
                           duration: const Duration(seconds: 1),
                           child: CustomText(
                             text: "selectTypeBreif".tr,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 12,
-                            height: 1.4,
+                            // fontWeight: FontWeight.w500,
+                            // fontSize: 12,
+                             height: 1.4,
+                           fontSize: 16,
+                           fontFamily: 'SF Arabic',
+                            fontWeight: FontWeight.w400,
                             textAlign: AppUtil.rtlDirection(context)
                                 ? TextAlign.left
                                 : TextAlign.right,
                             color: _activeIndex == 0
-                                ? black.withOpacity(0.7)
+                                ? Colors.white
                                 : Colors.white.withOpacity(0.7),
                           ),
                         ),
@@ -252,8 +272,11 @@ class _AccountTypeScreenState extends State<AccountTypeScreen>
                                   text: secondAnimation
                                       ? "selectTypeBreif2".tr
                                       : "",
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 12,
+                                      fontSize: 16,
+                                      fontFamily: 'SF Arabic',
+                                      fontWeight: FontWeight.w500,
+                                  // fontWeight: FontWeight.w500,
+                                  // fontSize: 12,
                                   height: 1.4,
                                   textAlign: AppUtil.rtlDirection(context)
                                       ? TextAlign.left
@@ -275,8 +298,11 @@ class _AccountTypeScreenState extends State<AccountTypeScreen>
                                   text: thirsdAnimation
                                       ? "selectTypeBreif3".tr
                                       : "",
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 12,
+                                      fontSize: 16,
+                                      fontFamily: 'SF Arabic',
+                                      fontWeight: FontWeight.w500,
+                                  // fontWeight: FontWeight.w500,
+                                  // fontSize: 12,
                                   height: 1.4,
                                   textAlign: AppUtil.rtlDirection(context)
                                       ? TextAlign.left
@@ -290,7 +316,7 @@ class _AccountTypeScreenState extends State<AccountTypeScreen>
                                 ),
                         ),
                       const SizedBox(
-                        height: 38,
+                        height: 70,
                       ),
                       Align(
                         alignment: AlignmentDirectional.bottomCenter,
@@ -357,7 +383,9 @@ class _AccountTypeScreenState extends State<AccountTypeScreen>
                                       end: Alignment.center,
                                       colors: [
                                         beige.withOpacity(0.1),
-                                        Colors.white.withOpacity(0.4),
+                                        Colors.white.withOpacity(0.15000000596046448),
+
+                                       // Colors.white.withOpacity(0.4),
                                       ],
                                     )),
                                 child: AnimatedSize(
@@ -369,12 +397,38 @@ class _AccountTypeScreenState extends State<AccountTypeScreen>
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
-                                      children: [
-                                        Column(
-                                          crossAxisAlignment:
+                                           crossAxisAlignment:
                                               CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                    //  if (_activeIndex == 1) const Spacer(),
+                                      if (_activeIndex == 1)
+                                          GestureDetector(
+                                            onTap: () {
+                                              Get.to(() =>
+                                                  const AjwadiRegisterScreen());
+                                            },
+                                             
+                                                                                 
+                                             child:Container(
+                                              height: 30,
+                                              width: 30,
+                                              child: const Icon(
+                                                Icons.arrow_back_ios,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                        
+                                          ),
+                                       if (_activeIndex == 1) 
+
+                                         const SizedBox(
+                                                width: 10,
+                                              ),
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
                                           textDirection: _activeIndex == 0 &&
                                                   AppUtil.rtlDirection(context)
                                               ? TextDirection.rtl
@@ -386,40 +440,42 @@ class _AccountTypeScreenState extends State<AccountTypeScreen>
                                             ),
                                             Container(
                                               width:
-                                                  _activeIndex == 2 ? 50 : 110,
+                                                  _activeIndex == 2 ? 70 : 110,
                                               child: CustomText(
                                                 text: 'localGuide'.tr,
                                                 textAlign: TextAlign.center,
                                                 fontWeight: _activeIndex == 2
-                                                    ? FontWeight.w500
+                                                    ? FontWeight.w600
                                                     : FontWeight.w700,
                                                 maxlines: 2,
                                                 fontSize:
                                                     _activeIndex == 2 ? 11 : 16,
-                                                height: 1.3,
+                                                height: 0,
                                                 color: _activeIndex == 0
-                                                    ? darkBlack
+                                                    ? Colors.white
                                                     : Colors.white,
                                               ),
                                             ),
+                                        
+                                            
                                           ],
                                         ),
-                                        if (_activeIndex == 1) const Spacer(),
-                                        if (_activeIndex == 1)
-                                          GestureDetector(
-                                            onTap: () {
-                                              Get.to(() =>
-                                                  const AjwadiRegisterScreen());
-                                            },
-                                            child: Container(
-                                              height: 40,
-                                              width: 40,
-                                              child: const Icon(
-                                                Icons.arrow_forward,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                          ),
+                                        // if (_activeIndex == 1) const Spacer(),
+                                        // if (_activeIndex == 1)
+                                        //   GestureDetector(
+                                        //     onTap: () {
+                                        //       Get.to(() =>
+                                        //           const AjwadiRegisterScreen());
+                                        //     },
+                                        //     child: Container(
+                                        //       height: 40,
+                                        //       width: 40,
+                                        //       child: const Icon(
+                                        //         Icons.arrow_back_ios,
+                                        //         color: Colors.white,
+                                        //       ),
+                                        //     ),
+                                        //   ),
                                       ],
                                     ),
                                   ),
@@ -486,7 +542,9 @@ class _AccountTypeScreenState extends State<AccountTypeScreen>
                                           end: Alignment.center,
                                           colors: [
                                             beige.withOpacity(0.1),
-                                            Colors.white.withOpacity(0.4),
+                                            // Colors.white.withOpacity(0.4),
+                                          Colors.white.withOpacity(0.15000000596046448),
+
                                           ],
                                         )),
                                     child: AnimatedSize(
@@ -504,7 +562,7 @@ class _AccountTypeScreenState extends State<AccountTypeScreen>
                                           children: [
                                             if (_activeIndex == 2)
                                               const SizedBox(
-                                                width: 10,
+                                                width: 50,
                                               ),
                                             Column(
                                               crossAxisAlignment:
@@ -533,9 +591,9 @@ class _AccountTypeScreenState extends State<AccountTypeScreen>
                                                     fontSize: _activeIndex == 1
                                                         ? 12
                                                         : 16,
-                                                    height: 1.3,
+                                                    height: 0,
                                                     color: _activeIndex == 0
-                                                        ? darkBlack
+                                                        ? Colors.white
                                                         : Colors.white,
                                                   ),
                                                 ),
@@ -550,10 +608,10 @@ class _AccountTypeScreenState extends State<AccountTypeScreen>
                                                       const SignInScreen());
                                                 },
                                                 child: const SizedBox(
-                                                  height: 40,
-                                                  width: 40,
+                                                  height: 30,
+                                                  width: 30,
                                                   child: Icon(
-                                                      Icons.arrow_forward,
+                                                      Icons.arrow_forward_ios,
                                                       color: Colors.white),
                                                 ),
                                               ),
@@ -577,10 +635,15 @@ class _AccountTypeScreenState extends State<AccountTypeScreen>
                           },
                           child: CustomText(
                             text: 'exploreAsGuest'.tr,
-                            color: _activeIndex == 0 ? black : Colors.white,
+                            color: _activeIndex == 0 ?Colors.white: Colors.white,
+                            // fontWeight: FontWeight.w400,
+                            // textDecoration: TextDecoration.underline,
+                            // fontSize: width * 0.035,
+                            textAlign: TextAlign.center,
+                            fontSize:  width * 0.036,
+                           fontFamily: 'HT Rakik',
                             fontWeight: FontWeight.w400,
-                            textDecoration: TextDecoration.underline,
-                            fontSize: width * 0.035,
+                          height: 0,
                           ))
                     ],
                   ),

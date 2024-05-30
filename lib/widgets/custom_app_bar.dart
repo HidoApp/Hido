@@ -35,7 +35,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     preferredSize: const Size.fromHeight(79.0),
     child: Directionality(
       textDirection: AppUtil.rtlDirection2(context) ? TextDirection.rtl : TextDirection.ltr,
-    child:Padding(padding:EdgeInsets.only(top:20),
+    child:Padding(padding:EdgeInsets.only(top:0),
     
    child: AppBar(
       

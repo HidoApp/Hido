@@ -68,22 +68,23 @@ class _ReviewRequestState extends State<ReviewRequest> {
    initState() {
     // TODO: implement initState
     super.initState();
-    getBokking();
+WidgetsBinding.instance.addPostFrameCallback((_) {
+    getBooking();
+  });
 
   }
 
- void getBokking()async{
- 
+ void getBooking()async{
+     print("1");
+
   book.Booking? fetchedBooking = await _RequestController.getBookingById(
       context: context,
       bookingId: widget.booking!.id!,
     );
-    print("this book");
     print(fetchedBooking?.id);
     fetchedBooking2=fetchedBooking;
     print(fetchedBooking2?.id);
 
-    print("lingth");
     // print(fetchedBooking2!.offers!.length);
     // if(fetchedBooking2!.offers!!=[]){
     // await widget.offerController?.getOfferById(context: context, offerId:fetchedBooking!.offers!.last.id);
@@ -101,6 +102,17 @@ class _ReviewRequestState extends State<ReviewRequest> {
   PaymentController paymentController = Get.put(PaymentController());
   @override
   Widget build(BuildContext context) {
+
+                              print("this is total final invoice price11");
+                              print(widget.offerController!
+                                                        .totalPrice.value *
+                                                    widget
+                                                        .offerController!
+                                                        .offerDetails
+                                                        .value
+                                                        .booking!
+                                                        .guestNumber!);
+    
     final width = MediaQuery.of(context).size.width;
    return Obx(
       ()=> _RequestController.isBookingLoading.value? 
@@ -213,14 +225,14 @@ class _ReviewRequestState extends State<ReviewRequest> {
                               : CustomButton(
                                 
                                 title: 'checkout'.tr,
-
+                                 
                                 icon: Icon(Icons.keyboard_arrow_right,color: Colors.white),
                                   onPressed: () async {
                                     invoice ??=
                                         await paymentController.paymentInvoice(
                                             context: context,
-                                            description: 'Book place',
-                                              amount: (widget.offerController!
+                                            // description: 'Book place',
+                                              InvoiceValue: (widget.offerController!
                                                         .totalPrice.value *
                                                     widget
                                                         .offerController!
@@ -229,6 +241,15 @@ class _ReviewRequestState extends State<ReviewRequest> {
                                                         .booking!
                                                         .guestNumber!));
 
+                              print("this is total final invoice price");
+                              print(widget.offerController!
+                                                        .totalPrice.value *
+                                                    widget
+                                                        .offerController!
+                                                        .offerDetails
+                                                        .value
+                                                        .booking!
+                                                        .guestNumber!);
                                             // amount: (widget.place!.price! *
                                             //         widget
                                             //             .offerController!
@@ -248,10 +269,11 @@ class _ReviewRequestState extends State<ReviewRequest> {
                                     Get.to(() => PaymentWebView(
                                         url: invoice!.url!,
                                         title: AppUtil.rtlDirection2(context)?'الدفع':'Payment'))?.then((value) async {
-                                    
-                                       setState(() {
-                                                  isCheckingForPayment = true;
-                                                });
+                                         print(value);
+                                         print('this value');
+                                        setState(() {
+                                          isCheckingForPayment = true;
+                                                    });
 
                                                         final checkInvoice =
                                                     await paymentController
@@ -262,23 +284,27 @@ class _ReviewRequestState extends State<ReviewRequest> {
                                                             print("checkInvoice!.invoiceStatus");
                                                             print(checkInvoice!.invoiceStatus);
 
-                                                                         if (checkInvoice
-                                                        .invoiceStatus !=
-                                                    'faild') {
+                                              if (checkInvoice
+                                                        .invoiceStatus ==
+                                                    'Pending') {
                                                 
                                                   setState(() {
                                                     isCheckingForPayment =
                                                         false;
                                                   });
+                                                  print("no");
 
-                                                  if (checkInvoice
-                                                              .invoiceStatus ==
-                                                          'failed' ||
-                                                      checkInvoice
-                                                              .invoiceStatus ==
-                                                          'initiated') {
-                                                    //  Get.back();
+      
 
+                                                  // if (
+                                                  //     checkInvoice
+                                                  //             .invoiceStatus ==
+                                                  //         'Pending') {
+                       Get.to(() => PaymentWebView(
+                                     url: invoice!.url!,
+                                    title: AppUtil.rtlDirection2(context) ? 'الدفع' : 'Payment',
+                                ));
+                            //Get.until((route) => Get.currentRoute == '/PaymentWebView');
                                                     showDialog(
                                                         context: context,
                                                         builder: (ctx) {
@@ -298,26 +324,29 @@ class _ReviewRequestState extends State<ReviewRequest> {
                                                                             .tr),
                                                               ],
                                                             ),
+                                                            
                                                           );
                                                         });
                                                   } else {
                                                     print('YES');
                                                     // Get.back();
                                                     // Get.back();
+                                                    
+                                                
 
-                                                        final acceptedOffer = await widget
+                                    final acceptedOffer = await widget
                                         .offerController!
                                         .acceptOffer(
-                                      context: context,
-                                      offerId: widget.offerController!.offerDetails.value.id!,
-                                      invoiceId: checkInvoice.id,
+                                        context: context,
+                                       offerId: widget.offerController!.offerDetails.value.id!,
+                                       invoiceId: checkInvoice.id,
                                       schedules: widget.offerController!
                                           .offerDetails.value.schedule!,
                                     );
                                     print(acceptedOffer?.orderStatus);
-                                    print("pay from ui");
+                                    print("pay from uiiiiiiiiiiiiii");
                                  //Get.back();
-                                //    Get.back();
+                                                 Get.back();
 
                                                     showDialog(
                                                         context: context,
@@ -353,8 +382,9 @@ class _ReviewRequestState extends State<ReviewRequest> {
                                                   
 
                                                   }
-                                                }
+                                              
                                     });
+                                        
                                     // Get.to(
                                     //   () => CheckOutScreen(
                                     //     total: (widget.place!.price! *
@@ -390,9 +420,13 @@ class _ReviewRequestState extends State<ReviewRequest> {
                                     //   //  Get.back();
                                     // });
 
+                               
                                 //  LocalNotification().showNotification(context,widget.booking?.id, widget.booking?.timeToGo, widget.booking?.date ,_offerController.offers.last.name, thePlace?.nameAr,thePlace?.nameEn);
-                                  },
-                                )
+                                  }
+                             
+                              ),
+                                
+                              
               ],
             ),
           ),

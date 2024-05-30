@@ -50,16 +50,22 @@ class PaymentController extends GetxController {
 
   Future<Invoice?> paymentInvoice({
     required BuildContext context,
-    required String description,
-    required int amount,
+    //required String description,
+    // required int amount,
+    required int InvoiceValue,
+     
+
   }) async {
     try {
       isPaymenInvoiceLoading(true);
       final data = PaymentService.paymentInvoice(
         context: context,
-        description: description,
-        amount: amount,
+        //description: description,
+        InvoiceValue: InvoiceValue,
       );
+      print("this is invo from contr");
+      print(InvoiceValue);
+      print(data);
       return data;
     } catch (e) {
       print(e);
@@ -81,6 +87,7 @@ class PaymentController extends GetxController {
         context: context,
         id: id
       );
+      print("this is pay from controller");
       return data;
     } catch (e) {
       print(e);

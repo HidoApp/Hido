@@ -13,9 +13,11 @@ import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 import 'package:intl/intl.dart' as intel;
 
 class NotificationScreen extends StatefulWidget {
-NotificationScreen({Key? key, this.hasNotifications = true}) : super(key: key);
+NotificationScreen({Key? key, this.hasNotifications = true,this.hasNotifications1=true}) : super(key: key);
 
   bool hasNotifications;
+  bool hasNotifications1;
+
 
   @override
   State<NotificationScreen> createState() => _NotificationScreenState();
@@ -24,8 +26,14 @@ NotificationScreen({Key? key, this.hasNotifications = true}) : super(key: key);
 class _NotificationScreenState extends State<NotificationScreen> {
 
   List<Booking> _upcomingTicket = [];
+  List<Booking> _pastTicket = [];
+
   List<Booking> _upcomingBookings = [];
- late String days;
+    List<Booking> _pastBookings = [];
+
+ String days='';
+ String days1='';
+
   //List<int> disabledIndices = [];
   static List<int> canceledIndices = [];
 
@@ -36,16 +44,33 @@ class _NotificationScreenState extends State<NotificationScreen> {
   void getBooking() async {
   List<Booking>? bookings =
       await _profileController.getUpcommingTicket(context: context);
-  if (bookings != null) {
+
+  List<Booking>? pastBookings =
+      await _profileController.getPastTicket(context: context);
+
+  if (bookings != null ) {
     setState(() {
       _upcomingTicket = bookings;
-       getUpcomingBookings();
-    });
-    print("be");
-    print(_upcomingTicket.length);
-  } else {
+      getUpcomingBookingsNotification()  ;
+  });
+  }else {
      setState(() {
      widget.hasNotifications=false;
+
+    });
+  
+  }
+  if(pastBookings !=null){
+  setState(() {
+      _pastTicket = pastBookings;
+      getPastBookingsNotification()  ;
+  });
+    print("be");
+    print(_pastTicket.length);
+    }
+   else {
+     setState(() {
+     widget.hasNotifications1=false;
 
     });
   }
@@ -110,53 +135,113 @@ if (_upcomingTicket.isEmpty) {
   }
 
 
-  void getUpcomingBookings() async {
-if (_upcomingTicket.isEmpty) {
+ void getPastBookingsNotification() async {
+if (_pastTicket.isEmpty) {
   print('love null');
 }
-  for (Booking booking in _upcomingTicket ) {
+
+  for (Booking booking in _pastTicket ) {
+    if(booking.bookingType=='hospitality'){
     DateTime bookingDate = DateTime.parse(booking.date);
-     String combinedTimeString = intel.DateFormat("yyyy-MM-dd").format(bookingDate) + " " + booking.timeToGo;
-     DateTime parsedTime = intel.DateFormat("yyyy-MM-dd HH:mm:ss").parse(combinedTimeString);
-    int daysDifference = parsedTime.difference(DateTime.now()).inHours;
+     tz.initializeTimeZones();
+
+  // Get the Riyadh time zone location
+  final String timeZoneName = 'Asia/Riyadh';
+  final tz.Location location = tz.getLocation(timeZoneName);
+
+  DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
+
+    //int daysDifference = bookingDate.difference(DateTime.now()).inDays;
+    int daysDifference = bookingDate.difference(currentDateInRiyadh).inDays;
+    print('past');
     print(daysDifference);
- 
- print(parsedTime);
- print(DateTime.now());
-  DateTime bookingDateWithoutTime = DateTime(bookingDate.year, bookingDate.month, bookingDate.day);
-  DateTime todayWithoutTime = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+    if (daysDifference == 2) {
+      _pastBookings.add(booking);
+      print(_pastBookings.length);
+      AppUtil.rtlDirection2(context)? days1=" بعد يوم , عند الساعة" + booking.timeToGo: days1=" is after a day at"+ booking.timeToGo;
+    }
+    else if(daysDifference == 1){
+        _pastBookings.add(booking);
+      print(_pastBookings.length);
+      AppUtil.rtlDirection2(context)? days1=" غدا عند الساعة" + booking.timeToGo: days1=" is tomorrow at "+ booking.timeToGo;
+
+    }
+    else {
+      print(bookingDate);
+      print(currentDateInRiyadh);
+     DateTime bookingDateWithoutTime = DateTime(bookingDate.year, bookingDate.month, bookingDate.day);
+     DateTime todayWithoutTime = DateTime(currentDateInRiyadh.year, currentDateInRiyadh.month, currentDateInRiyadh.day);
+
+  // DateTime todayWithoutTime = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
 
   if (bookingDateWithoutTime == todayWithoutTime) {
-       if (daysDifference == 2) {
-      _upcomingBookings.add(booking);
-      print(_upcomingBookings.length);
-      AppUtil.rtlDirection2(context)? days="بعد ساعتين عند" + booking.timeToGo: days=" is after two hour at"+ booking.timeToGo;
+        print('past1');
+
+       _pastBookings.add(booking);
+        AppUtil.rtlDirection2(context)? days1=" اليوم عند الساعة " + booking.timeToGo : days1=" is today at "+booking.timeToGo ;
+
     }
-       else if(daysDifference == 1){
-        _upcomingBookings.add(booking);
-      print(_upcomingBookings.length);
-      AppUtil.rtlDirection2(context)? days="بعد ساعة عند" + booking.timeToGo: days=" is after one hour at"+ booking.timeToGo;
-       }
-       else if(daysDifference == 0){
-        _upcomingBookings.add(booking);
-      print(_upcomingBookings.length);
-      AppUtil.rtlDirection2(context)? days=" الان عند" + booking.timeToGo: days=" is now at"+ booking.timeToGo;
-       }
-    
     else{
       setState(() {
-     widget.hasNotifications=false;
+     widget.hasNotifications1=false;
 
     }); 
     }
-  }
-    else{
-    widget.hasNotifications=false;
-
-    }
        }
 
-}
+   
+  }
+  }
+  }
+
+
+//   void getUpcomingBookings() async {
+// if (_upcomingTicket.isEmpty) {
+//   print('love null');
+// }
+//   for (Booking booking in _upcomingTicket ) {
+//     DateTime bookingDate = DateTime.parse(booking.date);
+//      String combinedTimeString = intel.DateFormat("yyyy-MM-dd").format(bookingDate) + " " + booking.timeToGo;
+//      DateTime parsedTime = intel.DateFormat("yyyy-MM-dd HH:mm:ss").parse(combinedTimeString);
+//     int daysDifference = parsedTime.difference(DateTime.now()).inHours;
+//     print(daysDifference);
+ 
+//  print(parsedTime);
+//  print(DateTime.now());
+//   DateTime bookingDateWithoutTime = DateTime(bookingDate.year, bookingDate.month, bookingDate.day);
+//   DateTime todayWithoutTime = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+
+//   if (bookingDateWithoutTime == todayWithoutTime) {
+//        if (daysDifference == 2) {
+//       _upcomingBookings.add(booking);
+//       print(_upcomingBookings.length);
+//       AppUtil.rtlDirection2(context)? days="بعد ساعتين عند" + booking.timeToGo: days=" is after two hour at"+ booking.timeToGo;
+//     }
+//        else if(daysDifference == 1){
+//         _upcomingBookings.add(booking);
+//       print(_upcomingBookings.length);
+//       AppUtil.rtlDirection2(context)? days="بعد ساعة عند" + booking.timeToGo: days=" is after one hour at"+ booking.timeToGo;
+//        }
+//        else if(daysDifference == 0){
+//         _upcomingBookings.add(booking);
+//       print(_upcomingBookings.length);
+//       AppUtil.rtlDirection2(context)? days=" الان عند" + booking.timeToGo: days=" is now at"+ booking.timeToGo;
+//        }
+    
+//     else{
+//       setState(() {
+//      widget.hasNotifications=false;
+
+//     }); 
+//     }
+//   }
+//     else{
+//     widget.hasNotifications=false;
+
+//     }
+//        }
+
+// }
 
  void disableNotification(int index) {
     setState(() {
@@ -216,7 +301,8 @@ Widget build(BuildContext context) {
               
             ),
              
-            if (!widget.hasNotifications)
+            if (!widget.hasNotifications&&!widget.hasNotifications1)
+  
               CustomEmptyWidget(
                 title: 'noNotification'.tr,
                 image: 'no_notifications',
@@ -225,7 +311,7 @@ Widget build(BuildContext context) {
             ListView.builder(
               shrinkWrap: true,
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-              itemCount: _upcomingBookings.length,
+              itemCount: _upcomingBookings.length + _pastBookings.length ,
               itemBuilder: (context, index) {
               final isDisabled = canceledIndices.contains(index);
         if (isDisabled) {
@@ -234,12 +320,17 @@ Widget build(BuildContext context) {
                 title: 'noNotification'.tr,
                 image: 'no_notifications',
               );
-        }
-
+              }
+             if(_pastBookings.isNotEmpty&&_upcomingBookings.isNotEmpty){
+              if(_upcomingBookings[index].place!=null){
               return  NotificationCrd(
                 name:AppUtil.rtlDirection2(context)? _upcomingBookings[index].place?.nameAr?? "":  _upcomingBookings[index].place?.nameEn?? "",
                 isRtl:AppUtil.rtlDirection2(context),
+                FamilyName:AppUtil.rtlDirection2(context)?_pastTicket[index].hospitality?.titleAr??"":_pastTicket[index].hospitality?.titleEn??'',
                 width: width,
+                isTour: true,
+                isHost: true,
+                days2: days1,
                 days:days,
                 isDisabled: isDisabled,
                 onCancel: () {
@@ -248,6 +339,41 @@ Widget build(BuildContext context) {
                  },
                 
               );
+              }
+             }else if(_pastBookings.isNotEmpty){
+        
+              return  NotificationCrd(
+                // name:AppUtil.rtlDirection2(context)? _upcomingBookings[index].place?.nameAr?? "":  _upcomingBookings[index].place?.nameEn?? "",
+                isRtl:AppUtil.rtlDirection2(context),
+               FamilyName:AppUtil.rtlDirection2(context)?" في"'${_pastTicket[index].hospitality?.titleAr??""}':"at" '${_pastTicket[index].hospitality?.titleEn??''}',
+                width: width,
+                isHost: true,
+                days:'',
+                days2:days1,
+                isDisabled: isDisabled,
+                onCancel: () {
+                   disableNotification(index);
+
+                 },
+                
+              );
+             }else{
+              return  NotificationCrd(
+                name:AppUtil.rtlDirection2(context)? _upcomingBookings[index].place?.nameAr?? "":  _upcomingBookings[index].place?.nameEn?? "",
+                isRtl:AppUtil.rtlDirection2(context),
+                width: width,
+                isTour: true,
+                days: days,
+                isDisabled: isDisabled,
+                onCancel: () {
+                   disableNotification(index);
+
+                 },
+                
+              );
+             }
+            
+
               }
             ),
               // Column(

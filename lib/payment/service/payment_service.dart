@@ -77,8 +77,9 @@ class PaymentService {
 
   static Future<Invoice?> paymentInvoice({
     required BuildContext context,
-    required String description,
-    required int amount,
+    // required String description,
+    // required int amount,
+    required int InvoiceValue,
   }) async {
     final getStorage = GetStorage();
     String token = getStorage.read('accessToken') ?? "";
@@ -91,16 +92,24 @@ class PaymentService {
     }
 
     final response = await http.post(
-        Uri.parse('$baseUrl/payment/invoice'),
+        // Uri.parse('$baseUrl/payment/invoice'),
+        Uri.parse('$baseUrl/payment/myfatoorah/invoice'),
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
         },
-        body: json.encode({
-          "amount": amount,
-          "description": description.trim(),
-        }));
+        // body: json.encode({
+        //   "amount": amount,
+        //   "description": description.trim(),
+        // })
+        
+          body: json.encode({
+          "InvoiceValue": InvoiceValue,
+        })
+        );
+              print("this is invo from serv");
+              print(InvoiceValue);
     print("response.statusCode");
     print(response.statusCode);
     print(response.body);
@@ -109,6 +118,9 @@ class PaymentService {
     print(jsonDecode(response.body).length);
     if (response.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(response.body);
+       print("this is invo from serv2");
+
+      print(data.isEmpty);
       return Invoice.fromJson(data);
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
@@ -147,11 +159,19 @@ class PaymentService {
     print(response.statusCode);
     print(response.body);
 
-
+    print("this is pay from serv");
     print(jsonDecode(response.body).length);
     if (response.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(response.body);
+      print("this is pay from serv");
+      print(data.isEmpty);
+      print(Invoice.fromJson(data).invoiceStatus);
+  print(Invoice.fromJson(data).message);
+    print(Invoice.fromJson(data));
+
+
       return Invoice.fromJson(data);
+      
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
       if (context.mounted) {

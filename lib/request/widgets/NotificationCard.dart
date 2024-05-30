@@ -13,10 +13,15 @@ import '../../profile/view/ticket_screen.dart';
 class NotificationCrd extends StatelessWidget {
   const NotificationCrd({
     Key? key,
-      required this.name,
+        this.name='',
+       this.FamilyName='',
+       this.isHost=false,
+       this.isTour=false,
       required this.isRtl,
       required this.width,
       required this.days,
+      this.days2='',
+
       required this.isDisabled,
       required this.onCancel,
 
@@ -26,12 +31,18 @@ class NotificationCrd extends StatelessWidget {
   final double width;
   final bool isRtl;
   final String  days;
+  final String  days2;
   final bool isDisabled;
   final VoidCallback onCancel;
+  final FamilyName;
+  final bool isHost;
+  final bool isTour;
+
 
 
  @override
 Widget build(BuildContext context) {
+ 
   return isDisabled
         ? SizedBox() // Return an empty SizedBox if disabled
         :GestureDetector(
@@ -59,7 +70,7 @@ Widget build(BuildContext context) {
               child: RichText(
                 text: TextSpan(children: [
                   TextSpan(
-                    text: isRtl ? "رحلتك القادمة الى  " : 'Your next tour to ',
+                    text: isTour? isRtl ? "رحلتك القادمة الى  " : 'Your next tour to ':isRtl?" استضافتك القادمة":"Your next host ",
                     style: TextStyle(
                       fontFamily: isRtl ? 'Noto Kufi Arabic' : 'Kufam',
                       fontSize: 14,
@@ -68,7 +79,7 @@ Widget build(BuildContext context) {
                     ),
                   ),
                   TextSpan(
-                    text: name + days,
+                    text:isHost? FamilyName + days2:name + days,
                     style: TextStyle(
                       fontFamily: isRtl ? 'Noto Kufi Arabic' : 'Kufam',
                       fontSize: 14,

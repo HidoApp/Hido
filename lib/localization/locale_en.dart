@@ -1,15 +1,15 @@
 const localeEn = {
   "experience": "Experience",
   "authentic_hospitality":
-      "Authentic hospitality in Saudi homes and discover the unique culture and traditions in a warm and welcoming atmosphere!",
+  "Experience the richness of Saudi hospitality as you immerse yourself in the culture and traditions of welcoming homes.",
   "discover": "Discover",
   "from_start_to_finish":
-      "From start to finish with a local tour companion in their car!",
+    'Discover local culture from start to finish with a native tour guide in their car!',
   "taste": "Taste",
   "popular_saudi": "The popular Saudi dishes and cuisine!",
   "enjoy_in": "Enjoy in",
   "saudi_arabia": "Saudi Arabia.",
-  "start_tour": "Start Tour",
+  "start_tour": 'Start Exploring',
   "ajwad": "Ajwad",
   "noun": "noun [ plural ] 'ajwad",
   "societyGenerosity":
@@ -26,21 +26,20 @@ const localeEn = {
   "exploringSaudi": "Let's start exploring Saudi culture today!",
   "start": "Start",
   "selectType":
-      "Let us know what you're here for, so we can make your experience just right !",
+      "Welcome to Hido",
   "selectType3":
-      "Get set for  exciting adventures and uncovering new destinations !",
+      "Unlock Saudi!",
   "selectType2":
-      "Ready to be the expert curator of unforgettable experiences ?",
+      "Become an Experience Curator!",
   "selectTypeBreif":
-      "Are you excited to explore new places and tours, or are you a tour guide ready to share knowledge and create awesome tours ?",
-  "selectTypeBreif2":
-      " a local guide, you'll lead the way to hidden treasures and authentic cultural encounters. Let's embark on this journey together!",
+  "Your gateway to authentic Saudi Arabia. Locals connect tourists",
+  "selectTypeBreif2":"Turn your passion into income. Share your Saudi with tourists.",
   "selectTypeBreif3":
-      " From breathtaking scenery to cultural experiences, we've got everything you need. Jump in now and craft memories that will last a lifetime !",
+  "From breathtaking views to vibrant culture, discover it all and craft unforgettable memories!",
   "ajwady": "Tour Guide",
   "tourist": "Tourist",
   "local": "Local",
-  "localGuide": "Local Guide",
+  "localGuide": "Local",
   "licensedTour":
       "licensed tour guide looking to offer your services to tourists ",
   "letsSignIn": "Lets Sign you in",
