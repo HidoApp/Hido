@@ -217,6 +217,7 @@ const localeAr = {
   "SUV": "SUV",
   "4x4": "دفع رباعي",
   "van": "باص",
+  "terms": "الشروط والاحكام",
   "preliminaryCost": "سعر تقريبي",
   "findAjwady": "أبحث عن أجودي",
   "findLocal": "أبحث عن مرشد محلي",
@@ -398,5 +399,7 @@ const localeAr = {
   "signUpLocal": "إنشاء حساب كمواطن محلي",
   "guestSubtitle": "انضم إلينا واحصل على تجربة فريدة",
   "languages": "اللغات",
-  "loclaInfo": "صفحة المواطن المحلي"
+  "loclaInfo": "صفحة المواطن المحلي",
+  'edit': "تعديل",
+  'save': "حفظ"
 };

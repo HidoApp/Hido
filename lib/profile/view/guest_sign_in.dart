@@ -3,7 +3,7 @@ import 'package:ajwad_v4/auth/view/ajwadi_register/ajwadi_register_screen.dart';
 import 'package:ajwad_v4/auth/view/tourist_register/register/register_screen.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/new-onboarding/view/account_type_screen.dart';
-import 'package:ajwad_v4/profile/view/help_FAQs.dart';
+import 'package:ajwad_v4/profile/view/terms&conditions.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_list_tile.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
@@ -100,7 +100,7 @@ class _GuestSignInScreenState extends State<GuestSignInScreen> {
                 // fromAjwady: widget.fromAjwady,
                 iconColor: colorGreen,
                 onTap: () {
-                  Get.to(() => HelpAndFAQsScreen(
+                  Get.to(() => TermsAndConditions(
                         fromAjwady: false,
                       ));
                 },

@@ -169,7 +169,7 @@ const localeEn = {
   "trips": "Tour",
   "paymentMethods": "Payment Methods",
   "contactUs": "Contact Us",
-  "helpsFAQs": "Helps & FAQs",
+  "terms": "Terms&Conditions",
   "signOut": "Sign out",
   "aboutMe": "About Me",
   "aboutMeBreif":
@@ -408,5 +408,7 @@ const localeEn = {
   "signUpLocal": "Sign Up As Local",
   "guestSubtitle": "Join us and get to have unique experience",
   "languages": "Spoken Language",
-  "loclaInfo": "Local info"
+  "loclaInfo": "Local info",
+  'edit': "Edit",
+  'save': "Save"
 };

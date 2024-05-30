@@ -20,7 +20,7 @@ class ProfileController extends GetxController {
   var chatList = <ChatModel>[].obs;
 
   var profile = Profile();
-
+  var isEmailOtp = false.obs;
   var isEditing = false.obs;
   var isEmailNotValid = false.obs;
   var isNumberNotValid = false.obs;

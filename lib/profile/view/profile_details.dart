@@ -157,7 +157,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                   _userName.clear();
                 },
                 child: Padding(
-                  padding: EdgeInsets.only(right: 24),
+                  padding: EdgeInsets.symmetric(horizontal: 24),
                   child: Text(
                     widget.profileController.isEditing.value
                         ? 'save'.tr
@@ -173,15 +173,14 @@ class _ProfileDetailsState extends State<ProfileDetails> {
             )
           ],
           leading: Padding(
-            padding: const EdgeInsets.only(left: 24),
-            child: IconButton(
-              icon: const Icon(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: GestureDetector(
+              child: const Icon(
                 Icons.arrow_back_ios,
                 size: 24,
                 color: black,
               ),
-              onPressed: () => Get.back(),
-              color: Colors.black,
+              onTap: () => Get.back(),
             ),
           ),
         ),
@@ -333,6 +332,8 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                                 widget.profileController.isEditing.value
                                     ? MultiSelectDropDown(
                                         controller: _controller,
+                                        hint: 'languages'.tr,
+                                        borderRadius: 8,
 
                                         onOptionSelected: (options) {
                                           debugPrint(options.toString());
