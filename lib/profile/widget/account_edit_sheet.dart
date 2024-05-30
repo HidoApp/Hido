@@ -36,6 +36,7 @@ class _AccountEditSheetState extends State<AccountEditSheet> {
       // TODO: must change services of email reset
       final res = await _authController.sendEmailOTP(
           email: _textController.text, context: context);
+      widget.profileController.isEmailOtp(true);
     }
   }
 

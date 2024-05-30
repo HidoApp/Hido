@@ -5,7 +5,7 @@ import 'package:ajwad_v4/new-onboarding/view/account_type_screen.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/view/booking_screen.dart';
 import 'package:ajwad_v4/profile/view/bookmark_screen.dart';
-import 'package:ajwad_v4/profile/view/help_FAQs.dart';
+import 'package:ajwad_v4/profile/view/terms&conditions.dart';
 import 'package:ajwad_v4/profile/view/messages_screen.dart';
 import 'package:ajwad_v4/profile/view/my_account.dart';
 import 'package:ajwad_v4/profile/view/profile_details.dart';
@@ -243,12 +243,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             //   },
                             // ),
                             CustomListTile(
-                              title: "helpsFAQs".tr,
+                              title: "terms".tr,
                               leading: "assets/icons/help_icon.svg",
                               // fromAjwady: widget.fromAjwady,
 
                               onTap: () {
-                                Get.to(() => HelpAndFAQsScreen(
+                                Get.to(() => TermsAndConditions(
                                       fromAjwady: false,
                                     ));
                               },

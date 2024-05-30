@@ -54,14 +54,14 @@ class _MyAccountState extends State<MyAccount> {
                       title: "email".tr,
                       subtitle: widget.profileController.profile.email!,
                       onTap: () {
-                        showModalBottomSheet(
-                          isScrollControlled: true,
-                          enableDrag: true,
-                          context: context,
-                          builder: (context) => AccountEditSheet(
-                            profileController: widget.profileController,
-                          ),
-                        );
+                        // showModalBottomSheet(
+                        //   isScrollControlled: true,
+                        //   enableDrag: true,
+                        //   context: context,
+                        //   builder: (context) => AccountEditSheet(
+                        //     profileController: widget.profileController,
+                        //   ),
+                        // );
                       },
                     ),
             ),
