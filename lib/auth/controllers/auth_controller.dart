@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/auth/models/ajwadi_info.dart';
 import 'package:ajwad_v4/auth/models/user.dart';
 import 'package:ajwad_v4/auth/services/auth_service.dart';
@@ -18,7 +20,7 @@ class AuthController extends GetxController {
   var isVicheleLoading = false.obs;
   var isSigininwithRowad = false.obs;
   var countries = <String>[].obs;
-
+  var isEmailUpadting = false.obs;
   var nationalId = ''.obs;
   var birthDate = ''.obs;
 
@@ -34,6 +36,7 @@ class AuthController extends GetxController {
       final data = await AuthService.getListOfCountries(context);
       if (data != null) {
         countries(data);
+        log(countries.value.first);
         return countries;
       } else {
         return null;
@@ -209,9 +212,30 @@ class AuthController extends GetxController {
       );
       return isSuccess;
     } catch (e) {
+      isResetPasswordLoading(false);
+
       return false;
     } finally {
       isResetPasswordLoading(false);
+    }
+  }
+
+  Future<bool> resetEmail({
+    required String email,
+    required BuildContext context,
+  }) async {
+    try {
+      isEmailUpadting(true);
+      final isSuccess = await AuthService.resetEmail(
+        email: email,
+        context: context,
+      );
+      return isSuccess;
+    } catch (e) {
+      isEmailUpadting(false);
+      return false;
+    } finally {
+      isEmailUpadting(false);
     }
   }
 

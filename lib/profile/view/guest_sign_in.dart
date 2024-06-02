@@ -95,7 +95,7 @@ class _GuestSignInScreenState extends State<GuestSignInScreen> {
                 height: width * .012,
               ),
               CustomListTile(
-                title: "helpsFAQs".tr,
+                title: "terms".tr,
                 leading: "assets/icons/help_icon.svg",
                 // fromAjwady: widget.fromAjwady,
                 iconColor: colorGreen,

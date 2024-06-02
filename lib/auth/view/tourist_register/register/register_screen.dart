@@ -77,10 +77,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       left: width * 0.05),
                   child: ListView(
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [],
-                      ),
                       CustomText(
                         text: "letsSignUp".tr,
                         fontWeight: FontWeight.w700,
@@ -183,7 +179,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               keyboardType: TextInputType.text,
                               obscureText: !showConfirmPassword,
                               hintText: 'confirmPass'.tr,
-                                isPassword: true,
+                              isPassword: true,
                               controller: _confirmPasswoedController,
                               prefixIcon: const Icon(
                                 Icons.lock_outline_rounded,
@@ -243,10 +239,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           var countries;
                                           var data = await widget.authController
                                               .getListOfCountries(context);
+
                                           if (data != null) {
                                             countries = data;
-                                          }
 
+                                            print('DONEEE');
+                                          }
                                           if (countries != null) {
                                             Get.to(() => LastStepScreen(
                                                   name: _nameController.text,

@@ -144,37 +144,32 @@ class AppUtil {
 
   static errorToast(context, msg) {
     Flushbar(
-      messageText: Row(
-        children: [
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.7,
-            child: CustomText(
-              text: msg,
-              color: Colors.white,
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
+            messageText: Row(
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.7,
+                  child: CustomText(
+                    text: msg,
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ],
             ),
-          ),
-          const Spacer(),
-          const Icon(
-            Icons.close,
-            color: Colors.white,
-          ),
-        ],
-      ),
-      messageColor: Colors.white,
-      padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 2),
-      isDismissible: true,
-      duration: const Duration(seconds: 2),
-      flushbarPosition: FlushbarPosition.TOP,
-      // barBlur: .1,
-      backgroundColor: colorDarkRed,
-      borderColor: colorDarkRed,
-      margin: const EdgeInsets.all(3),
+            messageColor: Colors.white,
+            padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 2),
+            isDismissible: true,
+            duration: const Duration(seconds: 2),
+            flushbarPosition: FlushbarPosition.TOP,
+            // barBlur: .1,
+            backgroundColor: colorDarkRed,
+            borderColor: colorDarkRed,
+            margin: const EdgeInsets.all(3),
+            borderRadius: const BorderRadius.all(Radius.circular(8))
 
-      // borderRadius:BorderRadius.all(Radius.circular(12))
-
-      //BorderRadius.circular(12),
-    ).show(context);
+            //BorderRadius.circular(12),
+            )
+        .show(context);
   }
 }

@@ -1,10 +1,10 @@
 const localeEn = {
   "experience": "Experience",
   "authentic_hospitality":
-  "Experience the richness of Saudi hospitality as you immerse yourself in the culture and traditions of welcoming homes.",
+      "Experience the richness of Saudi hospitality as you immerse yourself in the culture and traditions of welcoming homes.",
   "discover": "Discover",
   "from_start_to_finish":
-    'Discover local culture from start to finish with a native tour guide in their car!',
+      'Discover local culture from start to finish with a native tour guide in their car!',
   "taste": "Taste",
   "popular_saudi": "The popular Saudi dishes and cuisine!",
   "enjoy_in": "Enjoy in",
@@ -25,17 +25,15 @@ const localeEn = {
       "Connect with a Ajwady who will guide you through the country's cultural landmarks and provide you with a deeper understanding of its rich heritage.",
   "exploringSaudi": "Let's start exploring Saudi culture today!",
   "start": "Start",
-  "selectType":
-      "Welcome to Hido",
-  "selectType3":
-      "Unlock Saudi!",
-  "selectType2":
-      "Become an Experience Curator!",
+  "selectType": "Welcome to Hido",
+  "selectType3": "Unlock Saudi!",
+  "selectType2": "Become an Experience Curator!",
   "selectTypeBreif":
-  "Your gateway to authentic Saudi Arabia. Locals connect tourists",
-  "selectTypeBreif2":"Turn your passion into income. Share your Saudi with tourists.",
+      "Your gateway to authentic Saudi Arabia. Locals connect tourists",
+  "selectTypeBreif2":
+      "Turn your passion into income. Share your Saudi with tourists.",
   "selectTypeBreif3":
-  "From breathtaking views to vibrant culture, discover it all and craft unforgettable memories!",
+      "From breathtaking views to vibrant culture, discover it all and craft unforgettable memories!",
   "ajwady": "Tour Guide",
   "tourist": "Tourist",
   "local": "Local",
@@ -71,8 +69,8 @@ const localeEn = {
   "continue": "Continue",
   "verification": "Verification",
   "sendVerification": "We’ve sent you the verification code on ",
-  "resendCodeIn": "Re-send code in",
-  "resendCode": "Resend Code",
+  "resendCodeIn": "Re-send again in",
+  "resendCode": "Send again",
   "incorrectCode": "Incorrect code. Please try again.",
   "resetPassword": "Reset Password",
   "passwordReset":
@@ -383,7 +381,7 @@ const localeEn = {
   "notFind":
       "We couldn't find any local guides available for your chosen date and location",
   "noteDo": "Here is what you can do",
-  "noteCansle":"You took a long time to accept an offer!",
+  "noteCansle": "You took a long time to accept an offer!",
   "Expand": "Expand Search",
   "notePrice": "Please note that the prices listed are per person",
   'mm/dd/yyy': 'mm/dd/yyy',
