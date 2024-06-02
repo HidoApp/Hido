@@ -27,9 +27,7 @@ class AuthService {
     if (response.statusCode == 200) {
       // print(jsonDecode(response.body)['nationalities']);
       final data = jsonDecode(response.body);
-      var listCountries = (data['nationalities'] as List)
-          .map((item) => item as String)
-          .toList();
+      var listCountries = (data as List).map((item) => item as String).toList();
 
       return listCountries;
     } else {
@@ -416,7 +414,6 @@ class AuthService {
   }
 
   static Future<bool> resetEmail({
-    required String newPassword,
     required String email,
     required BuildContext context,
   }) async {
@@ -434,10 +431,10 @@ class AuthService {
     final response = await http.put(Uri.parse('$baseUrl/user/rest/email'),
         headers: {
           'Accept': 'application/json',
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          'Authorization': 'Bearer $token',
         },
         body: json.encode({
-          "password": newPassword.trim(),
           "email": email.trim(),
         }));
 

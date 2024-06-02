@@ -24,6 +24,7 @@ class ProfileController extends GetxController {
   var isEditing = false.obs;
   var isEmailNotValid = false.obs;
   var isNumberNotValid = false.obs;
+  var isOTPMode = false.obs;
   Future<Profile?> getProfile(
       {required BuildContext context, String profileId = ""}) async {
     try {
@@ -157,7 +158,7 @@ class ProfileController extends GetxController {
         bookingType: 'PAST',
         context: context,
       );
-              print("this pas 1ticket");
+      print("this pas 1ticket");
 
       if (data != null) {
         print("this pas ticket");

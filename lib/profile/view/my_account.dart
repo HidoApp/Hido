@@ -5,6 +5,7 @@ import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/models/profile.dart';
 import 'package:ajwad_v4/profile/widget/account_edit_sheet.dart';
 import 'package:ajwad_v4/profile/widget/account_tile.dart';
+import 'package:ajwad_v4/profile/widget/email_otp_sheet.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
@@ -51,17 +52,15 @@ class _MyAccountState extends State<MyAccount> {
               () => widget.profileController.isProfileLoading.value
                   ? Container()
                   : AccountTile(
-                      title: "email".tr,
+                      title: 'email'.tr,
                       subtitle: widget.profileController.profile.email!,
                       onTap: () {
-                        // showModalBottomSheet(
-                        //   isScrollControlled: true,
-                        //   enableDrag: true,
-                        //   context: context,
-                        //   builder: (context) => AccountEditSheet(
-                        //     profileController: widget.profileController,
-                        //   ),
-                        // );
+                        showModalBottomSheet(
+                            isScrollControlled: true,
+                            enableDrag: true,
+                            context: context,
+                            builder: (context) => AccountEditSheet(
+                                profileController: widget.profileController));
                       },
                     ),
             ),

@@ -69,29 +69,18 @@ class _LastStepScreenState extends State<LastStepScreen> {
             // width: width*0.,
             child: Stack(
               children: [
-                // Container(
-                //   height: height,
-                //   width: width,
-                //   decoration: const BoxDecoration(
-                //       image: DecorationImage(
-                //     image: AssetImage("assets/images/background_ajwadi.png"),
-                //     fit: BoxFit.fill,
-                //   )),
-                // ),
-                 Padding(
+                Padding(
                   padding: EdgeInsets.only(top: height * 0.18),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     //mainAxisSize: MainAxisSize.max,
                     // mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                    
                       Padding(
                         padding: !AppUtil.rtlDirection(context)
                             ? const EdgeInsets.only(right: 20)
                             : const EdgeInsets.only(left: 20),
                         child: CustomText(
-                          
                           text: "lastStep".tr,
                           fontWeight: FontWeight.w700,
                           fontSize: 32,
@@ -116,47 +105,41 @@ class _LastStepScreenState extends State<LastStepScreen> {
                       const SizedBox(
                         height: 20,
                       ),
-                    
-                         Center(
-                                child: Container(
-                                  height: 60,
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20),
-                                  child: DropdownSearch<String>(
-                                    dropdownDecoratorProps:
-                                        DropDownDecoratorProps(
-                                      dropdownSearchDecoration: InputDecoration(
-                                        prefixIcon: Container(
-                                          margin: const EdgeInsets.symmetric(
-                                              horizontal: 12),
-                                          child: SvgPicture.asset(
-                                            'assets/icons/nationality.svg',
-                                          ),
-                                        ),
-                                        hintText: 'nationality'.tr,
-                                        hintStyle: const TextStyle(
-                                            color: dividerColor),
-                                        suffixIconColor: dividerColor,
-                                        border: const OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(10)),
-                                          borderSide:
-                                              BorderSide(color: Colors.red),
-                                        ),
-                                      ),
-                                    ),
-                                    items: widget.countries,
-                                    onChanged: (v) {
-                                      setState(() {
-                                        isNatSelected = true;
-                                        _selectedNationality = v.toString();
-                                      });
-                                    print(_selectedNationality);
-                                    },
+                      Center(
+                        child: Container(
+                          height: 60,
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: DropdownSearch<String>(
+                            dropdownDecoratorProps: DropDownDecoratorProps(
+                              dropdownSearchDecoration: InputDecoration(
+                                prefixIcon: Container(
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 12),
+                                  child: SvgPicture.asset(
+                                    'assets/icons/nationality.svg',
                                   ),
                                 ),
+                                hintText: 'nationality'.tr,
+                                hintStyle: const TextStyle(color: dividerColor),
+                                suffixIconColor: dividerColor,
+                                border: const OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
+                                  borderSide: BorderSide(color: Colors.red),
+                                ),
                               ),
-                      
+                            ),
+                            items: widget.countries,
+                            onChanged: (v) {
+                              setState(() {
+                                isNatSelected = true;
+                                _selectedNationality = v.toString();
+                              });
+                              print(_selectedNationality);
+                            },
+                          ),
+                        ),
+                      ),
                       const SizedBox(
                         height: 3,
                       ),
@@ -174,72 +157,57 @@ class _LastStepScreenState extends State<LastStepScreen> {
                       const SizedBox(
                         height: 30,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Row(
-                          children: [
-                            FlutterSwitch(
-                              width: 45.0,
-                              height: 28.0,
-                              activeColor: const Color(0xFF5AC28F),
-                              inactiveColor: const Color(0xFFE8ECEF),
-                              onToggle: (bool value) {
-                                //  toggleSwitch();
-                                //  bookingController.toggleSwitch();
-                                setState(() {
-                                  isSwitched = !isSwitched;
-                                });
-                              },
-                              value: isSwitched,
-                            ),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            CustomText(
-                              text: "rememberMe".tr,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ],
-                        ),
-                      ),
                       SizedBox(
                         height: height * 0.05,
                       ),
-                      Obx(() =>
-                       
-                        
-                         Padding(
+                      Obx(
+                        () => Padding(
                           padding: const EdgeInsets.symmetric(vertical: 30),
-                          child:  widget.authController.isRegisterLoading == true ? const Center(child: CircularProgressIndicator(color: colorGreen,),) : Align(
-                            alignment: Alignment.center,
-                            child: CustomElevatedButton(
-                              title: 'continue'.tr.toUpperCase(),
-                              onPressed: () async {
-                                if (_formKey.currentState!.validate()) {}
-                                if (_selectedNationality == "NO") {
-                                  setState(() {
-                                    isNatSelected = false;
-                                  });
-                                  return;
-                                }
-                      
-                                if(!AppUtil.isPhoneValidate(_phoneController.text)){
-                                  AppUtil.errorToast(context,"invalidPhone".tr );
-                                  return;
-                      
-                                }
-                      
-                              bool isSuccess = await  widget.authController.touristRegister(email:widget.email, password:widget.password, name: widget.name, phoneNumber: _phoneController.text, nationality: _selectedNationality,rememberMe:isSwitched , context: context);
-                              print(isSuccess);
-                              if(isSuccess){
-                             Get.to(() => const TouristBottomBar());
-                              }
-                      
-                               
-                              },
-                            ),
-                          ),
+                          child: widget.authController.isRegisterLoading == true
+                              ? const Center(
+                                  child: CircularProgressIndicator(
+                                    color: colorGreen,
+                                  ),
+                                )
+                              : Align(
+                                  alignment: Alignment.center,
+                                  child: CustomElevatedButton(
+                                    title: 'continue'.tr.toUpperCase(),
+                                    onPressed: () async {
+                                      if (_formKey.currentState!.validate()) {}
+                                      if (_selectedNationality == "NO") {
+                                        setState(() {
+                                          isNatSelected = false;
+                                        });
+                                        return;
+                                      }
+
+                                      if (!AppUtil.isPhoneValidate(
+                                          _phoneController.text)) {
+                                        AppUtil.errorToast(
+                                            context, "invalidPhone".tr);
+                                        return;
+                                      }
+
+                                      bool isSuccess = await widget
+                                          .authController
+                                          .touristRegister(
+                                              email: widget.email,
+                                              password: widget.password,
+                                              name: widget.name,
+                                              phoneNumber:
+                                                  _phoneController.text,
+                                              nationality: _selectedNationality,
+                                              rememberMe: true,
+                                              context: context);
+                                      print(isSuccess);
+                                      if (isSuccess) {
+                                        Get.offAll(
+                                            () => const TouristBottomBar());
+                                      }
+                                    },
+                                  ),
+                                ),
                         ),
                       ),
                     ],

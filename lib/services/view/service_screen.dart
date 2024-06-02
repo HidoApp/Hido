@@ -45,13 +45,6 @@ class _ServiceScreenState extends State<ServiceScreen>
     // getReg();
   }
 
-  // @override
-  // void dispose() {
-  //   // TODO: implement dispose
-  //   _tabController.dispose();
-  //   super.dispose();
-  // }
-
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;

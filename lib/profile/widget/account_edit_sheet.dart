@@ -1,8 +1,12 @@
+import 'dart:ffi';
+
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/auth/services/auth_service.dart';
+import 'package:ajwad_v4/auth/view/tourist_register/email_otp.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/view/profile_details.dart';
+import 'package:ajwad_v4/profile/widget/email_otp_sheet.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
@@ -26,8 +30,8 @@ class AccountEditSheet extends StatefulWidget {
 class _AccountEditSheetState extends State<AccountEditSheet> {
   final _textController = TextEditingController();
 
+  final _authController = Get.put(AuthController());
   void editEmail() async {
-    final _authController = Get.put(AuthController());
     if (_textController.text.isEmpty ||
         !AppUtil.isEmailValidate(_textController.text)) {
       widget.profileController.isEmailNotValid(true);
@@ -36,7 +40,22 @@ class _AccountEditSheetState extends State<AccountEditSheet> {
       // TODO: must change services of email reset
       final res = await _authController.sendEmailOTP(
           email: _textController.text, context: context);
-      widget.profileController.isEmailOtp(true);
+      if (res != null) {
+        widget.profileController.isEmailOtp(true);
+        Get.back();
+        showModalBottomSheet(
+          isScrollControlled: true,
+          enableDrag: true,
+          backgroundColor: Colors.white,
+          context: context,
+          builder: (context) => EmailOTPSheet(
+              profileController: widget.profileController,
+              responseBody: res,
+              email: _textController.text),
+        );
+      } else {
+        AppUtil.errorToast(context, res!['message']);
+      }
     }
   }
 
@@ -54,6 +73,7 @@ class _AccountEditSheetState extends State<AccountEditSheet> {
         spokenLanguage: widget.profileController.profile.spokenLanguage,
         phone: _textController.text.trim(),
       );
+
       await widget.profileController.getProfile(
         context: context,
       );
@@ -110,6 +130,7 @@ class _AccountEditSheetState extends State<AccountEditSheet> {
                           widget.profileController.isEmailNotValid(false),
                       child: CustomTextField(
                         controller: _textController,
+                        keyboardType: TextInputType.emailAddress,
                         onChanged: (value) {},
                         borderColor:
                             widget.profileController.isEmailNotValid.value
@@ -125,6 +146,7 @@ class _AccountEditSheetState extends State<AccountEditSheet> {
                       child: CustomTextField(
                         controller: _textController,
                         onChanged: (value) {},
+                        keyboardType: TextInputType.phone,
                         borderColor:
                             widget.profileController.isNumberNotValid.value
                                 ? colorRed
@@ -158,21 +180,23 @@ class _AccountEditSheetState extends State<AccountEditSheet> {
                       )
                     : Container()),
             const Spacer(),
-            Obx(
-              () => widget.profileController.isEditProfileLoading.value
-                  ? const Center(
-                      child: CircularProgressIndicator.adaptive(),
-                    )
-                  : CustomButton(
-                      onPressed: () {
-                        if (widget.isEditEmail) {
-                          editEmail();
-                        } else {
-                          editNumber();
-                        }
-                      },
-                      title: 'confirm'.tr),
-            )
+            widget.isEditEmail
+                ? Obx(
+                    () => _authController.isOTPLoading.value
+                        ? const Center(
+                            child: CircularProgressIndicator.adaptive(),
+                          )
+                        : CustomButton(
+                            onPressed: editEmail, title: 'confirm'.tr),
+                  )
+                : Obx(
+                    () => widget.profileController.isEditProfileLoading.value
+                        ? const Center(
+                            child: CircularProgressIndicator.adaptive(),
+                          )
+                        : CustomButton(
+                            onPressed: editNumber, title: 'confirm'.tr),
+                  )
           ],
         ),
       ),

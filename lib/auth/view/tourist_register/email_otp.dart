@@ -10,9 +10,9 @@ import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
 class EmailOTPScreen extends StatefulWidget {
-  const EmailOTPScreen({Key? key, required this.responseBody}) : super(key: key);
+  const EmailOTPScreen({Key? key, required this.responseBody})
+      : super(key: key);
 
   final Map responseBody;
   @override
@@ -21,7 +21,7 @@ class EmailOTPScreen extends StatefulWidget {
 
 class _EmailOTPScreenState extends State<EmailOTPScreen>
     with TickerProviderStateMixin {
-      final _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
   late double width, height;
   bool isSwitched = false;
   String code1 = '', code2 = '', code3 = '', code4 = '';
@@ -31,9 +31,6 @@ class _EmailOTPScreenState extends State<EmailOTPScreen>
   int secondsRemaining = 20;
   bool enableResend = false;
   late Timer timer;
-
-
-  
 
   @override
   void initState() {
@@ -88,12 +85,10 @@ class _EmailOTPScreenState extends State<EmailOTPScreen>
                     //mainAxisSize: MainAxisSize.max,
                     // mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [],
-                      ),
                       Padding(
-                        padding: AppUtil.rtlDirection(context) ? const EdgeInsets.only(left: 20) : const EdgeInsets.only(right: 20),
+                        padding: AppUtil.rtlDirection(context)
+                            ? const EdgeInsets.only(left: 20)
+                            : const EdgeInsets.only(right: 20),
                         child: CustomText(
                           text: "verification".tr,
                           fontWeight: FontWeight.w500,
@@ -117,45 +112,44 @@ class _EmailOTPScreenState extends State<EmailOTPScreen>
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 40),
                         child: Form(
-                          key: _formKey,
+                            key: _formKey,
                             child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-
-                            CustomOTPField(
-                              onChanged: (value) {
-                                if (value.isNotEmpty) {
-                                  code1 = value;
-                                  FocusScope.of(context).nextFocus();
-                                }
-                              },
-                            ),
-                            CustomOTPField(
-                              onChanged: (value) {
-                                if (value.isNotEmpty) {
-                                  code2 = value;
-                                  FocusScope.of(context).nextFocus();
-                                }
-                              },
-                            ),
-                            CustomOTPField(
-                              onChanged: (value) {
-                                if (value.isNotEmpty) {
-                                  code3 = value;
-                                  FocusScope.of(context).nextFocus();
-                                }
-                              },
-                            ),
-                            CustomOTPField(
-                              onChanged: (value) {
-                                if (value.isNotEmpty) {
-                                  code4 = value;
-                                  FocusScope.of(context).nextFocus();
-                                }
-                              },
-                            ),
-                          ],
-                        )),
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                CustomOTPField(
+                                  onChanged: (value) {
+                                    if (value.isNotEmpty) {
+                                      code1 = value;
+                                      FocusScope.of(context).nextFocus();
+                                    }
+                                  },
+                                ),
+                                CustomOTPField(
+                                  onChanged: (value) {
+                                    if (value.isNotEmpty) {
+                                      code2 = value;
+                                      FocusScope.of(context).nextFocus();
+                                    }
+                                  },
+                                ),
+                                CustomOTPField(
+                                  onChanged: (value) {
+                                    if (value.isNotEmpty) {
+                                      code3 = value;
+                                      FocusScope.of(context).nextFocus();
+                                    }
+                                  },
+                                ),
+                                CustomOTPField(
+                                  onChanged: (value) {
+                                    if (value.isNotEmpty) {
+                                      code4 = value;
+                                      FocusScope.of(context).nextFocus();
+                                    }
+                                  },
+                                ),
+                              ],
+                            )),
                       ),
                       const SizedBox(
                         height: 30,
@@ -167,25 +161,23 @@ class _EmailOTPScreenState extends State<EmailOTPScreen>
                           child: CustomElevatedButton(
                             title: 'continue'.tr,
                             onPressed: () {
-                                if (_formKey.currentState!.validate()){
-                              //     Get.off(const TouristBottomBar());
+                              if (_formKey.currentState!.validate()) {
+                                //     Get.off(const TouristBottomBar());
 
-                              final fullOTP = code1+code2+code3+code4;
-                              print(fullOTP);
+                                final fullOTP = code1 + code2 + code3 + code4;
+                                print(fullOTP);
 
-
-                              if(fullOTP == widget.responseBody['otp']){
-                                print('Matches');
-                                 Get.to(() =>  NewPasswordScreen(responseBody: widget.responseBody,));
-                               // _authController.resetPassword(newPassword: newPassword, email: email, context: context);
-                              } else {
-                                AppUtil.errorToast(context, 'OTP not matching ');
-                              }
-
-
-
-
+                                if (fullOTP == widget.responseBody['otp']) {
+                                  print('Matches');
+                                  Get.to(() => NewPasswordScreen(
+                                        responseBody: widget.responseBody,
+                                      ));
+                                  // _authController.resetPassword(newPassword: newPassword, email: email, context: context);
+                                } else {
+                                  AppUtil.errorToast(
+                                      context, 'OTP not matching ');
                                 }
+                              }
                             },
                           ),
                         ),
