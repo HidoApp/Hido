@@ -75,17 +75,11 @@ class _SignInSheetState extends State<SignInSheet> {
             SizedBox(
               height: 12,
             ),
-            WillPopScope(
-                onWillPop: () async {
-                 _authController.isEmailValid(true);
+          Form(
+              onPopInvoked: (didPop) {
+                _authController.isEmailValid(true);
                 _authController.isPasswordValid(true);
-                  return true; 
-                       },
-               child:Form(
-              // onPopInvoked: (didPop) {
-              //   _authController.isEmailValid(true);
-              //   _authController.isPasswordValid(true);
-              // },
+              },
               key: _formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -248,7 +242,7 @@ class _SignInSheetState extends State<SignInSheet> {
                 ],
               ),
             )
-            )
+            
           ],
         ),
       ),
