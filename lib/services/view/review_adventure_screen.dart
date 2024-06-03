@@ -1,4 +1,3 @@
-
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/payment/controller/payment_controller.dart';
 import 'package:ajwad_v4/payment/model/invoice.dart';
@@ -45,7 +44,6 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
 //   final String timeZoneName = 'Asia/Riyadh';
 //   late tz.Location location;
 
-  
 //   bool isDateBeforeToday() {
 //     DateTime adventureDate =
 //         DateFormat('yyyy-MM-dd').parse(widget.adventure.date!);
@@ -67,14 +65,9 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
 //      DateTime Date =
 //     DateFormat('HH:mm').parse(widget.adventure.times!.last.startTime!);
 
-    
-
-
 //     DateTime AdventureStartDate = DateTime(adventureDate.year, adventureDate.month,adventureDate.day,Date.hour, Date.minute,Date.second);
 
-
 //     DateTime bookingDeadline = AdventureStartDate.subtract(Duration(hours: 24));
-
 
 //     print (AdventureStartDate);
 //     print(currentDateInRiyadh);
@@ -83,22 +76,20 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
 //     return bookingDeadline.isBefore(currentDateInRiyadh);
 //   }
 
-
- void initState() {
+  void initState() {
     // TODO: implement initState
     super.initState();
     finalCost = widget.adventure.price * widget.person;
-    
-  }  @override
+  }
+
+  @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     print(widget.adventure.times?.last.startTime);
 
     return Scaffold(
-      appBar: CustomAppBar(
+      appBar: const CustomAppBar(
         "Review Booking",
-        action: true,
-        onPressedAction: () {},
       ),
       extendBodyBehindAppBar: false,
       body: Container(
@@ -132,12 +123,16 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                 const SizedBox(
                   height: 4,
                 ),
-              
-                 ReviewDetailsTile(
-                  title: widget.adventure.times != null && widget.adventure.times!.isNotEmpty
-                    ?widget.adventure.times!.map((time) => AppUtil.formatStringTimeWithLocale(context, time.startTime) ).join(', ')
-                         : '5:00-8:00 AM',
-                        image: "assets/icons/timeGrey.svg"),
+
+                ReviewDetailsTile(
+                    title: widget.adventure.times != null &&
+                            widget.adventure.times!.isNotEmpty
+                        ? widget.adventure.times!
+                            .map((time) => AppUtil.formatStringTimeWithLocale(
+                                context, time.startTime))
+                            .join(', ')
+                        : '5:00-8:00 AM',
+                    image: "assets/icons/timeGrey.svg"),
                 const SizedBox(
                   height: 20,
                 ),
@@ -186,8 +181,8 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                     ),
                     Spacer(),
                     CustomText(
-                     // text: 'SAR ${widget.adventure.price.toString()}',
-                       text: 'SAR ${finalCost.toString()}',
+                      // text: 'SAR ${widget.adventure.price.toString()}',
+                      text: 'SAR ${finalCost.toString()}',
 
                       fontSize: 20,
                     )
@@ -201,123 +196,125 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                     ? const Center(child: CircularProgressIndicator())
                     : CustomButton(
                         onPressed: () async {
-                          
-                            print("invoice != null");
-                            print(invoice != null);
+                          print("invoice != null");
+                          print(invoice != null);
 
-                            invoice ??= await paymentController.paymentInvoice(
-                                context: context,
-                                InvoiceValue: widget.adventure.price * widget.person);
-                            if (invoice != null)
-                            {
-                              
-                              Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => PaymentWebView(
-                                              url: invoice!.url!,
-                                              title: 'Payment')))
-                                  .then((value) async {
-                                setState(() {
-                                  isCheckingForPayment = true;
-                               
-                                });
-                                final checkInvoice =
-                                    await paymentController.paymentInvoiceById(
-                                        context: context, id: invoice!.id);
-
-                                     print("this state");
-                                  print(checkInvoice!.invoiceStatus);
-
-                                if (checkInvoice.invoiceStatus == 'Pending') {
-                                  // await _adventureController
-                                  //     .checkAdventureBooking(
-                                  //         adventureID: widget.adventure.id,
-                                  //         context: context,
-                                  //         personNumber: widget.person,
-                                  //         invoiceId: invoice!.id);
-                                  setState(() {
-                                    isCheckingForPayment = false;
-                                  });
-                                  print('No');
-                                  // if (checkInvoice.invoiceStatus == 'failed' ||
-                                  //     checkInvoice.invoiceStatus ==
-                                  //         'initiated') {
-                                   // Get.back();
-                                 await navigateToPayment(context, invoice!.url!);
-
-                                    showDialog(
-                                        context: context,
-                                        builder: (ctx) {
-                                          return AlertDialog(
-                                            backgroundColor: Colors.white,
-                                            surfaceTintColor: Colors.white,
-                                            content: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Image.asset(
-                                                    'assets/images/paymentFaild.gif'),
-                                                CustomText(
-                                                    text: "paymentFaild"),
-                                              ],
-                                            ),
-                                          );
-                                        });
-                                  
-                                  } else {
-                                    print('YES');
-                                    print(invoice?.invoiceStatus);
-
-                                    //Get.back();
-                                   // Get.back();
-                                await _adventureController.checkAdventureBooking(
-                                  adventureID: widget.adventure.id,
-                                  context: context,
-                                  personNumber: widget.person,
-                                  invoiceId: invoice!.id);
-
-                                   final updatedAdventure = await _adventureController.getAdvdentureById(
-                                      context: context,
-                                   id: widget.adventure.id);
-
-                                   print('check');
-                                  print(updatedAdventure);
-
-                                    showDialog(
-                                      context: context,
-                                      builder: (ctx) {
-                                        return AlertDialog(
-                                          backgroundColor: Colors.white,
-                                          surfaceTintColor: Colors.white,
-                                          content: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Image.asset(
-                                                  'assets/images/paymentSuccess.gif'),
-                                              CustomText(
-                                                  text: "paymentSuccess"),
-                                            ],
-                                          ),
-                                        );
-                                      },
-                                    ).then((_) {
-                                      print("inside notifi");
-                                    LocalNotification().showAdventureNotification(context,updatedAdventure!.booking?.last.id,  updatedAdventure.date,updatedAdventure.nameEn,updatedAdventure.nameAr);
-                                     Get.to(() =>  TicketDetailsScreen(
-                                                             adventure:updatedAdventure,
-                                                             icon: SvgPicture.asset(
-                                                            'assets/icons/adventure.svg'),
-                                                             bookTypeText:'adventure',
-                                               
-                                           ));
-                                         });
-                                  }
+                          invoice ??= await paymentController.paymentInvoice(
+                              context: context,
+                              InvoiceValue:
+                                  widget.adventure.price * widget.person);
+                          if (invoice != null) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => PaymentWebView(
+                                        url: invoice!.url!,
+                                        title: 'Payment'))).then((value) async {
+                              setState(() {
+                                isCheckingForPayment = true;
                               });
-                            } else {
-                         print('Inovice null');
-                                 }
-                          },
-                        
+                              final checkInvoice =
+                                  await paymentController.paymentInvoiceById(
+                                      context: context, id: invoice!.id);
+
+                              print("this state");
+                              print(checkInvoice!.invoiceStatus);
+
+                              if (checkInvoice.invoiceStatus == 'Pending') {
+                                // await _adventureController
+                                //     .checkAdventureBooking(
+                                //         adventureID: widget.adventure.id,
+                                //         context: context,
+                                //         personNumber: widget.person,
+                                //         invoiceId: invoice!.id);
+                                setState(() {
+                                  isCheckingForPayment = false;
+                                });
+                                print('No');
+                                // if (checkInvoice.invoiceStatus == 'failed' ||
+                                //     checkInvoice.invoiceStatus ==
+                                //         'initiated') {
+                                // Get.back();
+                                await navigateToPayment(context, invoice!.url!);
+
+                                showDialog(
+                                    context: context,
+                                    builder: (ctx) {
+                                      return AlertDialog(
+                                        backgroundColor: Colors.white,
+                                        surfaceTintColor: Colors.white,
+                                        content: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Image.asset(
+                                                'assets/images/paymentFaild.gif'),
+                                            CustomText(text: "paymentFaild"),
+                                          ],
+                                        ),
+                                      );
+                                    });
+                              } else {
+                                print('YES');
+                                print(invoice?.invoiceStatus);
+
+                                //Get.back();
+                                // Get.back();
+                                await _adventureController
+                                    .checkAdventureBooking(
+                                        adventureID: widget.adventure.id,
+                                        context: context,
+                                        personNumber: widget.person,
+                                        invoiceId: invoice!.id);
+
+                                final updatedAdventure =
+                                    await _adventureController
+                                        .getAdvdentureById(
+                                            context: context,
+                                            id: widget.adventure.id);
+
+                                print('check');
+                                print(updatedAdventure);
+
+                                showDialog(
+                                  context: context,
+                                  builder: (ctx) {
+                                    return AlertDialog(
+                                      backgroundColor: Colors.white,
+                                      surfaceTintColor: Colors.white,
+                                      content: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Image.asset(
+                                              'assets/images/paymentSuccess.gif'),
+                                          CustomText(text: "paymentSuccess"),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ).then((_) {
+                                  Get.back();
+                                  Get.back();
+                                  Get.back();
+                                  print("inside notifi");
+                                  LocalNotification().showAdventureNotification(
+                                      context,
+                                      updatedAdventure!.booking?.last.id,
+                                      updatedAdventure.date,
+                                      updatedAdventure.nameEn,
+                                      updatedAdventure.nameAr);
+                                  Get.to(() => TicketDetailsScreen(
+                                        adventure: updatedAdventure,
+                                        icon: SvgPicture.asset(
+                                            'assets/icons/adventure.svg'),
+                                        bookTypeText: 'adventure',
+                                      ));
+                                });
+                              }
+                            });
+                          } else {
+                            print('Inovice null');
+                          }
+                        },
                         title: 'Checkout'))
               ],
             ),
@@ -327,6 +324,7 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
     );
   }
 }
+
 Future<void> navigateToPayment(BuildContext context, String url) async {
   await Navigator.push(
     context,
