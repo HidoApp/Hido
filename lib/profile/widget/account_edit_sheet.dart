@@ -139,8 +139,9 @@ class _AccountEditSheetState extends State<AccountEditSheet> {
                         height: 42,
                         hintText: widget.profileController.profile.email,
                       ),
-                    )
-                  : Form(
+                    
+                  )
+                  :Form(
                       onPopInvoked: (didPop) =>
                           widget.profileController.isNumberNotValid(false),
                       child: CustomTextField(
@@ -154,7 +155,8 @@ class _AccountEditSheetState extends State<AccountEditSheet> {
                         height: 42,
                         hintText: widget.profileController.profile.phoneNumber,
                       ),
-                    ),
+                    
+                  ),
             ),
             widget.isEditEmail
                 ? Obx(() => widget.profileController.isEmailNotValid.value

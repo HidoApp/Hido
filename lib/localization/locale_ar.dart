@@ -401,5 +401,7 @@ const localeAr = {
   "languages": "اللغات",
   "loclaInfo": "صفحة المواطن المحلي",
   'edit': "تعديل",
-  'save': "حفظ"
+  'save': "حفظ",
+  'home':'الرئيسية'
+
 };

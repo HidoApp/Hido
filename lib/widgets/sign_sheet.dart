@@ -75,7 +75,7 @@ class _SignInSheetState extends State<SignInSheet> {
             SizedBox(
               height: 12,
             ),
-            Form(
+          Form(
               onPopInvoked: (didPop) {
                 _authController.isEmailValid(true);
                 _authController.isPasswordValid(true);
@@ -242,6 +242,7 @@ class _SignInSheetState extends State<SignInSheet> {
                 ],
               ),
             )
+            
           ],
         ),
       ),
