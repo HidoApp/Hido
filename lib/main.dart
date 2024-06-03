@@ -14,7 +14,7 @@ import 'package:ajwad_v4/request/local_notification.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-    await initializeDateFormatting('ar');
+  await initializeDateFormatting('ar');
 
   await LocalNotification.init();
   // AwesomeNotifications().initialize(

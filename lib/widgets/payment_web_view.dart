@@ -35,11 +35,17 @@ class _PaymentWebViewState extends State<PaymentWebView> {
               NavigationDelegate(
                 onProgress: (int progress) {},
                 onPageStarted: (String url) {},
-                onPageFinished: (String url) {},
+                onPageFinished: (String url) {
+                  print("finish web view ");
+                  print("finish web view ");
+                  print("finish web view ");
+                  print("finish web view ");
+                  print("finish web view ");
+                  print("finish web view ");
+                  print("finish web view ");
+                },
                 onWebResourceError: (WebResourceError error) {},
                 onNavigationRequest: (NavigationRequest request) async {
-
-
                   // log("request \n ${request.url} \n --------------------->");
                   // if (request.url.contains("status=paid")) {
                   //   // log("offerController.offerDetails.value.id! ${offerController.offerDetails.value.id!}");
