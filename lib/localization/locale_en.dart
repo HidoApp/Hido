@@ -407,5 +407,6 @@ const localeEn = {
   "languages": "Spoken Language",
   "loclaInfo": "Local info",
   'edit': "Edit",
-  'save': "Save"
+  'save': "Save",
+  'home':'Home'
 };

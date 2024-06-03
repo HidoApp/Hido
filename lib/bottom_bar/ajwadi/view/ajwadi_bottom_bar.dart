@@ -22,6 +22,7 @@ List bottomScreens = [
     fromAjwady: true,
   ),
  const RequestScreen(),
+  const RequestScreen(),
   ProfileScreen(
     fromAjwady: true,
     profileController: _profileController,
@@ -59,22 +60,34 @@ class _AjwadiBottomBarState extends State<AjwadiBottomBar>
           ]),
           items: [
             BottomNavigationBarItem(
-                label: "map".tr,
+              
+             label: "home".tr,
                 icon: currentIndex == 0
                     ? Container(
-                        child: SvgPicture.asset("assets/icons/Icon.svg"),
+                        child: SvgPicture.asset("assets/icons/select_request_icon.svg"),
                       )
-                    : SvgPicture.asset("assets/icons/map_icon.svg",color: dotGreyColor,)),
+                    : SvgPicture.asset("assets/icons/request_icon.svg",color: dotGreyColor,)),
             BottomNavigationBarItem(
                 label: "request".tr,
                 icon: currentIndex == 1
-                    ? SvgPicture.asset("assets/icons/select_request_icon.svg")
-                    : SvgPicture.asset("assets/icons/request_icon.svg",color: dotGreyColor,)),
-            BottomNavigationBarItem(
-                label: "profile".tr,
-                icon: currentIndex == 2
-                    ? SvgPicture.asset("assets/icons/select_profile_icon.svg")
-                    : SvgPicture.asset("assets/icons/profile_icon2.svg",color: dotGreyColor,)),
+                   
+                    ? SvgPicture.asset("assets/icons/my_request_green.svg")
+                    : SvgPicture.asset("assets/icons/my_request_green.svg",color: dotGreyColor,)),
+              BottomNavigationBarItem(
+                  label: "MyExperiences".tr,
+                   icon: currentIndex == 2
+                    ? 
+                      SvgPicture.asset("assets/icons/my_experiences_green.svg")
+                    
+                    : SvgPicture.asset("assets/icons/my_experiences.svg",color: colorGreen,)),
+                     BottomNavigationBarItem(
+                  label: "profile".tr,
+                   icon: currentIndex == 3
+                    ? 
+                      SvgPicture.asset("assets/icons/my_profile.svg")
+                    
+                    : SvgPicture.asset("assets/icons/my_profile_green.svg",color: colorGreen,)),
+         
           ],
           onTap: (int newIndex) {
             setState(() {

@@ -125,9 +125,14 @@ class _AccountEditSheetState extends State<AccountEditSheet> {
             ),
             Obx(
               () => widget.isEditEmail
-                  ? Form(
-                      onPopInvoked: (didPop) =>
-                          widget.profileController.isEmailNotValid(false),
+                  ? WillPopScope(
+                  onWillPop: () async {
+                   widget.profileController.isEmailNotValid(false);
+                          return true; // Return true to allow the pop to happen
+                         },
+                   child:Form(
+                      // onPopInvoked: (didPop) =>
+                      //     widget.profileController.isEmailNotValid(false),
                       child: CustomTextField(
                         controller: _textController,
                         keyboardType: TextInputType.emailAddress,
@@ -140,9 +145,15 @@ class _AccountEditSheetState extends State<AccountEditSheet> {
                         hintText: widget.profileController.profile.email,
                       ),
                     )
-                  : Form(
-                      onPopInvoked: (didPop) =>
-                          widget.profileController.isNumberNotValid(false),
+                  )
+                  :WillPopScope(
+                  onWillPop: () async {
+                           widget.profileController.isNumberNotValid(false);
+                              return true; // Return true to allow the pop to happen
+                               },
+                     child: Form(
+                      // onPopInvoked: (didPop) =>
+                      //     widget.profileController.isNumberNotValid(false),
                       child: CustomTextField(
                         controller: _textController,
                         onChanged: (value) {},
@@ -155,6 +166,7 @@ class _AccountEditSheetState extends State<AccountEditSheet> {
                         hintText: widget.profileController.profile.phoneNumber,
                       ),
                     ),
+                  ),
             ),
             widget.isEditEmail
                 ? Obx(() => widget.profileController.isEmailNotValid.value
