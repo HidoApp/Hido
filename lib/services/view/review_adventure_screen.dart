@@ -207,16 +207,10 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
 
                             invoice ??= await paymentController.paymentInvoice(
                                 context: context,
-                               // description: 'DESCRIPTION ADVENTURE',
                                 InvoiceValue: widget.adventure.price * widget.person);
                             if (invoice != null)
                             {
-                               print('inside check');
-                              await _adventureController.checkAdventureBooking(
-                                  adventureID: widget.adventure.id,
-                                  context: context,
-                                  personNumber: widget.person,
-                                  invoiceId: invoice!.id);
+                              
                               Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -226,22 +220,22 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                                   .then((value) async {
                                 setState(() {
                                   isCheckingForPayment = true;
-                                  print("this state");
-                                  print(invoice?.invoiceStatus);
-
+                               
                                 });
-
                                 final checkInvoice =
                                     await paymentController.paymentInvoiceById(
                                         context: context, id: invoice!.id);
 
-                                if (checkInvoice!.invoiceStatus == 'Pending') {
-                                  await _adventureController
-                                      .checkAdventureBooking(
-                                          adventureID: widget.adventure.id,
-                                          context: context,
-                                          personNumber: widget.person,
-                                          invoiceId: invoice!.id);
+                                     print("this state");
+                                  print(checkInvoice!.invoiceStatus);
+
+                                if (checkInvoice.invoiceStatus == 'Pending') {
+                                  // await _adventureController
+                                  //     .checkAdventureBooking(
+                                  //         adventureID: widget.adventure.id,
+                                  //         context: context,
+                                  //         personNumber: widget.person,
+                                  //         invoiceId: invoice!.id);
                                   setState(() {
                                     isCheckingForPayment = false;
                                   });
@@ -250,6 +244,7 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                                   //     checkInvoice.invoiceStatus ==
                                   //         'initiated') {
                                    // Get.back();
+                                 await navigateToPayment(context, invoice!.url!);
 
                                     showDialog(
                                         context: context,
@@ -268,12 +263,25 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                                             ),
                                           );
                                         });
+                                  
                                   } else {
                                     print('YES');
                                     print(invoice?.invoiceStatus);
 
                                     //Get.back();
                                    // Get.back();
+                                await _adventureController.checkAdventureBooking(
+                                  adventureID: widget.adventure.id,
+                                  context: context,
+                                  personNumber: widget.person,
+                                  invoiceId: invoice!.id);
+
+                                   final updatedAdventure = await _adventureController.getAdvdentureById(
+                                      context: context,
+                                   id: widget.adventure.id);
+
+                                   print('check');
+                                  print(updatedAdventure);
 
                                     showDialog(
                                       context: context,
@@ -294,9 +302,9 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                                       },
                                     ).then((_) {
                                       print("inside notifi");
-                                    LocalNotification().showAdventureNotification(context,widget.adventure.booking?.last.id,  widget.adventure.date,widget.adventure.nameEn,widget.adventure.nameAr);
+                                    LocalNotification().showAdventureNotification(context,updatedAdventure!.booking?.last.id,  updatedAdventure.date,updatedAdventure.nameEn,updatedAdventure.nameAr);
                                      Get.to(() =>  TicketDetailsScreen(
-                                                             adventure: widget.adventure,
+                                                             adventure:updatedAdventure,
                                                              icon: SvgPicture.asset(
                                                             'assets/icons/adventure.svg'),
                                                              bookTypeText:'adventure',
@@ -305,7 +313,9 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                                          });
                                   }
                               });
-                            }
+                            } else {
+                         print('Inovice null');
+                                 }
                           },
                         
                         title: 'Checkout'))
@@ -316,4 +326,15 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
       ),
     );
   }
+}
+Future<void> navigateToPayment(BuildContext context, String url) async {
+  await Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => PaymentWebView(
+        url: url,
+        title: 'Payment',
+      ),
+    ),
+  );
 }

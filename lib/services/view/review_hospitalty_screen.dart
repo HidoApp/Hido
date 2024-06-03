@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
@@ -219,11 +221,11 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                                 .checkAndBookHospitality(
                                     context: context,
                                     check: false,
+                      
                                     hospitalityId: widget.hospitality!.id,
                                     date: widget
                                         .servicesController.selectedDate.value,
 
-                                    //   '${widget.hospitality!.daysInfo[widget.serviceController.selectedDateIndex.value].startTime.substring(11)}',
                                     dayId: widget
                                         .hospitality!
                                         .daysInfo[widget.servicesController
@@ -233,40 +235,36 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                                     numOfFemale: widget.femaleGuestNum,
                                     cost: finalCost);
 
-                            print("isSuccess : $isSuccess");
 
                             if (isSuccess) {
-                              print("invoice != null");
-                              print(invoice != null);
+                             
+                            print("isSuccess : $isSuccess");
 
                               invoice ??=
                                   await paymentController.paymentInvoice(
                                       context: context,
-                                      // description: 'DESCRIPTION',
                                       InvoiceValue: finalCost);
-                              if (invoice != null) {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => PaymentWebView(
-                                            url: invoice!.url!,
-                                            title: 'Payment'))).then(
-                                    (value) async {
-                                  setState(() {
-                                    isCheckingForPayment = true;
-                                  });
+                                        if (invoice != null) {
 
-                                  final checkInvoice = await paymentController
-                                      .paymentInvoiceById(
-                                          context: context, id: invoice!.id);
+                                     await navigateToPayment(context, invoice!.url!).then((value) async {
 
+                                            setState(() {
+                                                isCheckingForPayment = true;
+                                           });
+
+                                              final checkInvoice = await paymentController.paymentInvoiceById(
+                                                  context: context,
+                                                    id: invoice!.id,
+                                                            );
+                                  print("checkInvoice!.invoiceStatus");
+                                   print(checkInvoice!.invoiceStatus);
                                   if (checkInvoice!.invoiceStatus == 'Pending') {
                                     print('no');
                                     final isSuccess = await widget
                                         .servicesController
                                         .checkAndBookHospitality(
                                             context: context,
-                                            check: true,
+                                            check: false,
                                             cost: finalCost,
                                             date: widget.servicesController
                                                 .selectedDate.value,
@@ -282,16 +280,13 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                                             numOfMale: widget.maleGuestNum,
                                             numOfFemale: widget.femaleGuestNum,
                                             paymentId: invoice!.id);
+                                 if (!isSuccess) {
+                                print(!isSuccess);
                                     setState(() {
                                       isCheckingForPayment = false;
                                     });
-
-                                    // if (checkInvoice.invoiceStatus ==
-                                    //         'failed' ||
-                                    //     checkInvoice.invoiceStatus ==
-                                    //         'initiated') {
-                                      //  Get.back();
-
+        
+                              
                                       showDialog(
                                           context: context,
                                           builder: (ctx) {
@@ -309,12 +304,44 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                                               ),
                                             );
                                           });
-                                    } else {
-                                      print('YES');
-                                      // Get.back();
-                                      // Get.back();
-                                     print(invoice?.invoiceStatus);
 
+                                  await navigateToPayment(context, invoice!.url!);
+                                 }
+                                 else{
+                                  print('no');
+                                 }
+                                    
+                             } else  {
+                                      print('YES');
+                                    
+                                     print(invoice?.invoiceStatus);
+                                   final isSuccess = await widget.servicesController
+                                .checkAndBookHospitality(
+                                    context: context,
+                                    check: true,
+                                    paymentId: invoice!.id,
+                                    hospitalityId: widget.hospitality.id,
+                                    date: widget
+                                        .servicesController.selectedDate.value,
+                                    dayId: widget
+                                        .hospitality
+                                        .daysInfo[widget.servicesController
+                                            .selectedDateIndex.value]
+                                        .id,
+                                    numOfMale: widget.maleGuestNum,
+                                    numOfFemale: widget.femaleGuestNum,
+                                    cost: finalCost);
+                                    //   setState(() {
+                                    //   isCheckingForPayment = true;
+                                    // });
+
+
+               // Refresh the hospitality object
+                        final updatedHospitality = await widget.servicesController.getHospitalityById(
+                                               context: context,
+                                   id: widget.hospitality.id);
+                                   print('check');
+                                  print(updatedHospitality);
                                       showDialog(
                                         context: context,
                                         builder: (ctx) {
@@ -335,28 +362,37 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                                   // );
                                       ).then((_) {
                                         print("inter notif");
-                                        print(widget.hospitality.booking?.last.id);
-                                     LocalNotification().showHospitalityNotification(context,widget.hospitality.booking?.last.id,  widget
-                                        .servicesController.selectedDate.value ,widget.hospitality.mealTypeEn,widget.hospitality.mealTypeAr ,widget.hospitality.titleEn,widget.hospitality.titleAr);
+                                    LocalNotification().showHospitalityNotification(context,updatedHospitality?.booking?.last.id,  widget
+                                    .servicesController.selectedDate.value ,widget.hospitality.mealTypeEn,widget.hospitality.mealTypeAr ,widget.hospitality.titleEn,widget.hospitality.titleAr);
                                      Get.to(() =>  TicketDetailsScreen(
-                                                             hospitality: widget.hospitality,
+                                                             hospitality: updatedHospitality,
                                                              icon: SvgPicture.asset(
-                                                            'assets/icons/place.svg'),
+                                                            'assets/icons/hospitality.svg'),
                                                              bookTypeText:'hospitality',
                                                
                                            ));
+                                   
                                          });
                                   }
-                                
+                                 
+                                 });
+                                 
+                                 
+                                 }else {
+                         print('Initial check failed');
+                                 }
+                                } else{
+
+                                 }
                                     
-                          });
-                            }
-                           }
+                          
+                            }),
+                          
                          
                           // LocalNotification().showHospitalityNotification(context,widget.hospitality.id,  widget.hospitality.booking?.first.date ,widget.hospitality.mealTypeEn,widget.hospitality.mealTypeAr ,widget.hospitality.titleEn,widget.hospitality.titleAr);
 
                          
-                          }),
+                          
                           title: 'checkout'.tr),
                 ),
               ],
@@ -366,4 +402,15 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
       ),
     );
   }
+}
+Future<void> navigateToPayment(BuildContext context, String url) async {
+  await Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => PaymentWebView(
+        url: url,
+        title: 'Payment',
+      ),
+    ),
+  );
 }

@@ -5,6 +5,7 @@ import 'package:ajwad_v4/payment/service/payment_service.dart';
 import 'package:ajwad_v4/request/tourist/models/schedule.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class PaymentController extends GetxController {
   var isCreditCardPaymentLoading = false.obs;
@@ -88,6 +89,7 @@ class PaymentController extends GetxController {
         id: id
       );
       print("this is pay from controller");
+      print(data);
       return data;
     } catch (e) {
       print(e);
