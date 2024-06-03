@@ -88,11 +88,12 @@ class HospitalityController extends GetxController {
     required int cost,
   }) async {
     try {
-      print("TRUE");
+      print("TRUE chek from controller");
       isCheckAndBookLoading(true);
       print(
           '  \ncheck: $check, \n hospitalityId:$hospitalityId, paymentId: $paymentId,\n ,date: $date,dayId: $dayId, numOfFemale: $numOfFemale, numOfMale: $numOfMale, cost: $cost');
-
+      print(isCheckAndBookLoading);
+      print(hospitalityId);
       final data = await HospitalityService.checkAndBookHospitality(
           context: context,
           check: check,
@@ -103,6 +104,8 @@ class HospitalityController extends GetxController {
           numOfFemale: numOfFemale,
           numOfMale: numOfMale,
           cost: cost);
+            print("data from controller");
+        print(data);
 
       return data;
     } catch (e) {

@@ -248,7 +248,7 @@ return Scaffold(
       if(hospitality==null)
         return HostTicketData(booking: booking!,icon: icon,bookTypeText: bookTypeText);
       else
-        return HostTicketData(hospitality:hospitality!,icon: icon,bookTypeText: bookTypeText);
+        return HostTicketData(hospitality:hospitality,icon: icon,bookTypeText: bookTypeText);
 
    
       default:
@@ -256,6 +256,7 @@ return Scaffold(
 
     }
 }
+
 }
 
 class TicketData extends StatelessWidget {
@@ -294,7 +295,7 @@ class TicketData extends StatelessWidget {
              // SvgPicture.asset('assets/icons/Polygon_host.svg'),
               icon!,
               //Text(AppUtil.rtlDirection2(context)?"جولة":'Tour',
-              Text(bookTypeText!,
+              Text(AppUtil.getBookingTypeText(context,  bookTypeText!),
                 
                 style: TextStyle(
 color: Color(0xFF070708),

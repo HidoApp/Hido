@@ -119,7 +119,9 @@ class HospitalityService {
       'hospitalityId': hospitalityId,
       if (paymentId != null) 'invoiceId': paymentId,
     };
-
+ print("this payment id from dervices");
+ print( paymentId);
+ print(check.toString());
     Map<String, dynamic> body = {
       'date': date.toString().substring(0, 10),
       'guestInfo': {
@@ -143,6 +145,7 @@ class HospitalityService {
     print(response.statusCode);
 
     print(jsonDecode(response.body).length);
+    print("from services equall to ");
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
       print(data['message']);

@@ -127,6 +127,8 @@ class BottomAdventureBooking extends StatefulWidget {
 class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
   final String timeZoneName = 'Asia/Riyadh';
   late tz.Location location;
+  int seat=0;
+  bool showErrorGuests = false;
 
   
   bool isDateBeforeToday() {
@@ -165,6 +167,14 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
 
     return bookingDeadline.isBefore(currentDateInRiyadh);
   }
+  bool getSeat () {
+  
+        seat= widget.adventure.seats;
+         print('the avaliable seat  -> ${seat}');
+
+        return seat != 0;
+  
+}
 
 
   var person = 0;
@@ -257,7 +267,7 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
                                       borderRadius:
                                           BorderRadius.circular(width * 0.02),
                                       border: Border.all(
-                                        color: lightGreyColor,
+                                        color: showErrorGuests?Colors.red:lightGreyColor,
                                       ),
                                     ),
                                     child: Row(
@@ -271,11 +281,16 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
                                         GestureDetector(
                                           onTap: () {
                                             setState(() {
-                                              if (person > 0) {
+                                              if (person > 0 && getSeat()) {
                                                 person = person - 1;
+                                              }
+                                              else{
+                                                 AppUtil.errorToast(
+                                                context, AppUtil.rtlDirection2(context)?"لاتوجد مقاعد متاحة":"There is no seats available");
                                               }
                                             });
                                           },
+                                           
                                           child: const Icon(
                                             Icons.horizontal_rule_outlined,
                                             color: darkGrey,
@@ -291,9 +306,14 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
                                         SizedBox(width: width * 0.038),
                                         GestureDetector(
                                           onTap: () {
+                                            if(getSeat()){
                                             setState(() {
                                               person = person + 1;
                                             });
+                                            }else{
+                                             AppUtil.errorToast(
+                                            context,  AppUtil.rtlDirection2(context)?"لاتوجد مقاعد متاحة":"There is no seats available");
+                                            }
                                           },
                                           child: const Icon(
                                             Icons.add,
@@ -303,16 +323,34 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
                                       ],
                                     ),
                                   ),
+                                  if (showErrorGuests)
+                                Padding(
+                                  padding: EdgeInsets.only(left: width * 0.038),
+                                  child: Text(
+                                    AppUtil.rtlDirection2(context)? "يجب أن تختار شخص على الأقل":'*You need to add at least one guest',
+                                    style: TextStyle(
+                                      color: Colors.red,
+                                      fontSize: width * 0.03,
+                                    ),
+                                  ),
+                                ),
                                   SizedBox(
                                     height: width * 0.06,
                                   ),
                                   CustomButton(
                                       onPressed: () {
-                                        if (isSameDay()) {
+                              if(!getSeat()){
+                              }
+                             else if(person==0){
+                               setState(() {
+                                  showErrorGuests=true;
+                                });
+                             }
+                             else if (isSameDay()) {
                             AppUtil.errorToast(
-                                context, "You must booking before 24 hours");
+                                context,  AppUtil.rtlDirection2(context)?"يجب أن تحجز قبل 24 ساعة ":"You must booking before 24 hours");
                           } else if (isDateBeforeToday()) {
-                            AppUtil.errorToast(context, "not avalible ");
+                            AppUtil.errorToast(context,  AppUtil.rtlDirection2(context)?"غير متاح":"not avalible ");
                           } else {
                                         Get.to(() => ReviewAdventure(
                                                   adventure: widget.adventure,

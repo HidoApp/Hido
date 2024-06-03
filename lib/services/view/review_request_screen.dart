@@ -63,7 +63,7 @@ class _ReviewRequestState extends State<ReviewRequest> {
   final _offerController = Get.put(OfferController());
     Place? thePlace;
 
-  late book.Booking? fetchedBooking2;
+  // late book.Booking? fetchedBooking2;
   @override
    initState() {
     // TODO: implement initState
@@ -77,13 +77,13 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
  void getBooking()async{
      print("1");
 
-  book.Booking? fetchedBooking = await _RequestController.getBookingById(
-      context: context,
-      bookingId: widget.booking!.id!,
-    );
-    print(fetchedBooking?.id);
-    fetchedBooking2=fetchedBooking;
-    print(fetchedBooking2?.id);
+  // book.Booking? fetchedBooking = await _RequestController.getBookingById(
+  //     context: context,
+  //     bookingId: widget.booking!.id!,
+  //   );
+  //   print(fetchedBooking?.id);
+  //   fetchedBooking2=fetchedBooking;
+  //   print(fetchedBooking2?.id);
 
     // print(fetchedBooking2!.offers!.length);
     // if(fetchedBooking2!.offers!!=[]){
@@ -250,23 +250,9 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                                                         .value
                                                         .booking!
                                                         .guestNumber!);
-                                            // amount: (widget.place!.price! *
-                                            //         widget
-                                            //             .offerController!
-                                            //             .offerDetails
-                                            //             .value
-                                            //             .booking!
-                                            //             .guestNumber!) +
-                                            //     (widget.offerController!
-                                            //             .totalPrice.value *
-                                            //         widget
-                                            //             .offerController!
-                                            //             .offerDetails
-                                            //             .value
-                                            //             .booking!
-                                            //             .guestNumber!));
-
-                                    Get.to(() => PaymentWebView(
+                                                        
+                                         if (invoice != null){
+                                     Get.to(() => PaymentWebView(
                                         url: invoice!.url!,
                                         title: AppUtil.rtlDirection2(context)?'الدفع':'Payment'))?.then((value) async {
                                          print(value);
@@ -344,10 +330,10 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                                           .offerDetails.value.schedule!,
                                     );
                                     print(acceptedOffer?.orderStatus);
-                                    print("pay from uiiiiiiiiiiiiii");
-                                 //Get.back();
-                                                 Get.back();
-
+                                                 //Get.back();
+                                       final book.Booking? fetchedBooking = await _RequestController.getBookingById(
+                                                                   context: context,
+                                                                   bookingId: widget.booking!.id!);
                                                     showDialog(
                                                         context: context,
                                                         builder: (ctx) {
@@ -369,10 +355,11 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                                                             ),
                                                           );
                                                         }).then((_) {
+                                                          print("inside");
                                                   LocalNotification().showNotification(context,widget.booking?.id, widget.booking?.timeToGo, widget.booking?.date ,_offerController.offers.last.name, thePlace?.nameAr,thePlace?.nameEn);
-
+                                               
                                                   Get.to(() =>  TicketDetailsScreen(
-                                                            booking: fetchedBooking2,
+                                                            booking: fetchedBooking,
                                                              icon: SvgPicture.asset(
                                                             'assets/icons/place.svg'),
                                                              bookTypeText:getBookingTypeText(context, 'place')
@@ -382,8 +369,9 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                                                   
 
                                                   }
-                                              
+                                        
                                     });
+                                         }
                                         
                                     // Get.to(
                                     //   () => CheckOutScreen(

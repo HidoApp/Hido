@@ -29,12 +29,12 @@ static onTap(NotificationResponse notificationResponse){}
 
 
   late DateTime twoDaysBefore;
-  late DateTime twoHoursBefore;
-  late DateTime timeToGo;
-  late DateTime timeToReturn;
-    late String descreption;
-late int hour;
-late int minute;
+  // late DateTime twoHoursBefore;
+ // late DateTime timeToGo;
+  //late DateTime timeToReturn;
+ String descreption='';
+ int? hour;
+ int? minute;
    String day="2 days";
    String time="2 hours";
    final String timeZoneName = 'Asia/Riyadh';
@@ -193,7 +193,7 @@ void showNotification(BuildContext context, String? id , String? timeToGo, Strin
 tz.TZDateTime notificationTime;
 if(hour!=0 && minute!=0){
  //notificationTime = DateTime(twoDaysBefore.year, twoDaysBefore.month, twoDaysBefore.day, hour,minute,3);
-  notificationTime = tz.TZDateTime(location, twoDaysBefore.year, twoDaysBefore.month, twoDaysBefore.day, hour,minute,3);
+  notificationTime = tz.TZDateTime(location, twoDaysBefore.year, twoDaysBefore.month, twoDaysBefore.day, hour!,minute!,3);
  print("inter1");
 
 }
@@ -277,7 +277,7 @@ else{
 
 tz.TZDateTime notificationTime;
 if(hour!=0 && minute!=0){
-  notificationTime = tz.TZDateTime(location, twoDaysBefore.year, twoDaysBefore.month, twoDaysBefore.day, hour,minute,3);
+  notificationTime = tz.TZDateTime(location, twoDaysBefore.year, twoDaysBefore.month, twoDaysBefore.day, hour!,minute!,3);
  print("inter1");
 
 }
@@ -351,7 +351,7 @@ else{
 
 tz.TZDateTime notificationTime;
 if(hour!=0 && minute!=0){
-  notificationTime = tz.TZDateTime(location, twoDaysBefore.year, twoDaysBefore.month, twoDaysBefore.day, hour,minute,3);
+  notificationTime = tz.TZDateTime(location, twoDaysBefore.year, twoDaysBefore.month, twoDaysBefore.day, hour!,minute!,3);
  print("inter1");
 
 }

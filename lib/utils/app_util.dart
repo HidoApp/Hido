@@ -141,7 +141,29 @@ class AppUtil {
       //  borderRadius:BorderRadius?.all(Radius.circular(12))
     ).show(context);
   }
-
+ static String getBookingTypeText(BuildContext context, String bookingType) {
+  if (AppUtil.rtlDirection2(context)) {
+    switch (bookingType) {
+      case 'place':
+        return 'جولة';
+      case 'adventure':
+        return 'مغامرة';
+      case 'hospitality':
+        return 'ضيافة';
+      case 'event':
+        return 'فعالية';
+      default:
+        return bookingType; 
+    }
+  } else {
+    if(bookingType=='place'){
+      return "Tour";
+    }
+    else{
+    return bookingType; 
+    }
+}
+}
   static errorToast(context, msg) {
     Flushbar(
       messageText: Row(

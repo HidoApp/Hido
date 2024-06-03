@@ -54,7 +54,7 @@ class AdventureTicketData extends StatelessWidget {
                 children: [
                   icon ?? SizedBox.shrink(),
                   Text(
-                    bookTypeText ?? '',
+                    AppUtil.getBookingTypeText(context, bookTypeText ?? ''),
                     style: TextStyle(
                       color: Color(0xFF070708),
                       fontSize: 13,
