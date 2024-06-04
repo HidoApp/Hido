@@ -60,8 +60,6 @@ class _RequestScreenState extends State<RequestScreen> {
           const SizedBox(
             height: 21,
           ),
-          
-          
           Expanded(
             child: Obx(
               () => _requestController.isRequestListLoading.value == true
@@ -79,96 +77,111 @@ class _RequestScreenState extends State<RequestScreen> {
                           ),
                         )
                       : Stack(
-                        children: [
-                          ListView.separated(
-                              shrinkWrap: true,
-                              itemCount: _requestController.requestList.length,
-                              separatorBuilder: (context, index) {
-                                return const Divider(
-                                  height: 22,
-                                );
-                              },
-                              itemBuilder: (context, index) {
-                                DateTime myDate = DateTime.parse(_requestController
-                                    .requestList[index].date
-                                    .toString());
-                                var time = DateFormat.jm().format(myDate);
-                                
-                                return CustomRequestItem(
-                                    index: index,
-                                    offer:
-                                        _requestController.requestList[index].offer,
-                                    isChat: (_requestController
-                                                .requestList[index].orderStatus ==
-                                            "ACCEPTED" ||
-                                        // ? ==== Have Offer =====
-                                        (_requestController
-                                                    .requestList[index].offer !=
-                                                null &&
-                                            _requestController.requestList[index]
-                                                .offer!.isNotEmpty)),
-                                    status: _requestController
-                                        .requestList[index].orderStatus,
-                                    chatId: _requestController
-                                        .requestList[index].chatId,
-                                        requestModel: _requestController
-                                        .requestList[index],
-                                    requestController: _requestController,
-                                    onPressedAccept: () async {
-                                
-                                      _requestController.requestScheduleList([RequestSchedule(scheduleTime: ScheduleTime())]);
-                                   final request =  await _requestController.getRequestById(context: context, requestId: _requestController
-                                              .requestList[index].id!);
-                                      
-                                      await showAcceptBottomSheet(
-                                          width: width,
-                                          height: height,
-                                          request: request!,
-                                   
-                                          requestController: _requestController,
-                                          requestID: _requestController
-                                              .requestList[index].id,
-                                          context: context);
-                                    },
-                                    onPressedReject: () async {
-                                      
-                                      _requestController.requestIndex.value = index;
-                                      bool? reject =
-                                          await _requestController.requestReject(
-                                              id: _requestController
-                                                  .requestList[index].id!,
-                                              context: context);
-                                      if (reject == true && context.mounted) {
-                                        await _requestController.getRequestList(
-                                            context: context);
-                                      }
-                                    },
-                                    requestId:
-                                        _requestController.requestList[index].id!,
-                                    senderName: _requestController
-                                            .requestList[index].senderName ??
-                                        "",
-                                    requestName: AppUtil
-                                            .rtlDirection(context)
-                                        ? _requestController.requestList[index]
-                                                .requestName!.nameAr ??
-                                            ""
-                                        : _requestController.requestList[index]
-                                                .requestName!.nameEn ??
-                                            "",
-                                    imageUrl: null,
-                                    time: time.toString());
-                              }),
-                       
-                             if(_requestController.isGetRequestByIdLoading.value)  Container(height: height,width: width, child: Center(child: CircularProgressIndicator(),),)
+                          children: [
+                            ListView.separated(
+                                shrinkWrap: true,
+                                itemCount:
+                                    _requestController.requestList.length,
+                                separatorBuilder: (context, index) {
+                                  return const Divider(
+                                    height: 22,
+                                  );
+                                },
+                                itemBuilder: (context, index) {
+                                  DateTime myDate = DateTime.parse(
+                                      _requestController.requestList[index].date
+                                          .toString());
+                                  var time = DateFormat.jm().format(myDate);
 
-                       
-                        ],
-                      ),
+                                  return CustomRequestItem(
+                                      index: index,
+                                      offer: _requestController
+                                          .requestList[index].offer,
+                                      isChat: (_requestController
+                                                  .requestList[index]
+                                                  .orderStatus ==
+                                              "ACCEPTED" ||
+                                          // ? ==== Have Offer =====
+                                          (_requestController.requestList[index]
+                                                      .offer !=
+                                                  null &&
+                                              _requestController
+                                                  .requestList[index]
+                                                  .offer!
+                                                  .isNotEmpty)),
+                                      status: _requestController
+                                          .requestList[index].orderStatus,
+                                      chatId: _requestController
+                                          .requestList[index].chatId,
+                                      requestModel:
+                                          _requestController.requestList[index],
+                                      requestController: _requestController,
+                                      onPressedAccept: () async {
+                                        _requestController.requestScheduleList([
+                                          RequestSchedule(
+                                              scheduleTime: ScheduleTime())
+                                        ]);
+                                        final request = await _requestController
+                                            .getRequestById(
+                                                context: context,
+                                                requestId: _requestController
+                                                    .requestList[index].id!);
+
+                                        await showAcceptBottomSheet(
+                                            width: width,
+                                            height: height,
+                                            request: request!,
+                                            requestController:
+                                                _requestController,
+                                            requestID: _requestController
+                                                .requestList[index].id,
+                                            context: context);
+                                      },
+                                      onPressedReject: () async {
+                                        _requestController.requestIndex.value =
+                                            index;
+                                        bool? reject = await _requestController
+                                            .requestReject(
+                                                id: _requestController
+                                                    .requestList[index].id!,
+                                                context: context);
+                                        if (reject == true && context.mounted) {
+                                          await _requestController
+                                              .getRequestList(context: context);
+                                        }
+                                      },
+                                      requestId: _requestController
+                                          .requestList[index].id!,
+                                      senderName: _requestController
+                                              .requestList[index].senderName ??
+                                          "",
+                                      requestName: AppUtil.rtlDirection(context)
+                                          ? _requestController
+                                                  .requestList[index]
+                                                  .requestName!
+                                                  .nameAr ??
+                                              ""
+                                          : _requestController
+                                                  .requestList[index]
+                                                  .requestName!
+                                                  .nameEn ??
+                                              "",
+                                      imageUrl: null,
+                                      time: time.toString());
+                                }),
+                            if (_requestController
+                                .isGetRequestByIdLoading.value)
+                              Container(
+                                height: height,
+                                width: width,
+                                child: Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                              )
+                          ],
+                        ),
             ),
           ),
-        
-        
         ],
       ),
     );
