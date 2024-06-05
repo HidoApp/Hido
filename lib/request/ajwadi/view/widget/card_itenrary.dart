@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/request/ajwadi/controllers/request_controller.dart';
+import 'package:ajwad_v4/request/ajwadi/models/request_model.dart';
 import 'package:ajwad_v4/request/widgets/custom_request_text_field.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
@@ -13,11 +15,19 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class ItineraryCard extends StatefulWidget {
-  const ItineraryCard({
+  ItineraryCard({
     super.key,
-    this.index,
+    this.indx,
+    required this.requestController,
   });
-  final int? index;
+  int? indx;
+  final RequestController requestController;
+  // final void Function() onAccepted;
+  // final void Function() onCanceld;
+  // final TextEditingController activityName;
+  // final TextEditingController price;
+  // final Function(String timeTo) timeTO;
+  // final Function(String timeFrom) timeFrom;
 
   @override
   State<ItineraryCard> createState() => _ItineraryCardState();
@@ -28,17 +38,19 @@ class _ItineraryCardState extends State<ItineraryCard> {
   DateTime _dateTimeTo = DateTime.now();
   var isPickedTimeTo = false;
   var isPickedTimeFrom = false;
+  final _activityConroller = TextEditingController();
+  final _priceContorller = TextEditingController();
 
-  RxString _timeFrom =
+  final _timeFrom =
       RxString(DateFormat('HH:mm:ss').format(DateTime.now()).toString());
-  RxString _timeTo =
+  final _timeTo =
       RxString(DateFormat('HH:mm:ss').format(DateTime.now()).toString());
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 320,
       width: double.infinity,
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.only(left: 12, top: 20, bottom: 20, right: 20),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
@@ -58,7 +70,7 @@ class _ItineraryCardState extends State<ItineraryCard> {
                 width: 8,
               ),
               CustomText(
-                text: "Activity name ${widget.index}",
+                text: "Activity name ${widget.indx}",
                 fontSize: 15,
               )
             ],
@@ -67,7 +79,10 @@ class _ItineraryCardState extends State<ItineraryCard> {
             height: 4,
           ),
           CustomTextField(
-            onChanged: (value) {},
+            controller: _activityConroller,
+            onChanged: (value) {
+              print(value);
+            },
             height: 42,
             hintText: 'write the activity name',
           ),
@@ -76,22 +91,25 @@ class _ItineraryCardState extends State<ItineraryCard> {
           ),
           CustomText(text: "Price"),
           CustomTextField(
+            controller: _priceContorller,
             height: 42,
             hintText: '00.00 SAR',
-            onChanged: (value) {},
+            onChanged: (value) {
+              print(value);
+            },
           ),
           SizedBox(
             height: 20,
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CustomText(text: "Start time"),
                   SizedBox(
-                    width: 160,
+                    width: 144,
                     height: 42,
                     child: GestureDetector(
                       onTap: () async {
@@ -105,6 +123,7 @@ class _ItineraryCardState extends State<ItineraryCard> {
                               isPickedTimeTo = true;
                               _timeTo.value =
                                   DateFormat('HH:mm').format(_dateTimeTo);
+                              // widget.timeTO(_timeTo.value);
                               log("   timeTo.value  ${_timeTo.value}");
                               // requestController.requestScheduleList[index].scheduleTime!
                               //     .to = _timeTo.value;
@@ -127,7 +146,7 @@ class _ItineraryCardState extends State<ItineraryCard> {
                 children: [
                   CustomText(text: "End time"),
                   SizedBox(
-                    width: 160,
+                    width: 144,
                     height: 42,
                     child: GestureDetector(
                       onTap: () async {
@@ -142,6 +161,7 @@ class _ItineraryCardState extends State<ItineraryCard> {
                               _timeFrom.value =
                                   DateFormat('HH:mm').format(_dateTimeFrom);
                               log("   timeTo.value  ${_timeFrom.value}");
+                              // widget.timeFrom(_timeTo.value);
                               // requestController.requestScheduleList[index].scheduleTime!
                               //     .to = _timeTo.value;
                               // log("to ${requestController.requestScheduleList[index].scheduleTime!.to}");
@@ -165,22 +185,46 @@ class _ItineraryCardState extends State<ItineraryCard> {
             height: 12,
           ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              SizedBox(
-                width: 40,
-              ),
               GestureDetector(
                 onTap: () {},
-                child: CustomText(text: 'Cancel'),
+                child: Align(
+                  child: CustomText(
+                    text: 'Cancel',
+                    textAlign: TextAlign.center,
+                  ),
+                ),
               ),
-              Spacer(),
+              SizedBox(
+                width: 10,
+              ),
               SizedBox(
                 width: 130,
                 height: 34,
                 child: CustomButton(
                   raduis: 4,
                   title: 'save'.tr,
-                  onPressed: () {},
+                  onPressed: () {
+                    if (_activityConroller.text.isEmpty ||
+                        _timeTo.value.isEmpty ||
+                        _priceContorller.text.isEmpty ||
+                        _timeFrom.value.isEmpty) {
+                      AppUtil.errorToast(context, "empty field");
+                      return;
+                    }
+                    widget.requestController.reviewItenrary.add(
+                      RequestSchedule(
+                        price: int.parse(_priceContorller.text),
+                        scheduleName: _activityConroller.text,
+                        scheduleTime: ScheduleTime(
+                            to: _timeTo.value, from: _timeFrom.value),
+                      ),
+                    );
+                    log("${widget.requestController.reviewItenrary.length}");
+                    widget.requestController.itineraryList
+                        .removeAt(widget.indx!);
+                  },
                 ),
               )
             ],
@@ -188,5 +232,10 @@ class _ItineraryCardState extends State<ItineraryCard> {
         ],
       ),
     );
+    // : Container(
+    //     height: 50,
+    //     width: 360,
+    //     color: colorGreen,
+    //   );
   }
 }
