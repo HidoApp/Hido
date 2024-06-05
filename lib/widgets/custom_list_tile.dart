@@ -25,8 +25,8 @@ class CustomListTile extends StatelessWidget {
           textAlign: TextAlign.start,
           text: title,
           color: black,
-          fontSize: 15,
-          fontWeight: FontWeight.w200,
+          fontSize: 16,
+          fontWeight: FontWeight.w400,
         ),
         leading: SvgPicture.asset(
           leading,
