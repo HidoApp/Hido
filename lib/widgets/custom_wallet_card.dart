@@ -14,14 +14,14 @@ import 'package:intl/intl.dart' as intel;
 
 
 class CustomWalletCard extends StatelessWidget {
-  const CustomWalletCard({
-    super.key,
-    required this.booking,
+  //  CustomWalletCard({
+  //   super.key, required BuildContext context,
+  //   // required this.booking,
 
     
-  });
+  // });
 
-  final Booking booking;
+  // final Booking booking;
 
   @override
   Widget build(BuildContext context) {
@@ -40,34 +40,77 @@ class CustomWalletCard extends StatelessWidget {
      
         },
 
-  child: Container(
-  width: 334,
-  height: 130,
 
+  child: Container(
+  width: double.infinity,
+   height: 152,
+
+   decoration: ShapeDecoration(
+shape: RoundedRectangleBorder(
+// borderRadius: BorderRadius.circular(12),
+),
+shadows: [
+BoxShadow(
+color: Color(0x3FC7C7C7),
+blurRadius: 15,
+offset: Offset(0, 0),
+spreadRadius: 0,
+)
+],
+),
   child: Card(
     shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.all(Radius.circular(7.36))),
-    color: const Color.fromARGB(255, 255, 255, 255),
-    surfaceTintColor:const Color.fromARGB(255, 255, 255, 255) ,
-    // shadowColor: const Color.fromARGB(255, 255, 255, 255),
+      borderRadius:
+       BorderRadius.all(Radius.circular(12))),
+      color: Colors.white,
+      surfaceTintColor:const Color.fromARGB(255, 255, 255, 255) ,
+      // shadowColor: Color(0x3FC7C7C7),
+
+    
     
     child: Padding(
-      padding: const EdgeInsets.only(bottom: 12, left: 12, right: 8, top: 12),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
+      padding: const EdgeInsets.only(bottom: 24, left: 16, right: 16, top: 16),
+     
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(bottom: 37),
-            // child: ClipRRect(
-            //   borderRadius: const BorderRadius.all(Radius.circular(4)),
-            //   child: Image.network(
-            //     booking.bookingType =="place" ?booking.place!.image![0]:booking.bookingType =="hospitality"?booking.hospitality!.images[0]:booking.adventure!.image![0],
-            //     height: height * 0.076,
-            //     width: width * 0.16,
-            //     fit: BoxFit.cover,
-            //   ),
-            // ),
-        //   ),
+            padding: const EdgeInsets.only(bottom: 12),
+            child: Container(
+              width: 36,
+              height: 36,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Color.fromARGB(228, 233, 235, 246),
+               
+                ),  
+                            
+              alignment: Alignment.center,
+             child: SvgPicture.asset('assets/icons/Finance_icon.svg'),
+              ),
+          ),
+            Text(
+            'Total balance',
+          style: TextStyle(
+         color: Color(0xFFB9B8C1),
+           fontSize: 13,
+           fontFamily: 'SF Pro',
+            fontWeight: FontWeight.w500,
+           height: 0,
+            ),
+             ),
+              SizedBox(
+            width: 4,
+          ),
+          Text(
+          '1,400.00 SAR',
+         style: TextStyle(
+            color: Color(0xFF070708),
+             fontSize: 28,
+             fontFamily: 'HT Rakik',
+             fontWeight: FontWeight.w500,
+             ),
+            )
         //   SizedBox(
         //     width: 8,
         //   ),
@@ -183,7 +226,8 @@ class CustomWalletCard extends StatelessWidget {
         //          ),
         //       ],
         //     ),
-        ),
+        
+        
         ],
       ),
     ),

@@ -155,23 +155,23 @@ class CustomChatCard extends StatelessWidget {
      
           ],
         ),
-        if(chatModel.messages!.isNotEmpty)...[
-       SizedBox(
-             height: 25,
-            ),
-               Container(
-        width: 358,
-        decoration: ShapeDecoration(
-        shape: RoundedRectangleBorder(
-       side: BorderSide(
-       width: 1,
-        strokeAlign: BorderSide.strokeAlignCenter,
-       color: Color(0xFFDCDCE0),
-      ),
-         ),
-        ),
-       )
-        ]
+      //   if(chatModel.messages!.isNotEmpty)...[
+      //  SizedBox(
+      //        height: 25,
+      //       ),
+      //          Container(
+      //   width: 358,
+      //   decoration: ShapeDecoration(
+      //   shape: RoundedRectangleBorder(
+      //  side: BorderSide(
+      //  width: 1,
+      //   strokeAlign: BorderSide.strokeAlignCenter,
+      //  color: Color(0xFFDCDCE0),
+      // ),
+      //    ),
+      //   ),
+      //  )
+      //   ]
           ],
         ),
       ),

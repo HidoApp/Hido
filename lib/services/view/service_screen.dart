@@ -70,11 +70,14 @@ class _ServiceScreenState extends State<ServiceScreen>
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    
                     CustomText(
                       text: "serviceTitle".tr,
                       color: Colors.white,
                       maxlines: 2,
                       fontSize: 20,
+                      fontFamily: "SF Pro",
+                      fontWeight: FontWeight.w500,
                     ),
                     const SizedBox(
                       height: 4,
