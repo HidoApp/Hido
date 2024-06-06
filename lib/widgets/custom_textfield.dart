@@ -11,6 +11,7 @@ class CustomTextField extends StatelessWidget {
     this.icon,
     this.prefixIcon,
     this.suffixIcon,
+    this.initialValue,
     required this.onChanged,
     this.maxLength,
     this.inputFormatters,
@@ -40,6 +41,7 @@ class CustomTextField extends StatelessWidget {
   final int maxLines;
   final int? maxLength;
   final double? height;
+  final String? initialValue;
   final Color? textColor, borderColor;
   final List<TextInputFormatter>? inputFormatters;
 
@@ -52,6 +54,7 @@ class CustomTextField extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       height: height,
       child: TextFormField(
+        initialValue: initialValue,
         inputFormatters: inputFormatters ?? [],
         maxLength: maxLength,
         maxLines: maxLines,

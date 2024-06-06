@@ -22,7 +22,7 @@ RxString _timeFrom =
 RxString _timeTo =
     RxString(DateFormat('HH:mm:ss').format(DateTime.now()).toString());
 
-Future<void> showAcceptBottomSheet( 
+Future<void> showAcceptBottomSheet(
     {required RequestController requestController,
     required String? requestID,
     required double width,
@@ -78,7 +78,8 @@ Future<void> showAcceptBottomSheet(
                                 minLeadingWidth: 0,
                                 horizontalTitleGap: 8,
                                 title: CustomText(
-                                  text: ' ${request.booking!.guestNumber} ${'guests'.tr}',
+                                  text:
+                                      ' ${request.booking!.guestNumber} ${'guests'.tr}',
                                   color: darkBlue,
                                   fontSize: 10,
                                   fontWeight: FontWeight.w400,
@@ -95,8 +96,9 @@ Future<void> showAcceptBottomSheet(
                                 minVerticalPadding: 0,
                                 minLeadingWidth: 0,
                                 horizontalTitleGap: 8,
-                                title:  CustomText(
-                                  text: '${request.booking!.date!.substring(0,10)}',
+                                title: CustomText(
+                                  text:
+                                      '${request.booking!.date!.substring(0, 10)}',
                                   color: darkBlue,
                                   fontSize: 10,
                                   fontWeight: FontWeight.w400,
@@ -113,7 +115,7 @@ Future<void> showAcceptBottomSheet(
                                 minVerticalPadding: 0,
                                 minLeadingWidth: 0,
                                 horizontalTitleGap: 8,
-                                title:  CustomText(
+                                title: CustomText(
                                   text: request.booking!.vehicleType!,
                                   color: darkBlue,
                                   fontSize: 10,
@@ -265,7 +267,7 @@ Future<void> showAcceptBottomSheet(
                                                         ?.from ==
                                                     null
                                                 ? 'From'.tr
-                                                : "${'From'.tr} : ${scheduleList[index].scheduleTime!.from!.substring(0,5)} ",
+                                                : "${'From'.tr} : ${scheduleList[index].scheduleTime!.from!.substring(0, 5)} ",
                                           ),
                                           isWhiteHintText: false,
                                           hintText: 'From'.tr,
@@ -321,7 +323,7 @@ Future<void> showAcceptBottomSheet(
                                                           ?.to ==
                                                       null
                                                   ? 'To'.tr
-                                                  : "${'To'.tr} : ${scheduleList[index].scheduleTime!.to!.substring(0,5)} "),
+                                                  : "${'To'.tr} : ${scheduleList[index].scheduleTime!.to!.substring(0, 5)} "),
                                           isWhiteHintText: false,
                                           hintText: 'To'.tr,
                                           hintStyle: TextStyle(
