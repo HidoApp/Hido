@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
+import '../../../explore/ajwadi/view/local_home_screen.dart';
+
 class AjwadiBottomBar extends StatefulWidget {
   const AjwadiBottomBar({Key? key}) : super(key: key);
 
@@ -19,6 +21,7 @@ final ProfileController _profileController = ProfileController();
 
 int currentIndex = 0;
 List bottomScreens = [
+
   AjwadiMapScreen(
     fromAjwady: true,
   ),
