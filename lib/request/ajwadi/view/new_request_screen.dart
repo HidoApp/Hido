@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/request/ajwadi/controllers/request_controller.dart';
 import 'package:ajwad_v4/request/ajwadi/view/widget/offline_request.dart';
 import 'package:ajwad_v4/request/ajwadi/view/widget/request_card.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
@@ -10,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:get/get.dart';
 
 class NewRequestScreen extends StatefulWidget {
   const NewRequestScreen({super.key});
@@ -22,11 +24,23 @@ bool isSwitched = false;
 double cardHight = 200;
 
 class _NewRequestScreenState extends State<NewRequestScreen> {
+  final _requestController = Get.put(RequestController());
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    super.initState();
+    if (isSwitched) {
+      _requestController.getRequestList(context: context);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: lightGreyBackground,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         forceMaterialTransparency: true,
         actions: [
           Padding(
@@ -57,14 +71,16 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         child: isSwitched
-            ? ListView.separated(
-                separatorBuilder: (context, index) => const SizedBox(
-                  height: 12,
-                ),
-                shrinkWrap: true,
-                itemCount: 5,
-                itemBuilder: (context, index) => const RequestCard(),
-              )
+            ? _requestController.isRequestListLoading.value
+                ? CircularProgressIndicator.adaptive()
+                : ListView.separated(
+                    separatorBuilder: (context, index) => const SizedBox(
+                      height: 12,
+                    ),
+                    shrinkWrap: true,
+                    itemCount: 5,
+                    itemBuilder: (context, index) => const RequestCard(),
+                  )
             : const OfflineRequest(),
       ),
     );

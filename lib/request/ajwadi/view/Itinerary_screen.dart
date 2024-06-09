@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/request/ajwadi/controllers/request_controller.dart';
 import 'package:ajwad_v4/request/ajwadi/view/widget/card_itenrary.dart';
 import 'package:ajwad_v4/request/ajwadi/view/widget/review_itenrary_card.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
@@ -37,18 +40,22 @@ class _AddItineraryState extends State<AddItinerary> {
 
     requestController.itineraryList.add(ItineraryCard(
       requestController: requestController,
-      indx: count,
+      indx: requestController.intinraryCount.value,
     ));
-    count++;
+    requestController.intinraryCount++;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: lightGreyBackground,
+      // bottomNavigationBar: Padding(
+      //     padding:
+      //         const EdgeInsets.only(top: 12, left: 16, right: 16, bottom: 32),
+      //     child: CustomButton(onPressed: () {}, title: "title")),
       appBar: CustomAppBar('Itinerary'),
       body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+        padding: EdgeInsets.only(top: 12, left: 16, right: 16, bottom: 32),
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -82,7 +89,7 @@ class _AddItineraryState extends State<AddItinerary> {
                     shrinkWrap: true,
                     physics: const BouncingScrollPhysics(),
                     separatorBuilder: (context, index) => SizedBox(
-                          height: 12,
+                          height: 24,
                         ),
                     itemBuilder: (context, index) {
                       // list[index].indx = index;
@@ -95,22 +102,19 @@ class _AddItineraryState extends State<AddItinerary> {
               ),
               Row(
                 children: [
-                  ElevatedButton(
-                      onPressed: () {
-                        requestController.itineraryList.removeLast();
-                        count--;
-                      },
-                      child: Text('del')),
                   GestureDetector(
                     onTap: () {
-                      if (requestController.itineraryList.isEmpty) {
-                        count = 0;
+                      print(requestController.itineraryList.length);
+                      if (requestController.intinraryCount >= 1) {
+                        AppUtil.errorToast(context, "you cant add ");
+                        return;
                       }
+
                       requestController.itineraryList.add(ItineraryCard(
                         requestController: requestController,
-                        indx: count,
+                        indx: requestController.intinraryCount.value,
                       ));
-                      count++;
+                      requestController.intinraryCount++;
                     },
                     child: Container(
                       height: 30,
@@ -130,7 +134,7 @@ class _AddItineraryState extends State<AddItinerary> {
                   ),
                   CustomText(text: 'Add Activity ')
                 ],
-              )
+              ),
             ],
           ),
         ),

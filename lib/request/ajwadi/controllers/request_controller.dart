@@ -17,8 +17,23 @@ class RequestController extends GetxController {
   var requestList = <RequestModel>[].obs;
   //add itnrary flow
   var itineraryList = <ItineraryCard>[].obs;
+  var intinraryCount = 0.obs;
+  var startTime = ''.obs;
+  var endtime = ''.obs;
   var reviewItenrary = <RequestSchedule>[].obs;
-  var isExpaned = true.obs;
+// valditon itenrary
+  var isActivtyValid = true.obs;
+  var isPriceValid = true.obs;
+  var isStartTimeValid = true.obs;
+  var isEndTimeValid = true.obs;
+  var validSave = true.obs;
+
+  /// valditon itenrary review
+  var isActivtyReviewValid = true.obs;
+  var isPriceReviewValid = true.obs;
+  var isStartTimeReviewValid = true.obs;
+  var isEndTimeReviewValid = true.obs;
+  var validReviewSave = false.obs;
   Future<List<RequestModel>?> getRequestList(
       {required BuildContext context}) async {
     try {

@@ -3,15 +3,29 @@ import 'package:ajwad_v4/request/ajwadi/view/Itinerary_screen.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
 import 'package:get/get.dart';
 
-class RequestCard extends StatelessWidget {
+class RequestCard extends StatefulWidget {
   const RequestCard({super.key});
+
+  @override
+  State<RequestCard> createState() => _RequestCardState();
+}
+
+class _RequestCardState extends State<RequestCard> {
+  late ExpandedTileController _controller;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _controller = ExpandedTileController(isExpanded: false);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 200,
+      height: 360,
       padding: EdgeInsets.symmetric(horizontal: 12, vertical: 20),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -54,20 +68,12 @@ class RequestCard extends StatelessWidget {
           SizedBox(
             height: 12,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const CustomText(text: 'Tour Details '),
-              GestureDetector(
-                onTap: () {
-                  // cardHight = 200;
-                },
-                child: const Icon(
-                  color: darkGrey,
-                  Icons.keyboard_arrow_down,
-                ),
-              ),
-            ],
+          ExpandedTile(
+            contentseparator: 0,
+            title: Text(""),
+            content: Text("data"),
+            controller: _controller,
+            theme: ExpandedTileThemeData(),
           ),
           SizedBox(
             height: 14,
@@ -75,6 +81,7 @@ class RequestCard extends StatelessWidget {
           Divider(
             color: lightGrey,
           ),
+          Spacer(),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

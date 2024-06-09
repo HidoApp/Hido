@@ -12,16 +12,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_datetime_picker_bdaya/flutter_datetime_picker_bdaya.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:intl/intl.dart';
 
 class ReivewItentraryCard extends StatefulWidget {
   ReivewItentraryCard(
       {super.key,
       required this.requestController,
-      this.indx,
+      required this.indx,
       required this.schedule});
-  int? indx;
+  final int indx;
   final RequestController requestController;
   final RequestSchedule schedule;
   @override
@@ -33,6 +35,9 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
   DateTime _dateTimeTo = DateTime.now();
   var activityName = '';
   var price = 0;
+  final _activityConroller = TextEditingController();
+  final _priceContorller = TextEditingController();
+
   var isPickedTimeTo = false;
   var isPickedTimeFrom = false;
   final RxString _timeFrom =
@@ -44,14 +49,35 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
     // TODO: implement initState
     super.initState();
     // initialize controller
+    _activityConroller.text = widget.schedule.scheduleName!;
+    _priceContorller.text = widget.schedule.price.toString();
     _controller = ExpandedTileController(isExpanded: false);
   }
 
   void setSchecdule() {
-    widget.schedule.price = price;
-    widget.schedule.scheduleName = activityName;
-    widget.schedule.scheduleTime!.to = _timeTo.value;
-    widget.schedule.scheduleTime!.from = _timeFrom.value;
+    widget.schedule.price = int.parse(_priceContorller.text);
+    widget.schedule.scheduleName = _activityConroller.text;
+    // widget.schedule.scheduleTime!.to = _timeTo.value;
+    // widget.schedule.scheduleTime!.from = _timeFrom.value;
+  }
+
+  void itineraryValdiation() {
+    if (_activityConroller.text.isEmpty) {
+      widget.requestController.isActivtyReviewValid(false);
+    } else {
+      widget.requestController.isActivtyReviewValid(true);
+    }
+    if (_priceContorller.text.isEmpty) {
+      widget.requestController.isPriceReviewValid(false);
+    } else {
+      widget.requestController.isPriceReviewValid(true);
+    }
+    if (_activityConroller.text.isNotEmpty &&
+        _priceContorller.text.isNotEmpty) {
+      widget.requestController.validReviewSave(true);
+    } else {
+      widget.requestController.validReviewSave(false);
+    }
   }
 
   @override
@@ -62,7 +88,10 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
       shadowColor: Colors.black12,
       color: Colors.white,
       child: ExpandedTile(
-        onTap: () {},
+        onTap: () {
+          //TODO : must change to obx
+          setState(() {});
+        },
         trailing: null,
         leading: Container(
           width: 18,
@@ -72,10 +101,21 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
         ),
         title: Row(
           children: [
-            CustomText(text: widget.schedule.scheduleName),
-            Spacer(),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomText(text: widget.schedule.scheduleName),
+                CustomText(
+                  text:
+                      "${widget.schedule.scheduleTime!.to!}-${widget.schedule.scheduleTime!.from!}",
+                  color: almostGrey,
+                  fontSize: 13,
+                ),
+              ],
+            ),
+            const Spacer(),
             CustomText(
-              text: "${widget.schedule.price.toString() + " " + "sar".tr}",
+              text: "${widget.schedule.price} ${"sar".tr}",
               color: colorGreen,
             )
           ],
@@ -91,173 +131,229 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
             headerSplashColor: Colors.white,
             contentPadding: EdgeInsets.zero,
             trailingPadding: EdgeInsets.zero),
-        content: Container(
-          height: 320,
-          width: double.infinity,
-          padding: EdgeInsets.only(left: 12, top: 20, bottom: 20, right: 20),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(12),
-                bottomRight: Radius.circular(12)),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomText(
-                text: "Activity name",
-                fontSize: 15,
-              ),
-              SizedBox(
-                height: 4,
-              ),
-              CustomTextField(
-                // controller: _activityConroller,
-                // controller: widget.activityName,
-                initialValue: widget.schedule.scheduleName,
-                onChanged: (value) {
-                  activityName = value;
-                },
-                height: 42,
-
-                hintText: 'write the activity name',
-              ),
-              SizedBox(
-                height: 12,
-              ),
-              CustomText(text: "Price"),
-              CustomTextField(
-                initialValue: widget.schedule.price.toString(),
-                height: 42,
-                hintText: '00.00 SAR',
-                onChanged: (value) {
-                  price = int.parse(value);
-                },
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomText(text: "Start time"),
-                      SizedBox(
-                        width: 160,
-                        height: 42,
-                        child: GestureDetector(
-                          onTap: () async {
-                            await DatePickerBdaya.showTimePicker(
-                              context,
-                              showTitleActions: true,
-                              currentTime: _dateTimeTo,
-                              onConfirm: (time) {
-                                setState(() {
+        content: Obx(
+          () => Container(
+            height: widget.requestController.validReviewSave.value ? 320 : 360,
+            width: double.infinity,
+            padding: EdgeInsets.only(left: 12, top: 20, bottom: 20, right: 20),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(12),
+                  bottomRight: Radius.circular(12)),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomText(
+                  text: "Activity name",
+                  fontSize: 15,
+                ),
+                SizedBox(
+                  height: 4,
+                ),
+                CustomTextField(
+                  keyboardType: TextInputType.name,
+                  controller: _activityConroller,
+                  borderColor:
+                      widget.requestController.isActivtyReviewValid.value
+                          ? almostGrey
+                          : colorRed,
+                  onChanged: (value) {},
+                  height: 42,
+                  hintText: 'write the activity name',
+                ),
+                if (!widget.requestController.isActivtyReviewValid.value)
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 12),
+                    child: CustomText(
+                      text: "*this field is requested",
+                      color: colorRed,
+                    ),
+                  ),
+                SizedBox(
+                  height: 12,
+                ),
+                CustomText(text: "Price"),
+                Obx(
+                  () => CustomTextField(
+                    keyboardType: TextInputType.number,
+                    controller: _priceContorller,
+                    borderColor:
+                        widget.requestController.isPriceReviewValid.value
+                            ? almostGrey
+                            : colorRed,
+                    height: 42,
+                    hintText: '00.00 SAR',
+                    onChanged: (value) {},
+                  ),
+                ),
+                if (!widget.requestController.isPriceReviewValid.value)
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 12),
+                    child: CustomText(
+                      text: "*Please enter a price",
+                      color: colorRed,
+                    ),
+                  ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CustomText(text: "Start time"),
+                        SizedBox(
+                          width: 160,
+                          height: 42,
+                          child: GestureDetector(
+                            onTap: () async {
+                              await DatePickerBdaya.showTime12hPicker(
+                                context,
+                                currentTime: _dateTimeTo,
+                                onConfirm: (time) {
                                   _dateTimeTo = time;
-                                  isPickedTimeTo = true;
-                                  _timeTo.value =
-                                      DateFormat('HH:mm').format(_dateTimeTo);
-                                  // widget.timeTO(_timeTo.value);
-                                  log("   timeTo.value  ${_timeTo.value}");
-                                  // requestController.requestScheduleList[index].scheduleTime!
-                                  //     .to = _timeTo.value;
-                                  // log("to ${requestController.requestScheduleList[index].scheduleTime!.to}");
-                                });
-                              },
-                            );
-                          },
-                          child: CustomTextField(
-                            enable: false,
-                            hintText: isPickedTimeTo
-                                ? _timeTo.value
-                                : widget.schedule.scheduleTime!.to,
-                            onChanged: (value) {},
+
+                                  widget.schedule.scheduleTime!.to =
+                                      DateFormat('h:mma').format(_dateTimeTo);
+                                  // setState(() {
+                                  //   // widget.timeTO(_timeTo.value);
+
+                                  //   // requestController.requestScheduleList[index].scheduleTime!
+                                  //   //     .to = _timeTo.value;
+                                  //   // log("to ${requestController.requestScheduleList[index].scheduleTime!.to}");
+                                  // });
+                                },
+                              );
+                            },
+                            child: Container(
+                              width: 144,
+                              height: 34,
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 6),
+                              alignment: Alignment.centerLeft,
+                              decoration: BoxDecoration(
+                                border: Border.all(color: almostGrey),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Row(children: [
+                                SvgPicture.asset('assets/icons/Arrows-s.svg'),
+                                CustomText(
+                                    color: almostGrey,
+                                    text: widget.schedule.scheduleTime!.to),
+                              ]),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomText(text: "End time"),
-                      SizedBox(
-                        width: 160,
-                        height: 42,
-                        child: GestureDetector(
-                          onTap: () async {
-                            await DatePickerBdaya.showTimePicker(
-                              context,
-                              showTitleActions: true,
-                              currentTime: _dateTimeFrom,
-                              onConfirm: (time) {
-                                setState(() {
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CustomText(text: "End time"),
+                        SizedBox(
+                          width: 160,
+                          height: 42,
+                          child: GestureDetector(
+                            onTap: () async {
+                              await DatePickerBdaya.showTime12hPicker(
+                                context,
+                                showTitleActions: true,
+                                currentTime: _dateTimeFrom,
+                                onConfirm: (time) {
                                   _dateTimeFrom = time;
                                   isPickedTimeFrom = true;
-                                  _timeFrom.value =
-                                      DateFormat('HH:mm').format(_dateTimeFrom);
+                                  widget.schedule.scheduleTime!.from =
+                                      DateFormat('h:mma').format(_dateTimeFrom);
                                   log("   timeTo.value  ${_timeFrom.value}");
-                                  // widget.timeFrom(_timeTo.value);
-                                  // requestController.requestScheduleList[index].scheduleTime!
-                                  //     .to = _timeTo.value;
-                                  // log("to ${requestController.requestScheduleList[index].scheduleTime!.to}");
-                                });
-                              },
-                            );
-                          },
-                          child: CustomTextField(
-                            enable: false,
-                            hintText: isPickedTimeFrom
-                                ? _timeFrom.value
-                                : widget.schedule.scheduleTime!.from,
-                            onChanged: (value) {},
+                                  // setState(() {
+                                  //   // widget.timeFrom(_timeTo.value);
+                                  //   // requestController.requestScheduleList[index].scheduleTime!
+                                  //   //     .to = _timeTo.value;
+                                  //   // log("to ${requestController.requestScheduleList[index].scheduleTime!.to}");
+                                  // });
+                                },
+                              );
+                            },
+                            child: Container(
+                              width: 144,
+                              height: 34,
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 6),
+                              alignment: Alignment.centerLeft,
+                              decoration: BoxDecoration(
+                                border: Border.all(color: almostGrey),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Row(children: [
+                                SvgPicture.asset('assets/icons/Arrows-s.svg'),
+                                CustomText(
+                                    color: almostGrey,
+                                    text: widget.schedule.scheduleTime!.from),
+                              ]),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      widget.requestController.reviewItenrary
-                          .removeAt(widget.indx!);
-                    },
-                    child: Container(
-                      width: 147,
-                      alignment: Alignment.center,
-                      child: CustomText(
-                        text: 'Cancel',
-                        textAlign: TextAlign.center,
-                      ),
+                      ],
                     ),
-                  ),
-                  SizedBox(
-                    width: 147,
-                    height: 34,
-                    child: CustomButton(
-                      raduis: 4,
-                      title: 'save'.tr,
-                      onPressed: () {
-                        setSchecdule();
-                        log(widget.schedule.scheduleName!);
-                        widget.requestController.reviewItenrary[widget.indx!] =
-                            widget.schedule;
-                        _controller.collapse();
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        widget.requestController.reviewItenrary
+                            .removeAt(widget.indx);
                       },
+                      child: Container(
+                        width: 130,
+                        height: 34,
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4),
+                          border: Border.all(color: colorRed, width: 1),
+                        ),
+                        child: CustomText(
+                          text: 'delete'.tr,
+                          textAlign: TextAlign.center,
+                          color: colorRed,
+                          fontSize: 15,
+                        ),
+                      ),
                     ),
-                  )
-                ],
-              )
-            ],
+                    SizedBox(
+                      width: 147,
+                      height: 34,
+                      child: CustomButton(
+                        raduis: 4,
+                        title: 'save'.tr,
+                        onPressed: () {
+                          itineraryValdiation();
+                          if (widget.requestController.validReviewSave.value) {
+                            setSchecdule();
+                            log(widget.schedule.scheduleTime!.to!);
+                            log(widget.schedule.scheduleTime!.from!);
+                            widget.requestController
+                                .reviewItenrary[widget.indx] = widget.schedule;
+                            _controller.collapse();
+                          } else {
+                            AppUtil.errorToast(context, "msg");
+                          }
+                        },
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),
