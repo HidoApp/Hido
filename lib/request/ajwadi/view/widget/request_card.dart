@@ -1,13 +1,24 @@
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/request/ajwadi/models/request_model.dart';
 import 'package:ajwad_v4/request/ajwadi/view/Itinerary_screen.dart';
+import 'package:ajwad_v4/services/view/widgets/itenrary_tile.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
+import 'package:ajwad_v4/widgets/custom_outlined_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class RequestCard extends StatefulWidget {
-  const RequestCard({super.key});
+  const RequestCard({
+    super.key,
+    required this.request,
+    required this.onReject,
+  });
+  final RequestModel request;
+  final void Function() onReject;
 
   @override
   State<RequestCard> createState() => _RequestCardState();
@@ -15,6 +26,8 @@ class RequestCard extends StatefulWidget {
 
 class _RequestCardState extends State<RequestCard> {
   late ExpandedTileController _controller;
+  //  DateFormat('hh:mm a', 'en_US').format(DateTime.parse(widget.request.date!))
+
   @override
   void initState() {
     // TODO: implement initState
@@ -22,11 +35,18 @@ class _RequestCardState extends State<RequestCard> {
     _controller = ExpandedTileController(isExpanded: false);
   }
 
+  String formatTime(String time) {
+    DateTime dateTime = DateFormat('HH:mm:ss').parse(time);
+
+    // Format the time to 'h:mm a' (e.g., 12:00 PM)
+    return DateFormat('h:mm a').format(dateTime);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 360,
-      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 20),
+      height: _controller.isExpanded ? 350 : 210,
+      padding: EdgeInsets.only(left: 12, right: 12, bottom: 20, top: 16),
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5)],
@@ -38,19 +58,19 @@ class _RequestCardState extends State<RequestCard> {
           Row(
             children: [
               Image.asset(
-                'assets/images/Image.png',
+                widget.request.localImage ?? 'assets/images/Image.png',
                 height: 60,
                 width: 60,
               ),
               const SizedBox(
                 width: 8,
               ),
-              const Column(
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CustomText(text: 'Tuwaiq Mountain'),
+                  CustomText(text: widget.request.requestName!.nameEn),
                   CustomText(
-                    text: 'Tourist: Wade Warren',
+                    text: 'Tourist: ${widget.request.senderName}',
                     color: almostGrey,
                   )
                 ],
@@ -69,15 +89,63 @@ class _RequestCardState extends State<RequestCard> {
             height: 12,
           ),
           ExpandedTile(
+            trailing: Icon(Icons.keyboard_arrow_down_outlined),
+            disableAnimation: true,
+            trailingRotation: 180,
             contentseparator: 0,
-            title: Text(""),
-            content: Text("data"),
+            onTap: () {
+              setState(() {});
+            },
+            title: CustomText(text: "Tour Details"),
+            content: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ItineraryTile(
+                    title: DateFormat('EEE, d MMMM yyyy')
+                        .format(DateTime.parse(widget.request.date!)),
+                    image: "assets/icons/date.svg"),
+                SizedBox(
+                  height: 10,
+                ),
+                ItineraryTile(
+                    title: "Pick up: "
+                        "${formatTime(widget.request.booking!.timeToGo!)}"
+                        ","
+                        "Drop off: "
+                        "${formatTime(widget.request.booking!.timeToReturn!)}",
+                    image: "assets/icons/timeGrey.svg"),
+                SizedBox(
+                  height: 10,
+                ),
+                ItineraryTile(
+                    title:
+                        "${widget.request.booking!.guestNumber} ${"guests".tr}",
+                    image: "assets/icons/guests.svg"),
+                // SizedBox(
+                //   height: 10,
+                // ),
+                // ItineraryTile(
+                //     title: " widget.request.booking.loc",
+                //     image: "assets/icons/timeGrey.svg"),
+                SizedBox(
+                  height: 10,
+                ),
+                ItineraryTile(
+                    title: widget.request.booking!.vehicleType.toString(),
+                    image: "assets/icons/car.svg"),
+              ],
+            ),
             controller: _controller,
-            theme: ExpandedTileThemeData(),
+            theme: const ExpandedTileThemeData(
+                leadingPadding: EdgeInsets.zero,
+                titlePadding: EdgeInsets.zero,
+                headerPadding: EdgeInsets.zero,
+                contentPadding: EdgeInsets.zero,
+                headerSplashColor: Colors.transparent,
+                headerColor: Colors.transparent,
+                contentBackgroundColor: Colors.transparent),
           ),
-          SizedBox(
-            height: 14,
-          ),
+          Spacer(),
           Divider(
             color: lightGrey,
           ),
@@ -88,28 +156,19 @@ class _RequestCardState extends State<RequestCard> {
               SizedBox(
                   height: 32,
                   width: 163,
-                  child: GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                            color: colorRed,
-                          ),
-                          borderRadius: BorderRadius.circular(4)),
-                      child: CustomText(
-                        text: 'Reject',
-                        color: colorRed,
-                      ),
-                    ),
+                  child: CustomOutlinedButton(
+                    buttonColor: colorRed,
+                    onTap: widget.onReject,
+                    title: 'Reject',
                   )),
               SizedBox(
                 height: 32,
                 width: 163,
                 child: CustomButton(
                   onPressed: () {
-                    Get.to(() => const AddItinerary());
+                    Get.to(() => AddItinerary(
+                          requestId: widget.request.id!,
+                        ));
                   },
                   title: 'accept',
                   raduis: 4,

@@ -57,8 +57,6 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
   void setSchecdule() {
     widget.schedule.price = int.parse(_priceContorller.text);
     widget.schedule.scheduleName = _activityConroller.text;
-    // widget.schedule.scheduleTime!.to = _timeTo.value;
-    // widget.schedule.scheduleTime!.from = _timeFrom.value;
   }
 
   void itineraryValdiation() {

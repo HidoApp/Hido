@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/request/ajwadi/controllers/request_controller.dart';
+import 'package:ajwad_v4/request/ajwadi/view/review_itenrary_screen.dart';
 import 'package:ajwad_v4/request/ajwadi/view/widget/card_itenrary.dart';
 import 'package:ajwad_v4/request/ajwadi/view/widget/review_itenrary_card.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
@@ -19,8 +20,8 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/state_manager.dart';
 
 class AddItinerary extends StatefulWidget {
-  const AddItinerary({super.key});
-
+  const AddItinerary({super.key, required this.requestId});
+  final String requestId;
   @override
   State<AddItinerary> createState() => _AddItineraryState();
 }
@@ -36,6 +37,7 @@ class _AddItineraryState extends State<AddItinerary> {
   @override
   void initState() {
     // TODO: implement initState
+
     super.initState();
 
     requestController.itineraryList.add(ItineraryCard(
@@ -46,13 +48,37 @@ class _AddItineraryState extends State<AddItinerary> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    requestController.itineraryList.clear();
+    requestController.intinraryCount(0);
+    requestController.reviewItenrary.clear();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: lightGreyBackground,
-      // bottomNavigationBar: Padding(
-      //     padding:
-      //         const EdgeInsets.only(top: 12, left: 16, right: 16, bottom: 32),
-      //     child: CustomButton(onPressed: () {}, title: "title")),
+      bottomNavigationBar: Padding(
+        padding:
+            const EdgeInsets.only(top: 12, left: 16, right: 16, bottom: 32),
+        child: CustomButton(
+          onPressed: () {
+            Get.to(
+              () => ReviewIenraryScreen(
+                requestController: requestController,
+                requestId: widget.requestId,
+              ),
+            );
+          },
+          title: "next".tr,
+          icon: Icon(
+            Icons.arrow_forward_ios,
+            size: 18,
+          ),
+        ),
+      ),
       appBar: CustomAppBar('Itinerary'),
       body: Padding(
         padding: EdgeInsets.only(top: 12, left: 16, right: 16, bottom: 32),
@@ -106,10 +132,9 @@ class _AddItineraryState extends State<AddItinerary> {
                     onTap: () {
                       print(requestController.itineraryList.length);
                       if (requestController.intinraryCount >= 1) {
-                        AppUtil.errorToast(context, "you cant add ");
+                        // AppUtil.errorToast(context, "you cant add ");
                         return;
                       }
-
                       requestController.itineraryList.add(ItineraryCard(
                         requestController: requestController,
                         indx: requestController.intinraryCount.value,
