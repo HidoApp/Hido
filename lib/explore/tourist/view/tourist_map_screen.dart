@@ -575,6 +575,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                   }
                   return GoogleMap(
                     zoomControlsEnabled: false,
+                    liteModeEnabled: true,
                     myLocationButtonEnabled: false,
                     initialCameraPosition: CameraPosition(
                       target: _currentLocation,

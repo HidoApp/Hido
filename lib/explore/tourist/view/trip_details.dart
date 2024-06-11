@@ -537,11 +537,12 @@ class _TripDetailsState extends State<TripDetails> {
                       // ),
 
                       Obx(() => _RequestController.isBookingLoading.value
-                              ? const CircularProgressIndicator()
+                              ? const CircularProgressIndicator.adaptive()
                               // : Padding(
                               //     padding: const EdgeInsets.symmetric(
                               //         horizontal: 30, vertical: 7),
                               : !AppUtil.isGuest() && isHasOffers.value
+
                                   ? _RequestController
                                           .isRequestAcceptLoading.value
                                       ? const CircularProgressIndicator()
@@ -582,6 +583,7 @@ class _TripDetailsState extends State<TripDetails> {
                                               ? "طلبك"
                                               : "Your Request",
                                           icon: !AppUtil.rtlDirection(context)
+
                                               ? const Icon(
                                                   Icons.arrow_back_ios,
                                                   size: 20,

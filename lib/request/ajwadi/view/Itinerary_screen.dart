@@ -1,54 +1,89 @@
+import 'dart:developer';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/request/ajwadi/controllers/request_controller.dart';
+import 'package:ajwad_v4/request/ajwadi/view/review_itenrary_screen.dart';
 import 'package:ajwad_v4/request/ajwadi/view/widget/card_itenrary.dart';
 import 'package:ajwad_v4/request/ajwadi/view/widget/review_itenrary_card.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
-import 'package:ajwad_v4/widgets/custom_textfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/state_manager.dart';
 
 class AddItinerary extends StatefulWidget {
-  const AddItinerary({super.key});
-
+  const AddItinerary({super.key, required this.requestId});
+  final String requestId;
   @override
   State<AddItinerary> createState() => _AddItineraryState();
 }
 
 class _AddItineraryState extends State<AddItinerary> {
   var count = 0;
-
   var flag = false;
   final requestController = Get.put(RequestController());
-  // late ExpandedTileController _controller;
 
-  // List<ItineraryCard> list = [];
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-
     requestController.itineraryList.add(ItineraryCard(
       requestController: requestController,
-      indx: count,
+      indx: requestController.intinraryCount.value,
     ));
-    count++;
+    requestController.intinraryCount++;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    requestController.itineraryList.clear();
+    requestController.intinraryCount(0);
+    requestController.reviewItenrary.clear();
   }
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: lightGreyBackground,
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.only(
+          top: width * 0.03,
+          left: width * 0.04,
+          right: width * 0.04,
+          bottom: width * 0.08,
+        ),
+        child: CustomButton(
+          onPressed: () {
+            if (requestController.reviewItenrary.length < 3) {
+              AppUtil.errorToast(context, "you must add at least 3 itinerary");
+            } else {
+              Get.to(
+                () => ReviewIenraryScreen(
+                  requestController: requestController,
+                  requestId: widget.requestId,
+                ),
+              );
+            }
+          },
+          title: "next".tr,
+          icon: Icon(
+            Icons.arrow_forward_ios,
+            size: width * 0.046,
+          ),
+        ),
+      ),
       appBar: CustomAppBar('Itinerary'),
       body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+        padding: EdgeInsets.symmetric(
+          vertical: width * 0.03,
+          horizontal: width * 0.04,
+        ),
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -56,14 +91,14 @@ class _AddItineraryState extends State<AddItinerary> {
                 text:
                     "*At least 3 activities are required to send the itinerary",
                 color: almostGrey,
-                fontSize: 13,
+                fontSize: width * 0.033,
               ),
               SizedBox(
-                height: 20,
+                height: width * 0.05,
               ),
               Obx(() => ListView.separated(
                     separatorBuilder: (context, index) => SizedBox(
-                      height: 12,
+                      height: width * 0.03,
                     ),
                     shrinkWrap: true,
                     physics: const BouncingScrollPhysics(),
@@ -75,46 +110,39 @@ class _AddItineraryState extends State<AddItinerary> {
                     ),
                   )),
               SizedBox(
-                height: 24,
+                height: width * 0.06,
               ),
               Obx(
                 () => ListView.separated(
                     shrinkWrap: true,
                     physics: const BouncingScrollPhysics(),
                     separatorBuilder: (context, index) => SizedBox(
-                          height: 12,
+                          height: width * 0.06,
                         ),
                     itemBuilder: (context, index) {
-                      // list[index].indx = index;
                       return requestController.itineraryList[index];
                     },
                     itemCount: requestController.itineraryList.length),
               ),
               SizedBox(
-                height: 24,
+                height: width * 0.06,
               ),
               Row(
                 children: [
-                  ElevatedButton(
-                      onPressed: () {
-                        requestController.itineraryList.removeLast();
-                        count--;
-                      },
-                      child: Text('del')),
                   GestureDetector(
                     onTap: () {
-                      if (requestController.itineraryList.isEmpty) {
-                        count = 0;
+                      if (requestController.intinraryCount >= 1) {
+                        return;
                       }
                       requestController.itineraryList.add(ItineraryCard(
                         requestController: requestController,
-                        indx: count,
+                        indx: requestController.intinraryCount.value,
                       ));
-                      count++;
+                      requestController.intinraryCount++;
                     },
                     child: Container(
-                      height: 30,
-                      width: 30,
+                      height: width * 0.08,
+                      width: width * 0.08,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                           color: colorGreen,
@@ -122,15 +150,19 @@ class _AddItineraryState extends State<AddItinerary> {
                       child: Icon(
                         Icons.add,
                         color: Colors.white,
+                        size: width * 0.05,
                       ),
                     ),
                   ),
                   SizedBox(
-                    width: 8,
+                    width: width * 0.02,
                   ),
-                  CustomText(text: 'Add Activity ')
+                  CustomText(
+                    text: 'Add Activity ',
+                    fontSize: width * 0.04,
+                  ),
                 ],
-              )
+              ),
             ],
           ),
         ),

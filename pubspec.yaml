@@ -79,6 +79,7 @@ dependencies:
   custom_map_markers: ^0.0.2+1
   multi_dropdown: ^2.1.4
   flutter_expanded_tile: ^0.3.7
+  timeago: ^3.6.1
   # workmanager: ^0.4.1
 
 dev_dependencies:

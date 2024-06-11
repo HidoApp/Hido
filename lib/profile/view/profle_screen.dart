@@ -179,19 +179,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ));
                             },
                           ),
-                          CustomListTile(
-                            title: "massage".tr,
-                            leading: "assets/icons/Communication.svg",
+                          // CustomListTile(
+                          //   title: "massage".tr,
+                          //   leading: "assets/icons/Communication.svg",
 
-                            //  fromAjwady: widget.fromAjwady,
-                            onTap: () {
-                              Get.to(
-                                () => MessagesScreen(
-                                  profileController: widget.profileController,
-                                ),
-                              );
-                            },
-                          ),
+                          //   //  fromAjwady: widget.fromAjwady,
+                          //   onTap: () {
+                          //     Get.to(
+                          //       () => MessagesScreen(
+                          //         profileController: widget.profileController,
+                          //       ),
+                          //     );
+                          //   },
+                          // ),
                           if (!widget.fromAjwady)
                             CustomListTile(
                               title: "myTickets".tr,
