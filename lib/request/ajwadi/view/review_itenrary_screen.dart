@@ -22,7 +22,6 @@ class ReviewIenraryScreen extends StatefulWidget {
 }
 
 class _ReviewIenraryScreenState extends State<ReviewIenraryScreen> {
-  // Function to convert time from 'h:mm a' to 'HH:mm:ss' format
   String convertTime(String time) {
     DateTime dateTime = DateFormat('h:mm a').parse(time);
     return DateFormat('HH:mm:ss').format(dateTime);
@@ -52,43 +51,42 @@ class _ReviewIenraryScreenState extends State<ReviewIenraryScreen> {
   }
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: CustomAppBar(
         'reviewOffer'.tr,
       ),
       backgroundColor: lightGreyBackground,
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        padding: EdgeInsets.symmetric(
+          horizontal: width * 0.04,
+          vertical: width * 0.03,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CustomText(
               text: "Itinerary Details",
-              fontSize: 17,
+              fontSize: width * 0.044,
             ),
             SizedBox(
-              height: 11,
+              height: width * 0.033,
             ),
             Obx(
               () => ListView.builder(
                 shrinkWrap: true,
                 padding: EdgeInsets.zero,
                 itemBuilder: (context, index) => ReviewItenraryTile(
-                    title: widget
-                        .requestController.reviewItenrary[index].scheduleName!,
-                    timeTo: widget.requestController.reviewItenrary[index]
-                        .scheduleTime!.to!,
-                    timeFrom: widget.requestController.reviewItenrary[index]
-                        .scheduleTime!.from!,
-                    price: widget.requestController.reviewItenrary[index].price
-                        .toString()),
+                  title: widget
+                      .requestController.reviewItenrary[index].scheduleName!,
+                  timeTo: widget.requestController.reviewItenrary[index]
+                      .scheduleTime!.to!,
+                  timeFrom: widget.requestController.reviewItenrary[index]
+                      .scheduleTime!.from!,
+                  price: widget.requestController.reviewItenrary[index].price
+                      .toString(),
+                ),
                 itemCount: widget.requestController.reviewItenrary.length,
               ),
             ),
@@ -103,10 +101,11 @@ class _ReviewIenraryScreenState extends State<ReviewIenraryScreen> {
                       onPressed: () async {
                         convertAllTimes();
                         await widget.requestController.requestAccept(
-                            id: widget.requestId,
-                            requestScheduleList:
-                                widget.requestController.reviewItenrary,
-                            context: context);
+                          id: widget.requestId,
+                          requestScheduleList:
+                              widget.requestController.reviewItenrary,
+                          context: context,
+                        );
 
                         if (widget.requestController.isRequestAccept.value) {
                           if (context.mounted) {
@@ -122,7 +121,7 @@ class _ReviewIenraryScreenState extends State<ReviewIenraryScreen> {
                       title: 'send'.tr,
                       icon: Icon(
                         Icons.arrow_forward_ios,
-                        size: 18,
+                        size: width * 0.05,
                       ),
                     ),
             )

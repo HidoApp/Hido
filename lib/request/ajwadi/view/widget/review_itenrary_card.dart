@@ -80,6 +80,8 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+
     return Card(
       elevation: 4,
       surfaceTintColor: Colors.black12,
@@ -92,8 +94,8 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
         },
         trailing: null,
         leading: Container(
-          width: 18,
-          height: 10,
+          width: width * 0.046,
+          height: width * 0.025,
           decoration:
               const BoxDecoration(color: colorGreen, shape: BoxShape.circle),
         ),
@@ -107,7 +109,7 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                   text:
                       "${widget.schedule.scheduleTime!.to!}-${widget.schedule.scheduleTime!.from!}",
                   color: almostGrey,
-                  fontSize: 13,
+                  fontSize: width * .03,
                 ),
               ],
             ),
@@ -124,17 +126,23 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
         contentseparator: 0,
         theme: ExpandedTileThemeData(
             headerColor: Colors.white,
-            titlePadding: EdgeInsets.symmetric(horizontal: 8),
+            titlePadding: EdgeInsets.symmetric(horizontal: width * 0.020),
             headerRadius: _controller.isExpanded ? 0 : 8,
             headerSplashColor: Colors.white,
             contentPadding: EdgeInsets.zero,
             trailingPadding: EdgeInsets.zero),
         content: Obx(
           () => Container(
-            height: widget.requestController.validReviewSave.value ? 320 : 360,
+            height: widget.requestController.validReviewSave.value
+                ? width * 0.82
+                : width * 0.92,
             width: double.infinity,
-            padding: EdgeInsets.only(left: 12, top: 20, bottom: 20, right: 20),
-            decoration: BoxDecoration(
+            padding: EdgeInsets.only(
+                left: width * 0.03,
+                top: width * 0.051,
+                bottom: width * 0.051,
+                right: width * 0.051),
+            decoration: const BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(12),
@@ -145,10 +153,10 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
               children: [
                 CustomText(
                   text: "Activity name",
-                  fontSize: 15,
+                  fontSize: width * 0.038,
                 ),
                 SizedBox(
-                  height: 4,
+                  height: width * 0.01,
                 ),
                 CustomTextField(
                   keyboardType: TextInputType.name,
@@ -158,19 +166,19 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                           ? almostGrey
                           : colorRed,
                   onChanged: (value) {},
-                  height: 42,
+                  height: width * 0.107,
                   hintText: 'write the activity name',
                 ),
                 if (!widget.requestController.isActivtyReviewValid.value)
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 12),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: width * 0.030),
                     child: CustomText(
                       text: "*this field is requested",
                       color: colorRed,
                     ),
                   ),
                 SizedBox(
-                  height: 12,
+                  height: width * 0.030,
                 ),
                 CustomText(text: "Price"),
                 Obx(
@@ -181,32 +189,32 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                         widget.requestController.isPriceReviewValid.value
                             ? almostGrey
                             : colorRed,
-                    height: 42,
+                    height: width * 0.10,
                     hintText: '00.00 SAR',
                     onChanged: (value) {},
                   ),
                 ),
                 if (!widget.requestController.isPriceReviewValid.value)
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 12),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: width * 0.030),
                     child: CustomText(
                       text: "*Please enter a price",
                       color: colorRed,
                     ),
                   ),
                 SizedBox(
-                  height: 20,
+                  height: width * 0.051,
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CustomText(text: "Start time"),
                         SizedBox(
-                          width: 160,
-                          height: 42,
+                          width: width * 0.35,
+                          height: width * 0.107,
                           child: GestureDetector(
                             onTap: () async {
                               await DatePickerBdaya.showTime12hPicker(
@@ -228,10 +236,11 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                               );
                             },
                             child: Container(
-                              width: 144,
-                              height: 34,
+                              width: width * 0.369,
+                              height: width * 0.087,
                               padding: EdgeInsets.symmetric(
-                                  horizontal: 12, vertical: 6),
+                                  horizontal: width * 0.030,
+                                  vertical: width * 0.015),
                               alignment: Alignment.centerLeft,
                               decoration: BoxDecoration(
                                 border: Border.all(color: almostGrey),
@@ -253,8 +262,8 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                       children: [
                         CustomText(text: "End time"),
                         SizedBox(
-                          width: 160,
-                          height: 42,
+                          width: width * 0.35,
+                          height: width * 0.107,
                           child: GestureDetector(
                             onTap: () async {
                               await DatePickerBdaya.showTime12hPicker(
@@ -277,10 +286,11 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                               );
                             },
                             child: Container(
-                              width: 144,
-                              height: 34,
+                              width: width * 0.369,
+                              height: width * 0.087,
                               padding: EdgeInsets.symmetric(
-                                  horizontal: 12, vertical: 6),
+                                  horizontal: width * 0.030,
+                                  vertical: width * 0.015),
                               alignment: Alignment.centerLeft,
                               decoration: BoxDecoration(
                                 border: Border.all(color: almostGrey),
@@ -300,7 +310,7 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                   ],
                 ),
                 SizedBox(
-                  height: 20,
+                  height: width * 0.05,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -311,10 +321,10 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                             .removeAt(widget.indx);
                       },
                       child: Container(
-                        width: 130,
-                        height: 34,
+                        width: width * 0.33,
+                        height: width * 0.087,
                         alignment: Alignment.center,
-                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        padding: EdgeInsets.symmetric(horizontal: width * 0.04),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(4),
                           border: Border.all(color: colorRed, width: 1),
@@ -323,13 +333,13 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                           text: 'delete'.tr,
                           textAlign: TextAlign.center,
                           color: colorRed,
-                          fontSize: 15,
+                          fontSize: width * .038,
                         ),
                       ),
                     ),
                     SizedBox(
-                      width: 147,
-                      height: 34,
+                      width: width * 0.33,
+                      height: width * 0.087,
                       child: CustomButton(
                         raduis: 4,
                         title: 'save'.tr,

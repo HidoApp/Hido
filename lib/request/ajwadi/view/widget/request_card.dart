@@ -2,6 +2,7 @@ import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/request/ajwadi/models/request_model.dart';
 import 'package:ajwad_v4/request/ajwadi/view/Itinerary_screen.dart';
 import 'package:ajwad_v4/services/view/widgets/itenrary_tile.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_outlined_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
@@ -10,6 +11,7 @@ import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class RequestCard extends StatefulWidget {
   const RequestCard({
@@ -31,6 +33,7 @@ class _RequestCardState extends State<RequestCard> {
   @override
   void initState() {
     super.initState();
+
     _controller = ExpandedTileController(isExpanded: false);
   }
 
@@ -38,6 +41,12 @@ class _RequestCardState extends State<RequestCard> {
     DateTime dateTime = DateFormat('HH:mm:ss').parse(time);
     return DateFormat('h:mm a').format(dateTime);
   }
+
+  // String timeAgo(String isoDateString) {
+  //   DateTime date = DateTime.parse(isoDateString);
+  //   return timeago.format(date,
+  //       locale: 'en_short'); // 'en_short' gives a shorter format like "11h ago"
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -74,11 +83,12 @@ class _RequestCardState extends State<RequestCard> {
                   )
                 ],
               ),
-              Spacer(),
+              const Spacer(),
               Padding(
                 padding: EdgeInsets.only(bottom: width * 0.05),
                 child: CustomText(
-                  text: "11 time",
+                  text: timeago.format(DateTime.parse(widget.request.date!),
+                      locale: AppUtil.rtlDirection2(context) ? 'ar' : 'en'),
                   color: almostGrey,
                 ),
               ),
@@ -91,6 +101,7 @@ class _RequestCardState extends State<RequestCard> {
             disableAnimation: true,
             trailingRotation: 180,
             onTap: () {
+              print(widget.request.date);
               setState(() {});
             },
             title: CustomText(text: "Tour Details"),
@@ -132,9 +143,9 @@ class _RequestCardState extends State<RequestCard> {
               contentBackgroundColor: Colors.transparent,
             ),
           ),
-          Spacer(),
-          Divider(color: lightGrey),
-          Spacer(),
+          const Spacer(),
+          const Divider(color: lightGrey),
+          const Spacer(),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

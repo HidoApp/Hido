@@ -11,12 +11,15 @@ import 'package:get_storage/get_storage.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'localization/locale_string.dart';
 import 'package:ajwad_v4/request/local_notification.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting('ar');
 
   await LocalNotification.init();
+  timeago.setLocaleMessages('ar', timeago.ArMessages());
+
   // AwesomeNotifications().initialize(
   //   '',
   //   [
@@ -71,7 +74,6 @@ class _MyAppState extends State<MyApp> {
           fontFamily: 'HT Rakik',
           primaryColor: colorGreen,
           highlightColor: Colors.transparent,
-          
           splashColor: Colors.transparent,
           colorScheme: const ColorScheme.light(primary: colorGreen),
           useMaterial3: true),
