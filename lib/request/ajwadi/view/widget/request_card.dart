@@ -17,6 +17,7 @@ class RequestCard extends StatefulWidget {
     required this.request,
     required this.onReject,
   });
+
   final RequestModel request;
   final void Function() onReject;
 
@@ -26,27 +27,27 @@ class RequestCard extends StatefulWidget {
 
 class _RequestCardState extends State<RequestCard> {
   late ExpandedTileController _controller;
-  //  DateFormat('hh:mm a', 'en_US').format(DateTime.parse(widget.request.date!))
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _controller = ExpandedTileController(isExpanded: false);
   }
 
   String formatTime(String time) {
     DateTime dateTime = DateFormat('HH:mm:ss').parse(time);
-
-    // Format the time to 'h:mm a' (e.g., 12:00 PM)
     return DateFormat('h:mm a').format(dateTime);
   }
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return Container(
-      height: _controller.isExpanded ? 350 : 210,
-      padding: EdgeInsets.only(left: 12, right: 12, bottom: 20, top: 16),
+      height: _controller.isExpanded ? width * 0.9 : width * 0.54,
+      padding: EdgeInsets.symmetric(
+        horizontal: width * 0.03,
+        vertical: width * 0.04,
+      ),
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5)],
@@ -59,12 +60,10 @@ class _RequestCardState extends State<RequestCard> {
             children: [
               Image.asset(
                 widget.request.localImage ?? 'assets/images/Image.png',
-                height: 60,
-                width: 60,
+                height: width * 0.15,
+                width: width * 0.15,
               ),
-              const SizedBox(
-                width: 8,
-              ),
+              SizedBox(width: width * 0.02),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -75,9 +74,9 @@ class _RequestCardState extends State<RequestCard> {
                   )
                 ],
               ),
-              const Spacer(),
-              const Padding(
-                padding: EdgeInsets.only(bottom: 20),
+              Spacer(),
+              Padding(
+                padding: EdgeInsets.only(bottom: width * 0.05),
                 child: CustomText(
                   text: "11 time",
                   color: almostGrey,
@@ -85,14 +84,12 @@ class _RequestCardState extends State<RequestCard> {
               ),
             ],
           ),
-          SizedBox(
-            height: 12,
-          ),
+          SizedBox(height: width * 0.03),
           ExpandedTile(
+            contentseparator: 0,
             trailing: Icon(Icons.keyboard_arrow_down_outlined),
             disableAnimation: true,
             trailingRotation: 180,
-            contentseparator: 0,
             onTap: () {
               setState(() {});
             },
@@ -101,81 +98,68 @@ class _RequestCardState extends State<RequestCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ItineraryTile(
-                    title: DateFormat('EEE, d MMMM yyyy')
-                        .format(DateTime.parse(widget.request.date!)),
-                    image: "assets/icons/date.svg"),
-                SizedBox(
-                  height: 10,
+                  title: DateFormat('EEE, d MMMM yyyy')
+                      .format(DateTime.parse(widget.request.date!)),
+                  image: "assets/icons/date.svg",
                 ),
+                SizedBox(height: width * 0.025),
                 ItineraryTile(
-                    title: "Pick up: "
-                        "${formatTime(widget.request.booking!.timeToGo!)}"
-                        ","
-                        "Drop off: "
-                        "${formatTime(widget.request.booking!.timeToReturn!)}",
-                    image: "assets/icons/timeGrey.svg"),
-                SizedBox(
-                  height: 10,
+                  title:
+                      "Pick up: ${formatTime(widget.request.booking!.timeToGo!)}"
+                      ", Drop off: ${formatTime(widget.request.booking!.timeToReturn!)}",
+                  image: "assets/icons/timeGrey.svg",
                 ),
+                SizedBox(height: width * 0.025),
                 ItineraryTile(
-                    title:
-                        "${widget.request.booking!.guestNumber} ${"guests".tr}",
-                    image: "assets/icons/guests.svg"),
-                // SizedBox(
-                //   height: 10,
-                // ),
-                // ItineraryTile(
-                //     title: " widget.request.booking.loc",
-                //     image: "assets/icons/timeGrey.svg"),
-                SizedBox(
-                  height: 10,
+                  title: "${widget.request.booking!.guestNumber} guests",
+                  image: "assets/icons/guests.svg",
                 ),
+                SizedBox(height: width * 0.025),
                 ItineraryTile(
-                    title: widget.request.booking!.vehicleType.toString(),
-                    image: "assets/icons/car.svg"),
+                  title: widget.request.booking!.vehicleType.toString(),
+                  image: "assets/icons/car.svg",
+                ),
               ],
             ),
             controller: _controller,
             theme: const ExpandedTileThemeData(
-                leadingPadding: EdgeInsets.zero,
-                titlePadding: EdgeInsets.zero,
-                headerPadding: EdgeInsets.zero,
-                contentPadding: EdgeInsets.zero,
-                headerSplashColor: Colors.transparent,
-                headerColor: Colors.transparent,
-                contentBackgroundColor: Colors.transparent),
+              leadingPadding: EdgeInsets.zero,
+              titlePadding: EdgeInsets.zero,
+              headerPadding: EdgeInsets.zero,
+              contentPadding: EdgeInsets.zero,
+              headerSplashColor: Colors.transparent,
+              headerColor: Colors.transparent,
+              contentBackgroundColor: Colors.transparent,
+            ),
           ),
           Spacer(),
-          Divider(
-            color: lightGrey,
-          ),
+          Divider(color: lightGrey),
           Spacer(),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SizedBox(
-                  height: 32,
-                  width: 163,
-                  child: CustomOutlinedButton(
-                    buttonColor: colorRed,
-                    onTap: widget.onReject,
-                    title: 'Reject',
-                  )),
+                height: width * 0.08,
+                width: width * 0.4,
+                child: CustomOutlinedButton(
+                  buttonColor: colorRed,
+                  onTap: widget.onReject,
+                  title: 'Reject',
+                ),
+              ),
               SizedBox(
-                height: 32,
-                width: 163,
+                height: width * 0.08,
+                width: width * 0.4,
                 child: CustomButton(
-                  onPressed: () {
-                    Get.to(() => AddItinerary(
-                          requestId: widget.request.id!,
-                        ));
-                  },
-                  title: 'accept',
                   raduis: 4,
+                  onPressed: () {
+                    Get.to(() => AddItinerary(requestId: widget.request.id!));
+                  },
+                  title: 'Accept',
                 ),
               ),
             ],
-          )
+          ),
         ],
       ),
     );

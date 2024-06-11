@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:intl/intl.dart';
 
 class ReviewIenraryScreen extends StatefulWidget {
   const ReviewIenraryScreen(
@@ -21,6 +22,41 @@ class ReviewIenraryScreen extends StatefulWidget {
 }
 
 class _ReviewIenraryScreenState extends State<ReviewIenraryScreen> {
+  // Function to convert time from 'h:mm a' to 'HH:mm:ss' format
+  String convertTime(String time) {
+    DateTime dateTime = DateFormat('h:mm a').parse(time);
+    return DateFormat('HH:mm:ss').format(dateTime);
+  }
+
+  String ensureSpaceBeforePeriod(String time) {
+    if (time.contains('AM') || time.contains('PM')) {
+      time = time.replaceAll('AM', ' AM').replaceAll('PM', ' PM');
+    }
+    return time;
+  }
+
+  void convertAllTimes() {
+    for (var i = 0; i < widget.requestController.reviewItenrary.length; i++) {
+      widget.requestController.reviewItenrary[i].scheduleTime!.to =
+          ensureSpaceBeforePeriod(
+              widget.requestController.reviewItenrary[i].scheduleTime!.to!);
+      widget.requestController.reviewItenrary[i].scheduleTime!.from =
+          ensureSpaceBeforePeriod(
+              widget.requestController.reviewItenrary[i].scheduleTime!.from!);
+      widget.requestController.reviewItenrary[i].scheduleTime!.to = convertTime(
+          widget.requestController.reviewItenrary[i].scheduleTime!.to!);
+      widget.requestController.reviewItenrary[i].scheduleTime!.from =
+          convertTime(
+              widget.requestController.reviewItenrary[i].scheduleTime!.from!);
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,9 +98,10 @@ class _ReviewIenraryScreenState extends State<ReviewIenraryScreen> {
             Spacer(),
             Obx(
               () => widget.requestController.isRequestAcceptLoading.value
-                  ? CircularProgressIndicator.adaptive()
+                  ? const Center(child: CircularProgressIndicator.adaptive())
                   : CustomButton(
                       onPressed: () async {
+                        convertAllTimes();
                         await widget.requestController.requestAccept(
                             id: widget.requestId,
                             requestScheduleList:

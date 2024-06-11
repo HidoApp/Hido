@@ -537,13 +537,13 @@ class _TripDetailsState extends State<TripDetails> {
                       // ),
 
                       Obx(() => _RequestController.isBookingLoading.value
-                              ? const CircularProgressIndicator()
+                              ? const CircularProgressIndicator.adaptive()
                               // : Padding(
                               //     padding: const EdgeInsets.symmetric(
                               //         horizontal: 30, vertical: 7),
                               : !AppUtil.isGuest() && isHasOffers.value
                                   ? _RequestController.isRequestAcceptLoading.value
-                              ? const CircularProgressIndicator()
+                              ? const CircularProgressIndicator.adaptive()
                                   
                                   :CustomButton(
                                       onPressed: () async {

@@ -107,7 +107,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
               extendBodyBehindAppBar: true,
               appBar: CustomAppBar(""),
               body: Center(
-                child: CircularProgressIndicator(),
+                child: Center(child: CircularProgressIndicator.adaptive()),
               ),
             )
           : Scaffold(
@@ -119,7 +119,6 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                     servicesController: _servicesController,
                     avilableDate: avilableDate,
                   ),
-                 
                 ),
               ),
               backgroundColor: Colors.white,
