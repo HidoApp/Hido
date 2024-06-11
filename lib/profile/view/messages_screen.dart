@@ -39,7 +39,9 @@ OfferController offerController = Get.put(OfferController());
         "massages".tr,
         color: black,
       ),
-      body: Obx(
+      body:SafeArea(
+      
+      child: Obx(
         () => widget.profileController.isChatLoading.value
             ? SizedBox(
                 height: height,
@@ -61,46 +63,51 @@ OfferController offerController = Get.put(OfferController());
                             )
             
               
-               :Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                 mainAxisSize: MainAxisSize.max,
-                  children: [
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    ListView.separated(
-                        shrinkWrap: true,
-                        itemCount: widget.profileController.chatList.length,
-                        separatorBuilder: (context, index) {
-                          return const Column(
-                            children: [
-                               SizedBox(
-                                height: 10,
-                              ),
-
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 10.0),
-                                child: Divider(color: lightGrey,),
-                              ),
-
-                               SizedBox(
-                                height: 10,
-                              ),
-                            ],
-                          );
-                        },
-                        itemBuilder: (context, index) {
-                         return CustomChatCard(
-                          chatModel:  widget.profileController.chatList[index],
-                          // chatId2: offerController
-                          //           .offerDetails.value.booking!.chatId!,
-                          // booking2: offerController
-                          //             .offerDetails.value.booking!,
-                         );
-                        }),
-                  ],
-                ),
+               : Expanded(
+               child: SingleChildScrollView(
+                 child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                   mainAxisSize: MainAxisSize.max,
+                    children: [
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      ListView.separated(
+                          shrinkWrap: true,
+                          itemCount: widget.profileController.chatList.length,
+                          separatorBuilder: (context, index) {
+                            return const Column(
+                              children: [
+                                 SizedBox(
+                                  height: 10,
+                                ),
+                              
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 10.0),
+                                  child: Divider(color: lightGrey,),
+                                ),
+                              
+                                 SizedBox(
+                                  height: 10,
+                                ),
+                              ],
+                            );
+                          },
+                          itemBuilder: (context, index) {
+                           return CustomChatCard(
+                            chatModel:  widget.profileController.chatList[index],
+                            // chatId2: offerController
+                            //           .offerDetails.value.booking!.chatId!,
+                            // booking2: offerController
+                            //             .offerDetails.value.booking!,
+                           );
+                          }),
+                    ],
+                  ),
+               ),
+               ),
             ),
+      ),
       ),
     );
   }

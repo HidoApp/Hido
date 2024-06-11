@@ -542,39 +542,48 @@ class _TripDetailsState extends State<TripDetails> {
                               //     padding: const EdgeInsets.symmetric(
                               //         horizontal: 30, vertical: 7),
                               : !AppUtil.isGuest() && isHasOffers.value
-                                  ? _RequestController.isRequestAcceptLoading.value
-                              ? const CircularProgressIndicator.adaptive()
-                                  
-                                  :CustomButton(
-                                      onPressed: () async {
-                                        print(isHasOffers.value);
-                                        print(offers.last.id);
-                                        Get.to(() => LocalOfferInfo(
-                                            place: thePlace!,
-                                            image: _offerController
-                                                    .offerDetails.value.image ??
-                                                '',
-                                            name: _offerController
-                                                    .offerDetails.value.name ??
-                                                '',
-                                            profileId: _offerController
-                                                    .offers.last.profileId ??
-                                                '',
-                                            rating: _offerController
-                                                    .offers.last.tourRating ??
-                                                0,
-                                            price: _offerController
-                                                    .offers.last.price ??
-                                                0,
-                                            tripNumber: _offerController
-                                                    .offers.last.tourNumber ??
-                                                0));
-                                      },
-                                      title: AppUtil.rtlDirection2(context)
-                                          ? "طلبك"
-                                          : "Your Request",
 
-                                      icon: !AppUtil.rtlDirection(context)
+                                  ? _RequestController
+                                          .isRequestAcceptLoading.value
+                                      ? const CircularProgressIndicator()
+                                      : CustomButton(
+                                          onPressed: () async {
+                                            print(isHasOffers.value);
+                                            print(offers.last.id);
+                                            Get.to(() => LocalOfferInfo(
+                                                place: thePlace!,
+                                                image: _offerController
+                                                        .offerDetails
+                                                        .value
+                                                        .image ??
+                                                    '',
+                                                name: _offerController
+                                                        .offerDetails
+                                                        .value
+                                                        .name ??
+                                                    '',
+                                                profileId: _offerController
+                                                        .offers
+                                                        .last
+                                                        .profileId ??
+                                                    '',
+                                                rating: _offerController.offers
+                                                        .last.tourRating ??
+                                                    0,
+                                                price: _offerController
+                                                        .offers.last.price ??
+                                                    0,
+                                                tripNumber: _offerController
+                                                        .offers
+                                                        .last
+                                                        .tourNumber ??
+                                                    0));
+                                          },
+                                          title: AppUtil.rtlDirection2(context)
+                                              ? "طلبك"
+                                              : "Your Request",
+                                          icon: !AppUtil.rtlDirection(context)
+
                                               ? const Icon(
                                                   Icons.arrow_back_ios,
                                                   size: 20,
@@ -583,7 +592,7 @@ class _TripDetailsState extends State<TripDetails> {
                                                   Icons.arrow_forward_ios,
                                                   size: 20,
                                                 ),
-                                    )
+                                        )
 
                                   //TODO:fix the condition Ammar
                                   // : _touristExploreController.isPlaceNotLocked
@@ -609,11 +618,10 @@ class _TripDetailsState extends State<TripDetails> {
                                               return getPlaceBooking();
                                             });
                                           },
-
                                           title: AppUtil.rtlDirection2(context)
                                               ? "العروض"
                                               : "View Offers",
-                                            icon: !AppUtil.rtlDirection(context)
+                                          icon: !AppUtil.rtlDirection(context)
                                               ? const Icon(
                                                   Icons.arrow_back_ios,
                                                   size: 20,

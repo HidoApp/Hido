@@ -82,7 +82,7 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
       //,
       length: widget.fromService ? 2 : 3,
       child: Scaffold(
-        appBar: CustomAppBar(""),
+        appBar: CustomAppBar('localProfile'.tr),
         body: Scaffold(
           appBar: AppBar(
             automaticallyImplyLeading: false,
@@ -317,7 +317,9 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
             AboutScreen(
               profileController: _profileController,
             ),
-            if (!widget.fromService) const ExpertScreen(),
+            ExpertScreen(
+              profileController: _profileController,
+            ),
             ReviewsScreen(
               profileId: widget.profileId,
             )
