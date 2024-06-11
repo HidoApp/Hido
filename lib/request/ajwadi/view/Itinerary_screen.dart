@@ -65,12 +65,16 @@ class _AddItineraryState extends State<AddItinerary> {
             const EdgeInsets.only(top: 12, left: 16, right: 16, bottom: 32),
         child: CustomButton(
           onPressed: () {
-            Get.to(
-              () => ReviewIenraryScreen(
-                requestController: requestController,
-                requestId: widget.requestId,
-              ),
-            );
+            if (requestController.reviewItenrary.length < 3) {
+              AppUtil.errorToast(context, "you must add at least 3 itenrary");
+            } else {
+              Get.to(
+                () => ReviewIenraryScreen(
+                  requestController: requestController,
+                  requestId: widget.requestId,
+                ),
+              );
+            }
           },
           title: "next".tr,
           icon: Icon(
@@ -81,7 +85,11 @@ class _AddItineraryState extends State<AddItinerary> {
       ),
       appBar: CustomAppBar('Itinerary'),
       body: Padding(
-        padding: EdgeInsets.only(top: 12, left: 16, right: 16, bottom: 32),
+        padding: EdgeInsets.only(
+          top: 12,
+          left: 16,
+          right: 16,
+        ),
         child: SingleChildScrollView(
           child: Column(
             children: [

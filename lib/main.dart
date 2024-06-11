@@ -71,6 +71,7 @@ class _MyAppState extends State<MyApp> {
           fontFamily: 'HT Rakik',
           primaryColor: colorGreen,
           highlightColor: Colors.transparent,
+          
           splashColor: Colors.transparent,
           colorScheme: const ColorScheme.light(primary: colorGreen),
           useMaterial3: true),
