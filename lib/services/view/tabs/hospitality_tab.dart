@@ -114,7 +114,7 @@ class _HospitalityTabState extends State<HospitalityTab> {
                                   borderColor: _regionsController
                                               .selectedHospitaltyIndex.value ==
                                           index
-                                      ? colorDarkGreen
+                                      ? Colors.transparent
                                       : almostGrey,
                                   backgroundColor: _regionsController
                                               .selectedHospitaltyIndex.value ==
