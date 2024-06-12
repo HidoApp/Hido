@@ -8,14 +8,14 @@ import '../constants/colors.dart';
 import '../request/tourist/models/schedule.dart';
 
 class ScheduleContainerWidget extends StatefulWidget {
-  //final OfferController? offerController;
+  final OfferController? offerController;
    final  List<Schedule>? scheduleList;
    final bool isReview;
   const ScheduleContainerWidget({
     super.key,
     required this.scheduleList,
     this.isReview =false,
-    //required this.offerController,
+    this.offerController,
   });
 
   @override
@@ -30,6 +30,7 @@ class _ScheduleContainerWidgetState extends State<ScheduleContainerWidget> {
 
   @override
   Widget build(BuildContext context) {
+    print('enter');
     return Container(
       
          padding: !widget.isReview? const EdgeInsets.only(
@@ -61,24 +62,58 @@ class _ScheduleContainerWidgetState extends State<ScheduleContainerWidget> {
                     ...List.generate(
                         widget.scheduleList!.length,
                         
-                        (index) =>
+                        (index) {
                         // widget.offerController?.checkedList[index] == true?
-                        _CustomCheckWidget(
+                     print('inter2');
+
+                   if (widget.offerController != null)  {
+                   final bool isChecked = widget.offerController?.checkedList[index] ?? false;
+
+                  if( isChecked){
+                    
+                       return _CustomCheckWidget(
                               // isChecked:
-                              //     widget.offerController?.checkedList[index] ??
-                              // 
+                              //     widget.offerController?.checkedList[index] ??false,
+                              
                               isReview:widget.isReview,
                               onTap: () {
-  // bool check = !(widget.offerController?.checkedList[index] ?? false);
+  //bool check = !(widget.offerController?.checkedList[index] ?? false);
   //widget.offerController?.checkTotal(index, check);
   // widget.offerController?.getTotalPrice(scheduleList, index);
 },
                               schedule: widget.scheduleList![index],
                               isLast: index == widget.scheduleList!.length - 1,
                               isBold: !(index == 0 || index == 2),
-                            ) // Return an empty Container if not checked
-                            
+                            );
+                          // Return an empty Container if not checked
+                        }else{
+                        return SizedBox.shrink(); // Return an empty widget if not checked
+
+                        }
+                        }
+                        else if(widget.scheduleList![index].userAgreed??false){
+                         return _CustomCheckWidget(
+                              // isChecked:
+                              //     widget.offerController?.checkedList[index] ??false,
+                              
+                              isReview:widget.isReview,
+                              onTap: () {
+  //bool check = !(widget.offerController?.checkedList[index] ?? false);
+  //widget.offerController?.checkTotal(index, check);
+  // widget.offerController?.getTotalPrice(scheduleList, index);
+},
+                              schedule: widget.scheduleList![index],
+                              isLast: index == widget.scheduleList!.length - 1,
+                              isBold: !(index == 0 || index == 2),
+                            );
+                        }else{
+                 return SizedBox.shrink(); // Return an empty widget if not checked
+
+                        }
+                        }
+                        
                             ),
+  
                 ],
               ),
             
@@ -98,7 +133,7 @@ class _CustomCheckWidget extends StatelessWidget {
   final bool isLast;
   final void Function()? onTap;
   _CustomCheckWidget({
-    //this.isChecked = true,
+   // this.isChecked = false,
     this.isLast = false,
     this.isBold = false,
     this.schedule,
@@ -160,7 +195,7 @@ class _CustomCheckWidget extends StatelessWidget {
       children: [
         Stack(children: [
           InkWell(
-            // onTap: onTap,
+          // onTap: onTap,
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,

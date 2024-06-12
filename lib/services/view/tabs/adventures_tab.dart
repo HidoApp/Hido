@@ -54,14 +54,16 @@ class _AdventuresTabState extends State<AdventuresTab> {
     final double height = MediaQuery.of(context).size.height;
     return SingleChildScrollView(
       padding: EdgeInsets.symmetric(
-          horizontal: width * 0.04, vertical: width * 0.035),
+          horizontal: 16, vertical: 32),
+      // padding: EdgeInsets.symmetric(
+      //     horizontal: width * 0.04, vertical: width * 0.035),
       child: Column(
         children: [
           //Ad cards
           const AdCards(),
-          const SizedBox(
-            height: 20,
-          ),
+          SizedBox(
+              height: width * 0.085,
+            ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -70,17 +72,20 @@ class _AdventuresTabState extends State<AdventuresTab> {
                 children: [
                   CustomText(
                     text: 'saudiAdventure'.tr,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
+                    color: Color(0xFF070708),
+                      fontSize: 17,
+                      fontFamily: 'HT Rakik',
+                      fontWeight: FontWeight.w500,
+                      
                   ),
                 ],
               ),
-              const SizedBox(
-                height: 8,
-              ),
-              //cities list view
               SizedBox(
-                height: 34,
+                  height: width * 0.05,
+                ),
+                //cities list view
+                SizedBox(
+                  height: width * 0.080,
                 child: Obx(
                   () => !_regionsController.isRegionsLoading.value
                       ? ListView.separated(
@@ -131,7 +136,8 @@ class _AdventuresTabState extends State<AdventuresTab> {
                                 borderColor: _regionsController
                                             .selectedAdventureIndex.value ==
                                         index
-                                    ? Colors.transparent
+                                    ? colorGreen
+
                                     : almostGrey,
                                 backgroundColor: _regionsController
                                             .selectedAdventureIndex.value ==
@@ -157,8 +163,8 @@ class _AdventuresTabState extends State<AdventuresTab> {
                       : const CircularProgressIndicator.adaptive(),
                 ),
               ),
-              const SizedBox(
-                height: 20,
+              SizedBox(
+               height:width * 0.06,
               ),
               Obx(
                 () => _adventureController.isAdventureListLoading.value
@@ -206,13 +212,15 @@ class _AdventuresTabState extends State<AdventuresTab> {
                                 seats: _adventureController
                                     .adventureList[index].seats
                                     .toString(),
+                                times: _adventureController
+                                    .adventureList[index].times ,
                                 rate: '4.7',
                               ),
                             );
                           },
                           separatorBuilder: (context, index) {
-                            return const SizedBox(
-                              height: 16,
+                            return SizedBox(
+                              height: width * 0.041,
                             );
                           },
                         ),

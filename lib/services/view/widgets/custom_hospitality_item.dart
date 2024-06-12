@@ -76,12 +76,14 @@ class ServicesCard extends StatelessWidget {
                   children: [
                     CustomText(
                       text: title,
-                      fontSize: width * 0.05,
+                      fontSize:16,
                       fontWeight: FontWeight.w500,
+
+                       fontFamily: 'SF Pro',
                     ),
-                    // SizedBox(
-                    //   height: width * 0.010,
-                    // ),
+                    SizedBox(
+                      height: width * 0.010,
+                    ),
                     Row(
                       children: [
                         SizedBox(
@@ -91,12 +93,14 @@ class ServicesCard extends StatelessWidget {
                           'assets/icons/map_pin.svg',
                         ),
                         SizedBox(
-                          width: width * 0.01,
+                          width: width * 0.017,
                         ),
                         CustomText(
                           text: location,
-                          fontSize: width * 0.025,
+                          fontSize: 11,
                           fontWeight: FontWeight.w400,
+                          fontFamily: 'SF Pro',
+
                           color: starGreyColor,
                         ),
                       ],
@@ -126,7 +130,8 @@ class ServicesCard extends StatelessWidget {
                               ? '${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(dayInfo![0].startTime))} -  ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(dayInfo![0].endTime))}'
                               : ' ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(dayInfo![0].startTime))} -  ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(dayInfo![0].endTime))}',
                           color: starGreyColor,
-                          fontSize: width * 0.025,
+                          fontSize: 11,
+                          fontFamily: 'SF Pro',
                           fontWeight: FontWeight.w400,
                         ),
                       ],
@@ -143,13 +148,15 @@ class ServicesCard extends StatelessWidget {
                           children: [
                             SvgPicture.asset('assets/icons/meal.svg'),
                             SizedBox(
-                              width: width * 0.01,
+                              width: width * 0.024,
                             ),
                             if (dayInfo != null || dayInfo != [])
                               CustomText(
                                 text: meal,
-                                fontSize: width * 0.025,
+                                fontSize: 11,
                                 fontWeight: FontWeight.w400,
+                                fontFamily: 'SF Pro',
+
                                 color: starGreyColor,
                               ),
                           ],

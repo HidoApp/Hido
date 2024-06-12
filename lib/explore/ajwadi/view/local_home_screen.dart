@@ -103,7 +103,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                                 width: 36,
                                 height: 24,
                                 alignment: Alignment.center,
-                                child: SvgPicture.asset(
+                                child:SvgPicture.asset(
                                     'assets/icons/Alerts_black.svg'),
                               ),
                             ),

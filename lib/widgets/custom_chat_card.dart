@@ -17,161 +17,198 @@ import '../request/chat/view/chat_screen.dart';
 
 class CustomChatCard extends StatelessWidget {
   final ChatModel chatModel;
-  final Booking ?booking2;
-   String ?chatId2;
+  final Booking? booking2;
+  String? chatId2;
 
-  CustomChatCard({super.key, required this.chatModel,this.booking2,this.chatId2});
+  CustomChatCard(
+      {super.key, required this.chatModel, this.booking2, this.chatId2});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () async{
+      onTap: () async {
+        Get.to(() =>
 
-        Get.to(() => 
-        
-        // ChatScreenLive(
-        //   offerController: Get.put(OfferController()),
-        //     chatId: chatModel.id,
-        //     booking: chatModel.booking!,
-        //     requestController: Get.put(RequestController()),
-        //     isAjwadi: chatModel.localInChat == null ? true : false)
-            
-         ChatScreen(
-           chatId: chatModel.id,
-           booking: Get.put(OfferController()).offerDetails.value.booking??null)
-         
-            );
+            // ChatScreenLive(
+            //   offerController: Get.put(OfferController()),
+            //     chatId: chatModel.id,
+            //     booking: chatModel.booking!,
+            //     requestController: Get.put(RequestController()),
+            //     isAjwadi: chatModel.localInChat == null ? true : false)
+
+            ChatScreen(
+                chatId: chatModel.id,
+                booking:
+                    Get.put(OfferController()).offerDetails.value.booking ??
+                        null));
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-        child:Column(
-          children:[
-         Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Column(
           children: [
-            ClipRRect(
-                borderRadius: BorderRadius.circular(50.0),
-                child: chatModel.localInChat != null
-                    ? chatModel.localInChat!.profileInChat!.image == null
-                        ? Image.asset(
-                            "assets/images/profile_image.png",
-                            height: 45,
-                            width: 45,
-                            fit: BoxFit.cover,
-                          )
-                        : CircleAvatar(backgroundImage: CachedNetworkImageProvider(chatModel.localInChat!.profileInChat!.image??''),radius: 30,)
-                        
-                        // Image.network(
-                        //     chatModel.localInChat!.profileInChat!.image!,
-                        //     height: 45,
-                        //     width: 45,
-                        //   )
-                    : chatModel.touristInChat!.profileInChat!.image == null
-                        ? Image.asset(
-                            "assets/images/profile_image.png",
-                            height: 45,
-                            width: 45,
-                            fit: BoxFit.cover,
-                          )
-                        : chatModel.localInChat== null ?
-                        
-                       CircleAvatar(backgroundImage: CachedNetworkImageProvider(chatModel.touristInChat!.profileInChat!.image??''),radius: 25,) :
-                       CircleAvatar(backgroundImage: CachedNetworkImageProvider(chatModel.localInChat!.profileInChat!.image??''),radius: 25,)
-                        
-                        // Image.network(
-                        //     chatModel.localInChat!.profileInChat!.image!,
-                        //     height: 45,
-                        //     width: 45,
-                        //   )
-                          
-                          ),
-           
-            const SizedBox(
-              width: 15,
-            ),
-            Column(
+            Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomText(
-                  text: chatModel.localInChat != null
-                      ? chatModel.localInChat!.profileInChat!.name??''
-                      : chatModel.touristInChat!.profileInChat!.name??'',
-                  color: Color(0xFF070708),
-               fontSize: 16,
-                fontFamily: 'SF Pro',
-              fontWeight: FontWeight.w500,
-                height:chatModel.messages!.isNotEmpty?0: 3,
+                ClipRRect(
+                    borderRadius: BorderRadius.circular(50.0),
+                    child: chatModel.localInChat != null
+                        ? chatModel.localInChat!.profileInChat!.image == null
+                            ? Image.asset(
+                                "assets/images/profile_image.png",
+                                height: 45,
+                                width: 45,
+                                fit: BoxFit.cover,
+                              )
+                            : CircleAvatar(
+                                backgroundImage: CachedNetworkImageProvider(
+                                    chatModel.localInChat!.profileInChat!
+                                            .image ??
+                                        ''),
+                                radius: 30,
+                              )
+
+                        // Image.network(
+                        //     chatModel.localInChat!.profileInChat!.image!,
+                        //     height: 45,
+                        //     width: 45,
+                        //   )
+                        : chatModel.touristInChat!.profileInChat!.image == null
+                            ? Image.asset(
+                                "assets/images/profile_image.png",
+                                height: 45,
+                                width: 45,
+                                fit: BoxFit.cover,
+                              )
+                            : chatModel.localInChat == null
+                                ? CircleAvatar(
+                                    backgroundImage: CachedNetworkImageProvider(
+                                        chatModel.touristInChat!.profileInChat!
+                                                .image ??
+                                            ''),
+                                    radius: 25,
+                                  )
+                                : CircleAvatar(
+                                    backgroundImage: CachedNetworkImageProvider(
+                                        chatModel.localInChat!.profileInChat!
+                                                .image ??
+                                            ''),
+                                    radius: 25,
+                                  )
+
+                    // Image.network(
+                    //     chatModel.localInChat!.profileInChat!.image!,
+                    //     height: 45,
+                    //     width: 45,
+                    //   )
+
+                    ),
+
+                const SizedBox(
+                  width: 15,
                 ),
-                // CustomText(
-                //   text:
-                //       '( ${AppUtil.rtlDirection(context) ? chatModel.booking!.place!.nameEn ?? "" : chatModel.booking!.place!.nameAr ?? ""} )',
-                //   fontSize: 10,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomText(
+                      text: chatModel.localInChat != null
+                          ? chatModel.localInChat!.profileInChat!.name ?? ''
+                          : chatModel.touristInChat!.profileInChat!.name ?? '',
+                      color: Color(0xFF070708),
+                      fontSize: 16,
+                      fontFamily: 'SF Pro',
+                      fontWeight: FontWeight.w500,
+                      height: chatModel.messages!.isNotEmpty ? 0 : 3,
+                    ),
+                    // CustomText(
+                    //   text:
+                    //       '( ${AppUtil.rtlDirection(context) ? chatModel.booking!.place!.nameEn ?? "" : chatModel.booking!.place!.nameAr ?? ""} )',
+                    //   fontSize: 10,
+                    // ),
+
+                    if (chatModel.messages!.isNotEmpty) ...[
+                      SizedBox(
+                        height: 6,
+                      ),
+                      CustomText(
+                        text: chatModel.messages!.last.message!,
+                        color: Color(0xFF9392A0),
+                        fontSize: 13,
+                        fontFamily: 'SF Pro',
+                        fontWeight: FontWeight.w400,
+                        height: 0,
+                      )
+                    ],
+                  ],
+                ),
+
+                const Spacer(),
+                Column(
+                  children: [
+                    CustomText(
+                        // text: '${chatModel.created!.substring(0, 10)}',
+                        text: chatModel.messages!.isNotEmpty
+                            //  ? DateFormat('jm').format(DateTime.parse(chatModel.messages!.last.created!))
+                            //  'HH:mm'
+                            // ?AppUtil.formatTimeWithLocale(context, chatModel.messages!.last.created!,'jm')
+                            ? formatTimeWithLocale(
+                                context, chatModel.messages!.last.created!)
+                            : '',
+                        color: Color(0xFF37B268),
+                        fontSize: 13,
+                        fontFamily: 'SF Pro',
+                        fontWeight: FontWeight.w500,
+                        height: 0),
+                    SizedBox(
+                      height: chatModel.messages!.isNotEmpty ? 5 : 0,
+                    ),
+                    // Container(
+                    //   width: 19,
+                    //   height: 19,
+                    //   decoration: BoxDecoration(
+                    //     color: Colors.green,
+                    //     shape: BoxShape.circle,
+                    //   ),
+                    //   alignment: Alignment.center,
+                    //   child: Text(
+                    //     chatModel.messages!.length.toString(),
+                    //     textAlign: TextAlign.center,
+                    //     style: TextStyle(
+                    //       color: Colors.white,
+                    //       fontSize: 13,
+                    //       fontFamily: 'SF Pro',
+                    //       fontWeight: FontWeight.w500,
+                    //       height: 1.0,
+                    //     ),
+                    //   ),
+                    // ),
+                  ],
+                ),
+                //   Padding(padding:chatModel.messages!.isNotEmpty?EdgeInsets.only(top:0) :EdgeInsets.only(top:14),
+                //   child:Icon(
+                //   Icons.arrow_forward_ios_rounded,
+                //   color: colorGreen,
+                //   size: 18,
                 // ),
-
-            if(chatModel.messages!.isNotEmpty)...[
-             SizedBox(
-              height:6,
-            ),
-                 CustomText(
-                  text:chatModel.messages!.last.message!,
-                  color: Color(0xFF9392A0),
-                  fontSize: 13,
-                 fontFamily: 'SF Pro',
-                 fontWeight: FontWeight.w500,
-                  height: 0,               
-                   )
-              ],
+                //    ),
               ],
             ),
-            const Spacer(),
-            CustomText(
-              // text: '${chatModel.created!.substring(0, 10)}',
-              text:chatModel.messages!.isNotEmpty
-            //  ? DateFormat('jm').format(DateTime.parse(chatModel.messages!.last.created!))
-            //  'HH:mm'
-           // ?AppUtil.formatTimeWithLocale(context, chatModel.messages!.last.created!,'jm')
-           ? formatTimeWithLocale(context, chatModel.messages!.last.created!)
-
-            : '',
-              color: Color(0xFF37B268),
-             fontSize: 13,
-            fontFamily: 'SF Pro',
-            fontWeight: FontWeight.w500,
-            height: 0
-            ),
-
-           SizedBox(
-              width:chatModel.messages!.isNotEmpty? 5:0,
-            ),
-
-            
-          Padding(padding:chatModel.messages!.isNotEmpty?EdgeInsets.only(top:0) :EdgeInsets.only(top:14),
-          child:Icon(
-          Icons.arrow_forward_ios_rounded,
-          color: colorGreen,
-          size: 18,
-        ),
-           ),
-     
-          ],
-        ),
-      //   if(chatModel.messages!.isNotEmpty)...[
-      //  SizedBox(
-      //        height: 25,
-      //       ),
-      //          Container(
-      //   width: 358,
-      //   decoration: ShapeDecoration(
-      //   shape: RoundedRectangleBorder(
-      //  side: BorderSide(
-      //  width: 1,
-      //   strokeAlign: BorderSide.strokeAlignCenter,
-      //  color: Color(0xFFDCDCE0),
-      // ),
-      //    ),
-      //   ),
-      //  )
-      //   ]
+            //   if(chatModel.messages!.isNotEmpty)...[
+            //  SizedBox(
+            //        height: 25,
+            //       ),
+            //          Container(
+            //   width: 358,
+            //   decoration: ShapeDecoration(
+            //   shape: RoundedRectangleBorder(
+            //  side: BorderSide(
+            //  width: 1,
+            //   strokeAlign: BorderSide.strokeAlignCenter,
+            //  color: Color(0xFFDCDCE0),
+            // ),
+            //    ),
+            //   ),
+            //  )
+            //   ]
           ],
         ),
       ),
@@ -179,18 +216,21 @@ class CustomChatCard extends StatelessWidget {
   }
 
   // Function to format time with locale-specific suffix
-String formatTimeWithLocale(BuildContext context, String dateTimeString) {
-  DateTime dateTime = DateTime.parse(dateTimeString);
-  String formattedTime = DateFormat('jm').format(dateTime);
+  String formatTimeWithLocale(BuildContext context, String dateTimeString) {
+    DateTime dateTime = DateTime.parse(dateTimeString).add(Duration(hours: 3));
+    String formattedTime = DateFormat('jm').format(dateTime);
 
-  if (AppUtil.rtlDirection2(context)) {
-    // Arabic locale
-    String suffix = dateTime.hour < 12 ? 'صباحًا' : 'مساءً';
-    formattedTime = formattedTime.replaceAll('AM', '').replaceAll('PM', '').trim(); // Remove AM/PM
-    return '$formattedTime $suffix';
-  } else {
-    // Default to English locale
-    return formattedTime;
+    if (AppUtil.rtlDirection2(context)) {
+      // Arabic locale
+      String suffix = dateTime.hour < 12 ? 'صباحًا' : 'مساءً';
+      formattedTime = formattedTime
+          .replaceAll('AM', '')
+          .replaceAll('PM', '')
+          .trim(); // Remove AM/PM
+      return '$formattedTime $suffix';
+    } else {
+      // Default to English locale
+      return formattedTime;
+    }
   }
-}
 }

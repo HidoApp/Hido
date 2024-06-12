@@ -38,12 +38,12 @@ class AdCards extends StatelessWidget {
                               ? 'خصومات حصرية لضيوف\n'
                               : 'Exclusive Discounts for\n',
                           style: TextStyle(
-                            fontFamily: !AppUtil.rtlDirection(context)
+                            fontFamily: AppUtil.rtlDirection2(context)
                                 ? 'Noto Kufi Arabic'
-                                : 'Kufam',
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: black,
+                                : 'SF Pro',
+                           color: Color(0xFF14143E),
+                           fontSize: 15,
+                          fontWeight: FontWeight.w400,
                           ),
                         ),
                         TextSpan(
@@ -51,16 +51,16 @@ class AdCards extends StatelessWidget {
                               ? 'هوليداي إن!'
                               : 'Holiday Inn ',
                           style: TextStyle(
-                            fontFamily: AppUtil.rtlDirection(context)
+                            fontFamily: AppUtil.rtlDirection2(context)
                                 ? 'Noto Kufi Arabic'
-                                : 'Kufam',
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                            color: black,
+                                : 'SF Pro',
+                            color: Color(0xFF9747FF),
+                           fontSize: 15,
+                          fontWeight: FontWeight.w400,
                           ),
                         ),
                         TextSpan(
-                          text: AppUtil.rtlDirection(context) ? '' : 'Guests!',
+                          text: AppUtil.rtlDirection2(context) ? '' : 'Guests!\n',
                           style: const TextStyle(
                             fontFamily: 'Kufam',
                             fontSize: 16,
@@ -68,17 +68,19 @@ class AdCards extends StatelessWidget {
                             color: black,
                           ),
                         ),
+                        TextSpan(
+                      text: 'happyExploring'.tr,
+                       style: const TextStyle(
+                      fontSize: 15,
+                      color: Color(0xFF0C0C25),
+                      fontFamily: 'SF Pro',
+                      fontWeight: FontWeight.w400,
+                       ),
+                    ),
                       ]),
                     ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    CustomText(
-                      text: 'happyExploring'.tr,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500,
-                      color: colorDarkGrey,
-                    ),
+                  
+                   
                   ],
                 ),
               ),

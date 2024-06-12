@@ -68,17 +68,16 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
         backgroundColor: Colors.white,
         currentIndex: _currentIndex,
         type: BottomNavigationBarType.fixed,
-        unselectedItemColor: colorDarkGrey,
+        unselectedItemColor:  Color(0xFFB9B8C1),
         selectedItemColor: colorGreen,
         unselectedLabelStyle: const TextStyle(
-          fontSize: 10,
-          fontWeight: FontWeight.w400,
-          fontFamily: 'Kufam',
-          color: purple,
+          fontSize: 12,
+          fontWeight: FontWeight.w600,
+          fontFamily: 'SF Pro',         
         ),
         selectedLabelStyle: const TextStyle(
-          fontSize: 10,
-          fontWeight: FontWeight.w700,
+          fontSize: 13,
+          fontWeight: FontWeight.w600,
           fontFamily: 'Kufam',
           color: darkBlack,
         ),
@@ -102,7 +101,7 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
                     : const BoxDecoration(),
                 child: SvgPicture.asset(
                   'assets/icons/map_icon.svg',
-                  color: _currentIndex == 0 ? colorGreen : colorDarkGrey,
+                  color: _currentIndex == 0 ? colorGreen :  Color(0xFFB9B8C1),
                 ),
               ),
             ),
@@ -123,7 +122,7 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
                 ),
                 child: SvgPicture.asset(
                   'assets/icons/select_request_icon.svg',
-                  color: _currentIndex == 1 ? colorGreen : colorDarkGrey,
+                  color: _currentIndex == 1 ? colorGreen : Color(0xFFB9B8C1),
                 ),
               ),
             ),
@@ -172,8 +171,9 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
                       )
                     : const BoxDecoration(),
                 child: SvgPicture.asset(
-                  'assets/icons/profile_icon2.svg',
-                  color: _currentIndex == 2 ? colorGreen : colorDarkGrey,
+                  'assets/icons/my_profile.svg',
+                  
+                  color: _currentIndex == 2 ? colorGreen :  Color(0xFFB9B8C1),
                 ),
               ),
             ),

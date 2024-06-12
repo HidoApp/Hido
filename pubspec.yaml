@@ -78,6 +78,10 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   custom_map_markers: ^0.0.2+1
   multi_dropdown: ^2.1.4
+  im_stepper: ^1.0.1+1
+  toggle_switch: ^2.3.0
+  dotted_border: ^2.1.0
+
   flutter_expanded_tile: ^0.3.7
   timeago: ^3.6.1
   # workmanager: ^0.4.1

@@ -230,7 +230,8 @@ const localeEn = {
   "waiting": "Waiting",
   "noTicket": "No Tickets Yet",
   "noTicketSub": "All your booking and request ticket will appear here",
-  "noNotification": "No notifications",
+  "noNotification": "No notifications Yet",
+  "noNotificationsub":"It's empty now, but we'll let you know about any updates",
   "pay": "Pay",
   "discount": "Discount",
   "arabic": "Arabic",
@@ -334,7 +335,8 @@ const localeEn = {
   "checkText":
       " It's a pleasure to accompany you, This is the itinerary that I suggested to you. Select what you want and create a memorable day! ",
   "showOffer": "View offer",
-  "noMessages": "No messages",
+  "noMessages": "No New Message",
+"noMessagesSub":"'All your messages with local guides appear here",
   "approximateLocation":
       "Approximate location , The exact location will be revealed after booking",
   "checkingForPayment": 'Checking for payment',
@@ -408,5 +410,6 @@ const localeEn = {
   "loclaInfo": "Local info",
   'edit': "Edit",
   'save': "Save",
-  'home':'Home'
+  'home':'Home',
+  'paymentMethod':'Choose a payment method ',
 };

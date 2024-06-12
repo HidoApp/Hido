@@ -58,7 +58,8 @@ OfferController offerController = Get.put(OfferController());
               child: widget.profileController.chatList.isEmpty?
                   CustomEmptyWidget(
                               title: 'noMessages'.tr,
-                              image: 'no_tickets',
+                              image: 'noCommunication',
+                              subtitle: 'noMessagesSub'.tr,
 
                             )
             

@@ -58,7 +58,7 @@ bool isDetailsTapped3 = false;
  final TouristExploreController _touristExploreController =
       Get.put(TouristExploreController());
   final _offerController = Get.put(OfferController());
-
+  
 RxBool isDetailsTapped2 = false.obs;
 
   @override
@@ -69,6 +69,7 @@ RxBool isDetailsTapped2 = false.obs;
    // log("Chat Screen senderId ${widget.senderId}  chatId ${widget.chatId}");
     log("\n \n");
     getChat();
+    
     //getBook();
     // print("this booking id in");
     // print(chat?.bookingId);
@@ -454,6 +455,9 @@ RxBool isDetailsTapped2 = false.obs;
                     }
                     setState(() {
                       isDetailsTapped3 = !isDetailsTapped3;
+                      print('state of secdle');
+                    print(offers?.last.schedule?.length);
+
                     });
                     }
                     
@@ -488,12 +492,14 @@ RxBool isDetailsTapped2 = false.obs;
                   ),
       ),
       if (isDetailsTapped3)
+      
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 7,vertical: 0),
                            child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        
                         ScheduleContainerWidget(
                               scheduleList: offers?.last.schedule),
                         // CustomText(
@@ -579,7 +585,18 @@ RxBool isDetailsTapped2 = false.obs;
                                               log("isSender $isSender");
                                               message.senderName;
                                               message.senderImage;
-    
+                                               print('this current time2');
+                                      print(intel.DateFormat(
+                                                          'dd/MM/yyyy hh:mm a')
+                                                      .format(
+                                                    DateTime.parse(
+                                                      chatController
+                                                          .chat
+                                                          
+                                                          .messages!.last
+                                                          .created!,
+                                                    ),
+                                                  ),);
                                               return ChatBubble(
                                                 name: message.senderName ?? "",
                                                 image: message.senderImage,
@@ -599,9 +616,10 @@ RxBool isDetailsTapped2 = false.obs;
                                                           
                                                           .messages![index]
                                                           .created!,
-                                                    ),
+                                                    ).add(Duration(hours: 3)),
                                                   ),
                                                 ),
+                                                
                                               );
                                             },
                                           ),
@@ -617,7 +635,7 @@ RxBool isDetailsTapped2 = false.obs;
               // Send Button
               Container(
                    width: 390,
-                 height: 90,
+                 height: 95,
                 padding: const EdgeInsets.only(
                   
                 top: 14,
@@ -639,14 +657,18 @@ RxBool isDetailsTapped2 = false.obs;
                           child: CustomTextField(
                             controller: messageController,
                             hintText: 'HintMessage'.tr,
+                          
     
                             suffixIcon:
                              IconButton(
-                              icon: Icon(
-                                Icons.send ,
-                                size: 24,
-                                color: Colors.green[800],
-                              ),
+                              icon: SvgPicture.asset(
+                          'assets/icons/ChatSend.svg',
+                        ),
+                              // Icon(
+                              //   Icons.send ,
+                              //   size: 24,
+                              //   color: Colors.green[800],
+                              // ),
                               onPressed: () async {
                                 if (messageController.text.trim() != '') {
                                   bool? send =
@@ -654,8 +676,10 @@ RxBool isDetailsTapped2 = false.obs;
                                           chatId: widget.chatId!,
                                           message: messageController.text,
                                           context: context);
+                                          
                                   if (send == true) {
                                     setState(() {
+                                     
                                       chatController.chat.messages!.add(
                                           ChatMessage(
                                               // senderName: "",
@@ -663,9 +687,9 @@ RxBool isDetailsTapped2 = false.obs;
                                               senderId: userId,
                                               message: messageController.text,
                                               created:
-                                                  DateTime.now().toString()));
+                                                  DateTime.now().subtract(Duration(hours: 3)).toString()));
                                     });
-                                    messageController.clear();
+                                   messageController.clear();
                                     if (chatController.chat.messages !=
                                             null &&
                                         chatController
@@ -721,8 +745,8 @@ RxBool isDetailsTapped2 = false.obs;
                             //     }
                             //   ): null,
                             height:  MediaQuery.of(context).size.height * 0.07,
-                             maxLines: 5,
-                             minLines: 3,
+                             maxLines: 3,
+                             minLines: 2,
                             onChanged: (String value) {},
                           ),
                         ),

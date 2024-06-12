@@ -19,6 +19,10 @@
 		<string>en</string>
 		<string>ar</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+    <string>We need access to your camera to take pictures.</string>
+     <key>NSPhotoLibraryUsageDescription</key>
+    <string>We need access to your photo library to select photos.</string>
 	<key>CFBundleName</key>
 	<string>Hido</string>
 	<key>CFBundlePackageType</key>
@@ -74,5 +78,6 @@
     <string>googlechromes</string>
     <string>comgooglemaps</string>
 </array>
+
 </dict>
 </plist>
