@@ -42,14 +42,15 @@ class _HospitalityTabState extends State<HospitalityTab> {
     return SingleChildScrollView(
       child: Padding(
         //TODO: Rehab you must replace padding in adventure screen with these values
-        padding: EdgeInsets.symmetric(
-            horizontal: width * 0.04, vertical: width * 0.035),
+        // padding: EdgeInsets.symmetric(
+        //     horizontal: width * 0.04, vertical: width * 0.035),
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 32),
         child: Column(
           children: [
             //Ad cards
             const AdCards(),
             SizedBox(
-              height: width * 0.051,
+              height: width * 0.085,
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,17 +60,19 @@ class _HospitalityTabState extends State<HospitalityTab> {
                   children: [
                     CustomText(
                       text: 'saudiHospitality'.tr,
-                      fontSize: width * 0.05,
+                      color: Color(0xFF070708),
+                      fontSize: 17,
+                      fontFamily: 'HT Rakik',
                       fontWeight: FontWeight.w500,
                     ),
                   ],
                 ),
                 SizedBox(
-                  height: width * 0.02,
+                  height: width * 0.05,
                 ),
                 //cities list view
                 SizedBox(
-                  height: width * 0.087,
+                  height: width * 0.080,
                   child: Obx(
                     () => !_regionsController.isRegionsLoading.value
                         ? ListView.separated(
@@ -114,12 +117,12 @@ class _HospitalityTabState extends State<HospitalityTab> {
                                   borderColor: _regionsController
                                               .selectedHospitaltyIndex.value ==
                                           index
-                                      ? colorDarkGreen
+                                      ? colorGreen
                                       : almostGrey,
                                   backgroundColor: _regionsController
                                               .selectedHospitaltyIndex.value ==
                                           index
-                                      ? colorGreen
+                                      ?  colorGreen
                                       : Colors.transparent,
                                   textColor: _regionsController
                                               .selectedHospitaltyIndex.value ==
@@ -138,7 +141,7 @@ class _HospitalityTabState extends State<HospitalityTab> {
                   ),
                 ),
                 SizedBox(
-                  height: width * 0.05,
+                  height: width * 0.06,
                 ),
                 Obx(
                   () => _srvicesController.isHospitalityLoading.value

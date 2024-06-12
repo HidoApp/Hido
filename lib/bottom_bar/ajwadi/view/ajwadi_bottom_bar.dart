@@ -1,4 +1,5 @@
 import 'package:ajwad_v4/explore/ajwadi/view/ajwadi_map_screen.dart';
+import 'package:ajwad_v4/explore/ajwadi/view/hoapatility/view/add_hospatility_info.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/request/ajwadi/view/request_screen.dart';
 import 'package:ajwad_v4/constants/colors.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
+import '../../../explore/ajwadi/view/hoapatility/widget/buttomProgress.dart';
 import '../../../explore/ajwadi/view/local_home_screen.dart';
 
 class AjwadiBottomBar extends StatefulWidget {
@@ -25,7 +27,9 @@ List bottomScreens = [
   // ),
  LocalHomeScreen(fromAjwady: true,profileController: _profileController),
  const RequestScreen(),
-  const RequestScreen(),
+  ButtomProgress(),
+
+//  AddHospatilityInfo(),
   ProfileScreen(
     fromAjwady: true,
     profileController: _profileController,

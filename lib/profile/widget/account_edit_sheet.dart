@@ -126,8 +126,8 @@ class _AccountEditSheetState extends State<AccountEditSheet> {
             Obx(
               () => widget.isEditEmail
                   ? Form(
-                      onPopInvoked: (didPop) =>
-                          widget.profileController.isEmailNotValid(false),
+                       onPopInvoked: (didPop) =>
+                        widget.profileController.isEmailNotValid(false),
                       child: CustomTextField(
                         controller: _textController,
                         keyboardType: TextInputType.emailAddress,

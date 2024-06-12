@@ -50,7 +50,8 @@ class _ServiceScreenState extends State<ServiceScreen>
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
     return Scaffold(
-        backgroundColor: lightGreyBackground,
+        backgroundColor: Colors.white,
+        
         body: NestedScrollView(
           controller: ScrollController(),
           headerSliverBuilder: (context, isScrolled) => [

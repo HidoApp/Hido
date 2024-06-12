@@ -249,18 +249,18 @@ class _TripDetailsState extends State<TripDetails> {
                                     ? widget.place!.nameAr!
                                     : widget.place!.nameEn!,
                             color: Color(0xFF070708),
-                            fontSize: 29,
+                            fontSize: 28,
                             fontFamily: 'HT Rakik',
                             fontWeight: FontWeight.w500,
                           )),
                       const SizedBox(
-                        height: 12,
+                        height: 6,
                       ),
                       Row(
                         children: [
                           SvgPicture.asset("assets/icons/map_pin.svg"),
                           const SizedBox(
-                            width: 4,
+                            width: 6,
                           ),
                           CustomText(
                             text: widget.place != null
@@ -270,7 +270,7 @@ class _TripDetailsState extends State<TripDetails> {
                                     : widget.place!.regionEn! + ", Saudi Arabia"
                                 : '',
                             color: Color(0xFF9392A0),
-                            fontSize: 14,
+                            fontSize: 13,
                             fontFamily: 'SF Pro',
                             fontWeight: FontWeight.w400,
                             height: 0,
@@ -303,13 +303,13 @@ class _TripDetailsState extends State<TripDetails> {
                               : Alignment.centerLeft,
                           child: CustomText(
                             text: "about".tr,
-                            color: Color(0xFF070708),
+                            color: black,
                             fontSize: 18,
                             fontFamily: 'HT Rakik',
                             fontWeight: FontWeight.w500,
                           )),
                       const SizedBox(
-                        height: 10,
+                        height: 7,
                       ),
                       ConstrainedBox(
                         constraints: isExpanded
@@ -322,8 +322,10 @@ class _TripDetailsState extends State<TripDetails> {
                             textOverflow: isExpanded
                                 ? TextOverflow.visible
                                 : TextOverflow.clip,
-                            fontFamily: "Noto Kufi Arabic",
-                            fontSize: 14,
+                            fontSize: 15,
+                            color: starGreyColor,
+                            fontFamily: 'SF Pro',
+                           fontWeight: FontWeight.w400,
                             text: widget.place == null
                                 ? "******"
                                 : !AppUtil.rtlDirection(context)
@@ -331,7 +333,7 @@ class _TripDetailsState extends State<TripDetails> {
                                     : widget.place!.descriptionEn!),
                       ),
                       const SizedBox(
-                        height: 5,
+                        height: 1,
                       ),
                       isExpanded
                           ? Align(
@@ -352,7 +354,7 @@ class _TripDetailsState extends State<TripDetails> {
                                   color: blue,
                                   fontSize: 15,
                                   fontFamily: 'SF Pro',
-                                  fontWeight: FontWeight.w500,
+                                  fontWeight: FontWeight.w400,
                                 ),
                               ),
                             )
@@ -370,7 +372,7 @@ class _TripDetailsState extends State<TripDetails> {
                                   color: blue,
                                   fontSize: 15,
                                   fontFamily: 'SF Pro',
-                                  fontWeight: FontWeight.w500,
+                                  fontWeight: FontWeight.w400,
                                 ),
                               ),
                             ),
@@ -383,7 +385,7 @@ class _TripDetailsState extends State<TripDetails> {
                       //     thickness: 1,
                       //   ),
                       SizedBox(
-                        height: width * 0.025,
+                        height: width * 0.026,
                       ),
                       const Divider(
                         color: lightGrey,
@@ -399,19 +401,19 @@ class _TripDetailsState extends State<TripDetails> {
                               ? "الموقع"
                               : "Location".tr,
                           fontSize: 18,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w500,
                           color: black,
                           fontFamily: 'HT Rakik',
                         ),
                       ),
                       const SizedBox(
-                        height: 10,
+                        height: 9,
                       ),
                       Container(
                         decoration: BoxDecoration(
                           color: almostGrey.withOpacity(0.2),
                           borderRadius:
-                              const BorderRadius.all(Radius.circular(30)),
+                              const BorderRadius.all(Radius.circular(12)),
                         ),
                         height: height * 0.19,
                         width: width * 0.9,
@@ -457,7 +459,7 @@ class _TripDetailsState extends State<TripDetails> {
                       ),
 
                       const SizedBox(
-                        height: 12,
+                        height: 13,
                       ),
                       InkWell(
                         onTap: () {
@@ -474,21 +476,25 @@ class _TripDetailsState extends State<TripDetails> {
                                   children: [
                                     CustomText(
                                       text: "cancellationPolicy".tr,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w400,
+                                      color: Color(0xFF070708),
+
+                                      fontSize: 17,
+                                  fontFamily: 'HT Rakik',
+                             fontWeight: FontWeight.w500,
                                     ),
                                     const SizedBox(
-                                      height: 4,
+                                      height: 6,
                                     ),
                                     SizedBox(
                                       width: width * 0.8,
                                       child: CustomText(
                                         text: "cancellationPolicyBreifAdventure"
                                             .tr,
-                                        fontSize: 13,
+                                        fontSize: 15,
                                         fontWeight: FontWeight.w400,
-                                        maxlines: 2,
-                                        color: tileGreyColor,
+                                        fontFamily: 'SF Pro',
+                                        color: starGreyColor,
+                                        maxlines: 1,
                                       ),
                                     ),
                                   ],
@@ -496,19 +502,22 @@ class _TripDetailsState extends State<TripDetails> {
                                 const Spacer(),
                                 Icon(
                                   Icons.arrow_forward_ios,
-                                  color: tileGreyColor,
+                                  color: starGreyColor,
                                   size: width * 0.046,
                                 )
                               ],
                             )),
                       ),
+                       const SizedBox(
+                        height: 11,
+                      ),
                       Divider(
-                        color: tileGreyColor,
+                        color: lightGrey,
                         thickness: 1,
                       ),
 
                       const SizedBox(
-                        height: 8,
+                        height: 25,
                       ),
                       // Row(
                       //   children: [
@@ -546,6 +555,7 @@ class _TripDetailsState extends State<TripDetails> {
                               ? const CircularProgressIndicator()
                                   
                                   :CustomButton(
+                                    height: 2,
                                       onPressed: () async {
                                         print(isHasOffers.value);
                                         print(offers.last.id);

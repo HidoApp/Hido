@@ -66,11 +66,13 @@ class _FindAjwadyState extends State<FindAjwady> {
     );
     print("place");
     
- if (_offerController.acceptedOffer!=null||_offerController.acceptedOffer!=[] ){
-      showCancelDialogAfterDelay(10);
-     }
- if (_offerController.acceptedOffer==null||_offerController.acceptedOffer==[]){
+ if (_offerController.offers != []||_offerController.offers.isNotEmpty ){
       showCancelDialogAfterDelay(5);
+      print(_offerController.offers.isEmpty);
+      print('inter');
+     }
+ if (_offerController.offers == [] || _offerController.offers.isEmpty){
+      showCancelDialogAfterDelay(2);
      }
      
   }
@@ -78,7 +80,7 @@ class _FindAjwadyState extends State<FindAjwady> {
 
 void startCountdown() {
       countdownTimer = Timer(Duration(minutes: 5), () async {
-      if(_offerController.acceptedOffer.value.orderStatus==null){
+      if(_offerController.offers != []){
 
       // Cancel the booking and navigate to the home page
       // bool bookingCancel = await _offerController.bookingCancel(
@@ -129,7 +131,7 @@ void startCountdown() {
                   borderRadius: BorderRadius.all(Radius.circular(8.0))),
               content: Container(
               width: 258,
-              height: AppUtil.rtlDirection2(context)?170: 165, // Set the width here
+              height: AppUtil.rtlDirection2(context)?170: 167, // Set the width here
                child:Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -153,7 +155,7 @@ void startCountdown() {
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
                       color: Color(0xFF070708),
-                      text:_offerController.acceptedOffer==null||_offerController.acceptedOffer==[]?'notFind'.tr:'noteCansle'.tr,
+                      text:_offerController.offers==[]||_offerController.offers.isEmpty?'notFind'.tr:'noteCansle'.tr,
                       //!AppUtil.rtlDirection2(context)?"We couldn't find any local guides available for your chosen date and location":"لم نتمكن من العثور على أي مرشدين محليين متاحين في التاريخ والموقع الذي اخترته",
                       fontFamily: 'SF Pro',                      
                       ),
@@ -165,7 +167,7 @@ void startCountdown() {
                       onTap: () {
                      Get.back();
 
-                     if (_offerController.acceptedOffer!= null||_offerController.acceptedOffer!=[] ){
+                     if (_offerController.offers!=[]||_offerController.offers.isNotEmpty){
 
                       startCountdown();
                       print('enter');
@@ -183,7 +185,7 @@ void startCountdown() {
                         child:  CustomText(
                         textAlign: TextAlign.center,
 
-                          text:_offerController.acceptedOffer==null||_offerController.acceptedOffer==[]? "Expand".tr:AppUtil.rtlDirection2(context)?"الإستمرار في مشاهدة العروض": "Continue viewing offers",
+                          text:_offerController.offers==[]||_offerController.offers.isEmpty? "Expand".tr:AppUtil.rtlDirection2(context)?"الإستمرار في مشاهدة العروض": "Continue viewing offers",
                           color: Colors.white,
                             fontSize: 15,
                            fontFamily: 'SF Pro',
@@ -436,7 +438,7 @@ void startCountdown() {
                   child: Visibility(
                     visible: _offerController.offers.isEmpty,
                     child: Container(
-                      height: height * 0.219,
+                      height: height * 0.450,
                       width: 0.999 * width,
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -449,10 +451,8 @@ void startCountdown() {
                             const SizedBox(
                               height: 5,
                             ),
-                            SvgPicture.asset(
-                              'assets/icons/findLocal.svg',
-                              height: 40,
-                            ),
+                            Image.asset(
+                               'assets/images/Loading.gif'),
                             const SizedBox(
                               height: 15,
                             ),

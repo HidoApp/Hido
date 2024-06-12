@@ -1,5 +1,6 @@
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomEmptyWidget extends StatelessWidget {
   const CustomEmptyWidget({
@@ -16,41 +17,48 @@ class CustomEmptyWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
    
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Image.asset('assets/images/$image.png'),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 50),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          // Image.asset('assets/images/$image.png'),
+          SvgPicture.asset('assets/icons/$image.svg'),
+           SizedBox(
+          height: 22, // Set a meaningful height for spacing
+        ),
+          CustomText(
+            text: title,
+            color: Color(0xFFB9B8C1),
+            fontSize: 17,
+            fontFamily: 'HT Rakik',
+           fontWeight: FontWeight.w500,
+           height: 0.10,
+            textAlign: TextAlign.center,
+          ),
+          if (subtitle != '' || subtitle != null) ...[
+        SizedBox(
+          height: 21, // Set a meaningful height for spacing
+        ),
         CustomText(
-          text: title,
-          color: Color(0xFF9392A0),
-          fontSize: 18,
-          fontFamily: 'HT Rakik',
-         fontWeight: FontWeight.w700,
-         height: 0.10,
+          text: subtitle!,
+          color: Color(0xFFB9B8C1),
+          fontSize: 16,
+          fontFamily: 'SF Pro',
+          fontWeight: FontWeight.w400,
+          height: 0, 
           textAlign: TextAlign.center,
         ),
-        if (subtitle != '' || subtitle != null) ...[
-      SizedBox(
-        height: 10, // Set a meaningful height for spacing
-      ),
-      CustomText(
-        text: subtitle!,
-        color: Color(0xFFB9B8C1),
-        fontSize: 17,
-        fontFamily: 'SF Pro',
-        fontWeight: FontWeight.w500,
-        height: 1.0, // Use a meaningful height if necessary
-        textAlign: TextAlign.center,
-      ),
+          
+        ] else ...[
+          SizedBox(
+          height: 0, // Set a meaningful height for spacing
+        ),
         
-      ] else ...[
-        SizedBox(
-        height: 0, // Set a meaningful height for spacing
+        ],
+        ],
       ),
-      
-      ],
-      ],
     );
   }
 }
