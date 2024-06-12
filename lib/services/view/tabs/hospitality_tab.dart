@@ -117,7 +117,9 @@ class _HospitalityTabState extends State<HospitalityTab> {
                                   borderColor: _regionsController
                                               .selectedHospitaltyIndex.value ==
                                           index
+
                                       ? colorGreen
+
                                       : almostGrey,
                                   backgroundColor: _regionsController
                                               .selectedHospitaltyIndex.value ==
@@ -137,7 +139,8 @@ class _HospitalityTabState extends State<HospitalityTab> {
                               ),
                             ),
                           )
-                        : CircularProgressIndicator.adaptive(),
+                        : const Center(
+                            child: CircularProgressIndicator.adaptive()),
                   ),
                 ),
                 SizedBox(
@@ -150,9 +153,7 @@ class _HospitalityTabState extends State<HospitalityTab> {
                           height: height * 0.4,
                           width: width,
                           child: const Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                        )
+                              child: CircularProgressIndicator.adaptive()))
                       //List of hospitalities
                       : ListView.separated(
                           padding: EdgeInsets.zero,

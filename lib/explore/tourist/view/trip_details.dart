@@ -546,7 +546,7 @@ class _TripDetailsState extends State<TripDetails> {
                       // ),
 
                       Obx(() => _RequestController.isBookingLoading.value
-                              ? const CircularProgressIndicator()
+                              ? const CircularProgressIndicator.adaptive()
                               // : Padding(
                               //     padding: const EdgeInsets.symmetric(
                               //         horizontal: 30, vertical: 7),
@@ -585,6 +585,7 @@ class _TripDetailsState extends State<TripDetails> {
                                           : "Your Request",
 
                                       icon: !AppUtil.rtlDirection(context)
+
                                               ? const Icon(
                                                   Icons.arrow_back_ios,
                                                   size: 20,
@@ -593,7 +594,7 @@ class _TripDetailsState extends State<TripDetails> {
                                                   Icons.arrow_forward_ios,
                                                   size: 20,
                                                 ),
-                                    )
+                                        )
 
                                   //TODO:fix the condition Ammar
                                   // : _touristExploreController.isPlaceNotLocked
@@ -619,11 +620,10 @@ class _TripDetailsState extends State<TripDetails> {
                                               return getPlaceBooking();
                                             });
                                           },
-
                                           title: AppUtil.rtlDirection2(context)
                                               ? "العروض"
                                               : "View Offers",
-                                            icon: !AppUtil.rtlDirection(context)
+                                          icon: !AppUtil.rtlDirection(context)
                                               ? const Icon(
                                                   Icons.arrow_back_ios,
                                                   size: 20,

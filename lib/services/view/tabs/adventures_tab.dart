@@ -137,6 +137,7 @@ class _AdventuresTabState extends State<AdventuresTab> {
                                             .selectedAdventureIndex.value ==
                                         index
                                     ? colorGreen
+
                                     : almostGrey,
                                 backgroundColor: _regionsController
                                             .selectedAdventureIndex.value ==

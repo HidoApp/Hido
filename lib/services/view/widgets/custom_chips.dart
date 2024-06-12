@@ -8,11 +8,11 @@ class CustomChips extends StatelessWidget {
       {super.key,
       required this.title,
       required this.backgroundColor,
-      required this.borderColor,
+      this.borderColor,
       required this.textColor});
   final String title;
   final Color backgroundColor;
-  final Color borderColor;
+  final Color? borderColor;
   final Color textColor;
   @override
   Widget build(BuildContext context) {
@@ -28,6 +28,7 @@ class CustomChips extends StatelessWidget {
         color: backgroundColor,
         border: Border.all(width:  1.50, color: borderColor),
         borderRadius: BorderRadius.all(Radius.circular(9999)),
+
       ),
       child: CustomText(
         text: title,

@@ -50,14 +50,11 @@ class _FindAjwadyState extends State<FindAjwady> {
     'assets/images/ajwadi4.png',
     'assets/images/ajwadi5.png',
   ];
-   Timer? countdownTimer;
+  Timer? countdownTimer;
 
-  
-  
   @override
   void initState() {
     super.initState();
-    
 
     _offerController.getOffers(
       context: context,
@@ -112,27 +109,29 @@ void startCountdown() {
       }
       }
       else{
+
         print("this state");
         print(_offerController.acceptedOffer.value.orderStatus);
       }
     });
   }
-  void showCancelDialogAfterDelay(int minute){
 
-  //  if (_offerController.acceptedOffer==null||_offerController.acceptedOffer==[] ){
-      Future.delayed(Duration(minutes:minute), () {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              backgroundColor: Colors.white,
-              surfaceTintColor: Colors.white,
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(8.0))),
-              content: Container(
+  void showCancelDialogAfterDelay(int minute) {
+    //  if (_offerController.acceptedOffer==null||_offerController.acceptedOffer==[] ){
+    Future.delayed(Duration(minutes: minute), () {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Colors.white,
+            surfaceTintColor: Colors.white,
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(8.0))),
+            content: Container(
               width: 258,
               height: AppUtil.rtlDirection2(context)?170: 167, // Set the width here
                child:Column(
+
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
@@ -140,14 +139,14 @@ void startCountdown() {
                     height: 4,
                   ),
                   CustomText(
-                      textAlign: TextAlign.center,
-                      fontSize: 18,
-                      fontFamily: 'SF Pro',
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xFFDC362E),
-                      text: AppUtil.rtlDirection2(context)?"!عذرا":"Sorry!",
-                     ),
-                     const SizedBox(
+                    textAlign: TextAlign.center,
+                    fontSize: 18,
+                    fontFamily: 'SF Pro',
+                    fontWeight: FontWeight.w500,
+                    color: Color(0xFFDC362E),
+                    text: AppUtil.rtlDirection2(context) ? "!عذرا" : "Sorry!",
+                  ),
+                  const SizedBox(
                     height: 4,
                   ),
                    CustomText(
@@ -191,9 +190,10 @@ void startCountdown() {
                            fontFamily: 'SF Pro',
                           fontWeight: FontWeight.w500,
                         ),
+
                       ),
                     ),
-                  
+                  ),
                   const SizedBox(
                     height: 10,
                   ),
@@ -221,31 +221,33 @@ void startCountdown() {
                             }
                           },
                           child: Container(
-                            width: 268,
-                        height: 34,
-                        padding: const EdgeInsets.symmetric(vertical: 2),
-                         decoration: BoxDecoration(
-                            border: Border.all(
-                        color: Color(0xFFDC362E) ,                          
-                         width: 2, 
-                           ),
-                             borderRadius: BorderRadius.circular(4), 
-                                  ),
-                          child:CustomText(
-                              textAlign: TextAlign.center,
-                              fontSize: 15,
-                           fontFamily: 'SF Pro',
-                          fontWeight: FontWeight.w500,
-                         color: Color(0xFFDC362E),
-                              text:AppUtil.rtlDirection2(context)?'الغاء الطلب' :'Cancel Request')),
+                              width: 268,
+                              height: 34,
+                              padding: const EdgeInsets.symmetric(vertical: 2),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Color(0xFFDC362E),
+                                  width: 2,
+                                ),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: CustomText(
+                                  textAlign: TextAlign.center,
+                                  fontSize: 15,
+                                  fontFamily: 'SF Pro',
+                                  fontWeight: FontWeight.w500,
+                                  color: Color(0xFFDC362E),
+                                  text: AppUtil.rtlDirection2(context)
+                                      ? 'الغاء الطلب'
+                                      : 'Cancel Request')),
                         )),
                 ],
               ),
-              ),
-            );
-          },
-        );
-      });
+            ),
+          );
+        },
+      );
+    });
     //}
   }
 
@@ -254,7 +256,6 @@ void startCountdown() {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
     return Scaffold(
-    
       appBar: CustomAppBar(
         "findLocal".tr,
         action: true,
@@ -265,7 +266,7 @@ void startCountdown() {
             builder: (BuildContext context) {
               return CancelBookingDialog(
                 dialogWidth: 256,
-                buttonWidth:268,
+                buttonWidth: 268,
                 booking: widget.booking,
                 offerController: _offerController,
               );
@@ -290,7 +291,6 @@ void startCountdown() {
           //     });
         },
       ),
-      
       body: Obx(() {
         if (_offerController.isOffersLoading.value) {
           return const Center(
@@ -299,15 +299,13 @@ void startCountdown() {
         }
         return Container(
           color: lightGreyBackground,
-          
           child: Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: width * 0.05, vertical: height * 0.04),
-                
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                      Container(
+                Container(
                   width: 0.999 * width,
                   padding: const EdgeInsets.symmetric(vertical: 1),
                   decoration: BoxDecoration(
@@ -315,7 +313,7 @@ void startCountdown() {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Column(
-                   crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       ListTile(
                         onTap: () {
@@ -329,9 +327,7 @@ void startCountdown() {
                           fontFamily: 'HT Rakik',
                           fontWeight: FontWeight.w700,
                           color: Colors.black,
-                        
-      
-                  ),
+                        ),
                         trailing: Icon(
                           isDetailsTapped
                               ? Icons.keyboard_arrow_up
@@ -360,33 +356,32 @@ void startCountdown() {
                                     fontSize: 13,
                                     fontWeight: FontWeight.w400,
                                     fontFamily: 'SF Pro',
-
                                   ),
                                 ],
                               ),
                               const SizedBox(
                                 height: 10,
                               ),
-                                 Row(
+                              Row(
                                 children: [
                                   SvgPicture.asset('assets/icons/time3.svg'),
                                   const SizedBox(
                                     width: 9,
                                   ),
                                   CustomText(
-                                    text:AppUtil.rtlDirection2(context)?' ${DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking.timeToGo}'))} إلى ${DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking.timeToReturn}'))} ':'Pick up: ${DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking.timeToGo}'))}, Drop off: ${DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking.timeToReturn}'))}',
+                                    text: AppUtil.rtlDirection2(context)
+                                        ? ' ${DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking.timeToGo}'))} إلى ${DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking.timeToReturn}'))} '
+                                        : 'Pick up: ${DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking.timeToGo}'))}, Drop off: ${DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking.timeToReturn}'))}',
                                     color: almostGrey,
                                     fontSize: 13,
                                     fontWeight: FontWeight.w400,
                                     fontFamily: 'SF Pro',
-
                                   ),
                                 ],
                               ),
                               const SizedBox(
                                 height: 10,
                               ),
-                              
                               Row(
                                 children: [
                                   SvgPicture.asset('assets/icons/guests.svg'),
@@ -406,7 +401,6 @@ void startCountdown() {
                               const SizedBox(
                                 height: 10,
                               ),
-                              
                               Row(
                                 children: [
                                   SvgPicture.asset(
@@ -431,7 +425,7 @@ void startCountdown() {
                     ],
                   ),
                 ),
-                 const SizedBox(
+                const SizedBox(
                   height: 17,
                 ),
                 Center(
@@ -472,34 +466,27 @@ void startCountdown() {
                               textAlign: TextAlign.center,
                               fontSize: 12,
                             )),
-                             const SizedBox(
-                               height: 10,
-                             ),
+                            const SizedBox(
+                              height: 10,
+                            ),
                           ],
-                          
                         ),
-                        
                       ),
-                      
                     ),
-                    
                   ),
-                  
                 ),
-                if (_offerController.offers.isEmpty)...[
-                   SizedBox(
-                               height: 17,
-                             ),
-                 
-              ],
+                if (_offerController.offers.isEmpty) ...[
+                  SizedBox(
+                    height: 17,
+                  ),
+                ],
                 if (_offerController.offers.isNotEmpty)
                   GestureDetector(
                     //TODO: offer screen will be there
                     onTap: () {
-                   
                       Get.to(() => OfferScreen(
                             place: widget.place,
-                            booking:widget.booking,
+                            booking: widget.booking,
                           ));
                       // showModalBottomSheet(
                       //     isScrollControlled: true,
@@ -518,61 +505,66 @@ void startCountdown() {
                       //     });
                     },
                     child: Container(
-                      height: 0.08*height,
+                      height: 0.08 * height,
                       width: 0.999 * width,
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(8)),
                       child: Row(children: [
-                        
                         ListView.builder(
                             scrollDirection: Axis.horizontal,
                             shrinkWrap: true,
-                            itemCount:_offerController.firstThreeImages.isNotEmpty
-                            ? _offerController.firstThreeImages.length
-                            : 1,
+                            itemCount:
+                                _offerController.firstThreeImages.isNotEmpty
+                                    ? _offerController.firstThreeImages.length
+                                    : 1,
                             itemBuilder: (context, index) {
-                              String? image = _offerController.firstThreeImages[index];
+                              String? image =
+                                  _offerController.firstThreeImages[index];
 
-                             return Align(
-                             widthFactor: 0.5,
-                              child: CircleAvatar(
-                             radius: 22,
-                             backgroundImage: image!.isNotEmpty
-                             ? CachedNetworkImageProvider(image)
-                             : const AssetImage('assets/images/ajwadi_image.png') as ImageProvider,
-                              )
-                             );
-                            //_offerController.offers.length,
-                            // itemBuilder: (context, index) {
-                            //   return const Align(
-                            //     widthFactor: 0.5,
-                            //     child: CircleAvatar(
-                            //       radius: 22,
-                            //       backgroundImage: 
-                            //       AssetImage(
-                            //           'assets/images/ajwadi_image.png'),
-                            //     ),
-                            //   );
-
+                              return Align(
+                                  widthFactor: 0.5,
+                                  child: CircleAvatar(
+                                    radius: 22,
+                                    backgroundImage: image!.isNotEmpty
+                                        ? CachedNetworkImageProvider(image)
+                                        : const AssetImage(
+                                                'assets/images/ajwadi_image.png')
+                                            as ImageProvider,
+                                  ));
+                              //_offerController.offers.length,
+                              // itemBuilder: (context, index) {
+                              //   return const Align(
+                              //     widthFactor: 0.5,
+                              //     child: CircleAvatar(
+                              //       radius: 22,
+                              //       backgroundImage:
+                              //       AssetImage(
+                              //           'assets/images/ajwadi_image.png'),
+                              //     ),
+                              //   );
                             }),
                         Align(
                           widthFactor: 0.7,
-                           child: Visibility(
-                            visible: _offerController.offers.length > _offerController.firstThreeImages.length,
-                          child: CircleAvatar(
-                            radius: 18,
-                            backgroundColor:  Color(0xFFD4F2E0),
-                           child: CustomText(
-                           text: (_offerController.offers.length - _offerController.firstThreeImages.length).toString(),
-                           color: Colors.white,
-                           textAlign: TextAlign.center,
-                           fontFamily: 'Kufam',
-                            fontSize: 12,
-                           fontWeight: FontWeight.w400,
-                            ),
+                          child: Visibility(
+                            visible: _offerController.offers.length >
+                                _offerController.firstThreeImages.length,
+                            child: CircleAvatar(
+                              radius: 18,
+                              backgroundColor: Color(0xFFD4F2E0),
+                              child: CustomText(
+                                text: (_offerController.offers.length -
+                                        _offerController
+                                            .firstThreeImages.length)
+                                    .toString(),
+                                color: Colors.white,
+                                textAlign: TextAlign.center,
+                                fontFamily: 'Kufam',
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
                               ),
+                            ),
                           ),
                         ),
                         const SizedBox(

@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 import 'package:ajwad_v4/request/ajwadi/models/request_model.dart';
 import 'package:ajwad_v4/request/ajwadi/services/request_service.dart';
+import 'package:ajwad_v4/request/ajwadi/view/widget/card_itenrary.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,7 +15,25 @@ class RequestController extends GetxController {
   var isRequestListLoading = false.obs;
   var isBookingLoading = false.obs;
   var requestList = <RequestModel>[].obs;
+  //add itnrary flow
+  var itineraryList = <ItineraryCard>[].obs;
+  var intinraryCount = 0.obs;
+  var startTime = ''.obs;
+  var endtime = ''.obs;
+  var reviewItenrary = <RequestSchedule>[].obs;
+// valditon itenrary
+  var isActivtyValid = true.obs;
+  var isPriceValid = true.obs;
+  var isStartTimeValid = true.obs;
+  var isEndTimeValid = true.obs;
+  var validSave = true.obs;
 
+  /// valditon itenrary review
+  var isActivtyReviewValid = true.obs;
+  var isPriceReviewValid = true.obs;
+  var isStartTimeReviewValid = true.obs;
+  var isEndTimeReviewValid = true.obs;
+  var validReviewSave = false.obs;
   Future<List<RequestModel>?> getRequestList(
       {required BuildContext context}) async {
     try {
@@ -30,15 +49,15 @@ class RequestController extends GetxController {
     }
   }
 
-
-    Future<Booking?> getBookingById(
-      {required BuildContext context,required String bookingId}) async {
+  Future<Booking?> getBookingById(
+      {required BuildContext context, required String bookingId}) async {
     try {
       isBookingLoading(true);
-      final data = await RequestService.getBookingById(context: context,bookingId: bookingId);
-            print('this offer book from controller');
-            print(data?.orderStatus);
-            print(data?.offers!.length);
+      final data = await RequestService.getBookingById(
+          context: context, bookingId: bookingId);
+      print('this offer book from controller');
+      print(data?.orderStatus);
+      print(data?.offers!.length);
 
       return data;
     } catch (e) {

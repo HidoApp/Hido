@@ -39,6 +39,7 @@ class CustomRequestTextField extends StatelessWidget {
       controller: controller,
       cursorColor: Colors.white,
       keyboardType: keyboardType,
+      
       inputFormatters: inputFormatters,
       style: const TextStyle(
         color: Colors.black, // Set the text color here
@@ -96,7 +97,7 @@ class CustomRequestTextField extends StatelessWidget {
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: isTourist ? const Color(0xffE5E6EB) : darkGrey,
+            color: isTourist ? const Color(0xffE5E6EB) : almostGrey,
           ),
           borderRadius: BorderRadius.all(
             Radius.circular(radius),
@@ -112,7 +113,7 @@ class CustomRequestTextField extends StatelessWidget {
         ),
         disabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: isTourist ? const Color(0xffE5E6EB) : darkGrey,
+            color: isTourist ? const Color(0xffE5E6EB) : almostGrey,
           ),
           borderRadius: BorderRadius.all(
             Radius.circular(radius),
