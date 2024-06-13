@@ -16,6 +16,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart' as launcher;
 import 'package:ajwad_v4/request/widgets/CansleDialog.dart';
@@ -62,54 +63,46 @@ class _FindAjwadyState extends State<FindAjwady> {
       bookingId: widget.booking.id!,
     );
     print("place");
-    
- if (_offerController.offers != []||_offerController.offers.isNotEmpty ){
+
+    if (_offerController.offers != [] || _offerController.offers.isNotEmpty) {
       showCancelDialogAfterDelay(5);
       print(_offerController.offers.isEmpty);
       print('inter');
-     }
- if (_offerController.offers == [] || _offerController.offers.isEmpty){
+    }
+    if (_offerController.offers == [] || _offerController.offers.isEmpty) {
       showCancelDialogAfterDelay(2);
-     }
-     
+    }
   }
 
+  void startCountdown() {
+    countdownTimer = Timer(Duration(minutes: 5), () async {
+      if (_offerController.offers != []) {
+        // Cancel the booking and navigate to the home page
+        // bool bookingCancel = await _offerController.bookingCancel(
+        //         context: context, bookingId: widget.booking.id!) ??
+        //     false;
+        // if (bookingCancel) {
+        //   if (context.mounted) {
+        //     AppUtil.successToast(context, 'EndTrip'.tr);
+        //     await Future.delayed(const Duration(seconds: 1));
+        //   }
+        //   Get.offAll(const TouristBottomBar());
+        // }
+        log("End Trip Taped ${widget.booking.id}");
 
-void startCountdown() {
-      countdownTimer = Timer(Duration(minutes: 5), () async {
-      if(_offerController.offers != []){
-
-      // Cancel the booking and navigate to the home page
-      // bool bookingCancel = await _offerController.bookingCancel(
-      //         context: context, bookingId: widget.booking.id!) ??
-      //     false;
-      // if (bookingCancel) {
-      //   if (context.mounted) {
-      //     AppUtil.successToast(context, 'EndTrip'.tr);
-      //     await Future.delayed(const Duration(seconds: 1));
-      //   }
-      //   Get.offAll(const TouristBottomBar());
-      // }
-       log("End Trip Taped ${widget.booking.id}");
-
-                            bool bookingCancel =
-                                await _offerController.bookingCancel(
-                                        context: context,
-                                        bookingId: widget.booking.id!) ??
-                                    false;
-                            if (bookingCancel) {
-                              if (context.mounted) {
-                                AppUtil.successToast(context, 'EndTrip'.tr);
-                                await Future.delayed(
-                                    const Duration(seconds: 1));
-                              }
-                              Get.offAll(
-                                const TouristBottomBar(),
-                              );
-      }
-      }
-      else{
-
+        bool bookingCancel = await _offerController.bookingCancel(
+                context: context, bookingId: widget.booking.id!) ??
+            false;
+        if (bookingCancel) {
+          if (context.mounted) {
+            AppUtil.successToast(context, 'EndTrip'.tr);
+            await Future.delayed(const Duration(seconds: 1));
+          }
+          Get.offAll(
+            const TouristBottomBar(),
+          );
+        }
+      } else {
         print("this state");
         print(_offerController.acceptedOffer.value.orderStatus);
       }
@@ -129,9 +122,10 @@ void startCountdown() {
                 borderRadius: BorderRadius.all(Radius.circular(8.0))),
             content: Container(
               width: 258,
-              height: AppUtil.rtlDirection2(context)?170: 167, // Set the width here
-               child:Column(
-
+              height: AppUtil.rtlDirection2(context)
+                  ? 170
+                  : 167, // Set the width here
+              child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
@@ -149,48 +143,52 @@ void startCountdown() {
                   const SizedBox(
                     height: 4,
                   ),
-                   CustomText(
-                      textAlign: TextAlign.center,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xFF070708),
-                      text:_offerController.offers==[]||_offerController.offers.isEmpty?'notFind'.tr:'noteCansle'.tr,
-                      //!AppUtil.rtlDirection2(context)?"We couldn't find any local guides available for your chosen date and location":"لم نتمكن من العثور على أي مرشدين محليين متاحين في التاريخ والموقع الذي اخترته",
-                      fontFamily: 'SF Pro',                      
-                      ),
+                  CustomText(
+                    textAlign: TextAlign.center,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF070708),
+                    text: _offerController.offers == [] ||
+                            _offerController.offers.isEmpty
+                        ? 'notFind'.tr
+                        : 'noteCansle'.tr,
+                    //!AppUtil.rtlDirection2(context)?"We couldn't find any local guides available for your chosen date and location":"لم نتمكن من العثور على أي مرشدين محليين متاحين في التاريخ والموقع الذي اخترته",
+                    fontFamily: 'SF Pro',
+                  ),
                   const SizedBox(
                     height: 16,
                   ),
-                 
-                    GestureDetector(
-                      onTap: () {
-                     Get.back();
+                  GestureDetector(
+                    onTap: () {
+                      Get.back();
 
-                     if (_offerController.offers!=[]||_offerController.offers.isNotEmpty){
-
-                      startCountdown();
-                      print('enter');
-                      print(widget.booking.orderStatus);
-                     }
-                      },
-                      child: Container(
-                        width: 268,
-                        height: 34,
-                        padding: const EdgeInsets.symmetric(vertical: 3),
-                        decoration: BoxDecoration(
-                          color: colorGreen,
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        child:  CustomText(
+                      if (_offerController.offers != [] ||
+                          _offerController.offers.isNotEmpty) {
+                        startCountdown();
+                        print('enter');
+                        print(widget.booking.orderStatus);
+                      }
+                    },
+                    child: Container(
+                      width: 268,
+                      height: 34,
+                      padding: const EdgeInsets.symmetric(vertical: 3),
+                      decoration: BoxDecoration(
+                        color: colorGreen,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: CustomText(
                         textAlign: TextAlign.center,
-
-                          text:_offerController.offers==[]||_offerController.offers.isEmpty? "Expand".tr:AppUtil.rtlDirection2(context)?"الإستمرار في مشاهدة العروض": "Continue viewing offers",
-                          color: Colors.white,
-                            fontSize: 15,
-                           fontFamily: 'SF Pro',
-                          fontWeight: FontWeight.w500,
-                        ),
-
+                        text: _offerController.offers == [] ||
+                                _offerController.offers.isEmpty
+                            ? "Expand".tr
+                            : AppUtil.rtlDirection2(context)
+                                ? "الإستمرار في مشاهدة العروض"
+                                : "Continue viewing offers",
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontFamily: 'SF Pro',
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
@@ -350,8 +348,9 @@ void startCountdown() {
                                     width: 10,
                                   ),
                                   CustomText(
-                                    text:
-                                        '${DateFormat('EEE, dd MMMM yyyy').format(DateTime.parse(widget.booking.date!))}',
+                                    text: DateFormat('EEE, dd MMMM yyyy')
+                                        .format(DateTime.parse(
+                                            widget.booking.date)),
                                     color: almostGrey,
                                     fontSize: 13,
                                     fontWeight: FontWeight.w400,
@@ -428,48 +427,50 @@ void startCountdown() {
                 const SizedBox(
                   height: 17,
                 ),
-                Center(
-                  child: Visibility(
-                    visible: _offerController.offers.isEmpty,
-                    child: Container(
-                      height: height * 0.450,
-                      width: 0.999 * width,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(24.0),
-                        child: Column(
-                          children: [
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Image.asset(
-                               'assets/images/Loading.gif'),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            CustomText(
-                              text: "searchforLocal".tr,
-                              color: colorGreen,
-                              fontWeight: FontWeight.w900,
-                              fontSize: 20,
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Expanded(
-                                child: CustomText(
-                              text: "WeSentYourRequestAndWaiteTillAccepted".tr,
-                              color: almostGrey,
-                              textAlign: TextAlign.center,
-                              fontSize: 12,
-                            )),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                          ],
+                Obx(
+                  () => Center(
+                    child: Visibility(
+                      visible: _offerController.offers.isEmpty,
+                      child: Container(
+                        height: height * 0.450,
+                        width: 0.999 * width,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(24.0),
+                          child: Column(
+                            children: [
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Image.asset('assets/images/Loading.gif'),
+                              const SizedBox(
+                                height: 15,
+                              ),
+                              CustomText(
+                                text: "searchforLocal".tr,
+                                color: colorGreen,
+                                fontWeight: FontWeight.w900,
+                                fontSize: 20,
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Expanded(
+                                  child: CustomText(
+                                text:
+                                    "WeSentYourRequestAndWaiteTillAccepted".tr,
+                                color: almostGrey,
+                                textAlign: TextAlign.center,
+                                fontSize: 12,
+                              )),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),

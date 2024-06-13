@@ -48,8 +48,8 @@ class CustomButton extends StatelessWidget {
         ),
         fixedSize:
             MaterialStateProperty.all(Size(customWidth ?? width, height ?? 48
-            //56
-            )),
+                //56
+                )),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,

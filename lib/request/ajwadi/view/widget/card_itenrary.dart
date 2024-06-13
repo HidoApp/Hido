@@ -70,10 +70,17 @@ class _ItineraryCardState extends State<ItineraryCard> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return Obx(
       () => Container(
-        height: widget.requestController.validSave.value ? 320 : 380,
-        padding: EdgeInsets.only(left: 12, top: 20, bottom: 20, right: 20),
+        height: widget.requestController.validSave.value
+            ? width * 0.75
+            : width * 0.97,
+        padding: EdgeInsets.only(
+            left: width * 0.030,
+            top: width * 0.05,
+            bottom: width * 0.05,
+            right: width * 0.05),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
@@ -85,22 +92,24 @@ class _ItineraryCardState extends State<ItineraryCard> {
               Row(
                 children: [
                   Container(
-                    width: 18,
-                    height: 10,
-                    decoration: BoxDecoration(
+                    padding: EdgeInsets.symmetric(vertical: width * .0205),
+                    width: width * 0.025,
+                    height: width * 0.025,
+                    decoration: const BoxDecoration(
                         color: colorGreen, shape: BoxShape.circle),
                   ),
                   SizedBox(
-                    width: 8,
+                    width: width * .0205,
                   ),
                   CustomText(
-                    text: "Activity name ",
-                    fontSize: 15,
+                    text: "activityName".tr,
+                    fontSize: width * 0.038,
+                    fontWeight: FontWeight.w500,
                   )
                 ],
               ),
               SizedBox(
-                height: 4,
+                height: width * 0.01,
               ),
               Obx(
                 () => CustomTextField(
@@ -109,51 +118,53 @@ class _ItineraryCardState extends State<ItineraryCard> {
                   borderColor: widget.requestController.isActivtyValid.value
                       ? almostGrey
                       : colorRed,
-                  onChanged: (value) {
-                    print(value);
-                  },
-                  height: 42,
-                  hintText: 'write the activity name',
+                  onChanged: (value) {},
+                  height: width * 0.107,
+                  hintText: 'activityHint'.tr,
                 ),
               ),
               if (!widget.requestController.isActivtyValid.value)
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: width * 0.03),
                   child: CustomText(
-                    text: "*this field is requested",
+                    text: "activityError".tr,
                     color: colorRed,
+                    fontSize: width * 0.028,
                   ),
                 ),
               SizedBox(
-                height: 12,
+                height: width * 0.03,
               ),
               Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 13),
-                  child: CustomText(text: "Price")),
+                  padding: EdgeInsets.symmetric(horizontal: width * 0.033),
+                  child: CustomText(
+                    text: "price".tr,
+                    fontSize: width * 0.038,
+                    fontWeight: FontWeight.w500,
+                  )),
               Obx(
                 () => CustomTextField(
                   controller: _priceContorller,
-                  height: 42,
+                  height: width * 0.107,
                   keyboardType: TextInputType.number,
-                  hintText: '00.00 SAR',
+                  hintText: '00.00 ${'sar'.tr}',
                   borderColor: widget.requestController.isPriceValid.value
                       ? almostGrey
                       : colorRed,
-                  onChanged: (value) {
-                    print(value);
-                  },
+                  onChanged: (value) {},
                 ),
               ),
               if (!widget.requestController.isPriceValid.value)
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: width * 0.03),
                   child: CustomText(
-                    text: "*Please enter a price",
+                    text: "priceError".tr,
                     color: colorRed,
+                    fontSize: width * 0.028,
                   ),
                 ),
               SizedBox(
-                height: 12,
+                height: width * 0.03,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -161,7 +172,11 @@ class _ItineraryCardState extends State<ItineraryCard> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const CustomText(text: "Start time"),
+                      CustomText(
+                        text: "startTime".tr,
+                        fontSize: width * 0.038,
+                        fontWeight: FontWeight.w500,
+                      ),
                       GestureDetector(
                         onTap: () async {
                           await DatePickerBdaya.showTime12hPicker(
@@ -172,7 +187,9 @@ class _ItineraryCardState extends State<ItineraryCard> {
                               _dateTimeTo = time;
                               widget.requestController.isStartTimeValid(true);
                               widget.requestController.startTime.value =
-                                  DateFormat('h:mma').format(_dateTimeTo);
+                                  DateFormat(
+                                'h:mma',
+                              ).format(_dateTimeTo);
                               // widget.timeTO(_timeTo.value);
                               log("   timeTo.value  ${widget.requestController.startTime.value}");
                               // requestController.requestScheduleList[index].scheduleTime!
@@ -183,13 +200,19 @@ class _ItineraryCardState extends State<ItineraryCard> {
                           );
                         },
                         child: Container(
-                          width: 144,
-                          height: 34,
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                          width: width * 0.37,
+                          height: width * 0.087,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: width * 0.030,
+                            vertical: width * 0.012,
+                          ),
                           alignment: Alignment.centerLeft,
                           decoration: BoxDecoration(
-                            border: Border.all(color: almostGrey),
+                            border: Border.all(
+                                color: !widget.requestController
+                                        .isStartTimeValid.value
+                                    ? colorRed
+                                    : almostGrey),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Row(
@@ -207,18 +230,23 @@ class _ItineraryCardState extends State<ItineraryCard> {
                       ),
                       if (!widget.requestController.isStartTimeValid.value)
                         CustomText(
-                          text: "*time is required",
+                          text: "timeErorr".tr,
                           color: colorRed,
+                          fontSize: width * 0.028,
                         ),
                     ],
                   ),
                   SizedBox(
-                    width: 40,
+                    width: width * 0.1,
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CustomText(text: "End time"),
+                      CustomText(
+                        text: "endTime".tr,
+                        fontSize: width * 0.038,
+                        fontWeight: FontWeight.w500,
+                      ),
                       GestureDetector(
                         onTap: () async {
                           await DatePickerBdaya.showTime12hPicker(
@@ -229,7 +257,9 @@ class _ItineraryCardState extends State<ItineraryCard> {
                               _dateTimeFrom = time;
                               widget.requestController.isEndTimeValid(true);
                               widget.requestController.endtime.value =
-                                  DateFormat('h:mma').format(_dateTimeFrom);
+                                  DateFormat(
+                                'h:mma',
+                              ).format(_dateTimeFrom);
                               log("   timeTo.value  ${widget.requestController.endtime.value}");
                               setState(() {
                                 // widget.timeFrom(_timeTo.value);
@@ -241,13 +271,19 @@ class _ItineraryCardState extends State<ItineraryCard> {
                           );
                         },
                         child: Container(
-                          width: 144,
-                          height: 34,
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          width: width * 0.37,
+                          height: width * 0.087,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: width * 0.030,
+                            vertical: width * 0.012,
+                          ),
                           alignment: Alignment.centerLeft,
                           decoration: BoxDecoration(
-                            border: Border.all(color: almostGrey),
+                            border: Border.all(
+                                color: !widget
+                                        .requestController.isEndTimeValid.value
+                                    ? colorRed
+                                    : almostGrey),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Row(children: [
@@ -262,15 +298,16 @@ class _ItineraryCardState extends State<ItineraryCard> {
                       ),
                       if (!widget.requestController.isEndTimeValid.value)
                         CustomText(
-                          text: "*time is required",
+                          text: "timeErorr".tr,
                           color: colorRed,
+                          fontSize: width * 0.028,
                         ),
                     ],
                   ),
                 ],
               ),
               SizedBox(
-                height: 12,
+                height: width * 0.03,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -280,12 +317,19 @@ class _ItineraryCardState extends State<ItineraryCard> {
                       widget.requestController.itineraryList
                           .removeAt(widget.indx!);
                       widget.requestController.intinraryCount.value--;
+                      widget.requestController.isActivtyValid(true);
+                      widget.requestController.isPriceValid(true);
+                      widget.requestController.isStartTimeValid(true);
+                      widget.requestController.isEndTimeValid(true);
+                      widget.requestController.validSave(true);
+                      widget.requestController.endtime('');
+                      widget.requestController.startTime('');
                     },
                     child: Container(
-                      width: 130,
-                      height: 34,
+                      width: width * 0.33,
+                      height: width * 0.087,
                       alignment: Alignment.center,
-                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      padding: EdgeInsets.symmetric(horizontal: width * .0410),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(4),
                         border: Border.all(color: colorRed, width: 1),
@@ -294,16 +338,16 @@ class _ItineraryCardState extends State<ItineraryCard> {
                         text: 'delete'.tr,
                         textAlign: TextAlign.center,
                         color: colorRed,
-                        fontSize: 15,
+                        fontSize: width * 0.038,
                       ),
                     ),
                   ),
                   SizedBox(
-                    width: 10,
+                    width: width * 0.025,
                   ),
                   SizedBox(
-                    width: 130,
-                    height: 34,
+                    width: width * 0.33,
+                    height: width * 0.087,
                     child: CustomButton(
                       raduis: 4,
                       title: 'save'.tr,
@@ -317,8 +361,9 @@ class _ItineraryCardState extends State<ItineraryCard> {
                               price: int.parse(_priceContorller.text),
                               scheduleName: _activityConroller.text,
                               scheduleTime: ScheduleTime(
-                                  to: widget.requestController.startTime.value,
-                                  from: widget.requestController.endtime.value),
+                                  to: widget.requestController.endtime.value,
+                                  from:
+                                      widget.requestController.startTime.value),
                             ),
                           );
 
@@ -341,7 +386,7 @@ class _ItineraryCardState extends State<ItineraryCard> {
                             widget.requestController.intinraryCount++;
                           }
                         } else {
-                          AppUtil.errorToast(context, "empty field");
+                          // AppUtil.errorToast(context, "empty field");
                         }
                       },
                     ),

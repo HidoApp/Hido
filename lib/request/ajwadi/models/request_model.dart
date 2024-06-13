@@ -12,11 +12,13 @@ class RequestModel {
   String? orderStatus;
   RequestName? requestName;
   Booking? booking;
+  List<String>? placeImage;
   List<RequestOffer>? offer;
 
   RequestModel(
       {this.id,
       this.date,
+      this.placeImage,
       this.requestType,
       this.senderName,
       this.senderImage,
@@ -38,6 +40,9 @@ class RequestModel {
     name = json['name'];
     localImage = json['localImage'];
     orderStatus = json['orderStatus'];
+    placeImage = json["placeImage"] == null
+        ? []
+        : List<String>.from(json["placeImage"]!.map((x) => x));
     requestName = json['requestName'] != null
         ? RequestName.fromJson(json['requestName'])
         : null;
