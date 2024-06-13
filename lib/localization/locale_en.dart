@@ -415,7 +415,7 @@ const localeEn = {
   'intro1':'Select a place you want to discover!',
   'intro2':'Send a tour request & receive many locals offers',
   'intro3': 'Accept an offer & confirm the itinerary!',
-  'intro4': 'and there’s more to explore :)'
+  'intro4': 'and there’s more to explore :)',
   'home': 'Home',
   'paymentMethod': 'Choose a payment method ',
   'pickUp': 'Pick up:',
