@@ -61,7 +61,7 @@ class _AddItineraryState extends State<AddItinerary> {
         child: CustomButton(
           onPressed: () {
             if (requestController.reviewItenrary.length < 3) {
-              AppUtil.errorToast(context, "you must add at least 3 itinerary");
+              AppUtil.errorToast(context, "atLeastItenrary".tr);
             } else {
               Get.to(
                 () => ReviewIenraryScreen(
@@ -73,12 +73,16 @@ class _AddItineraryState extends State<AddItinerary> {
           },
           title: "next".tr,
           icon: Icon(
-            Icons.arrow_forward_ios,
+            AppUtil.rtlDirection2(context)
+                ? Icons.arrow_back_ios
+                : Icons.arrow_forward_ios,
             size: width * 0.046,
           ),
         ),
       ),
-      appBar: CustomAppBar('Itinerary'),
+      appBar: CustomAppBar(
+        'itinerary'.tr,
+      ),
       body: Padding(
         padding: EdgeInsets.symmetric(
           vertical: width * 0.03,
@@ -88,8 +92,8 @@ class _AddItineraryState extends State<AddItinerary> {
           child: Column(
             children: [
               CustomText(
-                text:
-                    "*At least 3 activities are required to send the itinerary",
+                text: "atLeastItenrary".tr,
+                fontWeight: FontWeight.w400,
                 color: almostGrey,
                 fontSize: width * 0.033,
               ),
@@ -158,7 +162,7 @@ class _AddItineraryState extends State<AddItinerary> {
                     width: width * 0.02,
                   ),
                   CustomText(
-                    text: 'Add Activity ',
+                    text: "addActicity".tr,
                     fontSize: width * 0.04,
                   ),
                 ],

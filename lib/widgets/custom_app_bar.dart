@@ -36,7 +36,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ? TextDirection.rtl
                 : TextDirection.ltr,
             child: Padding(
-                padding: EdgeInsets.only(top: 0),
+                padding: const EdgeInsets.only(top: 0),
                 child: AppBar(
                   forceMaterialTransparency: true,
 
@@ -44,16 +44,21 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   elevation: 0,
                   title: Padding(
                     padding: AppUtil.rtlDirection2(context)
-                        ? !isAjwadi? EdgeInsets.only(top: 0, left: 0, right: 0, bottom: 18):EdgeInsets.only(
-                            top: 12, left: 0, right: 0, bottom: 0)
-                        : !isAjwadi? EdgeInsets.only(
-                            top: 0, left: 20, right: 20, bottom: 18):EdgeInsets.only(
-                            top: 16, left: 0, right: 0, bottom: 20),
+                        ? !isAjwadi
+                            ? EdgeInsets.only(
+                                top: 0, left: 0, right: 0, bottom: 18)
+                            : EdgeInsets.only(
+                                top: 12, left: 0, right: 0, bottom: 0)
+                        : !isAjwadi
+                            ? EdgeInsets.only(
+                                top: 0, left: 20, right: 20, bottom: 18)
+                            : EdgeInsets.only(
+                                top: 16, left: 0, right: 0, bottom: 20),
                     child: CustomText(
                       text: title,
                       color: color ?? black,
-                      fontWeight:FontWeight.w500,
-                      fontSize:17,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 17,
                       fontFamily: 'HT Rakik',
                     ),
                   ),
@@ -78,21 +83,22 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                       ),
                   ], //
                   centerTitle: true,
-                  
-                  leading:!isAjwadi?
-                   Padding(
-                    padding: AppUtil.rtlDirection2(context)
-                        ? EdgeInsets.only(bottom: 10, right: 30)
-                        : EdgeInsets.only(bottom: 23, left: 30),
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.arrow_back_ios,
-                        size: 22,
-                        color: iconColor ?? Colors.black,
-                      ),
-                      onPressed: () => Get.back(),
-                    ),
-                  ):Text(''),
+
+                  leading: !isAjwadi
+                      ? Padding(
+                          padding: AppUtil.rtlDirection2(context)
+                              ? EdgeInsets.only(bottom: 10, right: 30)
+                              : EdgeInsets.only(bottom: 23, left: 30),
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.arrow_back_ios,
+                              size: 22,
+                              color: iconColor ?? Colors.black,
+                            ),
+                            onPressed: () => Get.back(),
+                          ),
+                        )
+                      : Text(''),
                 ))));
   }
 }

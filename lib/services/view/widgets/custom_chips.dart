@@ -26,7 +26,7 @@ class CustomChips extends StatelessWidget {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: backgroundColor,
-        border: Border.all(width:  1.50, color: borderColor),
+        border: Border.all(width:  1.50, color: borderColor??Colors.transparent),
         borderRadius: BorderRadius.all(Radius.circular(9999)),
 
       ),
