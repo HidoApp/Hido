@@ -11,6 +11,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart' as intel;
+
 
 import '../../constants/colors.dart';
 
@@ -196,10 +198,10 @@ class CustomCarouselSlider extends StatelessWidget {
                           //  SizedBox(
                           // height: 50),
                            Padding(
-                             padding: AppUtil.rtlDirection2(context)?const EdgeInsets.only(top:132,left:77,right:25): const EdgeInsets.only(top:70,left:25,right:77),
+                             padding: AppUtil.rtlDirection2(context)?const EdgeInsets.only(top:132,left:77,right:25): const EdgeInsets.only(top:50,right:82),
                              child: Text(
-                             AppUtil.rtlDirection2(context)?'اكتشف السعودية بأهلها':'\n             Saudi\n     Through\n   Its Locals',
-                             textAlign: TextAlign.right,
+                             AppUtil.rtlDirection2(context)?'اكتشف السعودية بأهلها':'\nSaudi   \nThrough   \nIts Locals   ',
+                             textAlign:  AppUtil.rtlDirection2(context)?TextAlign.right: TextAlign.left,
                              style: TextStyle(
                              color: Colors.white,
                              fontSize: 53,
