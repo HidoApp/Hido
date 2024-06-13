@@ -105,6 +105,8 @@ class _BookingSheetState extends State<BookingSheet> {
  late tz.Location location;
   bool? DateErrorMessage;
   bool? TimeErrorMessage;
+  bool? DurationErrorMessage;
+
   bool? GuestErrorMessage;
   bool? vehicleErrorMessage;
 
@@ -137,7 +139,28 @@ late DateTime newTimeToGoInRiyadh;
 
      location = tz.getLocation(timeZoneName);
 
-     
+   bool _validateTime() {
+  final Duration totalTime = newTimeToReturn.difference(newTimeToGo);
+  print('total');
+  print(totalTime.inHours >= 4 && totalTime.inHours <= 8);
+  print(totalTime);
+  if (totalTime.inHours >= 4 && totalTime.inHours <= 8) {
+    setState(() {
+      DurationErrorMessage = false;
+    });
+    print(DurationErrorMessage);
+    return true;
+    
+  } else {
+     setState(() {
+      DurationErrorMessage = true;
+    });
+        print(DurationErrorMessage);
+
+    return false;
+    
+  }
+}  
 
   DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
   //DateTime currentDate = DateTime(currentDateInRiyadh.year, currentDateInRiyadh.month, currentDateInRiyadh.day,currentDateInRiyadh.hour+2,currentDateInRiyadh.minute);
@@ -212,7 +235,7 @@ late DateTime newTimeToGoInRiyadh;
                               ? 'mm/dd/yyy'.tr
                               : _touristExploreController.selectedDate.value
                                   .substring(0, 10),
-                          borderColor: DateErrorMessage ?? false ?Colors.red: lightGreyColor,
+                          borderColor:       DateErrorMessage ?? false ?Colors.red: lightGreyColor,
 
                      // borderColor: lightGreyColor,
                       prefixIcon: SvgPicture.asset(
@@ -304,6 +327,7 @@ late DateTime newTimeToGoInRiyadh;
                                                     .substring(0, 10));
 
                                               newTimeToGoInRiyadh = tz.TZDateTime(location, Date.year, Date.month, Date.day, newTimeToGo.hour, newTimeToGo.minute, newTimeToGo.second);
+                                         _validateTime(); // Validate time after selection
 
                                                     });
                                                   },
@@ -363,8 +387,8 @@ late DateTime newTimeToGoInRiyadh;
                                   ? "00 :00 PM"
                                   : DateFormat('hh:mm a').format(newTimeToGo),
                               //  test,
-                              borderColor: TimeErrorMessage ?? false ?Colors.red: lightGreyColor,
-
+                              borderColor: TimeErrorMessage??false?  Colors.red :  DurationErrorMessage ?? false ? Colors.red : lightGreyColor,
+ 
                               prefixIcon: SvgPicture.asset(
                                 "assets/icons/time_icon.svg",
                               ),
@@ -440,6 +464,8 @@ late DateTime newTimeToGoInRiyadh;
                                                       Get.back();
                                                       returnTime =
                                                           newTimeToReturn;
+                                                    _validateTime(); // Validate time after selection
+
                                                     });
                                                   },
                                                   padding: const EdgeInsets
@@ -497,7 +523,7 @@ late DateTime newTimeToGoInRiyadh;
                                   : DateFormat('hh:mm a')
                                       .format(newTimeToReturn),
                               //  test,
-                              borderColor:TimeErrorMessage ?? false ?Colors.red: lightGreyColor,
+borderColor: TimeErrorMessage??false?  Colors.red : DurationErrorMessage ?? false ? Colors.red : lightGreyColor,
 
                               prefixIcon: SvgPicture.asset(
                                 "assets/icons/time_icon.svg",
@@ -758,6 +784,8 @@ late DateTime newTimeToGoInRiyadh;
                             //         TimeErrorMessage = false;
                             //            });
                             // }
+
+                          
                             if( selectedRide == "")
                              setState(() {
                                      vehicleErrorMessage = true;
@@ -775,9 +803,10 @@ late DateTime newTimeToGoInRiyadh;
                                 if (_touristExploreController.isBookingDateSelected.value &&
                                     _touristExploreController
                                         .isBookingTimeSelected.value &&
-                                    selectedRide != "") {
+                                    selectedRide != "" ) {
                                       
-
+                            if( _validateTime()){
+                           print(_validateTime());
                             if(newTimeToGoInRiyadh.isAfter(nowPlusTwoHours)){
 
                                   _touristExploreController.isBookedMade(true);
@@ -843,9 +872,11 @@ late DateTime newTimeToGoInRiyadh;
                                
 
                                 }}else {
-
-                                  print("");
-                                   
+                                          AppUtil.errorToast(
+                                              context, AppUtil.rtlDirection2(context)?"يجب أن تكون مدة الجولة بين ٤ و ٨ ساعات":"The Tour duration must be between 4 and 8 hours");
+                                        }
+                                }else{
+                                print('error');
                                 }
                               },
                               icon: !AppUtil.rtlDirection(context)

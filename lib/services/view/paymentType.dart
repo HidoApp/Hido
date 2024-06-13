@@ -217,16 +217,10 @@ class _PaymentTypeScreenState extends State<PaymentTypeScreen> {
                                 });
                               },
                             ),
-                            Text(
-                              'Stc Pay',
-                              style: TextStyle(
-                                color: Color(0xFF070708),
-                                fontSize: 16,
-                                fontFamily: 'SF Pro',
-                                fontWeight: FontWeight.w600,
-                                height: 0,
-                              ),
-                            )
+                            SvgPicture.asset(
+                            "assets/icons/stc.svg",
+                            height: 20,
+                          ),
                           ],
                         ),
 

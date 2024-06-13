@@ -235,7 +235,7 @@ class _SignInSheetState extends State<SignInSheet> {
                             fontSize: 15,
                           ),
                           onTap: () => Get.offAll(
-                                () => const AccountTypeScreen(),
+                                () =>  AccountTypeScreen(),
                               ))
                     ],
                   )
