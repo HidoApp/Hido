@@ -20,7 +20,7 @@ class ExpertCard extends StatelessWidget {
     //TODO: must make it responsive
     final size = MediaQuery.of(context).size;
     return Container(
-      padding: const EdgeInsets.only(left: 12, right: 16, top: 12, bottom: 12),
+      padding: const EdgeInsets.all(12),
       height: 114,
       width: 362,
       decoration: BoxDecoration(

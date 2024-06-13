@@ -183,6 +183,7 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                 ),
                 ScheduleContainerWidget(
                               scheduleList: widget.scheduleList,
+                              offerController: widget.offerController,
                               isReview: true),
                
                 const Divider(
@@ -356,7 +357,7 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                                                           );
                                                         }).then((_) {
                                                           print("inside");
-                                                  LocalNotification().showNotification(context,widget.booking?.id, widget.booking?.timeToGo, widget.booking?.date ,_offerController.offers.last.name, thePlace?.nameAr,thePlace?.nameEn);
+                                                  LocalNotification().showNotification(context,widget.booking?.id, widget.booking?.timeToGo, widget.booking?.date ,_offerController.offers.last.name,thePlace?.nameEn, thePlace?.nameAr);
                                                
                                                   Get.to(() =>  TicketDetailsScreen(
                                                             booking: fetchedBooking,

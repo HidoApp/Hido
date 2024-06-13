@@ -296,18 +296,19 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                                   Get.back();
                                   Get.back();
                                   print("inside notifi");
-                                  LocalNotification().showAdventureNotification(
-                                      context,
-                                      updatedAdventure!.booking?.last.id,
-                                      updatedAdventure.date,
-                                      updatedAdventure.nameEn,
-                                      updatedAdventure.nameAr);
+                             
                                   Get.to(() => TicketDetailsScreen(
                                         adventure: updatedAdventure,
                                         icon: SvgPicture.asset(
                                             'assets/icons/adventure.svg'),
                                         bookTypeText: 'adventure',
                                       ));
+                                       LocalNotification().showAdventureNotification(
+                                      context,
+                                      updatedAdventure!.booking?.last.id,
+                                      widget.adventure.date,
+                                      widget.adventure.nameEn,
+                                      widget.adventure.nameAr);
                                 });
                               }
                             });

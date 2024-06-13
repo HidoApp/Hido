@@ -58,7 +58,7 @@ class _TicketScreenState extends State<TicketScreen>
               labelColor: colorGreen,
 
               unselectedLabelColor: colorDarkGrey,
-              dividerColor: darkGrey,
+              dividerColor: Color(0xFFB9B8C1),
               // indicatorPadding: EdgeInsets.symmetric(horizontal: 1),
               tabs: [
                 Tab(text: "upcomingTrips".tr),
@@ -70,7 +70,7 @@ class _TicketScreenState extends State<TicketScreen>
             // ),
             Expanded(
               child: Container(
-                color: lightGreyBackground,
+                color: Colors.white,
                 child: Obx(
                   () => Padding(
                     padding: const EdgeInsets.symmetric(
@@ -88,7 +88,7 @@ class _TicketScreenState extends State<TicketScreen>
                             : widget.profileController.upcommingTicket.isEmpty
                                 ? CustomEmptyWidget(
                                     title: 'noTicket'.tr,
-                                    image: 'no_tickets',
+                                    image: 'NoTicket',
                                     subtitle: 'noTicketSub'.tr,
                                   )
                                 // ? Column(

@@ -1,4 +1,5 @@
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/services/model/adventure.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ class CustomAdventureItem extends StatelessWidget {
     required this.rate,
     required this.date,
     required this.onTap,
+    required this.times,
   });
   final String image;
   final String? personImage;
@@ -25,6 +27,7 @@ class CustomAdventureItem extends StatelessWidget {
   final String seats;
   final String rate;
   final String date;
+  final List<Time>? times;
   final VoidCallback onTap;
 
   @override
@@ -39,7 +42,7 @@ class CustomAdventureItem extends StatelessWidget {
               horizontal: width * 0.030, vertical: width * 0.025),
           decoration: BoxDecoration(
             boxShadow: [
-              BoxShadow(blurRadius: width * 0.04, color: Colors.black12)
+              BoxShadow(blurRadius: width * 0.04, color: shadowColor)
             ],
             color: Colors.white,
             borderRadius: BorderRadius.all(
@@ -61,16 +64,18 @@ class CustomAdventureItem extends StatelessWidget {
                       fit: BoxFit.fill,
                     ),
                   ),
-                  const SizedBox(
-                    width: 11,
-                  ),
+                  SizedBox(
+                  width: width * 0.028,
+                ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomText(
                         text: title,
-                        fontSize: width * 0.05,
+                        fontSize: 16,
                         fontWeight: FontWeight.w500,
+                        fontFamily: 'SF Pro',
+
                       ),
                       SizedBox(
                         height: width * 0.01,
@@ -84,11 +89,11 @@ class CustomAdventureItem extends StatelessWidget {
                             'assets/icons/map_pin.svg',
                           ),
                           SizedBox(
-                            height: width * 0.01,
+                            width: width * 0.017,
                           ),
                           CustomText(
                             text: location,
-                            fontSize: width * 0.025,
+                            fontSize: 11,
                             fontFamily: 'SF Pro',
                             fontWeight: FontWeight.w400,
                             color: starGreyColor,
@@ -96,51 +101,53 @@ class CustomAdventureItem extends StatelessWidget {
                         ],
                       ),
                       SizedBox(
-                        width: width * 0.01,
+                        height: width * 0.01,
                       ),
                       Row(
                         children: [
                           SizedBox(
-                            width: width * 0.01,
+                            width: width * 0.017,
+                          ),
+                          SvgPicture.asset(
+                              'assets/icons/grey_calender.svg'),
+                          SizedBox(
+                            width: width * 0.02,
+                          ),
+                          CustomText(
+                            text: formatBookingDate(context,date),
+                            fontFamily: 'SF Pro',
+                            fontSize: 11,
+                            fontWeight: FontWeight.w400,
+                            color: starGreyColor,
+                          ),
+                        ],
+                      ),
+                          SizedBox(
+                            height: width * 0.01,
                           ),
                           Row(
                             children: [
-                              SvgPicture.asset(
-                                  'assets/icons/grey_calender.svg'),
+                               SizedBox(
+                          width: width * 0.01,
+                        ),
+                              SvgPicture.asset( 'assets/icons/timeGrey.svg',),
+                              // SvgPicture.asset('assets/icons/calendar.svg',color: purple,),
                               SizedBox(
-                                width: width * 0.01,
+                                width: width * 0.02,
                               ),
+                      
                               CustomText(
-                                text: DateFormat('E-dd-MMM')
-                                    .format(DateTime.parse(date)),
-                                fontSize: width * 0.025,
-                                fontWeight: FontWeight.w400,
-                                color: starGreyColor,
+                                text:times != null && times!.isNotEmpty
+                                ?'${times!.map((time) => AppUtil.formatStringTimeWithLocale(context, time.startTime) ).join(', ')} - ${times!.map((time) => AppUtil.formatStringTimeWithLocale(context, time.endTime) ).join(', ')}':
+                                '5:00-8:00 AM',                                  
+                                fontSize: 11,
+                                  fontWeight: FontWeight.w400,
+                                  color: starGreyColor,
+                                  fontFamily: 'SF Pro',
+
+                              
                               ),
-                            ],
-                          ),
-                          SizedBox(
-                            width: width * 0.041,
-                          ),
-                          // Row(
-                          //   children: [
-                          //     SvgPicture.asset('assets/icons/meal_icon.svg'),
-                          //     // SvgPicture.asset('assets/icons/calendar.svg',color: purple,),
-                          //     SizedBox(
-                          //       width: width * 0.01,
-                          //     ),
-                          //     SizedBox(
-                          //       width: 100,
-                          //       child: CustomText(
-                          //         text: meal,
-                          //         fontSize: 10,
-                          //         fontWeight: FontWeight.w300,
-                          //         color: starGreyColor,
-                          //         maxlines: 2,
-                          //       ),
-                          //     ),
-                          //   ],
-                          // ),
+                            
                         ],
                       ),
                     ],
@@ -197,6 +204,16 @@ class CustomAdventureItem extends StatelessWidget {
       ),
     );
   }
+  String formatBookingDate(BuildContext context, String date) {
+  DateTime dateTime = DateTime.parse(date);
+  if (AppUtil.rtlDirection2(context)) {
+    // Set Arabic locale for date formatting
+    return DateFormat('EEEE، d MMMM', 'ar').format(dateTime);
+  } else {
+    // Default to English locale
+    return DateFormat('EEEE, d MMMM').format(dateTime);
+  }
+}
 }
   // @override
   // Widget build(BuildContext context) {

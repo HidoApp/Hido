@@ -354,20 +354,10 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                                       // );
                                     ).then((_) {
                                       Get.back();
-                                      Get.back();
-                                      Get.back();
+                                      // Get.back();
+                                      // Get.back();
                                       print("inter notif");
-                                      LocalNotification()
-                                          .showHospitalityNotification(
-                                              context,
-                                              updatedHospitality
-                                                  ?.booking?.last.id,
-                                              widget.servicesController
-                                                  .selectedDate.value,
-                                              widget.hospitality.mealTypeEn,
-                                              widget.hospitality.mealTypeAr,
-                                              widget.hospitality.titleEn,
-                                              widget.hospitality.titleAr);
+                                      
                                       Get.to(() => TicketDetailsScreen(
                                             hospitality: updatedHospitality,
                                             icon: SvgPicture.asset(
@@ -375,6 +365,17 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                                             bookTypeText: 'hospitality',
                                           ));
                                     });
+                                            LocalNotification()
+                                          .showHospitalityNotification(
+                                              context,
+                                              updatedHospitality
+                                                  ?.booking?.first.id,
+                                              widget.servicesController
+                                                  .selectedDate.value,
+                                              widget.hospitality.mealTypeEn,
+                                              widget.hospitality.mealTypeAr,
+                                              widget.hospitality.titleEn,
+                                              widget.hospitality.titleAr);
                                   }
                                 });
                               } else {

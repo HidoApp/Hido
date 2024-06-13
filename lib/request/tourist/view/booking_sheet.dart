@@ -843,9 +843,8 @@ late DateTime newTimeToGoInRiyadh;
                                
 
                                 }}else {
-                                  //  AppUtil.errorToast(
-                                  //     context, 'bookingValidation'.tr);
 
+                                  print("");
                                    
                                 }
                               },

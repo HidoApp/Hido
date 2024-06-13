@@ -3,7 +3,7 @@ description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -20,7 +20,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+4
 
 environment:
-  sdk: '>=2.18.5 <3.0.0'
+  sdk: ">=2.18.5 <3.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -31,7 +31,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -54,7 +53,7 @@ dependencies:
   intl: ^0.18.1
   get_storage: ^2.1.1
   http:
-  #flutter_flushbar: 
+  #flutter_flushbar:
   another_flushbar: ^1.12.30
   jwt_decoder: ^2.0.1
   jhijri: ^1.0.0
@@ -75,12 +74,17 @@ dependencies:
   flutter_local_notifications: ^17.1.1
   awesome_notifications: ^0.8.2
   timezone: ^0.9.3
-  ticket_widget: ^1.0.2 
+  ticket_widget: ^1.0.2
   flutter_rating_bar: ^4.0.1
   custom_map_markers: ^0.0.2+1
   multi_dropdown: ^2.1.4
-  # workmanager: ^0.4.1
+  im_stepper: ^1.0.1+1
+  toggle_switch: ^2.3.0
+  dotted_border: ^2.1.0
 
+  flutter_expanded_tile: ^0.3.7
+  timeago: ^3.6.1
+  # workmanager: ^0.4.1
 
 dev_dependencies:
   flutter_test:
@@ -92,28 +96,23 @@ flutter_icons:
   image_path_android: "assets/images/andriod_app_icon.jpeg"
   adaptive_icon_foreground: "assets/images/andriod_app_icon.jpeg"
 
-
-
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-#fonts:
-#   - family: Kufam
-#     fonts:
-#      - asset: assets/fonts/Kufam-VariableFont_wght.ttf
-#        weight: 700
-
+  #fonts:
+  #   - family: Kufam
+  #     fonts:
+  #      - asset: assets/fonts/Kufam-VariableFont_wght.ttf
+  #        weight: 700
 
   # To add assets to your application, add an assets section, like this:
   assets:
-  - assets/images/
-  - assets/images/onboarding/
-  - assets/icons/
-  - assets/map_styles/
-    
+    - assets/images/
+    - assets/images/onboarding/
+    - assets/icons/
+    - assets/map_styles/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -137,7 +136,7 @@ flutter:
         - asset: assets/fonts/Noto_Kufi_Arabic/NotoKufiArabic-VariableFont_wght.ttf
     - family: HT Rakik
       fonts:
-      - asset: assets/fonts/rakik/HTRakik-Light_2.otf
-      - asset: assets/fonts/rakik/HTRakik-Medium.otf
+        - asset: assets/fonts/rakik/HTRakik-Light_2.otf
+        - asset: assets/fonts/rakik/HTRakik-Medium.otf
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
