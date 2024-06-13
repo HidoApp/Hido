@@ -26,17 +26,15 @@ List bottomScreens = [
   // AjwadiMapScreen(
   //   fromAjwady: true,
   // ),
-  LocalHomeScreen(fromAjwady: true, profileController: _profileController),
+ LocalHomeScreen(fromAjwady: true,profileController: _profileController),
+ // ButtomProgress(),
+
+
+
+
   const NewRequestScreen(),
-  ButtomProgress(),
+  //const RequestScreen(),
 
-//  AddHospatilityInfo(),
-
-  AjwadiMapScreen(
-    fromAjwady: true,
-  ),
-
-  const RequestScreen(),
   ProfileScreen(
     fromAjwady: true,
     profileController: _profileController,
@@ -94,12 +92,12 @@ class _AjwadiBottomBarState extends State<AjwadiBottomBar>
                   "assets/icons/my_request_green.svg",
                   color: currentIndex == 1 ? colorGreen : colorDarkGrey,
                 )),
-            BottomNavigationBarItem(
-                label: "MyExperiences".tr,
-                icon: SvgPicture.asset(
-                  "assets/icons/my_experiences.svg",
-                  color: currentIndex == 2 ? colorGreen : colorDarkGrey,
-                )),
+            // BottomNavigationBarItem(
+            //     label: "MyExperiences".tr,
+            //     icon: SvgPicture.asset(
+            //       "assets/icons/my_experiences.svg",
+            //       color: currentIndex == 2 ? colorGreen : colorDarkGrey,
+            //     )),
             BottomNavigationBarItem(
                 label: "profile".tr,
                 icon: SvgPicture.asset(

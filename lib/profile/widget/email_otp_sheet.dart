@@ -233,7 +233,7 @@ class _EmailOTPSheetState extends State<EmailOTPSheet>
                                 email: widget.email, context: context);
                             if (result) {
                               _authController.logOut();
-                              Get.offAll(() => const AccountTypeScreen());
+                              Get.offAll(() =>  AccountTypeScreen());
                               Get.to(() => const SignInScreen());
                             }
                           } else {

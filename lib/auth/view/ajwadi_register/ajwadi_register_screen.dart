@@ -77,7 +77,7 @@ class _AjwadiRegisterScreenState extends State<AjwadiRegisterScreen> {
                     children: [
                       IconButton(
                           onPressed: () {
-                            Get.off(const AccountTypeScreen(),
+                            Get.off(AccountTypeScreen(),
                                 transition: Transition.fade);
                           },
                           icon: const Icon(Icons.arrow_back_ios)),

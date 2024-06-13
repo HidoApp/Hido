@@ -1,8 +1,10 @@
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
+import 'package:ajwad_v4/services/view/widgets/itenrary_tile.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ajwad_v4/profile/view/ticket_details_screen.dart';
 import 'package:get/get.dart';
@@ -28,7 +30,12 @@ class CustomLocalTicketCard extends StatefulWidget {
 
 class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
   bool isDetailsTapped1 = false;
+  late ExpandedTileController _controller;
+void initState() {
+    super.initState();
 
+    _controller = ExpandedTileController(isExpanded: false);
+  }
   @override
   Widget build(BuildContext context) {
     final TouristExploreController _touristExploreController =
@@ -39,7 +46,7 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
     return InkWell(
       child: Container(
         width: double.infinity,
-        height: 152,
+        height:  _controller.isExpanded ? 170: 152,
         decoration: ShapeDecoration(
           shape: RoundedRectangleBorder(),
           shadows: [
@@ -68,7 +75,7 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                       : TextDirection.ltr,
                   children: [
                     CustomText(
-                      text: 'Edge of the World',
+                      text: AppUtil.rtlDirection2(context)?"حافة العالم":'Edge of the World',
                       color: Color(0xFF070708),
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -112,7 +119,7 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                               ),
                             ),
                           ),
-                          child: Text('Chat'),
+                          child: Text(AppUtil.rtlDirection2(context)?"محادثة":'Chat'),
                         ),
                         const SizedBox(width: 8),
                         ElevatedButton(
@@ -139,7 +146,7 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                             ),
                           ),
                           child: Text(
-                            'Start',
+                            AppUtil.rtlDirection2(context)?"ابدأ":'Start',
                             style: TextStyle(
                               color: Color.fromARGB(255, 255, 255, 255),
                               fontSize: 13,
@@ -168,6 +175,58 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                 ),
                 SizedBox(height: 6),
                 Divider(thickness: 1, color: Color(0xFFECECEE)),
+          //    ExpandedTile(
+          //   contentseparator: 0,
+          //   trailing: Icon(Icons.keyboard_arrow_down_outlined),
+          //   disableAnimation: true,
+          //   trailingRotation: 180,
+          //   onTap: () {
+          //     setState(() {});
+          //   },
+          //   title: CustomText(text: "See more"),
+          //   content: Column(
+          //     crossAxisAlignment: CrossAxisAlignment.start,
+          //     children: [
+          //       ItineraryTile(
+          //         title: '',
+          //         // DateFormat('EEE, d MMMM yyyy')
+          //         //     .format(DateTime.parse(widget.request.date!)),
+          //         image: "assets/icons/date.svg",
+          //       ),
+          //       SizedBox(height: width * 0.025),
+          //       ItineraryTile(
+          //         title:'',
+          //             // "Pick up: ${formatTime(widget.request.booking!.timeToGo!)}"
+          //             // ", Drop off: ${formatTime(widget.request.booking!.timeToReturn!)}",
+          //         image: "assets/icons/timeGrey.svg",
+          //       ),
+          //       SizedBox(height: width * 0.025),
+          //       ItineraryTile(
+          //         title: '',
+          //         //"${widget.request.booking!.guestNumber} guests",
+          //         image: "assets/icons/guests.svg",
+          //       ),
+          //       SizedBox(height: width * 0.025),
+          //       // ItineraryTile(
+          //       //   title:''
+          //       //   // widget.request.booking!.vehicleType.toString(),
+          //       //  // image: "assets/icons/car.svg",
+          //       // ),
+          //     ],
+          //   ),
+          //   controller: _controller,
+          //   theme: const ExpandedTileThemeData(
+          //     leadingPadding: EdgeInsets.zero,
+          //     titlePadding: EdgeInsets.zero,
+          //     headerPadding: EdgeInsets.zero,
+          //     contentPadding: EdgeInsets.zero,
+          //     headerSplashColor: Colors.transparent,
+          //     headerColor: Colors.transparent,
+          //     contentBackgroundColor: Colors.transparent,
+          //   ),
+          // ),
+          // const Spacer(),
+          // const Divider(color: lightGrey),
                 // SingleChildScrollView(
                 //   child: Column(
                 //     crossAxisAlignment: CrossAxisAlignment.start,

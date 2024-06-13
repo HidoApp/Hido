@@ -117,7 +117,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                             text: TextSpan(
                               children: [
                                 TextSpan(
-                                  text: 'Welcome ',
+                                  text:AppUtil.rtlDirection2(context)?"ياهلا": 'Welcome ',
                                   style: TextStyle(
                                     color: Color.fromRGBO(7, 7, 8, 1),
                                     fontSize: 20,
@@ -131,7 +131,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                                   text: _profileController
                                           .isProfileLoading.value
                                       ? ""
-                                      : '${_profileController.profile.name ?? ""}',
+                                      : AppUtil.rtlDirection2(context)?" نورة العيسى":'${_profileController.profile.name ?? ""}',
                                   style: TextStyle(
                                     color: Color(0xFF37B268),
                                     fontSize: 20,
@@ -163,23 +163,25 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'Your services',
-                              style: TextStyle(
-                                color: Color(0xFF070708),
-                                fontSize: 17,
-                                fontFamily: 'HT Rakik',
-                                fontWeight: FontWeight.w500,
-                                height: 0.10,
+                            Container(
+                              child: Text(
+                               AppUtil.rtlDirection(context)?"خدمات": 'Your services',
+                                style: TextStyle(
+                                  color: Color(0xFF070708),
+                                  fontSize: 17,
+                                  fontFamily: 'HT Rakik',
+                                  fontWeight: FontWeight.w500,
+                                  height: 0.10,
+                                ),
+                                textDirection: TextDirection.ltr,
                               ),
-                              textDirection: TextDirection.ltr,
                             ),
                             SizedBox(height: 16),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 CategoryCard(
-                                  title: 'Tours',
+                                  title:  AppUtil.rtlDirection(context)?"جولات ":'Tours',
                                   icon: 'tour_category',
                                   color: Color(0xFFECF9F1),
                                   onPressed: () {
@@ -192,7 +194,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                                   },
                                 ),
                                 CategoryCard(
-                                    title: 'Hospitality',
+                                    title:  AppUtil.rtlDirection(context)?"استضافة":'Hospitality',
                                     icon: 'host_category',
                                     color: Color(0xFFF5F2F8)),
                                 CategoryCard(
@@ -203,7 +205,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                             ),
                             SizedBox(height: 32),
                             Text(
-                              'Your next activity ',
+                              AppUtil.rtlDirection(context)?"نشاطك القادم": 'Your next activity ',
                               style: TextStyle(
                                 color: Color(0xFF070708),
                                 fontSize: 17,

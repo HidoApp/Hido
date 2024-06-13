@@ -145,7 +145,7 @@ class _SplashScreenState extends State<SplashScreen>
 
           Get.off(() => TouristBottomBar());
         } else if (onBoarding == 'yes') {
-           Get.off(() => const AccountTypeScreen());
+           Get.off(() => AccountTypeScreen());
         } else {
         Get.off(() => OnBoardingTry(getStorage: _getStorage ,));
         }

@@ -71,7 +71,7 @@ class OnBoardingEnjoy extends StatelessWidget {
                     await getStorage.write('onBoarding', 'yes');
 
                     
-                    Get.off(const AccountTypeScreen(),
+                    Get.off( AccountTypeScreen(),
                         transition: Transition.fade);
                   },
                   color: gold,
