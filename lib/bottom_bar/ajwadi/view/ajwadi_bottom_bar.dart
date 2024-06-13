@@ -27,14 +27,10 @@ List bottomScreens = [
   //   fromAjwady: true,
   // ),
  LocalHomeScreen(fromAjwady: true,profileController: _profileController),
- const RequestScreen(),
-  ButtomProgress(),
+ // ButtomProgress(),
 
 //  AddHospatilityInfo(),
 
-  AjwadiMapScreen(
-    fromAjwady: true,
-  ),
   const NewRequestScreen(),
   const RequestScreen(),
   ProfileScreen(
