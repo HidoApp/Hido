@@ -55,7 +55,7 @@ class _ReviewIenraryScreenState extends State<ReviewIenraryScreen> {
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: CustomAppBar(
-        'reviewOffer'.tr,
+        'reviewItenrary'.tr,
       ),
       backgroundColor: lightGreyBackground,
       body: Padding(
@@ -67,7 +67,7 @@ class _ReviewIenraryScreenState extends State<ReviewIenraryScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CustomText(
-              text: "Itinerary Details",
+              text: "ItineraryDetails".tr,
               fontSize: width * 0.044,
             ),
             SizedBox(
@@ -93,7 +93,7 @@ class _ReviewIenraryScreenState extends State<ReviewIenraryScreen> {
             const Divider(
               color: almostGrey,
             ),
-            Spacer(),
+            const Spacer(),
             Obx(
               () => widget.requestController.isRequestAcceptLoading.value
                   ? const Center(child: CircularProgressIndicator.adaptive())
@@ -110,9 +110,33 @@ class _ReviewIenraryScreenState extends State<ReviewIenraryScreen> {
                         if (widget.requestController.isRequestAccept.value) {
                           if (context.mounted) {
                             AppUtil.successToast(context, 'done'.tr);
-                            await widget.requestController
-                                .getRequestList(context: context);
-                            Get.offAll(() => const AjwadiBottomBar());
+                            showDialog(
+                              context: context,
+                              builder: (ctx) {
+                                return AlertDialog(
+                                  backgroundColor: Colors.white,
+                                  surfaceTintColor: Colors.white,
+                                  content: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Image.asset(
+                                          'assets/images/paymentSuccess.gif'),
+                                      CustomText(
+                                        text: "offerSent".tr,
+                                        fontSize: width * 0.038,
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                            // await widget.requestController
+                            //     .getRequestList(context: context);
+                            Future.delayed(
+                              const Duration(seconds: 2),
+                              () => Get.offAll(() => const AjwadiBottomBar()),
+                            );
+                            // Get.offAll(() => const AjwadiBottomBar());
                           } else {
                             AppUtil.errorToast(context, 'error'.tr);
                           }
@@ -120,7 +144,9 @@ class _ReviewIenraryScreenState extends State<ReviewIenraryScreen> {
                       },
                       title: 'send'.tr,
                       icon: Icon(
-                        Icons.arrow_forward_ios,
+                        AppUtil.rtlDirection2(context)
+                            ? Icons.arrow_back_ios
+                            : Icons.arrow_forward_ios,
                         size: width * 0.05,
                       ),
                     ),

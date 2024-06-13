@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/request/ajwadi/controllers/request_controller.dart';
 import 'package:ajwad_v4/request/ajwadi/view/Itinerary_screen.dart';
+import 'package:ajwad_v4/request/ajwadi/view/widget/empty_request.dart';
 import 'package:ajwad_v4/request/ajwadi/view/widget/offline_request.dart';
 import 'package:ajwad_v4/request/ajwadi/view/widget/request_card.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
@@ -46,7 +47,7 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
             child: Row(
               children: [
                 CustomText(
-                  text: isSwitched ? "Online" : "Offline",
+                  text: isSwitched ? "online".tr : "offline".tr,
                   color: isSwitched ? colorGreen : colorDarkGrey,
                 ),
                 SizedBox(width: width * 0.03),
@@ -66,35 +67,44 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
           )
         ],
       ),
-      body: Obx(
-        () => Padding(
-          padding: EdgeInsets.only(
-              left: width * 0.04, right: width * 0.04, top: width * 0.03),
-          child: _requestController.isRequestListLoading.value
-              ? const Center(child: CircularProgressIndicator.adaptive())
-              : ListView.separated(
-                  separatorBuilder: (context, index) => SizedBox(
-                    height: width * 0.03,
-                  ),
-                  shrinkWrap: true,
-                  itemCount: _requestController.requestList.length,
-                  itemBuilder: (context, index) => RequestCard(
-                    onReject: () async {
-                      _requestController.requestIndex.value = index;
-                      bool? reject = await _requestController.requestReject(
-                          id: _requestController.requestList[index].id!,
-                          context: context);
-                      if (reject == true && context.mounted) {
-                        await _requestController.getRequestList(
-                            context: context);
-                      }
-                    },
-                    request: _requestController.requestList[index],
-                  ),
-                ),
-        ),
-      ),
-      // : const OfflineRequest(),
+      body: isSwitched
+          ? Obx(
+              () => Padding(
+                padding: EdgeInsets.only(
+                    left: width * 0.04, right: width * 0.04, top: width * 0.03),
+                child: _requestController.isRequestListLoading.value
+                    ? const Center(child: CircularProgressIndicator.adaptive())
+                    : _requestController.requestList.isNotEmpty
+                        ? ListView.separated(
+                            separatorBuilder: (context, index) => SizedBox(
+                              height: width * 0.03,
+                            ),
+                            shrinkWrap: true,
+                            itemCount: _requestController.requestList.length,
+                            itemBuilder: (context, index) => RequestCard(
+                              onReject: () async {
+                                _requestController.requestIndex.value = index;
+                                bool? reject =
+                                    await _requestController.requestReject(
+                                        id: _requestController
+                                            .requestList[index].id!,
+                                        context: context);
+                                if (reject == true && context.mounted) {
+                                  _requestController.requestList.removeAt(
+                                      _requestController.requestIndex.value);
+                                  // await _requestController.getRequestList(
+                                  //     context: context);
+                                }
+                              },
+                              index: index,
+                              request: _requestController.requestList[index],
+                              requestController: _requestController,
+                            ),
+                          )
+                        : const EmptyRequest(),
+              ),
+            )
+          : const OfflineRequest(),
     );
   }
 }

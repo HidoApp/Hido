@@ -8,6 +8,7 @@ import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/custom_textfield.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_datetime_picker_bdaya/flutter_datetime_picker_bdaya.dart';
@@ -151,9 +152,13 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomText(
-                  text: "Activity name",
-                  fontSize: width * 0.038,
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: width * 0.033),
+                  child: CustomText(
+                    text: "activityName".tr,
+                    fontSize: width * 0.038,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
                 SizedBox(
                   height: width * 0.01,
@@ -167,20 +172,27 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                           : colorRed,
                   onChanged: (value) {},
                   height: width * 0.107,
-                  hintText: 'write the activity name',
+                  hintText: 'activityHint'.tr,
                 ),
                 if (!widget.requestController.isActivtyReviewValid.value)
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: width * 0.030),
+                    padding: EdgeInsets.symmetric(horizontal: width * 0.03),
                     child: CustomText(
-                      text: "*this field is requested",
+                      text: "activityError".tr,
                       color: colorRed,
+                      fontSize: width * 0.028,
                     ),
                   ),
                 SizedBox(
                   height: width * 0.030,
                 ),
-                CustomText(text: "Price"),
+                Padding(
+                    padding: EdgeInsets.symmetric(horizontal: width * 0.033),
+                    child: CustomText(
+                      text: "price".tr,
+                      fontSize: width * 0.038,
+                      fontWeight: FontWeight.w500,
+                    )),
                 Obx(
                   () => CustomTextField(
                     keyboardType: TextInputType.number,
@@ -190,16 +202,17 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                             ? almostGrey
                             : colorRed,
                     height: width * 0.10,
-                    hintText: '00.00 SAR',
+                    hintText: '00.00 ${"sar".tr}',
                     onChanged: (value) {},
                   ),
                 ),
                 if (!widget.requestController.isPriceReviewValid.value)
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: width * 0.030),
+                    padding: EdgeInsets.symmetric(horizontal: width * 0.03),
                     child: CustomText(
-                      text: "*Please enter a price",
+                      text: "priceError".tr,
                       color: colorRed,
+                      fontSize: width * 0.028,
                     ),
                   ),
                 SizedBox(
@@ -211,10 +224,14 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        CustomText(text: "Start time"),
+                        CustomText(
+                          text: "startTime".tr,
+                          fontSize: width * 0.038,
+                          fontWeight: FontWeight.w500,
+                        ),
                         SizedBox(
-                          width: width * 0.35,
-                          height: width * 0.107,
+                          width: width * 0.37,
+                          height: width * 0.087,
                           child: GestureDetector(
                             onTap: () async {
                               await DatePickerBdaya.showTime12hPicker(
@@ -223,61 +240,14 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                                 onConfirm: (time) {
                                   _dateTimeTo = time;
 
-                                  widget.schedule.scheduleTime!.to =
-                                      DateFormat('h:mma').format(_dateTimeTo);
+                                  widget.schedule.scheduleTime!.from =
+                                      DateFormat(
+                                    'h:mma',
+                                  ).format(_dateTimeTo);
+                                  log("${widget.schedule.scheduleTime!.to}");
                                   // setState(() {
                                   //   // widget.timeTO(_timeTo.value);
 
-                                  //   // requestController.requestScheduleList[index].scheduleTime!
-                                  //   //     .to = _timeTo.value;
-                                  //   // log("to ${requestController.requestScheduleList[index].scheduleTime!.to}");
-                                  // });
-                                },
-                              );
-                            },
-                            child: Container(
-                              width: width * 0.369,
-                              height: width * 0.087,
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: width * 0.030,
-                                  vertical: width * 0.015),
-                              alignment: Alignment.centerLeft,
-                              decoration: BoxDecoration(
-                                border: Border.all(color: almostGrey),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Row(children: [
-                                SvgPicture.asset('assets/icons/Arrows-s.svg'),
-                                CustomText(
-                                    color: almostGrey,
-                                    text: widget.schedule.scheduleTime!.to),
-                              ]),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CustomText(text: "End time"),
-                        SizedBox(
-                          width: width * 0.35,
-                          height: width * 0.107,
-                          child: GestureDetector(
-                            onTap: () async {
-                              await DatePickerBdaya.showTime12hPicker(
-                                context,
-                                showTitleActions: true,
-                                currentTime: _dateTimeFrom,
-                                onConfirm: (time) {
-                                  _dateTimeFrom = time;
-                                  isPickedTimeFrom = true;
-                                  widget.schedule.scheduleTime!.from =
-                                      DateFormat('h:mma').format(_dateTimeFrom);
-                                  log("   timeTo.value  ${_timeFrom.value}");
-                                  // setState(() {
-                                  //   // widget.timeFrom(_timeTo.value);
                                   //   // requestController.requestScheduleList[index].scheduleTime!
                                   //   //     .to = _timeTo.value;
                                   //   // log("to ${requestController.requestScheduleList[index].scheduleTime!.to}");
@@ -307,6 +277,61 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                         ),
                       ],
                     ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CustomText(
+                          text: "endTime".tr,
+                          fontSize: width * 0.038,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        SizedBox(
+                          width: width * 0.37,
+                          height: width * 0.087,
+                          child: GestureDetector(
+                            onTap: () async {
+                              await DatePickerBdaya.showTime12hPicker(
+                                context,
+                                showTitleActions: true,
+                                currentTime: _dateTimeFrom,
+                                onConfirm: (time) {
+                                  _dateTimeFrom = time;
+                                  isPickedTimeFrom = true;
+                                  widget.schedule.scheduleTime!.to = DateFormat(
+                                    'h:mma',
+                                  ).format(_dateTimeFrom);
+                                  log("   timeTo.value  ${_timeFrom.value}");
+                                  // setState(() {
+                                  //   // widget.timeFrom(_timeTo.value);
+                                  //   // requestController.requestScheduleList[index].scheduleTime!
+                                  //   //     .to = _timeTo.value;
+                                  //   // log("to ${requestController.requestScheduleList[index].scheduleTime!.to}");
+                                  // });
+                                },
+                              );
+                            },
+                            child: Container(
+                              width: width * 0.369,
+                              height: width * 0.087,
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: width * 0.030,
+                                  vertical: width * 0.015),
+                              alignment: Alignment.centerLeft,
+                              decoration: BoxDecoration(
+                                border: Border.all(color: almostGrey),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Row(children: [
+                                SvgPicture.asset('assets/icons/Arrows-s.svg'),
+                                CustomText(
+                                    color: almostGrey,
+                                    text: widget.schedule.scheduleTime!.to),
+                              ]),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
                 SizedBox(
@@ -324,7 +349,8 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                         width: width * 0.33,
                         height: width * 0.087,
                         alignment: Alignment.center,
-                        padding: EdgeInsets.symmetric(horizontal: width * 0.04),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: width * .0410),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(4),
                           border: Border.all(color: colorRed, width: 1),
@@ -353,7 +379,7 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                                 .reviewItenrary[widget.indx] = widget.schedule;
                             _controller.collapse();
                           } else {
-                            AppUtil.errorToast(context, "msg");
+                            // AppUtil.errorToast(context, "msg");
                           }
                         },
                       ),
