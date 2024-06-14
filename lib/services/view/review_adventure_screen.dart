@@ -296,14 +296,14 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                                   Get.back();
                                   Get.back();
                                   print("inside notifi");
-                             
+
                                   Get.to(() => TicketDetailsScreen(
                                         adventure: updatedAdventure,
                                         icon: SvgPicture.asset(
                                             'assets/icons/adventure.svg'),
                                         bookTypeText: 'adventure',
                                       ));
-                                       LocalNotification().showAdventureNotification(
+                                  LocalNotification().showAdventureNotification(
                                       context,
                                       updatedAdventure!.booking?.last.id,
                                       widget.adventure.date,

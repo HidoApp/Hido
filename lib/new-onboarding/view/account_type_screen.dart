@@ -13,7 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart' as intel;
 
-
 import '../../constants/colors.dart';
 
 class AccountTypeScreen extends StatefulWidget {
@@ -33,25 +32,18 @@ class _AccountTypeScreenState extends State<AccountTypeScreen> {
     // 'assets/images/intro_3.png',
     // 'assets/images/intro5.png',
   ];
-  final List<String> _des = [
-    '',
-    'intro1',
-    'intro2',
-    'intro3',
-    'intro4'
-   
-  ];
+  final List<String> _des = ['', 'intro1', 'intro2', 'intro3', 'intro4'];
   // late final VideoPlayerController _controller;
 
   int _currentIndex = 0;
- @override
+  @override
   // void initState() {
   //   super.initState();
   //   _controller = VideoPlayerController.asset('assets/video/intro_vid.mp4')
   //     ..initialize().then((_) {
   //       _controller.play();
   //       _controller.setLooping(true);
-     
+
   //     });
   // }
 
@@ -121,7 +113,6 @@ class CustomCarouselSlider extends StatelessWidget {
   final ValueChanged<int> onPageChanged;
   // final  VideoPlayerController controller;
 
-
   const CustomCarouselSlider({
     Key? key,
     required this.images,
@@ -131,191 +122,211 @@ class CustomCarouselSlider extends StatelessWidget {
     required this.currentIndex,
     required this.onPageChanged,
     // required this.controller,
-
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    
-    return Container(
-      width: currentIndex==0?MediaQuery.of(context).size.width:390,
-      height: 944,
-      padding: const EdgeInsets.only(top: 70),
-      clipBehavior: Clip.antiAlias,
-      decoration:currentIndex==0? BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(images[0]), // Your background image
-                fit: BoxFit.fill,
-              ),
-            ) :ShapeDecoration(
-        color: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(24),
-        ),
-      ),
-      child: Column(
-        children: [
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              CarouselSlider.builder(
-                itemCount: images.length,
-                disableGesture: true,
-                itemBuilder: (context, index, realIndex) {
-                  
-                //    if (index == 0) {
-                //           return SizedBox(
-                //   width: controller.value.size?.width ?? 0,
-                //   height: controller.value.size?.height ?? 0,
-                //   child: VideoPlayer(controller),
-                // ); // Display video as the first item
-                //          } else {
-                  return Column(
-                    children: [
-                      if(index==0)...[
-
-                    Container( ),
-                      ]
-                      else...[
-
-                    
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        // margin: EdgeInsets.symmetric(horizontal: 10),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          image: DecorationImage(
-                            image: AssetImage(images[index]),
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                        height: 380,
-                      ),
-                      ],
-                     
-                          if(index==0)...[// Space between image and description
-                          //  SizedBox(
-                          // height: 50),
-                           Padding(
-                             padding: AppUtil.rtlDirection2(context)?const EdgeInsets.only(top:132,left:77,right:25): const EdgeInsets.only(top:50,right:82),
-                             child: Text(
-                             AppUtil.rtlDirection2(context)?'اكتشف السعودية بأهلها':'\nSaudi   \nThrough   \nIts Locals   ',
-                             textAlign:  AppUtil.rtlDirection2(context)?TextAlign.right: TextAlign.left,
-                             style: TextStyle(
-                             color: Colors.white,
-                             fontSize: 53,
-                             fontFamily: 'HT Rakik',
-                             fontWeight: FontWeight.w500,
-                             ),
-                             )),
-                             
-                ]else...[
-                        SizedBox(
-                          height: 20),
-                      Padding(
-                        padding:
-                            const EdgeInsets.only(left: 8, right: 8, bottom: 8),
-                        child: Text(
-                          descriptions[index].tr,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Color(0xFF36B268),
-                            fontSize: 22,
-                            fontFamily: 'HT Rakik',
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                      ],
-                    ],
-                  );
-                        // }
-                },
-                options: CarouselOptions(
-                  height: 480,
-                  viewportFraction: 1.0,
-                  enlargeCenterPage: true,
-                  onPageChanged: (index, reason) {
-                    onPageChanged(index);
-                  },
+    final width = MediaQuery.of(context).size.width;
+    return SingleChildScrollView(
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        padding: EdgeInsets.only(top: width * 0.179),
+        clipBehavior: Clip.antiAlias,
+        decoration: currentIndex == 0
+            ? BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(images[0]), // Your background image
+                  fit: BoxFit.fill,
+                ),
+              )
+            : ShapeDecoration(
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(24),
                 ),
               ),
-              Container(
-                // margin: EdgeInsets.only(top: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: images.map((url) {
-                    int index = images.indexOf(url);
-                    return currentIndex == index
-                        ? SvgPicture.asset('assets/icons/slider.svg')
-                        : Container(
-                            width: 12.0,
-                            height: 12.0,
-                            margin: EdgeInsets.symmetric(
-                                vertical: 15.0, horizontal: 2.0),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Color(0xFFDCDCE0),
-                            ),
-                          );
-                  }).toList(),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 16, right: 16, top: 29, bottom: 10),
-                child: CustomButton(
-                  title: 'tourist'.tr,
-                  onPressed: () {
-                    Get.to(() => SignInScreen());
-                  },
-                  raduis: 8,
-
-                  
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: CustomButton(
-                  title: 'localGuide'.tr,
-                  onPressed: () {
-                    Get.to(() => SignInScreen());
-                  },
-                  buttonColor:currentIndex==0?Color.fromARGB(0, 0, 0, 0) :Colors.white,
-                  raduis: 8,
-                  textColor: colorGreen,
-                ),
-              ),
-            ],
-          ),
-          GestureDetector(
-            onTap: () {
-          Get.to(() => const TouristBottomBar());
-            },
-            child: Row(
+        child: Column(
+          children: [
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                CarouselSlider.builder(
+                  itemCount: images.length,
+                  disableGesture: true,
+                  itemBuilder: (context, index, realIndex) {
+                    //    if (index == 0) {
+                    //           return SizedBox(
+                    //   width: controller.value.size?.width ?? 0,
+                    //   height: controller.value.size?.height ?? 0,
+                    //   child: VideoPlayer(controller),
+                    // ); // Display video as the first item
+                    //          } else {
+                    return SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          if (index == 0) ...[
+                            Container(),
+                          ] else ...[
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              // margin: EdgeInsets.symmetric(horizontal: 10),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                image: DecorationImage(
+                                  image: AssetImage(images[index]),
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                              height: width * 0.97,
+                            ),
+                          ],
+                          if (index == 0) ...[
+                            // Space between image and description
+                            //  SizedBox(
+                            // height: 50),
+                            Padding(
+                                padding: AppUtil.rtlDirection2(context)
+                                    ? EdgeInsets.only(
+                                        top: width * 0.33,
+                                        left: width * 0.197,
+                                        right: width * 0.064)
+                                    : EdgeInsets.only(
+                                        top: width * 0.12,
+                                        right: width * 0.210),
+                                child: Text(
+                                  AppUtil.rtlDirection2(context)
+                                      ? 'اكتشف السعودية بأهلها'
+                                      : '\nSaudi   \nThrough   \nIts Locals   ',
+                                  textAlign: AppUtil.rtlDirection2(context)
+                                      ? TextAlign.right
+                                      : TextAlign.left,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: width * 0.13,
+                                    fontFamily: 'HT Rakik',
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                )),
+                          ] else ...[
+                            SizedBox(height: width * 0.051),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  left: width * .020,
+                                  right: width * .020,
+                                  bottom: width * .020),
+                              child: Text(
+                                descriptions[index].tr,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Color(0xFF36B268),
+                                  fontSize: width * 0.05,
+                                  fontFamily: 'HT Rakik',
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ],
+                      ),
+                    );
+                    // }
+                  },
+                  options: CarouselOptions(
+                    height: width * 1.2,
+                    viewportFraction: 1.0,
+                    enlargeCenterPage: true,
+                    onPageChanged: (index, reason) {
+                      onPageChanged(index);
+                    },
+                  ),
+                ),
+                Container(
+                  // margin: EdgeInsets.only(top: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: images.map((url) {
+                      int index = images.indexOf(url);
+                      return currentIndex == index
+                          ? SvgPicture.asset('assets/icons/slider.svg')
+                          : Container(
+                              width: width * 0.03,
+                              height: width * 0.03,
+                              margin: EdgeInsets.symmetric(
+                                  vertical: width * .038, horizontal: 2.0),
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Color(0xFFDCDCE0),
+                              ),
+                            );
+                    }).toList(),
+                  ),
+                ),
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
-                  child: Text(
-                    AppUtil.rtlDirection2(context) ? 'الإستمرار كزائر' : 'Continue as a Guest',
-                    textAlign: AppUtil.rtlDirection2(context)
-                        ? TextAlign.end
-                        : TextAlign.start,
-                    style: TextStyle(
-                      color:currentIndex==0?Colors.white: Color(0xFFB9B8C1),
-                      fontSize: 16,
-                      fontFamily: 'SF Pro',
-                      fontWeight: FontWeight.w500,
-                      height: 0,
-                    ),
+                  padding: EdgeInsets.only(
+                      left: width * 0.04,
+                      right: width * 0.04,
+                      top: width * 0.07,
+                      bottom: width * 0.02),
+                  child: CustomButton(
+                    title: 'tourist'.tr,
+                    onPressed: () {
+                      Get.to(() => SignInScreen());
+                    },
+                    raduis: 8,
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: width * 0.04,
+                  ),
+                  child: CustomButton(
+                    title: 'localGuide'.tr,
+                    onPressed: () {
+                      Get.to(() => const SignInScreen());
+                    },
+                    buttonColor: currentIndex == 0
+                        ? Color.fromARGB(0, 0, 0, 0)
+                        : Colors.white,
+                    raduis: 8,
+                    textColor: colorGreen,
                   ),
                 ),
               ],
             ),
-          )
-        ],
+            GestureDetector(
+              onTap: () {
+                Get.to(() => const TouristBottomBar());
+              },
+              child: Row(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: width * 0.04, vertical: width * 0.082),
+                    child: Text(
+                      AppUtil.rtlDirection2(context)
+                          ? 'الإستمرار كزائر'
+                          : 'Continue as a Guest',
+                      textAlign: AppUtil.rtlDirection2(context)
+                          ? TextAlign.end
+                          : TextAlign.start,
+                      style: TextStyle(
+                        color: currentIndex == 0
+                            ? Colors.white
+                            : Color(0xFFB9B8C1),
+                        fontSize: width * 0.04,
+                        fontFamily: 'SF Pro',
+                        fontWeight: FontWeight.w500,
+                        height: 0,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
