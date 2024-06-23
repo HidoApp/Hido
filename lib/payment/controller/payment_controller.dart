@@ -3,6 +3,7 @@ import 'package:ajwad_v4/payment/model/payment_result.dart';
 
 import 'package:ajwad_v4/payment/service/payment_service.dart';
 import 'package:ajwad_v4/request/tourist/models/schedule.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -11,6 +12,7 @@ class PaymentController extends GetxController {
   var isCreditCardPaymentLoading = false.obs;
   var isPaymenInvoiceLoading = false.obs;
   var isPaymenInvoiceByIdLoading = false.obs;
+  var isPaymentGatewayLoading = false.obs;
   // var PaymentResult = false.obs;
 
   Future<PaymentResult?> payWithCreditCard({
@@ -54,8 +56,6 @@ class PaymentController extends GetxController {
     //required String description,
     // required int amount,
     required int InvoiceValue,
-     
-
   }) async {
     try {
       isPaymenInvoiceLoading(true);
@@ -72,22 +72,42 @@ class PaymentController extends GetxController {
       print(e);
       return null;
     } finally {
-    isPaymenInvoiceLoading(false);
-
+      isPaymenInvoiceLoading(false);
     }
   }
 
+  Future<Invoice?> paymentGateway({
+    required BuildContext context,
+    required String language,
+    required String paymentMethod,
+    required int price,
+  }) async {
+    try {
+      isPaymentGatewayLoading(true);
+      final data = await PaymentService.paymentGateway(
+          context: context,
+          language: language,
+          paymentMethod: paymentMethod,
+          price: price);
+      print("this is invo from serv2");
+      print(data);
+      return data;
+    } catch (e) {
+      isPaymentGatewayLoading(false);
+      AppUtil.errorToast(context, e.toString());
+      return null;
+    } finally {
+      isPaymentGatewayLoading(false);
+    }
+  }
 
   Future<Invoice?> paymentInvoiceById({
     required BuildContext context,
     required String id,
   }) async {
-        try {
+    try {
       isPaymenInvoiceByIdLoading(true);
-      final data = PaymentService.paymentInvoiceById(
-        context: context,
-        id: id
-      );
+      final data = PaymentService.paymentInvoiceById(context: context, id: id);
       print("this is pay from controller");
       print(data);
       return data;

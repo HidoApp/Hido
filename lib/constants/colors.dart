@@ -15,6 +15,8 @@ const Color darkReddishOrange = Color(0xFFB6532D);
 const Color purple = Color(0xFF8B71AB);
 const Color darkPurple = Color(0xFF715691);
 const Color gold = Color(0xFFB38D4A);
+const Color borderGrey = Color(0xFFB9B8C1);
+
 //---------------------------------------------------------
 
 const Color colorGreen = Color(0xFF36B268);
@@ -51,4 +53,4 @@ const Color starGreyColor = Color(0xFF9392A0);
 // Color(0xff5F5F5F);
 const Color containerGreyColor = Color(0xffF5F5F5);
 const Color dotGreyColor = Color(0xff979797);
-const Color shadowColor   = Color(0x3FC7C7C7);
+const Color shadowColor = Color(0x3FC7C7C7);

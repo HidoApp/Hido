@@ -35,416 +35,398 @@ import '../../widgets/schedule_container_widget.dart';
 import '../../widgets/total_widget.dart';
 
 class ReviewRequest extends StatefulWidget {
-  const ReviewRequest(
-      {super.key,
-      required this.booking,
-       this.offerController,
-       this.place,
-      required this.scheduleList,
-    });
-    final Booking ?booking;
-   final List<Schedule>? scheduleList;
-   final OfferController? offerController;
-   final Place? place;
-   
+  const ReviewRequest({
+    super.key,
+    required this.booking,
+    this.offerController,
+    this.place,
+    required this.scheduleList,
+  });
+  final Booking? booking;
+  final List<Schedule>? scheduleList;
+  final OfferController? offerController;
+  final Place? place;
 
   @override
   State<ReviewRequest> createState() => _ReviewRequestState();
-  
 }
 
 class _ReviewRequestState extends State<ReviewRequest> {
   Invoice? invoice;
   bool isCheckingForPayment = false;
   int finalCost = 0;
-  final RequestController _RequestController= Get.put(RequestController());
-    final TouristExploreController _touristExploreController =
+  final RequestController _RequestController = Get.put(RequestController());
+  final TouristExploreController _touristExploreController =
       Get.put(TouristExploreController());
   final _offerController = Get.put(OfferController());
-    Place? thePlace;
+  Place? thePlace;
 
   // late book.Booking? fetchedBooking2;
   @override
-   initState() {
+  initState() {
     // TODO: implement initState
     super.initState();
-WidgetsBinding.instance.addPostFrameCallback((_) {
-    getBooking();
-  });
-
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      getBooking();
+    });
   }
 
- void getBooking()async{
-     print("1");
+  void getBooking() async {
+    print("1");
 
-  // book.Booking? fetchedBooking = await _RequestController.getBookingById(
-  //     context: context,
-  //     bookingId: widget.booking!.id!,
-  //   );
-  //   print(fetchedBooking?.id);
-  //   fetchedBooking2=fetchedBooking;
-  //   print(fetchedBooking2?.id);
+    // book.Booking? fetchedBooking = await _RequestController.getBookingById(
+    //     context: context,
+    //     bookingId: widget.booking!.id!,
+    //   );
+    //   print(fetchedBooking?.id);
+    //   fetchedBooking2=fetchedBooking;
+    //   print(fetchedBooking2?.id);
 
     // print(fetchedBooking2!.offers!.length);
     // if(fetchedBooking2!.offers!!=[]){
     // await widget.offerController?.getOfferById(context: context, offerId:fetchedBooking!.offers!.last.id);
     // }
-    await _offerController.getOffers(context: context, placeId:widget.place!.id! , bookingId:  widget.booking!.id!);
+    await _offerController.getOffers(
+        context: context,
+        placeId: widget.place!.id!,
+        bookingId: widget.booking!.id!);
     print('First Offer ID: ${_offerController.offers.length}');
     print(_offerController.offers.last.offerId);
-      thePlace = await _touristExploreController.getPlaceById(
+    thePlace = await _touristExploreController.getPlaceById(
         id: widget.place!.id!, context: context);
+  }
 
-
-
-  
- }
   PaymentController paymentController = Get.put(PaymentController());
   @override
   Widget build(BuildContext context) {
+    print("this is total final invoice price11");
+    print(widget.offerController!.totalPrice.value *
+        widget.offerController!.offerDetails.value.booking!.guestNumber!);
 
-                              print("this is total final invoice price11");
-                              print(widget.offerController!
-                                                        .totalPrice.value *
-                                                    widget
-                                                        .offerController!
-                                                        .offerDetails
-                                                        .value
-                                                        .booking!
-                                                        .guestNumber!);
-    
     final width = MediaQuery.of(context).size.width;
-   return Obx(
-      ()=> _RequestController.isBookingLoading.value? 
-      
-      Scaffold(
-       body: Center(
-              child: CircularProgressIndicator(
-        color: Colors.green[800]))
-
-      ):Scaffold(
-      extendBodyBehindAppBar: false,
-      appBar: CustomAppBar(
-        "ReviewRequest".tr,
-      ),
-      body: Container(
-        padding: EdgeInsets.only(top:width * 0.01,left:width * 0.043,right:width * 0.043),
-        child: SizedBox(
-          height: MediaQuery.sizeOf(context).height,
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomText(
-                  text:'RequestedTourDetails'.tr,
-                  fontSize: width * 0.047,
-                  fontFamily: 'HT Rakik',
-                  fontWeight: FontWeight.w500,
-                ),
-                SizedBox(
-                  height: width * 0.04,
-                ),
-                ReviewDetailsTile(
-                    title:'${DateFormat('EEE, dd MMMM yyyy').format(DateTime.parse(widget.booking!.date!))}',
-                    image: 'assets/icons/date.svg'),
-                 SizedBox(
-                   height: 7,
-                     ),
-                // Details
-                ReviewDetailsTile(
-                    title:AppUtil.rtlDirection2(context)?' ${DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking?.timeToGo}'))} إلى ${DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking?.timeToReturn}'))} ':'Pick up:  ${DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking?.timeToGo}'))},  Drop off:  ${DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking?.timeToReturn}'))}',
-                    image: 'assets/icons/time3.svg'),
-                 SizedBox(
-                   height: 7,
-                     ),
-                ReviewDetailsTile(
-                    title:'${widget.booking?.guestNumber} ${'guests'.tr}',
-                    image: 'assets/icons/guests.svg'),
-                   SizedBox(
-                   height: 7,
-                     ),
-                 ReviewDetailsTile(
-                    title: widget.booking!.vehicleType!,
-                    image: 'assets/icons/unselected_${widget.booking?.vehicleType!}_icon.svg'),
-                SizedBox(
-                   height: 13,
-                     ),
-                const Divider(
-                  color: lightGrey,
-                ),
-                SizedBox(
-                  height: width * 0.03,
-                ),
-                CustomText(
-                  text: "ItineraryDetails".tr,
-                   fontSize: width * 0.047,
-                  fontFamily: 'HT Rakik',
-                  fontWeight: FontWeight.w500,
-                ),
-                ScheduleContainerWidget(
-                              scheduleList: widget.scheduleList,
-                              offerController: widget.offerController,
-                              isReview: true),
-               
-                const Divider(
-                   color: lightGrey,
-                ),
-                  SizedBox(
-                  height: width * 0.25,
-                ),
-                
-                // SizedBox(
-                //   height: width * 0.25,
-                // ), 
-                
-                //discount widget
-               // const PromocodeField(),
-                SizedBox(
-                  height: width * 0.071,
-                ),
-                DottedSeparator(
-                  color: almostGrey,
-                  height: width * 0.002,
-                ),
-                SizedBox(
-                  height: width * 0.09,
-                ),
-              
-                  TotalWidget(
+    return Obx(
+      () => _RequestController.isBookingLoading.value
+          ? Scaffold(
+              body: Center(
+                  child: CircularProgressIndicator(color: Colors.green[800])))
+          : Scaffold(
+              extendBodyBehindAppBar: false,
+              appBar: CustomAppBar(
+                "ReviewRequest".tr,
+              ),
+              body: Container(
+                padding: EdgeInsets.only(
+                    top: width * 0.01,
+                    left: width * 0.043,
+                    right: width * 0.043),
+                child: SizedBox(
+                  height: MediaQuery.sizeOf(context).height,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CustomText(
+                          text: 'RequestedTourDetails'.tr,
+                          fontSize: width * 0.047,
+                          fontFamily: 'HT Rakik',
+                          fontWeight: FontWeight.w500,
+                        ),
+                        SizedBox(
+                          height: width * 0.04,
+                        ),
+                        ReviewDetailsTile(
+                            title:
+                                '${DateFormat('EEE, dd MMMM yyyy').format(DateTime.parse(widget.booking!.date!))}',
+                            image: 'assets/icons/date.svg'),
+                        SizedBox(
+                          height: 7,
+                        ),
+                        // Details
+                        ReviewDetailsTile(
+                            title: AppUtil.rtlDirection2(context)
+                                ? ' ${DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking?.timeToGo}'))} إلى ${DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking?.timeToReturn}'))} '
+                                : 'Pick up:  ${DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking?.timeToGo}'))},  Drop off:  ${DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking?.timeToReturn}'))}',
+                            image: 'assets/icons/time3.svg'),
+                        SizedBox(
+                          height: 7,
+                        ),
+                        ReviewDetailsTile(
+                            title:
+                                '${widget.booking?.guestNumber} ${'guests'.tr}',
+                            image: 'assets/icons/guests.svg'),
+                        SizedBox(
+                          height: 7,
+                        ),
+                        ReviewDetailsTile(
+                            title: widget.booking!.vehicleType!,
+                            image:
+                                'assets/icons/unselected_${widget.booking?.vehicleType!}_icon.svg'),
+                        SizedBox(
+                          height: 13,
+                        ),
+                        const Divider(
+                          color: lightGrey,
+                        ),
+                        SizedBox(
+                          height: width * 0.03,
+                        ),
+                        CustomText(
+                          text: "ItineraryDetails".tr,
+                          fontSize: width * 0.047,
+                          fontFamily: 'HT Rakik',
+                          fontWeight: FontWeight.w500,
+                        ),
+                        ScheduleContainerWidget(
+                            scheduleList: widget.scheduleList,
                             offerController: widget.offerController,
-                            place: widget.place!,
-                          ),
-                  
-                
-                SizedBox(
-                  height: width * 0.02,
-                ),
-               paymentController.isPaymenInvoiceLoading.value
-                              ? CircularProgressIndicator(
-                                  color: colorGreen,
-                                )
-                              : CustomButton(
-                                
+                            isReview: true),
+
+                        const Divider(
+                          color: lightGrey,
+                        ),
+                        SizedBox(
+                          height: width * 0.25,
+                        ),
+
+                        // SizedBox(
+                        //   height: width * 0.25,
+                        // ),
+
+                        //discount widget
+                        // const PromocodeField(),
+                        SizedBox(
+                          height: width * 0.071,
+                        ),
+                        DottedSeparator(
+                          color: almostGrey,
+                          height: width * 0.002,
+                        ),
+                        SizedBox(
+                          height: width * 0.09,
+                        ),
+
+                        TotalWidget(
+                          offerController: widget.offerController,
+                          place: widget.place!,
+                        ),
+
+                        SizedBox(
+                          height: width * 0.02,
+                        ),
+                        paymentController.isPaymenInvoiceLoading.value
+                            ? CircularProgressIndicator(
+                                color: colorGreen,
+                              )
+                            : CustomButton(
                                 title: 'checkout'.tr,
-                                 
-                                icon: Icon(Icons.keyboard_arrow_right,color: Colors.white),
-                                  onPressed: () async {
-                                    invoice ??=
-                                        await paymentController.paymentInvoice(
-                                            context: context,
-                                            // description: 'Book place',
-                                              InvoiceValue: (widget.offerController!
-                                                        .totalPrice.value *
-                                                    widget
-                                                        .offerController!
-                                                        .offerDetails
-                                                        .value
-                                                        .booking!
-                                                        .guestNumber!));
+                                icon:  const Icon(Icons.keyboard_arrow_right,
+                                    color: Colors.white),
+                                onPressed: () async {
+                                  invoice ??=
+                                      await paymentController.paymentInvoice(
+                                          context: context,
+                                          // description: 'Book place',
+                                          InvoiceValue: (widget.offerController!
+                                                  .totalPrice.value *
+                                              widget
+                                                  .offerController!
+                                                  .offerDetails
+                                                  .value
+                                                  .booking!
+                                                  .guestNumber!));
 
-                              print("this is total final invoice price");
-                              print(widget.offerController!
-                                                        .totalPrice.value *
-                                                    widget
-                                                        .offerController!
-                                                        .offerDetails
-                                                        .value
-                                                        .booking!
-                                                        .guestNumber!);
-                                                        
-                                         if (invoice != null){
-                                     Get.to(() => PaymentWebView(
+                                  print("this is total final invoice price");
+                                  print(
+                                      widget.offerController!.totalPrice.value *
+                                          widget.offerController!.offerDetails
+                                              .value.booking!.guestNumber!);
+
+                                  if (invoice != null) {
+                                    Get.to(() => PaymentWebView(
                                         url: invoice!.url!,
-                                        title: AppUtil.rtlDirection2(context)?'الدفع':'Payment'))?.then((value) async {
-                                         print(value);
-                                         print('this value');
+                                        title: AppUtil.rtlDirection2(context)
+                                            ? 'الدفع'
+                                            : 'Payment'))?.then((value) async {
+                                      print(value);
+                                      print('this value');
+                                      setState(() {
+                                        isCheckingForPayment = true;
+                                      });
+
+                                      final checkInvoice =
+                                          await paymentController
+                                              .paymentInvoiceById(
+                                                  context: context,
+                                                  id: invoice!.id);
+
+                                      print("checkInvoice!.invoiceStatus");
+                                      print(checkInvoice!.invoiceStatus);
+
+                                      if (checkInvoice.invoiceStatus ==
+                                          'Pending') {
                                         setState(() {
-                                          isCheckingForPayment = true;
-                                                    });
+                                          isCheckingForPayment = false;
+                                        });
+                                        print("no");
 
-                                                        final checkInvoice =
-                                                    await paymentController
-                                                        .paymentInvoiceById(
-                                                            context: context,
-                                                            id: invoice!.id);
+                                        // if (
+                                        //     checkInvoice
+                                        //             .invoiceStatus ==
+                                        //         'Pending') {
+                                        Get.to(() => PaymentWebView(
+                                              url: invoice!.url!,
+                                              title:
+                                                  AppUtil.rtlDirection2(context)
+                                                      ? 'الدفع'
+                                                      : 'Payment',
+                                            ));
+                                        //Get.until((route) => Get.currentRoute == '/PaymentWebView');
+                                        showDialog(
+                                            context: context,
+                                            builder: (ctx) {
+                                              return AlertDialog(
+                                                backgroundColor: Colors.white,
+                                                content: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    Image.asset(
+                                                        'assets/images/paymentFaild.gif'),
+                                                    CustomText(
+                                                        text:
+                                                            "paymentFaild".tr),
+                                                  ],
+                                                ),
+                                              );
+                                            });
+                                      } else {
+                                        print('YES');
+                                        // Get.back();
+                                        // Get.back();
 
-                                                            print("checkInvoice!.invoiceStatus");
-                                                            print(checkInvoice!.invoiceStatus);
+                                        final acceptedOffer = await widget
+                                            .offerController!
+                                            .acceptOffer(
+                                          context: context,
+                                          offerId: widget.offerController!
+                                              .offerDetails.value.id!,
+                                          invoiceId: checkInvoice.id,
+                                          schedules: widget.offerController!
+                                              .offerDetails.value.schedule!,
+                                        );
+                                        print(acceptedOffer?.orderStatus);
+                                        //Get.back();
+                                        final book.Booking? fetchedBooking =
+                                            await _RequestController
+                                                .getBookingById(
+                                                    context: context,
+                                                    bookingId:
+                                                        widget.booking!.id!);
+                                        showDialog(
+                                            context: context,
+                                            builder: (ctx) {
+                                              return AlertDialog(
+                                                backgroundColor: Colors.white,
+                                                content: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    Image.asset(
+                                                        'assets/images/paymentSuccess.gif'),
+                                                    CustomText(
+                                                        text: "paymentSuccess"
+                                                            .tr),
+                                                  ],
+                                                ),
+                                              );
+                                            }).then((_) {
+                                          print("inside");
+                                          LocalNotification().showNotification(
+                                              context,
+                                              widget.booking?.id,
+                                              widget.booking?.timeToGo,
+                                              widget.booking?.date,
+                                              _offerController.offers.last.name,
+                                              thePlace?.nameEn,
+                                              thePlace?.nameAr);
 
-                                              if (checkInvoice
-                                                        .invoiceStatus ==
-                                                    'Pending') {
-                                                
-                                                  setState(() {
-                                                    isCheckingForPayment =
-                                                        false;
-                                                  });
-                                                  print("no");
-
-      
-
-                                                  // if (
-                                                  //     checkInvoice
-                                                  //             .invoiceStatus ==
-                                                  //         'Pending') {
-                       Get.to(() => PaymentWebView(
-                                     url: invoice!.url!,
-                                    title: AppUtil.rtlDirection2(context) ? 'الدفع' : 'Payment',
-                                ));
-                            //Get.until((route) => Get.currentRoute == '/PaymentWebView');
-                                                    showDialog(
-                                                        context: context,
-                                                        builder: (ctx) {
-                                                          return AlertDialog(
-                                                            backgroundColor:
-                                                                Colors.white,
-                                                            content: Column(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .min,
-                                                              children: [
-                                                                Image.asset(
-                                                                    'assets/images/paymentFaild.gif'),
-                                                                CustomText(
-                                                                    text:
-                                                                        "paymentFaild"
-                                                                            .tr),
-                                                              ],
-                                                            ),
-                                                            
-                                                          );
-                                                        });
-                                                  } else {
-                                                    print('YES');
-                                                    // Get.back();
-                                                    // Get.back();
-                                                    
-                                                
-
-                                    final acceptedOffer = await widget
-                                        .offerController!
-                                        .acceptOffer(
-                                        context: context,
-                                       offerId: widget.offerController!.offerDetails.value.id!,
-                                       invoiceId: checkInvoice.id,
-                                      schedules: widget.offerController!
-                                          .offerDetails.value.schedule!,
-                                    );
-                                    print(acceptedOffer?.orderStatus);
-                                                 //Get.back();
-                                       final book.Booking? fetchedBooking = await _RequestController.getBookingById(
-                                                                   context: context,
-                                                                   bookingId: widget.booking!.id!);
-                                                    showDialog(
-                                                        context: context,
-                                                        builder: (ctx) {
-                                                          return AlertDialog(
-                                                            backgroundColor:
-                                                                Colors.white,
-                                                            content: Column(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .min,
-                                                              children: [
-                                                                Image.asset(
-                                                                    'assets/images/paymentSuccess.gif'),
-                                                                CustomText(
-                                                                    text:
-                                                                        "paymentSuccess"
-                                                                            .tr),
-                                                              ],
-                                                            ),
-                                                          );
-                                                        }).then((_) {
-                                                          print("inside");
-                                                  LocalNotification().showNotification(context,widget.booking?.id, widget.booking?.timeToGo, widget.booking?.date ,_offerController.offers.last.name,thePlace?.nameEn, thePlace?.nameAr);
-                                               
-                                                  Get.to(() =>  TicketDetailsScreen(
-                                                            booking: fetchedBooking,
-                                                             icon: SvgPicture.asset(
-                                                            'assets/icons/place.svg'),
-                                                             bookTypeText:getBookingTypeText(context, 'place')
-                                                  ));
-                                                          });
-                                                  
-                                                  
-
-                                                  }
-                                        
+                                          Get.to(() => TicketDetailsScreen(
+                                              booking: fetchedBooking,
+                                              icon: SvgPicture.asset(
+                                                  'assets/icons/place.svg'),
+                                              bookTypeText: getBookingTypeText(
+                                                  context, 'place')));
+                                        });
+                                      }
                                     });
-                                         }
-                                        
-                                    // Get.to(
-                                    //   () => CheckOutScreen(
-                                    //     total: (widget.place!.price! *
-                                    //             widget
-                                    //                 .offerController!
-                                    //                 .offerDetails
-                                    //                 .value
-                                    //                 .booking!
-                                    //                 .guestNumber!) +
-                                    //         (widget.offerController!.totalPrice
-                                    //                 .value *
-                                    //             widget
-                                    //                 .offerController!
-                                    //                 .offerDetails
-                                    //                 .value
-                                    //                 .booking!
-                                    //                 .guestNumber!),
-                                    //     offerDetails: widget.offerController!
-                                    //         .offerDetails.value,
-                                    //     offerController: widget.offerController,
-                                    //   ),
-                                    // )?.then((value) async {
-                                    //   final offer = await widget
-                                    //       .offerController!
-                                    //       .getOfferById(
-                                    //           context: context,
-                                    //           offerId: widget.offerController!
-                                    //               .offerDetails.value.id!);
-
-                                    //   widget.chatId = widget.offerController!
-                                    //       .offerDetails.value.booking!.chatId;
-
-                                    //   //  Get.back();
-                                    // });
-
-                               
-                                //  LocalNotification().showNotification(context,widget.booking?.id, widget.booking?.timeToGo, widget.booking?.date ,_offerController.offers.last.name, thePlace?.nameAr,thePlace?.nameEn);
                                   }
-                             
-                              ),
-                                
-                              
-              ],
+
+                                  // Get.to(
+                                  //   () => CheckOutScreen(
+                                  //     total: (widget.place!.price! *
+                                  //             widget
+                                  //                 .offerController!
+                                  //                 .offerDetails
+                                  //                 .value
+                                  //                 .booking!
+                                  //                 .guestNumber!) +
+                                  //         (widget.offerController!.totalPrice
+                                  //                 .value *
+                                  //             widget
+                                  //                 .offerController!
+                                  //                 .offerDetails
+                                  //                 .value
+                                  //                 .booking!
+                                  //                 .guestNumber!),
+                                  //     offerDetails: widget.offerController!
+                                  //         .offerDetails.value,
+                                  //     offerController: widget.offerController,
+                                  //   ),
+                                  // )?.then((value) async {
+                                  //   final offer = await widget
+                                  //       .offerController!
+                                  //       .getOfferById(
+                                  //           context: context,
+                                  //           offerId: widget.offerController!
+                                  //               .offerDetails.value.id!);
+
+                                  //   widget.chatId = widget.offerController!
+                                  //       .offerDetails.value.booking!.chatId;
+
+                                  //   //  Get.back();
+                                  // });
+
+                                  //  LocalNotification().showNotification(context,widget.booking?.id, widget.booking?.timeToGo, widget.booking?.date ,_offerController.offers.last.name, thePlace?.nameAr,thePlace?.nameEn);
+                                }),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ),
-          ),
-        ),
-      ),
-      ),
     );
   }
+
   String getBookingTypeText(BuildContext context, String bookingType) {
-  if (AppUtil.rtlDirection2(context)) {
-    switch (bookingType) {
-      case 'place':
-        return 'جولة';
-      case 'adventure':
-        return 'مغامرة';
-      case 'hospitality':
-        return 'ضيافة';
-      case 'event':
-        return 'فعالية';
-      default:
-        return bookingType; 
+    if (AppUtil.rtlDirection2(context)) {
+      switch (bookingType) {
+        case 'place':
+          return 'جولة';
+        case 'adventure':
+          return 'مغامرة';
+        case 'hospitality':
+          return 'ضيافة';
+        case 'event':
+          return 'فعالية';
+        default:
+          return bookingType;
+      }
+    } else {
+      if (bookingType == 'place') {
+        return "Tour";
+      } else {
+        return bookingType;
+      }
     }
-  } else {
-    if(bookingType=='place'){
-      return "Tour";
-    }
-    else{
-    return bookingType; 
-    }
-}
-}
+  }
 }
