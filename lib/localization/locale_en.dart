@@ -411,9 +411,8 @@ const localeEn = {
   "loclaInfo": "Local info",
   'edit': "Edit",
   'save': "Save",
-
-  'intro1':'Select a place you want to discover!',
-  'intro2':'Send a tour request & receive many locals offers',
+  'intro1': 'Select a place you want to discover!',
+  'intro2': 'Send a tour request & receive many locals offers',
   'intro3': 'Accept an offer & confirm the itinerary!',
   'intro4': 'and there’s more to explore :)',
   'home': 'Home',
@@ -440,5 +439,8 @@ const localeEn = {
   'offlineText':
       'You are currently offline and won‘t be receiving any tour requests',
   'noRequests': 'No Requests Yet',
-  'noRequestsText': 'Our system is constantly checking for new requests.'
+  'noRequestsText': 'Our system is constantly checking for new requests.',
+  'invalidNumber': '*The number is invalid ',
+  'invalidDate': '*The date is invalid ',
+  'invalidCvv': '*The cvv is invalid ',
 };

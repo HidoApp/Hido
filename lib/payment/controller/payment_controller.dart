@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:ajwad_v4/payment/model/credit_card.dart';
 import 'package:ajwad_v4/payment/model/invoice.dart';
 import 'package:ajwad_v4/payment/model/payment_result.dart';
 
@@ -6,6 +9,7 @@ import 'package:ajwad_v4/request/tourist/models/schedule.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:get_storage/get_storage.dart';
 
 class PaymentController extends GetxController {
@@ -14,6 +18,12 @@ class PaymentController extends GetxController {
   var isPaymenInvoiceByIdLoading = false.obs;
   var isPaymentGatewayLoading = false.obs;
   // var PaymentResult = false.obs;
+  //credit card controllers
+  var showCvv = false.obs;
+  var isNameValid = true.obs;
+  var isCardNumberValid = true.obs;
+  var isCvvValid = true.obs;
+  var isDateValid = true.obs;
 
   Future<PaymentResult?> payWithCreditCard({
     required BuildContext context,
@@ -59,7 +69,7 @@ class PaymentController extends GetxController {
   }) async {
     try {
       isPaymenInvoiceLoading(true);
-      final data = PaymentService.paymentInvoice(
+      final data = await PaymentService.paymentInvoice(
         context: context,
         //description: description,
         InvoiceValue: InvoiceValue,
@@ -101,13 +111,31 @@ class PaymentController extends GetxController {
     }
   }
 
+  Future<Invoice?> creditCardPayment(
+      {required BuildContext context,
+      required int invoiceValue,
+      required CreditCard creditCard}) async {
+    try {
+      isCreditCardPaymentLoading(true);
+      final data = await PaymentService.creditCardPayment(
+          context: context, invoiceValue: invoiceValue, creditCard: creditCard);
+      return data;
+    } catch (e) {
+      isCreditCardPaymentLoading(false);
+      return null;
+    } finally {
+      isCreditCardPaymentLoading(false);
+    }
+  }
+
   Future<Invoice?> paymentInvoiceById({
     required BuildContext context,
     required String id,
   }) async {
     try {
       isPaymenInvoiceByIdLoading(true);
-      final data = PaymentService.paymentInvoiceById(context: context, id: id);
+      final data =
+          await PaymentService.paymentInvoiceById(context: context, id: id);
       print("this is pay from controller");
       print(data);
       return data;

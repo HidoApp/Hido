@@ -180,17 +180,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ));
                             },
                           ),
-                          CustomListTile(
-                            title: "massage".tr,
-                            leading: "assets/icons/Communication.svg",
-                            onTap: () {
-                              Get.to(
-                                () => PaymentType(
-                                  price: 200,
-                                ),
-                              );
-                            },
-                          ),
+
                           if (!widget.fromAjwady)
                             CustomListTile(
                               title: "myTickets".tr,

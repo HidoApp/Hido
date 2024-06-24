@@ -219,7 +219,7 @@ class _ReviewRequestState extends State<ReviewRequest> {
                               )
                             : CustomButton(
                                 title: 'checkout'.tr,
-                                icon:  const Icon(Icons.keyboard_arrow_right,
+                                icon: const Icon(Icons.keyboard_arrow_right,
                                     color: Colors.white),
                                 onPressed: () async {
                                   invoice ??=
@@ -235,11 +235,11 @@ class _ReviewRequestState extends State<ReviewRequest> {
                                                   .booking!
                                                   .guestNumber!));
 
-                                  print("this is total final invoice price");
-                                  print(
-                                      widget.offerController!.totalPrice.value *
-                                          widget.offerController!.offerDetails
-                                              .value.booking!.guestNumber!);
+                                  // print("this is total final invoice price");
+                                  // print(
+                                  //     widget.offerController!.totalPrice.value *
+                                  //         widget.offerController!.offerDetails
+                                  //             .value.booking!.guestNumber!);
 
                                   if (invoice != null) {
                                     Get.to(() => PaymentWebView(
@@ -273,14 +273,6 @@ class _ReviewRequestState extends State<ReviewRequest> {
                                         //     checkInvoice
                                         //             .invoiceStatus ==
                                         //         'Pending') {
-                                        Get.to(() => PaymentWebView(
-                                              url: invoice!.url!,
-                                              title:
-                                                  AppUtil.rtlDirection2(context)
-                                                      ? 'الدفع'
-                                                      : 'Payment',
-                                            ));
-                                        //Get.until((route) => Get.currentRoute == '/PaymentWebView');
                                         showDialog(
                                             context: context,
                                             builder: (ctx) {
@@ -299,6 +291,14 @@ class _ReviewRequestState extends State<ReviewRequest> {
                                                 ),
                                               );
                                             });
+                                        Get.to(() => PaymentWebView(
+                                              url: invoice!.url!,
+                                              title:
+                                                  AppUtil.rtlDirection2(context)
+                                                      ? 'الدفع'
+                                                      : 'Payment',
+                                            ));
+                                        //Get.until((route) => Get.currentRoute == '/PaymentWebView');
                                       } else {
                                         print('YES');
                                         // Get.back();

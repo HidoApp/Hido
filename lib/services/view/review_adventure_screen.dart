@@ -22,6 +22,8 @@ import 'package:get/get.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest_all.dart' as tz;
 
+import '../../payment/view/payment_type_new.dart';
+
 class ReviewAdventure extends StatefulWidget {
   const ReviewAdventure({
     super.key,
@@ -196,8 +198,15 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                     ? const Center(child: CircularProgressIndicator())
                     : CustomButton(
                         onPressed: () async {
-                          print("invoice != null");
-                          print(invoice != null);
+                          Get.to(
+                            () => PaymentType(
+                              adventure: widget.adventure,
+                              type: 'adventure',
+                              personNumber: widget.person,
+                              price: widget.adventure.price * widget.person,
+                            ),
+                          );
+                          return;
 
                           invoice ??= await paymentController.paymentInvoice(
                               context: context,
@@ -210,9 +219,6 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                                     builder: (context) => PaymentWebView(
                                         url: invoice!.url!,
                                         title: 'Payment'))).then((value) async {
-                              setState(() {
-                                isCheckingForPayment = true;
-                              });
                               final checkInvoice =
                                   await paymentController.paymentInvoiceById(
                                       context: context, id: invoice!.id);
@@ -227,9 +233,7 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                                 //         context: context,
                                 //         personNumber: widget.person,
                                 //         invoiceId: invoice!.id);
-                                setState(() {
-                                  isCheckingForPayment = false;
-                                });
+
                                 print('No');
                                 // if (checkInvoice.invoiceStatus == 'failed' ||
                                 //     checkInvoice.invoiceStatus ==
