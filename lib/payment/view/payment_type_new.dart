@@ -2,13 +2,18 @@ import 'dart:developer';
 
 import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/payment/controller/payment_controller.dart';
 import 'package:ajwad_v4/payment/model/credit_card.dart';
 import 'package:ajwad_v4/payment/model/invoice.dart';
 import 'package:ajwad_v4/payment/widget/credit_form.dart';
 import 'package:ajwad_v4/profile/view/ticket_details_screen.dart';
+import 'package:ajwad_v4/request/ajwadi/controllers/request_controller.dart';
 import 'package:ajwad_v4/request/local_notification.dart';
+import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
+import 'package:ajwad_v4/request/tourist/models/offer_details.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
+import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
 import 'package:ajwad_v4/services/model/hospitality.dart';
 import 'package:ajwad_v4/services/view/paymentType.dart';
@@ -24,6 +29,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:ajwad_v4/explore/tourist/model/booking.dart' as book;
 
 class PaymentType extends StatefulWidget {
   const PaymentType(
@@ -32,12 +38,24 @@ class PaymentType extends StatefulWidget {
       this.adventure,
       required this.type,
       this.hospitality,
-      this.personNumber});
+      this.personNumber,
+      this.offerController,
+      this.booking,
+      this.thePlace,
+      this.servicesController,
+      this.male,
+      this.female});
   final int price;
   final String type;
   final int? personNumber;
+  final int? male;
+  final int? female;
+  final Place? thePlace;
+  final Booking? booking;
   final Adventure? adventure;
   final Hospitality? hospitality;
+  final OfferController? offerController;
+  final HospitalityController? servicesController;
   @override
   State<PaymentType> createState() => _PaymentTypeState();
 }
@@ -45,62 +63,103 @@ class PaymentType extends StatefulWidget {
 class _PaymentTypeState extends State<PaymentType> {
   PaymentMethod? _selectedPaymentMethod;
   Invoice? invoice;
+  bool isSuccess = false;
   final adventureController = Get.put(AdventureController());
+  final hospitalityController = Get.put(HospitalityController());
   final _paymentController = Get.put(PaymentController());
+  final _RequestController = Get.put(RequestController());
   final _cardHolder = TextEditingController();
   final _cardNumber = TextEditingController();
   final _cardDate = TextEditingController();
   final _cardCvv = TextEditingController();
+  void checkHospitality(bool check) async {
+    isSuccess = await widget.servicesController!.checkAndBookHospitality(
+        context: context,
+        check: check,
+        hospitalityId: widget.hospitality!.id,
+        date: widget.servicesController!.selectedDate.value,
+        dayId: widget.hospitality!
+            .daysInfo[widget.servicesController!.selectedDateIndex.value].id,
+        numOfMale: widget.male!,
+        numOfFemale: widget.female!,
+        cost: widget.price);
+  }
 
   Future<void> selectPaymentType(PaymentMethod paymentMethod) async {
-    if (paymentMethod == PaymentMethod.appelpay) {
-      invoice = await _paymentController.paymentGateway(
-          context: context,
-          language: AppUtil.rtlDirection2(context) ? 'AR' : 'EN',
-          paymentMethod: 'APPLE_PAY',
-          price: widget.price);
-      if (invoice != null) {
-        Get.to(
-          () => PaymentWebView(url: invoice!.url!, title: 'payment'.tr),
-        );
-        adventureBookingWebView();
-      } else {
-        print('invoice nulll');
-      }
-    } else if (paymentMethod == PaymentMethod.stcpay) {
-      invoice = await _paymentController.paymentGateway(
+    switch (paymentMethod) {
+      case PaymentMethod.appelpay:
+        invoice = await _paymentController.paymentGateway(
+            context: context,
+            language: AppUtil.rtlDirection2(context) ? 'AR' : 'EN',
+            paymentMethod: 'APPLE_PAY',
+            price: widget.price);
+        if (widget.type == "hospitality") {
+          checkHospitality(false);
+        }
+        if (isSuccess!) {
+          paymentWebView();
+        }
+        break;
+      case PaymentMethod.stcpay:
+        invoice = await _paymentController.paymentGateway(
           context: context,
           language: AppUtil.rtlDirection2(context) ? 'AR' : 'EN',
           paymentMethod: 'STC_PAY',
-          price: widget.price);
-      adventureBookingWebView();
-    } else if (paymentMethod == PaymentMethod.creditCard) {
-      creditValidaiotn();
-      _paymentController.isNameValid(true);
-      _paymentController.isCardNumberValid(true);
-      _paymentController.isDateValid(true);
-      _paymentController.isCvvValid(true);
-
-      var month = '';
-      var year = '';
-      month = _cardDate.text.substring(0, 2);
-      year = _cardDate.text.substring(3, 5);
-      invoice = await _paymentController.creditCardPayment(
-          context: context,
-          creditCard: CreditCard(
-              name: _cardHolder.text,
-              number: _cardNumber.text,
-              cvc: _cardCvv.text,
-              month: month,
-              year: year),
-          invoiceValue: widget.price);
-      adventureBooking();
-    } else {
-      AppUtil.errorToast(context, 'Must pick methoed');
+          price: widget.price,
+        );
+        if (widget.type == "hospitality") {
+          checkHospitality(false);
+        }
+        if (isSuccess!) {
+          paymentWebView();
+        }
+        break;
+      case PaymentMethod.creditCard:
+        creditValidaiotn();
+        _paymentController.isNameValid(true);
+        _paymentController.isCardNumberValid(true);
+        _paymentController.isDateValid(true);
+        _paymentController.isCvvValid(true);
+        var month = '';
+        var year = '';
+        month = _cardDate.text.substring(0, 2);
+        year = _cardDate.text.substring(3, 5);
+        if (widget.type == "hospitality") {
+          checkHospitality(false);
+        }
+        invoice = await _paymentController.creditCardPayment(
+            context: context,
+            creditCard: CreditCard(
+                name: _cardHolder.text,
+                number: _cardNumber.text,
+                cvc: _cardCvv.text,
+                month: month,
+                year: year),
+            invoiceValue: widget.price);
+        if (invoice != null) {
+          switch (widget.type) {
+            case 'adventure':
+              adventureBooking(invoice!);
+              break;
+            case 'tour':
+              tourBooking(invoice!);
+              break;
+            case 'hospitality':
+              if (isSuccess!) {
+                hospitalityBooking(invoice!);
+              }
+              break;
+            default:
+          }
+        }
+        break;
+      default:
+        AppUtil.errorToast(context, 'Must pick methoed');
     }
   }
 
   void creditValidaiotn() {
+    //for fileds validation
     if (_cardHolder.text.isEmpty) {
       _paymentController.isNameValid(false);
     }
@@ -122,39 +181,34 @@ class _PaymentTypeState extends State<PaymentType> {
     }
   }
 
-//TODO : must fix error of item not found
-
-  void adventureBookingWebView() async {
-    // invoice = await _paymentController.paymentInvoice(
-    //     context: context, InvoiceValue: widget.price);
+  void paymentWebView() async {
+    // webview for Stc pay and apple pay
     if (invoice != null) {
       Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      PaymentWebView(url: invoice!.url!, title: 'Payment')))
-          .then((value) async {
-        final checkInvoice = await _paymentController.paymentInvoiceById(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              PaymentWebView(url: invoice!.url!, title: 'Payment'),
+        ),
+      ).then((value) async {
+        final checkInvoice = await _paymentController.getPaymentId(
             context: context, id: invoice!.id);
-
-        print("this state");
-        print(checkInvoice!.invoiceStatus);
-
-        if (checkInvoice.invoiceStatus != 'Paid') {
-          // await _adventureController
-          //     .checkAdventureBooking(
-          //         adventureID: widget.adventure.id,
-          //         context: context,
-          //         personNumber: widget.person,
-          //         invoiceId: invoice!.id);
-
-          print('No');
-          // if (checkInvoice.invoiceStatus == 'failed' ||
-          //     checkInvoice.invoiceStatus ==
-          //         'initiated') {
-          // Get.back();
-          await navigateToPayment(context, invoice!.url!);
-
+        if (checkInvoice!.payStatus == 'Paid') {
+          //if the invoice paid then will booking depend on the type of booking
+          switch (widget.type) {
+            case 'adventure':
+              adventureBooking(checkInvoice);
+              break;
+            case 'tour':
+              tourBooking(checkInvoice);
+              break;
+            case 'hospitality':
+              hospitalityBooking(checkInvoice);
+              break;
+            default:
+          }
+        } else {
+          log('No');
           showDialog(
               context: context,
               builder: (ctx) {
@@ -165,97 +219,20 @@ class _PaymentTypeState extends State<PaymentType> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Image.asset('assets/images/paymentFaild.gif'),
-                      CustomText(text: "paymentFaild"),
+                      CustomText(
+                        text: "paymentFaild".tr,
+                        fontSize: 15,
+                      ),
                     ],
                   ),
                 );
-              });
-        } else {
-          print('YES');
-          print(invoice?.invoiceStatus);
-
-          //Get.back();
-          // Get.back();
-          await adventureController.checkAdventureBooking(
-            adventureID: widget.adventure!.id,
-            context: context,
-            personNumber: widget.personNumber!,
-            invoiceId: checkInvoice.id,
-          );
-
-          final updatedAdventure = await adventureController.getAdvdentureById(
-              context: context, id: widget.adventure!.id);
-
-          print('check');
-          print(updatedAdventure);
-
-          showDialog(
-            context: context,
-            builder: (ctx) {
-              return AlertDialog(
-                backgroundColor: Colors.white,
-                surfaceTintColor: Colors.white,
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Image.asset('assets/images/paymentSuccess.gif'),
-                    CustomText(text: "paymentSuccess"),
-                  ],
-                ),
-              );
-            },
-          ).then((_) {
-            Get.back();
-            Get.back();
-            Get.back();
-            print("inside notifi");
-
-            Get.to(() => TicketDetailsScreen(
-                  adventure: updatedAdventure,
-                  icon: SvgPicture.asset('assets/icons/adventure.svg'),
-                  bookTypeText: 'adventure',
-                ));
-            LocalNotification().showAdventureNotification(
-                context,
-                updatedAdventure!.booking?.last.id,
-                widget.adventure!.date,
-                widget.adventure!.nameEn,
-                widget.adventure!.nameAr);
+              }).then((value) async {
+            await navigateToPayment(context, invoice!.url!);
           });
         }
       });
-    }
-  }
-
-  void adventureBooking() async {
-    if (invoice == null) {
-      // await navigateToPayment(context, invoice!.url!);
-
-      print("invoice nulllllll");
     } else {
-      setState(() {});
-      // final checkInvoice = await _paymentController.paymentInvoiceById(
-      //     context: context, id: invoice!.id);
-      log('YES');
-      log(widget.personNumber!.toString());
-      log(widget.adventure!.id.toString());
-      log("${invoice?.id}");
-
-      var book = await adventureController.checkAdventureBooking(
-        adventureID: widget.adventure!.id,
-        context: context,
-        personNumber: widget.personNumber!,
-        invoiceId: invoice?.id,
-      );
-      log("book.toString(");
-      log(book.toString());
-
-      final updatedAdventure = await adventureController.getAdvdentureById(
-          context: context, id: widget.adventure!.id);
-
-      // print('check');
-      // print(updatedAdventure!.nameEn);
-
+      log('No');
       showDialog(
         context: context,
         builder: (ctx) {
@@ -265,13 +242,144 @@ class _PaymentTypeState extends State<PaymentType> {
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Image.asset('assets/images/paymentSuccess.gif'),
-                CustomText(text: "paymentSuccess"),
+                Image.asset('assets/images/paymentFaild.gif'),
+                CustomText(
+                  text: "paymentFaild".tr,
+                  fontSize: 15,
+                ),
               ],
             ),
           );
         },
-      ).then((_) {
+      );
+    }
+  }
+
+  void tourBooking(Invoice checkInvoice) async {
+    final acceptedOffer = await widget.offerController!.acceptOffer(
+      context: context,
+      offerId: widget.offerController!.offerDetails.value.id!,
+      invoiceId: checkInvoice.id,
+      schedules: widget.offerController!.offerDetails.value.schedule!,
+    );
+    print(acceptedOffer?.orderStatus);
+    //Get.back();
+    final book.Booking? fetchedBooking =
+        await _RequestController.getBookingById(
+            context: context, bookingId: widget.booking!.id!);
+    showDialog(
+      context: context,
+      builder: (ctx) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          surfaceTintColor: Colors.white,
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset('assets/images/paymentSuccess.gif'),
+              CustomText(
+                text: "paymentSuccess".tr,
+                fontSize: 15,
+              ),
+            ],
+          ),
+        );
+      },
+    ).then((_) {
+      print("inside");
+      Get.offAll(() => const TouristBottomBar());
+      Get.to(
+        () => TicketDetailsScreen(
+            booking: fetchedBooking,
+            icon: SvgPicture.asset('assets/icons/place.svg'),
+            bookTypeText: AppUtil.rtlDirection2(context) ? 'جولة' : 'Tour'),
+      );
+    });
+    LocalNotification().showNotification(
+      context,
+      widget.booking?.id,
+      widget.booking?.timeToGo,
+      widget.booking?.date,
+      widget.offerController!.offers.last.name,
+      widget.thePlace?.nameEn,
+      widget.thePlace?.nameAr,
+    );
+  }
+
+  void hospitalityBooking(Invoice checkInvoice) async {
+    checkHospitality(true); // if paid the check flag will change to true
+    final updatedHospitality = await widget.servicesController!
+        .getHospitalityById(context: context, id: widget.hospitality!.id);
+
+    showDialog(
+      context: context,
+      builder: (ctx) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          surfaceTintColor: Colors.white,
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset('assets/images/paymentSuccess.gif'),
+              CustomText(
+                text: "paymentSuccess".tr,
+                fontSize: 15,
+              ),
+            ],
+          ),
+        );
+      },
+    ).then((_) {
+      Get.back();
+      Get.back();
+      Get.back();
+      print("inter notif");
+
+      Get.to(() => TicketDetailsScreen(
+            hospitality: updatedHospitality,
+            icon: SvgPicture.asset('assets/icons/hospitality.svg'),
+            bookTypeText: 'hospitality',
+          ));
+    });
+    LocalNotification().showHospitalityNotification(
+        context,
+        updatedHospitality?.booking?.first.id,
+        widget.servicesController!.selectedDate.value,
+        widget.hospitality!.mealTypeEn,
+        widget.hospitality!.mealTypeAr,
+        widget.hospitality!.titleEn,
+        widget.hospitality!.titleAr);
+  }
+
+  void adventureBooking(Invoice checkInvoice) async {
+    await adventureController.checkAdventureBooking(
+      adventureID: widget.adventure!.id,
+      context: context,
+      personNumber: widget.personNumber!,
+      invoiceId: checkInvoice.id,
+    );
+    final updatedAdventure = await adventureController.getAdvdentureById(
+        context: context, id: widget.adventure!.id);
+    showDialog(
+      context: context,
+      builder: (ctx) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          surfaceTintColor: Colors.white,
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset('assets/images/paymentSuccess.gif'),
+              CustomText(
+                text: "paymentSuccess".tr,
+                fontSize: 15,
+              ),
+            ],
+          ),
+        );
+      },
+    ).then(
+      (_) {
         Get.back();
         Get.back();
         Get.back();
@@ -280,7 +388,7 @@ class _PaymentTypeState extends State<PaymentType> {
         Get.to(() => TicketDetailsScreen(
               adventure: updatedAdventure,
               icon: SvgPicture.asset('assets/icons/adventure.svg'),
-              bookTypeText: 'adventure',
+              bookTypeText: 'adventure'.tr,
             ));
         LocalNotification().showAdventureNotification(
             context,
@@ -288,11 +396,8 @@ class _PaymentTypeState extends State<PaymentType> {
             widget.adventure!.date,
             widget.adventure!.nameEn,
             widget.adventure!.nameAr);
-      });
-
-      //Get.back();
-      // Get.back();
-    }
+      },
+    );
   }
 
   @override
@@ -371,23 +476,15 @@ class _PaymentTypeState extends State<PaymentType> {
             Obx(
               () => _paymentController.isPaymentGatewayLoading.value ||
                       _paymentController.isCreditCardPaymentLoading.value ||
-                      adventureController.ischeckBookingLoading.value
+                      adventureController.ischeckBookingLoading.value ||
+                      widget.offerController!.isAcceptOfferLoading.value
                   ? const CircularProgressIndicator.adaptive()
                   : CustomButton(
                       onPressed: () async {
                         if (_selectedPaymentMethod != null) {
                           await selectPaymentType(_selectedPaymentMethod!);
-
-                          // switch (widget.type) {
-                          //   case 'adventure':
-                          //     adventurePayment();
-                          //     break;
-                          //   case 'tour':
-                          //     break;
-                          //   default:
-                          // }
                         } else {
-                          AppUtil.errorToast(context, "msg");
+                          AppUtil.errorToast(context, "Must pick methoed");
                         }
                       },
                       title: 'pay'.tr,
@@ -447,16 +544,6 @@ class _PaymentTypeState extends State<PaymentType> {
                     fontFamily: 'SF Pro',
                     fontWeight: FontWeight.w600,
                   ),
-                  // Text(
-                  //   'Credit/Debit card',
-                  //   style: TextStyle(
-                  //     color: Color(0xFF070708),
-                  //     fontSize: 15,
-                  //     fontFamily: 'SF Pro',
-                  //     fontWeight: FontWeight.w500,
-                  //     height: 0,
-                  //   ),
-                  // ),
                 ],
               ),
               Row(
@@ -496,10 +583,6 @@ class _PaymentTypeState extends State<PaymentType> {
                   ),
                 ],
               ),
-
-              // SizedBox(
-              //   height: width * 0.25,
-              // ),
               if (_selectedPaymentMethod == PaymentMethod.creditCard)
                 CreditForm(
                     paymentController: _paymentController,
@@ -507,14 +590,6 @@ class _PaymentTypeState extends State<PaymentType> {
                     cardDate: _cardDate,
                     cardNumber: _cardNumber,
                     cardCvv: _cardCvv),
-
-              // SizedBox(
-              //   height: width * 0.25,
-              // ),
-
-              //discount widget
-              // const PromocodeField(),
-              // const Spacer(),
             ],
           ),
         ),

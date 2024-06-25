@@ -342,7 +342,7 @@ const localeEn = {
       "Approximate location , The exact location will be revealed after booking",
   "checkingForPayment": 'Checking for payment',
   "paymentFaild": 'payment faild , try again later ',
-  "paymentSuccess": 'Payment completed successfully ',
+  "paymentSuccess": 'Your payment was Successful!',
   "totalNumOfGeusts": 'Total number of guests',
   "tripBooking": 'Tour booking',
   "youHaveReservationIn": 'You have reservation in',

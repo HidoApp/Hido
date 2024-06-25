@@ -6,6 +6,7 @@ import 'package:ajwad_v4/explore/tourist/model/booking.dart' as book;
 import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
 import 'package:ajwad_v4/payment/controller/payment_controller.dart';
 import 'package:ajwad_v4/payment/model/invoice.dart';
+import 'package:ajwad_v4/payment/view/payment_type_new.dart';
 import 'package:ajwad_v4/request/tourist/models/offer_details.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/services/model/hospitality.dart';
@@ -222,37 +223,22 @@ class _ReviewRequestState extends State<ReviewRequest> {
                                 icon: const Icon(Icons.keyboard_arrow_right,
                                     color: Colors.white),
                                 onPressed: () async {
-                                  invoice ??=
-                                      await paymentController.paymentInvoice(
-                                          context: context,
-                                          // description: 'Book place',
-                                          InvoiceValue: (widget.offerController!
-                                                  .totalPrice.value *
-                                              widget
-                                                  .offerController!
-                                                  .offerDetails
-                                                  .value
-                                                  .booking!
-                                                  .guestNumber!));
-
-                                  // print("this is total final invoice price");
-                                  // print(
-                                  //     widget.offerController!.totalPrice.value *
-                                  //         widget.offerController!.offerDetails
-                                  //             .value.booking!.guestNumber!);
-
+                                  Get.to(PaymentType(
+                                    price: (widget
+                                            .offerController!.totalPrice.value *
+                                        widget.offerController!.offerDetails
+                                            .value.booking!.guestNumber!),
+                                    type: 'tour',
+                                    offerController: widget.offerController,
+                                    booking: widget.booking,
+                                  ));
+                                  return;
                                   if (invoice != null) {
                                     Get.to(() => PaymentWebView(
                                         url: invoice!.url!,
                                         title: AppUtil.rtlDirection2(context)
                                             ? 'الدفع'
                                             : 'Payment'))?.then((value) async {
-                                      print(value);
-                                      print('this value');
-                                      setState(() {
-                                        isCheckingForPayment = true;
-                                      });
-
                                       final checkInvoice =
                                           await paymentController
                                               .paymentInvoiceById(
@@ -264,15 +250,7 @@ class _ReviewRequestState extends State<ReviewRequest> {
 
                                       if (checkInvoice.invoiceStatus ==
                                           'Pending') {
-                                        setState(() {
-                                          isCheckingForPayment = false;
-                                        });
                                         print("no");
-
-                                        // if (
-                                        //     checkInvoice
-                                        //             .invoiceStatus ==
-                                        //         'Pending') {
                                         showDialog(
                                             context: context,
                                             builder: (ctx) {

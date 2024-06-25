@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
@@ -147,7 +149,7 @@ class _TripDetailsState extends State<TripDetails> {
 
         await _offerController.getOfferById(
             context: context, offerId: offers.last.id);
-        print(_offerController.offerDetails.value.name);
+        print(_offerController.offerDetails.value.schedule!.length!);
         await _offerController.getOffers(
             context: context,
             placeId: widget.place!.id!,
@@ -163,15 +165,11 @@ class _TripDetailsState extends State<TripDetails> {
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
+
     return Scaffold(
         backgroundColor: widget.fromAjwady ? lightBlack : Colors.white,
         extendBodyBehindAppBar: true,
-        appBar: CustomAppBar(
-          // widget.place == null
-          //     ? 'tuwaik'.tr
-          //     : !AppUtil.rtlDirection(context)
-          //         ? widget.place!.nameAr!
-          //         : widget.place!.nameEn!,
+        appBar: const CustomAppBar(
           '',
           color: Colors.white,
           iconColor: Colors.white,
@@ -325,7 +323,7 @@ class _TripDetailsState extends State<TripDetails> {
                             fontSize: 15,
                             color: starGreyColor,
                             fontFamily: 'SF Pro',
-                           fontWeight: FontWeight.w400,
+                            fontWeight: FontWeight.w400,
                             text: widget.place == null
                                 ? "******"
                                 : !AppUtil.rtlDirection(context)
@@ -432,7 +430,7 @@ class _TripDetailsState extends State<TripDetails> {
                           ),
                           markers: {
                             Marker(
-                              markerId: MarkerId("marker1"),
+                              markerId: const MarkerId("marker1"),
                               position: widget.place == null
                                   ? locLatLang
                                   : LatLng(
@@ -477,10 +475,9 @@ class _TripDetailsState extends State<TripDetails> {
                                     CustomText(
                                       text: "cancellationPolicy".tr,
                                       color: Color(0xFF070708),
-
                                       fontSize: 17,
-                                  fontFamily: 'HT Rakik',
-                             fontWeight: FontWeight.w500,
+                                      fontFamily: 'HT Rakik',
+                                      fontWeight: FontWeight.w500,
                                     ),
                                     const SizedBox(
                                       height: 6,
@@ -508,10 +505,10 @@ class _TripDetailsState extends State<TripDetails> {
                               ],
                             )),
                       ),
-                       const SizedBox(
+                      const SizedBox(
                         height: 11,
                       ),
-                      Divider(
+                      const Divider(
                         color: lightGrey,
                         thickness: 1,
                       ),
@@ -551,41 +548,51 @@ class _TripDetailsState extends State<TripDetails> {
                               //     padding: const EdgeInsets.symmetric(
                               //         horizontal: 30, vertical: 7),
                               : !AppUtil.isGuest() && isHasOffers.value
-                                  ? _RequestController.isRequestAcceptLoading.value
-                              ? const CircularProgressIndicator()
-                                  
-                                  :CustomButton(
-                                    height: 2,
-                                      onPressed: () async {
-                                        print(isHasOffers.value);
-                                        print(offers.last.id);
-                                        Get.to(() => LocalOfferInfo(
-                                            place: thePlace!,
-                                            image: _offerController
-                                                    .offerDetails.value.image ??
-                                                '',
-                                            name: _offerController
-                                                    .offerDetails.value.name ??
-                                                '',
-                                            profileId: _offerController
-                                                    .offers.last.profileId ??
-                                                '',
-                                            rating: _offerController
-                                                    .offers.last.tourRating ??
-                                                0,
-                                            price: _offerController
-                                                    .offers.last.price ??
-                                                0,
-                                            tripNumber: _offerController
-                                                    .offers.last.tourNumber ??
-                                                0));
-                                      },
-                                      title: AppUtil.rtlDirection2(context)
-                                          ? "طلبك"
-                                          : "Your Request",
-
-                                      icon: !AppUtil.rtlDirection(context)
-
+                                  ? _RequestController
+                                          .isRequestAcceptLoading.value
+                                      ? const CircularProgressIndicator()
+                                      : CustomButton(
+                                          height: 2,
+                                          onPressed: () async {
+                                            print(isHasOffers.value);
+                                            print(offers.last.id);
+                                            Get.to(
+                                              () => LocalOfferInfo(
+                                                  place: thePlace!,
+                                                  image: _offerController
+                                                          .offerDetails
+                                                          .value
+                                                          .image ??
+                                                      '',
+                                                  name: _offerController
+                                                          .offerDetails
+                                                          .value
+                                                          .name ??
+                                                      '',
+                                                  profileId: _offerController
+                                                          .offers
+                                                          .last
+                                                          .profileId ??
+                                                      '',
+                                                  rating: _offerController
+                                                          .offers
+                                                          .last
+                                                          .tourRating ??
+                                                      0,
+                                                  price: _offerController
+                                                          .offers.last.price ??
+                                                      0,
+                                                  tripNumber: _offerController
+                                                          .offers
+                                                          .last
+                                                          .tourNumber ??
+                                                      0),
+                                            );
+                                          },
+                                          title: AppUtil.rtlDirection2(context)
+                                              ? "طلبك"
+                                              : "Your Request",
+                                          icon: !AppUtil.rtlDirection(context)
                                               ? const Icon(
                                                   Icons.arrow_back_ios,
                                                   size: 20,
@@ -595,12 +602,6 @@ class _TripDetailsState extends State<TripDetails> {
                                                   size: 20,
                                                 ),
                                         )
-
-                                  //TODO:fix the condition Ammar
-                                  // : _touristExploreController.isPlaceNotLocked
-                                  //
-                                  //      .value // booking OR Empty button
-
                                   : (isViewBooking.value
                                       ? CustomButton(
                                           onPressed: () async {

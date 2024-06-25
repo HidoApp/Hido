@@ -13,10 +13,13 @@ import 'package:get/get.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 
 class OfferScreen extends StatefulWidget {
-  const OfferScreen({super.key, required this.place,required this.booking,});
+  const OfferScreen({
+    super.key,
+    required this.place,
+    required this.booking,
+  });
   final Place place;
   final Booking booking;
-
 
   @override
   State<OfferScreen> createState() => _OfferScreenState();
@@ -30,32 +33,26 @@ class _OfferScreenState extends State<OfferScreen> {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     print("offer");
-      print(_offerController.offers.length);
+    print(_offerController.offers.length);
 
     return Scaffold(
         appBar: CustomAppBar(
           'offers'.tr,
           action: true,
           onPressedAction: () {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return CancelBookingDialog(
-                // dialogWidth: MediaQuery.of(context).size.width * 0.588,
-                // buttonWidth: MediaQuery.of(context).size.width * 0.191,
-                dialogWidth: 256,
-                buttonWidth:268,
-                booking: widget.booking,
-                offerController: _offerController,
-              );
-            },
-          );
-
-
-
-
-
-
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return CancelBookingDialog(
+                  // dialogWidth: MediaQuery.of(context).size.width * 0.588,
+                  // buttonWidth: MediaQuery.of(context).size.width * 0.191,
+                  dialogWidth: 256,
+                  buttonWidth: 268,
+                  booking: widget.booking,
+                  offerController: _offerController,
+                );
+              },
+            );
           },
         ),
         body: Column(
@@ -92,7 +89,7 @@ class _OfferScreenState extends State<OfferScreen> {
                       offerId: _offerController.offers[index].offerId!,
                     );
                     print('image');
-                     print(_offerController.offers[index].image ?? '');
+                    print(_offerController.offers[index].image ?? '');
                     // name: _offerController.offers[index].name!??'',
                     // rating: _offerController.offers[index].rating!??0,
                     // price: _offerController.offers[index].price!??0,
@@ -102,18 +99,17 @@ class _OfferScreenState extends State<OfferScreen> {
                         image: _offerController.offers[index].image ?? '',
                         name: _offerController.offers[index].name!,
                         profileId: _offerController.offers[index].profileId!,
-                        rating: _offerController.offers[index].tourRating??0,
+                        rating: _offerController.offers[index].tourRating ?? 0,
                         price: _offerController.offers[index].price!,
                         tripNumber:
-                            _offerController.offers[index].tourNumber??0));
+                            _offerController.offers[index].tourNumber ?? 0));
                   },
-
                   child: CustomAjwadiCard(
                     image: _offerController.offers[index].image ?? '',
-                    name: _offerController.offers[index].name??'',
-                    rating: _offerController.offers[index].tourRating??0,
-                    price: _offerController.offers[index].price??0,
-                    tripNumber: _offerController.offers[index].tourNumber??0,
+                    name: _offerController.offers[index].name ?? '',
+                    rating: _offerController.offers[index].tourRating ?? 0,
+                    price: _offerController.offers[index].price ?? 0,
+                    tripNumber: _offerController.offers[index].tourNumber ?? 0,
                   ),
                 );
               },

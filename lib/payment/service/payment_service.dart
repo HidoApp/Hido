@@ -242,7 +242,8 @@ class PaymentService {
     }
 
     final response = await http.get(
-      Uri.parse('$baseUrl/payment/invoice/$id'),
+      Uri.parse('$baseUrl/payment/invoice/$id')
+          .replace(queryParameters: {'id': id}),
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -254,7 +255,6 @@ class PaymentService {
     print(response.statusCode);
     print(response.body);
 
-    print("this is pay from serv");
     print(jsonDecode(response.body).length);
     if (response.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(response.body);
@@ -264,6 +264,43 @@ class PaymentService {
       print(Invoice.fromJson(data).message);
       print(Invoice.fromJson(data));
 
+      return Invoice.fromJson(data);
+    } else {
+      String errorMessage = jsonDecode(response.body)['message'];
+      if (context.mounted) {
+        AppUtil.errorToast(context, errorMessage);
+      }
+      return null;
+    }
+  }
+
+  static Future<Invoice?> getPaymentId(
+      {required BuildContext context, required String id}) async {
+    final getStorage = GetStorage();
+    String token = getStorage.read('accessToken') ?? "";
+    if (JwtDecoder.isExpired(token)) {
+      final authController = Get.put(AuthController());
+      String refreshToken = getStorage.read('refreshToken');
+      var user = await authController.refreshToken(
+          refreshToken: refreshToken, context: context);
+      token = getStorage.read('accessToken');
+    }
+    final response = await http.get(
+      Uri.parse(
+        '$baseUrl/payment/$id',
+      ).replace(
+        queryParameters: {
+          'id': id,
+        },
+      ),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+    if (response.statusCode == 200) {
+      Map<String, dynamic> data = jsonDecode(response.body);
       return Invoice.fromJson(data);
     } else {
       String errorMessage = jsonDecode(response.body)['message'];

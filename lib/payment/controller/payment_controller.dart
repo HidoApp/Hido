@@ -146,4 +146,18 @@ class PaymentController extends GetxController {
       isPaymenInvoiceByIdLoading(false);
     }
   }
+
+  Future<Invoice?> getPaymentId(
+      {required BuildContext context, required String id}) async {
+    try {
+      isPaymenInvoiceByIdLoading(true);
+      final data = await PaymentService.getPaymentId(context: context, id: id);
+      return data;
+    } catch (e) {
+      isPaymenInvoiceByIdLoading(false);
+      return null;
+    } finally {
+      isPaymenInvoiceByIdLoading(false);
+    }
+  }
 }
