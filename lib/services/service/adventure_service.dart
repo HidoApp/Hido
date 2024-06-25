@@ -38,7 +38,7 @@ class AdventureService {
 
       final adventureList =
           data.map((adventure) => Adventure.fromJson(adventure)).toList();
-print('this from adventure');
+      print('this from adventure');
       return adventureList;
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
@@ -104,7 +104,7 @@ print('this from adventure');
       token = getStorage.read('accessToken');
     }
     Map<String, dynamic> queryParameters = {
-      if (invoiceId != null) 'invoiceId': invoiceId,
+      'paymentId': invoiceId,
       'adventureId': adventureID,
     };
     final response = await http.post(
@@ -116,6 +116,9 @@ print('this from adventure');
           'Authorization': 'Bearer $token',
         },
         body: jsonEncode({'guestNumber': personNumber}));
+    log('status book adv');
+    log(response.statusCode.toString());
+    log(response.body);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
 
@@ -125,6 +128,9 @@ print('this from adventure');
       if (data['orderStatus'] == 'checked') {
         return true;
       } else {
+        print('adventure data');
+        print(response.body);
+        print(data['orderStatus']);
         return false;
       }
     } else {

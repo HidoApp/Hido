@@ -1,3 +1,4 @@
+import 'package:ajwad_v4/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -83,11 +84,11 @@ class CustomTextField extends StatelessWidget {
           counterText: '',
           border: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(10)),
-              borderSide: BorderSide(color: Colors.grey, width: 1)),
+              borderSide: BorderSide(color: borderGrey, width: 1)),
           enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(10)),
               borderSide:
-                  BorderSide(color: borderColor ?? Colors.grey, width: 1)),
+                  BorderSide(color: borderColor ?? borderGrey, width: 1)),
           disabledBorder: OutlineInputBorder(
               borderRadius: const BorderRadius.all(Radius.circular(10)),
               borderSide:
@@ -99,15 +100,11 @@ class CustomTextField extends StatelessWidget {
           prefixIcon: null == prefixIcon ? null : prefixIcon,
           suffixIcon: null == suffixIcon ? null : suffixIcon,
           hintText: hintText,
-
-          hintStyle:
-
-           const TextStyle(
+          hintStyle: const TextStyle(
               fontSize: 16,
               fontFamily: 'HT Rakik',
-              color:  Color(0xFFB9B8C1),
-              fontWeight: FontWeight.w400
-              ),
+              color: Color(0xFFB9B8C1),
+              fontWeight: FontWeight.w400),
         ),
         onChanged: onChanged,
       ),

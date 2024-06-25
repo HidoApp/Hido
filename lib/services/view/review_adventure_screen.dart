@@ -22,6 +22,8 @@ import 'package:get/get.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest_all.dart' as tz;
 
+import '../../payment/view/payment_type_new.dart';
+
 class ReviewAdventure extends StatefulWidget {
   const ReviewAdventure({
     super.key,
@@ -196,125 +198,22 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                     ? const Center(child: CircularProgressIndicator())
                     : CustomButton(
                         onPressed: () async {
-                          print("invoice != null");
-                          print(invoice != null);
-
-                          invoice ??= await paymentController.paymentInvoice(
-                              context: context,
-                              InvoiceValue:
-                                  widget.adventure.price * widget.person);
-                          if (invoice != null) {
-                            Navigator.push(
+                          if (widget.adventure!.booking!.isNotEmpty) {
+                            AppUtil.errorToast(
                                 context,
-                                MaterialPageRoute(
-                                    builder: (context) => PaymentWebView(
-                                        url: invoice!.url!,
-                                        title: 'Payment'))).then((value) async {
-                              setState(() {
-                                isCheckingForPayment = true;
-                              });
-                              final checkInvoice =
-                                  await paymentController.paymentInvoiceById(
-                                      context: context, id: invoice!.id);
-
-                              print("this state");
-                              print(checkInvoice!.invoiceStatus);
-
-                              if (checkInvoice.invoiceStatus == 'Pending') {
-                                // await _adventureController
-                                //     .checkAdventureBooking(
-                                //         adventureID: widget.adventure.id,
-                                //         context: context,
-                                //         personNumber: widget.person,
-                                //         invoiceId: invoice!.id);
-                                setState(() {
-                                  isCheckingForPayment = false;
-                                });
-                                print('No');
-                                // if (checkInvoice.invoiceStatus == 'failed' ||
-                                //     checkInvoice.invoiceStatus ==
-                                //         'initiated') {
-                                // Get.back();
-                                await navigateToPayment(context, invoice!.url!);
-
-                                showDialog(
-                                    context: context,
-                                    builder: (ctx) {
-                                      return AlertDialog(
-                                        backgroundColor: Colors.white,
-                                        surfaceTintColor: Colors.white,
-                                        content: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Image.asset(
-                                                'assets/images/paymentFaild.gif'),
-                                            CustomText(text: "paymentFaild"),
-                                          ],
-                                        ),
-                                      );
-                                    });
-                              } else {
-                                print('YES');
-                                print(invoice?.invoiceStatus);
-
-                                //Get.back();
-                                // Get.back();
-                                await _adventureController
-                                    .checkAdventureBooking(
-                                        adventureID: widget.adventure.id,
-                                        context: context,
-                                        personNumber: widget.person,
-                                        invoiceId: invoice!.id);
-
-                                final updatedAdventure =
-                                    await _adventureController
-                                        .getAdvdentureById(
-                                            context: context,
-                                            id: widget.adventure.id);
-
-                                print('check');
-                                print(updatedAdventure);
-
-                                showDialog(
-                                  context: context,
-                                  builder: (ctx) {
-                                    return AlertDialog(
-                                      backgroundColor: Colors.white,
-                                      surfaceTintColor: Colors.white,
-                                      content: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Image.asset(
-                                              'assets/images/paymentSuccess.gif'),
-                                          CustomText(text: "paymentSuccess"),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                ).then((_) {
-                                  Get.back();
-                                  Get.back();
-                                  Get.back();
-                                  print("inside notifi");
-                             
-                                  Get.to(() => TicketDetailsScreen(
-                                        adventure: updatedAdventure,
-                                        icon: SvgPicture.asset(
-                                            'assets/icons/adventure.svg'),
-                                        bookTypeText: 'adventure',
-                                      ));
-                                       LocalNotification().showAdventureNotification(
-                                      context,
-                                      updatedAdventure!.booking?.last.id,
-                                      widget.adventure.date,
-                                      widget.adventure.nameEn,
-                                      widget.adventure.nameAr);
-                                });
-                              }
-                            });
-                          } else {
-                            print('Inovice null');
+                                AppUtil.rtlDirection2(context)
+                                    ? "لقد قمت بالفعل بحجز هذه المغامره"
+                                    : "You already booking this adventure");
+                            return;
                           }
+                          Get.to(
+                            () => PaymentType(
+                              adventure: widget.adventure,
+                              type: 'adventure',
+                              personNumber: widget.person,
+                              price: widget.adventure.price * widget.person,
+                            ),
+                          );
                         },
                         title: 'Checkout'))
               ],
