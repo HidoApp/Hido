@@ -5,6 +5,7 @@ import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
 import 'package:ajwad_v4/payment/controller/payment_controller.dart';
 import 'package:ajwad_v4/payment/model/invoice.dart';
+import 'package:ajwad_v4/payment/view/payment_type_new.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/services/model/hospitality.dart';
 import 'package:ajwad_v4/services/view/widgets/review_details_tile.dart';
@@ -209,15 +210,26 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                       ? const Center(child: CircularProgressIndicator())
                       : CustomButton(
                           onPressed: (() async {
+                            Get.to(
+                              () => PaymentType(
+                                price: finalCost,
+                                type: "hospitality",
+                                hospitality: widget.hospitality,
+                                servicesController: widget.servicesController,
+                                male: widget.maleGuestNum,
+                                female: widget.femaleGuestNum,
+                              ),
+                            );
+
                             final isSuccess = await widget.servicesController
                                 .checkAndBookHospitality(
                                     context: context,
                                     check: false,
-                                    hospitalityId: widget.hospitality!.id,
+                                    hospitalityId: widget.hospitality.id,
                                     date: widget
                                         .servicesController.selectedDate.value,
                                     dayId: widget
-                                        .hospitality!
+                                        .hospitality
                                         .daysInfo[widget.servicesController
                                             .selectedDateIndex.value]
                                         .id,
@@ -235,18 +247,13 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                               if (invoice != null) {
                                 await navigateToPayment(context, invoice!.url!)
                                     .then((value) async {
-                                  setState(() {
-                                    isCheckingForPayment = true;
-                                  });
-
                                   final checkInvoice = await paymentController
                                       .paymentInvoiceById(
                                     context: context,
                                     id: invoice!.id,
                                   );
-                                  print("checkInvoice!.invoiceStatus");
-                                  print(checkInvoice!.invoiceStatus);
-                                  if (checkInvoice!.invoiceStatus ==
+
+                                  if (checkInvoice!.payStatus ==
                                       'Pending') {
                                     print('no');
                                     final isSuccess = await widget
@@ -258,9 +265,9 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                                             date: widget.servicesController
                                                 .selectedDate.value,
                                             hospitalityId:
-                                                widget.hospitality!.id,
+                                                widget.hospitality.id,
                                             dayId: widget
-                                                .hospitality!
+                                                .hospitality
                                                 .daysInfo[widget
                                                     .servicesController
                                                     .selectedDateIndex
@@ -357,7 +364,7 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                                       // Get.back();
                                       // Get.back();
                                       print("inter notif");
-                                      
+
                                       Get.to(() => TicketDetailsScreen(
                                             hospitality: updatedHospitality,
                                             icon: SvgPicture.asset(
@@ -365,17 +372,17 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                                             bookTypeText: 'hospitality',
                                           ));
                                     });
-                                            LocalNotification()
-                                          .showHospitalityNotification(
-                                              context,
-                                              updatedHospitality
-                                                  ?.booking?.first.id,
-                                              widget.servicesController
-                                                  .selectedDate.value,
-                                              widget.hospitality.mealTypeEn,
-                                              widget.hospitality.mealTypeAr,
-                                              widget.hospitality.titleEn,
-                                              widget.hospitality.titleAr);
+                                    LocalNotification()
+                                        .showHospitalityNotification(
+                                            context,
+                                            updatedHospitality
+                                                ?.booking?.first.id,
+                                            widget.servicesController
+                                                .selectedDate.value,
+                                            widget.hospitality.mealTypeEn,
+                                            widget.hospitality.mealTypeAr,
+                                            widget.hospitality.titleEn,
+                                            widget.hospitality.titleAr);
                                   }
                                 });
                               } else {

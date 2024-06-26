@@ -178,7 +178,8 @@ class TouristExploreService {
       print(inspect(data));
 
       log("Before");
-      log(data.length.toString());
+      log(response.body);
+
       return data.map((booking) => Booking.fromJson(booking)).toList();
     } else {
       String errorMessage = jsonDecode(response.body)['message'];

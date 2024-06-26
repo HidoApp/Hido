@@ -17,13 +17,11 @@ import 'package:rainbow_color/rainbow_color.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 //import 'package:workmanager/workmanager.dart';
 
-
-
-
-FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 
 // Future showNotification() async {
- 
+
 // }
 // void callbackDispatcher() {
 //   AwesomeNotifications().createNotification(
@@ -35,23 +33,14 @@ FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNo
 
 //   ),
 //   schedule: NotificationCalendar.fromDate(date: DateTime.now().add(Duration(seconds:1)))
-    
+
 //   );
 
-  // Workmanager().executeTask((task, inputData) {
-  //   showNotification();
-  //   return Future.value(true);
-  // });
+// Workmanager().executeTask((task, inputData) {
+//   showNotification();
+//   return Future.value(true);
+// });
 //}
-
-
-
-
-
-
-
-
-
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -73,23 +62,21 @@ class _SplashScreenState extends State<SplashScreen>
   late Animation<double> _anim;
 
   Future<String?> checkForBoarding() async {
-    dynamic onBoarding = await _getStorage.read('onBoarding') ?? '' ;
+    dynamic onBoarding = await _getStorage.read('onBoarding') ?? '';
     print('onBoarding  onBoarding $onBoarding');
     userRole = _getStorage.read('userRole') ?? '';
     token = _getStorage.read('accessToken') ?? '';
     token = _getStorage.read('accessToken') ?? '';
 
- Animatable<Color> bgColor = RainbowColorTween([
-    Colors.red,
-    Colors.blue,
-    Colors.green,
-    Colors.yellow,
-    Colors.red,
-  ]);
+    Animatable<Color> bgColor = RainbowColorTween([
+      Colors.red,
+      Colors.blue,
+      Colors.green,
+      Colors.yellow,
+      Colors.red,
+    ]);
 
-  
-  // build a rainbow spectrum that blends across the same numerical domain
-
+    // build a rainbow spectrum that blends across the same numerical domain
 
     // print('onBoarding $onBoarding');
     if (onBoarding == 'yes') {
@@ -98,7 +85,8 @@ class _SplashScreenState extends State<SplashScreen>
       return null;
     }
   }
-   Animatable<double> bgValue = Tween<double>(begin: 0.0, end: 3.0);
+
+  Animatable<double> bgValue = Tween<double>(begin: 0.0, end: 3.0);
   Rainbow rb = Rainbow(rangeStart: 0.0, rangeEnd: 3.0, spectrum: [
     Colors.red,
     Colors.blue,
@@ -111,37 +99,37 @@ class _SplashScreenState extends State<SplashScreen>
     // TODO: implement initStateÅ
     super.initState();
 
-     _controller = AnimationController(
+    _controller = AnimationController(
       duration: const Duration(seconds: 5),
       vsync: this,
-    )..forward()..repeat();
-    _anim = bgValue.animate(_controller); 
+    )
+      ..forward()
+      ..repeat();
+    _anim = bgValue.animate(_controller);
 
     //      print('onBoarding $onBoarding');
-      Future.delayed(const Duration(seconds: 5), () async {
-     onBoarding =  await checkForBoarding()?? 'no';
- _controller.dispose();
-     print('onBoarding onBoarding onBoarding $onBoarding');
-        if (onBoarding == 'yes' && token != '' && userRole == 'local') {
-          if (JwtDecoder.isExpired(token)) {
-            final String refreshToken = _getStorage.read('refreshToken');
-            var user = await _authController.refreshToken(
-                refreshToken: refreshToken, context: context);
-            if (user != null) {
-              token = user.accessToken;
-            }
-
+    Future.delayed(const Duration(seconds: 5), () async {
+      onBoarding = await checkForBoarding() ?? 'no';
+      _controller.dispose();
+      print('onBoarding onBoarding onBoarding $onBoarding');
+      if (onBoarding == 'yes' && token != '' && userRole == 'local') {
+        if (JwtDecoder.isExpired(token)) {
+          final String refreshToken = _getStorage.read('refreshToken');
+          var user = await _authController.refreshToken(
+              refreshToken: refreshToken, context: context);
+          if (user != null) {
+            token = user.accessToken;
           }
+        }
 
-          Get.off(() => AjwadiBottomBar());
-        } else if (onBoarding == 'yes' && token != '' && userRole == 'tourist') {
-          if (JwtDecoder.isExpired(token)) {
-            final String refreshToken = _getStorage.read('refreshToken');
-            var user = await _authController.refreshToken(
-                refreshToken: refreshToken, context: context);
-            if (user != null) {
-              token = user.accessToken;
-            }
+        Get.off(() => AjwadiBottomBar());
+      } else if (onBoarding == 'yes' && token != '' && userRole == 'tourist') {
+        if (JwtDecoder.isExpired(token)) {
+          final String refreshToken = _getStorage.read('refreshToken');
+          var user = await _authController.refreshToken(
+              refreshToken: refreshToken, context: context);
+          if (user != null) {
+            token = user.accessToken;
           }
 
           Get.off(() => TouristBottomBar());
@@ -154,14 +142,15 @@ class _SplashScreenState extends State<SplashScreen>
         Get.off(() => OnboardingScreen());
 
         }
-      });
+
+     
+    });
 
     //   Workmanager().initialize(
     //   callbackDispatcher,
     //   isInDebugMode: false,
     // );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -170,16 +159,18 @@ class _SplashScreenState extends State<SplashScreen>
       color: Colors.white,
       child: Container(
           alignment: Alignment.center,
-          child: AnimatedBuilder
-          (  animation: _controller,
-            builder:(context, child)  {
-              return SvgPicture.asset('assets/icons/splash_hido_logo.svg',
-                  height: 108, width: 170, fit: BoxFit.scaleDown,color: rb[_anim.value],);
-            }
-          )),
+          child: AnimatedBuilder(
+              animation: _controller,
+              builder: (context, child) {
+                return SvgPicture.asset(
+                  'assets/icons/splash_hido_logo.svg',
+                  height: 108,
+                  width: 170,
+                  fit: BoxFit.scaleDown,
+                  color: rb[_anim.value],
+                );
+              })),
       //  child: Image.asset('assets/images/splash.gif'),
     );
   }
 }
-
-

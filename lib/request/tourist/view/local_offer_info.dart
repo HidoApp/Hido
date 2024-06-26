@@ -158,17 +158,6 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
                         'ACCEPTED') {
                       return CustomAcceptButton(
                         onPressed: () {
-                          // Get.to(() => ChatScreenLive(
-                          //       isAjwadi: false,
-                          //       offerController: _offerController,
-                          //       booking: _offerController
-                          //           .offerDetails.value.booking!,
-                          //       chatId: _offerController
-                          //           .offerDetails.value.booking!.chatId!,
-                          //       place: widget.place,
-                          //     ));
-                          //  String userId = getStorage.read('userId');
-
                           Get.to(() => ChatScreen(
                                 chatId: _offerController
                                     .offerDetails.value.booking!.chatId!,

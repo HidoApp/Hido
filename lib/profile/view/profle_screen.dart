@@ -3,6 +3,7 @@ import 'package:ajwad_v4/auth/services/auth_service.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/new-onboarding/view/account_type_screen.dart';
 import 'package:ajwad_v4/new-onboarding/view/intro_screen.dart';
+import 'package:ajwad_v4/payment/view/payment_type_new.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/view/booking_screen.dart';
 import 'package:ajwad_v4/profile/view/bookmark_screen.dart';
@@ -180,19 +181,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ));
                             },
                           ),
-                          // CustomListTile(
-                          //   title: "massage".tr,
-                          //   leading: "assets/icons/Communication.svg",
 
-                          //   //  fromAjwady: widget.fromAjwady,
-                          //   onTap: () {
-                          //     Get.to(
-                          //       () => MessagesScreen(
-                          //         profileController: widget.profileController,
-                          //       ),
-                          //     );
-                          //   },
-                          // ),
                           if (!widget.fromAjwady)
                             CustomListTile(
                               title: "myTickets".tr,

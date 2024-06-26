@@ -77,7 +77,7 @@ class _SignInSheetState extends State<SignInSheet> {
             SizedBox(
               height: 12,
             ),
-          Form(
+            Form(
               // onPopInvoked: (didPop) {
               //   _authController.isEmailValid(true);
               //   _authController.isPasswordValid(true);
@@ -135,7 +135,6 @@ class _SignInSheetState extends State<SignInSheet> {
                       height: 48,
                       isPassword: true,
                       controller: _passwordController,
-                      keyboardType: TextInputType.emailAddress,
                       hintText: 'yourPassword'.tr,
                       borderColor: !_authController.isPasswordValid.value
                           ? colorRed
@@ -240,13 +239,13 @@ class _SignInSheetState extends State<SignInSheet> {
                                // () =>  AccountTypeScreen(),
                               () => OnboardingScreen(),
 
+
                               ))
                     ],
                   )
                 ],
               ),
             )
-            
           ],
         ),
       ),

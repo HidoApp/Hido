@@ -342,7 +342,7 @@ const localeEn = {
       "Approximate location , The exact location will be revealed after booking",
   "checkingForPayment": 'Checking for payment',
   "paymentFaild": 'payment faild , try again later ',
-  "paymentSuccess": 'Payment completed successfully ',
+  "paymentSuccess": 'Your payment was Successful!',
   "totalNumOfGeusts": 'Total number of guests',
   "tripBooking": 'Tour booking',
   "youHaveReservationIn": 'You have reservation in',
@@ -411,9 +411,8 @@ const localeEn = {
   "loclaInfo": "Local info",
   'edit': "Edit",
   'save': "Save",
-
-  'intro1':'Select a place you want to discover!',
-  'intro2':'Send a tour request & receive many locals offers',
+  'intro1': 'Select a place you want to discover!',
+  'intro2': 'Send a tour request & receive many locals offers',
   'intro3': 'Accept an offer & confirm the itinerary!',
   'intro4': 'and there’s more to explore :)',
   'home': 'Home',
@@ -483,7 +482,7 @@ const localeEn = {
 
 
 
-
-
-
+  'invalidNumber': '*The number is invalid ',
+  'invalidDate': '*The date is invalid ',
+  'invalidCvv': '*The cvv is invalid ',
 };

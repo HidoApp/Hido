@@ -15,6 +15,8 @@ const Color darkReddishOrange = Color(0xFFB6532D);
 const Color purple = Color(0xFF8B71AB);
 const Color darkPurple = Color(0xFF715691);
 const Color gold = Color(0xFFB38D4A);
+const Color borderGrey = Color(0xFFB9B8C1);
+
 //---------------------------------------------------------
 
 const Color colorGreen = Color(0xFF36B268);

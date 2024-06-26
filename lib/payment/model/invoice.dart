@@ -7,21 +7,22 @@ class Invoice {
   final String? url;
   final String? message;
   final List<ValidationError>? validationErrors;
-
+  final String? payStatus;
   Invoice(
-  { required this.id,
-    required this.invoiceStatus,
-    this.url,
-    this.message,
-    this.validationErrors
-   });
+      {required this.id,
+      required this.invoiceStatus,
+      this.url,
+      this.payStatus,
+      this.message,
+      this.validationErrors});
 
   factory Invoice.fromJson(Map<String, dynamic> json) {
     return Invoice(
-       id: json['id']??'',
-      invoiceStatus: json['invoiceStatus']??'',
-      url: json['url']??'',
-      message: json['Message']??'',
+      payStatus: json['payStatus'] ?? '',
+      id: json['id'] ?? '',
+      invoiceStatus: json['invoiceStatus'] ?? '',
+      url: json['url'] ?? '',
+      message: json['Message'] ?? '',
       validationErrors: json['validationErrors'] != null
           ? (json['validationErrors'] as List)
               .map((e) => ValidationError.fromJson(e))
@@ -30,9 +31,10 @@ class Invoice {
       // validationErrors: json['ValidationErrors'] != null
       //     ? ValidationError.fromJson(json['ValidationErrors'])
       //     : null,
-      );
+    );
   }
 }
+
 class ValidationError {
   final String name;
   final String error;
@@ -41,8 +43,8 @@ class ValidationError {
 
   factory ValidationError.fromJson(Map<String, dynamic> json) {
     return ValidationError(
-      name: json['Name']??'',
-      error: json['Error']??'',
+      name: json['Name'] ?? '',
+      error: json['Error'] ?? '',
     );
   }
 }

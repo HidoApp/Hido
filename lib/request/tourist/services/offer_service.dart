@@ -145,10 +145,12 @@ class OfferService {
     print(offerId);
 
     final response = await http.post(
-      Uri.parse('$baseUrl/offer/$offerId/accept').replace(queryParameters: {
-        'invoiceId': invoiceId,
-        'offerId': offerId,
-      }),
+      Uri.parse('$baseUrl/offer/$offerId/accept').replace(
+        queryParameters: {
+          'paymentId': invoiceId,
+          'offerId': offerId,
+        },
+      ),
       headers: {
         'Accept': 'application/json',
         "Content-Type": "application/json",
@@ -205,7 +207,6 @@ class OfferService {
 
     final response = await http.post(
       Uri.parse('$baseUrl/booking/cancel/$bookingId'),
-
       headers: {
         'Accept': 'application/json',
         "Content-Type": "application/json",
