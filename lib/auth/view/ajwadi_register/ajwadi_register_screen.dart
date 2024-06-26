@@ -12,6 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 
+import '../../../new-onboarding/view/intro_screen.dart';
+
 class AjwadiRegisterScreen extends StatefulWidget {
   const AjwadiRegisterScreen({Key? key}) : super(key: key);
 
@@ -77,8 +79,10 @@ class _AjwadiRegisterScreenState extends State<AjwadiRegisterScreen> {
                     children: [
                       IconButton(
                           onPressed: () {
-                            Get.off(AccountTypeScreen(),
-                                transition: Transition.fade);
+                            // Get.off(AccountTypeScreen(),
+                            //     transition: Transition.fade);
+                         Get.offAll(() => OnboardingScreen(),transition: Transition.fade);
+
                           },
                           icon: const Icon(Icons.arrow_back_ios)),
                       SizedBox(

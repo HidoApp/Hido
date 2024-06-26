@@ -196,7 +196,6 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
                                         avilableDate: widget.avilableDate,
                                         srvicesController:
                                             widget.serviceController,
-                                        hospitality: widget.hospitality,
                                       );
                                     });
                               },
@@ -1292,62 +1291,62 @@ class _ReservaationDetailsAdventureWidgetState
     );
   }
 
-  void _openTimePicker(BuildContext context) {
-    BottomPicker.time(
-      title: '',
-      buttonStyle: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(),
-      ),
-      titleStyle: const TextStyle(
-        fontWeight: FontWeight.bold,
-        fontSize: 15,
-        color: Colors.orange,
-      ),
-      onSubmit: (index) {
-        print(index);
-      },
-      onChange: (time) {
-        widget.serviceController.selectedTime(time.toString());
-      },
-      onClose: () {
-        print('Picker closed');
-      },
-      //  bottomPickerTheme: BottomPickerTheme.orange,
-      use24hFormat: true,
-      minTime: Time(
-          hours: DateTime.parse(widget
-                  .hospitality!
-                  .daysInfo[widget.serviceController.selectedDateIndex.value]
-                  .startTime)
-              .hour,
-          minutes: DateTime.parse(widget
-                  .hospitality!
-                  .daysInfo[widget.serviceController.selectedDateIndex.value]
-                  .startTime)
-              .minute),
-      initialTime: Time(
-          hours: DateTime.parse(widget
-                  .hospitality!
-                  .daysInfo[widget.serviceController.selectedDateIndex.value]
-                  .startTime)
-              .hour,
-          minutes: DateTime.parse(widget
-                  .hospitality!
-                  .daysInfo[widget.serviceController.selectedDateIndex.value]
-                  .startTime)
-              .minute),
-      maxTime: Time(
-          hours: DateTime.parse(widget
-                  .hospitality!
-                  .daysInfo[widget.serviceController.selectedDateIndex.value]
-                  .endTime)
-              .hour,
-          minutes: DateTime.parse(widget
-                  .hospitality!
-                  .daysInfo[widget.serviceController.selectedDateIndex.value]
-                  .endTime)
-              .minute),
-    ).show(context);
-  }
+  // void _openTimePicker(BuildContext context) {
+  //   BottomPicker.time(
+  //     title: '',
+  //     buttonStyle: BoxDecoration(
+  //       borderRadius: BorderRadius.circular(20),
+  //       border: Border.all(),
+  //     ),
+  //     titleStyle: const TextStyle(
+  //       fontWeight: FontWeight.bold,
+  //       fontSize: 15,
+  //       color: Colors.orange,
+  //     ),
+  //     onSubmit: (index) {
+  //       print(index);
+  //     },
+  //     onChange: (time) {
+  //       widget.serviceController.selectedTime(time.toString());
+  //     },
+  //     onClose: () {
+  //       print('Picker closed');
+  //     },
+  //     //  bottomPickerTheme: BottomPickerTheme.orange,
+  //     use24hFormat: true,
+  //     minTime: Time(
+  //         hours: DateTime.parse(widget
+  //                 .hospitality!
+  //                 .daysInfo[widget.serviceController.selectedDateIndex.value]
+  //                 .startTime)
+  //             .hour,
+  //         minutes: DateTime.parse(widget
+  //                 .hospitality!
+  //                 .daysInfo[widget.serviceController.selectedDateIndex.value]
+  //                 .startTime)
+  //             .minute),
+  //     initialTime: Time(
+  //         hours: DateTime.parse(widget
+  //                 .hospitality!
+  //                 .daysInfo[widget.serviceController.selectedDateIndex.value]
+  //                 .startTime)
+  //             .hour,
+  //         minutes: DateTime.parse(widget
+  //                 .hospitality!
+  //                 .daysInfo[widget.serviceController.selectedDateIndex.value]
+  //                 .startTime)
+  //             .minute),
+  //     maxTime: Time(
+  //         hours: DateTime.parse(widget
+  //                 .hospitality!
+  //                 .daysInfo[widget.serviceController.selectedDateIndex.value]
+  //                 .endTime)
+  //             .hour,
+  //         minutes: DateTime.parse(widget
+  //                 .hospitality!
+  //                 .daysInfo[widget.serviceController.selectedDateIndex.value]
+  //                 .endTime)
+  //             .minute),
+  //   ).show(context);
+  // }
 }

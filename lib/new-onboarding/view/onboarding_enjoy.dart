@@ -1,5 +1,6 @@
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/new-onboarding/view/account_type_screen.dart';
+import 'package:ajwad_v4/new-onboarding/view/intro_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -68,10 +69,11 @@ class OnBoardingEnjoy extends StatelessWidget {
                   title: 'start_tour'.tr,
                   onPressed: () async {
                   
-                    await getStorage.write('onBoarding', 'yes');
-
+                    await getStorage.write('onBoarding', 'yessss');
                     
-                    Get.off( AccountTypeScreen(),
+                    // Get.off( AccountTypeScreen(),
+                    //     transition: Transition.fade);
+                      Get.off( OnboardingScreen(),
                         transition: Transition.fade);
                   },
                   color: gold,

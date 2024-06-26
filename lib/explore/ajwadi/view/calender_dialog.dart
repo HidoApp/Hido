@@ -34,6 +34,8 @@ class CalenderDialog extends StatefulWidget {
 
 class _CalenderDialogState extends State<CalenderDialog> {
   String selectedDate = '';
+    List<DateTime> selectedDates = [];
+
   final _ajwadiExploreController = Get.put(AjwadiExploreController());
 
   @override
@@ -88,7 +90,7 @@ class _CalenderDialogState extends State<CalenderDialog> {
                       enablePastDates: false,
                       selectableDayPredicate:
                           widget.avilableDate != null ? defineSelectable : null,
-                      selectionMode: DateRangePickerSelectionMode.single,
+                      selectionMode:widget.fromAjwady?DateRangePickerSelectionMode.multiple: DateRangePickerSelectionMode.single,
                       selectionColor: Colors.green,
                       selectionTextStyle: TextStyle(),
                       selectionShape: DateRangePickerSelectionShape.circle,
@@ -139,6 +141,8 @@ class _CalenderDialogState extends State<CalenderDialog> {
                       onSelectionChanged: (selected) {
                         print(selected.value);
                         selectedDate = selected.value.toString();
+                        selectedDates = selected.value.cast<DateTime>();
+
                         print(selected);
                       }),
                 ),
@@ -163,7 +167,7 @@ class _CalenderDialogState extends State<CalenderDialog> {
                           .value = true;
                       widget.touristExploreController!
                           .selectedDate(selectedDate);
-                    } else if (widget.type == 'hospitality') {
+                    } else if (widget.type == 'hospitality' && !widget.fromAjwady) {
                       widget.srvicesController!.isHospatilityDateSelcted.value =
                           true;
                       widget.srvicesController!.selectedDate(selectedDate);
@@ -214,7 +218,21 @@ class _CalenderDialogState extends State<CalenderDialog> {
                         }
                       }
                       //   widget.srvicesController!.selectedDateIndex(widget.avilableDate.  (selectedDate));
-                    }
+                    }else if (widget.type == 'hospitality' && widget.fromAjwady )//new
+                     {
+                      print('8');
+                      widget.srvicesController!.isHospatilityDateSelcted.value =
+                          true;
+                      widget.srvicesController!.selectedDates(selectedDates);
+
+                     
+                         
+                         
+
+                        }
+                  
+
+                  
                     Get.back();
                   }
                 },

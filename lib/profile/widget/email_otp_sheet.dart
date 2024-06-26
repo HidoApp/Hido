@@ -19,6 +19,9 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 
+import '../../new-onboarding/view/intro_screen.dart';
+
+
 class EmailOTPSheet extends StatefulWidget {
   const EmailOTPSheet(
       {super.key,
@@ -233,7 +236,8 @@ class _EmailOTPSheetState extends State<EmailOTPSheet>
                                 email: widget.email, context: context);
                             if (result) {
                               _authController.logOut();
-                              Get.offAll(() =>  AccountTypeScreen());
+                              // Get.offAll(() =>  AccountTypeScreen());
+                              Get.offAll(() => OnboardingScreen());
                               Get.to(() => const SignInScreen());
                             }
                           } else {

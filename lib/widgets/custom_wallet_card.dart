@@ -90,7 +90,7 @@ spreadRadius: 0,
               ),
           ),
             Text(
-            AppUtil.rtlDirection(context)?"إجمالي المحفظة": 'Total balance',
+            AppUtil.rtlDirection2(context)?"إجمالي المحفظة": 'Total balance',
           style: TextStyle(
          color: Color(0xFFB9B8C1),
            fontSize: 13,
@@ -103,7 +103,7 @@ spreadRadius: 0,
             width: 4,
           ),
           Text(
-           AppUtil.rtlDirection(context)?"1,400.00 ريال سعودي":'1,400.00 SAR',
+           AppUtil.rtlDirection2(context)?"1,400.00 ريال سعودي":'1,400.00 SAR',
          style: TextStyle(
             color: Color(0xFF070708),
              fontSize:  AppUtil.rtlDirection(context)?22:28,
