@@ -63,7 +63,7 @@ class PaymentType extends StatefulWidget {
 class _PaymentTypeState extends State<PaymentType> {
   PaymentMethod? _selectedPaymentMethod;
   Invoice? invoice;
-  bool isSuccess = false;
+  bool? isSuccess;
   final adventureController = Get.put(AdventureController());
   final hospitalityController = Get.put(HospitalityController());
   final _paymentController = Get.put(PaymentController());
@@ -72,8 +72,8 @@ class _PaymentTypeState extends State<PaymentType> {
   final _cardNumber = TextEditingController();
   final _cardDate = TextEditingController();
   final _cardCvv = TextEditingController();
-  void checkHospitality(bool check) async {
-    isSuccess = await widget.servicesController!.checkAndBookHospitality(
+  Future<bool> checkHospitality(bool check) async {
+    return await widget.servicesController!.checkAndBookHospitality(
         context: context,
         check: check,
         hospitalityId: widget.hospitality!.id,
@@ -86,6 +86,7 @@ class _PaymentTypeState extends State<PaymentType> {
   }
 
   Future<void> selectPaymentType(PaymentMethod paymentMethod) async {
+    bool check = false;
     switch (paymentMethod) {
       case PaymentMethod.appelpay:
         invoice = await _paymentController.paymentGateway(
@@ -94,11 +95,16 @@ class _PaymentTypeState extends State<PaymentType> {
             paymentMethod: 'APPLE_PAY',
             price: widget.price);
         if (widget.type == "hospitality") {
-          checkHospitality(false);
+          check = await checkHospitality(false);
         }
-        if (isSuccess!) {
+        log('before success');
+        log(check.toString());
+        if (check) {
           paymentWebView();
         }
+
+        log('after success');
+
         break;
       case PaymentMethod.stcpay:
         invoice = await _paymentController.paymentGateway(
@@ -108,11 +114,15 @@ class _PaymentTypeState extends State<PaymentType> {
           price: widget.price,
         );
         if (widget.type == "hospitality") {
-          checkHospitality(false);
+          check = await checkHospitality(false);
         }
-        if (isSuccess!) {
+        log('before success');
+        log(check.toString());
+        if (check) {
           paymentWebView();
         }
+        log('after success');
+
         break;
       case PaymentMethod.creditCard:
         creditValidaiotn();
@@ -124,9 +134,9 @@ class _PaymentTypeState extends State<PaymentType> {
         var year = '';
         month = _cardDate.text.substring(0, 2);
         year = _cardDate.text.substring(3, 5);
-        if (widget.type == "hospitality") {
-          checkHospitality(false);
-        }
+        // if (widget.type == "hospitality") {
+        //   checkHospitality(false);
+        // }
         invoice = await _paymentController.creditCardPayment(
             context: context,
             creditCard: CreditCard(
@@ -145,9 +155,8 @@ class _PaymentTypeState extends State<PaymentType> {
               tourBooking(invoice!);
               break;
             case 'hospitality':
-              if (isSuccess!) {
-                hospitalityBooking(invoice!);
-              }
+              hospitalityBooking(invoice!);
+
               break;
             default:
           }
@@ -307,7 +316,19 @@ class _PaymentTypeState extends State<PaymentType> {
   }
 
   void hospitalityBooking(Invoice checkInvoice) async {
-    checkHospitality(true); // if paid the check flag will change to true
+    // if paid the check flag will change to true
+    isSuccess = await widget.servicesController!.checkAndBookHospitality(
+        context: context,
+        check: true,
+        paymentId: checkInvoice.id,
+        hospitalityId: widget.hospitality!.id,
+        date: widget.servicesController!.selectedDate.value,
+        dayId: widget.hospitality!
+            .daysInfo[widget.servicesController!.selectedDateIndex.value].id,
+        numOfMale: widget.male!,
+        numOfFemale: widget.female!,
+        cost: widget.price);
+
     final updatedHospitality = await widget.servicesController!
         .getHospitalityById(context: context, id: widget.hospitality!.id);
 
@@ -400,6 +421,20 @@ class _PaymentTypeState extends State<PaymentType> {
     );
   }
 
+  bool loadingButton() {
+    if (widget.offerController == null) {
+      return _paymentController.isPaymentGatewayLoading.value ||
+          _paymentController.isCreditCardPaymentLoading.value ||
+          adventureController.ischeckBookingLoading.value ||
+          widget.servicesController!.isCheckAndBookLoading.value;
+    } else {
+      return _paymentController.isPaymentGatewayLoading.value ||
+          _paymentController.isCreditCardPaymentLoading.value ||
+          adventureController.ischeckBookingLoading.value ||
+          widget.offerController!.isAcceptOfferLoading.value;
+    }
+  }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -474,10 +509,7 @@ class _PaymentTypeState extends State<PaymentType> {
               height: 20,
             ),
             Obx(
-              () => _paymentController.isPaymentGatewayLoading.value ||
-                      _paymentController.isCreditCardPaymentLoading.value ||
-                      adventureController.ischeckBookingLoading.value ||
-                      widget.offerController!.isAcceptOfferLoading.value
+              () => loadingButton()
                   ? const CircularProgressIndicator.adaptive()
                   : CustomButton(
                       onPressed: () async {

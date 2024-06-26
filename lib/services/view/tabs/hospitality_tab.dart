@@ -117,14 +117,12 @@ class _HospitalityTabState extends State<HospitalityTab> {
                                   borderColor: _regionsController
                                               .selectedHospitaltyIndex.value ==
                                           index
-
                                       ? colorGreen
-
                                       : almostGrey,
                                   backgroundColor: _regionsController
                                               .selectedHospitaltyIndex.value ==
                                           index
-                                      ?  colorGreen
+                                      ? colorGreen
                                       : Colors.transparent,
                                   textColor: _regionsController
                                               .selectedHospitaltyIndex.value ==
@@ -169,7 +167,7 @@ class _HospitalityTabState extends State<HospitalityTab> {
                                     ));
                               },
                               image: _srvicesController
-                                  .hospitalityList[index].images[0],
+                                  .hospitalityList[index].images.first,
                               personImage: _srvicesController
                                   .hospitalityList[index].familyImage,
                               title: !AppUtil.rtlDirection(context)
