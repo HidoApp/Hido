@@ -4,11 +4,21 @@ import 'package:ajwad_v4/services/model/payment.dart';
 import 'package:ajwad_v4/services/service/hospitality_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class HospitalityController extends GetxController {
   var isHospitalityLoading = false.obs;
   var selectedDate = ''.obs;
+  var selectedDates= [].obs;//new
   var selectedTime = ''.obs;
+var selectedStartTime = ''.obs;
+var selectedEndTime = ''.obs;
+
+
+  var seletedSeat = (0).obs;
+  var selectedGender=''.obs;
+  var selectedMeal=''.obs;
+
   var selectedDateIndex = (-1).obs;
   var selectedDateId = "".obs;
   var isHospitalityByIdLoading = false.obs;
@@ -19,7 +29,11 @@ class HospitalityController extends GetxController {
 
   var hospitalityList = <Hospitality>[].obs;
   var isHospatilityDateSelcted = false.obs;
+  var isHospatilityTimeSelcted = false.obs;
+
   var isAdventureTimeSelcted = false.obs;
+   Rx<LatLng> pickUpLocLatLang = const LatLng(24.9470921, 45.9903698).obs;
+
 
   Future<RxList<Hospitality>?> getAllHospitality(
       {required BuildContext context, String? region}) async {

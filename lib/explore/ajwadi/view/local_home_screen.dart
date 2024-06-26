@@ -165,7 +165,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                           children: [
                             Container(
                               child: Text(
-                               AppUtil.rtlDirection(context)?"خدمات": 'Your services',
+                               AppUtil.rtlDirection2(context)?"خدمات": 'Your services',
                                 style: TextStyle(
                                   color: Color(0xFF070708),
                                   fontSize: 17,
@@ -181,7 +181,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 CategoryCard(
-                                  title:  AppUtil.rtlDirection(context)?"جولات ":'Tours',
+                                  title:  AppUtil.rtlDirection2(context)?"جولات ":'Tours',
                                   icon: 'tour_category',
                                   color: Color(0xFFECF9F1),
                                   onPressed: () {
@@ -194,7 +194,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                                   },
                                 ),
                                 CategoryCard(
-                                    title:  AppUtil.rtlDirection(context)?"استضافة":'Hospitality',
+                                    title:  AppUtil.rtlDirection2(context)?"استضافة":'Hospitality',
                                     icon: 'host_category',
                                     color: Color(0xFFF5F2F8)),
                                 CategoryCard(
@@ -205,7 +205,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                             ),
                             SizedBox(height: 32),
                             Text(
-                              AppUtil.rtlDirection(context)?"نشاطك القادم": 'Your next activity ',
+                              AppUtil.rtlDirection2(context)?"نشاطك القادم": 'Your next activity ',
                               style: TextStyle(
                                 color: Color(0xFF070708),
                                 fontSize: 17,

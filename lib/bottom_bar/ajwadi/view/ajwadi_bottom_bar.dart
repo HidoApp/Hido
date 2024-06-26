@@ -1,5 +1,4 @@
 import 'package:ajwad_v4/explore/ajwadi/view/ajwadi_map_screen.dart';
-import 'package:ajwad_v4/explore/ajwadi/view/hoapatility/view/add_hospatility_info.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/request/ajwadi/view/new_request_screen.dart';
 import 'package:ajwad_v4/request/ajwadi/view/request_screen.dart';
@@ -9,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
+import '../../../explore/ajwadi/view/Experience/add_experience_info.dart';
 import '../../../explore/ajwadi/view/hoapatility/widget/buttomProgress.dart';
 import '../../../explore/ajwadi/view/local_home_screen.dart';
 
@@ -34,6 +34,7 @@ List bottomScreens = [
 
   const NewRequestScreen(),
   //const RequestScreen(),
+  const AddExperienceInfo(),
 
   ProfileScreen(
     fromAjwady: true,
@@ -59,57 +60,60 @@ class _AjwadiBottomBarState extends State<AjwadiBottomBar>
           color: lightBlack,
           child: bottomScreens[currentIndex],
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          elevation: 0,
-          enableFeedback: false,
-          backgroundColor: Colors.white,
-          currentIndex: currentIndex,
-          type: BottomNavigationBarType.fixed,
-          unselectedItemColor: colorDarkGrey,
-          selectedItemColor: colorGreen,
-          unselectedLabelStyle: const TextStyle(
-            fontSize: 10,
-            fontWeight: FontWeight.w400,
-            fontFamily: 'Kufam',
-            color: purple,
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.only(bottom: 30),
+          child: BottomNavigationBar(
+            elevation: 0,
+            enableFeedback: false,
+            backgroundColor: Colors.white,
+            currentIndex: currentIndex,
+            type: BottomNavigationBarType.fixed,
+            unselectedItemColor: colorDarkGrey,
+            selectedItemColor: colorGreen,
+            unselectedLabelStyle: const TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.w600,
+             fontFamily: 'SF Pro',
+              color: colorDarkGrey,
+            ),
+            selectedLabelStyle: const TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.w600,
+               fontFamily: 'SF Pro',
+              color: colorGreen,
+            ),
+            items: [
+              BottomNavigationBarItem(
+                  label: "home".tr,
+                  icon: SvgPicture.asset(
+                    "assets/icons/request_icon.svg",
+                    color: currentIndex == 0 ? colorGreen : colorDarkGrey,
+                  )),
+              BottomNavigationBarItem(
+                  label: "request".tr,
+                  icon: SvgPicture.asset(
+                    "assets/icons/my_request_green.svg",
+                    color: currentIndex == 1 ? colorGreen : colorDarkGrey,
+                  )),
+              BottomNavigationBarItem(
+                  label: "MyExperiences".tr,
+                  icon: SvgPicture.asset(
+                    "assets/icons/my_experiences.svg",
+                    color: currentIndex == 2 ? colorGreen : colorDarkGrey,
+                  )),
+              BottomNavigationBarItem(
+                  label: "profile".tr,
+                  icon: SvgPicture.asset(
+                    "assets/icons/my_profile_green.svg",
+                    color: currentIndex == 3 ? colorGreen : colorDarkGrey,
+                  )),
+            ],
+            onTap: (int newIndex) {
+              setState(() {
+                currentIndex = newIndex;
+              });
+            },
           ),
-          selectedLabelStyle: const TextStyle(
-            fontSize: 10,
-            fontWeight: FontWeight.w700,
-            fontFamily: 'Kufam',
-            color: darkBlack,
-          ),
-          items: [
-            BottomNavigationBarItem(
-                label: "home".tr,
-                icon: SvgPicture.asset(
-                  "assets/icons/request_icon.svg",
-                  color: currentIndex == 0 ? colorGreen : colorDarkGrey,
-                )),
-            BottomNavigationBarItem(
-                label: "request".tr,
-                icon: SvgPicture.asset(
-                  "assets/icons/my_request_green.svg",
-                  color: currentIndex == 1 ? colorGreen : colorDarkGrey,
-                )),
-            // BottomNavigationBarItem(
-            //     label: "MyExperiences".tr,
-            //     icon: SvgPicture.asset(
-            //       "assets/icons/my_experiences.svg",
-            //       color: currentIndex == 2 ? colorGreen : colorDarkGrey,
-            //     )),
-            BottomNavigationBarItem(
-                label: "profile".tr,
-                icon: SvgPicture.asset(
-                  "assets/icons/my_profile_green.svg",
-                  color: currentIndex == 3 ? colorGreen : colorDarkGrey,
-                )),
-          ],
-          onTap: (int newIndex) {
-            setState(() {
-              currentIndex = newIndex;
-            });
-          },
         ));
   }
 }

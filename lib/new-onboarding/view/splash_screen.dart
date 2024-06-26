@@ -4,6 +4,7 @@ import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
 import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/new-onboarding/view/intro_screen.dart';
 import 'package:ajwad_v4/new-onboarding/view/onboarding_try.dart';
 import 'package:ajwad_v4/new-onboarding/view/account_type_screen.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
@@ -130,14 +131,19 @@ class _SplashScreenState extends State<SplashScreen>
           if (user != null) {
             token = user.accessToken;
           }
+
+          Get.off(() => TouristBottomBar());
+        } else if (onBoarding == 'yes') {
+          //  Get.off(() => AccountTypeScreen());
+        Get.off(() => OnboardingScreen());
+
+        } else {
+        // Get.off(() => OnBoardingTry(getStorage: _getStorage ,));
+        Get.off(() => OnboardingScreen());
+
         }
 
-        Get.off(() => TouristBottomBar());
-      } else if (onBoarding == 'yes') {
-        Get.off(() => const AccountTypeScreen());
-      } else {
-        Get.off(() => const AccountTypeScreen());
-      }
+     
     });
 
     //   Workmanager().initialize(

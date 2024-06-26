@@ -46,6 +46,8 @@ const Color almostGrey = Color(0xff9E9E9E);
 const Color tileGreyColor = Color(0xffCACACA);
 const Color lightGreyColor = Color(0xffEEEEEF);
 const Color lightGreyBackground = Color(0xffF9F9F9);
+const Color Graytext = Color(0xFFB9B8C1);
+
 
 const Color darkBlack = Color(0xff252525);
 const Color textAreaColor = Color(0xffE4DFDF);
@@ -53,4 +55,5 @@ const Color starGreyColor = Color(0xFF9392A0);
 // Color(0xff5F5F5F);
 const Color containerGreyColor = Color(0xffF5F5F5);
 const Color dotGreyColor = Color(0xff979797);
-const Color shadowColor = Color(0x3FC7C7C7);
+const Color shadowColor   = Color(0x3FC7C7C7);
+const Color graySmallText =Color(0xFF41404A);

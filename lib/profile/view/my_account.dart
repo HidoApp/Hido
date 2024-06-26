@@ -1,6 +1,7 @@
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/new-onboarding/view/account_type_screen.dart';
+import 'package:ajwad_v4/new-onboarding/view/intro_screen.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/models/profile.dart';
 import 'package:ajwad_v4/profile/widget/account_edit_sheet.dart';
@@ -137,8 +138,10 @@ class _MyAccountState extends State<MyAccount> {
                                         .deleteAccount(context: context);
 
                                     if (isSuccess) {
-                                      Get.offAll(
-                                          () => const AccountTypeScreen());
+                                      // Get.offAll(
+                                      //     () => const AccountTypeScreen());
+                                     Get.offAll(() => OnboardingScreen());
+
                                     }
                                   },
                                   child: Container(

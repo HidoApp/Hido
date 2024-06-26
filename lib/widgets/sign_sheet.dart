@@ -16,6 +16,8 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/state_manager.dart';
 
+import '../new-onboarding/view/intro_screen.dart';
+
 class SignInSheet extends StatefulWidget {
   const SignInSheet({super.key});
 
@@ -234,7 +236,10 @@ class _SignInSheetState extends State<SignInSheet> {
                             fontSize: 15,
                           ),
                           onTap: () => Get.offAll(
-                                () => AccountTypeScreen(),
+                               // () =>  AccountTypeScreen(),
+                              () => OnboardingScreen(),
+
+
                               ))
                     ],
                   )

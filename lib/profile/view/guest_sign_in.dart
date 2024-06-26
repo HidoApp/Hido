@@ -11,6 +11,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../new-onboarding/view/intro_screen.dart';
+
 class GuestSignInScreen extends StatefulWidget {
   const GuestSignInScreen({super.key});
 
@@ -50,7 +52,9 @@ class _GuestSignInScreenState extends State<GuestSignInScreen> {
                 child: CustomButton(
                   height: width * 0.107,
                   onPressed: () {
-                    Get.offAll(() => AccountTypeScreen());
+                    // Get.offAll(() => AccountTypeScreen());
+                   Get.offAll(() => OnboardingScreen());
+
                     Get.to(
                         () => RegisterScreen(authController: _authController));
                   },
@@ -65,7 +69,8 @@ class _GuestSignInScreenState extends State<GuestSignInScreen> {
               Center(
                 child: InkWell(
                   onTap: () {
-                    Get.offAll(() => const AccountTypeScreen());
+                   // Get.offAll(() => const AccountTypeScreen());
+                   Get.offAll(() => OnboardingScreen());
                     Get.to(
                       () => const AjwadiRegisterScreen(),
                     );

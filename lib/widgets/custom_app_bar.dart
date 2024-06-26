@@ -14,6 +14,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.onPressedAction,
     this.backgroundColor,
     this.isAjwadi = false,
+    this.isBack=false,
   })  : preferredSize = const Size.fromHeight(75.0),
         super(key: key);
 
@@ -23,6 +24,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Color? backgroundColor;
   final bool action;
   final bool isAjwadi;
+  final bool isBack;
   final VoidCallback? onPressedAction;
   @override
   final Size preferredSize;
@@ -84,15 +86,20 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   ], //
                   centerTitle: true,
 
-                  leading: !isAjwadi
+                 
+                  leading: !isBack
                       ? Padding(
                           padding: AppUtil.rtlDirection2(context)
+                        ?!isAjwadi
                               ? EdgeInsets.only(bottom: 10, right: 30)
-                              : EdgeInsets.only(bottom: 23, left: 30),
+                              : EdgeInsets.only(bottom: 23, left: 30)
+                        :!isAjwadi
+                              ? EdgeInsets.only(bottom: 10, right: 30)
+                              : EdgeInsets.only(bottom: 23, left: 30,top:8),
                           child: IconButton(
                             icon: Icon(
                               Icons.arrow_back_ios,
-                              size: 22,
+                              size: 19,
                               color: iconColor ?? Colors.black,
                             ),
                             onPressed: () => Get.back(),
