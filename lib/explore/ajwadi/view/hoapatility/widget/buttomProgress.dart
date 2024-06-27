@@ -216,8 +216,7 @@ class _ButtomProgressState extends State<ButtomProgress> {
 
         return PhotoGalleryPage(selectedImages: _hospitalityImages);
       case 3:
-        print(_hospitalityImages.first);
-        print(_hospitalityImages.length);
+      
 
         print('3');
 
@@ -245,20 +244,20 @@ class _ButtomProgressState extends State<ButtomProgress> {
 
   bool _validateFields() {
     if (activeIndex == 0) {
-      return true;
-      // hospitalityTitleControllerEn.text.isNotEmpty &&
-      //     hospitalityBioControllerEn.text.isNotEmpty &&
-      //     hospitalityTitleControllerAr.text.isNotEmpty &&
-      //     hospitalityBioControllerAr.text.isNotEmpty;
+      return 
+      hospitalityTitleControllerEn.text.isNotEmpty &&
+          hospitalityBioControllerEn.text.isNotEmpty &&
+          hospitalityTitleControllerAr.text.isNotEmpty &&
+          hospitalityBioControllerAr.text.isNotEmpty;
     }
     if (activeIndex == 1) {
-      return true;
-      // _hospitalityController.pickUpLocLatLang.value !=
-      //     const LatLng(24.9470921, 45.9903698);
+      return 
+      _hospitalityController.pickUpLocLatLang.value !=
+          const LatLng(24.9470921, 45.9903698);
     }
     if (activeIndex == 2) {
-      return true;
-      // _hospitalityImages.length >= 3;
+      return 
+      _hospitalityImages.length >= 3;
     }
     return true; // Add validation for other steps if needed
   }
