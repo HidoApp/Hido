@@ -130,9 +130,12 @@ class _HospitalityTabState extends State<HospitalityTab> {
                                       ? Colors.white
                                       : almostGrey,
                                   title: index == 0
-                                      ? 'All'
-                                      : _regionsController.regionsHospitalty
-                                          .value.regionEn![index - 1],
+                                      ? 'all'.tr
+                                      : AppUtil.rtlDirection2(context)
+                                          ? _regionsController.regionsHospitalty
+                                              .value.regionAr![index - 1]
+                                          : _regionsController.regionsHospitalty
+                                              .value.regionEn![index - 1],
                                 ),
                               ),
                             ),

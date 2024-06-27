@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/payment/controller/payment_controller.dart';
 import 'package:ajwad_v4/payment/model/invoice.dart';
@@ -14,13 +16,11 @@ import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/dotted_line_separator.dart';
 import 'package:ajwad_v4/widgets/payment_web_view.dart';
 import 'package:ajwad_v4/widgets/promocode_field.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/svg.dart';
+
 import 'package:get/get.dart';
-import 'package:timezone/timezone.dart' as tz;
-import 'package:timezone/data/latest_all.dart' as tz;
+import 'package:intl/intl.dart';
 
 import '../../payment/view/payment_type_new.dart';
 
@@ -90,8 +90,8 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
     print(widget.adventure.times?.last.startTime);
 
     return Scaffold(
-      appBar: const CustomAppBar(
-        "Review Booking",
+      appBar: CustomAppBar(
+        "reviewbooking".tr,
       ),
       extendBodyBehindAppBar: false,
       body: Container(
@@ -102,7 +102,7 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomText(
-                  text: "Adventure Details",
+                  text: "adventuredetails".tr,
                   fontSize: 18,
                 ),
                 const SizedBox(
@@ -118,8 +118,10 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                 ),
                 // Details
                 ReviewDetailsTile(
-                    title: DateFormat('E-dd-MMM').format(
-                      DateTime.parse(widget.adventure!.date!),
+                    title: DateFormat('E-dd-MMM',
+                            AppUtil.rtlDirection2(context) ? 'ar' : 'en')
+                        .format(
+                      DateTime.parse(widget.adventure.date!),
                     ),
                     image: 'assets/icons/grey_calender.svg'),
                 const SizedBox(
@@ -144,13 +146,13 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                 const SizedBox(
                   height: 20,
                 ),
-                const CustomText(
-                  text: "Number of People",
+                CustomText(
+                  text: "numberOfPeople".tr,
                   fontSize: 18,
                 ),
                 ReviewGuestsTile(
                   guest: widget.person,
-                  title: "person",
+                  title: "person".tr,
                 ),
                 SizedBox(
                   height: width * .041,
@@ -178,13 +180,13 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                 Row(
                   children: [
                     CustomText(
-                      text: 'Total',
+                      text: 'total'.tr,
                       fontSize: 20,
                     ),
-                    Spacer(),
+                    const Spacer(),
                     CustomText(
                       // text: 'SAR ${widget.adventure.price.toString()}',
-                      text: 'SAR ${finalCost.toString()}',
+                      text: '${"sar".tr} ${finalCost.toString()}',
 
                       fontSize: 20,
                     )
@@ -198,7 +200,7 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                     ? const Center(child: CircularProgressIndicator())
                     : CustomButton(
                         onPressed: () async {
-                          if (widget.adventure!.booking!.isNotEmpty) {
+                          if (widget.adventure.booking!.isNotEmpty) {
                             AppUtil.errorToast(
                                 context,
                                 AppUtil.rtlDirection2(context)
@@ -215,7 +217,7 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                             ),
                           );
                         },
-                        title: 'Checkout'))
+                        title: 'checkout'.tr))
               ],
             ),
           ),

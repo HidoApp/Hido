@@ -163,7 +163,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                           child: Column(
                             children: [
                               Align(
-                                  alignment: !AppUtil.rtlDirection(context)
+                                  alignment: AppUtil.rtlDirection2(context)
                                       ? Alignment.centerRight
                                       : Alignment.centerLeft,
                                   child: CustomText(
@@ -230,9 +230,9 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                     width: width * 0.012,
                                   ),
                                   CustomText(
-                                    text: AppUtil.rtlDirection(context)
-                                        ? hospitalityObj!.mealTypeEn
-                                        : hospitalityObj!.mealTypeAr,
+                                    text: AppUtil.rtlDirection2(context)
+                                        ? hospitalityObj!.mealTypeAr
+                                        : hospitalityObj!.mealTypeEn,
                                     color: colorDarkGrey,
                                     fontSize: width * 0.038,
                                     fontWeight: FontWeight.w300,
@@ -246,7 +246,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                 height: width * 0.038,
                               ),
                               Align(
-                                  alignment: !AppUtil.rtlDirection(context)
+                                  alignment: AppUtil.rtlDirection2(context)
                                       ? Alignment.centerRight
                                       : Alignment.centerLeft,
                                   child: CustomText(
@@ -326,7 +326,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                 height: width * 0.025,
                               ),
                               Align(
-                                  alignment: !AppUtil.rtlDirection(context)
+                                  alignment: AppUtil.rtlDirection2(context)
                                       ? Alignment.centerRight
                                       : Alignment.centerLeft,
                                   child: CustomText(
@@ -471,7 +471,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                     //     )),
                     Positioned(
                       top: height * 0.06,
-                      left: !AppUtil.rtlDirection(context)
+                      left: AppUtil.rtlDirection2(context)
                           ? width * 0.85
                           : width * 0.06,
                       child: IconButton(

@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
@@ -218,6 +219,7 @@ class _PaymentTypeState extends State<PaymentType> {
           }
         } else {
           log('No');
+
           showDialog(
               context: context,
               builder: (ctx) {
@@ -401,36 +403,45 @@ class _PaymentTypeState extends State<PaymentType> {
       },
     ).then(
       (_) {
+        // Get.back();
         Get.back();
         Get.back();
-        Get.back();
-        print("inside notifi");
+        log("inside adventure");
+        log("${updatedAdventure!.booking?.last.id}");
+        log(widget.adventure!.date!);
+        log(widget.adventure!.nameEn!);
+        log(widget.adventure!.nameAr!);
 
-        Get.to(() => TicketDetailsScreen(
-              adventure: updatedAdventure,
-              icon: SvgPicture.asset('assets/icons/adventure.svg'),
-              bookTypeText: 'adventure'.tr,
-            ));
+        Get.to(
+          () => TicketDetailsScreen(
+            adventure: updatedAdventure,
+            icon: SvgPicture.asset('assets/icons/adventure.svg'),
+            bookTypeText: 'adventure'.tr,
+          ),
+        );
         LocalNotification().showAdventureNotification(
-            context,
-            updatedAdventure!.booking?.last.id,
-            widget.adventure!.date,
-            widget.adventure!.nameEn,
-            widget.adventure!.nameAr);
+            context: context,
+            id: widget.adventure!.id,
+            date: widget.adventure!.date,
+            nameEn: widget.adventure!.nameEn,
+            nameAr: widget.adventure!.nameAr);
       },
     );
   }
 
   bool loadingButton() {
-    if (widget.offerController == null) {
+    if (widget.type == 'hospitality') {
       return _paymentController.isPaymentGatewayLoading.value ||
           _paymentController.isCreditCardPaymentLoading.value ||
           adventureController.ischeckBookingLoading.value ||
           widget.servicesController!.isCheckAndBookLoading.value;
+    } else if (widget.type == 'adventure') {
+      return _paymentController.isPaymentGatewayLoading.value ||
+          _paymentController.isCreditCardPaymentLoading.value ||
+          adventureController.ischeckBookingLoading.value;
     } else {
       return _paymentController.isPaymentGatewayLoading.value ||
           _paymentController.isCreditCardPaymentLoading.value ||
-          adventureController.ischeckBookingLoading.value ||
           widget.offerController!.isAcceptOfferLoading.value;
     }
   }
@@ -451,12 +462,8 @@ class _PaymentTypeState extends State<PaymentType> {
 
     return Scaffold(
       bottomNavigationBar: Padding(
-        padding: EdgeInsets.only(
-          left: 16,
-          right: 16,
-          top: 20,
-          bottom: 20,
-        ),
+        padding: EdgeInsets.symmetric(
+            horizontal: width * .04, vertical: width * 0.051),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -465,7 +472,7 @@ class _PaymentTypeState extends State<PaymentType> {
               height: width * 0.002,
             ),
             SizedBox(
-              height: 28,
+              height: width * 0.071,
             ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -480,33 +487,33 @@ class _PaymentTypeState extends State<PaymentType> {
                   // text: 'SAR ${widget.adventure.price.toString()}',
                   text: '${"sar".tr} ${widget.price}',
                   fontWeight: FontWeight.w500,
-                  fontSize: 20,
+                  fontSize: width * 0.05,
                 ),
               ],
             ),
             SizedBox(
-              height: 4,
+              height: width * 0.010,
             ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomText(
-                  text: 'promocode'.tr,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,
-                  color: almostGrey,
-                ),
-                const Spacer(),
-                CustomText(
-                  // text: 'SAR ${widget.adventure.price.toString()}',
-                  text: '- ${"sar".tr} ${widget.price}',
-                  fontWeight: FontWeight.w500,
-                  fontSize: 15, color: almostGrey,
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 20,
+            // Row(
+            //   crossAxisAlignment: CrossAxisAlignment.start,
+            //   children: [
+            //     CustomText(
+            //       text: 'promocode'.tr,
+            //       fontSize: width * 0.038,
+            //       fontWeight: FontWeight.w500,
+            //       color: almostGrey,
+            //     ),
+            //     const Spacer(),
+            //     CustomText(
+            //       // text: 'SAR ${widget.adventure.price.toString()}',
+            //       text: '- ${"sar".tr} ${widget.price}',
+            //       fontWeight: FontWeight.w500,
+            //       fontSize: width * 0.038, color: almostGrey,
+            //     ),
+            //   ],
+            // ),
+            SizedBox(
+              height: width * 0.05,
             ),
             Obx(
               () => loadingButton()
@@ -533,10 +540,10 @@ class _PaymentTypeState extends State<PaymentType> {
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.only(
-            left: 16,
-            right: 16,
-            top: 12,
-            bottom: 32,
+            left: width * 0.041,
+            right: width * 0.041,
+            top: width * 0.030,
+            bottom: width * 0.082,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -553,54 +560,6 @@ class _PaymentTypeState extends State<PaymentType> {
               Row(
                 children: [
                   Radio<PaymentMethod>(
-                    value: PaymentMethod.creditCard,
-                    groupValue: _selectedPaymentMethod,
-                    onChanged: (PaymentMethod? value) {
-                      setState(() {
-                        _selectedPaymentMethod = value;
-                      });
-                    },
-                  ),
-                  SvgPicture.asset('assets/icons/logos_mastercard.svg'),
-                  const SizedBox(
-                    width: 2,
-                  ),
-                  SvgPicture.asset('assets/icons/logos_visa.svg'),
-                  SizedBox(
-                    width: 6,
-                  ),
-                  CustomText(
-                    text: 'creditCard'.tr,
-                    color: Color(0xFF070708),
-                    fontSize: 16,
-                    fontFamily: 'SF Pro',
-                    fontWeight: FontWeight.w600,
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Radio<PaymentMethod>(
-                    value: PaymentMethod.appelpay,
-                    groupValue: _selectedPaymentMethod,
-                    onChanged: (PaymentMethod? value) {
-                      setState(() {
-                        _selectedPaymentMethod = value;
-                      });
-                    },
-                  ),
-                  // Text('pay'),
-
-                  SvgPicture.asset(
-                    "assets/icons/applePay_icon.svg",
-                    color: Color.fromARGB(255, 0, 0, 0),
-                    height: 20,
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Radio<PaymentMethod>(
                     value: PaymentMethod.stcpay,
                     groupValue: _selectedPaymentMethod,
                     onChanged: (PaymentMethod? value) {
@@ -611,9 +570,61 @@ class _PaymentTypeState extends State<PaymentType> {
                   ),
                   SvgPicture.asset(
                     "assets/icons/stc.svg",
-                    height: 20,
+                    height: width * 0.051,
                   ),
                 ],
+              ),
+              if (Platform.isIOS)
+                Row(
+                  children: [
+                    Radio<PaymentMethod>(
+                      value: PaymentMethod.appelpay,
+                      groupValue: _selectedPaymentMethod,
+                      onChanged: (PaymentMethod? value) {
+                        setState(() {
+                          _selectedPaymentMethod = value;
+                        });
+                      },
+                    ),
+                    // Text('pay'),
+
+                    SvgPicture.asset(
+                      "assets/icons/applePay_icon.svg",
+                      color: const Color.fromARGB(255, 0, 0, 0),
+                      height: width * 0.051,
+                    ),
+                  ],
+                ),
+              Row(
+                children: [
+                  Radio<PaymentMethod>(
+                    value: PaymentMethod.creditCard,
+                    groupValue: _selectedPaymentMethod,
+                    onChanged: (PaymentMethod? value) {
+                      setState(() {
+                        _selectedPaymentMethod = value;
+                      });
+                    },
+                  ),
+                  SvgPicture.asset('assets/icons/logos_mastercard.svg'),
+                  SizedBox(
+                    width: width * 0.005,
+                  ),
+                  SvgPicture.asset('assets/icons/logos_visa.svg'),
+                  SizedBox(
+                    width: width * 0.015,
+                  ),
+                  CustomText(
+                    text: 'creditCard'.tr,
+                    color: const Color(0xFF070708),
+                    fontSize: width * 0.041,
+                    fontFamily: 'SF Pro',
+                    fontWeight: FontWeight.w500,
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: width * 0.030,
               ),
               if (_selectedPaymentMethod == PaymentMethod.creditCard)
                 CreditForm(
