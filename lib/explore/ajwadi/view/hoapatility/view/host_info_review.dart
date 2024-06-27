@@ -1,12 +1,87 @@
+import 'dart:io';
+
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/widget/experience_card.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/hoapatility/widget/buttomProgress.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:intl/intl.dart' as intl;
+import 'package:geocoding/geocoding.dart';
 
-class HostInfoReview extends StatelessWidget {
+import '../../../../../services/controller/hospitality_controller.dart';
+
+class HostInfoReview extends StatefulWidget {
+ 
+  final String hospitalityTitleEn;
+  final String hospitalityBioEn;
+  final String hospitalityTitleAr;
+  final String hospitalityBioAr;
+  final String hospitalityPrice;
+  final List<String> hospitalityImages;
+  // final int seats;
+  // final String gender;
+  final HospitalityController hospitalityController;
+
+  HostInfoReview({
+   
+    required this.hospitalityBioAr,
+    required this.hospitalityBioEn,
+    required this.hospitalityTitleAr,
+    required this.hospitalityTitleEn,
+    required this.hospitalityPrice,
+    required this.hospitalityImages,
+    // required this.seats,
+    // required this.gender,
+    required this.hospitalityController,
+  });
+
+    @override
+  _HostInfoReviewState createState() => _HostInfoReviewState();
+}
+
+class _HostInfoReviewState extends State<HostInfoReview> {
+  String address = ''; // State variable to store the fetched address
+
+  Future<String> _getAddressFromLatLng(LatLng position) async {
+    try {
+      List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
+      print( placemarks);
+
+      if (placemarks.isNotEmpty) {
+     Placemark placemark = placemarks.first;
+     print( placemarks.first);
+        return '${placemark.locality}, ${placemark.subLocality}, ${placemark.country}';
+      }
+    } catch (e) {
+      print("Error retrieving address: $e");
+    }
+    return '';
+  }
+
+  Future<void> _fetchAddress() async {
+    try {
+      String result = await _getAddressFromLatLng(widget.hospitalityController.pickUpLocLatLang.value);
+      setState(() {
+        address = result;
+      });
+    } catch (e) {
+      // Handle error if necessary
+      print('Error fetching address: $e');
+    }
+  }
+
+  
+
   @override
+  void initState() {
+    super.initState();
+    _fetchAddress(); // Fetch address when the widget initializes
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
@@ -67,8 +142,10 @@ class HostInfoReview extends StatelessWidget {
                     decoration: ShapeDecoration(
                       image: DecorationImage(
                         image:
-                            NetworkImage("https://via.placeholder.com/90x90"),
-                        fit: BoxFit.fill,
+                            //NetworkImage(hospitalityImages[0]),
+                       FileImage(File(widget.hospitalityImages[0])),
+
+                        fit: BoxFit.cover,
                       ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
@@ -84,7 +161,7 @@ class HostInfoReview extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'Ahmad’s house',
+                              AppUtil.rtlDirection2(context)?widget.hospitalityTitleAr:widget.hospitalityTitleEn,
                               style: TextStyle(
                                 color: Color(0xFF070708),
                                 fontSize: 16,
@@ -122,7 +199,8 @@ class HostInfoReview extends StatelessWidget {
                                     Icon(Icons.location_on, size: 16),
                                     const SizedBox(width: 4),
                                     Text(
-                                      'Riyadh,Al-Majma\'ah, Saudi Arabia',
+                                    address,
+                                      //'Riyadh,Al-Majma\'ah, Saudi Arabia',
                                       style: TextStyle(
                                         color: Color(0xFF9392A0),
                                         fontSize: 11,
@@ -138,7 +216,10 @@ class HostInfoReview extends StatelessWidget {
                                     Icon(Icons.calendar_today, size: 16),
                                     const SizedBox(width: 4),
                                     Text(
-                                      'Wed 28 Apr - 2 PM',
+                                    '${formatSelectedDates(
+                                  widget.hospitalityController.selectedDates,context)} - ${AppUtil.formatStringTimeWithLocale(context,intl.DateFormat('hh:mm a')
+                                                    .format(widget.hospitalityController.selectedStartTime.value))}' ,
+                                               
                                       style: TextStyle(
                                         color: Color(0xFF9392A0),
                                         fontSize: 11,
@@ -154,7 +235,7 @@ class HostInfoReview extends StatelessWidget {
                                     Icon(Icons.restaurant, size: 16),
                                     const SizedBox(width: 4),
                                     Text(
-                                      'Lunch',
+                                     _StringMeal(widget.hospitalityController.selectedMeal.value,context),
                                       style: TextStyle(
                                         color: Color(0xFF9392A0),
                                         fontSize: 11,
@@ -216,5 +297,66 @@ class HostInfoReview extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+ String formatSelectedDates(RxList<dynamic> dates, BuildContext context) {
+  // Convert dynamic list to List<DateTime>
+  List<DateTime> dateTimeList = dates
+      .where((date) => date is DateTime)
+      .map((date) => date as DateTime)
+      .toList();
+
+  if (dateTimeList.isEmpty) {
+    return 'DD/MM/YYYY';
+  }
+
+  // Sort the dates
+  dateTimeList.sort();
+
+  final bool isArabic = AppUtil.rtlDirection(context);
+  final intl.DateFormat dayFormatter = intl.DateFormat('d', isArabic ? 'ar' : 'en');
+  final intl.DateFormat monthYearFormatter = intl.DateFormat('MMMM yyyy', isArabic ? 'ar' : 'en');
+
+  String formattedDates = '';
+
+  for (int i = 0; i < dateTimeList.length; i++) {
+    if (i > 0) {
+      // If current date's month and year are different from the previous date's, add a comma
+      if (dateTimeList[i].month != dateTimeList[i - 1].month ||
+          dateTimeList[i].year != dateTimeList[i - 1].year) {
+        formattedDates += ', ';
+      } else {
+        // If same month and year, just add a space
+        formattedDates += ', ';
+      }
+    }
+
+    formattedDates += dayFormatter.format(dateTimeList[i]);
+
+    // If the next date is in a different month or year, add month and year to the current date
+    if (i == dateTimeList.length - 1 ||
+        dateTimeList[i].month != dateTimeList[i + 1].month ||
+        dateTimeList[i].year != dateTimeList[i + 1].year) {
+      formattedDates += ' ${monthYearFormatter.format(dateTimeList[i])}';
+    }
+  }
+
+  return formattedDates;
+}
+
+String _StringMeal(String meal, BuildContext context) {
+  if (AppUtil.rtlDirection2(context)) {
+    switch (meal) {
+      case "Breakfast":
+        return "فطور";
+      case "Dinner":
+        return "غداء";
+      case "Lunch":
+        return "عشاء";
+      default:
+        return meal; // Return the original meal if no match is found
+    }
+  } else {
+    return meal; // Return the original meal if the direction is not RTL
   }
 }

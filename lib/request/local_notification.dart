@@ -29,8 +29,8 @@ class LocalNotification {
   // late DateTime timeToGo;
   //late DateTime timeToReturn;
   String descreption = '';
-  int? hour;
-  int? minute;
+  int hour=0;
+  int minute=0;
   String day = "2 days";
   String time = "2 hours";
   final String timeZoneName = 'Asia/Riyadh';
@@ -261,6 +261,8 @@ class LocalNotification {
       notificationTime = tz.TZDateTime(location, twoDaysBefore.year,
           twoDaysBefore.month, twoDaysBefore.day, 24, 00, 3);
     }
+
+
 
     print("Notification Time:");
 
