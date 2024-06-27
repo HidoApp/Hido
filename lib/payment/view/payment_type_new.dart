@@ -119,7 +119,11 @@ class _PaymentTypeState extends State<PaymentType> {
         }
         log('before success');
         log(check.toString());
-        if (check) {
+        if (widget.type == 'hospitality') {
+          if (check) {
+            paymentWebView();
+          }
+        } else {
           paymentWebView();
         }
         log('after success');
