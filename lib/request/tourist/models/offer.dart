@@ -2,7 +2,6 @@ class Offer {
   final String? offerId;
   final String? profileId;
   final String? image;
-  // final int? rating;
   final int? tourRating;
   final String? name;
   final int? tourNumber;

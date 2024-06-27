@@ -152,7 +152,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 58,
-                                              fontFamily: 'HT Rakik',
+                                              fontFamily: 'Kufam',
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),

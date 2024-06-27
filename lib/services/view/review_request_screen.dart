@@ -137,16 +137,17 @@ class _ReviewRequestState extends State<ReviewRequest> {
                         ),
                         ReviewDetailsTile(
                             title:
-                                '${DateFormat('EEE, dd MMMM yyyy').format(DateTime.parse(widget.booking!.date!))}',
+                                '${AppUtil.formatBookingDate(
+                                        context,widget.booking!.date!)}',
                             image: 'assets/icons/date.svg'),
                         SizedBox(
                           height: 7,
                         ),
                         // Details
                         ReviewDetailsTile(
-                            title: AppUtil.rtlDirection2(context)
-                                ? ' ${DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking?.timeToGo}'))} إلى ${DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking?.timeToReturn}'))} '
-                                : 'Pick up:  ${DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking?.timeToGo}'))},  Drop off:  ${DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking?.timeToReturn}'))}',
+                            title:  AppUtil.rtlDirection2(context)
+                                              ? 'من ${ AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)} إلى ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)} '
+                                              : 'Pick up: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)}, Drop off: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)}',
                             image: 'assets/icons/time3.svg'),
                         SizedBox(
                           height: 7,

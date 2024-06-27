@@ -4,11 +4,12 @@ import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/models/profile.dart';
+import 'package:ajwad_v4/request/ajwadi/controllers/request_controller.dart';
 import 'package:ajwad_v4/request/chat/view/chat_screen_live.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
 import 'package:ajwad_v4/request/tourist/controllers/rating_controller.dart';
 import 'package:ajwad_v4/request/tourist/models/offer_details.dart';
-import '../../../explore/tourist/model/booking.dart';
+import '../../../explore/tourist/model/booking.dart' as book;
 
 import 'package:ajwad_v4/request/tourist/services/rating_service.dart';
 import 'package:ajwad_v4/request/tourist/view/about_screen.dart';
@@ -39,12 +40,15 @@ class LocalOfferInfo extends StatefulWidget {
       required this.tripNumber,
       required this.place,
       required this.profileId,
+      this.booking,
       this.fromService = false});
   final String image;
   final String name;
   final String profileId;
   final int price, rating, tripNumber;
   final bool fromService;
+  final book.Booking? booking;
+  
 
   final Place place;
   @override
@@ -58,19 +62,22 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
   final chatController = Get.put(ChatController());
   late ChatMessage? message;
   final getStorage = GetStorage();
-
+    final RequestController _RequestController = Get.put(RequestController());     
   late Profile? profile;
   void getProfile() async {
     await _profileController.getProfile(
         context: context, profileId: widget.profileId);
   }
 
+  
   @override
   void initState() {
     // TODO: implement initState
 
     super.initState();
+
     getProfile();
+  
   }
 
   @override
@@ -154,16 +161,21 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
                 //view offer button
                 if (!widget.fromService)
                   Obx(() {
-                    if (_offerController.offerDetails.value.orderStatus ==
-                        'ACCEPTED') {
+                    if (
+                      _offerController.acceptedOffer.value.orderStatus ==
+                        'ACCEPTED' || widget.place!.booking !=null 
+                      ) {
                       return CustomAcceptButton(
-                        onPressed: () {
+                        onPressed: () async{
+                      
+                  
                           Get.to(() => ChatScreen(
-                                chatId: _offerController
-                                    .offerDetails.value.booking!.chatId!,
-                                booking: _offerController
-                                    .offerDetails.value.booking!,
+                                chatId: widget.booking?.chatId,
+                                booking2:widget.booking
                               ));
+        
+                        
+                        
                         },
                         title: 'chat'.tr,
                         icon: 'chat',
@@ -176,7 +188,7 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
                     }
 
                     if (_offerController.acceptedOffer.value.orderStatus ==
-                        'ACCEPTED') {
+                        'ACCEPTED' ) {
                       return Center(
                         child: SizedBox(
                           width: width * 0.5,
@@ -254,6 +266,7 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
                           } else {
                             // log("ChatScreenLive 33");
                             Get.back();
+
                             Get.to(() => ChatScreenLive(
                                   isAjwadi: false,
                                   offerController: _offerController,

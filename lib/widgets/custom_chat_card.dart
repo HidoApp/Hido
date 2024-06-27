@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/request/ajwadi/controllers/request_controller.dart';
 import 'package:ajwad_v4/request/chat/model/chat_model.dart';
@@ -27,6 +29,7 @@ class CustomChatCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () async {
+
         Get.to(() =>
 
             // ChatScreenLive(
@@ -130,7 +133,7 @@ class CustomChatCard extends StatelessWidget {
                         height: 6,
                       ),
                       CustomText(
-                        text: chatModel.messages!.last.message!,
+                        text: chatModel.messages!.last.message,
                         color: Color(0xFF9392A0),
                         fontSize: 13,
                         fontFamily: 'SF Pro',
@@ -140,7 +143,6 @@ class CustomChatCard extends StatelessWidget {
                     ],
                   ],
                 ),
-
                 const Spacer(),
                 Column(
                   children: [

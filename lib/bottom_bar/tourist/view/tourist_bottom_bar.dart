@@ -62,101 +62,101 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
                 ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        elevation: 0,
-        enableFeedback: false,
-        backgroundColor: Colors.white,
-        currentIndex: _currentIndex,
-        type: BottomNavigationBarType.fixed,
-        unselectedItemColor:  Color(0xFFB9B8C1),
-        selectedItemColor: colorGreen,
-        unselectedLabelStyle: const TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.w600,
-          fontFamily: 'SF Pro',         
-        ),
-        selectedLabelStyle: const TextStyle(
-          fontSize: 13,
-          fontWeight: FontWeight.w600,
-          fontFamily: 'Kufam',
-          color: darkBlack,
-        ),
-        onTap: (index) {
-          //   print(getStorage.read('accessToken'));
-          setState(() {
-            _currentIndex = index;
-          });
-          _pageController.jumpToPage(_currentIndex);
-        },
-        items: [
-          BottomNavigationBarItem(
-            icon: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
+      bottomNavigationBar: Padding(
+          padding: const EdgeInsets.only(bottom: 28),
+        child: BottomNavigationBar(
+          elevation: 0,
+          enableFeedback: false,
+          backgroundColor: Colors.white,
+          currentIndex: _currentIndex,
+          type: BottomNavigationBarType.fixed,
+          unselectedItemColor:  Color(0xFFB9B8C1),
+          selectedItemColor: colorGreen,
+          unselectedLabelStyle: const TextStyle(
+            fontSize: 13,
+            fontWeight: FontWeight.w600,
+            fontFamily: 'SF Pro',         
+          ),
+          selectedLabelStyle: const TextStyle(
+            fontSize: 13,
+            fontWeight: FontWeight.w600,
+            fontFamily: 'Kufam',
+            color: darkBlack,
+          ),
+          onTap: (index) {
+            //   print(getStorage.read('accessToken'));
+            setState(() {
+              _currentIndex = index;
+            });
+            _pageController.jumpToPage(_currentIndex);
+          },
+          items: [
+            BottomNavigationBarItem(
+              icon: Container(
                 decoration: _currentIndex == 0
                     ? BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [],
                       )
                     : const BoxDecoration(),
-                child: SvgPicture.asset(
-                  'assets/icons/map_icon.svg',
-                  color: _currentIndex == 0 ? colorGreen :  Color(0xFFB9B8C1),
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom:4.0),
+                  child: SvgPicture.asset(
+                    'assets/icons/map_icon.svg',
+                    color: _currentIndex == 0 ? colorGreen :  Color(0xFFB9B8C1),
+                  ),
                 ),
               ),
+              label: 'explore'.tr,
             ),
-            label: 'explore'.tr,
-          ),
-          BottomNavigationBarItem(
-            icon: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SvgPicture.asset(
-                'assets/icons/request_icon.svg',
+            BottomNavigationBarItem(
+              icon:  Padding(
+                  padding: const EdgeInsets.only(bottom:3.0),
+                child: SvgPicture.asset(
+                  'assets/icons/request_icon.svg',
+                ),
               ),
-            ),
-            activeIcon: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
+              activeIcon: Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
+                  borderRadius: BorderRadius.circular(20),
                 ),
-                child: SvgPicture.asset(
-                  'assets/icons/select_request_icon.svg',
-                  color: _currentIndex == 1 ? colorGreen : Color(0xFFB9B8C1),
+                child:  Padding(
+                  padding: const EdgeInsets.only(bottom:3.0),
+                  child: SvgPicture.asset(
+                    'assets/icons/select_request_icon.svg',
+                    color: _currentIndex == 1 ? colorGreen : Color(0xFFB9B8C1),
+                  ),
                 ),
               ),
+              label: 'services'.tr,
             ),
-            label: 'services'.tr,
-          ),
-          // BottomNavigationBarItem(
-          //   icon: Padding(
-          //     padding: const EdgeInsets.all(8.0),
-          //     child: Container(
-          //       decoration: _currentIndex == 2
-          //           ? BoxDecoration(
-          //               borderRadius: BorderRadius.circular(20),
-          //               boxShadow: [
-          //                 BoxShadow(
-          //                   color: blue.withOpacity(0.2),
-          //                   blurRadius: 5,
-          //                   spreadRadius: 3,
-          //                   offset: const Offset(0, 0), // Shadow position
-          //                 ),
-          //               ],
-          //             )
-          //           : const BoxDecoration(),
-          //       child: SvgPicture.asset(
-          //         'assets/icons/bag.svg',
-          //         color: _currentIndex == 2 ? blue : colorDarkGrey,
-          //       ),
-          //     ),
-          //   ),
-          //   label: 'shop'.tr,
-          // ),
-          BottomNavigationBarItem(
-            icon: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
+            // BottomNavigationBarItem(
+            //   icon: Padding(
+            //     padding: const EdgeInsets.all(8.0),
+            //     child: Container(
+            //       decoration: _currentIndex == 2
+            //           ? BoxDecoration(
+            //               borderRadius: BorderRadius.circular(20),
+            //               boxShadow: [
+            //                 BoxShadow(
+            //                   color: blue.withOpacity(0.2),
+            //                   blurRadius: 5,
+            //                   spreadRadius: 3,
+            //                   offset: const Offset(0, 0), // Shadow position
+            //                 ),
+            //               ],
+            //             )
+            //           : const BoxDecoration(),
+            //       child: SvgPicture.asset(
+            //         'assets/icons/bag.svg',
+            //         color: _currentIndex == 2 ? blue : colorDarkGrey,
+            //       ),
+            //     ),
+            //   ),
+            //   label: 'shop'.tr,
+            // ),
+            BottomNavigationBarItem(
+              icon: Container(
                 decoration: _currentIndex == 3
                     ? BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
@@ -170,16 +170,19 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
                         ],
                       )
                     : const BoxDecoration(),
-                child: SvgPicture.asset(
-                  'assets/icons/my_profile.svg',
-                  
-                  color: _currentIndex == 2 ? colorGreen :  Color(0xFFB9B8C1),
+                child:  Padding(
+                  padding: const EdgeInsets.only(bottom:4.0),
+                  child: SvgPicture.asset(
+                    'assets/icons/my_profile.svg',
+                    
+                    color: _currentIndex == 2 ? colorGreen :  Color(0xFFB9B8C1),
+                  ),
                 ),
               ),
+              label: 'profile'.tr,
             ),
-            label: 'profile'.tr,
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
