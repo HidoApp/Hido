@@ -20,7 +20,6 @@ class Booking {
   final String timeToReturn;
   final int? guestNumber;
   final GuestInfo? guestInfo;
-  final dynamic cost;
   final String? vehicleType;
   final String? orderStatus;
   final Coordinate? coordinates;
@@ -30,6 +29,9 @@ class Booking {
   final List<Offer>? offers;
   final Adventure? adventure;
   // final Event? event;
+ 
+ final String? profileId;
+ final String? cost;
 
   Booking({
     required this.id,
@@ -49,6 +51,7 @@ class Booking {
     this.hospitality,
     this.offers,
     this.adventure,
+    this.profileId
     // this.event,
   });
 
@@ -64,8 +67,8 @@ class Booking {
       guestNumber: json['guestNumber'],
       guestInfo: json["guestInfo"] == null ? null : GuestInfo.fromJson(json["guestInfo"]),
       //guestInfo: GuestInfo.fromJson(json['guestInfo'] ?? {}),
-
-      cost: json['cost'],
+         profileId: json['profileId']??'',
+      cost: json['cost']??'',
       vehicleType: json['vehicleType']??'',
       coordinates: json['coordinates'] == null ? null : Coordinate.fromJson(json['coordinates']),
       bookingType: json['bookingType']??'',
@@ -90,6 +93,8 @@ class Booking {
       'coordinates': coordinates,
       'offers': offers?.map((offer) => offer.toJson()).toList(),
       'guestInfo': guestInfo?.toJson(),
+      'profileId': 'profileId',
+//     this.profileId
 
     
 
@@ -321,3 +326,98 @@ class Offer {
 //       "vehicleType": "string"
 //     }
 //   ]
+
+
+
+// class Booking {
+//   final String? id;
+//   final String? placeId;
+//   final String? chatId;
+//   final String date;
+//   final String timeToGo;
+//   final String timeToReturn;
+//   final int? guestNumber;
+//   final GuestInfo? guestInfo;
+//   final String? cost;
+//   final String? vehicleType;
+//   final String? orderStatus;
+//   final Coordinate? coordinates;
+//   final String? bookingType;
+//   final Place? place;
+//   final Hospitality? hospitality;
+//   final List<Offer>? offers;
+//   final Adventure? adventure;
+//   final String? profileId;
+
+
+//   Booking({
+//     required this.id,
+//     this.placeId,
+//     this.chatId,
+//     required this.date,
+//     required this.timeToGo,
+//     required this.timeToReturn,
+//     this.guestNumber,
+//     this.cost,
+//     this.vehicleType,
+//     this.coordinates,
+//     this.orderStatus,
+//     this.guestInfo,
+//     this.bookingType,
+//     this.place,
+//     this.hospitality,
+//     this.offers,
+//     this.adventure,
+//     // this.event,
+//     this.profileId
+
+//   });
+
+//   factory Booking.fromJson(Map<String, dynamic> json) {
+//     return Booking(
+//        id: json['id']??'',
+//       placeId: json['placeId']??'',
+//       chatId: json['chatId']??'',
+//       date: json['date'] ?? '',
+//       orderStatus: json['orderStatus'],
+//       timeToGo: json['timeToGo'] ?? '',
+//       timeToReturn: json['timeToReturn'] ?? '',
+//       guestNumber: json['guestNumber']??0,
+//       guestInfo: json["guestInfo"] == null ? null : GuestInfo.fromJson(json["guestInfo"]),
+//       //guestInfo: GuestInfo.fromJson(json['guestInfo'] ?? {}),
+
+//       cost: json['cost']??'',
+//       vehicleType: json['vehicleType']??'',
+//       coordinates: json['coordinates'] == null ? null : Coordinate.fromJson(json['coordinates']),
+//       bookingType: json['bookingType']??'',
+//       place: json['place'] == null ? null : Place.fromJson(json['place']),
+//       hospitality: json['hospitality'] == null ? null : Hospitality.fromJson(json['hospitality']),
+//       adventure: json['adventure'] == null ? null : Adventure.fromJson(json['adventure']),
+//       profileId: json['profileId']??'',
+
+
+//       //offers: json['offers'] == null ? null : (json['offers'] as List).map((offer) => Offer.fromJson(offer as Map<String, dynamic>)).toList(),
+//        offers: json['offers'] == null ? null : (json['offers'] as List<dynamic>).map((offer) => Offer.fromJson(offer as Map<String, dynamic>)).toList(),
+//     );
+//   }
+
+//   Map<String, dynamic> toJson() {
+//     return {
+//       'id': id,
+//       'date': date,
+//       'timeToGo': timeToGo,
+//       "timeToReturn": timeToReturn,
+//       'guestNumber': guestNumber,
+//       'cost': cost,
+//       'vehicleType': vehicleType,
+//       'coordinates': coordinates,
+//       'offers': offers?.map((offer) => offer.toJson()).toList(),
+//       'guestInfo': guestInfo?.toJson(),
+//       'profileId': profileId,
+
+
+    
+
+//     };
+//   }
+// }

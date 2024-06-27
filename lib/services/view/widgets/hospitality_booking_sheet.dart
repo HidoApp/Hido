@@ -158,10 +158,52 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
                                 height: width * 0.03,
                               ),
                               CustomText(
-                                text: "date".tr,
-                                color: Colors.black,
-                                fontSize: width * 0.035,
-                                fontWeight: FontWeight.w500,
+
+                            text: "date".tr,
+                            color: Colors.black,
+                            fontSize: width * 0.035,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          SizedBox(
+                            height: height * 0.02,
+                          ),
+                          Align(
+                            alignment: AppUtil.rtlDirection(context)
+                                ? Alignment.centerLeft
+                                : Alignment.centerRight,
+                            child: CustomTextWithIconButton(
+                              onTap: () {
+                                print("object");
+                                setState(() {
+                                  selectedChoice = 3;
+                                });
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return CalenderDialog(
+                                        fromAjwady: false,
+                                        type: 'hospitality',
+                                        avilableDate: widget.avilableDate,
+                                        srvicesController:
+                                            widget.serviceController,
+                                        hospitality: widget.hospitality,
+
+                                      );
+                                    });
+                              },
+                              height: height * 0.06,
+                              width: double.infinity,
+                              title: widget.serviceController
+                                      .isHospatilityDateSelcted.value
+                                  ? widget.serviceController.selectedDate.value
+                                      .toString()
+                                      .substring(0, 10)
+                                  : 'mm/dd/yyy'.tr,
+                              borderColor: lightGreyColor,
+                              prefixIcon: SvgPicture.asset(
+                                'assets/icons/Time (2).svg',
+                                //  color: widget.color,
+
                               ),
                               SizedBox(
                                 height: height * 0.02,

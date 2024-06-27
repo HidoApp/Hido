@@ -31,53 +31,56 @@ class AdCards extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    RichText(
-                      text: TextSpan(children: [
-                        TextSpan(
-                          text: !AppUtil.rtlDirection(context)
-                              ? 'خصومات حصرية لضيوف\n'
-                              : 'Exclusive Discounts for\n',
-                          style: TextStyle(
-                            fontFamily: AppUtil.rtlDirection2(context)
-                                ? 'Noto Kufi Arabic'
-                                : 'SF Pro',
-                           color: Color(0xFF14143E),
-                           fontSize: 15,
-                          fontWeight: FontWeight.w400,
+                    Padding(
+                      padding: const EdgeInsets.only(right: 12),
+                      child: RichText(
+                        text: TextSpan(children: [
+                          TextSpan(
+                            text: AppUtil.rtlDirection2(context)
+                                ? 'خصومات حصرية لضيوف\n'
+                                : 'Exclusive Discounts for\n',
+                            style: TextStyle(
+                              fontFamily: AppUtil.rtlDirection2(context)
+                                  ? 'Noto Kufi Arabic'
+                                  : 'SF Pro',
+                             color: Color(0xFF14143E),
+                             fontSize: 15,
+                            fontWeight: FontWeight.w400,
+                            ),
                           ),
-                        ),
-                        TextSpan(
-                          text: !AppUtil.rtlDirection(context)
-                              ? 'هوليداي إن!'
-                              : 'Holiday Inn ',
-                          style: TextStyle(
-                            fontFamily: AppUtil.rtlDirection2(context)
-                                ? 'Noto Kufi Arabic'
-                                : 'SF Pro',
-                            color: Color(0xFF9747FF),
-                           fontSize: 15,
-                          fontWeight: FontWeight.w400,
+                          TextSpan(
+                            text: AppUtil.rtlDirection2(context)
+                                ? 'هوليداي إن!'
+                                : 'Holiday Inn ',
+                            style: TextStyle(
+                              fontFamily: AppUtil.rtlDirection2(context)
+                                  ? 'Noto Kufi Arabic'
+                                  : 'SF Pro',
+                              color: Color(0xFF9747FF),
+                             fontSize: 15,
+                            fontWeight: FontWeight.w400,
+                            ),
                           ),
-                        ),
-                        TextSpan(
-                          text: AppUtil.rtlDirection2(context) ? '' : 'Guests!\n',
-                          style: const TextStyle(
-                            fontFamily: 'Kufam',
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: black,
+                          TextSpan(
+                            text: AppUtil.rtlDirection2(context) ? ' ' : ' Guests!\n',
+                            style: const TextStyle(
+                              fontFamily: 'Kufam',
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: black,
+                            ),
                           ),
-                        ),
-                        TextSpan(
-                      text: 'happyExploring'.tr,
-                       style: const TextStyle(
-                      fontSize: 15,
-                      color: Color(0xFF0C0C25),
-                      fontFamily: 'SF Pro',
-                      fontWeight: FontWeight.w400,
-                       ),
-                    ),
-                      ]),
+                          TextSpan(
+                        text: 'happyExploring'.tr,
+                         style: const TextStyle(
+                        fontSize: 15,
+                        color: Color(0xFF0C0C25),
+                        fontFamily: 'SF Pro',
+                        fontWeight: FontWeight.w400,
+                         ),
+                      ),
+                        ]),
+                      ),
                     ),
                   
                    

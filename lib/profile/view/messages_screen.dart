@@ -95,12 +95,10 @@ OfferController offerController = Get.put(OfferController());
                             );
                           },
                           itemBuilder: (context, index) {
+                            // print(widget.profileController.chatList[index].messages?.last.message);
                            return CustomChatCard(
                             chatModel:  widget.profileController.chatList[index],
-                            // chatId2: offerController
-                            //           .offerDetails.value.booking!.chatId!,
-                            // booking2: offerController
-                            //             .offerDetails.value.booking!,
+                          
                            );
                           }),
                     ],

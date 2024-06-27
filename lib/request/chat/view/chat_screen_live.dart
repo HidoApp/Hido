@@ -213,9 +213,10 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                                         ),
                                         CustomText(
                                           text:
-                                              '${DateFormat('EEE, dd MMMM yyyy').format(DateTime.parse(widget.booking!.date!))}',
+                                              '${AppUtil.formatBookingDate(
+                                        context,widget.booking!.date!)}',
                                           color: almostGrey,
-                                          fontSize: 13,
+                                          fontSize:AppUtil.rtlDirection2(context)?14: 13,
                                           fontWeight: FontWeight.w400,
                                           fontFamily: 'SF Pro',
                                         ),
@@ -233,8 +234,8 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                                         ),
                                         CustomText(
                                           text: AppUtil.rtlDirection2(context)
-                                              ? ' ${DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking?.timeToGo}'))} إلى ${DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking?.timeToReturn}'))} '
-                                              : 'Pick up: ${DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking?.timeToGo}'))}, Drop off: ${DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking?.timeToReturn}'))}',
+                                              ? 'من ${ AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)} إلى ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)} '
+                                              : 'Pick up: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)}, Drop off: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)}',
                                           color: almostGrey,
                                           fontSize: 13,
                                           fontWeight: FontWeight.w400,

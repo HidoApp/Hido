@@ -331,7 +331,7 @@ const localeAr = {
   "placeBooked": "الرحلة قائمة",
   "checkText":
       "إنه لمن دواعي سروري أن أرافقك، هذا هو خط سير الرحلة الذي اقترحته عليك. اختر ما تريد وصنع يوم لا ينسى!",
-  "showOffer": "فتح العرض",
+  "showOffer": "العرض لمقدم",
   "noMessages": "لا توجد محادثات بعد",
   "noMessagesSub":
       "جميع محادثاتك مع المرشدين المحليين المطلوبين  ستظهر في هذءه الصفحة ",
@@ -462,6 +462,7 @@ const localeAr = {
   'Review': 'مراجعة',
   'Reviewexperience': 'راجع مكان الإستضافة',
   'explination': 'إليك ما يبدو لسياحنا.تأكد من أن كل شيء مرضي لك.',
+
   'AvailableDates': 'التواريخ المتاحة',
   'DD/MM/YYYY': 'اليوم/الشهر/السنة',
   'ServedMeal': 'الوجبة المقدمة',
@@ -477,5 +478,6 @@ const localeAr = {
   'expirationDate': 'تاريخ انتهاء الصلاحية',
   'dateHint': 'شهر/سنه',
   'person': "شخص",
-  'adventuredetails': 'تفاصيل المغامرة'
+  'adventuredetails': 'تفاصيل المغامرة', 'localProfile':'صفحة المرشد المحلي',
+
 };
