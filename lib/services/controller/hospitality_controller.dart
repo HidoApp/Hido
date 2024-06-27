@@ -9,15 +9,16 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 class HospitalityController extends GetxController {
   var isHospitalityLoading = false.obs;
   var selectedDate = ''.obs;
-  var selectedDates= [].obs;//new
+  var selectedDates = [].obs; //new
   var selectedTime = ''.obs;
   var selectedStartTime = DateTime.now().obs;
   var selectedEndTime = DateTime.now().obs;
 
 
+
   var seletedSeat = (0).obs;
-  var selectedGender=''.obs;
-  var selectedMeal=''.obs;
+  var selectedGender = ''.obs;
+  var selectedMeal = ''.obs;
 
   var selectedDateIndex = (-1).obs;
   var selectedDateId = "".obs;
@@ -32,8 +33,7 @@ class HospitalityController extends GetxController {
   var isHospatilityTimeSelcted = false.obs;
 
   var isAdventureTimeSelcted = false.obs;
-   Rx<LatLng> pickUpLocLatLang = const LatLng(24.9470921, 45.9903698).obs;
-
+  Rx<LatLng> pickUpLocLatLang = const LatLng(24.9470921, 45.9903698).obs;
 
   Future<RxList<Hospitality>?> getAllHospitality(
       {required BuildContext context, String? region}) async {
@@ -118,8 +118,8 @@ class HospitalityController extends GetxController {
           numOfFemale: numOfFemale,
           numOfMale: numOfMale,
           cost: cost);
-            print("data from controller");
-        print(data);
+      print("data from controller");
+      print(data);
 
       return data;
     } catch (e) {

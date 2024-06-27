@@ -117,19 +117,20 @@ class HospitalityService {
     Map<String, dynamic> queryParameters = {
       'check': check.toString(),
       'hospitalityId': hospitalityId,
-      if (paymentId != null) 'invoiceId': paymentId,
+      'paymentId': paymentId,
     };
- print("this payment id from dervices");
- print( paymentId);
- print(check.toString());
+    print("this payment id from dervices");
+
+    print(check.toString());
+    
     Map<String, dynamic> body = {
       'date': date.toString().substring(0, 10),
       'guestInfo': {
         'dayId': dayId.toString(),
-        'male': numOfMale.toString(),
-        'female': numOfFemale.toString()
+        'male': numOfMale,
+        'female': numOfFemale
       },
-      'cost': cost.toString(),
+      'cost': cost,
     };
 
     final response = await http.post(

@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
@@ -63,7 +64,7 @@ class PaymentType extends StatefulWidget {
 class _PaymentTypeState extends State<PaymentType> {
   PaymentMethod? _selectedPaymentMethod;
   Invoice? invoice;
-  bool isSuccess = false;
+  bool? isSuccess;
   final adventureController = Get.put(AdventureController());
   final hospitalityController = Get.put(HospitalityController());
   final _paymentController = Get.put(PaymentController());
@@ -72,8 +73,8 @@ class _PaymentTypeState extends State<PaymentType> {
   final _cardNumber = TextEditingController();
   final _cardDate = TextEditingController();
   final _cardCvv = TextEditingController();
-  void checkHospitality(bool check) async {
-    isSuccess = await widget.servicesController!.checkAndBookHospitality(
+  Future<bool> checkHospitality(bool check) async {
+    return await widget.servicesController!.checkAndBookHospitality(
         context: context,
         check: check,
         hospitalityId: widget.hospitality!.id,
@@ -86,6 +87,7 @@ class _PaymentTypeState extends State<PaymentType> {
   }
 
   Future<void> selectPaymentType(PaymentMethod paymentMethod) async {
+    bool check = false;
     switch (paymentMethod) {
       case PaymentMethod.appelpay:
         invoice = await _paymentController.paymentGateway(
@@ -94,11 +96,16 @@ class _PaymentTypeState extends State<PaymentType> {
             paymentMethod: 'APPLE_PAY',
             price: widget.price);
         if (widget.type == "hospitality") {
-          checkHospitality(false);
+          check = await checkHospitality(false);
         }
-        if (isSuccess!) {
+        log('before success');
+        log(check.toString());
+        if (check) {
           paymentWebView();
         }
+
+        log('after success');
+
         break;
       case PaymentMethod.stcpay:
         invoice = await _paymentController.paymentGateway(
@@ -108,11 +115,15 @@ class _PaymentTypeState extends State<PaymentType> {
           price: widget.price,
         );
         if (widget.type == "hospitality") {
-          checkHospitality(false);
+          check = await checkHospitality(false);
         }
-        if (isSuccess!) {
+        log('before success');
+        log(check.toString());
+        if (check) {
           paymentWebView();
         }
+        log('after success');
+
         break;
       case PaymentMethod.creditCard:
         creditValidaiotn();
@@ -124,9 +135,9 @@ class _PaymentTypeState extends State<PaymentType> {
         var year = '';
         month = _cardDate.text.substring(0, 2);
         year = _cardDate.text.substring(3, 5);
-        if (widget.type == "hospitality") {
-          checkHospitality(false);
-        }
+        // if (widget.type == "hospitality") {
+        //   checkHospitality(false);
+        // }
         invoice = await _paymentController.creditCardPayment(
             context: context,
             creditCard: CreditCard(
@@ -145,9 +156,8 @@ class _PaymentTypeState extends State<PaymentType> {
               tourBooking(invoice!);
               break;
             case 'hospitality':
-              if (isSuccess!) {
-                hospitalityBooking(invoice!);
-              }
+              hospitalityBooking(invoice!);
+
               break;
             default:
           }
@@ -209,6 +219,7 @@ class _PaymentTypeState extends State<PaymentType> {
           }
         } else {
           log('No');
+
           showDialog(
               context: context,
               builder: (ctx) {
@@ -288,26 +299,36 @@ class _PaymentTypeState extends State<PaymentType> {
     ).then((_) {
       print("inside");
       Get.offAll(() => const TouristBottomBar());
-      Get.to(
-        () => TicketDetailsScreen(
-            booking: fetchedBooking,
-            icon: SvgPicture.asset('assets/icons/place.svg'),
-            bookTypeText: AppUtil.rtlDirection2(context) ? 'جولة' : 'Tour'),
-      );
+      LocalNotification().showNotification(
+          context,
+          widget.booking?.id,
+          widget.booking?.timeToGo,
+          widget.booking?.date,
+          widget.offerController!.offers.last.name,
+          widget.thePlace?.nameEn,
+          widget.thePlace?.nameAr);
+
+      Get.to(() => TicketDetailsScreen(
+          booking: fetchedBooking,
+          icon: SvgPicture.asset('assets/icons/place.svg'),
+          bookTypeText: AppUtil.getBookingTypeText(context, 'place')));
     });
-    LocalNotification().showNotification(
-      context,
-      widget.booking?.id,
-      widget.booking?.timeToGo,
-      widget.booking?.date,
-      widget.offerController!.offers.last.name,
-      widget.thePlace?.nameEn,
-      widget.thePlace?.nameAr,
-    );
   }
 
   void hospitalityBooking(Invoice checkInvoice) async {
-    checkHospitality(true); // if paid the check flag will change to true
+    // if paid the check flag will change to true
+    isSuccess = await widget.servicesController!.checkAndBookHospitality(
+        context: context,
+        check: true,
+        paymentId: checkInvoice.id,
+        hospitalityId: widget.hospitality!.id,
+        date: widget.servicesController!.selectedDate.value,
+        dayId: widget.hospitality!
+            .daysInfo[widget.servicesController!.selectedDateIndex.value].id,
+        numOfMale: widget.male!,
+        numOfFemale: widget.female!,
+        cost: widget.price);
+
     final updatedHospitality = await widget.servicesController!
         .getHospitalityById(context: context, id: widget.hospitality!.id);
 
@@ -338,7 +359,7 @@ class _PaymentTypeState extends State<PaymentType> {
       Get.to(() => TicketDetailsScreen(
             hospitality: updatedHospitality,
             icon: SvgPicture.asset('assets/icons/hospitality.svg'),
-            bookTypeText: 'hospitality',
+            bookTypeText: AppUtil.getBookingTypeText(context, 'hospitality'),
           ));
     });
     LocalNotification().showHospitalityNotification(
@@ -378,26 +399,45 @@ class _PaymentTypeState extends State<PaymentType> {
           ),
         );
       },
-    ).then(
-      (_) {
-        Get.back();
-        Get.back();
-        Get.back();
-        print("inside notifi");
+    ).then((_) {
+      // Get.back();
+      Get.back();
+      Get.back();
+      log("inside adventure");
+      log("${updatedAdventure!.booking?.last.id}");
+      log(widget.adventure!.date!);
+      log(widget.adventure!.nameEn!);
+      log(widget.adventure!.nameAr!);
 
-        Get.to(() => TicketDetailsScreen(
-              adventure: updatedAdventure,
-              icon: SvgPicture.asset('assets/icons/adventure.svg'),
-              bookTypeText: 'adventure'.tr,
-            ));
-        LocalNotification().showAdventureNotification(
-            context,
-            updatedAdventure!.booking?.last.id,
-            widget.adventure!.date,
-            widget.adventure!.nameEn,
-            widget.adventure!.nameAr);
-      },
-    );
+      LocalNotification().showAdventureNotification(
+          context,
+          updatedAdventure!.booking?.last.id,
+          updatedAdventure.date,
+          updatedAdventure.nameEn,
+          updatedAdventure.nameAr);
+      Get.to(() => TicketDetailsScreen(
+            adventure: updatedAdventure,
+            icon: SvgPicture.asset('assets/icons/adventure.svg'),
+            bookTypeText: AppUtil.getBookingTypeText(context, 'adventure'),
+          ));
+    });
+  }
+
+  bool loadingButton() {
+    if (widget.type == 'hospitality') {
+      return _paymentController.isPaymentGatewayLoading.value ||
+          _paymentController.isCreditCardPaymentLoading.value ||
+          adventureController.ischeckBookingLoading.value ||
+          widget.servicesController!.isCheckAndBookLoading.value;
+    } else if (widget.type == 'adventure') {
+      return _paymentController.isPaymentGatewayLoading.value ||
+          _paymentController.isCreditCardPaymentLoading.value ||
+          adventureController.ischeckBookingLoading.value;
+    } else {
+      return _paymentController.isPaymentGatewayLoading.value ||
+          _paymentController.isCreditCardPaymentLoading.value ||
+          widget.offerController!.isAcceptOfferLoading.value;
+    }
   }
 
   @override
@@ -416,12 +456,8 @@ class _PaymentTypeState extends State<PaymentType> {
 
     return Scaffold(
       bottomNavigationBar: Padding(
-        padding: EdgeInsets.only(
-          left: 16,
-          right: 16,
-          top: 20,
-          bottom: 20,
-        ),
+        padding: EdgeInsets.symmetric(
+            horizontal: width * .04, vertical: width * 0.051),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -430,7 +466,7 @@ class _PaymentTypeState extends State<PaymentType> {
               height: width * 0.002,
             ),
             SizedBox(
-              height: 28,
+              height: width * 0.071,
             ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -445,39 +481,36 @@ class _PaymentTypeState extends State<PaymentType> {
                   // text: 'SAR ${widget.adventure.price.toString()}',
                   text: '${"sar".tr} ${widget.price}',
                   fontWeight: FontWeight.w500,
-                  fontSize: 20,
+                  fontSize: width * 0.05,
                 ),
               ],
             ),
             SizedBox(
-              height: 4,
+              height: width * 0.010,
             ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomText(
-                  text: 'promocode'.tr,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,
-                  color: almostGrey,
-                ),
-                const Spacer(),
-                CustomText(
-                  // text: 'SAR ${widget.adventure.price.toString()}',
-                  text: '- ${"sar".tr} ${widget.price}',
-                  fontWeight: FontWeight.w500,
-                  fontSize: 15, color: almostGrey,
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 20,
+            // Row(
+            //   crossAxisAlignment: CrossAxisAlignment.start,
+            //   children: [
+            //     CustomText(
+            //       text: 'promocode'.tr,
+            //       fontSize: width * 0.038,
+            //       fontWeight: FontWeight.w500,
+            //       color: almostGrey,
+            //     ),
+            //     const Spacer(),
+            //     CustomText(
+            //       // text: 'SAR ${widget.adventure.price.toString()}',
+            //       text: '- ${"sar".tr} ${widget.price}',
+            //       fontWeight: FontWeight.w500,
+            //       fontSize: width * 0.038, color: almostGrey,
+            //     ),
+            //   ],
+            // ),
+            SizedBox(
+              height: width * 0.05,
             ),
             Obx(
-              () => _paymentController.isPaymentGatewayLoading.value ||
-                      _paymentController.isCreditCardPaymentLoading.value ||
-                      adventureController.ischeckBookingLoading.value ||
-                      widget.offerController!.isAcceptOfferLoading.value
+              () => loadingButton()
                   ? const CircularProgressIndicator.adaptive()
                   : CustomButton(
                       onPressed: () async {
@@ -501,10 +534,10 @@ class _PaymentTypeState extends State<PaymentType> {
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.only(
-            left: 16,
-            right: 16,
-            top: 12,
-            bottom: 32,
+            left: width * 0.041,
+            right: width * 0.041,
+            top: width * 0.030,
+            bottom: width * 0.082,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -521,54 +554,6 @@ class _PaymentTypeState extends State<PaymentType> {
               Row(
                 children: [
                   Radio<PaymentMethod>(
-                    value: PaymentMethod.creditCard,
-                    groupValue: _selectedPaymentMethod,
-                    onChanged: (PaymentMethod? value) {
-                      setState(() {
-                        _selectedPaymentMethod = value;
-                      });
-                    },
-                  ),
-                  SvgPicture.asset('assets/icons/logos_mastercard.svg'),
-                  const SizedBox(
-                    width: 2,
-                  ),
-                  SvgPicture.asset('assets/icons/logos_visa.svg'),
-                  SizedBox(
-                    width: 6,
-                  ),
-                  CustomText(
-                    text: 'creditCard'.tr,
-                    color: Color(0xFF070708),
-                    fontSize: 16,
-                    fontFamily: 'SF Pro',
-                    fontWeight: FontWeight.w600,
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Radio<PaymentMethod>(
-                    value: PaymentMethod.appelpay,
-                    groupValue: _selectedPaymentMethod,
-                    onChanged: (PaymentMethod? value) {
-                      setState(() {
-                        _selectedPaymentMethod = value;
-                      });
-                    },
-                  ),
-                  // Text('pay'),
-
-                  SvgPicture.asset(
-                    "assets/icons/applePay_icon.svg",
-                    color: Color.fromARGB(255, 0, 0, 0),
-                    height: 20,
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Radio<PaymentMethod>(
                     value: PaymentMethod.stcpay,
                     groupValue: _selectedPaymentMethod,
                     onChanged: (PaymentMethod? value) {
@@ -579,9 +564,61 @@ class _PaymentTypeState extends State<PaymentType> {
                   ),
                   SvgPicture.asset(
                     "assets/icons/stc.svg",
-                    height: 20,
+                    height: width * 0.051,
                   ),
                 ],
+              ),
+              if (Platform.isIOS)
+                Row(
+                  children: [
+                    Radio<PaymentMethod>(
+                      value: PaymentMethod.appelpay,
+                      groupValue: _selectedPaymentMethod,
+                      onChanged: (PaymentMethod? value) {
+                        setState(() {
+                          _selectedPaymentMethod = value;
+                        });
+                      },
+                    ),
+                    // Text('pay'),
+
+                    SvgPicture.asset(
+                      "assets/icons/applePay_icon.svg",
+                      color: const Color.fromARGB(255, 0, 0, 0),
+                      height: width * 0.051,
+                    ),
+                  ],
+                ),
+              Row(
+                children: [
+                  Radio<PaymentMethod>(
+                    value: PaymentMethod.creditCard,
+                    groupValue: _selectedPaymentMethod,
+                    onChanged: (PaymentMethod? value) {
+                      setState(() {
+                        _selectedPaymentMethod = value;
+                      });
+                    },
+                  ),
+                  SvgPicture.asset('assets/icons/logos_mastercard.svg'),
+                  SizedBox(
+                    width: width * 0.005,
+                  ),
+                  SvgPicture.asset('assets/icons/logos_visa.svg'),
+                  SizedBox(
+                    width: width * 0.015,
+                  ),
+                  CustomText(
+                    text: 'creditCard'.tr,
+                    color: const Color(0xFF070708),
+                    fontSize: width * 0.041,
+                    fontFamily: 'SF Pro',
+                    fontWeight: FontWeight.w500,
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: width * 0.030,
               ),
               if (_selectedPaymentMethod == PaymentMethod.creditCard)
                 CreditForm(

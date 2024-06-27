@@ -76,10 +76,9 @@ class ServicesCard extends StatelessWidget {
                   children: [
                     CustomText(
                       text: title,
-                      fontSize:16,
+                      fontSize: 16,
                       fontWeight: FontWeight.w500,
-
-                       fontFamily: 'SF Pro',
+                      fontFamily: 'SF Pro',
                     ),
                     SizedBox(
                       height: width * 0.010,
@@ -100,7 +99,6 @@ class ServicesCard extends StatelessWidget {
                           fontSize: 11,
                           fontWeight: FontWeight.w400,
                           fontFamily: 'SF Pro',
-
                           color: starGreyColor,
                         ),
                       ],
@@ -108,34 +106,36 @@ class ServicesCard extends StatelessWidget {
                     SizedBox(
                       height: width * 0.01,
                     ),
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: width * 0.01,
-                        ),
-                        SvgPicture.asset(
-                          'assets/icons/timeGrey.svg',
-                        ),
-                        SizedBox(
-                          width: width * 0.01,
-                        ),
-                        // CustomText(
-                        //   text: dayInfo[0].startTime,
-                        //   fontSize: width * 0.025,
-                        //   fontWeight: FontWeight.w400,
-                        //   color: starGreyColor,
-                        // ),
-                        CustomText(
-                          text: AppUtil.rtlDirection2(context)
-                              ? '${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(dayInfo![0].startTime))} -  ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(dayInfo![0].endTime))}'
-                              : ' ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(dayInfo![0].startTime))} -  ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(dayInfo![0].endTime))}',
-                          color: starGreyColor,
-                          fontSize: 11,
-                          fontFamily: 'SF Pro',
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ],
-                    ),
+                    if (dayInfo!.isNotEmpty)
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: width * 0.01,
+                          ),
+                          SvgPicture.asset(
+                            'assets/icons/timeGrey.svg',
+                          ),
+                          SizedBox(
+                            width: width * 0.01,
+                          ),
+                          // CustomText(
+                          //   text: dayInfo[0].startTime,
+                          //   fontSize: width * 0.025,
+                          //   fontWeight: FontWeight.w400,
+                          //   color: starGreyColor,
+                          // ),
+
+                          CustomText(
+                            text: AppUtil.rtlDirection2(context)
+                                ? '${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(dayInfo![0].startTime))} -  ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(dayInfo![0].endTime))}'
+                                : ' ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(dayInfo![0].startTime))} -  ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(dayInfo![0].endTime))}',
+                            color: starGreyColor,
+                            fontSize: 11,
+                            fontFamily: 'SF Pro',
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ],
+                      ),
                     SizedBox(
                       height: width * 0.01,
                     ),
@@ -156,7 +156,6 @@ class ServicesCard extends StatelessWidget {
                                 fontSize: 11,
                                 fontWeight: FontWeight.w400,
                                 fontFamily: 'SF Pro',
-
                                 color: starGreyColor,
                               ),
                           ],
