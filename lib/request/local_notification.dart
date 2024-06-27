@@ -331,9 +331,13 @@ class LocalNotification {
             UILocalNotificationDateInterpretation.absoluteTime);
   }
 
-  void showAdventureNotification(BuildContext context, String? id, String? Date,
-      String? nameEn, String? nameAr) async {
-    checkBooking(Date);
+  void showAdventureNotification(
+      BuildContext context,
+      String? id,
+      String? date,
+      String? nameEn,
+      String? nameAr) async {
+    checkBooking(date);
 
     tz.TZDateTime notificationTime;
     if (hour != 0 && minute != 0) {

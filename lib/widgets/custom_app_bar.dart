@@ -14,7 +14,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.onPressedAction,
     this.backgroundColor,
     this.isAjwadi = false,
-    this.isBack=false,
+    this.isBack = false,
   })  : preferredSize = const Size.fromHeight(75.0),
         super(key: key);
 
@@ -86,10 +86,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   ], //
                   centerTitle: true,
 
-                 
                   leading: !isBack
                       ? Padding(
                           padding: AppUtil.rtlDirection2(context)
+
                         ?!isAjwadi
                               ? EdgeInsets.only(bottom: 23, right: 30)
                               : EdgeInsets.only(bottom: 23, left: 30)
@@ -99,6 +99,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
 
                               
+
 
                           child: IconButton(
                             icon: Icon(

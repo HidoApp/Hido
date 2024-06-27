@@ -34,6 +34,7 @@ class CalenderDialog extends StatefulWidget {
 
 class _CalenderDialogState extends State<CalenderDialog> {
   String selectedDate = '';
+
   final _ajwadiExploreController = Get.put(AjwadiExploreController());
 
   @override
@@ -81,14 +82,17 @@ class _CalenderDialogState extends State<CalenderDialog> {
                   height: width * 0.76,
                   width: width * 0.76,
                   decoration: ShapeDecoration(
-                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8))),
                   alignment: Alignment.bottomRight,
                   child: SfDateRangePicker(
                       minDate: DateTime.now(),
                       enablePastDates: false,
                       selectableDayPredicate:
                           widget.avilableDate != null ? defineSelectable : null,
+
                       selectionMode: DateRangePickerSelectionMode.single,
+
                       selectionColor: Colors.green,
                       selectionTextStyle: TextStyle(),
                       selectionShape: DateRangePickerSelectionShape.circle,
@@ -97,48 +101,49 @@ class _CalenderDialogState extends State<CalenderDialog> {
                       endRangeSelectionColor: colorGreen,
                       rangeSelectionColor: colorGreen.withOpacity(0.1),
                       monthCellStyle: const DateRangePickerMonthCellStyle(
-                           textStyle: TextStyle(
-                             fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                               color: Color(0xFF37B268),
-                                   ),
-                            todayTextStyle: TextStyle(
+                        textStyle: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xFF37B268),
+                        ),
+                        todayTextStyle: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.red,
+                        ),
+                        //  weekendTextStyle: TextStyle(
+                        //    fontSize: 12,
+                        //  fontWeight: FontWeight.w500,
+                        //      color: Colors.blue,
+                        //      ),
+                      ),
+                      monthViewSettings: const DateRangePickerMonthViewSettings(
+                        dayFormat:
+                            'EEE', // Short format for day names (e.g., Mon, Tue)
+
+                        viewHeaderStyle: DateRangePickerViewHeaderStyle(
+                          textStyle: TextStyle(
+                            color: Color(0xFF070708),
                             fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                             color: Colors.red,
-                                    ),
-                              //  weekendTextStyle: TextStyle(
-                              //    fontSize: 12,
-                              //  fontWeight: FontWeight.w500,
-                              //      color: Colors.blue,
-                              //      ),
-                                ),
-                 monthViewSettings: const DateRangePickerMonthViewSettings(
-                     dayFormat: 'EEE', // Short format for day names (e.g., Mon, Tue)
-                     
-                   viewHeaderStyle: DateRangePickerViewHeaderStyle(
-                textStyle: TextStyle(
-                  color: Color(0xFF070708),
-             fontSize: 12,
-            fontFamily: 'SF Pro',
-               fontWeight: FontWeight.w600,
-             height: 0,
-                ),
-                 
-              ),
-              
-            ),
+                            fontFamily: 'SF Pro',
+                            fontWeight: FontWeight.w600,
+                            height: 0,
+                          ),
+                        ),
+                      ),
                       //  showNavigationArrow: true,
 
-                          headerStyle: const DateRangePickerHeaderStyle(
+                      headerStyle: const DateRangePickerHeaderStyle(
                           textAlign: TextAlign.left,
-                          textStyle: TextStyle(color:Color(0xFF37B268),)
-                          ),
-                           showNavigationArrow: true,
-
+                          textStyle: TextStyle(
+                            color: Color(0xFF37B268),
+                          )),
+                      showNavigationArrow: true,
                       onSelectionChanged: (selected) {
                         print(selected.value);
                         selectedDate = selected.value.toString();
+
+
                         print(selected);
                       }),
                 ),
@@ -163,6 +168,7 @@ class _CalenderDialogState extends State<CalenderDialog> {
                           .value = true;
                       widget.touristExploreController!
                           .selectedDate(selectedDate);
+
                     } else if (widget.type == 'hospitality') {
                       widget.srvicesController!.isHospatilityDateSelcted.value =
                           true;
@@ -214,11 +220,13 @@ class _CalenderDialogState extends State<CalenderDialog> {
                         }
                       }
                       //   widget.srvicesController!.selectedDateIndex(widget.avilableDate.  (selectedDate));
+
                     }
+
                     Get.back();
                   }
                 },
-                title:"confirm".tr)
+                title: "confirm".tr)
           ],
         ));
   }

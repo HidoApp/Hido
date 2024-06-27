@@ -143,18 +143,20 @@ class _SplashScreenState extends State<SplashScreen>
               token = user.accessToken;
             }
           }
+        }
 
-          Get.off(() => TouristBottomBar());
-        } else if (onBoarding == 'yes') {
-          //  Get.off(() => AccountTypeScreen());
+        Get.off(() => TouristBottomBar());
+      } else if (onBoarding == 'yes') {
+        //  Get.off(() => AccountTypeScreen());
         Get.off(() => OnboardingScreen());
-
-        } else {
+      } else {
         // Get.off(() => OnBoardingTry(getStorage: _getStorage ,));
         Get.off(() => OnboardingScreen());
 
+
         }
       });
+
 
     //   Workmanager().initialize(
     //   callbackDispatcher,

@@ -117,14 +117,12 @@ class _HospitalityTabState extends State<HospitalityTab> {
                                   borderColor: _regionsController
                                               .selectedHospitaltyIndex.value ==
                                           index
-
                                       ? colorGreen
-
                                       : almostGrey,
                                   backgroundColor: _regionsController
                                               .selectedHospitaltyIndex.value ==
                                           index
-                                      ?  colorGreen
+                                      ? colorGreen
                                       : Colors.transparent,
                                   textColor: _regionsController
                                               .selectedHospitaltyIndex.value ==
@@ -132,9 +130,12 @@ class _HospitalityTabState extends State<HospitalityTab> {
                                       ? Colors.white
                                       : almostGrey,
                                   title: index == 0
-                                      ? 'All'
-                                      : _regionsController.regionsHospitalty
-                                          .value.regionEn![index - 1],
+                                      ? 'all'.tr
+                                      : AppUtil.rtlDirection2(context)
+                                          ? _regionsController.regionsHospitalty
+                                              .value.regionAr![index - 1]
+                                          : _regionsController.regionsHospitalty
+                                              .value.regionEn![index - 1],
                                 ),
                               ),
                             ),
@@ -169,7 +170,7 @@ class _HospitalityTabState extends State<HospitalityTab> {
                                     ));
                               },
                               image: _srvicesController
-                                  .hospitalityList[index].images[0],
+                                  .hospitalityList[index].images.first,
                               personImage: _srvicesController
                                   .hospitalityList[index].familyImage,
                               title: !AppUtil.rtlDirection(context)
