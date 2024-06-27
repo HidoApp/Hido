@@ -332,11 +332,11 @@ class LocalNotification {
   }
 
   void showAdventureNotification(
-      {required BuildContext context,
+      BuildContext context,
       String? id,
       String? date,
       String? nameEn,
-      String? nameAr}) async {
+      String? nameAr) async {
     checkBooking(date);
 
     tz.TZDateTime notificationTime;

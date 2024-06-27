@@ -299,22 +299,20 @@ class _PaymentTypeState extends State<PaymentType> {
     ).then((_) {
       print("inside");
       Get.offAll(() => const TouristBottomBar());
-      Get.to(
-        () => TicketDetailsScreen(
-            booking: fetchedBooking,
-            icon: SvgPicture.asset('assets/icons/place.svg'),
-            bookTypeText: AppUtil.rtlDirection2(context) ? 'جولة' : 'Tour'),
-      );
+      LocalNotification().showNotification(
+          context,
+          widget.booking?.id,
+          widget.booking?.timeToGo,
+          widget.booking?.date,
+          widget.offerController!.offers.last.name,
+          widget.thePlace?.nameEn,
+          widget.thePlace?.nameAr);
+
+      Get.to(() => TicketDetailsScreen(
+          booking: fetchedBooking,
+          icon: SvgPicture.asset('assets/icons/place.svg'),
+          bookTypeText: AppUtil.getBookingTypeText(context, 'place')));
     });
-    LocalNotification().showNotification(
-      context,
-      widget.booking?.id,
-      widget.booking?.timeToGo,
-      widget.booking?.date,
-      widget.offerController!.offers.last.name,
-      widget.thePlace?.nameEn,
-      widget.thePlace?.nameAr,
-    );
   }
 
   void hospitalityBooking(Invoice checkInvoice) async {
@@ -361,7 +359,7 @@ class _PaymentTypeState extends State<PaymentType> {
       Get.to(() => TicketDetailsScreen(
             hospitality: updatedHospitality,
             icon: SvgPicture.asset('assets/icons/hospitality.svg'),
-            bookTypeText: 'hospitality',
+            bookTypeText: AppUtil.getBookingTypeText(context, 'hospitality'),
           ));
     });
     LocalNotification().showHospitalityNotification(
@@ -401,32 +399,28 @@ class _PaymentTypeState extends State<PaymentType> {
           ),
         );
       },
-    ).then(
-      (_) {
-        // Get.back();
-        Get.back();
-        Get.back();
-        log("inside adventure");
-        log("${updatedAdventure!.booking?.last.id}");
-        log(widget.adventure!.date!);
-        log(widget.adventure!.nameEn!);
-        log(widget.adventure!.nameAr!);
+    ).then((_) {
+      // Get.back();
+      Get.back();
+      Get.back();
+      log("inside adventure");
+      log("${updatedAdventure!.booking?.last.id}");
+      log(widget.adventure!.date!);
+      log(widget.adventure!.nameEn!);
+      log(widget.adventure!.nameAr!);
 
-        Get.to(
-          () => TicketDetailsScreen(
+      LocalNotification().showAdventureNotification(
+          context,
+          updatedAdventure!.booking?.last.id,
+          updatedAdventure.date,
+          updatedAdventure.nameEn,
+          updatedAdventure.nameAr);
+      Get.to(() => TicketDetailsScreen(
             adventure: updatedAdventure,
             icon: SvgPicture.asset('assets/icons/adventure.svg'),
-            bookTypeText: 'adventure'.tr,
-          ),
-        );
-        LocalNotification().showAdventureNotification(
-            context: context,
-            id: widget.adventure!.id,
-            date: widget.adventure!.date,
-            nameEn: widget.adventure!.nameEn,
-            nameAr: widget.adventure!.nameAr);
-      },
-    );
+            bookTypeText: AppUtil.getBookingTypeText(context, 'adventure'),
+          ));
+    });
   }
 
   bool loadingButton() {

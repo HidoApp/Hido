@@ -131,15 +131,15 @@ class _SplashScreenState extends State<SplashScreen>
           if (user != null) {
             token = user.accessToken;
           }
-
-          Get.off(() => TouristBottomBar());
-        } else if (onBoarding == 'yes') {
-          //  Get.off(() => AccountTypeScreen());
-          Get.off(() => const OnboardingScreen());
-        } else {
-          // Get.off(() => OnBoardingTry(getStorage: _getStorage ,));
-          Get.off(() => const OnboardingScreen());
         }
+
+        Get.off(() => TouristBottomBar());
+      } else if (onBoarding == 'yes') {
+        //  Get.off(() => AccountTypeScreen());
+        Get.off(() => OnboardingScreen());
+      } else {
+        // Get.off(() => OnBoardingTry(getStorage: _getStorage ,));
+        Get.off(() => OnboardingScreen());
       }
     });
 
