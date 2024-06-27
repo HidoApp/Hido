@@ -196,6 +196,8 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
                                         avilableDate: widget.avilableDate,
                                         srvicesController:
                                             widget.serviceController,
+                                        hospitality: widget.hospitality,
+
                                       );
                                     });
                               },

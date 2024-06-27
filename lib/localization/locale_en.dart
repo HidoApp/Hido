@@ -428,6 +428,7 @@ const localeEn = {
   "activityName": "Activity name",
   'startTime': 'Start time',
   'endTime': 'End time',
+  'localProfile':'Local Profile',
   "activityHint": "write the activity name",
   "activityError": "*this field is requested",
   "priceError": "*Please enter a price",

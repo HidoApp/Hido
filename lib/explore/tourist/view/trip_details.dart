@@ -7,6 +7,7 @@ import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/explore/ajwadi/model/userLocation.dart';
 import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
 import 'package:ajwad_v4/explore/tourist/view/view_trip_images.dart';
+import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
 // import 'package:ajwad_v4/request/tourist/models/offer.dart';
 import 'package:ajwad_v4/request/tourist/view/find_ajwady.dart';
@@ -27,6 +28,7 @@ import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import '../../../profile/models/profile.dart';
 import '../../../request/ajwadi/controllers/request_controller.dart';
 import '../../../request/tourist/view/booking_sheet.dart';
 import '../../../request/tourist/view/local_offer_info.dart';
@@ -56,7 +58,7 @@ class _TripDetailsState extends State<TripDetails> {
 
   final RequestController _RequestController = Get.put(RequestController());
 
-  final _offerController = Get.put(OfferController());
+  final _profileController = Get.put(ProfileController());
 
   final List<String> _tripUrlImages = [
     'assets/images/twaik_image.png',
@@ -79,11 +81,14 @@ class _TripDetailsState extends State<TripDetails> {
   bool isExpanded = false;
   RxBool isViewBooking = false.obs;
   RxBool lockPlaces = false.obs;
-  late List<Offer> offers;
+  // late List<Offer> offers;
   RxBool isHasOffers = false.obs;
-  late String offerId;
+  // late String offerId;
 
   Place? thePlace;
+  Booking? theBooking;
+
+  Profile? theProfile;
   BitmapDescriptor markerIcon = BitmapDescriptor.defaultMarker;
   void addCustomIcon() {
     BitmapDescriptor.fromAssetImage(
@@ -104,7 +109,7 @@ class _TripDetailsState extends State<TripDetails> {
     addCustomIcon();
     getOfferinfo();
 
-    getPlaceBooking();
+    // getPlaceBooking();
     _touristExploreController.isBookedMade(true);
   }
 
@@ -129,34 +134,28 @@ class _TripDetailsState extends State<TripDetails> {
     thePlace = await _touristExploreController.getPlaceById(
         id: widget.place!.id!, context: context);
 
-    print("1");
-    for (var booking in thePlace!.booking!) {
-      Booking? fetchedBooking = await _RequestController.getBookingById(
-        context: context,
-        bookingId: booking.id!,
-      );
-      print("2");
+   
+    if (thePlace!.booking!.length != 0 &&
+        thePlace!.booking!.first.orderStatus == 'PENDING') {
 
-      if (fetchedBooking!.offers?.length != 0) {
-        print("3");
+      isViewBooking.value = true;
+      lockPlaces.value = true;
 
-        offers = fetchedBooking.offers!;
-        print(offers.length);
-        isHasOffers.value = true;
+    } else if (thePlace!.booking!.length != 0 &&
+        thePlace!.booking!.first.orderStatus == 'ACCEPTED') {
+                isHasOffers.value=true;
 
-// print('First Offer ID: ${firstOffer.id}');
-// print('First Offer Profile ID: ${firstOffer.id}');
+      isViewBooking.value = true;
 
-        await _offerController.getOfferById(
-            context: context, offerId: offers.last.id);
-        print(_offerController.offerDetails.value.schedule!.length!);
-        await _offerController.getOffers(
-            context: context,
-            placeId: widget.place!.id!,
-            bookingId: fetchedBooking.id!);
-        print('First Offer ID: ${_offerController.offers.length}');
-      }
+      theProfile = await _profileController.getProfile(
+          context: context,
+          profileId: thePlace!.booking!.first.profileId ?? '');
+      
+    } else {
+      isViewBooking.value = false;
     }
+
+
   }
 
   // }
@@ -544,49 +543,42 @@ class _TripDetailsState extends State<TripDetails> {
 
                       Obx(() => _RequestController.isBookingLoading.value
                               ? const CircularProgressIndicator.adaptive()
-                              // : Padding(
-                              //     padding: const EdgeInsets.symmetric(
-                              //         horizontal: 30, vertical: 7),
-                              : !AppUtil.isGuest() && isHasOffers.value
+                             
+                              : !AppUtil.isGuest() && isViewBooking.value 
+                              ?(isHasOffers.value
                                   ? _RequestController
                                           .isRequestAcceptLoading.value
-                                      ? const CircularProgressIndicator()
+                                      ? const CircularProgressIndicator
+                                          .adaptive()
                                       : CustomButton(
-                                          height: 2,
                                           onPressed: () async {
+                                            theBooking =
+                                                await _RequestController
+                                                    .getBookingById(
+                                              context: context,
+                                              bookingId: thePlace!.booking!
+                                                      .first.id ??
+                                                  '',
+                                            );
                                             print(isHasOffers.value);
-                                            print(offers.last.id);
+
                                             Get.to(
                                               () => LocalOfferInfo(
                                                   place: thePlace!,
-                                                  image: _offerController
-                                                          .offerDetails
-                                                          .value
-                                                          .image ??
+                                                  image: theProfile
+                                                          ?.profileImage ??
                                                       '',
-                                                  name: _offerController
-                                                          .offerDetails
-                                                          .value
-                                                          .name ??
-                                                      '',
-                                                  profileId: _offerController
-                                                          .offers
-                                                          .last
-                                                          .profileId ??
-                                                      '',
-                                                  rating: _offerController
-                                                          .offers
-                                                          .last
-                                                          .tourRating ??
-                                                      0,
-                                                  price: _offerController
-                                                          .offers.last.price ??
-                                                      0,
-                                                  tripNumber: _offerController
-                                                          .offers
-                                                          .last
-                                                          .tourNumber ??
-                                                      0),
+                                                  name: theProfile?.name ?? '',
+                                                  profileId:
+                                                      theProfile?.id ?? '',
+                                                  rating:
+                                                      theProfile?.tourRating ??
+                                                          0,
+                                                  price: 0,
+                                                  tripNumber:
+                                                      theProfile?.tourNumber ??0,
+                                                  booking: theBooking,
+                                                          ),
                                             );
                                           },
                                           title: AppUtil.rtlDirection2(context)
@@ -602,23 +594,23 @@ class _TripDetailsState extends State<TripDetails> {
                                                   size: 20,
                                                 ),
                                         )
-                                  : (isViewBooking.value
-                                      ? CustomButton(
+                                      : CustomButton(
                                           onPressed: () async {
-                                            Place? thePlace =
-                                                await _touristExploreController
-                                                    .getPlaceById(
-                                                        id: widget.place!.id!,
-                                                        context: context);
-                                            getOfferinfo();
+                                            // Place? thePlace =
+                                            //     await _touristExploreController
+                                            //         .getPlaceById(
+                                            //             id: widget.place!.id!,
+                                            //             context: context);
+                                            // getOfferinfo();
                                             Get.to(
                                               () => FindAjwady(
-                                                booking: thePlace!.booking![0],
+                                                booking:
+                                                    thePlace!.booking!.first,
                                                 place: widget.place!,
-                                                placeId: thePlace.id!,
+                                                placeId: thePlace?.id ?? '',
                                               ),
                                             )?.then((value) async {
-                                              return getPlaceBooking();
+                                              return getOfferinfo();
                                             });
                                           },
                                           title: AppUtil.rtlDirection2(context)
@@ -634,8 +626,12 @@ class _TripDetailsState extends State<TripDetails> {
                                                   size: 20,
                                                 ),
                                         )
-                                      : CustomButton(
+                              )
+                                      
+                                     : CustomButton(
                                           onPressed: () {
+                                            print(";lkjhgfdxzxcvbnm,");
+                                            print(isViewBooking.value);
                                             AppUtil.isGuest()
                                                 ? Get.to(
                                                     () => const SignInScreen(),
@@ -666,7 +662,7 @@ class _TripDetailsState extends State<TripDetails> {
                                                             _touristExploreController,
                                                       );
                                                     }).then((value) {
-                                                    getPlaceBooking();
+                                                    getOfferinfo();
                                                     return;
                                                   });
                                           },
@@ -683,9 +679,10 @@ class _TripDetailsState extends State<TripDetails> {
                                                   Icons.arrow_forward_ios,
                                                   size: 20,
                                                 ),
-                                        ))
-                          // : Container(),
-                          ),
+                                        )
+                                        
+                                        ),
+                          
                       const SizedBox(
                         height: 32,
                       )

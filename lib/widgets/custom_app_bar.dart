@@ -91,11 +91,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                       ? Padding(
                           padding: AppUtil.rtlDirection2(context)
                         ?!isAjwadi
-                              ? EdgeInsets.only(bottom: 10, right: 30)
+                              ? EdgeInsets.only(bottom: 23, right: 30)
                               : EdgeInsets.only(bottom: 23, left: 30)
                         :!isAjwadi
-                              ? EdgeInsets.only(bottom: 10, right: 30)
+                              ? EdgeInsets.only(bottom: 23, left: 30,top:2)
                               : EdgeInsets.only(bottom: 23, left: 30,top:8),
+
+
+                              
+
                           child: IconButton(
                             icon: Icon(
                               Icons.arrow_back_ios,
