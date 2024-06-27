@@ -71,15 +71,15 @@ class _AjwadiBottomBarState extends State<AjwadiBottomBar>
             unselectedItemColor: colorDarkGrey,
             selectedItemColor: colorGreen,
             unselectedLabelStyle: const TextStyle(
-              fontSize: 11,
+              fontSize: 13,
               fontWeight: FontWeight.w600,
              fontFamily: 'SF Pro',
               color: colorDarkGrey,
             ),
             selectedLabelStyle: const TextStyle(
-              fontSize: 11,
+              fontSize: 13,
               fontWeight: FontWeight.w600,
-               fontFamily: 'SF Pro',
+               fontFamily: 'Kufam',
               color: colorGreen,
             ),
             items: [

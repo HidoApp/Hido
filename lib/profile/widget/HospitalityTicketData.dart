@@ -100,8 +100,8 @@ class HostTicketData extends StatelessWidget {
                           ),
                         const SizedBox(height: 5),
 
-                          Text(
-                            hospitality==null?AppUtil.formatBookingDate(context,booking!.date):AppUtil.formatBookingDate(context,hospitality!.booking!.first.date),
+                          Text('',
+                            // hospitality==null?AppUtil.formatBookingDate(context,booking!.date):AppUtil.formatBookingDate(context,hospitality!.booking!.first.date),
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Color(0xFF111113),

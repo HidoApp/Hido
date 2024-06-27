@@ -23,7 +23,7 @@ class ExperienceCard extends StatelessWidget {
         onTap: onTap,
       child: Container(
         width: double.infinity,
-        height: 104,
+        height: 110,
         padding: const EdgeInsets.all(12),
         clipBehavior: Clip.antiAlias,
         decoration: ShapeDecoration(

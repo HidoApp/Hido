@@ -11,8 +11,10 @@ class HospitalityController extends GetxController {
   var selectedDate = ''.obs;
   var selectedDates = [].obs; //new
   var selectedTime = ''.obs;
-  var selectedStartTime = ''.obs;
-  var selectedEndTime = ''.obs;
+  var selectedStartTime = DateTime.now().obs;
+  var selectedEndTime = DateTime.now().obs;
+
+
 
   var seletedSeat = (0).obs;
   var selectedGender = ''.obs;
