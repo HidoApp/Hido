@@ -220,6 +220,7 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                                 female: widget.femaleGuestNum,
                               ),
                             );
+                            return;
 
                             final isSuccess = await widget.servicesController
                                 .checkAndBookHospitality(
@@ -253,8 +254,7 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                                     id: invoice!.id,
                                   );
 
-                                  if (checkInvoice!.payStatus ==
-                                      'Pending') {
+                                  if (checkInvoice!.payStatus == 'Pending') {
                                     print('no');
                                     final isSuccess = await widget
                                         .servicesController

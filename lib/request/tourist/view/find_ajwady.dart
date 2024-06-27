@@ -348,9 +348,9 @@ class _FindAjwadyState extends State<FindAjwady> {
                                     width: 10,
                                   ),
                                   CustomText(
-                                    text: DateFormat('EEE, dd MMMM yyyy')
-                                        .format(DateTime.parse(
-                                            widget.booking.date)),
+                                    text:AppUtil.formatBookingDate(
+                                        context,
+                                            widget.booking.date),
                                     color: almostGrey,
                                     fontSize: 13,
                                     fontWeight: FontWeight.w400,
@@ -369,8 +369,8 @@ class _FindAjwadyState extends State<FindAjwady> {
                                   ),
                                   CustomText(
                                     text: AppUtil.rtlDirection2(context)
-                                        ? ' ${DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking.timeToGo}'))} إلى ${DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking.timeToReturn}'))} '
-                                        : 'Pick up: ${DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking.timeToGo}'))}, Drop off: ${DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking.timeToReturn}'))}',
+                                              ? 'من ${ AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)} إلى ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)} '
+                                              : 'Pick up: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)}, Drop off: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)}',
                                     color: almostGrey,
                                     fontSize: 13,
                                     fontWeight: FontWeight.w400,

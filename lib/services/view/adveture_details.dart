@@ -94,7 +94,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
               backgroundColor: Colors.white,
               extendBodyBehindAppBar: true,
               appBar: CustomAppBar(""),
-              body:  Center(child: CircularProgressIndicator.adaptive()),
+              body: Center(child: CircularProgressIndicator.adaptive()),
             )
           : Scaffold(
               bottomNavigationBar: SizedBox(
@@ -428,7 +428,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                     )),
                 Positioned(
                   top: height * 0.06,
-                  left: !AppUtil.rtlDirection(context)
+                  left: AppUtil.rtlDirection2(context)
                       ? width * 0.85
                       : width * 0.06,
                   child: IconButton(

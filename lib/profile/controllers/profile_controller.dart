@@ -187,6 +187,8 @@ class ProfileController extends GetxController {
       );
       if (data != null) {
         chatList(data);
+        print('chat ist');
+        print(chatList.first.messages?.first.message);
         return chatList;
       } else {
         return null;

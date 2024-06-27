@@ -258,7 +258,7 @@ class _CustomCheckWidget extends StatelessWidget {
                         Row(
                           children: [
                             Text(
-                              convertTo12HourFormat(
+                            AppUtil.formatStringTimeWithLocale(context, 
                                   schedule?.scheduleTime!['from']),
                               style:  TextStyle(
                                 color:!isReview? Color(0xFF676767):Color(0xFFB9B8C1),
@@ -278,7 +278,8 @@ class _CustomCheckWidget extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              "${convertTo12HourFormat(schedule?.scheduleTime!['to'])} ",
+                              "${AppUtil.formatStringTimeWithLocale(context, 
+                                  schedule?.scheduleTime!['to'])} ",
                               style:  TextStyle(
                                 color: !isReview? Color(0xFF676767):Color(0xFFB9B8C1),
                                 fontSize: 13,

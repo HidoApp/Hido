@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:ajwad_v4/explore/ajwadi/view/add_hospitality_calender_dialog.dart';
 import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -62,9 +63,13 @@ class _ButtomProgressState extends State<ButtomProgress> {
       TextEditingController();
 
   final TextEditingController hospitalityLocation = TextEditingController();
+  final TextEditingController hospitalityPrice = TextEditingController();
+
   final List<String> _hospitalityImages = [];
   int seats = 0;
   String gender = '';
+  final HospitalityController _hospitalityController =
+      Get.put(HospitalityController());
 
   void _handleGuestNumChanged(int newGuestNum) {
     setState(() {
@@ -77,9 +82,6 @@ class _ButtomProgressState extends State<ButtomProgress> {
       gender = newGender;
     });
   }
-
-  final HospitalityController _hospitalityController =
-      Get.put(HospitalityController());
 
   @override
   Widget build(BuildContext context) {
@@ -227,10 +229,11 @@ class _ButtomProgressState extends State<ButtomProgress> {
         return SelectDateTime(hospitalityController: _hospitalityController);
       case 5:
         print(_hospitalityController.selectedMeal.value);
-        print(_hospitalityController.selectedStartTime.value);
-        print( _hospitalityController.isHospatilityTimeSelcted);
+        print(
+            'Selected Start Time: ${_hospitalityController.selectedDates.first}');
+
         print("5");
-        return PriceDecisionCard();
+        return PriceDecisionCard(priceController: hospitalityPrice);
 
       default:
         print("2");
@@ -242,17 +245,20 @@ class _ButtomProgressState extends State<ButtomProgress> {
 
   bool _validateFields() {
     if (activeIndex == 0) {
-      return hospitalityTitleControllerEn.text.isNotEmpty &&
-          hospitalityBioControllerEn.text.isNotEmpty &&
-          hospitalityTitleControllerAr.text.isNotEmpty &&
-          hospitalityBioControllerAr.text.isNotEmpty;
+      return true;
+      // hospitalityTitleControllerEn.text.isNotEmpty &&
+      //     hospitalityBioControllerEn.text.isNotEmpty &&
+      //     hospitalityTitleControllerAr.text.isNotEmpty &&
+      //     hospitalityBioControllerAr.text.isNotEmpty;
     }
     if (activeIndex == 1) {
-      return _hospitalityController.pickUpLocLatLang.value !=
-          const LatLng(24.9470921, 45.9903698);
+      return true;
+      // _hospitalityController.pickUpLocLatLang.value !=
+      //     const LatLng(24.9470921, 45.9903698);
     }
     if (activeIndex == 2) {
-      return _hospitalityImages.length >= 3;
+      return true;
+      // _hospitalityImages.length >= 3;
     }
     return true; // Add validation for other steps if needed
   }
@@ -272,7 +278,16 @@ class _ButtomProgressState extends State<ButtomProgress> {
                 print(activeIndex);
               });
             } else if (activeIndex == totalIndex - 1) {
-              Get.to(HostInfoReview());
+              print(hospitalityPrice.text);
+              Get.to(HostInfoReview(
+                hospitalityTitleEn: hospitalityTitleControllerEn.text,
+                hospitalityBioEn: hospitalityBioControllerEn.text,
+                hospitalityTitleAr: hospitalityTitleControllerAr.text,
+                hospitalityBioAr: hospitalityBioControllerAr.text,
+                hospitalityPrice: hospitalityPrice.text,
+                hospitalityImages: _hospitalityImages,
+                hospitalityController: _hospitalityController,
+              ));
             }
           },
           child: Container(
@@ -819,17 +834,17 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
                       ),
                     ),
                   ),
-                  GestureDetector(
-                      onTap: () {
-                        print('location');
-                        print(
-                            'New Marker Position: ${widget.hospitalityController.pickUpLocLatLang.value}');
-                      },
-                      child: Container(
-                        height: 100,
-                        width: 320,
-                        color: Colors.black,
-                      ))
+                  // GestureDetector(
+                  //     onTap: () {
+                  //       print('location');
+                  //       print(
+                  //           'New Marker Position: ${widget.hospitalityController.pickUpLocLatLang.value}');
+                  //     },
+                  //     child: Container(
+                  //       height: 100,
+                  //       width: 320,
+                  //     )
+                  //     )
                 ],
               ),
               // SizedBox(height: 20),
@@ -1384,7 +1399,7 @@ class _AddGuestsState extends State<AddGuests> {
   void initState() {
     super.initState();
   }
- 
+
   void _updateGender(int? newValue) {
     setState(() {
       _selectedRadio = newValue;
@@ -1628,16 +1643,12 @@ class _AddGuestsState extends State<AddGuests> {
 }
 
 class SelectDateTime extends StatefulWidget {
-
-SelectDateTime({
+  SelectDateTime({
     Key? key,
     required this.hospitalityController,
   }) : super(key: key);
 
   final HospitalityController hospitalityController;
-  
-
-
 
   @override
   _SelectDateTimeState createState() => _SelectDateTimeState();
@@ -1669,7 +1680,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
 
   //var locLatLang = const LatLng(24.9470921, 45.9903698);
   late DateTime newTimeToGoInRiyadh;
-void _updateMeal(int? newValue) {
+  void _updateMeal(int? newValue) {
     setState(() {
       _selectedRadio = newValue;
       if (_selectedRadio == 1) {
@@ -1682,6 +1693,7 @@ void _updateMeal(int? newValue) {
       // widget.onGenderChanged(gender!);  // Call the callback with the new gender value
     });
   }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -1739,17 +1751,17 @@ void _updateMeal(int? newValue) {
                           showDialog(
                               context: context,
                               builder: (BuildContext context) {
-                                return CalenderDialog(
-                                  fromAjwady: true,
+                                return HostCalenderDialog(
                                   type: 'hospitality',
-                                  srvicesController: widget.hospitalityController,
+                                  srvicesController:
+                                      widget.hospitalityController,
                                 );
                               });
                         },
                         child: CustomText(
-                          text: widget.hospitalityController.isHospatilityDateSelcted.value
-                              ? formatSelectedDates(
-                                  srvicesController.selectedDates)
+                          text: widget.hospitalityController
+                                  .isHospatilityDateSelcted.value
+                              ? formatSelectedDates(srvicesController.selectedDates,context)
                               // srvicesController.selectedDates.map((date) => intel.DateFormat('dd/MM/yyyy').format(date)).join(', ')
                               : 'DD/MM/YYYY'.tr,
                           fontWeight: FontWeight.w400,
@@ -1847,14 +1859,19 @@ void _updateMeal(int? newValue) {
                                                 children: <Widget>[
                                                   CupertinoButton(
                                                     onPressed: () {
-                                                     widget.hospitalityController
+                                                      widget
+                                                          .hospitalityController
                                                           .isHospatilityTimeSelcted(
                                                               true);
                                                       setState(() {
                                                         Get.back();
                                                         time = newTimeToGo;
-                                                  //  widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
-                                                  //   .format(newTimeToGo) as RxString;
+                                                        widget
+                                                            .hospitalityController
+                                                            .selectedStartTime
+                                                            .value = newTimeToGo;
+                                                        //  widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
+                                                        //   .format(newTimeToGo) as RxString;
                                                       });
                                                     },
                                                     padding: const EdgeInsets
@@ -1895,8 +1912,12 @@ void _updateMeal(int? newValue) {
                                                       (DateTime newT) {
                                                     setState(() {
                                                       newTimeToGo = newT;
-                                                    //    widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
-                                                    // .format(newTimeToGo) as RxString;
+                                                      widget
+                                                          .hospitalityController
+                                                          .selectedStartTime
+                                                          .value = newT;
+                                                      //    widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
+                                                      // .format(newTimeToGo) as RxString;
                                                     });
                                                   },
                                                 ),
@@ -1907,10 +1928,11 @@ void _updateMeal(int? newValue) {
                                       });
                                 },
                                 child: CustomText(
-                                  text:! widget.hospitalityController.isHospatilityTimeSelcted.value
-                                  ? "00 :00 PM"
-                                  :intel.DateFormat('hh:mm a')
-                                      .format(newTimeToGo),
+                                  text: !widget.hospitalityController
+                                          .isHospatilityTimeSelcted.value
+                                      ? AppUtil.rtlDirection2(context) ?"00:00 مساء" :"00 :00 PM"
+                                      : AppUtil.formatStringTimeWithLocale(context, intel.DateFormat('hh:mm a')
+                                          .format(newTimeToGo)),
                                   fontWeight: FontWeight.w400,
                                   color: Graytext,
                                   fontFamily: 'SF Pro',
@@ -2006,14 +2028,25 @@ void _updateMeal(int? newValue) {
                                                 children: <Widget>[
                                                   CupertinoButton(
                                                     onPressed: () {
-                                                      widget.hospitalityController.isHospatilityTimeSelcted(true);
-                                                      print( widget.hospitalityController.isHospatilityTimeSelcted.value);
+                                                      widget
+                                                          .hospitalityController
+                                                          .isHospatilityTimeSelcted(
+                                                              true);
+                                                      print(widget
+                                                          .hospitalityController
+                                                          .isHospatilityTimeSelcted
+                                                          .value);
                                                       setState(() {
                                                         Get.back();
                                                         returnTime =
                                                             newTimeToReturn;
-                                                    //      widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
-                                                    // .format( newTimeToReturn) as RxString;
+                                                        widget
+                                                                .hospitalityController
+                                                                .selectedEndTime
+                                                                .value =
+                                                            newTimeToReturn;
+                                                        //      widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
+                                                        // .format( newTimeToReturn) as RxString;
                                                       });
                                                     },
                                                     padding: const EdgeInsets
@@ -2055,9 +2088,14 @@ void _updateMeal(int? newValue) {
                                                             newTimeToReturn));
                                                     setState(() {
                                                       newTimeToReturn = newT;
-                                                //  widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
-                                                //     .format( newTimeToReturn) as RxString;
-                                                     });
+                                                      widget
+                                                          .hospitalityController
+                                                          .selectedEndTime
+                                                          .value = newT;
+
+                                                      //  widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
+                                                      //     .format( newTimeToReturn) as RxString;
+                                                    });
                                                   },
                                                 ),
                                               ),
@@ -2067,10 +2105,11 @@ void _updateMeal(int? newValue) {
                                       });
                                 },
                                 child: CustomText(
-                                  text: !widget.hospitalityController.isHospatilityTimeSelcted.value
-                                  ? "00 :00 PM"
-                                 : intel.DateFormat('hh:mm a')
-                                          .format(newTimeToReturn),
+                                  text: !widget.hospitalityController
+                                          .isHospatilityTimeSelcted.value
+                                      ? AppUtil.rtlDirection2(context) ?"00:00 مساء" :"00 :00 PM"
+                                      :AppUtil.formatStringTimeWithLocale(context,  intel.DateFormat('hh:mm a')
+                                          .format(newTimeToReturn)),
                                   fontWeight: FontWeight.w400,
                                   color: Graytext,
                                   fontFamily: 'SF Pro',
@@ -2199,7 +2238,7 @@ void _updateMeal(int? newValue) {
                         Radio<int>(
                           value: 3,
                           groupValue: _selectedRadio,
-                          onChanged:_updateMeal,
+                          onChanged: _updateMeal,
                           materialTapTargetSize:
                               MaterialTapTargetSize.shrinkWrap,
                           visualDensity:
@@ -2237,6 +2276,13 @@ void _updateMeal(int? newValue) {
 }
 
 class PriceDecisionCard extends StatefulWidget {
+  PriceDecisionCard({
+    Key? key,
+    required this.priceController,
+  }) : super(key: key);
+
+  final TextEditingController priceController;
+
   @override
   _PriceDecisionCardState createState() => _PriceDecisionCardState();
 }
@@ -2251,7 +2297,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
   }
 
   bool isEditing = false;
-  final TextEditingController _priceController = TextEditingController();
+  // final TextEditingController _priceController = TextEditingController();
   double hidoFee = 0.00;
   double earn = 0.00;
   String errorMessage = '';
@@ -2259,15 +2305,17 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
   @override
   void initState() {
     super.initState();
-    _priceController.text = '0.00';
-    _priceController.addListener(_validatePrice);
+    widget.priceController.text = '0.00';
+    widget.priceController.addListener(_validatePrice);
   }
 
   void _validatePrice() {
-    double price = double.tryParse(_priceController.text) ?? 0.0;
+    double price = double.tryParse(widget.priceController.text) ?? 0.0;
     if (price < 150) {
       setState(() {
-        errorMessage = 'Price cannot be less than 150';
+        errorMessage = AppUtil.rtlDirection2(context)
+            ? '*الحد الأدنى لسعر التجربة هو 150 ريال سعودي'
+            : '*The minimum price for an experience is 150 SAR ';
         //    price= 150.0;
         // _priceController.text = price.toStringAsFixed(2);
       });
@@ -2281,7 +2329,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
 
   void _updateFees() {
     setState(() {
-      double price = double.tryParse(_priceController.text) ?? 0.00;
+      double price = double.tryParse(widget.priceController.text) ?? 0.00;
 
       hidoFee = price * 0.25;
       earn = price - hidoFee;
@@ -2323,18 +2371,19 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
           width: double.infinity,
           height: 121,
           padding: const EdgeInsets.only(left: 16, right: 8, bottom: 20),
-          decoration: ShapeDecoration(
+          decoration: BoxDecoration(
             color: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: errorMessage.isNotEmpty ? Colors.red : Colors.white,
             ),
-            shadows: [
+            boxShadow: [
               BoxShadow(
                 color: Color(0x3FC7C7C7),
                 blurRadius: 15,
                 offset: Offset(0, 0),
                 spreadRadius: 0,
-              )
+              ),
             ],
           ),
           child: Column(
@@ -2369,7 +2418,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                     if (isEditing)
                       Expanded(
                         child: TextField(
-                          controller: _priceController,
+                          controller: widget.priceController,
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
                             border: InputBorder.none,
@@ -2397,7 +2446,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                       )
                     else
                       Text(
-                        _priceController.text,
+                        widget.priceController.text,
                         style: TextStyle(
                           color: Color(0xFF070708),
                           fontSize: 34,
@@ -2477,7 +2526,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      ' ${_priceController.text} ${'sar'.tr}',
+                      ' ${widget.priceController.text} ${'sar'.tr}',
                       style: TextStyle(
                         color: graySmallText,
                         fontSize: 15,
@@ -2528,7 +2577,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                 thickness: 1,
               ),
               const SizedBox(
-                height: 8,
+                height: 4,
               ),
               Container(
                 width: double.infinity,
@@ -2581,7 +2630,50 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
   }
 }
 
-String formatSelectedDates(RxList<dynamic> dates) {
+// String formatSelectedDates(RxList<dynamic> dates) {
+//   // Convert dynamic list to List<DateTime>
+//   List<DateTime> dateTimeList = dates
+//       .where((date) => date is DateTime)
+//       .map((date) => date as DateTime)
+//       .toList();
+
+//   if (dateTimeList.isEmpty) {
+//     return 'DD/MM/YYYY';
+//   }
+
+//   // Sort the dates
+//   dateTimeList.sort();
+
+//   final intel.DateFormat dayFormatter = intel.DateFormat('d');
+//   final intel.DateFormat monthYearFormatter = intel.DateFormat('MMMM yyyy');
+
+//   String formattedDates = '';
+
+//   for (int i = 0; i < dateTimeList.length; i++) {
+//     if (i > 0) {
+//       // If current date's month and year are different from the previous date's, add a comma
+//       if (dateTimeList[i].month != dateTimeList[i - 1].month ||
+//           dateTimeList[i].year != dateTimeList[i - 1].year) {
+//         formattedDates += ', ';
+//       } else {
+//         // If same month and year, just add a space
+//         formattedDates += ', ';
+//       }
+//     }
+
+//     formattedDates += dayFormatter.format(dateTimeList[i]);
+
+//     // If the next date is in a different month or year, add month and year to the current date
+//     if (i == dateTimeList.length - 1 ||
+//         dateTimeList[i].month != dateTimeList[i + 1].month ||
+//         dateTimeList[i].year != dateTimeList[i + 1].year) {
+//       formattedDates += ' ${monthYearFormatter.format(dateTimeList[i])}';
+//     }
+//   }
+
+//   return formattedDates;
+// }
+String formatSelectedDates(RxList<dynamic> dates, BuildContext context) {
   // Convert dynamic list to List<DateTime>
   List<DateTime> dateTimeList = dates
       .where((date) => date is DateTime)
@@ -2595,8 +2687,9 @@ String formatSelectedDates(RxList<dynamic> dates) {
   // Sort the dates
   dateTimeList.sort();
 
-  final intel.DateFormat dayFormatter = intel.DateFormat('d');
-  final intel.DateFormat monthYearFormatter = intel.DateFormat('MMMM yyyy');
+  final bool isArabic = AppUtil.rtlDirection(context);
+  final intel.DateFormat dayFormatter = intel.DateFormat('d', isArabic ? 'ar' : 'en');
+  final intel.DateFormat monthYearFormatter = intel.DateFormat('MMMM yyyy', isArabic ? 'ar' : 'en');
 
   String formattedDates = '';
 

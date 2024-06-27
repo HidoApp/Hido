@@ -251,9 +251,9 @@ class _CustomCheckWidget extends StatelessWidget {
                       if (schedule?.scheduleTime != null)
                         Row(
                           children: [
-                            Text(
-                              convertTo12HourFormat(
+                            Text(AppUtil.formatStringTimeWithLocale(context, 
                                   schedule?.scheduleTime!['from']),
+                             
                               style: const TextStyle(
                                 color: Color(0xFF676767),
                                 fontSize: 13,
@@ -271,8 +271,8 @@ class _CustomCheckWidget extends StatelessWidget {
                                 fontWeight: FontWeight.w400,
                               ),
                             ),
-                            Text(
-                              "${convertTo12HourFormat(schedule?.scheduleTime!['to'])} ",
+                             Text("${AppUtil.formatStringTimeWithLocale(context,
+                                  schedule?.scheduleTime!['to'])} ",
                               style: const TextStyle(
                                 color: Color(0xFF676767),
                                 fontSize: 13,

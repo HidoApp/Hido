@@ -10,10 +10,10 @@ class DayInfo{
 
   factory DayInfo.fromJson(Map<String , dynamic> json) {
     return DayInfo(
-      id: json['id'],
-      startTime: json['startTime'],
-      seats: json['seats'],
-      endTime: json['endTime'],
+      id: json['id']??'',
+      startTime: json['startTime']??'',
+      seats: json['seats']??0,
+      endTime: json['endTime']??'',
     );
   }
 }

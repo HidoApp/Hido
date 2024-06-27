@@ -23,13 +23,11 @@ import '../../../explore/tourist/model/booking.dart' as book;
 import '../../../widgets/custom_app_bar.dart';
 
 class ChatScreen extends StatefulWidget {
-   String? chatId;
-   final Booking ?booking;
-    final String ?booking2;
+  String? chatId;
+  final Booking? booking;
+  book.Booking? booking2;
 
-
-   ChatScreen({super.key, required this.chatId, this.booking, this.booking2
-});
+  ChatScreen({super.key, required this.chatId, this.booking, this.booking2});
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -39,726 +37,760 @@ class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController messageController = TextEditingController();
   ScrollController scrollController = ScrollController();
   final chatController = Get.put(ChatController());
-    final getStorage = GetStorage();
-   late  String userId;
-   book.Booking? booking2;
+  final getStorage = GetStorage();
+  late String userId;
+  //  book.Booking? booking2;
   late List<book.Offer>? offers;
-    bool isDetailsTapped = false;
+  bool isDetailsTapped = false;
   late double width, height;
 
   bool isDetailsTapped1 = false;
-bool isDetailsTapped3 = false;
+  bool isDetailsTapped3 = false;
 
   late bool isArabicSelected;
   int startIndex = -1;
   bool isSendTapped = false;
-    ChatModel? chat;
-    // Booking?book;
+  ChatModel? chat;
+  // Booking?book;
 
- final TouristExploreController _touristExploreController =
+  final TouristExploreController _touristExploreController =
       Get.put(TouristExploreController());
   final _offerController = Get.put(OfferController());
-  
-RxBool isDetailsTapped2 = false.obs;
+
+  RxBool isDetailsTapped2 = false.obs;
 
   @override
   void initState() {
-        super.initState();
+    super.initState();
 
     log("\n \n");
-   // log("Chat Screen senderId ${widget.senderId}  chatId ${widget.chatId}");
     log("\n \n");
     getChat();
+
     
-    //getBook();
-    // print("this booking id in");
-    // print(chat?.bookingId);
-    //chatController.getChatById(id: widget.chatId!, context: context);
-    //  _touristExploreController.getTouristBookingById(context: context, bookingId:
-    //               chatController.chat.bookingId!);
-      // getHospitalityById();
-    // chatController.getBookById(id:chatController.chat.value.bookingId!, context: context);
 
     String token = getStorage.read('accessToken');
     final Token jwtToken = AuthService.jwtForToken(token)!;
-  userId = jwtToken.id;
-  //  userId = getStorage.read('userId');
-  // setState(() {
-  // booking=_touristExploreController.getTouristBookingById(context: context, bookingId:
-  //                  chatController.chat.value.bookingId!) as Booking?;
-  // });
-  // log("book id for chat ${chatController.chat.value.bookingId!}");
-   log("Chat Screen senderIdchatId ${userId}");
-
-
-  }
-    // String userId = getStorage.read('userId');
-  void getChat() async{
-    chat = await  chatController.getChatById(id: widget.chatId!, context: context);
-  
-
+    userId = jwtToken.id;
+    
+    log("Chat Screen senderIdchatId ${userId}");
   }
 
-//   void getBook() async{
-//        print("this is final book11111111111111111111111111111111111111111111111111111111111111111");
-// print(chat!.bookingId!);
-//    await _touristExploreController.getTouristBookingById(context: context, bookingId:
-//                  chat!.bookingId!);
-//    print("this is final book");
-//    print(booking2!.date!);
-//   }
+  void getChat() async {
+    chat =
+        await chatController.getChatById(id: widget.chatId!, context: context);
+  }
 
   @override
   Widget build(BuildContext context) {
-   width = MediaQuery.of(context).size.width;
-  height= MediaQuery.of(context).size.height;
-
+    width = MediaQuery.of(context).size.width;
+    height = MediaQuery.of(context).size.height;
+    print('im');
     return Obx(
-      ()=> chatController.isGetChatByIdLoading.value? 
-      
-      Scaffold(
-       body: Center(
-              child: CircularProgressIndicator(
-        color: Colors.green[800]))
-
-      ):Scaffold(
-        backgroundColor: lightGreyBackground,
-         appBar: CustomAppBar(
-          "chat".tr,
-         ),
-        body: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // App Bar
-              // Row(
-              //   children: [
-              //     if (AppUtil.rtlDirection(context))
-              //       IconButton(
-              //         onPressed: () {
-              //           Get.back();
-              //         },
-              //         icon: const Icon(
-              //           Icons.arrow_back,
-              //           color: black,
-              //           size: 26,
-              //         ),
-              //       ),
-              //     if (AppUtil.rtlDirection(context))
-              //       const SizedBox(
-              //         width: 4,
-              //       ),
-              //     CustomText(
-              //       text: 'chat'.tr,
-              //       fontSize: 24,
-              //       fontWeight: FontWeight.w500,
-              //     ),
-              //     if (!AppUtil.rtlDirection(context))
-              //       const SizedBox(
-              //         width: 4,
-              //       ),
-              //     if (!AppUtil.rtlDirection(context))
-              //       IconButton(
-              //         onPressed: () {
-              //           Get.back();
-              //         },
-              //         icon: const Icon(
-              //           Icons.arrow_forward,
-              //           color: black,
-              //           size: 26,
-              //         ),
-              //       ),
-              //   ],
-              // ),
-              // const SizedBox(height: 12),
-              // Chat List View
-             Expanded(
-      child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-       child: SingleChildScrollView(
-        child: Column(
-          children: [
-          SingleChildScrollView(
-         child: Column(
-            children: [
-              Padding(padding: const EdgeInsets.only(left: 90)),
-       Center(
-          child:  Container(
-         width: 0.90 * width,
-        //  height: 0.089 *height,
-
-  decoration: BoxDecoration(
-    color: Colors.white,
-    borderRadius: BorderRadius.circular(8),
-  ),
-  child: Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      ListTile(
-        onTap: () async{
-                  booking2 = await _touristExploreController.getTouristBookingById(
-                   context: context,
-                  bookingId: chat!.bookingId!,
-                            );
-                    if(booking2!=null|| widget.booking!=null){
-                    print("this is widget book");
-                    print(chat!.bookingId!);
-
-                    setState(() {
-                      isDetailsTapped1 = !isDetailsTapped1;
-          });
-        }
-        },
-        title: CustomText(
-          text: 'tripDetails'.tr,
-          color: Color(0xFF070708),
-          fontSize: 17,
-          fontFamily: 'HT Rakik',
-          fontWeight: FontWeight.w500,
-          height: 0.10,
-          textAlign: AppUtil.rtlDirection2(context) ? TextAlign.right : TextAlign.left,
-
-          
-        ),
-        trailing: Icon(
-          isDetailsTapped
-              ? Icons.keyboard_arrow_up
-              : Icons.keyboard_arrow_down,
-          color: darkGrey,
-          size: 24,
-        ),
-      ),
-      if (isDetailsTapped1)
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 10),
+      () => chatController.isGetChatByIdLoading.value
+          ? Scaffold(
+              body: Center(
+                  child: CircularProgressIndicator.adaptive()))
+          : Scaffold(
+              backgroundColor: lightGreyBackground,
+              appBar: CustomAppBar(
+                "chat".tr,
+              ),
+              body: SafeArea(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // App Bar
+                    // Row(
+                    //   children: [
+                    //     if (AppUtil.rtlDirection(context))
+                    //       IconButton(
+                    //         onPressed: () {
+                    //           Get.back();
+                    //         },
+                    //         icon: const Icon(
+                    //           Icons.arrow_back,
+                    //           color: black,
+                    //           size: 26,
+                    //         ),
+                    //       ),
+                    //     if (AppUtil.rtlDirection(context))
+                    //       const SizedBox(
+                    //         width: 4,
+                    //       ),
+                    //     CustomText(
+                    //       text: 'chat'.tr,
+                    //       fontSize: 24,
+                    //       fontWeight: FontWeight.w500,
+                    //     ),
+                    //     if (!AppUtil.rtlDirection(context))
+                    //       const SizedBox(
+                    //         width: 4,
+                    //       ),
+                    //     if (!AppUtil.rtlDirection(context))
+                    //       IconButton(
+                    //         onPressed: () {
+                    //           Get.back();
+                    //         },
+                    //         icon: const Icon(
+                    //           Icons.arrow_forward,
+                    //           color: black,
+                    //           size: 26,
+                    //         ),
+                    //       ),
+                    //   ],
+                    // ),
+                    // const SizedBox(height: 12),
+                    // Chat List View
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: SingleChildScrollView(
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
-                                children: [
-                                  SvgPicture.asset('assets/icons/date.svg'),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  CustomText(
-                                    text:widget.booking!=null?AppUtil.formatBookingDate(context, widget.booking!.date!):AppUtil.formatBookingDate(context, booking2!.date!),
-                                    color: almostGrey,
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w400,
-                                    fontFamily: 'SF Pro',
+                              SingleChildScrollView(
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 90)),
+                                    Center(
+                                      child: Container(
+                                        width: 0.90 * width,
+                                        //  height: 0.089 *height,
 
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                                 Row(
-                                children: [
-                                  SvgPicture.asset('assets/icons/time3.svg'),
-                                  const SizedBox(
-                                    width: 9,
-                                  ),
-                                  CustomText(
-                                    text:
-                                    widget.booking != null 
-                               ? 'Pick up: ${intel.DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking?.timeToGo}'))}, Drop off: ${intel.DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking?.timeToReturn}'))}'
-                               : 'Pick up: ${intel.DateFormat.jm().format(DateTime.parse('1970-01-01T${booking2?.timeToGo}'))}, Drop off: ${intel.DateFormat.jm().format(DateTime.parse('1970-01-01T${booking2?.timeToReturn}'))}',
-                                  
-                                    color: almostGrey,
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w400,
-                                    fontFamily: 'SF Pro',
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            ListTile(
+                                              onTap: () async {
+                                                if (widget.booking2 == null) {
+                                                  widget.booking2 =
+                                                      await _touristExploreController
+                                                          .getTouristBookingById(
+                                                    context: context,
+                                                    bookingId: chat!.bookingId!,
+                                                  );
 
-                                  ),
-                                ],
+                                                  if (widget.booking2 != null ||
+                                                      widget.booking != null) {
+                                                    print(
+                                                        "this is widget book");
+                                                    print(chat!.bookingId!);
+                                                  }
+                                                }
+                                                setState(() {
+                                                  isDetailsTapped1 =
+                                                      !isDetailsTapped1;
+                                                });
+                                              },
+                                              title: CustomText(
+                                                text: 'tripDetails'.tr,
+                                                color: Color(0xFF070708),
+                                                fontSize: 17,
+                                                fontFamily: 'HT Rakik',
+                                                fontWeight: FontWeight.w500,
+                                                height: 0.10,
+                                                textAlign:
+                                                    AppUtil.rtlDirection2(
+                                                            context)
+                                                        ? TextAlign.right
+                                                        : TextAlign.left,
+                                              ),
+                                              trailing: Icon(
+                                                isDetailsTapped
+                                                    ? Icons.keyboard_arrow_up
+                                                    : Icons.keyboard_arrow_down,
+                                                color: darkGrey,
+                                                size: 24,
+                                              ),
+                                            ),
+                                            if (isDetailsTapped1)
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 20,
+                                                        vertical: 10),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        SvgPicture.asset(
+                                                            'assets/icons/date.svg'),
+                                                        const SizedBox(
+                                                          width: 10,
+                                                        ),
+                                                        CustomText(
+                                                          text: widget.booking !=
+                                                                  null
+                                                              ? AppUtil.formatBookingDate(
+                                                                  context,
+                                                                  widget
+                                                                      .booking!
+                                                                      .date!)
+                                                              : AppUtil.formatBookingDate(
+                                                                  context,
+                                                                  widget
+                                                                      .booking2!
+                                                                      .date!),
+                                                          color: almostGrey,
+                                                          fontSize: 13,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontFamily: 'SF Pro',
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 10,
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        SvgPicture.asset(
+                                                            'assets/icons/time3.svg'),
+                                                        const SizedBox(
+                                                          width: 9,
+                                                        ),
+                                                        CustomText(
+                                                          text: widget.booking !=
+                                                                  null
+                                                              ? 'Pick up: ${intel.DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking?.timeToGo}'))}, Drop off: ${intel.DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking?.timeToReturn}'))}'
+                                                              : 'Pick up: ${intel.DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking2?.timeToGo}'))}, Drop off: ${intel.DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking2?.timeToReturn}'))}',
+                                                          color: almostGrey,
+                                                          fontSize: 13,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontFamily: 'SF Pro',
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 10,
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        SvgPicture.asset(
+                                                            'assets/icons/guests.svg'),
+                                                        const SizedBox(
+                                                          width: 10,
+                                                        ),
+                                                        CustomText(
+                                                          text: widget.booking !=
+                                                                  null
+                                                              ? '${widget.booking?.guestNumber ?? 0} ${'guests'.tr}'
+                                                              : '${widget.booking2?.guestNumber ?? 0} ${'guests'.tr}',
+                                                          color: almostGrey,
+                                                          fontSize: 13,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontFamily: 'SF Pro',
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 10,
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        widget.booking != null
+                                                            ? SvgPicture.asset(
+                                                                'assets/icons/unselected_${widget.booking?.vehicleType!}_icon.svg',
+                                                                width: 20,
+                                                              )
+                                                            : SvgPicture.asset(
+                                                                'assets/icons/unselected_${widget.booking2?.vehicleType!}_icon.svg',
+                                                                width: 20,
+                                                              ),
+                                                        const SizedBox(
+                                                          width: 10,
+                                                        ),
+                                                        CustomText(
+                                                          text: widget.booking !=
+                                                                  null
+                                                              ? widget.booking
+                                                                      ?.vehicleType ??
+                                                                  ''
+                                                              : widget.booking2
+                                                                      ?.vehicleType ??
+                                                                  '',
+                                                          color: almostGrey,
+                                                          fontSize: 13,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontFamily: 'SF Pro',
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    // Container(
+                                    //   decoration: const BoxDecoration(
+                                    //     color: Colors.white,
+                                    //     borderRadius: BorderRadius.all(Radius.circular(12)),
+                                    //   ),
+                                    //   child: ListTile(
+                                    //     onTap: () async{
+                                    //     booking2 = await _touristExploreController.getTouristBookingById(
+                                    //      context: context,
+                                    //     bookingId: chat!.bookingId!,
+                                    //               );
+                                    //       if(booking2!=null|| widget.booking!=null){
+                                    //       print("this is widget book");
+                                    //       print(chat!.bookingId!);
+                                    //       setState(() {
+                                    //         isDetailsTapped1 = !isDetailsTapped1;
+                                    //       });
+                                    //       }
+                                    //     },
+                                    //     title: CustomText(
+                                    //       text: 'tripDetails'.tr,
+                                    //       fontSize: 14,
+                                    //       fontWeight: FontWeight.w500,
+                                    //       color: Colors.black,
+                                    //       textAlign: AppUtil.rtlDirection2(context)
+                                    //           ? TextAlign.right
+                                    //           : TextAlign.left,
+                                    //     ),
+                                    //     trailing: Icon(
+                                    //       isDetailsTapped1
+                                    //           ? Icons.keyboard_arrow_up
+                                    //           : Icons.keyboard_arrow_down,
+                                    //       color: darkGrey,
+                                    //       size: 24,
+                                    //     ),
+                                    //   ),
+                                    // ),
+                                    // if (isDetailsTapped1)
+                                    //   Container(
+                                    //     decoration: const BoxDecoration(
+                                    //       color: Colors.white,
+                                    //       borderRadius: BorderRadius.all(Radius.circular(12)),
+                                    //     ),
+                                    //     padding: EdgeInsets.only(top: 20),
+                                    //     child: Padding(
+                                    //       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                    //       child: Column(
+                                    //         crossAxisAlignment: CrossAxisAlignment.start,
+                                    //         children: [
+                                    //           Row(
+                                    //             children: [
+                                    //               SvgPicture.asset('assets/icons/guests.svg'),
+                                    //               const SizedBox(width: 10),
+                                    //               CustomText(
+                                    //                 text: widget.booking!=null?'${widget.booking?.guestNumber ?? 0} ${'guests'.tr}':'${booking2?.guestNumber ?? 0} ${'guests'.tr}',
+                                    //                 color: almostGrey,
+                                    //                 fontSize: 10,
+                                    //                 fontWeight: FontWeight.w300,
+                                    //               ),
+                                    //             ],
+                                    //           ),
+                                    //           const SizedBox(height: 10),
+                                    //           Row(
+                                    //             children: [
+                                    //               SvgPicture.asset('assets/icons/date.svg'),
+                                    //               const SizedBox(width: 10),
+                                    //               CustomText(
+                                    //                 text:widget.booking!=null?'${intel.DateFormat('dd/MM/yyyy').format(DateTime.parse(widget.booking?.date ?? '2022-01-01'))} - ${widget.booking?.timeToGo}':'${intel.DateFormat('dd/MM/yyyy').format(DateTime.parse(booking2?.date ?? '2022-01-01'))} - ${booking2?.timeToGo}',
+                                    //                 color: almostGrey,
+                                    //                 fontSize: 10,
+                                    //                 fontWeight: FontWeight.w300,
+                                    //               ),
+                                    //             ],
+                                    //           ),
+                                    //           const SizedBox(height: 10),
+                                    //           Row(
+                                    //             children: [
+                                    //               widget.booking!=null?
+                                    //               SvgPicture.asset(
+                                    //                 'assets/icons/unselected_${widget.booking?.vehicleType!}_icon.svg',
+                                    //                 width: 20,
+                                    //               ): SvgPicture.asset(
+                                    //                 'assets/icons/unselected_${booking2?.vehicleType!}_icon.svg',
+                                    //                 width: 20,
+                                    //               ),
+                                    //               const SizedBox(width: 10),
+                                    //               CustomText(
+                                    //                 text: widget.booking!=null?widget.booking?.vehicleType ?? '':booking2?.vehicleType ?? '',
+                                    //                 color: almostGrey,
+                                    //                 fontSize: 10,
+                                    //                 fontWeight: FontWeight.w300,
+                                    //               ),
+                                    //             ],
+                                    //           ),
+                                    //         ],
+                                    //       ),
+                                    //     ),
+                                    //   ),
+                                    const SizedBox(
+                                      height: 15,
+                                    ),
+                                    Center(
+                                      child: Container(
+                                        width: 0.90 * width,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            ListTile(
+                                              onTap: () async {
+                                                widget.booking2 =
+                                                    await _touristExploreController
+                                                        .getTouristBookingById(
+                                                  context: context,
+                                                  bookingId: chat!.bookingId!,
+                                                );
+                                                if (widget.booking2 != null ||
+                                                    widget.booking != null) {
+                                                  if (widget.booking2?.offers !=
+                                                      []) {
+                                                    offers = widget
+                                                        .booking2?.offers!;
+                                                    //  await _offerController.getOfferById(context: context, offerId:booking2?.offers!.last.id??'');
+                                                  }
+                                                  setState(() {
+                                                    isDetailsTapped3 =
+                                                        !isDetailsTapped3;
+                                                    print('state of secdle');
+                                                    print(offers?.last.schedule
+                                                        ?.length);
+                                                  });
+                                                }
+                                              },
+                                              title: Row(
+                                                children: [
+                                                  // const CircleAvatar(
+                                                  //   backgroundImage: AssetImage('assets/images/ajwadi_image.png'),
+                                                  // ),
+                                                  // const SizedBox(width: 12),
+                                                  CustomText(
+                                                    text: 'ItineraryDetails'.tr,
+                                                    color: Color(0xFF070708),
+                                                    fontSize: 17,
+                                                    fontFamily: 'HT Rakik',
+                                                    fontWeight: FontWeight.w500,
+                                                    height: 0.10,
+                                                    textAlign:
+                                                        AppUtil.rtlDirection2(
+                                                                context)
+                                                            ? TextAlign.right
+                                                            : TextAlign.left,
+                                                  ),
+                                                ],
+                                              ),
+                                              trailing: Icon(
+                                                isDetailsTapped3
+                                                    ? Icons.keyboard_arrow_up
+                                                    : Icons.keyboard_arrow_down,
+                                                color: const Color(0xFF454545),
+                                                size: 24,
+                                              ),
+                                            ),
+                                            if (isDetailsTapped3)
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 7,
+                                                        vertical: 0),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    ScheduleContainerWidget(
+                                                        scheduleList: offers
+                                                            ?.last.schedule),
+                                                    // CustomText(
+                                                    //   text: !AppUtil.rtlDirection2(context)
+                                                    //       ?  ScheduleContainerWidget(
+                                                    //       offerController: _offerController),
+                                                    //       : 'I\'m happy to help you, this is the flight schedule check out the things you want to do',
+
+                                                    //      // _offerController.offerDetails.value.schedule?.last.scheduleName??'bn'
+                                                    //       //'يسعدني مساعدتك,  هذا هو جدول الرحلة ، تحقق من الأشياء التي تريد القيام بها'
+                                                    //       // : 'I\'m happy to help you, this is the flight schedule check out the things you want to do',
+                                                    //   fontSize: 12,
+                                                    //   fontWeight: FontWeight.w400,
+                                                    //   color: colorDarkGrey,
+                                                    //   textAlign: AppUtil.rtlDirection2(context) ? TextAlign.right : TextAlign.left,
+                                                    // ),
+                                                  ],
+                                                ),
+                                              ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height:
+                                          chatController.chat.messages!.isEmpty
+                                              ? 40
+                                              : 13,
+                                    ),
+                                  ],
+                                ),
                               ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              
-                              Row(
-                                children: [
-                                  SvgPicture.asset('assets/icons/guests.svg'),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  CustomText(
-                                    text:
-                                    widget.booking!=null?'${widget.booking?.guestNumber ?? 0} ${'guests'.tr}':'${booking2?.guestNumber ?? 0} ${'guests'.tr}',
-                                    color: almostGrey,
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w400,
-                                    fontFamily: 'SF Pro',
-                                  ),
-                                ],
-                              ),
-                              
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              
-                              Row(
-                                children: [
-                              widget.booking!=null?
-                            SvgPicture.asset(
-                              'assets/icons/unselected_${widget.booking?.vehicleType!}_icon.svg',
-                              width: 20,
-                            ): SvgPicture.asset(
-                              'assets/icons/unselected_${booking2?.vehicleType!}_icon.svg',
-                              width: 20,
-                            ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  CustomText(
-                                    text:
-                                    widget.booking!=null?widget.booking?.vehicleType ?? '':booking2?.vehicleType ?? '',
-                                    color: almostGrey,
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w400,
-                                    fontFamily: 'SF Pro',
-                                  ),
-                                ],
+                              StreamBuilder<ChatModel?>(
+                                stream: chatController.getChatByIdStream(
+                                    id: widget.chatId!, context: context),
+                                builder: (context, snapshot) {
+                                  log("snapshot ${snapshot.data}");
+                                  return Obx(() => chatController
+                                          .isGetChatByIdLoading.value
+                                      ? Center(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 14),
+                                            child: CircularProgressIndicator.adaptive(),
+                                               
+                                          ),
+                                        )
+                                      : (chatController.chat.messages == null ||
+                                              chatController.chat.messages ==
+                                                  [] ||
+                                              chatController
+                                                  .chat.messages!.isEmpty)
+                                          ? Center(
+                                              child: CustomText(
+                                                text: 'StartChat'.tr,
+                                                fontSize: 24,
+                                                color: Colors.black87,
+                                              ),
+                                            )
+                                          : RefreshIndicator(
+                                              color: Colors.green,
+                                              onRefresh: () async {
+                                                await chatController
+                                                    .getChatById(
+                                                        id: widget.chatId!,
+                                                        context: context);
+                                              },
+                                              child: ListView.separated(
+                                                shrinkWrap: true,
+                                                reverse: true,
+                                                controller: chatController
+                                                    .scrollController,
+                                                // physics: const ScrollPhysics(),
+                                                separatorBuilder:
+                                                    (context, index) {
+                                                  return const SizedBox(
+                                                      height: 4);
+                                                },
+                                                itemCount: chatController
+                                                    .chat.messages!.length,
+                                                itemBuilder: (context, index) {
+                                                  ChatMessage message =
+                                                      chatController.chat
+                                                          .messages![index];
+                                                  log(" message.senderId ${message.senderId}");
+                                                  log(" userId $userId");
+                                                  String msgSenderId =
+                                                      message.senderId ?? "";
+                                                  String senderId = userId!;
+                                                  bool isSender =
+                                                      (msgSenderId == senderId);
+                                                  log("isSender $isSender");
+                                                  message.senderName;
+                                                  message.senderImage;
+                                                  print('this current time2');
+                                                  print(
+                                                    intel.DateFormat(
+                                                            'dd/MM/yyyy hh:mm a')
+                                                        .format(
+                                                      DateTime.parse(
+                                                        chatController
+                                                            .chat
+                                                            .messages!
+                                                            .last
+                                                            .created!,
+                                                      ),
+                                                    ),
+                                                  );
+                                                  return ChatBubble(
+                                                    name: message.senderName ??
+                                                        "",
+                                                    image: message.senderImage,
+                                                    isSender: isSender,
+                                                    message: ChatMessage(
+                                                      message: chatController
+                                                          .chat
+                                                          .messages![index]
+                                                          .message,
+                                                      created: intel.DateFormat(
+                                                              'dd/MM/yyyy hh:mm a')
+                                                          .format(
+                                                        DateTime.parse(
+                                                          chatController
+                                                              .chat
+                                                              .messages![index]
+                                                              .created!,
+                                                        ).add(
+                                                            Duration(hours: 3)),
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                            ));
+                                },
                               ),
                             ],
                           ),
                         ),
-    ],
-  ),
-),
-       ),         
-              // Container(
-              //   decoration: const BoxDecoration(
-              //     color: Colors.white,
-              //     borderRadius: BorderRadius.all(Radius.circular(12)),
-              //   ),
-              //   child: ListTile(
-              //     onTap: () async{
-              //     booking2 = await _touristExploreController.getTouristBookingById(
-              //      context: context,
-              //     bookingId: chat!.bookingId!,
-              //               );
-              //       if(booking2!=null|| widget.booking!=null){
-              //       print("this is widget book");
-              //       print(chat!.bookingId!);
-              //       setState(() {
-              //         isDetailsTapped1 = !isDetailsTapped1;
-              //       });
-              //       }
-              //     },
-              //     title: CustomText(
-              //       text: 'tripDetails'.tr,
-              //       fontSize: 14,
-              //       fontWeight: FontWeight.w500,
-              //       color: Colors.black,
-              //       textAlign: AppUtil.rtlDirection2(context)
-              //           ? TextAlign.right
-              //           : TextAlign.left,
-              //     ),
-              //     trailing: Icon(
-              //       isDetailsTapped1
-              //           ? Icons.keyboard_arrow_up
-              //           : Icons.keyboard_arrow_down,
-              //       color: darkGrey,
-              //       size: 24,
-              //     ),
-              //   ),
-              // ),
-              // if (isDetailsTapped1)
-              //   Container(
-              //     decoration: const BoxDecoration(
-              //       color: Colors.white,
-              //       borderRadius: BorderRadius.all(Radius.circular(12)),
-              //     ),
-              //     padding: EdgeInsets.only(top: 20),
-              //     child: Padding(
-              //       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              //       child: Column(
-              //         crossAxisAlignment: CrossAxisAlignment.start,
-              //         children: [
-              //           Row(
-              //             children: [
-              //               SvgPicture.asset('assets/icons/guests.svg'),
-              //               const SizedBox(width: 10),
-              //               CustomText(
-              //                 text: widget.booking!=null?'${widget.booking?.guestNumber ?? 0} ${'guests'.tr}':'${booking2?.guestNumber ?? 0} ${'guests'.tr}',
-              //                 color: almostGrey,
-              //                 fontSize: 10,
-              //                 fontWeight: FontWeight.w300,
-              //               ),
-              //             ],
-              //           ),
-              //           const SizedBox(height: 10),
-              //           Row(
-              //             children: [
-              //               SvgPicture.asset('assets/icons/date.svg'),
-              //               const SizedBox(width: 10),
-              //               CustomText(
-              //                 text:widget.booking!=null?'${intel.DateFormat('dd/MM/yyyy').format(DateTime.parse(widget.booking?.date ?? '2022-01-01'))} - ${widget.booking?.timeToGo}':'${intel.DateFormat('dd/MM/yyyy').format(DateTime.parse(booking2?.date ?? '2022-01-01'))} - ${booking2?.timeToGo}',
-              //                 color: almostGrey,
-              //                 fontSize: 10,
-              //                 fontWeight: FontWeight.w300,
-              //               ),
-              //             ],
-              //           ),
-              //           const SizedBox(height: 10),
-              //           Row(
-              //             children: [
-              //               widget.booking!=null?
-              //               SvgPicture.asset(
-              //                 'assets/icons/unselected_${widget.booking?.vehicleType!}_icon.svg',
-              //                 width: 20,
-              //               ): SvgPicture.asset(
-              //                 'assets/icons/unselected_${booking2?.vehicleType!}_icon.svg',
-              //                 width: 20,
-              //               ),
-              //               const SizedBox(width: 10),
-              //               CustomText(
-              //                 text: widget.booking!=null?widget.booking?.vehicleType ?? '':booking2?.vehicleType ?? '',
-              //                 color: almostGrey,
-              //                 fontSize: 10,
-              //                 fontWeight: FontWeight.w300,
-              //               ),
-              //             ],
-              //           ),
-              //         ],
-              //       ),
-              //     ),
-              //   ),
-              const SizedBox(
-                height: 15,
-              ),
-               Center(
-          child:  Container(
-         width: 0.90 * width,
-
-  decoration: BoxDecoration(
-    color: Colors.white,
-    borderRadius: BorderRadius.circular(8),
-  ),
-  
-  child: Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      ListTile(
-                  onTap: () async{
-                     booking2 = await _touristExploreController.getTouristBookingById(
-                   context: context,
-                  bookingId: chat!.bookingId!,
-                            );
-                    if(booking2!=null|| widget.booking!=null){
-                    if(booking2?.offers!=[]){
-                    offers=booking2?.offers!;
-                  //  await _offerController.getOfferById(context: context, offerId:booking2?.offers!.last.id??'');
-                    }
-                    setState(() {
-                      isDetailsTapped3 = !isDetailsTapped3;
-                      print('state of secdle');
-                    print(offers?.last.schedule?.length);
-
-                    });
-                    }
-                    
-                  },
-                  
-    
-                 title: Row(
-                    children: [
-                      // const CircleAvatar(
-                      //   backgroundImage: AssetImage('assets/images/ajwadi_image.png'),
-                      // ),
-                      // const SizedBox(width: 12),
-                      CustomText(
-                        text:'ItineraryDetails'.tr,
-                        color: Color(0xFF070708),
-                       fontSize: 17,
-                       fontFamily: 'HT Rakik',
-                       fontWeight: FontWeight.w500,
-                       height: 0.10,
-                        textAlign: AppUtil.rtlDirection2(context)
-                            ? TextAlign.right
-                            : TextAlign.left,
                       ),
-                    ],
-                  ),
-                  trailing: Icon(
-                    isDetailsTapped3
-                        ? Icons.keyboard_arrow_up
-                        : Icons.keyboard_arrow_down,
-                    color: const Color(0xFF454545),
-                    size: 24,
-                  ),
-      ),
-      if (isDetailsTapped3)
-      
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 7,vertical: 0),
-                           child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        
-                        ScheduleContainerWidget(
-                              scheduleList: offers?.last.schedule),
-                        // CustomText(
-                        //   text: !AppUtil.rtlDirection2(context)
-                        //       ?  ScheduleContainerWidget(
-                        //       offerController: _offerController),
-                        //       : 'I\'m happy to help you, this is the flight schedule check out the things you want to do',
+                    ),
 
-                              
-                        //      // _offerController.offerDetails.value.schedule?.last.scheduleName??'bn'
-                        //       //'يسعدني مساعدتك,  هذا هو جدول الرحلة ، تحقق من الأشياء التي تريد القيام بها'
-                        //       // : 'I\'m happy to help you, this is the flight schedule check out the things you want to do',
-                        //   fontSize: 12,
-                        //   fontWeight: FontWeight.w400,
-                        //   color: colorDarkGrey,
-                        //   textAlign: AppUtil.rtlDirection2(context) ? TextAlign.right : TextAlign.left,
-                        // ),
-                      ],
-                    ),
-                        ),
-    ],
-  ),
-),
-       ),         
-        SizedBox(
-           height:chatController.chat.messages!.isEmpty?40:13,
-           ),
-           ],
-          ),
-         ),
-                
-                
-                
-                
-                
-                 StreamBuilder<ChatModel?>(
-                  stream: chatController.getChatByIdStream(id: widget.chatId!, context: context),
-                  builder: (context, snapshot) {
-                    log("snapshot ${snapshot.data}");
-                    return Obx(() => chatController.isGetChatByIdLoading.value
-                        ? Center(
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 14),
-                              child: CircularProgressIndicator(color: Colors.green[800]),
-                            ),
-                          )
-                        : (chatController.chat.messages == null ||
-                                chatController.chat.messages == [] ||
-                                chatController.chat.messages!.isEmpty)
-                            ? Center(
-                                child: CustomText(
-                                  text: 'StartChat'.tr,
-                                  fontSize: 24,
-                                  color: Colors.black87,
-                                ),
-                              )
-                            : RefreshIndicator(
-                                color: Colors.green,
-                                onRefresh: () async {
-                                  await chatController.getChatById(id: widget.chatId!, context: context);
-                                },
-                                child: ListView.separated(
-                                            shrinkWrap: true,
-                                            reverse: true,
-                                            controller:
-                                                chatController.scrollController,
-                                            // physics: const ScrollPhysics(),
-                                            separatorBuilder: (context, index) {
-                                              return const SizedBox(height: 4);
-                                            },
-                                            itemCount: chatController
-                                                .chat.messages!.length,
-                                            itemBuilder: (context, index) {
-                                              ChatMessage message = chatController
-                                                  .chat.messages![index];
-                                              log(" message.senderId ${message.senderId}");
-                                              log(" userId $userId");
-                                              String msgSenderId =
-                                                  message.senderId ?? "";
-                                              String senderId = userId!;
-                                              bool isSender =
-                                                  (msgSenderId == senderId);
-                                              log("isSender $isSender");
-                                              message.senderName;
-                                              message.senderImage;
-                                               print('this current time2');
-                                      print(intel.DateFormat(
-                                                          'dd/MM/yyyy hh:mm a')
-                                                      .format(
-                                                    DateTime.parse(
-                                                      chatController
-                                                          .chat
-                                                          
-                                                          .messages!.last
-                                                          .created!,
-                                                    ),
-                                                  ),);
-                                              return ChatBubble(
-                                                name: message.senderName ?? "",
-                                                image: message.senderImage,
-                                                isSender: isSender,
-                                                message: ChatMessage(
-                                                  message: chatController
-                                                      .chat
-                                                      
-                                                      .messages![index]
-                                                      .message,
-                                                  created: intel.DateFormat(
-                                                          'dd/MM/yyyy hh:mm a')
-                                                      .format(
-                                                    DateTime.parse(
-                                                      chatController
-                                                          .chat
-                                                          
-                                                          .messages![index]
-                                                          .created!,
-                                                    ).add(Duration(hours: 3)),
-                                                  ),
-                                                ),
-                                                
-                                              );
-                                            },
-                                          ),
-                              ));
-                  },
-                ),
-                     ],
-              ),
-      ),
-      ),
-             ),
-    
-              // Send Button
-              Container(
-                   width: 390,
-                 height: 95,
-                padding: const EdgeInsets.only(
-                  
-                top: 14,
-                left: 1,
-                right: 1,
-                bottom: 16,
-                 ),
-                decoration: BoxDecoration(color: Colors.white),
-    
-                  child: Row(
-                    textDirection:AppUtil.rtlDirection2(context)?TextDirection.ltr :TextDirection.rtl,
-                  children: [
-                    Obx(
-                      () =>chatController.isPostMessageLoading.value
-                            ? Center(
-                                child: CircularProgressIndicator(
-                                    color: Colors.green[800]))
-                            :Expanded(
-                          child: CustomTextField(
-                            controller: messageController,
-                            hintText: 'HintMessage'.tr,
-                          
-    
-                            suffixIcon:
-                             IconButton(
-                              icon: SvgPicture.asset(
-                          'assets/icons/ChatSend.svg',
-                        ),
-                              // Icon(
-                              //   Icons.send ,
-                              //   size: 24,
-                              //   color: Colors.green[800],
-                              // ),
-                              onPressed: () async {
-                                if (messageController.text.trim() != '') {
-                                  bool? send =
-                                      await chatController.postMessage(
-                                          chatId: widget.chatId!,
-                                          message: messageController.text,
-                                          context: context);
-                                          
-                                  if (send == true) {
-                                    setState(() {
-                                     
-                                      chatController.chat.messages!.add(
-                                          ChatMessage(
-                                              // senderName: "",
-                                              // senderImage: "",
-                                              senderId: userId,
-                                              message: messageController.text,
-                                              created:
-                                                  DateTime.now().subtract(Duration(hours: 3)).toString()));
-                                    });
-                                   messageController.clear();
-                                    if (chatController.chat.messages !=
-                                            null &&
-                                        chatController
-                                                .chat.messages!.length >
-                                            2) {
-                                      chatController.scrollController.jumpTo(
-                                          chatController.scrollController
-                                                  .position.maxScrollExtent *
-                                              1.4);
-                                    }
-                                  }
-                                }
-                              },
-                            ), 
-                            // prefixIcon: AppUtil.rtlDirection2(context)?
-                            //   IconButton(
-                            //   icon: Icon(
-                            //     Icons.send ,
-                            //     size: 24,
-                            //     color: Colors.green[800],
-                            //   ),
-                            //   onPressed: () async {
-                            //     if (messageController.text.trim() != '') {
-                            //       bool? send =
-                            //           await chatController.postMessage(
-                            //               chatId: widget.chatId!,
-                            //               message: messageController.text,
-                            //               context: context);
-                            //       if (send == true) {
-                            //         setState(() {
-                            //           chatController.chat.messages!.add(
-                            //               ChatMessage(
-                            //                   // senderName: "",
-                            //                   // senderImage: "",
-                            //                   senderId: userId,
-                            //                   message: messageController.text,
-                            //                   created:
-                            //                       DateTime.now().toString()));
-                            //         });
-                            //         messageController.clear();
-                            //         if (chatController.chat.messages !=
-                            //                 null &&
-                            //             chatController
-                            //                     .chat.messages!.length >
-                            //                 2) {
-                            //           chatController.scrollController.jumpTo(
-                            //               chatController.scrollController
-                            //                       .position.maxScrollExtent *
-                            //                   1.4);
-                            //         }
-                            //       }
-                            //     }
-                            //     }
-                            //   ): null,
-                            height:  MediaQuery.of(context).size.height * 0.07,
-                             maxLines: 3,
-                             minLines: 2,
-                            onChanged: (String value) {},
+                    // Send Button
+                    Container(
+                      width: 390,
+                      height: 95,
+                      padding: const EdgeInsets.only(
+                        top: 14,
+                        left: 1,
+                        right: 1,
+                        bottom: 16,
+                      ),
+                      decoration: BoxDecoration(color: Colors.white),
+                      child: Row(
+                        textDirection: AppUtil.rtlDirection2(context)
+                            ? TextDirection.ltr
+                            : TextDirection.rtl,
+                        children: [
+                          Obx(
+                            () => chatController.isPostMessageLoading.value
+                                ? Center(
+                                    child: CircularProgressIndicator.adaptive())
+                                        
+                                : Expanded(
+                                    child: CustomTextField(
+                                      controller: messageController,
+                                      hintText: 'HintMessage'.tr,
+
+                                      suffixIcon: IconButton(
+                                        icon: SvgPicture.asset(
+                                          'assets/icons/ChatSend.svg',
+                                        ),
+                                        // Icon(
+                                        //   Icons.send ,
+                                        //   size: 24,
+                                        //   color: Colors.green[800],
+                                        // ),
+                                        onPressed: () async {
+                                          if (messageController.text.trim() !=
+                                              '') {
+                                            bool? send = await chatController
+                                                .postMessage(
+                                                    chatId: widget.chatId!,
+                                                    message:
+                                                        messageController.text,
+                                                    context: context);
+
+                                            if (send == true) {
+                                              setState(() {
+                                                chatController.chat.messages!
+                                                    .add(ChatMessage(
+                                                        // senderName: "",
+                                                        // senderImage: "",
+                                                        senderId: userId,
+                                                        message:
+                                                            messageController
+                                                                .text,
+                                                        created: DateTime.now()
+                                                            .subtract(Duration(
+                                                                hours: 3))
+                                                            .toString()));
+                                              });
+                                              messageController.clear();
+                                              if (chatController
+                                                          .chat.messages !=
+                                                      null &&
+                                                  chatController.chat.messages!
+                                                          .length >
+                                                      2) {
+                                                chatController.scrollController
+                                                    .jumpTo(chatController
+                                                            .scrollController
+                                                            .position
+                                                            .maxScrollExtent *
+                                                        1.4);
+                                              }
+                                            }
+                                          }
+                                        },
+                                      ),
+                                      // prefixIcon: AppUtil.rtlDirection2(context)?
+                                      //   IconButton(
+                                      //   icon: Icon(
+                                      //     Icons.send ,
+                                      //     size: 24,
+                                      //     color: Colors.green[800],
+                                      //   ),
+                                      //   onPressed: () async {
+                                      //     if (messageController.text.trim() != '') {
+                                      //       bool? send =
+                                      //           await chatController.postMessage(
+                                      //               chatId: widget.chatId!,
+                                      //               message: messageController.text,
+                                      //               context: context);
+                                      //       if (send == true) {
+                                      //         setState(() {
+                                      //           chatController.chat.messages!.add(
+                                      //               ChatMessage(
+                                      //                   // senderName: "",
+                                      //                   // senderImage: "",
+                                      //                   senderId: userId,
+                                      //                   message: messageController.text,
+                                      //                   created:
+                                      //                       DateTime.now().toString()));
+                                      //         });
+                                      //         messageController.clear();
+                                      //         if (chatController.chat.messages !=
+                                      //                 null &&
+                                      //             chatController
+                                      //                     .chat.messages!.length >
+                                      //                 2) {
+                                      //           chatController.scrollController.jumpTo(
+                                      //               chatController.scrollController
+                                      //                       .position.maxScrollExtent *
+                                      //                   1.4);
+                                      //         }
+                                      //       }
+                                      //     }
+                                      //     }
+                                      //   ): null,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.07,
+                                      maxLines: 3,
+                                      minLines: 2,
+                                      onChanged: (String value) {},
+                                    ),
+                                  ),
                           ),
-                        ),
+                        ],
+                      ),
                     ),
+                    //const SizedBox(height: 4)
                   ],
                 ),
               ),
-              //const SizedBox(height: 4)
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 }

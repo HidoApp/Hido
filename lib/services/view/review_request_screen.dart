@@ -137,16 +137,17 @@ class _ReviewRequestState extends State<ReviewRequest> {
                         ),
                         ReviewDetailsTile(
                             title:
-                                '${DateFormat('EEE, dd MMMM yyyy').format(DateTime.parse(widget.booking!.date!))}',
+                                '${AppUtil.formatBookingDate(
+                                        context,widget.booking!.date!)}',
                             image: 'assets/icons/date.svg'),
                         SizedBox(
                           height: 7,
                         ),
                         // Details
                         ReviewDetailsTile(
-                            title: AppUtil.rtlDirection2(context)
-                                ? ' ${DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking?.timeToGo}'))} إلى ${DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking?.timeToReturn}'))} '
-                                : 'Pick up:  ${DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking?.timeToGo}'))},  Drop off:  ${DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking?.timeToReturn}'))}',
+                            title:  AppUtil.rtlDirection2(context)
+                                              ? 'من ${ AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)} إلى ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)} '
+                                              : 'Pick up: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)}, Drop off: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)}',
                             image: 'assets/icons/time3.svg'),
                         SizedBox(
                           height: 7,
@@ -233,111 +234,111 @@ class _ReviewRequestState extends State<ReviewRequest> {
                                     booking: widget.booking,
                                   ));
                                   return;
-                                  if (invoice != null) {
-                                    Get.to(() => PaymentWebView(
-                                        url: invoice!.url!,
-                                        title: AppUtil.rtlDirection2(context)
-                                            ? 'الدفع'
-                                            : 'Payment'))?.then((value) async {
-                                      final checkInvoice =
-                                          await paymentController
-                                              .paymentInvoiceById(
-                                                  context: context,
-                                                  id: invoice!.id);
+                                  // if (invoice != null) {
+                                  //   Get.to(() => PaymentWebView(
+                                  //       url: invoice!.url!,
+                                  //       title: AppUtil.rtlDirection2(context)
+                                  //           ? 'الدفع'
+                                  //           : 'Payment'))?.then((value) async {
+                                  //     final checkInvoice =
+                                  //         await paymentController
+                                  //             .paymentInvoiceById(
+                                  //                 context: context,
+                                  //                 id: invoice!.id);
 
-                                      print("checkInvoice!.invoiceStatus");
-                                      print(checkInvoice!.invoiceStatus);
+                                  //     print("checkInvoice!.invoiceStatus");
+                                  //     print(checkInvoice!.invoiceStatus);
 
-                                      if (checkInvoice.invoiceStatus ==
-                                          'Pending') {
-                                        print("no");
-                                        showDialog(
-                                            context: context,
-                                            builder: (ctx) {
-                                              return AlertDialog(
-                                                backgroundColor: Colors.white,
-                                                content: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  children: [
-                                                    Image.asset(
-                                                        'assets/images/paymentFaild.gif'),
-                                                    CustomText(
-                                                        text:
-                                                            "paymentFaild".tr),
-                                                  ],
-                                                ),
-                                              );
-                                            });
-                                        Get.to(() => PaymentWebView(
-                                              url: invoice!.url!,
-                                              title:
-                                                  AppUtil.rtlDirection2(context)
-                                                      ? 'الدفع'
-                                                      : 'Payment',
-                                            ));
-                                        //Get.until((route) => Get.currentRoute == '/PaymentWebView');
-                                      } else {
-                                        print('YES');
-                                        // Get.back();
-                                        // Get.back();
+                                  //     if (checkInvoice.invoiceStatus ==
+                                  //         'Pending') {
+                                  //       print("no");
+                                  //       showDialog(
+                                  //           context: context,
+                                  //           builder: (ctx) {
+                                  //             return AlertDialog(
+                                  //               backgroundColor: Colors.white,
+                                  //               content: Column(
+                                  //                 mainAxisSize:
+                                  //                     MainAxisSize.min,
+                                  //                 children: [
+                                  //                   Image.asset(
+                                  //                       'assets/images/paymentFaild.gif'),
+                                  //                   CustomText(
+                                  //                       text:
+                                  //                           "paymentFaild".tr),
+                                  //                 ],
+                                  //               ),
+                                  //             );
+                                  //           });
+                                  //       Get.to(() => PaymentWebView(
+                                  //             url: invoice!.url!,
+                                  //             title:
+                                  //                 AppUtil.rtlDirection2(context)
+                                  //                     ? 'الدفع'
+                                  //                     : 'Payment',
+                                  //           ));
+                                  //       //Get.until((route) => Get.currentRoute == '/PaymentWebView');
+                                  //     } else {
+                                  //       print('YES');
+                                  //       // Get.back();
+                                  //       // Get.back();
 
-                                        final acceptedOffer = await widget
-                                            .offerController!
-                                            .acceptOffer(
-                                          context: context,
-                                          offerId: widget.offerController!
-                                              .offerDetails.value.id!,
-                                          invoiceId: checkInvoice.id,
-                                          schedules: widget.offerController!
-                                              .offerDetails.value.schedule!,
-                                        );
-                                        print(acceptedOffer?.orderStatus);
-                                        //Get.back();
-                                        final book.Booking? fetchedBooking =
-                                            await _RequestController
-                                                .getBookingById(
-                                                    context: context,
-                                                    bookingId:
-                                                        widget.booking!.id!);
-                                        showDialog(
-                                            context: context,
-                                            builder: (ctx) {
-                                              return AlertDialog(
-                                                backgroundColor: Colors.white,
-                                                content: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  children: [
-                                                    Image.asset(
-                                                        'assets/images/paymentSuccess.gif'),
-                                                    CustomText(
-                                                        text: "paymentSuccess"
-                                                            .tr),
-                                                  ],
-                                                ),
-                                              );
-                                            }).then((_) {
-                                          print("inside");
-                                          LocalNotification().showNotification(
-                                              context,
-                                              widget.booking?.id,
-                                              widget.booking?.timeToGo,
-                                              widget.booking?.date,
-                                              _offerController.offers.last.name,
-                                              thePlace?.nameEn,
-                                              thePlace?.nameAr);
+                                  //       final acceptedOffer = await widget
+                                  //           .offerController!
+                                  //           .acceptOffer(
+                                  //         context: context,
+                                  //         offerId: widget.offerController!
+                                  //             .offerDetails.value.id!,
+                                  //         invoiceId: checkInvoice.id,
+                                  //         schedules: widget.offerController!
+                                  //             .offerDetails.value.schedule!,
+                                  //       );
+                                  //       print(acceptedOffer?.orderStatus);
+                                  //       //Get.back();
+                                  //       final book.Booking? fetchedBooking =
+                                  //           await _RequestController
+                                  //               .getBookingById(
+                                  //                   context: context,
+                                  //                   bookingId:
+                                  //                       widget.booking!.id!);
+                                  //       showDialog(
+                                  //           context: context,
+                                  //           builder: (ctx) {
+                                  //             return AlertDialog(
+                                  //               backgroundColor: Colors.white,
+                                  //               content: Column(
+                                  //                 mainAxisSize:
+                                  //                     MainAxisSize.min,
+                                  //                 children: [
+                                  //                   Image.asset(
+                                  //                       'assets/images/paymentSuccess.gif'),
+                                  //                   CustomText(
+                                  //                       text: "paymentSuccess"
+                                  //                           .tr),
+                                  //                 ],
+                                  //               ),
+                                  //             );
+                                  //           }).then((_) {
+                                  //         print("inside");
+                                  //         LocalNotification().showNotification(
+                                  //             context,
+                                  //             widget.booking?.id,
+                                  //             widget.booking?.timeToGo,
+                                  //             widget.booking?.date,
+                                  //             _offerController.offers.last.name,
+                                  //             thePlace?.nameEn,
+                                  //             thePlace?.nameAr);
 
-                                          Get.to(() => TicketDetailsScreen(
-                                              booking: fetchedBooking,
-                                              icon: SvgPicture.asset(
-                                                  'assets/icons/place.svg'),
-                                              bookTypeText: getBookingTypeText(
-                                                  context, 'place')));
-                                        });
-                                      }
-                                    });
-                                  }
+                                  //         Get.to(() => TicketDetailsScreen(
+                                  //             booking: fetchedBooking,
+                                  //             icon: SvgPicture.asset(
+                                  //                 'assets/icons/place.svg'),
+                                  //             bookTypeText: getBookingTypeText(
+                                  //                 context, 'place')));
+                                  //       });
+                                  //     }
+                                  //   });
+                                  // }
 
                                   // Get.to(
                                   //   () => CheckOutScreen(

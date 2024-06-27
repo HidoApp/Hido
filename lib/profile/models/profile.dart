@@ -6,6 +6,8 @@ class Profile {
   final String? name;
   final String? email;
   final int? rating;
+  final String? image;
+
   String? profileImage;
   final String? phoneNumber;
   final int? tourNumber;
@@ -26,10 +28,8 @@ class Profile {
   Profile({
     this.spokenLanguage,
     this.id,
-    //  this.userId,
     this.name,
     this.rating,
-    //this.tripNumber,
     this.profileImage,
     this.phoneNumber,
     this.eventNumber,
@@ -46,29 +46,31 @@ class Profile {
     this.userRole,
     this.email,
     this.tourNumber,
+    this.image,
+
   });
 
   factory Profile.fromJson(Map<String, dynamic> json) {
     return Profile(
-      id: json['id'],
-      //   userId: json['user_id'],
-      name: json['name'],
-      rating: json['rating'],
-      tourNumber: json['tourNumber'],
-      tourRating: json['tourRating'],
-      hostNumber: json['hostNumber'],
-      hostRating: json['hostRating'],
-      adventureNumber: json['adventureNumber'],
-      adventureRating: json['adventureRating'],
-      eventNumber: json['eventNumber'],
-      eventRating: json['eventRating'],
+      id: json['id']??'',
+      name: json['name']??'',
+      image: json['image']??'',
+      rating: json['rating']??0,
+      tourNumber: json['tourNumber']??0,
+      tourRating: json['tourRating']??0,
+      hostNumber: json['hostNumber']??0,
+      hostRating: json['hostRating']??0,
+      adventureNumber: json['adventureNumber']??0,
+      adventureRating: json['adventureRating']??0,
+      eventNumber: json['eventNumber']??0,
+      eventRating: json['eventRating']??0,
       //tripNumber: json['tripNumber'],
-      profileImage: json['image'],
-      phoneNumber: json['phoneNumber'],
-      email: json['email'],
-      descriptionAboutMe: json['descriptionAboutMe'],
+      profileImage: json['image']??'',
+      phoneNumber: json['phoneNumber']??'',
+      email: json['email']??'',
+      descriptionAboutMe: json['descriptionAboutMe']??'',
 
-      nationality: json['nationality'],
+      nationality: json['nationality']??'',
       spokenLanguage: json["spokenLanguage"] == null
           ? []
           : List<String>.from(json["spokenLanguage"]!.map((x) => x)),
@@ -81,7 +83,7 @@ class Profile {
       //'user_id': userId,
       'name': name,
       'rating': rating,
-      //'image': image,
+      'image': image,
       'tourNumber': tourNumber,
       //'tripNumber': tripNumber,
       // 'image': profileImage,

@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-class CalenderDialog extends StatefulWidget {
-  const CalenderDialog({
+class HostCalenderDialog extends StatefulWidget {
+  const HostCalenderDialog({
     Key? key,
     this.fromAjwady = true,
     required this.type,
@@ -29,11 +29,12 @@ class CalenderDialog extends StatefulWidget {
   final Hospitality? hospitality;
 
   @override
-  State<CalenderDialog> createState() => _CalenderDialogState();
+  State<HostCalenderDialog> createState() => _HostCalenderDialogState();
 }
 
-class _CalenderDialogState extends State<CalenderDialog> {
+class _HostCalenderDialogState extends State<HostCalenderDialog> {
   String selectedDate = '';
+    List<DateTime> selectedDates = [];
 
   final _ajwadiExploreController = Get.put(AjwadiExploreController());
 
@@ -82,17 +83,14 @@ class _CalenderDialogState extends State<CalenderDialog> {
                   height: width * 0.76,
                   width: width * 0.76,
                   decoration: ShapeDecoration(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8))),
+                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
                   alignment: Alignment.bottomRight,
                   child: SfDateRangePicker(
                       minDate: DateTime.now(),
                       enablePastDates: false,
                       selectableDayPredicate:
                           widget.avilableDate != null ? defineSelectable : null,
-
-                      selectionMode: DateRangePickerSelectionMode.single,
-
+                      selectionMode:DateRangePickerSelectionMode.multiple,
                       selectionColor: Colors.green,
                       selectionTextStyle: TextStyle(),
                       selectionShape: DateRangePickerSelectionShape.circle,
@@ -101,49 +99,51 @@ class _CalenderDialogState extends State<CalenderDialog> {
                       endRangeSelectionColor: colorGreen,
                       rangeSelectionColor: colorGreen.withOpacity(0.1),
                       monthCellStyle: const DateRangePickerMonthCellStyle(
-                        textStyle: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xFF37B268),
-                        ),
-                        todayTextStyle: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.red,
-                        ),
-                        //  weekendTextStyle: TextStyle(
-                        //    fontSize: 12,
-                        //  fontWeight: FontWeight.w500,
-                        //      color: Colors.blue,
-                        //      ),
-                      ),
-                      monthViewSettings: const DateRangePickerMonthViewSettings(
-                        dayFormat:
-                            'EEE', // Short format for day names (e.g., Mon, Tue)
-
-                        viewHeaderStyle: DateRangePickerViewHeaderStyle(
-                          textStyle: TextStyle(
-                            color: Color(0xFF070708),
+                           textStyle: TextStyle(
+                             fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                               color: Color(0xFF37B268),
+                                   ),
+                            todayTextStyle: TextStyle(
                             fontSize: 12,
-                            fontFamily: 'SF Pro',
-                            fontWeight: FontWeight.w600,
-                            height: 0,
-                          ),
-                        ),
-                      ),
+                              fontWeight: FontWeight.bold,
+                             color: Colors.red,
+                                    ),
+                              //  weekendTextStyle: TextStyle(
+                              //    fontSize: 12,
+                              //  fontWeight: FontWeight.w500,
+                              //      color: Colors.blue,
+                              //      ),
+                                ),
+                 monthViewSettings: const DateRangePickerMonthViewSettings(
+                     dayFormat: 'EEE', // Short format for day names (e.g., Mon, Tue)
+                     
+                   viewHeaderStyle: DateRangePickerViewHeaderStyle(
+                textStyle: TextStyle(
+                  color: Color(0xFF070708),
+             fontSize: 12,
+            fontFamily: 'SF Pro',
+               fontWeight: FontWeight.w600,
+             height: 0,
+                ),
+                 
+              ),
+              
+            ),
                       //  showNavigationArrow: true,
 
-                      headerStyle: const DateRangePickerHeaderStyle(
+                          headerStyle: const DateRangePickerHeaderStyle(
                           textAlign: TextAlign.left,
-                          textStyle: TextStyle(
-                            color: Color(0xFF37B268),
-                          )),
-                      showNavigationArrow: true,
+                          textStyle: TextStyle(color:Color(0xFF37B268),)
+                          ),
+                           showNavigationArrow: true,
+
                       onSelectionChanged: (selected) {
                         print(selected.value);
-                        selectedDate = selected.value.toString();
+                                                selectedDate = selected.value.toString();
 
-
+                        selectedDates = selected.value.cast<DateTime>();
+                        
                         print(selected);
                       }),
                 ),
@@ -168,65 +168,25 @@ class _CalenderDialogState extends State<CalenderDialog> {
                           .value = true;
                       widget.touristExploreController!
                           .selectedDate(selectedDate);
-
-                    } else if (widget.type == 'hospitality') {
+                    } 
+                    else if (widget.type == 'hospitality'  )//new
+                     {
+                      print('8');
                       widget.srvicesController!.isHospatilityDateSelcted.value =
                           true;
-                      widget.srvicesController!.selectedDate(selectedDate);
+                      widget.srvicesController!.selectedDates(selectedDates);
 
-                      for (int i = 0;
-                          i < widget.hospitality!.daysInfo.length;
-                          i++) {
-                        if (DateTime.parse(widget
-                                    .hospitality!.daysInfo[i].startTime
-                                    .substring(0, 10))
-                                .toString() ==
-                            selectedDate) {
-                          widget.srvicesController!.selectedDateIndex(i);
-                          print("endTime");
-                          print(widget
-                              .hospitality!
-                              .daysInfo[widget
-                                  .srvicesController!.selectedDateIndex.value]
-                              .endTime);
+                         
+                         
 
-                          print("startTime");
-                          print(widget
-                              .hospitality!
-                              .daysInfo[widget
-                                  .srvicesController!.selectedDateIndex.value]
-                              .startTime);
-
-                          print("endTime iiiii ");
-                          print(widget.hospitality!.daysInfo[i].endTime);
-
-                          print("startTime iiiiii");
-                          print(widget.hospitality!.daysInfo[i].startTime);
-
-                          print("selectedDate ID");
-                          print(widget.hospitality!.daysInfo[i].id);
-
-                          // print("selectedDate ID");
-                          //   print(widget.hospitality!.daysInfo[i].
-                          //       );
-
-                          print("selectedDate index");
-                          print(i);
-
-                          widget.srvicesController!.selectedDateId(
-                              widget.hospitality!.daysInfo[i].id);
-                          widget.srvicesController!.selectedTime("");
-                          print(widget.srvicesController!.selectedTime);
                         }
-                      }
-                      //   widget.srvicesController!.selectedDateIndex(widget.avilableDate.  (selectedDate));
+                  
 
-                    }
-
+                  
                     Get.back();
                   }
                 },
-                title: "confirm".tr)
+                title:"confirm".tr)
           ],
         ));
   }
