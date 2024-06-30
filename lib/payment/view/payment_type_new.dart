@@ -161,7 +161,6 @@ class _PaymentTypeState extends State<PaymentType> {
               break;
             case 'hospitality':
               hospitalityBooking(invoice!);
-
               break;
             default:
           }
