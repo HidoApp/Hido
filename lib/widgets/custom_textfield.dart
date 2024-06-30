@@ -26,6 +26,7 @@ class CustomTextField extends StatelessWidget {
     this.minLines,
     this.validator = true,
     this.readOnly = false,
+    this.validatorHandle,
   });
 
   final TextEditingController? controller;
@@ -45,14 +46,14 @@ class CustomTextField extends StatelessWidget {
   final String? initialValue;
   final Color? textColor, borderColor;
   final List<TextInputFormatter>? inputFormatters;
-
+  final String? Function(String?)? validatorHandle;
   final int? minLines;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      // padding: const EdgeInsets.symmetric(horizontal: 16),
       height: height,
       child: TextFormField(
         initialValue: initialValue,
@@ -72,14 +73,15 @@ class CustomTextField extends StatelessWidget {
                 if (v!.isEmpty) {
                   return 'fieldRequired'.tr;
                 }
-                if (v!.trim().length < 8 && isPassword) {
+                if (v.trim().length < 8 && isPassword) {
                   return "you must enter at least 8 characters";
                 }
                 return null;
               }
-            : null,
+            : validatorHandle,
         style: TextStyle(color: textColor, fontFamily: 'Noto Kufi Arabic'),
         decoration: InputDecoration(
+          contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
           counterStyle: const TextStyle(fontSize: 0, height: 100),
           counterText: '',
           border: const OutlineInputBorder(
@@ -92,11 +94,11 @@ class CustomTextField extends StatelessWidget {
           disabledBorder: OutlineInputBorder(
               borderRadius: const BorderRadius.all(Radius.circular(10)),
               borderSide:
-                  BorderSide(color: borderColor ?? Colors.black, width: 1)),
+                  BorderSide(color: borderColor ?? borderGrey, width: 1)),
           focusedBorder: OutlineInputBorder(
               borderRadius: const BorderRadius.all(Radius.circular(10)),
               borderSide:
-                  BorderSide(color: borderColor ?? Colors.black, width: 1)),
+                  BorderSide(color: borderColor ?? borderGrey, width: 1)),
           prefixIcon: null == prefixIcon ? null : prefixIcon,
           suffixIcon: null == suffixIcon ? null : suffixIcon,
           hintText: hintText,

@@ -63,7 +63,7 @@ const localeEn = {
   "password": "Password",
   "yourPassword": "Enter your password",
   "confirmPass": "Confirm password",
-  "signUp": "SIGN UP",
+  "signUp": "Sign up",
   "lastStep": "Last Step",
   "nationality": "Nationality",
   "continue": "Continue",
@@ -428,7 +428,7 @@ const localeEn = {
   "activityName": "Activity name",
   'startTime': 'Start time',
   'endTime': 'End time',
-  'localProfile':'Local Profile',
+  'localProfile': 'Local Profile',
   "activityHint": "write the activity name",
   "activityError": "*this field is requested",
   "priceError": "*Please enter a price",
@@ -492,5 +492,9 @@ const localeEn = {
   'expirationDate': 'Expiration Date',
   'dateHint': 'MM/YY',
   'person': "person",
-  'adventuredetails': 'Adventure Details'
+  'adventuredetails': 'Adventure Details',
+  'signInLocal': 'Sign in as Local',
+  'otp': 'OTP Code',
+  'otpPhone': "We've sent the OTP code to number ",
+  'phoneHint': 'Enter your phone number '
 };

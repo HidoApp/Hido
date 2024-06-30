@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:ajwad_v4/auth/view/sigin_in/local_sign_in.dart';
 import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
@@ -48,8 +49,6 @@ class _OnboardingScreenState extends State<OnboardingScreen>
         _videoController?.setVolume(0.0); // (silent)
         _videoController?.play();
       });
-
-    
   }
 
   @override
@@ -78,10 +77,18 @@ class _OnboardingScreenState extends State<OnboardingScreen>
           Positioned(
             right: _currentIndex == 0 ? 0 : 5,
             left: _currentIndex == 0 ? 0 : 5,
-            bottom: _currentIndex == 0 ? 0 :_currentIndex == 1?247:_currentIndex == 4?280: _currentIndex == 2?5:75,
+            bottom: _currentIndex == 0
+                ? 0
+                : _currentIndex == 1
+                    ? 247
+                    : _currentIndex == 4
+                        ? 280
+                        : _currentIndex == 2
+                            ? 5
+                            : 75,
             top: _currentIndex == 0
                 ? 0
-                :null, // Conditionally remove the top value
+                : null, // Conditionally remove the top value
 
             child: _currentIndex == 0
                 ? _videoController != null &&
@@ -95,7 +102,9 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                         fit: BoxFit.fill,
                       )
                 : Lottie.asset(
-                   AppUtil.rtlDirection2(context)?tabs[_currentIndex].lottieFileAr: tabs[_currentIndex].lottieFileEn,
+                    AppUtil.rtlDirection2(context)
+                        ? tabs[_currentIndex].lottieFileAr
+                        : tabs[_currentIndex].lottieFileEn,
                     controller: _controller,
                     onLoaded: (composition) {
                       _controller?.duration = composition.duration;
@@ -112,7 +121,11 @@ class _OnboardingScreenState extends State<OnboardingScreen>
             child: Container(
               height: _currentIndex == 0
                   ? 650
-                  :_currentIndex == 4?AppUtil.rtlDirection2(context)? 358:355:360, // Adjust this height to your desired value
+                  : _currentIndex == 4
+                      ? AppUtil.rtlDirection2(context)
+                          ? 358
+                          : 355
+                      : 360, // Adjust this height to your desired value
               child: Column(
                 children: [
                   Flexible(
@@ -224,7 +237,11 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         for (int index = 0; index < tabs.length; index++)
-                          _DotIndicator(isSelected: index == _currentIndex,currentIndex: _currentIndex,pageController: _pageController,),
+                          _DotIndicator(
+                            isSelected: index == _currentIndex,
+                            currentIndex: _currentIndex,
+                            pageController: _pageController,
+                          ),
                       ],
                     ),
                   ),
@@ -246,7 +263,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                     child: CustomButton(
                       title: 'localGuide'.tr,
                       onPressed: () {
-                        Get.to(() => SignInScreen());
+                        Get.to(() => const LocalSignIn());
                       },
                       buttonColor: _currentIndex == 0
                           ? Color.fromARGB(0, 0, 0, 0)
@@ -414,7 +431,6 @@ class _OnboardingScreenState extends State<OnboardingScreen>
           // ),
         ],
       ),
-     
     );
   }
 }
@@ -430,7 +446,7 @@ class ArcPainter extends CustomPainter {
       ..lineTo(size.width, size.height) // Draw a straight line to the right top
       ..lineTo(size.width, 0) // Draw a straight line to the top right corner
       ..close(); // Close the path
-    canvas.drawPath(whiteArc, Paint()..color =Color(0xFFF9F9F9));
+    canvas.drawPath(whiteArc, Paint()..color = Color(0xFFF9F9F9));
   }
 
   @override
@@ -497,7 +513,8 @@ class _DotIndicator extends StatefulWidget {
   _DotIndicatorState createState() => _DotIndicatorState();
 }
 
-class _DotIndicatorState extends State<_DotIndicator> with SingleTickerProviderStateMixin {
+class _DotIndicatorState extends State<_DotIndicator>
+    with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
 
   @override
@@ -511,8 +528,6 @@ class _DotIndicatorState extends State<_DotIndicator> with SingleTickerProviderS
     if (widget.isSelected && !_animationController.isAnimating) {
       _animationController.forward().then((_) {
         _animationController.stop();
-
-
       });
     }
   }
@@ -523,8 +538,6 @@ class _DotIndicatorState extends State<_DotIndicator> with SingleTickerProviderS
     if (widget.isSelected && !_animationController.isAnimating) {
       _animationController.forward().then((_) {
         _animationController.stop();
-
-
       });
     }
   }
@@ -534,7 +547,6 @@ class _DotIndicatorState extends State<_DotIndicator> with SingleTickerProviderS
     _animationController.dispose();
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -581,7 +593,6 @@ class _DotIndicatorState extends State<_DotIndicator> with SingleTickerProviderS
   }
 }
 
-
 class OnboardingModel {
   final String lottieFileEn;
   final String title;
@@ -596,7 +607,7 @@ List<OnboardingModel> tabs = [
     '',
     '',
   ),
-   OnboardingModel(
+  OnboardingModel(
     'assets/onboarding_11.json',
     'intro1',
     'assets/onboarding_1_ar.json',
@@ -616,5 +627,4 @@ List<OnboardingModel> tabs = [
     'intro4',
     'assets/onboarding_4_ar.json',
   ),
- 
 ];

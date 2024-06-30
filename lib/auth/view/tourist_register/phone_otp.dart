@@ -81,7 +81,7 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen>
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: Scaffold(
-          backgroundColor:  Colors.white,
+          backgroundColor: Colors.white,
           extendBodyBehindAppBar: true,
           resizeToAvoidBottomInset: false,
           appBar: CustomAppBar(
@@ -92,7 +92,6 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen>
             // width: width*0.,
             child: Stack(
               children: [
-              
                 Padding(
                   padding: EdgeInsets.only(top: height * 0.18),
                   child: Column(
@@ -108,7 +107,7 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen>
                           text: "verification".tr,
                           fontWeight: FontWeight.w500,
                           fontSize: 24,
-                          color:  black,
+                          color: black,
                         ),
                       ),
                       const SizedBox(
@@ -120,23 +119,19 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen>
                           text: '${"sendVerification".tr}',
                           fontWeight: FontWeight.w300,
                           fontSize: 15,
-                          color:  black,
+                          color: black,
                         ),
-
-                        
                       ),
 
-                       Padding(
+                      Padding(
                         padding: const EdgeInsets.only(left: 20, right: 20),
                         child: CustomText(
                           text: widget.phone,
                           fontWeight: FontWeight.w300,
                           fontSize: 15,
-                          color:  colorGreen,
+                          color: colorGreen,
                           textDecoration: TextDecoration.underline,
                         ),
-
-                        
                       ),
                       const SizedBox(
                         height: 40,
@@ -149,7 +144,6 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen>
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 CustomOTPField(
-                           
                                   onChanged: (value) {
                                     if (value.isNotEmpty) {
                                       code1 = value;
@@ -158,7 +152,6 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen>
                                   },
                                 ),
                                 CustomOTPField(
-                                
                                   onChanged: (value) {
                                     if (value.isNotEmpty) {
                                       code2 = value;
@@ -167,7 +160,6 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen>
                                   },
                                 ),
                                 CustomOTPField(
-                           
                                   onChanged: (value) {
                                     if (value.isNotEmpty) {
                                       code3 = value;
@@ -176,7 +168,6 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen>
                                   },
                                 ),
                                 CustomOTPField(
-                            
                                   onChanged: (value) {
                                     if (value.isNotEmpty) {
                                       code4 = value;
@@ -185,7 +176,6 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen>
                                   },
                                 ),
                                 CustomOTPField(
-                             
                                   onChanged: (value) {
                                     if (value.isNotEmpty) {
                                       code5 = value;
@@ -194,7 +184,6 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen>
                                   },
                                 ),
                                 CustomOTPField(
-                                 
                                   onChanged: (value) {
                                     if (value.isNotEmpty) {
                                       code6 = value;
@@ -210,8 +199,10 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen>
                       ),
                       Obx(() => Padding(
                             padding: const EdgeInsets.symmetric(vertical: 30),
-                            child: widget.authController.isSigininwithRowad.value ==
-                                    true || widget.authController.isLoginLoading.value 
+                            child: widget.authController.isSigininwithRowad
+                                            .value ==
+                                        true ||
+                                    widget.authController.isLoginLoading.value
                                 ? const Center(
                                     child: CircularProgressIndicator(
                                         color: colorGreen),
@@ -257,22 +248,27 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen>
                                                     context: context);
                                             print(isSuccess);
                                             if (isSuccess) {
-                                              
                                               final getStorage = GetStorage();
 
-                                              final String accessToken = getStorage.read('accessToken');
-                                                 print("PHONE OTP accessToken : $accessToken ");
+                                              final String accessToken =
+                                                  getStorage
+                                                      .read('accessToken');
+                                              print(
+                                                  "PHONE OTP accessToken : $accessToken ");
 
                                               print(isSuccess);
-                                              final user =
-                                              await widget
-                                                .authController.login(
-                                                  email: widget.email,
-                                                  password:widget.password,
-                                                  rememberMe: false,
-                                                  context: context);
-                                              
-                                                Get.offAll(()=>  AjwadiDrivingLicense(user: user,));
+                                              final user = await widget
+                                                  .authController
+                                                  .login(
+                                                      email: widget.email,
+                                                      password: widget.password,
+                                                      rememberMe: false,
+                                                      context: context);
+
+                                              Get.offAll(
+                                                  () => AjwadiDrivingLicense(
+                                                        user: user,
+                                                      ));
                                             }
                                           }
                                         },
