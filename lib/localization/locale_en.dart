@@ -49,8 +49,8 @@ const localeEn = {
   "alreadyHaveAccount": "Already have an account ?",
   "signIn": "Sign in",
   "login": "Login",
-  'idIqama': 'National Id / Iqama',
-  'birthDate': 'Birth date',
+  'idIqama': 'ID',
+  'birthDate': 'Date of birth',
   "or": "OR",
   "LoginGoogle": "Login with Google",
   "LoginTwitter": "Login with Twitter",
@@ -496,5 +496,7 @@ const localeEn = {
   'signInLocal': 'Sign in as Local',
   'otp': 'OTP Code',
   'otpPhone': "We've sent the OTP code to number ",
-  'phoneHint': 'Enter your phone number '
+  'phoneHint': 'Enter your phone number ',
+  'tourSub':
+      'With your extensive knowledge, you will lead our guests on unforgettable adventures through the treasures, history, and traditions of Saudi Arabia.'
 };

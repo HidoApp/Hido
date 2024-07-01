@@ -49,7 +49,7 @@ const localeAr = {
   "forgotPassword": "نسيت كلمة المرور؟",
   "login": "تسجيل الدخول",
   "signIn": "سجل دخول",
-  'idIqama': 'هوية / إقامة',
+  'idIqama': 'الهوية',
   'birthDate': 'تاريخ الميلاد',
   "or": "أو",
   "LoginGoogle": "تسجيل عبر Google",

@@ -1,44 +1,41 @@
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 
-class ExperienceCard extends StatelessWidget {
+class ProvidedServicesCard extends StatelessWidget {
+  const ProvidedServicesCard(
+      {super.key,
+      this.onTap,
+      required this.title,
+      required this.subtitle,
+      required this.iconPath,
+      required this.color,
+      required this.borderColor,
+      required this.textColor,
+      required this.iconColor});
+  final void Function()? onTap;
   final String title;
-  final String iconPath;
   final String subtitle;
-  final VoidCallback? onTap;
-
-  const ExperienceCard({
-    Key? key,
-    required this.title,
-    required this.iconPath,
-    required this.subtitle,
-    this.onTap,
-  }) : super(key: key);
+  final String iconPath;
+  final Color color;
+  final Color iconColor;
+  final Color borderColor;
+  final Color textColor;
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
       onTap: onTap,
       child: Container(
         width: double.infinity,
         height: 110,
         padding: const EdgeInsets.all(12),
         clipBehavior: Clip.antiAlias,
-        decoration: ShapeDecoration(
-          color: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          shadows: [
-            BoxShadow(
-              color: shadowColor,
-              blurRadius: 15,
-              offset: Offset(0, 0),
-              spreadRadius: 0,
-            )
-          ],
-        ),
+        decoration: BoxDecoration(
+            color: color,
+            border: Border.all(color: borderColor),
+            borderRadius: BorderRadius.circular(12)),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -55,7 +52,9 @@ class ExperienceCard extends StatelessWidget {
                     width: 24,
                     height: 24,
                     child: SvgPicture.asset(
-                        'assets/icons/$iconPath.svg'), // Use SvgPicture for SVG icons
+                      'assets/icons/$iconPath.svg',
+                      color: iconColor,
+                    ), // Use SvgPicture for SVG icons
                   ),
                   const SizedBox(width: 16),
                   Expanded(
@@ -73,7 +72,7 @@ class ExperienceCard extends StatelessWidget {
                               child: Text(
                                 title,
                                 style: TextStyle(
-                                  color: black,
+                                  color: textColor,
                                   fontSize: 17,
                                   fontFamily: 'HT Rakik',
                                   fontWeight: FontWeight.w500,
@@ -88,7 +87,9 @@ class ExperienceCard extends StatelessWidget {
                             child: Text(
                               subtitle,
                               style: TextStyle(
-                                color: starGreyColor,
+                                color: textColor == black
+                                    ? starGreyColor
+                                    : textColor,
                                 fontSize: 12,
                                 fontFamily: 'SF Pro',
                                 fontWeight: FontWeight.w400,
@@ -106,5 +107,6 @@ class ExperienceCard extends StatelessWidget {
         ),
       ),
     );
+    ;
   }
 }

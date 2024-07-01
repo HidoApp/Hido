@@ -1,13 +1,11 @@
-import 'package:ajwad_v4/auth/view/ajwadi_register/ajwadi_register_screen.dart';
-import 'package:ajwad_v4/auth/view/ajwadi_register/local_sign_up.dart';
+import 'package:ajwad_v4/auth/view/sigin_in/local_sign_in.dart';
 import 'package:ajwad_v4/constants/colors.dart';
-import 'package:ajwad_v4/new-onboarding/view/intro_screen.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-class SignUpText extends StatelessWidget {
-  const SignUpText({super.key});
+class SignInText extends StatelessWidget {
+  const SignInText({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,13 +21,13 @@ class SignUpText extends StatelessWidget {
         ),
         GestureDetector(
             child: CustomText(
-              text: 'signUp'.tr,
+              text: 'signIn'.tr,
               color: colorGreen,
               fontSize: MediaQuery.of(context).size.width * 0.038,
             ),
             onTap: () => Get.to(
                   // () =>  AccountTypeScreen(),
-                  () => const LocalSignUpScreen(),
+                  () => const LocalSignIn(),
                 ))
       ],
     );
