@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/auth/widget/provided_services_card.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/widget/experience_card.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
@@ -81,7 +84,9 @@ class _ProvidedServicesState extends State<ProvidedServices> {
             textColor: experiencesSelected ? colorGreen : black,
             title: 'services'.tr,
             iconPath: 'serviceProvide',
-            subtitle: 'tourSub'.tr,
+            subtitle:
+                'Share your culture through hospitality, adventure and local events .'
+                    .tr,
             color: experiencesSelected ? lightGreen : Colors.white,
             iconColor: experiencesSelected ? colorGreen : black,
             borderColor: experiencesSelected ? colorGreen : borderGrey,
@@ -90,7 +95,17 @@ class _ProvidedServicesState extends State<ProvidedServices> {
       )),
       bottomNavigationBar: ScreenPadding(
         child: CustomButton(
-          onPressed: () {},
+          onPressed: () {
+            if (experiencesSelected && tourSelected) {
+            } else if (experiencesSelected) {
+              //Get.to(()=>);
+            } else if (tourSelected) {
+              log('tour');
+            } else {
+              AppUtil.errorToast(
+                  context, 'You must pick at least one services');
+            }
+          },
           raduis: 8,
           title: 'next'.tr,
           height: 48,
