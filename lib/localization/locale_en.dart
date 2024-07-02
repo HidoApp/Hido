@@ -498,5 +498,6 @@ const localeEn = {
   'otpPhone': "We've sent the OTP code to number ",
   'phoneHint': 'Enter your phone number ',
   'tourSub':
-      'With your extensive knowledge, you will lead our guests on unforgettable adventures through the treasures, history, and traditions of Saudi Arabia.'
+      'With your extensive knowledge, you will lead our guests on unforgettable adventures through the treasures, history, and traditions of Saudi Arabia.',
+      'contactInfo':'Contact Info'
 };

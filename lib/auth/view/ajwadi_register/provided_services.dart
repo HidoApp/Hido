@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:ajwad_v4/auth/view/ajwadi_register/contact_info.dart';
+import 'package:ajwad_v4/auth/view/ajwadi_register/tour_stepper.dart';
 import 'package:ajwad_v4/auth/widget/provided_services_card.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/widget/experience_card.dart';
@@ -24,6 +26,8 @@ class _ProvidedServicesState extends State<ProvidedServices> {
   var experiencesSelected = false;
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: CustomAppBar('Provided Services'),
       body: ScreenPadding(
@@ -93,14 +97,18 @@ class _ProvidedServicesState extends State<ProvidedServices> {
           )
         ],
       )),
-      bottomNavigationBar: ScreenPadding(
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.symmetric(
+            vertical: width * 0.09, horizontal: width * 0.041),
         child: CustomButton(
           onPressed: () {
             if (experiencesSelected && tourSelected) {
             } else if (experiencesSelected) {
-              //Get.to(()=>);
+              Get.to(() => const ContactInfo());
             } else if (tourSelected) {
-              log('tour');
+              Get.to(() => const TourStepper(
+                    length: 3,
+                  ));
             } else {
               AppUtil.errorToast(
                   context, 'You must pick at least one services');

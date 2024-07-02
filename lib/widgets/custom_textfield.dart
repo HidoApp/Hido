@@ -103,8 +103,8 @@ class CustomTextField extends StatelessWidget {
           suffixIcon: null == suffixIcon ? null : suffixIcon,
           hintText: hintText,
           hintStyle: const TextStyle(
-              fontSize: 16,
-              fontFamily: 'HT Rakik',
+              fontSize: 15,
+              fontFamily: 'SF Pro',
               color: Color(0xFFB9B8C1),
               fontWeight: FontWeight.w400),
         ),
