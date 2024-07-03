@@ -36,6 +36,7 @@ class _ContactInfoState extends State<ContactInfo> {
               CustomText(
                   text: 'email'.tr,
                   fontSize: width * 0.0435,
+                  fontWeight: FontWeight.w500,
                   fontFamily: 'SF Pro'),
               CustomTextField(
                 hintText: 'yourEmail'.tr,
@@ -58,6 +59,7 @@ class _ContactInfoState extends State<ContactInfo> {
               CustomText(
                   text: 'phoneNum'.tr,
                   fontSize: width * 0.0435,
+                  fontWeight: FontWeight.w500,
                   fontFamily: 'SF Pro'),
               CustomTextField(
                 hintText: 'phoneHint'.tr,
@@ -82,7 +84,11 @@ class _ContactInfoState extends State<ContactInfo> {
                 height: width * .06,
               ),
               CustomText(
-                  text: 'IBAN', fontSize: width * 0.0435, fontFamily: 'SF Pro'),
+                text: 'IBAN',
+                fontSize: width * 0.0435,
+                fontFamily: 'SF Pro',
+                fontWeight: FontWeight.w500,
+              ),
               CustomTextField(
                 hintText: 'Enter IBAN number',
                 keyboardType: TextInputType.text,
