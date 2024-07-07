@@ -49,25 +49,26 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                 CustomText(
                   text: 'welcometo'.tr,
                   color: black,
-                  fontSize: 20,
+                  fontSize: width * 0.051,
                 ),
                 SizedBox(
-                  width: 5,
+                  width: width * 0.0128,
                 ),
                 CustomText(
-                  text: 'Hido!',
+                  text: 'hido'.tr,
                   color: colorGreen,
-                  fontSize: 20,
+                  fontSize: width * 0.051,
                 )
               ],
             ),
             CustomText(
               text: 'signUpLocal'.tr,
               color: starGreyColor,
-              fontSize: 17,
+              fontSize: width * 0.043,
+              fontWeight: FontWeight.w500,
             ),
-            const SizedBox(
-              height: 24,
+            SizedBox(
+              height: width * 0.061,
             ),
             Form(
               key: _formKey,
@@ -76,7 +77,9 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                 children: [
                   CustomText(
                     text: 'idIqama'.tr,
-                    fontSize: 17,
+                    fontSize: width * 0.043,
+                    fontFamily: 'SF Pro',
+                    fontWeight: FontWeight.w500,
                   ),
                   CustomTextField(
                     keyboardType: TextInputType.number,
@@ -85,7 +88,7 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                       LengthLimitingTextInputFormatter(10),
                     ],
                     validator: false,
-                    hintText: 'Enter your National Identity ',
+                    hintText: 'idHint'.tr,
                     validatorHandle: (id) {
                       if (id!.isEmpty) {
                         return 'fieldRequired'.tr;
@@ -98,11 +101,13 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                     onChanged: (id) => nationalId = id,
                   ),
                   SizedBox(
-                    height: 24,
+                    height: width * 0.061,
                   ),
                   CustomText(
                     text: 'birthDate'.tr,
-                    fontSize: 17,
+                    fontSize: width * 0.043,
+                    fontFamily: 'SF Pro',
+                    fontWeight: FontWeight.w500,
                   ),
                   GestureDetector(
                     onTap: () async {
@@ -140,9 +145,9 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                     },
                     child: Obx(
                       () => Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                        height: 48,
+                        padding: EdgeInsets.symmetric(
+                            horizontal: width * .03, vertical: width * .020),
+                        height: width * 0.123,
                         decoration: BoxDecoration(
                             borderRadius: const BorderRadius.all(
                               Radius.circular(10),
@@ -159,7 +164,7 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                               color: Colors.grey,
                             ),
                             SizedBox(
-                              width: 20,
+                              width: width * 0.05,
                             ),
                             Obx(
                               () => CustomText(
@@ -168,6 +173,8 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                                     : 'mm/dd/yyy'.tr,
                                 color: starGreyColor,
                                 fontWeight: FontWeight.w400,
+                                fontSize: width * .038,
+                                fontFamily: 'SF Pro',
                               ),
                             ),
                           ],

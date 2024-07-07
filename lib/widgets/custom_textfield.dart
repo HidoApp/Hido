@@ -116,7 +116,7 @@ class CustomTextField extends StatelessWidget {
           hintStyle: const TextStyle(
               fontSize: 15,
               fontFamily: 'SF Pro',
-              color: Color(0xFFB9B8C1),
+              color: starGreyColor,
               fontWeight: FontWeight.w400),
         ),
         onChanged: onChanged,

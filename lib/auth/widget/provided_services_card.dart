@@ -25,11 +25,13 @@ class ProvidedServicesCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
         width: double.infinity,
-        height: 110,
+        height: width * 0.282,
         padding: const EdgeInsets.all(12),
         clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(
@@ -48,56 +50,54 @@ class ProvidedServicesCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    width: 24,
-                    height: 24,
+                  SizedBox(
+                    width: width * 0.06,
+                    height: width * 0.06,
                     child: SvgPicture.asset(
                       'assets/icons/$iconPath.svg',
                       color: iconColor,
                     ), // Use SvgPicture for SVG icons
                   ),
-                  const SizedBox(width: 16),
+                  SizedBox(width: width * 0.041),
                   Expanded(
-                    child: Container(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: double.infinity,
-                            height: 22,
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 10),
-                              child: Text(
-                                title,
-                                style: TextStyle(
-                                  color: textColor,
-                                  fontSize: 17,
-                                  fontFamily: 'HT Rakik',
-                                  fontWeight: FontWeight.w500,
-                                  height: 0.10, // Adjust line height as needed
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          SizedBox(
-                            width: 294,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          width: double.infinity,
+                          height: width * 0.056,
+                          child: Padding(
+                            padding: EdgeInsets.only(top: width * 0.025),
                             child: Text(
-                              subtitle,
+                              title,
                               style: TextStyle(
-                                color: textColor == black
-                                    ? starGreyColor
-                                    : textColor,
-                                fontSize: 12,
-                                fontFamily: 'SF Pro',
-                                fontWeight: FontWeight.w400,
+                                color: textColor,
+                                fontSize: width * 0.043,
+                                fontFamily: 'HT Rakik',
+                                fontWeight: FontWeight.w500,
+                                height: 0.10, // Adjust line height as needed
                               ),
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                        SizedBox(height: width * 0.010),
+                        SizedBox(
+                          width: width * 0.753,
+                          child: Text(
+                            subtitle,
+                            style: TextStyle(
+                              color: textColor == black
+                                  ? starGreyColor
+                                  : textColor,
+                              fontSize: width * 0.030,
+                              fontFamily: 'SF Pro',
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],

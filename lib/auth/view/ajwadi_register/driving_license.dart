@@ -30,7 +30,7 @@ class _DrivingLicenseState extends State<DrivingLicense> {
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: CustomAppBar(
-        'Driving license',
+        'drivinglicense'.tr,
         isBack: true,
       ),
       body: Padding(
@@ -44,7 +44,7 @@ class _DrivingLicenseState extends State<DrivingLicense> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CustomText(
-                text: "Driving license expiry date",
+                text: "drivingExpire".tr,
                 fontSize: width * 0.0435,
                 fontWeight: FontWeight.w500,
                 fontFamily: 'SF Pro'),

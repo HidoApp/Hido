@@ -29,7 +29,7 @@ class _ProvidedServicesState extends State<ProvidedServices> {
     final width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      appBar: CustomAppBar('Provided Services'),
+      appBar: CustomAppBar('providedServices'.tr),
       body: ScreenPadding(
           child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,28 +39,29 @@ class _ProvidedServicesState extends State<ProvidedServices> {
               CustomText(
                 text: 'welcome'.tr,
                 color: black,
-                fontSize: 20,
+                fontSize: width * 0.051,
               ),
               SizedBox(
-                width: 5,
+                width: width * 0.0128,
               ),
+              //Name
               CustomText(
                 text: 'Ammar',
                 color: colorGreen,
-                fontSize: 20,
+                fontSize: width * 0.051,
                 fontWeight: FontWeight.w500,
               )
             ],
           ),
           CustomText(
-            text:
-                'What services are you planning to provide? (at least choose 1 or more)',
+            text: 'serviceHint'.tr,
             color: starGreyColor,
-            fontSize: 15,
+            fontSize: width * 0.038,
             fontFamily: 'SF Pro',
+            fontWeight: FontWeight.w400,
           ),
           SizedBox(
-            height: 24,
+            height: width * 0.06,
           ),
           ProvidedServicesCard(
             onTap: () {
@@ -77,7 +78,7 @@ class _ProvidedServicesState extends State<ProvidedServices> {
             borderColor: tourSelected ? colorGreen : borderGrey,
           ),
           SizedBox(
-            height: 12,
+            height: width * .0307,
           ),
           ProvidedServicesCard(
             onTap: () {
@@ -88,9 +89,7 @@ class _ProvidedServicesState extends State<ProvidedServices> {
             textColor: experiencesSelected ? colorGreen : black,
             title: 'services'.tr,
             iconPath: 'serviceProvide',
-            subtitle:
-                'Share your culture through hospitality, adventure and local events .'
-                    .tr,
+            subtitle: 'exprinceHint'.tr,
             color: experiencesSelected ? lightGreen : Colors.white,
             iconColor: experiencesSelected ? colorGreen : black,
             borderColor: experiencesSelected ? colorGreen : borderGrey,
@@ -114,7 +113,7 @@ class _ProvidedServicesState extends State<ProvidedServices> {
           },
           raduis: 8,
           title: 'next'.tr,
-          height: 48,
+          height: width * 0.123,
           icon: const Icon(
             Icons.keyboard_arrow_right,
             size: 24,

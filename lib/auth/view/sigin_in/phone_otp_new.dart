@@ -117,7 +117,7 @@ class _PhoneOTPState extends State<PhoneOTP> {
                 autofocus: true,
                 keyboardType: TextInputType.number,
                 separatorBuilder: (index) => SizedBox(
-                  width: 12,
+                  width: width * 0.030,
                 ),
                 followingPinTheme: PinTheme(
                   width: width * 0.1282,

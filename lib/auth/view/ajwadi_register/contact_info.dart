@@ -87,13 +87,13 @@ class _ContactInfoState extends State<ContactInfo> {
                 height: width * .06,
               ),
               CustomText(
-                text: 'IBAN',
+                text: 'iban'.tr,
                 fontSize: width * 0.0435,
                 fontFamily: 'SF Pro',
                 fontWeight: FontWeight.w500,
               ),
               CustomTextField(
-                hintText: 'Enter IBAN number',
+                hintText: 'ibanHint'.tr,
                 keyboardType: TextInputType.text,
                 validator: false,
                 validatorHandle: (iban) {

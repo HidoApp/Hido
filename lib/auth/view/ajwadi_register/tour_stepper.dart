@@ -31,6 +31,8 @@ class _TourStepperState extends State<TourStepper> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+
     return Scaffold(
       body: Obx(() => nextStep()),
       bottomNavigationBar: Obx(
@@ -38,8 +40,8 @@ class _TourStepperState extends State<TourStepper> {
           mainAxisSize: MainAxisSize.min,
           children: [
             StepProgressIndicator(
-              size: 4.5,
-              roundedEdges: Radius.circular(30),
+              size: width * 0.011,
+              roundedEdges: const Radius.circular(30),
               padding: 2,
               totalSteps: 3,
               currentStep: _authController.activeBar.value,
@@ -47,15 +49,16 @@ class _TourStepperState extends State<TourStepper> {
               unselectedColor: almostGrey,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 36, horizontal: 16),
+              padding: EdgeInsets.symmetric(
+                  vertical: width * 0.0923, horizontal: width * 0.041),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Expanded(
                     child: Center(
                       child: Padding(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                        padding: EdgeInsets.symmetric(
+                            vertical: width * 0.030, horizontal: width * 0.041),
                         child: GestureDetector(
                           onTap: () {
                             if (_authController.activeBar.value == 1) {
@@ -68,7 +71,7 @@ class _TourStepperState extends State<TourStepper> {
                           },
                           child: CustomText(
                             text: 'Back'.tr,
-                            fontSize: 17,
+                            fontSize: width * 0.043,
                           ),
                         ),
                       ),
@@ -76,8 +79,8 @@ class _TourStepperState extends State<TourStepper> {
                   ),
                   Expanded(
                     child: Padding(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                      padding: EdgeInsets.symmetric(
+                          vertical: width * 0.030, horizontal: width * .041),
                       child: CustomButton(
                         onPressed: () {
                           if (validateScreens()) {
@@ -85,7 +88,7 @@ class _TourStepperState extends State<TourStepper> {
                           }
                         },
                         title: 'verfiy'.tr,
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.keyboard_arrow_right,
                         ),
                       ),

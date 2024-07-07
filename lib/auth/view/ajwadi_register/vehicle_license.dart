@@ -26,25 +26,29 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
 
     return Scaffold(
       appBar: CustomAppBar(
-        'Register Vehicle',
+        'registerVehicle'.tr,
         isBack: true,
       ),
       body: Padding(
-        padding: EdgeInsets.only(left: 16, right: 16, top: 12, bottom: 32),
+        padding: EdgeInsets.only(
+            left: width * 0.041,
+            right: width * 0.041,
+            top: width * 0.0307,
+            bottom: width * 0.082),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CustomText(
-                text: "Vehicle License",
+                text: "vehicleLicense".tr,
                 fontSize: width * 0.0435,
                 fontWeight: FontWeight.w500,
                 fontFamily: 'SF Pro'),
             Form(
               key: _authController.vehicleKey,
               child: CustomTextField(
-                hintText: 'Enter Vehicle License ',
+                hintText: 'vehicleHint'.tr,
                 inputFormatters: [
-                  LengthLimitingTextInputFormatter(17),
+                  LengthLimitingTextInputFormatter(9),
                   FilteringTextInputFormatter.digitsOnly
                 ],
                 keyboardType: TextInputType.number,

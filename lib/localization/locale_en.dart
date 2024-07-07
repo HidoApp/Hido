@@ -499,5 +499,23 @@ const localeEn = {
   'phoneHint': 'Enter your phone number ',
   'tourSub':
       'With your extensive knowledge, you will lead our guests on unforgettable adventures through the treasures, history, and traditions of Saudi Arabia.',
-  'contactInfo': 'Contact Info'
+  'contactInfo': 'Contact Info',
+  'welcometo': 'Welcome to',
+  'hido': 'Hido',
+  'idHint': 'Enter your National Identity ',
+  'invalidId': 'invaild id',
+  'providedServices': 'Provided Services',
+  'welcome': 'Welcome',
+  'serviceHint':
+      'What services are you planning to provide? (at least choose 1 or more)',
+  'exprinceHint':
+      'Share your culture through hospitality, adventure and local events .',
+  'iban': 'IBAN',
+  'ibanHint': 'Enter IBAN number',
+  "drivinglicense": "Driving license",
+  'drivingExpire': 'Driving license expiry date',
+  'verfiy': 'Verify',
+  'registerVehicle': 'Register Vehicle',
+  'vehicleLicense': 'Vehicle License',
+  'vehicleHint': 'Enter Vehicle License '
 };
