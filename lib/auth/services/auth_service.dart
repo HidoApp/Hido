@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/auth/models/ajwadi_info.dart';
@@ -7,6 +8,8 @@ import 'package:ajwad_v4/auth/models/user.dart';
 import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/constants/base_url.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 import 'package:flutter/material.dart';
@@ -157,6 +160,42 @@ class AuthService {
     }
   }
 
+  static Future<bool> signUpWithRowad(
+      {required BuildContext context,
+      required String nationalId,
+      required String otp,
+      required String birthDate}) async {
+    final response = await http.post(
+        Uri.parse('$baseUrl/user/sign-up-with-rowad/$otp').replace(
+          queryParameters: {'otp': otp},
+        ),
+        headers: {
+          'Accept': 'application/json',
+          "Content-Type": "application/json"
+        },
+        body:
+            json.encode({'birthDate': birthDate, 'nationalityId': nationalId}));
+    if (response.statusCode == 200) {
+      final getStorage = GetStorage();
+
+      final String accessToken;
+      accessToken = jsonDecode(response.body)['accessToken'];
+      final String refreshToken;
+      refreshToken = jsonDecode(response.body)['refreshToken'];
+
+      getStorage.write('accessToken', accessToken);
+      getStorage.write('refreshToken', refreshToken);
+      return true;
+    } else {
+      var jsonBody = jsonDecode(response.body);
+      String errorMessage = jsonBody['message'];
+      log(response.statusCode.toString());
+      log(errorMessage);
+      AppUtil.errorToast(context, errorMessage);
+      return false;
+    }
+  }
+
   // 4 Registeration with Rowad
   static Future<bool> registerWithRowad({
     required String otp,
@@ -221,6 +260,24 @@ class AuthService {
       AppUtil.errorToast(context, errorMessage);
       return false;
     }
+  }
+
+  static Future<bool> createAccount({
+    required BuildContext context,
+    required String email,
+    required String phoneNumber,
+    required String iban,
+    required String type,
+  }) async {
+    final response = await http.put(
+      Uri.parse('$baseUrl/user/account'),
+      headers: {
+        'Accept': 'application/json',
+        "Content-Type": "application/json"
+      },
+    );
+    log(response.statusCode.toString());
+    return response.statusCode == 200;
   }
 
 // 5 Login

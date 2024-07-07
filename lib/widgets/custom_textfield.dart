@@ -81,6 +81,17 @@ class CustomTextField extends StatelessWidget {
             : validatorHandle,
         style: TextStyle(color: textColor, fontFamily: 'Noto Kufi Arabic'),
         decoration: InputDecoration(
+          focusedErrorBorder: const OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              borderSide: BorderSide(color: colorRed, width: 1)),
+          errorBorder: const OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              borderSide: BorderSide(color: colorRed, width: 1)),
+          errorStyle: const TextStyle(
+              color: colorRed,
+              fontSize: 11,
+              fontWeight: FontWeight.w400,
+              fontFamily: 'SF Pro'),
           contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
           counterStyle: const TextStyle(fontSize: 0, height: 100),
           counterText: '',

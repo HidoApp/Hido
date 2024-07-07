@@ -88,6 +88,8 @@ class _LocalSignInState extends State<LocalSignIn> {
                 if (isValid) {
                   Get.to(() => PhoneOTP(
                         phoneNumber: number,
+                        type: 'signIn',
+                        otp: '9999',
                       ));
                 } else {}
               },

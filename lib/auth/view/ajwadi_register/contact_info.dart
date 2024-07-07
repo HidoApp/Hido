@@ -1,3 +1,4 @@
+import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
@@ -19,6 +20,8 @@ class ContactInfo extends StatefulWidget {
 
 class _ContactInfoState extends State<ContactInfo> {
   final _formKey = GlobalKey<FormState>();
+  final _authController = Get.put(AuthController());
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -29,7 +32,7 @@ class _ContactInfoState extends State<ContactInfo> {
       ),
       body: ScreenPadding(
         child: Form(
-          key: _formKey,
+          key: _authController.contactKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -51,7 +54,7 @@ class _ContactInfoState extends State<ContactInfo> {
                   }
                   return null;
                 },
-                onChanged: (value) {},
+                onChanged: (email) => _authController.email(email),
               ),
               SizedBox(
                 height: width * .06,
@@ -78,7 +81,7 @@ class _ContactInfoState extends State<ContactInfo> {
                   }
                   return null;
                 },
-                onChanged: (value) {},
+                onChanged: (number) => _authController.phoneNumber(number),
               ),
               SizedBox(
                 height: width * .06,
@@ -102,7 +105,7 @@ class _ContactInfoState extends State<ContactInfo> {
                   }
                   return null;
                 },
-                onChanged: (value) {},
+                onChanged: (iban) => _authController.iban(iban),
               ),
             ],
           ),
@@ -112,10 +115,10 @@ class _ContactInfoState extends State<ContactInfo> {
         padding: EdgeInsets.symmetric(
             vertical: width * 0.09, horizontal: width * 0.041),
         child: widget.isPageView
-            ? SizedBox()
+            ? const SizedBox()
             : CustomButton(
                 onPressed: () {
-                  _formKey.currentState!.validate();
+                  _authController.contactKey.currentState!.validate();
                 },
                 title: 'signUp'.tr,
                 icon: Icon(

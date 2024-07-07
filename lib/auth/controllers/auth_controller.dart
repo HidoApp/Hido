@@ -23,11 +23,23 @@ class AuthController extends GetxController {
   var isEmailUpadting = false.obs;
   var nationalId = ''.obs;
   var birthDate = ''.obs;
-
+  var isSignUpRowad = false.obs;
   //valditon vars
   var hidePassword = true.obs;
   var isEmailValid = false.obs;
   var isPasswordValid = false.obs;
+  // sign in & sign up fields
+  var activeBar = 2.obs;
+  final contactKey = GlobalKey<FormState>();
+  final vehicleKey = GlobalKey<FormState>();
+  var localID = ''.obs;
+  var drivingDate = ''.obs;
+  var email = ''.obs;
+  var phoneNumber = ''.obs;
+  var iban = ''.obs;
+  var vehicleLicense = ''.obs;
+  var validBirthDay = true.obs;
+  var validDriving = true.obs;
 
   // 1 GET COUNTRIES ..
   Future<List<String>?> getListOfCountries(BuildContext context) async {
@@ -102,6 +114,30 @@ class AuthController extends GetxController {
       return false;
     } finally {
       isPersonInfoLoading(false);
+    }
+  }
+
+//to send otp sign up
+  Future<bool> signUpWithRowad(
+      {required BuildContext context,
+      required String nationalId,
+      required String otp,
+      required String birthDate}) async {
+    try {
+      isSignUpRowad(true);
+      final data = await AuthService.signUpWithRowad(
+          context: context,
+          nationalId: nationalId,
+          otp: otp,
+          birthDate: birthDate);
+      log('signUp Roawad');
+      log(data.toString());
+      return data;
+    } catch (e) {
+      isSignUpRowad(false);
+      return false;
+    } finally {
+      isSignUpRowad(false);
     }
   }
 

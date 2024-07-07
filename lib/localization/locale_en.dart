@@ -305,7 +305,7 @@ const localeEn = {
   'productInformation': 'Product information',
   'youMightAlsoLike': 'you might also like',
   'addToBag': 'Add to bag',
-  'fieldRequired': 'Required Field',
+  'fieldRequired': '*Required Field',
   'invalidPhone': 'Invalid phone number',
   'invalidEmail': 'Invalid Email',
   'invalidPass': 'Password must be more than 6 digit',
@@ -499,5 +499,5 @@ const localeEn = {
   'phoneHint': 'Enter your phone number ',
   'tourSub':
       'With your extensive knowledge, you will lead our guests on unforgettable adventures through the treasures, history, and traditions of Saudi Arabia.',
-      'contactInfo':'Contact Info'
+  'contactInfo': 'Contact Info'
 };

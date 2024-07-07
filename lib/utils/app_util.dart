@@ -17,6 +17,19 @@ class AppUtil {
     return Get.locale?.languageCode == 'ar';
   }
 
+  static bool validateBirthday(String birthday) {
+    try {
+      // Parse the date string
+      DateTime parsedDate = DateTime.parse(birthday);
+
+      // Check if the year is the current year or before
+      return parsedDate.year <= DateTime.now().year;
+    } on FormatException {
+      // Invalid format
+      return false;
+    }
+  }
+
   static bool isEmailValidate(email) {
     return RegExp(
             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")

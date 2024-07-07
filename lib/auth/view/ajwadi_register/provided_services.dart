@@ -106,9 +106,7 @@ class _ProvidedServicesState extends State<ProvidedServices> {
             } else if (experiencesSelected) {
               Get.to(() => const ContactInfo());
             } else if (tourSelected) {
-              Get.to(() => const TourStepper(
-                    length: 3,
-                  ));
+              Get.to(() => const TourStepper());
             } else {
               AppUtil.errorToast(
                   context, 'You must pick at least one services');

@@ -1,4 +1,6 @@
+import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/auth/view/ajwadi_register/provided_services.dart';
+import 'package:ajwad_v4/auth/view/sigin_in/phone_otp_new.dart';
 import 'package:ajwad_v4/auth/widget/sign_in_text.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
@@ -22,9 +24,16 @@ class LocalSignUpScreen extends StatefulWidget {
 class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
   final _formKey = GlobalKey<FormState>();
   String? birthDate;
-  late bool isDateSelected;
-  late bool isInaitla = true;
   DateTime? date;
+  final _authController = Get.put(AuthController());
+  var nationalId = '';
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _authController.birthDate('');
+  }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -86,7 +95,7 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                       }
                       return null;
                     },
-                    onChanged: (value) {},
+                    onChanged: (id) => nationalId = id,
                   ),
                   SizedBox(
                     height: 24,
@@ -114,57 +123,68 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                               mode: CupertinoDatePickerMode.date,
                               onDateTimeChanged: (value) {
                                 date = value;
-                                setState(() {
-                                  isDateSelected = true;
-                                  String theMonth =
-                                      date!.month.toString().length == 1
-                                          ? '0${date!.month}'
-                                          : date!.month.toString();
-                                  String theDay =
-                                      date!.day.toString().length == 1
-                                          ? '0${date!.day}'
-                                          : date!.day.toString();
-                                  birthDate = '${date!.year}-$theMonth-$theDay';
-                                });
+                                String theMonth =
+                                    date!.month.toString().length == 1
+                                        ? '0${date!.month}'
+                                        : date!.month.toString();
+                                String theDay = date!.day.toString().length == 1
+                                    ? '0${date!.day}'
+                                    : date!.day.toString();
+                                birthDate = '${date!.year}-$theMonth-$theDay';
+                                _authController.birthDate(birthDate);
                               },
                             ),
                           );
                         },
                       );
                     },
-                    child: Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                      height: 48,
-                      decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(10),
-                          ),
-                          border: Border.all(
-                            color: isInaitla
-                                ? Colors.grey
-                                : isDateSelected
-                                    ? Colors.grey
-                                    : colorDarkRed,
-                          )),
-                      child: Row(
-                        children: [
-                          const Icon(
-                            Icons.date_range,
-                            color: Colors.grey,
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          CustomText(
-                            text:
-                                birthDate != null ? birthDate! : 'mm/dd/yyy'.tr,
-                            color: Colors.grey,
-                            fontWeight: FontWeight.w400,
-                          )
-                        ],
+                    child: Obx(
+                      () => Container(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                        height: 48,
+                        decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(10),
+                            ),
+                            border: Border.all(
+                              color: _authController.validBirthDay.value
+                                  ? borderGrey
+                                  : colorRed,
+                            )),
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.date_range,
+                              color: Colors.grey,
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Obx(
+                              () => CustomText(
+                                text: _authController.birthDate.isNotEmpty
+                                    ? _authController.birthDate.value
+                                    : 'mm/dd/yyy'.tr,
+                                color: starGreyColor,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
+                  ),
+                  Obx(
+                    () => _authController.validBirthDay.value
+                        ? Container()
+                        : CustomText(
+                            text: 'invalidDate'.tr,
+                            color: colorRed,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: 'SF Pro',
+                          ),
                   ),
                 ],
               ),
@@ -172,19 +192,37 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
             SizedBox(
               height: 40,
             ),
-            CustomButton(
-              onPressed: () {
-                var isValid = _formKey.currentState!.validate();
-                if (isValid) {
-                  Get.to(() => const ProvidedServices());
-                } else {}
-              },
-              title: 'next'.tr,
-              height: 48,
-              icon: const Icon(
-                Icons.keyboard_arrow_right,
-                size: 24,
-              ),
+            Obx(
+              () => _authController.isPersonInfoLoading.value
+                  ? const CircularProgressIndicator.adaptive()
+                  : CustomButton(
+                      onPressed: () async {
+                        var isValid = _formKey.currentState!.validate();
+                        _authController.validBirthDay(
+                            _authController.birthDate.isNotEmpty);
+                        if (isValid && _authController.birthDate.isNotEmpty) {
+                          // final isSuccess = await _authController.personInfoOTP(
+                          //     nationalID: nationalId,
+                          //     birthDate: _authController.birthDate.value,
+                          //     context: context);
+                          // print('isSuccess UI $isSuccess');
+                          // if (isSuccess) {
+                          //   _authController.localID(nationalId);
+                          //   Get.to(() => const PhoneOTP(
+                          //         otp: '',
+                          //         type: 'signUp',
+                          //       ));
+                          // }
+                          Get.to(() => const ProvidedServices());
+                        }
+                      },
+                      title: 'next'.tr,
+                      height: 48,
+                      icon: const Icon(
+                        Icons.keyboard_arrow_right,
+                        size: 24,
+                      ),
+                    ),
             ),
             SizedBox(
               height: 12,
