@@ -25,10 +25,12 @@ class Hospitality {
   final String userId;
   final String regionEn;
   final List<DayInfo> daysInfo;
+  final String? touristsGender;
 
   Hospitality(
       {required this.id,
       required this.bioAr,
+      this.touristsGender,
       this.booking,
       required this.userId,
       required this.bioEn,
@@ -78,7 +80,9 @@ class Hospitality {
     //   daysInfo:
     //       (json['daysInfo'] as List).map((e) => DayInfo.fromJson(e)).toList(),
     // );
-        return Hospitality(
+    return Hospitality(
+      touristsGender: json['touristsGender'],
+
       id: json['id'] ?? '',
       bioAr: json['bioAr'] ?? '',
       bioEn: json['bioEn'] ?? '',
@@ -90,8 +94,8 @@ class Hospitality {
       titleEn: json['titleEn'] ?? '',
       email: json['email'] ?? '',
       coordinate: Coordinate.fromJson(json['coordinates'] ?? {}),
-      userId: json['userId']??'',
-     
+      userId: json['userId'] ?? '',
+
       booking: json['booking'] != null
           ? (json['booking'] as List)
               .map((e) => HospitalityBooking.fromJson(e))
@@ -108,13 +112,10 @@ class Hospitality {
       // daysInfo: (json['daysInfo'] as List)
       //     .map((e) => DayInfo.fromJson(e))
       //     .toList(),
-          daysInfo: json['daysInfo'] != null
-          ? (json['daysInfo'] as List)
-              .map((e) => DayInfo.fromJson(e))
-              .toList()
+      daysInfo: json['daysInfo'] != null
+          ? (json['daysInfo'] as List).map((e) => DayInfo.fromJson(e)).toList()
           : [],
     );
-  
   }
 }
 
@@ -125,8 +126,7 @@ class HospitalityBooking {
   final String date;
   final String cost;
   final String orderStatus;
- final GuestInfo guestInfo;
-
+  final GuestInfo guestInfo;
 
   HospitalityBooking({
     required this.id,
@@ -136,11 +136,9 @@ class HospitalityBooking {
     required this.cost,
     required this.orderStatus,
     required this.guestInfo,
-
   });
   factory HospitalityBooking.fromJson(Map<String, dynamic> json) {
     return HospitalityBooking(
-  
       id: json['id'] ?? '',
       userId: json['userId'] ?? '',
       hospitalityId: json['hospitalityId'] ?? '',
@@ -148,9 +146,6 @@ class HospitalityBooking {
       cost: json['cost'] ?? '',
       orderStatus: json['orderStatus'] ?? '',
       guestInfo: GuestInfo.fromJson(json['guestInfo'] ?? {}),
-
     );
   }
-    
-
 }

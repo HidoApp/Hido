@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/auth/view/tourist_register/reset_password.dart';
+import 'package:ajwad_v4/auth/widget/sign_up_text.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/new-onboarding/view/account_type_screen.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
@@ -219,30 +220,7 @@ class _SignInSheetState extends State<SignInSheet> {
                   SizedBox(
                     height: 12,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CustomText(
-                        text: "haveAnAccount?".tr,
-                        fontSize: 15,
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      GestureDetector(
-                          child: CustomText(
-                            text: 'signUp'.tr,
-                            color: colorGreen,
-                            fontSize: 15,
-                          ),
-                          onTap: () => Get.offAll(
-                               // () =>  AccountTypeScreen(),
-                              () => OnboardingScreen(),
-
-
-                              ))
-                    ],
-                  )
+                  const SignUpText()
                 ],
               ),
             )

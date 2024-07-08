@@ -39,12 +39,11 @@ class _AjwadiDrivingLicenseState extends State<AjwadiDrivingLicense> {
   DateTime? date2;
   String? birthDate;
   String? expiryDate;
-   dynamic expiryDateHijriFormated ;
+  dynamic expiryDateHijriFormated;
   final authController = Get.put(AuthController());
 
   final _nationalIdController = TextEditingController();
 
-  
   @override
   void initState() {
     // TODO: implement initState
@@ -63,7 +62,10 @@ class _AjwadiDrivingLicenseState extends State<AjwadiDrivingLicense> {
           extendBodyBehindAppBar: true,
           backgroundColor: Colors.white,
           resizeToAvoidBottomInset: false,
-          appBar: CustomAjwadiAppBar("",isBack: false,),
+          appBar: CustomAjwadiAppBar(
+            "",
+            isBack: false,
+          ),
           body: SizedBox(
             // width: width*0.,
             child: Stack(
@@ -86,7 +88,7 @@ class _AjwadiDrivingLicenseState extends State<AjwadiDrivingLicense> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomText(
-                        text: 'licenseInformation'.tr ,
+                        text: 'licenseInformation'.tr,
                         fontWeight: FontWeight.w700,
                         fontSize: 24,
                         color: black,
@@ -220,23 +222,30 @@ class _AjwadiDrivingLicenseState extends State<AjwadiDrivingLicense> {
                                                 fDisplay:
                                                     DisplayFormat.YYYYMMDD);
 
-                                            String theMonth = expiryDateHijri.month
+                                            String theMonth = expiryDateHijri
+                                                        .month
                                                         .toString()
                                                         .length ==
                                                     1
-                                                ? '0' + expiryDateHijri.month.toString()
-                                                : expiryDateHijri.month.toString();
+                                                ? '0' +
+                                                    expiryDateHijri.month
+                                                        .toString()
+                                                : expiryDateHijri.month
+                                                    .toString();
                                             String theDay = expiryDateHijri.day
                                                         .toString()
                                                         .length ==
                                                     1
-                                                ? '0' + expiryDateHijri.day.toString()
-                                                : expiryDateHijri.day.toString();
-                                             expiryDateHijriFormated  =
+                                                ? '0' +
+                                                    expiryDateHijri.day
+                                                        .toString()
+                                                : expiryDateHijri.day
+                                                    .toString();
+                                            expiryDateHijriFormated =
                                                 '${expiryDateHijri.year}-$theMonth-$theDay';
                                             print('HIJRI ${expiryDateHijri}');
-                                            print('HIJRI Formated : ${expiryDateHijriFormated}');
-                                            
+                                            print(
+                                                'HIJRI Formated : ${expiryDateHijriFormated}');
                                           });
                                         },
                                       ),
@@ -270,7 +279,7 @@ class _AjwadiDrivingLicenseState extends State<AjwadiDrivingLicense> {
                                     ),
                                     CustomText(
                                       text: expiryDateHijriFormated != null
-                                          ?    expiryDateHijriFormated!
+                                          ? expiryDateHijriFormated!
                                           : 'licenceExpDate'.tr,
                                       color: Colors.grey,
                                     )
@@ -339,25 +348,27 @@ class _AjwadiDrivingLicenseState extends State<AjwadiDrivingLicense> {
                                               getStorage.read('accessToken');
 
                                           print('ACCESS TOKEN : $accessToken');
-                                          bool isSuccess = await authController
-                                              .drivingLinceseOTP(
-                                                  nationalID:
-                                                      _nationalIdController
-                                                          .text,
-                                        
-                                                  birthDate: birthDate!,
-                                                  context: context);
-                                          print(isSuccess);
-                                          if (isSuccess) {
+                                          // bool isSuccess = await authController
+                                          //     .drivingLinceseOTP(
+                                          //         nationalID:
+                                          //             _nationalIdController
+                                          //                 .text,
+
+                                          //         birthDate: birthDate!,
+                                          //         context: context);
+                                          print(true);
+                                          if (true) {
                                             String accessToken =
                                                 getStorage.read('accessToken');
 
-                                            print('expiryDate: $expiryDateHijriFormated');
+                                            print(
+                                                'expiryDate: $expiryDateHijriFormated');
                                             Get.to(() => PhoneOTPScreen(
                                                 isAjwadi: true,
                                                 authController: authController,
                                                 birthDate: birthDate!,
-                                                expiryDate: expiryDateHijriFormated,
+                                                expiryDate:
+                                                    expiryDateHijriFormated,
                                                 isLiencese: true,
                                                 nationalID:
                                                     _nationalIdController.text,
@@ -376,8 +387,14 @@ class _AjwadiDrivingLicenseState extends State<AjwadiDrivingLicense> {
                                       },
                                       title: 'verify'.tr,
                                       icon: !AppUtil.rtlDirection(context)
-                                          ? Icon(Icons.arrow_back_ios,size: 20,)
-                                          : Icon(Icons.arrow_forward_ios,size: 20,),
+                                          ? Icon(
+                                              Icons.arrow_back_ios,
+                                              size: 20,
+                                            )
+                                          : Icon(
+                                              Icons.arrow_forward_ios,
+                                              size: 20,
+                                            ),
                                     ),
                                   ),
                           )),

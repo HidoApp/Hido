@@ -202,75 +202,70 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen>
                       ),
                       Obx(() => Padding(
                             padding: const EdgeInsets.symmetric(vertical: 30),
-                            child: widget.authController.isSigininwithRowad ==
-                                    true
-                                ? const Center(
-                                    child: CircularProgressIndicator(
-                                        color: colorGreen),
-                                  )
-                                : Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 20),
-                                    child: Align(
-                                      alignment: Alignment.center,
-                                      child: CustomElevatedButton(
-                                        title: 'continue'.tr,
-                                        onPressed: () async {
-                                          //   Get.offAll(()=> const TouristBottomBar());
-                                          if (_formKey.currentState!
-                                              .validate()) {
-                                            setState(() {
-                                              fullOTP = code1 +
-                                                  code2 +
-                                                  code3 +
-                                                  code4 +
-                                                  code5 +
-                                                  code6;
-                                              print(fullOTP);
-                                            });
+                            child:
+                                widget.authController.isSigininwithRowad == true
+                                    ? const Center(
+                                        child: CircularProgressIndicator(
+                                            color: colorGreen),
+                                      )
+                                    : Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 20),
+                                        child: Align(
+                                          alignment: Alignment.center,
+                                          child: CustomElevatedButton(
+                                            title: 'continue'.tr,
+                                            onPressed: () async {
+                                              //   Get.offAll(()=> const TouristBottomBar());
+                                              if (_formKey.currentState!
+                                                  .validate()) {
+                                                setState(() {
+                                                  fullOTP = code1 +
+                                                      code2 +
+                                                      code3 +
+                                                      code4 +
+                                                      code5 +
+                                                      code6;
+                                                  print(fullOTP);
+                                                });
 
-                                            print('accessToken : ' +
-                                                widget.accessToken!);
+                                                print('accessToken : ' +
+                                                    widget.accessToken!);
 
-                                            final isSuccess;
+                                                final isSuccess;
 
-                                            if (widget.isLiencese) {
-                                              isSuccess = await widget
-                                                  .authController
-                                                  .getAjwadiLinceseInfo(
-                                                      otp: fullOTP,
-                                                      expiryDate:
-                                                          widget.expiryDate!,
-                                                      nationalID:
-                                                          widget.nationalID,
-                                                      accessToken:
-                                                          widget.accessToken!,
-                                                      context: context);
-                                            } else {
-                                              isSuccess = await widget
-                                                  .authController
-                                                  .getAjwadiVehicleInf(
-                                                      otp: fullOTP,
-                                                      nationalID:
-                                                          widget.nationalID,
-                                                      accessToken:
-                                                          widget.accessToken!,
-                                                      context: context);
-                                            }
-                                            print(isSuccess);
-                                            if (isSuccess) {
-                                              print(isSuccess);
-                                              widget.isLiencese
-                                                  ? Get.offAll(() =>
-                                                      const AjwadiVehicleInfo())
-                                                  : Get.offAll(() =>
-                                                      const AjwadiBottomBar());
-                                            }
-                                          }
-                                        },
+                                                if (widget.isLiencese) {
+                                                  // isSuccess = await widget
+                                                  //     .authController
+                                                  //     .getAjwadiLinceseInfo(
+                                                  //         otp: fullOTP,
+                                                  //         expiryDate:
+                                                  //             widget.expiryDate!,
+                                                  //         nationalID:
+                                                  //             widget.nationalID,
+                                                  //         accessToken:
+                                                  //             widget.accessToken!,
+                                                  //         context: context);
+                                                } else {
+                                                  isSuccess = await widget
+                                                      .authController
+                                                      .getAjwadiVehicleInf(
+                                                          otp: fullOTP,
+                                                          context: context);
+                                                }
+                                                if (true) {
+                                                  // print(isSuccess);
+                                                  // widget.isLiencese
+                                                  //     ? Get.offAll(() =>
+                                                  //         const AjwadiVehicleInfo())
+                                                  //     : Get.offAll(() =>
+                                                  //         const AjwadiBottomBar());
+                                                }
+                                              }
+                                            },
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
                           )),
                       // !enableResend
                       //     ? Row(

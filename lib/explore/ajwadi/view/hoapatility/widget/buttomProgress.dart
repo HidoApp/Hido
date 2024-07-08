@@ -216,8 +216,6 @@ class _ButtomProgressState extends State<ButtomProgress> {
 
         return PhotoGalleryPage(selectedImages: _hospitalityImages);
       case 3:
-      
-
         print('3');
 
         return AddGuests(hospitalityController: _hospitalityController);
@@ -244,20 +242,17 @@ class _ButtomProgressState extends State<ButtomProgress> {
 
   bool _validateFields() {
     if (activeIndex == 0) {
-      return 
-      hospitalityTitleControllerEn.text.isNotEmpty &&
+      return hospitalityTitleControllerEn.text.isNotEmpty &&
           hospitalityBioControllerEn.text.isNotEmpty &&
           hospitalityTitleControllerAr.text.isNotEmpty &&
           hospitalityBioControllerAr.text.isNotEmpty;
     }
     if (activeIndex == 1) {
-      return 
-      _hospitalityController.pickUpLocLatLang.value !=
+      return _hospitalityController.pickUpLocLatLang.value !=
           const LatLng(24.9470921, 45.9903698);
     }
     if (activeIndex == 2) {
-      return 
-      _hospitalityImages.length >= 3;
+      return _hospitalityImages.length >= 3;
     }
     return true; // Add validation for other steps if needed
   }
@@ -1760,7 +1755,8 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                         child: CustomText(
                           text: widget.hospitalityController
                                   .isHospatilityDateSelcted.value
-                              ? formatSelectedDates(srvicesController.selectedDates,context)
+                              ? formatSelectedDates(
+                                  srvicesController.selectedDates, context)
                               // srvicesController.selectedDates.map((date) => intel.DateFormat('dd/MM/yyyy').format(date)).join(', ')
                               : 'DD/MM/YYYY'.tr,
                           fontWeight: FontWeight.w400,
@@ -1929,9 +1925,13 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                 child: CustomText(
                                   text: !widget.hospitalityController
                                           .isHospatilityTimeSelcted.value
-                                      ? AppUtil.rtlDirection2(context) ?"00:00 مساء" :"00 :00 PM"
-                                      : AppUtil.formatStringTimeWithLocale(context, intel.DateFormat('hh:mm a')
-                                          .format(newTimeToGo)),
+                                      ? AppUtil.rtlDirection2(context)
+                                          ? "00:00 مساء"
+                                          : "00 :00 PM"
+                                      : AppUtil.formatStringTimeWithLocale(
+                                          context,
+                                          intel.DateFormat('hh:mm a')
+                                              .format(newTimeToGo)),
                                   fontWeight: FontWeight.w400,
                                   color: Graytext,
                                   fontFamily: 'SF Pro',
@@ -2106,9 +2106,13 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                 child: CustomText(
                                   text: !widget.hospitalityController
                                           .isHospatilityTimeSelcted.value
-                                      ? AppUtil.rtlDirection2(context) ?"00:00 مساء" :"00 :00 PM"
-                                      :AppUtil.formatStringTimeWithLocale(context,  intel.DateFormat('hh:mm a')
-                                          .format(newTimeToReturn)),
+                                      ? AppUtil.rtlDirection2(context)
+                                          ? "00:00 مساء"
+                                          : "00 :00 PM"
+                                      : AppUtil.formatStringTimeWithLocale(
+                                          context,
+                                          intel.DateFormat('hh:mm a')
+                                              .format(newTimeToReturn)),
                                   fontWeight: FontWeight.w400,
                                   color: Graytext,
                                   fontFamily: 'SF Pro',
@@ -2687,8 +2691,10 @@ String formatSelectedDates(RxList<dynamic> dates, BuildContext context) {
   dateTimeList.sort();
 
   final bool isArabic = AppUtil.rtlDirection(context);
-  final intel.DateFormat dayFormatter = intel.DateFormat('d', isArabic ? 'ar' : 'en');
-  final intel.DateFormat monthYearFormatter = intel.DateFormat('MMMM yyyy', isArabic ? 'ar' : 'en');
+  final intel.DateFormat dayFormatter =
+      intel.DateFormat('d', isArabic ? 'ar' : 'en');
+  final intel.DateFormat monthYearFormatter =
+      intel.DateFormat('MMMM yyyy', isArabic ? 'ar' : 'en');
 
   String formattedDates = '';
 

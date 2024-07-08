@@ -152,9 +152,6 @@ class _AjwadiVehicleInfoState extends State<AjwadiVehicleInfo> {
 
                                           bool isSuccess =
                                               await authController.vehicleOTP(
-                                                  nationalID:
-                                                      _nationalIdController
-                                                          .text,
                                                   vehicleSerialNumber:
                                                       _vehicleNumberController
                                                           .text,
