@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
+import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
@@ -100,7 +103,9 @@ class _ContactInfoState extends State<ContactInfo> {
                   if (iban == null || iban.isEmpty) {
                     return 'fieldRequired'.tr;
                   }
-                  if (!isValid(iban)) {
+                  if (!isValid(iban) ||
+                      iban.contains(' ') && iban.startsWith('SA')) {
+                    //TODO:localize
                     return 'invalidIBAN'.tr;
                   }
                   return null;
@@ -116,15 +121,33 @@ class _ContactInfoState extends State<ContactInfo> {
             vertical: width * 0.09, horizontal: width * 0.041),
         child: widget.isPageView
             ? const SizedBox()
-            : CustomButton(
-                onPressed: () {
-                  _authController.contactKey.currentState!.validate();
-                },
-                title: 'signUp'.tr,
-                icon: Icon(
-                  Icons.keyboard_arrow_right,
-                  size: width * .06,
-                ),
+            : Obx(
+                () => _authController.isCreateAccountLoading.value
+                    ? const Center(
+                        child: CircularProgressIndicator.adaptive(),
+                      )
+                    : CustomButton(
+                        onPressed: () async {
+                          _authController.contactKey.currentState!.validate();
+                          final isSuccess =
+                              await _authController.createAccountInfo(
+                                  context: context,
+                                  email: _authController.email.value,
+                                  phoneNumber:
+                                      _authController.phoneNumber.value,
+                                  iban: _authController.iban.value,
+                                  type: 'TOUR_GUID');
+                          log(isSuccess.toString());
+                          if (isSuccess) {
+                            Get.offAll(() => const AjwadiBottomBar());
+                          }
+                        },
+                        title: 'signUp'.tr,
+                        icon: Icon(
+                          Icons.keyboard_arrow_right,
+                          size: width * .06,
+                        ),
+                      ),
               ),
       ),
     );

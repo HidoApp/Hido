@@ -1,6 +1,8 @@
 import 'dart:developer';
 
+import 'package:ajwad_v4/auth/view/ajwadi_register/contact_info.dart';
 import 'package:ajwad_v4/auth/view/ajwadi_register/phone_otp.dart';
+import 'package:ajwad_v4/auth/view/ajwadi_register/tour_stepper.dart';
 import 'package:ajwad_v4/auth/view/sigin_in/phone_otp_new.dart';
 import 'package:ajwad_v4/auth/widget/sign_up_text.dart';
 import 'package:ajwad_v4/constants/colors.dart';
@@ -84,14 +86,13 @@ class _LocalSignInState extends State<LocalSignIn> {
             CustomButton(
               onPressed: () {
                 var isValid = _formKey.currentState!.validate();
-
                 if (isValid) {
                   Get.to(() => PhoneOTP(
                         phoneNumber: number,
                         type: 'signIn',
                         otp: '9999',
                       ));
-                } else {}
+                }
               },
               title: 'signIn'.tr,
               icon: Icon(

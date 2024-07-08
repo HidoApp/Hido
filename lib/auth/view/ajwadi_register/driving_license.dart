@@ -11,6 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:jhijri/_src/_jHijri.dart';
 
 class DrivingLicense extends StatefulWidget {
   const DrivingLicense({super.key});
@@ -24,6 +25,7 @@ class _DrivingLicenseState extends State<DrivingLicense> {
 
   String? drivingDate;
   DateTime? date;
+  late JHijri hijriDate;
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +70,7 @@ class _DrivingLicenseState extends State<DrivingLicense> {
                           mode: CupertinoDatePickerMode.date,
                           onDateTimeChanged: (value) {
                             date = value;
+                            //  log(date.toString());
                             setState(() {
                               String theMonth =
                                   date!.month.toString().length == 1
@@ -78,9 +81,18 @@ class _DrivingLicenseState extends State<DrivingLicense> {
                                   : date!.day.toString();
                               drivingDate = '${date!.year}-$theMonth-$theDay';
                             });
+
                             if (drivingDate != null) {
-                              _authController.drivingDate(drivingDate);
-                              log(_authController.drivingDate.value);
+                              DateTime gregorianDate =
+                                  DateTime.parse(drivingDate!);
+                              hijriDate = JHijri(fDate: gregorianDate);
+                              String formattedHijriDate =
+                                  "${hijriDate.year}-${hijriDate.month.toString().padLeft(2, '0')}-${hijriDate.day.toString().padLeft(2, '0')}";
+
+                              log(formattedHijriDate.toString());
+                              _authController
+                                  .drivingDate(formattedHijriDate.toString());
+                              // log(_authController.drivingDate.value);
                             }
                           },
                         ),
@@ -133,12 +145,6 @@ class _DrivingLicenseState extends State<DrivingLicense> {
                       fontFamily: 'SF Pro',
                     ),
             ),
-
-            // CustomButton(
-            //     onPressed: () {
-            //       log(AppUtil.validateBirthday(birthDate ?? '').toString());
-            //     },
-            //     title: 'press')
           ],
         ),
       ),

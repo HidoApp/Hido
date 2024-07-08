@@ -102,6 +102,7 @@ class _ProvidedServicesState extends State<ProvidedServices> {
         child: CustomButton(
           onPressed: () {
             if (experiencesSelected && tourSelected) {
+              Get.to(() => const TourStepper());
             } else if (experiencesSelected) {
               Get.to(() => const ContactInfo());
             } else if (tourSelected) {
@@ -116,7 +117,6 @@ class _ProvidedServicesState extends State<ProvidedServices> {
           height: width * 0.123,
           icon: const Icon(
             Icons.keyboard_arrow_right,
-            size: 24,
           ),
         ),
       ),

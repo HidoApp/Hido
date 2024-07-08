@@ -301,7 +301,7 @@ const localeAr = {
   'productInformation': 'معلومات المنتج',
   'youMightAlsoLike': 'القي نظره ',
   'addToBag': 'أضف للسلة',
-  'fieldRequired': 'هذا الحقل مطلوب',
+  'fieldRequired': '*هذا الحقل مطلوب',
   'invalidPhone': 'رقم هاتف غير صحيح',
   'invalidEmail': 'البريد الإلكتروني غير صحيح',
   'invalidPass': ' "كلمة مرور غير صحيحة ، يجب أن تكون أكثر من أحرف"',
@@ -507,4 +507,5 @@ const localeAr = {
   'registerVehicle': 'الاستمارة',
   'vehicleLicense': 'استمارة السيارة',
   'vehicleHint': 'أدخل رقم الاستمارة',
+  "invalidIBAN": '*رقم الآيبان غير صحيح'
 };

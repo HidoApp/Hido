@@ -517,5 +517,6 @@ const localeEn = {
   'verfiy': 'Verify',
   'registerVehicle': 'Register Vehicle',
   'vehicleLicense': 'Vehicle License',
-  'vehicleHint': 'Enter Vehicle License '
+  'vehicleHint': 'Enter Vehicle License ',
+  "invalidIBAN": '*invalid IBAN'
 };

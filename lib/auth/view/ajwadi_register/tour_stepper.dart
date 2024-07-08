@@ -27,8 +27,6 @@ class TourStepper extends StatefulWidget {
 
 class _TourStepperState extends State<TourStepper> {
   final _authController = Get.put(AuthController());
-  //var activeBar = 1;
-
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -50,7 +48,7 @@ class _TourStepperState extends State<TourStepper> {
             ),
             Padding(
               padding: EdgeInsets.symmetric(
-                  vertical: width * 0.0923, horizontal: width * 0.041),
+                  vertical: width * 0.071, horizontal: width * 0.041),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -81,16 +79,65 @@ class _TourStepperState extends State<TourStepper> {
                     child: Padding(
                       padding: EdgeInsets.symmetric(
                           vertical: width * 0.030, horizontal: width * .041),
-                      child: CustomButton(
-                        onPressed: () {
-                          if (validateScreens()) {
-                            Get.to(() => nextVerfiy());
-                          }
-                        },
-                        title: 'verfiy'.tr,
-                        icon: const Icon(
-                          Icons.keyboard_arrow_right,
-                        ),
+                      child: Obx(
+                        () => _authController.isCreateAccountLoading.value ||
+                                _authController.isVicheleOTPLoading.value ||
+                                _authController.isLienceseOTPLoading.value
+                            ? const Center(
+                                child: CircularProgressIndicator.adaptive())
+                            : CustomButton(
+                                onPressed: () async {
+                                  if (validateScreens()) {
+                                    switch (_authController.activeBar.value) {
+                                      //contact info handle
+                                      case 1:
+                                        final isSuccess = await _authController
+                                            .createAccountInfo(
+                                                context: context,
+                                                email:
+                                                    _authController.email.value,
+                                                phoneNumber: _authController
+                                                    .phoneNumber.value,
+                                                iban:
+                                                    _authController.iban.value,
+                                                type: 'TOUR_GUID');
+                                        log(isSuccess.toString());
+                                        if (isSuccess) {
+                                          _authController.activeBar(2);
+                                        }
+
+                                        break;
+                                      case 2:
+                                        final isSuccess = await _authController
+                                            .drivingLinceseOTP(
+                                                context: context);
+                                        if (isSuccess) {
+                                          Get.to(() => nextVerfiy());
+                                        }
+                                        break;
+                                      case 3:
+                                        final isSuccess =
+                                            await _authController.vehicleOTP(
+                                                vehicleSerialNumber:
+                                                    _authController
+                                                        .vehicleLicense
+                                                        .toString(),
+                                                context: context);
+                                        if (isSuccess) {
+                                          Get.to(() => nextVerfiy());
+                                        }
+                                        break;
+                                      default:
+                                    }
+                                  }
+                                },
+                                title: _authController.activeBar.value != 1
+                                    ? 'verfiy'.tr
+                                    : 'next'.tr,
+                                icon: const Icon(
+                                  Icons.keyboard_arrow_right,
+                                ),
+                              ),
                       ),
                     ),
                   ),
@@ -106,9 +153,7 @@ class _TourStepperState extends State<TourStepper> {
   Widget nextStep() {
     switch (_authController.activeBar.value) {
       case 1:
-        return const ContactInfo(
-          isPageView: true,
-        );
+        return const ContactInfo(isPageView: true);
       case 2:
         return const DrivingLicense();
       case 3:
@@ -120,18 +165,16 @@ class _TourStepperState extends State<TourStepper> {
 
   Widget nextVerfiy() {
     switch (_authController.activeBar.value) {
-      case 1:
-        return const PhoneOTP(
-          otp: '1234',
-        );
       case 2:
         return const PhoneOTP(
-          otp: '0000',
+          otp: '',
+          type: 'stepper',
         );
 
       case 3:
         return const PhoneOTP(
           otp: '5555',
+          type: 'stepper',
         );
       default:
         return Container(); // Replace with your actual widget

@@ -201,26 +201,26 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
             ),
             Obx(
               () => _authController.isPersonInfoLoading.value
-                  ? const CircularProgressIndicator.adaptive()
+                  ? const Center(child: CircularProgressIndicator.adaptive())
                   : CustomButton(
                       onPressed: () async {
                         var isValid = _formKey.currentState!.validate();
                         _authController.validBirthDay(
                             _authController.birthDate.isNotEmpty);
                         if (isValid && _authController.birthDate.isNotEmpty) {
-                          // final isSuccess = await _authController.personInfoOTP(
-                          //     nationalID: nationalId,
-                          //     birthDate: _authController.birthDate.value,
-                          //     context: context);
-                          // print('isSuccess UI $isSuccess');
-                          // if (isSuccess) {
-                          //   _authController.localID(nationalId);
-                          //   Get.to(() => const PhoneOTP(
-                          //         otp: '',
-                          //         type: 'signUp',
-                          //       ));
-                          // }
-                          Get.to(() => const ProvidedServices());
+                          final isSuccess = await _authController.personInfoOTP(
+                              nationalID: nationalId,
+                              birthDate: _authController.birthDate.value,
+                              context: context);
+                          print('isSuccess UI $isSuccess');
+                          if (isSuccess) {
+                            _authController.localID(nationalId);
+                            Get.to(() => const PhoneOTP(
+                                  otp: '',
+                                  type: 'signUp',
+                                ));
+                          }
+                          // Get.to(() => const ProvidedServices());
                         }
                       },
                       title: 'next'.tr,

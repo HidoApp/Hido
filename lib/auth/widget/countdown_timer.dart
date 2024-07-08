@@ -19,7 +19,7 @@ class _CountdownTimerState extends State<CountdownTimer> {
   @override
   Widget build(BuildContext context) {
     return Countdown(
-      seconds: 30,
+      seconds: 120,
       controller: _controller,
       build: (BuildContext context, double time) => GestureDetector(
         onTap: () {

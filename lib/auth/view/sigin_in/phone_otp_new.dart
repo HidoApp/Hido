@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/auth/view/ajwadi_register/provided_services.dart';
 import 'package:ajwad_v4/auth/widget/countdown_timer.dart';
+import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/new-onboarding/view/intro_screen.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
@@ -30,20 +31,24 @@ class _PhoneOTPState extends State<PhoneOTP> {
   bool timerEnd = false;
   late String otp;
   final _authController = Get.put(AuthController());
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
 
-  void stepper(String value) {
-    if (value == otp) {
-      Get.back();
-      if (_authController.activeBar.value == 3) {
-        log('Succes');
-        // Get.offAll(() => OnboardingScreen());
-      } else {
-        _authController.activeBar.value++;
+  void stepper(String otpCode) async {
+    if (_authController.activeBar.value == 2) {
+      log('Succes');
+      final isSuccess = await _authController.getAjwadiLinceseInfo(
+          expiryDate: _authController.drivingDate.value,
+          otp: otpCode,
+          context: context);
+      if (isSuccess) {
+        _authController.activeBar(3);
+        Get.back();
+      }
+    } else {
+      final isSuccess = await _authController.getAjwadiVehicleInf(
+          otp: otpCode, context: context);
+      if (isSuccess) {
+        _authController.activeBar(1);
+        Get.offAll(() => const AjwadiBottomBar());
       }
     }
   }
@@ -94,6 +99,7 @@ class _PhoneOTPState extends State<PhoneOTP> {
             Center(
               child: Pinput(
                 length: 6,
+
                 onCompleted: (value) {
                   switch (widget.type) {
                     case 'stepper':
@@ -115,6 +121,8 @@ class _PhoneOTPState extends State<PhoneOTP> {
                   FilteringTextInputFormatter.digitsOnly,
                 ],
                 autofocus: true,
+                pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
+
                 keyboardType: TextInputType.number,
                 separatorBuilder: (index) => SizedBox(
                   width: width * 0.030,
@@ -161,7 +169,9 @@ class _PhoneOTPState extends State<PhoneOTP> {
               height: width * 0.061,
             ),
             Center(
-                child: Obx(() => _authController.isSignUpRowad.value
+                child: Obx(() => _authController.isSignUpRowad.value ||
+                        _authController.isVicheleLoading.value ||
+                        _authController.isLienceseLoading.value
                     ? const CircularProgressIndicator.adaptive()
                     : const CountdownTimer())),
           ],

@@ -122,7 +122,7 @@ class _SplashScreenState extends State<SplashScreen>
           }
         }
 
-        Get.off(() => AjwadiBottomBar());
+        Get.off(() => const AjwadiBottomBar());
       } else if (onBoarding == 'yes' && token != '' && userRole == 'tourist') {
         if (JwtDecoder.isExpired(token)) {
           final String refreshToken = _getStorage.read('refreshToken');
