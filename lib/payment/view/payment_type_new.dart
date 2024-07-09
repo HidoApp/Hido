@@ -8,6 +8,7 @@ import 'package:ajwad_v4/payment/controller/payment_controller.dart';
 import 'package:ajwad_v4/payment/model/credit_card.dart';
 import 'package:ajwad_v4/payment/model/invoice.dart';
 import 'package:ajwad_v4/payment/widget/credit_form.dart';
+import 'package:ajwad_v4/payment/widget/webview_sheet.dart';
 import 'package:ajwad_v4/profile/view/ticket_details_screen.dart';
 import 'package:ajwad_v4/request/ajwadi/controllers/request_controller.dart';
 import 'package:ajwad_v4/request/local_notification.dart';
@@ -90,18 +91,15 @@ class _PaymentTypeState extends State<PaymentType> {
     bool check = false;
     switch (paymentMethod) {
       case PaymentMethod.appelpay:
-        invoice = await _paymentController.paymentGateway(
-            context: context,
-            language: AppUtil.rtlDirection2(context) ? 'AR' : 'EN',
-            paymentMethod: 'APPLE_PAY',
-            price: widget.price);
+        invoice = await _paymentController.applePayEmbedded(
+            context: context, invoiceValue: widget.price);
         if (widget.type == "hospitality") {
           check = await checkHospitality(false);
         }
         log('before success');
         log(check.toString());
         if (check) {
-          paymentWebView();
+          applePayWebView();
         }
 
         log('after success');
@@ -195,18 +193,124 @@ class _PaymentTypeState extends State<PaymentType> {
     }
   }
 
+  void applePayWebView() async {
+    if (invoice != null) {
+      Get.bottomSheet(WebViewSheet(url: invoice!.url!, title: ""))
+          .then((value) async {
+        Invoice? checkInvoice;
+
+        checkInvoice = await _paymentController.applePayEmbeddedExecute(
+            context: context,
+            invoiceValue: widget.price,
+            sessionId: invoice!.sessionId);
+        if (checkInvoice == null) {
+          showDialog(
+              context: context,
+              builder: (ctx) {
+                return AlertDialog(
+                  backgroundColor: Colors.white,
+                  surfaceTintColor: Colors.white,
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Image.asset('assets/images/paymentFaild.gif'),
+                      CustomText(
+                        text: "paymentFaild".tr,
+                        fontSize: 15,
+                      ),
+                    ],
+                  ),
+                );
+              }).then((value) async {
+            await navigateToPayment(context, invoice!.url!);
+          });
+        }
+        if (checkInvoice == null) {
+          return;
+        }
+        if (checkInvoice.payStatus == 'Paid') {
+          //if the invoice paid then will booking depend on the type of booking
+          switch (widget.type) {
+            case 'adventure':
+              adventureBooking(checkInvoice);
+              break;
+            case 'tour':
+              tourBooking(checkInvoice);
+              break;
+            case 'hospitality':
+              hospitalityBooking(checkInvoice);
+              break;
+            default:
+          }
+        } else {
+          log('No');
+
+          showDialog(
+              context: context,
+              builder: (ctx) {
+                return AlertDialog(
+                  backgroundColor: Colors.white,
+                  surfaceTintColor: Colors.white,
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Image.asset('assets/images/paymentFaild.gif'),
+                      CustomText(
+                        text: "paymentFaild".tr,
+                        fontSize: 15,
+                      ),
+                    ],
+                  ),
+                );
+              }).then((value) async {
+            await navigateToPayment(context, invoice!.url!);
+          });
+        }
+      });
+    } else {
+      log('No');
+      showDialog(
+        context: context,
+        builder: (ctx) {
+          return AlertDialog(
+            backgroundColor: Colors.white,
+            surfaceTintColor: Colors.white,
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Image.asset('assets/images/paymentFaild.gif'),
+                CustomText(
+                  text: "paymentFaild".tr,
+                  fontSize: 15,
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    }
+  }
+
   void paymentWebView() async {
-    // webview for Stc pay and apple pay
+    // webview for Stc pay
     if (invoice != null) {
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) =>
-              PaymentWebView(url: invoice!.url!, title: 'Payment'),
+              PaymentWebView(url: invoice!.url!, title: 'payment'.tr),
         ),
       ).then((value) async {
-        final checkInvoice = await _paymentController.getPaymentId(
-            context: context, id: invoice!.id);
+        Invoice? checkInvoice;
+        if (_selectedPaymentMethod == PaymentMethod.appelpay) {
+          checkInvoice = await _paymentController.applePayEmbeddedExecute(
+              context: context,
+              invoiceValue: widget.price,
+              sessionId: invoice!.sessionId);
+        } else {
+          checkInvoice = await _paymentController.getPaymentId(
+              context: context, id: invoice!.id);
+        }
         if (checkInvoice!.payStatus == 'Paid') {
           //if the invoice paid then will booking depend on the type of booking
           switch (widget.type) {
@@ -430,16 +534,22 @@ class _PaymentTypeState extends State<PaymentType> {
   bool loadingButton() {
     if (widget.type == 'hospitality') {
       return _paymentController.isPaymentGatewayLoading.value ||
+          _paymentController.isApplePayEmbeddedLoading.value ||
+          _paymentController.isApplePayExecuteLoading.value ||
           _paymentController.isCreditCardPaymentLoading.value ||
           adventureController.ischeckBookingLoading.value ||
           widget.servicesController!.isCheckAndBookLoading.value;
     } else if (widget.type == 'adventure') {
       return _paymentController.isPaymentGatewayLoading.value ||
           _paymentController.isCreditCardPaymentLoading.value ||
+          _paymentController.isApplePayEmbeddedLoading.value ||
+          _paymentController.isApplePayExecuteLoading.value ||
           adventureController.ischeckBookingLoading.value;
     } else {
       return _paymentController.isPaymentGatewayLoading.value ||
           _paymentController.isCreditCardPaymentLoading.value ||
+          _paymentController.isApplePayEmbeddedLoading.value ||
+          _paymentController.isApplePayExecuteLoading.value ||
           widget.offerController!.isAcceptOfferLoading.value;
     }
   }
@@ -572,27 +682,27 @@ class _PaymentTypeState extends State<PaymentType> {
                   ),
                 ],
               ),
-              if (Platform.isIOS)
-                Row(
-                  children: [
-                    Radio<PaymentMethod>(
-                      value: PaymentMethod.appelpay,
-                      groupValue: _selectedPaymentMethod,
-                      onChanged: (PaymentMethod? value) {
-                        setState(() {
-                          _selectedPaymentMethod = value;
-                        });
-                      },
-                    ),
-                    // Text('pay'),
+              //  if (Platform.isIOS)
+              Row(
+                children: [
+                  Radio<PaymentMethod>(
+                    value: PaymentMethod.appelpay,
+                    groupValue: _selectedPaymentMethod,
+                    onChanged: (PaymentMethod? value) {
+                      setState(() {
+                        _selectedPaymentMethod = value;
+                      });
+                    },
+                  ),
+                  // Text('pay'),
 
-                    SvgPicture.asset(
-                      "assets/icons/applePay_icon.svg",
-                      color: const Color.fromARGB(255, 0, 0, 0),
-                      height: width * 0.051,
-                    ),
-                  ],
-                ),
+                  SvgPicture.asset(
+                    "assets/icons/applePay_icon.svg",
+                    color: const Color.fromARGB(255, 0, 0, 0),
+                    height: width * 0.051,
+                  ),
+                ],
+              ),
               Row(
                 children: [
                   Radio<PaymentMethod>(
@@ -636,5 +746,21 @@ class _PaymentTypeState extends State<PaymentType> {
         ),
       ),
     );
+  }
+
+  Future<void> navigateToPayment(BuildContext context, String url) async {
+    if (_selectedPaymentMethod == PaymentMethod.appelpay) {
+      await Get.bottomSheet(WebViewSheet(url: url, title: ""));
+    } else {
+      await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => PaymentWebView(
+            url: url,
+            title: 'Payment',
+          ),
+        ),
+      );
+    }
   }
 }

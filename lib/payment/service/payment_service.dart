@@ -372,11 +372,13 @@ class PaymentService {
       },
       body: jsonEncode(
         {
-          "InvoiceValue": invoiceValue,
+          "invoiceValue": invoiceValue,
           'sessionId': sessionId,
         },
       ),
     );
+    log(response.statusCode.toString());
+    log(response.body);
     if (response.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(response.body);
 

@@ -507,5 +507,6 @@ const localeAr = {
   'registerVehicle': 'الاستمارة',
   'vehicleLicense': 'استمارة السيارة',
   'vehicleHint': 'أدخل رقم الاستمارة',
-  "invalidIBAN": '*رقم الآيبان غير صحيح'
+  "invalidIBAN": '*رقم الآيبان غير صحيح',
+  'payment': "دفع"
 };

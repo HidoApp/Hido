@@ -20,7 +20,7 @@ class Invoice {
 
   factory Invoice.fromJson(Map<String, dynamic> json) {
     return Invoice(
-      sessionId: json['sessionId'],
+      sessionId: json['sessionId'] ?? "",
       payStatus: json['payStatus'] ?? '',
       id: json['id'] ?? '',
       invoiceStatus: json['invoiceStatus'] ?? '',
