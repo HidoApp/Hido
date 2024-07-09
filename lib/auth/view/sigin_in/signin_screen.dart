@@ -229,7 +229,6 @@ class _SignInScreenState extends State<SignInScreen> {
                                                   context: context);
 
                                           print('logged $user');
-
                                           if (user != null) {
                                             bool isTokenExpired =
                                                 JwtDecoder.isExpired(

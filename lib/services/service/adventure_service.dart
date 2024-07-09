@@ -142,4 +142,242 @@ class AdventureService {
       return false;
     }
   }
+
+  static Future<bool> createAdventure({
+    required String nameAr,
+    required String nameEn,
+    required String descriptionAr,
+    required String descriptionEn,
+    required String longitude,
+    required String latitude,
+    required String date,
+    required int price,
+    required List<String> image,
+    required String regionAr,
+    required String locationUrl,
+    required String regionEn,
+    // required List<Map<String, dynamic>> times,
+    required String start,
+    required String end,
+    required int seat,
+    required BuildContext context,
+  }) async {
+    final getStorage = GetStorage();
+    String token = getStorage.read('accessToken') ?? "";
+    if (JwtDecoder.isExpired(token)) {
+      final _authController = Get.put(AuthController());
+
+      String refreshToken = getStorage.read('refreshToken');
+      var user = await _authController.refreshToken(
+          refreshToken: refreshToken, context: context);
+      token = getStorage.read('accessToken');
+    }
+
+    Map<String, dynamic> body = {
+      "nameAr": nameAr,
+      "nameEn": nameEn,
+      "descriptionAr": descriptionAr,
+      "descriptionEn": descriptionEn,
+      "price": price,
+      "image": image,
+      "date": date,
+      "coordinates": {
+        "longitude": longitude,
+        "latitude": latitude,
+      },
+      "times": [
+        {
+          "startTime": start,
+          "endTime": end,
+        }
+      ],
+      "locationUrl": locationUrl,
+      "regionAr": regionAr,
+      "regionEn": regionEn,
+      "adventureGenre": "string",
+      "seats": seat
+    };
+    print(body);
+    final response = await http.post(Uri.parse('$baseUrl/adventure'),
+        headers: {
+          'Accept': 'application/json',
+          "Content-Type": "application/json",
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode(body));
+    print(response.statusCode);
+
+    //print(jsonDecode(response.body).length);
+    print("from services equall to ");
+    if (response.statusCode == 200) {
+      //  var data = jsonDecode(response.body);
+      //  print(data['message']);
+      //  if (data['message'] == 'checked') {
+      return true;
+    } else {
+      return false;
+    }
+    //   } else {
+    //     String errorMessage = jsonDecode(response.body)['message'];
+    //     print(errorMessage);
+    //     if (context.mounted) {
+    //       AppUtil.errorToast(context, errorMessage);
+    //   }
+    //     return false;
+    //  }
+  }
+   static Future<Adventure?> editAdventure({
+  required String id,
+    required String nameAr,
+    required String nameEn,
+    required String descriptionAr,
+    required String descriptionEn,
+    required String longitude,
+    required String latitude,
+    required String date,
+    required int price,
+    required List<String> image,
+    required String regionAr,
+    required String locationUrl,
+    required String regionEn,
+    String?Genre,
+    // required List<Map<String, dynamic>> times,
+    required String start,
+    required String end,
+    required int seat,
+    required BuildContext context,
+  }) async {
+    print(" Update adventure ");
+    final getStorage = GetStorage();
+    final String? token = getStorage.read('accessToken');
+
+    final response = await http.put(  Uri.parse('$baseUrl/adventure/$id')
+          .replace(queryParameters: ({'id': id})),
+    
+        headers: {
+          'Accept': 'application/json',
+          "Content-Type": "application/json",
+          'Authorization': 'Bearer $token',
+        },
+      body: json.encode({
+      "nameAr": nameAr.trim(),
+      "nameEn": nameEn.trim(),
+      "descriptionAr": descriptionAr,
+      "descriptionEn": descriptionEn,
+      "price": price,
+      "image": image,
+      "date": date,
+      "coordinates": {
+        "longitude": longitude,
+        "latitude": latitude
+      },
+      "times": [
+        {
+          "startTime": start,
+          "endTime": end
+        }
+      ],
+      "locationUrl": locationUrl,
+      "regionAr": regionAr,
+      "regionEn": regionEn,
+      "seats": seat,
+      "adventureGenre": Genre,
+    }),
+  );
+  
+
+print("Response status code: ${response.statusCode}");
+
+  if (response.statusCode == 200) {
+    try {
+      var adventureData = jsonDecode(response.body);
+      print('Hospitality updated: $adventureData');
+      return Adventure.fromJson(adventureData);
+    } catch (e) {
+      print('Error parsing JSON response: $e');
+      return null;
+    }
+  } else {
+    String errorMessage = jsonDecode(response.body)['message'];
+    if (context.mounted) {
+      AppUtil.errorToast(context, errorMessage);
+    }
+    return null;
+  }
+}
+
+static Future<bool?>  AdventureDelete(
+      {required BuildContext context, required String adventureId}) async {
+    final getStorage = GetStorage();
+    String token = getStorage.read('accessToken') ?? "";
+
+    if (token != '' && JwtDecoder.isExpired(token)) {
+      final _authController = Get.put(AuthController());
+
+      String refreshToken = getStorage.read('refreshToken');
+      var user = await _authController.refreshToken(
+          refreshToken: refreshToken, context: context);
+      token = getStorage.read('accessToken');
+    }
+
+    final response = await http.delete(
+      Uri.parse('$baseUrl/adventure/$adventureId'),
+      headers: {
+        'Accept': 'application/json',
+        "Content-Type": "application/json",
+        'Authorization': 'Bearer $token',
+      },
+      body: json.encode({}),
+    );
+    print("response.statusCode");
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      String errorMessage = jsonDecode(response.body)['message'];
+      if (context.mounted) {
+        AppUtil.errorToast(context, errorMessage);
+      }
+      return null;
+    }
+  }
+   static Future<List<Adventure>?> getUserTicket({
+    required String adventureType,
+    required BuildContext context,
+
+  }) async {
+    print(" getUpcomingTicket ");
+    final getStorage = GetStorage();
+    final String? token = getStorage.read('accessToken');
+    print(token);
+
+    final response = await http.get(
+      Uri.parse('$baseUrl/adventure/local').replace(queryParameters: {
+        'adventureType': adventureType,
+      }),
+      headers: {
+        'Accept': 'application/json',
+        "Content-Type": "application/json",
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    print("response.statusCode  ");
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      List<dynamic> data = jsonDecode(response.body);
+      log('data: $data');
+      print(data.length);
+      print(data.isEmpty);
+      return data.map((adventure) => Adventure.fromJson(adventure)).toList();
+    } else {
+      String errorMessage = jsonDecode(response.body)['message'];
+      if (context.mounted) {
+        AppUtil.errorToast(context, errorMessage);
+      }
+      return null;
+    }
+  }
+
+
 }

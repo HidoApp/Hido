@@ -2,11 +2,16 @@ import 'dart:async';
 
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/explore/ajwadi/model/last_activity.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/add_on_map.dart';
 import 'package:ajwad_v4/explore/ajwadi/model/userLocation.dart';
 import 'package:ajwad_v4/explore/ajwadi/services/location_service.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/custom_local_ticket_card.dart';
+import 'package:ajwad_v4/explore/ajwadi/view/local_ticket_screen.dart';
+import 'package:ajwad_v4/explore/ajwadi/view/next_activity.dart';
 import 'package:ajwad_v4/explore/tourist/view/notification/notification_screen.dart';
+import 'package:ajwad_v4/services/controller/adventure_controller.dart';
+import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
@@ -25,6 +30,7 @@ import '../../../profile/view/messages_screen.dart';
 import '../../../profile/view/ticket_screen.dart';
 import '../../../widgets/category_card.dart';
 import '../../../widgets/custom_app_bar.dart';
+import '../controllers/trip_controller.dart';
 
 class LocalHomeScreen extends StatefulWidget {
   const LocalHomeScreen({super.key, this.fromAjwady = true,required this.profileController});
@@ -41,12 +47,20 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
   final _authController = Get.put(AuthController());
 
   final _profileController = Get.put(ProfileController());
+  final _tripController = Get.put(TripController());
+
+  
+
+  void getNextActivity() async {
+    await _tripController.getNextActivity(context: context);
+  }
 
   @override
   void initState() {
     super.initState();
 
     getProfile();
+    getNextActivity();
   }
 
   void getProfile() async {
@@ -70,7 +84,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
               extendBodyBehindAppBar: true,
               body: SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 44, left: 16, right: 16),
+                  padding: const EdgeInsets.only(top: 53, left: 16, right: 16),
                   child: Column(
                     children: [
                       Container(
@@ -110,7 +124,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                           ],
                         ),
                       ),
-                      SizedBox(height: 18),
+                      SizedBox(height: 16),
                       Row(
                         children: [
                           RichText(
@@ -131,7 +145,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                                   text: _profileController
                                           .isProfileLoading.value
                                       ? ""
-                                      : AppUtil.rtlDirection2(context)?" نورة العيسى":'${_profileController.profile.name ?? ""}',
+                                      :' ${_profileController.profile.name ?? ""}',
                                   style: TextStyle(
                                     color: Color(0xFF37B268),
                                     fontSize: 20,
@@ -146,66 +160,24 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                           )
                         ],
                       ),
-                      SizedBox(height: 16),
+                       SizedBox(height: 1),
                       Container(
                         width: double.infinity,
-                        height: 184,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 0, vertical: 16),
+                        height: 168,
+                        // padding: const EdgeInsets.symmetric(
+                        //     horizontal: 0, vertical: 16),
                         child: Center(
                           child: CustomWalletCard(),
                         ),
                       ),
-                      Container(
-                        width: 358,
-                        height: 441,
-                        padding: const EdgeInsets.only(top: 20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              child: Text(
-                               AppUtil.rtlDirection2(context)?"خدمات": 'Your services',
-                                style: TextStyle(
-                                  color: Color(0xFF070708),
-                                  fontSize: 17,
-                                  fontFamily: 'HT Rakik',
-                                  fontWeight: FontWeight.w500,
-                                  height: 0.10,
-                                ),
-                                textDirection: TextDirection.ltr,
-                              ),
-                            ),
-                            SizedBox(height: 16),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                CategoryCard(
-                                  title:  AppUtil.rtlDirection2(context)?"جولات ":'Tours',
-                                  icon: 'tour_category',
-                                  color: Color(0xFFECF9F1),
-                                  onPressed: () {
-                                    Get.to(
-                                      () => TicketScreen(
-                                        profileController:
-                                            _profileController,
-                                      ),
-                                    );
-                                  },
-                                ),
-                                CategoryCard(
-                                    title:  AppUtil.rtlDirection2(context)?"استضافة":'Hospitality',
-                                    icon: 'host_category',
-                                    color: Color(0xFFF5F2F8)),
-                                CategoryCard(
-                                    title: 'Adventure',
-                                    icon: 'adventure_category',
-                                    color: Color(0xFFF9F4EC)),
-                              ],
-                            ),
-                            SizedBox(height: 32),
-                            Text(
-                              AppUtil.rtlDirection2(context)?"نشاطك القادم": 'Your next activity ',
+                    SizedBox(height: 25),
+
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            child: Text(
+                             AppUtil.rtlDirection2(context)?"الخدمات المقدمة": 'Your services',
                               style: TextStyle(
                                 color: Color(0xFF070708),
                                 fontSize: 17,
@@ -215,10 +187,107 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                               ),
                               textDirection: TextDirection.ltr,
                             ),
-                            SizedBox(height: 16),
-                            CustomLocalTicketCard(),
-                          ],
-                        ),
+                          ),
+                          SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              CategoryCard(
+                                title:  AppUtil.rtlDirection2(context)?"جولات ":'Tours',
+                                icon: 'tour_category',
+                                color: Color(0xFFECF9F1),
+                                onPressed: () {
+                                 Get.to(
+                                    () => LocalTicketScreen(
+                                     servicesController: Get.put(TripController()),
+                                     type: 'tour',
+                                    ),
+                                  );
+                                },
+                              ),
+                              CategoryCard(
+                                  title:  AppUtil.rtlDirection2(context)?"استضافة":'Hospitality',
+                                  icon: 'host_category',
+                                  color: Color(0xFFF5F2F8),
+                                   onPressed: () {
+                                  Get.to(
+                                    () => LocalTicketScreen(
+                                     servicesController: Get.put(HospitalityController()),
+                                     type: 'hospitality',
+                                    ),
+                                  );
+                                },
+                                  
+                                  ),
+                              CategoryCard(
+                                  title: AppUtil.rtlDirection2(context)?'مغامرات':'Adventure',
+                                  icon: 'adventure_category',
+                                  color: Color(0xFFF9F4EC),
+                                  onPressed: () {
+                                  Get.to(
+                                    () => LocalTicketScreen(
+                                     servicesController: Get.put(AdventureController()),
+                                     type: 'adventure',
+                                    ),
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 25),
+                          Text(
+                            AppUtil.rtlDirection2(context)?"نشاطك القادم": 'Your next activity ',
+                            style: TextStyle(
+                              color: Color(0xFF070708),
+                              fontSize: 17,
+                              fontFamily: 'HT Rakik',
+                              fontWeight: FontWeight.w500,
+                              height: 0.10,
+                            ),
+                            textDirection: TextDirection.ltr,
+                          ),
+                          SizedBox(height: 27),
+                                       Obx(
+                                     () =>
+                                         _tripController.isNextActivityLoading.value?
+                                         Center(child: CircularProgressIndicator.adaptive())
+
+                                         :  _tripController.nextTrip == [] ?
+
+                                         Container(
+                                               width: double.infinity,
+                                             height: 135,
+                                             decoration: ShapeDecoration(
+                                               shape: RoundedRectangleBorder(
+                                                 side: BorderSide(width: 1.50, color: Color(0xFFECECEE)),
+                                                 borderRadius: BorderRadius.circular(12),
+                                               ),
+                                             ),
+                                             child: Center(
+                                               child: Text(
+                                                 'you don‘t have any activity yet',
+                                                 textAlign: TextAlign.center,
+                                                 style: TextStyle(
+                                                   color: Color(0xFFDCDCE0),
+                                                   fontSize: 16,
+                                                   fontFamily: 'SF Pro',
+                                                   fontWeight: FontWeight.w400,
+                                                 ),
+                                               ),
+                                             ),
+                                           )
+                                                                 :Column(
+                                                                   children: [
+                                                                //     //  LastActivity(),
+                                                                   
+                                       
+                                                                //  SizedBox(height: 11),
+                                       
+                                                                CustomLocalTicketCard(nextTrip: _tripController.nextTrip,),
+                                                                 ],
+                                                                 ),
+                                       ),
+                        ],
                       ),
                     ],
                   ),

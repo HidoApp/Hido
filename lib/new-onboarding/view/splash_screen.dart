@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
@@ -13,17 +14,16 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:lottie/lottie.dart';
 import 'package:rainbow_color/rainbow_color.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 //import 'package:workmanager/workmanager.dart';
 
-
-
-
-FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 
 // Future showNotification() async {
- 
+
 // }
 // void callbackDispatcher() {
 //   AwesomeNotifications().createNotification(
@@ -35,23 +35,14 @@ FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNo
 
 //   ),
 //   schedule: NotificationCalendar.fromDate(date: DateTime.now().add(Duration(seconds:1)))
-    
+
 //   );
 
-  // Workmanager().executeTask((task, inputData) {
-  //   showNotification();
-  //   return Future.value(true);
-  // });
+// Workmanager().executeTask((task, inputData) {
+//   showNotification();
+//   return Future.value(true);
+// });
 //}
-
-
-
-
-
-
-
-
-
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -63,122 +54,99 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
   final _authController = Get.put(AuthController());
-
   final _getStorage = GetStorage();
+  late AnimationController _controller;
   var onBoarding;
   late dynamic userRole;
   late dynamic token;
 
-  late AnimationController _controller;
-  late Animation<double> _anim;
-
   Future<String?> checkForBoarding() async {
-    dynamic onBoarding = await _getStorage.read('onBoarding') ?? '' ;
-    print('onBoarding  onBoarding $onBoarding');
+    dynamic onBoarding = await _getStorage.read('onBoarding') ?? '';
+    print('onBoarding: $onBoarding');
     userRole = _getStorage.read('userRole') ?? '';
     token = _getStorage.read('accessToken') ?? '';
-    token = _getStorage.read('accessToken') ?? '';
 
- Animatable<Color> bgColor = RainbowColorTween([
-    Colors.red,
-    Colors.blue,
-    Colors.green,
-    Colors.yellow,
-    Colors.red,
-  ]);
-
-  
-  // build a rainbow spectrum that blends across the same numerical domain
-
-
-    // print('onBoarding $onBoarding');
     if (onBoarding == 'yes') {
       return onBoarding;
     } else {
       return null;
     }
   }
-   Animatable<double> bgValue = Tween<double>(begin: 0.0, end: 3.0);
-  Rainbow rb = Rainbow(rangeStart: 0.0, rangeEnd: 3.0, spectrum: [
-    Colors.red,
-    Colors.blue,
-    Colors.green,
-    Colors.yellow,
-    Colors.red,
-  ]);
+
   @override
   void initState() {
-    // TODO: implement initStateÅ
     super.initState();
-
-     _controller = AnimationController(
-      duration: const Duration(seconds: 5),
+    _controller = AnimationController(
       vsync: this,
-    )..forward()..repeat();
-    _anim = bgValue.animate(_controller); 
+      duration: const Duration(seconds: 1), // Set the desired duration here
+    )..forward();
 
-    //      print('onBoarding $onBoarding');
-      Future.delayed(const Duration(seconds: 5), () async {
-     onBoarding =  await checkForBoarding()?? 'no';
- _controller.dispose();
-     print('onBoarding onBoarding onBoarding $onBoarding');
-        if (onBoarding == 'yes' && token != '' && userRole == 'local') {
-          if (JwtDecoder.isExpired(token)) {
-            final String refreshToken = _getStorage.read('refreshToken');
-            var user = await _authController.refreshToken(
-                refreshToken: refreshToken, context: context);
-            if (user != null) {
-              token = user.accessToken;
-            }
+    Future.delayed(const Duration(seconds: 5), () async {
+      onBoarding = await checkForBoarding() ?? 'no';
+      print('onBoarding: $onBoarding');
 
+      if (onBoarding == 'yes' && token != '' && userRole == 'local') {
+        if (JwtDecoder.isExpired(token)) {
+          final String refreshToken = _getStorage.read('refreshToken');
+          var user = await _authController.refreshToken(
+              refreshToken: refreshToken, context: context);
+          if (user != null) {
+            token = user.accessToken;
           }
-
-          Get.off(() => AjwadiBottomBar());
-        } else if (onBoarding == 'yes' && token != '' && userRole == 'tourist') {
-          if (JwtDecoder.isExpired(token)) {
-            final String refreshToken = _getStorage.read('refreshToken');
-            var user = await _authController.refreshToken(
-                refreshToken: refreshToken, context: context);
-            if (user != null) {
-              token = user.accessToken;
-            }
-          }
-
-          Get.off(() => TouristBottomBar());
-        } else if (onBoarding == 'yes') {
-          //  Get.off(() => AccountTypeScreen());
-        Get.off(() => OnboardingScreen());
-
-        } else {
-        // Get.off(() => OnBoardingTry(getStorage: _getStorage ,));
-        Get.off(() => OnboardingScreen());
-
         }
-      });
-
-    //   Workmanager().initialize(
-    //   callbackDispatcher,
-    //   isInDebugMode: false,
-    // );
+        Get.off(() => AjwadiBottomBar());
+      } else if (onBoarding == 'yes' && token != '' && userRole == 'tourist') {
+        if (JwtDecoder.isExpired(token)) {
+          final String refreshToken = _getStorage.read('refreshToken');
+          var user = await _authController.refreshToken(
+              refreshToken: refreshToken, context: context);
+          if (user != null) {
+            token = user.accessToken;
+          }
+        }
+        Get.off(() => TouristBottomBar());
+      } else if (onBoarding == 'yes') {
+        Get.off(() => OnboardingScreen());
+      } else {
+        Get.off(() => OnboardingScreen());
+      }
+    });
   }
 
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(20),
-      color: Colors.white,
-      child: Container(
-          alignment: Alignment.center,
-          child: AnimatedBuilder
-          (  animation: _controller,
-            builder:(context, child)  {
-              return SvgPicture.asset('assets/icons/splash_hido_logo.svg',
-                  height: 108, width: 170, fit: BoxFit.scaleDown,color: rb[_anim.value],);
-            }
-          )),
-      //  child: Image.asset('assets/images/splash.gif'),
+    return Scaffold(
+      backgroundColor: Color(0xFFF9F9F9),
+      body: Stack(
+        children: [
+          Center(
+            child: Lottie.asset(
+              'assets/splash_screen_new.json',
+              controller: _controller,
+              onLoaded: (composition) {
+                _controller.duration = composition.duration;
+                _controller.forward();
+              },
+              key: Key('${Random().nextInt(999999999)}'),
+              width: 600,
+              alignment: Alignment.center,
+              fit: BoxFit.contain,
+              errorBuilder: (context, error, stackTrace) {
+                return Text(
+                  'Failed to load animation',
+                  style: TextStyle(color: Colors.red),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
-

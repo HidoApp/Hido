@@ -15,6 +15,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.backgroundColor,
     this.isAjwadi = false,
     this.isBack = false,
+    this.isDeleteIcon = false,
+
   })  : preferredSize = const Size.fromHeight(75.0),
         super(key: key);
 
@@ -26,6 +28,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool isAjwadi;
   final bool isBack;
   final VoidCallback? onPressedAction;
+  final bool? isDeleteIcon;
   @override
   final Size preferredSize;
 
@@ -65,6 +68,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     ),
                   ),
                   actions: <Widget>[
+                    if(!isDeleteIcon!)
                     if (action)
                       Padding(
                         padding: AppUtil.rtlDirection2(context)
@@ -83,7 +87,29 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                           onPressed: onPressedAction,
                         ),
                       ),
-                  ], //
+                       
+                       if(isDeleteIcon!)
+                       Padding(
+                        padding: AppUtil.rtlDirection2(context)
+                            ? EdgeInsets.only(
+                                top: 10,
+                                left: 15,
+                              )
+                            : EdgeInsets.only(bottom: 35, right: 13),
+                        child: IconButton(
+                          icon: Icon(
+                            Icons.delete_outline,
+                            size: 29,
+                            color:Colors.red,
+
+                          ),
+                          tooltip: "more",
+                          onPressed: onPressedAction,
+                        ),
+                      )
+                       ],
+                
+                  //
                   centerTitle: true,
 
                   leading: !isBack
@@ -92,7 +118,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
                         ?!isAjwadi
                               ? EdgeInsets.only(bottom: 23, right: 30)
-                              : EdgeInsets.only(bottom: 23, left: 30)
+                              : EdgeInsets.only(top: 9, right: 30)
                         :!isAjwadi
                               ? EdgeInsets.only(bottom: 23, left: 30,top:2)
                               : EdgeInsets.only(bottom: 23, left: 30,top:8),

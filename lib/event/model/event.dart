@@ -18,7 +18,10 @@ class Event {
   final int allowedGuests;
   final String? status;
   final List<Booking>? booking;
+    final int?seats;
 
+
+ 
 
   Event({
     required this.id,
@@ -36,25 +39,33 @@ class Event {
     required this.status,
      this.coordinates,
     this.booking,
+    this.seats,
   });
 
   factory Event.fromJson(Map<String, dynamic> json) {
     return Event(
-      id: json['id'],
-      descriptionAr: json['descriptionAr'],
-      descriptionEn: json['descriptionEn'],
-      nameAr: json['nameAr'],
-      nameEn: json['nameEn'],
-      regionAr: json['regionAr'],
-      regionEn: json['regionEn'],
+      id: json['id']??'',
+      descriptionAr: json['descriptionAr']??'',
+      descriptionEn: json['descriptionEn']??'',
+      nameAr: json['nameAr']??'',
+      nameEn: json['nameEn']??'',
+      regionAr: json['regionAr']??'',
+      regionEn: json['regionEn']??'',
        image:List<String>.from(json["image"]),
-       price: json['price'],
-       locationUrl: json['locationUrl'],
-      allowedGuests: json['allowedGuests'],
-      status: json['status'],
-      date: json['date'],
-      coordinates: Coordinate.fromJson( json['coordinates']),
-   booking: json['booking'] == null ? null : ( json['booking'] as List ).map((e) => Booking.fromJson(e) ).toList(),
+       price: json['price']??0,
+       locationUrl: json['locationUrl']??'',
+      allowedGuests: json['allowedGuests']??0,
+      status: json['status']??'',
+      date: json['date']??'',
+      seats: json['seats']??0,
+       coordinates: Coordinate.fromJson(json['coordinates'] ?? {}),
+     
+      booking: json['booking'] != null
+          ? (json['booking'] as List)
+              .map((e) =>Booking.fromJson(e))
+              .toList()
+          : null,
+
     );
   }
 
@@ -72,6 +83,7 @@ class Event {
       'locationUrl': locationUrl,
       'date': date,
      'coordinates': coordinates,
+     'seats':seats
     };
   }
 }

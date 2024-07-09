@@ -297,29 +297,7 @@ class HostTicketData extends StatelessWidget {
                     } else {
                       throw 'Could not launch $url';
                     }
-                    // String query = Uri.encodeComponent('https://maps.app.goo.gl/Z4kmkh5ikW31NacQA');
-                    //  String googleUrl = "https://www.google.com/maps/search/?api=1&query=$query";
-
-                      // if (await canLaunchUrl(googleUrl)) {
-                      //      await launchUrl(googleUrl);
-                      //         }
-
-//                      String googleUrl =
-//                  'comgooglemaps://?center= Z4kmkh5ikW31NacQA;
-//                 String appleUrl =
-//                  'https://maps.apple.com/?sll=${trip.origLocationObj.lat},${trip.origLocationObj.lon}';
-//                 if (await canLaunchUrl("comgooglemaps://")) {
-//                    print('launching com googleUrl');
-//                     await launchUrl(googleUrl);
-//                   } else if (await canLaunch(appleUrl)) {
-//                     print('launching apple url');
-//                        await launchUrl(appleUrl);
-//                            } else {
-//                         throw 'Could not launch url';
-//                        }
-// }
-//                   },
-                  
+                   
 
                   },
                   child: Text(

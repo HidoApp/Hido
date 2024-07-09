@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/explore/ajwadi/view/hoapatility/view/edit_hospitality.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/explore/tourist/view/view_trip_images.dart';
 import 'package:ajwad_v4/request/tourist/view/local_offer_info.dart';
@@ -19,6 +20,7 @@ import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_policy_sheet.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/floating_booking_button.dart';
+import 'package:ajwad_v4/widgets/home_icons_button.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -32,9 +34,16 @@ class HospitalityDetails extends StatefulWidget {
   const HospitalityDetails({
     Key? key,
     required this.hospitalityId,
+    this.isLocal = false,
+    this.experienceType = '',
+    this.address=''
+
   }) : super(key: key);
 
   final String hospitalityId;
+  final bool isLocal;
+  final String experienceType;
+    final String address;
 
   @override
   State<HospitalityDetails> createState() => _HospitalityDetailsState();
@@ -111,16 +120,43 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
               ),
             )
           : Scaffold(
-              bottomNavigationBar: SizedBox(
-                child: Padding(
-                  padding: EdgeInsets.only(top: width * 0.025),
-                  child: BottomHospitalityBooking(
-                    hospitalityObj: hospitalityObj!,
-                    servicesController: _servicesController,
-                    avilableDate: avilableDate,
-                  ),
-                ),
-              ),
+              bottomNavigationBar: !widget.isLocal
+                  ? SizedBox(
+                      child: Padding(
+                        padding: EdgeInsets.only(top: width * 0.025),
+                        child: BottomHospitalityBooking(
+                          hospitalityObj: hospitalityObj!,
+                          servicesController: _servicesController,
+                          avilableDate: avilableDate,
+                        ),
+                      ),
+                    )
+                  : Padding(
+                      padding: EdgeInsets.only(
+                          right: 17, left: 17, bottom: width * 0.085),
+                      child: Row(
+                        children: [
+                          CustomText(
+                            text: "pricePerPerson".tr,
+                            fontSize: width * 0.038,
+                            color: colorDarkGrey,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          CustomText(
+                            text: " /  ",
+                            fontWeight: FontWeight.w900,
+                            fontSize: width * 0.043,
+                            color: Colors.black,
+                          ),
+                          CustomText(
+                            text: '${hospitalityObj!.price} ${'sar'.tr}',
+                            fontWeight: FontWeight.w900,
+                            fontSize: width * 0.043,
+                            fontFamily: 'HT Rakik',
+                          ),
+                        ],
+                      ),
+                    ),
               backgroundColor: Colors.white,
               extendBodyBehindAppBar: true,
               persistentFooterAlignment: AlignmentDirectional.bottomCenter,
@@ -186,9 +222,10 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                     width: width * 0.012,
                                   ),
                                   CustomText(
-                                    text: AppUtil.rtlDirection2(context)
-                                        ? hospitalityObj!.regionAr ?? " "
-                                        : hospitalityObj!.regionEn,
+                                    text: widget.address,
+                                    // AppUtil.rtlDirection2(context)
+                                    //     ? '${hospitalityObj!.regionAr ?? ""}, المملكة العربية السعودية'
+                                    //     : '${hospitalityObj!.regionEn}, Saudi Arabia',
                                     color: colorDarkGrey,
                                     fontSize: width * 0.038,
                                     fontWeight: FontWeight.w300,
@@ -208,9 +245,8 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                     width: width * .012,
                                   ),
                                   CustomText(
-                                    text: AppUtil.rtlDirection2(context)
-                                        ? '${'From'.tr}  ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(hospitalityObj!.daysInfo[0].startTime))} ${'To'.tr}  ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(hospitalityObj!.daysInfo[0].endTime))}'
-                                        : '${'From'.tr}  ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(hospitalityObj!.daysInfo[0].startTime))} ${'To'.tr}  ${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(hospitalityObj!.daysInfo[0].endTime))}',
+                                    text:
+                                        '${'From'.tr}  ${AppUtil.formatTimeWithLocale(context, hospitalityObj!.daysInfo[0].startTime, 'hh:mm a')} ${'To'.tr}  ${AppUtil.formatTimeWithLocale(context, hospitalityObj!.daysInfo[0].endTime, 'hh:mm a')}',
                                     color: colorDarkGrey,
                                     fontSize: width * 0.038,
                                     fontWeight: FontWeight.w300,
@@ -379,107 +415,153 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                       },
                                     ),
                                   ),
-                                  if (hideLocation)
-                                    Container(
-                                      height: height * 0.2,
-                                      width: width * 0.9,
-                                      color: textGreyColor.withOpacity(0.7),
-                                      child: Center(
-                                        child: CustomText(
-                                          text:
-                                              'locationWillBeAvailableAfterBooking'
-                                                  .tr,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w300,
+                                  if (!widget.isLocal)
+                                    if (hideLocation)
+                                      Container(
+                                        height: height * 0.2,
+                                        width: width * 0.9,
+                                        color: textGreyColor.withOpacity(0.7),
+                                        child: Center(
+                                          child: CustomText(
+                                            text:
+                                                'locationWillBeAvailableAfterBooking'
+                                                    .tr,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w300,
+                                          ),
                                         ),
                                       ),
-                                    ),
                                 ],
                               ),
-                              SizedBox(
-                                height: width * 0.025,
-                              ),
-                              const Divider(
-                                color: lightGrey,
-                              ),
-                              SizedBox(
-                                height: width * 0.051,
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  Get.bottomSheet(
-                                    const CustomPloicySheet(),
-                                  );
-                                },
-                                child: Align(
-                                    alignment: !AppUtil.rtlDirection(context)
-                                        ? Alignment.centerRight
-                                        : Alignment.centerLeft,
-                                    child: Row(
-                                      children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            CustomText(
-                                              text: "cancellationPolicy".tr,
-                                              fontSize: width * 0.0461,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                            SizedBox(
-                                              height: width * 0.010,
-                                            ),
-                                            SizedBox(
-                                              width: width * 0.83,
-                                              child: CustomText(
-                                                text:
-                                                    "cancellationPolicyBreifAdventure"
-                                                        .tr,
-                                                fontSize: width * 0.03,
+                              if (!widget.isLocal) ...[
+                                if (hideLocation)
+                                  SizedBox(
+                                    height: width * 0.025,
+                                  ),
+                                const Divider(
+                                  color: lightGrey,
+                                ),
+                                SizedBox(
+                                  height: width * 0.051,
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    Get.bottomSheet(
+                                      const CustomPloicySheet(),
+                                    );
+                                  },
+                                  child: Align(
+                                      alignment: !AppUtil.rtlDirection(context)
+                                          ? Alignment.centerRight
+                                          : Alignment.centerLeft,
+                                      child: Row(
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              CustomText(
+                                                text: "cancellationPolicy".tr,
+                                                fontSize: width * 0.0461,
                                                 fontWeight: FontWeight.w400,
-                                                maxlines: 2,
-                                                color: tileGreyColor,
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                        const Spacer(),
-                                        Icon(
-                                          Icons.arrow_forward_ios,
-                                          color: tileGreyColor,
-                                          size: width * 0.046,
-                                        )
-                                      ],
-                                    )),
-                              ),
-                              const Divider(
-                                color: lightGrey,
-                              ),
+                                              SizedBox(
+                                                height: width * 0.010,
+                                              ),
+                                              SizedBox(
+                                                width: width * 0.83,
+                                                child: CustomText(
+                                                  text:
+                                                      "cancellationPolicyBreifAdventure"
+                                                          .tr,
+                                                  fontSize: width * 0.03,
+                                                  fontWeight: FontWeight.w400,
+                                                  maxlines: 2,
+                                                  color: tileGreyColor,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          const Spacer(),
+                                          Icon(
+                                            Icons.arrow_forward_ios,
+                                            color: tileGreyColor,
+                                            size: width * 0.046,
+                                          )
+                                        ],
+                                      )),
+                                ),
+                                const Divider(
+                                  color: lightGrey,
+                                ),
+                              ],
                             ],
                           ),
                         )
                       ],
                     ),
-                    // Positioned(
-                    //     top: height * 0.08,
-                    //     right: !AppUtil.rtlDirection(context)
-                    //         ? width * 0.85
-                    //         : width * 0.05,
-                    //     child: SvgPicture.asset(
-                    //       "assets/icons/white_bookmark.svg",
-                    //       height: 40,
-                    //     )),
+                    if (!widget.isLocal)
+                      Positioned(
+                        top: height * 0.066,
+                        right: AppUtil.rtlDirection2(context)
+                            ? width * 0.82
+                            : width * 0.072,
+                        child: Container(
+                            width: 35,
+                            height: 36,
+                            decoration: BoxDecoration(
+                              color:
+                                  Colors.white.withOpacity(0.20000000298023224),
+                              shape: BoxShape.circle,
+                            ),
+                            alignment: Alignment.center,
+                            child: SvgPicture.asset(
+                              "assets/icons/white_bookmark.svg",
+                              height: 28,
+                            )),
+                      ),
+                    if (widget.isLocal)
+                      Positioned(
+                          top: height * 0.066,
+                          right: AppUtil.rtlDirection2(context)
+                              ? width * 0.82
+                              : width * 0.072,
+                          child: GestureDetector(
+                              onTap:hospitalityObj!.booking!.isEmpty?
+                               () {
+                                Get.to(EditHospitality(hospitalityObj: hospitalityObj!,experienceType:widget.experienceType));
+                              }:() {
+                                
+                              },
+                              child: Container(
+                                width: 36,
+                                height: 36,
+                                decoration: BoxDecoration(
+                                  color: Colors.white
+                                      .withOpacity(0.20000000298023224),
+                                  shape: BoxShape.circle,
+                                ),
+                                alignment: Alignment.center,
+                                child: SvgPicture.asset(
+                                  'assets/icons/editPin.svg',
+                                  height: 28,
+                                  color: Colors.white,
+                                ),
+                              ))),
+                    //  SvgPicture.asset(
+                    //   "assets/icons/white_bookmark.svg",
+                    //   height: 35,)
                     Positioned(
                       top: height * 0.06,
                       left: AppUtil.rtlDirection2(context)
-                          ? width * 0.85
+                          ? width * 0.82
                           : width * 0.06,
                       child: IconButton(
                         icon: Icon(Icons.arrow_back_ios,
                             textDirection: AppUtil.rtlDirection2(context)
                                 ? TextDirection.rtl
                                 : TextDirection.ltr,
-                            size: width * 0.061,
+                            size: 20,
                             color: Colors.white),
                         onPressed: () => Get.back(),
                         color: Colors.white,
@@ -498,8 +580,8 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                   profileId: hospitalityObj!.userId),
                             );
                           },
-                          image: hospitalityObj!.familyImage,
-                          name: hospitalityObj!.familyName,
+                          image: hospitalityObj!.user.profile.image,
+                          name: hospitalityObj!.user.profile.name,
                         )),
                     //indicator
                     Positioned(

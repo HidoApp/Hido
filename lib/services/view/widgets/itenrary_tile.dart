@@ -1,12 +1,19 @@
+import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ItineraryTile extends StatelessWidget {
-  const ItineraryTile({super.key, required this.title, required this.image});
+  const ItineraryTile(
+      {super.key, required this.title, required this.image, this.imageUrl,this.line=false});
 
   final String title;
   final String image;
+  final String? imageUrl;
+  final bool line;
+
 
   @override
   Widget build(BuildContext context) {
@@ -16,16 +23,40 @@ class ItineraryTile extends StatelessWidget {
       children: [
         SvgPicture.asset(
           image,
-          width: width * 0.05,
+
+          // width: width * 0.05,
         ),
         SizedBox(
-          width: width * 0.0125,
+          width: 4,
         ),
-        CustomText(
-          text: title,
-          color: const Color(0xFF9392A0),
-          fontSize: width * 0.033,
-          fontWeight: FontWeight.w400,
+        GestureDetector(
+          onTap: imageUrl!=''?() async {
+            final Uri url = Uri.parse(imageUrl!);
+            if (await canLaunchUrl(url)) {
+              await launchUrl(url, mode: LaunchMode.externalApplication);
+            } else {
+              throw 'Could not launch $url';
+            }
+          }:() {
+            
+          },
+          child: Text(
+            title,
+            style: TextStyle(
+            color: borderGrey,
+            fontSize: 12,
+            fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+            fontWeight: FontWeight.w400,
+            decoration:line? TextDecoration.underline:TextDecoration.none,
+            ),
+          ),
+        ),
+        
+        if(line)
+        SvgPicture.asset(
+          "assets/icons/arrow_up.svg",
+
+          // width: width * 0.05,
         ),
       ],
     );

@@ -1,13 +1,17 @@
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/explore/tourist/model/coordinates.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:another_flushbar/flushbar.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 class AppUtil {
+  static String address='';
   static bool rtlDirection(context) {
     return !(Get.locale == const Locale('ar', 'ar') ? true : false);
     //return Get.locale == const Locale('ar', 'ar');
@@ -81,6 +85,17 @@ class AppUtil {
       return formattedTime;
     }
   }
+static String getLocationUrl(Coordinate location) {
+    return 'https://www.google.com/maps/search/?api=1&query=${location.latitude},${location.longitude}';
+  }
+
+
+  static String capitalizeFirstLetter(String input) {
+    String lowercased = input.toLowerCase();
+    String capitalized = lowercased[0].toUpperCase() + lowercased.substring(1);
+
+    return capitalized;
+}
 
   static String formatStringTimeWithLocale(
       BuildContext context, String dateTimeString) {

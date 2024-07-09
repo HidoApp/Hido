@@ -172,7 +172,7 @@ class _HospitalityTabState extends State<HospitalityTab> {
                               image: _srvicesController
                                   .hospitalityList[index].images.first,
                               personImage: _srvicesController
-                                  .hospitalityList[index].familyImage,
+                                  .hospitalityList[index].user.profile.image,
                               title: !AppUtil.rtlDirection(context)
                                   ? _srvicesController
                                       .hospitalityList[index].titleAr

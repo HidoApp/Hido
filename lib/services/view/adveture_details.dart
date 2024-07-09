@@ -1,4 +1,5 @@
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/explore/ajwadi/view/Experience/adventure/view/edit_adventure.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/explore/tourist/view/share_sheet.dart';
 import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
@@ -35,9 +36,14 @@ class AdventureDetails extends StatefulWidget {
   const AdventureDetails({
     Key? key,
     required this.adventureId,
+    this.isLocal = false,
+    this.address='',
+
   }) : super(key: key);
 
   final String adventureId;
+  final bool isLocal;
+  final String address;
 
   @override
   State<AdventureDetails> createState() => _AdventureDetailsState();
@@ -97,14 +103,40 @@ class _AdventureDetailsState extends State<AdventureDetails> {
               body: Center(child: CircularProgressIndicator.adaptive()),
             )
           : Scaffold(
-              bottomNavigationBar: SizedBox(
+              bottomNavigationBar: !widget.isLocal?
+              SizedBox(
                 child: Padding(
                   padding: EdgeInsets.only(top: width * 0.025),
                   child: BottomAdventureBooking(
                     adventure: adventure!,
                   ),
                 ),
-              ),
+              ) : Padding(
+                      padding: EdgeInsets.only(
+                          right: 17, left: 17, bottom: width * 0.085),
+                      child: Row(
+                        children: [
+                          CustomText(
+                            text: "pricePerPerson".tr,
+                            fontSize: width * 0.038,
+                            color: colorDarkGrey,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          CustomText(
+                            text: " /  ",
+                            fontWeight: FontWeight.w900,
+                            fontSize: width * 0.043,
+                            color: Colors.black,
+                          ),
+                          CustomText(
+                            text: '${adventure!.price} ${'sar'.tr}',
+                            fontWeight: FontWeight.w900,
+                            fontSize: width * 0.043,
+                            fontFamily: 'HT Rakik',
+                          ),
+                        ],
+                      ),
+                    ),
               backgroundColor: Colors.white,
               extendBodyBehindAppBar: true,
               persistentFooterAlignment: AlignmentDirectional.bottomCenter,
@@ -168,9 +200,10 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                 width: width * 0.012,
                               ),
                               CustomText(
-                                text: AppUtil.rtlDirection2(context)
-                                    ? adventure!.regionAr!
-                                    : adventure!.regionEn!,
+                                text:widget.address,
+                                //  AppUtil.rtlDirection2(context)
+                                //     ? adventure!.regionAr!
+                                //     : adventure!.regionEn!,
                                 color: colorDarkGrey,
                                 fontSize: width * 0.038,
                                 fontWeight: FontWeight.w300,
@@ -190,8 +223,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                 width: width * 0.012,
                               ),
                               CustomText(
-                                text: DateFormat('E-dd-MMM').format(
-                                    DateTime.parse(adventure!.date ?? '')),
+                                text: AppUtil.formatBookingDate(context, adventure!.date ?? ''),
                                 color: colorDarkGrey,
                                 fontSize: width * 0.038,
                                 fontWeight: FontWeight.w300,
@@ -353,6 +385,8 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                               ),
                             ],
                           ),
+                         if (!widget.isLocal) ...[
+
                           SizedBox(
                             height: width * 0.025,
                           ),
@@ -413,35 +447,76 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                             color: lightGrey,
                           ),
                         ],
+                        ],
                       ),
                     )
                   ],
                 ),
+                if (!widget.isLocal)
+
+                 Positioned(
+                        top: height * 0.066,
+                        right: AppUtil.rtlDirection2(context)
+                            ? width * 0.82
+                            : width * 0.072,
+                        child: Container(
+                            width: 35,
+                            height: 36,
+                            decoration: BoxDecoration(
+                              color:
+                                  Colors.white.withOpacity(0.20000000298023224),
+                              shape: BoxShape.circle,
+                            ),
+                            alignment: Alignment.center,
+                            child: SvgPicture.asset(
+                              "assets/icons/white_bookmark.svg",
+                              height: 28,
+                            )),
+                      ),
                 Positioned(
-                    top: height * 0.07,
-                    right: AppUtil.rtlDirection2(context)
-                        ? width * 0.85
-                        : width * 0.05,
-                    child: SvgPicture.asset(
-                      "assets/icons/white_bookmark.svg",
-                      height: width * 0.07,
-                    )),
-                Positioned(
-                  top: height * 0.06,
-                  left: AppUtil.rtlDirection2(context)
-                      ? width * 0.85
-                      : width * 0.06,
-                  child: IconButton(
-                    icon: Icon(Icons.arrow_back_ios,
-                        textDirection: AppUtil.rtlDirection2(context)
-                            ? TextDirection.rtl
-                            : TextDirection.ltr,
-                        size: width * 0.061,
-                        color: Colors.white),
-                    onPressed: () => Get.back(),
-                    color: Colors.white,
-                  ),
-                ),
+                      top: height * 0.06,
+                      left: AppUtil.rtlDirection2(context)
+                          ? width * 0.82
+                          : width * 0.06,
+                      child: IconButton(
+                        icon: Icon(Icons.arrow_back_ios,
+                            textDirection: AppUtil.rtlDirection2(context)
+                                ? TextDirection.rtl
+                                : TextDirection.ltr,
+                            size: 20,
+                            color: Colors.white),
+                        onPressed: () => Get.back(),
+                        color: Colors.white,
+                      ),
+                    ),
+                if (widget.isLocal)
+                      Positioned(
+                          top: height * 0.066,
+                          right: AppUtil.rtlDirection2(context)
+                              ? width * 0.82
+                              : width * 0.072,
+                          child: GestureDetector(
+                              onTap:adventure!.booking!.isEmpty?
+                               () {
+                                 Get.to(EditAdventure(adventureObj: adventure!));
+                              }:() {
+                                
+                              },
+                              child: Container(
+                                width: 36,
+                                height: 36,
+                                decoration: BoxDecoration(
+                                  color: Colors.white
+                                      .withOpacity(0.20000000298023224),
+                                  shape: BoxShape.circle,
+                                ),
+                                alignment: Alignment.center,
+                                child: SvgPicture.asset(
+                                  'assets/icons/editPin.svg',
+                                  height: 28,
+                                  color: Colors.white,
+                                ),
+                              ))),
                 Positioned(
                     top: height * 0.265,
                     right: width * 0.1,

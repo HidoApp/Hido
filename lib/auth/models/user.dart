@@ -5,11 +5,10 @@ class User {
   final String expiresIn;
   final String refreshToken;
   final String refreshExpiresIn;
-  //final Profile profile;
 
 
   User({required this.accessToken, required this.expiresIn, required this.refreshToken,required this.refreshExpiresIn,
-  //required this.profile
+  
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -18,7 +17,7 @@ class User {
       expiresIn: json['expiresIn'],
       refreshToken: json['refreshToken'],
       refreshExpiresIn: json['refreshExpiresIn'],
-      //profile: Profile.fromJson(json['profile']),
+
     );
   }
 
@@ -28,8 +27,25 @@ class User {
       'expiresIn': expiresIn,
       'refreshToken': refreshToken,
       'refreshExpiresIn': refreshExpiresIn,
-      //'profile': profile.toJson(),
+      //'profile': profile?.toJson(),
 
     };
   }
 }
+// Profile class
+class HostProfile {
+  final String name;
+  final String image;
+
+  HostProfile({required this.name, required this.image});
+
+  factory HostProfile.fromJson(Map<String, dynamic> json) {
+    return HostProfile(
+      name: json['name'] ?? '',
+      image: json['image'] ?? '',
+    );
+  }
+}
+
+
+

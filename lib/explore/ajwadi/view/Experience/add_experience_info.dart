@@ -1,5 +1,6 @@
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/experience_type.dart';
+import 'package:ajwad_v4/explore/ajwadi/view/Experience/widget/custom_experience_item.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/hoapatility/widget/buttomProgress.dart';
 import 'package:ajwad_v4/request/ajwadi/models/request_model.dart';
 import 'package:ajwad_v4/request/ajwadi/controllers/request_controller.dart';
@@ -14,6 +15,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../../widgets/custom_app_bar.dart';
+import '../../controllers/ajwadi_explore_controller.dart';
 
 class AddExperienceInfo extends StatefulWidget {
   const AddExperienceInfo({super.key});
@@ -23,12 +25,12 @@ class AddExperienceInfo extends StatefulWidget {
 }
 
 class _AddExperienceInfoState extends State<AddExperienceInfo> {
-  final _requestController = Get.put(RequestController());
+  final _experienceController = Get.put(AjwadiExploreController());
 
   @override
   void initState() {
     super.initState();
-    _requestController.getRequestList(context: context);
+    _experienceController.getAllExperiences(context: context);
   }
 
   
@@ -52,25 +54,23 @@ class _AddExperienceInfoState extends State<AddExperienceInfo> {
                  
                   Expanded(
                     child: Container(
-                      // child: Obx(
-                      //   () => Padding(
-                      //     padding: const EdgeInsets.symmetric(
-                      //         horizontal: 16, vertical: 24),
-                       child: Padding(
+                      child: Obx(
+                        () => Padding(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 16),
+                              horizontal: 16, vertical: 40),
+                     
                           child: ListView(
                             children: [
                               // Tab 1 content (upcomingTrips)
-                              // widget.profileController.isUpcommingTicketLoading.value
-                              //     ? const Center(
-                              //         child: CircularProgressIndicator(
-                              //           color: colorGreen,
-                              //         ),
-                              //       )
-                                 // : 
-                                 // widget.profileController.upcommingTicket.isEmpty
-                                    //  ? 
+                              _experienceController.isAllExperiencesLoading.value
+                                  ? const Center(
+                                      child: CircularProgressIndicator(
+                                        color: colorGreen,
+                                      ),
+                                    )
+                                 : 
+                                  _experienceController.experienceList.isEmpty
+                                     ? 
                                    SizedBox( //new
                                      height: height,
                                      width: width,
@@ -81,28 +81,24 @@ class _AddExperienceInfoState extends State<AddExperienceInfo> {
 
                             )
             
-                 ),
-                                      // ? Column(
-                                      //     children: [
-                                      //       Text('true'),
-                                      //     ],
-                                      //   )
-                                      // : ListView.separated(
-                                      //     shrinkWrap: true,
-                                      //     itemCount: widget.profileController
-                                      //         .upcommingTicket.length,
-                                      //     separatorBuilder: (context, index) {
-                                      //       return const SizedBox(
-                                      //         height: 11,
-                                      //       );
-                                      //     },
-                                      //     itemBuilder: (context, index) {
-                                      //       return CustomTicketCard(
-                                      //         booking: widget.profileController
-                                      //             .upcommingTicket[index],
-                                      //       );
-                                      //     },
-                                      //   ),
+                 )
+                                    
+                                     : ListView.separated(
+                                          shrinkWrap: true,
+                                          itemCount:  _experienceController
+                                          .experienceList.length,
+                                          separatorBuilder: (context, index) {
+                                            return const SizedBox(
+                                              height: 11,
+                                            );
+                                          },
+                                          itemBuilder: (context, index) {
+                                            return ServicesCard(
+                                              experience:  _experienceController.experienceList[index],
+                                                
+                                            );
+                                          },
+                                        ),
 
                              
                             ],
@@ -111,6 +107,7 @@ class _AddExperienceInfoState extends State<AddExperienceInfo> {
                         ),
                       
                     ),
+                  ),
                   ),
                 ],
               ),

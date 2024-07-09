@@ -43,7 +43,9 @@ class CustomWalletCard extends StatelessWidget {
 
   child: Container(
   width: double.infinity,
-   height: 152,
+  //  height: 152,
+   height: 137,
+
 
    decoration: ShapeDecoration(
 shape: RoundedRectangleBorder(
@@ -69,7 +71,7 @@ spreadRadius: 0,
     
     
     child: Padding(
-      padding: const EdgeInsets.only(bottom: 24, left: 16, right: 16, top: 16),
+      padding: const EdgeInsets.only( left: 16, right: 16, top: 16),
      
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,7 +96,7 @@ spreadRadius: 0,
           style: TextStyle(
          color: Color(0xFFB9B8C1),
            fontSize: 13,
-           fontFamily: 'SF Pro',
+           fontFamily: AppUtil.rtlDirection2(context)?"SF Arabic":'SF Pro',
             fontWeight: FontWeight.w500,
            height: 0,
             ),
@@ -102,15 +104,33 @@ spreadRadius: 0,
               SizedBox(
             width: 4,
           ),
-          Text(
-           AppUtil.rtlDirection2(context)?"1,400.00 ريال سعودي":'1,400.00 SAR',
+          Text.rich(
+  TextSpan(
+    children: [
+      TextSpan(
+        text:
+           AppUtil.rtlDirection2(context)?"1,400.00 ":'1,400.00 ',
          style: TextStyle(
             color: Color(0xFF070708),
-             fontSize:  AppUtil.rtlDirection(context)?22:28,
+             fontSize:  AppUtil.rtlDirection(context)?28:28,
              fontFamily: 'HT Rakik',
              fontWeight: FontWeight.w500,
              ),
+            ),
+            TextSpan(
+        text:
+           AppUtil.rtlDirection2(context)?"ر.س":'SAR',
+         style: TextStyle(
+            color: Color(0xFFB9B8C1),
+             fontSize:  20,
+             fontFamily: 'HT Rakik',
+             fontWeight: FontWeight.w500,
+             letterSpacing: 0.80,
+             ),
             )
+    ]
+  )
+          )
         //   SizedBox(
         //     width: 8,
         //   ),

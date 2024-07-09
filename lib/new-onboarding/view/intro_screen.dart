@@ -1,7 +1,9 @@
 import 'dart:math';
 
 import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
+import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/explore/ajwadi/view/Experience/adventure/view/edit_adventure.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:flutter/cupertino.dart';
@@ -48,8 +50,6 @@ class _OnboardingScreenState extends State<OnboardingScreen>
         _videoController?.setVolume(0.0); // (silent)
         _videoController?.play();
       });
-
-    
   }
 
   @override
@@ -62,6 +62,10 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
+    final width = MediaQuery.of(context).size.width;
+     final height = MediaQuery.of(context).size.height;
+
+
     return Scaffold(
       backgroundColor: Color(0xFFF9F9F9),
       body: Stack(
@@ -78,10 +82,18 @@ class _OnboardingScreenState extends State<OnboardingScreen>
           Positioned(
             right: _currentIndex == 0 ? 0 : 5,
             left: _currentIndex == 0 ? 0 : 5,
-            bottom: _currentIndex == 0 ? 0 :_currentIndex == 1?247:_currentIndex == 4?280: _currentIndex == 2?5:75,
+            bottom: _currentIndex == 0
+                ? 0
+                : _currentIndex == 1
+                    ? 247
+                    : _currentIndex == 4
+                        ? 280
+                        : _currentIndex == 2
+                        ? 5
+                        : 75,
             top: _currentIndex == 0
                 ? 0
-                :null, // Conditionally remove the top value
+                : null, // Conditionally remove the top value
 
             child: _currentIndex == 0
                 ? _videoController != null &&
@@ -94,8 +106,11 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                         'assets/images/vedio_cover.jpeg',
                         fit: BoxFit.fill,
                       )
-                : Lottie.asset(
-                   AppUtil.rtlDirection2(context)?tabs[_currentIndex].lottieFileAr: tabs[_currentIndex].lottieFileEn,
+                
+                :Lottie.asset(
+                    AppUtil.rtlDirection2(context)
+                        ? tabs[_currentIndex].lottieFileAr
+                        : tabs[_currentIndex].lottieFileEn,
                     controller: _controller,
                     onLoaded: (composition) {
                       _controller?.duration = composition.duration;
@@ -111,8 +126,16 @@ class _OnboardingScreenState extends State<OnboardingScreen>
             alignment: Alignment.bottomCenter,
             child: Container(
               height: _currentIndex == 0
-                  ? 650
-                  :_currentIndex == 4?AppUtil.rtlDirection2(context)? 358:355:360, // Adjust this height to your desired value
+                  ? height*0.776
+                 // 650
+                  : _currentIndex == 4
+                      ? AppUtil.rtlDirection2(context)
+                      ?height * 0.428
+                      :height * 0.4256
+                          // ? 358
+                          // : 355
+                    : height * 0.431,
+                    //  :360, // Adjust this height to your desired value
               child: Column(
                 children: [
                   Flexible(
@@ -128,7 +151,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                               padding: const EdgeInsets.only(
                                   left: 8, right: 8, bottom: 0),
                               child: _currentIndex == 0
-                                  ? Row(
+                                  ?  Row(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       mainAxisAlignment:
@@ -137,34 +160,29 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                                         Padding(
                                           padding:
                                               AppUtil.rtlDirection2(context)
-                                                  ? const EdgeInsets.only(
-                                                      right: 8, bottom: 8)
-                                                  : const EdgeInsets.only(
-                                                      left: 8, bottom: 8),
-                                          child: Text(
-                                            AppUtil.rtlDirection2(context)
-                                                ? 'اكتشف\nالسعودية\nبأهلها'
-                                                : 'Saudi\nThrough\nIts Locals',
-                                            textAlign:
-                                                AppUtil.rtlDirection2(context)
-                                                    ? TextAlign.right
-                                                    : TextAlign.left,
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 58,
-                                              fontFamily: 'Kufam',
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
+                                                  ? EdgeInsets.only(
+                                                      right: width * 0.032)
+                                                  :  EdgeInsets.only(
+                                                      left: width * 0.032,),
+                                          child: AppUtil.rtlDirection2(context)?
+                                        SvgPicture.asset(
+                                  'assets/icons/intro_ved_ar.svg',
+                                ):
+                                  
+                                          SvgPicture.asset(
+                                  'assets/icons/intro_ved.svg',
+                                )
                                         ),
                                       ],
-                                    )
+                                  )
                                   : Padding(
                                       padding: AppUtil.rtlDirection2(context)
-                                          ? const EdgeInsets.only(
-                                              right: 6, left: 6)
-                                          : const EdgeInsets.only(
-                                              right: 0, left: 0),
+                                          ? EdgeInsets.only(
+                                              right: width * 0.06,
+                                              left: width * 0.06)
+                                          : EdgeInsets.only(
+                                              right:  _currentIndex == 1 ? width * 0.09 : _currentIndex == 2?width * 0.09:width * 0.06,
+                                              left:  _currentIndex == 1 ? width * 0.09 : _currentIndex == 2?width * 0.09:width * 0.06),
                                       child: Text(
                                         tab.title.tr,
                                         textAlign: TextAlign.center,
@@ -216,33 +234,46 @@ class _OnboardingScreenState extends State<OnboardingScreen>
 
                   Padding(
                     padding: _currentIndex == 0
-                        ? EdgeInsets.only(bottom: 40)
+                        ? EdgeInsets.only(bottom: width*0.1)
                         : AppUtil.rtlDirection2(context)
-                            ? EdgeInsets.only(bottom: 37.0)
-                            : EdgeInsets.only(bottom: 40.0),
+                            ? EdgeInsets.only(bottom: width*0.093)
+                            : EdgeInsets.only(bottom: width*0.1),
+                        //  ? EdgeInsets.only(bottom: 40)
+                        // : AppUtil.rtlDirection2(context)
+                        //     ? EdgeInsets.only(bottom: 37.0)
+                        //     : EdgeInsets.only(bottom: 40.0),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         for (int index = 0; index < tabs.length; index++)
-                          _DotIndicator(isSelected: index == _currentIndex,currentIndex: _currentIndex,pageController: _pageController,),
+                          _DotIndicator(
+                            isSelected: index == _currentIndex,
+                            currentIndex: _currentIndex,
+                            pageController: _pageController,
+                          ),
                       ],
                     ),
                   ),
                   // const SizedBox(height: 75)
                   Padding(
                     padding:
-                        const EdgeInsets.only(left: 16, right: 16, bottom: 10),
+                        // const EdgeInsets.only(left: 16, right: 16, bottom: 10),
+                    EdgeInsets.only(left: width*0.041, right: width*0.041, bottom: width*0.026),
+
                     child: CustomButton(
                       title: 'tourist'.tr,
                       textColor: _currentIndex == 0 ? black : null,
                       onPressed: () {
                         Get.to(() => SignInScreen());
+                        // Get.off(() => AjwadiBottomBar());
                       },
                       raduis: 8,
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(right: 16, left: 16),
+                    padding: EdgeInsets.only( left: width*0.041, right: width*0.041),
+                    //EdgeInsets.only(right: 16, left: 16),
+                   
                     child: CustomButton(
                       title: 'localGuide'.tr,
                       onPressed: () {
@@ -263,8 +294,11 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                     child: Row(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 32),
+                          padding:  EdgeInsets.symmetric(
+                              horizontal:  width*0.041, 
+                              vertical: height*0.039,
+                              //vertical:32
+                              ),
                           child: Text(
                             AppUtil.rtlDirection2(context)
                                 ? 'الإستمرار كزائر'
@@ -414,7 +448,6 @@ class _OnboardingScreenState extends State<OnboardingScreen>
           // ),
         ],
       ),
-     
     );
   }
 }
@@ -430,7 +463,7 @@ class ArcPainter extends CustomPainter {
       ..lineTo(size.width, size.height) // Draw a straight line to the right top
       ..lineTo(size.width, 0) // Draw a straight line to the top right corner
       ..close(); // Close the path
-    canvas.drawPath(whiteArc, Paint()..color =Color(0xFFF9F9F9));
+    canvas.drawPath(whiteArc, Paint()..color = Color(0xFFF9F9F9));
   }
 
   @override
@@ -497,7 +530,8 @@ class _DotIndicator extends StatefulWidget {
   _DotIndicatorState createState() => _DotIndicatorState();
 }
 
-class _DotIndicatorState extends State<_DotIndicator> with SingleTickerProviderStateMixin {
+class _DotIndicatorState extends State<_DotIndicator>
+    with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
 
   @override
@@ -511,8 +545,6 @@ class _DotIndicatorState extends State<_DotIndicator> with SingleTickerProviderS
     if (widget.isSelected && !_animationController.isAnimating) {
       _animationController.forward().then((_) {
         _animationController.stop();
-
-
       });
     }
   }
@@ -523,8 +555,6 @@ class _DotIndicatorState extends State<_DotIndicator> with SingleTickerProviderS
     if (widget.isSelected && !_animationController.isAnimating) {
       _animationController.forward().then((_) {
         _animationController.stop();
-
-
       });
     }
   }
@@ -534,7 +564,6 @@ class _DotIndicatorState extends State<_DotIndicator> with SingleTickerProviderS
     _animationController.dispose();
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -581,7 +610,6 @@ class _DotIndicatorState extends State<_DotIndicator> with SingleTickerProviderS
   }
 }
 
-
 class OnboardingModel {
   final String lottieFileEn;
   final String title;
@@ -596,15 +624,15 @@ List<OnboardingModel> tabs = [
     '',
     '',
   ),
-   OnboardingModel(
+  OnboardingModel(
     'assets/onboarding_11.json',
     'intro1',
     'assets/onboarding_1_ar.json',
   ),
   OnboardingModel(
-    'assets/onboarding_2.json',
-    'intro2',
-    'assets/onboarding_2_ar.json',
+  'assets/onboarding_2_neww.json',
+  'intro2',
+  'assets/onboarding_222_Ar.json',
   ),
   OnboardingModel(
     'assets/testttt.json',
@@ -612,9 +640,8 @@ List<OnboardingModel> tabs = [
     'assets/onboarding_3_ar.json',
   ),
   OnboardingModel(
-    'assets/onboarding_44.json',
+    'assets/onboarding_55555.json',
     'intro4',
     'assets/onboarding_4_ar.json',
   ),
- 
 ];

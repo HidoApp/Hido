@@ -1,4 +1,5 @@
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -71,9 +72,8 @@ class CategoryCard extends StatelessWidget {
                       style: TextStyle(
                         color: Color(0xFF070708),
                         fontSize: 13,
-                        fontFamily: 'SF Pro',
+                        fontFamily: AppUtil.rtlDirection2(context) ?'SF Arabic':'SF Pro',
                         fontWeight: FontWeight.w500,
-                        height: 0,
                       ),
                     ),
                   ],

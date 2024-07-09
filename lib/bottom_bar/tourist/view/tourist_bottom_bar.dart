@@ -80,7 +80,7 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
           selectedLabelStyle: const TextStyle(
             fontSize: 13,
             fontWeight: FontWeight.w600,
-            fontFamily: 'Kufam',
+            fontFamily: 'SF Pro',
             color: darkBlack,
           ),
           onTap: (index) {

@@ -1,6 +1,8 @@
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/controllers/ajwadi_explore_controller.dart';
 import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
+import 'package:ajwad_v4/services/controller/adventure_controller.dart';
+import 'package:ajwad_v4/services/controller/event_controller.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/services/model/hospitality.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
@@ -18,12 +20,19 @@ class HostCalenderDialog extends StatefulWidget {
     this.touristExploreController,
     this.avilableDate,
     this.srvicesController,
+    this.advController,
     this.hospitality,
+    this.eventController
   }) : super(key: key);
   final bool fromAjwady;
   final String type;
   final AjwadiExploreController? ajwadiExploreController;
   final HospitalityController? srvicesController;
+  final AdventureController? advController;
+  final EventController? eventController;
+
+
+
   final TouristExploreController? touristExploreController;
   final List<DateTime>? avilableDate;
   final Hospitality? hospitality;
@@ -90,7 +99,7 @@ class _HostCalenderDialogState extends State<HostCalenderDialog> {
                       enablePastDates: false,
                       selectableDayPredicate:
                           widget.avilableDate != null ? defineSelectable : null,
-                      selectionMode:DateRangePickerSelectionMode.multiple,
+                      selectionMode: widget.type=='event' ?DateRangePickerSelectionMode.multiple:DateRangePickerSelectionMode.single,
                       selectionColor: Colors.green,
                       selectionTextStyle: TextStyle(),
                       selectionShape: DateRangePickerSelectionShape.circle,
@@ -140,9 +149,9 @@ class _HostCalenderDialogState extends State<HostCalenderDialog> {
 
                       onSelectionChanged: (selected) {
                         print(selected.value);
-                                                selectedDate = selected.value.toString();
+                      selectedDate = selected.value.toString();
 
-                        selectedDates = selected.value.cast<DateTime>();
+                       selectedDates = selected.value.cast<DateTime>();
                         
                         print(selected);
                       }),
@@ -156,13 +165,21 @@ class _HostCalenderDialogState extends State<HostCalenderDialog> {
                   if (selectedDate == '') {
                   } else {
                     if (widget.type == 'adv') {
-                      widget.ajwadiExploreController!.isDateEmpty.value = false;
-                      widget.ajwadiExploreController!
-                          .selectedAdvDate(selectedDate);
+                     // widget.ajwadiExploreController!.isDateEmpty.value = false;
+                       widget.advController!.isAdventureDateSelcted.value = true;
+                      // widget.ajwadiExploreController!
+                      //     .selectedAdvDate(selectedDate);
+
+                      widget.advController!.selectedDate(selectedDate);
+                      
+
                     } else if (widget.type == 'event') {
-                      widget.ajwadiExploreController!.isDateEmpty.value = false;
-                      widget.ajwadiExploreController!
-                          .selectedAdvDate(selectedDate);
+
+                      widget.eventController!.isEventDateSelcted.value = true;
+                   widget.eventController!.selectedDate(selectedDate);
+
+                    widget.eventController!.selectedDates(selectedDates);
+
                     } else if (widget.type == 'book') {
                       widget.touristExploreController!.isBookingDateSelected
                           .value = true;
@@ -174,7 +191,9 @@ class _HostCalenderDialogState extends State<HostCalenderDialog> {
                       print('8');
                       widget.srvicesController!.isHospatilityDateSelcted.value =
                           true;
-                      widget.srvicesController!.selectedDates(selectedDates);
+                     // widget.srvicesController!.selectedDates(selectedDates);
+                    widget.srvicesController!.selectedDate(selectedDate);
+
 
                          
                          
