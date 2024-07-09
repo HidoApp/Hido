@@ -136,7 +136,7 @@ class _ContactInfoState extends State<ContactInfo> {
                                   phoneNumber:
                                       _authController.phoneNumber.value,
                                   iban: _authController.iban.value,
-                                  type: 'TOUR_GUID');
+                                  type: 'EXPERIENCE');
                           log(isSuccess.toString());
                           if (isSuccess) {
                             Get.offAll(() => const AjwadiBottomBar());
