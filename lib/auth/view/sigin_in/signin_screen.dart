@@ -206,9 +206,7 @@ class _SignInScreenState extends State<SignInScreen> {
                               alignment: Alignment.center,
                               child: _authController.isLoginLoading.value ==
                                       true
-                                  ? const CircularProgressIndicator(
-                                      color: colorGreen,
-                                    )
+                                  ? const CircularProgressIndicator.adaptive()
                                   : CustomElevatedButton(
                                       title: 'signIn'.tr.toUpperCase(),
                                       onPressed: () async {

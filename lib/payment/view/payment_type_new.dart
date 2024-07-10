@@ -222,7 +222,7 @@ class _PaymentTypeState extends State<PaymentType> {
                   ),
                 );
               }).then((value) async {
-            await navigateToPayment(context, invoice!.url!);
+            await navigateToPayment(context, invoice!.url!, 'apple');
           });
         }
         if (checkInvoice == null) {
@@ -263,7 +263,7 @@ class _PaymentTypeState extends State<PaymentType> {
                   ),
                 );
               }).then((value) async {
-            await navigateToPayment(context, invoice!.url!);
+            await navigateToPayment(context, invoice!.url!, 'apple');
           });
         }
       });
@@ -302,15 +302,10 @@ class _PaymentTypeState extends State<PaymentType> {
         ),
       ).then((value) async {
         Invoice? checkInvoice;
-        if (_selectedPaymentMethod == PaymentMethod.appelpay) {
-          checkInvoice = await _paymentController.applePayEmbeddedExecute(
-              context: context,
-              invoiceValue: widget.price,
-              sessionId: invoice!.sessionId);
-        } else {
-          checkInvoice = await _paymentController.getPaymentId(
-              context: context, id: invoice!.id);
-        }
+
+        checkInvoice = await _paymentController.getPaymentId(
+            context: context, id: invoice!.id);
+
         if (checkInvoice!.payStatus == 'Paid') {
           //if the invoice paid then will booking depend on the type of booking
           switch (widget.type) {
@@ -346,7 +341,7 @@ class _PaymentTypeState extends State<PaymentType> {
                   ),
                 );
               }).then((value) async {
-            await navigateToPayment(context, invoice!.url!);
+            await navigateToPayment(context, invoice!.url!, 'else');
           });
         }
       });
@@ -419,7 +414,7 @@ class _PaymentTypeState extends State<PaymentType> {
       Get.to(() => TicketDetailsScreen(
           booking: fetchedBooking,
           icon: SvgPicture.asset('assets/icons/place.svg'),
-          bookTypeText: AppUtil.getBookingTypeText(context, 'place')));
+          bookTypeText: 'place'));
     });
   }
 
@@ -439,7 +434,9 @@ class _PaymentTypeState extends State<PaymentType> {
 
     final updatedHospitality = await widget.servicesController!
         .getHospitalityById(context: context, id: widget.hospitality!.id);
-
+    log(updatedHospitality!.booking!.first!.guestInfo.male.toString());
+    log(updatedHospitality!.booking!.first!.guestInfo.female.toString());
+    log(updatedHospitality!.booking!.first!.guestInfo.dayId.toString());
     showDialog(
       context: context,
       builder: (ctx) {
@@ -467,7 +464,7 @@ class _PaymentTypeState extends State<PaymentType> {
       Get.to(() => TicketDetailsScreen(
             hospitality: updatedHospitality,
             icon: SvgPicture.asset('assets/icons/hospitality.svg'),
-            bookTypeText: AppUtil.getBookingTypeText(context, 'hospitality'),
+            bookTypeText: "hospitality",
           ));
     });
     LocalNotification().showHospitalityNotification(
@@ -526,7 +523,7 @@ class _PaymentTypeState extends State<PaymentType> {
       Get.to(() => TicketDetailsScreen(
             adventure: updatedAdventure,
             icon: SvgPicture.asset('assets/icons/adventure.svg'),
-            bookTypeText: AppUtil.getBookingTypeText(context, 'adventure'),
+            bookTypeText: "adventure",
           ));
     });
   }
@@ -538,15 +535,18 @@ class _PaymentTypeState extends State<PaymentType> {
           _paymentController.isApplePayExecuteLoading.value ||
           _paymentController.isCreditCardPaymentLoading.value ||
           adventureController.ischeckBookingLoading.value ||
+          _paymentController.isPaymenInvoiceByIdLoading.value ||
           widget.servicesController!.isCheckAndBookLoading.value;
     } else if (widget.type == 'adventure') {
       return _paymentController.isPaymentGatewayLoading.value ||
+          _paymentController.isPaymenInvoiceByIdLoading.value ||
           _paymentController.isCreditCardPaymentLoading.value ||
           _paymentController.isApplePayEmbeddedLoading.value ||
           _paymentController.isApplePayExecuteLoading.value ||
           adventureController.ischeckBookingLoading.value;
     } else {
       return _paymentController.isPaymentGatewayLoading.value ||
+          _paymentController.isPaymenInvoiceByIdLoading.value ||
           _paymentController.isCreditCardPaymentLoading.value ||
           _paymentController.isApplePayEmbeddedLoading.value ||
           _paymentController.isApplePayExecuteLoading.value ||
@@ -626,17 +626,21 @@ class _PaymentTypeState extends State<PaymentType> {
             Obx(
               () => loadingButton()
                   ? const CircularProgressIndicator.adaptive()
-                  : CustomButton(
-                      onPressed: () async {
-                        if (_selectedPaymentMethod != null) {
-                          await selectPaymentType(_selectedPaymentMethod!);
-                        } else {
-                          AppUtil.errorToast(context, "Must pick methoed");
-                        }
-                      },
-                      title: 'pay'.tr,
-                      icon: const Icon(Icons.keyboard_arrow_right,
-                          color: Colors.white),
+                  : Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 12),
+                      child: CustomButton(
+                        onPressed: () async {
+                          if (_selectedPaymentMethod != null) {
+                            await selectPaymentType(_selectedPaymentMethod!);
+                          } else {
+                            AppUtil.errorToast(context, "Must pick methoed");
+                          }
+                        },
+                        title: 'pay'.tr,
+                        icon: const Icon(Icons.keyboard_arrow_right,
+                            color: Colors.white),
+                      ),
                     ),
             ),
           ],
@@ -682,27 +686,27 @@ class _PaymentTypeState extends State<PaymentType> {
                   ),
                 ],
               ),
-              //  if (Platform.isIOS)
-              Row(
-                children: [
-                  Radio<PaymentMethod>(
-                    value: PaymentMethod.appelpay,
-                    groupValue: _selectedPaymentMethod,
-                    onChanged: (PaymentMethod? value) {
-                      setState(() {
-                        _selectedPaymentMethod = value;
-                      });
-                    },
-                  ),
-                  // Text('pay'),
+              if (Platform.isIOS)
+                Row(
+                  children: [
+                    Radio<PaymentMethod>(
+                      value: PaymentMethod.appelpay,
+                      groupValue: _selectedPaymentMethod,
+                      onChanged: (PaymentMethod? value) {
+                        setState(() {
+                          _selectedPaymentMethod = value;
+                        });
+                      },
+                    ),
+                    // Text('pay'),
 
-                  SvgPicture.asset(
-                    "assets/icons/applePay_icon.svg",
-                    color: const Color.fromARGB(255, 0, 0, 0),
-                    height: width * 0.051,
-                  ),
-                ],
-              ),
+                    SvgPicture.asset(
+                      "assets/icons/applePay_icon.svg",
+                      color: const Color.fromARGB(255, 0, 0, 0),
+                      height: width * 0.051,
+                    ),
+                  ],
+                ),
               Row(
                 children: [
                   Radio<PaymentMethod>(
@@ -748,8 +752,9 @@ class _PaymentTypeState extends State<PaymentType> {
     );
   }
 
-  Future<void> navigateToPayment(BuildContext context, String url) async {
-    if (_selectedPaymentMethod == PaymentMethod.appelpay) {
+  Future<void> navigateToPayment(
+      BuildContext context, String url, String type) async {
+    if (type == 'apple') {
       await Get.bottomSheet(WebViewSheet(url: url, title: ""));
     } else {
       await Navigator.push(

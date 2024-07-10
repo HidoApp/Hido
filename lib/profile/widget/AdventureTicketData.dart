@@ -11,7 +11,6 @@ import '../../services/model/hospitality.dart';
 import '../../utils/app_util.dart';
 import '../../widgets/dotted_line_separator.dart';
 
-
 class AdventureTicketData extends StatelessWidget {
   final Booking? booking;
   final SvgPicture? icon;
@@ -69,8 +68,7 @@ class AdventureTicketData extends StatelessWidget {
           ),
         ),
         Container(
-          width: 294,
-          height: 200,
+          width: double.infinity,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -100,10 +98,13 @@ class AdventureTicketData extends StatelessWidget {
                               height: 0,
                             ),
                           ),
-                        const SizedBox(height: 5),
-
+                          const SizedBox(height: 5),
                           Text(
-                            adventure==null?AppUtil.formatBookingDate(context,booking!.date):AppUtil.formatBookingDate(context,adventure!.booking!.last.date),
+                            adventure == null
+                                ? AppUtil.formatBookingDate(
+                                    context, booking!.date)
+                                : AppUtil.formatBookingDate(
+                                    context, adventure!.booking!.last.date),
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Color(0xFF111113),
@@ -118,55 +119,11 @@ class AdventureTicketData extends StatelessWidget {
                     ),
                   ],
                 ),
-              ), 
+              ),
               const SizedBox(height: 12),
-
               Container(
                 width: double.infinity,
                 child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                        Container(
-                            child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                    Text(
-                                         AppUtil.rtlDirection2(context)?"وقت الذهاب" :'Start Time',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Color(0xFF9392A0),
-                                            fontSize: 14,
-                                            fontFamily: 'SF Pro',
-                                            fontWeight: FontWeight.w500,
-                                            height: 0,
-                                        ),
-                                    ),
-                                    Text(
-                                        // '10:00 AM',
-                                       // booking.timeToGo??'',
-                                       
-                                      adventure==null?formatTimeWithLocale(context,booking!.timeToGo):formatTimeWithLocale(context,adventure!.booking!.last.timeToGo),
-                                        style: TextStyle(
-                                            color: Color(0xFF111113),
-                                            fontSize: 15,
-                                            fontFamily: 'SF Pro',
-                                            fontWeight: FontWeight.w600,
-                                            height: 0,
-                                        ),
-                                    ),
-                                ],
-                            ),
-                        ),
-                    ],
-                ),
-              ),             
-              const SizedBox(height: 12),
-              Container(
-                child: Column(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -179,8 +136,8 @@ class AdventureTicketData extends StatelessWidget {
                         children: [
                           Text(
                             AppUtil.rtlDirection2(context)
-                                ? "غدد الضيوف"
-                                : 'Guests',
+                                ? "وقت الذهاب"
+                                : 'Start Time',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Color(0xFF9392A0),
@@ -190,102 +147,21 @@ class AdventureTicketData extends StatelessWidget {
                               height: 0,
                             ),
                           ),
-                          const SizedBox(height: 5),
-
-                          Container(
-                            child:Column(
-                               mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children:[
-                              Row(
-                              // mainAxisSize: MainAxisSize.min,
-                              // mainAxisAlignment: MainAxisAlignment.start,
-                              // crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(adventure==null?'${booking?.guestNumber} ${'person'.tr}':'${adventure!.booking!.last.guestNumber} ${'person'.tr}',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Color(0xFF111113),
-                                    fontSize: 15,
-                                    fontFamily: 'SF Pro',
-                                    fontWeight: FontWeight.w600,
-                                    height: 0,
-                                  ),
-                                ),
-                    
-                              ],
-                            ),
-                           
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              
-              const SizedBox(height: 12),
-              Container(
-                width: double.infinity,
-                height: 50,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Container(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
                           Text(
-                            AppUtil.rtlDirection2(context) ? "المبلغ" : 'Cost',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Color(0xFF9392A0),
-                              fontSize: 14,
-                              fontFamily: 'SF Pro',
-                              fontWeight: FontWeight.w500,
-                              height: 0,
-                            ),
-                          ),
-                          Container(
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  
-                                  // booking.place!.price.toString(),
-                                adventure==null? booking!.cost.toString():adventure!.booking!.last.cost.toString(),
+                            // '10:00 AM',
+                            // booking.timeToGo??'',
 
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Color(0xFF111113),
-                                    fontSize: 17,
-                                    fontFamily: 'SF Pro',
-                                    fontWeight: FontWeight.w600,
-                                    height: 0,
-                                  ),
-                                ),
-                                const SizedBox(width: 4),
-                                Text(
-                                  AppUtil.rtlDirection2(context) ? 'ريال' : 'SAR',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Color(0xFF111113),
-                                    fontSize: 14,
-                                    fontFamily: 'SF Pro',
-                                    fontWeight: FontWeight.w500,
-                                    height: 0,
-                                  ),
-                                ),
-                              ],
+                            adventure == null
+                                ? formatTimeWithLocale(
+                                    context, booking!.timeToGo)
+                                : formatTimeWithLocale(
+                                    context, adventure!.booking!.last.timeToGo),
+                            style: TextStyle(
+                              color: Color(0xFF111113),
+                              fontSize: 15,
+                              fontFamily: 'SF Pro',
+                              fontWeight: FontWeight.w600,
+                              height: 0,
                             ),
                           ),
                         ],
@@ -294,42 +170,197 @@ class AdventureTicketData extends StatelessWidget {
                   ],
                 ),
               ),
+              const SizedBox(height: 12),
+              Text(
+                AppUtil.rtlDirection2(context) ? "غدد الضيوف" : 'Guests',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Color(0xFF9392A0),
+                  fontSize: 14,
+                  fontFamily: 'SF Pro',
+                  fontWeight: FontWeight.w500,
+                  height: 0,
+                ),
+              ),
+              Text(
+                adventure == null
+                    ? '${booking?.guestNumber} ${'person'.tr}'
+                    : '${adventure!.booking!.last.guestNumber} ${'person'.tr}',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Color(0xFF111113),
+                  fontSize: 15,
+                  fontFamily: 'SF Pro',
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              // Container(
+              //   child: Column(
+              //     mainAxisSize: MainAxisSize.min,
+              //     mainAxisAlignment: MainAxisAlignment.start,
+              //     crossAxisAlignment: CrossAxisAlignment.center,
+              //     children: [
+              //       Container(
+              //         child: Column(
+              //           mainAxisSize: MainAxisSize.min,
+              //           mainAxisAlignment: MainAxisAlignment.start,
+              //           crossAxisAlignment: CrossAxisAlignment.start,
+              //           children: [
+              //             Text(
+              //               AppUtil.rtlDirection2(context)
+              //                   ? "غدد الضيوف"
+              //                   : 'Guests',
+              //               textAlign: TextAlign.center,
+              //               style: TextStyle(
+              //                 color: Color(0xFF9392A0),
+              //                 fontSize: 14,
+              //                 fontFamily: 'SF Pro',
+              //                 fontWeight: FontWeight.w500,
+              //                 height: 0,
+              //               ),
+              //             ),
+              //             const SizedBox(height: 5),
+              //             Container(
+              //               child: Column(
+              //                 mainAxisSize: MainAxisSize.min,
+              //                 mainAxisAlignment: MainAxisAlignment.start,
+              //                 crossAxisAlignment: CrossAxisAlignment.start,
+              //                 children: [
+              //                   Text(
+              //                     adventure == null
+              //                         ? '${booking?.guestNumber} ${'person'.tr}'
+              //                         : '${adventure!.booking!.last.guestNumber} ${'person'.tr}',
+              //                     textAlign: TextAlign.center,
+              //                     style: TextStyle(
+              //                       color: Color(0xFF111113),
+              //                       fontSize: 15,
+              //                       fontFamily: 'SF Pro',
+              //                       fontWeight: FontWeight.w600,
+              //                     ),
+              //                   ),
+              //                 ],
+              //               ),
+              //             ),
+              //           ],
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    AppUtil.rtlDirection2(context) ? "المبلغ" : 'Cost',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Color(0xFF9392A0),
+                      fontSize: 14,
+                      fontFamily: 'SF Pro',
+                      fontWeight: FontWeight.w500,
+                      height: 0,
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    // booking.place!.price.toString(),
+                    adventure == null
+                        ? booking!.cost.toString()
+                        : adventure!.booking!.last.cost.toString(),
+
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Color(0xFF111113),
+                      fontSize: 17,
+                      fontFamily: 'SF Pro',
+                      fontWeight: FontWeight.w600,
+                      height: 0,
+                    ),
+                  ),
+                  const SizedBox(width: 4),
+                  Text(
+                    AppUtil.rtlDirection2(context) ? 'ريال' : 'SAR',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Color(0xFF111113),
+                      fontSize: 14,
+                      fontFamily: 'SF Pro',
+                      fontWeight: FontWeight.w500,
+                      height: 0,
+                    ),
+                  ),
+                ],
+              ),
+              // Container(
+              //   width: double.infinity,
+              //   height: 50,
+              //   child: Column(
+              //     mainAxisSize: MainAxisSize.min,
+              //     mainAxisAlignment: MainAxisAlignment.center,
+              //     crossAxisAlignment: CrossAxisAlignment.end,
+              //     children: [
+              //       Container(
+              //         child: Column(
+              //           mainAxisSize: MainAxisSize.min,
+              //           mainAxisAlignment: MainAxisAlignment.start,
+              //           crossAxisAlignment: CrossAxisAlignment.start,
+              //           children: [
+
+              //             Container(
+              //               child:
+              //             ),
+              //           ],
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
             ],
           ),
         ),
         // Divider(color: Colors.grey, height: 5),
-          DottedSeparator(
-                  color: almostGrey,
-                  height: 1,
-                ),
+        SizedBox(
+          height: 8,
+        ),
+        DottedSeparator(
+          color: almostGrey,
+          height: 1,
+        ),
         // SizedBox(height: 30),
         // Divider(),
 
-      //  Link(
-      //   uri: Uri.parse('http://flutter.dev'),
-        
-      //    builder: (context,followlink)=>GestureDetector(
-      //    onTap: followlink,
-      //     child: Text("open link"),
-      //    )
-         const SizedBox(height: 25),
-              Container(
-                width: double.infinity,
-                child: GestureDetector(
-                  onTap: () async {
-                    
-                    final Uri url = adventure==null?Uri.parse( booking!.adventure?.locationUrl??''):Uri.parse(adventure!.locationUrl??'');
-                    if (await canLaunchUrl(url)) {
-                      await launchUrl(url, mode: LaunchMode.externalApplication);
-                    } else {
-                      throw 'Could not launch $url';
-                    }
-                    // String query = Uri.encodeComponent('https://maps.app.goo.gl/Z4kmkh5ikW31NacQA');
-                    //  String googleUrl = "https://www.google.com/maps/search/?api=1&query=$query";
+        //  Link(
+        //   uri: Uri.parse('http://flutter.dev'),
 
-                      // if (await canLaunchUrl(googleUrl)) {
-                      //      await launchUrl(googleUrl);
-                      //         }
+        //    builder: (context,followlink)=>GestureDetector(
+        //    onTap: followlink,
+        //     child: Text("open link"),
+        //    )
+        const SizedBox(height: 25),
+        Container(
+          width: double.infinity,
+          child: GestureDetector(
+            onTap: () async {
+              final Uri url = adventure == null
+                  ? Uri.parse(booking!.adventure?.locationUrl ?? '')
+                  : Uri.parse(adventure!.locationUrl ?? '');
+              if (await canLaunchUrl(url)) {
+                await launchUrl(url, mode: LaunchMode.externalApplication);
+              } else {
+                throw 'Could not launch $url';
+              }
+              // String query = Uri.encodeComponent('https://maps.app.goo.gl/Z4kmkh5ikW31NacQA');
+              //  String googleUrl = "https://www.google.com/maps/search/?api=1&query=$query";
+
+              // if (await canLaunchUrl(googleUrl)) {
+              //      await launchUrl(googleUrl);
+              //         }
 
 //                      String googleUrl =
 //                  'comgooglemaps://?center= Z4kmkh5ikW31NacQA;
@@ -346,47 +377,38 @@ class AdventureTicketData extends StatelessWidget {
 //                        }
 // }
 //                   },
-                  
-
-                  },
-                  child: Text(
-                    AppUtil.rtlDirection2(context) ? "الموقع" : 'Location',
-                    style: TextStyle(
-                         color: Color(0xFF37B268),
-                        fontSize: 18,
-                    fontFamily: 'SF Pro',
-                      fontWeight: FontWeight.w600,
-                      height: 0,
-                       
-                      decoration: TextDecoration.underline,
-                    ),
-                    
-                  ),
-                ),
-         
-         
-         ),
-
-
+            },
+            child: Text(
+              AppUtil.rtlDirection2(context) ? "الموقع" : 'Location',
+              style: TextStyle(
+                color: Color(0xFF37B268),
+                fontSize: 18,
+                fontFamily: 'SF Pro',
+                fontWeight: FontWeight.w600,
+                height: 0,
+                decoration: TextDecoration.underline,
+              ),
+            ),
+          ),
+        ),
       ],
-        
     );
   }
+
   String formatTimeWithLocale(BuildContext context, String dateTimeString) {
- 
-  DateTime time = DateFormat("HH:mm").parse(dateTimeString);
+    DateTime time = DateFormat("HH:mm").parse(dateTimeString);
     String formattedTime = DateFormat.jm().format(time);
-  if (AppUtil.rtlDirection2(context)) {
-    // Arabic locale
-    String suffix = time.hour < 12 ? 'صباحًا' : 'مساءً';
-    formattedTime = formattedTime.replaceAll('AM', '').replaceAll('PM', '').trim(); // Remove AM/PM
-    return '$formattedTime $suffix';
-  } else {
-    // Default to English locale
-    return formattedTime;
+    if (AppUtil.rtlDirection2(context)) {
+      // Arabic locale
+      String suffix = time.hour < 12 ? 'صباحًا' : 'مساءً';
+      formattedTime = formattedTime
+          .replaceAll('AM', '')
+          .replaceAll('PM', '')
+          .trim(); // Remove AM/PM
+      return '$formattedTime $suffix';
+    } else {
+      // Default to English locale
+      return formattedTime;
+    }
   }
 }
-}
-
-
-

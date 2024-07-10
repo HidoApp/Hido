@@ -17,6 +17,7 @@ class CustomListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return GestureDetector(
       onTap: onTap,
       child: ListTile(
@@ -25,19 +26,18 @@ class CustomListTile extends StatelessWidget {
           textAlign: TextAlign.start,
           text: title,
           color: black,
-          fontSize: 16,
+          fontFamily: "SF Pro",
+          fontSize: width * 0.0410,
           fontWeight: FontWeight.w400,
         ),
         leading: SvgPicture.asset(
           leading,
-          width: 20,
-          height: 20,
           color: iconColor ?? null,
         ),
-        trailing: const Icon(
+        trailing: Icon(
           Icons.arrow_forward_ios_rounded,
-          color: Color(0xFF454545),
-          size: 18,
+          color:const Color(0xff070708),
+          size: width * 0.046,
         ),
       ),
     );

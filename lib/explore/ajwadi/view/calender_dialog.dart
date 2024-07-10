@@ -86,13 +86,12 @@ class _CalenderDialogState extends State<CalenderDialog> {
                           borderRadius: BorderRadius.circular(8))),
                   alignment: Alignment.bottomRight,
                   child: SfDateRangePicker(
+                      backgroundColor: Colors.white,
                       minDate: DateTime.now(),
                       enablePastDates: false,
                       selectableDayPredicate:
                           widget.avilableDate != null ? defineSelectable : null,
-
                       selectionMode: DateRangePickerSelectionMode.single,
-
                       selectionColor: Colors.green,
                       selectionTextStyle: TextStyle(),
                       selectionShape: DateRangePickerSelectionShape.circle,
@@ -122,6 +121,7 @@ class _CalenderDialogState extends State<CalenderDialog> {
                             'EEE', // Short format for day names (e.g., Mon, Tue)
 
                         viewHeaderStyle: DateRangePickerViewHeaderStyle(
+                          backgroundColor: Colors.white,
                           textStyle: TextStyle(
                             color: Color(0xFF070708),
                             fontSize: 12,
@@ -134,6 +134,7 @@ class _CalenderDialogState extends State<CalenderDialog> {
                       //  showNavigationArrow: true,
 
                       headerStyle: const DateRangePickerHeaderStyle(
+                          backgroundColor: Colors.white,
                           textAlign: TextAlign.left,
                           textStyle: TextStyle(
                             color: Color(0xFF37B268),
@@ -142,7 +143,6 @@ class _CalenderDialogState extends State<CalenderDialog> {
                       onSelectionChanged: (selected) {
                         print(selected.value);
                         selectedDate = selected.value.toString();
-
 
                         print(selected);
                       }),
@@ -168,7 +168,6 @@ class _CalenderDialogState extends State<CalenderDialog> {
                           .value = true;
                       widget.touristExploreController!
                           .selectedDate(selectedDate);
-
                     } else if (widget.type == 'hospitality') {
                       widget.srvicesController!.isHospatilityDateSelcted.value =
                           true;
@@ -220,7 +219,6 @@ class _CalenderDialogState extends State<CalenderDialog> {
                         }
                       }
                       //   widget.srvicesController!.selectedDateIndex(widget.avilableDate.  (selectedDate));
-
                     }
 
                     Get.back();

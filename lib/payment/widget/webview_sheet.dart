@@ -14,27 +14,23 @@ class WebViewSheet extends StatelessWidget {
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(12), topRight: Radius.circular(12))),
       height: 112,
-      child: Padding(
-        padding:
-            const EdgeInsets.only(top: 16.0, bottom: 36, left: 24, right: 24),
-        child: WebViewWidget(
-          controller: WebViewController()
-            ..setJavaScriptMode(JavaScriptMode.unrestricted)
-            ..setBackgroundColor(const Color.fromARGB(0, 255, 254, 254))
-            ..setNavigationDelegate(
-              NavigationDelegate(
-                onProgress: (int progress) {},
-                onPageStarted: (String url) {},
-                onPageFinished: (String url) {},
-                onWebResourceError: (WebResourceError error) {},
-                onNavigationRequest: (NavigationRequest request) async {
-                  return NavigationDecision.navigate;
-                },
-                onUrlChange: (change) {},
-              ),
-            )
-            ..loadRequest(Uri.parse(url)),
-        ),
+      child: WebViewWidget(
+        controller: WebViewController()
+          ..setJavaScriptMode(JavaScriptMode.unrestricted)
+          ..setBackgroundColor(const Color.fromARGB(0, 255, 254, 254))
+          ..setNavigationDelegate(
+            NavigationDelegate(
+              onProgress: (int progress) {},
+              onPageStarted: (String url) {},
+              onPageFinished: (String url) {},
+              onWebResourceError: (WebResourceError error) {},
+              onNavigationRequest: (NavigationRequest request) async {
+                return NavigationDecision.navigate;
+              },
+              onUrlChange: (change) {},
+            ),
+          )
+          ..loadRequest(Uri.parse(url)),
       ),
     );
   }

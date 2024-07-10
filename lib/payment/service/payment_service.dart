@@ -337,7 +337,7 @@ class PaymentService {
     );
     if (response.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(response.body);
-
+      log(response.body);
       return Invoice.fromJson(data);
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
