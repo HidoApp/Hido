@@ -56,6 +56,7 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
   bool showErrorGuests = false;
   bool showErrorDate = false;
   bool showErrorTime = false;
+  bool showErrorMaxGuest = false;
   int seat = 0;
   final String timeZoneName = 'Asia/Riyadh';
   late tz.Location location;
@@ -308,6 +309,10 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
                                                 maleGuestNum = maleGuestNum + 1;
                                                 showErrorGuests = false;
                                               });
+                                            } else {
+                                              setState(
+                                                () => showErrorMaxGuest = true,
+                                              );
                                             }
                                           },
                                           child: const Icon(Icons.add,
@@ -318,20 +323,33 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
                               if (widget.hospitality!.touristsGender ==
                                       'BOTH' ||
                                   widget.hospitality!.touristsGender == 'MALE')
-                                if (showErrorGuests)
+                                if (showErrorMaxGuest)
                                   Padding(
                                     padding:
                                         EdgeInsets.only(left: width * 0.038),
                                     child: Text(
                                       AppUtil.rtlDirection2(context)
-                                          ? "يجب أن تختار شخص على الأقل"
-                                          : '*You need to add at least one guest',
+                                          ? "ليس هناك مقاعد متاحة أكثر من العدد الحالي"
+                                          : '*There are no more seats available than the current number',
                                       style: TextStyle(
                                         color: colorRed,
                                         fontSize: width * 0.03,
                                       ),
                                     ),
                                   ),
+                              if (showErrorGuests)
+                                Padding(
+                                  padding: EdgeInsets.only(left: width * 0.038),
+                                  child: Text(
+                                    AppUtil.rtlDirection2(context)
+                                        ? "يجب أن تختار شخص على الأقل"
+                                        : '*You need to add at least one guest',
+                                    style: TextStyle(
+                                      color: colorRed,
+                                      fontSize: width * 0.03,
+                                    ),
+                                  ),
+                                ),
                               if (widget.hospitality!.touristsGender ==
                                       'BOTH' ||
                                   widget.hospitality!.touristsGender ==
@@ -407,6 +425,10 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
                                                     femaleGuestNum + 1;
                                                 showErrorGuests = false;
                                               });
+                                            } else {
+                                              setState(
+                                                () => showErrorMaxGuest = true,
+                                              );
                                             }
                                           },
                                           child: const Icon(Icons.add,
@@ -418,20 +440,33 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
                                       'BOTH' ||
                                   widget.hospitality!.touristsGender ==
                                       'FEMALE')
-                                if (showErrorGuests)
+                                if (showErrorMaxGuest)
                                   Padding(
                                     padding:
                                         EdgeInsets.only(left: width * 0.038),
                                     child: Text(
                                       AppUtil.rtlDirection2(context)
-                                          ? "يجب أن تختار شخص على الأقل"
-                                          : '*You need to add at least one guest',
+                                          ? "ليس هناك مقاعد متاحة أكثر من العدد الحالي"
+                                          : '*There are no more seats available than the current number',
                                       style: TextStyle(
-                                        color: Colors.red,
+                                        color: colorRed,
                                         fontSize: width * 0.03,
                                       ),
                                     ),
                                   ),
+                              if (showErrorGuests)
+                                Padding(
+                                  padding: EdgeInsets.only(left: width * 0.038),
+                                  child: Text(
+                                    AppUtil.rtlDirection2(context)
+                                        ? "يجب أن تختار شخص على الأقل"
+                                        : '*You need to add at least one guest',
+                                    style: TextStyle(
+                                      color: Colors.red,
+                                      fontSize: width * 0.03,
+                                    ),
+                                  ),
+                                ),
                             ],
                           ),
 

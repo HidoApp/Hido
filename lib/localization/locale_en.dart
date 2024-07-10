@@ -518,5 +518,6 @@ const localeEn = {
   'registerVehicle': 'Register Vehicle',
   'vehicleLicense': 'Vehicle License',
   'vehicleHint': 'Enter Vehicle License ',
-  "invalidIBAN": '*invalid IBAN'
+  "invalidIBAN": '*invalid IBAN',
+  'payment': "Payment"
 };

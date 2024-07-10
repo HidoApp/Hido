@@ -9,7 +9,6 @@ import '../../services/model/hospitality.dart';
 import '../../utils/app_util.dart';
 import '../../widgets/dotted_line_separator.dart';
 
-
 class HostTicketData extends StatelessWidget {
   final Booking? booking;
   final SvgPicture? icon;
@@ -40,7 +39,7 @@ class HostTicketData extends StatelessWidget {
             children: [
               Text(
                 "BookingDetails".tr,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Color(0xFF070708),
                   fontSize: 17,
                   fontFamily: 'SF Pro',
@@ -98,10 +97,13 @@ class HostTicketData extends StatelessWidget {
                               height: 0,
                             ),
                           ),
-                        const SizedBox(height: 5),
-
-                          Text('',
-                            // hospitality==null?AppUtil.formatBookingDate(context,booking!.date):AppUtil.formatBookingDate(context,hospitality!.booking!.first.date),
+                          const SizedBox(height: 5),
+                          Text(
+                            hospitality == null
+                                ? AppUtil.formatBookingDate(
+                                    context, booking!.date)
+                                : AppUtil.formatBookingDate(
+                                    context, hospitality!.booking!.first.date),
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Color(0xFF111113),
@@ -116,7 +118,7 @@ class HostTicketData extends StatelessWidget {
                     ),
                   ],
                 ),
-              ),              
+              ),
               const SizedBox(height: 12),
               Container(
                 child: Column(
@@ -144,53 +146,53 @@ class HostTicketData extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 5),
-
                           Container(
-                            child:Column(
-                               mainAxisSize: MainAxisSize.min,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children:[
-                              Row(
-                              // mainAxisSize: MainAxisSize.min,
-                              // mainAxisAlignment: MainAxisAlignment.start,
-                              // crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                   hospitality==null?'${booking?.guestInfo?.female} ${'Female'.tr}':'${hospitality!.booking!.last.guestInfo.female} ${'Female'.tr}',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Color(0xFF111113),
-                                    fontSize: 15,
-                                    fontFamily: 'SF Pro',
-                                    fontWeight: FontWeight.w600,
-                                    height: 0,
-                                  ),
+                                Row(
+                                  // mainAxisSize: MainAxisSize.min,
+                                  // mainAxisAlignment: MainAxisAlignment.start,
+                                  // crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      hospitality == null
+                                          ? '${booking?.guestInfo?.female ?? 11} ${'female'.tr}'
+                                          : '${hospitality!.booking?.last.guestInfo.female ?? 50} ${'female'.tr}',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Color(0xFF111113),
+                                        fontSize: 15,
+                                        fontFamily: 'SF Pro',
+                                        fontWeight: FontWeight.w600,
+                                        height: 0,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                    
-                              ],
-                            ),
-                            const SizedBox(height: 5),
-
-                            Row(
-                              // mainAxisSize: MainAxisSize.min,
-                              // mainAxisAlignment: MainAxisAlignment.start,
-                              // crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  hospitality==null?'${booking?.guestInfo?.male} ${'male'.tr}':'${hospitality!.booking!.last.guestInfo.male} ${'male'.tr}',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Color(0xFF111113),
-                                    fontSize: 15,
-                                    fontFamily: 'SF Pro',
-                                    fontWeight: FontWeight.w600,
-                                    height: 0,
-                                  ),
+                                const SizedBox(height: 5),
+                                Row(
+                                  // mainAxisSize: MainAxisSize.min,
+                                  // mainAxisAlignment: MainAxisAlignment.start,
+                                  // crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      hospitality == null
+                                          ? '${booking?.guestInfo?.male} ${'male'.tr}'
+                                          : '${hospitality!.booking?.last.guestInfo.male ?? 90} ${'male'.tr}',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Color(0xFF111113),
+                                        fontSize: 15,
+                                        fontFamily: 'SF Pro',
+                                        fontWeight: FontWeight.w600,
+                                        height: 0,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                    
-                              ],
-                            ),
                               ],
                             ),
                           ),
@@ -233,9 +235,11 @@ class HostTicketData extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(
-                                  
                                   // booking.place!.price.toString(),
-                                 hospitality==null? booking!.cost.toString():hospitality!.booking!.last.cost.toString(),
+                                  hospitality == null
+                                      ? booking!.cost.toString()
+                                      : hospitality!.booking!.last.cost
+                                          .toString(),
 
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
@@ -248,7 +252,9 @@ class HostTicketData extends StatelessWidget {
                                 ),
                                 const SizedBox(width: 4),
                                 Text(
-                                  AppUtil.rtlDirection2(context) ? 'ريال' : 'SAR',
+                                  AppUtil.rtlDirection2(context)
+                                      ? 'ريال'
+                                      : 'SAR',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color: Color(0xFF111113),
@@ -271,38 +277,39 @@ class HostTicketData extends StatelessWidget {
           ),
         ),
         // Divider(color: Colors.grey, height: 5),
-          DottedSeparator(
-                  color: almostGrey,
-                  height: 1,
-                ),
+        DottedSeparator(
+          color: almostGrey,
+          height: 1,
+        ),
         // SizedBox(height: 30),
         // Divider(),
 
-      //  Link(
-      //   uri: Uri.parse('http://flutter.dev'),
-        
-      //    builder: (context,followlink)=>GestureDetector(
-      //    onTap: followlink,
-      //     child: Text("open link"),
-      //    )
-         const SizedBox(height: 25),
-              Container(
-                width: double.infinity,
-                child: GestureDetector(
-                  onTap: () async {
-                    
-                    final Uri url = hospitality==null?Uri.parse( booking!.hospitality?.location??''):Uri.parse(hospitality!.location??'');
-                    if (await canLaunchUrl(url)) {
-                      await launchUrl(url, mode: LaunchMode.externalApplication);
-                    } else {
-                      throw 'Could not launch $url';
-                    }
-                    // String query = Uri.encodeComponent('https://maps.app.goo.gl/Z4kmkh5ikW31NacQA');
-                    //  String googleUrl = "https://www.google.com/maps/search/?api=1&query=$query";
+        //  Link(
+        //   uri: Uri.parse('http://flutter.dev'),
 
-                      // if (await canLaunchUrl(googleUrl)) {
-                      //      await launchUrl(googleUrl);
-                      //         }
+        //    builder: (context,followlink)=>GestureDetector(
+        //    onTap: followlink,
+        //     child: Text("open link"),
+        //    )
+        const SizedBox(height: 25),
+        Container(
+          width: double.infinity,
+          child: GestureDetector(
+            onTap: () async {
+              final Uri url = hospitality == null
+                  ? Uri.parse(booking!.hospitality?.location ?? '')
+                  : Uri.parse(hospitality!.location ?? '');
+              if (await canLaunchUrl(url)) {
+                await launchUrl(url, mode: LaunchMode.externalApplication);
+              } else {
+                throw 'Could not launch $url';
+              }
+              // String query = Uri.encodeComponent('https://maps.app.goo.gl/Z4kmkh5ikW31NacQA');
+              //  String googleUrl = "https://www.google.com/maps/search/?api=1&query=$query";
+
+              // if (await canLaunchUrl(googleUrl)) {
+              //      await launchUrl(googleUrl);
+              //         }
 
 //                      String googleUrl =
 //                  'comgooglemaps://?center= Z4kmkh5ikW31NacQA;
@@ -319,32 +326,21 @@ class HostTicketData extends StatelessWidget {
 //                        }
 // }
 //                   },
-                  
-
-                  },
-                  child: Text(
-                    AppUtil.rtlDirection2(context) ? "الموقع" : 'Location',
-                    style: TextStyle(
-                         color: Color(0xFF37B268),
-                        fontSize: 18,
-                    fontFamily: 'SF Pro',
-                      fontWeight: FontWeight.w600,
-                      height: 0,
-                       
-                      decoration: TextDecoration.underline,
-                    ),
-                    
-                  ),
-                ),
-         
-         
-         ),
-
-
+            },
+            child: Text(
+              AppUtil.rtlDirection2(context) ? "الموقع" : 'Location',
+              style: TextStyle(
+                color: Color(0xFF37B268),
+                fontSize: 18,
+                fontFamily: 'SF Pro',
+                fontWeight: FontWeight.w600,
+                height: 0,
+                decoration: TextDecoration.underline,
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }
 }
-
-
-

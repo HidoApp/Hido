@@ -16,12 +16,16 @@ class ReviewGuestsTile extends StatelessWidget {
           text: title,
           color: almostGrey,
           fontSize: width * 0.038,
+          fontWeight: FontWeight.w400,
+          fontFamily: "SF Pro",
         ),
         const Spacer(),
         CustomText(
           text: guest.toString(),
           color: almostGrey,
           fontSize: width * 0.038,
+          fontWeight: FontWeight.w400,
+          fontFamily: "SF Pro",
         ),
       ],
     );

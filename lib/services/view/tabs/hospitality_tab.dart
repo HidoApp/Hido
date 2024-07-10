@@ -140,8 +140,7 @@ class _HospitalityTabState extends State<HospitalityTab> {
                               ),
                             ),
                           )
-                        : const Center(
-                            child: CircularProgressIndicator.adaptive()),
+                        : const CircularProgressIndicator.adaptive(),
                   ),
                 ),
                 SizedBox(

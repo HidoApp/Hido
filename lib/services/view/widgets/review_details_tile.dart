@@ -20,21 +20,24 @@ class ReviewDetailsTile extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        SvgPicture.asset(
-          image,
-         width: 20,
-
+        Container(
+          // margin: EdgeInsets.only(
+          //     left: image == 'assets/icons/meal.svg' ? 3 : 0,
+          //     right: image == 'assets/icons/meal.svg' ? 2 : 0),
+          child: SvgPicture.asset(
+            image,
+          ),
         ),
         SizedBox(
           width: width * 0.012,
         ),
         CustomText(
           text: title,
-          color:Color(0xFF9392A0),
-          fontSize: width * 0.037,
+          color: const Color(0xFF9392A0),
+          fontSize: width * 0.038,
+          fontFamily: 'SF Pro',
           fontWeight: FontWeight.w400,
         ),
-       
       ],
     );
   }

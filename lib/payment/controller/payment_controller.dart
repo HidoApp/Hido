@@ -17,6 +17,8 @@ class PaymentController extends GetxController {
   var isPaymenInvoiceLoading = false.obs;
   var isPaymenInvoiceByIdLoading = false.obs;
   var isPaymentGatewayLoading = false.obs;
+  var isApplePayEmbeddedLoading = false.obs;
+  var isApplePayExecuteLoading = false.obs;
   // var PaymentResult = false.obs;
   //credit card controllers
   var showCvv = false.obs;
@@ -158,6 +160,40 @@ class PaymentController extends GetxController {
       return null;
     } finally {
       isPaymenInvoiceByIdLoading(false);
+    }
+  }
+
+  Future<Invoice?> applePayEmbedded(
+      {required BuildContext context, required int invoiceValue}) async {
+    try {
+      isApplePayEmbeddedLoading(true);
+
+      final data = await PaymentService.applePayEmbedded(
+          context: context, invoiceValue: invoiceValue);
+      return data;
+    } catch (e) {
+      isApplePayEmbeddedLoading(false);
+      return null;
+    } finally {
+      isApplePayEmbeddedLoading(false);
+    }
+  }
+
+  Future<Invoice?> applePayEmbeddedExecute(
+      {required BuildContext context,
+      required int invoiceValue,
+      required String sessionId}) async {
+    try {
+      isApplePayExecuteLoading(true);
+
+      final data = await PaymentService.applePayEmbeddedExecute(
+          context: context, invoiceValue: invoiceValue, sessionId: sessionId);
+      return data;
+    } catch (e) {
+      isApplePayExecuteLoading(false);
+      return null;
+    } finally {
+      isApplePayExecuteLoading(false);
     }
   }
 }

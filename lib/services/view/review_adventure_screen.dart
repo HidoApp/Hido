@@ -103,18 +103,19 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
               children: [
                 CustomText(
                   text: "adventuredetails".tr,
-                  fontSize: 18,
+                  fontSize: width * 0.043,
+                  fontWeight: FontWeight.w500,
                 ),
-                const SizedBox(
-                  height: 4,
+                SizedBox(
+                  height: width * .010,
                 ),
                 ReviewDetailsTile(
                     title: AppUtil.rtlDirection2(context)
                         ? widget.adventure.regionAr!
                         : widget.adventure.regionEn!,
                     image: "assets/icons/locationHos.svg"),
-                const SizedBox(
-                  height: 4,
+                SizedBox(
+                  height: width * .010,
                 ),
                 // Details
                 ReviewDetailsTile(
@@ -124,8 +125,8 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                       DateTime.parse(widget.adventure.date!),
                     ),
                     image: 'assets/icons/grey_calender.svg'),
-                const SizedBox(
-                  height: 4,
+                SizedBox(
+                  height: width * .010,
                 ),
 
                 ReviewDetailsTile(
@@ -137,18 +138,19 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                             .join(', ')
                         : '5:00-8:00 AM',
                     image: "assets/icons/timeGrey.svg"),
-                const SizedBox(
-                  height: 20,
+                SizedBox(
+                  height: width * 0.051,
                 ),
                 const Divider(
-                  color: almostGrey,
+                  color: lightGrey,
                 ),
-                const SizedBox(
-                  height: 20,
+                SizedBox(
+                  height: width * 0.051,
                 ),
                 CustomText(
                   text: "numberOfPeople".tr,
-                  fontSize: 18,
+                  fontSize: width * 0.043,
+                  fontWeight: FontWeight.w500,
                 ),
                 ReviewGuestsTile(
                   guest: widget.person,
@@ -158,7 +160,7 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                   height: width * .041,
                 ),
                 const Divider(
-                  color: almostGrey,
+                  color: lightGrey,
                 ),
                 SizedBox(
                   height: width * 0.5,
@@ -171,7 +173,7 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                 ),
 
                 DottedSeparator(
-                  color: almostGrey,
+                  color: lightGrey,
                   height: width * 0.002,
                 ),
                 SizedBox(
@@ -181,14 +183,14 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                   children: [
                     CustomText(
                       text: 'total'.tr,
-                      fontSize: 20,
+                      fontSize: width * 0.051,
                     ),
                     const Spacer(),
                     CustomText(
                       // text: 'SAR ${widget.adventure.price.toString()}',
                       text: '${"sar".tr} ${finalCost.toString()}',
 
-                      fontSize: 20,
+                      fontSize: width * 0.051,
                     )
                   ],
                 ),
