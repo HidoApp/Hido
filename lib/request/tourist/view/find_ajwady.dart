@@ -3,11 +3,13 @@ import 'dart:developer';
 
 import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
 import 'package:ajwad_v4/request/tourist/view/offers_screen.dart';
 import 'package:ajwad_v4/request/tourist/view/select_ajwady_sheet.dart';
+import 'package:ajwad_v4/request/widgets/timer_app_bar.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/StackWidgets.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
@@ -40,10 +42,11 @@ class FindAjwady extends StatefulWidget {
 
 class _FindAjwadyState extends State<FindAjwady> {
   final _offerController = Get.put(OfferController());
+  final _touristExploreController = Get.put(TouristExploreController());
   late double width, height;
 
   bool isDetailsTapped = false;
-
+  late Booking? checkBooking;
   final List<String> _ajwadiUrlImages = [
     'assets/images/ajwadi1.png',
     'assets/images/ajwadi2.png',
@@ -52,11 +55,15 @@ class _FindAjwadyState extends State<FindAjwady> {
     'assets/images/ajwadi5.png',
   ];
   Timer? countdownTimer;
+  void getBookingForCountdown() async {
+    checkBooking = await _touristExploreController.getTouristBookingById(
+        context: context, bookingId: widget.booking.id!);
+  }
 
   @override
   void initState() {
     super.initState();
-
+    getBookingForCountdown();
     _offerController.getOffers(
       context: context,
       placeId: widget.placeId,
@@ -254,6 +261,23 @@ class _FindAjwadyState extends State<FindAjwady> {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
     return Scaffold(
+      // appBar: widget.booking.orderStatus == "PENDING"
+      //     ? TimerAppBar("findLocal".tr, action: true,
+      //         onPressedAction: () async {
+      //         print("enter");
+      //         showDialog(
+      //           context: context,
+      //           builder: (BuildContext context) {
+      //             return CancelBookingDialog(
+      //               dialogWidth: 256,
+      //               buttonWidth: 268,
+      //               booking: widget.booking,
+      //               offerController: _offerController,
+      //             );
+      //           },
+      //         );
+      //       })
+      //     :
       appBar: CustomAppBar(
         "findLocal".tr,
         action: true,
@@ -270,8 +294,8 @@ class _FindAjwadyState extends State<FindAjwady> {
               );
             },
           );
-          //await showBottomSheetCancelBooking(height: height, width: width);
 
+          //await showBottomSheetCancelBooking(height: height, width: width);
           // showModalBottomSheet(
           //     isScrollControlled: true,
           //     backgroundColor: Colors.transparent,
@@ -290,7 +314,8 @@ class _FindAjwadyState extends State<FindAjwady> {
         },
       ),
       body: Obx(() {
-        if (_offerController.isOffersLoading.value) {
+        if (_offerController.isOffersLoading.value ||
+            _touristExploreController.isBookingByIdLoading.value) {
           return const Center(
             child: CircularProgressIndicator(),
           );
@@ -348,9 +373,8 @@ class _FindAjwadyState extends State<FindAjwady> {
                                     width: 10,
                                   ),
                                   CustomText(
-                                    text:AppUtil.formatBookingDate(
-                                        context,
-                                            widget.booking.date),
+                                    text: AppUtil.formatBookingDate(
+                                        context, widget.booking.date),
                                     color: almostGrey,
                                     fontSize: 13,
                                     fontWeight: FontWeight.w400,
@@ -369,8 +393,8 @@ class _FindAjwadyState extends State<FindAjwady> {
                                   ),
                                   CustomText(
                                     text: AppUtil.rtlDirection2(context)
-                                              ? 'من ${ AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)} إلى ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)} '
-                                              : 'Pick up: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)}, Drop off: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)}',
+                                        ? 'من ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)} إلى ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)} '
+                                        : 'Pick up: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)}, Drop off: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)}',
                                     color: almostGrey,
                                     fontSize: 13,
                                     fontWeight: FontWeight.w400,
@@ -483,7 +507,6 @@ class _FindAjwadyState extends State<FindAjwady> {
                 ],
                 if (_offerController.offers.isNotEmpty)
                   GestureDetector(
-                    //TODO: offer screen will be there
                     onTap: () {
                       Get.to(() => OfferScreen(
                             place: widget.place,

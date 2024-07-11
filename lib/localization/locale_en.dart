@@ -519,5 +519,6 @@ const localeEn = {
   'vehicleLicense': 'Vehicle License',
   'vehicleHint': 'Enter Vehicle License ',
   "invalidIBAN": '*invalid IBAN',
-  'payment': "Payment"
+  'payment': "Payment",
+  "signInTitle": 'Discover Saudi Arabia With Locals!'
 };

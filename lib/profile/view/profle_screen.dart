@@ -181,7 +181,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ));
                             },
                           ),
-
                           if (!widget.fromAjwady)
                             CustomListTile(
                               title: "myTickets".tr,

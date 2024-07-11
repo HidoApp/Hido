@@ -508,5 +508,6 @@ const localeAr = {
   'vehicleLicense': 'استمارة السيارة',
   'vehicleHint': 'أدخل رقم الاستمارة',
   "invalidIBAN": '*رقم الآيبان غير صحيح',
-  'payment': "دفع"
+  'payment': "دفع",
+  "signInTitle": 'اكتشف السعودية بأهلها! '
 };
