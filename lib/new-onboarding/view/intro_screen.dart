@@ -253,7 +253,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                       title: 'tourist'.tr,
                       textColor: _currentIndex == 0 ? black : null,
                       onPressed: () {
-                        Get.to(() => SignInScreen());
+                        Get.to(() => const SignInScreen());
                       },
                       raduis: 8,
                     ),
@@ -263,7 +263,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                     child: CustomButton(
                       title: 'localGuide'.tr,
                       onPressed: () {
-                        Get.to(() => const LocalSignIn());
+                        Get.to(() => const SignInScreen());
                       },
                       buttonColor: _currentIndex == 0
                           ? Color.fromARGB(0, 0, 0, 0)

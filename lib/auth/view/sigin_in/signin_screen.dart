@@ -10,9 +10,12 @@ import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
 import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/new-onboarding/view/account_type_screen.dart';
+import 'package:ajwad_v4/widgets/custom_app_bar.dart';
+import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_elevated_button_with_arrow.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/custom_textfield.dart';
+import 'package:ajwad_v4/widgets/screen_padding.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 
@@ -50,46 +53,26 @@ class _SignInScreenState extends State<SignInScreen> {
       child: Scaffold(
           backgroundColor: Colors.white,
           resizeToAvoidBottomInset: false,
+          appBar: const CustomAppBar(''),
           body: SingleChildScrollView(
             child: SizedBox(
               child: Stack(
                 children: [
-                  // Container(
-                  //   height: height * 1.12,
-                  //   width: width,
-                  //   decoration: const BoxDecoration(
-                  //       image: DecorationImage(
-                  //     image: AssetImage("assets/images/background_ajwadi.png"),
-                  //     fit: BoxFit.fill,
-                  //   )),
-                  // ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        top: height * 0.05,
-                        right: width * 0.05,
-                        left: width * 0.05),
+                  ScreenPadding(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        if (!widget.isGuest)
-                          IconButton(
-                              onPressed: () {
-                                Get.back();
-                              },
-                              icon: const Icon(Icons.arrow_back_ios)),
+                        CustomText(
+                          text: "signInTitle".tr,
+                          fontWeight: FontWeight.w500,
+                          fontSize: width * 0.051,
+                        ),
 
                         CustomText(
-                          text: "letsSignIn".tr,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 32,
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        CustomText(
-                          text: 'welcomeBack'.tr,
-                          fontWeight: FontWeight.w200,
-                          fontSize: 24,
+                          text: 'signAsTourist'.tr,
+                          fontWeight: FontWeight.w500,
+                          fontSize: width * 0.0435,
+                          color: starGreyColor,
                           textAlign: !AppUtil.rtlDirection(context)
                               ? TextAlign.right
                               : TextAlign.left,
@@ -102,11 +85,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16.0),
-                                child: CustomText(text: 'email'.tr),
-                              ),
+                              CustomText(text: 'email'.tr),
                               const SizedBox(
                                 height: 5,
                               ),
@@ -123,11 +102,7 @@ class _SignInScreenState extends State<SignInScreen> {
                               const SizedBox(
                                 height: 20,
                               ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16.0),
-                                child: CustomText(text: 'password'.tr),
-                              ),
+                              CustomText(text: 'password'.tr),
                               const SizedBox(
                                 height: 5,
                               ),
@@ -157,34 +132,12 @@ class _SignInScreenState extends State<SignInScreen> {
                             ],
                           ),
                         ),
-                        const SizedBox(
-                          height: 40,
-                        ),
+                        // const SizedBox(
+                        //   height: 40,
+                        // ),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            // FlutterSwitch(
-                            //   width: 45.0,
-                            //   height: 28.0,
-                            //   activeColor: const Color(0xFF5AC28F),
-                            //   inactiveColor: const Color(0xFFE8ECEF),
-                            //   onToggle: (bool value) {
-                            //     //  toggleSwitch();
-                            //     //  bookingController.toggleSwitch();
-                            //     setState(() {
-                            //       isSwitched = !isSwitched;
-                            //     });
-                            //   },
-                            //   value: isSwitched,
-                            // ),
-                            // const SizedBox(
-                            //   width: 8,
-                            // ),
-                            // CustomText(
-                            //   text: "rememberMe".tr,
-                            //   fontSize: 14,
-                            //   fontWeight: FontWeight.w300,
-                            // ),
-                            const Spacer(),
                             TextButton(
                               onPressed: () {
                                 Navigator.of(context).push(MaterialPageRoute(
@@ -201,112 +154,85 @@ class _SignInScreenState extends State<SignInScreen> {
                         ),
                         Obx(
                           () => Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 30),
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: _authController.isLoginLoading.value ==
-                                      true
-                                  ? const CircularProgressIndicator.adaptive()
-                                  : CustomElevatedButton(
-                                      title: 'signIn'.tr.toUpperCase(),
-                                      onPressed: () async {
-                                        if (_formKey.currentState!.validate()) {
-                                          if (!AppUtil.isEmailValidate(
-                                              _emailController.text)) {
-                                            AppUtil.errorToast(
-                                                context, "invalidEmail".tr);
-                                            return;
-                                          }
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            child: _authController.isLoginLoading.value == true
+                                ? const Center(
+                                    child: CircularProgressIndicator.adaptive())
+                                : CustomButton(
+                                    icon:
+                                        const Icon(Icons.keyboard_arrow_right),
+                                    title: 'signIn'.tr,
+                                    onPressed: () async {
+                                      if (_formKey.currentState!.validate()) {
+                                        if (!AppUtil.isEmailValidate(
+                                            _emailController.text)) {
+                                          AppUtil.errorToast(
+                                              context, "invalidEmail".tr);
+                                          return;
+                                        }
 
-                                          final user =
-                                              await _authController.login(
-                                                  email: _emailController.text,
-                                                  password:
-                                                      _passwordController.text,
-                                                  rememberMe: true,
-                                                  context: context);
+                                        final user =
+                                            await _authController.login(
+                                                email: _emailController.text,
+                                                password:
+                                                    _passwordController.text,
+                                                rememberMe: true,
+                                                context: context);
 
-                                          print('logged $user');
+                                        print('logged $user');
 
-                                          if (user != null) {
-                                            bool isTokenExpired =
-                                                JwtDecoder.isExpired(
-                                                    user.accessToken);
+                                        if (user != null) {
+                                          bool isTokenExpired =
+                                              JwtDecoder.isExpired(
+                                                  user.accessToken);
 
-                                            print(
-                                                'isTokenExpired : $isTokenExpired');
+                                          print(
+                                              'isTokenExpired : $isTokenExpired');
 
-                                            final Token jwtToken =
-                                                AuthService.jwtForToken(
-                                                    user.accessToken)!;
-                                            print("token.userRole loign");
-                                            print(jwtToken.userRole);
+                                          final Token jwtToken =
+                                              AuthService.jwtForToken(
+                                                  user.accessToken)!;
+                                          print("token.userRole loign");
+                                          print(jwtToken.userRole);
 
-                                            if (jwtToken.userRole == 'local') {
-                                              final ajwadiInfo =
-                                                  await _authController
-                                                      .checkLicenceAndVehicle(
-                                                          user.accessToken);
+                                          if (jwtToken.userRole == 'local') {
+                                            final ajwadiInfo =
+                                                await _authController
+                                                    .checkLicenceAndVehicle(
+                                                        user.accessToken);
 
+                                            if (ajwadiInfo?.drivingLicense ==
+                                                    false ||
+                                                ajwadiInfo?.vehicle == false) {
                                               if (ajwadiInfo?.drivingLicense ==
-                                                      false ||
-                                                  ajwadiInfo?.vehicle ==
-                                                      false) {
-                                                if (ajwadiInfo
-                                                        ?.drivingLicense ==
-                                                    false) {
-                                                  Get.to(() =>
-                                                      AjwadiDrivingLicense(
-                                                        user: user,
-                                                      ));
-                                                } else if (ajwadiInfo
-                                                        ?.vehicle ==
-                                                    false) {
-                                                  Get.to(() =>
-                                                      const AjwadiVehicleInfo());
-                                                }
-                                              } else {
-                                                Get.off(() =>
-                                                    const AjwadiBottomBar());
+                                                  false) {
+                                                Get.to(
+                                                    () => AjwadiDrivingLicense(
+                                                          user: user,
+                                                        ));
+                                              } else if (ajwadiInfo?.vehicle ==
+                                                  false) {
+                                                Get.to(() =>
+                                                    const AjwadiVehicleInfo());
                                               }
-                                            } else if (jwtToken.userRole ==
-                                                'tourist') {
-                                              Get.offAll(() =>
-                                                  const TouristBottomBar());
                                             } else {
-                                              print('NO USER ROLE');
+                                              Get.off(() =>
+                                                  const AjwadiBottomBar());
                                             }
+                                          } else if (jwtToken.userRole ==
+                                              'tourist') {
+                                            Get.offAll(
+                                                () => const TouristBottomBar());
+                                          } else {
+                                            print('NO USER ROLE');
                                           }
                                         }
-                                      },
-                                    ),
-                            ),
+                                      }
+                                    },
+                                  ),
                           ),
                         ),
-                        // Align(
-                        //     alignment: Alignment.center,
-                        //     child: CustomText(
-                        //       text: "or".tr,
-                        //       fontWeight: FontWeight.w400,
-                        //       fontSize: 16,
-                        //       color: colorDarkGrey,
-                        //     )),
-                        // CustomSocialMediaCard(
-                        //   title: 'LoginGoogle'.tr,
-                        //   imagePath: 'assets/images/google_logo.png',
-                        //   onCardTap: () {},
-                        // ),
-                        // const SizedBox(
-                        //   height: 20,
-                        // ),
-                        // CustomSocialMediaCard(
-                        //   title: 'LoginApple'.tr,
-                        //   imagePath: 'assets/icons/apple_icon.png',
-                        //   onCardTap: () {},
-                        // ),
-                        // const SizedBox(
-                        //   height: 30,
-                        // ),
+
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -319,8 +245,6 @@ class _SignInScreenState extends State<SignInScreen> {
                               onPressed: ()
                                   // async
                                   {
-                                // var countries =
-                                //     await _authController.getListOfCountries();
                                 Get.to(
                                   () => RegisterScreen(
                                     authController: _authController,
