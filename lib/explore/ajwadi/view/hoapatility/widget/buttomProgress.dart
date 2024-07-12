@@ -157,28 +157,11 @@ class _ButtomProgressState extends State<ButtomProgress> {
           children: [
             StepProgressIndicator(
               totalSteps: 6,
-              // dotRadius: 30.0,
               currentStep: activeIndex + 1,
-              // shape: Shape.pipe,
-              // spacing: 5.0,
-              // indicator: Indicator.shift,
-              // onDotTapped: (tappedDotIndex) {
-              //   setState(() {
-              //     activeIndex = tappedDotIndex;
-              //   });
-              // },
+              
               selectedColor: Color(0xFF36B268),
               unselectedColor: Color(0xFFDCDCE0),
-              // fixedDotDecoration: FixedDotDecoration(
-              //   color: Color(0xFFDCDCE0),
-              // ),
-              // indicatorDecoration: IndicatorDecoration(
-              //   color: Color(0xFF36B268),
-              // ),
-              // lineConnectorDecoration: LineConnectorDecoration(
-              //   color: Colors.white,
-              //   strokeWidth: 0,
-              // ),
+             
             ),
             Padding(
               padding: const EdgeInsets.only(
@@ -263,7 +246,7 @@ class _ButtomProgressState extends State<ButtomProgress> {
     if (activeIndex == 1) {
       return
       _hospitalityController.pickUpLocLatLang.value !=
-          const LatLng(24.9470921, 45.9903698);
+          const LatLng(0.0, 0.0);
     }
     // if (activeIndex == 2) {
     //   return
