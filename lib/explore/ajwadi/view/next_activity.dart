@@ -6,6 +6,7 @@ import 'package:ajwad_v4/profile/view/custom_ticket_card.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_empty_widget.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
@@ -65,61 +66,57 @@ class _NextActivityState extends State< LastActivity> {
             ),
           ],
              ),
-          child: Stack(
-            children: [
-              Positioned(
-                left: 40,
-                top: 27,
-                child: Container(
-                  width: 279,
-                  height: 1.50,
-                  decoration: BoxDecoration(color: Color(0xFFDCDCE0)),
-                ),
-              ),
-              Positioned(
-                left: 40,
-                top: 27,
-                child: Container(
-                  width: 279,
-                  height: 1.50,
-                  child: LinearProgressIndicator(
-                    value: _tripController.progress.value,
-                    backgroundColor: Color(0xFFDCDCE0),
-                    valueColor: _tripController.progress.value==0.1?AlwaysStoppedAnimation<Color>(Color(0xFFDCDCE0)):AlwaysStoppedAnimation<Color>(Color(0xFF36B268)),
+          child: Padding(
+            padding: AppUtil.rtlDirection2(context) ? const EdgeInsets.only(top:8.0,bottom:8):const EdgeInsets.only(top:0,bottom:0),
+            child: Stack(
+              children: [
+                
+                Positioned(
+                  left: 40,
+                  top: 27,
+                  child: Container(
+                    width: 279,
+                    height: 1.50,
+                    child: LinearProgressIndicator(
+                      value: _tripController.progress.value,
+                      backgroundColor: Color(0xFFDCDCE0),
+                      valueColor: _tripController.progress.value==0.1?AlwaysStoppedAnimation<Color>(Color(0xFFDCDCE0)):AlwaysStoppedAnimation<Color>(Color(0xFF36B268)),
+                    ),
                   ),
                 ),
-              ),
-              Positioned(
-                left: 12,
-                top: 16,
-                child: Container(
-                  width: 334,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      buildStep(
-                        text: 'On the way',
-                        isActive: _tripController.progress.value >= 0.25,
-                      ),
-                      buildStep(
-                        text: 'Arrived',
-                        isActive: _tripController.progress.value >= 0.5,
-                      ),
-                      buildStep(
-                        text: 'Tour time',
-                        isActive:  _tripController.progress.value >= 0.75,
-                      ),
-                      buildStep(
-                        text: 'Completed',
-                        isActive:  _tripController.progress.value == 1.0,
-                      ),
-                    ],
+                Positioned(
+                  left: 12,
+                  top:AppUtil.rtlDirection2(context) ?16:14,
+                  child: Container(
+                    width: 334,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment:AppUtil.rtlDirection2(context)?MainAxisAlignment.spaceBetween: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment:AppUtil.rtlDirection2(context)?CrossAxisAlignment.start: CrossAxisAlignment.center,
+                      
+                      children: [
+                        buildStep(
+                          text: 'Ontheway'.tr,
+                          isActive: _tripController.progress.value >= 0.25,
+                        ),
+                        buildStep(
+                          text: 'Arrived'.tr,
+                          isActive: _tripController.progress.value >= 0.5,
+                        ),
+                        buildStep(
+                          text: 'Tourtime'.tr,
+                          isActive:  _tripController.progress.value >= 0.75,
+                        ),
+                        buildStep(
+                          text: 'Completed'.tr,
+                          isActive:  _tripController.progress.value == 1.0,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
        // SizedBox(height: 16),
@@ -171,7 +168,7 @@ class _NextActivityState extends State< LastActivity> {
             style: TextStyle(
               color: isActive ? Color(0xFF36B268) : Color(0xFFDCDCE0),
               fontSize: 11,
-              fontFamily: 'SF Pro',
+              fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
               fontWeight: FontWeight.w500,
             ),
           ),

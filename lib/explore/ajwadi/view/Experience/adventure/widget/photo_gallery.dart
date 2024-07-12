@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -256,7 +257,8 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                             text: 'UploadPhotos'.tr,
                             color: Color(0xFF070708),
                             fontSize: 15,
-                            fontFamily: 'SF Pro',
+                         fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                          : 'SF Pro',
                             fontWeight: FontWeight.w500,
                             height: 0,
                           ),
@@ -266,7 +268,8 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                             textAlign: TextAlign.center,
                             color: Color(0xFFB9B8C1),
                             fontSize: 11,
-                            fontFamily: 'SF Pro',
+                            fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                          : 'SF Pro',
                             fontWeight: FontWeight.w500,
                             height: 0,
                           ),
@@ -312,7 +315,8 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 13,
-                                    fontFamily: 'SF Pro',
+                                    fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                                    : 'SF Pro',
                                     fontWeight: FontWeight.w500,
                                     height: 0,
                                   ),
@@ -373,7 +377,8 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                                       style: TextStyle(
                                         color: Color(0xFFB9B8C1),
                                         fontSize: 11,
-                                        fontFamily: 'SF Pro',
+                                        fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                                        : 'SF Pro',
                                         fontWeight: FontWeight.w500,
                                         height: 0,
                                       ),

@@ -72,7 +72,8 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                 color: black,
                 fontSize: 17,
                 fontWeight: FontWeight.w500,
-                fontFamily: 'SF Pro',
+                fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                          : 'SF Pro',
               ),
               SizedBox(
                 height: width * 0.02,
@@ -105,12 +106,13 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                             selectedChoice = 3;
                           });
 
-                          showDialog(
+                        showDialog(
                               context: context,
                               builder: (BuildContext context) {
                                 return HostCalenderDialog(
                                   type: 'adv',
                                   advController: widget.adventureController,
+                                  ajwadiExploreController: widget.ajwadiExploreController,
                                 );
                               });
                         },
@@ -126,7 +128,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                               : 'DD/MM/YYYY'.tr,
                           fontWeight: FontWeight.w400,
                           color: Graytext,
-                          fontFamily: 'SF Pro',
+                fontFamily:AppUtil.rtlDirection2(context)?'SF Arabic': 'SF Pro',
                           fontSize: 15,
                         ),
                       ),
@@ -162,7 +164,8 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                         color: black,
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
-                        fontFamily: 'SF Pro',
+                          fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                          : 'SF Pro',
                       ),
                       SizedBox(
                         height: height * 0.01,
@@ -243,7 +246,8 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                                       text: "confirm".tr,
                                                       color: colorGreen,
                                                       fontSize: 15,
-                                                      fontFamily: 'SF Pro',
+                                                      fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                                                      : 'SF Pro',
                                                       fontWeight:
                                                           FontWeight.w500,
                                                     ),
@@ -303,7 +307,8 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                   //         .selectedStartTime.value),
                                   fontWeight: FontWeight.w400,
                                   color: Graytext,
-                                  fontFamily: 'SF Pro',
+                                  fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                                  : 'SF Pro',
                                   fontSize: 15,
                                 ),
                               ),
@@ -339,7 +344,8 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                         color: black,
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
-                        fontFamily: 'SF Pro',
+                        fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                        : 'SF Pro',
                       ),
                       SizedBox(
                         height: height * 0.01,
@@ -488,7 +494,8 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                   //         .selectedEndTime.value),
                                   fontWeight: FontWeight.w400,
                                   color: Graytext,
-                                  fontFamily: 'SF Pro',
+                                  fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                                  :'SF Pro',
                                   fontSize: 15,
                                 ),
                               ),

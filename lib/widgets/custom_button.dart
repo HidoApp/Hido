@@ -68,6 +68,7 @@ class CustomButton extends StatelessWidget {
             if (textColor == null)
               CustomText(
                 text: title,
+                fontFamily: 'HT Rakik',
                 textAlign: TextAlign.center,
                 fontSize: 17,
                 fontWeight: FontWeight.w500,
@@ -81,6 +82,7 @@ class CustomButton extends StatelessWidget {
               fontSize: 17,
               fontWeight: FontWeight.w600,
               color: textColor!,
+              fontFamily: 'HT Rakik',
               fontStyle: italic ? FontStyle.italic : FontStyle.normal,
             ),
           if (icon != null) const Spacer(),

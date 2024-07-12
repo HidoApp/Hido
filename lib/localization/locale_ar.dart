@@ -141,7 +141,7 @@ const localeAr = {
   'perfum': 'عطور',
   'new': 'جديد',
   'chat': 'المحادثة',
-  'tripDetails': 'تفاصيل الرحلة',
+  'tripDetails': 'تفاصيل الجولة',
   'guests': 'اشخاص',
   'writeTripSchedule': 'اكتب جدول الرحلة',
   'adventureName': 'اسم المغامرة',
@@ -223,7 +223,7 @@ const localeAr = {
   "myTickets": "التذاكر",
   "myFav": "مفضلتي",
   "notifications": "تنبيهات",
-  "pastTrips": "الماضية",
+  "pastTrips": "السابقة",
   "upcomingTrips": "القادمة",
   "canceled": "ملغي",
   "confirmed": "تأكد",
@@ -322,7 +322,7 @@ const localeAr = {
   "EndTrip": "إلغاء الرحلة",
   "ContactTheHedoTeam": " تواصل مع فريق هيدو",
   "km": "كيلومتر",
-  "sar": "ريال",
+  "sar": "ر.س",
   "viewBooking": "عرض الحجز",
   "bookingValidation": "تأكد من إدخال كافة الحقول ",
   "somthingWentWrong": "حدث خطأ ما ، حاول مرا أخرى",
@@ -441,7 +441,7 @@ const localeAr = {
   'noExperienceSub': 'جميع تجاربك التي سوف تضيفها ستظهر هنا',
   'AddExperience': 'إضافة تجربة',
   'kindofexperience': 'ما نوع التجربة إلي مخطط تقدمها ؟',
-  'LocalEvent': 'حدث محلي',
+  'LocalEvent': "فعالية محلية",
   'hostSub':
       'شارك طعامك وعاداتك السعودية الأصيلة مع السياح لتجربة ثقافية فريدة من نوعها',
   'adveSub':
@@ -451,10 +451,10 @@ const localeAr = {
   'both': 'كلاهما',
   'setPrice': 'والان ، حدد السعر الخاص بك',
   'changePrice': 'يمكنك تغييره في أي وقت',
-  'Perperson': 'للشخص',
+  'Perperson': 'للفرد',
   'Baseprice': 'السعر الأساسي',
   'Hidofee': 'عمولة هايدو',
-  'Yourearn': 'مكسبك',
+  'Yourearn': 'صافي الربح',
   'UploadPhotos': 'إضافة صور',
   'uploadLimit': 'اضف 3 صور على الأقل',
   'Coverphoto': 'صورة العرض',
@@ -465,10 +465,10 @@ const localeAr = {
   'Delete': 'حذف',
   'makeCover': 'تعيينها صورة الغلاف',
   'Review': 'مراجعة',
-  'Reviewexperience': 'راجع مكان الإستضافة',
-  'explination': 'إليك ما يبدو لسياحنا.تأكد من أن كل شيء مرضي لك.',
-
-  'AvailableDates': 'التواريخ المتاحة',
+  'Reviewexperience': 'في آخر خطوة تأكد من معلومات الاستضافة',
+  'explination':
+'كذا بتظهر التجربة لسياحنا، تأكد أن كل شي مثل المطلوب \nوانتبه في حال تم حجز تذكرة للتجربة بيتم إيقاف خاصية التعديل',
+  'AvailableDates': 'الأيام المتاحة للإستضافة',
   'DD/MM/YYYY': 'اليوم/الشهر/السنة',
   'ServedMeal': 'الوجبة المقدمة',
   'Breakfast': 'فطور',
@@ -502,9 +502,27 @@ const localeAr = {
   'locationCheckAdve':'اختار موقع المغامر ة و لا تنسى تتأكد أنه صحيح ',
   'locationCheckEvent':'اختار موقع الفعالية و لا تنسى تتأكد أنه صحيح ',
 'EventDate':'تاريخ الفعالية',
+'Reviewevent':"في آخر خطوة تأكد من معلومات التجربة",
+'explinationEvent':
+'كذا بتظهر الفعالية لسياحنا، تأكد أن كل شي مثل المطلوب \nوانتبه في حال تم حجز تذكرة للغعالية بيتم إيقاف خاصية التعديل',
+'Ontheway':'في الطريق',
+'Arrived':'وصلت',
+'Tourtime':'وقت الجولة',
+'Completed':'انتهت',
 
+ "Tour":"جولات",
+   "Hospitality":"الاستضافه",
+   "Adventure":"المغامرات",
 
-
-
-
+ 'Women':'نساء',
+  'Men':'رجال',
+'Pepole':'أشخاص',
+'hostType':'استضافة',
+'adventureType':'مغامرة',
+'Reviewadventure':'في آخر خطوة تأكد من معلومات التجربة',
+'explinationAdve':
+"'كذا بتظهر المغامرة لسياحنا، تأكد أن كل شي مثل المطلوب \nوانتبه في حال تم حجز تذكرة للمغامرة بيتم إيقاف خاصية التعديل'",
+"ExperienceEdit":'تعديل تفاصيل التجربة',
+'SaveChanges':'حفظ التغييرات',
+'Summary':'مراجعة'
 };

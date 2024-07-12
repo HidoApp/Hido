@@ -73,8 +73,8 @@ _fetchAddress();
     return GestureDetector(
      onTap:() {            
      widget.experience.experiencesType=='hospitality'
-     ?  Get.to(() => HospitalityDetails(hospitalityId: widget.experience.id,isLocal: true,experienceType:widget.experience.experiencesType,address:address ))
-     :Get.to(() => AdventureDetails(adventureId: widget.experience.id,isLocal: true ,address:address));
+     ?  Get.to(() => HospitalityDetails(hospitalityId: widget.experience.id,isLocal: true,experienceType:widget.experience.experiencesType,address:address,isHasBooking:widget.experience.isHasBooking ))
+     :Get.to(() => AdventureDetails(adventureId: widget.experience.id,isLocal: true ,address:address,isHasBooking:widget.experience.isHasBooking));
      },
       child: Container(
         height: width * 0.29,
@@ -114,7 +114,7 @@ _fetchAddress();
                       text: AppUtil.rtlDirection2(context)?widget.experience.experiencesType=='hospitality' ?widget.experience.titleAr??'':widget.experience.nameAr??'':widget.experience.experiencesType=='hospitality' ?widget.experience.titleEn??'':widget.experience.nameEn??'',
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
-                      fontFamily: 'SF Pro',
+                      fontFamily:AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
                     ),
                     SizedBox(
                       height: width * 0.010,
@@ -134,7 +134,7 @@ _fetchAddress();
                           text: address,
                           fontSize: 11,
                           fontWeight: FontWeight.w400,
-                          fontFamily: 'SF Pro',
+                          fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
                           color: starGreyColor,
                         ),
                       ],
@@ -160,7 +160,7 @@ _fetchAddress();
                                 text: AppUtil.formatBookingDate(context,widget. experience.date ?? ''),
                              color: starGreyColor,
                             fontSize: 11,
-                            fontFamily: 'SF Pro',
+                            fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
                                 fontWeight: FontWeight.w400,
                               ),
                         ],
@@ -187,7 +187,7 @@ _fetchAddress();
                               
                             color: starGreyColor,
                             fontSize: 11,
-                            fontFamily: 'SF Pro',
+                            fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
                             fontWeight: FontWeight.w400,
                           ),
                         ],
@@ -215,7 +215,7 @@ _fetchAddress();
                                  ' ${AppUtil.formatStringTimeWithLocale(context, widget. experience.times.first.startTime)} -  ${AppUtil.formatStringTimeWithLocale(context, widget. experience.times.first.endTime)}',
                             color: starGreyColor,
                             fontSize: 11,
-                            fontFamily: 'SF Pro',
+                            fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
                             fontWeight: FontWeight.w400,
                           ),
                         ],
@@ -235,10 +235,10 @@ _fetchAddress();
                               width: width * 0.024,
                             ),
                               CustomText(
-                                text:AppUtil.rtlDirection2(context)? AppUtil.capitalizeFirstLetter(widget. experience.mealTypeAr):AppUtil.capitalizeFirstLetter(widget. experience.mealTypeEn),
+                                text:AppUtil.rtlDirection2(context)? widget. experience.mealTypeAr:AppUtil.capitalizeFirstLetter(widget. experience.mealTypeEn),
                                 fontSize: 11,
                                 fontWeight: FontWeight.w400,
-                                fontFamily: 'SF Pro',
+                                fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
                                 color: starGreyColor,
                               ),
                           ],

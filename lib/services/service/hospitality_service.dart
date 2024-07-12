@@ -342,6 +342,11 @@ class HospitalityService {
     //  if (data['message'] == 'checked') {
         return true;
       } else {
+        String errorMessage = jsonDecode(response.body)['message'];
+      print(errorMessage);
+      if (context.mounted) {
+        AppUtil.errorToast(context, errorMessage);
+      }
         return false;
       }
   //   } else {

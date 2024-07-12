@@ -78,10 +78,10 @@ class _SignInSheetState extends State<SignInSheet> {
               height: 12,
             ),
             Form(
-              // onPopInvoked: (didPop) {
-              //   _authController.isEmailValid(true);
-              //   _authController.isPasswordValid(true);
-              // },
+              onPopInvoked: (didPop) {
+                _authController.isEmailValid(true);
+                _authController.isPasswordValid(true);
+              },
               key: _formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -236,10 +236,8 @@ class _SignInSheetState extends State<SignInSheet> {
                             fontSize: 15,
                           ),
                           onTap: () => Get.offAll(
-                               // () =>  AccountTypeScreen(),
-                              () => OnboardingScreen(),
-
-
+                                // () =>  AccountTypeScreen(),
+                                () => OnboardingScreen(),
                               ))
                     ],
                   )

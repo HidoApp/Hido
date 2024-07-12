@@ -63,7 +63,7 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
         ],
       ),
       bottomNavigationBar: Padding(
-          padding: const EdgeInsets.only(bottom: 28),
+          padding: const EdgeInsets.only(bottom: 20),
         child: BottomNavigationBar(
           elevation: 0,
           enableFeedback: false,
@@ -72,15 +72,15 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
           type: BottomNavigationBarType.fixed,
           unselectedItemColor:  Color(0xFFB9B8C1),
           selectedItemColor: colorGreen,
-          unselectedLabelStyle: const TextStyle(
-            fontSize: 13,
+          unselectedLabelStyle:  TextStyle(
+            fontSize: 11,
             fontWeight: FontWeight.w600,
-            fontFamily: 'SF Pro',         
+           fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'  :'SF Pro',
           ),
-          selectedLabelStyle: const TextStyle(
-            fontSize: 13,
+          selectedLabelStyle:  TextStyle(
+            fontSize: 11,
             fontWeight: FontWeight.w600,
-            fontFamily: 'SF Pro',
+               fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'  :'SF Pro',
             color: darkBlack,
           ),
           onTap: (index) {

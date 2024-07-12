@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/explore/ajwadi/model/userLocation.dart';
+import 'package:ajwad_v4/explore/ajwadi/services/location_service.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
@@ -14,11 +16,9 @@ class AddLocation extends StatefulWidget {
  AddLocation({
     Key? key,
     required this.textField1Controller,
-    required this.adventureController,
   }) : super(key: key);
 
   final TextEditingController textField1Controller;
-  final AdventureController adventureController;
 
   @override
   _AddLocationState createState() => _AddLocationState();
@@ -26,13 +26,20 @@ class AddLocation extends StatefulWidget {
 
 class _AddLocationState extends State<AddLocation> {
   BitmapDescriptor markerIcon = BitmapDescriptor.defaultMarker;
-
+  final AdventureController _AdventureController =
+      Get.put(AdventureController());
+  
   final Completer<GoogleMapController> _controller = Completer();
   bool _isLoading = true;
 
   late GoogleMapController mapController;
-  late LatLng _currentPosition;
+  LatLng? _currentPosition;
   String address = '';
+   UserLocation? userLocation;
+    Set<Marker> _userMarkers = {};
+  Set<Marker> _markers = {};
+  LatLng _currentLocation = const LatLng(24.7136, 46.6753);
+
 
   void addCustomIcon() {
     BitmapDescriptor.fromAssetImage(
@@ -46,6 +53,35 @@ class _AddLocationState extends State<AddLocation> {
     );
   }
 
+    
+  void getLocation() async {
+    userLocation = await LocationService().getUserLocation();
+    print('this location');
+
+    if (userLocation != null) {
+      setState(() {
+      if (mounted) {
+         _currentPosition = LatLng(userLocation!.latitude, userLocation!.longitude);
+
+         _AdventureController.pickUpLocLatLang.value = _currentPosition!;
+                                    
+       
+      }
+    });
+        _fetchAddress();
+
+  
+    } else {
+       setState(() {
+      if (mounted) {
+       _currentPosition = LatLng( _currentLocation.latitude, _currentLocation.longitude);
+       
+      }
+    });
+   _fetchAddress();
+
+    }
+  }
   Future<void> _getAddressFromCoordinates(double lat, double lng) async {
     try {
       List<Placemark> placemarks = await placemarkFromCoordinates(lat, lng);
@@ -55,7 +91,6 @@ class _AddLocationState extends State<AddLocation> {
         setState(() {
           address =
               '${placemark.locality}, ${placemark.subLocality}, ${placemark.country}';
-          // address = '${placemarks.first.country} - ${placemarks.first.locality} - ${placemarks.first.name} - ${placemarks.first.street}';
         });
         print(widget.textField1Controller.text);
         print('this location');
@@ -70,13 +105,10 @@ class _AddLocationState extends State<AddLocation> {
     // TODO: implement initState
     super.initState();
 
-    //_loadMapStyles();
+
     addCustomIcon();
-    _currentPosition = LatLng(
-      widget.adventureController.pickUpLocLatLang.value.latitude,
-      widget.adventureController.pickUpLocLatLang.value.longitude,
-    );
-    _fetchAddress();
+          getLocation();
+
   }
 
   Future<String> _getAddressFromLatLng(
@@ -99,8 +131,8 @@ class _AddLocationState extends State<AddLocation> {
   }
 
   Future<void> _fetchAddress() async {
-    double latitude = _currentPosition.latitude;
-    double longitude = _currentPosition.longitude;
+    double latitude = _currentPosition!.latitude;
+    double longitude = _currentPosition!.longitude;
     String fetchedAddress = await _getAddressFromLatLng(latitude, longitude);
     setState(() {
       address = fetchedAddress;
@@ -112,9 +144,11 @@ class _AddLocationState extends State<AddLocation> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+
     print(address);
     print('this location');
-    print(widget.adventureController.pickUpLocLatLang.toString());
+    print( _AdventureController.pickUpLocLatLang.toString());
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -123,11 +157,11 @@ class _AddLocationState extends State<AddLocation> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              'locationCheck'.tr,
+              'locationCheckAdve'.tr,
               style: TextStyle(
                 color: black,
                 fontSize: 17,
-                fontFamily: 'HT Rakik',
+                fontFamily:  AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -146,17 +180,7 @@ class _AddLocationState extends State<AddLocation> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'locationMSG'.tr,
-                      style: TextStyle(
-                        color: starGreyColor,
-                        fontSize: 16,
-                        fontFamily: 'SF Pro',
-                        fontWeight: FontWeight.w400,
-                        height: 0,
-                      ),
-                    ),
-                    SizedBox(height: 25),
+                   
                     Container(
                       width: double.infinity,
                       height: 48,
@@ -169,14 +193,19 @@ class _AddLocationState extends State<AddLocation> {
                       ),
                       child: Padding(
                         padding: const EdgeInsets.only(top: 10),
-                        child: _isLoading
-                            ? CircularProgressIndicator.adaptive()
-                            : TextField(
+                          child: _isLoading
+                            ? Align(
+                              alignment: Alignment.topLeft,
+                              child: Container()
+                              )
+                            :  TextField(
                                 controller: widget.textField1Controller,
+                                enabled:false,
+
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 15,
-                                  fontFamily: 'SF Pro',
+                                  fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
                                   fontWeight: FontWeight.w400,
                                 ),
                                 decoration: InputDecoration(
@@ -184,7 +213,7 @@ class _AddLocationState extends State<AddLocation> {
                                   hintStyle: TextStyle(
                                     color: Color(0xFFB9B8C1),
                                     fontSize: 15,
-                                    fontFamily: 'SF Pro',
+                                    fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
                                     fontWeight: FontWeight.w400,
                                   ),
                                   border: OutlineInputBorder(
@@ -216,45 +245,28 @@ class _AddLocationState extends State<AddLocation> {
                         color: almostGrey.withOpacity(0.2),
                         borderRadius: BorderRadius.all(Radius.circular(12)),
                       ),
-                      height: 420,
-                      width: 358,
-                      child: GoogleMap(
+                       height: AppUtil.rtlDirection2(context)? height*0.57:height*0.57,
+                      width: double.infinity,
+                      child: _currentPosition == null
+                    ? Center(child: CircularProgressIndicator.adaptive())
+                     :  GoogleMap(
                         scrollGesturesEnabled: false,
                         zoomControlsEnabled: false,
                         initialCameraPosition: CameraPosition(
                           target:
-                              // // _servicesController == null
-                              // //     ? locLatLang
-                              // // :
-                              // LatLng(
-                              //     _servicesController
-                              //         .pickUpLocLatLang
-                              //         .value
-                              //         .latitude,
-                              //     _servicesController
-                              //         .pickUpLocLatLang
-                              //         .value
-                              //         .longitude!)
-                              _currentPosition,
+                              
+                              _currentPosition!,
                           zoom: 15,
                         ),
                         markers: {
                           Marker(
                             markerId: MarkerId("marker1"),
-                            position: _currentPosition,
-                            // LatLng(
-                            //     _servicesController
-                            //         .pickUpLocLatLang
-                            //         .value
-                            //         .latitude,
-                            //     _servicesController
-                            //         .pickUpLocLatLang
-                            //         .value
-                            //         .longitude),
+                            position: _currentPosition!,
+                           
                             draggable: true,
                             onDragEnd: (LatLng newPosition) {
                               setState(() {
-                                widget.adventureController.pickUpLocLatLang
+                                _AdventureController.pickUpLocLatLang
                                     .value = newPosition;
                                 _currentPosition = newPosition;
 
@@ -294,13 +306,13 @@ class _AddLocationState extends State<AddLocation> {
                           children: [
                             Center(
                               child: _isLoading
-                                  ? CircularProgressIndicator()
+                                  ? CircularProgressIndicator.adaptive()
                                   : Text(
                                       address,
                                       style: TextStyle(
                                         color: Color(0xFF9392A0),
                                         fontSize: 13,
-                                        fontFamily: 'SF Pro',
+                                        fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
                                         fontWeight: FontWeight.w400,
                                         height: 0,
                                       ),

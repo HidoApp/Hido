@@ -25,15 +25,20 @@ class _AddGuestsState extends State<AddGuests> {
 
  void initState() {
     super.initState();
+    if(_EventController.seletedSeat.value.toString()!='0')
     _textField1Controller = TextEditingController(
       text: _EventController.seletedSeat.value.toString(),
     );
+    
+    
   }
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+
+
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -69,7 +74,8 @@ class _AddGuestsState extends State<AddGuests> {
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 15,
-                    fontFamily: 'SF Pro',
+                    fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                          : 'SF Pro',
                     fontWeight: FontWeight.w400,
                   ),
                   decoration: InputDecoration(

@@ -27,7 +27,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
   }
 
   bool isEditing = false;
-  // final TextEditingController _priceController = TextEditingController();
+   TextEditingController _priceController = TextEditingController();
   double hidoFee = 0.00;
   double earn = 0.00;
   String errorMessage = '';
@@ -35,7 +35,13 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
   @override
   void initState() {
     super.initState();
+    // if(widget.priceController.text==''|| widget.priceController.text.isEmpty)
     widget.priceController.text = price.toString();
+  //  else
+  //  _priceController =  widget.priceController ;
+
+
+
     widget.priceController.addListener(_validatePrice);
   }
 
@@ -66,7 +72,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
     if (!mounted) return; // Check if the widget is still mounted
     setState(() {
       double price = double.tryParse(widget.priceController.text) ?? 0.00;
-      hidoFee = price * 0.25;
+      hidoFee = price * 0.3;
       earn = price - hidoFee;
     });
   }
@@ -86,7 +92,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
           color: black,
           fontSize: 17,
           fontWeight: FontWeight.w500,
-          fontFamily: 'SF Pro',
+          fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
         ),
         const SizedBox(height: 2),
         Text(
@@ -94,7 +100,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
           style: TextStyle(
             color: starGreyColor,
             fontSize: 15,
-            fontFamily: 'SF Pro',
+            fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -205,7 +211,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                       style: TextStyle(
                           color: Graytext,
                           fontSize: 12,
-                          fontFamily: 'SF Pro',
+                          fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
                           fontWeight: FontWeight.w500,
                           height: 3),
                     )
@@ -223,7 +229,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
               style: TextStyle(
                 color: Colors.red,
                 fontSize: 14,
-                fontFamily: 'SF Pro',
+                fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
                 fontWeight: FontWeight.w400,
               ),
             ),
@@ -255,7 +261,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                       style: TextStyle(
                         color: graySmallText,
                         fontSize: 15,
-                        fontFamily: 'SF Pro',
+                        fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -265,7 +271,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                       style: TextStyle(
                         color: graySmallText,
                         fontSize: 15,
-                        fontFamily: 'SF Pro',
+                        fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -287,7 +293,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                       style: TextStyle(
                         color: graySmallText,
                         fontSize: 15,
-                        fontFamily: 'SF Pro',
+                        fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -297,7 +303,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                       style: TextStyle(
                         color: graySmallText,
                         fontSize: 15,
-                        fontFamily: 'SF Pro',
+                        fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
                         fontWeight: FontWeight.w500,
                       ),
                     ),

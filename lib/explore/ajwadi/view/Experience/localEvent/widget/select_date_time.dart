@@ -1,5 +1,6 @@
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/controllers/ajwadi_explore_controller.dart';
+import 'package:ajwad_v4/explore/ajwadi/view/add_event_calender_dialog.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/add_hospitality_calender_dialog.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/services/controller/event_controller.dart';
@@ -110,7 +111,7 @@ final EventController _EventrController =
                           showDialog(
                               context: context,
                               builder: (BuildContext context) {
-                                return HostCalenderDialog(
+                                return EventCalenderDialog(
                                   type: 'event',
                                   eventController: _EventrController,
                                 );
@@ -122,12 +123,13 @@ final EventController _EventrController =
                               // ? AppUtil.formatBookingDate(
                               //     context,
                               //       _EventrController.selectedDate.value)
-                             ? formatSelectedDates(_EventrController.selectedDates,context)
+                             ? AppUtil.formatSelectedDates(_EventrController.selectedDates,context)
                               // srvicesController.selectedDates.map((date) => intel.DateFormat('dd/MM/yyyy').format(date)).join(', ')
                               : 'DD/MM/YYYY'.tr,
                           fontWeight: FontWeight.w400,
                           color: Graytext,
-                          fontFamily: 'SF Pro',
+                            fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                          : 'SF Pro',
                           fontSize: 15,
                         ),
                       ),
@@ -242,7 +244,8 @@ final EventController _EventrController =
                                                       text: "confirm".tr,
                                                       color: colorGreen,
                                                       fontSize: 15,
-                                                      fontFamily: 'SF Pro',
+                                                       fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                                                       : 'SF Pro',
                                                       fontWeight:
                                                           FontWeight.w500,
                                                     ),
@@ -301,7 +304,7 @@ final EventController _EventrController =
                                   //         .selectedStartTime.value),
                                   fontWeight: FontWeight.w400,
                                   color: Graytext,
-                                  fontFamily: 'SF Pro',
+                                     fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
                                   fontSize: 15,
                                 ),
                               ),
@@ -332,12 +335,12 @@ final EventController _EventrController =
                     children: [
                       CustomText(
                         text: AppUtil.rtlDirection2(context)
-                            ? "وقت العودة"
+                            ? "وقت النهاية"
                             : "End Time",
                         color: black,
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
-                        fontFamily: 'SF Pro',
+                        fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
                       ),
                       SizedBox(
                         height: height * 0.01,
@@ -483,7 +486,7 @@ final EventController _EventrController =
                                   //         .selectedEndTime.value),
                                   fontWeight: FontWeight.w400,
                                   color: Graytext,
-                                  fontFamily: 'SF Pro',
+                                  fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
                                   fontSize: 15,
                                 ),
                               ),
@@ -517,49 +520,3 @@ final EventController _EventrController =
   }
 }
 
-String formatSelectedDates(RxList<dynamic> dates, BuildContext context) {
-  // Convert dynamic list to List<DateTime>
-  List<DateTime> dateTimeList = dates
-      .where((date) => date is DateTime)
-      .map((date) => date as DateTime)
-      .toList();
-
-  if (dateTimeList.isEmpty) {
-    return 'DD/MM/YYYY';
-  }
-
-  // Sort the dates
-  dateTimeList.sort();
-
-  final bool isArabic = AppUtil.rtlDirection2(context);
-  final DateFormat dayFormatter =
-      DateFormat('d', isArabic ? 'ar' : 'en');
-  final DateFormat monthYearFormatter =
-      DateFormat('MMMM yyyy', isArabic ? 'ar' : 'en');
-
-  String formattedDates = '';
-
-  for (int i = 0; i < dateTimeList.length; i++) {
-    if (i > 0) {
-      // If current date's month and year are different from the previous date's, add a comma
-      if (dateTimeList[i].month != dateTimeList[i - 1].month ||
-          dateTimeList[i].year != dateTimeList[i - 1].year) {
-        formattedDates += ', ';
-      } else {
-        // If same month and year, just add a space
-        formattedDates += ', ';
-      }
-    }
-
-    formattedDates += dayFormatter.format(dateTimeList[i]);
-
-    // If the next date is in a different month or year, add month and year to the current date
-    if (i == dateTimeList.length - 1 ||
-        dateTimeList[i].month != dateTimeList[i + 1].month ||
-        dateTimeList[i].year != dateTimeList[i + 1].year) {
-      formattedDates += ' ${monthYearFormatter.format(dateTimeList[i])}';
-    }
-  }
-
-  return formattedDates;
-}

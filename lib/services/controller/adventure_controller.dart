@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:ajwad_v4/services/model/adventure.dart';
+import 'package:ajwad_v4/services/model/adventure_summary.dart';
+import 'package:ajwad_v4/services/model/summary.dart';
 import 'package:ajwad_v4/services/service/adventure_service.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,7 +15,7 @@ class AdventureController extends GetxController {
   var isAdventureListLoading = false.obs;
   var isAdventureByIdLoading = false.obs;
   var ischeckBookingLoading = false.obs;
-
+  var address = ''.obs;
   var selectedDate = ''.obs;
   var selectedDates = [].obs; //new
   var selectedTime = ''.obs;
@@ -120,7 +122,7 @@ class AdventureController extends GetxController {
     required String longitude,
     required String latitude,
     required String date,
-    required int price,
+    required double price,
     required List<String> image,
     required String regionAr,
     required String locationUrl,
@@ -288,14 +290,35 @@ class AdventureController extends GetxController {
       isAdventureDeleteLoading(true);
       final data = await AdventureService.AdventureDelete(
           context: context,adventureId: adventureId);
+          print(data);
   isAdventureDeleteLoading(data ?? false);
       return isAdventureDeleteLoading.value;
     } catch (e) {
-      log("-< HospitalityDeleteLoading >- $e");
+      log("-< AdventurwDeleteLoading >- $e");
       return null;
     } finally {
      isAdventureDeleteLoading(false);
     }
   }
+
+  Future<AdventureSummary?> getAdventureSummaryById({
+    required BuildContext context,
+    required String id,
+  }) async {
+    try {
+      print("TRUE");
+      isAdventureByIdLoading(true);
+      final data =
+          await AdventureService.getAdventureSummaryById(context: context, id: id);
+      return data;
+    } catch (e) {
+      isAdventureByIdLoading(false);
+      return null;
+    } finally {
+      isAdventureByIdLoading(false);
+    }
+  }
+  
+  
   
 }

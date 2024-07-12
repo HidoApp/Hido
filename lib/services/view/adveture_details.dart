@@ -16,6 +16,7 @@ import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
@@ -38,12 +39,14 @@ class AdventureDetails extends StatefulWidget {
     required this.adventureId,
     this.isLocal = false,
     this.address='',
+    this.isHasBooking=false,
 
   }) : super(key: key);
 
   final String adventureId;
   final bool isLocal;
   final String address;
+    final bool isHasBooking;
 
   @override
   State<AdventureDetails> createState() => _AdventureDetailsState();
@@ -57,6 +60,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
   bool isExpanded = false;
   bool isAviailable = false;
   List<DateTime> avilableDate = [];
+  String address='';
   var locLatLang = const LatLng(24.691846000000012, 46.68552199999999);
 
   BitmapDescriptor markerIcon = BitmapDescriptor.defaultMarker;
@@ -70,6 +74,35 @@ class _AdventureDetailsState extends State<AdventureDetails> {
         });
       },
     );
+  }
+Future<String> _getAddressFromLatLng(double position1,double position2) async {
+    try {
+      List<Placemark> placemarks =
+          await placemarkFromCoordinates(position1,position2);
+      print(placemarks);
+
+      if (placemarks.isNotEmpty) {
+        Placemark placemark = placemarks.first;
+        print(placemarks.first);
+        return '${placemark.locality}, ${placemark.subLocality}, ${placemark.country}';
+      }
+    } catch (e) {
+      print("Error retrieving address: $e");
+    }
+    return '';
+  }
+
+  Future<void> _fetchAddress(String position1,String position2) async {
+    try {
+      String result = await _getAddressFromLatLng(
+ double.parse( position1),double.parse( position2)) ;    
+  setState(() {
+        _adventureController.address.value= result;
+      });
+    } catch (e) {
+      // Handle error if necessary
+      print('Error fetching address: $e');
+    }
   }
 
   late Adventure? adventure;
@@ -87,6 +120,8 @@ class _AdventureDetailsState extends State<AdventureDetails> {
   void getAdventureById() async {
     adventure = (await _adventureController.getAdvdentureById(
         context: context, id: widget.adventureId));
+     if(!widget.isLocal)
+    _fetchAddress(adventure!.coordinates!.latitude??'', adventure!.coordinates!.longitude??'');
   }
 
   @override
@@ -121,6 +156,8 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                             fontSize: width * 0.038,
                             color: colorDarkGrey,
                             fontWeight: FontWeight.w400,
+                           fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+
                           ),
                           CustomText(
                             text: " /  ",
@@ -132,7 +169,8 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                             text: '${adventure!.price} ${'sar'.tr}',
                             fontWeight: FontWeight.w900,
                             fontSize: width * 0.043,
-                            fontFamily: 'HT Rakik',
+                            fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+
                           ),
                         ],
                       ),
@@ -170,7 +208,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                       ),
                     ),
                     SizedBox(
-                      height: width * 0.1,
+                      height: width * 0.10,
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: width * 0.05),
@@ -186,38 +224,44 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                     : adventure!.nameEn ?? '',
                                 fontSize: width * 0.07,
                                 fontWeight: FontWeight.w500,
+                                fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
                               )),
                           SizedBox(
                             height: width * 0.025,
                           ),
                           Row(
                             children: [
-                              SvgPicture.asset(
-                                "assets/icons/locationHos.svg",
-                                color: starGreyColor,
+                              Padding(
+                                padding: const EdgeInsets.only(right: 1),
+                                child: SvgPicture.asset(
+                                  "assets/icons/locationHos.svg",
+                                  color: starGreyColor,
+                                ),
                               ),
                               SizedBox(
                                 width: width * 0.012,
                               ),
                               CustomText(
-                                text:widget.address,
-                                //  AppUtil.rtlDirection2(context)
-                                //     ? adventure!.regionAr!
-                                //     : adventure!.regionEn!,
+                                text:!widget.isLocal?_adventureController.address.value:widget.address,
+                              
                                 color: colorDarkGrey,
                                 fontSize: width * 0.038,
                                 fontWeight: FontWeight.w300,
+                                fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
                               ),
                             ],
                           ),
                           SizedBox(
-                            height: width * 0.025,
+                            height: width * 0.01,
                           ),
                           Row(
                             children: [
-                              SvgPicture.asset(
-                                'assets/icons/grey_calender.svg',
-                                color: starGreyColor,
+                              Padding(
+                                padding: const EdgeInsets.only(right: 2),
+                                child: SvgPicture.asset(
+                                  'assets/icons/grey_calender.svg',
+                                  color: starGreyColor,
+                                ),
                               ),
                               SizedBox(
                                 width: width * 0.012,
@@ -227,11 +271,12 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                 color: colorDarkGrey,
                                 fontSize: width * 0.038,
                                 fontWeight: FontWeight.w300,
+                                fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
                               ),
                             ],
                           ),
                           SizedBox(
-                            height: width * 0.025,
+                            height: width * 0.01,
                           ),
                           Row(
                             children: [
@@ -240,7 +285,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                 color: starGreyColor,
                               ),
                               SizedBox(
-                                width: width * 0.012,
+                                width: width * 0.011,
                               ),
                               //time
                               CustomText(
@@ -251,6 +296,8 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                 color: colorDarkGrey,
                                 fontSize: width * 0.038,
                                 fontWeight: FontWeight.w300,
+                                 fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+
                               ),
                             ],
                           ),
@@ -258,7 +305,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                             height: width * 0.025,
                           ),
                           SizedBox(
-                            height: width * 0.038,
+                            height: width * 0.012,
                           ),
                           Align(
                               alignment: AppUtil.rtlDirection2(context)
@@ -268,23 +315,27 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                 text: "about".tr,
                                 fontSize: width * 0.046,
                                 fontWeight: FontWeight.w400,
+                                fontFamily: 'HT Rakik',
+
+
                               )),
                           SizedBox(
                             height: width * 0.025,
                           ),
                           ConstrainedBox(
-                            constraints: isExpanded
-                                ? const BoxConstraints()
-                                : BoxConstraints(maxHeight: width * 0.102),
-                            child: CustomText(
-                              //   textAlign: AppUtil.rtlDirection(context) ? TextAlign.end : TextAlign.start ,
-                              textDirection: AppUtil.rtlDirection2(context)
-                                  ? TextDirection.ltr
-                                  : TextDirection.rtl,
-                              textOverflow: isExpanded
-                                  ? TextOverflow.visible
-                                  : TextOverflow.clip,
-                              fontFamily: "Noto Kufi Arabic",
+                                constraints: isExpanded
+                                    ? const BoxConstraints()
+                                    : BoxConstraints(maxHeight: width * 0.05),
+                                child: CustomText(
+                                    textDirection: AppUtil.rtlDirection(context)
+                                        ? TextDirection.ltr
+                                        : TextDirection.rtl,
+                                    textOverflow: isExpanded
+                                        ? TextOverflow.visible
+                                        : TextOverflow.clip,
+                                       
+                                 fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+                                 color: Color(0xFF9392A0),
                               fontSize: width * 0.035,
                               text: AppUtil.rtlDirection2(context)
                                   ? adventure!.descriptionAr ?? ''
@@ -296,7 +347,9 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                           ),
                           isExpanded
                               ? Align(
-                                  alignment: Alignment.bottomLeft,
+                                   alignment: AppUtil.rtlDirection2(context)
+                                          ? Alignment.bottomRight
+                                          : Alignment.bottomLeft,
                                   child: GestureDetector(
                                     onTap: () {
                                       setState(() => isExpanded = false);
@@ -306,17 +359,23 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                           ? "القليل"
                                           : "Show less",
                                       color: blue,
+                                     fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+
                                     ),
                                   ),
                                 )
                               : Align(
-                                  alignment: Alignment.bottomLeft,
+                                    alignment: AppUtil.rtlDirection2(context)
+                                          ? Alignment.bottomRight
+                                          : Alignment.bottomLeft,
                                   child: GestureDetector(
                                     onTap: () =>
                                         setState(() => isExpanded = true),
                                     child: CustomText(
                                       text: "readMore".tr,
                                       color: blue,
+                                      fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+
                                     ),
                                   ),
                                 ),
@@ -334,9 +393,11 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                   ? Alignment.centerRight
                                   : Alignment.centerLeft,
                               child: CustomText(
-                                text: "whereWeWillBe".tr,
+                                text:!widget.isLocal? "whereWeWillBe".tr:AppUtil.rtlDirection2(context)?'الموقع':'Location',
                                 fontSize: width * 0.046,
                                 fontWeight: FontWeight.w500,
+                              fontFamily: 'HT Rakik',
+
                               )),
                           SizedBox(
                             height: width * 0.025,
@@ -430,6 +491,8 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                             fontWeight: FontWeight.w400,
                                             maxlines: 2,
                                             color: tileGreyColor,
+                                             fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+
                                           ),
                                         ),
                                       ],
@@ -496,11 +559,11 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                               ? width * 0.82
                               : width * 0.072,
                           child: GestureDetector(
-                              onTap:adventure!.booking!.isEmpty?
+                              onTap:widget.isHasBooking?
                                () {
-                                 Get.to(EditAdventure(adventureObj: adventure!));
                               }:() {
-                                
+                              Get.to(EditAdventure(adventureObj: adventure!));
+
                               },
                               child: Container(
                                 width: 36,

@@ -162,12 +162,19 @@ class _LocalTicketScreenState extends State<LocalTicketScreen>
                                 ),
                               )
                              :  widget.servicesController.pastTicket.isEmpty
-
-                                ? CustomEmptyWidget(
-                                    title: 'noTicket'.tr,
+                                ? widget.type == 'tour'?
+                                CustomEmptyWidget(
+                                    title: 'noRequest'.tr,
                                     image: 'NoTicket',
-                                    subtitle: 'noTicketSub'.tr,
+                                    subtitle: 'noRequestSub'.tr,
                                   )
+                                
+                                :CustomEmptyWidget(
+                                    title: 'noBooking'.tr,
+                                    image: 'NoTicket',
+                                    subtitle: 'noBookingSub'.tr,
+                                  )
+                               
                                 : ListView.separated(
                                     shrinkWrap: true,
                                     itemCount: 

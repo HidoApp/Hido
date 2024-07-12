@@ -174,6 +174,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
 
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
+                        
                         children: [
                           Container(
                             child: Text(
@@ -188,9 +189,8 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                               textDirection: TextDirection.ltr,
                             ),
                           ),
-                          SizedBox(height: 10),
+                          SizedBox(height: 25),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               CategoryCard(
                                 title:  AppUtil.rtlDirection2(context)?"جولات ":'Tours',
@@ -205,6 +205,8 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                                   );
                                 },
                               ),
+                               SizedBox(width: 6),
+                          
                               CategoryCard(
                                   title:  AppUtil.rtlDirection2(context)?"استضافة":'Hospitality',
                                   icon: 'host_category',
@@ -219,22 +221,46 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                                 },
                                   
                                   ),
-                              CategoryCard(
-                                  title: AppUtil.rtlDirection2(context)?'مغامرات':'Adventure',
-                                  icon: 'adventure_category',
-                                  color: Color(0xFFF9F4EC),
-                                  onPressed: () {
-                                  Get.to(
-                                    () => LocalTicketScreen(
-                                     servicesController: Get.put(AdventureController()),
-                                     type: 'adventure',
-                                    ),
-                                  );
-                                },
-                              ),
+                           
                             ],
                           ),
-                          SizedBox(height: 25),
+                               SizedBox(height: 6),
+
+                              Row(
+                                children: [
+                                  CategoryCard(
+                                      title: AppUtil.rtlDirection2(context)?'مغامرات':'Adventure',
+                                      icon: 'adventure_category',
+                                      color: Color(0xFFF9F4EC),
+                                      onPressed: () {
+                                      Get.to(
+                                        () => LocalTicketScreen(
+                                         servicesController: Get.put(AdventureController()),
+                                         type: 'adventure',
+                                        ),
+                                      );
+                                    },
+                                  ),
+                            
+                                 SizedBox(width: 6),
+
+                                  CategoryCard(
+                                      title: AppUtil.rtlDirection2(context)?'فعاليات محلية':'Local Event',
+                                      icon: 'event_category',
+                                      color: Color(0xFFFEFDF1),
+                                      onPressed: () {
+                                      // Get.to(
+                                      //   () => 
+                                      //   LocalTicketScreen(
+                                      //    servicesController: Get.put(AdventureController()),
+                                      //    type: 'adventure',
+                                      //   ),
+                                      // );
+                                    },
+                                  ),
+                                ],
+                              ),
+                          SizedBox(height: 40),
                           Text(
                             AppUtil.rtlDirection2(context)?"نشاطك القادم": 'Your next activity ',
                             style: TextStyle(
@@ -278,13 +304,15 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                                            )
                                                                  :Column(
                                                                    children: [
-                                                                //     //  LastActivity(),
                                                                    
                                        
                                                                 //  SizedBox(height: 11),
                                        
                                                                 CustomLocalTicketCard(nextTrip: _tripController.nextTrip,),
+                                                                
+                                                                SizedBox(height: 11),
                                                                  ],
+                                                                 
                                                                  ),
                                        ),
                         ],

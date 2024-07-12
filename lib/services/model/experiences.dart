@@ -21,6 +21,7 @@ class Experience {
    final Coordinate coordinates;
   final  List<String> image;
  final  String created;
+ final bool isHasBooking;
 
  Experience({
    required this.id,
@@ -39,12 +40,13 @@ class Experience {
         required this.image,
         required this.created,
         required this.nameAr,
-        required this.nameEn
+        required this.nameEn,
+        required this.isHasBooking,
   });
   factory Experience.fromJson(Map<String, dynamic> json) {
     return Experience(
       id: json['id'] ?? '',
-    
+    isHasBooking: json['isHasBooking'] ,
       mealTypeAr: json['mealTypeAr'] ?? '',
       mealTypeEn: json['mealTypeEn'] ?? '',
      

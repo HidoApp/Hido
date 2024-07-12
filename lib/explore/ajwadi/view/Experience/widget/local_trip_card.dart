@@ -60,7 +60,7 @@ void getAddressFromCoordinates(double latitude, double longitude) async {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return Container(
-      height: _controller.isExpanded ? width * 0.65 : width * 0.38,
+      height: _controller.isExpanded ? width * 0.65 : width * 0.381,
       width: double.infinity,
       padding: const EdgeInsets.all(12),
       clipBehavior: Clip.antiAlias,
@@ -87,7 +87,7 @@ offset: Offset(-5, 0),
               style: TextStyle(
                 color: Color(0xFF9392A0),
                 fontSize: 12,
-                fontFamily: 'SF Pro',
+                fontFamily:AppUtil.rtlDirection2(context)?'SF Arabic': 'SF Pro',
                 fontWeight: FontWeight.w500,
                 height: 0,
               ),
@@ -159,7 +159,7 @@ offset: Offset(-5, 0),
                    minimumSize: Size(81, 32), // Width and height
                  ),
                  child: Text(
-                   'Chat',
+                   'chat'.tr,
                    textAlign: TextAlign.center,
                    style: TextStyle(
                      color: Colors.white,

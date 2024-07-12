@@ -1,9 +1,12 @@
+import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 class AddInfo extends StatefulWidget {
- AddInfo({
+  AddInfo({
     Key? key,
     required this.textField1ControllerEN,
     required this.textField2ControllerEN,
@@ -23,7 +26,9 @@ class AddInfo extends StatefulWidget {
 class _AddInfoState extends State<AddInfo> {
   int _selectedLanguageIndex = 1; // 0 for AR, 1 for EN
   FocusNode _focusNode = FocusNode();
-
+   AdventureController _AdventureController =
+      Get.put(AdventureController());
+      
   @override
   void dispose() {
     _focusNode.dispose();
@@ -78,18 +83,16 @@ class _AddInfoState extends State<AddInfo> {
                 radiusStyle: true,
                 customTextStyles: [
                   TextStyle(
-                    fontSize: _selectedLanguageIndex == 0 ? 11.5 : 13,
-                    fontFamily: 'SF Pro',
-                    fontWeight: _selectedLanguageIndex == 0
-                        ? FontWeight.w600
-                        : FontWeight.w500,
+                    fontSize: _selectedLanguageIndex == 0 ? 11 : 13,
+                    fontFamily:
+                        _selectedLanguageIndex == 0 ? 'SF Arabic' : 'SF Pro',
+                    fontWeight: FontWeight.w500,
                   ),
                   TextStyle(
-                    fontSize: _selectedLanguageIndex == 0 ? 11.5 : 13,
-                    fontFamily: 'SF Pro',
-                    fontWeight: _selectedLanguageIndex == 0
-                        ? FontWeight.w600
-                        : FontWeight.w500,
+                    fontSize: _selectedLanguageIndex == 0 ? 11 : 13,
+                    fontFamily:
+                        _selectedLanguageIndex == 0 ? 'SF Arabic' : 'SF Pro',
+                    fontWeight: FontWeight.w500,
                   ),
                 ],
                 customHeights: [90, 90],
@@ -124,13 +127,10 @@ class _AddInfoState extends State<AddInfo> {
                         fontFamily: _selectedLanguageIndex == 0
                             ? 'SF Arabic'
                             : 'SF Pro',
-                        fontWeight: _selectedLanguageIndex == 0
-                            ? FontWeight.w600
-                            : FontWeight.w500,
-                        height: 0,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
-                    SizedBox(height: _selectedLanguageIndex == 0 ? 5.5 : 8),
+                    SizedBox(height: _selectedLanguageIndex == 0 ? 8 : 9),
                     Container(
                       width: double.infinity,
                       height: 54,
@@ -146,10 +146,12 @@ class _AddInfoState extends State<AddInfo> {
                             horizontal: 4, vertical: 0),
                         child: TextField(
                           controller: textField1Controller,
-                          style: TextStyle(
+                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 15,
-                            fontFamily: 'SF Pro',
+                            fontFamily: _selectedLanguageIndex == 0
+                            ? 'SF Arabic'
+                            : 'SF Pro',
                             fontWeight: FontWeight.w400,
                           ),
                           decoration: InputDecoration(
@@ -159,7 +161,9 @@ class _AddInfoState extends State<AddInfo> {
                             hintStyle: TextStyle(
                               color: Color(0xFFB9B8C1),
                               fontSize: 15,
-                              fontFamily: 'SF Pro',
+                              fontFamily: _selectedLanguageIndex == 0
+                            ? 'SF Arabic'
+                            : 'SF Pro',
                               fontWeight: FontWeight.w400,
                             ),
                             border: OutlineInputBorder(
@@ -176,7 +180,7 @@ class _AddInfoState extends State<AddInfo> {
               Container(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
@@ -187,13 +191,11 @@ class _AddInfoState extends State<AddInfo> {
                         fontFamily: _selectedLanguageIndex == 0
                             ? 'SF Arabic'
                             : 'SF Pro',
-                        fontWeight: _selectedLanguageIndex == 0
-                            ? FontWeight.w600
-                            : FontWeight.w500,
-                        height: 0,
+                        fontWeight: 
+                             FontWeight.w500,
                       ),
                     ),
-                    SizedBox(height: _selectedLanguageIndex == 0 ? 4 : 9),
+                    SizedBox(height: _selectedLanguageIndex == 0 ? 8 : 9),
                     Container(
                       width: double.infinity,
                       height: 133,
@@ -208,10 +210,10 @@ class _AddInfoState extends State<AddInfo> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 0, vertical: 0),
                         child: TextField(
-                        maxLines: 8,
-                        // minLines: 1,
+                          maxLines: 8,
+                          // minLines: 1,
                           controller: textField2Controller,
-                         focusNode: _focusNode,
+                          focusNode: _focusNode,
                           inputFormatters: [
                             TextInputFormatter.withFunction(
                               (oldValue, newValue) {
@@ -229,19 +231,23 @@ class _AddInfoState extends State<AddInfo> {
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 15,
-                            fontFamily: 'SF Pro',
+                            fontFamily: _selectedLanguageIndex == 0
+                          ? 'SF Arabic'
+                          : 'SF Pro',
+                          fontWeight: FontWeight.w400,
+                        ),
+                        decoration: InputDecoration(
+                          hintText: _selectedLanguageIndex == 0
+                              ? 'ما هي التجارب الفريدة التي لا يمكن العثور عليها في أي مكان آخر؟'
+                              : 'highlight what makes it unique and why tourists should visit',
+                          hintStyle: TextStyle(
+                            color: Color(0xFFB9B8C1),
+                            fontSize: 15,
+                            fontFamily: _selectedLanguageIndex == 0
+                          ? 'SF Arabic'
+                          : 'SF Pro',
                             fontWeight: FontWeight.w400,
                           ),
-                          decoration: InputDecoration(
-                            hintText: _selectedLanguageIndex == 0
-                                ? 'أذكر أبرز ما يميزها ولماذا يجب على السياح زيارتها'
-                                : 'highlight what makes it unique and why tourists should visit',
-                            hintStyle: TextStyle(
-                              color: Color(0xFFB9B8C1),
-                              fontSize: 15,
-                              fontFamily: 'SF Pro',
-                              fontWeight: FontWeight.w400,
-                            ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
                               borderSide: BorderSide.none,
@@ -259,7 +265,9 @@ class _AddInfoState extends State<AddInfo> {
                         style: TextStyle(
                           color: Color(0xFFB9B8C1),
                           fontSize: 11,
-                          fontFamily: 'SF Pro',
+                           fontFamily: _selectedLanguageIndex == 0
+                          ? 'SF Arabic'
+                          : 'SF Pro',
                           fontWeight: FontWeight.w400,
                         ),
                       ),

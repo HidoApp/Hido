@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:ajwad_v4/explore/ajwadi/controllers/ajwadi_explore_controller.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/LocalEvent/widget/add_event_info.dart';
+import 'package:ajwad_v4/explore/ajwadi/view/Experience/localEvent/view/event_info_review.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/localEvent/widget/add_guests.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/localEvent/widget/add_location.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/localEvent/widget/add_price.dart';
@@ -11,6 +12,7 @@ import 'package:ajwad_v4/explore/ajwadi/view/add_hospitality_calender_dialog.dar
 import 'package:ajwad_v4/explore/ajwadi/view/hoapatility/view/host_info_review.dart';
 import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
+import 'package:ajwad_v4/services/controller/event_controller.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -71,7 +73,8 @@ class _EventAddProgressState extends State<EventAddProgress> {
   final TextEditingController EventLocation = TextEditingController();
   final TextEditingController EventPrice = TextEditingController();
 
-  
+    final EventController _EventController = Get.put(EventController());
+
   
 
   
@@ -151,27 +154,28 @@ class _EventAddProgressState extends State<EventAddProgress> {
           textField1Controller: EventLocation,
         );
       case 2:
-       // print(_AdventureControllerController.pickUpLocLatLang.value.toString());
+       print(_EventController.pickUpLocLatLang.value.toString());
         print('2');
 
       return PhotoGalleryPage();
       case 3:
         print('3');
-        // print(_hospitalityImages.first);
+        //print(_hospitalityImages.first);
        return AddGuests();
       case 4:
-       // print(_AdventureControllerController.seletedSeat.value);
+       print(_EventController.seletedSeat.value);
         print("4");
 
         return SelectDateTime();
       case 5:
       
-       // print(_AdventureControllerController.selectedEndTime.value);
+      print(_EventController.selectedEndTime.value);
 
-        // print(
-        //  'Selected Start Time: ${_hospitalityController.selectedDate.value}');
+        print(
+         'Selected Start Time: ${_EventController.selectedDates.value}');
 
         print("5");
+
         return PriceDecisionCard(priceController: EventPrice);
 
       default:
@@ -181,33 +185,35 @@ class _EventAddProgressState extends State<EventAddProgress> {
   }
 
   bool _validateFields() {
-    // if (activeIndex == 0) {
-    //   return
-    //   AdventureTitleControllerEn.text.isNotEmpty &&
-    //        AdventureBioControllerEn.text.isNotEmpty &&
-    //       AdventureTitleControllerAr.text.isNotEmpty &&
-    //       AdventureBioControllerAr.text.isNotEmpty;
-    // }
-    // if (activeIndex == 1) {
-    //   return
-    //  _AdventureControllerController.pickUpLocLatLang.value !=
-    //       const LatLng(24.9470921, 45.9903698);
-    // }
-    // if (activeIndex == 2) {
-    //   return
-    //   _AdventureImages.length >= 3;
-    // }
-    //  if (activeIndex == 3) {
-    //   return  _AdventureControllerController.seletedSeat.value != 0 ;
-    // }
-    //  if (activeIndex == 4) {
+    if (activeIndex == 0) {
+      return
+      EventTitleControllerEn.text.isNotEmpty &&
+          EventBioControllerEn.text.isNotEmpty &&
+          EventTitleControllerAr.text.isNotEmpty &&
+         EventBioControllerAr.text.isNotEmpty;
+    }
+    if (activeIndex == 1) {
+      return
+     _EventController.pickUpLocLatLang.value !=
+          const LatLng(0.0, 0.0);
+    }
+   
+     if (activeIndex == 3) {
+      return   _EventController.seletedSeat.value != 0 ;
+    }
+     if (activeIndex == 4) {
 
-    //  return !ajwadiExploreController.isDateEmpty.value && _AdventureControllerController.isAdventureTimeSelcted.value ;
-    // }
-    //   if (activeIndex == 5) {
-
-    // return  double.tryParse(AdventurePrice.text)! >= 150 ;
-    // }
+     return  _EventController.selectedDates.value.isNotEmpty && _EventController.isEventTimeSelcted .value ; 
+    }
+     if (activeIndex == 5) {
+    if (EventPrice.text.isNotEmpty) {
+      double? price = double.tryParse(EventPrice.text);
+      if (price != null && price >= 150) {
+        return true;
+      }
+    }
+    return false;
+  }
     return true; // Add validation for other steps if needed
   }
 
@@ -216,7 +222,7 @@ class _EventAddProgressState extends State<EventAddProgress> {
       return "GeneralInformation".tr;
     }
     if (activeIndex == 1) {
-      return "Location".tr;
+      return AppUtil.rtlDirection2(context)?'موقع الفعالية':"Location";
     }
     if (activeIndex == 2) {
       return "PhotoGallery".tr;
@@ -248,18 +254,14 @@ class _EventAddProgressState extends State<EventAddProgress> {
                 print(activeIndex);
               });
             } else if (activeIndex == totalIndex - 1) {
-              // Get.to(HostInfoReview(
-              //   hospitalityTitleEn: EventBioControllerEn.text,
-              //   hospitalityBioEn: EventBioControllerEn.text,
-              //   hospitalityTitleAr: EventTitleControllerAr.text,
-              //   hospitalityBioAr: EventBioControllerAr.text,
-              //   adventurePrice: int.parse(EventPrice.text),
-              //   hospitalityPrice:double.parse(EventPrice.text) ,
-              //  // hospitalityImages: _AdventureImages,
-              //  // adventureController: _AdventureControllerController,
-              //   hospitalityLocation: EventLocation.text,
-              //   experienceType: 'event',
-              // ));
+              Get.to(EventInfoReview(
+                hospitalityTitleEn: EventBioControllerEn.text,
+                hospitalityBioEn: EventBioControllerEn.text,
+                hospitalityTitleAr: EventTitleControllerAr.text,
+                hospitalityBioAr: EventBioControllerAr.text,
+                adventurePrice: double.parse(EventPrice.text),
+               hospitalityLocation: EventLocation.text,
+              ));
             }
           },
           child: Container(

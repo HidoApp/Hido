@@ -126,7 +126,7 @@ class _AddInfoState extends State<AddInfo> {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    SizedBox(height: _selectedLanguageIndex == 0 ? 6.5 : 8),
+                    SizedBox(height: _selectedLanguageIndex == 0 ? 8 : 9),
                     Container(
                       width: double.infinity,
                       height: 54,
@@ -191,7 +191,7 @@ class _AddInfoState extends State<AddInfo> {
                              FontWeight.w500,
                       ),
                     ),
-                    SizedBox(height: _selectedLanguageIndex == 0 ? 5 : 9),
+                    SizedBox(height: _selectedLanguageIndex == 0 ? 8 : 9),
                     Container(
                       width: double.infinity,
                       height: 133,
@@ -231,7 +231,7 @@ class _AddInfoState extends State<AddInfo> {
                         ),
                         decoration: InputDecoration(
                           hintText: _selectedLanguageIndex == 0
-                              ? 'أذكر أبرز ما يميزها ولماذا يجب على السياح زيارتها'
+                              ? 'ما هي التجارب الفريدة التي لا يمكن العثور عليها في أي مكان آخر؟'
                               : 'highlight what makes it unique and why tourists should visit',
                           hintStyle: TextStyle(
                             color: Color(0xFFB9B8C1),
@@ -257,7 +257,9 @@ class _AddInfoState extends State<AddInfo> {
                         style: TextStyle(
                           color: Color(0xFFB9B8C1),
                           fontSize: 11,
-                          fontFamily: 'SF Pro',
+                            fontFamily: _selectedLanguageIndex == 0
+                          ? 'SF Arabic'
+                          : 'SF Pro',
                           fontWeight: FontWeight.w400,
                         ),
                       ),

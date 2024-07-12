@@ -1,7 +1,9 @@
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/profile/view/custom_ticket_card.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
+import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
+import 'package:ajwad_v4/services/model/adventure_summary.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_empty_widget.dart';
@@ -14,24 +16,23 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../services/model/summary.dart';
 
-class SummaryScreen extends StatefulWidget {
+class AdventureSummaryScreen extends StatefulWidget {
   // final ProfileController profileController;
- final String hospitalityId;
+ final String adventureId;
 
-  const SummaryScreen({
+  const  AdventureSummaryScreen({
     super.key,
-     required this.hospitalityId,
+     required this.adventureId,
   });
 
   @override
-  State<SummaryScreen> createState() => _SummaryScreenState();
+  State< AdventureSummaryScreen> createState() => _AdventureSummaryScreenState();
 }
 
 
 
-class _SummaryScreenState extends State<SummaryScreen>{
+class _AdventureSummaryScreenState extends State< AdventureSummaryScreen>{
   final String referenceNumber = '#1102238';
   final String titlePlace = 'Juwai Farm';
   final String bookingDate = '25 April 2024';
@@ -45,35 +46,34 @@ class _SummaryScreenState extends State<SummaryScreen>{
     {'name': 'John Doe', 'gender': 'Male'},
     // Add more guests as needed
   ];
- final _servicesController = Get.put(HospitalityController());
-  Summary? _summary ;
+ final _servicesController = Get.put(AdventureController());
+  AdventureSummary? _summary ;
   //List<String> status = ['canceled', 'waiting', 'confirmed'];
 
 
 void gethospitalitySummary() async {
   
-    _summary = await _servicesController.getHospitalitySummaryById(context: context, id: widget.hospitalityId);
+    _summary = await _servicesController.getAdventureSummaryById(context: context, id: widget.adventureId);
     print(_summary?.cost);
-     for (var guest in _summary!.guestList) {
-  totalFemales += guest.female;
-  totalMales += guest.male;
+     for (var guest in _summary!.touristList) {
+  totalguest += guest.guestNumber;
   }
 
 }
 
-int totalFemales = 0;
-  int totalMales = 0;
- getTotalGuest(){
-  if(_summary!.guestList.isNotEmpty||_summary!.guestList!=[])
+int totalguest = 0;
 
-  for (var guest in _summary!.guestList) {
-  totalFemales += guest.female;
-  totalMales += guest.male;
-  }
+//  getTotalGuest(){
+//   if(_summary!.touristList.isNotEmpty||_summary!.touristList!=[])
 
-  print('Total number of females: $totalFemales');
-  print('Total number of males: $totalMales');
-}
+//   for (var guest in _summary!.guestList) {
+//   totalFemales += guest.female;
+//   totalMales += guest.male;
+//   }
+
+//   print('Total number of females: $totalFemales');
+//   print('Total number of males: $totalMales');
+// }
 
   @override
   void initState() {
@@ -96,11 +96,11 @@ int totalFemales = 0;
       body:Obx( () => Padding(
         padding: const EdgeInsets.all(16.0),
         child:
-          _servicesController.isHospitalityByIdLoading.value
+          _servicesController.isAdventureByIdLoading.value
             ? Center(
                 child: CircularProgressIndicator.adaptive(),
               )
-            :_summary == null || _summary!.guestList.isEmpty? 
+            :_summary == null || _summary!.touristList.isEmpty? 
             Column(
               children: [
                 Expanded(
@@ -144,7 +144,7 @@ int totalFemales = 0;
                       style: TextStyle(
                         color: Color(0xFFB9B8C1),
                         fontSize: 13,
-                       fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic': 'SF Pro',
+                    fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic': 'SF Pro',
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -160,23 +160,23 @@ int totalFemales = 0;
                 children: [
                   Text(
                     AppUtil.rtlDirection2(context)?
-                    _summary?.titleAr??''
-                    :_summary?.titleEn??'',
+                    _summary?.nameAr??''
+                    :_summary?.nameEn??'',
                     style: TextStyle(
                       color: Color(0xFF070708),
                       fontSize: 16,
-                     fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic': 'SF Pro',
+                    fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic': 'SF Pro',
                       fontWeight: FontWeight.w500,
                     ),
                   ),
                   Text(
                     
-                     formatBookingDate(context,
-                                        _summary?.daysInfo.first.startTime??''),
+                     AppUtil.formatBookingDate(context,
+                                        _summary!.date),
                     style: TextStyle(
                       color: Color(0xFF070708),
                       fontSize: 15,
-                      fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic': 'SF Pro',
+                    fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic': 'SF Pro',
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -190,8 +190,7 @@ int totalFemales = 0;
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                  // AppUtil.formatTimeWithLocale(context, _summary?.daysInfo.first.startTime??'','hh:mm a'),
-                    '${ AppUtil.formatTimeWithLocale(context, _summary?.daysInfo.first.startTime??'','hh:mm a')} - ${AppUtil.formatTimeWithLocale(context, _summary?.daysInfo.first.endTime??'','hh:mm a')}',
+                   '${ formatTimeWithLocale(context, _summary?.times.first.startTime??'','hh:mm a')} - ${formatTimeWithLocale(context, _summary?.times.first.endTime??'','hh:mm a')}',
                     style: TextStyle(
                       color: Color(0xFF070708),
                       fontSize: 12,
@@ -203,7 +202,7 @@ int totalFemales = 0;
                   Row(
                     children: [
                       Text(
-                        '$totalFemales ${'Women'.tr}',
+                        '$totalguest ${'Pepole'.tr}',
                         style: TextStyle(
                           color: Color(0xFF070708),
                           fontSize: 12,
@@ -211,26 +210,7 @@ int totalFemales = 0;
                           fontWeight: FontWeight.w400,
                         ),
                       ),
-                      SizedBox(width: 4),
-                      Text(
-                        '∙',
-                        style: TextStyle(
-                          color: Color(0xFF070708),
-                          fontSize: 12,
-                    fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic': 'SF Pro',
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      SizedBox(width: 4),
-                      Text(
-                        '$totalMales ${'Men'.tr}',
-                        style: TextStyle(
-                          color: Color(0xFF070708),
-                          fontSize: 12,
-                    fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic': 'SF Pro',
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
+                    
                     ],
                   ),
                   SizedBox(height: 8),
@@ -264,7 +244,7 @@ int totalFemales = 0;
               SizedBox(height: 12),
               // Fourth Row: Guest List
               Text(
-               AppUtil.rtlDirection2(context)?'لائحة الضيوف': 'Guest list',
+               AppUtil.rtlDirection2(context)?'لائحة الضيوف' :'Tourist list',
                 style: TextStyle(
                   color: Color(0xFF070708),
                   fontSize: 16,
@@ -275,7 +255,7 @@ int totalFemales = 0;
               SizedBox(height: 12),
               Expanded(
                 child: ListView.builder(
-                  itemCount: _summary?.guestList.length,
+                  itemCount: _summary?.touristList .length,
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 8.0),
@@ -283,7 +263,7 @@ int totalFemales = 0;
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                          _summary?.guestList[index].name??'',
+                          _summary?.touristList[index].name??'',
                             style: TextStyle(
                               color: Color(0xFF41404A),
                               fontSize: 13,
@@ -292,7 +272,7 @@ int totalFemales = 0;
                             ),
                           ),
                           Text(
-                            '${_summary?.guestList[index].female} ${'Women'.tr} - ${_summary?.guestList[index].male} ${'Men'.tr}',
+                            '${_summary?.touristList[index].guestNumber} ${'person'.tr}',
                             style: TextStyle(
                               color: Color(0xFFB9B8C1),
                               fontSize: 12,
@@ -314,14 +294,25 @@ int totalFemales = 0;
       ),
     );
   }
-  String formatBookingDate(BuildContext context, String date) {
-    DateTime dateTime = DateTime.parse(date);
+static String formatTimeWithLocale(
+      BuildContext context, String timeString, String format) {
+    // Parse the time string to DateTime
+    DateTime time = DateFormat.Hms().parse(timeString);
+
+    // Format the time
+    String formattedTime = DateFormat(format).format(time);
+
     if (AppUtil.rtlDirection2(context)) {
-      // Set Arabic locale for date formatting
-      return DateFormat('d MMMM yyyy', 'ar').format(dateTime);
+      // Arabic locale
+      String suffix = time.hour < 12 ? 'صباحًا' : 'مساءً';
+      formattedTime = formattedTime
+          .replaceAll('AM', '')
+          .replaceAll('PM', '')
+          .trim(); // Remove AM/PM
+      return '$formattedTime $suffix';
     } else {
       // Default to English locale
-      return DateFormat('d MMMM yyyy').format(dateTime);
+      return formattedTime;
     }
   }
 

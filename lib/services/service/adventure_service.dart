@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/constants/base_url.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
+import 'package:ajwad_v4/services/model/adventure_summary.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -151,7 +152,7 @@ class AdventureService {
     required String longitude,
     required String latitude,
     required String date,
-    required int price,
+    required double price,
     required List<String> image,
     required String regionAr,
     required String locationUrl,
@@ -322,7 +323,7 @@ static Future<bool?>  AdventureDelete(
 
     final response = await http.delete(
       Uri.parse('$baseUrl/adventure/$adventureId'),
-      headers: {
+       headers: {
         'Accept': 'application/json',
         "Content-Type": "application/json",
         'Authorization': 'Bearer $token',
@@ -341,6 +342,10 @@ static Future<bool?>  AdventureDelete(
       return null;
     }
   }
+
+
+
+
    static Future<List<Adventure>?> getUserTicket({
     required String adventureType,
     required BuildContext context,
@@ -379,5 +384,45 @@ static Future<bool?>  AdventureDelete(
     }
   }
 
+ static Future<AdventureSummary?> getAdventureSummaryById({
+    required BuildContext context,
+    required String id,
+  }) async {
+    final getStorage = GetStorage();
+    String token = getStorage.read('accessToken') ?? "";
+
+    if (token != '' && JwtDecoder.isExpired(token)) {
+      final _authController = Get.put(AuthController());
+
+      String refreshToken = getStorage.read('refreshToken');
+      var user = await _authController.refreshToken(
+          refreshToken: refreshToken, context: context);
+      token = getStorage.read('accessToken');
+    }
+    print("TRUE $id");
+    final response = await http.get(
+      Uri.parse('$baseUrl/adventure/$id/summary')
+          .replace(queryParameters: ({'id': id})),
+      headers: {
+        'Accept': 'application/json',
+        if (token != '') 'Authorization': 'Bearer $token',
+      },
+    );
+    print("TRUE $id");
+    print(response.statusCode);
+
+    print(jsonDecode(response.body).length);
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      print(inspect(data));
+      return AdventureSummary.fromJson(data);
+    } else {
+      String errorMessage = jsonDecode(response.body)['message'];
+      if (context.mounted) {
+        AppUtil.errorToast(context, errorMessage);
+      }
+      return null;
+    }
+  }
 
 }

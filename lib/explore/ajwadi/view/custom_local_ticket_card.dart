@@ -20,7 +20,8 @@ import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.d
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/request/tourist/view/find_ajwady.dart';
 import 'package:intl/intl.dart' as intel;
-
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -41,6 +42,12 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
   late ExpandedTileController _controller;
   String address = '';
   Rx<bool> isTripStart = false.obs;
+  final String timeZoneName = 'Asia/Riyadh';
+  late tz.Location location;
+  
+
+
+
 
   final _tripController = Get.put(TripController());
   final _requestController = Get.put(RequestController());
@@ -64,7 +71,15 @@ void returnProgress(double newProgress) {
   
 
   void checkCondition() {
-    if (widget.nextTrip!.booking!.date == "2024-06-29")
+    
+    tz.initializeTimeZones();
+    location = tz.getLocation(timeZoneName);
+     DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
+     DateTime currentDate = DateTime(currentDateInRiyadh.year, currentDateInRiyadh.month, currentDateInRiyadh.day);
+    String currentDateString = intel.DateFormat('yyyy-MM-dd').format(currentDate);
+   
+   
+    if (widget.nextTrip!.booking!.date == currentDateString)
       setState(() {
         isTripStart.value = true;
       });
@@ -157,16 +172,16 @@ print(_tripController.progress.value);
                                   ? 'SF Pro'
                                   : 'SF Arabic',
                             ),
-                            SizedBox(height: 4),
-                            CustomText(
-                              text: 'With Eddie Bravo',
-                              textAlign: TextAlign.right,
-                              color: Color(0xFF41404A),
-                              fontSize: 12,
-                              fontFamily: 'SF Pro',
-                              height: 0,
-                              fontWeight: FontWeight.w500,
-                            ),
+                            // SizedBox(height: 4),
+                            // CustomText(
+                            //   text: 'With Eddie Bravo',
+                            //   textAlign: TextAlign.right,
+                            //   color: Color(0xFF41404A),
+                            //   fontSize: 12,
+                            //   fontFamily: 'SF Pro',
+                            //   height: 0,
+                            //   fontWeight: FontWeight.w500,
+                            // ),
                           ],
                         ),
                       ),
@@ -286,7 +301,7 @@ print(_tripController.progress.value);
                                 style: ButtonStyle(
                                   padding: MaterialStateProperty.all(
                                     EdgeInsets.symmetric(
-                                        horizontal: 16, vertical: 8),
+                                        horizontal: 10, vertical: 8),
                                   ),
                                   backgroundColor: isTripStart.value
                                       ? MaterialStateProperty.all(colorGreen)
@@ -313,7 +328,9 @@ print(_tripController.progress.value);
                                   style: TextStyle(
                                     color: Color.fromARGB(255, 255, 255, 255),
                                     fontSize: 13,
-                                    fontFamily: 'SF Pro',
+                                    fontFamily:  AppUtil.rtlDirection2(context)
+                                ? 'SF Arabic'
+                                : 'SF Pro',
                                     fontWeight: FontWeight.w500,
                                     height: 0,
                                   ),
@@ -372,7 +389,7 @@ print(_tripController.progress.value);
                           image: 'assets/icons/map_pin.svg',
                           imageUrl: AppUtil.getLocationUrl(
                               widget.nextTrip!.booking!.coordinates),
-                          line: true,
+                           line: true,
                         ),
                         // SizedBox(height: width * 0.025),
                         SizedBox(height: 8),

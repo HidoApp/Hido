@@ -26,7 +26,7 @@ class HostInfoReview extends StatefulWidget {
   final String hospitalityBioAr;
   final double hospitalityPrice;
   final String hospitalityLocation;
-  final int? adventurePrice;
+  final double? adventurePrice;
 
   final List<String> hospitalityImages;
   // final int seats;
@@ -65,6 +65,38 @@ class _HostInfoReviewState extends State<HostInfoReview> {
 
   String locationUrl = '';
 
+  List<String> regionListEn = [
+  "Riyadh",
+  "Mecca",
+  "Medina",
+  "Dammam",
+  "Qassim",
+  "Hail",
+  "Northern Borders",
+  "Jazan",
+  "Asir",
+  "Tabuk",
+  "Najran",
+  "Al Baha",
+  "Al Jouf"
+];
+
+ List<String> regionListAr = [
+  "الرياض",
+  "مكة",
+  "المدينة",
+  "الدمام",
+  "القصيم",
+  "حائل",
+  "الحدود الشمالية",
+  "جازان",
+  "عسير",
+  "تبوك",
+  "نجران",
+  "الباحة",
+  "الجوف"
+];
+
   Future<String> _getAddressFromLatLng(LatLng position) async {
     try {
       List<Placemark> placemarks =
@@ -81,6 +113,15 @@ class _HostInfoReviewState extends State<HostInfoReview> {
             ragionAr = 'الرياض';
             ragionEn = placemark.locality!;
           }
+         if (!regionListEn.contains(ragionEn) || !regionListAr.contains(ragionAr)) {
+           setState(() {
+         
+          
+            ragionAr = 'الرياض';
+            ragionEn = 'Riyadh'; 
+       
+          });
+         }
         });
         print(placemarks.first);
         return '${placemark.locality}, ${placemark.subLocality}, ${placemark.country}';
@@ -145,40 +186,42 @@ class _HostInfoReviewState extends State<HostInfoReview> {
     // Print the new dates list
   }
 
-  //   for (var date in widget.hospitalityController.selectedDates) {
-  //     DateTime newStartTime = DateTime(
-  //         date.year,
-  //         date.month,
-  //         date.day,
-  //         widget.hospitalityController.selectedStartTime.value.hour,
-  //         widget.hospitalityController.selectedStartTime.value.minute,
-  //         widget.hospitalityController.selectedStartTime.value.second,
-  //         widget.hospitalityController.selectedStartTime.value.millisecond);
-  //     DateTime newEndTime = DateTime(
-  //         date.year,
-  //         date.month,
-  //         date.day,
-  //         widget.hospitalityController.selectedEndTime.value.hour,
-  //         widget.hospitalityController.selectedEndTime.value.minute,
-  //         widget.hospitalityController.selectedEndTime.value.second,
-  //         widget.hospitalityController.selectedEndTime.value.millisecond);
+  void advDates() {
+    var formatter = intl.DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
-  //     startTime = formatter.format(newStartTime);
-  //     endTime = formatter.format(newEndTime);
+    for (var date in widget.adventureController!.selectedDates) {
+      DateTime newStartTime = DateTime(
+          date.year,
+          date.month,
+          date.day,
+        widget.adventureController!.selectedStartTime.value.hour,
+        widget.adventureController!.selectedStartTime.value.minute,
+        widget.adventureController!.selectedStartTime.value.second,
+       widget.adventureController!.selectedStartTime.value.millisecond);
+      DateTime newEndTime = DateTime(
+          date.year,
+          date.month,
+          date.day,
+         widget.adventureController!.selectedEndTime.value.hour,
+       widget.adventureController!.selectedEndTime.value.minute,
+        widget.adventureController!.selectedEndTime.value.second,
+        widget.adventureController!.selectedEndTime.value.millisecond);
 
-  //     var newEntry = {
-  //       "startTime": formatter.format(newStartTime),
-  //       "endTime": formatter.format(newEndTime),
-  //       "seats": widget.hospitalityController.seletedSeat
-  //     };
+      //startTime = formatter.format(newStartTime);
+      //endTime = formatter.format(newEndTime);
 
-  //     DaysInfo.add(newEntry);
-  //   }
+      var newEntry = {
+        "startTime": formatter.format(newStartTime),
+        "endTime": formatter.format(newEndTime),
+        "seats": widget.adventureController!.seletedSeat
+      };
 
-  //   // Print the new dates list
-  //   print(DaysInfo);
-  // }
+      DaysInfo.add(newEntry);
+    }
 
+    // Print the new dates list
+    print(DaysInfo);
+  }
   // Function to generate the Google Maps URL
   String getLocationUrl(LatLng location) {
     return 'https://www.google.com/maps/search/?api=1&query=${location.latitude},${location.longitude}';
@@ -191,15 +234,19 @@ class _HostInfoReviewState extends State<HostInfoReview> {
     if (widget.experienceType == 'hospitality') {
       daysInfo();
     }
+    if(widget.experienceType == 'adventure'){
+      advDates();
+    }
     setState(() {
       locationUrl = widget.experienceType == 'hospitality'
           ? getLocationUrl(widget.hospitalityController!.pickUpLocLatLang.value)
           : getLocationUrl(widget.adventureController!.pickUpLocLatLang.value);
       print('Location URL: $locationUrl');
       imageUrls = [
-        "https://img.aso.fr/core_app/img-cycling-tdf-jpg/echappee-7/57226/0:0,1200:801-1000-0-70/632b8"
+       "https://media.cntraveler.com/photos/607313c3d1058698d13c31b5/1:1/w_1636,h_1636,c_limit/FamilyCamping-2021-GettyImages-948512452-4.jpg"
+
       ];
-  //  "https://media.cntraveler.com/photos/607313c3d1058698d13c31b5/1:1/w_1636,h_1636,c_limit/FamilyCamping-2021-GettyImages-948512452-4.jpg"
+//        "https://img.aso.fr/core_app/img-cycling-tdf-jpg/echappee-7/57226/0:0,1200:801-1000-0-70/632b8"
 
       // widget.hospitalityController.pickUpLocLatLang.value=LatLng(24.786828,46.647622);
     });
@@ -207,10 +254,13 @@ class _HostInfoReviewState extends State<HostInfoReview> {
 
   Widget build(BuildContext context) {
     print('Location URL: $locationUrl');
+print(widget.hospitalityController?.selectedMealAr);
+print(widget.hospitalityController?.selectedMealEn);
 
     return Scaffold(
       appBar: CustomAppBar(
         'Review'.tr,
+
         isAjwadi: true,
       ),
       body: Padding(
@@ -219,23 +269,27 @@ class _HostInfoReviewState extends State<HostInfoReview> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Reviewexperience'.tr,
+               widget.experienceType=='hospitality'?
+             'Reviewexperience'.tr
+            :'Reviewadventure'.tr,
               style: TextStyle(
                 color: Color(0xFF070708),
-                fontSize: 20,
-                fontFamily: 'SF Pro',
+                fontSize: 17,
+                fontFamily:AppUtil.rtlDirection2(context)?'SF Arabic': 'SF Pro',
                 fontWeight: FontWeight.w500,
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 6),
             SizedBox(
               width: double.infinity,
               child: Text(
-                'explination'.tr,
+                 widget.experienceType=='hospitality'?
+              'explination'.tr
+             :'explinationAdve'.tr,
                 style: TextStyle(
                   color: Color(0xFF9392A0),
                   fontSize: 15,
-                  fontFamily: 'SF Pro',
+                  fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic': 'SF Pro',
                   fontWeight: FontWeight.w400,
                 ),
               ),
@@ -290,7 +344,7 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                               style: TextStyle(
                                 color: Color(0xFF070708),
                                 fontSize: 16,
-                                fontFamily: 'SF Pro',
+                                fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic': 'SF Pro',
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -304,7 +358,7 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                                   style: TextStyle(
                                     color: Color(0xFF36B268),
                                     fontSize: 12,
-                                    fontFamily: 'SF Pro',
+                                    fontFamily:AppUtil.rtlDirection2(context)?'SF Arabic': 'SF Pro',
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
@@ -326,8 +380,7 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                                     const SizedBox(width: 4),
                                     Text(
                                       address,
-                                      // widget.hospitalityLocation,
-                                      //'Riyadh,Al-Majma\'ah, Saudi Arabia',
+                                     
                                       style: TextStyle(
                                         color: Color(0xFF9392A0),
                                         fontSize: 11,
@@ -344,13 +397,13 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                                       SvgPicture.asset(
                                         'assets/icons/grey_calender.svg',
                                       ),
-                                      const SizedBox(width: 4),
+                                      const SizedBox(width: 6),
                                       Text(
                                         '${AppUtil.formatBookingDate(context, widget.hospitalityController!.selectedDate.value)} - ${AppUtil.formatStringTimeWithLocale(context, intl.DateFormat('HH:mm:ss').format(widget.hospitalityController!.selectedStartTime.value))}',
                                         style: TextStyle(
                                           color: Color(0xFF9392A0),
                                           fontSize: 11,
-                                          fontFamily: 'SF Pro',
+                                          fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic': 'SF Pro',
                                           fontWeight: FontWeight.w400,
                                         ),
                                       ),
@@ -362,14 +415,17 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                                       SvgPicture.asset(
                                         'assets/icons/grey_calender.svg',
                                       ),
-                                      const SizedBox(width: 5),
+                                      const SizedBox(width: 6),
                                       Text(
-                                        '${AppUtil.formatBookingDate(context, widget.adventureController!.selectedDate.value)} ',
+                                    //'${AppUtil.formatSelectedDates(widget.adventureController!.selectedDates,context,)} ',
+
+                                 '${AppUtil.formatBookingDate(context, widget.adventureController!.selectedDate.value)} ',
                                         style: TextStyle(
                                           color: Color(0xFF9392A0),
                                           fontSize: 11,
-                                          fontFamily: 'SF Pro',
-                                          fontWeight: FontWeight.w400,
+                                         fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                                       : 'SF Pro',   
+                                       fontWeight: FontWeight.w400,
                                         ),
                                       ),
                                     ],
@@ -390,7 +446,8 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                                         style: TextStyle(
                                           color: Color(0xFF9392A0),
                                           fontSize: 11,
-                                          fontFamily: 'SF Pro',
+                                            fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                                       : 'SF Pro',
                                           fontWeight: FontWeight.w400,
                                         ),
                                       ),
@@ -402,7 +459,7 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                                       SvgPicture.asset(
                                         "assets/icons/meal_icon.svg",
                                       ),
-                                      const SizedBox(width: 4),
+                                      const SizedBox(width: 5),
                                       Text(
                                         AppUtil.rtlDirection2(context)
                                             ? widget.hospitalityController!
@@ -412,7 +469,8 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                                         style: TextStyle(
                                           color: Color(0xFF9392A0),
                                           fontSize: 11,
-                                          fontFamily: 'SF Pro',
+                                         fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                                          : 'SF Pro',
                                           fontWeight: FontWeight.w400,
                                         ),
                                       ),

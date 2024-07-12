@@ -109,7 +109,7 @@ spreadRadius: 0,
     children: [
       TextSpan(
         text:
-           AppUtil.rtlDirection2(context)?"1,400.00 ":'1,400.00 ',
+           AppUtil.rtlDirection2(context)?"00.00 ":'00.00 ',
          style: TextStyle(
             color: Color(0xFF070708),
              fontSize:  AppUtil.rtlDirection(context)?28:28,

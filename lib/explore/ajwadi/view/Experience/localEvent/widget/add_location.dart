@@ -58,16 +58,20 @@ class _AddEventLocationState extends State<AddEventLocation> {
 
     
   void getLocation() async {
-    // userLocation = await LocationService().getUserLocation();
-    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    userLocation = await LocationService().getUserLocation();
+    //Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     print('this location');
-    print(position.latitude);
-print(position.longitude);
+   // print(position.latitude);
+//print(position.longitude);
 
-    if (position != null) {
+    if (userLocation != null) {
       setState(() {
       if (mounted) {
-       _currentPosition = LatLng(position.latitude, position.longitude);
+      //  _currentPosition = LatLng(position.latitude, position.longitude);
+         _currentPosition = LatLng(userLocation!.latitude, userLocation!.longitude);
+
+         _EventrController.pickUpLocLatLang.value = _currentPosition!;
+                                    
        
       }
     });
@@ -75,7 +79,14 @@ print(position.longitude);
 
   
     } else {
-          _currentPosition = LatLng( _currentLocation.latitude, _currentLocation.longitude);
+       setState(() {
+      if (mounted) {
+       _currentPosition = LatLng( _currentLocation.latitude, _currentLocation.longitude);
+       
+      }
+    });
+   _fetchAddress();
+
     }
   }
   Future<void> _getAddressFromCoordinates(double lat, double lng) async {
@@ -106,7 +117,15 @@ print(position.longitude);
 
     addCustomIcon();
           getLocation();
+    //  if(_currentPosition==null){//remove
+    //    setState(() {
+    //    _currentPosition = LatLng( _currentLocation.latitude, _currentLocation.longitude);
+    //     _EventrController.pickUpLocLatLang.value= _currentPosition!;
+    
+    // });
+    //    _fetchAddress();
 
+    //  }//remove until this
     // _currentPosition = LatLng(
     //   _EventrController.pickUpLocLatLang.value.latitude,
     //   _EventrController.pickUpLocLatLang.value.longitude,
@@ -146,9 +165,12 @@ print(position.longitude);
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+
     print(address);
     print('this location');
     print(_EventrController.pickUpLocLatLang.toString());
+
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -161,7 +183,7 @@ print(position.longitude);
               style: TextStyle(
                 color: black,
                 fontSize: 17,
-                fontFamily: 'HT Rakik',
+                fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -215,7 +237,7 @@ print(position.longitude);
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 15,
-                                  fontFamily: 'SF Pro',
+                                  fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
                                   fontWeight: FontWeight.w400,
                                 ),
                                 decoration: InputDecoration(
@@ -223,7 +245,7 @@ print(position.longitude);
                                   hintStyle: TextStyle(
                                     color: Color(0xFFB9B8C1),
                                     fontSize: 15,
-                                    fontFamily: 'SF Pro',
+                                    fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
                                     fontWeight: FontWeight.w400,
                                   ),
                                   border: OutlineInputBorder(
@@ -256,7 +278,7 @@ print(position.longitude);
                         borderRadius: BorderRadius.all(Radius.circular(12)),
                       ),
                       // height: 520,
-                        height: height*0.6,
+                        height: AppUtil.rtlDirection2(context)? height*0.57:height*0.57,
                       width: double.infinity,
                       child: _currentPosition == null
           ? Center(child: CircularProgressIndicator.adaptive())
@@ -303,14 +325,14 @@ print(position.longitude);
                                 _isLoading = true;
                               });
 
-                               mapController.animateCamera(
-                                CameraUpdate.newCameraPosition(
-                                  CameraPosition(
-                                    target: newPosition,
-                                    zoom: 15,
-                                  ),
-                                ),
-                              );
+                              //  mapController.animateCamera(
+                              //   CameraUpdate.newCameraPosition(
+                              //     CameraPosition(
+                              //       target: newPosition,
+                              //       zoom: 15,
+                              //     ),
+                              //   ),
+                              // );
                               _fetchAddress();
 
                             },
@@ -352,7 +374,7 @@ print(position.longitude);
                                       style: TextStyle(
                                         color: Color(0xFF9392A0),
                                         fontSize: 13,
-                                        fontFamily: 'SF Pro',
+                                        fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
                                         fontWeight: FontWeight.w400,
                                         height: 0,
                                       ),

@@ -23,6 +23,7 @@ class ServicesCard extends StatelessWidget {
     required this.rate,
     required this.onTap,
     this.dayInfo,
+    
   });
 
   final String image;
@@ -34,10 +35,14 @@ class ServicesCard extends StatelessWidget {
   final String rate;
   final List<DayInfo>? dayInfo;
   final VoidCallback onTap;
+ 
+
+
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
+    
     return GestureDetector(
       onTap: onTap,
       child: Container(

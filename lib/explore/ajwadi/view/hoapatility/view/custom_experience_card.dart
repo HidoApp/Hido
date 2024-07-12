@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/explore/ajwadi/view/Experience/adventure/view/Adventure_summary_screen.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/summary_screen.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 import 'package:ajwad_v4/services/model/hospitality.dart';
@@ -15,12 +16,35 @@ import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.d
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/request/tourist/view/find_ajwady.dart';
 import 'package:intl/intl.dart' as intel;
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest_all.dart' as tz;
 
 class CustomExperienceCard extends StatelessWidget {
   const CustomExperienceCard({super.key, required this.experience,this.type});
 
+
   final experience;
   final String? type;
+
+   
+   
+   
+bool isDateBefore24Hours() {
+   final String timeZoneName = 'Asia/Riyadh';
+  late tz.Location location;
+  
+  tz.initializeTimeZones();
+    location = tz.getLocation(timeZoneName);
+    DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
+     DateTime parsedDate = type=='hospitality'? DateTime.parse(experience.daysInfo.first.startTime): DateTime.parse(experience.date);
+    Duration difference =  parsedDate.difference(currentDateInRiyadh);
+    print('this deffrence');
+    print(difference);
+    return difference.inHours <= 24;
+  }
+
+
+  
   @override
   Widget build(BuildContext context) {
     final TouristExploreController _touristExploreController =
@@ -31,42 +55,12 @@ class CustomExperienceCard extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     return InkWell(
       onTap:
-          // booking.orderStatus == 'ACCEPTED' ||
-          //         booking.bookingType == 'hospitality' ||
-          //         booking.bookingType == 'adventure'
-             // ?
+         
                () {
-                  // Get.to(() => HospitalityDetails(hospitalityId: hospitality.id,isLocal: true,));
                       
                       
                 },
-          //     : booking.orderStatus == 'PENDING'
-          //         ? () {
-          //             print("id place");
-          //             print(booking.placeId ?? '');
-          //             _touristExploreController
-          //                 .getPlaceById(
-          //               id: booking.place?.id,
-          //               context: context,
-          //             )
-          //                 .then((place) {
-          //               thePlace = place;
-          //               Get.to(
-          //                 () => FindAjwady(
-          //                   booking: thePlace!.booking![0],
-          //                   place: booking.place!,
-          //                   placeId: thePlace!.id!,
-          //                 ),
-          //               );
-          //               //   ?.then((value) {
-          //               //   return getPlaceBooking();
-          //               // });
-          //             });
-
-          //             // Get.to(() => TicketDetailsScreen(booking: booking));
-          //           }
-          //         :
-          // () {},
+        
       child: Container(
         width: 334,
         height: 120,
@@ -110,7 +104,7 @@ class CustomExperienceCard extends StatelessWidget {
                         style: TextStyle(
                           color: borderGrey,
                           fontSize: 15,
-                          fontFamily: 'SF Pro',
+                          fontFamily:AppUtil.rtlDirection2(context)? 'SF Arabic': 'SF Pro',
                           fontWeight: FontWeight.w500,
                           height: 0,
                         ),
@@ -162,7 +156,7 @@ class CustomExperienceCard extends StatelessWidget {
                                         : type=='hospitality'? experience.titleEn:experience.nameEn,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600,
-                                    fontFamily: AppUtil.rtlDirection(context)
+                                    fontFamily: AppUtil.rtlDirection2(context)
                                         ? 'SF Pro'
                                         : 'SF Arabic',
                                   ),
@@ -177,7 +171,7 @@ class CustomExperienceCard extends StatelessWidget {
                                         experience.daysInfo.first.startTime):formatBookingDate(context,
                                         experience.date),
                                     fontSize: 12,
-                                    fontFamily: 'SF Pro',
+                                    fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic': 'SF Pro',
                                     fontWeight: FontWeight.w600,
                                     color: Color(0xFFB9B8C1),
                                  
@@ -197,6 +191,8 @@ class CustomExperienceCard extends StatelessWidget {
                                         experience.daysInfo.first.startTime):formatBookingDate(context,
                                         experience.date):'',
                                     fontSize: 12,
+                                     fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic': 'SF Pro',
+
                                     fontWeight: FontWeight.w600,
                                     color: colorGreen,
                                   ),
@@ -212,10 +208,17 @@ class CustomExperienceCard extends StatelessWidget {
                 
                             Padding(
                               padding: const EdgeInsets.only(bottom:14),
-                              child: 
+                              child: isDateBefore24Hours()?
+
                              ElevatedButton(
   onPressed: () {
+    if(type=='hospitality'){
     Get.to(SummaryScreen(hospitalityId:experience.id));
+    }
+    else{
+      Get.to(AdventureSummaryScreen(adventureId:experience.id));
+
+    }
   },
   style: ElevatedButton.styleFrom(
     backgroundColor:colorGreen, 
@@ -226,16 +229,17 @@ class CustomExperienceCard extends StatelessWidget {
     minimumSize: Size(100, 37), // Width and height
   ),
   child: Text(
-    'Summary',
+AppUtil.rtlDirection2(context)? 'ملخص':'Summary',
     textAlign: TextAlign.center,
     style: TextStyle(
       color: Colors.white,
       fontSize: 13,
-      fontFamily: 'SF Pro',
+      fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic': 'SF Pro',
+
       fontWeight: FontWeight.w600,
     ),
   ),
-),
+):Container(),
                             ),
                             
 

@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/explore/ajwadi/controllers/ajwadi_explore_controller.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/add_experience_info.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/add_hospitality_calender_dialog.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/calender_dialog.dart';
@@ -92,7 +93,37 @@ class _EditAdventureState extends State<EditAdventure> {
       },
     );
   }
+List<String> regionListEn = [
+  "Riyadh",
+  "Mecca",
+  "Medina",
+  "Dammam",
+  "Qassim",
+  "Hail",
+  "Northern Borders",
+  "Jazan",
+  "Asir",
+  "Tabuk",
+  "Najran",
+  "Al Baha",
+  "Al Jouf"
+];
 
+ List<String> regionListAr = [
+  "الرياض",
+  "مكة",
+  "المدينة",
+  "الدمام",
+  "القصيم",
+  "حائل",
+  "الحدود الشمالية",
+  "جازان",
+  "عسير",
+  "تبوك",
+  "نجران",
+  "الباحة",
+  "الجوف"
+];
   late LatLng _currentPosition;
   var hideLocation = true;
   @override
@@ -136,6 +167,16 @@ class _EditAdventureState extends State<EditAdventure> {
             ragionAr = 'الرياض'; 
             ragionEn = placemark.locality!;
           }
+        if (!regionListEn.contains(ragionEn) || !regionListAr.contains(ragionAr)) {
+           setState(() {
+         
+          
+            ragionAr = 'الرياض';
+            ragionEn = 'Riyadh'; 
+       
+          });
+           
+       }
         });
         return '${placemark.locality}, ${placemark.subLocality}, ${placemark.country}';
       }
@@ -175,6 +216,9 @@ class _EditAdventureState extends State<EditAdventure> {
 
   bool guestEmpty = false;
   bool PriceEmpty = false;
+  bool PriceLarger = false;
+
+ AjwadiExploreController ajwadiExploreController= Get.put(AjwadiExploreController());
 
   String gender = '';
 
@@ -195,6 +239,12 @@ class _EditAdventureState extends State<EditAdventure> {
       TimeErrorMessage = !_servicesController.isAdventureTimeSelcted.value;
 
       PriceEmpty = _priceController.text.isEmpty;
+   if (_priceController.text.isNotEmpty) {
+      double? price = double.tryParse(_priceController.text);
+     PriceLarger = price == null || price! < 150;
+     print(     PriceLarger = price == null || price! < 150
+);
+      }
     });
 
     if (!titleArEmpty &&
@@ -204,9 +254,12 @@ class _EditAdventureState extends State<EditAdventure> {
         !guestEmpty &&
         !DateErrorMessage! &&
         !TimeErrorMessage! &&
-        !PriceEmpty) {
-     // daysInfo();
+        !PriceEmpty&&
+        !PriceLarger )  {
+
+    
       _updateAdventure();
+    
     } else {
       // Handle validation errors
       print("Please fill all required fields");
@@ -319,7 +372,7 @@ class _EditAdventureState extends State<EditAdventure> {
         context: context,
       );
 
-      if (result != null) {
+      if (result == null) {
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -341,7 +394,8 @@ class _EditAdventureState extends State<EditAdventure> {
                       !AppUtil.rtlDirection2(context)
                           ? "Changes have been saved successfully!"
                           : "تم حفظ التغييرات بنجاح ",
-                      style: TextStyle(fontSize: 15),
+                      style: TextStyle(fontSize: 14,fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic'
+                                 : 'SF Pro',),
                       textDirection: AppUtil.rtlDirection2(context)
                           ? TextDirection.rtl
                           : TextDirection.ltr,
@@ -357,9 +411,7 @@ class _EditAdventureState extends State<EditAdventure> {
 
         print("Profile updated successfully: $result");
       } else {
-        // Get.offAll(AddExperienceInfo());
-        Get.offAll(() => const AjwadiBottomBar());
-
+        
         print("Profile update returned null");
       }
     } catch (e) {
@@ -395,7 +447,7 @@ class _EditAdventureState extends State<EditAdventure> {
               backgroundColor: Colors.white,
               // extendBodyBehindAppBar: true,
               appBar: CustomAppBar(
-                "Experience Edit",
+                "ExperienceEdit".tr,
                 isAjwadi: true,
                 isDeleteIcon: true,
                 onPressedAction: () {
@@ -422,7 +474,8 @@ class _EditAdventureState extends State<EditAdventure> {
                                 textAlign: TextAlign.center,
                                 color: Color(0xFFDC362E),
                                 fontSize: 15,
-                                fontFamily: 'SF Pro',
+                                fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                                 : 'SF Pro',
                                 fontWeight: FontWeight.w500,
                                 text: AppUtil.rtlDirection2(context)
                                     ? "تنبيه"
@@ -436,8 +489,9 @@ class _EditAdventureState extends State<EditAdventure> {
                                 fontSize: 15,
                                 fontWeight: FontWeight.w400,
                                 color: Color(0xFF41404A),
-                                text: 'You’re about to delete this experience',
-                                fontFamily: 'SF Pro',
+                                text: AppUtil.rtlDirection2(context)?"أنت على وشك حذف هذه التجربة":'You’re about to delete this experience',
+                            fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                          : 'SF Pro',
                               ),
                               const SizedBox(
                                 height: 10,
@@ -446,12 +500,11 @@ class _EditAdventureState extends State<EditAdventure> {
                                 onTap: () async {
                                   log("End Trip Taped ${widget.adventureObj.id}");
 
-                                   bool result = true;
-                                  await _servicesController.AdventureDelete(
+                                  bool result = await _servicesController.AdventureDelete(
                                               context: context,
                                               adventureId:
                                                   widget.adventureObj.id) ??
-                                     false;
+                                      false;
                                   if (result) {
                                     showDialog(
                                       context: context,
@@ -480,7 +533,8 @@ class _EditAdventureState extends State<EditAdventure> {
                                                       ? 'The experience has been deleted'
                                                       : "تم حذف التجربة بنجاح ",
                                                   style:
-                                                      TextStyle(fontSize: 15),
+                                                      TextStyle(fontSize: 14, fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                          : 'SF Pro',),
                                                   textDirection:
                                                       AppUtil.rtlDirection2(
                                                               context)
@@ -495,15 +549,14 @@ class _EditAdventureState extends State<EditAdventure> {
                                     ).then((_) {
                                       Get.offAll(() => const AjwadiBottomBar());
                                     });
+                                  } else {
+                                    if (context.mounted) {
+                                      AppUtil.errorToast(context,
+                                          'The experience not deleted'.tr);
+                                      await Future.delayed(
+                                          const Duration(seconds: 1));
+                                    }
                                   }
-                                  // } else {
-                                  //   if (context.mounted) {
-                                  //     AppUtil.errorToast(context,
-                                  //         'The experience not deleted'.tr);
-                                  //     await Future.delayed(
-                                  //         const Duration(seconds: 1));
-                                  //   }
-                                  // }
                                 },
                                 child: Container(
                                   height: 34,
@@ -517,11 +570,13 @@ class _EditAdventureState extends State<EditAdventure> {
                                   ),
                                   child: CustomText(
                                     textAlign: TextAlign.center,
-                                    text: "Delete",
+                                    text:AppUtil.rtlDirection2(context)?"حذف": "Delete",
                                     color: Colors.white,
                                     fontSize: 15,
-                                    fontFamily: 'SF Pro',
-                                    fontWeight: FontWeight.w500,
+                            fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                                    : 'SF Pro',
+                           fontWeight: FontWeight.w500,
+                                    
                                   ),
                                 ),
                               ),
@@ -545,7 +600,8 @@ class _EditAdventureState extends State<EditAdventure> {
                                     child: CustomText(
                                         textAlign: TextAlign.center,
                                         fontSize: 15,
-                                        fontFamily: 'SF Pro',
+                                       fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                                    : 'SF Pro',
                                         fontWeight: FontWeight.w500,
                                         color: Color(0xFFDC362E),
                                         text: AppUtil.rtlDirection2(context)
@@ -567,7 +623,7 @@ class _EditAdventureState extends State<EditAdventure> {
                       onPressed: () {
                         validateAndSave();
                       },
-                      title: 'Save Changes')),
+                      title:'SaveChanges'.tr)),
               body: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -580,11 +636,12 @@ class _EditAdventureState extends State<EditAdventure> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Gallery',
+                                  'PhotoGallery'.tr,
                                   style: TextStyle(
                                     color: black,
                                     fontSize: 17,
-                                    fontFamily: 'HT Rakik',
+                                      fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                                    : 'SF Pro',
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
@@ -618,30 +675,7 @@ class _EditAdventureState extends State<EditAdventure> {
                             ),
                           ),
 
-                          // GestureDetector(
-                          //   onTap: () {
-                          //     Get.to(ViewTripImages(
-                          //       tripImageUrl: hospitalityObj!.images,
-                          //       fromNetwork: true,
-                          //     ));
-                          //   },
-                          //   child: CarouselSlider.builder(
-                          //     options: CarouselOptions(
-                          //         height: height * 0.3,
-                          //         viewportFraction: 1,
-                          //         onPageChanged: (i, reason) {
-                          //           setState(() {
-                          //             _currentIndex = i;
-                          //           });
-                          //         }),
-                          //     itemCount: hospitalityObj!.images.length,
-                          //     itemBuilder: (context, index, realIndex) {
-                          //       return ImagesServicesWidget(
-                          //         image: hospitalityObj!.images[index],
-                          //       );
-                          //     },
-                          //   ),
-                          // ),
+                          
                           SizedBox(
                             height: width * 0.055,
                           ),
@@ -686,9 +720,10 @@ class _EditAdventureState extends State<EditAdventure> {
                                       customTextStyles: [
                                         TextStyle(
                                           fontSize: _selectedLanguageIndex == 0
-                                              ? 11.5
+                                              ? 11
                                               : 13,
-                                          fontFamily: 'SF Pro',
+                                             fontFamily: _selectedLanguageIndex == 0?'SF Arabic'
+                                            : 'SF Pro',
                                           fontWeight:
                                               _selectedLanguageIndex == 0
                                                   ? FontWeight.w600
@@ -696,9 +731,10 @@ class _EditAdventureState extends State<EditAdventure> {
                                         ),
                                         TextStyle(
                                           fontSize: _selectedLanguageIndex == 0
-                                              ? 11.5
+                                              ? 11
                                               : 13,
-                                          fontFamily: 'SF Pro',
+                                             fontFamily:_selectedLanguageIndex == 0?'SF Arabic'
+                                                : 'SF Pro',
                                           fontWeight:
                                               _selectedLanguageIndex == 0
                                                   ? FontWeight.w600
@@ -743,7 +779,7 @@ class _EditAdventureState extends State<EditAdventure> {
                                                       : 'SF Pro',
                                               fontWeight:
                                                   _selectedLanguageIndex == 0
-                                                      ? FontWeight.w600
+                                                      ? FontWeight.w500
                                                       : FontWeight.w500,
                                               height: 0,
                                             ),
@@ -751,7 +787,7 @@ class _EditAdventureState extends State<EditAdventure> {
                                           SizedBox(
                                               height:
                                                   _selectedLanguageIndex == 0
-                                                      ? 5.5
+                                                      ? 8
                                                       : 8),
                                           Container(
                                             width: double.infinity,
@@ -794,7 +830,9 @@ class _EditAdventureState extends State<EditAdventure> {
                                                   hintStyle: TextStyle(
                                                     color: Color(0xFFB9B8C1),
                                                     fontSize: 15,
-                                                    fontFamily: 'SF Pro',
+                                                    fontFamily: 
+                                                     _selectedLanguageIndex == 0?'SF Arabic'
+                                            : 'SF Pro',
                                                     fontWeight: FontWeight.w400,
                                                   ),
                                                   border: OutlineInputBorder(
@@ -817,7 +855,8 @@ class _EditAdventureState extends State<EditAdventure> {
                                                 style: TextStyle(
                                                   color: Color(0xFFDC362E),
                                                   fontSize: 11,
-                                                  fontFamily: 'SF Arabic',
+                                                  fontFamily:'SF Arabic',
+                                           
                                                   fontWeight: FontWeight.w400,
                                                 ),
                                               ),
@@ -869,7 +908,7 @@ class _EditAdventureState extends State<EditAdventure> {
                                           SizedBox(
                                               height:
                                                   _selectedLanguageIndex == 0
-                                                      ? 4
+                                                      ? 9
                                                       : 9),
                                           Container(
                                             width: double.infinity,
@@ -929,7 +968,8 @@ class _EditAdventureState extends State<EditAdventure> {
                                                   hintStyle: TextStyle(
                                                     color: Color(0xFFB9B8C1),
                                                     fontSize: 15,
-                                                    fontFamily: 'SF Pro',
+                                                  fontFamily: _selectedLanguageIndex == 0?'SF Arabic'
+                                            : 'SF Pro',
                                                     fontWeight: FontWeight.w400,
                                                   ),
                                                   border: OutlineInputBorder(
@@ -982,7 +1022,8 @@ class _EditAdventureState extends State<EditAdventure> {
                                               style: TextStyle(
                                                 color: Color(0xFFB9B8C1),
                                                 fontSize: 11,
-                                                fontFamily: 'SF Pro',
+                                                  fontFamily: _selectedLanguageIndex == 0?'SF Arabic'
+                                            : 'SF Pro',
                                                 fontWeight: FontWeight.w400,
                                               ),
                                             ),
@@ -1010,7 +1051,8 @@ class _EditAdventureState extends State<EditAdventure> {
                                     color: Colors.black,
                                     fontSize: 17,
                                     fontWeight: FontWeight.w500,
-                                    fontFamily: 'SF Pro',
+                                   fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                                            : 'SF Pro',
                                   ),
                                   SizedBox(
                                     height: width * 0.02,
@@ -1046,7 +1088,9 @@ class _EditAdventureState extends State<EditAdventure> {
                                               text: "guests".tr,
                                               fontWeight: FontWeight.w400,
                                               color: Graytext,
-                                              fontFamily: 'SF Pro',
+                                                fontFamily:  AppUtil.rtlDirection2(context)
+                                                      ? 'SF Arabic'
+                                                      : 'SF Pro',
                                               fontSize: 15,
                                             ),
                                             Spacer(),
@@ -1129,11 +1173,13 @@ class _EditAdventureState extends State<EditAdventure> {
                                     height: width * 0.012,
                                   ),
                                   CustomText(
-                                    text: 'AvailableDates'.tr,
+                                    text: AppUtil.rtlDirection2(context)?"أيام المغامرة":"Available Dates",
                                     color: black,
                                     fontSize: 17,
                                     fontWeight: FontWeight.w500,
-                                    fontFamily: 'SF Pro',
+                                       fontFamily:   AppUtil.rtlDirection2(context)
+                                                      ? 'SF Arabic'
+                                                      : 'SF Pro',
                                   ),
                                   SizedBox(
                                     height: width * 0.02,
@@ -1174,6 +1220,7 @@ class _EditAdventureState extends State<EditAdventure> {
                                                   return HostCalenderDialog(
                                                    type: 'adv',
                                                     advController: _servicesController,
+                                                    ajwadiExploreController: ajwadiExploreController,
                                                   );
                                                      });
                                                },
@@ -1189,7 +1236,9 @@ class _EditAdventureState extends State<EditAdventure> {
                                               // srvicesController.selectedDates.map((date) => intel.DateFormat('dd/MM/yyyy').format(date)).join(', ')
                                               fontWeight: FontWeight.w400,
                                               color: Graytext,
-                                              fontFamily: 'SF Pro',
+                                              fontFamily:   AppUtil.rtlDirection2(context)
+                                                      ? 'SF Arabic'
+                                                      : 'SF Pro',
                                               fontSize: 15,
                                             ),
                                           ),
@@ -1226,12 +1275,14 @@ class _EditAdventureState extends State<EditAdventure> {
                                         children: [
                                           CustomText(
                                             text: AppUtil.rtlDirection2(context)
-                                                ? "وقت الذهاب"
+                                                ? "وقت البداية"
                                                 : "Start Time",
                                             color: black,
                                             fontSize: 17,
                                             fontWeight: FontWeight.w500,
-                                            fontFamily: 'SF Pro',
+                                            fontFamily:   AppUtil.rtlDirection2(context)
+                                                      ? 'SF Arabic'
+                                                      : 'SF Pro',
                                           ),
                                           SizedBox(
                                             height: height * 0.01,
@@ -1333,7 +1384,9 @@ class _EditAdventureState extends State<EditAdventure> {
                                                                           fontSize:
                                                                               15,
                                                                           fontFamily:
-                                                                              'SF Pro',
+                                                                              AppUtil.rtlDirection2(context)
+                                                                             ? 'SF Arabic'
+                                                                               : 'SF Pro',
                                                                           fontWeight:
                                                                               FontWeight.w500,
                                                                         ),
@@ -1402,7 +1455,9 @@ class _EditAdventureState extends State<EditAdventure> {
                                                       fontWeight:
                                                           FontWeight.w400,
                                                       color: Graytext,
-                                                      fontFamily: 'SF Pro',
+                                                      fontFamily:  AppUtil.rtlDirection2(context)
+                                                      ? 'SF Arabic'
+                                                      : 'SF Pro',
                                                       fontSize: 15,
                                                     ),
                                                   ),
@@ -1441,12 +1496,14 @@ class _EditAdventureState extends State<EditAdventure> {
                                         children: [
                                           CustomText(
                                             text: AppUtil.rtlDirection2(context)
-                                                ? "وقت العودة"
+                                                ? "وقت النهاية"
                                                 : "End Time",
                                             color: black,
                                             fontSize: 17,
                                             fontWeight: FontWeight.w500,
-                                            fontFamily: 'SF Pro',
+                                            fontFamily:   AppUtil.rtlDirection2(context)
+                                                      ? 'SF Arabic'
+                                                      : 'SF Pro',
                                           ),
                                           SizedBox(
                                             height: height * 0.01,
@@ -1620,7 +1677,9 @@ class _EditAdventureState extends State<EditAdventure> {
                                                       fontWeight:
                                                           FontWeight.w400,
                                                       color: Graytext,
-                                                      fontFamily: 'SF Pro',
+                                                      fontFamily:   AppUtil.rtlDirection2(context)
+                                                      ? 'SF Arabic'
+                                                      : 'SF Pro',
                                                       fontSize: 15,
                                                     ),
                                                   ),
@@ -1674,7 +1733,9 @@ class _EditAdventureState extends State<EditAdventure> {
                                     color: Colors.black,
                                     fontSize: 17,
                                     fontWeight: FontWeight.w500,
-                                    fontFamily: 'SF Pro',
+                                    fontFamily:   AppUtil.rtlDirection2(context)
+                                                      ? 'SF Arabic'
+                                                      : 'SF Pro',
                                   ),
                                   SizedBox(
                                     height: width * 0.05,
@@ -1785,7 +1846,9 @@ class _EditAdventureState extends State<EditAdventure> {
                                                                 0xFF9392A0),
                                                             fontSize: 13,
                                                             fontFamily:
-                                                                'SF Pro',
+                                                                 AppUtil.rtlDirection2(context)
+                                                      ? 'SF Arabic'
+                                                      : 'SF Pro',
                                                             fontWeight:
                                                                 FontWeight.w400,
                                                             height: 0,
@@ -1815,11 +1878,13 @@ class _EditAdventureState extends State<EditAdventure> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   CustomText(
-                                    text: "price".tr,
+                                    text: "Price".tr,
                                     color: Colors.black,
                                     fontSize: 17,
                                     fontWeight: FontWeight.w500,
-                                    fontFamily: 'SF Pro',
+                                    fontFamily:   AppUtil.rtlDirection2(context)
+                                                      ? 'SF Arabic'
+                                                      : 'SF Pro',
                                   ),
                                   SizedBox(
                                     height: width * 0.02,
@@ -1831,7 +1896,9 @@ class _EditAdventureState extends State<EditAdventure> {
                                       hintStyle: TextStyle(
                                         color: Color(0xFFB9B8C1),
                                         fontSize: 15,
-                                        fontFamily: 'SF Pro',
+                                        fontFamily:  AppUtil.rtlDirection2(context)
+                                                      ? 'SF Arabic'
+                                                      : 'SF Pro',
                                         fontWeight: FontWeight.w400,
                                       ),
                                       border: OutlineInputBorder(
@@ -1840,7 +1907,7 @@ class _EditAdventureState extends State<EditAdventure> {
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                           width: 1,
-                                          color: PriceEmpty
+                                          color: PriceEmpty||PriceLarger
                                               ? Color(0xFFDC362E)
                                               : Color(0xFFB9B8C1),
                                         ),
@@ -1851,13 +1918,13 @@ class _EditAdventureState extends State<EditAdventure> {
                                     ),
                                     keyboardType: TextInputType.number,
                                   ),
-                                  if (PriceEmpty)
+                                  if (PriceEmpty || PriceLarger)
                                     Padding(
                                       padding: const EdgeInsets.only(top: 8.0),
                                       child: Text(
                                         AppUtil.rtlDirection2(context)
-                                            ? 'يجب عليك ان تضع السعر المقدر'
-                                            : 'You need to add a valid price',
+                                            ?PriceLarger?'السعر يجب أن يكون اكبر من أو يساوي 150': 'يجب عليك ان تضع السعر المقدر'
+                                            : 'You need to add a valid price, >= 150',
                                         style: TextStyle(
                                           color: Color(0xFFDC362E),
                                           fontSize: 11,
@@ -1872,77 +1939,13 @@ class _EditAdventureState extends State<EditAdventure> {
                                 ],
                               ),
 
-                              // InkWell(
-                              //   onTap: () {
-                              //     Get.bottomSheet(
-                              //       const CustomPloicySheet(),
-                              //     );
-                              //   },
-                              //   child: Align(
-                              //       alignment: !AppUtil.rtlDirection(context)
-                              //           ? Alignment.centerRight
-                              //           : Alignment.centerLeft,
-                              //       child: Row(
-                              //         children: [
-                              //           Column(
-                              //             crossAxisAlignment:
-                              //                 CrossAxisAlignment.start,
-                              //             children: [
-                              //               CustomText(
-                              //                 text: "cancellationPolicy".tr,
-                              //                 fontSize: width * 0.0461,
-                              //                 fontWeight: FontWeight.w400,
-                              //               ),
-                              //               SizedBox(
-                              //                 height: width * 0.010,
-                              //               ),
-                              //               SizedBox(
-                              //                 width: width * 0.83,
-                              //                 child: CustomText(
-                              //                   text:
-                              //                       "cancellationPolicyBreifAdventure"
-                              //                           .tr,
-                              //                   fontSize: width * 0.03,
-                              //                   fontWeight: FontWeight.w400,
-                              //                   maxlines: 2,
-                              //                   color: tileGreyColor,
-                              //                 ),
-                              //               ),
-                              //             ],
-                              //           ),
-                              //           const Spacer(),
-                              //           Icon(
-                              //             Icons.arrow_forward_ios,
-                              //             color: tileGreyColor,
-                              //             size: width * 0.046,
-                              //           )
-                              //         ],
-                              //       )),
-                              // ),
+                            
                             ],
                           ),
                         ],
                       ),
 
-                      // Positioned(
-                      //   top: height * 0.06,
-                      //   left: AppUtil.rtlDirection2(context)
-                      //       ? width * 0.85
-                      //       : width * 0.06,
-                      //   child: IconButton(
-                      //     icon: Icon(Icons.arrow_back_ios,
-                      //         textDirection: AppUtil.rtlDirection2(context)
-                      //             ? TextDirection.rtl
-                      //             : TextDirection.ltr,
-                      //         size: width * 0.061,
-                      //         color: Colors.white),
-                      //     onPressed: () => Get.back(),
-                      //     color: Colors.white,
-                      //   ),
-                      // ),
-
-                      //indicator
-
+                    
                       Positioned(
                         top: height * 0.256,
                         left: width * 0.33,

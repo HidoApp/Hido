@@ -40,7 +40,7 @@ class HospitalityController extends GetxController {
   var hospitalityList = <Hospitality>[].obs;
   var isHospatilityDateSelcted = false.obs;
   var isHospatilityTimeSelcted = false.obs;
-
+  var address = ''.obs;
   var isAdventureTimeSelcted = false.obs;
   // Rx<LatLng> pickUpLocLatLang = const LatLng(24.9470921, 45.9903698).obs;
    Rx<LatLng> pickUpLocLatLang = const LatLng(24.6264,46.544731).obs; 

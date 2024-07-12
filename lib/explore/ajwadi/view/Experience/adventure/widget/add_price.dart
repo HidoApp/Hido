@@ -27,7 +27,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
   }
 
   bool isEditing = false;
-  // final TextEditingController _priceController = TextEditingController();
+  TextEditingController _priceController = TextEditingController();
   double hidoFee = 0.00;
   double earn = 0.00;
   String errorMessage = '';
@@ -35,8 +35,14 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
   @override
   void initState() {
     super.initState();
-    widget.priceController.text = '0.00';
-    widget.priceController.addListener(_validatePrice);
+    
+//  if(widget.priceController.text==''|| widget.priceController.text.isEmpty)
+    widget.priceController.text = price.toString();
+  //  else
+  // _priceController =  widget.priceController ;
+
+       widget.priceController.addListener(_validatePrice);
+
   }
 
   @override
@@ -66,16 +72,14 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
     if (!mounted) return; // Check if the widget is still mounted
     setState(() {
       double price = double.tryParse(widget.priceController.text) ?? 0.00;
-      hidoFee = price * 0.25;
+      hidoFee = price * 0.3;
       earn = price - hidoFee;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // double hidoFee = price * 0.25;
-    // double earn = price - hidoFee;
-
+   
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.start,
@@ -86,7 +90,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
           color: black,
           fontSize: 17,
           fontWeight: FontWeight.w500,
-          fontFamily: 'SF Pro',
+          fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic': 'SF Pro',
         ),
         const SizedBox(height: 2),
         Text(
@@ -94,13 +98,12 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
           style: TextStyle(
             color: starGreyColor,
             fontSize: 15,
-            fontFamily: 'SF Pro',
+             fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                          : 'SF Pro',
             fontWeight: FontWeight.w500,
           ),
         ),
-        // width: 390,
-        // height: 436,
-        // padding: const EdgeInsets.only(top: 12, left: 16, right: 16),
+       
         const SizedBox(height: 20),
         Container(
           width: double.infinity,
@@ -205,7 +208,8 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                       style: TextStyle(
                           color: Graytext,
                           fontSize: 12,
-                          fontFamily: 'SF Pro',
+                           fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                          : 'SF Pro',
                           fontWeight: FontWeight.w500,
                           height: 3),
                     )
@@ -223,7 +227,8 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
               style: TextStyle(
                 color: Colors.red,
                 fontSize: 14,
-                fontFamily: 'SF Pro',
+                 fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                          : 'SF Pro',
                 fontWeight: FontWeight.w400,
               ),
             ),
@@ -255,7 +260,8 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                       style: TextStyle(
                         color: graySmallText,
                         fontSize: 15,
-                        fontFamily: 'SF Pro',
+                        fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                          : 'SF Pro',
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -265,7 +271,8 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                       style: TextStyle(
                         color: graySmallText,
                         fontSize: 15,
-                        fontFamily: 'SF Pro',
+                        fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                          : 'SF Pro',
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -287,7 +294,8 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                       style: TextStyle(
                         color: graySmallText,
                         fontSize: 15,
-                        fontFamily: 'SF Pro',
+                        fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                          : 'SF Pro',
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -297,7 +305,8 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                       style: TextStyle(
                         color: graySmallText,
                         fontSize: 15,
-                        fontFamily: 'SF Pro',
+                         fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                          : 'SF Pro',
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -316,19 +325,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
               ),
               Container(
                 width: double.infinity,
-                //clipBehavior: Clip.antiAlias,
-                // decoration: ShapeDecoration(
-                //   shape: RoundedRectangleBorder(
-                //       borderRadius: BorderRadius.circular(4)),
-                //   shadows: [
-                //     BoxShadow(
-                //       color: shadowColor,
-                //       blurRadius: 20,
-                //       offset: Offset(4, 4),
-                //       spreadRadius: 0,
-                //     )
-                //   ],
-                // ),
+                
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -339,7 +336,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                       style: TextStyle(
                         color: Color(0xFF070708),
                         fontSize: 17,
-                        fontFamily: 'HT Rakik',
+          fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic': 'SF Pro',
                         fontWeight: FontWeight.w500,
                       ),
                     ),

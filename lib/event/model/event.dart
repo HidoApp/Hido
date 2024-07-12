@@ -19,6 +19,7 @@ class Event {
   final String? status;
   final List<Booking>? booking;
     final int?seats;
+  final List<Time>? times;
 
 
  
@@ -40,6 +41,7 @@ class Event {
      this.coordinates,
     this.booking,
     this.seats,
+    this.times
   });
 
   factory Event.fromJson(Map<String, dynamic> json) {
@@ -63,6 +65,11 @@ class Event {
       booking: json['booking'] != null
           ? (json['booking'] as List)
               .map((e) =>Booking.fromJson(e))
+              .toList()
+          : null,
+       times: json['times'] != null
+          ? (json['times'] as List)
+              .map((e) => Time.fromJson(e))
               .toList()
           : null,
 
@@ -92,3 +99,30 @@ class Event {
 
 
 
+class Time {
+  final String id;
+  final String startTime;
+  final String endTime;
+
+  Time({
+    required this.id,
+    required this.startTime,
+    required this.endTime,
+  });
+
+  factory Time.fromJson(Map<String, dynamic> json) {
+    return Time(
+      id: json['id'],
+      startTime: json['startTime'],
+      endTime: json['endTime'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'startTime': startTime,
+      'endTime': endTime,
+    };
+  }
+}

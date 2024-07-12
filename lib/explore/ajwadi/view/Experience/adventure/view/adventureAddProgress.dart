@@ -42,7 +42,6 @@ import 'package:image_picker/image_picker.dart';
 
 
 class AdventureAddProgress extends StatefulWidget {
-  // int activeIndex;
 
   const AdventureAddProgress({
     super.key,
@@ -153,7 +152,6 @@ class _AdventureAddProgressState extends State<AdventureAddProgress> {
 
         return AddLocation(
           textField1Controller: AdventureLocation,
-          adventureController: _AdventureControllerController,
         );
       case 2:
         print(_AdventureControllerController.pickUpLocLatLang.value.toString());
@@ -162,8 +160,8 @@ class _AdventureAddProgressState extends State<AdventureAddProgress> {
         return PhotoGalleryPage(selectedImages: _AdventureImages);
       case 3:
         print('3');
-        // print(_hospitalityImages.first);
-        return AddGuests(adventureController:_AdventureControllerController);
+        return 
+           AddGuests(adventureController:_AdventureControllerController);
       case 4:
         print(_AdventureControllerController.seletedSeat.value);
         print("4");
@@ -173,8 +171,8 @@ class _AdventureAddProgressState extends State<AdventureAddProgress> {
       
         print(_AdventureControllerController.selectedEndTime.value);
 
-        // print(
-        //  'Selected Start Time: ${_hospitalityController.selectedDate.value}');
+        print(
+         'Selected Start Time: ${_AdventureControllerController.selectedDates.value}');
 
         print("5");
         return PriceDecisionCard(priceController: AdventurePrice);
@@ -188,34 +186,45 @@ class _AdventureAddProgressState extends State<AdventureAddProgress> {
   }
 
   bool _validateFields() {
-    // if (activeIndex == 0) {
-    //   return
-    //   AdventureTitleControllerEn.text.isNotEmpty &&
-    //        AdventureBioControllerEn.text.isNotEmpty &&
-    //       AdventureTitleControllerAr.text.isNotEmpty &&
-    //       AdventureBioControllerAr.text.isNotEmpty;
-    // }
-    // if (activeIndex == 1) {
-    //   return
-    //  _AdventureControllerController.pickUpLocLatLang.value !=
-    //       const LatLng(24.9470921, 45.9903698);
-    // }
+    if (activeIndex == 0) {
+      return
+      AdventureTitleControllerEn.text.isNotEmpty &&
+           AdventureBioControllerEn.text.isNotEmpty &&
+          AdventureTitleControllerAr.text.isNotEmpty &&
+          AdventureBioControllerAr.text.isNotEmpty;
+    }
+    if (activeIndex == 1) {
+      return
+     _AdventureControllerController.pickUpLocLatLang.value !=
+          const LatLng(0.0, 0.0);
+    
+    }
     // if (activeIndex == 2) {
     //   return
     //   _AdventureImages.length >= 3;
     // }
-    //  if (activeIndex == 3) {
-    //   return  _AdventureControllerController.seletedSeat.value != 0 ;
-    // }
-    //  if (activeIndex == 4) {
+    
+     if (activeIndex == 3) {
+      return  _AdventureControllerController.seletedSeat.value != 0 ;
+    }
+     if (activeIndex == 4) {
+      
+     // return  _AdventureControllerController.selectedDates.value.isNotEmpty && _AdventureControllerController.isAdventureTimeSelcted.value ;
 
-    //  return !ajwadiExploreController.isDateEmpty.value && _AdventureControllerController.isAdventureTimeSelcted.value ;
-    // }
-    //   if (activeIndex == 5) {
+     return !ajwadiExploreController.isDateEmpty.value && _AdventureControllerController.isAdventureTimeSelcted.value ;
+    }
 
-    // return  double.tryParse(AdventurePrice.text)! >= 150 ;
-    // }
-    return true; // Add validation for other steps if needed
+     if (activeIndex == 5) {
+    if (AdventurePrice.text.isNotEmpty) {
+      double? price = double.tryParse(AdventurePrice.text);
+      if (price != null && price >= 150) {
+        return true;
+      }
+    }
+    return false;
+  }
+    
+    return true; 
   }
 
   String _appBarText() {
@@ -229,7 +238,7 @@ class _AdventureAddProgressState extends State<AdventureAddProgress> {
       return "PhotoGallery".tr;
     }
     if (activeIndex == 3) {
-      return "PeopleNumber".tr;
+      return AppUtil.rtlDirection2(context)?'عدد الأشخاص':'Pepole Number';
     }
     if (activeIndex == 4) {
       return "Date&Time".tr;
@@ -241,34 +250,33 @@ class _AdventureAddProgressState extends State<AdventureAddProgress> {
   }
 
   Widget nextButton() {
-    return IgnorePointer(
-      ignoring: !_validateFields(),
-      child: Opacity(
-        opacity: _validateFields() ? 1.0 : 0.5,
-        child: GestureDetector(
-          onTap: () {
-            if (activeIndex < totalIndex - 1) {
-              setState(() {
-                activeIndex++;
-                print(activeIndex < totalIndex - 1);
-                print(totalIndex);
-                print(activeIndex);
-              });
-            } else if (activeIndex == totalIndex - 1) {
-              Get.to(HostInfoReview(
-                hospitalityTitleEn: AdventureTitleControllerEn.text,
-                hospitalityBioEn: AdventureBioControllerEn.text,
-                hospitalityTitleAr: AdventureTitleControllerAr.text,
-                hospitalityBioAr: AdventureBioControllerAr.text,
-                adventurePrice: int.parse(AdventurePrice.text),
-                hospitalityPrice:double.parse(AdventurePrice.text) ,
-                hospitalityImages: _AdventureImages,
-                adventureController: _AdventureControllerController,
-                hospitalityLocation: AdventureLocation.text,
-                experienceType: 'adventure',
-              ));
-            }
-          },
+     if (activeIndex != 0) {
+    return Obx(() {
+      return IgnorePointer(
+        ignoring: !_validateFields(),
+        child: Opacity(
+          opacity: _validateFields() ? 1.0 : 0.5,
+          child: GestureDetector(
+            onTap: () {
+              if (activeIndex < totalIndex - 1) {
+                setState(() {
+                  activeIndex++;
+                });
+              } else if (activeIndex == totalIndex - 1) {
+                Get.to(HostInfoReview(
+                  hospitalityTitleEn: AdventureTitleControllerEn.text,
+                  hospitalityBioEn: AdventureBioControllerEn.text,
+                  hospitalityTitleAr: AdventureTitleControllerAr.text,
+                  hospitalityBioAr: AdventureBioControllerAr.text,
+                  adventurePrice: double.parse(AdventurePrice.text),
+                  hospitalityPrice: double.parse(AdventurePrice.text),
+                  hospitalityImages: _AdventureImages,
+                  adventureController: _AdventureControllerController,
+                  hospitalityLocation: AdventureLocation.text,
+                  experienceType: 'adventure',
+                ));
+              }
+            },
           child: Container(
             width: 157,
             height: 48,
@@ -295,7 +303,47 @@ class _AdventureAddProgressState extends State<AdventureAddProgress> {
         ),
       ),
     );
+    }
+    );
+  
+    } else {
+    return IgnorePointer(
+        ignoring: !_validateFields(),
+        child: Opacity(
+          opacity: _validateFields() ? 1.0 : 0.5,
+      child: GestureDetector(
+      onTap: () {
+        setState(() {
+          activeIndex++;
+        });
+      },
+      child: Container(
+        width: 157,
+        height: 48,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        clipBehavior: Clip.antiAlias,
+        decoration: ShapeDecoration(
+          color: Color(0xFF36B268),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        ),
+        alignment: Alignment.center,
+        child: Text(
+          'Next'.tr,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 17,
+            fontFamily: 'HT Rakik',
+            fontWeight: FontWeight.w500,
+            height: 0.10,
+          ),
+        ),
+      ),
+      ),
+        ),
+    );
   }
+}
 
   Widget previousButton() {
     return GestureDetector(

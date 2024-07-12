@@ -47,7 +47,7 @@ class ItineraryTile extends StatelessWidget {
             fontSize: 12,
             fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
             fontWeight: FontWeight.w400,
-            decoration:line? TextDecoration.underline:TextDecoration.none,
+            decoration:TextDecoration.none,
             ),
           ),
         ),

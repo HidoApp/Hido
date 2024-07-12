@@ -2,6 +2,8 @@ import 'package:ajwad_v4/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../../../utils/app_util.dart';
+
 class ExperienceCard extends StatelessWidget {
   final String title;
   final String iconPath;
@@ -90,7 +92,7 @@ class ExperienceCard extends StatelessWidget {
                               style: TextStyle(
                                 color: starGreyColor,
                                 fontSize: 12,
-                                fontFamily: 'SF Pro',
+                                fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
                                 fontWeight: FontWeight.w400,
                               ),
                             ),

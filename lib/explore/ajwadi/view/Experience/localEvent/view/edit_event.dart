@@ -3,7 +3,9 @@ import 'dart:developer';
 import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/event/model/event.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/add_experience_info.dart';
+import 'package:ajwad_v4/explore/ajwadi/view/add_event_calender_dialog.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/add_hospitality_calender_dialog.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/calender_dialog.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/hoapatility/widget/image_slider.dart';
@@ -12,6 +14,7 @@ import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/explore/tourist/view/view_trip_images.dart';
 import 'package:ajwad_v4/request/tourist/view/local_offer_info.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
+import 'package:ajwad_v4/services/controller/event_controller.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
 import 'package:ajwad_v4/services/model/hospitality.dart';
@@ -39,24 +42,24 @@ import 'package:intl/intl.dart' hide TextDirection;
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:intl/intl.dart' as intl;
 
-class EditAdventure extends StatefulWidget {
-  const EditAdventure({
+class EditEvent extends StatefulWidget {
+  const EditEvent({
     Key? key,
-    required this.adventureObj,
+    required this.eventObj,
     // this.experienceType,
   }) : super(key: key);
 
-  final Adventure adventureObj;
+  final Event eventObj;
   // final String? experienceType;
 
   @override
-  State<EditAdventure> createState() => _EditAdventureState();
+  State<EditEvent> createState() => _EditEventState();
 }
 
 late double width, height;
 
-class _EditAdventureState extends State<EditAdventure> {
-  final _servicesController = Get.put(AdventureController());
+class _EditEventState extends State<EditEvent> {
+  final _servicesController = Get.put(EventController());
   int _currentIndex = 0;
   bool isExpanded = false;
   bool isAviailable = false;
@@ -92,7 +95,37 @@ class _EditAdventureState extends State<EditAdventure> {
       },
     );
   }
+List<String> regionListEn = [
+  "Riyadh",
+  "Mecca",
+  "Medina",
+  "Dammam",
+  "Qassim",
+  "Hail",
+  "Northern Borders",
+  "Jazan",
+  "Asir",
+  "Tabuk",
+  "Najran",
+  "Al Baha",
+  "Al Jouf"
+];
 
+ List<String> regionListAr = [
+  "الرياض",
+  "مكة",
+  "المدينة",
+  "الدمام",
+  "القصيم",
+  "حائل",
+  "الحدود الشمالية",
+  "جازان",
+  "عسير",
+  "تبوك",
+  "نجران",
+  "الباحة",
+  "الجوف"
+];
   late LatLng _currentPosition;
   var hideLocation = true;
   @override
@@ -104,7 +137,7 @@ class _EditAdventureState extends State<EditAdventure> {
     addCustomIcon();
     //getHospitalityById();
 
-    _servicesController.isAdventureDateSelcted(false);
+    _servicesController.isEventDateSelcted(false);
     _servicesController.selectedDate('');
     _servicesController.selectedDateIndex(-1);
 
@@ -191,8 +224,8 @@ class _EditAdventureState extends State<EditAdventure> {
 
       guestEmpty = guestNum == 0;
 
-      DateErrorMessage = !_servicesController.isAdventureDateSelcted.value;
-      TimeErrorMessage = !_servicesController.isAdventureTimeSelcted.value;
+      DateErrorMessage = !_servicesController.isEventDateSelcted.value;
+      TimeErrorMessage = !_servicesController.isEventTimeSelcted.value;
 
       PriceEmpty = _priceController.text.isEmpty;
     });
@@ -204,9 +237,21 @@ class _EditAdventureState extends State<EditAdventure> {
         !guestEmpty &&
         !DateErrorMessage! &&
         !TimeErrorMessage! &&
-        !PriceEmpty) {
-     // daysInfo();
+        !PriceEmpty)  {
+
+         if (!regionListEn.contains(ragionEn) || !regionListAr.contains(ragionAr)) {
+           setState(() {
+         
+          
+            ragionAr = 'الرياض';
+            ragionEn = 'Riyadh'; 
+       
+          });
+           
+       } else{
       _updateAdventure();
+        }
+    
     } else {
       // Handle validation errors
       print("Please fill all required fields");
@@ -215,26 +260,26 @@ class _EditAdventureState extends State<EditAdventure> {
 
   void updateData() {
     setState(() {
-     adventureTitleControllerAr.text = widget.adventureObj.nameAr!;
-     adventureBioControllerAr.text = widget.adventureObj.descriptionAr!;
+     adventureTitleControllerAr.text = widget.eventObj.nameAr!;
+     adventureBioControllerAr.text = widget.eventObj.descriptionAr!;
 
-     adventureTitleControllerEn.text =widget.adventureObj.nameEn!;
-     adventureBioControllerEn.text = widget.adventureObj.descriptionEn!;
+     adventureTitleControllerEn.text =widget.eventObj.nameEn!;
+     adventureBioControllerEn.text = widget.eventObj.descriptionEn!;
 
-      guestNum = widget.adventureObj.seats;
-      newTimeToGo =
-         DateFormat.Hms().parse(widget.adventureObj.times!.first.startTime);
-      newTimeToReturn =
-         DateFormat.Hms().parse(widget.adventureObj.times!.first.endTime);
+      guestNum = widget.eventObj.seats!;
+      // newTimeToGo =
+      //    DateFormat.Hms().parse(widget.eventObj.date.first.startTime);
+      // newTimeToReturn =
+      //    DateFormat.Hms().parse(widget.adventureObj.times!.first.endTime);
       _servicesController.selectedDate.value =
-          widget.adventureObj.date!;
-      _priceController.text = widget.adventureObj.price.toString();
-      _servicesController.isAdventureDateSelcted.value = true;
-      _servicesController.isAdventureTimeSelcted.value = true;
+          widget.eventObj.date!;
+      _priceController.text = widget.eventObj.price.toString();
+      _servicesController.isEventDateSelcted.value = true;
+      _servicesController.isEventTimeSelcted.value = true;
 
       _servicesController.pickUpLocLatLang.value = LatLng(
-          double.parse(widget.adventureObj.coordinates!.latitude ?? ''),
-          double.parse(widget.adventureObj.coordinates!.longitude ?? ''));
+          double.parse(widget.eventObj.coordinates!.latitude ?? ''),
+          double.parse(widget.eventObj.coordinates!.longitude ?? ''));
 
       locationUrl = getLocationUrl(_servicesController.pickUpLocLatLang.value);
     });
@@ -266,7 +311,7 @@ class _EditAdventureState extends State<EditAdventure> {
   Future<void> _updateAdventure() async {
     try {
       print("Updating hospitality with the following data:");
-      print("ID: ${widget.adventureObj.id}");
+      print("ID: ${widget.eventObj.id}");
       print("Title AR: ${adventureTitleControllerAr.text}");
       print("Title EN: ${adventureTitleControllerEn.text}");
       print("Bio AR: ${adventureBioControllerAr.text}");
@@ -277,7 +322,7 @@ class _EditAdventureState extends State<EditAdventure> {
       print("Latitude: ${_servicesController.pickUpLocLatLang.value.latitude}");
       print("Tourists Gender: ${_guestsController.text}");
       print("Price: ${double.parse(_priceController.text)}");
-      print("Images: ${widget.adventureObj.image}");
+      print("Images: ${widget.eventObj.image}");
       print("Region AR: $ragionAr");
       print("Location: $locationUrl");
       print("Region EN: Riyadh");
@@ -290,8 +335,8 @@ class _EditAdventureState extends State<EditAdventure> {
       print("Date: ${_servicesController.selectedDate.value.substring(0, 10)}");
 
 
-      final Adventure? result = await _servicesController.editAdventure(
-        id: widget.adventureObj.id,
+      final Event? result = await _servicesController.editEvent(
+        id: widget.eventObj.id,
         nameAr: adventureTitleControllerAr.text,
         nameEn: adventureTitleControllerEn.text,
         descriptionAr: adventureBioControllerAr.text,
@@ -301,21 +346,20 @@ class _EditAdventureState extends State<EditAdventure> {
         latitude:
             _servicesController.pickUpLocLatLang.value.latitude.toString(),
         price: int.parse(_priceController.text),
-        image: widget.adventureObj.image!,
+        image: widget.eventObj.image!,
         regionAr: ragionAr,
         locationUrl: locationUrl,
         regionEn: ragionEn,
-        start: DateFormat(
-         'HH:mm:ss')
-         .format(
-         newTimeToGo),
-        end: DateFormat(
-         'HH:mm:ss')
-         .format(
-         newTimeToReturn),
+        // start: DateFormat(
+        //  'HH:mm:ss')
+        //  .format(
+        //  newTimeToGo),
+        // end: DateFormat(
+        //  'HH:mm:ss')
+        //  .format(
+        //  newTimeToReturn),
         seat: guestNum,
         date:_servicesController.selectedDate.value.substring(0, 10),
-        Genre:adventureTitleControllerEn.text.split(' ')[0],
         context: context,
       );
 
@@ -358,7 +402,7 @@ class _EditAdventureState extends State<EditAdventure> {
         print("Profile updated successfully: $result");
       } else {
         // Get.offAll(AddExperienceInfo());
-      //  Get.offAll(() => const AjwadiBottomBar());
+        Get.offAll(() => const AjwadiBottomBar());
 
         print("Profile update returned null");
       }
@@ -383,7 +427,7 @@ class _EditAdventureState extends State<EditAdventure> {
             ? adventureBioControllerAr
             : adventureBioControllerEn;
     return Obx(
-      () => _servicesController.isAdventureByIdLoading.value
+      () => _servicesController.isEventByIdLoading.value
           ? const Scaffold(
               backgroundColor: Colors.white,
               extendBodyBehindAppBar: true,
@@ -444,13 +488,13 @@ class _EditAdventureState extends State<EditAdventure> {
                               ),
                               GestureDetector(
                                 onTap: () async {
-                                  log("End Trip Taped ${widget.adventureObj.id}");
+                                  log("End Trip Taped ${widget.eventObj.id}");
 
                                    bool result = true;
-                                  await _servicesController.AdventureDelete(
+                                  await _servicesController.EventDelete(
                                               context: context,
-                                              adventureId:
-                                                  widget.adventureObj.id) ??
+                                              eventId:
+                                                  widget.eventObj.id) ??
                                      false;
                                   if (result) {
                                     showDialog(
@@ -608,10 +652,10 @@ class _EditAdventureState extends State<EditAdventure> {
                                         _currentIndex = i;
                                       });
                                     }),
-                                itemCount: widget.adventureObj.image!.length,
+                                itemCount: widget.eventObj.image!.length,
                                 itemBuilder: (context, index, realIndex) {
                                   return ImagesSliderWidget(
-                                    image: widget.adventureObj.image![index],
+                                    image: widget.eventObj.image![index],
                                   );
                                 },
                               ),
@@ -1171,9 +1215,9 @@ class _EditAdventureState extends State<EditAdventure> {
                                                   context: context,
                                                   builder:
                                                       (BuildContext context) {
-                                                  return HostCalenderDialog(
-                                                   type: 'adv',
-                                                    advController: _servicesController,
+                                                  return EventCalenderDialog(
+                                                   type: 'event',
+                                                    eventController: _servicesController,
                                                   );
                                                      });
                                                },
@@ -1303,7 +1347,7 @@ class _EditAdventureState extends State<EditAdventure> {
                                                                       CupertinoButton(
                                                                         onPressed:
                                                                             () {
-                                                                          _servicesController.isAdventureDateSelcted(true);
+                                                                          _servicesController.isEventDateSelcted(true);
                                                                           setState(
                                                                               () {
                                                                             Get.back();
@@ -1519,7 +1563,7 @@ class _EditAdventureState extends State<EditAdventure> {
                                                                         onPressed:
                                                                             () {
                                                                           _servicesController
-                                                                              .isAdventureTimeSelcted(true);
+                                                                              .isEventTimeSelcted(true);
                                                                           // print(widget
                                                                           //     .hospitalityController
                                                                           //     .isHospatilityTimeSelcted
@@ -1948,7 +1992,7 @@ class _EditAdventureState extends State<EditAdventure> {
                         left: width * 0.33,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: widget.adventureObj.image!
+                          children: widget.eventObj.image!
                               .asMap()
                               .entries
                               .map((entry) {
@@ -1964,7 +2008,7 @@ class _EditAdventureState extends State<EditAdventure> {
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: _currentIndex == entry.key
-                                      ? widget.adventureObj.image!.length == 1
+                                      ? widget.eventObj.image!.length == 1
                                           ? Colors.white.withOpacity(0.1)
                                           : Colors.white
                                       : Colors.white.withOpacity(0.4),

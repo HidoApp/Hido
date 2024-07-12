@@ -1,4 +1,5 @@
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -18,7 +19,7 @@ class AddGuests extends StatefulWidget {
 }
 
 class _AddGuestsState extends State<AddGuests> {
-  final TextEditingController _textField1Controller = TextEditingController();
+   TextEditingController _textField1Controller = TextEditingController();
   int? _selectedRadio;
 
   final _formKey = GlobalKey<FormState>();
@@ -26,7 +27,11 @@ class _AddGuestsState extends State<AddGuests> {
   @override
   void initState() {
     super.initState();
+
+    
+    
   }
+  
 
   
 
@@ -43,7 +48,8 @@ class _AddGuestsState extends State<AddGuests> {
           color: black,
           fontSize: 17,
           fontWeight: FontWeight.w500,
-          fontFamily: 'SF Pro',
+           fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                          : 'SF Pro',
         ),
         SizedBox(
           height: width * 0.02,
@@ -76,7 +82,8 @@ class _AddGuestsState extends State<AddGuests> {
                       text: "guests".tr,
                       fontWeight: FontWeight.w400,
                       color: Graytext,
-                      fontFamily: 'SF Pro',
+                      fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                          : 'SF Pro',
                       fontSize: 15,
                     ),
                     Spacer(),

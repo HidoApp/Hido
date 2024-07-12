@@ -76,7 +76,37 @@ class _EditHospitalityState extends State<EditHospitality> {
   String ragionAr = '';
   String ragionEn = '';
 
+List<String> regionListEn = [
+  "Riyadh",
+  "Mecca",
+  "Medina",
+  "Dammam",
+  "Qassim",
+  "Hail",
+  "Northern Borders",
+  "Jazan",
+  "Asir",
+  "Tabuk",
+  "Najran",
+  "Al Baha",
+  "Al Jouf"
+];
 
+ List<String> regionListAr = [
+  "الرياض",
+  "مكة",
+  "المدينة",
+  "الدمام",
+  "القصيم",
+  "حائل",
+  "الحدود الشمالية",
+  "جازان",
+  "عسير",
+  "تبوك",
+  "نجران",
+  "الباحة",
+  "الجوف"
+];
   BitmapDescriptor markerIcon = BitmapDescriptor.defaultMarker;
   void addCustomIcon() {
     BitmapDescriptor.fromAssetImage(
@@ -124,15 +154,25 @@ class _EditHospitalityState extends State<EditHospitality> {
         Placemark placemark = placemarks.first;
         print(placemarks.first);
         setState(() {
-          if (AppUtil.rtlDirection2(context)) {
-          
-            ragionAr = placemark.locality!;
-            ragionEn = 'Riyadh'; 
-          } else {
+         if (AppUtil.rtlDirection2(context)) {
+            
+              ragionAr = placemark.locality!;
+              ragionEn = 'Riyadh';
+            } else {
+              ragionAr = 'الرياض';
+              ragionEn = placemark.locality!;
+            }
+           if (!regionListEn.contains(ragionEn) || !regionListAr.contains(ragionAr)) {
+           setState(() {
          
-            ragionAr = 'الرياض'; 
-            ragionEn = placemark.locality!;
-          }
+          
+            ragionAr = 'الرياض';
+            ragionEn = 'Riyadh'; 
+       
+          });
+           
+       }
+
         });
         return '${placemark.locality}, ${placemark.subLocality}, ${placemark.country}';
       }
@@ -172,6 +212,7 @@ class _EditHospitalityState extends State<EditHospitality> {
 
   bool guestEmpty = false;
   bool PriceEmpty = false;
+  bool PriceLarger = false;
 
   String gender = '';
 
@@ -192,8 +233,18 @@ class _EditHospitalityState extends State<EditHospitality> {
       TimeErrorMessage = !_servicesController.isHospatilityTimeSelcted.value;
 
       PriceEmpty = _priceController.text.isEmpty;
-    });
 
+      if (_priceController.text.isNotEmpty) {
+      double? price = double.tryParse(_priceController.text);
+     PriceLarger = price == null || price! < 150;
+     print(     PriceLarger = price == null || price! < 150
+);
+      }
+    
+      
+    
+    });
+     
     if (!titleArEmpty &&
         !bioArEmpty &&
         !titleENEmpty &&
@@ -201,9 +252,17 @@ class _EditHospitalityState extends State<EditHospitality> {
         !guestEmpty &&
         !DateErrorMessage! &&
         !TimeErrorMessage! &&
-        !PriceEmpty) {
-      daysInfo();
+        !PriceEmpty &&
+        !PriceLarger
+       ) 
+  
+       {
+
+        
+          daysInfo();
       _updateProfile();
+        
+    
     } else {
       // Handle validation errors
       print("Please fill all required fields");
@@ -339,21 +398,6 @@ class _EditHospitalityState extends State<EditHospitality> {
     });
   }
 
-  // void getHospitalityById() async {
-  //   hospitalityObj = (await _servicesController.getHospitalityById(
-  //       context: context, id: widget.hospitalityId));
-  //   if (hospitalityObj!.booking != null) {
-  //     hideLocation = hospitalityObj!.booking!.isEmpty;
-  //   }
-  //   for (var day in hospitalityObj!.daysInfo) {
-  //     print(day.startTime);
-  //     avilableDate.add(
-  //       DateTime.parse(
-  //         day.startTime.substring(0, 10),
-  //       ),
-  //     );
-  //   }
-  // }
   Future<void> _updateProfile() async {
     try {
       print("Updating hospitality with the following data:");
@@ -372,7 +416,7 @@ class _EditHospitalityState extends State<EditHospitality> {
       print("Images: ${widget.hospitalityObj.images}");
       print("Region AR: $ragionAr");
       print("Location: $locationUrl");
-      print("Region EN: Riyadh");
+      print("Region EN: $ragionEn");
       print("Start Time: $startTime");
       print("End Time: $endTime");
       print("Guest Number: $guestNum");
@@ -400,7 +444,7 @@ class _EditHospitalityState extends State<EditHospitality> {
         context: context,
       );
 
-      if (result != null) {
+      if (result == null) {
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -422,7 +466,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                       !AppUtil.rtlDirection2(context)
                           ? "Changes have been saved successfully!"
                           : "تم حفظ التغييرات بنجاح ",
-                      style: TextStyle(fontSize: 15),
+                      style: TextStyle(fontSize: 14,fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic'
+                                 : 'SF Pro',),
                       textDirection: AppUtil.rtlDirection2(context)
                           ? TextDirection.rtl
                           : TextDirection.ltr,
@@ -439,7 +484,7 @@ class _EditHospitalityState extends State<EditHospitality> {
         print("Profile updated successfully: $result");
       } else {
         // Get.offAll(AddExperienceInfo());
-        Get.offAll(() => const AjwadiBottomBar());
+       // Get.offAll(() => const AjwadiBottomBar());
 
         print("Profile update returned null");
       }
@@ -475,7 +520,7 @@ class _EditHospitalityState extends State<EditHospitality> {
               backgroundColor: Colors.white,
               // extendBodyBehindAppBar: true,
               appBar: CustomAppBar(
-                "Experience Edit",
+                "ExperienceEdit".tr,
                 isAjwadi: true,
                 isDeleteIcon: true,
                 onPressedAction: () {
@@ -502,7 +547,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                 textAlign: TextAlign.center,
                                 color: Color(0xFFDC362E),
                                 fontSize: 15,
-                                fontFamily: 'SF Pro',
+                                fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic'
+                                 : 'SF Pro',
                                 fontWeight: FontWeight.w500,
                                 text: AppUtil.rtlDirection2(context)
                                     ? "تنبيه"
@@ -516,9 +562,10 @@ class _EditHospitalityState extends State<EditHospitality> {
                                 fontSize: 15,
                                 fontWeight: FontWeight.w400,
                                 color: Color(0xFF41404A),
-                                text: 'You’re about to delete this experience',
-                                fontFamily: 'SF Pro',
-                              ),
+                                text: AppUtil.rtlDirection2(context)?"أنت على وشك حذف هذه التجربة":'You’re about to delete this experience',
+                                fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic'
+                                 : 'SF Pro',
+                            ),
                               const SizedBox(
                                 height: 10,
                               ),
@@ -560,7 +607,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                       ? 'The experience has been deleted'
                                                       : "تم حذف التجربة بنجاح ",
                                                   style:
-                                                      TextStyle(fontSize: 15),
+                                                      TextStyle(fontSize: 14, fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic'
+                                                      : 'SF Pro',),
                                                   textDirection:
                                                       AppUtil.rtlDirection2(
                                                               context)
@@ -596,10 +644,11 @@ class _EditHospitalityState extends State<EditHospitality> {
                                   ),
                                   child: CustomText(
                                     textAlign: TextAlign.center,
-                                    text: "Delete",
+                                   text:AppUtil.rtlDirection2(context)?"حذف": "Delete",
                                     color: Colors.white,
                                     fontSize: 15,
-                                    fontFamily: 'SF Pro',
+                            fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                                    : 'SF Pro',
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
@@ -624,8 +673,9 @@ class _EditHospitalityState extends State<EditHospitality> {
                                     child: CustomText(
                                         textAlign: TextAlign.center,
                                         fontSize: 15,
-                                        fontFamily: 'SF Pro',
-                                        fontWeight: FontWeight.w500,
+                                      fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                                    : 'SF Pro',
+                                fontWeight: FontWeight.w500,
                                         color: Color(0xFFDC362E),
                                         text: AppUtil.rtlDirection2(context)
                                             ? 'الغاء'
@@ -646,7 +696,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                       onPressed: () {
                         validateAndSave();
                       },
-                      title: 'Save Changes')),
+                      title: 'SaveChanges'.tr)),
               body: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -659,11 +709,12 @@ class _EditHospitalityState extends State<EditHospitality> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Gallery',
+                                   'PhotoGallery'.tr,
                                   style: TextStyle(
                                     color: black,
                                     fontSize: 17,
-                                    fontFamily: 'HT Rakik',
+                                      fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                                    : 'SF Pro',
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
@@ -765,9 +816,10 @@ class _EditHospitalityState extends State<EditHospitality> {
                                       customTextStyles: [
                                         TextStyle(
                                           fontSize: _selectedLanguageIndex == 0
-                                              ? 11.5
+                                              ? 11
                                               : 13,
-                                          fontFamily: 'SF Pro',
+                                          fontFamily: _selectedLanguageIndex == 0?'SF Arabic'
+                                            : 'SF Pro',
                                           fontWeight:
                                               _selectedLanguageIndex == 0
                                                   ? FontWeight.w600
@@ -775,9 +827,10 @@ class _EditHospitalityState extends State<EditHospitality> {
                                         ),
                                         TextStyle(
                                           fontSize: _selectedLanguageIndex == 0
-                                              ? 11.5
+                                              ? 11
                                               : 13,
-                                          fontFamily: 'SF Pro',
+                                          fontFamily: _selectedLanguageIndex == 0?'SF Arabic'
+                                            : 'SF Pro',
                                           fontWeight:
                                               _selectedLanguageIndex == 0
                                                   ? FontWeight.w600
@@ -822,7 +875,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                       : 'SF Pro',
                                               fontWeight:
                                                   _selectedLanguageIndex == 0
-                                                      ? FontWeight.w600
+                                                      ? FontWeight.w500
                                                       : FontWeight.w500,
                                               height: 0,
                                             ),
@@ -830,7 +883,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                                           SizedBox(
                                               height:
                                                   _selectedLanguageIndex == 0
-                                                      ? 5.5
+                                                      ? 8
                                                       : 8),
                                           Container(
                                             width: double.infinity,
@@ -873,7 +926,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                   hintStyle: TextStyle(
                                                     color: Color(0xFFB9B8C1),
                                                     fontSize: 15,
-                                                    fontFamily: 'SF Pro',
+                                                    fontFamily: _selectedLanguageIndex == 0?'SF Arabic'
+                                            : 'SF Pro',
                                                     fontWeight: FontWeight.w400,
                                                   ),
                                                   border: OutlineInputBorder(
@@ -948,7 +1002,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                                           SizedBox(
                                               height:
                                                   _selectedLanguageIndex == 0
-                                                      ? 4
+                                                      ? 9
                                                       : 9),
                                           Container(
                                             width: double.infinity,
@@ -1008,7 +1062,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                   hintStyle: TextStyle(
                                                     color: Color(0xFFB9B8C1),
                                                     fontSize: 15,
-                                                    fontFamily: 'SF Pro',
+                                                    fontFamily: _selectedLanguageIndex == 0?'SF Arabic'
+                                                        : 'SF Pro',
                                                     fontWeight: FontWeight.w400,
                                                   ),
                                                   border: OutlineInputBorder(
@@ -1061,7 +1116,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                               style: TextStyle(
                                                 color: Color(0xFFB9B8C1),
                                                 fontSize: 11,
-                                                fontFamily: 'SF Pro',
+                                                fontFamily: _selectedLanguageIndex == 0?'SF Arabic'
+                                            : 'SF Pro',
                                                 fontWeight: FontWeight.w400,
                                               ),
                                             ),
@@ -1089,8 +1145,9 @@ class _EditHospitalityState extends State<EditHospitality> {
                                     color: Colors.black,
                                     fontSize: 17,
                                     fontWeight: FontWeight.w500,
-                                    fontFamily: 'SF Pro',
-                                  ),
+                      fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                                            : 'SF Pro',
+                                        ),
                                   SizedBox(
                                     height: width * 0.02,
                                   ),
@@ -1125,8 +1182,9 @@ class _EditHospitalityState extends State<EditHospitality> {
                                               text: "guests".tr,
                                               fontWeight: FontWeight.w400,
                                               color: Graytext,
-                                              fontFamily: 'SF Pro',
-                                              fontSize: 15,
+                           fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                                            : 'SF Pro',
+                                        fontSize: 15,
                                             ),
                                             Spacer(),
                                             GestureDetector(
@@ -1192,8 +1250,9 @@ class _EditHospitalityState extends State<EditHospitality> {
                                         color: Colors.black,
                                         fontSize: 17,
                                         fontWeight: FontWeight.w500,
-                                        fontFamily: 'SF Pro',
-                                      ),
+                                   fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                                            : 'SF Pro',
+                                          ),
                                       SizedBox(
                                         height: width * 0.025,
                                       ),
@@ -1242,8 +1301,9 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                   style: TextStyle(
                                                     color: Color(0xFF41404A),
                                                     fontSize: 13,
-                                                    fontFamily: 'SF Pro',
-                                                    fontWeight: FontWeight.w500,
+                                       fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                                            : 'SF Pro',
+                                               fontWeight: FontWeight.w500,
                                                     height: 0,
                                                   ),
                                                 ),
@@ -1289,7 +1349,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                   style: TextStyle(
                                                     color: Color(0xFF41404A),
                                                     fontSize: 13,
-                                                    fontFamily: 'SF Pro',
+                                                     fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                                            : 'SF Pro',
                                                     fontWeight: FontWeight.w500,
                                                     height: 0,
                                                   ),
@@ -1336,7 +1397,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                   style: TextStyle(
                                                     color: Color(0xFF41404A),
                                                     fontSize: 13,
-                                                    fontFamily: 'SF Pro',
+                                                    fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                                            : 'SF Pro',
                                                     fontWeight: FontWeight.w500,
                                                     height: 0,
                                                   ),
@@ -1371,8 +1433,9 @@ class _EditHospitalityState extends State<EditHospitality> {
                                     color: black,
                                     fontSize: 17,
                                     fontWeight: FontWeight.w500,
-                                    fontFamily: 'SF Pro',
-                                  ),
+                             fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                                            : 'SF Pro',
+                                          ),
                                   SizedBox(
                                     height: width * 0.02,
                                   ),
@@ -1427,7 +1490,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                               // srvicesController.selectedDates.map((date) => intel.DateFormat('dd/MM/yyyy').format(date)).join(', ')
                                               fontWeight: FontWeight.w400,
                                               color: Graytext,
-                                              fontFamily: 'SF Pro',
+                                               fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                                            : 'SF Pro',
                                               fontSize: 15,
                                             ),
                                           ),
@@ -1464,12 +1528,13 @@ class _EditHospitalityState extends State<EditHospitality> {
                                         children: [
                                           CustomText(
                                             text: AppUtil.rtlDirection2(context)
-                                                ? "وقت الذهاب"
+                                                ? "وقت الاستضافة من"
                                                 : "Start Time",
                                             color: black,
                                             fontSize: 17,
                                             fontWeight: FontWeight.w500,
-                                            fontFamily: 'SF Pro',
+                                            fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                                            : 'SF Pro',
                                           ),
                                           SizedBox(
                                             height: height * 0.01,
@@ -1571,8 +1636,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                                               colorGreen,
                                                                           fontSize:
                                                                               15,
-                                                                          fontFamily:
-                                                                              'SF Pro',
+                                                                          fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                                                                     : 'SF Pro',
                                                                           fontWeight:
                                                                               FontWeight.w500,
                                                                         ),
@@ -1641,8 +1706,9 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                       fontWeight:
                                                           FontWeight.w400,
                                                       color: Graytext,
-                                                      fontFamily: 'SF Pro',
-                                                      fontSize: 15,
+                                                      fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                                                    : 'SF Pro',
+                                                     fontSize: 15,
                                                     ),
                                                   ),
                                                 ],
@@ -1680,12 +1746,13 @@ class _EditHospitalityState extends State<EditHospitality> {
                                         children: [
                                           CustomText(
                                             text: AppUtil.rtlDirection2(context)
-                                                ? "وقت العودة"
+                                                ? "إلى"
                                                 : "End Time",
                                             color: black,
                                             fontSize: 17,
                                             fontWeight: FontWeight.w500,
-                                            fontFamily: 'SF Pro',
+                                            fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                                            : 'SF Pro',
                                           ),
                                           SizedBox(
                                             height: height * 0.01,
@@ -1859,7 +1926,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                       fontWeight:
                                                           FontWeight.w400,
                                                       color: Graytext,
-                                                      fontFamily: 'SF Pro',
+                                                      fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                                            : 'SF Pro',
                                                       fontSize: 15,
                                                     ),
                                                   ),
@@ -1899,7 +1967,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                     color: black,
                                     fontSize: 17,
                                     fontWeight: FontWeight.w500,
-                                    fontFamily: 'SF Pro',
+                                    fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                                            : 'SF Pro',
                                   ),
                                   SizedBox(
                                     height: width * 0.025,
@@ -1944,7 +2013,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                               style: TextStyle(
                                                 color: Color(0xFF41404A),
                                                 fontSize: 13,
-                                                fontFamily: 'SF Pro',
+                                                 fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                                            : 'SF Pro',
                                                 fontWeight: FontWeight.w500,
                                                 height: 0,
                                               ),
@@ -1987,7 +2057,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                               style: TextStyle(
                                                 color: Color(0xFF41404A),
                                                 fontSize: 13,
-                                                fontFamily: 'SF Pro',
+                                                fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                                            : 'SF Pro',
                                                 fontWeight: FontWeight.w500,
                                                 height: 0,
                                               ),
@@ -2030,7 +2101,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                               style: TextStyle(
                                                 color: Color(0xFF41404A),
                                                 fontSize: 13,
-                                                fontFamily: 'SF Pro',
+                                                fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                                            : 'SF Pro',
                                                 fontWeight: FontWeight.w500,
                                                 height: 0,
                                               ),
@@ -2061,7 +2133,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                     color: Colors.black,
                                     fontSize: 17,
                                     fontWeight: FontWeight.w500,
-                                    fontFamily: 'SF Pro',
+                                     fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                                            : 'SF Pro',
                                   ),
                                   SizedBox(
                                     height: width * 0.05,
@@ -2085,18 +2158,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                                             initialCameraPosition:
                                                 CameraPosition(
                                               target:
-                                                  // // _servicesController == null
-                                                  // //     ? locLatLang
-                                                  // // :
-                                                  // LatLng(
-                                                  //     _servicesController
-                                                  //         .pickUpLocLatLang
-                                                  //         .value
-                                                  //         .latitude,
-                                                  //     _servicesController
-                                                  //         .pickUpLocLatLang
-                                                  //         .value
-                                                  //         .longitude!)
+                                                
                                                   _currentPosition,
                                               zoom: 15,
                                             ),
@@ -2104,15 +2166,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                                               Marker(
                                                 markerId: MarkerId("marker1"),
                                                 position: _currentPosition,
-                                                // LatLng(
-                                                //     _servicesController
-                                                //         .pickUpLocLatLang
-                                                //         .value
-                                                //         .latitude,
-                                                //     _servicesController
-                                                //         .pickUpLocLatLang
-                                                //         .value
-                                                //         .longitude),
+                                               
                                                 draggable: true,
                                                 onDragEnd:
                                                     (LatLng newPosition) {
@@ -2171,8 +2225,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                             color: Color(
                                                                 0xFF9392A0),
                                                             fontSize: 13,
-                                                            fontFamily:
-                                                                'SF Pro',
+                                                             fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                                                                : 'SF Pro',
                                                             fontWeight:
                                                                 FontWeight.w400,
                                                             height: 0,
@@ -2202,11 +2256,12 @@ class _EditHospitalityState extends State<EditHospitality> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   CustomText(
-                                    text: "price".tr,
+                                    text: "Price".tr,
                                     color: Colors.black,
                                     fontSize: 17,
                                     fontWeight: FontWeight.w500,
-                                    fontFamily: 'SF Pro',
+                                     fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                                            : 'SF Pro',
                                   ),
                                   SizedBox(
                                     height: width * 0.02,
@@ -2214,11 +2269,12 @@ class _EditHospitalityState extends State<EditHospitality> {
                                   TextField(
                                     controller: _priceController,
                                     decoration: InputDecoration(
-                                      hintText: '00.00 SAR /per person',
+                                      hintText:AppUtil.rtlDirection2(context) ?'00.00 ر.س / للفرد':'00.00 SAR /per person',
                                       hintStyle: TextStyle(
                                         color: Color(0xFFB9B8C1),
                                         fontSize: 15,
-                                        fontFamily: 'SF Pro',
+                                         fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                                            : 'SF Pro',
                                         fontWeight: FontWeight.w400,
                                       ),
                                       border: OutlineInputBorder(
@@ -2227,7 +2283,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                           width: 1,
-                                          color: PriceEmpty
+                                          color: PriceEmpty||PriceLarger
                                               ? Color(0xFFDC362E)
                                               : Color(0xFFB9B8C1),
                                         ),
@@ -2238,13 +2294,13 @@ class _EditHospitalityState extends State<EditHospitality> {
                                     ),
                                     keyboardType: TextInputType.number,
                                   ),
-                                  if (PriceEmpty)
+                                 if (PriceEmpty || PriceLarger)
                                     Padding(
                                       padding: const EdgeInsets.only(top: 8.0),
                                       child: Text(
                                         AppUtil.rtlDirection2(context)
-                                            ? 'يجب عليك ان تضع السعر المقدر'
-                                            : 'You need to add a valid price',
+                                            ?PriceLarger?'السعر يجب أن يكون اكبر من أو يساوي 150': 'يجب عليك ان تضع السعر المقدر'
+                                            : 'You need to add a valid price, >= 150',
                                         style: TextStyle(
                                           color: Color(0xFFDC362E),
                                           fontSize: 11,
@@ -2259,77 +2315,13 @@ class _EditHospitalityState extends State<EditHospitality> {
                                 ],
                               ),
 
-                              // InkWell(
-                              //   onTap: () {
-                              //     Get.bottomSheet(
-                              //       const CustomPloicySheet(),
-                              //     );
-                              //   },
-                              //   child: Align(
-                              //       alignment: !AppUtil.rtlDirection(context)
-                              //           ? Alignment.centerRight
-                              //           : Alignment.centerLeft,
-                              //       child: Row(
-                              //         children: [
-                              //           Column(
-                              //             crossAxisAlignment:
-                              //                 CrossAxisAlignment.start,
-                              //             children: [
-                              //               CustomText(
-                              //                 text: "cancellationPolicy".tr,
-                              //                 fontSize: width * 0.0461,
-                              //                 fontWeight: FontWeight.w400,
-                              //               ),
-                              //               SizedBox(
-                              //                 height: width * 0.010,
-                              //               ),
-                              //               SizedBox(
-                              //                 width: width * 0.83,
-                              //                 child: CustomText(
-                              //                   text:
-                              //                       "cancellationPolicyBreifAdventure"
-                              //                           .tr,
-                              //                   fontSize: width * 0.03,
-                              //                   fontWeight: FontWeight.w400,
-                              //                   maxlines: 2,
-                              //                   color: tileGreyColor,
-                              //                 ),
-                              //               ),
-                              //             ],
-                              //           ),
-                              //           const Spacer(),
-                              //           Icon(
-                              //             Icons.arrow_forward_ios,
-                              //             color: tileGreyColor,
-                              //             size: width * 0.046,
-                              //           )
-                              //         ],
-                              //       )),
-                              // ),
+                            
                             ],
                           ),
                         ],
                       ),
 
-                      // Positioned(
-                      //   top: height * 0.06,
-                      //   left: AppUtil.rtlDirection2(context)
-                      //       ? width * 0.85
-                      //       : width * 0.06,
-                      //   child: IconButton(
-                      //     icon: Icon(Icons.arrow_back_ios,
-                      //         textDirection: AppUtil.rtlDirection2(context)
-                      //             ? TextDirection.rtl
-                      //             : TextDirection.ltr,
-                      //         size: width * 0.061,
-                      //         color: Colors.white),
-                      //     onPressed: () => Get.back(),
-                      //     color: Colors.white,
-                      //   ),
-                      // ),
-
                       //indicator
-
                       Positioned(
                         top: height * 0.256,
                         left: width * 0.33,

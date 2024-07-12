@@ -5,7 +5,7 @@ class Summary {
   final String titleAr;
   final String titleEn;
   final List<DayInfo> daysInfo;
-  final int cost;
+  final double cost;
   final int guestNumber;
   final List<GuestList> guestList;
 
@@ -25,7 +25,7 @@ class Summary {
       titleAr: json['titleAr'] ?? '',
       titleEn: json['titleEn'] ?? '',
     
-      cost: json['price'] ?? 0,
+      cost: (json['cost'] ?? 0).toDouble(),
       guestNumber: json['guestNumber'] ?? 0,
           daysInfo: json['daysInfo'] != null
           ? (json['daysInfo'] as List)
