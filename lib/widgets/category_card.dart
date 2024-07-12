@@ -1,4 +1,5 @@
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -21,14 +22,17 @@ class CategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+        final double width = MediaQuery.of(context).size.width;
+    final double height = MediaQuery.of(context).size.height;
+
     return  GestureDetector(
       onTap: onPressed,
       
       child:Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 16),
+      padding: const EdgeInsets.only(left:2,right:2,top:2,bottom:2),
       child: Container(
-                width:114 ,
-                height:102,
+                width:width*0.44 ,
+                height:height*0.122,
                 decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
@@ -71,9 +75,8 @@ class CategoryCard extends StatelessWidget {
                       style: TextStyle(
                         color: Color(0xFF070708),
                         fontSize: 13,
-                        fontFamily: 'SF Pro',
+                        fontFamily: AppUtil.rtlDirection2(context) ?'SF Arabic':'SF Pro',
                         fontWeight: FontWeight.w500,
-                        height: 0,
                       ),
                     ),
                   ],

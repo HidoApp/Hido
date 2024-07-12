@@ -6,6 +6,9 @@ import 'package:ajwad_v4/explore/ajwadi/services/trip_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../services/model/experiences.dart';
+import '../../../services/model/hospitality.dart';
+
 class AjwadiExploreController extends GetxController {
   var isAddingTripLoading = false.obs;
   var isImagesLoading = false.obs;
@@ -14,9 +17,14 @@ class AjwadiExploreController extends GetxController {
   var isLatLangEmpty = false.obs;
   var isPriceEmpty = false.obs;
   var isDateEmpty = false.obs;
+    var isDateSelected = false.obs;
+
   var isImageEmpty = false.obs;
+  var isAllExperiencesLoading = false.obs;
+
   var selectedAdvDate = ''.obs;
   var selectedEventDate = ''.obs;
+  var experienceList = <Experience>[].obs;
 
     var numOfImages = 0.obs;
 
@@ -120,6 +128,29 @@ class AjwadiExploreController extends GetxController {
       return null;
     } finally {
       isTripLoading(false);
+    }
+  }
+
+
+
+
+  
+  Future<RxList<Experience>?> getAllExperiences(
+      {required BuildContext context}) async {
+    try {
+       isAllExperiencesLoading(true);
+      final data = await TripService.getAllExperiences(
+          context: context);
+      if (data != null) {
+        experienceList(data);
+      }
+      return experienceList;
+    } catch (e) {
+      print(e);
+      isAllExperiencesLoading(false);
+      return null;
+    } finally {
+       isAllExperiencesLoading(false);
     }
   }
 }

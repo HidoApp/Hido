@@ -220,6 +220,7 @@ class _SignInSheetState extends State<SignInSheet> {
                   SizedBox(
                     height: 12,
                   ),
+
                   const SignUpText()
                 ],
               ),

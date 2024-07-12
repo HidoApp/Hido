@@ -7,6 +7,7 @@ import 'package:ajwad_v4/request/ajwadi/view/widget/empty_request.dart';
 import 'package:ajwad_v4/request/ajwadi/view/widget/offline_request.dart';
 import 'package:ajwad_v4/request/ajwadi/view/widget/request_card.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
+import 'package:ajwad_v4/widgets/custom_empty_widget.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -101,7 +102,14 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
                               requestController: _requestController,
                             ),
                           )
-                        : const EmptyRequest(),
+                          : CustomEmptyWidget(
+
+                            title: "offline".tr ,
+                            image:"emptyRequest" ,
+                            subtitle: 'offlineText'.tr,
+                          ),
+
+                        // : const EmptyRequest(),
               ),
             )
           : const OfflineRequest(),

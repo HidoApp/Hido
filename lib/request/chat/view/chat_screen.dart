@@ -262,8 +262,14 @@ class _ChatScreenState extends State<ChatScreen> {
                                                         CustomText(
                                                           text: widget.booking !=
                                                                   null
-                                                              ? 'Pick up: ${intel.DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking?.timeToGo}'))}, Drop off: ${intel.DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking?.timeToReturn}'))}'
-                                                              : 'Pick up: ${intel.DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking2?.timeToGo}'))}, Drop off: ${intel.DateFormat.jm().format(DateTime.parse('1970-01-01T${widget.booking2?.timeToReturn}'))}',
+                                                               ? AppUtil.rtlDirection2(context)
+                                              ? 'من ${ AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)} إلى ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)} '
+                                              : 'Pick up: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)}, Drop off: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)}'
+                                             
+                                              :  AppUtil.rtlDirection2(context)
+                                              ? 'من ${ AppUtil.formatStringTimeWithLocale(context, widget.booking2!.timeToGo)} إلى ${AppUtil.formatStringTimeWithLocale(context, widget.booking2!.timeToReturn!)} '
+                                              : 'Pick up: ${AppUtil.formatStringTimeWithLocale(context,widget.booking2!.timeToGo)}, Drop off: ${AppUtil.formatStringTimeWithLocale(context, widget.booking2!.timeToReturn)}',
+                                                        
                                                           color: almostGrey,
                                                           fontSize: 13,
                                                           fontWeight:

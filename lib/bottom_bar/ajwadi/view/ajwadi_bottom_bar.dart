@@ -4,6 +4,7 @@ import 'package:ajwad_v4/request/ajwadi/view/new_request_screen.dart';
 import 'package:ajwad_v4/request/ajwadi/view/request_screen.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/profile/view/profle_screen.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -61,7 +62,7 @@ class _AjwadiBottomBarState extends State<AjwadiBottomBar>
           child: bottomScreens[currentIndex],
         ),
         bottomNavigationBar: Padding(
-          padding: const EdgeInsets.only(bottom: 30),
+          padding: const EdgeInsets.only(bottom: 28),
           child: BottomNavigationBar(
             elevation: 0,
             enableFeedback: false,
@@ -70,16 +71,16 @@ class _AjwadiBottomBarState extends State<AjwadiBottomBar>
             type: BottomNavigationBarType.fixed,
             unselectedItemColor: colorDarkGrey,
             selectedItemColor: colorGreen,
-            unselectedLabelStyle: const TextStyle(
-              fontSize: 13,
+            unselectedLabelStyle:  TextStyle(
+              fontSize: 11,
               fontWeight: FontWeight.w600,
-             fontFamily: 'SF Pro',
+             fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'  :'SF Pro',
               color: colorDarkGrey,
             ),
-            selectedLabelStyle: const TextStyle(
-              fontSize: 13,
+            selectedLabelStyle:  TextStyle(
+              fontSize: 11,
               fontWeight: FontWeight.w600,
-               fontFamily: 'Kufam',
+               fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'  :'SF Pro',
               color: colorGreen,
             ),
             items: [
@@ -91,21 +92,30 @@ class _AjwadiBottomBarState extends State<AjwadiBottomBar>
                   )),
               BottomNavigationBarItem(
                   label: "request".tr,
-                  icon: SvgPicture.asset(
-                    "assets/icons/my_request_green.svg",
-                    color: currentIndex == 1 ? colorGreen : colorDarkGrey,
+                  icon: Padding(
+                     padding: const EdgeInsets.only(bottom:4.0),
+                     child: SvgPicture.asset(
+                      "assets/icons/my_request_green.svg",
+                      color: currentIndex == 1 ? colorGreen : colorDarkGrey,
+                    ),
                   )),
               BottomNavigationBarItem(
                   label: "MyExperiences".tr,
-                  icon: SvgPicture.asset(
-                    "assets/icons/my_experiences.svg",
-                    color: currentIndex == 2 ? colorGreen : colorDarkGrey,
+                  icon: Padding(
+                   padding: const EdgeInsets.only(bottom:4.0),
+                     child: SvgPicture.asset(
+                      "assets/icons/my_experiences.svg",
+                      color: currentIndex == 2 ? colorGreen : colorDarkGrey,
+                    ),
                   )),
               BottomNavigationBarItem(
                   label: "profile".tr,
-                  icon: SvgPicture.asset(
-                    "assets/icons/my_profile_green.svg",
-                    color: currentIndex == 3 ? colorGreen : colorDarkGrey,
+                  icon: Padding(
+                    padding: const EdgeInsets.only(bottom:4.0),
+                    child: SvgPicture.asset(
+                      "assets/icons/my_profile_green.svg",
+                      color: currentIndex == 3 ? colorGreen : colorDarkGrey,
+                    ),
                   )),
             ],
             onTap: (int newIndex) {

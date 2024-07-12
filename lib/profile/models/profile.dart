@@ -3,10 +3,10 @@ import 'package:ajwad_v4/constants/user_roles.dart';
 
 class Profile {
   final String? id;
-  final String? name;
+   String? name;
   final String? email;
   final int? rating;
-  final String? image;
+  //final String? image;
 
   String? profileImage;
   final String? phoneNumber;
@@ -46,7 +46,7 @@ class Profile {
     this.userRole,
     this.email,
     this.tourNumber,
-    this.image,
+    //this.image,
 
   });
 
@@ -54,7 +54,7 @@ class Profile {
     return Profile(
       id: json['id']??'',
       name: json['name']??'',
-      image: json['image']??'',
+     // image: json['image']??'',
       rating: json['rating']??0,
       tourNumber: json['tourNumber']??0,
       tourRating: json['tourRating']??0,
@@ -83,10 +83,10 @@ class Profile {
       //'user_id': userId,
       'name': name,
       'rating': rating,
-      'image': image,
+     // 'image': image,
       'tourNumber': tourNumber,
       //'tripNumber': tripNumber,
-      // 'image': profileImage,
+      'image': profileImage,
       'phoneNumber': phoneNumber,
       // 'experienceLevel': governmentIssuedId,
       // 'car_color': carColor,

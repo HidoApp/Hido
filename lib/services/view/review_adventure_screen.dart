@@ -43,6 +43,7 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
   Invoice? invoice;
   bool isCheckingForPayment = false;
   int finalCost = 0;
+  
 //   final String timeZoneName = 'Asia/Riyadh';
 //   late tz.Location location;
 
@@ -110,20 +111,16 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                   height: width * .010,
                 ),
                 ReviewDetailsTile(
-                    title: AppUtil.rtlDirection2(context)
-                        ? widget.adventure.regionAr!
-                        : widget.adventure.regionEn!,
+                    title:_adventureController.address.value,
                     image: "assets/icons/locationHos.svg"),
                 SizedBox(
                   height: width * .010,
                 ),
                 // Details
                 ReviewDetailsTile(
-                    title: DateFormat('E-dd-MMM',
-                            AppUtil.rtlDirection2(context) ? 'ar' : 'en')
-                        .format(
-                      DateTime.parse(widget.adventure.date!),
-                    ),
+                    title: AppUtil.formatBookingDate(context,
+                      widget.adventure.date!),
+                    
                     image: 'assets/icons/grey_calender.svg'),
                 SizedBox(
                   height: width * .010,

@@ -1,13 +1,17 @@
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/explore/tourist/model/coordinates.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:another_flushbar/flushbar.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 class AppUtil {
+  static String address='';
   static bool rtlDirection(context) {
     return !(Get.locale == const Locale('ar', 'ar') ? true : false);
     //return Get.locale == const Locale('ar', 'ar');
@@ -94,6 +98,64 @@ class AppUtil {
       return formattedTime;
     }
   }
+
+  static String formatSelectedDates(RxList<dynamic> dates, BuildContext context) {
+  // Convert dynamic list to List<DateTime>
+  List<DateTime> dateTimeList = dates
+      .where((date) => date is DateTime)
+      .map((date) => date as DateTime)
+      .toList();
+
+  if (dateTimeList.isEmpty) {
+    return 'DD/MM/YYYY';
+  }
+
+  // Sort the dates
+  dateTimeList.sort();
+
+  final bool isArabic = AppUtil.rtlDirection2(context);
+  final DateFormat dayFormatter =
+      DateFormat('d', isArabic ? 'ar' : 'en');
+  final DateFormat monthYearFormatter =
+      DateFormat('MMMM yyyy', isArabic ? 'ar' : 'en');
+
+  String formattedDates = '';
+
+  for (int i = 0; i < dateTimeList.length; i++) {
+    if (i > 0) {
+      // If current date's month and year are different from the previous date's, add a comma
+      if (dateTimeList[i].month != dateTimeList[i - 1].month ||
+          dateTimeList[i].year != dateTimeList[i - 1].year) {
+        formattedDates += ', ';
+      } else {
+        // If same month and year, just add a space
+        formattedDates += ', ';
+      }
+    }
+
+    formattedDates += dayFormatter.format(dateTimeList[i]);
+
+    // If the next date is in a different month or year, add month and year to the current date
+    if (i == dateTimeList.length - 1 ||
+        dateTimeList[i].month != dateTimeList[i + 1].month ||
+        dateTimeList[i].year != dateTimeList[i + 1].year) {
+      formattedDates += ' ${monthYearFormatter.format(dateTimeList[i])}';
+    }
+  }
+
+  return formattedDates;
+}
+static String getLocationUrl(Coordinate location) {
+    return 'https://www.google.com/maps/search/?api=1&query=${location.latitude},${location.longitude}';
+  }
+
+
+  static String capitalizeFirstLetter(String input) {
+    String lowercased = input.toLowerCase();
+    String capitalized = lowercased[0].toUpperCase() + lowercased.substring(1);
+
+    return capitalized;
+}
 
   static String formatStringTimeWithLocale(
       BuildContext context, String dateTimeString) {

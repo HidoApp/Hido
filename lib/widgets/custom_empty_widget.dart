@@ -1,3 +1,4 @@
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -45,7 +46,7 @@ class CustomEmptyWidget extends StatelessWidget {
           text: subtitle!,
           color: Color(0xFFB9B8C1),
           fontSize: 16,
-          fontFamily: 'SF Pro',
+          fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic': 'SF Pro',
           fontWeight: FontWeight.w400,
           height: 0, 
           textAlign: TextAlign.center,

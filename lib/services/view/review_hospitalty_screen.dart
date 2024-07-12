@@ -48,6 +48,7 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
   Invoice? invoice;
   bool isCheckingForPayment = false;
   int finalCost = 0;
+  final _servicesController = Get.put(HospitalityController());
 
   @override
   void initState() {
@@ -91,23 +92,24 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                   height: width * 0.010,
                 ),
                 ReviewDetailsTile(
-                    title: AppUtil.rtlDirection2(context)
-                        ? widget.hospitality.regionAr ?? ""
-                        : widget.hospitality.regionEn,
+                    title:  _servicesController.address.value,
                     image: "assets/icons/locationHos.svg"),
                 SizedBox(
                   height: width * 0.010,
                 ),
                 // Details
                 ReviewDetailsTile(
-                    title: AppUtil.rtlDirection2(context)
-                        ? '${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(widget.hospitality.daysInfo.first.startTime))}-${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(widget.hospitality.daysInfo.first.endTime))}'
-                        : '${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(widget.hospitality.daysInfo.first.startTime))}-${DateFormat('hh:mm a', 'en_US').format(DateTime.parse(widget.hospitality.daysInfo.first.endTime))}',
-                    image: "assets/icons/Time.svg"),
+                    title: 
+             '${ AppUtil.formatTimeWithLocale(context, widget.hospitality.daysInfo.first.startTime,'hh:mm a')} - ${AppUtil.formatTimeWithLocale(context,widget.hospitality.daysInfo.first.startTime,'hh:mm a')} ',
+
+                   
+                   
+                    image: "assets/icons/timeGrey.svg"),
+
                 ReviewDetailsTile(
                     title: AppUtil.rtlDirection2(context)
                         ? widget.hospitality.mealTypeAr
-                        : widget.hospitality.mealTypeEn,
+                        : AppUtil.capitalizeFirstLetter( widget.hospitality.mealTypeEn),
                     image: 'assets/icons/meal.svg'),
                 SizedBox(
                   height: width * 0.061,
@@ -150,14 +152,9 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                 ),
                 CustomText(
                   color: almostGrey,
-                  fontSize: width * 0.038,
-                  fontWeight: FontWeight.w400,
-                  fontFamily: "SF Pro",
-                  text: DateFormat('d MMMM y').format(
-                    DateTime.parse(
-                      widget.servicesController.selectedDate.value,
-                    ),
-                  ),
+                   text: AppUtil.formatBookingDate(context,
+                      widget.servicesController.selectedDate.value),
+
                   // text: DateFormat('d MMMM y').format(
                   //   DateTime.parse(
                   //     widget.servicesController.selectedDate.value,

@@ -97,6 +97,7 @@ class HostTicketData extends StatelessWidget {
                               height: 0,
                             ),
                           ),
+
                           const SizedBox(height: 5),
                           Text(
                             hospitality == null
@@ -284,62 +285,42 @@ class HostTicketData extends StatelessWidget {
         // SizedBox(height: 30),
         // Divider(),
 
-        //  Link(
-        //   uri: Uri.parse('http://flutter.dev'),
 
-        //    builder: (context,followlink)=>GestureDetector(
-        //    onTap: followlink,
-        //     child: Text("open link"),
-        //    )
-        const SizedBox(height: 25),
-        Container(
-          width: double.infinity,
-          child: GestureDetector(
-            onTap: () async {
-              final Uri url = hospitality == null
-                  ? Uri.parse(booking!.hospitality?.location ?? '')
-                  : Uri.parse(hospitality!.location ?? '');
-              if (await canLaunchUrl(url)) {
-                await launchUrl(url, mode: LaunchMode.externalApplication);
-              } else {
-                throw 'Could not launch $url';
-              }
-              // String query = Uri.encodeComponent('https://maps.app.goo.gl/Z4kmkh5ikW31NacQA');
-              //  String googleUrl = "https://www.google.com/maps/search/?api=1&query=$query";
+         const SizedBox(height: 25),
+              Container(
+                width: double.infinity,
+                child: GestureDetector(
+                  onTap: () async {
+                    
+                    final Uri url = hospitality==null?Uri.parse( booking!.hospitality?.location??''):Uri.parse(hospitality!.location??'');
+                    if (await canLaunchUrl(url)) {
+                      await launchUrl(url, mode: LaunchMode.externalApplication);
+                    } else {
+                      throw 'Could not launch $url';
+                    }
+                   
 
-              // if (await canLaunchUrl(googleUrl)) {
-              //      await launchUrl(googleUrl);
-              //         }
+                  },
+                  child: Text(
+                    AppUtil.rtlDirection2(context) ? "الموقع" : 'Location',
+                    style: TextStyle(
+                         color: Color(0xFF37B268),
+                        fontSize: 18,
+                    fontFamily: 'SF Pro',
+                      fontWeight: FontWeight.w600,
+                      height: 0,
+                       
+                      decoration: TextDecoration.underline,
+                    ),
+                    
+                  ),
+                ),
+         
+         
+         ),
 
-//                      String googleUrl =
-//                  'comgooglemaps://?center= Z4kmkh5ikW31NacQA;
-//                 String appleUrl =
-//                  'https://maps.apple.com/?sll=${trip.origLocationObj.lat},${trip.origLocationObj.lon}';
-//                 if (await canLaunchUrl("comgooglemaps://")) {
-//                    print('launching com googleUrl');
-//                     await launchUrl(googleUrl);
-//                   } else if (await canLaunch(appleUrl)) {
-//                     print('launching apple url');
-//                        await launchUrl(appleUrl);
-//                            } else {
-//                         throw 'Could not launch url';
-//                        }
-// }
-//                   },
-            },
-            child: Text(
-              AppUtil.rtlDirection2(context) ? "الموقع" : 'Location',
-              style: TextStyle(
-                color: Color(0xFF37B268),
-                fontSize: 18,
-                fontFamily: 'SF Pro',
-                fontWeight: FontWeight.w600,
-                height: 0,
-                decoration: TextDecoration.underline,
-              ),
-            ),
-          ),
-        ),
+
+
       ],
     );
   }

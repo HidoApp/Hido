@@ -179,6 +179,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                                 rememberMe: true,
                                                 context: context);
 
+
                                         print('logged $user');
 
                                         if (user != null) {

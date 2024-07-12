@@ -171,7 +171,7 @@ class _HospitalityTabState extends State<HospitalityTab> {
                               image: _srvicesController
                                   .hospitalityList[index].images.first,
                               personImage: _srvicesController
-                                  .hospitalityList[index].familyImage,
+                                  .hospitalityList[index].user.profile.image,
                               title: !AppUtil.rtlDirection(context)
                                   ? _srvicesController
                                       .hospitalityList[index].titleAr
@@ -186,8 +186,8 @@ class _HospitalityTabState extends State<HospitalityTab> {
                               meal: !AppUtil.rtlDirection(context)
                                   ? _srvicesController
                                       .hospitalityList[index].mealTypeAr
-                                  : _srvicesController
-                                      .hospitalityList[index].mealTypeEn,
+                                  :AppUtil.capitalizeFirstLetter( _srvicesController
+                                      .hospitalityList[index].mealTypeEn),
                               category: AppUtil.rtlDirection(context)
                                   ? _srvicesController
                                       .hospitalityList[index].categoryAr
@@ -196,6 +196,7 @@ class _HospitalityTabState extends State<HospitalityTab> {
                               rate: '4.7',
                               dayInfo: _srvicesController
                                   .hospitalityList[index].daysInfo,
+                           
                             );
                           },
                           separatorBuilder: (context, index) {

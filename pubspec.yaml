@@ -86,10 +86,11 @@ dependencies:
   timeago: ^3.6.1
   video_player: ^2.8.5
   lottie: ^2.6.0
+  step_progress_indicator: ^1.0.2
+  animated_text_kit: ^4.2.1
   pinput: ^5.0.0
   timer_count_down: ^2.2.2
   iban: ^1.0.1
-  step_progress_indicator: ^1.0.2
 
 dev_dependencies:
   flutter_test:
@@ -133,6 +134,14 @@ flutter:
     - assets/onboarding_2_ar.json
     - assets/onboarding_3_ar.json
     - assets/onboarding_4_ar.json
+    - assets/onboarding_444.json
+    - assets/onboarding_2_neww.json
+    - assets/onboarding_222_Ar.json
+    - assets/onboarding_55555.json
+    - assets/splash_screen.json
+    - assets/splash_screen_new.json
+
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -158,5 +167,8 @@ flutter:
       fonts:
         - asset: assets/fonts/rakik/HTRakik-Light_2.otf
         - asset: assets/fonts/rakik/HTRakik-Medium.otf
+    - family: 'SF Arabic'
+      fonts:
+        - asset: assets/fonts/SF Arabic - [UrduFonts.com].ttf
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
