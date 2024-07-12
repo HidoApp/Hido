@@ -10,7 +10,6 @@ class ExperienceCard extends StatelessWidget {
   final String subtitle;
   final VoidCallback? onTap;
 
-
   const ExperienceCard({
     Key? key,
     required this.title,
@@ -22,7 +21,7 @@ class ExperienceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        onTap: onTap,
+      onTap: onTap,
       child: Container(
         width: double.infinity,
         height: 110,
@@ -35,7 +34,7 @@ class ExperienceCard extends StatelessWidget {
           ),
           shadows: [
             BoxShadow(
-              color: shadowColor ,
+              color: shadowColor,
               blurRadius: 15,
               offset: Offset(0, 0),
               spreadRadius: 0,
@@ -57,7 +56,8 @@ class ExperienceCard extends StatelessWidget {
                   Container(
                     width: 24,
                     height: 24,
-                    child: SvgPicture.asset('assets/icons/$iconPath.svg'), // Use SvgPicture for SVG icons
+                    child: SvgPicture.asset(
+                        'assets/icons/$iconPath.svg'), // Use SvgPicture for SVG icons
                   ),
                   const SizedBox(width: 16),
                   Expanded(
@@ -71,11 +71,11 @@ class ExperienceCard extends StatelessWidget {
                             width: double.infinity,
                             height: 22,
                             child: Padding(
-                              padding: const EdgeInsets.only(top:10),
+                              padding: const EdgeInsets.only(top: 10),
                               child: Text(
                                 title,
                                 style: TextStyle(
-                                  color: black ,
+                                  color: black,
                                   fontSize: 17,
                                   fontFamily: 'HT Rakik',
                                   fontWeight: FontWeight.w500,

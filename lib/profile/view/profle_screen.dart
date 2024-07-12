@@ -131,10 +131,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 children: [
                                   CustomText(
                                     text: widget.fromAjwady
-                                        ? "Ajwady   | ${_profileController.isProfileLoading.value ? "" : _profileController.profile.rating}  "
-                                        : "Tourist   | ${_profileController.isProfileLoading.value ? "" : _profileController.profile.rating ?? "0"}  ",
+                                        ? "${"locla".tr}   | ${_profileController.isProfileLoading.value ? "" : _profileController.profile.rating}  "
+                                        : "${"tourist".tr}   | ${_profileController.isProfileLoading.value ? "" : _profileController.profile.rating ?? "0"}  ",
                                     color: colorDarkGrey,
-                                    fontSize: 12,
+                                    fontSize: width * 0.03,
                                     fontWeight: FontWeight.w500,
                                   ),
                                   SvgPicture.asset("assets/icons/star.svg")
@@ -153,10 +153,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       profileController: _profileController,
                                     ));
                               },
-                              child: const Icon(
+                              child: Icon(
                                 Icons.arrow_forward_ios_rounded,
-                                color: Color(0xFF454545),
-                                size: 18,
+                                color: const Color(0xff070708),
+                                size: width * 0.046,
                               ),
                             ),
                           ),
@@ -181,7 +181,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ));
                             },
                           ),
-
                           if (!widget.fromAjwady)
                             CustomListTile(
                               title: "myTickets".tr,
@@ -283,7 +282,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 AuthService.logOut();
                                                 Get.offAll(() =>
                                                     const OnboardingScreen());
-                                                
                                               },
                                             ),
                                           ),

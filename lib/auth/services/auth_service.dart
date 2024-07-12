@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/auth/models/ajwadi_info.dart';
@@ -7,6 +8,8 @@ import 'package:ajwad_v4/auth/models/user.dart';
 import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/constants/base_url.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 import 'package:flutter/material.dart';
@@ -157,6 +160,42 @@ class AuthService {
     }
   }
 
+  static Future<bool> signUpWithRowad(
+      {required BuildContext context,
+      required String nationalId,
+      required String otp,
+      required String birthDate}) async {
+    final response = await http.post(
+        Uri.parse('$baseUrl/user/sign-up-with-rowad/$otp').replace(
+          queryParameters: {'otp': otp},
+        ),
+        headers: {
+          'Accept': 'application/json',
+          "Content-Type": "application/json"
+        },
+        body:
+            json.encode({'birthDate': birthDate, 'nationalityId': nationalId}));
+    if (response.statusCode == 200) {
+      final getStorage = GetStorage();
+
+      final String accessToken;
+      accessToken = jsonDecode(response.body)['accessToken'];
+      final String refreshToken;
+      refreshToken = jsonDecode(response.body)['refreshToken'];
+
+      getStorage.write('accessToken', accessToken);
+      getStorage.write('refreshToken', refreshToken);
+      return true;
+    } else {
+      var jsonBody = jsonDecode(response.body);
+      String errorMessage = jsonBody['message'];
+      log(response.statusCode.toString());
+      log(errorMessage);
+      AppUtil.errorToast(context, errorMessage);
+      return false;
+    }
+  }
+
   // 4 Registeration with Rowad
   static Future<bool> registerWithRowad({
     required String otp,
@@ -204,6 +243,59 @@ class AuthService {
 
     print("isSuccess SERVICE ${response.statusCode}");
 
+    if (response.statusCode == 200) {
+      final getStorage = GetStorage();
+
+      final String accessToken;
+      accessToken = jsonDecode(response.body)['accessToken'];
+      final String refreshToken;
+      refreshToken = jsonDecode(response.body)['refreshToken'];
+
+      getStorage.write('accessToken', accessToken);
+      getStorage.write('refreshToken', refreshToken);
+      return true;
+    } else {
+      var jsonBody = jsonDecode(response.body);
+      String errorMessage = jsonBody['message'];
+      AppUtil.errorToast(context, errorMessage);
+      return false;
+    }
+  }
+
+  static Future<bool> createAccountInfo({
+    required BuildContext context,
+    required String email,
+    required String phoneNumber,
+    required String iban,
+    required String type,
+  }) async {
+    final getStorage = GetStorage();
+    String token = getStorage.read('accessToken') ?? "";
+    if (token != '' && JwtDecoder.isExpired(token)) {
+      final authController = Get.put(AuthController());
+
+      String refreshToken = getStorage.read('refreshToken');
+      var user = await authController.refreshToken(
+          refreshToken: refreshToken, context: context);
+      token = getStorage.read('accessToken');
+    }
+    final response = await http.put(
+      Uri.parse('$baseUrl/user/account'),
+      headers: {
+        'Accept': 'application/json',
+        "Content-Type": "application/json",
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode({
+        'email': email,
+        'phoneNumber': phoneNumber.substring(1),
+        'iban': iban,
+        'accountType': type
+      }),
+    );
+    log('crearte account');
+    log(response.body);
+    log(response.statusCode.toString());
     if (response.statusCode == 200) {
       final getStorage = GetStorage();
 
@@ -462,27 +554,26 @@ class AuthService {
 // 8 Send OTP to phone for driving linces
 
   static Future<bool> drivingLinceseOTP({
-    required String nationalID,
-    required String birthDate,
     required BuildContext context,
   }) async {
-    print(birthDate);
-    print(nationalID);
+    final getStorage = GetStorage();
+    String token = getStorage.read('accessToken') ?? "";
 
+    if (JwtDecoder.isExpired(token)) {
+      final _authController = Get.put(AuthController());
+
+      String refreshToken = getStorage.read('refreshToken');
+      var user = await _authController.refreshToken(
+          refreshToken: refreshToken, context: context);
+      token = getStorage.read('accessToken');
+    }
     final response = await http.post(
-        Uri.parse('$baseUrl/rowad/otp/driving-license')
-            .replace(queryParameters: {
-          'birthDate': birthDate.trim(),
-          'personId': nationalID.trim(),
-        }),
-        headers: {
-          'Accept': 'application/json',
-          "Content-Type": "application/json",
-        },
-        body: json.encode({
-          'birthDate': birthDate.trim(),
-          'personId': nationalID.trim(),
-        }));
+      Uri.parse('$baseUrl/rowad/otp/driving-license'),
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
 
     print("response.statusCode");
     print(response.statusCode);
@@ -502,23 +593,29 @@ class AuthService {
 
 // 9 Send OTP to phone for Vichele
   static Future<bool> vehicleOTP({
-    required String nationalID,
     required String vehicleSerialNumber,
     required BuildContext context,
   }) async {
+    final getStorage = GetStorage();
+    String token = getStorage.read('accessToken') ?? "";
+
+    if (JwtDecoder.isExpired(token)) {
+      final _authController = Get.put(AuthController());
+
+      String refreshToken = getStorage.read('refreshToken');
+      var user = await _authController.refreshToken(
+          refreshToken: refreshToken, context: context);
+      token = getStorage.read('accessToken');
+    }
     final response = await http.post(
-        Uri.parse('$baseUrl/rowad/otp/vehicle').replace(queryParameters: {
-          'vehicleSerialNumber': vehicleSerialNumber.trim(),
-          'personId': nationalID.trim(),
-        }),
-        headers: {
-          'Accept': 'application/json',
-          "Content-Type": "application/json"
-        },
-        body: json.encode({
-          'vehicleSerialNumber': vehicleSerialNumber.trim(),
-          'personId': nationalID.trim(),
-        }));
+      Uri.parse('$baseUrl/rowad/otp/vehicle').replace(queryParameters: {
+        'vehicleSerialNumber': vehicleSerialNumber.trim(),
+      }),
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
 
     print("response.statusCode");
     print(response.statusCode);
@@ -538,29 +635,30 @@ class AuthService {
 
   // 10 get lincese info for ajwadi
   static Future<bool> getAjwadiLinceseInfo({
-    required String nationalID,
     required String expiryDate,
     required String otp,
-    required String accessToken,
     required BuildContext context,
   }) async {
-    print("SERVICE ACSEESS TOKEN : $accessToken");
+    final getStorage = GetStorage();
+    String token = getStorage.read('accessToken') ?? "";
+    if (token != '' && JwtDecoder.isExpired(token)) {
+      final authController = Get.put(AuthController());
 
-    print(expiryDate);
-    print(otp);
-    print(nationalID);
-
+      String refreshToken = getStorage.read('refreshToken');
+      var user = await authController.refreshToken(
+          refreshToken: refreshToken, context: context);
+      token = getStorage.read('accessToken');
+    }
     final response = await http.get(
-      Uri.parse('$baseUrl/local/driving-license/$otp/$nationalID/$expiryDate')
+      Uri.parse('$baseUrl/local/driving-license/$otp/$expiryDate')
           .replace(queryParameters: {
-        'otp': otp.trim(),
-        'personId': nationalID.trim(),
+        'otp': otp,
         'expiryDate': expiryDate,
       }),
       headers: {
         'Accept': 'application/json',
         "Content-Type": "application/json",
-        'Authorization': ' Bearer $accessToken'
+        'Authorization': ' Bearer $token'
       },
     );
 
@@ -582,21 +680,27 @@ class AuthService {
 
   // 11 get lincese info for ajwadi
   static Future<bool> getAjwadiVehicleInfo({
-    required String nationalID,
     required String otp,
-    required String accessToken,
     required BuildContext context,
   }) async {
+    final getStorage = GetStorage();
+    String token = getStorage.read('accessToken') ?? "";
+    if (token != '' && JwtDecoder.isExpired(token)) {
+      final authController = Get.put(AuthController());
+
+      String refreshToken = getStorage.read('refreshToken');
+      var user = await authController.refreshToken(
+          refreshToken: refreshToken, context: context);
+      token = getStorage.read('accessToken');
+    }
     final response = await http.get(
-      Uri.parse('$baseUrl/local/vehicle/$otp/$nationalID')
-          .replace(queryParameters: {
+      Uri.parse('$baseUrl/local/vehicle/$otp').replace(queryParameters: {
         'otp': otp.trim(),
-        'personId': nationalID.trim(),
       }),
       headers: {
         'Accept': 'application/json',
         "Content-Type": "application/json",
-        'Authorization': ' Bearer $accessToken'
+        'Authorization': ' Bearer $token'
       },
     );
 
@@ -720,4 +824,5 @@ class AuthService {
       return false;
     }
   }
+  
 }

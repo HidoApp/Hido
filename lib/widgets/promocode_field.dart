@@ -26,6 +26,10 @@ class _PromocodeFieldState extends State<PromocodeField> {
           setState(() {
             isApplied = true;
           });
+        } else {
+          setState(() {
+            isApplied = false;
+          });
         }
       },
       suffixIcon: Padding(

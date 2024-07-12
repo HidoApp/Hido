@@ -255,6 +255,7 @@ class _ButtomProgressState extends State<ButtomProgress> {
     if (activeIndex == 0) {
       return
       hospitalityTitleControllerEn.text.isNotEmpty &&
+
           hospitalityBioControllerEn.text.isNotEmpty &&
           hospitalityTitleControllerAr.text.isNotEmpty &&
           hospitalityBioControllerAr.text.isNotEmpty;
@@ -1998,6 +1999,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                   widget
                                       .hospitalityController.selectedDate.value)
                               //formatSelectedDates(srvicesController.selectedDates,context)
+
                               // srvicesController.selectedDates.map((date) => intel.DateFormat('dd/MM/yyyy').format(date)).join(', ')
                               : 'DD/MM/YYYY'.tr,
                           fontWeight: FontWeight.w400,
@@ -2180,6 +2182,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                   // : intel.DateFormat('hh:mm a').format(
                                   //     widget.hospitalityController
                                   //         .selectedStartTime.value),
+
                                   fontWeight: FontWeight.w400,
                                   color: Graytext,
                                   fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
@@ -2367,7 +2370,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                   // : intel.DateFormat('hh:mm a').format(
                                   //     widget.hospitalityController
                                   //         .selectedEndTime.value),
-                                  fontWeight: FontWeight.w400,
+                               fontWeight: FontWeight.w400,
                                   color: Graytext,
                                   fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
                                   :'SF Pro',
@@ -2900,6 +2903,7 @@ String formatSelectedDates(RxList<dynamic> dates, BuildContext context) {
   dateTimeList.sort();
 
   final bool isArabic = AppUtil.rtlDirection2(context);
+
   final intel.DateFormat dayFormatter =
       intel.DateFormat('d', isArabic ? 'ar' : 'en');
   final intel.DateFormat monthYearFormatter =

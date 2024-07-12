@@ -1,5 +1,6 @@
 class Token {
   final String id; 
+
   final String? email;
   final String provided;
   final String userRole;
@@ -15,6 +16,7 @@ class Token {
     return Token(
       id: json['id'],
       email: json['email']?? '',
+
       provided: json['provided'],
       userRole: json['role'],
       iat: json['iat'],
@@ -25,7 +27,7 @@ class Token {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'email': email,
+      'email': email ?? "",
       'provided': provided,
       'role': userRole,
       'iat': iat,

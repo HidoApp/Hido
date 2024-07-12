@@ -5,6 +5,7 @@ import 'package:ajwad_v4/explore/tourist/service/tourist_explore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 
 class TouristExploreController extends GetxController {
   var selectedDate = ''.obs;
@@ -17,8 +18,9 @@ class TouristExploreController extends GetxController {
   var isPlaceNotLocked = true.obs;
   var isBookingLoading = false.obs;
   var isBookingByIdLoading = false.obs;
-
   var isTouristMapLoading = false.obs;
+  var timerSec = 300.obs;
+  var isTimerEnabled = true.obs;
   Rx<TouristMapModel?> touristModel = TouristMapModel().obs;
 
   Rx<LatLng> pickUpLocLatLang = const LatLng(24.9470921, 45.9903698).obs;

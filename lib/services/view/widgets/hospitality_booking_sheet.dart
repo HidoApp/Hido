@@ -56,81 +56,71 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
   bool showErrorGuests = false;
   bool showErrorDate = false;
   bool showErrorTime = false;
-  int seat=0;
+  bool showErrorMaxGuest = false;
+  int seat = 0;
   final String timeZoneName = 'Asia/Riyadh';
   late tz.Location location;
 
-
   bool isDateBeforeToday() {
-    DateTime hospitalityDate =
-    DateFormat('yyyy-MM-dd').parse( widget.serviceController.selectedDate.value);
-     tz.initializeTimeZones();
+    DateTime hospitalityDate = DateFormat('yyyy-MM-dd')
+        .parse(widget.serviceController.selectedDate.value);
+    tz.initializeTimeZones();
     location = tz.getLocation(timeZoneName);
 
-   DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
-   DateTime currentDate = DateTime(currentDateInRiyadh.year, currentDateInRiyadh.month, currentDateInRiyadh.day);
-  print(hospitalityDate.isBefore(currentDate));
-  print(hospitalityDate);
-  print(currentDate);
+    DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
+    DateTime currentDate = DateTime(currentDateInRiyadh.year,
+        currentDateInRiyadh.month, currentDateInRiyadh.day);
+    print(hospitalityDate.isBefore(currentDate));
+    print(hospitalityDate);
+    print(currentDate);
 
     return hospitalityDate.isBefore(currentDate);
   }
 
   bool isSameDay() {
-  
     tz.initializeTimeZones();
     location = tz.getLocation(timeZoneName);
 
     DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
-   //DateTime currentDate = DateTime(currentDateInRiyadh.year, currentDateInRiyadh.month, currentDateInRiyadh.day);
-    
-    
+    //DateTime currentDate = DateTime(currentDateInRiyadh.year, currentDateInRiyadh.month, currentDateInRiyadh.day);
+
     //DateTime selectedDate = DateTime.parse(widget.serviceController.selectedDate.value);
 
     // print(selectedDate);
     // print(currentDate);
     // ignore: unrelated_type_equality_checks
-   // print(selectedDate == currentDate);
+    // print(selectedDate == currentDate);
     // ignore: unrelated_type_equality_checks
     //return selectedDate== currentDate;
 
-    
-    DateTime selectedDate = DateTime.parse(widget.serviceController.selectedDate.value);
-  DateTime Date =
-    DateFormat('HH:mm').parse(DateFormat('hh:mm a', 'en_US').format(DateTime.parse(widget.hospitality!.daysInfo.first.startTime)));
+    DateTime selectedDate =
+        DateTime.parse(widget.serviceController.selectedDate.value);
+    DateTime Date = DateFormat('HH:mm').parse(DateFormat('hh:mm a', 'en_US')
+        .format(DateTime.parse(widget.hospitality!.daysInfo.first.startTime)));
 
-
-    DateTime hostStartDate = DateTime(selectedDate.year, selectedDate.month,selectedDate.day,Date.hour, Date.minute,Date.second);
-    
+    DateTime hostStartDate = DateTime(selectedDate.year, selectedDate.month,
+        selectedDate.day, Date.hour, Date.minute, Date.second);
 
     DateTime bookingDeadline = hostStartDate.subtract(Duration(hours: 24));
 
-
-    print (hostStartDate);
+    print(hostStartDate);
     print(currentDateInRiyadh);
     print(bookingDeadline);
 
     return bookingDeadline.isBefore(currentDateInRiyadh);
   }
 
-  bool getSeat (String availableDate) {
-  
-    
-    for(var date in widget.hospitality!.daysInfo){
-      if(date.startTime.substring(0, 10) == availableDate){
-
-        seat= date.seats;
-                  print('${availableDate} -> the avaliable seat in it -> ${seat}');
+  bool getSeat(String availableDate) {
+    for (var date in widget.hospitality!.daysInfo) {
+      if (date.startTime.substring(0, 10) == availableDate) {
+        seat = date.seats;
+        print('${availableDate} -> the avaliable seat in it -> ${seat}');
 
         return seat == 0;
-          
+      }
     }
-
-    }
-      return false;
-
-  
-}
+    return false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -169,246 +159,308 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
                                 height: width * 0.03,
                               ),
                               CustomText(
-                            text: "date".tr,
-                            color: Colors.black,
-                            fontSize: width * 0.035,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          SizedBox(
-                            height: height * 0.02,
-                          ),
-                          Align(
-                            alignment: AppUtil.rtlDirection(context)
-                                ? Alignment.centerLeft
-                                : Alignment.centerRight,
-                            child: CustomTextWithIconButton(
-                              onTap: () {
-                                print("object");
-                                setState(() {
-                                  selectedChoice = 3;
-                                });
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return CalenderDialog(
-                                        fromAjwady: false,
-                                        type: 'hospitality',
-                                        avilableDate: widget.avilableDate,
-                                        srvicesController:
-                                            widget.serviceController,
-                                        hospitality: widget.hospitality,
-
-                                      );
+                                text: "date".tr,
+                                color: Colors.black,
+                                fontSize: width * 0.035,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              SizedBox(
+                                height: height * 0.02,
+                              ),
+                              Align(
+                                alignment: AppUtil.rtlDirection(context)
+                                    ? Alignment.centerLeft
+                                    : Alignment.centerRight,
+                                child: CustomTextWithIconButton(
+                                  onTap: () {
+                                    print("object");
+                                    setState(() {
+                                      selectedChoice = 3;
                                     });
-                              },
-                              height: height * 0.06,
-                              width: double.infinity,
-                              title: widget.serviceController
-                                      .isHospatilityDateSelcted.value
-                                  ? widget.serviceController.selectedDate.value
-                                      .toString()
-                                      .substring(0, 10)
-                                  : 'mm/dd/yyy'.tr,
-                              borderColor: lightGreyColor,
-                              prefixIcon: SvgPicture.asset(
-                                'assets/icons/Time (2).svg',
-                                //  color: widget.color,
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return CalenderDialog(
+                                            fromAjwady: false,
+                                            type: 'hospitality',
+                                            avilableDate: widget.avilableDate,
+                                            srvicesController:
+                                                widget.serviceController,
+                                            hospitality: widget.hospitality,
+                                          );
+                                        });
+                                  },
+                                  height: height * 0.06,
+                                  width: double.infinity,
+                                  title: widget.serviceController
+                                          .isHospatilityDateSelcted.value
+                                      ? widget
+                                          .serviceController.selectedDate.value
+                                          .toString()
+                                          .substring(0, 10)
+                                      : 'mm/dd/yyy'.tr,
+                                  borderColor: lightGreyColor,
+                                  prefixIcon: SvgPicture.asset(
+                                    'assets/icons/Time (2).svg',
+                                    //  color: widget.color,
+                                  ),
+                                  suffixIcon: Icon(
+                                    Icons.arrow_forward_ios,
+                                    color: almostGrey,
+                                    size: width * 0.038,
+                                  ),
+                                  textColor: almostGrey,
+                                ),
                               ),
-                              suffixIcon: Icon(
-                                Icons.arrow_forward_ios,
-                                color: almostGrey,
-                                size: width * 0.038,
-                              ),
-                              textColor: almostGrey,
-                            ),
-                          ),
-                          if (showErrorDate)
+                              if (showErrorDate)
                                 Padding(
                                   padding: EdgeInsets.only(left: width * 0.038),
                                   child: Text(
-                                     AppUtil.rtlDirection2(context)? "لم تعد هناك مقاعد متاحة في هذا اليوم":'No avaliable seat in this date ',
+                                    AppUtil.rtlDirection2(context)
+                                        ? "لم تعد هناك مقاعد متاحة في هذا اليوم"
+                                        : 'No avaliable seat in this date ',
                                     style: TextStyle(
                                       color: Colors.red,
                                       fontSize: width * 0.03,
                                     ),
                                   ),
                                 ),
-                          SizedBox(
-                            height: height * 0.03,
-                          ),
+                              SizedBox(
+                                height: height * 0.03,
+                              ),
                               CustomText(
                                 text: "guests2".tr,
                                 color: Colors.black,
                                 fontSize: width * .035,
                                 fontWeight: FontWeight.w500,
                               ),
-                              Container(
-                                //male counter
-                                // height: width * 0.164,
-                                // width: width * 0.97,
-                               height: height * 0.06,
-                              width: double.infinity,
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: width * 0.038),
-                                margin: EdgeInsets.only(
-                                    top: height * 0.02, bottom: width * 0.012),
-                                decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.circular(width * 0.025),
-                                  border: Border.all(
-                                      color: showErrorGuests
-                                          ? Colors.red
-                                          : lightGreyColor,width: 2),
-                                ),
-                                child: Row(
-                                  children: [
-                                    CustomText(
-                                      text: "male".tr,
-                                      fontWeight: FontWeight.w200,
-                                      color: textGreyColor,
-                                    ),
-                                    const Spacer(),
-                                    // - button
-                                    GestureDetector(
-                                      onTap: () {
-                                        if (guestNum > 0 && maleGuestNum > 0) {
-                                          setState(() {
-                                            guestNum = guestNum - 1;
-                                            maleGuestNum = maleGuestNum - 1;
-                                            if (guestNum <= 10) {}
-                                          });
-                                        }
-                                      },
-                                      child: const Icon(
-                                          Icons.horizontal_rule_outlined,
-                                          color: darkGrey),
-                                    ),
-                                    SizedBox(
-                                      width: width * 0.038,
-                                    ),
-                                    CustomText(
-                                      text: maleGuestNum.toString(),
-                                      color: tileGreyColor,
-                                      fontSize: width * 0.046,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                    SizedBox(
-                                      width: width * 0.038,
-                                    ),
-                                    GestureDetector(
-                                        onTap: () {
-                                          if (guestNum <
-                                              widget
-                                                  .hospitality!
-                                                  .daysInfo[widget
-                                                      .serviceController
-                                                      .selectedDateIndex
-                                                      .value]
-                                                  .seats) {
-                                            setState(() {
-                                              guestNum = guestNum + 1;
-                                              maleGuestNum = maleGuestNum + 1;
-                                              showErrorGuests = false;
-                                            });
-                                          }
-                                        },
-                                        child: const Icon(Icons.add,
-                                            color: darkGrey)),
-                                  ],
-                                ),
-                              ),
-                              if (showErrorGuests)
-                                Padding(
-                                  padding: EdgeInsets.only(left: width * 0.038),
-                                  child: Text(
-                                     AppUtil.rtlDirection2(context)? "يجب أن تختار شخص على الأقل":'*You need to add at least one guest',
-                                    style: TextStyle(
-                                      color: Colors.red,
-                                      fontSize: width * 0.03,
-                                    ),
+                              if (widget.hospitality!.touristsGender ==
+                                      'BOTH' ||
+                                  widget.hospitality!.touristsGender == 'MALE')
+                                Container(
+                                  //male counter
+                                  // height: width * 0.164,
+                                  // width: width * 0.97,
+                                  height: height * 0.06,
+                                  width: double.infinity,
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: width * 0.038),
+                                  margin: EdgeInsets.only(
+                                      top: height * 0.02,
+                                      bottom: width * 0.012),
+                                  decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.circular(width * 0.025),
+                                    border: Border.all(
+                                        color: showErrorGuests
+                                            ? Colors.red
+                                            : lightGreyColor,
+                                        width: 2),
                                   ),
-                                ),
-                              Container(
-                                // female conuter
-                                // height: width * 0.164,
-                                // width: width * 0.97,
-                              height: height * 0.06,
-                              width: double.infinity,
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: width * 0.038),
-                                margin: EdgeInsets.only(
-                                    top: height * 0.02, bottom: width * 0.0128),
-                                decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.circular(width * 0.025),
-                                  border: Border.all(
-                                      color: showErrorGuests
-                                          ? colorRed
-                                          : lightGreyColor,width: 2),
-                                ),
-                                child: Row(
-                                  children: [
-                                    CustomText(
-                                      text: "female".tr,
-                                      fontWeight: FontWeight.w200,
-                                      color: textGreyColor,
-                                    ),
-                                    const Spacer(),
-                                    GestureDetector(
+
+                                  child: Row(
+                                    children: [
+                                      CustomText(
+                                        text: "male".tr,
+                                        fontWeight: FontWeight.w200,
+                                        color: textGreyColor,
+                                      ),
+                                      const Spacer(),
+                                      // - button
+                                      GestureDetector(
                                         onTap: () {
                                           if (guestNum > 0 &&
-                                              femaleGuestNum > 0) {
+                                              maleGuestNum > 0) {
                                             setState(() {
                                               guestNum = guestNum - 1;
-                                              femaleGuestNum =
-                                                  femaleGuestNum - 1;
+                                              maleGuestNum = maleGuestNum - 1;
                                               if (guestNum <= 10) {}
                                             });
                                           }
                                         },
                                         child: const Icon(
                                             Icons.horizontal_rule_outlined,
-                                            color: darkGrey)),
-                                    SizedBox(
-                                      width: width * 0.038,
-                                    ),
-                                    CustomText(
-                                      text: femaleGuestNum.toString(),
-                                      color: tileGreyColor,
-                                      fontSize: width * 0.046,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                    SizedBox(
-                                      width: width * 0.038,
-                                    ),
-                                    GestureDetector(
-                                        onTap: () {
-                                          if (guestNum <
-                                              widget
-                                                  .hospitality!
-                                                  .daysInfo[widget
-                                                      .serviceController
-                                                      .selectedDateIndex
-                                                      .value]
-                                                  .seats) {
-                                            setState(() {
-                                              guestNum = guestNum + 1;
-                                              femaleGuestNum =
-                                                  femaleGuestNum + 1;
-                                              showErrorGuests = false;
-                                            });
-                                          }
-                                        },
-                                        child: const Icon(Icons.add,
-                                            color: darkGrey)),
-                                  ],
+                                            color: darkGrey),
+                                      ),
+                                      SizedBox(
+                                        width: width * 0.038,
+                                      ),
+                                      CustomText(
+                                        text: maleGuestNum.toString(),
+                                        color: tileGreyColor,
+                                        fontSize: width * 0.046,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                      SizedBox(
+                                        width: width * 0.038,
+                                      ),
+                                      GestureDetector(
+                                          onTap: () {
+                                            if (guestNum <
+                                                widget
+                                                    .hospitality!
+                                                    .daysInfo[widget
+                                                        .serviceController
+                                                        .selectedDateIndex
+                                                        .value]
+                                                    .seats) {
+                                              setState(() {
+                                                guestNum = guestNum + 1;
+                                                maleGuestNum = maleGuestNum + 1;
+                                                showErrorGuests = false;
+                                              });
+                                            } else {
+                                              setState(
+                                                () => showErrorMaxGuest = true,
+                                              );
+                                            }
+                                          },
+                                          child: const Icon(Icons.add,
+                                              color: darkGrey)),
+                                    ],
+                                  ),
                                 ),
-                              ),
+                              if (widget.hospitality!.touristsGender ==
+                                      'BOTH' ||
+                                  widget.hospitality!.touristsGender == 'MALE')
+                                if (showErrorMaxGuest)
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.only(left: width * 0.038),
+                                    child: Text(
+                                      AppUtil.rtlDirection2(context)
+                                          ? "ليس هناك مقاعد متاحة أكثر من العدد الحالي"
+                                          : '*There are no more seats available than the current number',
+                                      style: TextStyle(
+                                        color: colorRed,
+                                        fontSize: width * 0.03,
+                                      ),
+                                    ),
+                                  ),
                               if (showErrorGuests)
                                 Padding(
                                   padding: EdgeInsets.only(left: width * 0.038),
                                   child: Text(
-                                     AppUtil.rtlDirection2(context)? "يجب أن تختار شخص على الأقل":'*You need to add at least one guest',
+                                    AppUtil.rtlDirection2(context)
+                                        ? "يجب أن تختار شخص على الأقل"
+                                        : '*You need to add at least one guest',
+                                    style: TextStyle(
+                                      color: colorRed,
+                                      fontSize: width * 0.03,
+                                    ),
+                                  ),
+                                ),
+                              if (widget.hospitality!.touristsGender ==
+                                      'BOTH' ||
+                                  widget.hospitality!.touristsGender ==
+                                      'FEMALE')
+                                Container(
+                                  // female conuter
+                                  // height: width * 0.164,
+                                  // width: width * 0.97,
+                                  height: height * 0.06,
+                                  width: double.infinity,
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: width * 0.038),
+                                  margin: EdgeInsets.only(
+                                      top: height * 0.02,
+                                      bottom: width * 0.0128),
+                                  decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.circular(width * 0.025),
+                                    border: Border.all(
+                                        color: showErrorGuests
+                                            ? colorRed
+                                            : lightGreyColor,
+                                        width: 2),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      CustomText(
+                                        text: "female".tr,
+                                        fontWeight: FontWeight.w200,
+                                        color: textGreyColor,
+                                      ),
+                                      const Spacer(),
+                                      GestureDetector(
+                                          onTap: () {
+                                            if (guestNum > 0 &&
+                                                femaleGuestNum > 0) {
+                                              setState(() {
+                                                guestNum = guestNum - 1;
+                                                femaleGuestNum =
+                                                    femaleGuestNum - 1;
+                                                if (guestNum <= 10) {}
+                                              });
+                                            }
+                                          },
+                                          child: const Icon(
+                                              Icons.horizontal_rule_outlined,
+                                              color: darkGrey)),
+                                      SizedBox(
+                                        width: width * 0.038,
+                                      ),
+                                      CustomText(
+                                        text: femaleGuestNum.toString(),
+                                        color: tileGreyColor,
+                                        fontSize: width * 0.046,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                      SizedBox(
+                                        width: width * 0.038,
+                                      ),
+                                      GestureDetector(
+                                          onTap: () {
+                                            if (guestNum <
+                                                widget
+                                                    .hospitality!
+                                                    .daysInfo[widget
+                                                        .serviceController
+                                                        .selectedDateIndex
+                                                        .value]
+                                                    .seats) {
+                                              setState(() {
+                                                guestNum = guestNum + 1;
+                                                femaleGuestNum =
+                                                    femaleGuestNum + 1;
+                                                showErrorGuests = false;
+                                              });
+                                            } else {
+                                              setState(
+                                                () => showErrorMaxGuest = true,
+                                              );
+                                            }
+                                          },
+                                          child: const Icon(Icons.add,
+                                              color: darkGrey)),
+                                    ],
+                                  ),
+                                ),
+                              if (widget.hospitality!.touristsGender ==
+                                      'BOTH' ||
+                                  widget.hospitality!.touristsGender ==
+                                      'FEMALE')
+                                if (showErrorMaxGuest)
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.only(left: width * 0.038),
+                                    child: Text(
+                                      AppUtil.rtlDirection2(context)
+                                          ? "ليس هناك مقاعد متاحة أكثر من العدد الحالي"
+                                          : '*There are no more seats available than the current number',
+                                      style: TextStyle(
+                                        color: colorRed,
+                                        fontSize: width * 0.03,
+                                      ),
+                                    ),
+                                  ),
+                              if (showErrorGuests)
+                                Padding(
+                                  padding: EdgeInsets.only(left: width * 0.038),
+                                  child: Text(
+                                    AppUtil.rtlDirection2(context)
+                                        ? "يجب أن تختار شخص على الأقل"
+                                        : '*You need to add at least one guest',
                                     style: TextStyle(
                                       color: Colors.red,
                                       fontSize: width * 0.03,
@@ -417,7 +469,7 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
                                 ),
                             ],
                           ),
-                      
+
                           SizedBox(
                             height: height * 0.03,
                           ),
@@ -436,17 +488,23 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
                                           .isHospatilityDateSelcted.value ==
                                       false) {
                                 setState(() => showErrorGuests = true);
-
-                              } else if(  
-                                getSeat( widget.serviceController.selectedDate.value.substring(0,10))){
-                                    setState(() => showErrorDate = true);
-                              
-                             } else if (isSameDay()) {
-                            AppUtil.errorToast(
-                                context,AppUtil.rtlDirection2(context)?"يجب أن تحجز قبل 24 ساعة ": "You must booking before 24 hours");
-                          } else if (isDateBeforeToday()) {
-                            AppUtil.errorToast(context, AppUtil.rtlDirection2(context)?"غير متاح": "not avalible ");
-                          } else {
+                              } else if (getSeat(widget
+                                  .serviceController.selectedDate.value
+                                  .substring(0, 10))) {
+                                setState(() => showErrorDate = true);
+                              } else if (isSameDay()) {
+                                AppUtil.errorToast(
+                                    context,
+                                    AppUtil.rtlDirection2(context)
+                                        ? "يجب أن تحجز قبل 24 ساعة "
+                                        : "You must booking before 24 hours");
+                              } else if (isDateBeforeToday()) {
+                                AppUtil.errorToast(
+                                    context,
+                                    AppUtil.rtlDirection2(context)
+                                        ? "غير متاح"
+                                        : "not avalible ");
+                              } else {
                                 Get.to(() => ReviewHospitalty(
                                     hospitality: widget.hospitality!,
                                     maleGuestNum: maleGuestNum,
@@ -1099,7 +1157,7 @@ class _ReservaationDetailsAdventureWidgetState
 
                                       // }
                                       // else {
-                                      
+
                                       if (guestNum != 0) {
                                         final isSuccess = await widget
                                             .serviceController

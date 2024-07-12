@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:ajwad_v4/auth/view/sigin_in/local_sign_in.dart';
 import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
@@ -91,6 +92,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                         : _currentIndex == 2
                         ? 5
                         : 75,
+
             top: _currentIndex == 0
                 ? 0
                 : null, // Conditionally remove the top value
@@ -108,6 +110,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                       )
                 
                 :Lottie.asset(
+
                     AppUtil.rtlDirection2(context)
                         ? tabs[_currentIndex].lottieFileAr
                         : tabs[_currentIndex].lottieFileEn,
@@ -136,6 +139,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                           // : 355
                     : height * 0.431,
                     //  :360, // Adjust this height to your desired value
+
               child: Column(
                 children: [
                   Flexible(
@@ -266,6 +270,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                       onPressed: () {
                         Get.to(() => SignInScreen());
                         // Get.off(() => AjwadiBottomBar());
+
                       },
                       raduis: 8,
                     ),
@@ -277,7 +282,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                     child: CustomButton(
                       title: 'localGuide'.tr,
                       onPressed: () {
-                        Get.to(() => SignInScreen());
+                        Get.to(() => const SignInScreen());
                       },
                       buttonColor: _currentIndex == 0
                           ? Color.fromARGB(0, 0, 0, 0)

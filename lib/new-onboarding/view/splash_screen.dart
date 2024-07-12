@@ -66,12 +66,14 @@ class _SplashScreenState extends State<SplashScreen>
     userRole = _getStorage.read('userRole') ?? '';
     token = _getStorage.read('accessToken') ?? '';
 
+
     if (onBoarding == 'yes') {
       return onBoarding;
     } else {
       return null;
     }
   }
+
 
   @override
   void initState() {
@@ -85,6 +87,7 @@ class _SplashScreenState extends State<SplashScreen>
       onBoarding = await checkForBoarding() ?? 'no';
       print('onBoarding: $onBoarding');
 
+
       if (onBoarding == 'yes' && token != '' && userRole == 'local') {
         if (JwtDecoder.isExpired(token)) {
           final String refreshToken = _getStorage.read('refreshToken');
@@ -95,6 +98,7 @@ class _SplashScreenState extends State<SplashScreen>
           }
         }
         Get.off(() => AjwadiBottomBar());
+
       } else if (onBoarding == 'yes' && token != '' && userRole == 'tourist') {
         if (JwtDecoder.isExpired(token)) {
           final String refreshToken = _getStorage.read('refreshToken');

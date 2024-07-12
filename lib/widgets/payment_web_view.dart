@@ -26,66 +26,66 @@ class _PaymentWebViewState extends State<PaymentWebView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: CustomAppBar(widget.title),
-        body: WebViewWidget(
-          controller: WebViewController()
-            ..setJavaScriptMode(JavaScriptMode.unrestricted)
-            ..setBackgroundColor(const Color.fromARGB(0, 255, 254, 254))
-            ..setNavigationDelegate(
-              NavigationDelegate(
-                onProgress: (int progress) {},
-                onPageStarted: (String url) {},
-                onPageFinished: (String url) {},
-                onWebResourceError: (WebResourceError error) {},
-                onNavigationRequest: (NavigationRequest request) async {
-                  
-                  // log("request \n ${request.url} \n --------------------->");
-                  // if (request.url.contains("status=paid")) {
-                  //   // log("offerController.offerDetails.value.id! ${offerController.offerDetails.value.id!}");
-                  //   // log(" offerController.offerDetails.value.schedule! ${offerController.offerDetails.value.schedule!.length}");
-                  //   // try {
-                  //   //   AcceptedOffer? acceptedOffer =
-                  //   //       await offerController.acceptOffer(
-                  //   //           context: context,
-                  //   //           offerId: offerController.offerDetails.value.id!,
-                  //   //           schedules:
-                  //   //               offerController.offerDetails.value.schedule!);
-                  //   //   if (context.mounted && acceptedOffer != null) {
-                  //   //     log("acceptedOffer ${acceptedOffer.orderStatus}");
-                  //   //     log("offerController.offerDetails.value.id! ${offerController.offerDetails.value.id!}");
-                  //   //     OfferDetails? offerDetails =
-                  //   //         await offerController.getOfferById(
-                  //   //             context: context,
-                  //   //             offerId:
-                  //   //                 offerController.offerDetails.value.id!);
-                  //   //     if (offerDetails != null) {
-                  //   //       log("offerDetails.booking!.chatId! ${offerDetails.booking!.chatId!}");
-                  //   //       log("offerController.offerDetails.value.booking! ${offerController.offerDetails.value.booking!}");
-                  //   //       Get.to(() => ChatScreenLive(
-                  //   //             chatId: offerDetails.booking!.chatId!,
-                  //   //             booking:
-                  //   //                 offerController.offerDetails.value.booking!,
-                  //   //             isAjwadi: false,
-                  //   //           ));
-                  //   //     }
-                  //   //   }
-                  //   // } catch (e) {
-                  //   //   log("e $e");
-                  //   // }
-                  //   Get.back();
-                  //   Get.back();
-                  //   Get.back();
-                  //   Get.back();
-                  //   Get.back();
-                  // }
+      appBar: CustomAppBar(widget.title),
+      body: WebViewWidget(
+        controller: WebViewController()
+          ..setJavaScriptMode(JavaScriptMode.unrestricted)
+          ..setBackgroundColor(const Color.fromARGB(0, 255, 254, 254))
+          ..setNavigationDelegate(
+            NavigationDelegate(
+              onProgress: (int progress) {},
+              onPageStarted: (String url) {},
+              onPageFinished: (String url) {},
+              onWebResourceError: (WebResourceError error) {},
+              onNavigationRequest: (NavigationRequest request) async {
+                // log("request \n ${request.url} \n --------------------->");
+                // if (request.url.contains("status=paid")) {
+                //   // log("offerController.offerDetails.value.id! ${offerController.offerDetails.value.id!}");
+                //   // log(" offerController.offerDetails.value.schedule! ${offerController.offerDetails.value.schedule!.length}");
+                //   // try {
+                //   //   AcceptedOffer? acceptedOffer =
+                //   //       await offerController.acceptOffer(
+                //   //           context: context,
+                //   //           offerId: offerController.offerDetails.value.id!,
+                //   //           schedules:
+                //   //               offerController.offerDetails.value.schedule!);
+                //   //   if (context.mounted && acceptedOffer != null) {
+                //   //     log("acceptedOffer ${acceptedOffer.orderStatus}");
+                //   //     log("offerController.offerDetails.value.id! ${offerController.offerDetails.value.id!}");
+                //   //     OfferDetails? offerDetails =
+                //   //         await offerController.getOfferById(
+                //   //             context: context,
+                //   //             offerId:
+                //   //                 offerController.offerDetails.value.id!);
+                //   //     if (offerDetails != null) {
+                //   //       log("offerDetails.booking!.chatId! ${offerDetails.booking!.chatId!}");
+                //   //       log("offerController.offerDetails.value.booking! ${offerController.offerDetails.value.booking!}");
+                //   //       Get.to(() => ChatScreenLive(
+                //   //             chatId: offerDetails.booking!.chatId!,
+                //   //             booking:
+                //   //                 offerController.offerDetails.value.booking!,
+                //   //             isAjwadi: false,
+                //   //           ));
+                //   //     }
+                //   //   }
+                //   // } catch (e) {
+                //   //   log("e $e");
+                //   // }
+                //   Get.back();
+                //   Get.back();
+                //   Get.back();
+                //   Get.back();
+                //   Get.back();
+                // }
 
-                  return NavigationDecision.navigate;
-                },
-                onUrlChange: (change) {},
-              ),
-            )
-            ..loadRequest(Uri.parse(widget.url)),
-        ));
+                return NavigationDecision.navigate;
+              },
+              onUrlChange: (change) {},
+            ),
+          )
+          ..loadRequest(Uri.parse(widget.url)),
+      ),
+    );
   }
 }
 

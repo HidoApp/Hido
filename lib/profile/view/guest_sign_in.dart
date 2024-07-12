@@ -53,7 +53,7 @@ class _GuestSignInScreenState extends State<GuestSignInScreen> {
                   height: width * 0.107,
                   onPressed: () {
                     // Get.offAll(() => AccountTypeScreen());
-                   Get.offAll(() => OnboardingScreen());
+                    Get.offAll(() => OnboardingScreen());
 
                     Get.to(
                         () => RegisterScreen(authController: _authController));
@@ -69,8 +69,8 @@ class _GuestSignInScreenState extends State<GuestSignInScreen> {
               Center(
                 child: InkWell(
                   onTap: () {
-                   // Get.offAll(() => const AccountTypeScreen());
-                   Get.offAll(() => OnboardingScreen());
+                    // Get.offAll(() => const AccountTypeScreen());
+                    Get.offAll(() => OnboardingScreen());
                     Get.to(
                       () => const AjwadiRegisterScreen(),
                     );

@@ -21,6 +21,19 @@ class AppUtil {
     return Get.locale?.languageCode == 'ar';
   }
 
+  static bool validateBirthday(String birthday) {
+    try {
+      // Parse the date string
+      DateTime parsedDate = DateTime.parse(birthday);
+
+      // Check if the year is the current year or before
+      return parsedDate.year <= DateTime.now().year;
+    } on FormatException {
+      // Invalid format
+      return false;
+    }
+  }
+
   static bool isEmailValidate(email) {
     return RegExp(
             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
@@ -203,29 +216,30 @@ static String getLocationUrl(Coordinate location) {
       //  borderRadius:BorderRadius?.all(Radius.circular(12))
     ).show(context);
   }
- static String getBookingTypeText(BuildContext context, String bookingType) {
-  if (AppUtil.rtlDirection2(context)) {
-    switch (bookingType) {
-      case 'place':
-        return 'جولة';
-      case 'adventure':
-        return 'مغامرة';
-      case 'hospitality':
-        return 'ضيافة';
-      case 'event':
-        return 'فعالية';
-      default:
-        return bookingType; 
+
+  static String getBookingTypeText(BuildContext context, String bookingType) {
+    if (AppUtil.rtlDirection2(context)) {
+      switch (bookingType) {
+        case 'place':
+          return 'جولة';
+        case 'adventure':
+          return 'مغامرة';
+        case 'hospitality':
+          return 'ضيافة';
+        case 'event':
+          return 'فعالية';
+        default:
+          return bookingType;
+      }
+    } else {
+      if (bookingType == 'place') {
+        return "Tour";
+      } else {
+        return bookingType;
+      }
     }
-  } else {
-    if(bookingType=='place'){
-      return "Tour";
-    }
-    else{
-    return bookingType; 
-    }
-}
-}
+  }
+
   static errorToast(context, msg) {
     Flushbar(
             messageText: Row(
@@ -256,5 +270,12 @@ static String getLocationUrl(Coordinate location) {
             )
         .show(context);
   }
-  
+
+  static String countdwonFormat(double seconds) {
+    Duration duration = Duration(seconds: seconds.toInt());
+    String twoDigits(int n) => n.toString().padLeft(2, '0');
+    String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
+    String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
+    return "$twoDigitMinutes:$twoDigitSeconds ";
+  }
 }
