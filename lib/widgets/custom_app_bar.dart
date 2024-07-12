@@ -33,65 +33,28 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   final Size preferredSize;
 
-  @override
+ @override
   Widget build(BuildContext context) {
     return PreferredSize(
-      preferredSize: const Size.fromHeight(79.0),
-      child: Directionality(
-        textDirection: AppUtil.rtlDirection2(context)
-            ? TextDirection.rtl
-            : TextDirection.ltr,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 0),
-          child: AppBar(
-            forceMaterialTransparency: true,
+        preferredSize: const Size.fromHeight(79.0),
+        child: Directionality(
+            textDirection: AppUtil.rtlDirection2(context)
+                ? TextDirection.rtl
+                : TextDirection.ltr,
+            child: Padding(
+                padding: const EdgeInsets.only(top: 0),
+                child: AppBar(
+                  forceMaterialTransparency: true,
 
-            backgroundColor: backgroundColor ?? Colors.transparent,
-            elevation: 0,
-            title: Padding(
-              padding: AppUtil.rtlDirection2(context)
-                  ? !isAjwadi
-                      ? EdgeInsets.only(top: 0, left: 0, right: 0, bottom: 18)
-                      : EdgeInsets.only(top: 12, left: 0, right: 0, bottom: 0)
-                  : !isAjwadi
-                      ? EdgeInsets.only(top: 0, left: 20, right: 20, bottom: 18)
-                      : EdgeInsets.only(top: 16, left: 0, right: 0, bottom: 20),
-              child: CustomText(
-                text: title,
-                color: color ?? black,
-                fontWeight: FontWeight.w500,
-                fontSize: 17,
-                fontFamily: 'HT Rakik',
-              ),
-            ),
-            actions: <Widget>[
-              if (action)
-                Padding(
-                  padding: AppUtil.rtlDirection2(context)
-                      ? EdgeInsets.only(
-                          bottom: 35,
-                          left: 15,
-                        )
-                      : EdgeInsets.only(bottom: 35, right: 15),
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.more_vert,
-                      size: 29,
-                      color: color ?? Colors.black,
-                    ),
-                    tooltip: "more",
-                    onPressed: onPressedAction,
-                  ),
-                ),
-            ], //
-            centerTitle: true,
-
-            leading: !isBack
-                ? Padding(
+                  backgroundColor: backgroundColor ?? Colors.transparent,
+                  elevation: 0,
+                  title: Padding(
                     padding: AppUtil.rtlDirection2(context)
                         ? !isAjwadi
-                            ? EdgeInsets.only(bottom: 23, right: 30)
-                            : EdgeInsets.only(bottom: 23, left: 30)
+                            ? EdgeInsets.only(
+                                top: 0, left: 0, right: 0, bottom: 18)
+                            : EdgeInsets.only(
+                                top: 12, left: 0, right: 0, bottom: 0)
                         : !isAjwadi
                             ? EdgeInsets.only(
                                 top: 0, left: 20, right: 20, bottom: 18)
@@ -176,6 +139,5 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                         )
                       : Text(''),
                 ))));
-
   }
 }

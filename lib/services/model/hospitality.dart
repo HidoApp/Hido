@@ -48,7 +48,6 @@ class Hospitality {
       required this.titleAr,
       required this.titleEn,
       required this.email,
-      this.touristsGender,
      // required this.familyName,
       required this.images,
      // required this.familyImage,
