@@ -192,29 +192,15 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           color: Color(0xFF36B268),
-                                          fontSize: 22,
+                                          fontSize: width*0.055,
+
                                           fontFamily: 'HT Rakik',
                                           fontWeight: FontWeight.w500,
                                         ),
                                       ),
                                     ),
                             ),
-                            //  const SizedBox(height: 16),
-                            // Text(
-                            //   tab.subtitle,
-                            //   style: const TextStyle(
-                            //     fontSize: 17.0,
-                            //     color: Colors.white70,
-                            //   ),
-                            //   textAlign: TextAlign.center,
-                            // )
-                            //            Row(
-                            //   mainAxisSize: MainAxisSize.min,
-                            //   children: [
-                            //     for (int index = 0; index < tabs.length; index++)
-                            //       _DotIndicator(isSelected: index == _currentIndex),
-                            //   ],
-                            // ),
+                           
                           ],
                         );
                       },
