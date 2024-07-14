@@ -33,7 +33,8 @@ import '../../../widgets/custom_app_bar.dart';
 import '../controllers/trip_controller.dart';
 
 class LocalHomeScreen extends StatefulWidget {
-  const LocalHomeScreen({super.key, this.fromAjwady = true,required this.profileController});
+  const LocalHomeScreen(
+      {super.key, this.fromAjwady = true, required this.profileController});
   final ProfileController profileController;
 
   final bool fromAjwady;
@@ -48,8 +49,6 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
 
   final _profileController = Get.put(ProfileController());
   final _tripController = Get.put(TripController());
-
-  
 
   void getNextActivity() async {
     await _tripController.getNextActivity(context: context);
@@ -117,7 +116,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                                 width: 36,
                                 height: 24,
                                 alignment: Alignment.center,
-                                child:SvgPicture.asset(
+                                child: SvgPicture.asset(
                                     'assets/icons/Alerts_black.svg'),
                               ),
                             ),
@@ -131,7 +130,9 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                             text: TextSpan(
                               children: [
                                 TextSpan(
-                                  text:AppUtil.rtlDirection2(context)?"ياهلا": 'Welcome ',
+                                  text: AppUtil.rtlDirection2(context)
+                                      ? "ياهلا"
+                                      : 'Welcome ',
                                   style: TextStyle(
                                     color: Color.fromRGBO(7, 7, 8, 1),
                                     fontSize: 20,
@@ -145,7 +146,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                                   text: _profileController
                                           .isProfileLoading.value
                                       ? ""
-                                      :' ${_profileController.profile.name ?? ""}',
+                                      : ' ${_profileController.profile.name ?? ""}',
                                   style: TextStyle(
                                     color: Color(0xFF37B268),
                                     fontSize: 20,
@@ -160,7 +161,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                           )
                         ],
                       ),
-                       SizedBox(height: 1),
+                      SizedBox(height: 1),
                       Container(
                         width: double.infinity,
                         height: 168,
@@ -170,15 +171,15 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                           child: CustomWalletCard(),
                         ),
                       ),
-                    SizedBox(height: 25),
-
+                      SizedBox(height: 25),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        
                         children: [
                           Container(
                             child: Text(
-                             AppUtil.rtlDirection2(context)?"الخدمات المقدمة": 'Your services',
+                              AppUtil.rtlDirection2(context)
+                                  ? "الخدمات المقدمة"
+                                  : 'Your services',
                               style: TextStyle(
                                 color: Color(0xFF070708),
                                 fontSize: 17,
@@ -193,76 +194,83 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                           Row(
                             children: [
                               CategoryCard(
-                                title:  AppUtil.rtlDirection2(context)?"جولات ":'Tours',
+                                title: AppUtil.rtlDirection2(context)
+                                    ? "جولات "
+                                    : 'Tours',
                                 icon: 'tour_category',
                                 color: Color(0xFFECF9F1),
                                 onPressed: () {
-                                 Get.to(
-                                    () => LocalTicketScreen(
-                                     servicesController: Get.put(TripController()),
-                                     type: 'tour',
-                                    ),
-                                  );
-                                },
-                              ),
-                               SizedBox(width: 6),
-                          
-                              CategoryCard(
-                                  title:  AppUtil.rtlDirection2(context)?"استضافة":'Hospitality',
-                                  icon: 'host_category',
-                                  color: Color(0xFFF5F2F8),
-                                   onPressed: () {
                                   Get.to(
                                     () => LocalTicketScreen(
-                                     servicesController: Get.put(HospitalityController()),
-                                     type: 'hospitality',
+                                      servicesController:
+                                          Get.put(TripController()),
+                                      type: 'tour',
                                     ),
                                   );
                                 },
-                                  
-                                  ),
-                           
+                              ),
+                              SizedBox(width: 6),
+                              CategoryCard(
+                                title: AppUtil.rtlDirection2(context)
+                                    ? "استضافة"
+                                    : 'Hospitality',
+                                icon: 'host_category',
+                                color: Color(0xFFF5F2F8),
+                                onPressed: () {
+                                  Get.to(
+                                    () => LocalTicketScreen(
+                                      servicesController:
+                                          Get.put(HospitalityController()),
+                                      type: 'hospitality',
+                                    ),
+                                  );
+                                },
+                              ),
                             ],
                           ),
-                               SizedBox(height: 6),
-
-                              Row(
-                                children: [
-                                  CategoryCard(
-                                      title: AppUtil.rtlDirection2(context)?'مغامرات':'Adventure',
-                                      icon: 'adventure_category',
-                                      color: Color(0xFFF9F4EC),
-                                      onPressed: () {
-                                      Get.to(
-                                        () => LocalTicketScreen(
-                                         servicesController: Get.put(AdventureController()),
-                                         type: 'adventure',
-                                        ),
-                                      );
-                                    },
-                                  ),
-                            
-                                 SizedBox(width: 6),
-
-                                  CategoryCard(
-                                      title: AppUtil.rtlDirection2(context)?'فعاليات محلية':'Local Event',
-                                      icon: 'event_category',
-                                      color: Color(0xFFFEFDF1),
-                                      onPressed: () {
-                                      // Get.to(
-                                      //   () => 
-                                      //   LocalTicketScreen(
-                                      //    servicesController: Get.put(AdventureController()),
-                                      //    type: 'adventure',
-                                      //   ),
-                                      // );
-                                    },
-                                  ),
-                                ],
+                          SizedBox(height: 6),
+                          Row(
+                            children: [
+                              CategoryCard(
+                                title: AppUtil.rtlDirection2(context)
+                                    ? 'مغامرات'
+                                    : 'Adventure',
+                                icon: 'adventure_category',
+                                color: Color(0xFFF9F4EC),
+                                onPressed: () {
+                                  Get.to(
+                                    () => LocalTicketScreen(
+                                      servicesController:
+                                          Get.put(AdventureController()),
+                                      type: 'adventure',
+                                    ),
+                                  );
+                                },
                               ),
+                              SizedBox(width: 6),
+                              CategoryCard(
+                                title: AppUtil.rtlDirection2(context)
+                                    ? 'فعاليات محلية'
+                                    : 'Local Event',
+                                icon: 'event_category',
+                                color: Color(0xFFFEFDF1),
+                                onPressed: () {
+                                  // Get.to(
+                                  //   () =>
+                                  //   LocalTicketScreen(
+                                  //    servicesController: Get.put(AdventureController()),
+                                  //    type: 'adventure',
+                                  //   ),
+                                  // );
+                                },
+                              ),
+                            ],
+                          ),
                           SizedBox(height: 40),
                           Text(
-                            AppUtil.rtlDirection2(context)?"نشاطك القادم": 'Your next activity ',
+                            AppUtil.rtlDirection2(context)
+                                ? "نشاطك القادم"
+                                : 'Your next activity ',
                             style: TextStyle(
                               color: Color(0xFF070708),
                               fontSize: 17,
@@ -273,48 +281,48 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                             textDirection: TextDirection.ltr,
                           ),
                           SizedBox(height: 27),
-                                       Obx(
-                                     () =>
-                                         _tripController.isNextActivityLoading.value?
-                                         Center(child: CircularProgressIndicator.adaptive())
+                          Obx(
+                            () => _tripController.isNextActivityLoading.value
+                                ? Center(
+                                    child: CircularProgressIndicator.adaptive())
+                                : _tripController.nextTrip.isEmpty
+                                    ? Container(
+                                        width: double.infinity,
+                                        height: 135,
+                                        decoration: ShapeDecoration(
+                                          shape: RoundedRectangleBorder(
+                                            side: BorderSide(
+                                                width: 1.50,
+                                                color: Color(0xFFECECEE)),
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            'you don‘t have any activity yet',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              color: Color(0xFFDCDCE0),
+                                              fontSize: 16,
+                                              fontFamily: 'SF Pro',
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    : Column(
+                                        children: [
+                                          //  SizedBox(height: 11),
 
-                                         :  _tripController.nextTrip == [] ?
+                                          CustomLocalTicketCard(
+                                            nextTrip: _tripController.nextTrip,
+                                          ),
 
-                                         Container(
-                                               width: double.infinity,
-                                             height: 135,
-                                             decoration: ShapeDecoration(
-                                               shape: RoundedRectangleBorder(
-                                                 side: BorderSide(width: 1.50, color: Color(0xFFECECEE)),
-                                                 borderRadius: BorderRadius.circular(12),
-                                               ),
-                                             ),
-                                             child: Center(
-                                               child: Text(
-                                                 'you don‘t have any activity yet',
-                                                 textAlign: TextAlign.center,
-                                                 style: TextStyle(
-                                                   color: Color(0xFFDCDCE0),
-                                                   fontSize: 16,
-                                                   fontFamily: 'SF Pro',
-                                                   fontWeight: FontWeight.w400,
-                                                 ),
-                                               ),
-                                             ),
-                                           )
-                                                                 :Column(
-                                                                   children: [
-                                                                   
-                                       
-                                                                //  SizedBox(height: 11),
-                                       
-                                                                CustomLocalTicketCard(nextTrip: _tripController.nextTrip,),
-                                                                
-                                                                SizedBox(height: 11),
-                                                                 ],
-                                                                 
-                                                                 ),
-                                       ),
+                                          SizedBox(height: 11),
+                                        ],
+                                      ),
+                          ),
                         ],
                       ),
                     ],

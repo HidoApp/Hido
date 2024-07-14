@@ -2,16 +2,16 @@ import 'package:ajwad_v4/explore/ajwadi/model/local_trip.dart';
 import 'package:ajwad_v4/explore/tourist/model/coordinates.dart';
 
 class NextActivity {
-  final String?  id;
+  final String? id;
   final String? activityProgress;
   final RequestName? requestName;
   final Booking? booking;
 
   NextActivity({
     this.id,
- this.activityProgress,
-  this.requestName,
-  this.booking,
+    this.activityProgress,
+    this.requestName,
+    this.booking,
   });
   factory NextActivity.fromJson(Map<String, dynamic> json) {
     return NextActivity(
@@ -23,6 +23,12 @@ class NextActivity {
       booking:
           json['booking'] == null ? null : Booking.fromJson(json['booking']),
     );
+  }
+  bool get isEmpty {
+    return (id == null || id!.isEmpty) &&
+        (activityProgress == null || activityProgress!.isEmpty) &&
+        requestName == null &&
+        booking == null;
   }
 
   Map<String, dynamic> toJson() {
@@ -75,9 +81,6 @@ class RequestName {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'nameAr':nameAr,
-      'nameEn':nameEn
-    };
+    return {'nameAr': nameAr, 'nameEn': nameEn};
   }
 }

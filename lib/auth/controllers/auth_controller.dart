@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:ajwad_v4/auth/models/ajwadi_info.dart';
 import 'package:ajwad_v4/auth/models/user.dart';
 import 'package:ajwad_v4/auth/services/auth_service.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -25,6 +26,10 @@ class AuthController extends GetxController {
   var birthDate = ''.obs;
   var isSignUpRowad = false.obs;
   var isCreateAccountLoading = false.obs;
+  var isCreateOtpLoading = false.obs;
+  var isSignInWithOtpLoading = false.obs;
+  var isCheckLocalLoading = false.obs;
+  var isResendOtp = true.obs;
   //valditon vars
   var hidePassword = true.obs;
   var isEmailValid = false.obs;
@@ -41,6 +46,7 @@ class AuthController extends GetxController {
   var vehicleLicense = ''.obs;
   var validBirthDay = true.obs;
   var validDriving = true.obs;
+  
 
   // 1 GET COUNTRIES ..
   Future<List<String>?> getListOfCountries(BuildContext context) async {
@@ -420,6 +426,54 @@ class AuthController extends GetxController {
       }
     } catch (e) {
       return false;
+    }
+  }
+
+  Future<bool> createOtp(
+      {required BuildContext context, required String phoneNumber}) async {
+    try {
+      isCreateOtpLoading(true);
+      final isSuccess = await AuthService.createOtp(
+          context: context, phoneNumber: phoneNumber);
+      return isSuccess;
+    } catch (e) {
+      isCreateOtpLoading(false);
+      AppUtil.errorToast(context, e.toString());
+      return false;
+    } finally {
+      isCreateOtpLoading(false);
+    }
+  }
+
+  Future<bool> localSignInWithOtp(
+      {required BuildContext context,
+      required String phoneNumber,
+      required String otp}) async {
+    try {
+      isSignInWithOtpLoading(true);
+      final isSuccess = await AuthService.localSignInWithOtp(
+          context: context, phoneNumber: phoneNumber, otp: otp);
+      return isSuccess;
+    } catch (e) {
+      AppUtil.errorToast(context, e.toString());
+
+      isSignInWithOtpLoading(false);
+      return false;
+    } finally {
+      isSignInWithOtpLoading(false);
+    }
+  }
+
+  Future<AjwadiInfo?> checkLocalInfo({required BuildContext context}) async {
+    try {
+      isCheckLocalLoading(true);
+      final data = await AuthService.checkLocalInfo(context: context);
+      return data;
+    } catch (e) {
+      isCheckLocalLoading(false);
+      return null;
+    } finally {
+      isCheckLocalLoading(false);
     }
   }
 }

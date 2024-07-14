@@ -1,8 +1,8 @@
 import 'dart:developer';
 
-import 'package:ajwad_v4/auth/view/ajwadi_register/contact_info.dart';
-import 'package:ajwad_v4/auth/view/ajwadi_register/phone_otp.dart';
-import 'package:ajwad_v4/auth/view/ajwadi_register/tour_stepper.dart';
+import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
+import 'package:timer_count_down/timer_controller.dart';
+import 'package:timer_count_down/timer_count_down.dart';
 import 'package:ajwad_v4/auth/view/sigin_in/phone_otp_new.dart';
 import 'package:ajwad_v4/auth/widget/sign_up_text.dart';
 import 'package:ajwad_v4/constants/colors.dart';
@@ -25,8 +25,11 @@ class LocalSignIn extends StatefulWidget {
 }
 
 class _LocalSignInState extends State<LocalSignIn> {
+  final _controller = CountdownController(autoStart: true);
+
   final _formKey = GlobalKey<FormState>();
   var number = '';
+  final _authController = Get.put(AuthController());
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -83,22 +86,47 @@ class _LocalSignInState extends State<LocalSignIn> {
             SizedBox(
               height: width * 0.102,
             ),
-            CustomButton(
-              onPressed: () {
-                var isValid = _formKey.currentState!.validate();
-                if (isValid) {
-                  Get.to(() => PhoneOTP(
-                        phoneNumber: number,
-                        type: 'signIn',
-                        otp: '9999',
-                      ));
-                }
-              },
-              title: 'signIn'.tr,
-              icon: Icon(
-                Icons.keyboard_arrow_right,
-                size: width * 0.061,
-              ),
+            Obx(
+              () => _authController.isCreateOtpLoading.value
+                  ? const Center(child: CircularProgressIndicator.adaptive())
+                  : _authController.isResendOtp.value
+                      ? CustomButton(
+                          onPressed: () async {
+                            var isValid = _formKey.currentState!.validate();
+                            if (isValid) {
+                              final isSuccess = await _authController.createOtp(
+                                  context: context, phoneNumber: number);
+                              if (isSuccess) {
+                                _authController.isResendOtp(false);
+                                Get.to(() => PhoneOTP(
+                                      phoneNumber: number,
+                                      type: 'signIn',
+                                      otp: '',
+                                    ));
+                              }
+                            }
+                          },
+                          title: 'signIn'.tr,
+                          icon: Icon(
+                            Icons.keyboard_arrow_right,
+                            size: width * 0.061,
+                          ),
+                        )
+                      : Center(
+                          child: Countdown(
+                            seconds: 180,
+                            controller: _controller,
+                            build: (BuildContext context, double time) =>
+                                CustomText(
+                              text: AppUtil.countdwonFormat(time),
+                              color: colorGreen,
+                            ),
+                            interval: const Duration(seconds: 1),
+                            onFinished: () {
+                              _authController.isResendOtp(true);
+                            },
+                          ),
+                        ),
             ),
             SizedBox(
               height: width * 0.030,

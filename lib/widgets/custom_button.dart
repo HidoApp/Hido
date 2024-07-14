@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 class CustomButton extends StatelessWidget {
   const CustomButton({
     super.key,
-    required this.onPressed,
+    this.onPressed,
+    this.borderColor,
     required this.title,
     this.icon,
     this.buttonColor,
@@ -17,7 +18,7 @@ class CustomButton extends StatelessWidget {
     this.raduis, // Default text color
   });
 
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final title;
   final Widget? icon;
   final Color? buttonColor;
@@ -27,6 +28,7 @@ class CustomButton extends StatelessWidget {
   final bool italic;
   final Color? textColor;
   final double? raduis;
+  final Color? borderColor;
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +36,7 @@ class CustomButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ButtonStyle(
+        
         elevation: MaterialStateProperty.all(0),
         backgroundColor: buttonColor != null
             ? MaterialStateProperty.all(buttonColor)
@@ -45,7 +48,8 @@ class CustomButton extends StatelessWidget {
               Radius.circular(raduis ?? 8),
             ),
             side: BorderSide(
-                color: colorGreen), // Use borderColor property for border color
+                color: borderColor ??
+                    colorGreen), // Use borderColor property for border color
           ),
         ),
         fixedSize:
@@ -80,7 +84,7 @@ class CustomButton extends StatelessWidget {
               text: title,
               textAlign: TextAlign.center,
               fontSize: 17,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w500,
               color: textColor!,
               fontFamily: 'HT Rakik',
               fontStyle: italic ? FontStyle.italic : FontStyle.normal,

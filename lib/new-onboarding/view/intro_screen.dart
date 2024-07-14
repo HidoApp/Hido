@@ -64,8 +64,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
     final width = MediaQuery.of(context).size.width;
-     final height = MediaQuery.of(context).size.height;
-
+    final height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       backgroundColor: Color(0xFFF9F9F9),
@@ -90,8 +89,8 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                     : _currentIndex == 4
                         ? 280
                         : _currentIndex == 2
-                        ? 5
-                        : 75,
+                            ? 5
+                            : 75,
 
             top: _currentIndex == 0
                 ? 0
@@ -108,9 +107,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                         'assets/images/vedio_cover.jpeg',
                         fit: BoxFit.fill,
                       )
-                
-                :Lottie.asset(
-
+                : Lottie.asset(
                     AppUtil.rtlDirection2(context)
                         ? tabs[_currentIndex].lottieFileAr
                         : tabs[_currentIndex].lottieFileEn,
@@ -129,16 +126,16 @@ class _OnboardingScreenState extends State<OnboardingScreen>
             alignment: Alignment.bottomCenter,
             child: Container(
               height: _currentIndex == 0
-                  ? height*0.776
-                 // 650
+                  ? height * 0.776
+                  // 650
                   : _currentIndex == 4
                       ? AppUtil.rtlDirection2(context)
-                      ?height * 0.428
-                      :height * 0.4256
-                          // ? 358
-                          // : 355
-                    : height * 0.431,
-                    //  :360, // Adjust this height to your desired value
+                          ? height * 0.428
+                          : height * 0.4256
+                      // ? 358
+                      // : 355
+                      : height * 0.431,
+              //  :360, // Adjust this height to your desired value
 
               child: Column(
                 children: [
@@ -155,52 +152,58 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                               padding: const EdgeInsets.only(
                                   left: 8, right: 8, bottom: 0),
                               child: _currentIndex == 0
-                                  ?  Row(
+                                  ? Row(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: [
                                         Padding(
-                                          padding:
-                                              AppUtil.rtlDirection2(context)
-                                                  ? EdgeInsets.only(
-                                                      right: width * 0.032)
-                                                  :  EdgeInsets.only(
-                                                      left: width * 0.032,),
-                                          child: AppUtil.rtlDirection2(context)?
-                                        SvgPicture.asset(
-                                  'assets/icons/intro_ved_ar.svg',
-                                ):
-                                  
-                                          SvgPicture.asset(
-                                  'assets/icons/intro_ved.svg',
-                                )
-                                        ),
+                                            padding:
+                                                AppUtil.rtlDirection2(context)
+                                                    ? EdgeInsets.only(
+                                                        right: width * 0.032)
+                                                    : EdgeInsets.only(
+                                                        left: width * 0.032,
+                                                      ),
+                                            child:
+                                                AppUtil.rtlDirection2(context)
+                                                    ? SvgPicture.asset(
+                                                        'assets/icons/intro_ved_ar.svg',
+                                                      )
+                                                    : SvgPicture.asset(
+                                                        'assets/icons/intro_ved.svg',
+                                                      )),
                                       ],
-                                  )
+                                    )
                                   : Padding(
                                       padding: AppUtil.rtlDirection2(context)
                                           ? EdgeInsets.only(
                                               right: width * 0.06,
                                               left: width * 0.06)
                                           : EdgeInsets.only(
-                                              right:  _currentIndex == 1 ? width * 0.09 : _currentIndex == 2?width * 0.09:width * 0.06,
-                                              left:  _currentIndex == 1 ? width * 0.09 : _currentIndex == 2?width * 0.09:width * 0.06),
+                                              right: _currentIndex == 1
+                                                  ? width * 0.09
+                                                  : _currentIndex == 2
+                                                      ? width * 0.09
+                                                      : width * 0.06,
+                                              left: _currentIndex == 1
+                                                  ? width * 0.09
+                                                  : _currentIndex == 2
+                                                      ? width * 0.09
+                                                      : width * 0.06),
                                       child: Text(
                                         tab.title.tr,
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           color: Color(0xFF36B268),
-                                          fontSize: width*0.055,
-
+                                          fontSize: width * 0.055,
                                           fontFamily: 'HT Rakik',
                                           fontWeight: FontWeight.w500,
                                         ),
                                       ),
                                     ),
                             ),
-                           
                           ],
                         );
                       },
@@ -224,14 +227,14 @@ class _OnboardingScreenState extends State<OnboardingScreen>
 
                   Padding(
                     padding: _currentIndex == 0
-                        ? EdgeInsets.only(bottom: width*0.1)
+                        ? EdgeInsets.only(bottom: width * 0.1)
                         : AppUtil.rtlDirection2(context)
-                            ? EdgeInsets.only(bottom: width*0.093)
-                            : EdgeInsets.only(bottom: width*0.1),
-                        //  ? EdgeInsets.only(bottom: 40)
-                        // : AppUtil.rtlDirection2(context)
-                        //     ? EdgeInsets.only(bottom: 37.0)
-                        //     : EdgeInsets.only(bottom: 40.0),
+                            ? EdgeInsets.only(bottom: width * 0.093)
+                            : EdgeInsets.only(bottom: width * 0.1),
+                    //  ? EdgeInsets.only(bottom: 40)
+                    // : AppUtil.rtlDirection2(context)
+                    //     ? EdgeInsets.only(bottom: 37.0)
+                    //     : EdgeInsets.only(bottom: 40.0),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -248,27 +251,29 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                   Padding(
                     padding:
                         // const EdgeInsets.only(left: 16, right: 16, bottom: 10),
-                    EdgeInsets.only(left: width*0.041, right: width*0.041, bottom: width*0.026),
-
+                        EdgeInsets.only(
+                            left: width * 0.041,
+                            right: width * 0.041,
+                            bottom: width * 0.026),
                     child: CustomButton(
                       title: 'tourist'.tr,
                       textColor: _currentIndex == 0 ? black : null,
                       onPressed: () {
                         Get.to(() => SignInScreen());
                         // Get.off(() => AjwadiBottomBar());
-
                       },
                       raduis: 8,
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only( left: width*0.041, right: width*0.041),
+                    padding: EdgeInsets.only(
+                        left: width * 0.041, right: width * 0.041),
                     //EdgeInsets.only(right: 16, left: 16),
-                   
+
                     child: CustomButton(
                       title: 'localGuide'.tr,
                       onPressed: () {
-                        Get.to(() => const SignInScreen());
+                        Get.to(() => const LocalSignIn());
                       },
                       buttonColor: _currentIndex == 0
                           ? Color.fromARGB(0, 0, 0, 0)
@@ -285,11 +290,11 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                     child: Row(
                       children: [
                         Padding(
-                          padding:  EdgeInsets.symmetric(
-                              horizontal:  width*0.041, 
-                              vertical: height*0.039,
-                              //vertical:32
-                              ),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: width * 0.041,
+                            vertical: height * 0.039,
+                            //vertical:32
+                          ),
                           child: Text(
                             AppUtil.rtlDirection2(context)
                                 ? 'الإستمرار كزائر'
@@ -621,9 +626,9 @@ List<OnboardingModel> tabs = [
     'assets/onboarding_1_ar.json',
   ),
   OnboardingModel(
-  'assets/onboarding_2_neww.json',
-  'intro2',
-  'assets/onboarding_222_Ar.json',
+    'assets/onboarding_2_neww.json',
+    'intro2',
+    'assets/onboarding_222_Ar.json',
   ),
   OnboardingModel(
     'assets/testttt.json',

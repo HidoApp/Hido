@@ -12,6 +12,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:iban/iban.dart';
 
 class ContactInfo extends StatefulWidget {
@@ -24,6 +25,7 @@ class ContactInfo extends StatefulWidget {
 class _ContactInfoState extends State<ContactInfo> {
   final _formKey = GlobalKey<FormState>();
   final _authController = Get.put(AuthController());
+  final storage = GetStorage();
 
   @override
   Widget build(BuildContext context) {
@@ -139,6 +141,7 @@ class _ContactInfoState extends State<ContactInfo> {
                                   type: 'EXPERIENCE');
                           log(isSuccess.toString());
                           if (isSuccess) {
+                            storage.write('TourGuide', false);
                             Get.offAll(() => const AjwadiBottomBar());
                           }
                         },

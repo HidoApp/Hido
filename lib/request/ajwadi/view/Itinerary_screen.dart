@@ -31,11 +31,11 @@ class _AddItineraryState extends State<AddItinerary> {
   @override
   void initState() {
     super.initState();
-    requestController.itineraryList.add(ItineraryCard(
-      requestController: requestController,
-      indx: requestController.intinraryCount.value,
-    ));
-    requestController.intinraryCount++;
+    // requestController.itineraryList.add(ItineraryCard(
+    //   requestController: requestController,
+    //   indx: requestController.intinraryCount.value,
+    // ));
+    // requestController.intinraryCount++;
   }
 
   @override
@@ -59,9 +59,15 @@ class _AddItineraryState extends State<AddItinerary> {
           bottom: width * 0.08,
         ),
         child: CustomButton(
+          buttonColor: requestController.reviewItenrary.length < 3
+              ? colorGreen.withOpacity(0.5)
+              : null,
+          borderColor: requestController.reviewItenrary.length < 3
+              ? colorGreen.withOpacity(0.5)
+              : null,
           onPressed: () {
             if (requestController.reviewItenrary.length < 3) {
-              AppUtil.errorToast(context, "atLeastItenrary".tr);
+              //  AppUtil.errorToast(context, "atLeastItenrary".tr);
             } else {
               Get.to(
                 () => ReviewIenraryScreen(
@@ -90,11 +96,13 @@ class _AddItineraryState extends State<AddItinerary> {
         ),
         child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomText(
                 text: "atLeastItenrary".tr,
                 fontWeight: FontWeight.w400,
                 color: almostGrey,
+                fontFamily: 'SF Pro',
                 fontSize: width * 0.033,
               ),
               SizedBox(
@@ -164,6 +172,8 @@ class _AddItineraryState extends State<AddItinerary> {
                   CustomText(
                     text: "addActicity".tr,
                     fontSize: width * 0.04,
+                    fontFamily: "SF Pro",
+                    fontWeight: FontWeight.w400,
                   ),
                 ],
               ),
