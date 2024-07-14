@@ -824,5 +824,25 @@ class AuthService {
       return false;
     }
   }
-  
+
+  static Future<bool> createOtp(
+      {required BuildContext context, required String phoneNumber}) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/otp'),
+      headers: {
+        'Accept': 'application/json',
+        "Content-Type": "application/json"
+      },
+    );
+    log(response.statusCode.toString());
+    log(response.body.toString());
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      var jsonBody = jsonDecode(response.body);
+      String errorMessage = jsonBody;
+      AppUtil.errorToast(context, errorMessage);
+      return false;
+    }
+  }
 }

@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:ajwad_v4/auth/models/ajwadi_info.dart';
 import 'package:ajwad_v4/auth/models/user.dart';
 import 'package:ajwad_v4/auth/services/auth_service.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -25,6 +26,7 @@ class AuthController extends GetxController {
   var birthDate = ''.obs;
   var isSignUpRowad = false.obs;
   var isCreateAccountLoading = false.obs;
+  var isCreateOtpLoading = false.obs;
   //valditon vars
   var hidePassword = true.obs;
   var isEmailValid = false.obs;
@@ -420,6 +422,22 @@ class AuthController extends GetxController {
       }
     } catch (e) {
       return false;
+    }
+  }
+
+  Future<bool> createOtp(
+      {required BuildContext context, required String phoneNumber}) async {
+    try {
+      isCreateOtpLoading(true);
+      final isSuccess = await AuthService.createOtp(
+          context: context, phoneNumber: phoneNumber);
+      return isSuccess;
+    } catch (e) {
+      isCreateOtpLoading(false);
+      AppUtil.errorToast(context, e.toString());
+      return false;
+    } finally {
+      isCreateOtpLoading(false);
     }
   }
 }
