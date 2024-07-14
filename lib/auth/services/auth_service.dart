@@ -827,13 +827,14 @@ class AuthService {
 
   static Future<bool> createOtp(
       {required BuildContext context, required String phoneNumber}) async {
-    final response = await http.post(
-      Uri.parse('$baseUrl/otp'),
-      headers: {
-        'Accept': 'application/json',
-        "Content-Type": "application/json"
-      },
-    );
+    final response = await http.post(Uri.parse('$baseUrl/otp'),
+        headers: {
+          'Accept': 'application/json',
+          "Content-Type": "application/json"
+        },
+        body: jsonEncode({
+          'mobile': phoneNumber.substring(1),
+        }));
     log(response.statusCode.toString());
     log(response.body.toString());
     if (response.statusCode == 200) {
@@ -861,14 +862,62 @@ class AuthService {
           'mobile': phoneNumber.substring(1),
         }));
     log(response.statusCode.toString());
-    log(response.body.toString());
+    //log(response.body.toString());
     if (response.statusCode == 200) {
+      Map<String, dynamic> user = jsonDecode(response.body);
+      print('token userRole ');
+      String accessToken = user['accessToken'];
+      String refreshToken = user['refreshToken'];
+
+      var token = AuthService.jwtForToken(accessToken)!;
+
+      print('token userRole ${token.userRole}');
+
+      final getStorage = GetStorage();
+      getStorage.write('accessToken', accessToken);
+      getStorage.write('refreshToken', refreshToken);
+      getStorage.write('rememberMe', true);
+      getStorage.write('userRole', token.userRole);
       return true;
     } else {
       var jsonBody = jsonDecode(response.body);
       String errorMessage = jsonBody;
       AppUtil.errorToast(context, errorMessage);
       return false;
+    }
+  }
+
+  static Future<AjwadiInfo?> checkLocalInfo(
+      {required BuildContext context}) async {
+    final getStorage = GetStorage();
+    String token = getStorage.read('accessToken') ?? "";
+
+    if (JwtDecoder.isExpired(token)) {
+      final _authController = Get.put(AuthController());
+
+      String refreshToken = getStorage.read('refreshToken');
+      var user = await _authController.refreshToken(
+          refreshToken: refreshToken, context: context);
+      token = getStorage.read('accessToken');
+    }
+    final response = await http.get(
+      Uri.parse('$baseUrl/local'),
+      headers: {
+        'Accept': 'application/json',
+        "Content-Type": "application/json",
+        'Authorization': ' Bearer $token'
+      },
+    );
+    log(response.statusCode.toString());
+    log(response.body.toString());
+    if (response.statusCode == 200) {
+      Map<String, dynamic> ajwadiInfo = jsonDecode(response.body);
+      return AjwadiInfo.fromJson(ajwadiInfo);
+    } else {
+      var jsonBody = jsonDecode(response.body);
+      String errorMessage = jsonBody;
+      AppUtil.errorToast(context, errorMessage);
+      return null;
     }
   }
 }

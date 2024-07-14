@@ -8,35 +8,30 @@ import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../../../explore/ajwadi/view/Experience/add_experience_info.dart';
 import '../../../explore/ajwadi/view/hoapatility/widget/buttomProgress.dart';
 import '../../../explore/ajwadi/view/local_home_screen.dart';
 
 class AjwadiBottomBar extends StatefulWidget {
-  const AjwadiBottomBar({Key? key}) : super(key: key);
+  const AjwadiBottomBar({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<AjwadiBottomBar> createState() => _AjwadiBottomBarState();
 }
 
 final ProfileController _profileController = ProfileController();
-
+final storage = GetStorage();
+final isTourGuide = storage.read("TourGuide") ?? true;
 int currentIndex = 0;
 List bottomScreens = [
-  // AjwadiMapScreen(
-  //   fromAjwady: true,
-  // ),
- LocalHomeScreen(fromAjwady: true,profileController: _profileController),
- // ButtomProgress(),
-
-
-
-
-  const NewRequestScreen(),
+  LocalHomeScreen(fromAjwady: true, profileController: _profileController),
+  if (isTourGuide) const NewRequestScreen(),
   //const RequestScreen(),
   const AddExperienceInfo(),
-
   ProfileScreen(
     fromAjwady: true,
     profileController: _profileController,
@@ -71,16 +66,18 @@ class _AjwadiBottomBarState extends State<AjwadiBottomBar>
             type: BottomNavigationBarType.fixed,
             unselectedItemColor: colorDarkGrey,
             selectedItemColor: colorGreen,
-            unselectedLabelStyle:  TextStyle(
+            unselectedLabelStyle: TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.w600,
-             fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'  :'SF Pro',
+              fontFamily:
+                  AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
               color: colorDarkGrey,
             ),
-            selectedLabelStyle:  TextStyle(
+            selectedLabelStyle: TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.w600,
-               fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'  :'SF Pro',
+              fontFamily:
+                  AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
               color: colorGreen,
             ),
             items: [
@@ -90,20 +87,21 @@ class _AjwadiBottomBarState extends State<AjwadiBottomBar>
                     "assets/icons/request_icon.svg",
                     color: currentIndex == 0 ? colorGreen : colorDarkGrey,
                   )),
-              BottomNavigationBarItem(
-                  label: "request".tr,
-                  icon: Padding(
-                     padding: const EdgeInsets.only(bottom:4.0),
-                     child: SvgPicture.asset(
-                      "assets/icons/my_request_green.svg",
-                      color: currentIndex == 1 ? colorGreen : colorDarkGrey,
-                    ),
-                  )),
+              if (isTourGuide)
+                BottomNavigationBarItem(
+                    label: "request".tr,
+                    icon: Padding(
+                      padding: const EdgeInsets.only(bottom: 4.0),
+                      child: SvgPicture.asset(
+                        "assets/icons/my_request_green.svg",
+                        color: currentIndex == 1 ? colorGreen : colorDarkGrey,
+                      ),
+                    )),
               BottomNavigationBarItem(
                   label: "MyExperiences".tr,
                   icon: Padding(
-                   padding: const EdgeInsets.only(bottom:4.0),
-                     child: SvgPicture.asset(
+                    padding: const EdgeInsets.only(bottom: 4.0),
+                    child: SvgPicture.asset(
                       "assets/icons/my_experiences.svg",
                       color: currentIndex == 2 ? colorGreen : colorDarkGrey,
                     ),
@@ -111,7 +109,7 @@ class _AjwadiBottomBarState extends State<AjwadiBottomBar>
               BottomNavigationBarItem(
                   label: "profile".tr,
                   icon: Padding(
-                    padding: const EdgeInsets.only(bottom:4.0),
+                    padding: const EdgeInsets.only(bottom: 4.0),
                     child: SvgPicture.asset(
                       "assets/icons/my_profile_green.svg",
                       color: currentIndex == 3 ? colorGreen : colorDarkGrey,
