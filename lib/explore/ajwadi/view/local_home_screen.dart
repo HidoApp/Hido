@@ -285,7 +285,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                             () => _tripController.isNextActivityLoading.value
                                 ? Center(
                                     child: CircularProgressIndicator.adaptive())
-                                : _tripController.nextTrip == []
+                                : _tripController.nextTrip.isEmpty
                                     ? Container(
                                         width: double.infinity,
                                         height: 135,
