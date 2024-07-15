@@ -559,5 +559,6 @@ const localeEn = {
   "invalidIBAN": '*invalid IBAN',
   'payment': "Payment",
   "signInTitle": 'Discover Saudi Arabia With Locals!',
-  "": "We've sent code to your number"
+  "": "We've sent code to your number",
+  "account": "Account"
 };

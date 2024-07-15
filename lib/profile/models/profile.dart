@@ -3,7 +3,7 @@ import 'package:ajwad_v4/constants/user_roles.dart';
 
 class Profile {
   final String? id;
-   String? name;
+  String? name;
   final String? email;
   final int? rating;
   //final String? image;
@@ -24,53 +24,58 @@ class Profile {
   final List<String>? spokenLanguage;
   final String? nationality;
   final UserRole? userRole;
+  final String? accountType;
+  final String? iban;
 
-  Profile({
-    this.spokenLanguage,
-    this.id,
-    this.name,
-    this.rating,
-    this.profileImage,
-    this.phoneNumber,
-    this.eventNumber,
-    this.hostNumber,
-    this.adventureNumber,
-    this.tourRating,
-    this.eventRating,
-    this.hostRating,
-    this.adventureRating,
-    this.experienceLevel,
-    this.descriptionAboutMe,
-    this.userInterests,
-    this.nationality,
-    this.userRole,
-    this.email,
-    this.tourNumber,
-    //this.image,
-
-  });
+  Profile(
+      {this.spokenLanguage,
+      this.id,
+      this.name,
+      this.rating,
+      this.profileImage,
+      this.phoneNumber,
+      this.eventNumber,
+      this.hostNumber,
+      this.adventureNumber,
+      this.tourRating,
+      this.eventRating,
+      this.hostRating,
+      this.adventureRating,
+      this.experienceLevel,
+      this.descriptionAboutMe,
+      this.userInterests,
+      this.nationality,
+      this.userRole,
+      this.email,
+      this.tourNumber,
+      this.accountType,
+      this.iban
+      //this.image,
+      });
 
   factory Profile.fromJson(Map<String, dynamic> json) {
     return Profile(
-      id: json['id']??'',
-      name: json['name']??'',
-     // image: json['image']??'',
-      rating: json['rating']??0,
-      tourNumber: json['tourNumber']??0,
-      tourRating: json['tourRating']??0,
-      hostNumber: json['hostNumber']??0,
-      hostRating: json['hostRating']??0,
-      adventureNumber: json['adventureNumber']??0,
-      adventureRating: json['adventureRating']??0,
-      eventNumber: json['eventNumber']??0,
-      eventRating: json['eventRating']??0,
+      accountType: json['accountType'] ?? '',
+      iban: json['iban'] ?? "",
+      id: json['id'] ?? '',
+      name: json['name'] ?? '',
+      // image: json['image']??'',
+      rating: json['rating'] ?? 0,
+      tourNumber: json['tourNumber'] ?? 0,
+      tourRating: json['tourRating'] ?? 0,
+      hostNumber: json['hostNumber'] ?? 0,
+      hostRating: json['hostRating'] ?? 0,
+      adventureNumber: json['adventureNumber'] ?? 0,
+      adventureRating: json['adventureRating'] ?? 0,
+      eventNumber: json['eventNumber'] ?? 0,
+      eventRating: json['eventRating'] ?? 0,
       //tripNumber: json['tripNumber'],
-      profileImage: json['image']??'',
-      phoneNumber: json['phoneNumber']??'',
-      email: json['email']??'',
-      descriptionAboutMe: json['descriptionAboutMe']??'',
+      profileImage: json['image'] ?? '',
+      phoneNumber: json['phoneNumber'] ?? '',
+      email: json['email'] ?? '',
+      descriptionAboutMe: json['descriptionAboutMe'] ?? '',
 
-      nationality: json['nationality']??'',
+      nationality: json['nationality'] ?? '',
       spokenLanguage: json["spokenLanguage"] == null
           ? []
           : List<String>.from(json["spokenLanguage"]!.map((x) => x)),
@@ -83,7 +88,7 @@ class Profile {
       //'user_id': userId,
       'name': name,
       'rating': rating,
-     // 'image': image,
+      // 'image': image,
       'tourNumber': tourNumber,
       //'tripNumber': tripNumber,
       'image': profileImage,

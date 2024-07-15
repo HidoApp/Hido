@@ -132,7 +132,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   CustomText(
                                     text: widget.fromAjwady
                                         ? "${"locla".tr}   | ${_profileController.isProfileLoading.value ? "" : _profileController.profile.rating}  "
-                                        : "${"tourist".tr}   | ${_profileController.isProfileLoading.value ? "" : _profileController.profile.rating ?? "0"}  ",
+                                        : "tourist".tr,
                                     color: colorDarkGrey,
                                     fontSize: width * 0.03,
                                     fontWeight: FontWeight.w500,
@@ -177,6 +177,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             //   fromAjwady: false,
                             onTap: () {
                               Get.to(() => MyAccount(
+                                    isLocal: widget.fromAjwady,
                                     profileController: _profileController,
                                   ));
                             },

@@ -133,7 +133,7 @@ class ProfileService {
     String? name,
     String? profileImage,
     String? descripttion,
-    String? phone,
+    String? iban,
     List<String>? spokenLanguage,
     required BuildContext context,
   }) async {
@@ -149,13 +149,12 @@ class ProfileService {
         },
         body: json.encode({
           if (name != null) "name": name.trim(),
-          "image": profileImage,
+          if (profileImage != null) "image": profileImage,
           if (descripttion != null) "descriptionAboutMe": descripttion.trim(),
           "userInterest": ["string"],
-          
           if (spokenLanguage != null) "spokenLanguage": spokenLanguage,
-        
-          if (phone != null) "phoneNumber": phone.trim(),  "gender": "MALE",
+          if (iban != null) "iban": iban.trim(),
+          "gender": "MALE",
         }));
 
     print("response.statusCode Update profile ");
@@ -241,4 +240,41 @@ class ProfileService {
       return null;
     }
   }
+
+// otp for update phone number
+  static Future<bool> otpForMobile({
+    required BuildContext context,
+    required String mobile,
+  }) async {
+    final getStorage = GetStorage();
+    String token = getStorage.read('accessToken') ?? "";
+    if (token != '' && JwtDecoder.isExpired(token)) {
+      final authController = Get.put(AuthController());
+
+      String refreshToken = getStorage.read('refreshToken');
+      var user = await authController.refreshToken(
+          refreshToken: refreshToken, context: context);
+      token = getStorage.read('accessToken');
+    }
+    final response = await http.post(Uri.parse("$baseUrl/otp/mobile"),
+        headers: {
+          'Accept': 'application/json',
+          "Content-Type": "application/json",
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode({
+          "mobile": mobile.substring(1),
+        }));
+    log(response.statusCode.toString());
+    log(response.body);
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      var jsonBody = jsonDecode(response.body);
+      String errorMessage = jsonBody['message'];
+      AppUtil.errorToast(context, errorMessage);
+      return false;
+    }
+  }
+  //TODO: write fuction to update number after otp
 }

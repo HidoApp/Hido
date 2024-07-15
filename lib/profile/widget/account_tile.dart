@@ -7,10 +7,12 @@ class AccountTile extends StatelessWidget {
   const AccountTile(
       {super.key,
       required this.title,
-      required this.subtitle,
+      this.subtitle,
+      this.titleHint,
       required this.onTap});
   final String title;
-  final String subtitle;
+  final String? titleHint;
+  final String? subtitle;
   final void Function() onTap;
   @override
   Widget build(BuildContext context) {
@@ -22,29 +24,36 @@ class AccountTile extends StatelessWidget {
           children: [
             CustomText(
               text: title,
-              fontSize: 18,
+              fontSize: 17,
+              fontFamily: "SF Pro",
               fontWeight: FontWeight.w500,
             ),
             SizedBox(
-              height: title == "Phone number" ? 2 : 4,
+              height: titleHint != null ? 2 : 4,
             ),
-            if (title == "Phone number")
-              const CustomText(
-                text: "For notification , remainder , and help login",
-                fontSize: 14,
-                color: almostGrey,
-                fontWeight: FontWeight.w300,
+            if (titleHint != null)
+              ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: 350),
+                child: CustomText(
+                  text: titleHint,
+                  fontSize: 13,
+                  fontFamily: "SF Pro",
+                  color: almostGrey,
+                  fontWeight: FontWeight.w400,
+                ),
               ),
             if (title == "Phone number")
               const SizedBox(
                 height: 12,
               ),
-            CustomText(
-              text: subtitle,
-              fontSize: 14,
-              color: almostGrey,
-              fontWeight: FontWeight.w300,
-            ),
+            if (subtitle != null)
+              CustomText(
+                text: subtitle,
+                fontSize: 15,
+                fontFamily: "SF Pro",
+                color: almostGrey,
+                fontWeight: FontWeight.w400,
+              ),
           ],
         ),
         const Spacer(),

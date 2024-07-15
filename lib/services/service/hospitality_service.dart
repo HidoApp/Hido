@@ -282,7 +282,7 @@ class HospitalityService {
     required String regionAr,
     required String location,
     required String regionEn,
-     required String start,
+    required String start,
     required String end,
     required int seat,
     required List<Map<String, dynamic>> daysInfo,
@@ -297,7 +297,6 @@ class HospitalityService {
       var user = await _authController.refreshToken(
           refreshToken: refreshToken, context: context);
       token = getStorage.read('accessToken');
-
     }
 
     Map<String, dynamic> body = {
@@ -306,26 +305,20 @@ class HospitalityService {
       "bioAr": bioAr,
       "bioEn": bioEn,
       "mealTypeAr": mealTypeAr,
-      "mealTypeEn":mealTypeEn  ,
+      "mealTypeEn": mealTypeEn,
       "coordinates": {"longitude": longitude, "latitude": latitude},
       "daysInfo": [
-      {
-      "startTime": start,
-      "endTime": end,
-      "seats": seat
-    }
-    ],
+        {"startTime": start, "endTime": end, "seats": seat}
+      ],
       "touristsGender": touristsGender,
       "location": location,
       "price": price,
       "image": images,
-      
       "regionAr": "الرياض",
       "regionEn": "Riyadh",
     };
- print(body);
+    print(body);
     final response = await http.post(Uri.parse('$baseUrl/hospitality'),
-
         headers: {
           'Accept': 'application/json',
           "Content-Type": "application/json",
@@ -337,46 +330,46 @@ class HospitalityService {
     //print(jsonDecode(response.body).length);
     print("from services equall to ");
     if (response.statusCode == 200) {
-    //  var data = jsonDecode(response.body);
-    //  print(data['message']);
-    //  if (data['message'] == 'checked') {
-        return true;
-      } else {
-        String errorMessage = jsonDecode(response.body)['message'];
+      //  var data = jsonDecode(response.body);
+      //  print(data['message']);
+      //  if (data['message'] == 'checked') {
+      return true;
+    } else {
+      String errorMessage = jsonDecode(response.body)['message'];
       print(errorMessage);
       if (context.mounted) {
         AppUtil.errorToast(context, errorMessage);
       }
-        return false;
-      }
-  //   } else {
-  //     String errorMessage = jsonDecode(response.body)['message'];
-  //     print(errorMessage);
-  //     if (context.mounted) {
-  //       AppUtil.errorToast(context, errorMessage);
-  //   }
-  //     return false;
-  //  }
+      return false;
+    }
+    //   } else {
+    //     String errorMessage = jsonDecode(response.body)['message'];
+    //     print(errorMessage);
+    //     if (context.mounted) {
+    //       AppUtil.errorToast(context, errorMessage);
+    //   }
+    //     return false;
+    //  }
   }
 
- static Future<Hospitality?> editHospitality({
-  required String id,
-     String? titleAr,
+  static Future<Hospitality?> editHospitality({
+    required String id,
+    String? titleAr,
     String? titleEn,
-     String? bioAr,
-     String? bioEn,
-     String? mealTypeAr,
-     String? mealTypeEn,
+    String? bioAr,
+    String? bioEn,
+    String? mealTypeAr,
+    String? mealTypeEn,
     String? longitude,
     String? latitude,
     String? touristsGender,
-     double? price,
+    double? price,
     List<String>? images,
     String? regionAr,
     String? location,
-     String? regionEn,
-     String? start,
-     String? end,
+    String? regionEn,
+    String? start,
+    String? end,
     int? seat,
     required BuildContext context,
   }) async {
@@ -384,64 +377,62 @@ class HospitalityService {
     final getStorage = GetStorage();
     final String? token = getStorage.read('accessToken');
 
-    final response = await http.put(  Uri.parse('$baseUrl/hospitality/$id')
+    final response = await http.put(
+      Uri.parse('$baseUrl/hospitality/$id')
           .replace(queryParameters: ({'id': id})),
-    
-        headers: {
-          'Accept': 'application/json',
-          "Content-Type": "application/json",
-          'Authorization': 'Bearer $token',
-        },
-     body: json.encode({
-      if (titleAr != null) "titleAr": titleAr.trim(),
-      if (titleEn != null) "titleEn": titleEn.trim(),
-      if (bioAr != null) "bioAr": bioAr,
-      if (bioEn != null) "bioEn": bioEn,
-      if (mealTypeAr != null) "mealTypeAr": mealTypeAr,
-      if (mealTypeEn != null) "mealTypeEn": mealTypeEn,
-      if (longitude != null && latitude != null)
-        "coordinates": {
-          "longitude": longitude,
-          "latitude": latitude,
-        },
-      if (start != null && end != null && seat != null)
-        "daysInfo": [
-          {
-            "startTime": start,
-            "endTime": end,
-            "seats": seat,
-          }
-        ],
-      if (touristsGender != null) "touristsGender": touristsGender,
-      if (location != null) "location": location,
-      if (price != null) "price": price,
-      if (images != null && images.isNotEmpty) "image": images,
-      if (regionAr != null) "regionAr": regionAr,
-      if (regionEn != null) "regionEn": regionEn,
-    }),
-  );
+      headers: {
+        'Accept': 'application/json',
+        "Content-Type": "application/json",
+        'Authorization': 'Bearer $token',
+      },
+      body: json.encode({
+        if (titleAr != null) "titleAr": titleAr.trim(),
+        if (titleEn != null) "titleEn": titleEn.trim(),
+        if (bioAr != null) "bioAr": bioAr,
+        if (bioEn != null) "bioEn": bioEn,
+        if (mealTypeAr != null) "mealTypeAr": mealTypeAr,
+        if (mealTypeEn != null) "mealTypeEn": mealTypeEn,
+        if (longitude != null && latitude != null)
+          "coordinates": {
+            "longitude": longitude,
+            "latitude": latitude,
+          },
+        if (start != null && end != null && seat != null)
+          "daysInfo": [
+            {
+              "startTime": start,
+              "endTime": end,
+              "seats": seat,
+            }
+          ],
+        if (touristsGender != null) "touristsGender": touristsGender,
+        if (location != null) "location": location,
+        if (price != null) "price": price,
+        if (images != null && images.isNotEmpty) "image": images,
+        if (regionAr != null) "regionAr": regionAr,
+        if (regionEn != null) "regionEn": regionEn,
+      }),
+    );
 
-print("Response status code: ${response.statusCode}");
+    print("Response status code: ${response.statusCode}");
 
-  if (response.statusCode == 200) {
-    try {
-      var hospitalityData = jsonDecode(response.body);
-      print('Hospitality updated: $hospitalityData');
-      return Hospitality.fromJson(hospitalityData);
-    } catch (e) {
-      print('Error parsing JSON response: $e');
+    if (response.statusCode == 200) {
+      try {
+        var hospitalityData = jsonDecode(response.body);
+        print('Hospitality updated: $hospitalityData');
+        return Hospitality.fromJson(hospitalityData);
+      } catch (e) {
+        print('Error parsing JSON response: $e');
+        return null;
+      }
+    } else {
+      String errorMessage = jsonDecode(response.body)['message'];
+      if (context.mounted) {
+        AppUtil.errorToast(context, errorMessage);
+      }
       return null;
     }
-  } else {
-    String errorMessage = jsonDecode(response.body)['message'];
-    if (context.mounted) {
-      AppUtil.errorToast(context, errorMessage);
-    }
-    return null;
   }
-}
-
-
 
   static Future<List<Hospitality>?> getUserTicket({
     required String hostType,
@@ -470,7 +461,9 @@ print("Response status code: ${response.statusCode}");
       log('data: $data');
       print(data.length);
       print(data.isEmpty);
-      return data.map((hospitality) => Hospitality.fromJson(hospitality)).toList();
+      return data
+          .map((hospitality) => Hospitality.fromJson(hospitality))
+          .toList();
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
       if (context.mounted) {
@@ -480,7 +473,7 @@ print("Response status code: ${response.statusCode}");
     }
   }
 
-static Future<Summary?> getHospitalitySummaryById({
+  static Future<Summary?> getHospitalitySummaryById({
     required BuildContext context,
     required String id,
   }) async {
@@ -578,7 +571,7 @@ static Future<Summary?> getHospitalitySummaryById({
 // }) async {
 //   final getStorage = GetStorage();
 //   String token = getStorage.read('accessToken') ?? "";
-  
+
 //   if (JwtDecoder.isExpired(token)) {
 //     final _authController = Get.put(AuthController());
 //     String refreshToken = getStorage.read('refreshToken') ?? "";
@@ -704,5 +697,4 @@ static Future<Summary?> getHospitalitySummaryById({
     }
     return null;
   }
-
 }

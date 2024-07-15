@@ -841,7 +841,7 @@ class AuthService {
       return true;
     } else {
       var jsonBody = jsonDecode(response.body);
-      String errorMessage = jsonBody;
+      String errorMessage = jsonBody['message'];
       AppUtil.errorToast(context, errorMessage);
       return false;
     }
@@ -881,7 +881,7 @@ class AuthService {
       return true;
     } else {
       var jsonBody = jsonDecode(response.body);
-      String errorMessage = jsonBody;
+      String errorMessage = jsonBody['message'];
       AppUtil.errorToast(context, errorMessage);
       return false;
     }
@@ -915,7 +915,7 @@ class AuthService {
       return AjwadiInfo.fromJson(ajwadiInfo);
     } else {
       var jsonBody = jsonDecode(response.body);
-      String errorMessage = jsonBody;
+      String errorMessage = jsonBody['message'];
       AppUtil.errorToast(context, errorMessage);
       return null;
     }
