@@ -749,6 +749,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
+  jhijri_picker:
+    dependency: "direct main"
+    description:
+      name: jhijri_picker
+      sha256: "55e3cdc03a20284fea179658c102b8eed802a5cc0e1fd949265285b1d352da8a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   js:
     dependency: transitive
     description:

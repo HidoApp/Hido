@@ -104,6 +104,33 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                     height: width * 0.061,
                   ),
                   CustomText(
+                      text: 'phoneNum'.tr,
+                      fontSize: width * 0.0435,
+                      fontWeight: FontWeight.w500,
+                      fontFamily: 'SF Pro'),
+                  CustomTextField(
+                    hintText: 'phoneHint'.tr,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                      LengthLimitingTextInputFormatter(10)
+                    ],
+                    keyboardType: TextInputType.number,
+                    validator: false,
+                    validatorHandle: (number) {
+                      if (number == null || number!.isEmpty) {
+                        return 'fieldRequired'.tr;
+                      }
+                      if (!number.startsWith('05') || number.length != 10) {
+                        return 'invalidPhone'.tr;
+                      }
+                      return null;
+                    },
+                    onChanged: (number) => _authController.phoneNumber(number),
+                  ),
+                  SizedBox(
+                    height: width * .06,
+                  ),
+                  CustomText(
                     text: 'birthDate'.tr,
                     fontSize: width * 0.043,
                     fontFamily: 'SF Pro',

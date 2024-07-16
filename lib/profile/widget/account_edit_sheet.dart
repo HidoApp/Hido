@@ -71,7 +71,7 @@ class _AccountEditSheetState extends State<AccountEditSheet> {
         name: widget.profileController.profile.name,
         profileImage: widget.profileController.profile.profileImage,
         spokenLanguage: widget.profileController.profile.spokenLanguage,
-        phone: _textController.text.trim(),
+        //  phone: _textController.text.trim(),
       );
 
       await widget.profileController.getProfile(

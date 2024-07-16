@@ -86,7 +86,7 @@ class AuthService {
           "email": email.trim(),
           "password": password.trim(),
           "name": name,
-          "phoneNumber": phoneNumber.trim(),
+          "phoneNumber": phoneNumber.trim().substring(1),
           "nationality": nationality,
         }));
 
@@ -164,6 +164,7 @@ class AuthService {
       {required BuildContext context,
       required String nationalId,
       required String otp,
+      required String number,
       required String birthDate}) async {
     final response = await http.post(
         Uri.parse('$baseUrl/user/sign-up-with-rowad/$otp').replace(
@@ -173,8 +174,11 @@ class AuthService {
           'Accept': 'application/json',
           "Content-Type": "application/json"
         },
-        body:
-            json.encode({'birthDate': birthDate, 'nationalityId': nationalId}));
+        body: json.encode({
+          'birthDate': birthDate,
+          'nationalityId': nationalId,
+          'phoneNumber': number.substring(1)
+        }));
     if (response.statusCode == 200) {
       final getStorage = GetStorage();
 
@@ -265,7 +269,6 @@ class AuthService {
   static Future<bool> createAccountInfo({
     required BuildContext context,
     required String email,
-    required String phoneNumber,
     required String iban,
     required String type,
   }) async {
@@ -288,7 +291,6 @@ class AuthService {
       },
       body: jsonEncode({
         'email': email,
-        'phoneNumber': phoneNumber.substring(1),
         'iban': iban,
         'accountType': type
       }),
@@ -841,7 +843,7 @@ class AuthService {
       return true;
     } else {
       var jsonBody = jsonDecode(response.body);
-      String errorMessage = jsonBody;
+      String errorMessage = jsonBody['message'];
       AppUtil.errorToast(context, errorMessage);
       return false;
     }
@@ -881,7 +883,7 @@ class AuthService {
       return true;
     } else {
       var jsonBody = jsonDecode(response.body);
-      String errorMessage = jsonBody;
+      String errorMessage = jsonBody['message'];
       AppUtil.errorToast(context, errorMessage);
       return false;
     }
@@ -915,7 +917,7 @@ class AuthService {
       return AjwadiInfo.fromJson(ajwadiInfo);
     } else {
       var jsonBody = jsonDecode(response.body);
-      String errorMessage = jsonBody;
+      String errorMessage = jsonBody['message'];
       AppUtil.errorToast(context, errorMessage);
       return null;
     }

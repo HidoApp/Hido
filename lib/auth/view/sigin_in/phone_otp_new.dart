@@ -62,6 +62,7 @@ class _PhoneOTPState extends State<PhoneOTP> {
     final isSuccess = await _authController.signUpWithRowad(
         context: context,
         nationalId: _authController.localID.toString(),
+        number: _authController.phoneNumber.value,
         otp: otpCode,
         birthDate: _authController.birthDate.value);
     if (isSuccess) {

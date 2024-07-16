@@ -9,9 +9,10 @@ import 'package:get_storage/get_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:jhijri/jhijri.dart';
 
 class AppUtil {
-  static String address='';
+  static String address = '';
   static bool rtlDirection(context) {
     return !(Get.locale == const Locale('ar', 'ar') ? true : false);
     //return Get.locale == const Locale('ar', 'ar');
@@ -99,63 +100,63 @@ class AppUtil {
     }
   }
 
-  static String formatSelectedDates(RxList<dynamic> dates, BuildContext context) {
-  // Convert dynamic list to List<DateTime>
-  List<DateTime> dateTimeList = dates
-      .where((date) => date is DateTime)
-      .map((date) => date as DateTime)
-      .toList();
+  static String formatSelectedDates(
+      RxList<dynamic> dates, BuildContext context) {
+    // Convert dynamic list to List<DateTime>
+    List<DateTime> dateTimeList = dates
+        .where((date) => date is DateTime)
+        .map((date) => date as DateTime)
+        .toList();
 
-  if (dateTimeList.isEmpty) {
-    return 'DD/MM/YYYY';
-  }
+    if (dateTimeList.isEmpty) {
+      return 'DD/MM/YYYY';
+    }
 
-  // Sort the dates
-  dateTimeList.sort();
+    // Sort the dates
+    dateTimeList.sort();
 
-  final bool isArabic = AppUtil.rtlDirection2(context);
-  final DateFormat dayFormatter =
-      DateFormat('d', isArabic ? 'ar' : 'en');
-  final DateFormat monthYearFormatter =
-      DateFormat('MMMM yyyy', isArabic ? 'ar' : 'en');
+    final bool isArabic = AppUtil.rtlDirection2(context);
+    final DateFormat dayFormatter = DateFormat('d', isArabic ? 'ar' : 'en');
+    final DateFormat monthYearFormatter =
+        DateFormat('MMMM yyyy', isArabic ? 'ar' : 'en');
 
-  String formattedDates = '';
+    String formattedDates = '';
 
-  for (int i = 0; i < dateTimeList.length; i++) {
-    if (i > 0) {
-      // If current date's month and year are different from the previous date's, add a comma
-      if (dateTimeList[i].month != dateTimeList[i - 1].month ||
-          dateTimeList[i].year != dateTimeList[i - 1].year) {
-        formattedDates += ', ';
-      } else {
-        // If same month and year, just add a space
-        formattedDates += ', ';
+    for (int i = 0; i < dateTimeList.length; i++) {
+      if (i > 0) {
+        // If current date's month and year are different from the previous date's, add a comma
+        if (dateTimeList[i].month != dateTimeList[i - 1].month ||
+            dateTimeList[i].year != dateTimeList[i - 1].year) {
+          formattedDates += ', ';
+        } else {
+          // If same month and year, just add a space
+          formattedDates += ', ';
+        }
+      }
+
+      formattedDates += dayFormatter.format(dateTimeList[i]);
+
+      // If the next date is in a different month or year, add month and year to the current date
+      if (i == dateTimeList.length - 1 ||
+          dateTimeList[i].month != dateTimeList[i + 1].month ||
+          dateTimeList[i].year != dateTimeList[i + 1].year) {
+        formattedDates += ' ${monthYearFormatter.format(dateTimeList[i])}';
       }
     }
 
-    formattedDates += dayFormatter.format(dateTimeList[i]);
-
-    // If the next date is in a different month or year, add month and year to the current date
-    if (i == dateTimeList.length - 1 ||
-        dateTimeList[i].month != dateTimeList[i + 1].month ||
-        dateTimeList[i].year != dateTimeList[i + 1].year) {
-      formattedDates += ' ${monthYearFormatter.format(dateTimeList[i])}';
-    }
+    return formattedDates;
   }
 
-  return formattedDates;
-}
-static String getLocationUrl(Coordinate location) {
+  static String getLocationUrl(Coordinate location) {
     return 'https://www.google.com/maps/search/?api=1&query=${location.latitude},${location.longitude}';
   }
-
 
   static String capitalizeFirstLetter(String input) {
     String lowercased = input.toLowerCase();
     String capitalized = lowercased[0].toUpperCase() + lowercased.substring(1);
 
     return capitalized;
-}
+  }
 
   static String formatStringTimeWithLocale(
       BuildContext context, String dateTimeString) {
@@ -278,4 +279,53 @@ static String getLocationUrl(Coordinate location) {
     String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
     return "$twoDigitMinutes:$twoDigitSeconds ";
   }
+
+  static String maskIban(String iban) {
+    // Get the last four characters
+    String lastFour = iban.substring(iban.length - 4);
+    // Replace all other characters with asterisks
+    String masked = '*' * (iban.length - 4) + lastFour;
+    // Insert spaces every four characters
+    StringBuffer formatted = StringBuffer();
+    for (int i = 0; i < masked.length; i++) {
+      if (i > 0 && i % 4 == 0) {
+        formatted.write(' ');
+      }
+      formatted.write(masked[i]);
+    }
+
+    return formatted.toString();
+  }
+
+  static String convertIsoDateToFormattedDate(String isoDateString) {
+    // Parse the date string to a DateTime object
+    DateTime parsedDate = DateTime.parse(isoDateString);
+
+    // Create a DateFormat object with the desired format
+    DateFormat formatter = DateFormat('yyyy-MM-d');
+
+    // Format the DateTime object to the desired format
+    return formatter.format(parsedDate);
+  }
+
+  static String formattedHijriDate(JHijri hijriDate) {
+    return "${hijriDate.year}-${hijriDate.month.toString().padLeft(2, '0')}-${hijriDate.day.toString().padLeft(2, '0')}";
+  }
+  // static String convertHijriToGregorian(String hijriDateString) {
+  //   // Parse the Hijri date string (format: yyyy-MM-dd)
+  //   List<String> parts = hijriDateString.split('-');
+  //   int hijriYear = int.parse(parts[0]);
+  //   int hijriMonth = int.parse(parts[1]);
+  //   int hijriDay = int.parse(parts[2]);
+
+  //   // Convert Hijri date to Gregorian date using jhijri package
+  //   DateTime gregorianDate =
+  //       HijriCalendar().hijriToGregorian(hijriYear, hijriMonth, hijriDay);
+
+  //   // Create a DateFormat object with the desired format
+  //   DateFormat formatter = DateFormat('yyyy-M-d');
+
+  //   // Format the DateTime object to the desired format
+  //   return formatter.format(gregorianDate);
+  // }
 }
