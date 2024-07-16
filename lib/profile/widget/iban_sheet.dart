@@ -65,7 +65,8 @@ class _IbanSheetState extends State<IbanSheet> {
             height: 24,
           ),
           Obx(
-            () => _profileController.isEditProfileLoading.value
+            () => _profileController.isEditProfileLoading.value ||
+                    _profileController.isProfileLoading.value
                 ? const Center(
                     child: CircularProgressIndicator.adaptive(),
                   )
@@ -82,7 +83,7 @@ class _IbanSheetState extends State<IbanSheet> {
                               _profileController.profile.spokenLanguage,
                         );
                         if (user != null) {
-                          _profileController.profile = user;
+                          await _profileController.getProfile(context: context);
                           Get.back();
                         }
                       }

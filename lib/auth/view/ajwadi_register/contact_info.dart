@@ -65,33 +65,6 @@ class _ContactInfoState extends State<ContactInfo> {
                 height: width * .06,
               ),
               CustomText(
-                  text: 'phoneNum'.tr,
-                  fontSize: width * 0.0435,
-                  fontWeight: FontWeight.w500,
-                  fontFamily: 'SF Pro'),
-              CustomTextField(
-                hintText: 'phoneHint'.tr,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                  LengthLimitingTextInputFormatter(10)
-                ],
-                keyboardType: TextInputType.number,
-                validator: false,
-                validatorHandle: (number) {
-                  if (number == null || number!.isEmpty) {
-                    return 'fieldRequired'.tr;
-                  }
-                  if (!number.startsWith('05') || number.length != 10) {
-                    return 'invalidPhone'.tr;
-                  }
-                  return null;
-                },
-                onChanged: (number) => _authController.phoneNumber(number),
-              ),
-              SizedBox(
-                height: width * .06,
-              ),
-              CustomText(
                 text: 'iban'.tr,
                 fontSize: width * 0.0435,
                 fontFamily: 'SF Pro',
@@ -135,10 +108,8 @@ class _ContactInfoState extends State<ContactInfo> {
                               await _authController.createAccountInfo(
                                   context: context,
                                   email: _authController.email.value,
-                                  phoneNumber:
-                                      _authController.phoneNumber.value,
                                   iban: _authController.iban.value,
-                                  type: 'EXPERIENCE');
+                                  type: 'EXPERIENCES');
                           log(isSuccess.toString());
                           if (isSuccess) {
                             storage.write('TourGuide', false);

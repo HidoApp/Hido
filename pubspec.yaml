@@ -91,6 +91,7 @@ dependencies:
   pinput: ^5.0.0
   timer_count_down: ^2.2.2
   iban: ^1.0.1
+  jhijri_picker: ^1.0.1
 
 dev_dependencies:
   flutter_test:

@@ -26,7 +26,8 @@ class Profile {
   final UserRole? userRole;
   final String? accountType;
   final String? iban;
-
+  final String? drivingLicenseExpiryDate;
+  final String? vehicleIdNumber;
   Profile(
       {this.spokenLanguage,
       this.id,
@@ -49,12 +50,17 @@ class Profile {
       this.email,
       this.tourNumber,
       this.accountType,
-      this.iban
+      this.iban,
+      this.drivingLicenseExpiryDate,
+      this.vehicleIdNumber
+
       //this.image,
       });
 
   factory Profile.fromJson(Map<String, dynamic> json) {
     return Profile(
+      drivingLicenseExpiryDate: json["drivingLicenseExpiryDate"] ?? '',
+      vehicleIdNumber: json["vehicleIdNumber"] ?? '',
       accountType: json['accountType'] ?? '',
       iban: json['iban'] ?? "",
       id: json['id'] ?? '',

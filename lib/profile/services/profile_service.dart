@@ -12,6 +12,7 @@ import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 import 'package:ajwad_v4/profile/models/profile.dart';
 import 'package:ajwad_v4/request/chat/model/chat_model.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -276,5 +277,48 @@ class ProfileService {
       return false;
     }
   }
-  //TODO: write fuction to update number after otp
+
+  static Future<Profile?> updateMobile({
+    required BuildContext context,
+    required String otp,
+    required String mobile,
+  }) async {
+    final getStorage = GetStorage();
+    String token = getStorage.read('accessToken') ?? "";
+    if (token != '' && JwtDecoder.isExpired(token)) {
+      final authController = Get.put(AuthController());
+
+      String refreshToken = getStorage.read('refreshToken');
+      var user = await authController.refreshToken(
+          refreshToken: refreshToken, context: context);
+      token = getStorage.read('accessToken');
+    }
+    final response = await http.put(
+      Uri.parse("$baseUrl/profile/mobile"),
+      headers: {
+        'Accept': 'application/json',
+        "Content-Type": "application/json",
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode(
+        {
+          'otp': otp,
+          'mobile': mobile.substring(1),
+        },
+      ),
+    );
+    log(response.statusCode.toString());
+    log(response.body);
+
+    if (response.statusCode == 200) {
+      var profile = jsonDecode(response.body);
+      return Profile.fromJson(profile);
+    } else {
+      String errorMessage = jsonDecode(response.body)['message'];
+      if (context.mounted) {
+        AppUtil.errorToast(context, errorMessage);
+      }
+      return null;
+    }
+  }
 }

@@ -555,5 +555,6 @@ const localeAr = {
   "invalidIBAN": '*رقم الآيبان غير صحيح',
   'payment': "دفع",
   "signInTitle": 'اكتشف السعودية بأهلها! ',
-  "account": "الحساب",
+  "account": "الحساب", "legalDoc": "المستندات القانونية",
+  // "otpDriving": "We’ll send you an OTP to update your driving license"
 };

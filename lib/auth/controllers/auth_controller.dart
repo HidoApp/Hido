@@ -46,7 +46,10 @@ class AuthController extends GetxController {
   var vehicleLicense = ''.obs;
   var validBirthDay = true.obs;
   var validDriving = true.obs;
-  
+  //edit license
+  var updatedDriving = ''.obs;
+  var updatedVehicle = ''.obs;
+  var validUpdatedDriving = true.obs;
 
   // 1 GET COUNTRIES ..
   Future<List<String>?> getListOfCountries(BuildContext context) async {
@@ -127,18 +130,13 @@ class AuthController extends GetxController {
   Future<bool> createAccountInfo({
     required BuildContext context,
     required String email,
-    required String phoneNumber,
     required String iban,
     required String type,
   }) async {
     try {
       isCreateAccountLoading(true);
       final data = await AuthService.createAccountInfo(
-          context: context,
-          email: email,
-          phoneNumber: phoneNumber,
-          iban: iban,
-          type: type);
+          context: context, email: email, iban: iban, type: type);
       return data;
     } catch (e) {
       isCreateAccountLoading(false);
@@ -153,6 +151,7 @@ class AuthController extends GetxController {
       {required BuildContext context,
       required String nationalId,
       required String otp,
+      required String number,
       required String birthDate}) async {
     try {
       isSignUpRowad(true);
@@ -160,6 +159,7 @@ class AuthController extends GetxController {
           context: context,
           nationalId: nationalId,
           otp: otp,
+          number: number,
           birthDate: birthDate);
       log('signUp Roawad');
       log(data.toString());

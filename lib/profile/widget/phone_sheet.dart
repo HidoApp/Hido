@@ -1,5 +1,6 @@
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
+import 'package:ajwad_v4/profile/widget/otp_sheet.dart';
 import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
@@ -29,7 +30,11 @@ class _PhoneSheetState extends State<PhoneSheet> {
           color: Colors.white,
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(24), topRight: Radius.circular(24))),
-      padding: EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 32),
+      padding: EdgeInsets.only(
+          left: width * 0.0615,
+          right: width * 0.0615,
+          top: width * 0.041,
+          bottom: width * 0.082),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -95,8 +100,33 @@ class _PhoneSheetState extends State<PhoneSheet> {
                       if (isValid) {
                         final isSuccess = await _profileController.otpForMobile(
                             context: context, mobile: mobile);
+                        _profileController.updatedMobile = mobile;
                         //TODO: otp handle
-                        if (isSuccess) {}
+                        if (isSuccess) {
+                          //    Get.back();
+                          Get.bottomSheet(OtpSheet(
+                            title: "OTP phone number",
+                            subtitle: "otpPhone".tr,
+                            onCompleted: (otpCode) async {
+                              final user =
+                                  await _profileController.updateMobile(
+                                      context: context,
+                                      otp: otpCode,
+                                      mobile: _profileController.updatedMobile);
+                              if (user != null) {
+                                await _profileController.getProfile(
+                                    context: context);
+                                Get.back();
+                                Get.back();
+                              }
+                            },
+                            resendOtp: () async {
+                              await _profileController.otpForMobile(
+                                  context: context,
+                                  mobile: _profileController.updatedMobile);
+                            },
+                          ));
+                        }
                       }
                     },
                   ),

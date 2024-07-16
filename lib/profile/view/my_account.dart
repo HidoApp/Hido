@@ -8,6 +8,7 @@ import 'package:ajwad_v4/profile/widget/account_edit_sheet.dart';
 import 'package:ajwad_v4/profile/widget/account_tile.dart';
 import 'package:ajwad_v4/profile/widget/email_otp_sheet.dart';
 import 'package:ajwad_v4/profile/widget/iban_sheet.dart';
+import 'package:ajwad_v4/profile/widget/otp_sheet.dart';
 import 'package:ajwad_v4/profile/widget/phone_sheet.dart';
 import 'package:ajwad_v4/profile/widget/prodvided_services_sheet.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
@@ -67,11 +68,13 @@ class _MyAccountState extends State<MyAccount> {
                       subtitle: widget.profileController.profile.email!,
                       onTap: () {
                         showModalBottomSheet(
-                            isScrollControlled: true,
-                            enableDrag: true,
-                            context: context,
-                            builder: (context) => AccountEditSheet(
-                                profileController: widget.profileController));
+                          isScrollControlled: true,
+                          enableDrag: true,
+                          context: context,
+                          builder: (context) => AccountEditSheet(
+                            profileController: widget.profileController,
+                          ),
+                        );
                       },
                     ),
             ),

@@ -96,8 +96,6 @@ class _TourStepperState extends State<TourStepper> {
                                                 context: context,
                                                 email:
                                                     _authController.email.value,
-                                                phoneNumber: _authController
-                                                    .phoneNumber.value,
                                                 iban:
                                                     _authController.iban.value,
                                                 type: 'TOUR_GUID');

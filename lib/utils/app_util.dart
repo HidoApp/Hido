@@ -9,6 +9,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:jhijri/jhijri.dart';
 
 class AppUtil {
   static String address = '';
@@ -295,4 +296,36 @@ class AppUtil {
 
     return formatted.toString();
   }
+
+  static String convertIsoDateToFormattedDate(String isoDateString) {
+    // Parse the date string to a DateTime object
+    DateTime parsedDate = DateTime.parse(isoDateString);
+
+    // Create a DateFormat object with the desired format
+    DateFormat formatter = DateFormat('yyyy-MM-d');
+
+    // Format the DateTime object to the desired format
+    return formatter.format(parsedDate);
+  }
+
+  static String formattedHijriDate(JHijri hijriDate) {
+    return "${hijriDate.year}-${hijriDate.month.toString().padLeft(2, '0')}-${hijriDate.day.toString().padLeft(2, '0')}";
+  }
+  // static String convertHijriToGregorian(String hijriDateString) {
+  //   // Parse the Hijri date string (format: yyyy-MM-dd)
+  //   List<String> parts = hijriDateString.split('-');
+  //   int hijriYear = int.parse(parts[0]);
+  //   int hijriMonth = int.parse(parts[1]);
+  //   int hijriDay = int.parse(parts[2]);
+
+  //   // Convert Hijri date to Gregorian date using jhijri package
+  //   DateTime gregorianDate =
+  //       HijriCalendar().hijriToGregorian(hijriYear, hijriMonth, hijriDay);
+
+  //   // Create a DateFormat object with the desired format
+  //   DateFormat formatter = DateFormat('yyyy-M-d');
+
+  //   // Format the DateTime object to the desired format
+  //   return formatter.format(gregorianDate);
+  // }
 }
