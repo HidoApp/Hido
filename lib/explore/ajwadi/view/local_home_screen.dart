@@ -347,11 +347,11 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                           ),
                         ],
                       ),
-                    ],
+                    
                   ),
                 ),
               ),
-            ),
-    );
+            );
+    
   }
 }

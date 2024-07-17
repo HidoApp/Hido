@@ -26,7 +26,6 @@ class Profile {
  final String? accountType;
 
   final UserRole? userRole;
-  final String? accountType;
   final String? iban;
   final String? drivingLicenseExpiryDate;
   final String? vehicleIdNumber;

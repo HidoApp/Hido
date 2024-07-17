@@ -165,7 +165,7 @@ class _EventsTabState extends State<EventsTab> {
                                 // Get.to(() => E);
                               },
                               image: _eventController
-                                  .eventList[index].images.first,
+                                  .eventList[index].image?.first??'',
                               title: !AppUtil.rtlDirection(context)
                                   ? _eventController.eventList[index].nameAr ??
                                       "empty"
