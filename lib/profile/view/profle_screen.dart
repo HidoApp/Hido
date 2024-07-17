@@ -185,6 +185,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ));
                             },
                           ),
+                          if(storage.read("TourGuide")!=null)
                           if (widget.fromAjwady && storage.read("TourGuide"))
                             CustomListTile(
                               title: 'legalDoc'.tr,

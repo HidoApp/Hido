@@ -23,6 +23,7 @@ class Event {
   final List<Booking>? booking;
   final List<DayInfo>? daysInfo;
   final Profile? user;
+  final List<String> images;
 
     //final int?seats;
   //final List<Time>? times;
@@ -48,6 +49,8 @@ class Event {
     this.daysInfo,
      this.coordinates,
     this.booking,
+  required this.images,
+
     //this.seats,
     //this.times
   });
@@ -66,6 +69,8 @@ class Event {
        locationUrl: json['locationUrl']??'',
       allowedGuests: json['allowedGuests']??0,
       status: json['status']??'',
+      images: (json['image'] as List<dynamic>).map((e) => e as String).toList(),
+
       // date: json['date']??'',
       // seats: json['seats']??0,
       coordinates: Coordinate.fromJson(json['coordinates'] ?? {}),
