@@ -12,7 +12,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class EventController extends GetxController {
-  var EventList = <Adventure>[].obs;
+  var eventList = <Event>[].obs;
   var isEventListLoading = false.obs;
   var isEventByIdLoading = false.obs;
   var ischeckBookingLoading = false.obs;
@@ -20,6 +20,7 @@ class EventController extends GetxController {
   var address = ''.obs;
   var DateErrorMessage=false.obs;
   var TimeErrorMessage=false.obs;
+
   var selectedDate = ''.obs;
   var selectedDates = [].obs; //new
   var selectedTime = ''.obs;
@@ -38,11 +39,7 @@ class EventController extends GetxController {
   var titleEn = "".obs;
   var bioAr = "".obs;
   var bioEn = "".obs;
-  
-
-
-
-
+  var isEventLoading = false.obs;
   var isEventDateSelcted = false.obs;
   var isEventTimeSelcted = false.obs;
 
@@ -124,10 +121,47 @@ class EventController extends GetxController {
 
 
 
-   var isEventLoading = false.obs;
+  Future<List<Event>?> getEventList(
+      {required BuildContext context, String? region}) async {
+    try {
+      isEventListLoading(true);
+      final data =
+          await EventService.getEventList(context: context, region: region);
+      if (data != null) {
+        eventList(data);
+      }
+      return eventList;
+    } catch (e) {
+      isEventListLoading(false);
+      if (context.mounted) {
+        AppUtil.errorToast(context, e.toString());
+      }
+      return null;
+    } finally {
+      isEventListLoading(false);
+    }
+  }
+
+  Future<Event?> getEventById({
+    required BuildContext context,
+    required String id,
+  }) async {
+    try {
+      isEventByIdLoading(true);
+      final data = await EventService.getEventById(context: context, id: id);
+      return data;
+    } catch (e) {
+      isEventByIdLoading(false);
+      if (context.mounted) {
+        AppUtil.errorToast(context, e.toString());
+      }
+      return null;
+    } finally {
+      isEventByIdLoading(false);
+    }
+  }
 
   Future<bool> createEvent({
-  
     required String nameAr,
     required String nameEn,
     required String descriptionAr,
@@ -149,6 +183,7 @@ class EventController extends GetxController {
       final isSuccess = await EventService.createEvent(
           nameAr: nameAr,
           nameEn: nameEn,
+
           descriptionAr: descriptionAr,
           descriptionEn: descriptionEn,
           longitude: longitude,
@@ -163,6 +198,7 @@ class EventController extends GetxController {
           
           );
 
+
       print(isSuccess);
       return isSuccess;
     } catch (e) {
@@ -172,8 +208,7 @@ class EventController extends GetxController {
     }
   }
 
-
-    var  isEditEventLoading = false.obs;
+  var isEditEventLoading = false.obs;
   Future<Event?> editEvent({
     required String id,
     required String nameAr,
@@ -196,8 +231,9 @@ class EventController extends GetxController {
 
       final event = await EventService.editEvent(
           id: id,
-         nameAr: nameAr,
+          nameAr: nameAr,
           nameEn: nameEn,
+
           descriptionAr: descriptionAr,
           descriptionEn: descriptionEn,
           longitude: longitude,
@@ -210,6 +246,7 @@ class EventController extends GetxController {
          daysInfo: daysInfo,
           context: context
       );
+
       if (event != null) {
         return event;
       } else {
@@ -219,11 +256,11 @@ class EventController extends GetxController {
       print(e);
       return null;
     } finally {
-       isEditEventLoading(false);
+      isEditEventLoading(false);
     }
   }
 
-   Future<List<Event>?> getUpcommingTicket({
+  Future<List<Event>?> getUpcommingTicket({
     required BuildContext context,
   }) async {
     try {
@@ -235,8 +272,8 @@ class EventController extends GetxController {
       );
       if (data != null) {
         upcommingTicket(data);
-         print("object controller");
-       print(data.length);
+        print("object controller");
+        print(data.length);
         //print(upcommingTicket.first.place?.nameAr);
         return upcommingTicket;
       } else {
@@ -251,14 +288,14 @@ class EventController extends GetxController {
     }
   }
 
-   Future<List<Event>?> getPastTicket({
+  Future<List<Event>?> getPastTicket({
     required BuildContext context,
   }) async {
     try {
       isPastTicketLoading(true);
 
       final data = await EventService.getUserTicket(
-         eventType:'PAST',
+        eventType: 'PAST',
         context: context,
       );
       print("this pas 1ticket");
@@ -279,21 +316,20 @@ class EventController extends GetxController {
     }
   }
 
-
- var  isEventDeleteLoading = false.obs;
+  var isEventDeleteLoading = false.obs;
   Future<bool?> EventDelete(
       {required BuildContext context, required String eventId}) async {
     try {
-     isEventDeleteLoading(true);
-      final data = await EventService.EventDelete(
-          context: context,eventId: eventId);
-   isEventDeleteLoading(data ?? false);
-      return  isEventDeleteLoading.value;
+      isEventDeleteLoading(true);
+      final data =
+          await EventService.EventDelete(context: context, eventId: eventId);
+      isEventDeleteLoading(data ?? false);
+      return isEventDeleteLoading.value;
     } catch (e) {
       log("-< HospitalityDeleteLoading >- $e");
       return null;
     } finally {
-     isEventDeleteLoading(false);
+      isEventDeleteLoading(false);
     }
   }
   
@@ -316,4 +352,5 @@ class EventController extends GetxController {
   }
   
   
+
 }

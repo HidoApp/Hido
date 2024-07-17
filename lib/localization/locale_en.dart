@@ -85,7 +85,7 @@ const localeEn = {
       "You will pick up tourists in your own car. For security and safety purposes, we need you to provide us with your vehicle information",
   'vehicleNum': "Vehicle Serial Number",
   'nationalIdMustbe10': "National id must consist of 10 digits",
-  "send": "SEND",
+  "send": "Send",
   "add": "ADD",
   "search": "Search",
   "request": "Request",
@@ -493,7 +493,7 @@ const localeEn = {
   'dateHint': 'MM/YY',
   'person': "person",
   'adventuredetails': 'Adventure Details',
-   "GeneralInformation": "General Information",
+  "GeneralInformation": "General Information",
   "Location": "Location",
   "PhotoGallery":"Photo Gallery",
   "GuestNumber":"Guest Number",
@@ -532,6 +532,7 @@ const localeEn = {
 'SaveChanges':'Save Changes',
 'Summary':'Summary',
 
+
   'signInLocal': 'Sign in as Local',
   'otp': 'OTP Code',
   'otpPhone': "We've sent the OTP code to number ",
@@ -564,4 +565,12 @@ const localeEn = {
   'DateDuration':'The date must be 24 hours before the experience date',
   'TimeDuration':"End time is less than start time",
 
+  "": "We've sent code to your number",
+  "account": "Account",
+  "legalDoc": "Legal document",
+  "otpDriving": "We’ll send you an OTP to update your driving license",
+  'tourLicense': "Tour Guide License",
+  'guestLocalSignUp': 'Sign Up As Local',
+  'createTourist': "Create account as Tourist ",
+  'chooseNationality': 'Choose your nationality'
 };

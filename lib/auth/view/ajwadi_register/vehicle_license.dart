@@ -17,7 +17,6 @@ class VehicleLicenseScreen extends StatefulWidget {
 }
 
 class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
-  final _formKey = GlobalKey<FormState>();
   final _authController = Get.put(AuthController());
 
   @override

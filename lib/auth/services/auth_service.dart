@@ -86,7 +86,7 @@ class AuthService {
           "email": email.trim(),
           "password": password.trim(),
           "name": name,
-          "phoneNumber": phoneNumber.trim(),
+          "phoneNumber": phoneNumber.trim().substring(1),
           "nationality": nationality,
         }));
 
@@ -164,6 +164,7 @@ class AuthService {
       {required BuildContext context,
       required String nationalId,
       required String otp,
+      required String number,
       required String birthDate}) async {
     final response = await http.post(
         Uri.parse('$baseUrl/user/sign-up-with-rowad/$otp').replace(
@@ -173,8 +174,11 @@ class AuthService {
           'Accept': 'application/json',
           "Content-Type": "application/json"
         },
-        body:
-            json.encode({'birthDate': birthDate, 'nationalityId': nationalId}));
+        body: json.encode({
+          'birthDate': birthDate,
+          'nationalityId': nationalId,
+          'phoneNumber': number.substring(1)
+        }));
     if (response.statusCode == 200) {
       final getStorage = GetStorage();
 
@@ -265,7 +269,6 @@ class AuthService {
   static Future<bool> createAccountInfo({
     required BuildContext context,
     required String email,
-    required String phoneNumber,
     required String iban,
     required String type,
   }) async {
@@ -288,7 +291,6 @@ class AuthService {
       },
       body: jsonEncode({
         'email': email,
-        'phoneNumber': phoneNumber.substring(1),
         'iban': iban,
         'accountType': type
       }),
@@ -824,5 +826,100 @@ class AuthService {
       return false;
     }
   }
-  
+
+  static Future<bool> createOtp(
+      {required BuildContext context, required String phoneNumber}) async {
+    final response = await http.post(Uri.parse('$baseUrl/otp'),
+        headers: {
+          'Accept': 'application/json',
+          "Content-Type": "application/json"
+        },
+        body: jsonEncode({
+          'mobile': phoneNumber.substring(1),
+        }));
+    log(response.statusCode.toString());
+    log(response.body.toString());
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      var jsonBody = jsonDecode(response.body);
+      String errorMessage = jsonBody['message'];
+      AppUtil.errorToast(context, errorMessage);
+      return false;
+    }
+  }
+
+  static Future<bool> localSignInWithOtp(
+      {required BuildContext context,
+      required String phoneNumber,
+      required String otp}) async {
+    final response = await http.post(
+        Uri.parse('$baseUrl/user/sign-in-with-otp'),
+        headers: {
+          'Accept': 'application/json',
+          "Content-Type": "application/json"
+        },
+        body: jsonEncode({
+          'otp': otp,
+          'mobile': phoneNumber.substring(1),
+        }));
+    log(response.statusCode.toString());
+    //log(response.body.toString());
+    if (response.statusCode == 200) {
+      Map<String, dynamic> user = jsonDecode(response.body);
+      print('token userRole ');
+      String accessToken = user['accessToken'];
+      String refreshToken = user['refreshToken'];
+
+      var token = AuthService.jwtForToken(accessToken)!;
+
+      print('token userRole ${token.userRole}');
+
+      final getStorage = GetStorage();
+      getStorage.write('accessToken', accessToken);
+      getStorage.write('refreshToken', refreshToken);
+      getStorage.write('rememberMe', true);
+      getStorage.write('userRole', token.userRole);
+      return true;
+    } else {
+      var jsonBody = jsonDecode(response.body);
+      String errorMessage = jsonBody['message'];
+      AppUtil.errorToast(context, errorMessage);
+      return false;
+    }
+  }
+
+  static Future<AjwadiInfo?> checkLocalInfo(
+      {required BuildContext context}) async {
+    final getStorage = GetStorage();
+    String token = getStorage.read('accessToken') ?? "";
+
+    if (JwtDecoder.isExpired(token)) {
+      final _authController = Get.put(AuthController());
+
+      String refreshToken = getStorage.read('refreshToken');
+      var user = await _authController.refreshToken(
+          refreshToken: refreshToken, context: context);
+      token = getStorage.read('accessToken');
+    }
+    final response = await http.get(
+      Uri.parse('$baseUrl/local'),
+      headers: {
+        'Accept': 'application/json',
+        "Content-Type": "application/json",
+        'Authorization': ' Bearer $token'
+      },
+    );
+    log(response.statusCode.toString());
+    log(response.body.toString());
+    if (response.statusCode == 200) {
+      Map<String, dynamic> ajwadiInfo = jsonDecode(response.body);
+      return AjwadiInfo.fromJson(ajwadiInfo);
+    } else {
+      var jsonBody = jsonDecode(response.body);
+      String errorMessage = jsonBody['message'];
+      AppUtil.errorToast(context, errorMessage);
+      return null;
+    }
+  }
 }

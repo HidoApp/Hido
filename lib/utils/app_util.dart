@@ -13,9 +13,10 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest_all.dart' as tz;
 
+import 'package:jhijri/jhijri.dart';
 
 class AppUtil {
-  static String address='';
+  static String address = '';
   static bool rtlDirection(context) {
     return !(Get.locale == const Locale('ar', 'ar') ? true : false);
     //return Get.locale == const Locale('ar', 'ar');
@@ -147,12 +148,9 @@ static bool isEndTimeLessThanStartTime(DateTime startTime, DateTime endTime) {
       .map((date) => date as DateTime)
       .toList();
 
-  if (dateTimeList.isEmpty) {
-    return 'DD/MM/YYYY';
-  }
-
-  // Sort the dates
-  dateTimeList.sort();
+    if (dateTimeList.isEmpty) {
+      return 'DD/MM/YYYY';
+    }
 
   final bool isArabic = AppUtil.rtlDirection2(context);
   final DateFormat dayFormatter = DateFormat('d', isArabic ? 'ar' : 'en');
@@ -264,21 +262,19 @@ static String formatSelectedDaysInfo(List<DayInfo> daysInfo, BuildContext contex
     }
 
     start = end + 1;
+
   }
 
-  return formattedDates;
-}
-static String getLocationUrl(Coordinate location) {
+  static String getLocationUrl(Coordinate location) {
     return 'https://www.google.com/maps/search/?api=1&query=${location.latitude},${location.longitude}';
   }
-
 
   static String capitalizeFirstLetter(String input) {
     String lowercased = input.toLowerCase();
     String capitalized = lowercased[0].toUpperCase() + lowercased.substring(1);
 
     return capitalized;
-}
+  }
 
   static String formatStringTimeWithLocale(
       BuildContext context, String dateTimeString) {
@@ -401,4 +397,57 @@ static String getLocationUrl(Coordinate location) {
     String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
     return "$twoDigitMinutes:$twoDigitSeconds ";
   }
+
+  static String maskIban(String iban) {
+    // Get the last four characters
+    String lastFour = iban.substring(iban.length - 4);
+    // Replace all other characters with asterisks
+    String masked = '*' * (iban.length - 4) + lastFour;
+    // Insert spaces every four characters
+    StringBuffer formatted = StringBuffer();
+    for (int i = 0; i < masked.length; i++) {
+      if (i > 0 && i % 4 == 0) {
+        formatted.write(' ');
+      }
+      formatted.write(masked[i]);
+    }
+
+    return formatted.toString();
+  }
+
+  static String convertIsoDateToFormattedDate(String isoDateString) {
+    // Parse the date string to a DateTime object
+    DateTime parsedDate = DateTime.parse(isoDateString);
+
+    // Create a DateFormat object with the desired format
+    DateFormat formatter = DateFormat('yyyy-MM-d');
+
+    // Format the DateTime object to the desired format
+    return formatter.format(parsedDate);
+  }
+
+  static String removeSpaces(String input) {
+    return input.replaceAll(' ', '');
+  }
+
+  static String formattedHijriDate(JHijri hijriDate) {
+    return "${hijriDate.year}-${hijriDate.month.toString().padLeft(2, '0')}-${hijriDate.day.toString().padLeft(2, '0')}";
+  }
+  // static String convertHijriToGregorian(String hijriDateString) {
+  //   // Parse the Hijri date string (format: yyyy-MM-dd)
+  //   List<String> parts = hijriDateString.split('-');
+  //   int hijriYear = int.parse(parts[0]);
+  //   int hijriMonth = int.parse(parts[1]);
+  //   int hijriDay = int.parse(parts[2]);
+
+  //   // Convert Hijri date to Gregorian date using jhijri package
+  //   DateTime gregorianDate =
+  //       HijriCalendar().hijriToGregorian(hijriYear, hijriMonth, hijriDay);
+
+  //   // Create a DateFormat object with the desired format
+  //   DateFormat formatter = DateFormat('yyyy-M-d');
+
+  //   // Format the DateTime object to the desired format
+  //   return formatter.format(gregorianDate);
+  // }
 }

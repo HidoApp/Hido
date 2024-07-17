@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:ajwad_v4/auth/models/image.dart';
@@ -15,6 +16,9 @@ class ProfileController extends GetxController {
   var isPastTicketLoading = false.obs;
   var isUpcommingTicketLoading = false.obs;
   var isChatLoading = false.obs;
+  var isMobileOtpLoading = false.obs;
+  var isUpdatingMobileLoading = false.obs;
+
   var upcommingTicket = <Booking>[].obs;
   var pastTicket = <Booking>[].obs;
   var chatList = <ChatModel>[].obs;
@@ -25,6 +29,9 @@ class ProfileController extends GetxController {
   var isEmailNotValid = false.obs;
   var isNumberNotValid = false.obs;
   var isOTPMode = false.obs;
+  //update var
+  var updatedMobile = '';
+  //------
   Future<Profile?> getProfile(
       {required BuildContext context, String profileId = ""}) async {
     try {
@@ -66,7 +73,7 @@ class ProfileController extends GetxController {
     String? name,
     String? profileImage,
     String? descripttion,
-    String? phone,
+    String? iban,
     List<String>? spokenLanguage,
     required BuildContext context,
   }) async {
@@ -77,7 +84,7 @@ class ProfileController extends GetxController {
         name: name,
         profileImage: profileImage,
         descripttion: descripttion,
-        phone: phone,
+        iban: iban,
         spokenLanguage: spokenLanguage,
         context: context,
       );
@@ -200,6 +207,41 @@ class ProfileController extends GetxController {
       return null;
     } finally {
       isChatLoading(false);
+    }
+  }
+
+  Future<bool> otpForMobile({
+    required BuildContext context,
+    required String mobile,
+  }) async {
+    try {
+      isMobileOtpLoading(true);
+      final isSccues =
+          await ProfileService.otpForMobile(context: context, mobile: mobile);
+      return isSccues;
+    } catch (e) {
+      isMobileOtpLoading(false);
+      return false;
+    } finally {
+      isMobileOtpLoading(false);
+    }
+  }
+
+  Future<Profile?> updateMobile({
+    required BuildContext context,
+    required String otp,
+    required String mobile,
+  }) async {
+    try {
+      isUpdatingMobileLoading(true);
+      final data = await ProfileService.updateMobile(
+          context: context, otp: otp, mobile: mobile);
+      return data;
+    } catch (e) {
+      isUpdatingMobileLoading(false);
+      log(e.toString());
+    } finally {
+      isUpdatingMobileLoading(false);
     }
   }
 }

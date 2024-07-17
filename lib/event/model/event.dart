@@ -1,12 +1,12 @@
-
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 import 'package:ajwad_v4/explore/tourist/model/coordinates.dart';
 import 'package:ajwad_v4/profile/models/profile.dart';
 import 'package:ajwad_v4/services/model/days_info.dart';
 
 
+
 class Event {
-  final String id; 
+  final String id;
   final String? nameAr;
   final String? nameEn;
   final String? descriptionAr;
@@ -72,10 +72,9 @@ class Event {
       user: json['user'] != null && json['user']['profile'] != null
           ? Profile.fromJson(json['user']['profile'])
           : null,
+
       booking: json['booking'] != null
-          ? (json['booking'] as List)
-              .map((e) =>Booking.fromJson(e))
-              .toList()
+          ? (json['booking'] as List).map((e) => Booking.fromJson(e)).toList()
           : null,
      daysInfo: json['daysInfo'] != null
           ? (json['daysInfo'] as List).map((e) => DayInfo.fromJson(e)).toList()
@@ -85,6 +84,7 @@ class Event {
       //         .map((e) => Time.fromJson(e))
       //         .toList()
       //     : null,
+
 
     );
   }
@@ -104,13 +104,10 @@ class Event {
       //'date': date,
      'coordinates': coordinates,
     // 'seats':seats
+
     };
   }
 }
-
-
-
-
 
 class Time {
   final String id;

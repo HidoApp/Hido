@@ -9,8 +9,8 @@ import 'package:timer_count_down/timer_controller.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 
 class CountdownTimer extends StatefulWidget {
-  const CountdownTimer({super.key});
-
+  const CountdownTimer({super.key, required this.resendOtp});
+ final void Function() resendOtp;
   @override
   State<CountdownTimer> createState() => _CountdownTimerState();
 }
@@ -18,14 +18,17 @@ class CountdownTimer extends StatefulWidget {
 class _CountdownTimerState extends State<CountdownTimer> {
   final _controller = CountdownController(autoStart: true);
 
+  @override
   Widget build(BuildContext context) {
     return Countdown(
-      seconds: 120,
+      seconds: 300,
       controller: _controller,
       build: (BuildContext context, double time) => GestureDetector(
         onTap: () {
           if (time == 0) {
+            widget.resendOtp();
             _controller.restart();
+
           }
         },
         child: CustomText(

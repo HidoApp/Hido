@@ -12,6 +12,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:iban/iban.dart';
 
 class ContactInfo extends StatefulWidget {
@@ -24,6 +25,7 @@ class ContactInfo extends StatefulWidget {
 class _ContactInfoState extends State<ContactInfo> {
   final _formKey = GlobalKey<FormState>();
   final _authController = Get.put(AuthController());
+  final storage = GetStorage();
 
   @override
   Widget build(BuildContext context) {
@@ -63,33 +65,6 @@ class _ContactInfoState extends State<ContactInfo> {
                 height: width * .06,
               ),
               CustomText(
-                  text: 'phoneNum'.tr,
-                  fontSize: width * 0.0435,
-                  fontWeight: FontWeight.w500,
-                  fontFamily: 'SF Pro'),
-              CustomTextField(
-                hintText: 'phoneHint'.tr,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                  LengthLimitingTextInputFormatter(10)
-                ],
-                keyboardType: TextInputType.number,
-                validator: false,
-                validatorHandle: (number) {
-                  if (number == null || number!.isEmpty) {
-                    return 'fieldRequired'.tr;
-                  }
-                  if (!number.startsWith('05') || number.length != 10) {
-                    return 'invalidPhone'.tr;
-                  }
-                  return null;
-                },
-                onChanged: (number) => _authController.phoneNumber(number),
-              ),
-              SizedBox(
-                height: width * .06,
-              ),
-              CustomText(
                 text: 'iban'.tr,
                 fontSize: width * 0.0435,
                 fontFamily: 'SF Pro',
@@ -103,14 +78,14 @@ class _ContactInfoState extends State<ContactInfo> {
                   if (iban == null || iban.isEmpty) {
                     return 'fieldRequired'.tr;
                   }
-                  if (!isValid(iban) ||
-                      iban.contains(' ') && iban.startsWith('SA')) {
-                    //TODO:localize
+                  if (!isValid(AppUtil.removeSpaces(iban)) &&
+                      AppUtil.removeSpaces(iban).startsWith('SA')) {
                     return 'invalidIBAN'.tr;
                   }
                   return null;
                 },
-                onChanged: (iban) => _authController.iban(iban),
+                onChanged: (iban) =>
+                    _authController.iban(AppUtil.removeSpaces(iban)),
               ),
             ],
           ),
@@ -133,12 +108,11 @@ class _ContactInfoState extends State<ContactInfo> {
                               await _authController.createAccountInfo(
                                   context: context,
                                   email: _authController.email.value,
-                                  phoneNumber:
-                                      _authController.phoneNumber.value,
                                   iban: _authController.iban.value,
-                                  type: 'EXPERIENCE');
+                                  type: 'EXPERIENCES');
                           log(isSuccess.toString());
                           if (isSuccess) {
+                            storage.write('TourGuide', false);
                             Get.offAll(() => const AjwadiBottomBar());
                           }
                         },

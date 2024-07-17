@@ -7,6 +7,7 @@ import 'package:ajwad_v4/payment/view/payment_type_new.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/view/booking_screen.dart';
 import 'package:ajwad_v4/profile/view/bookmark_screen.dart';
+import 'package:ajwad_v4/profile/view/lega_doc_screen.dart';
 import 'package:ajwad_v4/profile/view/terms&conditions.dart';
 import 'package:ajwad_v4/profile/view/messages_screen.dart';
 import 'package:ajwad_v4/profile/view/my_account.dart';
@@ -21,6 +22,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 import 'ticket_screen.dart';
 
@@ -41,6 +43,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   late double width, height;
 //
   final _profileController = Get.put(ProfileController());
+  final storage = GetStorage();
 
   @override
   void initState() {
@@ -131,8 +134,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 children: [
                                   CustomText(
                                     text: widget.fromAjwady
-                                        ? "${"locla".tr}   | ${_profileController.isProfileLoading.value ? "" : _profileController.profile.rating}  "
-                                        : "${"tourist".tr}   | ${_profileController.isProfileLoading.value ? "" : _profileController.profile.rating ?? "0"}  ",
+                                        ? "${"local".tr}   | ${_profileController.isProfileLoading.value ? "" : _profileController.profile.rating}  "
+                                        : "tourist".tr,
                                     color: colorDarkGrey,
                                     fontSize: width * 0.03,
                                     fontWeight: FontWeight.w500,
@@ -177,10 +180,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             //   fromAjwady: false,
                             onTap: () {
                               Get.to(() => MyAccount(
+                                    isLocal: widget.fromAjwady,
                                     profileController: _profileController,
                                   ));
                             },
                           ),
+                          if (widget.fromAjwady && storage.read("TourGuide"))
+                            CustomListTile(
+                              title: 'legalDoc'.tr,
+                              leading: "assets/icons/legal.svg",
+                              onTap: () => Get.to(() => const LegalDocument()),
+                            ),
                           if (!widget.fromAjwady)
                             CustomListTile(
                               title: "myTickets".tr,

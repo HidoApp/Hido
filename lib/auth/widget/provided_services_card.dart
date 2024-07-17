@@ -12,6 +12,7 @@ class ProvidedServicesCard extends StatelessWidget {
       required this.iconPath,
       required this.color,
       required this.borderColor,
+      this.height,
       required this.textColor,
       required this.iconColor});
   final void Function()? onTap;
@@ -22,6 +23,7 @@ class ProvidedServicesCard extends StatelessWidget {
   final Color iconColor;
   final Color borderColor;
   final Color textColor;
+  final double? height;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +33,7 @@ class ProvidedServicesCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: double.infinity,
-        height: width * 0.282,
+        height: height ?? width * 0.282,
         padding: const EdgeInsets.all(12),
         clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(

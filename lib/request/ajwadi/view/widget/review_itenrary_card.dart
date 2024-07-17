@@ -94,33 +94,37 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
           setState(() {});
         },
         trailing: null,
-        leading: Container(
-          width: width * 0.046,
-          height: width * 0.025,
-          decoration:
-              const BoxDecoration(color: colorGreen, shape: BoxShape.circle),
-        ),
-        title: Row(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomText(text: widget.schedule.scheduleName),
-                CustomText(
-                  text:
-                      "${widget.schedule.scheduleTime!.to!}-${widget.schedule.scheduleTime!.from!}",
-                  color: almostGrey,
-                  fontSize: width * .03,
-                ),
-              ],
-            ),
-            const Spacer(),
-            CustomText(
-              text: "${widget.schedule.price} ${"sar".tr}",
-              color: colorGreen,
-            )
-          ],
-        ),
+        leading: _controller.isExpanded
+            ? null
+            : Container(
+                width: width * 0.046,
+                height: width * 0.025,
+                decoration: const BoxDecoration(
+                    color: colorGreen, shape: BoxShape.circle),
+              ),
+        title: _controller.isExpanded
+            ? const SizedBox.shrink()
+            : Row(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomText(text: widget.schedule.scheduleName),
+                      CustomText(
+                        text:
+                            "${widget.schedule.scheduleTime!.to!}-${widget.schedule.scheduleTime!.from!}",
+                        color: almostGrey,
+                        fontSize: width * .03,
+                      ),
+                    ],
+                  ),
+                  const Spacer(),
+                  CustomText(
+                    text: "${widget.schedule.price} ${"sar".tr}",
+                    color: colorGreen,
+                  )
+                ],
+              ),
         controller: _controller,
         expansionAnimationCurve: Curves.easeIn,
         disableAnimation: true,
@@ -152,13 +156,21 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: width * 0.033),
-                  child: CustomText(
-                    text: "activityName".tr,
-                    fontSize: width * 0.038,
-                    fontWeight: FontWeight.w500,
-                  ),
+                Row(
+                  children: [
+                    if (_controller.isExpanded)
+                      Container(
+                        width: width * 0.046,
+                        height: width * 0.025,
+                        decoration: const BoxDecoration(
+                            color: colorGreen, shape: BoxShape.circle),
+                      ),
+                    CustomText(
+                      text: "activityName".tr,
+                      fontSize: width * 0.038,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: width * 0.01,

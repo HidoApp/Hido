@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/auth/view/ajwadi_register/provided_services.dart';
+import 'package:ajwad_v4/auth/view/ajwadi_register/tour_stepper.dart';
 import 'package:ajwad_v4/auth/widget/countdown_timer.dart';
 import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
@@ -13,6 +14,7 @@ import 'package:ajwad_v4/widgets/screen_padding.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:pinput/pinput.dart';
 import 'package:timer_count_down/timer_controller.dart';
 import 'package:timer_count_down/timer_count_down.dart';
@@ -28,6 +30,8 @@ class PhoneOTP extends StatefulWidget {
 }
 
 class _PhoneOTPState extends State<PhoneOTP> {
+  final storage = GetStorage();
+
   bool timerEnd = false;
   late String otp;
   final _authController = Get.put(AuthController());
@@ -47,6 +51,7 @@ class _PhoneOTPState extends State<PhoneOTP> {
       final isSuccess = await _authController.getAjwadiVehicleInf(
           otp: otpCode, context: context);
       if (isSuccess) {
+        storage.write('TourGuide', true);
         _authController.activeBar(1);
         Get.offAll(() => const AjwadiBottomBar());
       }
@@ -57,10 +62,44 @@ class _PhoneOTPState extends State<PhoneOTP> {
     final isSuccess = await _authController.signUpWithRowad(
         context: context,
         nationalId: _authController.localID.toString(),
+        number: _authController.phoneNumber.value,
         otp: otpCode,
         birthDate: _authController.birthDate.value);
     if (isSuccess) {
       Get.to(() => const ProvidedServices());
+    }
+  }
+
+  void signIn(String otpCode) async {
+    final isSuccess = await _authController.localSignInWithOtp(
+        context: context, phoneNumber: widget.phoneNumber!, otp: otpCode);
+    if (isSuccess) {
+      final local = await _authController.checkLocalInfo(context: context);
+      if (local != null) {
+        if (local.accountType == 'TOUR_GUID' &&
+            local.vehicle &&
+            local.drivingLicense) {
+          storage.write('TourGuide', true);
+          Get.offAll(() => const AjwadiBottomBar());
+        } else if (local.accountType == 'TOUR_GUID' &&
+            local.drivingLicense == false) {
+          _authController.activeBar(2);
+          Get.off(() => const TourStepper());
+        } else if (local.accountType == 'TOUR_GUID' && local.vehicle == false) {
+          _authController.activeBar(3);
+          Get.off(() => const TourStepper());
+        } else if (local.accountType == 'EXPERIENCE') {
+          storage.write('TourGuide', false);
+          Get.offAll(() => const AjwadiBottomBar());
+        } else if (local.accountType.isEmpty) {
+          Get.offAll(() => const AjwadiBottomBar());
+        } else {
+          _authController.activeBar(1);
+          Get.off(() => const ProvidedServices());
+        }
+      } else {
+        AppUtil.errorToast(context, "error when getting info ");
+      }
     }
   }
 
@@ -79,9 +118,7 @@ class _PhoneOTPState extends State<PhoneOTP> {
               fontWeight: FontWeight.w500,
             ),
             CustomText(
-              text: widget.phoneNumber != null
-                  ? "otpPhone".tr
-                  : "We've sent code to your number ",
+              text: "otpPhone".tr,
               fontSize: width * 0.043,
               color: starGreyColor,
               fontWeight: FontWeight.w500,
@@ -106,6 +143,7 @@ class _PhoneOTPState extends State<PhoneOTP> {
                       stepper(value);
                       break;
                     case 'signIn':
+                      signIn(value);
                       break;
                     case 'signUp':
                       signUp(value);
@@ -169,11 +207,20 @@ class _PhoneOTPState extends State<PhoneOTP> {
               height: width * 0.061,
             ),
             Center(
-                child: Obx(() => _authController.isSignUpRowad.value ||
+              child: Obx(
+                () => _authController.isSignUpRowad.value ||
                         _authController.isVicheleLoading.value ||
-                        _authController.isLienceseLoading.value
+                        _authController.isLienceseLoading.value ||
+                        _authController.isCheckLocalLoading.value ||
+                        _authController.isSignInWithOtpLoading.value
                     ? const CircularProgressIndicator.adaptive()
-                    : const CountdownTimer())),
+                    : CountdownTimer(
+                        resendOtp: () {
+                          log('reSendddd');
+                        },
+                      ),
+              ),
+            ),
           ],
         ),
       ),

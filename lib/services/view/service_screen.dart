@@ -41,7 +41,7 @@ class _ServiceScreenState extends State<ServiceScreen>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 3, vsync: this);
     // getReg();
   }
 
@@ -51,7 +51,6 @@ class _ServiceScreenState extends State<ServiceScreen>
     final double height = MediaQuery.of(context).size.height;
     return Scaffold(
         backgroundColor: Colors.white,
-        
         body: NestedScrollView(
           controller: ScrollController(),
           headerSliverBuilder: (context, isScrolled) => [
@@ -71,7 +70,6 @@ class _ServiceScreenState extends State<ServiceScreen>
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    
                     CustomText(
                       text: "serviceTitle".tr,
                       color: Colors.white,
@@ -211,23 +209,7 @@ class _ServiceScreenState extends State<ServiceScreen>
                       ),
                     ),
                   ),
-                  // Padding(
-                  //   // padding: const EdgeInsets.symmetric(horizontal: 18),
 
-                  //   padding: EdgeInsets.symmetric(
-                  //       horizontal:
-                  //           // !AppUtil.rtlDirection(context) ? 15 : 5),
-                  //           AppUtil.rtlDirection2(context) ? 15 : 5),
-
-                  //   //padding: const EdgeInsets.symmetric(horizontal: 15),
-                  //   child: CustomText(
-                  //     text: "events".tr,
-                  //     color: _tabIndex == 1 ? black : Colors.white,
-                  //     fontWeight:
-                  //         _tabIndex == 1 ? FontWeight.w700 : FontWeight.w400,
-                  //     fontSize: 12,
-                  //   ),
-                  // ),
                   Padding(
                     padding: EdgeInsets.symmetric(
                         horizontal:
@@ -253,6 +235,23 @@ class _ServiceScreenState extends State<ServiceScreen>
                       ),
                     ),
                   ),
+                  Padding(
+                    // padding: const EdgeInsets.symmetric(horizontal: 18),
+
+                    padding: EdgeInsets.symmetric(
+                        horizontal:
+                            // !AppUtil.rtlDirection(context) ? 15 : 5),
+                            AppUtil.rtlDirection2(context) ? 15 : 5),
+
+                    //padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: CustomText(
+                      text: "events".tr,
+                      color: _tabIndex == 2 ? darkBlue : Colors.white,
+                      fontWeight:
+                          _tabIndex == 2 ? FontWeight.w700 : FontWeight.w400,
+                      fontSize: _tabIndex == 2 ? width * 0.033 : width * 0.028,
+                    ),
+                  ),
                   // Padding(
                   //   padding: const EdgeInsets.symmetric(horizontal: 18),
                   //   child: CustomText(
@@ -271,10 +270,9 @@ class _ServiceScreenState extends State<ServiceScreen>
             physics: const NeverScrollableScrollPhysics(),
             children: const [
               HospitalityTab(),
-              // EventsTab(
-              //   isAviailable: true,
-              // ),
+
               AdventuresTab(),
+              EventsTab(),
               // RestaurantsTab(
               //   isAviailable: false,
               // ),
