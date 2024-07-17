@@ -28,45 +28,35 @@ class Hospitality {
   final String status;
   final String? touristsGender;
 
-
-
-
-
-
-  Hospitality(
-      {
-        required this.id,
-      required this.bioAr,
-      this.touristsGender,
-      this.booking,
-      required this.userId,
-      required this.bioEn,
-      required this.mealTypeAr,
-      required this.mealTypeEn,
-      required this.categoryAr,
-      required this.categoryEn,
-      required this.titleAr,
-      required this.titleEn,
-      required this.email,
-     // required this.familyName,
-      required this.images,
-     // required this.familyImage,
-      required this.iban,
-      required this.location,
-      required this.price,
-      this.regionAr,
-      required this.regionEn,
-      required this.coordinate,
-      required this.daysInfo,
-      required this.user,
-      required this.status,
-    
-      
-      });
+  Hospitality({
+    required this.id,
+    required this.bioAr,
+    this.touristsGender,
+    this.booking,
+    required this.userId,
+    required this.bioEn,
+    required this.mealTypeAr,
+    required this.mealTypeEn,
+    required this.categoryAr,
+    required this.categoryEn,
+    required this.titleAr,
+    required this.titleEn,
+    required this.email,
+    // required this.familyName,
+    required this.images,
+    // required this.familyImage,
+    required this.iban,
+    required this.location,
+    required this.price,
+    this.regionAr,
+    required this.regionEn,
+    required this.coordinate,
+    required this.daysInfo,
+    required this.user,
+    required this.status,
+  });
   factory Hospitality.fromJson(Map<String, dynamic> json) {
-    
-  return Hospitality(
-
+    return Hospitality(
       id: json['id'] ?? '',
       bioAr: json['bioAr'] ?? '',
       bioEn: json['bioEn'] ?? '',
@@ -87,21 +77,18 @@ class Hospitality {
           : null,
       //familyName: json['familyName'] ?? '',
       //familyImage: json['familyImage'] ?? '',
-      
+
       images: (json['image'] as List<dynamic>).map((e) => e as String).toList(),
       iban: json['iban'] ?? '',
-      location: json['location']??'',
+      location: json['location'] ?? '',
       price: json['price'] ?? 0,
-      regionAr: json['regionAr']??'',
+      regionAr: json['regionAr'] ?? '',
       regionEn: json['regionEn'] ?? '',
       //: HostUser.fromJson(json['user'])
-     user: HostUser.fromJson(json['user'] ?? {}), // Ensure user is initialized from json['user']
+      user: HostUser.fromJson(
+          json['user'] ?? {}), // Ensure user is initialized from json['user']
       status: json['status'] ?? '',
-    touristsGender:json['touristsGender'] ?? '',
-
-
-
-      
+      touristsGender: json['touristsGender'] ?? '',
 
       // daysInfo: (json['daysInfo'] as List)
       //     .map((e) => DayInfo.fromJson(e))
@@ -143,6 +130,7 @@ class HospitalityBooking {
     );
   }
 }
+
 class HostUser {
   final HostProfile profile;
 
@@ -152,7 +140,6 @@ class HostUser {
     return HostUser(
       // profile: json['profile'] != null ? Profile.fromJson(json['profile']) : null,
       profile: HostProfile.fromJson(json['profile'] ?? {}),
-
     );
   }
 }

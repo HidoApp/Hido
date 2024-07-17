@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';
@@ -21,14 +23,20 @@ class _IbanSheetState extends State<IbanSheet> {
   var iban = "";
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+
     return Container(
       width: double.infinity,
       decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(24), topRight: Radius.circular(24))),
-      height: 220,
-      padding: EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 32),
+      height: width * 0.628,
+      padding: EdgeInsets.only(
+          left: width * 0.0615,
+          right: width * 0.0615,
+          top: width * 0.041,
+          bottom: width * 0.082),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -45,15 +53,16 @@ class _IbanSheetState extends State<IbanSheet> {
           Form(
             key: _formKey,
             child: CustomTextField(
-              hintText: AppUtil.maskIban(_profileController.profile.iban!),
+              hintText: AppUtil.maskIban(_profileController.profile.iban ??
+                  "SA5480000246608016008348"),
               keyboardType: TextInputType.text,
               validator: false,
               validatorHandle: (iban) {
                 if (iban == null || iban.isEmpty) {
                   return 'fieldRequired'.tr;
                 }
-                if (!isValid(iban) ||
-                    iban.contains(' ') && iban.startsWith('SA')) {
+                if (!isValid(AppUtil.removeSpaces(iban)) &&
+                    AppUtil.removeSpaces(iban).startsWith('SA')) {
                   return 'invalidIBAN'.tr;
                 }
                 return null;
@@ -62,7 +71,7 @@ class _IbanSheetState extends State<IbanSheet> {
             ),
           ),
           SizedBox(
-            height: 24,
+            height: width * 0.0820,
           ),
           Obx(
             () => _profileController.isEditProfileLoading.value ||
@@ -78,7 +87,7 @@ class _IbanSheetState extends State<IbanSheet> {
                         final user = await _profileController.editProfile(
                           context: context,
                           name: _profileController.profile.name,
-                          iban: iban,
+                          iban: AppUtil.removeSpaces(iban),
                           spokenLanguage:
                               _profileController.profile.spokenLanguage,
                         );
@@ -86,6 +95,8 @@ class _IbanSheetState extends State<IbanSheet> {
                           await _profileController.getProfile(context: context);
                           Get.back();
                         }
+                      } else {
+                        log(AppUtil.removeSpaces(iban));
                       }
                     },
                   ),

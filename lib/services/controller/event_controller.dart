@@ -11,12 +11,11 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class EventController extends GetxController {
-  var EventList = <Adventure>[].obs;
+  var eventList = <Event>[].obs;
   var isEventListLoading = false.obs;
   var isEventByIdLoading = false.obs;
   var ischeckBookingLoading = false.obs;
-  var  selectedImages=<String>[].obs;
-
+  var selectedImages = <String>[].obs;
 
   var selectedDate = ''.obs;
   var selectedDates = [].obs; //new
@@ -32,93 +31,55 @@ class EventController extends GetxController {
   var selectedGender = ''.obs;
   var selectedDateIndex = (-1).obs;
   var selectedDateId = "".obs;
-
-
+  var isEventLoading = false.obs;
   var isEventDateSelcted = false.obs;
   var isEventTimeSelcted = false.obs;
 
   // Rx<LatLng> pickUpLocLatLang = const LatLng(24.9470921, 45.9903698).obs;
-  //  Rx<LatLng> pickUpLocLatLang = const LatLng(24.6264,46.544731).obs; 
-   Rx<LatLng> pickUpLocLatLang = const LatLng(24.788299,46.631608).obs;
+  //  Rx<LatLng> pickUpLocLatLang = const LatLng(24.6264,46.544731).obs;
+  Rx<LatLng> pickUpLocLatLang = const LatLng(24.788299, 46.631608).obs;
 
+  Future<List<Event>?> getEventList(
+      {required BuildContext context, String? region}) async {
+    try {
+      isEventListLoading(true);
+      final data =
+          await EventService.getEventList(context: context, region: region);
+      if (data != null) {
+        eventList(data);
+      }
+      return eventList;
+    } catch (e) {
+      isEventListLoading(false);
+      if (context.mounted) {
+        AppUtil.errorToast(context, e.toString());
+      }
+      return null;
+    } finally {
+      isEventListLoading(false);
+    }
+  }
 
-
-
-
-
-
-
-
-//   Future<List<Adventure>?> getAdvdentureList(
-//       {required BuildContext context, String? region}) async {
-//     try {
-//       isAdventureListLoading(true);
-//       final data = await AdventureService.getAdvdentureList(
-//           context: context, region: region);
-//       if (data != null) {
-//         adventureList(data);
-//       }
-//       return adventureList;
-//     } catch (e) {
-//       isAdventureListLoading(false);
-//       if (context.mounted) {
-//         AppUtil.errorToast(context, e.toString());
-//       }
-//       return null;
-//     } finally {
-//       isAdventureListLoading(false);
-//     }
-//   }
-
-//   Future<Adventure?> getAdvdentureById({
-//     required BuildContext context,
-//     required String id,
-//   }) async {
-//     try {
-//       isAdventureByIdLoading(true);
-//       final data =
-//           await AdventureService.getAdvdentureById(context: context, id: id);
-//       return data;
-//     } catch (e) {
-//       isAdventureByIdLoading(false);
-//       if (context.mounted) {
-//         AppUtil.errorToast(context, e.toString());
-//       }
-//       return null;
-//     } finally {
-//       isAdventureByIdLoading(false);
-//     }
-//   }
-
-//   Future<bool> checkAdventureBooking(
-//       {required BuildContext context,
-//       required String adventureID,
-//       String? invoiceId,
-//       required int personNumber}) async {
-//     try {
-//       ischeckBookingLoading(true);
-//       final data = await AdventureService.checkAdventureBooking(
-//           context: context,
-//           adventureID: adventureID,
-//           personNumber: personNumber,
-//           invoiceId: invoiceId);
-
-//       return data;
-//     } catch (e) {
-//       // AppUtil.errorToast(context, e.toString());
-//       ischeckBookingLoading(false);
-//       return false;
-//     } finally {
-//       ischeckBookingLoading(false);
-//     }
-//   }
-
-
-
-   var isEventLoading = false.obs;
+  Future<Event?> getEventById({
+    required BuildContext context,
+    required String id,
+  }) async {
+    try {
+      isEventByIdLoading(true);
+      final data = await EventService.getEventById(context: context, id: id);
+      return data;
+    } catch (e) {
+      isEventByIdLoading(false);
+      if (context.mounted) {
+        AppUtil.errorToast(context, e.toString());
+      }
+      return null;
+    } finally {
+      isEventByIdLoading(false);
+    }
+  }
 
   Future<bool> createEvent({
-  
     required String nameAr,
     required String nameEn,
     required String descriptionAr,
@@ -141,7 +102,7 @@ class EventController extends GetxController {
       final isSuccess = await EventService.createEvent(
           nameAr: nameAr,
           nameEn: nameEn,
-          date:date,
+          date: date,
           descriptionAr: descriptionAr,
           descriptionEn: descriptionEn,
           longitude: longitude,
@@ -155,9 +116,7 @@ class EventController extends GetxController {
           // start: start,
           // end: end,
           seat: seat,
-          context: context
-          
-          );
+          context: context);
 
       print(isSuccess);
       return isSuccess;
@@ -168,8 +127,7 @@ class EventController extends GetxController {
     }
   }
 
-
-    var  isEditEventLoading = false.obs;
+  var isEditEventLoading = false.obs;
   Future<Event?> editEvent({
     required String id,
     required String nameAr,
@@ -195,9 +153,9 @@ class EventController extends GetxController {
 
       final event = await EventService.editEvent(
           id: id,
-         nameAr: nameAr,
+          nameAr: nameAr,
           nameEn: nameEn,
-          date:date,
+          date: date,
           descriptionAr: descriptionAr,
           descriptionEn: descriptionEn,
           longitude: longitude,
@@ -211,8 +169,7 @@ class EventController extends GetxController {
           ////start: start,
           //end: end,
           seat: seat,
-          context: context
-      );
+          context: context);
       if (event != null) {
         return event;
       } else {
@@ -222,11 +179,11 @@ class EventController extends GetxController {
       print(e);
       return null;
     } finally {
-       isEditEventLoading(false);
+      isEditEventLoading(false);
     }
   }
 
-   Future<List<Event>?> getUpcommingTicket({
+  Future<List<Event>?> getUpcommingTicket({
     required BuildContext context,
   }) async {
     try {
@@ -238,8 +195,8 @@ class EventController extends GetxController {
       );
       if (data != null) {
         upcommingTicket(data);
-         print("object controller");
-       print(data.length);
+        print("object controller");
+        print(data.length);
         //print(upcommingTicket.first.place?.nameAr);
         return upcommingTicket;
       } else {
@@ -254,14 +211,14 @@ class EventController extends GetxController {
     }
   }
 
-   Future<List<Event>?> getPastTicket({
+  Future<List<Event>?> getPastTicket({
     required BuildContext context,
   }) async {
     try {
       isPastTicketLoading(true);
 
       final data = await EventService.getUserTicket(
-         eventType:'PAST',
+        eventType: 'PAST',
         context: context,
       );
       print("this pas 1ticket");
@@ -282,22 +239,20 @@ class EventController extends GetxController {
     }
   }
 
-
- var  isEventDeleteLoading = false.obs;
+  var isEventDeleteLoading = false.obs;
   Future<bool?> EventDelete(
       {required BuildContext context, required String eventId}) async {
     try {
-     isEventDeleteLoading(true);
-      final data = await EventService.EventDelete(
-          context: context,eventId: eventId);
-   isEventDeleteLoading(data ?? false);
-      return  isEventDeleteLoading.value;
+      isEventDeleteLoading(true);
+      final data =
+          await EventService.EventDelete(context: context, eventId: eventId);
+      isEventDeleteLoading(data ?? false);
+      return isEventDeleteLoading.value;
     } catch (e) {
       log("-< HospitalityDeleteLoading >- $e");
       return null;
     } finally {
-     isEventDeleteLoading(false);
+      isEventDeleteLoading(false);
     }
   }
-  
 }

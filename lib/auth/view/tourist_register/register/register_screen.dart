@@ -76,7 +76,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           fontSize: width * 0.051,
                         ),
                         CustomText(
-                          text: 'signAsTourist'.tr,
+                          text: 'createTourist'.tr,
                           fontWeight: FontWeight.w500,
                           fontSize: width * 0.0435,
                           color: starGreyColor,

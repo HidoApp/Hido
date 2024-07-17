@@ -92,7 +92,8 @@ class CustomTextField extends StatelessWidget {
               fontSize: 11,
               fontWeight: FontWeight.w400,
               fontFamily: 'SF Pro'),
-          contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
           counterStyle: const TextStyle(fontSize: 0, height: 100),
           counterText: '',
           border: const OutlineInputBorder(

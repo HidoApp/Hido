@@ -1,12 +1,13 @@
 import 'package:ajwad_v4/auth/view/sigin_in/local_sign_in.dart';
+import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class SignInText extends StatelessWidget {
-  const SignInText({super.key});
-
+  const SignInText({super.key, this.isLocal = true});
+  final bool isLocal;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -25,10 +26,19 @@ class SignInText extends StatelessWidget {
               color: colorGreen,
               fontSize: MediaQuery.of(context).size.width * 0.038,
             ),
-            onTap: () => Get.to(
+            onTap: () {
+              if (isLocal) {
+                Get.to(
                   // () =>  AccountTypeScreen(),
                   () => const LocalSignIn(),
-                ))
+                );
+              } else {
+                Get.to(
+                  // () =>  AccountTypeScreen(),
+                  () => const SignInScreen(),
+                );
+              }
+            })
       ],
     );
   }

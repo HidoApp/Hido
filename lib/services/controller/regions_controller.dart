@@ -8,8 +8,10 @@ class RegionsController extends GetxController {
   var isRegionsLoading = false.obs;
   var regionsHospitalty = Regions().obs;
   var regionsAdventure = Regions().obs;
+  var regionsEvent = Regions().obs;
   var selectedHospitaltyIndex = 0.obs;
   var selectedAdventureIndex = 0.obs;
+  var selectedEventIndex = 0.obs;
   Future<Regions?> getRegions({
     required BuildContext context,
     required String regionType,
@@ -21,8 +23,11 @@ class RegionsController extends GetxController {
       if (regionType == ('ADVENTURE')) {
         print("YESSSSSSSSSSSSSSSS");
         regionsAdventure(data);
+      } else if (regionType == "EVENT") {
+        regionsEvent(data);
+      } else {
+        regionsHospitalty(data);
       }
-      regionsHospitalty(data);
       return data;
     } catch (e) {
       isRegionsLoading(false);

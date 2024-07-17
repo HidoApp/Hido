@@ -562,5 +562,9 @@ const localeEn = {
   "": "We've sent code to your number",
   "account": "Account",
   "legalDoc": "Legal document",
-  "otpDriving": "We’ll send you an OTP to update your driving license"
+  "otpDriving": "We’ll send you an OTP to update your driving license",
+  'tourLicense': "Tour Guide License",
+  'guestLocalSignUp': 'Sign Up As Local',
+  'createTourist': "Create account as Tourist ",
+  'chooseNationality': 'Choose your nationality'
 };

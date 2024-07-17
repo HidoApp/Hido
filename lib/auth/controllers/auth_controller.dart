@@ -82,7 +82,6 @@ class AuthController extends GetxController {
     required bool rememberMe,
     required BuildContext context,
   }) async {
-    print(rememberMe);
     try {
       isRegisterLoading(true);
       final isSuccess = await AuthService.touristRegister(

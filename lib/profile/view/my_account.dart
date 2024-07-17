@@ -41,7 +41,7 @@ class _MyAccountState extends State<MyAccount> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    isTourGuide = storage.read("TourGuide");
+    isTourGuide = storage.read("TourGuide") ?? true;
   }
 
   String getPhoneNumber() {
@@ -109,7 +109,10 @@ class _MyAccountState extends State<MyAccount> {
                   AccountTile(
                     title: 'iban'.tr,
                     subtitle: AppUtil.maskIban(
-                        widget.profileController.profile.iban!),
+                      //TODO: must uncomment this line
+                      //  widget.profileController.profile.iban ??
+                      "SA5480000246608016008348",
+                    ),
                     onTap: () => Get.bottomSheet(const IbanSheet()),
                   ),
                   const Divider(

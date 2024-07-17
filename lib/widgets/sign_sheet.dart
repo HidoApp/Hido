@@ -29,203 +29,151 @@ class SignInSheet extends StatefulWidget {
 class _SignInSheetState extends State<SignInSheet> {
   final _formKey = GlobalKey<FormState>();
 
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
   final _authController = Get.put(AuthController());
-  @override
-  void dispose() {
-    log("DISPOSE");
-    _emailController.dispose();
-    _passwordController.dispose();
-    // TODO: implement dispose
-    super.dispose();
-  }
-
-  void loginValidate() {
-    if (!AppUtil.isPasswordLengthValidate(_passwordController.text)) {
-      _authController.isPasswordValid(false);
-    } else {
-      _authController.isPasswordValid(true);
-    }
-    if (!AppUtil.isEmailValidate(_emailController.text)) {
-      _authController.isEmailValid(false);
-    } else {
-      _authController.isEmailValid(true);
-    }
-  }
+  var _email = '';
+  var _password = '';
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+
     return Padding(
       padding:
           EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: Container(
-        height: width * 1.32,
-        padding: EdgeInsets.only(left: 24, right: 24, top: 20, bottom: 32),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const BottomSheetIndicator(),
-            SizedBox(
-              height: 20,
-            ),
-            CustomText(
-              text: "signAsTourist".tr,
-              fontSize: 22,
-            ),
-            SizedBox(
-              height: 12,
-            ),
-            Form(
-              onPopInvoked: (didPop) {
-                _authController.isEmailValid(true);
-                _authController.isPasswordValid(true);
-              },
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomText(
-                    text: 'email'.tr,
-                    fontSize: 17,
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Obx(
-                    () => CustomTextField(
+        height: 471,
+        width: double.infinity,
+        decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(24), topRight: Radius.circular(24))),
+        padding: EdgeInsets.only(
+            left: width * 0.0615,
+            right: width * 0.0615,
+            top: width * 0.041,
+            bottom: width * 0.082),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const BottomSheetIndicator(),
+              SizedBox(
+                height: width * 0.051,
+              ),
+              CustomText(
+                text: "signAsTourist".tr,
+                fontSize: 22,
+              ),
+              SizedBox(
+                height: 12,
+              ),
+              Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomText(
+                      text: 'email'.tr,
+                      fontSize: 17,
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    CustomTextField(
                       height: 48,
                       keyboardType: TextInputType.emailAddress,
                       hintText: 'yourEmail'.tr,
-                      controller: _emailController,
-                      borderColor: !_authController.isEmailValid.value
-                          ? colorRed
-                          : almostGrey,
-                      onChanged: (value) {},
+                      validator: false,
+                      validatorHandle: (email) {
+                        if (email == null || email.isEmpty) {
+                          return 'fieldRequired'.tr;
+                        }
+                        if (!AppUtil.isEmailValidate(email)) {
+                          return 'invalidEmail'.tr;
+                        }
+                        return null;
+                      },
+                      onChanged: (value) => _email = value,
                     ),
-                  ),
-                  if (!_authController.isEmailValid.value)
                     SizedBox(
-                      height: 5,
+                      height: 24,
                     ),
-                  Obx(() => !_authController.isEmailValid.value
-                      ? Padding(
-                          padding: AppUtil.rtlDirection2(context)
-                              ? const EdgeInsets.only(right: 10)
-                              : const EdgeInsets.only(left: 10),
-                          child: CustomText(
-                            text: "*Enter a valid email",
-                            color: colorRed,
+                    CustomText(
+                      text: 'password'.tr,
+                      fontSize: 17,
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Obx(
+                      () => CustomTextField(
+                        height: 48,
+                        isPassword: true,
+                        hintText: 'yourPassword'.tr,
+                        obscureText: _authController.hidePassword.value,
+                        validator: true,
+                        onChanged: (value) => _password = value,
+                        suffixIcon: GestureDetector(
+                          onTap: () {
+                            _authController.hidePassword.value =
+                                !_authController.hidePassword.value;
+                          },
+                          child: Icon(
+                            _authController.hidePassword.value
+                                ? Icons.visibility_off_outlined
+                                : Icons.visibility_outlined,
+                            color: almostGrey,
                           ),
-                        )
-                      : Container()),
-                  SizedBox(
-                    height: 24,
-                  ),
-                  CustomText(
-                    text: 'password'.tr,
-                    fontSize: 17,
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Obx(
-                    () => CustomTextField(
-                      height: 48,
-                      isPassword: true,
-                      controller: _passwordController,
-                      hintText: 'yourPassword'.tr,
-                      borderColor: !_authController.isPasswordValid.value
-                          ? colorRed
-                          : almostGrey,
-                      obscureText: _authController.hidePassword.value,
-                      onChanged: (value) {},
-                      suffixIcon: GestureDetector(
-                        onTap: () {
-                          _authController.hidePassword.value =
-                              !_authController.hidePassword.value;
-                        },
-                        child: Icon(
-                          _authController.hidePassword.value
-                              ? Icons.visibility_off_outlined
-                              : Icons.visibility_outlined,
-                          color: almostGrey,
                         ),
                       ),
                     ),
-                  ),
-                  if (!_authController.isPasswordValid.value)
                     SizedBox(
-                      height: 5,
+                      height: 26,
                     ),
-                  Obx(() => !_authController.isPasswordValid.value
-                      ? Padding(
-                          padding: AppUtil.rtlDirection2(context)
-                              ? const EdgeInsets.only(right: 10)
-                              : const EdgeInsets.only(left: 10),
-                          child: CustomText(
-                            text: "*Enter at least 8 characters",
-                            color: colorRed,
-                          ),
-                        )
-                      : Container()),
-                  SizedBox(
-                    height: 26,
-                  ),
-                  Align(
-                    alignment: AppUtil.rtlDirection2(context)
-                        ? Alignment.centerLeft
-                        : Alignment.centerRight,
-                    child: GestureDetector(
-                      onTap: () => Get.to(() => const ResetPasswordScreen()),
-                      child: CustomText(
-                        text: 'forgotPassword'.tr,
-                        fontSize: 15,
+                    Align(
+                      alignment: AppUtil.rtlDirection2(context)
+                          ? Alignment.centerLeft
+                          : Alignment.centerRight,
+                      child: GestureDetector(
+                        onTap: () => Get.to(() => const ResetPasswordScreen()),
+                        child: CustomText(
+                          text: 'forgotPassword'.tr,
+                          fontSize: 15,
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 47,
-                  ),
-                  Obx(
-                    () => _authController.isLoginLoading.value
-                        ? const Center(
-                            child: CircularProgressIndicator.adaptive())
-                        : CustomButton(
-                            onPressed: () async {
-                              loginValidate();
-                              if (_authController.isEmailValid.value &&
-                                  _authController.isPasswordValid.value) {
-                                _authController.isEmailValid.value = true;
-                                _authController.isPasswordValid.value = true;
+                    SizedBox(
+                      height: 26,
+                    ),
+                    Obx(
+                      () => _authController.isLoginLoading.value
+                          ? const Center(
+                              child: CircularProgressIndicator.adaptive())
+                          : CustomButton(
+                              onPressed: () async {
                                 final user = await _authController.login(
-                                    email: _emailController.text,
-                                    password: _passwordController.text,
+                                    email: _email,
+                                    password: _password,
                                     rememberMe: true,
                                     context: context);
                                 if (user != null) {
                                   Get.back();
                                 }
-                              } else {
-                                print("_authController.isEmailValid.value");
-                                print(_authController.isEmailValid.value);
-                                print("_authController.isPasswordValid.value");
-                                print(_authController.isPasswordValid.value);
-                              }
-                            },
-                            title: "signIn".tr),
-                  ),
-                  SizedBox(
-                    height: 12,
-                  ),
-
-                  const SignUpText()
-                ],
-              ),
-            )
-          ],
+                              },
+                              title: "signIn".tr),
+                    ),
+                    SizedBox(
+                      height: 12,
+                    ),
+                    const SignUpText(
+                      isLocal: false,
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
