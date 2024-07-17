@@ -1,5 +1,8 @@
+import 'package:ajwad_v4/services/controller/event_controller.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 class AddInfo extends StatefulWidget {
@@ -23,7 +26,8 @@ class AddInfo extends StatefulWidget {
 class _AddInfoState extends State<AddInfo> {
   int _selectedLanguageIndex = 1; // 0 for AR, 1 for EN
   FocusNode _focusNode = FocusNode();
-
+    final EventController _EventController = Get.put(EventController());
+    
   @override
   void dispose() {
     _focusNode.dispose();
@@ -33,14 +37,18 @@ class _AddInfoState extends State<AddInfo> {
   @override
   void initState() {
     super.initState();
-  }
+setState(() {
+  _selectedLanguageIndex = AppUtil.rtlDirection2(context)?0:1;
+
+});
+    
+    }
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-
-    final TextEditingController textField1Controller =
+ final TextEditingController textField1Controller =
         _selectedLanguageIndex == 0
             ? widget.textField1ControllerAR
             : widget.textField1ControllerEN;
@@ -49,6 +57,7 @@ class _AddInfoState extends State<AddInfo> {
             ? widget.textField2ControllerAR
             : widget.textField2ControllerEN;
 
+   
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
@@ -95,7 +104,13 @@ class _AddInfoState extends State<AddInfo> {
                 onToggle: (index) {
                   setState(() {
                     _selectedLanguageIndex = index!;
-                  });
+                  _EventController.titleAr.value = widget.textField1ControllerAR.text;
+                    
+               _EventController.titleEn.value= widget.textField1ControllerEN.text;
+                
+                _EventController.bioAr.value=widget.textField2ControllerAR.text;
+                _EventController.bioEn.value=widget.textField2ControllerEN.text;
+                });
                   print('switched to: $index');
                 },
               ),
@@ -231,7 +246,7 @@ class _AddInfoState extends State<AddInfo> {
                         ),
                         decoration: InputDecoration(
                           hintText: _selectedLanguageIndex == 0
-                              ? 'ما هي التجارب الفريدة التي لا يمكن العثور عليها في أي مكان آخر؟'
+                              ? 'سلط الضوء على ما يجعل تجربتك  فريدة من نوعها ولماذا يجب على السياح زيارتها'
                               : 'highlight what makes it unique and why tourists should visit',
                           hintStyle: TextStyle(
                             color: Color(0xFFB9B8C1),

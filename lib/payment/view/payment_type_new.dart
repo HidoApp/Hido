@@ -582,22 +582,52 @@ class _PaymentTypeState extends State<PaymentType> {
             SizedBox(
               height: width * 0.071,
             ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomText(
-                  text: 'total'.tr,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                ),
-                const Spacer(),
-                CustomText(
-                  // text: 'SAR ${widget.adventure.price.toString()}',
-                  text: '${"sar".tr} ${widget.price}',
-                  fontWeight: FontWeight.w500,
-                  fontSize: width * 0.05,
-                ),
-              ],
+             Padding(
+            padding: const EdgeInsets.only(left: 20, right: 20),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  
+                   Text(
+                    'total'.tr,
+                    textAlign: TextAlign.right,
+                    style: const TextStyle(
+                      color: black,
+                      fontSize: 20,
+                      fontFamily: 'HT Rakik',
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const Spacer(),
+                 
+                   Text.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text:
+                              '${widget.price}',
+                            style: const TextStyle(
+                              color: black,
+                              fontSize: 20,
+                              fontFamily: 'HT Rakik',
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          TextSpan(text: '  '),
+                          TextSpan(
+                            text: 'sar'.tr,
+                            style: TextStyle(
+                              color: black,
+                              fontSize: 20,
+                              fontFamily: 'HT Rakik',
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                ],
+              ),
             ),
             SizedBox(
               height: width * 0.010,

@@ -36,7 +36,7 @@ bool isDateBefore24Hours() {
   tz.initializeTimeZones();
     location = tz.getLocation(timeZoneName);
     DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
-     DateTime parsedDate = type=='hospitality'? DateTime.parse(experience.daysInfo.first.startTime): DateTime.parse(experience.date);
+     DateTime parsedDate = type=='hospitality' || type=='event'? DateTime.parse(experience.daysInfo.first.startTime): DateTime.parse(experience.date);
     Duration difference =  parsedDate.difference(currentDateInRiyadh);
     print('this deffrence');
     print(difference);
@@ -167,7 +167,7 @@ bool isDateBefore24Hours() {
                                 children: [
                                   CustomText(
                                     text: 
-                                   type=='hospitality'?  formatBookingDate(context,
+                                  type=='hospitality'||type=='event'?  formatBookingDate(context,
                                         experience.daysInfo.first.startTime):formatBookingDate(context,
                                         experience.date),
                                     fontSize: 12,
@@ -187,7 +187,7 @@ bool isDateBefore24Hours() {
                                 //  if(hospitality.status!='DELETED')
 
                                   CustomText(
-                                    text:experience.status!='DELETED'?type=='hospitality' ?formatBookingDate(context,
+                                    text:experience.status!='DELETED'?type=='hospitality'||type=='event' ?formatBookingDate(context,
                                         experience.daysInfo.first.startTime):formatBookingDate(context,
                                         experience.date):'',
                                     fontSize: 12,
@@ -215,9 +215,12 @@ bool isDateBefore24Hours() {
     if(type=='hospitality'){
     Get.to(SummaryScreen(hospitalityId:experience.id));
     }
-    else{
+    else if(type=='adventure'){
       Get.to(AdventureSummaryScreen(adventureId:experience.id));
 
+    }
+    else{
+      
     }
   },
   style: ElevatedButton.styleFrom(

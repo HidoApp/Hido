@@ -348,7 +348,7 @@ class _FindAjwadyState extends State<FindAjwady> {
                           text: 'tripDetails'.tr,
                           fontSize: 17,
                           fontFamily: 'HT Rakik',
-                          fontWeight: FontWeight.w700,
+                          fontWeight: FontWeight.w500,
                           color: Colors.black,
                         ),
                         trailing: Icon(
@@ -545,16 +545,16 @@ class _FindAjwadyState extends State<FindAjwady> {
                                     : 1,
                             itemBuilder: (context, index) {
                               String? image =
-                                  _offerController.firstThreeImages[index];
+                                  _offerController.firstThreeImages[index]??'';
 
                               return Align(
                                   widthFactor: 0.5,
                                   child: CircleAvatar(
                                     radius: 22,
-                                    backgroundImage: image!.isNotEmpty
+                                    backgroundImage: image.isNotEmpty
                                         ? CachedNetworkImageProvider(image)
                                         : const AssetImage(
-                                                'assets/images/ajwadi_image.png')
+                                                 'assets/images/profile_image.png')
                                             as ImageProvider,
                                   ));
                               //_offerController.offers.length,
@@ -600,7 +600,7 @@ class _FindAjwadyState extends State<FindAjwady> {
                           color: black,
                           fontSize: 17,
                           fontFamily: 'HT Rakik',
-                          fontWeight: FontWeight.w700,
+                          fontWeight: FontWeight.w500,
                         ),
                         const Spacer(),
                         const Icon(

@@ -74,35 +74,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
       },
     );
   }
-Future<String> _getAddressFromLatLng(double position1,double position2) async {
-    try {
-      List<Placemark> placemarks =
-          await placemarkFromCoordinates(position1,position2);
-      print(placemarks);
 
-      if (placemarks.isNotEmpty) {
-        Placemark placemark = placemarks.first;
-        print(placemarks.first);
-        return '${placemark.locality}, ${placemark.subLocality}, ${placemark.country}';
-      }
-    } catch (e) {
-      print("Error retrieving address: $e");
-    }
-    return '';
-  }
-
-  Future<void> _fetchAddress(String position1,String position2) async {
-    try {
-      String result = await _getAddressFromLatLng(
- double.parse( position1),double.parse( position2)) ;    
-  setState(() {
-        _servicesController.address.value=result;
-      });
-    } catch (e) {
-      // Handle error if necessary
-      print('Error fetching address: $e');
-    }
-  }
 
   late Hospitality? hospitalityObj;
   var hideLocation = true;
@@ -123,11 +95,11 @@ Future<String> _getAddressFromLatLng(double position1,double position2) async {
   void getHospitalityById() async {
     hospitalityObj = (await _servicesController.getHospitalityById(
         context: context, id: widget.hospitalityId));
+ 
+  
     if (hospitalityObj!.booking != null) {
       hideLocation = hospitalityObj!.booking!.isEmpty;
-      if(!widget.isLocal)
-    _fetchAddress(hospitalityObj!.coordinate.latitude??'', hospitalityObj!.coordinate.longitude??'');
-  
+    
     }
     for (var day in hospitalityObj!.daysInfo) {
       print(day.startTime);
@@ -332,29 +304,36 @@ Future<String> _getAddressFromLatLng(double position1,double position2) async {
                                     text: "about".tr,
                                     fontSize: width * 0.046,
                                     fontWeight: FontWeight.w400,
+                                    fontFamily: 'HT Rakik',
+
                                   )),
                               SizedBox(
                                 height: width * 0.025,
                               ),
-                              ConstrainedBox(
-                                constraints: isExpanded
-                                    ? const BoxConstraints()
-                                    : BoxConstraints(maxHeight: width * 0.05),
-                                child: CustomText(
-                                    //   textAlign: AppUtil.rtlDirection(context) ? TextAlign.end : TextAlign.start ,
-                                    textDirection: AppUtil.rtlDirection(context)
-                                        ? TextDirection.ltr
-                                        : TextDirection.rtl,
-                                    textOverflow: isExpanded
-                                        ? TextOverflow.visible
-                                        : TextOverflow.clip,
-                                       fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
-                                    fontSize: width * 0.035,
-                                   color: Color(0xFF9392A0),
-
-                                    text: !AppUtil.rtlDirection(context)
-                                        ? hospitalityObj!.bioAr
-                                        : hospitalityObj!.bioEn),
+                                 Align(
+                              alignment: AppUtil.rtlDirection2(context)
+                                  ? Alignment.centerRight
+                                  : Alignment.centerLeft,
+                                  child: ConstrainedBox(
+                                  constraints: isExpanded
+                                      ? const BoxConstraints()
+                                      : BoxConstraints(maxHeight: width * 0.097),
+                                  child: CustomText(
+                                      //   textAlign: AppUtil.rtlDirection(context) ? TextAlign.end : TextAlign.start ,
+                                      textDirection: AppUtil.rtlDirection(context)
+                                          ? TextDirection.ltr
+                                          : TextDirection.rtl,
+                                      textOverflow: isExpanded
+                                          ? TextOverflow.visible
+                                          : TextOverflow.clip,
+                                         fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+                                fontSize: width * 0.038,
+                                     color: starGreyColor,
+                              
+                                      text: !AppUtil.rtlDirection(context)
+                                          ? hospitalityObj!.bioAr
+                                          : hospitalityObj!.bioEn),
+                                ),
                               ),
                               SizedBox(
                                 width: width * 0.012,
@@ -418,6 +397,8 @@ Future<String> _getAddressFromLatLng(double position1,double position2) async {
                                 text:!widget.isLocal? "whereWeWillBe".tr:AppUtil.rtlDirection2(context)?'الموقع':'Location',
                                     fontSize: width * 0.046,
                                     fontWeight: FontWeight.w400,
+                                    fontFamily: 'HT Rakik',
+
                                   )),
                               SizedBox(
                                 height: width * 0.025,
@@ -464,6 +445,7 @@ Future<String> _getAddressFromLatLng(double position1,double position2) async {
                                       },
                                     ),
                                   ),
+                                    
                                   if (!widget.isLocal)
                                     if (hideLocation)
                                       Container(
@@ -484,6 +466,17 @@ Future<String> _getAddressFromLatLng(double position1,double position2) async {
                                       ),
                                 ],
                               ),
+                               if (widget.isLocal)...[
+                                SizedBox(
+                                    height: width * 0.028,
+                                  ),
+                                const Divider(
+                                  color: lightGrey,
+                                ),
+                                SizedBox(
+                                  height: width * 0.038,
+                                ),
+                               ],
                               if (!widget.isLocal) ...[
                                 if (hideLocation)
                                   SizedBox(
@@ -515,7 +508,7 @@ Future<String> _getAddressFromLatLng(double position1,double position2) async {
                                                 text: "cancellationPolicy".tr,
                                                 fontSize: width * 0.0461,
                                                 fontWeight: FontWeight.w400,
-                                           fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+                                               fontFamily: 'HT Rakik',
 
                                               ),
                                               SizedBox(
@@ -583,7 +576,11 @@ Future<String> _getAddressFromLatLng(double position1,double position2) async {
                               : width * 0.072,
                           child: GestureDetector(
                               onTap:widget.isHasBooking?
-                               () {
+                               () async {
+                                 AppUtil.errorToast(context,
+                                          'editExperience'.tr);
+                                      await Future.delayed(
+                                          const Duration(seconds: 1));
                               }:() {
                          Get.to(EditHospitality(hospitalityObj: hospitalityObj!,experienceType:widget.experienceType));
 
@@ -639,7 +636,7 @@ Future<String> _getAddressFromLatLng(double position1,double position2) async {
                     //indicator
                     Positioned(
                       top: height * 0.22,
-                      left: width * 0.36,
+                      left: width * 0.44,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: hospitalityObj!.images.map((imageUrl) {
@@ -652,11 +649,15 @@ Future<String> _getAddressFromLatLng(double position1,double position2) async {
                                 horizontal: width * 0.005),
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: _currentIndex == index
-                                  ? Colors.white
-                                  : Colors.white.withOpacity(0.4),
+                              color: _currentIndex == index?
+                              hospitalityObj!.images.length==1
+                                   ? Colors.white.withOpacity(0.1)
+                                    : Colors.white
+                                  : Colors.white.withOpacity(0.8),
                               boxShadow: _currentIndex == index
-                                  ? [
+                                  ? hospitalityObj!.images.length==1
+                                  ?[]
+                                  : [
                                       const BoxShadow(
                                           color: Colors.white,
                                           blurRadius: 5,

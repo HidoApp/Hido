@@ -27,6 +27,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_datetime_picker_bdaya/flutter_datetime_picker_bdaya.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
@@ -76,37 +77,38 @@ class _EditHospitalityState extends State<EditHospitality> {
   String ragionAr = '';
   String ragionEn = '';
 
-List<String> regionListEn = [
-  "Riyadh",
-  "Mecca",
-  "Medina",
-  "Dammam",
-  "Qassim",
-  "Hail",
-  "Northern Borders",
-  "Jazan",
-  "Asir",
-  "Tabuk",
-  "Najran",
-  "Al Baha",
-  "Al Jouf"
-];
+  List<String> regionListEn = [
+    "Riyadh",
+    "Mecca",
+    "Medina",
+    "Dammam",
+    "Qassim",
+    "Hail",
+    "Northern Borders",
+    "Jazan",
+    "Asir",
+    "Tabuk",
+    "Najran",
+    "Al Baha",
+    "Al Jouf"
+  ];
 
- List<String> regionListAr = [
-  "الرياض",
-  "مكة",
-  "المدينة",
-  "الدمام",
-  "القصيم",
-  "حائل",
-  "الحدود الشمالية",
-  "جازان",
-  "عسير",
-  "تبوك",
-  "نجران",
-  "الباحة",
-  "الجوف"
-];
+  List<String> regionListAr = [
+    "الرياض",
+    "مكة",
+    "المدينة",
+    "الدمام",
+    "القصيم",
+    "حائل",
+    "الحدود الشمالية",
+    "جازان",
+    "عسير",
+    "تبوك",
+    "نجران",
+    "الباحة",
+    "الجوف"
+  ];
+
   BitmapDescriptor markerIcon = BitmapDescriptor.defaultMarker;
   void addCustomIcon() {
     BitmapDescriptor.fromAssetImage(
@@ -154,25 +156,20 @@ List<String> regionListEn = [
         Placemark placemark = placemarks.first;
         print(placemarks.first);
         setState(() {
-         if (AppUtil.rtlDirection2(context)) {
-            
-              ragionAr = placemark.locality!;
-              ragionEn = 'Riyadh';
-            } else {
-              ragionAr = 'الرياض';
-              ragionEn = placemark.locality!;
-            }
-           if (!regionListEn.contains(ragionEn) || !regionListAr.contains(ragionAr)) {
-           setState(() {
-         
-          
+          if (AppUtil.rtlDirection2(context)) {
+            ragionAr = placemark.locality!;
+            ragionEn = 'Riyadh';
+          } else {
             ragionAr = 'الرياض';
-            ragionEn = 'Riyadh'; 
-       
-          });
-           
-       }
-
+            ragionEn = placemark.locality!;
+          }
+          if (!regionListEn.contains(ragionEn) ||
+              !regionListAr.contains(ragionAr)) {
+            setState(() {
+              ragionAr = 'الرياض';
+              ragionEn = 'Riyadh';
+            });
+          }
         });
         return '${placemark.locality}, ${placemark.subLocality}, ${placemark.country}';
       }
@@ -213,10 +210,11 @@ List<String> regionListEn = [
   bool guestEmpty = false;
   bool PriceEmpty = false;
   bool PriceLarger = false;
+  bool PriceDouble = false;
 
   String gender = '';
 
-  void validateAndSave() {
+  Future<void> validateAndSave() async {
     setState(() {
       titleArEmpty = hospitalityTitleControllerAr.text.isEmpty;
       bioArEmpty = hospitalityBioControllerAr.text.isEmpty;
@@ -232,19 +230,22 @@ List<String> regionListEn = [
       DateErrorMessage = !_servicesController.isHospatilityDateSelcted.value;
       TimeErrorMessage = !_servicesController.isHospatilityTimeSelcted.value;
 
+      // !AppUtil.isDateBefore24Hours(_servicesController.selectedDate.value);
       PriceEmpty = _priceController.text.isEmpty;
 
+      PriceEmpty = _priceController.text.isEmpty;
       if (_priceController.text.isNotEmpty) {
-      double? price = double.tryParse(_priceController.text);
-     PriceLarger = price == null || price! < 150;
-     print(     PriceLarger = price == null || price! < 150
-);
+        int? price = int.tryParse(_priceController.text);
+        PriceLarger = price == null || price! < 150;
+        print(PriceLarger = price == null || price! < 150);
+
+        //check if price not int
+        String priceText = _priceController.text;
+        RegExp doubleRegex = RegExp(r'^[0-9]*\.[0-9]+$');
+        PriceDouble = doubleRegex.hasMatch(priceText);
       }
-    
-      
-    
     });
-     
+
     if (!titleArEmpty &&
         !bioArEmpty &&
         !titleENEmpty &&
@@ -253,18 +254,25 @@ List<String> regionListEn = [
         !DateErrorMessage! &&
         !TimeErrorMessage! &&
         !PriceEmpty &&
-        !PriceLarger
-       ) 
-  
-       {
-
-        
-          daysInfo();
+        !PriceLarger &&
+        !PriceDouble &&
+        _servicesController.DateErrorMessage.value &&
+        !_servicesController.TimeErrorMessage.value) {
+      daysInfo();
       _updateProfile();
-        
-    
     } else {
-      // Handle validation errors
+      if (!_servicesController.DateErrorMessage.value) {
+        if (context.mounted) {
+          AppUtil.errorToast(context, 'DateDuration'.tr);
+          await Future.delayed(const Duration(seconds: 3));
+        }
+      }
+      if (_servicesController.TimeErrorMessage.value) {
+        if (context.mounted) {
+          AppUtil.errorToast(context, 'TimeDuration'.tr);
+          await Future.delayed(const Duration(seconds: 3));
+        }
+      }
       print("Please fill all required fields");
     }
   }
@@ -276,7 +284,7 @@ List<String> regionListEn = [
 
       hospitalityTitleControllerEn.text = widget.hospitalityObj.titleEn;
       hospitalityBioControllerEn.text = widget.hospitalityObj.bioEn;
-       
+
       mealTypeAr = widget.hospitalityObj.mealTypeAr;
       mealTypeEn = widget.hospitalityObj.mealTypeEn;
       guestNum = widget.hospitalityObj.daysInfo.first.seats;
@@ -288,13 +296,14 @@ List<String> regionListEn = [
           widget.hospitalityObj.daysInfo.first.endTime;
       _priceController.text = widget.hospitalityObj.price.toString();
       _selectRadio(widget.hospitalityObj.mealTypeEn);
-      _selectRadio(widget.hospitalityObj.touristsGender??'');
-   
-      _guestsController.text = widget.hospitalityObj.touristsGender??'';
+      _selectRadio(widget.hospitalityObj.touristsGender ?? '');
 
+      _guestsController.text = widget.hospitalityObj.touristsGender ?? '';
 
       _servicesController.isHospatilityDateSelcted.value = true;
       _servicesController.isHospatilityTimeSelcted.value = true;
+
+      _servicesController.DateErrorMessage.value = true;
 
       _servicesController.pickUpLocLatLang.value = LatLng(
           double.parse(widget.hospitalityObj.coordinate.latitude ?? ''),
@@ -354,13 +363,13 @@ List<String> regionListEn = [
         _selectedRadio1 = 1;
       } else if (newValue == "MALE") {
         _selectedRadio1 = 2;
-      } else if (  newValue == "BOTH") {
+      } else if (newValue == "BOTH") {
         _selectedRadio1 = 3;
       } else if (newValue == "BREAKFAST" || newValue == "إفطار") {
         _selectedRadio2 = 1;
-      } else if (newValue == "LUNCH" || newValue == "عشاء") {
+      } else if (newValue == "LUNCH" || newValue == "غداء") {
         _selectedRadio2 = 2;
-      } else if (newValue == "Dinner" || newValue == "غداء") {
+      } else if (newValue == "Dinner" || newValue == "عشاء") {
         _selectedRadio2 = 3;
       }
 
@@ -376,6 +385,7 @@ List<String> regionListEn = [
   bool? DateErrorMessage;
   bool? TimeErrorMessage;
   bool? DurationErrorMessage;
+  bool? DurationDateError;
 
   bool? GuestErrorMessage;
   int selectedChoice = 3;
@@ -389,10 +399,10 @@ List<String> regionListEn = [
         mealTypeAr = "إفطار";
       } else if (_selectedRadio2 == 3) {
         mealTypeEn = "Dinner";
-        mealTypeAr = "غداء";
+        mealTypeAr = "عشاء";
       } else if (_selectedRadio2 == 2) {
         mealTypeEn = "LUNCH";
-        mealTypeAr = "عشاء";
+        mealTypeAr = "غداء";
       }
       // widget.onGenderChanged(gender!);  // Call the callback with the new gender value
     });
@@ -466,8 +476,12 @@ List<String> regionListEn = [
                       !AppUtil.rtlDirection2(context)
                           ? "Changes have been saved successfully!"
                           : "تم حفظ التغييرات بنجاح ",
-                      style: TextStyle(fontSize: 14,fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic'
-                                 : 'SF Pro',),
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontFamily: AppUtil.rtlDirection2(context)
+                            ? 'SF Arabic'
+                            : 'SF Pro',
+                      ),
                       textDirection: AppUtil.rtlDirection2(context)
                           ? TextDirection.rtl
                           : TextDirection.ltr,
@@ -484,7 +498,7 @@ List<String> regionListEn = [
         print("Profile updated successfully: $result");
       } else {
         // Get.offAll(AddExperienceInfo());
-       // Get.offAll(() => const AjwadiBottomBar());
+        // Get.offAll(() => const AjwadiBottomBar());
 
         print("Profile update returned null");
       }
@@ -497,7 +511,6 @@ List<String> regionListEn = [
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
-
     final TextEditingController textField1Controller =
         _selectedLanguageIndex == 0
             ? hospitalityTitleControllerAr
@@ -547,8 +560,9 @@ List<String> regionListEn = [
                                 textAlign: TextAlign.center,
                                 color: Color(0xFFDC362E),
                                 fontSize: 15,
-                                fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic'
-                                 : 'SF Pro',
+                                fontFamily: AppUtil.rtlDirection2(context)
+                                    ? 'SF Arabic'
+                                    : 'SF Pro',
                                 fontWeight: FontWeight.w500,
                                 text: AppUtil.rtlDirection2(context)
                                     ? "تنبيه"
@@ -562,10 +576,13 @@ List<String> regionListEn = [
                                 fontSize: 15,
                                 fontWeight: FontWeight.w400,
                                 color: Color(0xFF41404A),
-                                text: AppUtil.rtlDirection2(context)?"أنت على وشك حذف هذه التجربة":'You’re about to delete this experience',
-                                fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic'
-                                 : 'SF Pro',
-                            ),
+                                text: AppUtil.rtlDirection2(context)
+                                    ? "أنت على وشك حذف هذه التجربة"
+                                    : 'You’re about to delete this experience',
+                                fontFamily: AppUtil.rtlDirection2(context)
+                                    ? 'SF Arabic'
+                                    : 'SF Pro',
+                              ),
                               const SizedBox(
                                 height: 10,
                               ),
@@ -606,9 +623,14 @@ List<String> regionListEn = [
                                                           context)
                                                       ? 'The experience has been deleted'
                                                       : "تم حذف التجربة بنجاح ",
-                                                  style:
-                                                      TextStyle(fontSize: 14, fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic'
-                                                      : 'SF Pro',),
+                                                  style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontFamily:
+                                                        AppUtil.rtlDirection2(
+                                                                context)
+                                                            ? 'SF Arabic'
+                                                            : 'SF Pro',
+                                                  ),
                                                   textDirection:
                                                       AppUtil.rtlDirection2(
                                                               context)
@@ -644,11 +666,14 @@ List<String> regionListEn = [
                                   ),
                                   child: CustomText(
                                     textAlign: TextAlign.center,
-                                   text:AppUtil.rtlDirection2(context)?"حذف": "Delete",
+                                    text: AppUtil.rtlDirection2(context)
+                                        ? "حذف"
+                                        : "Delete",
                                     color: Colors.white,
                                     fontSize: 15,
-                            fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                                    : 'SF Pro',
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
@@ -673,9 +698,11 @@ List<String> regionListEn = [
                                     child: CustomText(
                                         textAlign: TextAlign.center,
                                         fontSize: 15,
-                                      fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                                    : 'SF Pro',
-                                fontWeight: FontWeight.w500,
+                                        fontFamily:
+                                            AppUtil.rtlDirection2(context)
+                                                ? 'SF Arabic'
+                                                : 'SF Pro',
+                                        fontWeight: FontWeight.w500,
                                         color: Color(0xFFDC362E),
                                         text: AppUtil.rtlDirection2(context)
                                             ? 'الغاء'
@@ -709,12 +736,13 @@ List<String> regionListEn = [
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
-                                   'PhotoGallery'.tr,
+                                  'PhotoGallery'.tr,
                                   style: TextStyle(
                                     color: black,
                                     fontSize: 17,
-                                      fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                                    : 'SF Pro',
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
@@ -748,30 +776,6 @@ List<String> regionListEn = [
                             ),
                           ),
 
-                          // GestureDetector(
-                          //   onTap: () {
-                          //     Get.to(ViewTripImages(
-                          //       tripImageUrl: hospitalityObj!.images,
-                          //       fromNetwork: true,
-                          //     ));
-                          //   },
-                          //   child: CarouselSlider.builder(
-                          //     options: CarouselOptions(
-                          //         height: height * 0.3,
-                          //         viewportFraction: 1,
-                          //         onPageChanged: (i, reason) {
-                          //           setState(() {
-                          //             _currentIndex = i;
-                          //           });
-                          //         }),
-                          //     itemCount: hospitalityObj!.images.length,
-                          //     itemBuilder: (context, index, realIndex) {
-                          //       return ImagesServicesWidget(
-                          //         image: hospitalityObj!.images[index],
-                          //       );
-                          //     },
-                          //   ),
-                          // ),
                           SizedBox(
                             height: width * 0.055,
                           ),
@@ -818,8 +822,10 @@ List<String> regionListEn = [
                                           fontSize: _selectedLanguageIndex == 0
                                               ? 11
                                               : 13,
-                                          fontFamily: _selectedLanguageIndex == 0?'SF Arabic'
-                                            : 'SF Pro',
+                                          fontFamily:
+                                              _selectedLanguageIndex == 0
+                                                  ? 'SF Arabic'
+                                                  : 'SF Pro',
                                           fontWeight:
                                               _selectedLanguageIndex == 0
                                                   ? FontWeight.w600
@@ -829,8 +835,10 @@ List<String> regionListEn = [
                                           fontSize: _selectedLanguageIndex == 0
                                               ? 11
                                               : 13,
-                                          fontFamily: _selectedLanguageIndex == 0?'SF Arabic'
-                                            : 'SF Pro',
+                                          fontFamily:
+                                              _selectedLanguageIndex == 0
+                                                  ? 'SF Arabic'
+                                                  : 'SF Pro',
                                           fontWeight:
                                               _selectedLanguageIndex == 0
                                                   ? FontWeight.w600
@@ -926,8 +934,11 @@ List<String> regionListEn = [
                                                   hintStyle: TextStyle(
                                                     color: Color(0xFFB9B8C1),
                                                     fontSize: 15,
-                                                    fontFamily: _selectedLanguageIndex == 0?'SF Arabic'
-                                            : 'SF Pro',
+                                                    fontFamily:
+                                                        _selectedLanguageIndex ==
+                                                                0
+                                                            ? 'SF Arabic'
+                                                            : 'SF Pro',
                                                     fontWeight: FontWeight.w400,
                                                   ),
                                                   border: OutlineInputBorder(
@@ -1062,8 +1073,11 @@ List<String> regionListEn = [
                                                   hintStyle: TextStyle(
                                                     color: Color(0xFFB9B8C1),
                                                     fontSize: 15,
-                                                    fontFamily: _selectedLanguageIndex == 0?'SF Arabic'
-                                                        : 'SF Pro',
+                                                    fontFamily:
+                                                        _selectedLanguageIndex ==
+                                                                0
+                                                            ? 'SF Arabic'
+                                                            : 'SF Pro',
                                                     fontWeight: FontWeight.w400,
                                                   ),
                                                   border: OutlineInputBorder(
@@ -1116,8 +1130,10 @@ List<String> regionListEn = [
                                               style: TextStyle(
                                                 color: Color(0xFFB9B8C1),
                                                 fontSize: 11,
-                                                fontFamily: _selectedLanguageIndex == 0?'SF Arabic'
-                                            : 'SF Pro',
+                                                fontFamily:
+                                                    _selectedLanguageIndex == 0
+                                                        ? 'SF Arabic'
+                                                        : 'SF Pro',
                                                 fontWeight: FontWeight.w400,
                                               ),
                                             ),
@@ -1145,9 +1161,10 @@ List<String> regionListEn = [
                                     color: Colors.black,
                                     fontSize: 17,
                                     fontWeight: FontWeight.w500,
-                      fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                                            : 'SF Pro',
-                                        ),
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
+                                  ),
                                   SizedBox(
                                     height: width * 0.02,
                                   ),
@@ -1182,9 +1199,11 @@ List<String> regionListEn = [
                                               text: "guests".tr,
                                               fontWeight: FontWeight.w400,
                                               color: Graytext,
-                           fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                                            : 'SF Pro',
-                                        fontSize: 15,
+                                              fontFamily:
+                                                  AppUtil.rtlDirection2(context)
+                                                      ? 'SF Arabic'
+                                                      : 'SF Pro',
+                                              fontSize: 15,
                                             ),
                                             Spacer(),
                                             GestureDetector(
@@ -1250,9 +1269,11 @@ List<String> regionListEn = [
                                         color: Colors.black,
                                         fontSize: 17,
                                         fontWeight: FontWeight.w500,
-                                   fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                                            : 'SF Pro',
-                                          ),
+                                        fontFamily:
+                                            AppUtil.rtlDirection2(context)
+                                                ? 'SF Arabic'
+                                                : 'SF Pro',
+                                      ),
                                       SizedBox(
                                         height: width * 0.025,
                                       ),
@@ -1301,9 +1322,12 @@ List<String> regionListEn = [
                                                   style: TextStyle(
                                                     color: Color(0xFF41404A),
                                                     fontSize: 13,
-                                       fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                                            : 'SF Pro',
-                                               fontWeight: FontWeight.w500,
+                                                    fontFamily:
+                                                        AppUtil.rtlDirection2(
+                                                                context)
+                                                            ? 'SF Arabic'
+                                                            : 'SF Pro',
+                                                    fontWeight: FontWeight.w500,
                                                     height: 0,
                                                   ),
                                                 ),
@@ -1349,8 +1373,11 @@ List<String> regionListEn = [
                                                   style: TextStyle(
                                                     color: Color(0xFF41404A),
                                                     fontSize: 13,
-                                                     fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                                            : 'SF Pro',
+                                                    fontFamily:
+                                                        AppUtil.rtlDirection2(
+                                                                context)
+                                                            ? 'SF Arabic'
+                                                            : 'SF Pro',
                                                     fontWeight: FontWeight.w500,
                                                     height: 0,
                                                   ),
@@ -1397,8 +1424,11 @@ List<String> regionListEn = [
                                                   style: TextStyle(
                                                     color: Color(0xFF41404A),
                                                     fontSize: 13,
-                                                    fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                                            : 'SF Pro',
+                                                    fontFamily:
+                                                        AppUtil.rtlDirection2(
+                                                                context)
+                                                            ? 'SF Arabic'
+                                                            : 'SF Pro',
                                                     fontWeight: FontWeight.w500,
                                                     height: 0,
                                                   ),
@@ -1412,7 +1442,6 @@ List<String> regionListEn = [
                                   ),
                                 ],
                               ),
-
                               SizedBox(
                                 height: width * 0.055,
                               ),
@@ -1433,9 +1462,10 @@ List<String> regionListEn = [
                                     color: black,
                                     fontSize: 17,
                                     fontWeight: FontWeight.w500,
-                             fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                                            : 'SF Pro',
-                                          ),
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
+                                  ),
                                   SizedBox(
                                     height: width * 0.02,
                                   ),
@@ -1452,7 +1482,11 @@ List<String> regionListEn = [
                                         shape: RoundedRectangleBorder(
                                           side: BorderSide(
                                               width: 1,
-                                              color: DateErrorMessage ?? false
+                                              color: DateErrorMessage ??
+                                                      false ||
+                                                          !_servicesController
+                                                              .DateErrorMessage
+                                                              .value
                                                   ? Colors.red
                                                   : Color(0xFFB9B8C1)),
                                           borderRadius:
@@ -1478,6 +1512,8 @@ List<String> regionListEn = [
                                                           _servicesController,
                                                     );
                                                   });
+
+                                              //
                                             },
                                             child: CustomText(
                                               text: AppUtil.formatBookingDate(
@@ -1486,12 +1522,12 @@ List<String> regionListEn = [
                                                     .selectedDate.value
                                                     .substring(0, 10),
                                               ),
-                                              //formatSelectedDates(srvicesController.selectedDates,context)
-                                              // srvicesController.selectedDates.map((date) => intel.DateFormat('dd/MM/yyyy').format(date)).join(', ')
                                               fontWeight: FontWeight.w400,
                                               color: Graytext,
-                                               fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                                            : 'SF Pro',
+                                              fontFamily:
+                                                  AppUtil.rtlDirection2(context)
+                                                      ? 'SF Arabic'
+                                                      : 'SF Pro',
                                               fontSize: 15,
                                             ),
                                           ),
@@ -1499,13 +1535,20 @@ List<String> regionListEn = [
                                       ),
                                     ),
                                   ),
-                                  if (DateErrorMessage ?? false)
+                                  if (DateErrorMessage ??
+                                      false ||
+                                          !_servicesController
+                                              .DateErrorMessage.value)
                                     Padding(
                                       padding: const EdgeInsets.only(top: 8),
                                       child: Text(
-                                        AppUtil.rtlDirection2(context)
-                                            ? "اختر التاريخ"
-                                            : "You need to choose a valid date",
+                                        DateErrorMessage ?? false
+                                            ? AppUtil.rtlDirection2(context)
+                                                ? "اختر التاريخ"
+                                                : "You need to choose a valid date"
+                                            : AppUtil.rtlDirection2(context)
+                                                ? "يجب اختيار تاريخ بعد 48 ساعة من الآن على الأقل"
+                                                : "*Please select a date at least 48 hours from now",
                                         style: TextStyle(
                                           color: Color(0xFFDC362E),
                                           fontSize: 11,
@@ -1533,8 +1576,10 @@ List<String> regionListEn = [
                                             color: black,
                                             fontSize: 17,
                                             fontWeight: FontWeight.w500,
-                                            fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                                            : 'SF Pro',
+                                            fontFamily:
+                                                AppUtil.rtlDirection2(context)
+                                                    ? 'SF Arabic'
+                                                    : 'SF Pro',
                                           ),
                                           SizedBox(
                                             height: height * 0.01,
@@ -1613,12 +1658,11 @@ List<String> regionListEn = [
                                                                             Get.back();
                                                                             time =
                                                                                 newTimeToGo;
-                                                                            // widget
-                                                                            //     .hospitalityController
-                                                                            //     .selectedStartTime
-                                                                            //     .value = newTimeToGo;
-                                                                            //  widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
-                                                                            //   .format(newTimeToGo) as RxString;
+                                                                            _servicesController.selectedStartTime.value =
+                                                                                newTimeToGo;
+
+                                                                            _servicesController.TimeErrorMessage.value =
+                                                                                AppUtil.isEndTimeLessThanStartTime( newTimeToGo,newTimeToReturn);
                                                                           });
                                                                         },
                                                                         padding:
@@ -1636,8 +1680,9 @@ List<String> regionListEn = [
                                                                               colorGreen,
                                                                           fontSize:
                                                                               15,
-                                                                          fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                                                                     : 'SF Pro',
+                                                                          fontFamily: AppUtil.rtlDirection2(context)
+                                                                              ? 'SF Arabic'
+                                                                              : 'SF Pro',
                                                                           fontWeight:
                                                                               FontWeight.w500,
                                                                         ),
@@ -1680,12 +1725,12 @@ List<String> regionListEn = [
                                                                             () {
                                                                           newTimeToGo =
                                                                               newT;
-                                                                          // widget
-                                                                          //     .hospitalityController
-                                                                          //     .selectedStartTime
-                                                                          //     .value = newT;
-                                                                          //    widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
-                                                                          // .format(newTimeToGo) as RxString;
+                                                                          _servicesController
+                                                                              .selectedStartTime
+                                                                              .value = newTimeToGo;
+
+                                                                          _servicesController.TimeErrorMessage.value = AppUtil.isEndTimeLessThanStartTime(
+                                                                              newTimeToGo,newTimeToReturn);
                                                                         });
                                                                       },
                                                                     ),
@@ -1700,29 +1745,39 @@ List<String> regionListEn = [
                                                           .formatStringTimeWithLocale(
                                                               context,
                                                               DateFormat(
-                                                                      'hh:mm a')
+                                                                      'HH:mm:ss')
                                                                   .format(
                                                                       newTimeToGo)),
                                                       fontWeight:
                                                           FontWeight.w400,
                                                       color: Graytext,
-                                                      fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                                                    : 'SF Pro',
-                                                     fontSize: 15,
+                                                      fontFamily:
+                                                          AppUtil.rtlDirection2(
+                                                                  context)
+                                                              ? 'SF Arabic'
+                                                              : 'SF Pro',
+                                                      fontSize: 15,
                                                     ),
                                                   ),
                                                 ],
                                               ),
                                             ),
                                           ),
-                                          if (TimeErrorMessage ?? false)
+                                          if (TimeErrorMessage ??
+                                              false ||
+                                                  _servicesController
+                                                      .TimeErrorMessage.value)
                                             Padding(
                                               padding:
                                                   const EdgeInsets.only(top: 8),
                                               child: Text(
-                                                AppUtil.rtlDirection2(context)
-                                                    ? "يجب اختيار الوقت"
-                                                    : "Select The Time",
+                                                !_servicesController
+                                                        .TimeErrorMessage.value
+                                                    ? AppUtil.rtlDirection2(
+                                                            context)
+                                                        ? "يجب اختيار الوقت"
+                                                        : "Select The Time"
+                                                    : '',
                                                 style: TextStyle(
                                                   color: Color(0xFFDC362E),
                                                   fontSize: 11,
@@ -1751,8 +1806,10 @@ List<String> regionListEn = [
                                             color: black,
                                             fontSize: 17,
                                             fontWeight: FontWeight.w500,
-                                            fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                                            : 'SF Pro',
+                                            fontFamily:
+                                                AppUtil.rtlDirection2(context)
+                                                    ? 'SF Arabic'
+                                                    : 'SF Pro',
                                           ),
                                           SizedBox(
                                             height: height * 0.01,
@@ -1775,7 +1832,10 @@ List<String> regionListEn = [
                                                   side: BorderSide(
                                                       width: 1,
                                                       color: TimeErrorMessage ??
-                                                              false
+                                                              false ||
+                                                                  _servicesController
+                                                                      .TimeErrorMessage
+                                                                      .value
                                                           ? Colors.red
                                                           : DurationErrorMessage ??
                                                                   false
@@ -1790,6 +1850,7 @@ List<String> regionListEn = [
                                                 children: [
                                                   GestureDetector(
                                                     onTap: () {
+
                                                       showCupertinoModalPopup<
                                                               void>(
                                                           context: context,
@@ -1826,22 +1887,17 @@ List<String> regionListEn = [
                                                                             () {
                                                                           _servicesController
                                                                               .isHospatilityTimeSelcted(true);
-                                                                          // print(widget
-                                                                          //     .hospitalityController
-                                                                          //     .isHospatilityTimeSelcted
-                                                                          //     .value);
+
                                                                           setState(
                                                                               () {
                                                                             Get.back();
                                                                             returnTime =
                                                                                 newTimeToReturn;
-                                                                            // widget
-                                                                            //         .hospitalityController
-                                                                            //         .selectedEndTime
-                                                                            //         .value =
-                                                                            //     newTimeToReturn;
-                                                                            //      widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
-                                                                            // .format( newTimeToReturn) as RxString;
+                                                                             _servicesController.selectedEndTime.value =
+                                                                               newTimeToReturn;
+
+                                                                            _servicesController.TimeErrorMessage.value =
+                                                                                AppUtil.isEndTimeLessThanStartTime( _servicesController.selectedStartTime.value,  _servicesController.selectedEndTime.value);
                                                                           });
                                                                         },
                                                                         padding:
@@ -1899,13 +1955,11 @@ List<String> regionListEn = [
                                                                             () {
                                                                           newTimeToReturn =
                                                                               newT;
-                                                                          // widget
-                                                                          //     .hospitalityController
-                                                                          //     .selectedEndTime
-                                                                          //     .value = newT;
+                                                                           _servicesController.selectedEndTime.value =
+                                                                               newTimeToReturn;
 
-                                                                          //  widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
-                                                                          //     .format( newTimeToReturn) as RxString;
+                                                                            _servicesController.TimeErrorMessage.value =
+                                                                                AppUtil.isEndTimeLessThanStartTime( _servicesController.selectedStartTime.value,  _servicesController.selectedEndTime.value);
                                                                         });
                                                                       },
                                                                     ),
@@ -1915,19 +1969,57 @@ List<String> regionListEn = [
                                                             );
                                                           });
                                                     },
+                                                    // onTap: () async {
+                                                    //   await DatePickerBdaya
+                                                    //       .showTime12hPicker(
+                                                    //     context,
+                                                    //     showTitleActions: true,
+                                                    //     currentTime:
+                                                    //         newTimeToReturn,
+                                                    //     onConfirm: 
+                                                    //       (DateTime newT) {
+                                                    //         print(DateFormat(
+                                                    //                 'HH:mm:ss')
+                                                    //             .format(
+                                                    //                 newTimeToReturn));
+                                                    //         setState(() {
+                                                    //           newTimeToReturn =
+                                                    //               newT;
+                                                    //           _servicesController
+                                                    //                   .selectedEndTime
+                                                    //                   .value =
+                                                    //               newTimeToReturn;
+
+                                                    //           _servicesController
+                                                    //                   .TimeErrorMessage
+                                                    //                   .value =
+                                                    //               AppUtil.isEndTimeLessThanStartTime(
+                                                    //                   _servicesController
+                                                    //                       .selectedStartTime
+                                                    //                       .value,
+                                                    //                   _servicesController
+                                                    //                       .selectedEndTime
+                                                    //                       .value);
+                                                    //         });
+                                                    //     },
+                                                    //   );
+                                                    // },
                                                     child: CustomText(
                                                       text: AppUtil
                                                           .formatStringTimeWithLocale(
                                                               context,
                                                               DateFormat(
-                                                                      'hh:mm a')
+                                                                      'HH:mm:ss')
                                                                   .format(
                                                                       newTimeToReturn)),
                                                       fontWeight:
                                                           FontWeight.w400,
                                                       color: Graytext,
-                                                      fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                                            : 'SF Pro',
+                                                      fontFamily:
+                                                          AppUtil.rtlDirection2(
+                                                                  context)
+                                                              ? 'SF Arabic'
+                                                              : 'SF Pro',
                                                       fontSize: 15,
                                                     ),
                                                   ),
@@ -1935,14 +2027,24 @@ List<String> regionListEn = [
                                               ),
                                             ),
                                           ),
-                                          if (TimeErrorMessage ?? false)
+                                          if (TimeErrorMessage ??
+                                              false ||
+                                                  _servicesController
+                                                      .TimeErrorMessage.value)
                                             Padding(
                                               padding:
                                                   const EdgeInsets.only(top: 8),
                                               child: Text(
-                                                AppUtil.rtlDirection2(context)
-                                                    ? "يجب اختيار الوقت"
-                                                    : "Select The Time",
+                                                !_servicesController
+                                                        .TimeErrorMessage.value
+                                                    ? AppUtil.rtlDirection2(
+                                                            context)
+                                                        ? "يجب اختيار الوقت"
+                                                        : "Select The Time"
+                                                    : AppUtil.rtlDirection2(
+                                                            context)
+                                                        ? "يجب أن لايسبق وقت بدء التجربة"
+                                                        : "*Can’t be before start time",
                                                 style: TextStyle(
                                                   color: Color(0xFFDC362E),
                                                   fontSize: 11,
@@ -1967,8 +2069,9 @@ List<String> regionListEn = [
                                     color: black,
                                     fontSize: 17,
                                     fontWeight: FontWeight.w500,
-                                    fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                                            : 'SF Pro',
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
                                   ),
                                   SizedBox(
                                     height: width * 0.025,
@@ -2013,8 +2116,11 @@ List<String> regionListEn = [
                                               style: TextStyle(
                                                 color: Color(0xFF41404A),
                                                 fontSize: 13,
-                                                 fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                                            : 'SF Pro',
+                                                fontFamily:
+                                                    AppUtil.rtlDirection2(
+                                                            context)
+                                                        ? 'SF Arabic'
+                                                        : 'SF Pro',
                                                 fontWeight: FontWeight.w500,
                                                 height: 0,
                                               ),
@@ -2057,8 +2163,11 @@ List<String> regionListEn = [
                                               style: TextStyle(
                                                 color: Color(0xFF41404A),
                                                 fontSize: 13,
-                                                fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                                            : 'SF Pro',
+                                                fontFamily:
+                                                    AppUtil.rtlDirection2(
+                                                            context)
+                                                        ? 'SF Arabic'
+                                                        : 'SF Pro',
                                                 fontWeight: FontWeight.w500,
                                                 height: 0,
                                               ),
@@ -2101,8 +2210,11 @@ List<String> regionListEn = [
                                               style: TextStyle(
                                                 color: Color(0xFF41404A),
                                                 fontSize: 13,
-                                                fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                                            : 'SF Pro',
+                                                fontFamily:
+                                                    AppUtil.rtlDirection2(
+                                                            context)
+                                                        ? 'SF Arabic'
+                                                        : 'SF Pro',
                                                 fontWeight: FontWeight.w500,
                                                 height: 0,
                                               ),
@@ -2133,8 +2245,9 @@ List<String> regionListEn = [
                                     color: Colors.black,
                                     fontSize: 17,
                                     fontWeight: FontWeight.w500,
-                                     fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                                            : 'SF Pro',
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
                                   ),
                                   SizedBox(
                                     height: width * 0.05,
@@ -2153,20 +2266,17 @@ List<String> regionListEn = [
                                           height: 246,
                                           width: 358,
                                           child: GoogleMap(
-                                            scrollGesturesEnabled: false,
+                                            scrollGesturesEnabled: true,
                                             zoomControlsEnabled: false,
                                             initialCameraPosition:
                                                 CameraPosition(
-                                              target:
-                                                
-                                                  _currentPosition,
+                                              target: _currentPosition,
                                               zoom: 15,
                                             ),
                                             markers: {
                                               Marker(
                                                 markerId: MarkerId("marker1"),
                                                 position: _currentPosition,
-                                               
                                                 draggable: true,
                                                 onDragEnd:
                                                     (LatLng newPosition) {
@@ -2225,7 +2335,10 @@ List<String> regionListEn = [
                                                             color: Color(
                                                                 0xFF9392A0),
                                                             fontSize: 13,
-                                                             fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                                                            fontFamily: AppUtil
+                                                                    .rtlDirection2(
+                                                                        context)
+                                                                ? 'SF Arabic'
                                                                 : 'SF Pro',
                                                             fontWeight:
                                                                 FontWeight.w400,
@@ -2251,7 +2364,6 @@ List<String> regionListEn = [
                               SizedBox(
                                 height: width * 0.077,
                               ),
-
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -2260,8 +2372,9 @@ List<String> regionListEn = [
                                     color: Colors.black,
                                     fontSize: 17,
                                     fontWeight: FontWeight.w500,
-                                     fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                                            : 'SF Pro',
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
                                   ),
                                   SizedBox(
                                     height: width * 0.02,
@@ -2269,12 +2382,16 @@ List<String> regionListEn = [
                                   TextField(
                                     controller: _priceController,
                                     decoration: InputDecoration(
-                                      hintText:AppUtil.rtlDirection2(context) ?'00.00 ر.س / للفرد':'00.00 SAR /per person',
+                                      hintText: AppUtil.rtlDirection2(context)
+                                          ? '00.00 ر.س / للفرد'
+                                          : '00.00 SAR /per person',
                                       hintStyle: TextStyle(
                                         color: Color(0xFFB9B8C1),
                                         fontSize: 15,
-                                         fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                                            : 'SF Pro',
+                                        fontFamily:
+                                            AppUtil.rtlDirection2(context)
+                                                ? 'SF Arabic'
+                                                : 'SF Pro',
                                         fontWeight: FontWeight.w400,
                                       ),
                                       border: OutlineInputBorder(
@@ -2283,7 +2400,9 @@ List<String> regionListEn = [
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                           width: 1,
-                                          color: PriceEmpty||PriceLarger
+                                          color: PriceEmpty ||
+                                                  PriceLarger ||
+                                                  PriceDouble
                                               ? Color(0xFFDC362E)
                                               : Color(0xFFB9B8C1),
                                         ),
@@ -2294,13 +2413,21 @@ List<String> regionListEn = [
                                     ),
                                     keyboardType: TextInputType.number,
                                   ),
-                                 if (PriceEmpty || PriceLarger)
+                                  if (PriceEmpty || PriceLarger || PriceDouble)
                                     Padding(
                                       padding: const EdgeInsets.only(top: 8.0),
                                       child: Text(
                                         AppUtil.rtlDirection2(context)
-                                            ?PriceLarger?'السعر يجب أن يكون اكبر من أو يساوي 150': 'يجب عليك ان تضع السعر المقدر'
-                                            : 'You need to add a valid price, >= 150',
+                                            ? PriceEmpty
+                                                ? 'يجب عليك ان تضع السعر المقدر'
+                                                : PriceDouble
+                                                    ? '*السعر يجب أن يكون عدد صحيح فقط'
+                                                    : 'السعر يجب أن يكون اكبر من أو يساوي 150'
+                                            : PriceEmpty
+                                                ? 'You need to add a valid price'
+                                                : PriceDouble
+                                                    ? '*The price must be an integer value only'
+                                                    : 'You need to add a valid price, >= 150',
                                         style: TextStyle(
                                           color: Color(0xFFDC362E),
                                           fontSize: 11,
@@ -2314,8 +2441,6 @@ List<String> regionListEn = [
                                     ),
                                 ],
                               ),
-
-                            
                             ],
                           ),
                         ],
@@ -2324,9 +2449,10 @@ List<String> regionListEn = [
                       //indicator
                       Positioned(
                         top: height * 0.256,
-                        left: width * 0.33,
+                        left: width * 0.4,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: widget.hospitalityObj.images
                               .asMap()
                               .entries

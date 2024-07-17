@@ -56,7 +56,7 @@ class _ServiceScreenState extends State<ServiceScreen>
           headerSliverBuilder: (context, isScrolled) => [
             SliverAppBar(
               automaticallyImplyLeading: false,
-              // expandedHeight: width * 0.51,
+               expandedHeight: width * 0.48,
               toolbarHeight: width * 0.31,
               forceMaterialTransparency: true,
 
@@ -75,7 +75,7 @@ class _ServiceScreenState extends State<ServiceScreen>
                       color: Colors.white,
                       maxlines: 2,
                       fontSize: 20,
-                      fontFamily: "SF Pro",
+                     fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
                       fontWeight: FontWeight.w500,
                     ),
                     const SizedBox(
@@ -88,6 +88,7 @@ class _ServiceScreenState extends State<ServiceScreen>
                       color: Colors.white,
                       fontSize: 11,
                       maxlines: 2,
+                     fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
                       fontWeight: FontWeight.w400,
                     ),
                   ],
@@ -108,7 +109,6 @@ class _ServiceScreenState extends State<ServiceScreen>
                       alignment: Alignment.topCenter,
                       child: !AppUtil.isGuest()
                           ? Row(
-                              // textDirection:TextDirection.ltr,
 
                               children: [
                                 HomeIconButton(
@@ -153,9 +153,9 @@ class _ServiceScreenState extends State<ServiceScreen>
                     ))
               ],
               flexibleSpace: ClipRRect(
-                // borderRadius: const BorderRadius.only(
-                //     bottomLeft: Radius.circular(16),
-                //     bottomRight: Radius.circular(16)),
+                borderRadius:  BorderRadius.only(
+                     bottomLeft: Radius.circular(width * 0.05),
+                    bottomRight: Radius.circular(width * 0.05)),
                 child: Image.asset(
                   'assets/images/${_tabIndex == 0 ? 'service_hospitality_cover' : _tabIndex == 2 ? 'service_adventures_cover' : _tabIndex == 1 ? 'service_events_cover' : 'service_restaurants_cover'}.png',
                   width: width,
@@ -174,8 +174,8 @@ class _ServiceScreenState extends State<ServiceScreen>
                   ),
                   color: Colors.white,
                 ),
-                labelPadding: EdgeInsets.all(width * 0.02),
-                padding: EdgeInsets.symmetric(horizontal: width * 0.005),
+                labelPadding: EdgeInsets.all(width * 0.03),
+                padding: EdgeInsets.symmetric(horizontal: width * 0.02),
                 onTap: (index) {
                   setState(() {
                     _tabIndex = index;
@@ -199,11 +199,13 @@ class _ServiceScreenState extends State<ServiceScreen>
                               topRight: Radius.circular(width * 0.03))),
                       child: CustomText(
                         text: "hospitality".tr,
-                        color: _tabIndex == 0 ? darkBlue : Colors.white,
+                        color: _tabIndex == 0 ? black : Colors.white,
                         fontWeight:
-                            _tabIndex == 0 ? FontWeight.w700 : FontWeight.w400,
+                            _tabIndex == 0 ? FontWeight.w500 : FontWeight.w400,
                         fontSize:
-                            _tabIndex == 0 ? width * 0.033 : width * 0.028,
+                            _tabIndex == 0 ? width * 0.033 : width * 0.033,
+                        fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+
                       ),
                     ),
                   ),
@@ -223,11 +225,13 @@ class _ServiceScreenState extends State<ServiceScreen>
                               topRight: Radius.circular(width * 0.03))),
                       child: CustomText(
                         text: "adventures".tr,
-                        color: _tabIndex == 1 ? darkBlue : Colors.white,
+                        color: _tabIndex == 1 ? black : Colors.white,
                         fontWeight:
-                            _tabIndex == 1 ? FontWeight.w700 : FontWeight.w400,
+                            _tabIndex == 1 ? FontWeight.w500 : FontWeight.w400,
                         fontSize:
-                            _tabIndex == 1 ? width * 0.033 : width * 0.028,
+                            _tabIndex == 1 ? width * 0.033 : width * 0.033,
+                        fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+
                       ),
                     ),
                   ),

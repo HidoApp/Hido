@@ -95,6 +95,8 @@ class _EventCalenderDialogState extends State<EventCalenderDialog> {
                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
                   alignment: Alignment.bottomRight,
                   child: SfDateRangePicker(
+                   backgroundColor: Colors.white,
+
                       minDate: DateTime.now(),
                       enablePastDates: false,
                       selectableDayPredicate:
@@ -128,6 +130,8 @@ class _EventCalenderDialogState extends State<EventCalenderDialog> {
                      dayFormat: 'EEE', // Short format for day names (e.g., Mon, Tue)
                      
                    viewHeaderStyle: DateRangePickerViewHeaderStyle(
+                  backgroundColor: Colors.white,
+
                 textStyle: TextStyle(
                   color: Color(0xFF070708),
              fontSize: 12,
@@ -175,11 +179,12 @@ class _EventCalenderDialogState extends State<EventCalenderDialog> {
 
 
                     } else if (widget.type == 'event') {
-
+                    
                       widget.eventController!.isEventDateSelcted.value = true;
                    widget.eventController!.selectedDate(selectedDate);
 
                     widget.eventController!.selectedDates(selectedDates);
+                    widget.eventController!.DateErrorMessage.value= !AppUtil.areAllDatesAfter24Hours(widget.eventController!.selectedDates);
 
                     } else if (widget.type == 'book') {
                       widget.touristExploreController!.isBookingDateSelected

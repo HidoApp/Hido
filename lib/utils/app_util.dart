@@ -1,5 +1,6 @@
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/model/coordinates.dart';
+import 'package:ajwad_v4/services/model/days_info.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:another_flushbar/flushbar.dart';
@@ -9,6 +10,9 @@ import 'package:get_storage/get_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest_all.dart' as tz;
+
 import 'package:jhijri/jhijri.dart';
 
 class AppUtil {
@@ -100,51 +104,165 @@ class AppUtil {
     }
   }
 
-  static String formatSelectedDates(
-      RxList<dynamic> dates, BuildContext context) {
-    // Convert dynamic list to List<DateTime>
-    List<DateTime> dateTimeList = dates
-        .where((date) => date is DateTime)
-        .map((date) => date as DateTime)
-        .toList();
+static bool isDateBefore24Hours(String Date) {
+   final String timeZoneName = 'Asia/Riyadh';
+  late tz.Location location;
+  
+  tz.initializeTimeZones();
+    location = tz.getLocation(timeZoneName);
+    DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
+     DateTime parsedDate =  DateTime.parse(Date);
+    Duration difference =  parsedDate.difference(currentDateInRiyadh);
+    print('this deffrence');
+    print(difference);
+    return difference.inHours >= 24;
+  }
+
+  static bool areAllDatesAfter24Hours(List<dynamic> dates) {
+  final String timeZoneName = 'Asia/Riyadh';
+  late tz.Location location;
+
+  tz.initializeTimeZones();
+  location = tz.getLocation(timeZoneName);
+  DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
+
+  for (DateTime date in dates) {
+    Duration difference = date.difference(currentDateInRiyadh);
+
+    print('Difference for $date: $difference');
+
+    if (difference.inHours < 24) {
+      return false;
+    }
+  }
+
+  return true;
+}
+static bool isEndTimeLessThanStartTime(DateTime startTime, DateTime endTime) {
+    return endTime.isBefore(startTime);
+  }
+  static String formatSelectedDates(RxList<dynamic> dates, BuildContext context) {
+  // Convert dynamic list to List<DateTime>
+  List<DateTime> dateTimeList = dates
+      .where((date) => date is DateTime)
+      .map((date) => date as DateTime)
+      .toList();
 
     if (dateTimeList.isEmpty) {
       return 'DD/MM/YYYY';
     }
 
-    // Sort the dates
-    dateTimeList.sort();
+  final bool isArabic = AppUtil.rtlDirection2(context);
+  final DateFormat dayFormatter = DateFormat('d', isArabic ? 'ar' : 'en');
+  final DateFormat monthYearFormatter = DateFormat('MMMM yyyy', isArabic ? 'ar' : 'en');
 
-    final bool isArabic = AppUtil.rtlDirection2(context);
-    final DateFormat dayFormatter = DateFormat('d', isArabic ? 'ar' : 'en');
-    final DateFormat monthYearFormatter =
-        DateFormat('MMMM yyyy', isArabic ? 'ar' : 'en');
+  String formattedDates = '';
+  int start = 0;
 
-    String formattedDates = '';
+  while (start < dateTimeList.length) {
+    int end = start;
 
-    for (int i = 0; i < dateTimeList.length; i++) {
-      if (i > 0) {
-        // If current date's month and year are different from the previous date's, add a comma
-        if (dateTimeList[i].month != dateTimeList[i - 1].month ||
-            dateTimeList[i].year != dateTimeList[i - 1].year) {
-          formattedDates += ', ';
-        } else {
-          // If same month and year, just add a space
+    // Find the range of dates in the same month
+    while (end + 1 < dateTimeList.length &&
+           dateTimeList[end + 1].month == dateTimeList[start].month &&
+           dateTimeList[end + 1].year == dateTimeList[start].year) {
+      end++;
+    }
+
+    if (formattedDates.isNotEmpty) {
+      formattedDates += ', ';
+    }
+
+    // If more than two dates in the same month, display as range
+    if (end > start + 1) {
+      formattedDates += '${dayFormatter.format(dateTimeList[start])} - ${dayFormatter.format(dateTimeList[end])} ${monthYearFormatter.format(dateTimeList[start])}';
+    } else {
+      // Display individual dates
+      for (int i = start; i <= end; i++) {
+        if (i > start) {
           formattedDates += ', ';
         }
-      }
-
-      formattedDates += dayFormatter.format(dateTimeList[i]);
-
-      // If the next date is in a different month or year, add month and year to the current date
-      if (i == dateTimeList.length - 1 ||
-          dateTimeList[i].month != dateTimeList[i + 1].month ||
-          dateTimeList[i].year != dateTimeList[i + 1].year) {
-        formattedDates += ' ${monthYearFormatter.format(dateTimeList[i])}';
+        formattedDates += '${dayFormatter.format(dateTimeList[i])} ${monthYearFormatter.format(dateTimeList[i])}';
       }
     }
 
-    return formattedDates;
+    start = end + 1;
+  }
+
+  return formattedDates;
+}
+ static String formatTimeOnly(BuildContext context, String dateTimeString) {
+    final isArabic = AppUtil.rtlDirection2(context);
+    final dateTime = DateTime.parse(dateTimeString);
+    final hours = dateTime.hour;
+    final minutes = dateTime.minute;
+    final period = hours >= 12 ? (isArabic ? 'مساءً' : 'PM') : (isArabic ? 'صباحًا' : 'AM');
+    final formattedHours = hours % 12 == 0 ? 12 : hours % 12;
+    final formattedMinutes = minutes.toString().padLeft(2, '0');
+    return '$formattedHours:$formattedMinutes $period';
+  }
+
+static String formatSelectedDaysInfo(List<DayInfo> daysInfo, BuildContext context) {
+  // Extract DateTime objects from daysInfo
+   List<DateTime> dateTimeList = daysInfo
+      .map((info) => [info.startTime, info.endTime])
+      .expand((dates) => dates)
+      .map((date) => DateTime.parse(date.toString()))
+      .toList(); // Flatten and convert to DateTime
+
+  // Sort the dates
+  dateTimeList.sort();
+
+  // Convert dynamic list to List<DateTime>
+  dateTimeList = dateTimeList
+      .where((date) => date is DateTime)
+      .map((date) => date as DateTime)
+      .toList();
+
+  if (dateTimeList.isEmpty) {
+    return 'DD/MM/YYYY'; // Return default string when no valid dates are found
+  }
+
+  // Date formatting based on app language direction
+  final bool isArabic = AppUtil.rtlDirection2(context);
+  final DateFormat dayFormatter = DateFormat('d', isArabic ? 'ar' : 'en');
+  final DateFormat monthYearFormatter =
+      DateFormat('MMMM yyyy', isArabic ? 'ar' : 'en');
+
+  String formattedDates = '';
+  int start = 0;
+
+  while (start < dateTimeList.length) {
+    int end = start;
+
+    // Find the range of dates in the same month
+    while (end + 1 < dateTimeList.length &&
+        dateTimeList[end + 1].month == dateTimeList[start].month &&
+        dateTimeList[end + 1].year == dateTimeList[start].year) {
+      end++;
+    }
+
+    if (formattedDates.isNotEmpty) {
+      formattedDates += ' , ';
+    }
+
+    // If more than two dates in the same month, display as range
+    if (end > start + 1) {
+      formattedDates +=
+          '${dayFormatter.format(dateTimeList[start])} - ${dayFormatter.format(dateTimeList[end])} ${monthYearFormatter.format(dateTimeList[start])}';
+    } else {
+      // Display individual dates
+      for (int i = start; i <= end; i++) {
+        if (i > start) {
+          formattedDates += ', ';
+        }
+        formattedDates +=
+            '${dayFormatter.format(dateTimeList[i])} ${monthYearFormatter.format(dateTimeList[i])}';
+      }
+    }
+
+    start = end + 1;
+
   }
 
   static String getLocationUrl(Coordinate location) {

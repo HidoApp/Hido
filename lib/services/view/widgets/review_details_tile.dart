@@ -9,9 +9,11 @@ class ReviewDetailsTile extends StatelessWidget {
     super.key,
     required this.title,
     required this.image,
+    this.widthh=0,
   });
   final String title;
   final String image;
+  final double widthh;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,12 @@ class ReviewDetailsTile extends StatelessWidget {
           // margin: EdgeInsets.only(
           //     left: image == 'assets/icons/meal.svg' ? 3 : 0,
           //     right: image == 'assets/icons/meal.svg' ? 2 : 0),
-          child: SvgPicture.asset(
+          child: width!=0 ?SvgPicture.asset(
+            image,
+           
+           width:widthh
+
+          ):SvgPicture.asset(
             image,
           ),
         ),
@@ -35,7 +42,7 @@ class ReviewDetailsTile extends StatelessWidget {
           text: title,
           color: const Color(0xFF9392A0),
           fontSize: width * 0.038,
-          fontFamily: 'SF Pro',
+         fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
           fontWeight: FontWeight.w400,
         ),
       ],

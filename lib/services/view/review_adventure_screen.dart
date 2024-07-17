@@ -43,41 +43,7 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
   Invoice? invoice;
   bool isCheckingForPayment = false;
   int finalCost = 0;
-  
-//   final String timeZoneName = 'Asia/Riyadh';
-//   late tz.Location location;
-
-//   bool isDateBeforeToday() {
-//     DateTime adventureDate =
-//         DateFormat('yyyy-MM-dd').parse(widget.adventure.date!);
-// tz.initializeTimeZones();
-//     location = tz.getLocation(timeZoneName);
-
-//     DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
-//     return adventureDate.isBefore(currentDateInRiyadh);
-//   }
-
-//   bool isSameDay() {
-//     tz.initializeTimeZones();
-//     location = tz.getLocation(timeZoneName);
-
-//     DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
-//     DateTime adventureDate =
-//     DateFormat('yyyy-MM-dd').parse(widget.adventure.date!);
-
-//      DateTime Date =
-//     DateFormat('HH:mm').parse(widget.adventure.times!.last.startTime!);
-
-//     DateTime AdventureStartDate = DateTime(adventureDate.year, adventureDate.month,adventureDate.day,Date.hour, Date.minute,Date.second);
-
-//     DateTime bookingDeadline = AdventureStartDate.subtract(Duration(hours: 24));
-
-//     print (AdventureStartDate);
-//     print(currentDateInRiyadh);
-//     print(bookingDeadline);
-
-//     return bookingDeadline.isBefore(currentDateInRiyadh);
-//   }
+ 
 
   void initState() {
     // TODO: implement initState
@@ -108,15 +74,18 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                   fontWeight: FontWeight.w500,
                 ),
                 SizedBox(
-                  height: width * .010,
+                  height: width * 0.0205,
                 ),
                 ReviewDetailsTile(
                     title:_adventureController.address.value,
                     image: "assets/icons/locationHos.svg"),
                 SizedBox(
                   height: width * .010,
+
+
                 ),
                 // Details
+               
                 ReviewDetailsTile(
                     title: AppUtil.formatBookingDate(context,
                       widget.adventure.date!),
@@ -127,27 +96,33 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                 ),
 
                 ReviewDetailsTile(
-                    title: widget.adventure.times != null &&
-                            widget.adventure.times!.isNotEmpty
-                        ? widget.adventure.times!
-                            .map((time) => AppUtil.formatStringTimeWithLocale(
-                                context, time.startTime))
-                            .join(', ')
-                        : '5:00-8:00 AM',
+                    title: widget.adventure.times != null && widget.adventure.times!.isNotEmpty
+                                ? '${widget.adventure.times!.map((time) => AppUtil.formatStringTimeWithLocale(context, time.startTime)).join(', ')} - ${widget.adventure.times!.map((time) => AppUtil.formatStringTimeWithLocale(context, time.endTime)).join(', ')}'
+                                : '5:00-8:00 AM',
+                    //  widget.adventure.times != null &&
+                    //         widget.adventure.times!.isNotEmpty
+                    //     ? widget.adventure.times!
+                    //         .map((time) => AppUtil.formatStringTimeWithLocale(
+                    //             context, time.startTime))
+                    //         .join(', ')
+                    //     : '5:00-8:00 AM',
                     image: "assets/icons/timeGrey.svg"),
-                SizedBox(
-                  height: width * 0.051,
+                 SizedBox(
+                  height: width * 0.041,
                 ),
                 const Divider(
                   color: lightGrey,
                 ),
                 SizedBox(
-                  height: width * 0.051,
+                  height: width * 0.03,
                 ),
                 CustomText(
                   text: "numberOfPeople".tr,
                   fontSize: width * 0.043,
                   fontWeight: FontWeight.w500,
+                ),
+                 SizedBox(
+                  height: width * 0.0205,
                 ),
                 ReviewGuestsTile(
                   guest: widget.person,
@@ -165,17 +140,16 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
 
                 ///discount widget
                 const PromocodeField(),
-                SizedBox(
-                  height: width * 0.051,
-                ),
-
-                DottedSeparator(
-                  color: lightGrey,
-                  height: width * 0.002,
-                ),
-                SizedBox(
-                  height: width * 0.07,
-                ),
+               SizedBox(
+                          height: width * 0.061,
+                        ),
+                        DottedSeparator(
+                          color: almostGrey,
+                          height: width * 0.002,
+                        ),
+                        SizedBox(
+                          height: width * 0.09,
+                        ),
                 Row(
                   children: [
                     CustomText(

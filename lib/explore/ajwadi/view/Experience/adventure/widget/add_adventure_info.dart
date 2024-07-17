@@ -1,4 +1,5 @@
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -38,6 +39,10 @@ class _AddInfoState extends State<AddInfo> {
   @override
   void initState() {
     super.initState();
+    setState(() {
+           _selectedLanguageIndex = AppUtil.rtlDirection2(context)?0:1;
+
+    });
   }
 
   @override

@@ -115,7 +115,7 @@ class _AddEventLocationState extends State<AddEventLocation> {
 
     //_loadMapStyles();
 
-    addCustomIcon();
+    //addCustomIcon();
           getLocation();
     //  if(_currentPosition==null){//remove
     //    setState(() {
@@ -158,6 +158,14 @@ class _AddEventLocationState extends State<AddEventLocation> {
     setState(() {
       address = fetchedAddress;
       _isLoading = false;
+    });
+  }
+  void _onTap(LatLng position) {
+    setState(() {
+      _EventrController.pickUpLocLatLang.value = position;
+      _currentPosition = position;
+      _isLoading = true;
+      _fetchAddress();
     });
   }
 
@@ -283,7 +291,7 @@ class _AddEventLocationState extends State<AddEventLocation> {
                       child: _currentPosition == null
           ? Center(child: CircularProgressIndicator.adaptive())
           : GoogleMap(
-                        scrollGesturesEnabled: false,
+                        scrollGesturesEnabled: true,
                         zoomControlsEnabled: false,
                         initialCameraPosition: CameraPosition(
                           target:
@@ -336,6 +344,9 @@ class _AddEventLocationState extends State<AddEventLocation> {
                               _fetchAddress();
 
                             },
+                //              onTap: () {
+                //         _onTap(_currentPosition!);
+                // },
                             icon: markerIcon,
                           ),
                         },

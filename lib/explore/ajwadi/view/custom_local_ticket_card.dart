@@ -68,17 +68,46 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
   void checkCondition() {
     tz.initializeTimeZones();
     location = tz.getLocation(timeZoneName);
-    DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
-    DateTime currentDate = DateTime(currentDateInRiyadh.year,
-        currentDateInRiyadh.month, currentDateInRiyadh.day);
-    String currentDateString =
-        intel.DateFormat('yyyy-MM-dd').format(currentDate);
+     DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
+     DateTime currentDate = DateTime(currentDateInRiyadh.year, currentDateInRiyadh.month, currentDateInRiyadh.day);
+    String currentDateString = intel.DateFormat('yyyy-MM-dd').format(currentDate);
+     // String formattedTime = intel.DateFormat('HH:mm:ss').format(currentDateInRiyadh);
+     // Format current date and time
+  DateTime currentTime = DateTime(
+      currentDateInRiyadh.year,
+      currentDateInRiyadh.month,
+      currentDateInRiyadh.day,
+      currentDateInRiyadh.hour,
+      currentDateInRiyadh.minute,
+      currentDateInRiyadh.second
+  );
 
-    if (widget.nextTrip!.booking!.date == currentDateString)
+  //  print("kjhgfdswsdfghjkl;lkjhgfdsasdfghjk");
+  //  print(currentDateInRiyadh.hour);
+  //  print(currentDateString);
+  //         print(formattedTime);
+  //         print(widget.nextTrip!.booking!.timeToGo);
+   
+    if (widget.nextTrip!.booking!.date == currentDateString){
+
+     String timeToGoStr = widget.nextTrip!.booking!.timeToGo;
+
+    DateTime timeToGo = DateTime.parse('$currentDateString $timeToGoStr');
+
+//     if(widget.nextTrip!.booking!.timeToGo == formattedTime){
+//       setState(() {
+//         isTripStart.value = true;
+//       });
+//  }
+// Compare the times
+    if (currentDate.isAfter(timeToGo) || currentDate.isAtSameMomentAs(timeToGo)) {
+
       setState(() {
         isTripStart.value = true;
       });
-//       _tripController.nextStep.value=='PENDING';
+    }
+    }
+//  _tripController.nextStep.value=='PENDING';
 // _tripController.progress.value==0.1;
   }
 

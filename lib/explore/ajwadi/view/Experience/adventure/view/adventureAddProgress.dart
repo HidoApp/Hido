@@ -211,12 +211,13 @@ class _AdventureAddProgressState extends State<AdventureAddProgress> {
       
      // return  _AdventureControllerController.selectedDates.value.isNotEmpty && _AdventureControllerController.isAdventureTimeSelcted.value ;
 
-     return !ajwadiExploreController.isDateEmpty.value && _AdventureControllerController.isAdventureTimeSelcted.value ;
+     return !ajwadiExploreController.isDateEmpty.value && _AdventureControllerController.isAdventureTimeSelcted.value &&
+      !_AdventureControllerController.TimeErrorMessage.value && _AdventureControllerController.DateErrorMessage.value;
     }
 
      if (activeIndex == 5) {
     if (AdventurePrice.text.isNotEmpty) {
-      double? price = double.tryParse(AdventurePrice.text);
+      int? price = int.tryParse(AdventurePrice.text);
       if (price != null && price >= 150) {
         return true;
       }
@@ -268,8 +269,7 @@ class _AdventureAddProgressState extends State<AdventureAddProgress> {
                   hospitalityBioEn: AdventureBioControllerEn.text,
                   hospitalityTitleAr: AdventureTitleControllerAr.text,
                   hospitalityBioAr: AdventureBioControllerAr.text,
-                  adventurePrice: double.parse(AdventurePrice.text),
-                  hospitalityPrice: double.parse(AdventurePrice.text),
+                  adventurePrice: int.parse(AdventurePrice.text),
                   hospitalityImages: _AdventureImages,
                   adventureController: _AdventureControllerController,
                   hospitalityLocation: AdventureLocation.text,

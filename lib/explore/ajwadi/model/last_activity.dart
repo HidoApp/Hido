@@ -39,6 +39,12 @@ class NextActivity {
       'booking': booking?.toJson(),
     };
   }
+   bool get isEmpty {
+    return (id == null || id!.isEmpty) &&
+           (activityProgress == null || activityProgress!.isEmpty) &&
+           requestName == null &&
+           booking == null;
+  }
 }
 
 // class Booking {

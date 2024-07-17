@@ -105,48 +105,12 @@ class _ButtomProgressState extends State<ButtomProgress> {
           children: [
             Padding(
               padding:
-                  // const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                   const EdgeInsets.symmetric(horizontal: 16),
 
               // Your main content here
               child: nextStep(),
             ),
-            // Column(
-            //   children: [
-
-            //     DotStepper(
-            //       dotCount: 6,
-            //       dotRadius: 30.0,
-            //       activeStep: activeIndex,
-            //       shape: Shape.pipe,
-            //       spacing: 5.0,
-            //       indicator: Indicator.shift,
-            //       onDotTapped: (tappedDotIndex) {
-            //         setState(() {
-            //           activeIndex = tappedDotIndex;
-            //         });
-            //       },
-            //       fixedDotDecoration: FixedDotDecoration(
-            //         color: Color(0xFFDCDCE0),
-            //       ),
-            //       indicatorDecoration: IndicatorDecoration(
-            //         color: Color(0xFF36B268),
-            //       ),
-            //       lineConnectorDecoration: LineConnectorDecoration(
-            //         color: Colors.white,
-            //         strokeWidth: 0,
-            //       ),
-            //     ),
-            //     Padding(
-            //       padding: const EdgeInsets.symmetric(
-            //           horizontal: 16, vertical: 12),
-            //       child: Row(
-            //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //         children: [previousButton(), nextButton()],
-            //       ),
-            //     ),
-            //   ],
-            // ),
+            
           ],
         ),
       ),
@@ -257,12 +221,13 @@ class _ButtomProgressState extends State<ButtomProgress> {
     }
      if (activeIndex == 4) {
 
-     return _hospitalityController.isHospatilityDateSelcted.value && _hospitalityController.isHospatilityTimeSelcted.value &&  _hospitalityController.selectedMealEn.value!='' ;
+     return _hospitalityController.isHospatilityDateSelcted.value && _hospitalityController.isHospatilityTimeSelcted.value 
+     &&  _hospitalityController.selectedMealEn.value!='' && !_hospitalityController.TimeErrorMessage.value && _hospitalityController.DateErrorMessage.value;
     }
       
       if (activeIndex == 5) {
     if (hospitalityPrice.text.isNotEmpty) {
-      double? price = double.tryParse(hospitalityPrice.text);
+      int? price = int.tryParse(hospitalityPrice.text);
       if (price != null && price >= 150) {
         return true;
       }
@@ -318,7 +283,7 @@ class _ButtomProgressState extends State<ButtomProgress> {
                 hospitalityBioEn: hospitalityBioControllerEn.text,
                 hospitalityTitleAr: hospitalityTitleControllerAr.text,
                 hospitalityBioAr: hospitalityBioControllerAr.text,
-                hospitalityPrice: double.parse(hospitalityPrice.text),
+                hospitalityPrice: int.parse(hospitalityPrice.text),
                 hospitalityImages: _hospitalityImages,
                 hospitalityController: _hospitalityController,
                 hospitalityLocation: hospitalityLocation.text,
@@ -462,6 +427,10 @@ class _AddHospitalityInfoState extends State<AddHospitalityInfo> {
   @override
   void initState() {
     super.initState();
+    setState(() {
+           _selectedLanguageIndex = AppUtil.rtlDirection2(context)?0:1;
+
+    });
   }
 
   @override
@@ -802,7 +771,7 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
     super.initState();
 
 
-    addCustomIcon();
+   // addCustomIcon();
           getLocation();
 
   }
@@ -957,7 +926,7 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
                       child: _currentPosition == null
                     ? Center(child: CircularProgressIndicator.adaptive())
                      :  GoogleMap(
-                        scrollGesturesEnabled: false,
+                        scrollGesturesEnabled: true,
                         zoomControlsEnabled: false,
                         initialCameraPosition: CameraPosition(
                           target:
@@ -1867,8 +1836,18 @@ class SelectDateTime extends StatefulWidget {
   @override
   _SelectDateTimeState createState() => _SelectDateTimeState();
 }
+    
 
 class _SelectDateTimeState extends State<SelectDateTime> {
+  // bool? DateErrorMessage;
+
+
+@override
+  void initState() {
+    super.initState();
+   // checkDate();
+     }
+
   final TextEditingController _textField1Controller = TextEditingController();
   int? _selectedRadio;
 
@@ -1880,8 +1859,6 @@ class _SelectDateTimeState extends State<SelectDateTime> {
   bool isNew = false;
   final String timeZoneName = 'Asia/Riyadh';
 //  late tz.Location location;
-  bool? DateErrorMessage;
-  bool? TimeErrorMessage;
   bool? DurationErrorMessage;
 
   bool? GuestErrorMessage;
@@ -1898,13 +1875,14 @@ class _SelectDateTimeState extends State<SelectDateTime> {
       if (_selectedRadio == 1) {
         widget.hospitalityController.selectedMealEn.value = "BREAKFAST";
         widget.hospitalityController.selectedMealAr.value = "إفطار";
-      } else if (_selectedRadio == 2) {
-        widget.hospitalityController.selectedMealEn.value = "Dinner";
-        widget.hospitalityController.selectedMealAr.value = "غداء";
       } else if (_selectedRadio == 3) {
-        widget.hospitalityController.selectedMealEn.value = "LUNCH";
+        widget.hospitalityController.selectedMealEn.value = "Dinner";
         widget.hospitalityController.selectedMealAr.value = "عشاء";
+      } else if (_selectedRadio == 2) {
+        widget.hospitalityController.selectedMealEn.value = "LUNCH";
+        widget.hospitalityController.selectedMealAr.value = "غداء";
       }
+     
       // widget.onGenderChanged(gender!);  // Call the callback with the new gender value
     });
   }
@@ -1949,7 +1927,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                     shape: RoundedRectangleBorder(
                       side: BorderSide(
                           width: 1,
-                          color: DateErrorMessage ?? false
+                          color: widget.hospitalityController.isHospatilityDateSelcted.value && !widget.hospitalityController.DateErrorMessage.value
                               ? Colors.red
                               : Color(0xFFB9B8C1)),
                       borderRadius: BorderRadius.circular(8),
@@ -1996,18 +1974,21 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                   ),
                 ),
               ),
-              if (DateErrorMessage ?? false)
-                Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Text(
-                    AppUtil.rtlDirection2(context)
-                        ? "اختر التاريخ"
-                        : "Select Date",
-                    style: TextStyle(
-                      color: Colors.red,
-                      fontSize: 12,
+                  Obx(
+                () =>
+                  widget.hospitalityController.isHospatilityDateSelcted.value && !widget.hospitalityController.DateErrorMessage.value?
+                   Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: Text(
+                      AppUtil.rtlDirection2(context)
+                      ? "يجب اختيار تاريخ بعد 48 ساعة من الآن على الأقل"
+                        : "*Please select a date at least 48 hours from now",
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 12,
+                      ),
                     ),
-                  ),
+                  ):Container(),
                 ),
               const SizedBox(
                 height: 12,
@@ -2046,9 +2027,8 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                             shape: RoundedRectangleBorder(
                               side: BorderSide(
                                   width: 1,
-                                  color: TimeErrorMessage ?? false
-                                      ? Colors.red
-                                      : DurationErrorMessage ?? false
+                                  color: 
+                                       DurationErrorMessage ?? false
                                           ? Colors.red
                                           : Color(0xFFB9B8C1)),
                               borderRadius: BorderRadius.circular(8),
@@ -2093,6 +2073,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                                             .hospitalityController
                                                             .selectedStartTime
                                                             .value = newTimeToGo;
+                                                      widget.hospitalityController.TimeErrorMessage.value= AppUtil.isEndTimeLessThanStartTime(widget.hospitalityController.selectedStartTime.value, newTimeToReturn);
                                                         //  widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
                                                         //   .format(newTimeToGo) as RxString;
                                                       });
@@ -2140,6 +2121,8 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                                           .hospitalityController
                                                           .selectedStartTime
                                                           .value = newT;
+                                                      widget.hospitalityController.TimeErrorMessage.value= AppUtil.isEndTimeLessThanStartTime(widget.hospitalityController.selectedStartTime.value, newTimeToReturn);
+
                                                       //    widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
                                                       // .format(newTimeToGo) as RxString;
                                                     });
@@ -2177,13 +2160,14 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                           ),
                         ),
                       ),
-                      if (TimeErrorMessage ?? false)
+                      if (widget.hospitalityController.TimeErrorMessage.value)
                         Padding(
                           padding: const EdgeInsets.only(top: 10),
                           child: Text(
-                            AppUtil.rtlDirection2(context)
-                                ? "اختر الوقت"
-                                : "Select Time",
+                            '',
+                            // AppUtil.rtlDirection2(context)
+                            //     ? "اختر الوقت"
+                            //     : "Select Time",
                             style: TextStyle(
                               color: Colors.red,
                               fontSize: 12,
@@ -2227,7 +2211,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                             shape: RoundedRectangleBorder(
                               side: BorderSide(
                                   width: 1,
-                                  color: TimeErrorMessage ?? false
+                                  color:  widget.hospitalityController.TimeErrorMessage.value ?? false
                                       ? Colors.red
                                       : DurationErrorMessage ?? false
                                           ? Colors.red
@@ -2280,6 +2264,14 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                                                 .selectedEndTime
                                                                 .value =
                                                             newTimeToReturn;
+                                         widget.hospitalityController.TimeErrorMessage.value= AppUtil.isEndTimeLessThanStartTime(  widget
+                                                                .hospitalityController
+                                                                .selectedStartTime
+                                                                .value,   widget
+                                                                .hospitalityController
+                                                                .selectedEndTime
+                                                                .value);
+
                                                         //      widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
                                                         // .format( newTimeToReturn) as RxString;
                                                       });
@@ -2327,7 +2319,13 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                                           .hospitalityController
                                                           .selectedEndTime
                                                           .value = newT;
-
+                                                         widget.hospitalityController.TimeErrorMessage.value= AppUtil.isEndTimeLessThanStartTime(  widget
+                                                                .hospitalityController
+                                                                .selectedStartTime
+                                                                .value,   widget
+                                                                .hospitalityController
+                                                                .selectedEndTime
+                                                                .value);
                                                       //  widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
                                                       //     .format( newTimeToReturn) as RxString;
                                                     });
@@ -2364,20 +2362,23 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                           ),
                         ),
                       ),
-                      if (TimeErrorMessage ?? false)
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: Text(
-                            AppUtil.rtlDirection2(context)
-                                ? "اختر الوقت"
-                                : "Select Time",
-                            style: TextStyle(
-                              color: Colors.red,
-                              fontSize: 12,
-                               fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                          : 'SF Pro',
+                       Obx(
+                           () =>
+                            widget.hospitalityController.TimeErrorMessage.value?
+                         Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Text(
+                              AppUtil.rtlDirection2(context)
+                                  ? "وقت الإنتهاء اقل من وقت البداية"
+                                  : "End time is less than start time",
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 12,
+                                 fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                            : 'SF Pro',
+                              ),
                             ),
-                          ),
+                          ):Container(),
                         ),
                     ],
                   )
@@ -2538,9 +2539,9 @@ class PriceDecisionCard extends StatefulWidget {
 }
 
 class _PriceDecisionCardState extends State<PriceDecisionCard> {
-  double price = 0.0;
+  int price = 0;
 
-  void _setPrice(double newPrice) {
+  void _setPrice(int newPrice) {
     setState(() {
       price = newPrice;
     });
@@ -2568,26 +2569,37 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
   }
 
   void _validatePrice() {
-    if (!mounted) return; // Check if the widget is still mounted
-    double price = double.tryParse(widget.priceController.text) ?? 0.0;
+  if (!mounted) return; // Check if the widget is still mounted
+  String priceText = widget.priceController.text;
+  RegExp doubleRegex = RegExp(r'^[0-9]*\.[0-9]+$'); // Regular expression to match doubles
+  
+  if (doubleRegex.hasMatch(priceText)) {
+    setState(() {
+      errorMessage = AppUtil.rtlDirection2(context)
+          ? '*السعر يجب أن يكون عدد صحيح فقط'
+          : '*The price must be an integer value only';
+    });
+  } else {
+    int price = int.tryParse(priceText) ?? 0;
     if (price < 150) {
       setState(() {
         errorMessage = AppUtil.rtlDirection2(context)
             ? '*الحد الأدنى لسعر التجربة هو 150 ريال سعودي'
-            : '*The minimum price for an experience is 150 SAR ';
+            : '*The minimum price for an experience is 150 SAR';
       });
     } else {
       setState(() {
         errorMessage = '';
       });
     }
-    _updateFees();
   }
+  _updateFees();
+}
 
   void _updateFees() {
     if (!mounted) return; // Check if the widget is still mounted
     setState(() {
-      double price = double.tryParse(widget.priceController.text) ?? 0.00;
+      int price = int.tryParse(widget.priceController.text) ?? 0;
       hidoFee = price * 0.25;
       earn = price - hidoFee;
     });

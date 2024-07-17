@@ -11,6 +11,7 @@ import 'package:ajwad_v4/explore/ajwadi/view/local_ticket_screen.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/next_activity.dart';
 import 'package:ajwad_v4/explore/tourist/view/notification/notification_screen.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
+import 'package:ajwad_v4/services/controller/event_controller.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
@@ -200,7 +201,9 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                                 icon: 'tour_category',
                                 color: Color(0xFFECF9F1),
                                 onPressed: () {
-                                  Get.to(
+                                  
+                                 Get.to(
+
                                     () => LocalTicketScreen(
                                       servicesController:
                                           Get.put(TripController()),
@@ -228,24 +231,42 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                               ),
                             ],
                           ),
-                          SizedBox(height: 6),
-                          Row(
-                            children: [
-                              CategoryCard(
-                                title: AppUtil.rtlDirection2(context)
-                                    ? 'مغامرات'
-                                    : 'Adventure',
-                                icon: 'adventure_category',
-                                color: Color(0xFFF9F4EC),
-                                onPressed: () {
-                                  Get.to(
-                                    () => LocalTicketScreen(
-                                      servicesController:
-                                          Get.put(AdventureController()),
-                                      type: 'adventure',
-                                    ),
-                                  );
-                                },
+                               SizedBox(height: 6),
+
+                              Row(
+                                children: [
+                                  CategoryCard(
+                                      title: AppUtil.rtlDirection2(context)?'مغامرات':'Adventure',
+                                      icon: 'adventure_category',
+                                      color: Color(0xFFF9F4EC),
+                                      onPressed: () {
+                                      Get.to(
+                                        () => LocalTicketScreen(
+                                         servicesController: Get.put(AdventureController()),
+                                         type: 'adventure',
+                                        ),
+                                      );
+                                    },
+                                  ),
+                            
+                                 SizedBox(width: 6),
+
+                                  CategoryCard(
+                                      title: AppUtil.rtlDirection2(context)?'فعاليات محلية':'Local Event',
+                                      icon: 'event_category',
+                                      color: Color(0xFFFEFDF1),
+                                      onPressed: () {
+                                      Get.to(
+                                        () => 
+                                        LocalTicketScreen(
+                                         servicesController: Get.put(EventController()),
+                                         type: 'event',
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ],
+
                               ),
                               SizedBox(width: 6),
                               CategoryCard(
@@ -314,6 +335,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                                     : Column(
                                         children: [
                                           //  SizedBox(height: 11),
+
 
                                           CustomLocalTicketCard(
                                             nextTrip: _tripController.nextTrip,

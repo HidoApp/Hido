@@ -15,6 +15,8 @@ class AdventureController extends GetxController {
   var isAdventureListLoading = false.obs;
   var isAdventureByIdLoading = false.obs;
   var ischeckBookingLoading = false.obs;
+ var DateErrorMessage=false.obs;
+  var TimeErrorMessage=false.obs;
   var address = ''.obs;
   var selectedDate = ''.obs;
   var selectedDates = [].obs; //new
@@ -113,7 +115,7 @@ class AdventureController extends GetxController {
     required String longitude,
     required String latitude,
     required String date,
-    required double price,
+    required int price,
     required List<String> image,
     required String regionAr,
     required String locationUrl,

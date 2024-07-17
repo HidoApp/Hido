@@ -1,4 +1,5 @@
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/explore/ajwadi/view/wallet/local_wallat_screen.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
@@ -31,30 +32,13 @@ class CustomWalletCard extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return InkWell(
-      onTap: () {},
-      child: Container(
-        width: double.infinity,
-        //  height: 152,
-        height: 137,
-        decoration: ShapeDecoration(
-          shape: RoundedRectangleBorder(
-// borderRadius: BorderRadius.circular(12),
-              ),
-          shadows: [
-            BoxShadow(
-              color: Color(0x3FC7C7C7),
-              blurRadius: 15,
-              offset: Offset(0, 0),
-              spreadRadius: 0,
-            )
-          ],
-        ),
-        child: Card(
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(12))),
-          color: Colors.white,
-          surfaceTintColor: const Color.fromARGB(255, 255, 255, 255),
-          // shadowColor: Color(0x3FC7C7C7),
+   onTap:  () {
+          Get.to(() => LocalWalletScreen(
+                         
+                            
+        ));
+     
+        },
 
           child: Padding(
             padding: const EdgeInsets.only(left: 16, right: 16, top: 16),

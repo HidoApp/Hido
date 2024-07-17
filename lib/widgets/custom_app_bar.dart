@@ -52,12 +52,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     padding: AppUtil.rtlDirection2(context)
                         ? !isAjwadi
                             ? EdgeInsets.only(
-                                top: 0, left: 0, right: 0, bottom: 18)
+                                top: 12, left: 0, right: 0, bottom: 18)
                             : EdgeInsets.only(
                                 top: 12, left: 0, right: 0, bottom: 0)
                         : !isAjwadi
                             ? EdgeInsets.only(
-                                top: 0, left: 20, right: 20, bottom: 18)
+                                top: 16, left: 20, right: 20, bottom: 18)
                             : EdgeInsets.only(
                                 top: 16, left: 0, right: 0, bottom: 20),
                     child: CustomText(
@@ -118,10 +118,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                           padding: AppUtil.rtlDirection2(context)
 
                         ?!isAjwadi
-                              ? EdgeInsets.only(bottom: 23, right: 30)
+                              ? EdgeInsets.only(bottom: 6, right: 30)
                               : EdgeInsets.only(top: 9, right: 30)
                         :!isAjwadi
-                              ? EdgeInsets.only(bottom: 23, left: 30,top:2)
+                              ? EdgeInsets.only(bottom: 6, left: 30,top:2)
                               : EdgeInsets.only(bottom: 23, left: 30,top:8),
 
 

@@ -54,6 +54,9 @@ class _LocalTicketScreenState extends State<LocalTicketScreen>
     if (widget.type== 'adventure') {
       return "Adventure".tr;
     }
+    if (widget.type== 'event') {
+      return "Event".tr;
+    }
     
     return ""; // Add validation for other steps if needed
   }

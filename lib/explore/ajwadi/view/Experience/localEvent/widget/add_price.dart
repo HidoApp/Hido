@@ -18,9 +18,9 @@ class PriceDecisionCard extends StatefulWidget {
 }
 
 class _PriceDecisionCardState extends State<PriceDecisionCard> {
-  double price = 0.0;
+  int price = 0;
 
-  void _setPrice(double newPrice) {
+  void _setPrice(int newPrice) {
     setState(() {
       price = newPrice;
     });
@@ -32,16 +32,10 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
   double earn = 0.00;
   String errorMessage = '';
 
-  @override
+   @override
   void initState() {
     super.initState();
-    // if(widget.priceController.text==''|| widget.priceController.text.isEmpty)
-    widget.priceController.text = price.toString();
-  //  else
-  //  _priceController =  widget.priceController ;
-
-
-
+    widget.priceController.text = '0'; // Assuming price is initially 0
     widget.priceController.addListener(_validatePrice);
   }
 
@@ -53,30 +47,35 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
 
   void _validatePrice() {
     if (!mounted) return; // Check if the widget is still mounted
-    double price = double.tryParse(widget.priceController.text) ?? 0.0;
-    if (price < 150) {
-      setState(() {
-        errorMessage = AppUtil.rtlDirection2(context)
-            ? '*الحد الأدنى لسعر التجربة هو 150 ريال سعودي'
-            : '*The minimum price for an experience is 150 SAR ';
-      });
-    } else {
-      setState(() {
-        errorMessage = '';
-      });
-    }
-    _updateFees();
+    String priceText = widget.priceController.text;
+    RegExp doubleRegex = RegExp(r'^[0-9]*\.[0-9]+$'); // Regular expression to match doubles
+
+    // Ensure state changes happen after the build phase
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return; // Check if the widget is still mounted
+      if (doubleRegex.hasMatch(priceText)) {
+        setState(() {
+          errorMessage = AppUtil.rtlDirection2(context)
+              ? '*السعر يجب أن يكون عدد صحيح فقط'
+              : '*The price must be an integer value only';
+        });
+      } else {
+        setState(() {
+          errorMessage = '';
+        });
+      }
+      _updateFees();
+    });
   }
 
   void _updateFees() {
     if (!mounted) return; // Check if the widget is still mounted
     setState(() {
-      double price = double.tryParse(widget.priceController.text) ?? 0.00;
+      int price = int.tryParse(widget.priceController.text) ?? 0;
       hidoFee = price * 0.3;
       earn = price - hidoFee;
     });
   }
-
   @override
   Widget build(BuildContext context) {
     // double hidoFee = price * 0.25;
@@ -116,7 +115,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
             color: Colors.white,
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: errorMessage.isNotEmpty ? Colors.red : Colors.white,
+              color: errorMessage.isNotEmpty ? Colors.red :Colors.white,
             ),
             boxShadow: [
               BoxShadow(
@@ -221,7 +220,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
             ],
           ),
         ),
-        if (errorMessage.isNotEmpty && price != 150.0)
+        if (errorMessage.isNotEmpty)
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: Text(

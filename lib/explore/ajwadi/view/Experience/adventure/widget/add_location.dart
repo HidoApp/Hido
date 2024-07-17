@@ -52,6 +52,7 @@ class _AddLocationState extends State<AddLocation> {
       },
     );
   }
+  
 
     
   void getLocation() async {
@@ -106,7 +107,9 @@ class _AddLocationState extends State<AddLocation> {
     super.initState();
 
 
-    addCustomIcon();
+   // 
+   // 
+   // addCustomIcon();
           getLocation();
 
   }
@@ -250,7 +253,7 @@ class _AddLocationState extends State<AddLocation> {
                       child: _currentPosition == null
                     ? Center(child: CircularProgressIndicator.adaptive())
                      :  GoogleMap(
-                        scrollGesturesEnabled: false,
+                        scrollGesturesEnabled: true,
                         zoomControlsEnabled: false,
                         initialCameraPosition: CameraPosition(
                           target:

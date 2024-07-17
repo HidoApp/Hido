@@ -16,7 +16,17 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 class EventDetails extends StatefulWidget {
   const EventDetails({
     Key? key,
+     this.eventId='',
+    this.isLocal = false,
+    this.address='',
+    this.isHasBooking=false,
+
   }) : super(key: key);
+
+  final String eventId;
+  final bool isLocal;
+  final String address;
+    final bool isHasBooking;
 
 
 
@@ -46,23 +56,23 @@ class _EventDetailsState extends State<EventDetails> {
   var locLatLang = const LatLng(24.9470921, 45.9903698);
   bool isExpanded = false;
 
-  void addCustomIcon() {
-    BitmapDescriptor.fromAssetImage(
-            const ImageConfiguration(), "assets/images/pin_marker.png")
-        .then(
-      (icon) {
-        setState(() {
-          markerIcon = icon;
-        });
-      },
-    );
-  }
+  // void addCustomIcon() {
+  //   BitmapDescriptor.fromAssetImage(
+  //           const ImageConfiguration(), "assets/images/pin_marker.png")
+  //       .then(
+  //     (icon) {
+  //       setState(() {
+  //         markerIcon = icon;
+  //       });
+  //     },
+  //   );
+  // }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    addCustomIcon();
+    //addCustomIcon();
   }
 
   @override

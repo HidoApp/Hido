@@ -1,3 +1,4 @@
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +34,8 @@ class CustomPloicySheet extends StatelessWidget {
             CustomText(
               text: 'cancellationPolicy'.tr,
               fontSize: width * 0.046,
+             fontFamily: 'HT Rakik',
+
             ),
             SizedBox(
               height: width * 0.06,
@@ -41,6 +44,8 @@ class CustomPloicySheet extends StatelessWidget {
               text: 'cancellationPolicyBreifAdventure'.tr,
               fontSize: width * 0.038,
               fontWeight: FontWeight.w300,
+             fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+
             ),
             SizedBox(
               height: width * 0.038,
@@ -49,6 +54,8 @@ class CustomPloicySheet extends StatelessWidget {
               text: 'cancellationPolicyNote'.tr,
               fontSize: width * 0.038,
               fontWeight: FontWeight.w300,
+              fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+
             ),
           ],
         ),

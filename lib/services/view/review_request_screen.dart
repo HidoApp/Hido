@@ -128,7 +128,7 @@ class _ReviewRequestState extends State<ReviewRequest> {
                       children: [
                         CustomText(
                           text: 'RequestedTourDetails'.tr,
-                          fontSize: width * 0.047,
+                         fontSize: width * 0.043,
                           fontFamily: 'HT Rakik',
                           fontWeight: FontWeight.w500,
                         ),
@@ -139,31 +139,33 @@ class _ReviewRequestState extends State<ReviewRequest> {
                             title:
                                 '${AppUtil.formatBookingDate(context, widget.booking!.date!)}',
                             image: 'assets/icons/date.svg'),
-                        SizedBox(
-                          height: 7,
-                        ),
+                          SizedBox(
+                  height: width * .010,
+                ),
                         // Details
                         ReviewDetailsTile(
                             title: AppUtil.rtlDirection2(context)
                                 ? 'من ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)} إلى ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)} '
                                 : 'Pick up: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)}, Drop off: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)}',
                             image: 'assets/icons/time3.svg'),
-                        SizedBox(
-                          height: 7,
-                        ),
+                         SizedBox(
+                  height: width * .010,
+                ),
                         ReviewDetailsTile(
                             title:
                                 '${widget.booking?.guestNumber} ${'guests'.tr}',
                             image: 'assets/icons/guests.svg'),
-                        SizedBox(
-                          height: 7,
-                        ),
+                         SizedBox(
+                  height: width * .010,
+                ),
                         ReviewDetailsTile(
                             title: widget.booking!.vehicleType!,
                             image:
-                                'assets/icons/unselected_${widget.booking?.vehicleType!}_icon.svg'),
+                                'assets/icons/unselected_${widget.booking?.vehicleType!}_icon.svg',
+                           widthh:26,
+                                ),
                         SizedBox(
-                          height: 13,
+                     height: width * 0.041,
                         ),
                         const Divider(
                           color: lightGrey,
@@ -173,7 +175,7 @@ class _ReviewRequestState extends State<ReviewRequest> {
                         ),
                         CustomText(
                           text: "ItineraryDetails".tr,
-                          fontSize: width * 0.047,
+                          fontSize: width * 0.043,
                           fontFamily: 'HT Rakik',
                           fontWeight: FontWeight.w500,
                         ),

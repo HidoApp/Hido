@@ -35,8 +35,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
   bool isNew = false;
   final String timeZoneName = 'Asia/Riyadh';
 //  late tz.Location location;
-  bool? DateErrorMessage;
-  bool? TimeErrorMessage;
+ 
   bool? DurationErrorMessage;
 
   bool? GuestErrorMessage;
@@ -91,7 +90,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                     shape: RoundedRectangleBorder(
                       side: BorderSide(
                           width: 1,
-                          color: DateErrorMessage ?? false
+                          color:widget.adventureController.isAdventureDateSelcted.value&&!widget.adventureController.DateErrorMessage.value
                               ? Colors.red
                               : Color(0xFFB9B8C1)),
                       borderRadius: BorderRadius.circular(8),
@@ -136,18 +135,21 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                   ),
                 ),
               ),
-              if (DateErrorMessage ?? false)
-                Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Text(
-                    AppUtil.rtlDirection2(context)
-                        ? "اختر التاريخ"
-                        : "Select Date",
-                    style: TextStyle(
-                      color: Colors.red,
-                      fontSize: 12,
+                 Obx(
+                () =>
+                widget.adventureController.isAdventureDateSelcted.value&&!widget.adventureController.DateErrorMessage.value?
+                   Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: Text(
+                      AppUtil.rtlDirection2(context)
+                          ? "يجب اختيار تاريخ بعد 48 ساعة من الآن على الأقل"
+                          : "*Please select a date at least 48 hours from now",
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 12,
+                      ),
                     ),
-                  ),
+                  ):Container(),
                 ),
               const SizedBox(
                 height: 12,
@@ -186,9 +188,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                             shape: RoundedRectangleBorder(
                               side: BorderSide(
                                   width: 1,
-                                  color: TimeErrorMessage ?? false
-                                      ? Colors.red
-                                      : DurationErrorMessage ?? false
+                                  color:  DurationErrorMessage ?? false
                                           ? Colors.red
                                           : Color(0xFFB9B8C1)),
                               borderRadius: BorderRadius.circular(8),
@@ -235,6 +235,8 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                                             .value = newTimeToGo;
                                                         //  widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
                                                         //   .format(newTimeToGo) as RxString;
+                                                          widget.adventureController.TimeErrorMessage.value=AppUtil.isEndTimeLessThanStartTime(
+                                                          widget.adventureController.selectedStartTime.value,  widget.adventureController.selectedEndTime.value);
                                                       });
                                                     },
                                                     padding: const EdgeInsets
@@ -282,6 +284,9 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                                           .value = newT;
                                                       //    widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
                                                       // .format(newTimeToGo) as RxString;
+
+                                                        widget.adventureController.TimeErrorMessage.value=AppUtil.isEndTimeLessThanStartTime(
+                                                          widget.adventureController.selectedStartTime.value,  widget.adventureController.selectedEndTime.value);
                                                     });
                                                   },
                                                 ),
@@ -316,13 +321,14 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                           ),
                         ),
                       ),
-                      if (TimeErrorMessage ?? false)
+                      if (widget.adventureController.TimeErrorMessage.value)
                         Padding(
                           padding: const EdgeInsets.only(top: 10),
                           child: Text(
-                            AppUtil.rtlDirection2(context)
-                                ? "اختر الوقت"
-                                : "Select Time",
+                            '',
+                            // AppUtil.rtlDirection2(context)
+                            //     ? "اختر الوقت"
+                            //     : "Select Time",
                             style: TextStyle(
                               color: Colors.red,
                               fontSize: 12,
@@ -366,7 +372,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                             shape: RoundedRectangleBorder(
                               side: BorderSide(
                                   width: 1,
-                                  color: TimeErrorMessage ?? false
+                                  color: widget.adventureController.TimeErrorMessage.value
                                       ? Colors.red
                                       : DurationErrorMessage ?? false
                                           ? Colors.red
@@ -421,6 +427,8 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                                             newTimeToReturn;
                                                         //      widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
                                                         // .format( newTimeToReturn) as RxString;
+                                                          widget.adventureController.TimeErrorMessage.value=AppUtil.isEndTimeLessThanStartTime(
+                                                          widget.adventureController.selectedStartTime.value,  widget.adventureController.selectedEndTime.value);
                                                       });
                                                     },
                                                     padding: const EdgeInsets
@@ -466,7 +474,8 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                                           .adventureController
                                                           .selectedEndTime
                                                           .value = newT;
-
+                                                        widget.adventureController.TimeErrorMessage.value=AppUtil.isEndTimeLessThanStartTime(
+                                                          widget.adventureController.selectedStartTime.value,  widget.adventureController.selectedEndTime.value);
                                                       //  widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
                                                       //     .format( newTimeToReturn) as RxString;
                                                     });
@@ -503,18 +512,22 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                           ),
                         ),
                       ),
-                      if (TimeErrorMessage ?? false)
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: Text(
-                            AppUtil.rtlDirection2(context)
-                                ? "اختر الوقت"
-                                : "Select Time",
-                            style: TextStyle(
-                              color: Colors.red,
-                              fontSize: 12,
+                        Obx(
+                          
+                           () => 
+                           widget.adventureController.TimeErrorMessage.value?
+                           Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Text(
+                              AppUtil.rtlDirection2(context)
+                                  ? "يجب أن لايسبق وقت بدء التجربة"
+                                  : "*Can’t be before start time",
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 12,
+                              ),
                             ),
-                          ),
+                          ):Container(),
                         ),
                     ],
                   )

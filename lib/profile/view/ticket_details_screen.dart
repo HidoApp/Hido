@@ -681,7 +681,7 @@ class TicketData extends StatelessWidget {
                           Text(
                             // '380.00',
                             booking.cost.toString(),
-
+                        
                             //booking.place!.price.toString(),
                             textAlign: TextAlign.center,
                             style: TextStyle(

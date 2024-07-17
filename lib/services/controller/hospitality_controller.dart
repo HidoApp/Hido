@@ -14,7 +14,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../model/summary.dart';
 
 class HospitalityController extends GetxController {
-  var isHospitalityLoading = false.obs;
+  var DateErrorMessage=false.obs;
+  var TimeErrorMessage=false.obs;
+  var isHospitalityLoading = true.obs;
   var selectedDate = ''.obs;
   var selectedDates = [].obs; //new
   var selectedTime = ''.obs;
@@ -208,7 +210,7 @@ class HospitalityController extends GetxController {
     required String longitude,
     required String latitude,
     required String touristsGender,
-    required double price,
+    required int price,
     required List<String> images,
     required String regionAr,
     required String location,

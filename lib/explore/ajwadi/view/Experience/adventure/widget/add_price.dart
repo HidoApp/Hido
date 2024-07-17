@@ -18,9 +18,9 @@ class PriceDecisionCard extends StatefulWidget {
 }
 
 class _PriceDecisionCardState extends State<PriceDecisionCard> {
-  double price = 0.0;
+  int price = 0;
 
-  void _setPrice(double newPrice) {
+  void _setPrice(int newPrice) {
     setState(() {
       price = newPrice;
     });
@@ -51,27 +51,54 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
     super.dispose();
   }
 
-  void _validatePrice() {
-    if (!mounted) return; // Check if the widget is still mounted
-    double price = double.tryParse(widget.priceController.text) ?? 0.0;
+  // void _validatePrice() {
+  //   if (!mounted) return; // Check if the widget is still mounted
+  //   double price = double.tryParse(widget.priceController.text) ?? 0.0;
+  //   if (price < 150) {
+  //     setState(() {
+  //       errorMessage = AppUtil.rtlDirection2(context)
+  //           ? '*الحد الأدنى لسعر التجربة هو 150 ريال سعودي'
+  //           : '*The minimum price for an experience is 150 SAR ';
+  //     });
+  //   } else {
+  //     setState(() {
+  //       errorMessage = '';
+  //     });
+  //   }
+  //   _updateFees();
+  // }
+   void _validatePrice() {
+  if (!mounted) return; // Check if the widget is still mounted
+  String priceText = widget.priceController.text;
+  RegExp doubleRegex = RegExp(r'^[0-9]*\.[0-9]+$'); // Regular expression to match doubles
+  
+  if (doubleRegex.hasMatch(priceText)) {
+    setState(() {
+      errorMessage = AppUtil.rtlDirection2(context)
+          ? '*السعر يجب أن يكون عدد صحيح فقط'
+          : '*The price must be an integer value only';
+    });
+  } else {
+    int price = int.tryParse(priceText) ?? 0;
     if (price < 150) {
       setState(() {
         errorMessage = AppUtil.rtlDirection2(context)
             ? '*الحد الأدنى لسعر التجربة هو 150 ريال سعودي'
-            : '*The minimum price for an experience is 150 SAR ';
+            : '*The minimum price for an experience is 150 SAR';
       });
     } else {
       setState(() {
         errorMessage = '';
       });
     }
-    _updateFees();
   }
+  _updateFees();
+}
 
   void _updateFees() {
     if (!mounted) return; // Check if the widget is still mounted
     setState(() {
-      double price = double.tryParse(widget.priceController.text) ?? 0.00;
+      int price = int.tryParse(widget.priceController.text) ?? 0;
       hidoFee = price * 0.3;
       earn = price - hidoFee;
     });

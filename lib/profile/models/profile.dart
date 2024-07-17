@@ -23,6 +23,8 @@ class Profile {
   final List<String>? userInterests;
   final List<String>? spokenLanguage;
   final String? nationality;
+ final String? accountType;
+
   final UserRole? userRole;
   final String? accountType;
   final String? iban;
@@ -54,6 +56,7 @@ class Profile {
       this.drivingLicenseExpiryDate,
       this.vehicleIdNumber
 
+
       //this.image,
       });
 
@@ -76,6 +79,7 @@ class Profile {
       eventNumber: json['eventNumber'] ?? 0,
       eventRating: json['eventRating'] ?? 0,
       //tripNumber: json['tripNumber'],
+
       profileImage: json['image'] ?? '',
       phoneNumber: json['phoneNumber'] ?? '',
       email: json['email'] ?? '',
@@ -110,6 +114,7 @@ class Profile {
       'nationality': nationality,
       "spokenLanguage": spokenLanguage!.map((x) => x).toList(),
       //'userRole': userRole,
+      "accountType":accountType
     };
   }
 }
