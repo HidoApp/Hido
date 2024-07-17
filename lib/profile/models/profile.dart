@@ -23,6 +23,8 @@ class Profile {
   final List<String>? userInterests;
   final List<String>? spokenLanguage;
   final String? nationality;
+ final String? accountType;
+
   final UserRole? userRole;
 
   Profile({
@@ -46,6 +48,7 @@ class Profile {
     this.userRole,
     this.email,
     this.tourNumber,
+    this.accountType
     //this.image,
 
   });
@@ -65,6 +68,7 @@ class Profile {
       eventNumber: json['eventNumber']??0,
       eventRating: json['eventRating']??0,
       //tripNumber: json['tripNumber'],
+      accountType: json['accountType']??'',
       profileImage: json['image']??'',
       phoneNumber: json['phoneNumber']??'',
       email: json['email']??'',
@@ -99,6 +103,7 @@ class Profile {
       'nationality': nationality,
       "spokenLanguage": spokenLanguage!.map((x) => x).toList(),
       //'userRole': userRole,
+      "accountType":accountType
     };
   }
 }

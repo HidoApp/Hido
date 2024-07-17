@@ -1,4 +1,5 @@
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/explore/ajwadi/view/wallet/local_wallat_screen.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
@@ -33,7 +34,7 @@ class CustomWalletCard extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     return InkWell(
    onTap:  () {
-          Get.to(() => TicketDetailsScreen(
+          Get.to(() => LocalWalletScreen(
                          
                             
         ));

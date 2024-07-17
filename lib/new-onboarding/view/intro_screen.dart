@@ -80,7 +80,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
               width: screenSize.width,
             ),
           ),
-          Positioned(
+          Positioned(//comment
             right: _currentIndex == 0 ? 0 : 5,
             left: _currentIndex == 0 ? 0 : 5,
             bottom: _currentIndex == 0
@@ -151,7 +151,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                         return Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Padding(
+                            Padding(//comment
                               padding: const EdgeInsets.only(
                                   left: 8, right: 8, bottom: 0),
                               child: _currentIndex == 0

@@ -72,7 +72,7 @@ class _EventInfoReviewState extends State<EventInfoReview> {
           }
         });
         print(placemarks.first);
-        return ' ${placemark.locality}';
+        return '${placemark.subLocality}, ${placemark.locality},${placemark.country}';
       }
     } catch (e) {
       print("Error retrieving address: $e");
@@ -123,7 +123,7 @@ class _EventInfoReviewState extends State<EventInfoReview> {
       var newEntry = {
         "startTime": formatter.format(newStartTime),
         "endTime": formatter.format(newEndTime),
-        "seats": _EventController.seletedSeat
+        "seats": _EventController.seletedSeat.value
       };
 
       DaysInfo.add(newEntry);
@@ -176,20 +176,25 @@ class _EventInfoReviewState extends State<EventInfoReview> {
   @override
   void initState() {
     super.initState();
-    _fetchAddress();
+    // _fetchAddress();
 
     daysInfo();
 
     setState(() {
      locationUrl = getLocationUrl(_EventController.pickUpLocLatLang.value);
       print('Location URL: $locationUrl');
-      imageUrls = [
-        "https://img.aso.fr/core_app/img-cycling-tdf-jpg/echappee-7/57226/0:0,1200:801-1000-0-70/632b8"
-      ];
-      //  "https://media.cntraveler.com/photos/607313c3d1058698d13c31b5/1:1/w_1636,h_1636,c_limit/FamilyCamping-2021-GettyImages-948512452-4.jpg"
+     imageUrls = [
+     "https://www.arabnews.com/sites/default/files/styles/n_670_395/public/main-image/2018/12/21/1407236-1526060639.jpg?itok=mZ-hVN8I",
+    "https://www.arabnews.com/sites/default/files/styles/n_670_395/public/2018/02/09/1096136-371337553.jpg?itok=KQ9w43Y-",
+    "https://www.arabnews.com/sites/default/files/styles/n_670_395/public/2018/02/09/1096141-325555191.jpg?itok=BbYMyMpa"
+];
 
-      // widget.hospitalityController.pickUpLocLatLang.value=LatLng(24.786828,46.647622);
+      //  "https://media.cntraveler.com/photos/607313c3d1058698d13c31b5/1:1/w_1636,h_1636,c_limit/FamilyCamping-2021-GettyImages-948512452-4.jpg"
+    _EventController.pickUpLocLatLang.value=LatLng(24.9591,46.7661);
+
     });
+        _fetchAddress();
+
   }
 
   Widget build(BuildContext context) {
@@ -226,67 +231,149 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                 fontWeight: FontWeight.w400,
               ),
             ),
-            const SizedBox(height: 20),
+             const SizedBox(height: 20),
             Container(
-              width: 251,
-              height: 222,
-              clipBehavior: Clip.antiAlias,
+              width: double.infinity,
+              padding: const EdgeInsets.all(12),
               decoration: ShapeDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(imageUrls.first),
-                  fit: BoxFit.fill,
-                ),
+                color: Colors.white,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(8),
                 ),
+                shadows: [
+                  BoxShadow(
+                    color: Color(0x3FC7C7C7),
+                    blurRadius: 16,
+                    offset: Offset(0, 0),
+                    spreadRadius: 0,
+                  )
+                ],
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 24),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Color(0x0029272E),
-                          Color(0xFF29272E),
-                        ],
+                    width: 90,
+                    height: 90,
+                    decoration: ShapeDecoration(
+                      image: DecorationImage(
+                        image: NetworkImage(imageUrls[0]),
+                        // FileImage(File(widget.hospitalityImages[0])),
+                        fit: BoxFit.cover,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
                       ),
                     ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
                     child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment:
-                          MainAxisAlignment.start,
-                      crossAxisAlignment:AppUtil.rtlDirection2(context)? CrossAxisAlignment.end:
-                          CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          AppUtil.rtlDirection2(context)
-                    ? widget.hospitalityTitleAr
-                    : widget.hospitalityTitleEn,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontFamily: 'HT Rakik',
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: 0.80,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              AppUtil.rtlDirection2(context)
+                                  ? widget.hospitalityTitleAr
+                                  : widget.hospitalityTitleEn,
+                              style: TextStyle(
+                                color: Color(0xFF070708),
+                                fontSize: 16,
+                                fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic': 'SF Pro',
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                Icon(Icons.star,
+                                    color: Color(0xFF36B268), size: 14),
+                                const SizedBox(width: 4),
+                                Text(
+                                  '5.0',
+                                  style: TextStyle(
+                                    color: Color(0xFF36B268),
+                                    fontSize: 12,
+                                    fontFamily:AppUtil.rtlDirection2(context)?'SF Arabic': 'SF Pro',
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                        const SizedBox(height: 4),
-                        Text(
-                          '${address} . ${extractMonths(_EventController.selectedDate.value)}',
-                          style: TextStyle(
-                            color: Color(0xFFB9B8C1),
-                            fontSize: 15,
-                            fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
-                            fontWeight: FontWeight.w400,
-                            height: 0,
-                          ),
+                        const SizedBox(height: 8),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    SvgPicture.asset(
+                                        'assets/icons/map_pin.svg'),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      address,
+                                     
+                                      style: TextStyle(
+                                        color: Color(0xFF9392A0),
+                                        fontSize: 11,
+                                        fontFamily: 'SF Pro',
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 4),
+                                  Row(
+                                    children: [
+                                  const SizedBox(width: 1),
+
+                                      SvgPicture.asset(
+                                        'assets/icons/grey_calender.svg',
+                                      ),
+                                      const SizedBox(width: 6),
+                                      Text(
+                                        AppUtil.formatSelectedDates(_EventController.selectedDates, context),
+                                        style: TextStyle(
+                                          color: Color(0xFF9392A0),
+                                          fontSize: 11,
+                                          fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic': 'SF Pro',
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                               
+                                const SizedBox(height: 4),
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 2),
+                                        child: SvgPicture.asset(
+                                          'assets/icons/timeGrey.svg',
+                                        ),
+                                      ),
+                                      const SizedBox(width: 4),
+                                      Text(
+                                        '${AppUtil.formatStringTimeWithLocale(context, intl.DateFormat('HH:mm:ss').format(_EventController.selectedStartTime.value))} - ${AppUtil.formatStringTimeWithLocale(context, intl.DateFormat('HH:mm:ss').format(_EventController.selectedEndTime.value))}',
+                                        style: TextStyle(
+                                          color: Color(0xFF9392A0),
+                                          fontSize: 11,
+                                            fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                                       : 'SF Pro',
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                               
+                              ],
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -294,8 +381,6 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                 ],
               ),
             ),
-            
-
       
             Spacer(),
             Row(
@@ -307,83 +392,109 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                   child: Padding(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 4, vertical: 35),
-            child: Container(
-              child: CustomButton(
+            child: Column(
+              children: [
+              CustomButton(
                   onPressed: () async {
-                //     final isSuccess = 
-                //         await _EventController!.createEvent(
-                //             nameAr: widget.hospitalityTitleAr,
-                //             nameEn: widget.hospitalityTitleEn,
-                //             descriptionAr: widget.hospitalityBioAr,
-                //             descriptionEn: widget.hospitalityBioEn,
-                //             longitude: _EventController.pickUpLocLatLang.value.longitude.toString(),
-                //             latitude: _EventController.pickUpLocLatLang.value.latitude.toString(),
-                //             date: _EventController.selectedDate.value.substring(0, 10),
-                //             price: widget.adventurePrice!,
-                //             image: imageUrls,
-                //             regionAr: ragionAr,
-                //             locationUrl: locationUrl,
-                //             regionEn: ragionEn,
-                //             //start: intl.DateFormat('HH:mm:ss').format(widget.adventureController!.selectedStartTime.value),
-                //            // end: intl.DateFormat('HH:mm:ss').format(widget.adventureController!.selectedEndTime.value),
-                //             seat: _EventController.seletedSeat.value,
-                //             context: context);
+                    final isSuccess = 
+                        await _EventController!.createEvent(
+                            nameAr: _EventController.titleAr.value,
+                            nameEn: _EventController.titleEn.value,
+                            descriptionAr:_EventController.bioAr.value,
+                            descriptionEn: _EventController.bioEn.value,
+                            longitude: _EventController.pickUpLocLatLang.value.longitude.toString(),
+                            latitude: _EventController.pickUpLocLatLang.value.latitude.toString(),
+                            price: widget.adventurePrice!,
+                            image: imageUrls,
+                            regionAr: ragionAr,
+                            locationUrl: locationUrl,
+                            daysInfo: DaysInfo,
+                            regionEn: ragionEn,
+                            context: context);
 
-                //     print('is sucssssss');
-                //     print(isSuccess);
-                //     if (isSuccess) {
+                    print('is sucssssss');
+                    print(isSuccess);
+                    if (isSuccess) {
                       
-                //       showDialog(
-                //         context: context,
-                //         builder: (BuildContext context) {
-                //           return Dialog(
-                //             shape: RoundedRectangleBorder(
-                //               borderRadius: BorderRadius.circular(8),
-                //             ),
-                //             child: Container(
-                //               width: 350,
-                //               height: 110, // Custom width
-                //               padding: EdgeInsets.all(16),
-                //               child: Column(
-                //                 mainAxisSize: MainAxisSize.min,
-                //                 mainAxisAlignment:
-                //                     MainAxisAlignment.center,
-                //                 children: [
-                //                   Image.asset(
-                //                       'assets/images/paymentSuccess.gif',
-                //                       width: 38),
-                //                   SizedBox(height: 16),
-                //                   Text(
-                //                     !AppUtil.rtlDirection2(context)
-                //                         ? "Experience published successfully"
-                //                         : "تم نشر تجربتك بنجاح ",
-                //                     style: TextStyle(fontSize: 15),
-                //                     //textDirection:
-                //                         //AppUtil.rtlDirection2(context)
-                //                             //? TextDirection.rtl
-                //                             //: TextDirection.ltr,
-                //                   ),
-                //                 ],
-                //               ),
-                //             ),
-                //           );
-                //         },
-                //       ).then((_) {
-                // Get.offAll(() => const AjwadiBottomBar());
-                //       });
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return Dialog(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Container(
+                              width: 350,
+                              height: 110, // Custom width
+                              padding: EdgeInsets.all(16),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                      'assets/images/paymentSuccess.gif',
+                                      width: 38),
+                                  SizedBox(height: 16),
+                                  Text(
+                                    !AppUtil.rtlDirection2(context)
+                                        ? "Experience published successfully"
+                                        : "تم نشر تجربتك بنجاح ",
+                                    style: TextStyle(fontSize: 15),
+                                    //textDirection:
+                                        //AppUtil.rtlDirection2(context)
+                                            //? TextDirection.rtl
+                                            //: TextDirection.ltr,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ).then((_) {
+                Get.offAll(() => const AjwadiBottomBar());
+                      });
 
                       
-                //     } else {
-                //       AppUtil.errorToast(
-                //           context, 'somthingWentWrong'.tr);
-                //     }
+                    } else {
+                      // AppUtil.errorToast(
+                      //     context, 'somthingWentWrong'.tr);
+                    }
                   },
                   title: 'Publish'.tr,
                   ),
+                   SizedBox(height: 10),
+
+                                CustomButton(
+                                    onPressed: () {
+                                      Get.until((route) =>
+                                          Get.currentRoute == '/ExperienceType');
+                                    },
+                                    title: AppUtil.rtlDirection2(context)
+                                        ? 'عودة للتجارب'
+                                        : 'Return to Experiences',
+                                    buttonColor: Colors.white.withOpacity(0.3),
+                                    textColor: Color(0xFF070708)),
+
+              ],
             ),
                   ),
                 ),
+                //  SizedBox(height: 10),
+
+                //                 CustomButton(
+                //                     onPressed: () {
+                //                       Get.until((route) =>
+                //                           Get.currentRoute == '/FindAjwady');
+                //                     },
+                //                     title: AppUtil.rtlDirection2(context)
+                //                         ? 'عودة للعروض'
+                //                         : 'Return to Offers'.tr,
+                //                     buttonColor: Colors.white.withOpacity(0.3),
+                //                     textColor: Color(0xFF070708)),
+
           ],
+          
         ),
           ],
       ),
@@ -438,14 +549,18 @@ String formatSelectedDates(RxList<dynamic> dates, BuildContext context) {
 
   return formattedDates;
 }
-String extractMonths(String datesString) {
+String extractMonths(context, String datesString) {
   // Remove brackets and split by comma to get individual date strings
   List<String> dateStrings = datesString.replaceAll('[', '').replaceAll(']', '').split(', ');
+
+
+   String locale = AppUtil.rtlDirection2(context) ? 'ar' : 'en';
 
   // Parse each date string and extract the month
   List<String> monthsList = dateStrings.map((dateString) {
     DateTime dateTime = DateTime.parse(dateString);
-    return DateFormat.MMMM().format(dateTime);
+    return DateFormat.MMMM(locale).format(dateTime);
+    
   }).toList();
 
   // Check if all months are the same

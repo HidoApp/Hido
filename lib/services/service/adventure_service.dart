@@ -152,7 +152,7 @@ class AdventureService {
     required String longitude,
     required String latitude,
     required String date,
-    required double price,
+    required int price,
     required List<String> image,
     required String regionAr,
     required String locationUrl,
@@ -339,7 +339,7 @@ static Future<bool?>  AdventureDelete(
       if (context.mounted) {
         AppUtil.errorToast(context, errorMessage);
       }
-      return null;
+      return false;
     }
   }
 

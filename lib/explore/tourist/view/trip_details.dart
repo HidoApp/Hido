@@ -134,28 +134,22 @@ class _TripDetailsState extends State<TripDetails> {
     thePlace = await _touristExploreController.getPlaceById(
         id: widget.place!.id!, context: context);
 
-   
     if (thePlace!.booking!.length != 0 &&
         thePlace!.booking!.first.orderStatus == 'PENDING') {
-
       isViewBooking.value = true;
       lockPlaces.value = true;
-
     } else if (thePlace!.booking!.length != 0 &&
         thePlace!.booking!.first.orderStatus == 'ACCEPTED') {
-                isHasOffers.value=true;
+      isHasOffers.value = true;
 
       isViewBooking.value = true;
 
       theProfile = await _profileController.getProfile(
           context: context,
           profileId: thePlace!.booking!.first.profileId ?? '');
-      
     } else {
       isViewBooking.value = false;
     }
-
-
   }
 
   // }
@@ -256,8 +250,8 @@ class _TripDetailsState extends State<TripDetails> {
                       Row(
                         children: [
                           SvgPicture.asset("assets/icons/map_pin.svg"),
-                          const SizedBox(
-                            width: 6,
+                          SizedBox(
+                            width: width * 0.018,
                           ),
                           CustomText(
                             text: widget.place != null
@@ -268,7 +262,9 @@ class _TripDetailsState extends State<TripDetails> {
                                 : '',
                             color: Color(0xFF9392A0),
                             fontSize: 13,
-                            fontFamily: 'SF Pro',
+                            fontFamily: AppUtil.rtlDirection2(context)
+                                ? 'SF Arabic'
+                                : 'SF Pro',
                             fontWeight: FontWeight.w400,
                             height: 0,
                           ),
@@ -285,7 +281,9 @@ class _TripDetailsState extends State<TripDetails> {
                                 : '',
                             color: Color(0xFF9392A0),
                             fontSize: 13,
-                            fontFamily: 'SF Pro',
+                            fontFamily: AppUtil.rtlDirection2(context)
+                                ? 'SF Arabic'
+                                : 'SF Pro',
                             fontWeight: FontWeight.w400,
                           ),
                         ],
@@ -299,35 +297,44 @@ class _TripDetailsState extends State<TripDetails> {
                               ? Alignment.centerRight
                               : Alignment.centerLeft,
                           child: CustomText(
-                            text: "about".tr,
+                            text: AppUtil.rtlDirection2(context)
+                                ? "نبذة عن الموقع"
+                                : "About",
                             color: black,
-                            fontSize: 18,
+                            fontSize: width * 0.0461,
                             fontFamily: 'HT Rakik',
                             fontWeight: FontWeight.w500,
                           )),
-                      const SizedBox(
-                        height: 7,
-                      ),
-                      ConstrainedBox(
-                        constraints: isExpanded
-                            ? const BoxConstraints()
-                            : const BoxConstraints(maxHeight: 63),
-                        child: CustomText(
-                            textDirection: AppUtil.rtlDirection(context)
-                                ? TextDirection.ltr
-                                : TextDirection.rtl,
-                            textOverflow: isExpanded
-                                ? TextOverflow.visible
-                                : TextOverflow.clip,
-                            fontSize: 15,
-                            color: starGreyColor,
-                            fontFamily: 'SF Pro',
-                            fontWeight: FontWeight.w400,
-                            text: widget.place == null
-                                ? "******"
-                                : !AppUtil.rtlDirection(context)
-                                    ? widget.place!.descriptionAr!
-                                    : widget.place!.descriptionEn!),
+                         SizedBox(
+                                height: width * 0.025,
+                              ),
+                      Align(
+                        alignment: AppUtil.rtlDirection2(context)
+                            ? Alignment.centerRight
+                            : Alignment.centerLeft,
+                        child: ConstrainedBox(
+                          constraints: isExpanded
+                              ? const BoxConstraints()
+                              : BoxConstraints(maxHeight: width * 0.1),
+                          child: CustomText(
+                              textDirection: AppUtil.rtlDirection(context)
+                                  ? TextDirection.ltr
+                                  : TextDirection.rtl,
+                              textOverflow: isExpanded
+                                  ? TextOverflow.visible
+                                  : TextOverflow.clip,
+                                fontSize: width * 0.038,
+                              color: starGreyColor,
+                              fontFamily: AppUtil.rtlDirection2(context)
+                                  ? 'SF Arabic'
+                                  : 'SF Pro',
+                              fontWeight: FontWeight.w400,
+                              text: widget.place == null
+                                  ? "******"
+                                  : !AppUtil.rtlDirection(context)
+                                      ? widget.place!.descriptionAr!
+                                      : widget.place!.descriptionEn!),
+                        ),
                       ),
                       const SizedBox(
                         height: 1,
@@ -350,7 +357,9 @@ class _TripDetailsState extends State<TripDetails> {
                                       : "Show less",
                                   color: blue,
                                   fontSize: 15,
-                                  fontFamily: 'SF Pro',
+                                  fontFamily: AppUtil.rtlDirection2(context)
+                                  ? 'SF Arabic'
+                                  : 'SF Pro',
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
@@ -368,7 +377,9 @@ class _TripDetailsState extends State<TripDetails> {
                                   text: "readMore".tr,
                                   color: blue,
                                   fontSize: 15,
-                                  fontFamily: 'SF Pro',
+                                  fontFamily:  AppUtil.rtlDirection2(context)
+                                  ? 'SF Arabic'
+                                  : 'SF Pro',
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
@@ -389,15 +400,17 @@ class _TripDetailsState extends State<TripDetails> {
                         thickness: 1,
                       ),
                       SizedBox(
-                        height: width * 0.025,
+                        height: width * 0.026,
                       ),
-                      Align(
-                        alignment: Alignment.centerLeft,
+                     Align(
+                         alignment: AppUtil.rtlDirection2(context)
+                                      ? Alignment.centerRight
+                                      : Alignment.centerLeft,
                         child: CustomText(
                           text: AppUtil.rtlDirection2(context)
                               ? "الموقع"
                               : "Location".tr,
-                          fontSize: 18,
+                         fontSize: width * 0.0461,
                           fontWeight: FontWeight.w500,
                           color: black,
                           fontFamily: 'HT Rakik',
@@ -412,7 +425,7 @@ class _TripDetailsState extends State<TripDetails> {
                           borderRadius:
                               const BorderRadius.all(Radius.circular(12)),
                         ),
-                        height: height * 0.19,
+                        height: height * 0.2,
                         width: width * 0.9,
                         child: GoogleMap(
                           scrollGesturesEnabled: false,
@@ -446,18 +459,15 @@ class _TripDetailsState extends State<TripDetails> {
                           },
                         ),
                       ),
-                      const SizedBox(
-                        height: 14,
-                      ),
-
-                      Divider(
-                        color: lightGrey,
-                        thickness: 1,
-                      ),
-
-                      const SizedBox(
-                        height: 13,
-                      ),
+                       SizedBox(
+                         height: width * 0.026,
+                           ),
+                                const Divider(
+                                  color: lightGrey,
+                                ),
+                                SizedBox(
+                                  height: width * 0.051,
+                                ),
                       InkWell(
                         onTap: () {
                           Get.bottomSheet(const CustomPloicySheet());
@@ -474,7 +484,7 @@ class _TripDetailsState extends State<TripDetails> {
                                     CustomText(
                                       text: "cancellationPolicy".tr,
                                       color: Color(0xFF070708),
-                                      fontSize: 17,
+                                     fontSize: width * 0.0461,
                                       fontFamily: 'HT Rakik',
                                       fontWeight: FontWeight.w500,
                                     ),
@@ -486,9 +496,9 @@ class _TripDetailsState extends State<TripDetails> {
                                       child: CustomText(
                                         text: "cancellationPolicyBreifAdventure"
                                             .tr,
-                                        fontSize: 15,
+                                        fontSize: width * 0.038,
                                         fontWeight: FontWeight.w400,
-                                        fontFamily: 'SF Pro',
+                                         fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
                                         color: starGreyColor,
                                         maxlines: 1,
                                       ),
@@ -542,10 +552,9 @@ class _TripDetailsState extends State<TripDetails> {
                       // ),
 
                       Obx(() => _RequestController.isBookingLoading.value
-                              ? const CircularProgressIndicator.adaptive()
-                             
-                              : !AppUtil.isGuest() && isViewBooking.value 
-                              ?(isHasOffers.value
+                          ? const CircularProgressIndicator.adaptive()
+                          : !AppUtil.isGuest() && isViewBooking.value
+                              ? (isHasOffers.value
                                   ? _RequestController
                                           .isRequestAcceptLoading.value
                                       ? const CircularProgressIndicator
@@ -556,29 +565,27 @@ class _TripDetailsState extends State<TripDetails> {
                                                 await _RequestController
                                                     .getBookingById(
                                               context: context,
-                                              bookingId: thePlace!.booking!
-                                                      .first.id ??
-                                                  '',
+                                              bookingId:
+                                                  thePlace!.booking!.first.id ??
+                                                      '',
                                             );
                                             print(isHasOffers.value);
 
                                             Get.to(
                                               () => LocalOfferInfo(
-                                                  place: thePlace!,
-                                                  image: theProfile
-                                                          ?.profileImage ??
-                                                      '',
-                                                  name: theProfile?.name ?? '',
-                                                  profileId:
-                                                      theProfile?.id ?? '',
-                                                  rating:
-                                                      theProfile?.tourRating ??
-                                                          0,
-                                                  price: 0,
-                                                  tripNumber:
-                                                      theProfile?.tourNumber ??0,
-                                                  booking: theBooking,
-                                                          ),
+                                                place: thePlace!,
+                                                image:
+                                                    theProfile?.profileImage ??
+                                                        '',
+                                                name: theProfile?.name ?? '',
+                                                profileId: theProfile?.id ?? '',
+                                                rating:
+                                                    theProfile?.tourRating ?? 0,
+                                                price: 0,
+                                                tripNumber:
+                                                    theProfile?.tourNumber ?? 0,
+                                                booking: theBooking,
+                                              ),
                                             );
                                           },
                                           title: AppUtil.rtlDirection2(context)
@@ -594,95 +601,85 @@ class _TripDetailsState extends State<TripDetails> {
                                                   size: 20,
                                                 ),
                                         )
-                                      : CustomButton(
-                                          onPressed: () async {
-                                            // Place? thePlace =
-                                            //     await _touristExploreController
-                                            //         .getPlaceById(
-                                            //             id: widget.place!.id!,
-                                            //             context: context);
-                                            // getOfferinfo();
-                                            Get.to(
-                                              () => FindAjwady(
-                                                booking:
-                                                    thePlace!.booking!.first,
-                                                place: widget.place!,
-                                                placeId: thePlace?.id ?? '',
+                                  : CustomButton(
+                                      onPressed: () async {
+                                        // Place? thePlace =
+                                        //     await _touristExploreController
+                                        //         .getPlaceById(
+                                        //             id: widget.place!.id!,
+                                        //             context: context);
+                                        // getOfferinfo();
+                                        Get.to(
+                                          () => FindAjwady(
+                                            booking: thePlace!.booking!.first,
+                                            place: widget.place!,
+                                            placeId: thePlace?.id ?? '',
+                                          ),
+                                        )?.then((value) async {
+                                          return getOfferinfo();
+                                        });
+                                      },
+                                      title: AppUtil.rtlDirection2(context)
+                                          ? "العروض"
+                                          : "View Offers",
+                                      icon: !AppUtil.rtlDirection(context)
+                                          ? const Icon(
+                                              Icons.arrow_back_ios,
+                                              size: 20,
+                                            )
+                                          : const Icon(
+                                              Icons.arrow_forward_ios,
+                                              size: 20,
+                                            ),
+                                    ))
+                              : CustomButton(
+                                  onPressed: () {
+                                    print(";lkjhgfdxzxcvbnm,");
+                                    print(isViewBooking.value);
+                                    AppUtil.isGuest()
+                                        ? Get.to(
+                                            () => const SignInScreen(),
+                                          )
+                                        : showModalBottomSheet(
+                                            useRootNavigator: true,
+                                            isScrollControlled: true,
+                                            backgroundColor: Colors.transparent,
+                                            shape: const RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.only(
+                                                topRight: Radius.circular(30),
+                                                topLeft: Radius.circular(30),
                                               ),
-                                            )?.then((value) async {
-                                              return getOfferinfo();
-                                            });
-                                          },
-                                          title: AppUtil.rtlDirection2(context)
-                                              ? "العروض"
-                                              : "View Offers",
-                                          icon: !AppUtil.rtlDirection(context)
-                                              ? const Icon(
-                                                  Icons.arrow_back_ios,
-                                                  size: 20,
-                                                )
-                                              : const Icon(
-                                                  Icons.arrow_forward_ios,
-                                                  size: 20,
-                                                ),
+                                            ),
+                                            context: context,
+                                            builder: (context) {
+                                              return BookingSheet(
+                                                fromAjwady: false,
+                                                place: widget.place,
+                                                userLocation:
+                                                    widget.userLocation,
+                                                touristExploreController:
+                                                    _touristExploreController,
+                                              );
+                                            }).then((value) {
+                                            getOfferinfo();
+                                            return;
+                                          });
+                                  },
+                                  // title: "buyTicket".tr,
+                                  title: AppUtil.rtlDirection2(context)
+                                      ? "اطلب"
+                                      : "Request",
+                                  icon: !AppUtil.rtlDirection(context)
+                                      ? const Icon(
+                                          Icons.arrow_back_ios,
+                                          size: 20,
                                         )
-                              )
-                                      
-                                     : CustomButton(
-                                          onPressed: () {
-                                            print(";lkjhgfdxzxcvbnm,");
-                                            print(isViewBooking.value);
-                                            AppUtil.isGuest()
-                                                ? Get.to(
-                                                    () => const SignInScreen(),
-                                                  )
-                                                : showModalBottomSheet(
-                                                    useRootNavigator: true,
-                                                    isScrollControlled: true,
-                                                    backgroundColor:
-                                                        Colors.transparent,
-                                                    shape:
-                                                        const RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.only(
-                                                        topRight:
-                                                            Radius.circular(30),
-                                                        topLeft:
-                                                            Radius.circular(30),
-                                                      ),
-                                                    ),
-                                                    context: context,
-                                                    builder: (context) {
-                                                      return BookingSheet(
-                                                        fromAjwady: false,
-                                                        place: widget.place,
-                                                        userLocation:
-                                                            widget.userLocation,
-                                                        touristExploreController:
-                                                            _touristExploreController,
-                                                      );
-                                                    }).then((value) {
-                                                    getOfferinfo();
-                                                    return;
-                                                  });
-                                          },
-                                          // title: "buyTicket".tr,
-                                          title: AppUtil.rtlDirection2(context)
-                                              ? "اطلب"
-                                              : "Request",
-                                          icon: !AppUtil.rtlDirection(context)
-                                              ? const Icon(
-                                                  Icons.arrow_back_ios,
-                                                  size: 20,
-                                                )
-                                              : const Icon(
-                                                  Icons.arrow_forward_ios,
-                                                  size: 20,
-                                                ),
-                                        )
-                                        
+                                      : const Icon(
+                                          Icons.arrow_forward_ios,
+                                          size: 20,
                                         ),
-                          
+                                )),
+
                       const SizedBox(
                         height: 32,
                       )

@@ -196,7 +196,10 @@ class _HospitalityTabState extends State<HospitalityTab> {
                               rate: '4.7',
                               dayInfo: _srvicesController
                                   .hospitalityList[index].daysInfo,
-                           
+                              lang:_srvicesController
+                                  .hospitalityList[index].coordinate.latitude??'' ,
+                              long:_srvicesController
+                                  .hospitalityList[index].coordinate.longitude??''
                             );
                           },
                           separatorBuilder: (context, index) {

@@ -5,6 +5,7 @@ import 'package:ajwad_v4/services/model/experiences.dart';
 import 'package:ajwad_v4/services/view/adveture_details.dart';
 import 'package:ajwad_v4/services/view/event_details.dart';
 import 'package:ajwad_v4/services/view/hospitality_details.dart';
+import 'package:ajwad_v4/services/view/local_event_details.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
@@ -74,7 +75,7 @@ _fetchAddress();
      onTap:() {            
      widget.experience.experiencesType=='hospitality'
      ?  Get.to(() => HospitalityDetails(hospitalityId: widget.experience.id,isLocal: true,experienceType:widget.experience.experiencesType,address:address,isHasBooking:widget.experience.isHasBooking ))
-     :Get.to(() => AdventureDetails(adventureId: widget.experience.id,isLocal: true ,address:address,isHasBooking:widget.experience.isHasBooking));
+     :widget.experience.experiencesType=='adventure'?Get.to(() => AdventureDetails(adventureId: widget.experience.id,isLocal: true ,address:address,isHasBooking:widget.experience.isHasBooking)):Get.to(() => LocalEventDetails(eventId: widget.experience.id,isLocal: true ,address:address,isHasBooking:widget.experience.isHasBooking));
      },
       child: Container(
         height: width * 0.29,
@@ -143,7 +144,7 @@ _fetchAddress();
                       height: width * 0.01,
                     ),
                     
-                     if (  widget. experience.daysInfo.isEmpty)
+                     if (widget.experience.experiencesType=='adventure' || widget.experience.experiencesType=='event')
                       Row(
                         children: [
                           SizedBox(
@@ -157,7 +158,7 @@ _fetchAddress();
                             width: width * 0.019,
                           ),
                           CustomText(
-                                text: AppUtil.formatBookingDate(context,widget. experience.date ?? ''),
+                                text: widget.experience.experiencesType=='adventure'?AppUtil.formatBookingDate(context,widget. experience.date ?? ''):AppUtil.formatSelectedDaysInfo(widget.experience.daysInfo, context),
                              color: starGreyColor,
                             fontSize: 11,
                             fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
@@ -166,7 +167,7 @@ _fetchAddress();
                         ],
                       ),
                  
-                    if (  widget. experience.daysInfo.isNotEmpty)
+                    if (  widget.experience.experiencesType=='hospitality')
                       Row(
                         children: [
                           SizedBox(
@@ -183,7 +184,7 @@ _fetchAddress();
                           CustomText(
                             text:
                                 '${ AppUtil.formatBookingDate(context,
-                                      widget. experience.daysInfo[0].startTime ?? '')} - ${formatTimeOnly(context,   widget. experience.daysInfo[0].startTime)} ',
+                                      widget. experience.daysInfo[0].startTime ?? '')} - ${AppUtil.formatTimeOnly(context,   widget. experience.daysInfo[0].startTime)} ',
                               
                             color: starGreyColor,
                             fontSize: 11,
@@ -195,7 +196,7 @@ _fetchAddress();
                        SizedBox(
                       height: width * 0.01,
                     ),
-                       if (  widget. experience.daysInfo.isEmpty)
+                       if (  widget.experience.experiencesType=='adventure'||widget.experience.experiencesType=='event')
                        
                       Row(
                         children: [
@@ -211,8 +212,9 @@ _fetchAddress();
                       
 
                           CustomText(
-                            text:
-                                 ' ${AppUtil.formatStringTimeWithLocale(context, widget. experience.times.first.startTime)} -  ${AppUtil.formatStringTimeWithLocale(context, widget. experience.times.first.endTime)}',
+                            text: widget.experience.experiencesType=='adventure'?
+                              '${AppUtil.formatStringTimeWithLocale(context, widget. experience.times.first.startTime)} -  ${AppUtil.formatStringTimeWithLocale(context, widget. experience.times.first.endTime)}'
+                             :'${AppUtil.formatTimeOnly(context, widget.experience.daysInfo.first.startTime)} -  ${AppUtil.formatTimeOnly(context,  widget.experience.daysInfo.first.endTime)}',
                             color: starGreyColor,
                             fontSize: 11,
                             fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
@@ -226,7 +228,7 @@ _fetchAddress();
                         SizedBox(
                           width: width * 0.015,
                         ),
-                       if (  widget. experience.daysInfo.isNotEmpty)
+                       if (widget.experience.experiencesType=='hospitality')
 
                         Row(
                           children: [
@@ -267,15 +269,6 @@ _fetchAddress();
     );
   }
 
-    static String formatTimeOnly(BuildContext context, String dateTimeString) {
-    final isArabic = AppUtil.rtlDirection2(context);
-    final dateTime = DateTime.parse(dateTimeString);
-    final hours = dateTime.hour;
-    final minutes = dateTime.minute;
-    final period = hours >= 12 ? (isArabic ? 'مساءً' : 'PM') : (isArabic ? 'صباحًا' : 'AM');
-    final formattedHours = hours % 12 == 0 ? 12 : hours % 12;
-    final formattedMinutes = minutes.toString().padLeft(2, '0');
-    return '$formattedHours:$formattedMinutes $period';
-  }
+   
 
 }

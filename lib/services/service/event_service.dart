@@ -5,6 +5,7 @@ import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/constants/base_url.dart';
 import 'package:ajwad_v4/event/model/event.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
+import 'package:ajwad_v4/services/model/event_summary.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -51,42 +52,42 @@ class EventService {
   // }
 
   // //  get 1 adventure by id (not finished yet)
-  // static Future<Adventure?> getAdvdentureById({
-  //   required BuildContext context,
-  //   required String id,
-  // }) async {
-  //   final getStorage = GetStorage();
-  //   String token = getStorage.read('accessToken') ?? "";
+  static Future<Event?> getEventById({
+    required BuildContext context,
+    required String id,
+  }) async {
+    final getStorage = GetStorage();
+    String token = getStorage.read('accessToken') ?? "";
 
-  //   if (token != '' && JwtDecoder.isExpired(token)) {
-  //     final _authController = Get.put(AuthController());
+    if (token != '' && JwtDecoder.isExpired(token)) {
+      final _authController = Get.put(AuthController());
 
-  //     String refreshToken = getStorage.read('refreshToken');
-  //     var user = await _authController.refreshToken(
-  //         refreshToken: refreshToken, context: context);
-  //     token = getStorage.read('accessToken');
-  //   }
+      String refreshToken = getStorage.read('refreshToken');
+      var user = await _authController.refreshToken(
+          refreshToken: refreshToken, context: context);
+      token = getStorage.read('accessToken');
+    }
 
-  //   final response = await http.get(
-  //     Uri.parse('$baseUrl/adventure/$id')
-  //         .replace(queryParameters: ({'id': id})),
-  //     headers: {
-  //       'Accept': 'application/json',
-  //       if (token != '') 'Authorization': 'Bearer $token',
-  //     },
-  //   );
-  //   if (response.statusCode == 200) {
-  //     var data = jsonDecode(response.body);
+    final response = await http.get(
+      Uri.parse('$baseUrl/event/$id')
+          .replace(queryParameters: ({'id': id})),
+      headers: {
+        'Accept': 'application/json',
+        if (token != '') 'Authorization': 'Bearer $token',
+      },
+    );
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
 
-  //     return Adventure.fromJson(data);
-  //   } else {
-  //     String errorMessage = jsonDecode(response.body)['message'];
-  //     if (context.mounted) {
-  //       AppUtil.errorToast(context, errorMessage);
-  //     }
-  //     return null;
-  //   }
-  // }
+      return Event.fromJson(data);
+    } else {
+      String errorMessage = jsonDecode(response.body)['message'];
+      if (context.mounted) {
+        AppUtil.errorToast(context, errorMessage);
+      }
+      return null;
+    }
+  }
 
   // static Future<bool> checkAdventureBooking(
   //     {required BuildContext context,
@@ -151,16 +152,12 @@ class EventService {
     required String descriptionEn,
     required String longitude,
     required String latitude,
-    required String date,
     required double price,
     required List<String> image,
     required String regionAr,
     required String locationUrl,
     required String regionEn,
-    // required List<Map<String, dynamic>> times,
-   // required String start,
-    //required String end,
-    required int seat,
+    required List<Map<String, dynamic>> daysInfo,
     required BuildContext context,
   }) async {
     final getStorage = GetStorage();
@@ -181,18 +178,18 @@ class EventService {
       "descriptionEn": descriptionEn,
       "price": price,
       "image": image,
-      "date": date,
       "coordinates": {
         "longitude": longitude,
         "latitude": latitude,
       },
-     
+      "daysInfo": daysInfo,
       "locationUrl": locationUrl,
       "regionAr": regionAr,
       "regionEn": regionEn,
-      "seats": seat
     };
-    print(body);
+   print(body);
+  print(1);
+  try{
     final response = await http.post(Uri.parse('$baseUrl/event'),
         headers: {
           'Accept': 'application/json',
@@ -200,9 +197,9 @@ class EventService {
           'Authorization': 'Bearer $token',
         },
         body: jsonEncode(body));
+
     print(response.statusCode);
 
-    //print(jsonDecode(response.body).length);
     print("from services equall to ");
     if (response.statusCode == 200) {
       //  var data = jsonDecode(response.body);
@@ -220,79 +217,86 @@ class EventService {
       }
         return false;
      }
+     } catch (e) {
+    // Handle network errors or exceptions
+    print('Error creating event: $e');
+    return false;
+  }
   }
    static Future<Event?> editEvent({
   required String id,
-    required String nameAr,
-    required String nameEn,
-    required String descriptionAr,
-    required String descriptionEn,
-    required String longitude,
-    required String latitude,
-    required String date,
-    required int price,
-    required List<String> image,
-    required String regionAr,
-    required String locationUrl,
-    required String regionEn,
-    // required List<Map<String, dynamic>> times,
-   // required String start,
-   // required String end,
-    required int seat,
-    required BuildContext context,
-  }) async {
-    print(" Update adventure ");
-    final getStorage = GetStorage();
-    final String? token = getStorage.read('accessToken');
+  required String nameAr,
+  required String nameEn,
+  required String descriptionAr,
+  required String descriptionEn,
+  required String longitude,
+  required String latitude,
+  required double price,
+  required List<String> image,
+  required String regionAr,
+  required String locationUrl,
+  required String regionEn,
+  required List<Map<String, dynamic>> daysInfo,
+  required BuildContext context,
+}) async {
+  print("Update adventure");
+  final getStorage = GetStorage();
+  final String? token = getStorage.read('accessToken');
 
-    final response = await http.put(  Uri.parse('$baseUrl/event/$id')
-          .replace(queryParameters: ({'id': id})),
-    
-        headers: {
-          'Accept': 'application/json',
-          "Content-Type": "application/json",
-          'Authorization': 'Bearer $token',
-        },
-      body: json.encode({
-      "nameAr": nameAr.trim(),
-      "nameEn": nameEn.trim(),
-      "descriptionAr": descriptionAr,
-      "descriptionEn": descriptionEn,
-      "price": price,
-      "image": image,
-      "date": date,
-      "coordinates": {
-        "longitude": longitude,
-        "latitude": latitude
-      },
-      
-      "locationUrl": locationUrl,
-      "regionAr": regionAr,
-      "regionEn": regionEn,
-      "seats": seat,
-    }),
+  Map<String, dynamic> body = {
+    "nameAr": nameAr,
+    "nameEn": nameEn,
+    "descriptionAr": descriptionAr,
+    "descriptionEn": descriptionEn,
+    "price": price,
+    "image": image,
+    "coordinates": {
+      "longitude": longitude,
+      "latitude": latitude,
+    },
+    "daysInfo": daysInfo,
+    "locationUrl": locationUrl,
+    "regionAr": regionAr,
+    "regionEn": regionEn,
+  };
+
+  final response = await http.put(
+    Uri.parse('$baseUrl/event/$id').replace(queryParameters: {'id': id}),
+    headers: {
+      'Accept': 'application/json',
+      "Content-Type": "application/json",
+      'Authorization': 'Bearer $token',
+    },
+    body: jsonEncode(body),
   );
-  
 
-print("Response status code: ${response.statusCode}");
+  print("Response status code: ${response.statusCode}");
+  print("Response body: ${response.body}");
 
   if (response.statusCode == 200) {
     try {
       var eventData = jsonDecode(response.body);
-      print('event updated: $eventData');
+      print('Event updated: $eventData');
       return Event.fromJson(eventData);
     } catch (e) {
       print('Error parsing JSON response: $e');
+      print('Response body: ${response.body}');
       return null;
     }
   } else {
-    String errorMessage = jsonDecode(response.body)['message'];
-    if (context.mounted) {
-      AppUtil.errorToast(context, errorMessage);
+    try {
+      String errorMessage = jsonDecode(response.body)['message'];
+      if (context.mounted) {
+        AppUtil.errorToast(context, errorMessage);
+      }
+    } catch (e) {
+      print('Error decoding error message: $e');
+      print('Response body: ${response.body}');
     }
     return null;
   }
 }
+
 
 static Future<bool?>  EventDelete(
       {required BuildContext context, required String eventId}) async {
@@ -326,7 +330,7 @@ static Future<bool?>  EventDelete(
       if (context.mounted) {
         AppUtil.errorToast(context, errorMessage);
       }
-      return null;
+      return false;
     }
   }
    static Future<List<Event>?> getUserTicket({
@@ -367,5 +371,45 @@ static Future<bool?>  EventDelete(
     }
   }
 
+static Future<EventSummary?> getEventSummaryById({
+    required BuildContext context,
+    required String id,
+  }) async {
+    final getStorage = GetStorage();
+    String token = getStorage.read('accessToken') ?? "";
+
+    if (token != '' && JwtDecoder.isExpired(token)) {
+      final _authController = Get.put(AuthController());
+
+      String refreshToken = getStorage.read('refreshToken');
+      var user = await _authController.refreshToken(
+          refreshToken: refreshToken, context: context);
+      token = getStorage.read('accessToken');
+    }
+    print("TRUE $id");
+    final response = await http.get(
+      Uri.parse('$baseUrl/event/$id/summary')
+          .replace(queryParameters: ({'id': id})),
+      headers: {
+        'Accept': 'application/json',
+        if (token != '') 'Authorization': 'Bearer $token',
+      },
+    );
+    print("TRUE $id");
+    print(response.statusCode);
+
+    print(jsonDecode(response.body).length);
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      print(inspect(data));
+      return EventSummary.fromJson(data);
+    } else {
+      String errorMessage = jsonDecode(response.body)['message'];
+      if (context.mounted) {
+        AppUtil.errorToast(context, errorMessage);
+      }
+      return null;
+    }
+  }
 
 }

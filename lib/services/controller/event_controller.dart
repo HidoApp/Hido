@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:ajwad_v4/event/model/event.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
+import 'package:ajwad_v4/services/model/event_summary.dart';
 import 'package:ajwad_v4/services/service/adventure_service.dart';
 import 'package:ajwad_v4/services/service/event_service.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
@@ -16,8 +17,9 @@ class EventController extends GetxController {
   var isEventByIdLoading = false.obs;
   var ischeckBookingLoading = false.obs;
   var  selectedImages=<String>[].obs;
-
-
+  var address = ''.obs;
+  var DateErrorMessage=false.obs;
+  var TimeErrorMessage=false.obs;
   var selectedDate = ''.obs;
   var selectedDates = [].obs; //new
   var selectedTime = ''.obs;
@@ -32,6 +34,13 @@ class EventController extends GetxController {
   var selectedGender = ''.obs;
   var selectedDateIndex = (-1).obs;
   var selectedDateId = "".obs;
+  var titleAr = "".obs;
+  var titleEn = "".obs;
+  var bioAr = "".obs;
+  var bioEn = "".obs;
+  
+
+
 
 
   var isEventDateSelcted = false.obs;
@@ -70,25 +79,25 @@ class EventController extends GetxController {
 //     }
 //   }
 
-//   Future<Adventure?> getAdvdentureById({
-//     required BuildContext context,
-//     required String id,
-//   }) async {
-//     try {
-//       isAdventureByIdLoading(true);
-//       final data =
-//           await AdventureService.getAdvdentureById(context: context, id: id);
-//       return data;
-//     } catch (e) {
-//       isAdventureByIdLoading(false);
-//       if (context.mounted) {
-//         AppUtil.errorToast(context, e.toString());
-//       }
-//       return null;
-//     } finally {
-//       isAdventureByIdLoading(false);
-//     }
-//   }
+  Future<Event?> getEventById({
+    required BuildContext context,
+    required String id,
+  }) async {
+    try {
+      isEventByIdLoading(true);
+      final data =
+          await EventService.getEventById(context: context, id: id);
+      return data;
+    } catch (e) {
+       isEventByIdLoading(false);
+      if (context.mounted) {
+        AppUtil.errorToast(context, e.toString());
+      }
+      return null;
+    } finally {
+      isEventByIdLoading(false);
+    }
+  }
 
 //   Future<bool> checkAdventureBooking(
 //       {required BuildContext context,
@@ -125,14 +134,13 @@ class EventController extends GetxController {
     required String descriptionEn,
     required String longitude,
     required String latitude,
-    required String date,
     required double price,
     required List<String> image,
     required String regionAr,
     required String locationUrl,
     required String regionEn,
-    // required List<Map<String, dynamic>> times,
-    required int seat,
+   required List<Map<String, dynamic>> daysInfo,
+
     required BuildContext context,
   }) async {
     //print(rememberMe);
@@ -141,7 +149,6 @@ class EventController extends GetxController {
       final isSuccess = await EventService.createEvent(
           nameAr: nameAr,
           nameEn: nameEn,
-          date:date,
           descriptionAr: descriptionAr,
           descriptionEn: descriptionEn,
           longitude: longitude,
@@ -151,10 +158,7 @@ class EventController extends GetxController {
           regionAr: regionAr,
           locationUrl: locationUrl,
           regionEn: regionEn,
-          // times: times,
-          // start: start,
-          // end: end,
-          seat: seat,
+          daysInfo: daysInfo,
           context: context
           
           );
@@ -178,16 +182,13 @@ class EventController extends GetxController {
     required String descriptionEn,
     required String longitude,
     required String latitude,
-    required String date,
-    required int price,
+    required double price,
     required List<String> image,
     required String regionAr,
     required String locationUrl,
     required String regionEn,
-    // required List<Map<String, dynamic>> times,
-    //required String start,
-    //required String end,
-    required int seat,
+    required List<Map<String, dynamic>> daysInfo,
+
     required BuildContext context,
   }) async {
     try {
@@ -197,7 +198,6 @@ class EventController extends GetxController {
           id: id,
          nameAr: nameAr,
           nameEn: nameEn,
-          date:date,
           descriptionAr: descriptionAr,
           descriptionEn: descriptionEn,
           longitude: longitude,
@@ -207,10 +207,7 @@ class EventController extends GetxController {
           regionAr: regionAr,
           locationUrl: locationUrl,
           regionEn: regionEn,
-          // times: times,
-          ////start: start,
-          //end: end,
-          seat: seat,
+         daysInfo: daysInfo,
           context: context
       );
       if (event != null) {
@@ -299,5 +296,24 @@ class EventController extends GetxController {
      isEventDeleteLoading(false);
     }
   }
+  
+  Future<EventSummary?> getEventSummaryById({
+    required BuildContext context,
+    required String id,
+  }) async {
+    try {
+      print("TRUE");
+      isEventByIdLoading(true);
+      final data =
+          await EventService.getEventSummaryById(context: context, id: id);
+      return data;
+    } catch (e) {
+       isEventByIdLoading(false);
+      return null;
+    } finally {
+       isEventByIdLoading(false);
+    }
+  }
+  
   
 }

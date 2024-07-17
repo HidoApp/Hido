@@ -38,8 +38,7 @@ final EventController _EventrController =
   bool isNew = false;
   final String timeZoneName = 'Asia/Riyadh';
 //  late tz.Location location;
-  bool? DateErrorMessage;
-  bool? TimeErrorMessage;
+
   bool? DurationErrorMessage;
 
   bool? GuestErrorMessage;
@@ -93,7 +92,7 @@ final EventController _EventrController =
                     shape: RoundedRectangleBorder(
                       side: BorderSide(
                           width: 1,
-                          color: DateErrorMessage ?? false
+                          color: _EventrController.DateErrorMessage.value && _EventrController.isEventDateSelcted.value 
                               ? Colors.red
                               : Color(0xFFB9B8C1)),
                       borderRadius: BorderRadius.circular(8),
@@ -137,18 +136,21 @@ final EventController _EventrController =
                   ),
                 ),
               ),
-              if (DateErrorMessage ?? false)
-                Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Text(
-                    AppUtil.rtlDirection2(context)
-                        ? "اختر التاريخ"
-                        : "Select Date",
-                    style: TextStyle(
-                      color: Colors.red,
-                      fontSize: 12,
+                Obx(
+                () =>
+           _EventrController.DateErrorMessage.value && _EventrController.isEventDateSelcted.value?
+                 Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: Text(
+                      AppUtil.rtlDirection2(context)
+                          ?   "يجب اختيار تاريخ بعد 48 ساعة من الآن على الأقل"
+                            : "*Please select a date at least 48 hours from now",
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 12,
+                      ),
                     ),
-                  ),
+                  ):Container(),
                 ),
               const SizedBox(
                 height: 12,
@@ -186,9 +188,7 @@ final EventController _EventrController =
                             shape: RoundedRectangleBorder(
                               side: BorderSide(
                                   width: 1,
-                                  color: TimeErrorMessage ?? false
-                                      ? Colors.red
-                                      : DurationErrorMessage ?? false
+                                  color:  DurationErrorMessage ?? false
                                           ? Colors.red
                                           : Color(0xFFB9B8C1)),
                               borderRadius: BorderRadius.circular(8),
@@ -231,6 +231,13 @@ final EventController _EventrController =
                                                            _EventrController
                                                             .selectedStartTime
                                                             .value = newTimeToGo;
+
+                                                        _EventrController.TimeErrorMessage.value=
+                                                        AppUtil.isEndTimeLessThanStartTime(_EventrController
+                                                            .selectedStartTime
+                                                            .value,_EventrController
+                                                            .selectedEndTime
+                                                            .value);
                                                         //  widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
                                                         //   .format(newTimeToGo) as RxString;
                                                       });
@@ -279,6 +286,12 @@ final EventController _EventrController =
                                                           .value = newT;
                                                       //    widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
                                                       // .format(newTimeToGo) as RxString;
+                                                       _EventrController.TimeErrorMessage.value=
+                                                        AppUtil.isEndTimeLessThanStartTime(_EventrController
+                                                            .selectedStartTime
+                                                            .value,_EventrController
+                                                            .selectedEndTime
+                                                            .value);
                                                     });
                                                   },
                                                 ),
@@ -299,9 +312,7 @@ final EventController _EventrController =
                                          DateFormat('HH:mm:ss').format(
                                               _EventrController
                                                   .selectedStartTime.value)),
-                                  // : intel.DateFormat('hh:mm a').format(
-                                  //     widget.hospitalityController
-                                  //         .selectedStartTime.value),
+                                
                                   fontWeight: FontWeight.w400,
                                   color: Graytext,
                                      fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
@@ -312,18 +323,21 @@ final EventController _EventrController =
                           ),
                         ),
                       ),
-                      if (TimeErrorMessage ?? false)
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: Text(
-                            AppUtil.rtlDirection2(context)
-                                ? "اختر الوقت"
-                                : "Select Time",
-                            style: TextStyle(
-                              color: Colors.red,
-                              fontSize: 12,
+                        Obx(()=>
+                        _EventrController.TimeErrorMessage.value?
+                           Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: 
+                            Text('',
+                              // AppUtil.rtlDirection2(context)
+                              //     ? "اختر الوقت"
+                              //     : "Select Time",
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 12,
+                              ),
                             ),
-                          ),
+                          ):Container(),
                         ),
                     ],
                   ),
@@ -361,7 +375,7 @@ final EventController _EventrController =
                             shape: RoundedRectangleBorder(
                               side: BorderSide(
                                   width: 1,
-                                  color: TimeErrorMessage ?? false
+                                  color:_EventrController.TimeErrorMessage.value
                                       ? Colors.red
                                       : DurationErrorMessage ?? false
                                           ? Colors.red
@@ -411,8 +425,13 @@ final EventController _EventrController =
                                                                 .selectedEndTime
                                                                 .value =
                                                             newTimeToReturn;
-                                                        //      widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
-                                                        // .format( newTimeToReturn) as RxString;
+                                                    
+                                                         _EventrController.TimeErrorMessage.value=
+                                                        AppUtil.isEndTimeLessThanStartTime(_EventrController
+                                                            .selectedStartTime
+                                                            .value,_EventrController
+                                                            .selectedEndTime
+                                                            .value);
                                                       });
                                                     },
                                                     padding: const EdgeInsets
@@ -458,8 +477,14 @@ final EventController _EventrController =
                                                           .selectedEndTime
                                                           .value = newT;
 
-                                                      //  widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
-                                                      //     .format( newTimeToReturn) as RxString;
+                                                           _EventrController.TimeErrorMessage.value=
+                                                        AppUtil.isEndTimeLessThanStartTime(_EventrController
+                                                            .selectedStartTime
+                                                            .value,_EventrController
+                                                            .selectedEndTime
+                                                            .value);
+
+                                                  
                                                     });
                                                   },
                                                 ),
@@ -475,15 +500,13 @@ final EventController _EventrController =
                                          .value
                                       ? AppUtil.rtlDirection2(context)
                                           ? "00:00 مساء"
-                                          : "00 :00 PM"
+                                          : "00:00 PM"
                                       : AppUtil.formatStringTimeWithLocale(
                                           context,
                                           DateFormat('HH:mm:ss').format(
                                               _EventrController
                                                   .selectedEndTime.value)),
-                                  // : intel.DateFormat('hh:mm a').format(
-                                  //     widget.hospitalityController
-                                  //         .selectedEndTime.value),
+                              
                                   fontWeight: FontWeight.w400,
                                   color: Graytext,
                                   fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
@@ -494,18 +517,21 @@ final EventController _EventrController =
                           ),
                         ),
                       ),
-                      if (TimeErrorMessage ?? false)
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: Text(
-                            AppUtil.rtlDirection2(context)
-                                ? "اختر الوقت"
-                                : "Select Time",
-                            style: TextStyle(
-                              color: Colors.red,
-                              fontSize: 12,
+                      
+                        Obx(()=>
+                         _EventrController.TimeErrorMessage.value?
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Text(
+                              AppUtil.rtlDirection2(context)
+                                  ? "يجب أن لايسبق وقت بدء التجربة"
+                                    : "*Can’t be before start time",
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 12,
+                              ),
                             ),
-                          ),
+                          ):Container(),
                         ),
                     ],
                   )

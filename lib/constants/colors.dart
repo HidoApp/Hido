@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 //---------------------------------------------------------
 // New Id Colors ..
 const Color darkBlue = Color(0xFF12153C);
+
 const Color blue = Color(0xFF00529B);
 const Color beige = Color(0xFFD49B63);
 const Color brown = Color(0xFF9B493B);

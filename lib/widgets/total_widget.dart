@@ -61,17 +61,7 @@ class _TotalWidgetState extends State<TotalWidget> {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                // const SizedBox(height: 4),
-                // Text(
-                //   "discount".tr,
-                //   textAlign: TextAlign.right,
-                //   style: const TextStyle(
-                //     color: Color(0xFF9E9E9E),
-                //     fontSize: 14,
-                //     fontFamily: 'HT Rakik',
-                //     fontWeight: FontWeight.w300,
-                //   ),
-                // ),
+               
               ],
             ),
           ),

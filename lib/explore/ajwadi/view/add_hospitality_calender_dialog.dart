@@ -92,6 +92,7 @@ class _HostCalenderDialogState extends State<HostCalenderDialog> {
                 ),
                 alignment: Alignment.bottomRight,
                 child: SfDateRangePicker(
+                 backgroundColor: Colors.white,
                   minDate: DateTime.now(),
                   enablePastDates: false,
                   selectableDayPredicate:
@@ -117,8 +118,11 @@ class _HostCalenderDialogState extends State<HostCalenderDialog> {
                     ),
                   ),
                   monthViewSettings: const DateRangePickerMonthViewSettings(
+                    
                     dayFormat: 'EEE',
                     viewHeaderStyle: DateRangePickerViewHeaderStyle(
+                    backgroundColor: Colors.white,
+
                       textStyle: TextStyle(
                         color: Color(0xFF070708),
                         fontSize: 12,
@@ -153,6 +157,8 @@ class _HostCalenderDialogState extends State<HostCalenderDialog> {
                   widget.ajwadiExploreController!.isDateEmpty.value = false;
                   widget.advController?.isAdventureDateSelcted.value=true;
                   widget.advController!.selectedDate(selectedDate);
+                  widget..advController!.DateErrorMessage.value =  AppUtil.isDateBefore24Hours(widget.advController!.selectedDate.value);
+
                 } else if (widget.type == 'event') {
                   widget.eventController!.isEventDateSelcted.value = true;
                   widget.eventController!.selectedDate(selectedDate);
@@ -164,6 +170,8 @@ class _HostCalenderDialogState extends State<HostCalenderDialog> {
                   widget.srvicesController!.isHospatilityDateSelcted.value =
                       true;
                   widget.srvicesController!.selectedDate(selectedDate);
+                  widget.srvicesController!.DateErrorMessage.value =  AppUtil.isDateBefore24Hours(widget.srvicesController!.selectedDate.value);
+
                 }
                 Get.back();
               }

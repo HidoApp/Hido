@@ -277,7 +277,7 @@ class HospitalityService {
     required String longitude,
     required String latitude,
     required String touristsGender,
-    required double price,
+    required int price,
     required List<String> images,
     required String regionAr,
     required String location,
@@ -553,7 +553,7 @@ static Future<Summary?> getHospitalitySummaryById({
       if (context.mounted) {
         AppUtil.errorToast(context, errorMessage);
       }
-      return null;
+      return false;
     }
   }
 //     static Future<bool> createHospitality({

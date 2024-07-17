@@ -504,6 +504,8 @@ const localeEn = {
   "noSummarySub":"The experience summary will be available 24 hours prior its date",
   'noBooking':"No Bookings yet",
  'noBookingSub':"All your accepted experience will show here",
+ 'noRequest':'No Tours yet',
+'noRequestSub':'All your accepted experience will show here',
  'people':'Number of People',
  'seatHint':'Number of seats',
   'locationCheckAdve':'Is the pin in the right spot ?',
@@ -518,6 +520,7 @@ const localeEn = {
   "Tour":"Tour",
    "Hospitality":"Hospitality",
    "Adventure":"Adventure",
+   "Event":"Event",
   'Women':'Women',
   'Men':'Men',
   'Pepole':'Pepole',
@@ -556,5 +559,9 @@ const localeEn = {
   'vehicleHint': 'Enter Vehicle License ',
   "invalidIBAN": '*invalid IBAN',
   'payment': "Payment",
-  "signInTitle": 'Discover Saudi Arabia With Locals!'
+  "signInTitle": 'Discover Saudi Arabia With Locals!',
+  'editExperience':'You can not edit this experience',
+  'DateDuration':'The date must be 24 hours before the experience date',
+  'TimeDuration':"End time is less than start time",
+
 };

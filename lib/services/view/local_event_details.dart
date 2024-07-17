@@ -1,10 +1,13 @@
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/event/model/event.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/adventure/view/edit_adventure.dart';
+import 'package:ajwad_v4/explore/ajwadi/view/Experience/localEvent/view/edit_event.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/explore/tourist/view/share_sheet.dart';
 import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
 import 'package:ajwad_v4/request/tourist/view/local_offer_info.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
+import 'package:ajwad_v4/services/controller/event_controller.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
 import 'package:ajwad_v4/services/view/service_local_info.dart';
 
@@ -33,29 +36,29 @@ import 'package:ajwad_v4/widgets/floating_booking_button.dart';
 
 import 'package:intl/intl.dart' hide TextDirection;
 
-class AdventureDetails extends StatefulWidget {
-  const AdventureDetails({
+class LocalEventDetails extends StatefulWidget {
+  const LocalEventDetails({
     Key? key,
-    required this.adventureId,
+    required this.eventId,
     this.isLocal = false,
     this.address='',
     this.isHasBooking=false,
 
   }) : super(key: key);
 
-  final String adventureId;
+  final String eventId;
   final bool isLocal;
   final String address;
     final bool isHasBooking;
 
   @override
-  State<AdventureDetails> createState() => _AdventureDetailsState();
+  State<LocalEventDetails> createState() => _LocalEventDetailsState();
 }
 
 late double width, height;
 
-class _AdventureDetailsState extends State<AdventureDetails> {
-  final _adventureController = Get.put(AdventureController());
+class _LocalEventDetailsState extends State<LocalEventDetails> {
+  final _eventController = Get.put(EventController());
   int _currentIndex = 0;
   bool isExpanded = false;
   bool isAviailable = false;
@@ -75,9 +78,37 @@ class _AdventureDetailsState extends State<AdventureDetails> {
       },
     );
   }
+Future<String> _getAddressFromLatLng(double position1,double position2) async {
+    try {
+      List<Placemark> placemarks =
+          await placemarkFromCoordinates(position1,position2);
+      print(placemarks);
 
+      if (placemarks.isNotEmpty) {
+        Placemark placemark = placemarks.first;
+        print(placemarks.first);
+        return '${placemark.locality}, ${placemark.subLocality}, ${placemark.country}';
+      }
+    } catch (e) {
+      print("Error retrieving address: $e");
+    }
+    return '';
+  }
 
-  late Adventure? adventure;
+  Future<void> _fetchAddress(String position1,String position2) async {
+    try {
+      String result = await _getAddressFromLatLng(
+ double.parse( position1),double.parse( position2)) ;    
+  setState(() {
+        _eventController.address.value= result;
+      });
+    } catch (e) {
+      // Handle error if necessary
+      print('Error fetching address: $e');
+    }
+  }
+
+  late Event? event;
 
   @override
   void initState() {
@@ -86,13 +117,14 @@ class _AdventureDetailsState extends State<AdventureDetails> {
     //  initializeDateFormatting(); //very important
 
     addCustomIcon();
-    getAdventureById();
+  getEventById();
   }
 
-  void getAdventureById() async {
-    adventure = (await _adventureController.getAdvdentureById(
-        context: context, id: widget.adventureId));
-   
+  void getEventById() async {
+  event = (await _eventController.getEventById(
+        context: context, id: widget.eventId));
+     if(!widget.isLocal)
+    _fetchAddress(event!.coordinates!.latitude??'', event!.coordinates!.longitude??'');
   }
 
   @override
@@ -101,7 +133,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
     height = MediaQuery.of(context).size.height;
 
     return Obx(
-      () => _adventureController.isAdventureByIdLoading.value
+      () => _eventController.isEventByIdLoading.value
           ? const Scaffold(
               backgroundColor: Colors.white,
               extendBodyBehindAppBar: true,
@@ -113,9 +145,9 @@ class _AdventureDetailsState extends State<AdventureDetails> {
               SizedBox(
                 child: Padding(
                   padding: EdgeInsets.only(top: width * 0.025),
-                  child: BottomAdventureBooking(
-                    adventure: adventure!,
-                  ),
+                  // child: BottomAdventureBooking(
+                  //   adventure: adventure!,
+                  // ),
                 ),
               ) : Padding(
                       padding: EdgeInsets.only(
@@ -137,7 +169,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                             color: Colors.black,
                           ),
                           CustomText(
-                            text: '${adventure!.price} ${'sar'.tr}',
+                            text: '${event!.price} ${'sar'.tr}',
                             fontWeight: FontWeight.w900,
                             fontSize: width * 0.043,
                             fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
@@ -157,7 +189,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                     GestureDetector(
                       onTap: () {
                         Get.to(ViewTripImages(
-                          tripImageUrl: adventure!.image!,
+                          tripImageUrl: event!.image!,
                           fromNetwork: true,
                         ));
                       },
@@ -170,10 +202,10 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                 _currentIndex = i;
                               });
                             }),
-                        itemCount: adventure!.image!.length,
+                        itemCount: event!.image!.length,
                         itemBuilder: (context, index, realIndex) {
                           return ImagesServicesWidget(
-                            image: adventure!.image![index],
+                            image: event!.image![index],
                           );
                         },
                       ),
@@ -191,8 +223,8 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                   : Alignment.centerLeft,
                               child: CustomText(
                                 text: AppUtil.rtlDirection2(context)
-                                    ? adventure!.nameAr ?? ''
-                                    : adventure!.nameEn ?? '',
+                                    ? event!.nameAr ?? ''
+                                    : event!.nameEn ?? '',
                                 fontSize: width * 0.07,
                                 fontWeight: FontWeight.w500,
                                 fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
@@ -203,7 +235,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                           Row(
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(right: 1),
+                                padding:AppUtil.rtlDirection2(context)? const EdgeInsets.only(right: 1): const EdgeInsets.only(left: 1),
                                 child: SvgPicture.asset(
                                   "assets/icons/locationHos.svg",
                                   color: starGreyColor,
@@ -213,7 +245,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                 width: width * 0.012,
                               ),
                               CustomText(
-                                text:!widget.isLocal?_adventureController.address.value:widget.address,
+                                text:!widget.isLocal?_eventController.address.value:widget.address,
                               
                                 color: colorDarkGrey,
                                 fontSize: width * 0.038,
@@ -228,7 +260,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                           Row(
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(right: 2),
+                                padding:AppUtil.rtlDirection2(context)? const EdgeInsets.only(right: 2): const EdgeInsets.only(left: 2),
                                 child: SvgPicture.asset(
                                   'assets/icons/grey_calender.svg',
                                   color: starGreyColor,
@@ -238,7 +270,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                 width: width * 0.012,
                               ),
                               CustomText(
-                                text: AppUtil.formatBookingDate(context, adventure!.date ?? ''),
+                                text: AppUtil.formatSelectedDaysInfo( event!.daysInfo!,context),
                                 color: colorDarkGrey,
                                 fontSize: width * 0.038,
                                 fontWeight: FontWeight.w300,
@@ -260,15 +292,12 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                               ),
                               //time
                               CustomText(
-                                text: adventure?.times != null &&
-                                        adventure!.times!.isNotEmpty
-                                    ? '${adventure?.times!.map((time) => AppUtil.formatStringTimeWithLocale(context, time.startTime)).join(', ')} - ${adventure?.times!.map((time) => AppUtil.formatStringTimeWithLocale(context, time.endTime)).join(', ')}'
-                                    : '5:00-8:00 AM',
+                                text:'${AppUtil.formatTimeOnly(context, event!.daysInfo!.first.startTime)} -  ${AppUtil.formatTimeOnly(context,  event!.daysInfo!.first.endTime)}',
                                 color: colorDarkGrey,
                                 fontSize: width * 0.038,
                                 fontWeight: FontWeight.w300,
                                  fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
-
+                          
                               ),
                             ],
                           ),
@@ -293,14 +322,14 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                           SizedBox(
                             height: width * 0.025,
                           ),
-                          Align(
+                         Align(
                               alignment: AppUtil.rtlDirection2(context)
                                   ? Alignment.centerRight
                                   : Alignment.centerLeft,
                             child: ConstrainedBox(
                                   constraints: isExpanded
                                       ? const BoxConstraints()
-                                      : BoxConstraints(maxHeight: width * 0.097),
+                                      : BoxConstraints(maxHeight: width * 0.09),
                                   child: CustomText(
                                       textDirection: AppUtil.rtlDirection(context)
                                           ? TextDirection.ltr
@@ -310,12 +339,11 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                           : TextOverflow.clip,
                                          
                                    fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
-                                   color:  starGreyColor,
-                                fontSize: width * 0.038,
-                          
+                                   color: Color(0xFF9392A0),
+                                fontSize: width * 0.035,
                                 text: AppUtil.rtlDirection2(context)
-                                    ? adventure!.descriptionAr ?? ''
-                                    : adventure!.descriptionEn ?? '',
+                                    ? event!.descriptionAr ?? ''
+                                    : event!.descriptionEn ?? '',
                               ),
                             ),
                           ),
@@ -390,27 +418,27 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                 height: width * 0.5,
                                 width: width * 0.9,
                                 child: GoogleMap(
-                                  scrollGesturesEnabled: true,
+                                  scrollGesturesEnabled: false,
                                   zoomControlsEnabled: false,
                                   initialCameraPosition: CameraPosition(
-                                    target: adventure == null
+                                    target: event == null
                                         ? locLatLang
                                         : LatLng(
-                                            double.parse(adventure!
+                                            double.parse(event!
                                                 .coordinates!.latitude!),
-                                            double.parse(adventure!
+                                            double.parse(event!
                                                 .coordinates!.longitude!)),
                                     zoom: 15,
                                   ),
                                   markers: {
                                     Marker(
                                       markerId: MarkerId("marker1"),
-                                      position: adventure == null
+                                      position: event == null
                                           ? locLatLang
                                           : LatLng(
-                                              double.parse(adventure!
+                                              double.parse(event!
                                                   .coordinates!.latitude!),
-                                              double.parse(adventure!
+                                              double.parse(event!
                                                   .coordinates!.longitude!)),
                                       draggable: true,
                                       onDragEnd: (value) {
@@ -423,7 +451,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                               ),
                             ],
                           ),
-                            if (widget.isLocal)...[
+                              if (widget.isLocal)...[
                                 SizedBox(
                                     height: width * 0.028,
                                   ),
@@ -554,7 +582,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                       await Future.delayed(
                                           const Duration(seconds: 1));
                               }:() {
-                              Get.to(EditAdventure(adventureObj: adventure!));
+                              Get.to(EditEvent(eventObj: event!));
 
                               },
                               child: Container(
@@ -580,19 +608,21 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                     child: ServicesProfileCard(
                       onTap: () {
                         Get.to(() =>
-                            ServicesLocalInfo(profileId: adventure!.userId));
+                            ServicesLocalInfo(profileId: event!.id));
                       },
-                      image: adventure!.user!.profileImage ?? '',
-                      name: adventure!.user!.name ?? '',
+                      image: event!.user!.profileImage ?? '',
+                      name: event!.user!.name ?? '',
                     )),
                 //indicator
                 Positioned(
                   top: height * 0.22,
                   left: width * 0.44,
+
+                  // left: width * 0.36,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: adventure!.image!.map((imageUrl) {
-                      int index = adventure!.image!.indexOf(imageUrl);
+                    children: event!.image!.map((imageUrl) {
+                      int index = event!.image!.indexOf(imageUrl);
                       return Container(
                         width: width * 0.025,
                         height: width * 0.025,
@@ -601,16 +631,14 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: _currentIndex == index
-                           ?  adventure!.image!.length == 1
-                                    ? Colors.white.withOpacity(0.1)
-                                    : Colors.white
-                           
+                           ? event!.image!.length == 1
+                                          ? Colors.white.withOpacity(0.1)
+                                          : Colors.white
                               : Colors.white.withOpacity(0.8),
                           boxShadow: _currentIndex == index
-                             ?  adventure!.image!.length == 1?
-                             []
-                                : [
-                                
+                              ? event?.image!.length == 1
+                              ?[]
+                              : [
                                   const BoxShadow(
                                       color: Colors.white,
                                       blurRadius: 5,

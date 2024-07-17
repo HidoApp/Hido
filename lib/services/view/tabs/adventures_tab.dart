@@ -210,6 +210,10 @@ class _AdventuresTabState extends State<AdventuresTab> {
                                 times: _adventureController
                                     .adventureList[index].times,
                                 rate: '4.7',
+                                lang: _adventureController
+                                    .adventureList[index].coordinates?.latitude,
+                                long:_adventureController
+                                    .adventureList[index].coordinates?.longitude,
                               ),
                             );
                           },

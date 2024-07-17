@@ -198,8 +198,8 @@ late DateTime newTimeToGoInRiyadh;
                     text: "date".tr,
                     color: Color(0xFF070708),
                     fontSize: 17,
-                    fontFamily: 'SF Pro',
-                    fontWeight: FontWeight.w600,
+                    fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+                    fontWeight: FontWeight.w500,
                     height: 0,
                     ),
                   
@@ -275,8 +275,8 @@ late DateTime newTimeToGoInRiyadh;
                             text: AppUtil.rtlDirection2(context)?"وقت الذهاب":"Pick up time",
                             color: Colors.black,
                             fontSize: 17,
-                            fontFamily: 'SF Pro',
-                               fontWeight: FontWeight.w600,
+                             fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+                               fontWeight: FontWeight.w500,
                           ),
                           SizedBox(
                             height: height * 0.01,
@@ -340,7 +340,7 @@ late DateTime newTimeToGoInRiyadh;
                                                     text: "confirm".tr,
                                                     color: colorGreen,
                                                      fontSize: 15,
-                                                     fontFamily: 'SF Pro',
+                                         fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
                                                     fontWeight: FontWeight.w500,
                                                   ),
                                                 )
@@ -419,7 +419,9 @@ late DateTime newTimeToGoInRiyadh;
                             text: AppUtil.rtlDirection2(context)?"وقت العودة":"Drop off time",
                             color: Colors.black,
                             fontSize: 17,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w500,
+                          fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+
                           ),
                           SizedBox(
                             height: height * 0.01,
@@ -519,11 +521,11 @@ late DateTime newTimeToGoInRiyadh;
                               width: width * 0.41,
                               title: !_touristExploreController
                                       .isBookingTimeSelected.value
-                                  ? "00 :00 PM"
+                                  ? "00:00 PM"
                                   : DateFormat('hh:mm a')
                                       .format(newTimeToReturn),
                               //  test,
-borderColor: TimeErrorMessage??false?  Colors.red : DurationErrorMessage ?? false ? Colors.red : lightGreyColor,
+                                borderColor: TimeErrorMessage??false?  Colors.red : DurationErrorMessage ?? false ? Colors.red : lightGreyColor,
 
                               prefixIcon: SvgPicture.asset(
                                 "assets/icons/time_icon.svg",
@@ -551,10 +553,12 @@ borderColor: TimeErrorMessage??false?  Colors.red : DurationErrorMessage ?? fals
                     height: 12,
                   ),
                   CustomText(
-                    text: "numberofpeople".tr,
+                    text: "numberOfPeople".tr,
                     color: Colors.black,
                     fontSize: 17,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w500,
+                 fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+
                   ),
                   SizedBox(
                    height: height * 0.01,
@@ -574,9 +578,11 @@ borderColor: TimeErrorMessage??false?  Colors.red : DurationErrorMessage ?? fals
                     child: Row(
                       children: [
                         CustomText(
-                          text: "Person".tr,
+                          text: "person".tr,
                           fontWeight: FontWeight.w700,
                           color: textGreyColor,
+                        fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+
                         ),
                         const Spacer(),
                         GestureDetector(
@@ -629,6 +635,8 @@ borderColor: TimeErrorMessage??false?  Colors.red : DurationErrorMessage ?? fals
                         text: "forMoreThan10".tr,
                         fontSize: 10,
                         color: almostGrey,
+                     fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+
                       )),
                   SizedBox(
                     height: height * 0.015,
@@ -637,8 +645,8 @@ borderColor: TimeErrorMessage??false?  Colors.red : DurationErrorMessage ?? fals
                     text: "pickUpLocation".tr,
                     color: Colors.black,
                      fontSize: 18,
-                      fontFamily: 'HT Rakik',
-                     fontWeight: FontWeight.w600,
+                    fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+                     fontWeight: FontWeight.w500,
                   ),
                   SizedBox(
                     height: height * 0.01,
@@ -707,7 +715,9 @@ borderColor: TimeErrorMessage??false?  Colors.red : DurationErrorMessage ?? fals
                     text: "pickUpRide".tr,
                     color: Colors.black,
                     fontSize: 17,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w500,
+                      fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+
                   ),
                   SizedBox(
                     height: height * 0.02,

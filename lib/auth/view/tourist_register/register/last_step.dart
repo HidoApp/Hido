@@ -182,12 +182,12 @@ class _LastStepScreenState extends State<LastStepScreen> {
                                         return;
                                       }
 
-                                      if (!AppUtil.isPhoneValidate(
-                                          _phoneController.text)) {
-                                        AppUtil.errorToast(
-                                            context, "invalidPhone".tr);
-                                        return;
-                                      }
+                                      // if (!AppUtil.isPhoneValidate(
+                                      //     _phoneController.text)) {
+                                      //   AppUtil.errorToast(
+                                      //       context, "invalidPhone".tr);
+                                      //   return;
+                                      // }
 
                                       bool isSuccess = await widget
                                           .authController

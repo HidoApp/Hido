@@ -68,20 +68,15 @@ class _EditEventState extends State<EditEvent> {
 
   List<DateTime> avilableDate = [];
   var locLatLang = const LatLng(24.691846000000012, 46.68552199999999);
-  final TextEditingController adventureTitleControllerEn =
-      TextEditingController();
-  final TextEditingController adventureBioControllerEn =
-      TextEditingController();
+  final TextEditingController eventTitleControllerEn = TextEditingController();
+  final TextEditingController eventBioControllerEn = TextEditingController();
 
-  final TextEditingController adventureTitleControllerAr =
-      TextEditingController();
-  final TextEditingController adventureBioControllerAr =
-      TextEditingController();
+  final TextEditingController eventTitleControllerAr = TextEditingController();
+  final TextEditingController eventBioControllerAr = TextEditingController();
 
   String address = '';
   String ragionAr = '';
   String ragionEn = '';
-
 
   BitmapDescriptor markerIcon = BitmapDescriptor.defaultMarker;
   void addCustomIcon() {
@@ -95,37 +90,38 @@ class _EditEventState extends State<EditEvent> {
       },
     );
   }
-List<String> regionListEn = [
-  "Riyadh",
-  "Mecca",
-  "Medina",
-  "Dammam",
-  "Qassim",
-  "Hail",
-  "Northern Borders",
-  "Jazan",
-  "Asir",
-  "Tabuk",
-  "Najran",
-  "Al Baha",
-  "Al Jouf"
-];
 
- List<String> regionListAr = [
-  "الرياض",
-  "مكة",
-  "المدينة",
-  "الدمام",
-  "القصيم",
-  "حائل",
-  "الحدود الشمالية",
-  "جازان",
-  "عسير",
-  "تبوك",
-  "نجران",
-  "الباحة",
-  "الجوف"
-];
+  List<String> regionListEn = [
+    "Riyadh",
+    "Mecca",
+    "Medina",
+    "Dammam",
+    "Qassim",
+    "Hail",
+    "Northern Borders",
+    "Jazan",
+    "Asir",
+    "Tabuk",
+    "Najran",
+    "Al Baha",
+    "Al Jouf"
+  ];
+
+  List<String> regionListAr = [
+    "الرياض",
+    "مكة",
+    "المدينة",
+    "الدمام",
+    "القصيم",
+    "حائل",
+    "الحدود الشمالية",
+    "جازان",
+    "عسير",
+    "تبوك",
+    "نجران",
+    "الباحة",
+    "الجوف"
+  ];
   late LatLng _currentPosition;
   var hideLocation = true;
   @override
@@ -161,13 +157,18 @@ List<String> regionListEn = [
         print(placemarks.first);
         setState(() {
           if (AppUtil.rtlDirection2(context)) {
-          
             ragionAr = placemark.locality!;
-            ragionEn = 'Riyadh'; 
+            ragionEn = 'Riyadh';
           } else {
-         
-            ragionAr = 'الرياض'; 
+            ragionAr = 'الرياض';
             ragionEn = placemark.locality!;
+          }
+          if (!regionListEn.contains(ragionEn) ||
+              !regionListAr.contains(ragionAr)) {
+            setState(() {
+              ragionAr = 'الرياض';
+              ragionEn = 'Riyadh';
+            });
           }
         });
         return '${placemark.locality}, ${placemark.subLocality}, ${placemark.country}';
@@ -196,6 +197,7 @@ List<String> regionListEn = [
   int guestNum = 0;
   String startTime = '';
   String endTime = '';
+  List<Map<String, dynamic>> DaysInfo = [];
 
   int? _selectedRadio2;
   String mealTypeEn = '';
@@ -208,16 +210,54 @@ List<String> regionListEn = [
 
   bool guestEmpty = false;
   bool PriceEmpty = false;
+  bool PriceDouble = false;
 
   String gender = '';
 
-  void validateAndSave() {
-    setState(() {
-      titleArEmpty = adventureTitleControllerAr.text.isEmpty;
-      bioArEmpty = adventureBioControllerAr.text.isEmpty;
+  void daysInfo() {
+    var formatter = intl.DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
-      titleENEmpty = adventureTitleControllerEn.text.isEmpty;
-      bioEnEmpty = adventureBioControllerEn.text.isEmpty;
+    for (var date in _servicesController.selectedDates) {
+      DateTime newStartTime = DateTime(
+          date.year,
+          date.month,
+          date.day,
+          newTimeToGo.hour,
+          newTimeToGo.minute,
+          newTimeToGo.second,
+          newTimeToGo.millisecond);
+      DateTime newEndTime = DateTime(
+          date.year,
+          date.month,
+          date.day,
+          newTimeToReturn.hour,
+          newTimeToReturn.minute,
+          newTimeToReturn.second,
+          newTimeToReturn.millisecond);
+
+      //startTime = formatter.format(newStartTime);
+      //endTime = formatter.format(newEndTime);
+
+      var newEntry = {
+        "startTime": formatter.format(newStartTime),
+        "endTime": formatter.format(newEndTime),
+        "seats": guestNum
+      };
+
+      DaysInfo.add(newEntry);
+    }
+
+    // Print the new dates list
+    print(DaysInfo);
+  }
+
+  Future<void> validateAndSave() async {
+    setState(() {
+      titleArEmpty = eventTitleControllerAr.text.isEmpty;
+      bioArEmpty = eventBioControllerAr.text.isEmpty;
+
+      titleENEmpty = eventTitleControllerEn.text.isEmpty;
+      bioEnEmpty = eventBioControllerEn.text.isEmpty;
 
       _selectedLanguageIndex =
           (titleArEmpty || bioArEmpty) && !(titleENEmpty && bioEnEmpty) ? 0 : 1;
@@ -227,7 +267,18 @@ List<String> regionListEn = [
       DateErrorMessage = !_servicesController.isEventDateSelcted.value;
       TimeErrorMessage = !_servicesController.isEventTimeSelcted.value;
 
+      // DateDurationError =
+      //     !AppUtil.areAllDatesAfter24Hours(_servicesController.selectedDates);
       PriceEmpty = _priceController.text.isEmpty;
+
+       if (_priceController.text.isNotEmpty) {
+      
+
+        //check if price not int
+        String priceText = _priceController.text;
+        RegExp doubleRegex = RegExp(r'^[0-9]*\.[0-9]+$');
+        PriceDouble = doubleRegex.hasMatch(priceText);
+      }
     });
 
     if (!titleArEmpty &&
@@ -237,42 +288,53 @@ List<String> regionListEn = [
         !guestEmpty &&
         !DateErrorMessage! &&
         !TimeErrorMessage! &&
-        !PriceEmpty)  {
+        !PriceEmpty &&
+        !PriceDouble &&
+        !_servicesController.DateErrorMessage.value &&
+        !_servicesController.TimeErrorMessage.value) {
 
-         if (!regionListEn.contains(ragionEn) || !regionListAr.contains(ragionAr)) {
-           setState(() {
-         
-          
-            ragionAr = 'الرياض';
-            ragionEn = 'Riyadh'; 
-       
-          });
-           
-       } else{
-      _updateAdventure();
-        }
-    
+      daysInfo();
+      _updateEvent();
     } else {
-      // Handle validation errors
+      if (_servicesController.DateErrorMessage.value) {
+        if (context.mounted) {
+          AppUtil.errorToast(context, 'DateDuration'.tr);
+          await Future.delayed(const Duration(seconds: 3));
+        }
+      }
+      if (_servicesController.TimeErrorMessage.value) {
+        if (context.mounted) {
+          AppUtil.errorToast(context, 'TimeDuration'.tr);
+          await Future.delayed(const Duration(seconds: 3));
+        }
+      }
       print("Please fill all required fields");
     }
   }
 
   void updateData() {
     setState(() {
-     adventureTitleControllerAr.text = widget.eventObj.nameAr!;
-     adventureBioControllerAr.text = widget.eventObj.descriptionAr!;
+      eventTitleControllerAr.text = widget.eventObj.nameAr!;
+      eventBioControllerAr.text = widget.eventObj.descriptionAr!;
 
-     adventureTitleControllerEn.text =widget.eventObj.nameEn!;
-     adventureBioControllerEn.text = widget.eventObj.descriptionEn!;
+      eventTitleControllerEn.text = widget.eventObj.nameEn!;
+      eventBioControllerEn.text = widget.eventObj.descriptionEn!;
 
-      guestNum = widget.eventObj.seats!;
-      // newTimeToGo =
-      //    DateFormat.Hms().parse(widget.eventObj.date.first.startTime);
-      // newTimeToReturn =
-      //    DateFormat.Hms().parse(widget.adventureObj.times!.first.endTime);
-      _servicesController.selectedDate.value =
-          widget.eventObj.date!;
+      guestNum = widget.eventObj.daysInfo!.first.seats;
+
+      newTimeToGo = DateTime.parse(widget.eventObj.daysInfo!.first.startTime);
+      newTimeToReturn = DateTime.parse(widget.eventObj.daysInfo!.first.endTime);
+      // _servicesController.selectedDates.value =
+      //     widget.eventObj.daysInfo!;
+      for (var info in widget.eventObj.daysInfo!) {
+        DateTime startDateTime = DateTime.parse(info.startTime);
+        DateTime endDateTime = DateTime.parse(info.endTime);
+
+        _servicesController.selectedDates.add(DateTime(
+            startDateTime.year, startDateTime.month, startDateTime.day));
+        _servicesController.selectedDates.add(
+            DateTime(endDateTime.year, endDateTime.month, endDateTime.day));
+      }
       _priceController.text = widget.eventObj.price.toString();
       _servicesController.isEventDateSelcted.value = true;
       _servicesController.isEventTimeSelcted.value = true;
@@ -289,10 +351,6 @@ List<String> regionListEn = [
     return 'https://www.google.com/maps/search/?api=1&query=${location.latitude},${location.longitude}';
   }
 
-  
-  
-
-
   late DateTime time, returnTime, newTimeToGo = DateTime.now();
 
   DateTime newTimeToReturn = DateTime.now();
@@ -301,69 +359,53 @@ List<String> regionListEn = [
   bool? DateErrorMessage;
   bool? TimeErrorMessage;
   bool? DurationErrorMessage;
+  bool? DateDurationError;
 
   bool? GuestErrorMessage;
   int selectedChoice = 3;
   final srvicesController = Get.put(HospitalityController());
 
-  
-
-  Future<void> _updateAdventure() async {
+  Future<void> _updateEvent() async {
     try {
       print("Updating hospitality with the following data:");
       print("ID: ${widget.eventObj.id}");
-      print("Title AR: ${adventureTitleControllerAr.text}");
-      print("Title EN: ${adventureTitleControllerEn.text}");
-      print("Bio AR: ${adventureBioControllerAr.text}");
-      print("Bio EN: ${adventureBioControllerEn.text}");
-     
+      print("Title AR: ${eventTitleControllerAr.text}");
+      print("Title EN: ${eventTitleControllerEn.text}");
+      print("Bio AR: ${eventBioControllerAr.text}");
+      print("Bio EN: ${eventBioControllerEn.text}");
+
       print(
           "Longitude: ${_servicesController.pickUpLocLatLang.value.longitude}");
       print("Latitude: ${_servicesController.pickUpLocLatLang.value.latitude}");
-      print("Tourists Gender: ${_guestsController.text}");
       print("Price: ${double.parse(_priceController.text)}");
       print("Images: ${widget.eventObj.image}");
       print("Region AR: $ragionAr");
       print("Location: $locationUrl");
       print("Region EN: Riyadh");
-      print("Start Time: ${DateFormat(
-         'HH:mm:ss')
-         .format(
-         newTimeToGo)}");
-      print("End Time: $endTime");
+      print("Start Time: ${DateFormat('HH:mm:ss').format(newTimeToGo)}");
       print("Guest Number: $guestNum");
-      print("Date: ${_servicesController.selectedDate.value.substring(0, 10)}");
-
+      print("Date: ${DaysInfo.first}");
 
       final Event? result = await _servicesController.editEvent(
         id: widget.eventObj.id,
-        nameAr: adventureTitleControllerAr.text,
-        nameEn: adventureTitleControllerEn.text,
-        descriptionAr: adventureBioControllerAr.text,
-        descriptionEn: adventureBioControllerEn.text,
+        nameAr: eventTitleControllerAr.text,
+        nameEn: eventTitleControllerEn.text,
+        descriptionAr: eventBioControllerAr.text,
+        descriptionEn: eventBioControllerEn.text,
         longitude:
             _servicesController.pickUpLocLatLang.value.longitude.toString(),
         latitude:
             _servicesController.pickUpLocLatLang.value.latitude.toString(),
-        price: int.parse(_priceController.text),
+        price: double.parse(_priceController.text),
         image: widget.eventObj.image!,
         regionAr: ragionAr,
         locationUrl: locationUrl,
         regionEn: ragionEn,
-        // start: DateFormat(
-        //  'HH:mm:ss')
-        //  .format(
-        //  newTimeToGo),
-        // end: DateFormat(
-        //  'HH:mm:ss')
-        //  .format(
-        //  newTimeToReturn),
-        seat: guestNum,
-        date:_servicesController.selectedDate.value.substring(0, 10),
+        daysInfo: DaysInfo,
         context: context,
       );
 
-      if (result != null) {
+      if (result == null) {
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -385,7 +427,7 @@ List<String> regionListEn = [
                       !AppUtil.rtlDirection2(context)
                           ? "Changes have been saved successfully!"
                           : "تم حفظ التغييرات بنجاح ",
-                      style: TextStyle(fontSize: 15),
+                      style: TextStyle(fontSize: 14),
                       textDirection: AppUtil.rtlDirection2(context)
                           ? TextDirection.rtl
                           : TextDirection.ltr,
@@ -402,30 +444,30 @@ List<String> regionListEn = [
         print("Profile updated successfully: $result");
       } else {
         // Get.offAll(AddExperienceInfo());
-        Get.offAll(() => const AjwadiBottomBar());
+        //Get.offAll(() => const AjwadiBottomBar());
 
         print("Profile update returned null");
       }
     } catch (e) {
       print("Error updating profile: $e");
     }
-  
   }
 
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
+    print(widget.eventObj.daysInfo!.first);
 
     final TextEditingController textField1Controller =
         _selectedLanguageIndex == 0
-            ? adventureTitleControllerAr
-            : adventureTitleControllerEn;
+            ? eventBioControllerAr
+            : eventTitleControllerEn;
 
     final TextEditingController textField2Controller =
         _selectedLanguageIndex == 0
-            ? adventureBioControllerAr
-            : adventureBioControllerEn;
+            ? eventBioControllerAr
+            : eventBioControllerEn;
     return Obx(
       () => _servicesController.isEventByIdLoading.value
           ? const Scaffold(
@@ -490,12 +532,11 @@ List<String> regionListEn = [
                                 onTap: () async {
                                   log("End Trip Taped ${widget.eventObj.id}");
 
-                                   bool result = true;
-                                  await _servicesController.EventDelete(
+                                  bool result =
+                                      await _servicesController.EventDelete(
                                               context: context,
-                                              eventId:
-                                                  widget.eventObj.id) ??
-                                     false;
+                                              eventId: widget.eventObj.id) ??
+                                          false;
                                   if (result) {
                                     showDialog(
                                       context: context,
@@ -539,15 +580,14 @@ List<String> regionListEn = [
                                     ).then((_) {
                                       Get.offAll(() => const AjwadiBottomBar());
                                     });
+                                  } else {
+                                    if (context.mounted) {
+                                      AppUtil.errorToast(context,
+                                          'The experience not deleted'.tr);
+                                      await Future.delayed(
+                                          const Duration(seconds: 1));
+                                    }
                                   }
-                                  // } else {
-                                  //   if (context.mounted) {
-                                  //     AppUtil.errorToast(context,
-                                  //         'The experience not deleted'.tr);
-                                  //     await Future.delayed(
-                                  //         const Duration(seconds: 1));
-                                  //   }
-                                  // }
                                 },
                                 child: Container(
                                   height: 34,
@@ -611,7 +651,7 @@ List<String> regionListEn = [
                       onPressed: () {
                         validateAndSave();
                       },
-                      title: 'Save Changes')),
+                      title: 'SaveChanges'.tr)),
               body: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -624,11 +664,13 @@ List<String> regionListEn = [
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Gallery',
+                                  'PhotoGallery'.tr,
                                   style: TextStyle(
                                     color: black,
                                     fontSize: 17,
-                                    fontFamily: 'HT Rakik',
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
@@ -730,9 +772,12 @@ List<String> regionListEn = [
                                       customTextStyles: [
                                         TextStyle(
                                           fontSize: _selectedLanguageIndex == 0
-                                              ? 11.5
+                                              ? 11
                                               : 13,
-                                          fontFamily: 'SF Pro',
+                                          fontFamily:
+                                              _selectedLanguageIndex == 0
+                                                  ? 'SF Arabic'
+                                                  : 'SF Pro',
                                           fontWeight:
                                               _selectedLanguageIndex == 0
                                                   ? FontWeight.w600
@@ -740,9 +785,12 @@ List<String> regionListEn = [
                                         ),
                                         TextStyle(
                                           fontSize: _selectedLanguageIndex == 0
-                                              ? 11.5
+                                              ? 11
                                               : 13,
-                                          fontFamily: 'SF Pro',
+                                          fontFamily:
+                                              _selectedLanguageIndex == 0
+                                                  ? 'SF Arabic'
+                                                  : 'SF Pro',
                                           fontWeight:
                                               _selectedLanguageIndex == 0
                                                   ? FontWeight.w600
@@ -787,7 +835,7 @@ List<String> regionListEn = [
                                                       : 'SF Pro',
                                               fontWeight:
                                                   _selectedLanguageIndex == 0
-                                                      ? FontWeight.w600
+                                                      ? FontWeight.w500
                                                       : FontWeight.w500,
                                               height: 0,
                                             ),
@@ -795,7 +843,7 @@ List<String> regionListEn = [
                                           SizedBox(
                                               height:
                                                   _selectedLanguageIndex == 0
-                                                      ? 5.5
+                                                      ? 8
                                                       : 8),
                                           Container(
                                             width: double.infinity,
@@ -838,7 +886,11 @@ List<String> regionListEn = [
                                                   hintStyle: TextStyle(
                                                     color: Color(0xFFB9B8C1),
                                                     fontSize: 15,
-                                                    fontFamily: 'SF Pro',
+                                                    fontFamily:
+                                                        _selectedLanguageIndex ==
+                                                                0
+                                                            ? 'SF Arabic'
+                                                            : 'SF Pro',
                                                     fontWeight: FontWeight.w400,
                                                   ),
                                                   border: OutlineInputBorder(
@@ -905,7 +957,7 @@ List<String> regionListEn = [
                                                       : 'SF Pro',
                                               fontWeight:
                                                   _selectedLanguageIndex == 0
-                                                      ? FontWeight.w600
+                                                      ? FontWeight.w500
                                                       : FontWeight.w500,
                                               height: 0,
                                             ),
@@ -913,7 +965,7 @@ List<String> regionListEn = [
                                           SizedBox(
                                               height:
                                                   _selectedLanguageIndex == 0
-                                                      ? 4
+                                                      ? 9
                                                       : 9),
                                           Container(
                                             width: double.infinity,
@@ -973,7 +1025,11 @@ List<String> regionListEn = [
                                                   hintStyle: TextStyle(
                                                     color: Color(0xFFB9B8C1),
                                                     fontSize: 15,
-                                                    fontFamily: 'SF Pro',
+                                                    fontFamily:
+                                                        _selectedLanguageIndex ==
+                                                                0
+                                                            ? 'SF Arabic'
+                                                            : 'SF Pro',
                                                     fontWeight: FontWeight.w400,
                                                   ),
                                                   border: OutlineInputBorder(
@@ -1026,7 +1082,10 @@ List<String> regionListEn = [
                                               style: TextStyle(
                                                 color: Color(0xFFB9B8C1),
                                                 fontSize: 11,
-                                                fontFamily: 'SF Pro',
+                                                fontFamily:
+                                                    _selectedLanguageIndex == 0
+                                                        ? 'SF Arabic'
+                                                        : 'SF Pro',
                                                 fontWeight: FontWeight.w400,
                                               ),
                                             ),
@@ -1054,7 +1113,9 @@ List<String> regionListEn = [
                                     color: Colors.black,
                                     fontSize: 17,
                                     fontWeight: FontWeight.w500,
-                                    fontFamily: 'SF Pro',
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
                                   ),
                                   SizedBox(
                                     height: width * 0.02,
@@ -1090,7 +1151,10 @@ List<String> regionListEn = [
                                               text: "guests".tr,
                                               fontWeight: FontWeight.w400,
                                               color: Graytext,
-                                              fontFamily: 'SF Pro',
+                                              fontFamily:
+                                                  AppUtil.rtlDirection2(context)
+                                                      ? 'SF Arabic'
+                                                      : 'SF Pro',
                                               fontSize: 15,
                                             ),
                                             Spacer(),
@@ -1153,10 +1217,9 @@ List<String> regionListEn = [
                                         height: width * 0.047,
                                       ),
                                     ],
-                                     ),
+                                  ),
                                 ],
                               ),
-                                  
                               SizedBox(
                                 height: width * 0.055,
                               ),
@@ -1173,11 +1236,15 @@ List<String> regionListEn = [
                                     height: width * 0.012,
                                   ),
                                   CustomText(
-                                    text: 'AvailableDates'.tr,
+                                    text: AppUtil.rtlDirection2(context)
+                                        ? 'عدد المقاعد'
+                                        : 'AvailableDates',
                                     color: black,
                                     fontSize: 17,
                                     fontWeight: FontWeight.w500,
-                                    fontFamily: 'SF Pro',
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
                                   ),
                                   SizedBox(
                                     height: width * 0.02,
@@ -1195,7 +1262,9 @@ List<String> regionListEn = [
                                         shape: RoundedRectangleBorder(
                                           side: BorderSide(
                                               width: 1,
-                                              color: DateErrorMessage ?? false
+                                              color: DateErrorMessage ?? false ||
+                                          _servicesController
+                                              .DateErrorMessage.value
                                                   ? Colors.red
                                                   : Color(0xFFB9B8C1)),
                                           borderRadius:
@@ -1215,25 +1284,24 @@ List<String> regionListEn = [
                                                   context: context,
                                                   builder:
                                                       (BuildContext context) {
-                                                  return EventCalenderDialog(
-                                                   type: 'event',
-                                                    eventController: _servicesController,
-                                                  );
-                                                     });
-                                               },
+                                                    return EventCalenderDialog(
+                                                      type: 'event',
+                                                      eventController:
+                                                          _servicesController,
+                                                    );
+                                                  });
+                                            },
                                             child: CustomText(
-                                              text:
-                                               AppUtil.formatBookingDate(
-                                                context,
-                                                _servicesController
-                                                    .selectedDate.value
-                                                    ,
-                                              ),
-                                              //formatSelectedDates(srvicesController.selectedDates,context)
-                                              // srvicesController.selectedDates.map((date) => intel.DateFormat('dd/MM/yyyy').format(date)).join(', ')
+                                              text: AppUtil.formatSelectedDates(
+                                                  _servicesController
+                                                      .selectedDates,
+                                                  context),
                                               fontWeight: FontWeight.w400,
                                               color: Graytext,
-                                              fontFamily: 'SF Pro',
+                                              fontFamily:
+                                                  AppUtil.rtlDirection2(context)
+                                                      ? 'SF Arabic'
+                                                      : 'SF Pro',
                                               fontSize: 15,
                                             ),
                                           ),
@@ -1241,13 +1309,20 @@ List<String> regionListEn = [
                                       ),
                                     ),
                                   ),
-                                  if (DateErrorMessage ?? false)
+                                  if (DateErrorMessage ??
+                                      false ||
+                                          _servicesController
+                                              .DateErrorMessage.value)
                                     Padding(
                                       padding: const EdgeInsets.only(top: 8),
                                       child: Text(
-                                        AppUtil.rtlDirection2(context)
-                                            ? "اختر التاريخ"
-                                            : "You need to choose a valid date",
+                                        DateErrorMessage ?? false
+                                            ? AppUtil.rtlDirection2(context)
+                                                ? "اختر التاريخ"
+                                                : "You need to choose a valid date"
+                                            : AppUtil.rtlDirection2(context)
+                                                ? "يجب اختيار تاريخ بعد 48 ساعة من الآن على الأقل"
+                                                : "*Please select a date at least 48 hours from now",
                                         style: TextStyle(
                                           color: Color(0xFFDC362E),
                                           fontSize: 11,
@@ -1270,227 +1345,15 @@ List<String> regionListEn = [
                                         children: [
                                           CustomText(
                                             text: AppUtil.rtlDirection2(context)
-                                                ? "وقت الذهاب"
+                                                ? "وقت الفعالية"
                                                 : "Start Time",
                                             color: black,
                                             fontSize: 17,
                                             fontWeight: FontWeight.w500,
-                                            fontFamily: 'SF Pro',
-                                          ),
-                                          SizedBox(
-                                            height: height * 0.01,
-                                          ),
-                                          Align(
-                                            alignment:
-                                                AppUtil.rtlDirection(context)
-                                                    ? Alignment.centerLeft
-                                                    : Alignment.centerRight,
-                                            child: Container(
-                                              height: height * 0.06,
-                                              width: width * 0.41,
-                                              padding: const EdgeInsets.only(
-                                                left: 15,
-                                                right: 15,
-                                              ),
-                                              decoration: ShapeDecoration(
-                                                color: Colors.white,
-                                                shape: RoundedRectangleBorder(
-                                                  side: BorderSide(
-                                                      width: 1,
-                                                      color: TimeErrorMessage ??
-                                                              false
-                                                          ? Colors.red
-                                                          : DurationErrorMessage ??
-                                                                  false
-                                                              ? Colors.red
-                                                              : Color(
-                                                                  0xFFB9B8C1)),
-                                                  borderRadius:
-                                                      BorderRadius.circular(8),
-                                                ),
-                                              ),
-                                              child: Row(
-                                                children: [
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      showCupertinoModalPopup<
-                                                              void>(
-                                                          context: context,
-                                                          barrierDismissible:
-                                                              false,
-                                                          builder: (BuildContext
-                                                              context) {
-                                                            return Column(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .end,
-                                                              children: [
-                                                                Container(
-                                                                  decoration:
-                                                                      BoxDecoration(
-                                                                    color: Color(
-                                                                        0xffffffff),
-                                                                    border:
-                                                                        Border(
-                                                                      bottom:
-                                                                          BorderSide(
-                                                                        width:
-                                                                            0.0,
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                  child: Row(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .spaceBetween,
-                                                                    children: <Widget>[
-                                                                      CupertinoButton(
-                                                                        onPressed:
-                                                                            () {
-                                                                          _servicesController.isEventDateSelcted(true);
-                                                                          setState(
-                                                                              () {
-                                                                            Get.back();
-                                                                            time =
-                                                                                newTimeToGo;
-                                                                            // widget
-                                                                            //     .hospitalityController
-                                                                            //     .selectedStartTime
-                                                                            //     .value = newTimeToGo;
-                                                                            //  widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
-                                                                            //   .format(newTimeToGo) as RxString;
-                                                                          });
-                                                                        },
-                                                                        padding:
-                                                                            const EdgeInsets.symmetric(
-                                                                          horizontal:
-                                                                              16.0,
-                                                                          vertical:
-                                                                              5.0,
-                                                                        ),
-                                                                        child:
-                                                                            CustomText(
-                                                                          text:
-                                                                              "confirm".tr,
-                                                                          color:
-                                                                              colorGreen,
-                                                                          fontSize:
-                                                                              15,
-                                                                          fontFamily:
-                                                                              'SF Pro',
-                                                                          fontWeight:
-                                                                              FontWeight.w500,
-                                                                        ),
-                                                                      )
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                                Container(
-                                                                  height: 220,
-                                                                  width: width,
-                                                                  margin:
-                                                                      EdgeInsets
-                                                                          .only(
-                                                                    bottom: MediaQuery.of(
-                                                                            context)
-                                                                        .viewInsets
-                                                                        .bottom,
-                                                                  ),
-                                                                  child:
-                                                                      Container(
-                                                                    width:
-                                                                        width,
-                                                                    color: Colors
-                                                                        .white,
-                                                                    child:
-                                                                        CupertinoDatePicker(
-                                                                      backgroundColor:
-                                                                          Colors
-                                                                              .white,
-                                                                      initialDateTime:
-                                                                          newTimeToGo,
-                                                                      mode: CupertinoDatePickerMode
-                                                                          .time,
-                                                                      use24hFormat:
-                                                                          false,
-                                                                      onDateTimeChanged:
-                                                                          (DateTime
-                                                                              newT) {
-                                                                        setState(
-                                                                            () {
-                                                                          newTimeToGo =
-                                                                              newT;
-                                                                          // widget
-                                                                          //     .hospitalityController
-                                                                          //     .selectedStartTime
-                                                                          //     .value = newT;
-                                                                          //    widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
-                                                                          // .format(newTimeToGo) as RxString;
-                                                                        });
-                                                                      },
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            );
-                                                          });
-                                                    },
-                                                    child: CustomText(
-                                                      text: AppUtil
-                                                          .formatStringTimeWithLocale(
-                                                              context,
-                                                              DateFormat(
-                                                                      'hh:mm a')
-                                                                  .format(
-                                                                      newTimeToGo)),
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      color: Graytext,
-                                                      fontFamily: 'SF Pro',
-                                                      fontSize: 15,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          if (TimeErrorMessage ?? false)
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.only(top: 8),
-                                              child: Text(
+                                            fontFamily:
                                                 AppUtil.rtlDirection2(context)
-                                                    ? "يجب اختيار الوقت"
-                                                    : "Select The Time",
-                                                style: TextStyle(
-                                                  color: Color(0xFFDC362E),
-                                                  fontSize: 11,
-                                                  fontFamily:
-                                                      AppUtil.rtlDirection2(
-                                                              context)
-                                                          ? 'SF Arabic'
-                                                          : 'SF Pro',
-                                                  fontWeight: FontWeight.w400,
-                                                ),
-                                              ),
-                                            ),
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        width: 20,
-                                      ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          CustomText(
-                                            text: AppUtil.rtlDirection2(context)
-                                                ? "وقت العودة"
-                                                : "End Time",
-                                            color: black,
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w500,
-                                            fontFamily: 'SF Pro',
+                                                    ? 'SF Arabic'
+                                                    : 'SF Pro',
                                           ),
                                           SizedBox(
                                             height: height * 0.01,
@@ -1563,23 +1426,257 @@ List<String> regionListEn = [
                                                                         onPressed:
                                                                             () {
                                                                           _servicesController
+                                                                              .isEventDateSelcted(true);
+                                                                          setState(
+                                                                              () {
+                                                                            Get.back();
+                                                                            time =
+                                                                                newTimeToGo;
+                                                                            _servicesController.selectedStartTime.value =
+                                                                                newTimeToGo;
+
+                                                                            _servicesController.TimeErrorMessage.value =
+                                                                                AppUtil.isEndTimeLessThanStartTime(  newTimeToGo,newTimeToReturn);
+                                                                          });
+                                                                        },
+                                                                        padding:
+                                                                            const EdgeInsets.symmetric(
+                                                                          horizontal:
+                                                                              16.0,
+                                                                          vertical:
+                                                                              5.0,
+                                                                        ),
+                                                                        child:
+                                                                            CustomText(
+                                                                          text:
+                                                                              "confirm".tr,
+                                                                          color:
+                                                                              colorGreen,
+                                                                          fontSize:
+                                                                              15,
+                                                                          fontFamily: AppUtil.rtlDirection2(context)
+                                                                              ? 'SF Arabic'
+                                                                              : 'SF Pro',
+                                                                          fontWeight:
+                                                                              FontWeight.w500,
+                                                                        ),
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                Container(
+                                                                  height: 220,
+                                                                  width: width,
+                                                                  margin:
+                                                                      EdgeInsets
+                                                                          .only(
+                                                                    bottom: MediaQuery.of(
+                                                                            context)
+                                                                        .viewInsets
+                                                                        .bottom,
+                                                                  ),
+                                                                  child:
+                                                                      Container(
+                                                                    width:
+                                                                        width,
+                                                                    color: Colors
+                                                                        .white,
+                                                                    child:
+                                                                        CupertinoDatePicker(
+                                                                      backgroundColor:
+                                                                          Colors
+                                                                              .white,
+                                                                      initialDateTime:
+                                                                          newTimeToGo,
+                                                                      mode: CupertinoDatePickerMode
+                                                                          .time,
+                                                                      use24hFormat:
+                                                                          false,
+                                                                      onDateTimeChanged:
+                                                                          (DateTime
+                                                                              newT) {
+                                                                        setState(
+                                                                            () {
+                                                                          newTimeToGo =
+                                                                              newT;
+                                                                          _servicesController
+                                                                              .selectedStartTime
+                                                                              .value =  newT;
+
+                                                                          _servicesController.TimeErrorMessage.value = AppUtil.isEndTimeLessThanStartTime(
+                                                                              newTimeToGo,newTimeToReturn);
+
+                                                                          print('this time');
+                                                                          print(_servicesController.TimeErrorMessage.value);
+                                                                        });
+                                                                      },
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            );
+                                                          });
+                                                    },
+                                                    child: CustomText(
+                                                      text: AppUtil
+                                                          .formatStringTimeWithLocale(
+                                                              context,
+                                                              DateFormat(
+                                                                      'HH:mm:ss')
+                                                                  .format(
+                                                                      newTimeToGo)),
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      color: Graytext,
+                                                      fontFamily:
+                                                          AppUtil.rtlDirection2(
+                                                                  context)
+                                                              ? 'SF Arabic'
+                                                              : 'SF Pro',
+                                                      fontSize: 15,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          if (TimeErrorMessage ?? false||_servicesController
+                                                        .TimeErrorMessage.value)
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.only(top: 8),
+                                              child: Text(
+                                                !_servicesController
+                                                        .TimeErrorMessage.value
+                                                    ? AppUtil.rtlDirection2(
+                                                            context)
+                                                        ? "يجب اختيار الوقت"
+                                                        : "Select The Time"
+                                                    : '',
+                                                style: TextStyle(
+                                                  color: Color(0xFFDC362E),
+                                                  fontSize: 11,
+                                                  fontFamily:
+                                                      AppUtil.rtlDirection2(
+                                                              context)
+                                                          ? 'SF Arabic'
+                                                          : 'SF Pro',
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              ),
+                                            ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        width: 20,
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          CustomText(
+                                            text: AppUtil.rtlDirection2(context)
+                                                ? "إلى"
+                                                : "End Time",
+                                            color: black,
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w500,
+                                            fontFamily:
+                                                AppUtil.rtlDirection2(context)
+                                                    ? 'SF Arabic'
+                                                    : 'SF Pro',
+                                          ),
+                                          SizedBox(
+                                            height: height * 0.01,
+                                          ),
+                                          Align(
+                                            alignment:
+                                                AppUtil.rtlDirection(context)
+                                                    ? Alignment.centerLeft
+                                                    : Alignment.centerRight,
+                                            child: Container(
+                                              height: height * 0.06,
+                                              width: width * 0.41,
+                                              padding: const EdgeInsets.only(
+                                                left: 15,
+                                                right: 15,
+                                              ),
+                                              decoration: ShapeDecoration(
+                                                color: Colors.white,
+                                                shape: RoundedRectangleBorder(
+                                                  side: BorderSide(
+                                                      width: 1,
+                                                      color: TimeErrorMessage ??
+                                                              false ||
+                                                                  _servicesController
+                                                                      .TimeErrorMessage
+                                                                      .value
+                                                          ? Colors.red
+                                                          : DurationErrorMessage ??
+                                                                  false
+                                                              ? Colors.red
+                                                              : Color(
+                                                                  0xFFB9B8C1)),
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                ),
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      showCupertinoModalPopup<
+                                                              void>(
+                                                          context: context,
+                                                          barrierDismissible:
+                                                              false,
+                                                          builder: (BuildContext
+                                                              context) {
+                                                            return Column(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .end,
+                                                              children: [
+                                                                Container(
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    color: Color(
+                                                                        0xffffffff),
+                                                                    border:
+                                                                        Border(
+                                                                      bottom:
+                                                                          BorderSide(
+                                                                        width:
+                                                                            0.0,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  child: Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .spaceBetween,
+                                                                    children: <Widget>[
+                                                                      CupertinoButton(
+                                                                        onPressed:
+                                                                            () {
+                                                                          _servicesController
                                                                               .isEventTimeSelcted(true);
-                                                                          // print(widget
-                                                                          //     .hospitalityController
-                                                                          //     .isHospatilityTimeSelcted
-                                                                          //     .value);
+
                                                                           setState(
                                                                               () {
                                                                             Get.back();
                                                                             returnTime =
                                                                                 newTimeToReturn;
-                                                                            // widget
-                                                                            //         .hospitalityController
-                                                                            //         .selectedEndTime
-                                                                            //         .value =
-                                                                            //     newTimeToReturn;
-                                                                            //      widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
-                                                                            // .format( newTimeToReturn) as RxString;
+                                                                          _servicesController
+                                                          .selectedEndTime
+                                                          .value = newTimeToReturn;
+
+                                                         _servicesController.TimeErrorMessage.value=
+                                                        AppUtil.isEndTimeLessThanStartTime( _servicesController
+                                                            .selectedStartTime
+                                                            .value, _servicesController
+                                                            .selectedEndTime
+                                                            .value);
                                                                           });
                                                                         },
                                                                         padding:
@@ -1633,18 +1730,21 @@ List<String> regionListEn = [
                                                                               newT) {
                                                                         print(DateFormat('HH:mm:ss')
                                                                             .format(newTimeToReturn));
-                                                                        setState(
-                                                                            () {
-                                                                          newTimeToReturn =
-                                                                              newT;
-                                                                          // widget
-                                                                          //     .hospitalityController
-                                                                          //     .selectedEndTime
-                                                                          //     .value = newT;
+                                                                         setState(() {
+                                                      newTimeToReturn = newT;
+                                                     _servicesController
+                                                          .selectedEndTime
+                                                          .value = newT;
 
-                                                                          //  widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
-                                                                          //     .format( newTimeToReturn) as RxString;
-                                                                        });
+                                                         _servicesController.TimeErrorMessage.value=
+                                                        AppUtil.isEndTimeLessThanStartTime( _servicesController
+                                                            .selectedStartTime
+                                                            .value, _servicesController
+                                                            .selectedEndTime
+                                                            .value);
+
+                                                  
+                                                    });
                                                                       },
                                                                     ),
                                                                   ),
@@ -1658,13 +1758,17 @@ List<String> regionListEn = [
                                                           .formatStringTimeWithLocale(
                                                               context,
                                                               DateFormat(
-                                                                      'hh:mm a')
+                                                                      'HH:mm:ss')
                                                                   .format(
                                                                       newTimeToReturn)),
                                                       fontWeight:
                                                           FontWeight.w400,
                                                       color: Graytext,
-                                                      fontFamily: 'SF Pro',
+                                                      fontFamily:
+                                                          AppUtil.rtlDirection2(
+                                                                  context)
+                                                              ? 'SF Arabic'
+                                                              : 'SF Pro',
                                                       fontSize: 15,
                                                     ),
                                                   ),
@@ -1672,25 +1776,38 @@ List<String> regionListEn = [
                                               ),
                                             ),
                                           ),
-                                          if (TimeErrorMessage ?? false)
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.only(top: 8),
-                                              child: Text(
-                                                AppUtil.rtlDirection2(context)
-                                                    ? "يجب اختيار الوقت"
-                                                    : "Select The Time",
-                                                style: TextStyle(
-                                                  color: Color(0xFFDC362E),
-                                                  fontSize: 11,
-                                                  fontFamily:
-                                                      AppUtil.rtlDirection2(
+                                        
+                                             Obx(()=>
+                                             TimeErrorMessage ??
+                                              false ||
+                                                  _servicesController
+                                                      .TimeErrorMessage.value?
+                                                Padding(
+                                                padding:
+                                                    const EdgeInsets.only(top: 8),
+                                                child: Text(
+                                                  !_servicesController
+                                                          .TimeErrorMessage.value
+                                                      ? AppUtil.rtlDirection2(
                                                               context)
-                                                          ? 'SF Arabic'
-                                                          : 'SF Pro',
-                                                  fontWeight: FontWeight.w400,
-                                         ),
-                                              ),
+                                                          ? "يجب اختيار الوقت"
+                                                          : "Select The Time"
+                                                      : AppUtil.rtlDirection2(
+                                                              context)
+                                                          ? "يجب أن لايسبق وقت بدء التجربة"
+                                                          : "*Can’t be before start time",
+                                                  style: TextStyle(
+                                                    color: Color(0xFFDC362E),
+                                                    fontSize: 11,
+                                                    fontFamily:
+                                                        AppUtil.rtlDirection2(
+                                                                context)
+                                                            ? 'SF Arabic'
+                                                            : 'SF Pro',
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                              ):Container(),
                                             ),
                                         ],
                                       )
@@ -1698,7 +1815,6 @@ List<String> regionListEn = [
                                   ),
                                 ],
                               ),
-                                 
                               SizedBox(
                                 height: width * 0.055,
                               ),
@@ -1718,7 +1834,9 @@ List<String> regionListEn = [
                                     color: Colors.black,
                                     fontSize: 17,
                                     fontWeight: FontWeight.w500,
-                                    fontFamily: 'SF Pro',
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
                                   ),
                                   SizedBox(
                                     height: width * 0.05,
@@ -1737,39 +1855,17 @@ List<String> regionListEn = [
                                           height: 246,
                                           width: 358,
                                           child: GoogleMap(
-                                            scrollGesturesEnabled: false,
+                                            scrollGesturesEnabled: true,
                                             zoomControlsEnabled: false,
                                             initialCameraPosition:
                                                 CameraPosition(
-                                              target:
-                                                  // // _servicesController == null
-                                                  // //     ? locLatLang
-                                                  // // :
-                                                  // LatLng(
-                                                  //     _servicesController
-                                                  //         .pickUpLocLatLang
-                                                  //         .value
-                                                  //         .latitude,
-                                                  //     _servicesController
-                                                  //         .pickUpLocLatLang
-                                                  //         .value
-                                                  //         .longitude!)
-                                                  _currentPosition,
+                                              target: _currentPosition,
                                               zoom: 15,
                                             ),
                                             markers: {
                                               Marker(
                                                 markerId: MarkerId("marker1"),
                                                 position: _currentPosition,
-                                                // LatLng(
-                                                //     _servicesController
-                                                //         .pickUpLocLatLang
-                                                //         .value
-                                                //         .latitude,
-                                                //     _servicesController
-                                                //         .pickUpLocLatLang
-                                                //         .value
-                                                //         .longitude),
                                                 draggable: true,
                                                 onDragEnd:
                                                     (LatLng newPosition) {
@@ -1828,8 +1924,11 @@ List<String> regionListEn = [
                                                             color: Color(
                                                                 0xFF9392A0),
                                                             fontSize: 13,
-                                                            fontFamily:
-                                                                'SF Pro',
+                                                            fontFamily: AppUtil
+                                                                    .rtlDirection2(
+                                                                        context)
+                                                                ? 'SF Arabic'
+                                                                : 'SF Pro',
                                                             fontWeight:
                                                                 FontWeight.w400,
                                                             height: 0,
@@ -1854,7 +1953,6 @@ List<String> regionListEn = [
                               SizedBox(
                                 height: width * 0.077,
                               ),
-
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -1863,7 +1961,9 @@ List<String> regionListEn = [
                                     color: Colors.black,
                                     fontSize: 17,
                                     fontWeight: FontWeight.w500,
-                                    fontFamily: 'SF Pro',
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
                                   ),
                                   SizedBox(
                                     height: width * 0.02,
@@ -1875,7 +1975,10 @@ List<String> regionListEn = [
                                       hintStyle: TextStyle(
                                         color: Color(0xFFB9B8C1),
                                         fontSize: 15,
-                                        fontFamily: 'SF Pro',
+                                        fontFamily:
+                                            AppUtil.rtlDirection2(context)
+                                                ? 'SF Arabic'
+                                                : 'SF Pro',
                                         fontWeight: FontWeight.w400,
                                       ),
                                       border: OutlineInputBorder(
@@ -1884,7 +1987,7 @@ List<String> regionListEn = [
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                           width: 1,
-                                          color: PriceEmpty
+                                          color: PriceEmpty || PriceDouble
                                               ? Color(0xFFDC362E)
                                               : Color(0xFFB9B8C1),
                                         ),
@@ -1895,13 +1998,17 @@ List<String> regionListEn = [
                                     ),
                                     keyboardType: TextInputType.number,
                                   ),
-                                  if (PriceEmpty)
+                                  if (PriceEmpty|| PriceDouble)
                                     Padding(
                                       padding: const EdgeInsets.only(top: 8.0),
                                       child: Text(
                                         AppUtil.rtlDirection2(context)
-                                            ? 'يجب عليك ان تضع السعر المقدر'
-                                            : 'You need to add a valid price',
+                                            ? PriceEmpty
+                                                ? 'يجب عليك ان تضع السعر المقدر'
+                                                : '*السعر يجب أن يكون عدد صحيح فقط'
+                                            : PriceEmpty
+                                                ? 'You need to add a valid price'
+                                                : '*The price must be an integer value only',
                                         style: TextStyle(
                                           color: Color(0xFFDC362E),
                                           fontSize: 11,
@@ -1915,83 +2022,19 @@ List<String> regionListEn = [
                                     ),
                                 ],
                               ),
-
-                              // InkWell(
-                              //   onTap: () {
-                              //     Get.bottomSheet(
-                              //       const CustomPloicySheet(),
-                              //     );
-                              //   },
-                              //   child: Align(
-                              //       alignment: !AppUtil.rtlDirection(context)
-                              //           ? Alignment.centerRight
-                              //           : Alignment.centerLeft,
-                              //       child: Row(
-                              //         children: [
-                              //           Column(
-                              //             crossAxisAlignment:
-                              //                 CrossAxisAlignment.start,
-                              //             children: [
-                              //               CustomText(
-                              //                 text: "cancellationPolicy".tr,
-                              //                 fontSize: width * 0.0461,
-                              //                 fontWeight: FontWeight.w400,
-                              //               ),
-                              //               SizedBox(
-                              //                 height: width * 0.010,
-                              //               ),
-                              //               SizedBox(
-                              //                 width: width * 0.83,
-                              //                 child: CustomText(
-                              //                   text:
-                              //                       "cancellationPolicyBreifAdventure"
-                              //                           .tr,
-                              //                   fontSize: width * 0.03,
-                              //                   fontWeight: FontWeight.w400,
-                              //                   maxlines: 2,
-                              //                   color: tileGreyColor,
-                              //                 ),
-                              //               ),
-                              //             ],
-                              //           ),
-                              //           const Spacer(),
-                              //           Icon(
-                              //             Icons.arrow_forward_ios,
-                              //             color: tileGreyColor,
-                              //             size: width * 0.046,
-                              //           )
-                              //         ],
-                              //       )),
-                              // ),
                             ],
                           ),
                         ],
                       ),
 
-                      // Positioned(
-                      //   top: height * 0.06,
-                      //   left: AppUtil.rtlDirection2(context)
-                      //       ? width * 0.85
-                      //       : width * 0.06,
-                      //   child: IconButton(
-                      //     icon: Icon(Icons.arrow_back_ios,
-                      //         textDirection: AppUtil.rtlDirection2(context)
-                      //             ? TextDirection.rtl
-                      //             : TextDirection.ltr,
-                      //         size: width * 0.061,
-                      //         color: Colors.white),
-                      //     onPressed: () => Get.back(),
-                      //     color: Colors.white,
-                      //   ),
-                      // ),
-
                       //indicator
 
                       Positioned(
                         top: height * 0.256,
-                        left: width * 0.33,
+                        left: width * 0.4,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: widget.eventObj.image!
                               .asMap()
                               .entries
@@ -2015,7 +2058,7 @@ List<String> regionListEn = [
                                 ),
                               ),
                             );
-                    }).toList(),
+                          }).toList(),
                         ),
                       ),
                     ],
@@ -2026,6 +2069,3 @@ List<String> regionListEn = [
     );
   }
 }
-
-
-  

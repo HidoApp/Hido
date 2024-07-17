@@ -61,9 +61,10 @@ class _SplashScreenState extends State<SplashScreen>
   late dynamic token;
 
   Future<String?> checkForBoarding() async {
-    dynamic onBoarding = await _getStorage.read('onBoarding') ?? '';
-    print('onBoarding: $onBoarding');
+    dynamic onBoarding = await _getStorage.read('onBoarding') ?? '' ;
+    print('onBoarding  onBoarding $onBoarding');
     userRole = _getStorage.read('userRole') ?? '';
+    token = _getStorage.read('accessToken') ?? '';
     token = _getStorage.read('accessToken') ?? '';
 
 
@@ -84,44 +85,53 @@ class _SplashScreenState extends State<SplashScreen>
     )..forward();
 
     Future.delayed(const Duration(seconds: 5), () async {
-      onBoarding = await checkForBoarding() ?? 'no';
-      print('onBoarding: $onBoarding');
+     onBoarding =  await checkForBoarding()?? 'no';
+ _controller.dispose();
+     print('onBoarding onBoarding onBoarding $onBoarding');
+        if (onBoarding == 'no' && token != '' && userRole == 'local') {
+          if (JwtDecoder.isExpired(token)) {
+            final String refreshToken = _getStorage.read('refreshToken');
+            var user = await _authController.refreshToken(
+                refreshToken: refreshToken, context: context);
+            if (user != null) {
+              token = user.accessToken;
+            }
+     print('token $token');
 
-
-      if (onBoarding == 'yes' && token != '' && userRole == 'local') {
-        if (JwtDecoder.isExpired(token)) {
-          final String refreshToken = _getStorage.read('refreshToken');
-          var user = await _authController.refreshToken(
-              refreshToken: refreshToken, context: context);
-          if (user != null) {
-            token = user.accessToken;
           }
-        }
-        Get.off(() => AjwadiBottomBar());
 
-      } else if (onBoarding == 'yes' && token != '' && userRole == 'tourist') {
-        if (JwtDecoder.isExpired(token)) {
-          final String refreshToken = _getStorage.read('refreshToken');
-          var user = await _authController.refreshToken(
-              refreshToken: refreshToken, context: context);
-          if (user != null) {
-            token = user.accessToken;
+          Get.off(() => AjwadiBottomBar());
+        } else if (onBoarding == 'no' && token != '' && userRole == 'tourist') {
+          if (JwtDecoder.isExpired(token)) {
+            final String refreshToken = _getStorage.read('refreshToken');
+            var user = await _authController.refreshToken(
+                refreshToken: refreshToken, context: context);
+            if (user != null) {
+              token = user.accessToken;
+                   print('token $token');
+
+            }
           }
+
+          Get.off(() => TouristBottomBar());
+        } else if (onBoarding == 'no') {
+          //  Get.off(() => const AccountTypeScreen());
+           Get.off( OnboardingScreen(),
+                        transition: Transition.fade);
+                  
+        } else {
+        Get.off( OnboardingScreen(),
+                        transition: Transition.fade);
         }
-        Get.off(() => TouristBottomBar());
-      } else if (onBoarding == 'yes') {
-        Get.off(() => OnboardingScreen());
-      } else {
-        Get.off(() => OnboardingScreen());
-      }
-    });
+      });
+  
   }
 
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _controller.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {

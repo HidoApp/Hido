@@ -73,7 +73,7 @@ class _EventAddProgressState extends State<EventAddProgress> {
   final TextEditingController EventLocation = TextEditingController();
   final TextEditingController EventPrice = TextEditingController();
 
-    final EventController _EventController = Get.put(EventController());
+  final EventController _EventController = Get.put(EventController());
 
   
 
@@ -146,8 +146,8 @@ class _EventAddProgressState extends State<EventAddProgress> {
           textField2ControllerEN: EventBioControllerEn,
         );
       case 1:
-        print(EventTitleControllerAr.text);
-        print(EventTitleControllerEn.text);
+        print(_EventController.bioAr.value);
+        print(_EventController.bioEn.value);
         print('1');
 
         return AddEventLocation(
@@ -187,10 +187,14 @@ class _EventAddProgressState extends State<EventAddProgress> {
   bool _validateFields() {
     if (activeIndex == 0) {
       return
-      EventTitleControllerEn.text.isNotEmpty &&
-          EventBioControllerEn.text.isNotEmpty &&
-          EventTitleControllerAr.text.isNotEmpty &&
-         EventBioControllerAr.text.isNotEmpty;
+        _EventController.bioAr.isNotEmpty &&
+        _EventController.bioEn.isNotEmpty &&
+       _EventController.titleAr.isNotEmpty &&
+        _EventController.titleEn.isNotEmpty;
+      // EventTitleControllerEn.text.isNotEmpty &&
+      //     EventBioControllerEn.text.isNotEmpty &&
+      //     EventTitleControllerAr.text.isNotEmpty &&
+      //    EventBioControllerAr.text.isNotEmpty;
     }
     if (activeIndex == 1) {
       return
@@ -203,12 +207,12 @@ class _EventAddProgressState extends State<EventAddProgress> {
     }
      if (activeIndex == 4) {
 
-     return  _EventController.selectedDates.value.isNotEmpty && _EventController.isEventTimeSelcted .value ; 
+     return  _EventController.selectedDates.isNotEmpty && _EventController.isEventTimeSelcted .value && !_EventController.TimeErrorMessage.value && !_EventController.DateErrorMessage.value ; 
     }
      if (activeIndex == 5) {
     if (EventPrice.text.isNotEmpty) {
-      double? price = double.tryParse(EventPrice.text);
-      if (price != null && price >= 150) {
+      int? price = int.tryParse(EventPrice.text);
+      if (price != null && price > 0) {
         return true;
       }
     }
@@ -240,50 +244,52 @@ class _EventAddProgressState extends State<EventAddProgress> {
   }
 
   Widget nextButton() {
-    return IgnorePointer(
-      ignoring: !_validateFields(),
-      child: Opacity(
-        opacity: _validateFields() ? 1.0 : 0.5,
-        child: GestureDetector(
-          onTap: () {
-            if (activeIndex < totalIndex - 1) {
-              setState(() {
-                activeIndex++;
-                print(activeIndex < totalIndex - 1);
-                print(totalIndex);
-                print(activeIndex);
-              });
-            } else if (activeIndex == totalIndex - 1) {
-              Get.to(EventInfoReview(
-                hospitalityTitleEn: EventBioControllerEn.text,
-                hospitalityBioEn: EventBioControllerEn.text,
-                hospitalityTitleAr: EventTitleControllerAr.text,
-                hospitalityBioAr: EventBioControllerAr.text,
-                adventurePrice: double.parse(EventPrice.text),
-               hospitalityLocation: EventLocation.text,
-              ));
-            }
-          },
-          child: Container(
-            width: 157,
-            height: 48,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            clipBehavior: Clip.antiAlias,
-            decoration: ShapeDecoration(
-              color: Color(0xFF36B268),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8)),
-            ),
-            alignment: Alignment.center,
-            child: Text(
-              'Next'.tr,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 17,
-                fontFamily: 'HT Rakik',
-                fontWeight: FontWeight.w500,
-                height: 0.10,
+    return Obx(()=>
+       IgnorePointer(
+        ignoring: !_validateFields(),
+        child: Opacity(
+          opacity: _validateFields() ? 1.0 : 0.5,
+          child: GestureDetector(
+            onTap: () {
+              if (activeIndex < totalIndex - 1) {
+                setState(() {
+                  activeIndex++;
+                  print(activeIndex < totalIndex - 1);
+                  print(totalIndex);
+                  print(activeIndex);
+                });
+              } else if (activeIndex == totalIndex - 1) {
+                Get.to(EventInfoReview(
+                  hospitalityTitleEn: EventBioControllerEn.text,
+                  hospitalityBioEn: EventBioControllerEn.text,
+                  hospitalityTitleAr: EventTitleControllerAr.text,
+                  hospitalityBioAr: EventBioControllerAr.text,
+                  adventurePrice: double.parse(EventPrice.text),
+                 hospitalityLocation: EventLocation.text,
+                ));
+              }
+            },
+            child: Container(
+              width: 157,
+              height: 48,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              clipBehavior: Clip.antiAlias,
+              decoration: ShapeDecoration(
+                color: Color(0xFF36B268),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)),
+              ),
+              alignment: Alignment.center,
+              child: Text(
+                'Next'.tr,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 17,
+                  fontFamily: 'HT Rakik',
+                  fontWeight: FontWeight.w500,
+                  height: 0.10,
+                ),
               ),
             ),
           ),

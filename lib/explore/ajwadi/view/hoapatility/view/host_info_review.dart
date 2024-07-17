@@ -24,9 +24,9 @@ class HostInfoReview extends StatefulWidget {
   final String hospitalityBioEn;
   final String hospitalityTitleAr;
   final String hospitalityBioAr;
-  final double hospitalityPrice;
+  final int? hospitalityPrice;
   final String hospitalityLocation;
-  final double? adventurePrice;
+  final int? adventurePrice;
 
   final List<String> hospitalityImages;
   // final int seats;
@@ -39,7 +39,7 @@ class HostInfoReview extends StatefulWidget {
     required this.hospitalityBioEn,
     required this.hospitalityTitleAr,
     required this.hospitalityTitleEn,
-    required this.hospitalityPrice,
+    this.hospitalityPrice,
     required this.hospitalityImages,
     required this.hospitalityLocation,
     // required this.seats,
@@ -518,8 +518,9 @@ print(widget.hospitalityController?.selectedMealEn);
                   child: Padding(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 4, vertical: 35),
-                    child: Container(
-                      child: CustomButton(
+                    child: Column(
+                      children:[
+                    CustomButton(
                           onPressed: () async {
                             final isSuccess = widget.experienceType ==
                                     'hospitality'
@@ -550,7 +551,7 @@ print(widget.hospitalityController?.selectedMealEn);
                                             .hospitalityController!
                                             .selectedGender
                                             .value,
-                                        price: widget.hospitalityPrice,
+                                        price: widget.hospitalityPrice!,
                                         images: imageUrls,
                                         regionAr: ragionAr,
                                         regionEn: ragionEn,
@@ -644,9 +645,25 @@ print(widget.hospitalityController?.selectedMealEn);
                             }
                           },
                           title: 'Publish'.tr),
-                    ),
+                          
+                    SizedBox(height: 10),
+
+                                CustomButton(
+                                    onPressed: () {
+                                      Get.until((route) =>
+                                          Get.currentRoute == '/ExperienceType');
+                                    },
+                                    title: AppUtil.rtlDirection2(context)
+                                        ? 'عودة للتجارب'
+                                        : 'Return to Experiences',
+                                    buttonColor: Colors.white.withOpacity(0.3),
+                                    textColor: Color(0xFF070708)),
+
+              ],
+            ),
                   ),
                 ),
+                
               ],
             ),
           ],
