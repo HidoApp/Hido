@@ -83,7 +83,7 @@ class _GuestSignInScreenState extends State<GuestSignInScreen> {
                         border: Border.all(color: colorGreen, width: 1),
                         borderRadius: BorderRadius.circular(4)),
                     child: CustomText(
-                      text: "signUpLocal".tr,
+                      text: "guestLocalSignUp".tr,
                       color: colorGreen,
                       fontSize: width * 0.04,
                     ),

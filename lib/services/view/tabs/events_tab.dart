@@ -1,212 +1,207 @@
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/services/controller/event_controller.dart';
+import 'package:ajwad_v4/services/controller/regions_controller.dart';
 import 'package:ajwad_v4/services/view/event_details.dart';
+import 'package:ajwad_v4/services/view/widgets/ad_cards.dart';
+import 'package:ajwad_v4/services/view/widgets/custom_chips.dart';
 import 'package:ajwad_v4/services/view/widgets/custom_city_item.dart';
 import 'package:ajwad_v4/services/view/widgets/custom_event_item.dart';
+import 'package:ajwad_v4/services/view/widgets/custom_hospitality_item.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class EventsTab extends StatelessWidget {
-  const EventsTab({super.key, required this.isAviailable});
-    final bool isAviailable;
+class EventsTab extends StatefulWidget {
+  const EventsTab({super.key, e});
+
+  @override
+  State<EventsTab> createState() => _EventsTabState();
+}
+
+class _EventsTabState extends State<EventsTab> {
+  final _eventController = Get.put(EventController());
+  final _regionsController = Get.put(RegionsController());
+
+  void getEventList() async {
+    await _eventController.getEventList(context: context);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getEventList();
+    _regionsController.getRegions(context: context, regionType: "EVENT");
+  }
 
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
-    final double height = MediaQuery.of(context).size.height;
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        children: [
-          Container(
-            width: width,
-            decoration: BoxDecoration(
-              color: lightYellow.withOpacity(0.5),
-              borderRadius: const BorderRadius.all(Radius.circular(12)),
+      child: Padding(
+        //TODO: Rehab you must replace padding in adventure screen with these values
+        // padding: EdgeInsets.symmetric(
+        //     horizontal: width * 0.04, vertical: width * 0.035),
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        child: Column(
+          children: [
+            //Ad cards
+            const AdCards(),
+            SizedBox(
+              height: width * 0.085,
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                      right:! AppUtil.rtlDirection(context) ? 16 : 0,
-                      left:! AppUtil.rtlDirection(context) ? 0 : 16,
-                      top: 12,
-                      bottom: 12,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CustomText(
-                          text: 'inviteYourFriend'.tr,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700, 
-                        ),
-                        const SizedBox(
-                          height: 4,
-                        ),
-                        SizedBox(
-                          width: 133,
-                          child: CustomText(
-                            text: 'getDiscount'.tr,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                            color: colorDarkGrey,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        InkWell(
-                          onTap: () {},
-                          child: Container(
-                            width: 72,
-                            height: 32,
-                            alignment: Alignment.center,
-                            decoration: const BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5)),
-                              color: gold,
-                            ),
-                            child: CustomText(
-                              text: 'invite'.tr,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.white,
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Image.asset('assets/images/invite_your_friend.png'),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-
-          isAviailable ? 
-
-          Column(children: [
-
-              Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              CustomText(
-                text: 'where'.tr,
-                fontSize: 20,
-                fontWeight: FontWeight.w700,
-              ),
-              CustomText(
-                text: 'seeAll'.tr,
-                fontSize: 10,
-                fontWeight: FontWeight.w400,
-                color: colorDarkGrey,
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          SizedBox(
-            height: 100,
-            child: ListView.separated(
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              itemCount: 4,
-              separatorBuilder: (context, index) {
-                return const SizedBox(
-                  width: 24,
-                );
-              },
-              itemBuilder: (context, index) {
-                return CustomCityItem(
-                    image: 'assets/images/tabuk.png',
-                    title: AppUtil.rtlDirection(context) ? 'تبوك' : 'Tabuk');
-              },
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              CustomText(
-                text: 'nearestEvent'.tr,
-                fontSize: 20,
-                fontWeight: FontWeight.w700,
-              ),
-              CustomText(
-                text: 'seeAll'.tr,
-                fontSize: 10,
-                fontWeight: FontWeight.w400,
-                color: colorDarkGrey,
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 320,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              shrinkWrap: true,
-              itemCount: 4,
-              itemBuilder: (context, index) {
-                return CustomEventItem(
-                  onTap: () {
-                    Get.to(() => EventDetails());
-                  },
-                  title: AppUtil.rtlDirection(context)
-                      ? 'سباق الهجن'
-                      : 'Camel Raising',
-                  rate: '4.7',
-                  location: AppUtil.rtlDirection(context)
-                      ? 'ربع الخالي، المملكة العربية السعودية'
-                      : 'Riyadh, Saudi Arabia',
-                  date: AppUtil.rtlDirection(context)
-                      ? '23 ابريل'
-                      : 'Wed, Apr 28',
-                  description: AppUtil.rtlDirection(context)
-                      ? 'الربع الخالي عبارة عن صحراء رملية تغطي معظم الجنوب.'
-                      : 'Shaqra is plateau and it is a famous commercial town many ...',
-                );
-              },
-              separatorBuilder: (context, index) { 
-                return const SizedBox(
-                  width: 15,
-                );
-              },
-            ),
-          ),
-
-
-          ],)
-           : Column(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SizedBox(
-                      height: height * 0.04,
-                    ),
-                   
                     CustomText(
-                      text: 'commingSoon'.tr,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w200,
-                      textAlign: TextAlign.center,
-                      color: colorDarkGrey,
-                    )
+                      text: 'event'.tr,
+                      color: Color(0xFF070708),
+                      fontSize: 17,
+                      fontFamily: 'HT Rakik',
+                      fontWeight: FontWeight.w500,
+                    ),
                   ],
                 ),
-        
-        ],
+                SizedBox(
+                  height: width * 0.05,
+                ),
+                //cities list view
+                SizedBox(
+                  height: width * 0.080,
+                  child: Obx(
+                    () => !_regionsController.isRegionsLoading.value
+                        ? ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            shrinkWrap: true,
+                            itemCount: _regionsController
+                                    .regionsEvent.value.regionEn!.length +
+                                1,
+                            separatorBuilder: (context, index) => SizedBox(
+                              width: width * 0.025,
+                            ),
+                            itemBuilder: (context, index) => Obx(
+                              () => GestureDetector(
+                                onTap: () {
+                                  if (index !=
+                                      _regionsController.selectedEventIndex
+                                          .value) // for handle user clicks
+                                  {
+                                    _regionsController
+                                        .selectedEventIndex.value = index;
+                                    print(_regionsController
+                                        .regionsHospitalty
+                                        .value
+                                        .regionEn![index != 0 ? index - 1 : 0]);
+                                    if (index == 0) {
+                                      _eventController.getEventList(
+                                          context: context);
+                                    } else {
+                                      _eventController.getEventList(
+                                          context: context,
+                                          region: index != 0
+                                              ? _regionsController
+                                                      .regionsHospitalty
+                                                      .value
+                                                      .regionEn![
+                                                  index != 0 ? index - 1 : 0]
+                                              : null);
+                                    }
+                                  }
+                                },
+                                child: CustomChips(
+                                  borderColor: _regionsController
+                                              .selectedEventIndex.value ==
+                                          index
+                                      ? colorGreen
+                                      : almostGrey,
+                                  backgroundColor: _regionsController
+                                              .selectedEventIndex.value ==
+                                          index
+                                      ? colorGreen
+                                      : Colors.transparent,
+                                  textColor: _regionsController
+                                              .selectedEventIndex.value ==
+                                          index
+                                      ? Colors.white
+                                      : almostGrey,
+                                  title: index == 0
+                                      ? 'all'.tr
+                                      : AppUtil.rtlDirection2(context)
+                                          ? _regionsController.regionsEvent
+                                              .value.regionAr![index - 1]
+                                          : _regionsController.regionsEvent
+                                              .value.regionEn![index - 1],
+                                ),
+                              ),
+                            ),
+                          )
+                        : const CircularProgressIndicator.adaptive(),
+                  ),
+                ),
+                SizedBox(
+                  height: width * 0.06,
+                ),
+                Obx(
+                  () => _eventController.isEventListLoading.value
+                      ? //if list is loading
+                      SizedBox(
+                          height: width * 0.4,
+                          width: width,
+                          child: const Center(
+                              child: CircularProgressIndicator.adaptive()))
+                      //List of hospitalities
+                      : ListView.separated(
+                          padding: EdgeInsets.zero,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: _eventController.eventList.length,
+                          itemBuilder: (context, index) {
+                            return ServicesCard(
+                              onTap: () {
+                                // Get.to(() => E);
+                              },
+                              image: _eventController
+                                  .eventList[index].images.first,
+                              title: !AppUtil.rtlDirection(context)
+                                  ? _eventController.eventList[index].nameAr ??
+                                      "empty"
+                                  : _eventController.eventList[index].nameEn ??
+                                      "empty",
+                              location: AppUtil.rtlDirection2(context)
+                                  ? _eventController
+                                          .eventList[index].regionAr ??
+                                      ""
+                                  : _eventController
+                                          .eventList[index].regionEn ??
+                                      "",
+                              meal: _eventController
+                                  .eventList[index].allowedGuests
+                                  .toString(),
+                              category: AppUtil.rtlDirection(context)
+                                  ? _eventController.eventList[index].nameAr ??
+                                      ""
+                                  : _eventController.eventList[index].nameEn ??
+                                      "",
+                              rate: '4.7',
+                              dayInfo:
+                                  _eventController.eventList[index].daysInfo,
+                            );
+                          },
+                          separatorBuilder: (context, index) {
+                            return SizedBox(
+                              height: width * 0.041,
+                            );
+                          },
+                        ),
+                ),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

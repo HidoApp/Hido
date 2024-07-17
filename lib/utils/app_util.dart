@@ -308,6 +308,10 @@ class AppUtil {
     return formatter.format(parsedDate);
   }
 
+  static String removeSpaces(String input) {
+    return input.replaceAll(' ', '');
+  }
+
   static String formattedHijriDate(JHijri hijriDate) {
     return "${hijriDate.year}-${hijriDate.month.toString().padLeft(2, '0')}-${hijriDate.day.toString().padLeft(2, '0')}";
   }

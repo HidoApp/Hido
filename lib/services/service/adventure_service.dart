@@ -50,7 +50,6 @@ class AdventureService {
     }
   }
 
-  //  get 1 adventure by id (not finished yet)
   static Future<Adventure?> getAdvdentureById({
     required BuildContext context,
     required String id,

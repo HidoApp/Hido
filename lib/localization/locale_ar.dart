@@ -556,5 +556,8 @@ const localeAr = {
   'payment': "دفع",
   "signInTitle": 'اكتشف السعودية بأهلها! ',
   "account": "الحساب", "legalDoc": "المستندات القانونية",
-  // "otpDriving": "We’ll send you an OTP to update your driving license"
+  'tourLicense': "رخصة المرشد السياحي",
+  'guestLocalSignUp': 'تسجيل الدخول كمقدم خدمة',
+  'createTourist': "إنشاء حساب  كسائح ",
+  'chooseNationality': 'أدخل جنسيتك'
 };

@@ -1,5 +1,6 @@
 import 'package:ajwad_v4/auth/view/ajwadi_register/ajwadi_register_screen.dart';
 import 'package:ajwad_v4/auth/view/ajwadi_register/local_sign_up.dart';
+import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/new-onboarding/view/intro_screen.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
@@ -7,7 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SignUpText extends StatelessWidget {
-  const SignUpText({super.key});
+  const SignUpText({super.key, this.isLocal = true});
+  final bool isLocal;
 
   @override
   Widget build(BuildContext context) {
@@ -27,10 +29,16 @@ class SignUpText extends StatelessWidget {
               color: colorGreen,
               fontSize: MediaQuery.of(context).size.width * 0.038,
             ),
-            onTap: () => Get.to(
-                  // () =>  AccountTypeScreen(),
+            onTap: () {
+              Get.back();
+              if (isLocal) {
+                Get.to(
                   () => const LocalSignUpScreen(),
-                ))
+                );
+              } else {
+                Get.to(() => const SignInScreen());
+              }
+            })
       ],
     );
   }

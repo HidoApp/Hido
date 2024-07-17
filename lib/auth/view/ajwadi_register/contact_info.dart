@@ -78,14 +78,14 @@ class _ContactInfoState extends State<ContactInfo> {
                   if (iban == null || iban.isEmpty) {
                     return 'fieldRequired'.tr;
                   }
-                  if (!isValid(iban) ||
-                      iban.contains(' ') && iban.startsWith('SA')) {
-                    //TODO:localize
+                  if (!isValid(AppUtil.removeSpaces(iban)) &&
+                      AppUtil.removeSpaces(iban).startsWith('SA')) {
                     return 'invalidIBAN'.tr;
                   }
                   return null;
                 },
-                onChanged: (iban) => _authController.iban(iban),
+                onChanged: (iban) =>
+                    _authController.iban(AppUtil.removeSpaces(iban)),
               ),
             ],
           ),

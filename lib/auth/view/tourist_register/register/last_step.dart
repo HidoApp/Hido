@@ -1,17 +1,24 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
+import 'package:ajwad_v4/auth/widget/sign_in_text.dart';
 import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
+import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_elevated_button_with_arrow.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/custom_textfield.dart';
+import 'package:ajwad_v4/widgets/screen_padding.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 
 import 'package:get/get.dart';
+import 'package:multi_dropdown/multiselect_dropdown.dart';
 
 class LastStepScreen extends StatefulWidget {
   const LastStepScreen(
@@ -37,12 +44,11 @@ class _LastStepScreenState extends State<LastStepScreen> {
   late double width, height;
   bool isSwitched = false;
   final _formKey = GlobalKey<FormState>();
-  String _selectedNationality = "NO";
+  String _selectedNationality = "";
   bool isNatSelected = true;
+  List<ValueItem> countries = [];
 
-  final _phoneController = TextEditingController();
-  final _emailController = TextEditingController();
-
+  var _number = '';
   @override
   void initState() {
     // TODO: implement initState
@@ -50,172 +56,181 @@ class _LastStepScreenState extends State<LastStepScreen> {
     print(widget.email);
     print(widget.password);
     print(widget.name);
+    generateCountries();
+  }
+
+  final _controller = MultiSelectController();
+  void generateCountries() {
+    countries = List.generate(
+        widget.countries.length,
+        (index) => ValueItem(
+            label: widget.countries[index], value: widget.countries[index]));
   }
 
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
-    return GestureDetector(
-      onTap: () {
-        FocusManager.instance.primaryFocus?.unfocus();
-      },
-      child: Scaffold(
-          backgroundColor: Colors.white,
-          resizeToAvoidBottomInset: false,
-          extendBodyBehindAppBar: true,
-          appBar: CustomAppBar(""),
-          body: SizedBox(
-            // width: width*0.,
-            child: Stack(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(top: height * 0.18),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    //mainAxisSize: MainAxisSize.max,
-                    // mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: !AppUtil.rtlDirection(context)
-                            ? const EdgeInsets.only(right: 20)
-                            : const EdgeInsets.only(left: 20),
-                        child: CustomText(
-                          text: "lastStep".tr,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 32,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      Form(
-                        key: _formKey,
-                        child: CustomTextField(
-                          controller: _phoneController,
-                          keyboardType: TextInputType.phone,
-                          hintText: 'phoneNum'.tr,
-                          prefixIcon: const Icon(
-                            Icons.local_phone_outlined,
-                            color: colorDarkGrey,
-                          ),
-                          onChanged: (String value) {},
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Center(
-                        child: Container(
-                          height: 60,
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: DropdownSearch<String>(
-                            dropdownDecoratorProps: DropDownDecoratorProps(
-                              dropdownSearchDecoration: InputDecoration(
-                                prefixIcon: Container(
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 12),
-                                  child: SvgPicture.asset(
-                                    'assets/icons/nationality.svg',
-                                  ),
-                                ),
-                                hintText: 'nationality'.tr,
-                                hintStyle: const TextStyle(color: dividerColor),
-                                suffixIconColor: dividerColor,
-                                border: const OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10)),
-                                  borderSide: BorderSide(color: Colors.red),
-                                ),
-                              ),
-                            ),
-                            items: widget.countries,
-                            onChanged: (v) {
-                              setState(() {
-                                isNatSelected = true;
-                                _selectedNationality = v.toString();
-                              });
-                              print(_selectedNationality);
-                            },
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 3,
-                      ),
-                      isNatSelected
-                          ? Container()
-                          : Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 25),
-                              child: CustomText(
-                                text: 'fieldRequired'.tr,
-                                color: colorRed,
-                                fontSize: 10,
-                              ),
-                            ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      SizedBox(
-                        height: height * 0.05,
-                      ),
-                      Obx(
-                        () => Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 30),
-                          child: widget.authController.isRegisterLoading == true
-                              ? const Center(
-                                  child: CircularProgressIndicator(
-                                    color: colorGreen,
-                                  ),
-                                )
-                              : Align(
-                                  alignment: Alignment.center,
-                                  child: CustomElevatedButton(
-                                    title: 'continue'.tr.toUpperCase(),
-                                    onPressed: () async {
-                                      if (_formKey.currentState!.validate()) {}
-                                      if (_selectedNationality == "NO") {
-                                        setState(() {
-                                          isNatSelected = false;
-                                        });
-                                        return;
-                                      }
-
-                                      if (!AppUtil.isPhoneValidate(
-                                          _phoneController.text)) {
-                                        AppUtil.errorToast(
-                                            context, "invalidPhone".tr);
-                                        return;
-                                      }
-
-                                      bool isSuccess = await widget
-                                          .authController
-                                          .touristRegister(
-                                              email: widget.email,
-                                              password: widget.password,
-                                              name: widget.name,
-                                              phoneNumber:
-                                                  _phoneController.text,
-                                              nationality: _selectedNationality,
-                                              rememberMe: true,
-                                              context: context);
-                                      print(isSuccess);
-                                      if (isSuccess) {
-                                        Get.offAll(
-                                            () => const TouristBottomBar());
-                                      }
-                                    },
-                                  ),
-                                ),
-                        ),
-                      ),
-                    ],
-                  ),
+    return Scaffold(
+        backgroundColor: Colors.white,
+        appBar: const CustomAppBar(""),
+        body: ScreenPadding(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomText(
+                text: "signInTitle".tr,
+                fontWeight: FontWeight.w500,
+                fontSize: width * 0.051,
+              ),
+              CustomText(
+                text: 'createTourist'.tr,
+                fontWeight: FontWeight.w500,
+                fontSize: width * 0.0435,
+                color: starGreyColor,
+                textAlign: !AppUtil.rtlDirection(context)
+                    ? TextAlign.right
+                    : TextAlign.left,
+              ),
+              SizedBox(
+                height: width * 0.041,
+              ),
+              CustomText(
+                text: 'phoneNum'.tr,
+                fontSize: 17,
+                fontFamily: "SF Pro",
+                fontWeight: FontWeight.w500,
+              ),
+              Form(
+                key: _formKey,
+                child: CustomTextField(
+                  hintText: 'phoneHint'.tr,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                    LengthLimitingTextInputFormatter(10)
+                  ],
+                  keyboardType: TextInputType.number,
+                  validator: false,
+                  validatorHandle: (number) {
+                    if (number == null || number!.isEmpty) {
+                      return 'fieldRequired'.tr;
+                    }
+                    if (!number.startsWith('05') || number.length != 10) {
+                      return 'invalidPhone'.tr;
+                    }
+                    return null;
+                  },
+                  onChanged: (number) => _number = number,
                 ),
-              ],
-            ),
-          )),
-    );
+              ),
+              const SizedBox(
+                height: 24,
+              ),
+              CustomText(
+                text: 'nationality'.tr,
+                fontSize: 17,
+                fontFamily: "SF Pro",
+                fontWeight: FontWeight.w500,
+              ),
+              MultiSelectDropDown(
+                controller: _controller,
+                dropdownHeight: 250,
+                inputDecoration: BoxDecoration(
+                    border: Border.all(
+                        color: isNatSelected ? borderGrey : colorRed),
+                    borderRadius: BorderRadius.circular(11)),
+                hint: 'chooseNationality'.tr,
+                borderRadius: 8,
+                hintPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                searchEnabled: true,
+                searchLabel: 'search'.tr,
+                suffixIcon: const Icon(Icons.keyboard_arrow_up),
+                clearIcon: null,
+                singleSelectItemStyle: const TextStyle(
+                    fontSize: 15,
+                    fontFamily: "SF Pro",
+                    color: black,
+                    fontWeight: FontWeight.w500),
+
+                onOptionSelected: (options) {
+                  _selectedNationality = options.first.value;
+                  if (_selectedNationality.isNotEmpty) {
+                    setState(() {
+                      isNatSelected = true;
+                    });
+                  }
+                },
+                options: countries,
+                // searchEnabled: true,
+                selectionType: SelectionType.single,
+                chipConfig: const ChipConfig(wrapType: WrapType.scroll),
+                // dropdownHeight: 300,
+                optionTextStyle: const TextStyle(
+                    fontSize: 15,
+                    fontFamily: "SF Pro",
+                    color: starGreyColor,
+                    fontWeight: FontWeight.w500),
+
+                // selectedOptionIcon:
+                //     const Icon(Icons.check_circle),
+              ),
+              isNatSelected
+                  ? Container()
+                  : CustomText(
+                      text: 'fieldRequired'.tr,
+                      color: colorRed,
+                      fontSize: 11,
+                      fontFamily: "SF Pro",
+                      fontWeight: FontWeight.w400,
+                    ),
+              // const SizedBox(
+              //   height: 30,
+              // ),
+              SizedBox(
+                height: 36,
+              ),
+              Obx(
+                () => widget.authController.isRegisterLoading.value
+                    ? const Center(
+                        child: CircularProgressIndicator(
+                          color: colorGreen,
+                        ),
+                      )
+                    : CustomButton(
+                        title: 'signUp'.tr,
+                        onPressed: () async {
+                          final numberValid = _formKey.currentState!.validate();
+
+                          if (_selectedNationality.isEmpty) {
+                            setState(() {
+                              isNatSelected = false;
+                            });
+                            return;
+                          }
+
+                          if (numberValid && isNatSelected) {
+                            bool isSuccess = await widget.authController
+                                .touristRegister(
+                                    email: widget.email,
+                                    password: widget.password,
+                                    name: widget.name,
+                                    phoneNumber: _number,
+                                    nationality: _selectedNationality,
+                                    rememberMe: true,
+                                    context: context);
+                            print(isSuccess);
+                            if (isSuccess) {
+                              Get.offAll(() => const TouristBottomBar());
+                            }
+                          }
+                        },
+                      ),
+              ),
+              const SignInText(
+                isLocal: false,
+              )
+            ],
+          ),
+        ));
   }
 }
