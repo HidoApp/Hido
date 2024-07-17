@@ -152,7 +152,6 @@ class _LastStepScreenState extends State<LastStepScreen> {
                     color: black,
                     fontWeight: FontWeight.w500),
 
-
                 onOptionSelected: (options) {
                   _selectedNationality = options.first.value;
                   if (_selectedNationality.isNotEmpty) {

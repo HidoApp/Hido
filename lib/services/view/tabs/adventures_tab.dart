@@ -90,7 +90,7 @@ class _AdventuresTabState extends State<AdventuresTab> {
                           scrollDirection: Axis.horizontal,
                           shrinkWrap: true,
                           itemCount: _regionsController
-                                  .regionsHospitalty.value.regionEn!.length +
+                                  .regionsAdventure.value.regionEn!.length +
                               1,
                           separatorBuilder: (context, index) => SizedBox(
                             width: width * 0.025,
@@ -117,12 +117,12 @@ class _AdventuresTabState extends State<AdventuresTab> {
                                         region: index != 0
                                             ? AppUtil.rtlDirection2(context)
                                                 ? _regionsController
-                                                        .regionsHospitalty
+                                                        .regionsAdventure
                                                         .value
                                                         .regionAr![
                                                     index != 0 ? index - 1 : 0]
                                                 : _regionsController
-                                                        .regionsHospitalty
+                                                        .regionsAdventure
                                                         .value
                                                         .regionEn![
                                                     index != 0 ? index - 1 : 0]
@@ -149,9 +149,9 @@ class _AdventuresTabState extends State<AdventuresTab> {
                                 title: index == 0
                                     ? 'all'.tr
                                     : AppUtil.rtlDirection2(context)
-                                        ? _regionsController.regionsHospitalty
+                                        ? _regionsController.regionsAdventure
                                             .value.regionAr![index - 1]
-                                        : _regionsController.regionsHospitalty
+                                        : _regionsController.regionsAdventure
                                             .value.regionEn![index - 1],
                               ),
                             ),
