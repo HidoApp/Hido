@@ -18,7 +18,7 @@ class Event {
   final Coordinate? coordinates;
   final String? locationUrl;
   //final String? date;
- // final int allowedGuests;
+ final int allowedGuests;
   final String? status;
   final List<Booking>? booking;
   final List<DayInfo>? daysInfo;
@@ -42,7 +42,7 @@ class Event {
      this.price,
     this.locationUrl,
    // this.date, 
-   // required this.allowedGuests,
+    required this.allowedGuests,
     required this.status,
     this.user,
     this.daysInfo,
@@ -64,7 +64,7 @@ class Event {
        image:List<String>.from(json["image"]),
        price: json['price']??0,
        locationUrl: json['locationUrl']??'',
-      // allowedGuests: json['allowedGuests']??0,
+      allowedGuests: json['allowedGuests']??0,
       status: json['status']??'',
       // date: json['date']??'',
       // seats: json['seats']??0,

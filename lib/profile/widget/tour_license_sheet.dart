@@ -9,7 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:file_picker/file_picker.dart';
+ import 'package:file_picker/file_picker.dart';
 
 class TourLicenseSheet extends StatefulWidget {
   const TourLicenseSheet({super.key});

@@ -148,9 +148,12 @@ static bool isEndTimeLessThanStartTime(DateTime startTime, DateTime endTime) {
       .map((date) => date as DateTime)
       .toList();
 
-    if (dateTimeList.isEmpty) {
-      return 'DD/MM/YYYY';
-    }
+  if (dateTimeList.isEmpty) {
+    return 'DD/MM/YYYY';
+  }
+
+  // Sort the dates
+  dateTimeList.sort();
 
   final bool isArabic = AppUtil.rtlDirection2(context);
   final DateFormat dayFormatter = DateFormat('d', isArabic ? 'ar' : 'en');
@@ -262,10 +265,11 @@ static String formatSelectedDaysInfo(List<DayInfo> daysInfo, BuildContext contex
     }
 
     start = end + 1;
-
   }
 
-  static String getLocationUrl(Coordinate location) {
+  return formattedDates;
+}
+static String getLocationUrl(Coordinate location) {
     return 'https://www.google.com/maps/search/?api=1&query=${location.latitude},${location.longitude}';
   }
 
