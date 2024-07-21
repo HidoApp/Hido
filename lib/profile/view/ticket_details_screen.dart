@@ -1,5 +1,7 @@
+import 'package:ajwad_v4/event/model/event.dart';
 import 'package:ajwad_v4/new-onboarding/view/splash_screen.dart';
 import 'package:ajwad_v4/profile/widget/AdventureTicketData.dart';
+import 'package:ajwad_v4/profile/widget/event_ticket_data.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
 import 'package:ajwad_v4/widgets/dotted_line_separator.dart';
 import 'package:flutter_svg/svg.dart';
@@ -29,22 +31,25 @@ import 'package:ajwad_v4/services/model/hospitality.dart';
 import '../../services/controller/hospitality_controller.dart';
 
 class TicketDetailsScreen extends StatelessWidget {
-  TicketDetailsScreen({
-    Key? key,
-    this.booking,
-    this.icon,
-    this.bookTypeText,
-    this.hospitality,
-    this.adventure,
-    // this.femaleGuestNum,
-    // this.maleGuestNum
-  }) : super(key: key);
+  TicketDetailsScreen(
+      {Key? key,
+      this.booking,
+      this.icon,
+      this.bookTypeText,
+      this.hospitality,
+      this.adventure,
+      this.event
+      // this.femaleGuestNum,
+      // this.maleGuestNum
+      })
+      : super(key: key);
 
   final Booking? booking;
   final SvgPicture? icon;
   final String? bookTypeText;
   final Hospitality? hospitality;
   final Adventure? adventure;
+  final Event? event;
   // final int? maleGuestNum;
   // final int? femaleGuestNum;
 
@@ -53,6 +58,7 @@ class TicketDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // log(booking!.bookingType! ?? "NULLL");
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -82,7 +88,7 @@ class TicketDetailsScreen extends StatelessWidget {
                     //TicketData(booking: booking,icon: icon,bookTypeText: bookTypeText,),
                   ),
                 ),
-                Expanded(child: SizedBox()), // Takes up remaining space
+                const Expanded(child: SizedBox()), // Takes up remaining space
               ],
             ),
           ),
@@ -265,6 +271,14 @@ class TicketDetailsScreen extends StatelessWidget {
           return HostTicketData(
               hospitality: hospitality, icon: icon, bookTypeText: bookTypeText);
 
+      case 'event':
+        if (event == null) {
+          return EventTicketData(
+              booking: booking, icon: icon, bookTypeText: bookTypeText);
+        } else {
+          return EventTicketData(
+              event: event, icon: icon, bookTypeText: bookTypeText);
+        }
       default:
         return TicketData(
             booking: booking!, icon: icon, bookTypeText: bookTypeText);
@@ -681,7 +695,7 @@ class TicketData extends StatelessWidget {
                           Text(
                             // '380.00',
                             booking.cost.toString(),
-                        
+
                             //booking.place!.price.toString(),
                             textAlign: TextAlign.center,
                             style: TextStyle(

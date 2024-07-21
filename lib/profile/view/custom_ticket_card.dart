@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
@@ -24,18 +26,19 @@ class CustomTicketCard extends StatelessWidget {
     final TouristExploreController _touristExploreController =
         Get.put(TouristExploreController());
     Place? thePlace;
-
+    log(booking!.cost!);
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return InkWell(
       onTap: booking.orderStatus == 'ACCEPTED' ||
               booking.bookingType == 'hospitality' ||
-              booking.bookingType == 'adventure'
+              booking.bookingType == 'adventure' ||
+              booking.bookingType == 'event'
           ? () {
               Get.to(() => TicketDetailsScreen(
                     booking: booking,
                     icon: SvgPicture.asset(
-                      'assets/icons/${booking.bookingType! == 'place' ? 'place.svg' : booking.bookingType! == 'hospitality' ? 'hospitality.svg' : 'adventure.svg'}',
+                      'assets/icons/${booking.bookingType! == 'place' ? 'place.svg' : booking.bookingType! == 'hospitality' ? 'hospitality.svg' : booking.bookingType == 'event' ? 'event.svg' : 'adventure.svg'}',
                     ),
                     bookTypeText:
                         getBookingTypeText(context, booking.bookingType!),
@@ -78,8 +81,8 @@ class CustomTicketCard extends StatelessWidget {
               BoxShadow(
                 color: Color(0x3FC7C7C7),
                 blurRadius: 10,
-                offset: Offset( 1,2),
-                spreadRadius:0,
+                offset: Offset(1, 2),
+                spreadRadius: 0,
               ),
             ],
           ),
@@ -106,7 +109,9 @@ class CustomTicketCard extends StatelessWidget {
                             ? booking.place!.image![0]
                             : booking.bookingType == "hospitality"
                                 ? booking.hospitality!.images[0]
-                                : booking.adventure!.image![0],
+                                : booking.bookingType == 'event'
+                                    ? booking.event!.images[0]
+                                    : booking.adventure!.image![0],
                         height: height * 0.076,
                         width: width * 0.16,
                         fit: BoxFit.cover,
@@ -132,12 +137,18 @@ class CustomTicketCard extends StatelessWidget {
                                         ? booking.place!.nameEn!
                                         : booking.bookingType == "hospitality"
                                             ? booking.hospitality!.titleEn
-                                            : booking.adventure!.nameEn ?? ''
+                                            : booking.bookingType == 'event'
+                                                ? booking.event!.nameEn ?? ""
+                                                : booking.adventure!.nameEn ??
+                                                    ''
                                     : booking.bookingType == "place"
                                         ? booking.place!.nameAr!
                                         : booking.bookingType == "hospitality"
                                             ? booking.hospitality!.titleAr
-                                            : booking.adventure!.nameAr ?? '',
+                                            : booking.bookingType == 'event'
+                                                ? booking.event!.nameAr!
+                                                : booking.adventure!.nameAr ??
+                                                    '',
                                 fontSize: 19,
                                 fontWeight: FontWeight.w700,
                                 fontFamily: AppUtil.rtlDirection(context)
@@ -150,7 +161,7 @@ class CustomTicketCard extends StatelessWidget {
                                     : TextDirection.ltr,
                                 children: [
                                   SvgPicture.asset(
-                                    'assets/icons/${booking.bookingType! == 'place' ? 'place.svg' : booking.bookingType! == 'hospitality' ? 'hospitality.svg' : 'adventure.svg'}',
+                                    'assets/icons/${booking.bookingType! == 'place' ? 'place.svg' : booking.bookingType! == 'hospitality' ? 'hospitality.svg' : booking.bookingType == 'event' ? 'event.svg' : 'adventure.svg'}',
                                   ),
                                   const SizedBox(
                                     width: 4,
@@ -182,12 +193,18 @@ class CustomTicketCard extends StatelessWidget {
                                       ? booking.place!.regionAr!
                                       : booking.bookingType! == 'hospitality'
                                           ? booking.hospitality!.regionAr!
-                                          : booking.adventure!.regionAr ?? ''
+                                          : booking.bookingType == 'event'
+                                              ? booking.event!.regionAr ?? ""
+                                              : booking.adventure!.regionAr ??
+                                                  ''
                                   : booking.bookingType == "place"
                                       ? booking.place!.regionEn!
                                       : booking.bookingType! == 'hospitality'
                                           ? booking.hospitality!.regionEn
-                                          : booking.adventure!.regionEn ?? '',
+                                          : booking.bookingType == 'event'
+                                              ? booking.event!.regionEn ?? ""
+                                              : booking.adventure!.regionEn ??
+                                                  '',
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
                               color: textGreyColor,

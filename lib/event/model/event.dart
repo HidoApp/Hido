@@ -3,8 +3,6 @@ import 'package:ajwad_v4/explore/tourist/model/coordinates.dart';
 import 'package:ajwad_v4/profile/models/profile.dart';
 import 'package:ajwad_v4/services/model/days_info.dart';
 
-
-
 class Event {
   final String id;
   final String? nameAr;
@@ -18,38 +16,35 @@ class Event {
   final Coordinate? coordinates;
   final String? locationUrl;
   //final String? date;
- final int allowedGuests;
+  final int allowedGuests;
   final String? status;
   final List<Booking>? booking;
   final List<DayInfo>? daysInfo;
   final Profile? user;
   final List<String> images;
-
-    //final int?seats;
+  final String? cost; //final int?seats;
   //final List<Time>? times;
-
-
- 
 
   Event({
     required this.id,
-     this.descriptionAr,
-     this.descriptionEn,
-     this.nameAr,
-     this.nameEn,
-     this.regionAr,
-     this.regionEn,
-     this.image,
-     this.price,
+    this.descriptionAr,
+    this.descriptionEn,
+    this.nameAr,
+    this.nameEn,
+    this.regionAr,
+    this.regionEn,
+    this.image,
+    this.cost,
+    this.price,
     this.locationUrl,
-   // this.date, 
+    // this.date,
     required this.allowedGuests,
     required this.status,
     this.user,
     this.daysInfo,
-     this.coordinates,
+    this.coordinates,
     this.booking,
-  required this.images,
+    required this.images,
 
     //this.seats,
     //this.times
@@ -57,18 +52,19 @@ class Event {
 
   factory Event.fromJson(Map<String, dynamic> json) {
     return Event(
-      id: json['id']??'',
-      descriptionAr: json['descriptionAr']??'',
-      descriptionEn: json['descriptionEn']??'',
-      nameAr: json['nameAr']??'',
-      nameEn: json['nameEn']??'',
-      regionAr: json['regionAr']??'',
-      regionEn: json['regionEn']??'',
-       image:List<String>.from(json["image"]),
-       price: json['price']??0,
-       locationUrl: json['locationUrl']??'',
-      allowedGuests: json['allowedGuests']??0,
-      status: json['status']??'',
+      id: json['id'] ?? '',
+      cost: json['cost'] ?? "",
+      descriptionAr: json['descriptionAr'] ?? '',
+      descriptionEn: json['descriptionEn'] ?? '',
+      nameAr: json['nameAr'] ?? '',
+      nameEn: json['nameEn'] ?? '',
+      regionAr: json['regionAr'] ?? '',
+      regionEn: json['regionEn'] ?? '',
+      image: List<String>.from(json["image"]),
+      price: json['price'] ?? 0,
+      locationUrl: json['locationUrl'] ?? '',
+      allowedGuests: json['allowedGuests'] ?? 0,
+      status: json['status'] ?? '',
       images: (json['image'] as List<dynamic>).map((e) => e as String).toList(),
 
       // date: json['date']??'',
@@ -81,7 +77,7 @@ class Event {
       booking: json['booking'] != null
           ? (json['booking'] as List).map((e) => Booking.fromJson(e)).toList()
           : null,
-     daysInfo: json['daysInfo'] != null
+      daysInfo: json['daysInfo'] != null
           ? (json['daysInfo'] as List).map((e) => DayInfo.fromJson(e)).toList()
           : [],
       //  times: json['times'] != null
@@ -89,8 +85,6 @@ class Event {
       //         .map((e) => Time.fromJson(e))
       //         .toList()
       //     : null,
-
-
     );
   }
 
@@ -107,9 +101,8 @@ class Event {
       'price': price,
       'locationUrl': locationUrl,
       //'date': date,
-     'coordinates': coordinates,
-    // 'seats':seats
-
+      'coordinates': coordinates,
+      // 'seats':seats
     };
   }
 }

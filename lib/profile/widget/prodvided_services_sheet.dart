@@ -19,29 +19,34 @@ class _ProdvidedServicesSheetState extends State<ProdvidedServicesSheet> {
   bool tourSelected = false;
   @override
   Widget build(BuildContext context) {
-    
+    final width = MediaQuery.of(context).size.width;
+
     return Container(
         width: double.infinity,
         decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(24), topRight: Radius.circular(24))),
-        height: 310,
-        padding: EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 32),
+        height: width * 0.794,
+        padding: EdgeInsets.only(
+            left: width * 0.0615,
+            right: width * 0.0615,
+            top: width * 0.041,
+            bottom: width * 0.082),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const BottomSheetIndicator(),
             SizedBox(
-              height: 20,
+              height: width * 0.051,
             ),
             CustomText(
-              text: "Add your provided services",
+              text: "addProvidedServices".tr,
               fontWeight: FontWeight.w500,
-              fontSize: 22,
+              fontSize: width * 0.056,
             ),
             SizedBox(
-              height: 12,
+              height: width * 0.030,
             ),
             ProvidedServicesCard(
               onTap: () {
@@ -58,7 +63,7 @@ class _ProdvidedServicesSheetState extends State<ProdvidedServicesSheet> {
               borderColor: tourSelected ? colorGreen : borderGrey,
             ),
             SizedBox(
-              height: 24,
+              height: width * 0.061,
             ),
             CustomButton(
               title: 'confirm'.tr,

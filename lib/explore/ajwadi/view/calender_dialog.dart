@@ -1,6 +1,10 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/event/model/event.dart';
 import 'package:ajwad_v4/explore/ajwadi/controllers/ajwadi_explore_controller.dart';
 import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
+import 'package:ajwad_v4/services/controller/event_controller.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/services/model/hospitality.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
@@ -19,6 +23,8 @@ class CalenderDialog extends StatefulWidget {
     this.avilableDate,
     this.srvicesController,
     this.hospitality,
+    this.event,
+    this.eventController,
   }) : super(key: key);
   final bool fromAjwady;
   final String type;
@@ -27,6 +33,8 @@ class CalenderDialog extends StatefulWidget {
   final TouristExploreController? touristExploreController;
   final List<DateTime>? avilableDate;
   final Hospitality? hospitality;
+  final Event? event;
+  final EventController? eventController;
 
   @override
   State<CalenderDialog> createState() => _CalenderDialogState();
@@ -141,10 +149,10 @@ class _CalenderDialogState extends State<CalenderDialog> {
                           )),
                       showNavigationArrow: true,
                       onSelectionChanged: (selected) {
-                        print(selected.value);
+                        //  log(selected.value);
                         selectedDate = selected.value.toString();
 
-                        print(selected);
+                        log(selectedDate);
                       }),
                 ),
               ),
@@ -154,15 +162,27 @@ class _CalenderDialogState extends State<CalenderDialog> {
                 customWidth: width * 0.8,
                 onPressed: () {
                   if (selectedDate == '') {
+                    log('no date');
                   } else {
                     if (widget.type == 'adv') {
                       widget.ajwadiExploreController!.isDateEmpty.value = false;
                       widget.ajwadiExploreController!
                           .selectedAdvDate(selectedDate);
                     } else if (widget.type == 'event') {
-                      widget.ajwadiExploreController!.isDateEmpty.value = false;
-                      widget.ajwadiExploreController!
-                          .selectedAdvDate(selectedDate);
+                      widget.eventController!.isEventDateSelcted.value = true;
+                      widget.eventController!.selectedDate(selectedDate);
+                      for (int i = 0; i < widget.event!.daysInfo!.length; i++) {
+                        if (DateTime.parse(widget.event!.daysInfo![i].startTime
+                                    .substring(0, 10))
+                                .toString() ==
+                            selectedDate) {
+                          widget.eventController!.selectedDateIndex(i);
+                          widget.eventController!
+                              .selectedDateId(widget.event!.daysInfo![i].id);
+                          widget.eventController!.selectedTime("");
+                          //  print(widget.srvicesController!.selectedTime);
+                        }
+                      }
                     } else if (widget.type == 'book') {
                       widget.touristExploreController!.isBookingDateSelected
                           .value = true;

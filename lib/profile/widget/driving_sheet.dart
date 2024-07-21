@@ -54,7 +54,7 @@ class _DrivingSheetState extends State<DrivingSheet> {
     final width = MediaQuery.of(context).size.width;
     return Container(
       width: double.infinity,
-      height: 245,
+      height: width * 0.628,
       padding: EdgeInsets.only(
           left: width * 0.0615,
           right: width * 0.0615,
@@ -70,12 +70,12 @@ class _DrivingSheetState extends State<DrivingSheet> {
         children: [
           const BottomSheetIndicator(),
           SizedBox(
-            height: 20,
+            height: width * 0.0512,
           ),
           CustomText(
             text: 'drivinglicense'.tr,
             fontFamily: "SF Pro",
-            fontSize: 17,
+            fontSize: width * 0.043,
             fontWeight: FontWeight.w500,
           ),
           GestureDetector(
@@ -84,8 +84,9 @@ class _DrivingSheetState extends State<DrivingSheet> {
             },
             child: Obx(
               () => Container(
-                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                height: 48,
+                padding: EdgeInsets.symmetric(
+                    horizontal: width * 0.030, vertical: width * 0.020),
+                height: width * 0.123,
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(
                     Radius.circular(10),
@@ -103,7 +104,7 @@ class _DrivingSheetState extends State<DrivingSheet> {
                       color: Colors.grey,
                     ),
                     SizedBox(
-                      width: 20,
+                      width: width * 0.051,
                     ),
                     CustomText(
                       text: _authController.updatedDriving.isNotEmpty
@@ -125,13 +126,13 @@ class _DrivingSheetState extends State<DrivingSheet> {
                 : CustomText(
                     text: 'invalidDate'.tr,
                     color: colorRed,
-                    fontSize: 11,
+                    fontSize: width * .028,
                     fontWeight: FontWeight.w400,
                     fontFamily: 'SF Pro',
                   ),
           ),
           SizedBox(
-            height: 24,
+            height: width * 0.061,
           ),
           Obx(
             () => _authController.isLienceseOTPLoading.value

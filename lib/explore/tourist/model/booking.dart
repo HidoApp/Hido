@@ -1,3 +1,4 @@
+import 'package:ajwad_v4/event/model/event.dart';
 import 'package:ajwad_v4/explore/tourist/model/coordinates.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
 // import 'package:ajwad_v4/request/tourist/models/offer.dart';
@@ -7,9 +8,6 @@ import 'package:ajwad_v4/request/tourist/models/schedule.dart';
 
 import '../../../auth/models/user.dart';
 import '../../../profile/models/profile.dart';
-
-
-
 
 class Booking {
   final String? id;
@@ -28,56 +26,71 @@ class Booking {
   final Hospitality? hospitality;
   final List<Offer>? offers;
   final Adventure? adventure;
+  final Event? event;
   // final Event? event;
- 
- final String? profileId;
- final String? cost;
 
-  Booking({
-    required this.id,
-    this.placeId,
-    this.chatId,
-    required this.date,
-    required this.timeToGo,
-    required this.timeToReturn,
-    this.guestNumber,
-    this.cost,
-    this.vehicleType,
-    this.coordinates,
-    this.orderStatus,
-    this.guestInfo,
-    this.bookingType,
-    this.place,
-    this.hospitality,
-    this.offers,
-    this.adventure,
-    this.profileId
-    // this.event,
-  });
+  final String? profileId;
+  final String? cost;
+
+  Booking(
+      {required this.id,
+      this.placeId,
+      this.chatId,
+      required this.date,
+      required this.timeToGo,
+      required this.timeToReturn,
+      this.guestNumber,
+      this.cost,
+      this.vehicleType,
+      this.coordinates,
+      this.orderStatus,
+      this.guestInfo,
+      this.bookingType,
+      this.place,
+      this.hospitality,
+      this.offers,
+      this.adventure,
+      this.profileId,
+      this.event
+      // this.event,
+      });
 
   factory Booking.fromJson(Map<String, dynamic> json) {
     return Booking(
-       id: json['id']??'',
-      placeId: json['placeId']??'',
-      chatId: json['chatId']??'',
+      id: json['id'] ?? '',
+      placeId: json['placeId'] ?? '',
+      chatId: json['chatId'] ?? '',
       date: json['date'] ?? '',
       orderStatus: json['orderStatus'],
       timeToGo: json['timeToGo'] ?? '',
       timeToReturn: json['timeToReturn'] ?? '',
       guestNumber: json['guestNumber'],
-      guestInfo: json["guestInfo"] == null ? null : GuestInfo.fromJson(json["guestInfo"]),
+      guestInfo: json["guestInfo"] == null
+          ? null
+          : GuestInfo.fromJson(json["guestInfo"]),
       //guestInfo: GuestInfo.fromJson(json['guestInfo'] ?? {}),
-         profileId: json['profileId']??'',
-      cost: json['cost']??'',
-      vehicleType: json['vehicleType']??'',
-      coordinates: json['coordinates'] == null ? null : Coordinate.fromJson(json['coordinates']),
-      bookingType: json['bookingType']??'',
+      profileId: json['profileId'] ?? '',
+      cost: json['cost'] ?? '',
+      vehicleType: json['vehicleType'] ?? '',
+      coordinates: json['coordinates'] == null
+          ? null
+          : Coordinate.fromJson(json['coordinates']),
+      bookingType: json['bookingType'] ?? '',
       place: json['place'] == null ? null : Place.fromJson(json['place']),
-      hospitality: json['hospitality'] == null ? null : Hospitality.fromJson(json['hospitality']),
-      adventure: json['adventure'] == null ? null : Adventure.fromJson(json['adventure']),
+      event: json['event'] == null ? null : Event.fromJson(json['event']),
+      hospitality: json['hospitality'] == null
+          ? null
+          : Hospitality.fromJson(json['hospitality']),
+      adventure: json['adventure'] == null
+          ? null
+          : Adventure.fromJson(json['adventure']),
 
       //offers: json['offers'] == null ? null : (json['offers'] as List).map((offer) => Offer.fromJson(offer as Map<String, dynamic>)).toList(),
-       offers: json['offers'] == null ? null : (json['offers'] as List<dynamic>).map((offer) => Offer.fromJson(offer as Map<String, dynamic>)).toList(),
+      offers: json['offers'] == null
+          ? null
+          : (json['offers'] as List<dynamic>)
+              .map((offer) => Offer.fromJson(offer as Map<String, dynamic>))
+              .toList(),
     );
   }
 
@@ -95,9 +108,6 @@ class Booking {
       'guestInfo': guestInfo?.toJson(),
       'profileId': 'profileId',
 //     this.profileId
-
-    
-
     };
   }
 }
@@ -107,36 +117,28 @@ class GuestInfo {
   final int male;
   final String dayId;
 
-  GuestInfo({
-    required this.female,
-    required this.male,
-    required this.dayId
-  });
+  GuestInfo({required this.female, required this.male, required this.dayId});
 
   factory GuestInfo.fromJson(Map<String, dynamic> json) {
     return GuestInfo(
       female: json['female'] ?? 0,
       male: json['male'] ?? 0,
-      dayId: json['dayId']??'',
+      dayId: json['dayId'] ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'female': female,
-      'male': male,
-      'dayId':dayId
-    };
+    return {'female': female, 'male': male, 'dayId': dayId};
   }
 }
+
 class Offer {
   final String id;
   final String userId;
   final String status;
   final String orderStatus;
   List<Schedule>? schedule;
- // final User? user;
-
+  // final User? user;
 
   Offer({
     required this.id,
@@ -144,22 +146,19 @@ class Offer {
     required this.status,
     required this.orderStatus,
     this.schedule,
-  //this.user,
-
+    //this.user,
   });
 
   factory Offer.fromJson(Map<String, dynamic> json) {
     return Offer(
       id: json['id'],
       userId: json['userId'],
-       schedule: json['schedule'] != null
+      schedule: json['schedule'] != null
           ? (json['schedule'] as List).map((v) => Schedule.fromJson(v)).toList()
           : [],
       status: json['status'],
       orderStatus: json['orderStatus'],
       //user: json['user'] != null ? User.fromJson(json['user']) : null,
-
-      
     );
   }
 
@@ -170,8 +169,6 @@ class Offer {
         'orderStatus': orderStatus,
         'schedule': schedule!.map((v) => v.toJson()).toList(),
         //'user': user?.toJson(),
-
-
       };
 }
 

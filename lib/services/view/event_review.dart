@@ -1,12 +1,9 @@
-import 'dart:io';
+import 'dart:developer';
 
 import 'package:ajwad_v4/constants/colors.dart';
-import 'package:ajwad_v4/payment/controller/payment_controller.dart';
-import 'package:ajwad_v4/payment/model/invoice.dart';
-import 'package:ajwad_v4/profile/view/ticket_details_screen.dart';
-import 'package:ajwad_v4/request/local_notification.dart';
-import 'package:ajwad_v4/services/controller/adventure_controller.dart';
-import 'package:ajwad_v4/services/model/adventure.dart';
+import 'package:ajwad_v4/event/model/event.dart';
+import 'package:ajwad_v4/payment/view/payment_type_new.dart';
+import 'package:ajwad_v4/services/controller/event_controller.dart';
 import 'package:ajwad_v4/services/view/widgets/review_details_tile.dart';
 import 'package:ajwad_v4/services/view/widgets/review_guests.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
@@ -14,41 +11,30 @@ import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/dotted_line_separator.dart';
-import 'package:ajwad_v4/widgets/payment_web_view.dart';
 import 'package:ajwad_v4/widgets/promocode_field.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
-import '../../payment/view/payment_type_new.dart';
-
-class ReviewAdventure extends StatefulWidget {
-  const ReviewAdventure({
-    super.key,
-    required this.person,
-    required this.adventure,
-  });
+class EventReview extends StatefulWidget {
+  const EventReview({super.key, required this.event, required this.person});
+  final Event event;
   final int person;
-  final Adventure adventure;
 
   @override
-  State<ReviewAdventure> createState() => _ReviewAdventureState();
+  State<EventReview> createState() => _EventReviewState();
 }
 
-class _ReviewAdventureState extends State<ReviewAdventure> {
-  final _adventureController = Get.put(AdventureController());
-  final paymentController = Get.put(PaymentController());
-  Invoice? invoice;
-  bool isCheckingForPayment = false;
+class _EventReviewState extends State<EventReview> {
+  final _eventController = Get.put(EventController());
   int finalCost = 0;
- 
-
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    finalCost = widget.adventure.price * widget.person;
+    finalCost = widget.event.price! * widget.person;
+
+    log(widget.person.toString());
+    log(finalCost.toString());
   }
 
   @override
@@ -67,7 +53,7 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomText(
-                  text: "adventuredetails".tr,
+                  text: "eventDetails".tr,
                   fontSize: width * 0.043,
                   fontWeight: FontWeight.w500,
                 ),
@@ -75,28 +61,27 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                   height: width * 0.0205,
                 ),
                 ReviewDetailsTile(
-                    title:_adventureController.address.value,
+                    title: AppUtil.rtlDirection2(context)
+                        ? widget.event.regionAr ?? ""
+                        : widget.event.regionEn ?? "",
                     image: "assets/icons/locationHos.svg"),
                 SizedBox(
                   height: width * .010,
-
-
                 ),
                 // Details
-               
+
                 ReviewDetailsTile(
-                    title: AppUtil.formatBookingDate(context,
-                      widget.adventure.date!),
-                    
+                    title: AppUtil.formatBookingDate(
+                        context, _eventController.selectedDate.value),
                     image: 'assets/icons/grey_calender.svg'),
                 SizedBox(
                   height: width * .010,
                 ),
 
                 ReviewDetailsTile(
-                    title: widget.adventure.times != null && widget.adventure.times!.isNotEmpty
-                                ? '${widget.adventure.times!.map((time) => AppUtil.formatStringTimeWithLocale(context, time.startTime)).join(', ')} - ${widget.adventure.times!.map((time) => AppUtil.formatStringTimeWithLocale(context, time.endTime)).join(', ')}'
-                                : '5:00-8:00 AM',
+                    title:
+                        '${AppUtil.formatTimeOnly(context, widget.event.daysInfo![_eventController.selectedDateIndex.value].startTime)} -  ${AppUtil.formatTimeOnly(context, widget.event.daysInfo![_eventController.selectedDateIndex.value].endTime)}',
+
                     //  widget.adventure.times != null &&
                     //         widget.adventure.times!.isNotEmpty
                     //     ? widget.adventure.times!
@@ -105,7 +90,7 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                     //         .join(', ')
                     //     : '5:00-8:00 AM',
                     image: "assets/icons/timeGrey.svg"),
-                 SizedBox(
+                SizedBox(
                   height: width * 0.041,
                 ),
                 const Divider(
@@ -119,7 +104,7 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                   fontSize: width * 0.043,
                   fontWeight: FontWeight.w500,
                 ),
-                 SizedBox(
+                SizedBox(
                   height: width * 0.0205,
                 ),
                 ReviewGuestsTile(
@@ -138,16 +123,16 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
 
                 ///discount widget
                 const PromocodeField(),
-               SizedBox(
-                          height: width * 0.061,
-                        ),
-                        DottedSeparator(
-                          color: almostGrey,
-                          height: width * 0.002,
-                        ),
-                        SizedBox(
-                          height: width * 0.09,
-                        ),
+                SizedBox(
+                  height: width * 0.061,
+                ),
+                DottedSeparator(
+                  color: almostGrey,
+                  height: width * 0.002,
+                ),
+                SizedBox(
+                  height: width * 0.09,
+                ),
                 Row(
                   children: [
                     CustomText(
@@ -166,25 +151,26 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                 SizedBox(
                   height: width * 0.051,
                 ),
-                Obx(() => _adventureController.ischeckBookingLoading.value ||
-                        paymentController.isPaymenInvoiceLoading.value
+                Obx(() => _eventController.ischeckBookingLoading.value
                     ? const Center(child: CircularProgressIndicator())
                     : CustomButton(
                         onPressed: () async {
-                          if (widget.adventure.booking!.isNotEmpty) {
+                          if (widget.event.booking!.isNotEmpty) {
                             AppUtil.errorToast(
                                 context,
                                 AppUtil.rtlDirection2(context)
-                                    ? "لقد قمت بالفعل بحجز هذه المغامره"
-                                    : "You already booking this adventure");
+                                    ? "لقد قمت بالفعل بحجز هذه الفعالية"
+                                    : "You already booking this event");
                             return;
                           }
+                          log('to payment ');
                           Get.to(
                             () => PaymentType(
-                              adventure: widget.adventure,
-                              type: 'adventure',
+                              event: widget.event,
+                              type: 'event',
                               personNumber: widget.person,
-                              price: widget.adventure.price * widget.person,
+                              price: widget.event.price! * widget.person,
+                              eventController: _eventController,
                             ),
                           );
                         },
@@ -196,16 +182,4 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
       ),
     );
   }
-}
-
-Future<void> navigateToPayment(BuildContext context, String url) async {
-  await Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (context) => PaymentWebView(
-        url: url,
-        title: 'Payment',
-      ),
-    ),
-  );
 }

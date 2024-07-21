@@ -23,8 +23,9 @@ class _PhoneSheetState extends State<PhoneSheet> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
+    final hieht = MediaQuery.of(context).size.height;
     return Container(
-      height: 308,
+      height: width * 0.76,
       width: double.infinity,
       decoration: const BoxDecoration(
           color: Colors.white,
@@ -40,26 +41,26 @@ class _PhoneSheetState extends State<PhoneSheet> {
         children: [
           const BottomSheetIndicator(),
           SizedBox(
-            height: 20,
+            height: width * 0.051,
           ),
           CustomText(
-            text: "Edit phone number",
-            fontSize: 22,
+            text: "editPhoneNumber".tr,
+            fontSize: width * 0.056,
             fontWeight: FontWeight.w500,
           ),
           CustomText(
-            text: "We’ll text you code to verify your number ",
+            text: "phoneEditSubtitle".tr,
             fontFamily: "SF Pro",
             fontWeight: FontWeight.w400,
-            fontSize: 16,
+            fontSize: width * 0.0410,
             color: starGreyColor,
           ),
           SizedBox(
-            height: 12,
+            height: width * 0.030,
           ),
           CustomText(
             text: "phoneNum".tr,
-            fontSize: 17,
+            fontSize: width * 0.043,
             fontFamily: "SF Pro",
             fontWeight: FontWeight.w500,
           ),
@@ -86,7 +87,7 @@ class _PhoneSheetState extends State<PhoneSheet> {
             ),
           ),
           SizedBox(
-            height: 24,
+            height: width * 0.061,
           ),
           Obx(
             () => _profileController.isMobileOtpLoading.value
