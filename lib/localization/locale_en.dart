@@ -574,4 +574,9 @@ const localeEn = {
   'createTourist': "Create account as Tourist ",
   'chooseNationality': 'Choose your nationality',
   "eventDetails": "Local Event Details",
+  'accountNumberHint': "For notification , remainder , and help login",
+  'delAccount': 'Delete account',
+  'editPhoneNumber': 'Edit phone number',
+  "phoneEditSubtitle": "We’ll text you code to verify your number ",
+  'addProvidedServices':'Add your provided services'
 };

@@ -27,11 +27,11 @@ class _IbanSheetState extends State<IbanSheet> {
 
     return Container(
       width: double.infinity,
+      height: width * 0.610,
       decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(24), topRight: Radius.circular(24))),
-      height: width * 0.628,
       padding: EdgeInsets.only(
           left: width * 0.0615,
           right: width * 0.0615,
@@ -42,13 +42,13 @@ class _IbanSheetState extends State<IbanSheet> {
         children: [
           const BottomSheetIndicator(),
           SizedBox(
-            height: 20,
+            height: width * 0.051,
           ),
           CustomText(
             text: "iban".tr,
             fontFamily: "SF Pro",
             fontWeight: FontWeight.w500,
-            fontSize: 17,
+            fontSize: width * 0.0435,
           ),
           Form(
             key: _formKey,

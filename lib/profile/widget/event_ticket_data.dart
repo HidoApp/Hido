@@ -145,19 +145,20 @@ class _EventTicketDataState extends State<EventTicketData> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            AppUtil.rtlDirection2(context)
-                                ? "وقت الذهاب"
-                                : 'Start Time',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Color(0xFF9392A0),
-                              fontSize: 14,
-                              fontFamily: 'SF Pro',
-                              fontWeight: FontWeight.w500,
-                              height: 0,
+                          if (widget.event == null)
+                            Text(
+                              AppUtil.rtlDirection2(context)
+                                  ? "وقت الذهاب"
+                                  : 'Start Time',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Color(0xFF9392A0),
+                                fontSize: 14,
+                                fontFamily: 'SF Pro',
+                                fontWeight: FontWeight.w500,
+                                height: 0,
+                              ),
                             ),
-                          ),
                           Text(
                             // '10:00 AM',
                             // booking.timeToGo??'',
@@ -165,8 +166,7 @@ class _EventTicketDataState extends State<EventTicketData> {
                             widget.event == null
                                 ? formatTimeWithLocale(
                                     context, widget.booking!.timeToGo)
-                                : formatTimeWithLocale(context,
-                                    widget.event!.booking!.last.timeToGo),
+                                : '',
                             style: TextStyle(
                               color: Color(0xFF111113),
                               fontSize: 15,
@@ -282,7 +282,7 @@ class _EventTicketDataState extends State<EventTicketData> {
                   Text(
                     // booking.place!.price.toString(),
                     widget.event == null
-                        ? widget.event!.price.toString()
+                        ? widget.booking!.cost!.toString()
                         : widget.event!.booking!.last.cost.toString(),
 
                     textAlign: TextAlign.center,

@@ -529,10 +529,6 @@ class _PaymentTypeState extends State<PaymentType> {
       Get.back();
       log("inside adventure");
       log("${updatedEvent!.booking?.last.id}");
-      log(widget.adventure!.date!);
-      log(widget.adventure!.nameEn!);
-      log(widget.adventure!.nameAr!);
-
       LocalNotification().showAdventureNotification(
           context,
           updatedEvent!.booking?.last.id,
@@ -543,6 +539,7 @@ class _PaymentTypeState extends State<PaymentType> {
             event: updatedEvent,
             icon: SvgPicture.asset('assets/icons/event.svg'),
             bookTypeText: "event",
+            
           ));
     });
   }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
@@ -24,7 +26,7 @@ class CustomTicketCard extends StatelessWidget {
     final TouristExploreController _touristExploreController =
         Get.put(TouristExploreController());
     Place? thePlace;
-
+    log(booking!.cost!);
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return InkWell(

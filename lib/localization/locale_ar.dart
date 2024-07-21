@@ -565,4 +565,8 @@ const localeAr = {
   'guestLocalSignUp': 'تسجيل الدخول كمقدم خدمة',
   'createTourist': "إنشاء حساب  كسائح ",
   'chooseNationality': 'أدخل جنسيتك', "eventDetails": "تفاصيل الفعالية المحلية",
+  'accountNumberHint': "لارسال الاشعارات وتسهيل عملية تسجيل الدخول",
+  'delAccount': 'حذف الحساب', 'editPhoneNumber': 'تحديث رقم الجوال',
+  "phoneEditSubtitle": "سنقوم بارسال رمز لتأكيد رقم الجوال الجديد ",
+  'addProvidedServices': 'تحديث الخدمات المقدمة'
 };
