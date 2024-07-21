@@ -50,7 +50,7 @@ class _AddItineraryState extends State<AddItinerary> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: lightGreyBackground,
+      backgroundColor: Colors.white,
       bottomNavigationBar: Padding(
         padding: EdgeInsets.only(
           top: width * 0.03,
@@ -101,9 +101,10 @@ class _AddItineraryState extends State<AddItinerary> {
               CustomText(
                 text: "atLeastItenrary".tr,
                 fontWeight: FontWeight.w400,
-                color: almostGrey,
-                fontFamily: 'SF Pro',
-                fontSize: width * 0.033,
+               color: starGreyColor,
+                fontSize: width*0.033,
+               fontFamily:
+                AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
               ),
               SizedBox(
                 height: width * 0.05,
@@ -171,8 +172,9 @@ class _AddItineraryState extends State<AddItinerary> {
                   ),
                   CustomText(
                     text: "addActicity".tr,
-                    fontSize: width * 0.04,
-                    fontFamily: "SF Pro",
+                    fontSize: width * 0.038,
+                    fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+
                     fontWeight: FontWeight.w400,
                   ),
                 ],

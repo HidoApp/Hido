@@ -80,11 +80,18 @@ class _ItineraryCardState extends State<ItineraryCard> {
             left: width * 0.030,
             top: width * 0.05,
             bottom: width * 0.05,
-            right: width * 0.05),
+            right: width * 0.030),
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
-        ),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [
+              BoxShadow(
+                color: Color(0x3FC7C7C7),
+                blurRadius: 15,
+                offset: Offset(0, 0),
+                spreadRadius: 0,
+              )
+            ]),
         child: Form(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -92,19 +99,23 @@ class _ItineraryCardState extends State<ItineraryCard> {
               Row(
                 children: [
                   Container(
-                    padding: EdgeInsets.symmetric(vertical: width * .0205),
                     width: width * 0.025,
                     height: width * 0.025,
                     decoration: const BoxDecoration(
                         color: colorGreen, shape: BoxShape.circle),
                   ),
-                  SizedBox(
-                    width: width * .0205,
-                  ),
-                  CustomText(
-                    text: "activityName".tr,
-                    fontSize: width * 0.038,
-                    fontWeight: FontWeight.w500,
+                  // SizedBox(
+                  //   width: width * .0205,
+                  // ),
+                  Padding(
+                  padding: EdgeInsets.symmetric(horizontal: width * 0.028),
+                    child: CustomText(
+                      text: "activityName".tr,
+                      fontSize: width * 0.038,
+                      fontWeight: FontWeight.w500,
+                      fontFamily:AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+
+                    ),
                   )
                 ],
               ),
@@ -112,55 +123,65 @@ class _ItineraryCardState extends State<ItineraryCard> {
                 height: width * 0.01,
               ),
               Obx(
-                () => CustomTextField(
-                  controller: _activityConroller,
-                  keyboardType: TextInputType.text,
-                  borderColor: widget.requestController.isActivtyValid.value
-                      ? almostGrey
-                      : colorRed,
-                  onChanged: (value) {},
-                  height: width * 0.107,
-                  hintText: 'activityHint'.tr,
+                () => Padding(
+                  padding:AppUtil.rtlDirection2(context)?EdgeInsets.only( right: width * 0.04): EdgeInsets.only( left: width * 0.04),
+                  child: CustomTextField(
+                    controller: _activityConroller,
+                    keyboardType: TextInputType.text,
+                    borderColor: widget.requestController.isActivtyValid.value
+                        ? almostGrey
+                        : colorRed,
+                    onChanged: (value) {},
+                    height: width * 0.09,
+                    hintText: 'activityHint'.tr,
+                    
+                  ),
                 ),
               ),
               if (!widget.requestController.isActivtyValid.value)
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: width * 0.03),
+                  padding: EdgeInsets.symmetric(horizontal: width * 0.053),
                   child: CustomText(
                     text: "activityError".tr,
                     color: colorRed,
                     fontSize: width * 0.028,
+                     fontFamily:AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
                   ),
                 ),
               SizedBox(
                 height: width * 0.03,
               ),
               Padding(
-                  padding: EdgeInsets.symmetric(horizontal: width * 0.033),
+                  padding: EdgeInsets.symmetric(horizontal: width * 0.053),
                   child: CustomText(
                     text: "price".tr,
                     fontSize: width * 0.038,
                     fontWeight: FontWeight.w500,
+                     fontFamily:AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
                   )),
               Obx(
-                () => CustomTextField(
-                  controller: _priceContorller,
-                  height: width * 0.107,
-                  keyboardType: TextInputType.number,
-                  hintText: '00.00 ${'sar'.tr}',
-                  borderColor: widget.requestController.isPriceValid.value
-                      ? almostGrey
-                      : colorRed,
-                  onChanged: (value) {},
+                () => Padding(
+                  padding:AppUtil.rtlDirection2(context)?EdgeInsets.only( right: width * 0.04): EdgeInsets.only( left: width * 0.04),
+                  child: CustomTextField(
+                    controller: _priceContorller,
+                    height: width * 0.09,
+                    keyboardType: TextInputType.number,
+                    hintText: '00.00 ${'sar'.tr}',
+                    borderColor: widget.requestController.isPriceValid.value
+                        ? almostGrey
+                        : colorRed,
+                    onChanged: (value) {},
+                  ),
                 ),
               ),
               if (!widget.requestController.isPriceValid.value)
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: width * 0.03),
+                  padding: EdgeInsets.symmetric(horizontal: width * 0.053),
                   child: CustomText(
                     text: "priceError".tr,
                     color: colorRed,
                     fontSize: width * 0.028,
+                     fontFamily:AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
                   ),
                 ),
               SizedBox(
@@ -172,10 +193,14 @@ class _ItineraryCardState extends State<ItineraryCard> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CustomText(
-                        text: "startTime".tr,
-                        fontSize: width * 0.038,
-                        fontWeight: FontWeight.w500,
+                      Padding(
+                         padding: EdgeInsets.symmetric(horizontal: width * 0.053),
+                        child: CustomText(
+                          text: "startTime".tr,
+                          fontSize: width * 0.038,
+                          fontWeight: FontWeight.w500,
+                           fontFamily:AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+                        ),
                       ),
                       GestureDetector(
                         onTap: () async {
@@ -199,53 +224,68 @@ class _ItineraryCardState extends State<ItineraryCard> {
                             },
                           );
                         },
-                        child: Container(
-                          width: width * 0.37,
-                          height: width * 0.087,
-                          padding: EdgeInsets.symmetric(
-                            horizontal: width * 0.030,
-                            vertical: width * 0.012,
-                          ),
-                          alignment: Alignment.centerLeft,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                                color: !widget.requestController
-                                        .isStartTimeValid.value
-                                    ? colorRed
-                                    : almostGrey),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Row(
-                            children: [
-                              SvgPicture.asset('assets/icons/Arrows-s.svg'),
-                              CustomText(
-                                text: widget.requestController.startTime.isEmpty
-                                    ? '00:00'.tr
-                                    : widget.requestController.startTime.value,
-                                color: almostGrey,
-                              ),
-                            ],
+                        child: Padding(
+                  padding:AppUtil.rtlDirection2(context)?EdgeInsets.only( right: width * 0.04): EdgeInsets.only( left: width * 0.04),
+                          child: Container(
+                            width: width * 0.39,
+                            height: width * 0.087,
+                            padding: EdgeInsets.symmetric(
+                              horizontal: width * 0.030,
+                              vertical: width * 0.012,
+                              
+                            ),
+                            alignment: Alignment.centerLeft,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: !widget.requestController
+                                          .isStartTimeValid.value
+                                      ? colorRed
+                                      : almostGrey),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Row(
+                              children: [
+                                SvgPicture.asset('assets/icons/Arrows-s.svg'),
+                                CustomText(
+                                 fontSize: width * 0.03,
+
+                                  text: widget.requestController.startTime.isEmpty
+                                      ? ' 00:00'.tr
+                                      : widget.requestController.startTime.value,
+                                  color: almostGrey,
+                                  fontFamily:AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
                       if (!widget.requestController.isStartTimeValid.value)
-                        CustomText(
-                          text: "timeErorr".tr,
-                          color: colorRed,
-                          fontSize: width * 0.028,
+                        Padding(
+                           padding: EdgeInsets.symmetric(horizontal: width * 0.053),
+                          child: CustomText(
+                            text: "timeErorr".tr,
+                            color: colorRed,
+                            fontSize: width * 0.028,
+                             fontFamily:AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+                          ),
                         ),
                     ],
                   ),
                   SizedBox(
-                    width: width * 0.1,
+                    width: width * 0.04,
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CustomText(
-                        text: "endTime".tr,
-                        fontSize: width * 0.038,
-                        fontWeight: FontWeight.w500,
+                      Padding(
+                         padding: EdgeInsets.symmetric(horizontal: width * 0.02),
+                        child: CustomText(
+                          text: "endTime".tr,
+                          fontSize: width * 0.038,
+                          fontWeight: FontWeight.w500,
+                           fontFamily:AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+                        ),
                       ),
                       GestureDetector(
                         onTap: () async {
@@ -271,7 +311,7 @@ class _ItineraryCardState extends State<ItineraryCard> {
                           );
                         },
                         child: Container(
-                          width: width * 0.37,
+                          width: width * 0.39,
                           height: width * 0.087,
                           padding: EdgeInsets.symmetric(
                             horizontal: width * 0.030,
@@ -290,8 +330,11 @@ class _ItineraryCardState extends State<ItineraryCard> {
                             SvgPicture.asset('assets/icons/Arrows-s.svg'),
                             CustomText(
                                 color: almostGrey,
+                                fontSize: width * 0.03,
+
+                                 fontFamily:AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
                                 text: widget.requestController.endtime.isEmpty
-                                    ? '00:00'.tr
+                                    ? ' 00:00'.tr
                                     : widget.requestController.endtime.value),
                           ]),
                         ),
@@ -301,16 +344,17 @@ class _ItineraryCardState extends State<ItineraryCard> {
                           text: "timeErorr".tr,
                           color: colorRed,
                           fontSize: width * 0.028,
+                           fontFamily:AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
                         ),
                     ],
                   ),
                 ],
               ),
               SizedBox(
-                height: width * 0.03,
+                height: width * 0.06,
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   GestureDetector(
                     onTap: () {
@@ -325,29 +369,32 @@ class _ItineraryCardState extends State<ItineraryCard> {
                       widget.requestController.endtime('');
                       widget.requestController.startTime('');
                     },
-                    child: Container(
-                      width: width * 0.33,
-                      height: width * 0.087,
-                      alignment: Alignment.center,
-                      padding: EdgeInsets.symmetric(horizontal: width * .0410),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(4),
-                        border: Border.all(color: colorRed, width: 1),
-                      ),
-                      child: CustomText(
-                        text: 'delete'.tr,
-                        textAlign: TextAlign.center,
-                        color: colorRed,
-                        fontSize: width * 0.038,
+                    child: Padding(
+                  padding:AppUtil.rtlDirection2(context)?EdgeInsets.only( right: width * 0.04): EdgeInsets.only( left: width * 0.04),
+                      child: Container(
+                        width: width * 0.36,
+                        height: width * 0.088,
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.symmetric(horizontal: width * .0410),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4),
+                          border: Border.all(color: colorRed, width: 1),
+                        ),
+                        child: CustomText(
+                          text: 'delete'.tr,
+                          textAlign: TextAlign.center,
+                          color: colorRed,
+                          fontSize: width * 0.038,
+                        ),
                       ),
                     ),
                   ),
+                  // SizedBox(
+                  //   width: width * 0.02,
+                  // ),
                   SizedBox(
-                    width: width * 0.025,
-                  ),
-                  SizedBox(
-                    width: width * 0.33,
-                    height: width * 0.087,
+                    width: width * 0.37,
+                    height: width * 0.088,
                     child: CustomButton(
                       raduis: 4,
                       title: 'save'.tr,

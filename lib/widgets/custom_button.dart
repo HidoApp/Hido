@@ -48,8 +48,8 @@ class CustomButton extends StatelessWidget {
               Radius.circular(raduis ?? 8),
             ),
             side: BorderSide(
-                color: borderColor ??
-                    colorGreen), // Use borderColor property for border color
+                color: borderColor ==null ? colorGreen:borderColor??Colors.white
+                   ), 
           ),
         ),
         fixedSize:
