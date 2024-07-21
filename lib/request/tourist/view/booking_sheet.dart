@@ -140,11 +140,22 @@ late DateTime newTimeToGoInRiyadh;
      location = tz.getLocation(timeZoneName);
 
    bool _validateTime() {
+    
+  
+
+
   final Duration totalTime = newTimeToReturn.difference(newTimeToGo);
+  final Duration eightHours = Duration(hours: 8);
+final Duration fourHours = Duration(hours: 4);
+final Duration adjustedTotalTime = totalTime.isNegative
+      ? totalTime + Duration(days: 1) // Adjust by adding one day if the duration is negative
+      : totalTime;
+      // ? totalTime + Duration(days: 1) +Duration(hours: 1);
+
   print('total');
-  print(totalTime.inHours >= 4 && totalTime.inHours <= 8);
-  print(totalTime);
-  if (totalTime.inHours >= 4 && totalTime.inHours <= 8) {
+  print(adjustedTotalTime  >= fourHours &&  adjustedTotalTime  <= eightHours);
+  print( adjustedTotalTime );
+  if ( adjustedTotalTime >= fourHours &&  adjustedTotalTime  <= eightHours) {
     setState(() {
       DurationErrorMessage = false;
     });
@@ -161,6 +172,7 @@ late DateTime newTimeToGoInRiyadh;
     
   }
 }  
+
 
   DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
   //DateTime currentDate = DateTime(currentDateInRiyadh.year, currentDateInRiyadh.month, currentDateInRiyadh.day,currentDateInRiyadh.hour+2,currentDateInRiyadh.minute);

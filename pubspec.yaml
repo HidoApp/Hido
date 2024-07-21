@@ -93,6 +93,7 @@ dependencies:
   timer_count_down: ^2.2.2
   iban: ^1.0.1
   jhijri_picker: ^1.0.1
+  super_tooltip: ^2.0.8
 
 dev_dependencies:
   flutter_test:
