@@ -61,16 +61,16 @@ class _AddExperienceInfoState extends State<AddExperienceInfo> {
                             )
                           : _experienceController.experienceList.isEmpty
                               ? Padding(
-                                padding: EdgeInsets.only(top:width*0.3),
-                                child: SizedBox(
-                                    //new
-                                    width: width,
-                                    child: CustomEmptyWidget(
-                                      title: 'noExperience'.tr,
-                                      image: 'noExperiences',
-                                      subtitle: 'noExperienceSub'.tr,
-                                    )),
-                              )
+                                  padding: EdgeInsets.only(top: width * 0.3),
+                                  child: SizedBox(
+                                      //new
+                                      width: width,
+                                      child: CustomEmptyWidget(
+                                        title: 'noExperience'.tr,
+                                        image: 'noExperiences',
+                                        subtitle: 'noExperienceSub'.tr,
+                                      )),
+                                )
                               : ListView.separated(
                                   shrinkWrap: true,
                                   itemCount: _experienceController

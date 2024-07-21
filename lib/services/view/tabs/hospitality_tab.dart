@@ -41,7 +41,6 @@ class _HospitalityTabState extends State<HospitalityTab> {
     final double height = MediaQuery.of(context).size.height;
     return SingleChildScrollView(
       child: Padding(
-        //TODO: Rehab you must replace padding in adventure screen with these values
         // padding: EdgeInsets.symmetric(
         //     horizontal: width * 0.04, vertical: width * 0.035),
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 32),

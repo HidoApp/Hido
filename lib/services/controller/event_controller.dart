@@ -16,10 +16,10 @@ class EventController extends GetxController {
   var isEventListLoading = false.obs;
   var isEventByIdLoading = false.obs;
   var ischeckBookingLoading = false.obs;
-  var  selectedImages=<String>[].obs;
+  var selectedImages = <String>[].obs;
   var address = ''.obs;
-  var DateErrorMessage=false.obs;
-  var TimeErrorMessage=false.obs;
+  var DateErrorMessage = false.obs;
+  var TimeErrorMessage = false.obs;
   var selectedDate = ''.obs;
   var selectedDates = [].obs; //new
   var selectedTime = ''.obs;
@@ -38,20 +38,15 @@ class EventController extends GetxController {
   var titleEn = "".obs;
   var bioAr = "".obs;
   var bioEn = "".obs;
-  
-
-
-
 
   var isEventDateSelcted = false.obs;
   var isEventTimeSelcted = false.obs;
 
   // Rx<LatLng> pickUpLocLatLang = const LatLng(24.9470921, 45.9903698).obs;
-  //  Rx<LatLng> pickUpLocLatLang = const LatLng(24.6264,46.544731).obs; 
-   Rx<LatLng> pickUpLocLatLang = const LatLng(24.788299,46.631608).obs;
+  //  Rx<LatLng> pickUpLocLatLang = const LatLng(24.6264,46.544731).obs;
+  Rx<LatLng> pickUpLocLatLang = const LatLng(24.788299, 46.631608).obs;
 
-
-Future<List<Event>?> getEventList(
+  Future<List<Event>?> getEventList(
       {required BuildContext context, String? region}) async {
     try {
       isEventListLoading(true);
@@ -72,18 +67,16 @@ Future<List<Event>?> getEventList(
     }
   }
 
-
   Future<Event?> getEventById({
     required BuildContext context,
     required String id,
   }) async {
     try {
       isEventByIdLoading(true);
-      final data =
-          await EventService.getEventById(context: context, id: id);
+      final data = await EventService.getEventById(context: context, id: id);
       return data;
     } catch (e) {
-       isEventByIdLoading(false);
+      isEventByIdLoading(false);
       if (context.mounted) {
         AppUtil.errorToast(context, e.toString());
       }
@@ -93,12 +86,9 @@ Future<List<Event>?> getEventList(
     }
   }
 
-
-
-   var isEventLoading = false.obs;
+  var isEventLoading = false.obs;
 
   Future<bool> createEvent({
-  
     required String nameAr,
     required String nameEn,
     required String descriptionAr,
@@ -110,8 +100,7 @@ Future<List<Event>?> getEventList(
     required String regionAr,
     required String locationUrl,
     required String regionEn,
-   required List<Map<String, dynamic>> daysInfo,
-
+    required List<Map<String, dynamic>> daysInfo,
     required BuildContext context,
   }) async {
     //print(rememberMe);
@@ -130,9 +119,7 @@ Future<List<Event>?> getEventList(
           locationUrl: locationUrl,
           regionEn: regionEn,
           daysInfo: daysInfo,
-          context: context
-          
-          );
+          context: context);
 
       print(isSuccess);
       return isSuccess;
@@ -143,8 +130,7 @@ Future<List<Event>?> getEventList(
     }
   }
 
-
-    var  isEditEventLoading = false.obs;
+  var isEditEventLoading = false.obs;
   Future<Event?> editEvent({
     required String id,
     required String nameAr,
@@ -159,7 +145,6 @@ Future<List<Event>?> getEventList(
     required String locationUrl,
     required String regionEn,
     required List<Map<String, dynamic>> daysInfo,
-
     required BuildContext context,
   }) async {
     try {
@@ -167,7 +152,7 @@ Future<List<Event>?> getEventList(
 
       final event = await EventService.editEvent(
           id: id,
-         nameAr: nameAr,
+          nameAr: nameAr,
           nameEn: nameEn,
           descriptionAr: descriptionAr,
           descriptionEn: descriptionEn,
@@ -178,9 +163,8 @@ Future<List<Event>?> getEventList(
           regionAr: regionAr,
           locationUrl: locationUrl,
           regionEn: regionEn,
-         daysInfo: daysInfo,
-          context: context
-      );
+          daysInfo: daysInfo,
+          context: context);
       if (event != null) {
         return event;
       } else {
@@ -190,11 +174,11 @@ Future<List<Event>?> getEventList(
       print(e);
       return null;
     } finally {
-       isEditEventLoading(false);
+      isEditEventLoading(false);
     }
   }
 
-   Future<List<Event>?> getUpcommingTicket({
+  Future<List<Event>?> getUpcommingTicket({
     required BuildContext context,
   }) async {
     try {
@@ -206,8 +190,8 @@ Future<List<Event>?> getEventList(
       );
       if (data != null) {
         upcommingTicket(data);
-         print("object controller");
-       print(data.length);
+        print("object controller");
+        print(data.length);
         //print(upcommingTicket.first.place?.nameAr);
         return upcommingTicket;
       } else {
@@ -222,14 +206,14 @@ Future<List<Event>?> getEventList(
     }
   }
 
-   Future<List<Event>?> getPastTicket({
+  Future<List<Event>?> getPastTicket({
     required BuildContext context,
   }) async {
     try {
       isPastTicketLoading(true);
 
       final data = await EventService.getUserTicket(
-         eventType:'PAST',
+        eventType: 'PAST',
         context: context,
       );
       print("this pas 1ticket");
@@ -250,24 +234,23 @@ Future<List<Event>?> getEventList(
     }
   }
 
-
- var  isEventDeleteLoading = false.obs;
+  var isEventDeleteLoading = false.obs;
   Future<bool?> EventDelete(
       {required BuildContext context, required String eventId}) async {
     try {
-     isEventDeleteLoading(true);
-      final data = await EventService.EventDelete(
-          context: context,eventId: eventId);
-   isEventDeleteLoading(data ?? false);
-      return  isEventDeleteLoading.value;
+      isEventDeleteLoading(true);
+      final data =
+          await EventService.EventDelete(context: context, eventId: eventId);
+      isEventDeleteLoading(data ?? false);
+      return isEventDeleteLoading.value;
     } catch (e) {
       log("-< HospitalityDeleteLoading >- $e");
       return null;
     } finally {
-     isEventDeleteLoading(false);
+      isEventDeleteLoading(false);
     }
   }
-  
+
   Future<EventSummary?> getEventSummaryById({
     required BuildContext context,
     required String id,
@@ -279,12 +262,37 @@ Future<List<Event>?> getEventList(
           await EventService.getEventSummaryById(context: context, id: id);
       return data;
     } catch (e) {
-       isEventByIdLoading(false);
+      isEventByIdLoading(false);
       return null;
     } finally {
-       isEventByIdLoading(false);
+      isEventByIdLoading(false);
     }
   }
-  
-  
+
+  Future<bool> checkAndBookEvent(
+      {required BuildContext context,
+      required String paymentId,
+      required String eventId,
+      required int cost,
+      required String dayId,
+      required int person,
+      required String date}) async {
+    try {
+      ischeckBookingLoading(true);
+      final data = await EventService.checkAndBookEvent(
+          context: context,
+          paymentId: paymentId,
+          eventId: eventId,
+          cost: cost,
+          dayId: dayId,
+          person: person,
+          date: date);
+      return data;
+    } catch (e) {
+      ischeckBookingLoading(false);
+      return false;
+    } finally {
+      ischeckBookingLoading(false);
+    }
+  }
 }

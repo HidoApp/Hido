@@ -1,89 +1,41 @@
 import 'package:ajwad_v4/constants/colors.dart';
-import 'package:ajwad_v4/services/controller/adventure_controller.dart';
-import 'package:ajwad_v4/services/model/adventure.dart';
+import 'package:ajwad_v4/services/controller/event_controller.dart';
+import 'package:ajwad_v4/services/model/days_info.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:ajwad_v4/services/model/days_info.dart';
-import 'package:geocoding/geocoding.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/get_core.dart';
-import 'package:intl/intl.dart';
 
-class CustomAdventureItem extends StatefulWidget {
-  const CustomAdventureItem({
-    Key? key,
-    required this.image,
-    this.personImage,
-    required this.title,
-    required this.location,
-    required this.seats,
-    required this.rate,
-    required this.date,
-    required this.onTap,
-    required this.times,
-    this.lang,
-    this.long,
-  }) : super(key: key);
-
+class EventCardItem extends StatefulWidget {
+  const EventCardItem(
+      {super.key,
+      required this.image,
+      required this.title,
+      required this.location,
+      required this.seats,
+      required this.rate,
+      required this.daysInfo,
+      required this.onTap,
+      this.lang,
+      this.long});
   final String image;
-  final String? personImage;
   final String title;
   final String location;
   final String seats;
   final String rate;
-  final String date;
-  final List<Time>? times;
+  final List<DayInfo> daysInfo;
   final VoidCallback onTap;
   final String? lang;
   final String? long;
 
   @override
-  _CustomAdventureItemState createState() => _CustomAdventureItemState();
+  State<EventCardItem> createState() => _EventCardItemState();
 }
 
-class _CustomAdventureItemState extends State<CustomAdventureItem> {
-  final _servicesController = Get.put(AdventureController());
-
-  Future<String> _getAddressFromLatLng(
-      double position1, double position2) async {
-    try {
-      List<Placemark> placemarks =
-          await placemarkFromCoordinates(position1, position2);
-      print(placemarks);
-
-      if (placemarks.isNotEmpty) {
-        Placemark placemark = placemarks.first;
-        print(placemarks.first);
-        return '${placemark.locality},${placemark.subLocality}';
-      }
-    } catch (e) {
-      print("Error retrieving address: $e");
-    }
-    return '';
-  }
-
-  Future<void> _fetchAddress(String position1, String position2) async {
-    try {
-      String result = await _getAddressFromLatLng(
-          double.parse(position1), double.parse(position2));
-      setState(() {
-        _servicesController.address.value = result;
-      });
-    } catch (e) {
-      // Handle error if necessary
-      print('Error fetching address: $e');
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    if (widget.lang!.isNotEmpty && widget.lang!.isNotEmpty)
-      _fetchAddress(widget.lang!, widget.long!);
-  }
+class _EventCardItemState extends State<EventCardItem> {
+  final _eventController = Get.put(EventController());
 
   @override
   Widget build(BuildContext context) {
@@ -150,8 +102,8 @@ class _CustomAdventureItemState extends State<CustomAdventureItem> {
                             width: width * 0.017,
                           ),
                           CustomText(
-                            text: _servicesController.address.value.isNotEmpty
-                                ? _servicesController.address.value
+                            text: _eventController.address.value.isNotEmpty
+                                ? _eventController.address.value
                                 : widget.location,
                             fontSize: 11,
                             fontFamily: AppUtil.rtlDirection2(context)
@@ -175,7 +127,8 @@ class _CustomAdventureItemState extends State<CustomAdventureItem> {
                             width: width * 0.02,
                           ),
                           CustomText(
-                            text: formatBookingDate(context, widget.date),
+                            text: AppUtil.formatSelectedDaysInfo(
+                                widget.daysInfo, context),
                             fontFamily: AppUtil.rtlDirection2(context)
                                 ? 'SF Arabic'
                                 : 'SF Pro',
@@ -198,10 +151,8 @@ class _CustomAdventureItemState extends State<CustomAdventureItem> {
                             width: width * 0.02,
                           ),
                           CustomText(
-                            text: widget.times != null &&
-                                    widget.times!.isNotEmpty
-                                ? '${widget.times!.map((time) => AppUtil.formatStringTimeWithLocale(context, time.startTime)).join(', ')} - ${widget.times!.map((time) => AppUtil.formatStringTimeWithLocale(context, time.endTime)).join(', ')}'
-                                : '5:00-8:00 AM',
+                            text:
+                                '${AppUtil.formatTimeOnly(context, widget.daysInfo[0].startTime)} -  ${AppUtil.formatTimeOnly(context, widget.daysInfo[0].endTime)}',
                             fontSize: 11,
                             fontWeight: FontWeight.w400,
                             color: starGreyColor,

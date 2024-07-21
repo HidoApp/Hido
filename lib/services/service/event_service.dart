@@ -51,7 +51,6 @@ class EventService {
     }
   }
 
-
   static Future<Event?> getEventById({
     required BuildContext context,
     required String id,
@@ -69,8 +68,7 @@ class EventService {
     }
 
     final response = await http.get(
-      Uri.parse('$baseUrl/event/$id')
-          .replace(queryParameters: ({'id': id})),
+      Uri.parse('$baseUrl/event/$id').replace(queryParameters: ({'id': id})),
       headers: {
         'Accept': 'application/json',
         if (token != '') 'Authorization': 'Bearer $token',
@@ -187,118 +185,118 @@ class EventService {
       "regionAr": regionAr,
       "regionEn": regionEn,
     };
-   print(body);
-  print(1);
-  try{
-    final response = await http.post(Uri.parse('$baseUrl/event'),
-        headers: {
-          'Accept': 'application/json',
-          "Content-Type": "application/json",
-          'Authorization': 'Bearer $token',
-        },
-        body: jsonEncode(body));
+    print(body);
+    print(1);
+    try {
+      final response = await http.post(Uri.parse('$baseUrl/event'),
+          headers: {
+            'Accept': 'application/json',
+            "Content-Type": "application/json",
+            'Authorization': 'Bearer $token',
+          },
+          body: jsonEncode(body));
 
-    print(response.statusCode);
+      print(response.statusCode);
 
-    print("from services equall to ");
-    if (response.statusCode == 200) {
-      //  var data = jsonDecode(response.body);
-      //  print(data['message']);
-      //  if (data['message'] == 'checked') {
-      return true;
-    // } else {
-    //   return false;
-    // }
+      print("from services equall to ");
+      if (response.statusCode == 200) {
+        //  var data = jsonDecode(response.body);
+        //  print(data['message']);
+        //  if (data['message'] == 'checked') {
+        return true;
+        // } else {
+        //   return false;
+        // }
       } else {
         String errorMessage = jsonDecode(response.body)['message'];
         print(errorMessage);
         if (context.mounted) {
           AppUtil.errorToast(context, errorMessage);
-      }
+        }
         return false;
-     }
-     } catch (e) {
-    // Handle network errors or exceptions
-    print('Error creating event: $e');
-    return false;
-  }
-  }
-   static Future<Event?> editEvent({
-  required String id,
-  required String nameAr,
-  required String nameEn,
-  required String descriptionAr,
-  required String descriptionEn,
-  required String longitude,
-  required String latitude,
-  required double price,
-  required List<String> image,
-  required String regionAr,
-  required String locationUrl,
-  required String regionEn,
-  required List<Map<String, dynamic>> daysInfo,
-  required BuildContext context,
-}) async {
-  print("Update adventure");
-  final getStorage = GetStorage();
-  final String? token = getStorage.read('accessToken');
-
-  Map<String, dynamic> body = {
-    "nameAr": nameAr,
-    "nameEn": nameEn,
-    "descriptionAr": descriptionAr,
-    "descriptionEn": descriptionEn,
-    "price": price,
-    "image": image,
-    "coordinates": {
-      "longitude": longitude,
-      "latitude": latitude,
-    },
-    "daysInfo": daysInfo,
-    "locationUrl": locationUrl,
-    "regionAr": regionAr,
-    "regionEn": regionEn,
-  };
-
-  final response = await http.put(
-    Uri.parse('$baseUrl/event/$id').replace(queryParameters: {'id': id}),
-    headers: {
-      'Accept': 'application/json',
-      "Content-Type": "application/json",
-      'Authorization': 'Bearer $token',
-    },
-    body: jsonEncode(body),
-  );
-
-  print("Response status code: ${response.statusCode}");
-  print("Response body: ${response.body}");
-
-  if (response.statusCode == 200) {
-    try {
-      var eventData = jsonDecode(response.body);
-      print('Event updated: $eventData');
-      return Event.fromJson(eventData);
+      }
     } catch (e) {
-      print('Error parsing JSON response: $e');
-      print('Response body: ${response.body}');
+      // Handle network errors or exceptions
+      print('Error creating event: $e');
+      return false;
+    }
+  }
+
+  static Future<Event?> editEvent({
+    required String id,
+    required String nameAr,
+    required String nameEn,
+    required String descriptionAr,
+    required String descriptionEn,
+    required String longitude,
+    required String latitude,
+    required double price,
+    required List<String> image,
+    required String regionAr,
+    required String locationUrl,
+    required String regionEn,
+    required List<Map<String, dynamic>> daysInfo,
+    required BuildContext context,
+  }) async {
+    print("Update adventure");
+    final getStorage = GetStorage();
+    final String? token = getStorage.read('accessToken');
+
+    Map<String, dynamic> body = {
+      "nameAr": nameAr,
+      "nameEn": nameEn,
+      "descriptionAr": descriptionAr,
+      "descriptionEn": descriptionEn,
+      "price": price,
+      "image": image,
+      "coordinates": {
+        "longitude": longitude,
+        "latitude": latitude,
+      },
+      "daysInfo": daysInfo,
+      "locationUrl": locationUrl,
+      "regionAr": regionAr,
+      "regionEn": regionEn,
+    };
+
+    final response = await http.put(
+      Uri.parse('$baseUrl/event/$id').replace(queryParameters: {'id': id}),
+      headers: {
+        'Accept': 'application/json',
+        "Content-Type": "application/json",
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode(body),
+    );
+
+    print("Response status code: ${response.statusCode}");
+    print("Response body: ${response.body}");
+
+    if (response.statusCode == 200) {
+      try {
+        var eventData = jsonDecode(response.body);
+        print('Event updated: $eventData');
+        return Event.fromJson(eventData);
+      } catch (e) {
+        print('Error parsing JSON response: $e');
+        print('Response body: ${response.body}');
+        return null;
+      }
+    } else {
+      try {
+        String errorMessage = jsonDecode(response.body)['message'];
+        if (context.mounted) {
+          AppUtil.errorToast(context, errorMessage);
+        }
+      } catch (e) {
+        print('Error decoding error message: $e');
+        print('Response body: ${response.body}');
+      }
       return null;
     }
-  } else {
-    try {
-      String errorMessage = jsonDecode(response.body)['message'];
-      if (context.mounted) {
-        AppUtil.errorToast(context, errorMessage);
-      }
-    } catch (e) {
-      print('Error decoding error message: $e');
-      print('Response body: ${response.body}');
-    }
-    return null;
   }
-}
 
-
-static Future<bool?>  EventDelete(
+  static Future<bool?> EventDelete(
       {required BuildContext context, required String eventId}) async {
     final getStorage = GetStorage();
     String token = getStorage.read('accessToken') ?? "";
@@ -333,10 +331,10 @@ static Future<bool?>  EventDelete(
       return false;
     }
   }
-   static Future<List<Event>?> getUserTicket({
+
+  static Future<List<Event>?> getUserTicket({
     required String eventType,
     required BuildContext context,
-
   }) async {
     print(" getUpcomingTicket ");
     final getStorage = GetStorage();
@@ -371,7 +369,7 @@ static Future<bool?>  EventDelete(
     }
   }
 
-static Future<EventSummary?> getEventSummaryById({
+  static Future<EventSummary?> getEventSummaryById({
     required BuildContext context,
     required String id,
   }) async {
@@ -412,4 +410,53 @@ static Future<EventSummary?> getEventSummaryById({
     }
   }
 
+  static Future<bool> checkAndBookEvent(
+      {required BuildContext context,
+      required String paymentId,
+      required String eventId,
+      required int cost,
+      required String dayId,
+      required int person,
+      required String date}) async {
+    final getStorage = GetStorage();
+    String token = getStorage.read('accessToken') ?? "";
+
+    if (JwtDecoder.isExpired(token)) {
+      final _authController = Get.put(AuthController());
+
+      String refreshToken = getStorage.read('refreshToken');
+      var user = await _authController.refreshToken(
+          refreshToken: refreshToken, context: context);
+      token = getStorage.read('accessToken');
+    }
+    final response = await http.post(
+        Uri.parse("$baseUrl/event/booking/$eventId").replace(
+          queryParameters: {'paymentId': paymentId, 'eventId': eventId},
+        ),
+        headers: {
+          'Accept': 'application/json',
+          "Content-Type": "application/json",
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode({
+          'date': date.toString().substring(0, 10),
+          'guestInfo': {
+            'dayId': dayId.toString(),
+            "guestNumber": person,
+          },
+          'cost': cost,
+        }));
+    log(response.statusCode.toString());
+    log(response.body);
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      String errorMessage = jsonDecode(response.body)['message'];
+      print(errorMessage);
+      if (context.mounted) {
+        AppUtil.errorToast(context, errorMessage);
+      }
+      return false;
+    }
+  }
 }

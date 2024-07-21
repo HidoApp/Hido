@@ -252,6 +252,8 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
                                   CustomText(
                                     text: 'numberofpeorson'.tr,
                                     fontSize: width * 0.043,
+                                    fontFamily: 'SF Pro',
+                                    fontWeight: FontWeight.w500,
                                   ),
                                   Container(
                                     height: width * 0.123,

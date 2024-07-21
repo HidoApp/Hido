@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/event/model/event.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/payment/controller/payment_controller.dart';
 import 'package:ajwad_v4/payment/model/credit_card.dart';
@@ -15,6 +16,7 @@ import 'package:ajwad_v4/request/local_notification.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
 import 'package:ajwad_v4/request/tourist/models/offer_details.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
+import 'package:ajwad_v4/services/controller/event_controller.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
 import 'package:ajwad_v4/services/model/hospitality.dart';
@@ -46,6 +48,8 @@ class PaymentType extends StatefulWidget {
       this.thePlace,
       this.servicesController,
       this.male,
+      this.event,
+      this.eventController,
       this.female});
   final int price;
   final String type;
@@ -54,10 +58,12 @@ class PaymentType extends StatefulWidget {
   final int? female;
   final Place? thePlace;
   final Booking? booking;
+  final Event? event;
   final Adventure? adventure;
   final Hospitality? hospitality;
   final OfferController? offerController;
   final HospitalityController? servicesController;
+  final EventController? eventController;
   @override
   State<PaymentType> createState() => _PaymentTypeState();
 }
@@ -161,6 +167,9 @@ class _PaymentTypeState extends State<PaymentType> {
               hospitalityBooking(invoice!);
 
               break;
+            case 'event':
+              eventBooking(invoice!);
+              break;
             default:
           }
         }
@@ -240,6 +249,9 @@ class _PaymentTypeState extends State<PaymentType> {
             case 'hospitality':
               hospitalityBooking(checkInvoice);
               break;
+            case 'event':
+              eventBooking(checkInvoice);
+              break;
             default:
           }
         } else {
@@ -317,6 +329,9 @@ class _PaymentTypeState extends State<PaymentType> {
               break;
             case 'hospitality':
               hospitalityBooking(checkInvoice);
+              break;
+            case 'event':
+              eventBooking(checkInvoice);
               break;
             default:
           }
@@ -477,6 +492,61 @@ class _PaymentTypeState extends State<PaymentType> {
         widget.hospitality!.titleAr);
   }
 
+  void eventBooking(Invoice checkInvoice) async {
+    await widget.eventController!.checkAndBookEvent(
+        context: context,
+        paymentId: checkInvoice.id,
+        eventId: widget.event!.id,
+        cost: widget.price,
+        dayId: widget.event!
+            .daysInfo![widget.eventController!.selectedDateIndex.value].id,
+        person: widget.personNumber!,
+        date: widget.eventController!.selectedDate.value);
+
+    final updatedEvent = await widget.eventController!
+        .getEventById(context: context, id: widget.event!.id);
+    showDialog(
+      context: context,
+      builder: (ctx) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          surfaceTintColor: Colors.white,
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset('assets/images/paymentSuccess.gif'),
+              CustomText(
+                text: "paymentSuccess".tr,
+                fontSize: 15,
+              ),
+            ],
+          ),
+        );
+      },
+    ).then((_) {
+      // Get.back();
+      Get.back();
+      Get.back();
+      log("inside adventure");
+      log("${updatedEvent!.booking?.last.id}");
+      log(widget.adventure!.date!);
+      log(widget.adventure!.nameEn!);
+      log(widget.adventure!.nameAr!);
+
+      LocalNotification().showAdventureNotification(
+          context,
+          updatedEvent!.booking?.last.id,
+          widget.eventController!.selectedDate.value,
+          updatedEvent.nameEn,
+          updatedEvent.nameAr);
+      Get.to(() => TicketDetailsScreen(
+            event: updatedEvent,
+            icon: SvgPicture.asset('assets/icons/event.svg'),
+            bookTypeText: "event",
+          ));
+    });
+  }
+
   void adventureBooking(Invoice checkInvoice) async {
     await adventureController.checkAdventureBooking(
       adventureID: widget.adventure!.id,
@@ -544,13 +614,20 @@ class _PaymentTypeState extends State<PaymentType> {
           _paymentController.isApplePayEmbeddedLoading.value ||
           _paymentController.isApplePayExecuteLoading.value ||
           adventureController.ischeckBookingLoading.value;
-    } else {
+    } else if (widget.type == 'tour') {
       return _paymentController.isPaymentGatewayLoading.value ||
           _paymentController.isPaymenInvoiceByIdLoading.value ||
           _paymentController.isCreditCardPaymentLoading.value ||
           _paymentController.isApplePayEmbeddedLoading.value ||
           _paymentController.isApplePayExecuteLoading.value ||
           widget.offerController!.isAcceptOfferLoading.value;
+    } else {
+      return _paymentController.isPaymentGatewayLoading.value ||
+          _paymentController.isPaymenInvoiceByIdLoading.value ||
+          _paymentController.isCreditCardPaymentLoading.value ||
+          _paymentController.isApplePayEmbeddedLoading.value ||
+          _paymentController.isApplePayExecuteLoading.value ||
+          widget.eventController!.ischeckBookingLoading.value;
     }
   }
 
@@ -582,13 +659,12 @@ class _PaymentTypeState extends State<PaymentType> {
             SizedBox(
               height: width * 0.071,
             ),
-             Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20),
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  
-                   Text(
+                  Text(
                     'total'.tr,
                     textAlign: TextAlign.right,
                     style: const TextStyle(
@@ -599,33 +675,31 @@ class _PaymentTypeState extends State<PaymentType> {
                     ),
                   ),
                   const Spacer(),
-                 
-                   Text.rich(
-                      TextSpan(
-                        children: [
-                          TextSpan(
-                            text:
-                              '${widget.price}',
-                            style: const TextStyle(
-                              color: black,
-                              fontSize: 20,
-                              fontFamily: 'HT Rakik',
-                              fontWeight: FontWeight.w500,
-                            ),
+                  Text.rich(
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                          text: '${widget.price}',
+                          style: const TextStyle(
+                            color: black,
+                            fontSize: 20,
+                            fontFamily: 'HT Rakik',
+                            fontWeight: FontWeight.w500,
                           ),
-                          TextSpan(text: '  '),
-                          TextSpan(
-                            text: 'sar'.tr,
-                            style: TextStyle(
-                              color: black,
-                              fontSize: 20,
-                              fontFamily: 'HT Rakik',
-                              fontWeight: FontWeight.w500,
-                            ),
+                        ),
+                        TextSpan(text: '  '),
+                        TextSpan(
+                          text: 'sar'.tr,
+                          style: TextStyle(
+                            color: black,
+                            fontSize: 20,
+                            fontFamily: 'HT Rakik',
+                            fontWeight: FontWeight.w500,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
+                  ),
                 ],
               ),
             ),
