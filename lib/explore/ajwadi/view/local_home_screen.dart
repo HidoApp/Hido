@@ -318,7 +318,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                                             style: TextStyle(
                                               color: Color(0xFFDCDCE0),
                                               fontSize: 16,
-                                              fontFamily: 'SF Pro',
+                                              fontFamily:AppUtil.rtlDirection2(context) ? "SF Arabic" : 'SF Pro',
                                               fontWeight: FontWeight.w400,
                                             ),
                                           ),

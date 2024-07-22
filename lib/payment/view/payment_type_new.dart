@@ -529,9 +529,9 @@ class _PaymentTypeState extends State<PaymentType> {
       Get.back();
       log("inside adventure");
       log("${updatedEvent!.booking?.last.id}");
-      LocalNotification().showAdventureNotification(
+      LocalNotification().showEventNotification(
           context,
-          updatedEvent!.booking?.last.id,
+          updatedEvent.booking?.last.id,
           widget.eventController!.selectedDate.value,
           updatedEvent.nameEn,
           updatedEvent.nameAr);

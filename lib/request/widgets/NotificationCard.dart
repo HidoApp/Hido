@@ -92,17 +92,22 @@ class NotificationCrd extends StatelessWidget {
                               TextSpan(
                                 text: isTour
                                     ? isRtl
-                                        ? "جولتك القادمة الى  "
+                                        ? " جولتك القادمة الى  "
                                         : 'Your next tour to '
                                     : isHost
                                         ? isRtl
-                                            ? "استضافتك القادمة في "
+                                            ? " استضافتك القادمة في "
                                             : "Your next host in "
-                                        : isRtl
-                                            ? " مغامرتك القادمه إلى"
-                                            : "Your next adventure ",
+                                        : isAdve
+                                        ?
+                                         isRtl
+                                            ? " مغامرتك القادمه إلى "
+                                            : "Your next adventure "
+                                            : isRtl
+                                            ?" فعاليتك القادمة إلى "
+                                            :"Your next event ",
                                 style: TextStyle(
-                                  fontFamily: isRtl ? 'SF Arabic' : 'Kufam',
+                                  fontFamily: isRtl ? 'SF Arabic' : 'SF Pro',
                                   fontSize: 13,
                                   fontWeight:
                                       isRtl ? FontWeight.w500 : FontWeight.w500,

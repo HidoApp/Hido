@@ -37,7 +37,11 @@ class CustomButton extends StatelessWidget {
       onPressed: onPressed,
       style: ButtonStyle(
         
-        elevation: MaterialStateProperty.all(0),
+         elevation: MaterialStateProperty.all(0),
+         overlayColor:  buttonColor != null
+            ? MaterialStateProperty.all(buttonColor)
+            : MaterialStateProperty.all(colorGreen),
+       
         backgroundColor: buttonColor != null
             ? MaterialStateProperty.all(buttonColor)
             : MaterialStateProperty.all(colorGreen),

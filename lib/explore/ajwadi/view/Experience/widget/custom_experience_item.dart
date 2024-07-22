@@ -46,7 +46,7 @@ _fetchAddress();
       if (placemarks.isNotEmpty) {
         Placemark placemark = placemarks.first;
         print(placemarks.first);
-        return '${placemark.locality}, ${placemark.subLocality}, ${placemark.country}';
+        return '${placemark.locality}, ${placemark.subLocality}';
       }
     } catch (e) {
       print("Error retrieving address: $e");

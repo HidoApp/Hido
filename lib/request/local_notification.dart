@@ -45,10 +45,7 @@ class LocalNotification {
     DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
     DateTime currentDate = DateTime(currentDateInRiyadh.year,
         currentDateInRiyadh.month, currentDateInRiyadh.day);
-    // DateTime currentDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
-    // Get the current date and time in the Riyadh time zone
-    //String formattedDate = dateFormat.format(DateTime.now().toUtc().add(Duration(hours: 3))); // Riyadh is UTC+3
-    //DateTime currentDateInRiyadh = DateTime.parse(formattedDate);
+   
     DateTime bookingDate = DateTime.parse(bookdate!);
 
     twoDaysBefore = bookingDate.subtract(Duration(days: 2));
@@ -64,7 +61,7 @@ class LocalNotification {
       if (bookingDateWithoutTime == currentDate) {
         twoDaysBefore = currentDate;
 
-        day = "towday";
+        day = "today";
         hour = currentDateInRiyadh.hour + 1;
         minute = currentDateInRiyadh.minute;
       } else {
@@ -79,51 +76,7 @@ class LocalNotification {
     }
   }
 
-// void checkBooking2(String? timeToGo,String? Date) {
 
-// // Parse the booking date and time
-//   DateTime bookingDate = DateTime.parse(Date!);
-//   String combinedTimeString = DateFormat("yyyy-MM-dd").format(bookingDate) + " " + timeToGo!;
-//   DateTime parsedTime = DateFormat("yyyy-MM-dd HH:mm:ss").parse(combinedTimeString);
-// print(parsedTime);
-//   // Calculate two hours before the booking time
-//    DateTime reminderTime = parsedTime.subtract(Duration(hours: 2));
-
-// print(reminderTime);
-
-//   // Get the current time
-//   DateTime currentTime = DateTime.now();
-//   DateTime newTime = DateTime(currentTime.year, currentTime.month, currentTime.day, currentTime.hour, 0, 0, 0);
-
-// DateTime BookDateWithoutTime = DateTime(parsedTime.year, parsedTime.month, parsedTime.day);
-// DateTime currentDateeWithoutTime = DateTime(currentTime.year, currentTime.month, currentTime.day);
-
-// print(currentTime);
-//   // Calculate the difference in hours between the current time and the booking time
-//   int hoursDifference = reminderTime.difference(newTime).inHours;
-
-// print('dev');
-// print(hoursDifference);
-//   // Set the reminder message based on the current time and the booking time
-
-//   if(BookDateWithoutTime==currentDateeWithoutTime){
-
-//     if (hoursDifference == -1) {
-//     time = "1 hour ";
-//     twoHoursBefore = DateTime.now();
-//   } else if (hoursDifference == 0) {
-//      twoHoursBefore=DateTime.now();
-//     time = "now";
-//   } else {
-//     time = "2 hours";
-//     twoHoursBefore=reminderTime;
-//   }
-
-// }
-// else{
-//     twoHoursBefore=reminderTime;
-// }
-// }
 
   static Future init() async {
     InitializationSettings settings = InitializationSettings(
@@ -136,49 +89,27 @@ class LocalNotification {
     );
   }
 
-// static void showNotification() async {
 
-// const AndroidNotificationDetails android =AndroidNotificationDetails(
-//   '0', 'baisc',
-//   importance: Importance.max,
-//   priority: Priority.high);
-
-//   NotificationDetails details =  const NotificationDetails(android: android);
-
-// await flutterLocalNotificationsPlugin.show(
-// 0,'basic ','bodyyyyyyyyy',details,payload: "payload");
-
-// }
 
   void showNotification(BuildContext context, String? id, String? timeToGo,
       String? Date, String? name, String? placeeEn, String? placeeAr) async {
-//checkBooking2(timeToGo,Date);
     checkBooking(Date);
 
-// DateTime notificationTime = DateTime(twoDaysBefore.year, twoDaysBefore.month, twoDaysBefore.day, 21, 00, 3);
-// DateTime notificationTime;
+
     tz.TZDateTime notificationTime;
     if (hour != 0 && minute != 0) {
-      //notificationTime = DateTime(twoDaysBefore.year, twoDaysBefore.month, twoDaysBefore.day, hour,minute,3);
       notificationTime = tz.TZDateTime(location, twoDaysBefore.year,
           twoDaysBefore.month, twoDaysBefore.day, hour!, minute!, 3);
-      print("inter1");
     } else {
       notificationTime = tz.TZDateTime(location, twoDaysBefore.year,
           twoDaysBefore.month, twoDaysBefore.day, 24, 00, 3);
 
-//  notificationTime = DateTime(twoDaysBefore.year, twoDaysBefore.month, twoDaysBefore.day, 24,00,3);
     }
 
-//DateTime notificationTimeInRiyadh = notificationTime.toUtc().add(Duration(hours: 3)); // Adjust to Riyadh time zone
 
     print("Notification Time:");
-    //print(notificationTimeInRiyadh);
-//DateTime notificationTime =  twoHoursBefore;
-//DateTime increasedTime = notificationTime.add(Duration(hours: 3));
-
+   
     print('note info');
-//print( tz.TZDateTime.from(notificationTime,tz.local));
     print(notificationTime);
     print(placeeAr);
     print(placeeEn);
@@ -199,14 +130,13 @@ class LocalNotification {
 
     NotificationDetails details = NotificationDetails(android: android);
     tz.initializeTimeZones();
-    // tz.setLocalLocation(tz.getLocation('Asia/Riyadh'));
 
     print(tz.local);
     print(day);
 
     if (day == 'today') {
       descreption = AppUtil.rtlDirection2(context)
-          ? day + " تبدأ " + name! + " مع " + placeName + "  تجربتك لاستكشاف"
+          ? 'اليوم تبدأ تجربتك لاستكشاف ' + placeName 
           : " your experience to discover " +
               placeName +
               " with " +
@@ -215,12 +145,7 @@ class LocalNotification {
               day;
     } else {
       descreption = AppUtil.rtlDirection2(context)
-          ? name! +
-              " مع " +
-              placeName +
-              " حتى تبدأ تجربتك لإستكشاف " +
-              day +
-              " متبقي "
+          ?'متبقي ' + day + ' حتى تبدأ تجربتك لاستكشاف ' + placeName
           : day +
               "  left and  your experience to discover " +
               placeName +
@@ -230,13 +155,11 @@ class LocalNotification {
     }
     await flutterLocalNotificationsPlugin.zonedSchedule(
         parsedId,
-        "Hi our tourist, Reminder",
+        AppUtil.rtlDirection2(context) ?"أهلا سائحنا, تذكير" :"Hi our tourist, Reminder",
         descreption,
         notificationTime,
 
-        // time + " and your journey to discover "+ placeName +" with " + 'begins',
-        //  tz.TZDateTime.now(tz.local).add(const Duration(seconds: 1)),
-        // tz.TZDateTime.from(notificationTime,tz.local),
+       
         details,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime);
@@ -294,12 +217,7 @@ class LocalNotification {
     print(day);
     if (day == 'today') {
       descreption = AppUtil.rtlDirection2(context)
-          ? day +
-              " ستبدأ " +
-              FamilyName +
-              " في منزل " +
-              mealName +
-              "استضافتك على وجبة "
+          ? "استضافتك على وجبة " + mealName + " في " + FamilyName + "تبدأ اليوم "
           : " Hosting You " +
               "for " +
               mealName +
@@ -309,12 +227,7 @@ class LocalNotification {
               day;
     } else {
       descreption = AppUtil.rtlDirection2(context)
-          ? mealName +
-              " على وجبة " +
-              FamilyName +
-              " وستبدأ استضافتك في منزل " +
-              day +
-              "متبقي  "
+          ? "متبقي " + day + " وستبدأ استضافتك في  " + FamilyName + " على " + mealName
           : day +
               "  left and your hosting begins at " +
               FamilyName +
@@ -378,11 +291,11 @@ class LocalNotification {
     print(day);
     if (day == 'today') {
       descreption = AppUtil.rtlDirection2(context)
-          ? day + " الخاصة بك ستبدأ " + PlaceName + " مغامرة "
+          ? day + " ستبدأ مغامرة " + PlaceName + " الخاصة بك"
           : " Your " + PlaceName + " adventure " + " will begin " + day;
     } else {
       descreption = AppUtil.rtlDirection2(context)
-          ? " الخاصة بك " + PlaceName + " وستبدأ مغامرة  " + day + "متبقي  "
+          ? "متبقي " + day + " وستبدأ مغامرة " + PlaceName + " الخاصة بك"
           : day + "  left and your " + PlaceName + " adventure begins ";
     }
     await flutterLocalNotificationsPlugin.zonedSchedule(
@@ -396,4 +309,69 @@ class LocalNotification {
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime);
   }
+  void showEventNotification(
+      BuildContext context,
+      String? id,
+      String? date,
+      String? nameEn,
+      String? nameAr) async {
+    checkBooking(date);
+
+    tz.TZDateTime notificationTime;
+    if (hour != 0 && minute != 0) {
+      notificationTime = tz.TZDateTime(location, twoDaysBefore.year,
+          twoDaysBefore.month, twoDaysBefore.day, hour!, minute!, 3);
+      print("inter1");
+    } else {
+      notificationTime = tz.TZDateTime(location, twoDaysBefore.year,
+          twoDaysBefore.month, twoDaysBefore.day, 24, 00, 3);
+    }
+
+    print("Notification Time:");
+
+    print(notificationTime);
+
+    print(id);
+
+    int parsedId = int.tryParse(id ?? '') ?? 0;
+    String ids = id ?? "0 ";
+
+    String PlaceName =
+        AppUtil.rtlDirection2(context) ? nameAr ?? '' : nameEn ?? '';
+
+    AndroidNotificationDetails android = AndroidNotificationDetails(
+      ids,
+      'schduled',
+      importance: Importance.max,
+      priority: Priority.high,
+    );
+
+    NotificationDetails details = NotificationDetails(android: android);
+    tz.initializeTimeZones();
+    // tz.setLocalLocation(tz.getLocation('Asia/Riyadh'));
+
+    print(tz.local);
+    print(day);
+    if (day == 'today') {
+      descreption = AppUtil.rtlDirection2(context)
+          ? day + " ستبدأ فعالية" + PlaceName + " الخاصة بك"
+          : " Your " + PlaceName + " event " + " will begin " + day;
+    } else {
+      descreption = AppUtil.rtlDirection2(context)
+          ? "متبقي " + day + " وستبدأ فعالية " + PlaceName + " الخاصة بك"
+          : day + "  left and your " + PlaceName + " event begins ";
+    }
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+        parsedId,
+        AppUtil.rtlDirection2(context)
+            ? "مرحبا سائحنا , للتذكير"
+            : "Hi our Tourist, Reminder",
+        descreption,
+        notificationTime,
+        details,
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.absoluteTime);
+  }
+
 }
+
