@@ -15,6 +15,7 @@ import 'package:ajwad_v4/request/chat/view/widgets/chat_bubble.dart';
 import 'package:ajwad_v4/request/chat/view/widgets/show_request_widget.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
 import 'package:ajwad_v4/request/tourist/models/offer_details.dart';
+import 'package:ajwad_v4/request/widgets/timer_app_bar.dart';
 import 'package:ajwad_v4/services/view/paymentType.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/available_container_widget.dart';
@@ -111,7 +112,12 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
 
     return Scaffold(
       backgroundColor: lightGreyBackground,
-      appBar: CustomAppBar('showOffer'.tr),
+      appBar: TimerAppBar(
+        'showOffer'.tr,
+        action: true,
+        onPressedAction: () {},
+        
+      ),
       body: SafeArea(
         child: Obx(
           () => widget.offerController!.isOfferLoading.value
@@ -213,10 +219,12 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                                         ),
                                         CustomText(
                                           text:
-                                              '${AppUtil.formatBookingDate(
-                                        context,widget.booking!.date!)}',
+                                              '${AppUtil.formatBookingDate(context, widget.booking!.date!)}',
                                           color: almostGrey,
-                                          fontSize:AppUtil.rtlDirection2(context)?14: 13,
+                                          fontSize:
+                                              AppUtil.rtlDirection2(context)
+                                                  ? 14
+                                                  : 13,
                                           fontWeight: FontWeight.w400,
                                           fontFamily: 'SF Pro',
                                         ),
@@ -234,7 +242,7 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                                         ),
                                         CustomText(
                                           text: AppUtil.rtlDirection2(context)
-                                              ? 'من ${ AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)} إلى ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)} '
+                                              ? 'من ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)} إلى ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)} '
                                               : 'Pick up: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)}, Drop off: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)}',
                                           color: almostGrey,
                                           fontSize: 13,
@@ -590,14 +598,10 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                                 //         },
                                 //       )
                               ],
-                            )
-
-                           
-                            ),
+                            )),
                       ),
                     ],
 
-                 
                     const SizedBox(height: 4)
                   ],
                 ),
@@ -606,111 +610,3 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

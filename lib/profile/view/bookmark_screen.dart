@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/request/widgets/timer_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_bookmark_card.dart';
+import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -31,33 +34,38 @@ class _BookmarkScreenState extends State<BookmarkScreen>
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: TimerAppBar(
+      appBar: CustomAppBar(
         'bookmark'.tr,
       ),
-      body: Container(
-        height: height * 0.9,
-        width: width,
-        padding: const EdgeInsets.only(
-          top: 10,
-          right: 24,
-          left: 24,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Expanded(
-              child: ListView.separated(
-                  itemBuilder: (builder, index) {
-                    return CustomBookmarkCard();
-                  },
-                  separatorBuilder: (builder, index) {
-                    return SizedBox(
-                      height: 20,
-                    );
-                  },
-                  itemCount: 3),
-            )
-          ],
+      body: RefreshIndicator.adaptive(
+        onRefresh: () async {
+          log('loading');
+        },
+        child: Container(
+          height: height * 0.9,
+          width: width,
+          padding: const EdgeInsets.only(
+            top: 10,
+            right: 24,
+            left: 24,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Expanded(
+                child: ListView.separated(
+                    itemBuilder: (builder, index) {
+                      return CustomBookmarkCard();
+                    },
+                    separatorBuilder: (builder, index) {
+                      return SizedBox(
+                        height: 20,
+                      );
+                    },
+                    itemCount: 3),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -4,6 +4,7 @@ import 'package:ajwad_v4/request/tourist/view/custom_ajwadi_card.dart';
 import 'package:ajwad_v4/request/tourist/view/local_offer_info.dart';
 import 'package:ajwad_v4/request/tourist/view/show_ajwadi_info_sheet.dart';
 import 'package:ajwad_v4/request/widgets/CansleDialog.dart';
+import 'package:ajwad_v4/request/widgets/timer_app_bar.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
@@ -36,7 +37,7 @@ class _OfferScreenState extends State<OfferScreen> {
     print(_offerController.offers.length);
 
     return Scaffold(
-        appBar: CustomAppBar(
+        appBar: TimerAppBar(
           'offers'.tr,
           action: true,
           onPressedAction: () {

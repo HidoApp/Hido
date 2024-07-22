@@ -8,6 +8,7 @@ import 'package:ajwad_v4/payment/controller/payment_controller.dart';
 import 'package:ajwad_v4/payment/model/invoice.dart';
 import 'package:ajwad_v4/payment/view/payment_type_new.dart';
 import 'package:ajwad_v4/request/tourist/models/offer_details.dart';
+import 'package:ajwad_v4/request/widgets/timer_app_bar.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/services/model/hospitality.dart';
 import 'package:ajwad_v4/services/view/widgets/review_details_tile.dart';
@@ -112,8 +113,10 @@ class _ReviewRequestState extends State<ReviewRequest> {
                   child: CircularProgressIndicator(color: Colors.green[800])))
           : Scaffold(
               extendBodyBehindAppBar: false,
-              appBar: CustomAppBar(
+              appBar: TimerAppBar(
                 "ReviewRequest".tr,
+                action: true,
+                onPressedAction: () {},
               ),
               body: Container(
                 padding: EdgeInsets.only(
@@ -128,7 +131,7 @@ class _ReviewRequestState extends State<ReviewRequest> {
                       children: [
                         CustomText(
                           text: 'RequestedTourDetails'.tr,
-                         fontSize: width * 0.043,
+                          fontSize: width * 0.043,
                           fontFamily: 'HT Rakik',
                           fontWeight: FontWeight.w500,
                         ),
@@ -139,33 +142,33 @@ class _ReviewRequestState extends State<ReviewRequest> {
                             title:
                                 '${AppUtil.formatBookingDate(context, widget.booking!.date!)}',
                             image: 'assets/icons/date.svg'),
-                          SizedBox(
-                  height: width * .010,
-                ),
+                        SizedBox(
+                          height: width * .010,
+                        ),
                         // Details
                         ReviewDetailsTile(
                             title: AppUtil.rtlDirection2(context)
                                 ? 'من ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)} إلى ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)} '
                                 : 'Pick up: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)}, Drop off: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)}',
                             image: 'assets/icons/time3.svg'),
-                         SizedBox(
-                  height: width * .010,
-                ),
+                        SizedBox(
+                          height: width * .010,
+                        ),
                         ReviewDetailsTile(
                             title:
                                 '${widget.booking?.guestNumber} ${'guests'.tr}',
                             image: 'assets/icons/guests.svg'),
-                         SizedBox(
-                  height: width * .010,
-                ),
-                        ReviewDetailsTile(
-                            title: widget.booking!.vehicleType!,
-                            image:
-                                'assets/icons/unselected_${widget.booking?.vehicleType!}_icon.svg',
-                           widthh:26,
-                                ),
                         SizedBox(
-                     height: width * 0.041,
+                          height: width * .010,
+                        ),
+                        ReviewDetailsTile(
+                          title: widget.booking!.vehicleType!,
+                          image:
+                              'assets/icons/unselected_${widget.booking?.vehicleType!}_icon.svg',
+                          widthh: 26,
+                        ),
+                        SizedBox(
+                          height: width * 0.041,
                         ),
                         const Divider(
                           color: lightGrey,

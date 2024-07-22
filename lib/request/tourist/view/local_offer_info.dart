@@ -48,7 +48,6 @@ class LocalOfferInfo extends StatefulWidget {
   final int price, rating, tripNumber;
   final bool fromService;
   final book.Booking? booking;
-  
 
   final Place place;
   @override
@@ -62,14 +61,13 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
   final chatController = Get.put(ChatController());
   late ChatMessage? message;
   final getStorage = GetStorage();
-    final RequestController _RequestController = Get.put(RequestController());     
+  final RequestController _RequestController = Get.put(RequestController());
   late Profile? profile;
   void getProfile() async {
     await _profileController.getProfile(
         context: context, profileId: widget.profileId);
   }
 
-  
   @override
   void initState() {
     // TODO: implement initState
@@ -77,7 +75,6 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
     super.initState();
 
     getProfile();
-  
   }
 
   @override
@@ -161,21 +158,14 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
                 //view offer button
                 if (!widget.fromService)
                   Obx(() {
-                    if (
-                      _offerController.acceptedOffer.value.orderStatus ==
-                        'ACCEPTED' || widget.place!.booking !=null 
-                      ) {
+                    if (_offerController.acceptedOffer.value.orderStatus ==
+                            'ACCEPTED' ||
+                        widget.place!.booking != null) {
                       return CustomAcceptButton(
-                        onPressed: () async{
-                      
-                  
+                        onPressed: () async {
                           Get.to(() => ChatScreen(
-                                chatId: widget.booking?.chatId,
-                                booking2:widget.booking
-                              ));
-        
-                        
-                        
+                              chatId: widget.booking?.chatId,
+                              booking2: widget.booking));
                         },
                         title: 'chat'.tr,
                         icon: 'chat',
@@ -188,7 +178,7 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
                     }
 
                     if (_offerController.acceptedOffer.value.orderStatus ==
-                        'ACCEPTED' ) {
+                        'ACCEPTED') {
                       return Center(
                         child: SizedBox(
                           width: width * 0.5,
