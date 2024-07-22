@@ -88,7 +88,11 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
       //,
       length: widget.fromService ? 2 : 3,
       child: FloatingDraggableADVN(
-        floatingWidget: const FloatingTimer(),
+        floatingWidget:
+            _offerController.acceptedOffer.value.orderStatus == 'ACCEPTED' ||
+                    widget.place!.booking != null
+                ? const SizedBox.shrink()
+                : const FloatingTimer(),
         child: Scaffold(
           appBar: CustomAppBar('localProfile'.tr),
           body: Scaffold(
