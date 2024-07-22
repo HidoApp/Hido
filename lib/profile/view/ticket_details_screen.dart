@@ -1,8 +1,10 @@
 import 'package:ajwad_v4/event/model/event.dart';
 import 'package:ajwad_v4/new-onboarding/view/splash_screen.dart';
 import 'package:ajwad_v4/profile/widget/AdventureTicketData.dart';
+import 'package:ajwad_v4/profile/widget/cancleSheet.dart';
 import 'package:ajwad_v4/profile/widget/event_ticket_data.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
+import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';
 import 'package:ajwad_v4/widgets/dotted_line_separator.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
@@ -88,303 +90,173 @@ class TicketDetailsScreen extends StatelessWidget {
                     //TicketData(booking: booking,icon: icon,bookTypeText: bookTypeText,),
                   ),
                 ),
-                const Expanded(child: SizedBox()), // Takes up remaining space
-              ],
-            ),
-          ),
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 30, // Offset from the bottom of the screen
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                width: 358,
-                height: 48,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.red, // Set the border color to red
-                    width: 1.5, // Set the border width
-                  ),
-                  borderRadius: BorderRadius.circular(4), // Set border radius
-                ),
-                child: CustomButton(
-                  onPressed: () {
-                  //   showModalBottomSheet(
-                  //   context: context,
-                  //   isScrollControlled: true,
-
-                  //   builder: (BuildContext context) {
-                      
-                      
-                  //    return Padding(
-                  //   padding: EdgeInsets.only(
-                  //     bottom: MediaQuery.of(context).viewInsets.bottom,
-                  //   ),
-                  //   child: Container(
-                  //                          width: double.infinity,
-                  //                          height: 400,
-                  //                          padding: const EdgeInsets.only(
-                  //                            top: 16,
-                  //                            left: 24,
-                  //                            right: 24,
-                  //                            bottom: 32,
-                  //                          ),
-                  //                          clipBehavior: Clip.antiAlias,
-                  //                          decoration: ShapeDecoration(
-                  //                            color: Colors.white,
-                  //                            shape: RoundedRectangleBorder(
-                  //         borderRadius: BorderRadius.only(
-                  //           topLeft: Radius.circular(24),
-                  //           topRight: Radius.circular(24),
-                  //         ),
-                  //                            ),
-                  //                          ),
-                            
-                  //           child: Column(
-                  //             mainAxisSize: MainAxisSize.min,
-                  //             mainAxisAlignment: MainAxisAlignment.start,
-                  //             crossAxisAlignment: CrossAxisAlignment.center,
-                  //             children: [
-                               
-                  //             BottomSheetIndicator(),
-                                              
-                  //             Expanded(
-                  //                 child: Column(
-                  //                                       mainAxisAlignment: MainAxisAlignment.end,
-                                
-                  //                   children: [
-                  //                   Container(
-                  //                             width: 48,
-                  //                             height: 48,
-                  //                             padding: const EdgeInsets.all(8),
-                  //                             decoration: ShapeDecoration(
-                  //                             color: Color(0xFFFBEAE9),
-                  //                             shape: RoundedRectangleBorder(
-                  //                             borderRadius: BorderRadius.circular(9999),
-                  //                             ),
-                  //                             ),
-                  //                       child: SvgPicture.asset(
-                  //                         'assets/icons/warning.svg',
-                  //                       ),
-                  //                     ),
-                                    
-                  //                 SizedBox(height: 10),
-                  //                 Text(
-                  //                   AppUtil.rtlDirection2(context)
-                  //                       ? "إلغاء الحجز"
-                  //                       : "Canceling",
-                  //                   textAlign: TextAlign.center,
-                  //                   style: TextStyle(
-                  //                     fontSize: 17,
-                  //                     fontWeight: FontWeight.w500,
-                  //                  fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
-                                
-                  //                   ),
-                  //                 ),
-                  //                 SizedBox(height: 4),
-                  //                 Text(
-                  //                   'CancelBookingConfirm'.tr,
-                  //                   textAlign: TextAlign.center,
-                  //                   style: TextStyle(
-                  //                       fontSize: 14,
-                  //                       color: Color(0xFF9392A0),
-                  //                  fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
-                  //                       fontWeight: FontWeight.w500),
-                  //                 ),
-                  //                 const SizedBox(height: 24),
-                  //                 Container(
-                  //                   width: double.infinity,
-                  //                   height: 108,
-                  //                   // padding: const EdgeInsets.symmetric(
-                  //                   //     horizontal: 12, vertical: 8),
-                  //                   decoration: ShapeDecoration(
-                  //                     color: Colors.white,
-                  //                     shape: RoundedRectangleBorder(
-                  //                       side: BorderSide(
-                  //                           width: 1, color: Color(0xFFB9B8C1)),
-                  //                       borderRadius: BorderRadius.circular(8),
-                  //                     ),
-                  //                   ),
-                  //                   child: TextField(
-                  //                         style: TextStyle(
-                  //                                               color: Colors.black,
-                  //                                               fontSize: 15,
-                  //                                           fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
-                                    
-                  //                                             fontWeight: FontWeight.w400,
-                                                              
-                  //                                           ),
-                  //                     maxLines: 10,
-                  //                     decoration: InputDecoration(
-                  //                       border: InputBorder.none,
-                  //                       hintText:
-                  //                       AppUtil.rtlDirection2(context)?'اكتب هنا':'Write here',
-                  //                       hintStyle: TextStyle(
-                  //                         color: Color(0xFFB9B8C1),
-                  //                         fontSize: 15,
-                  //                          fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
-                  //                         fontWeight: FontWeight.w400,
-                  //                       ),
-                  //                       contentPadding: const EdgeInsets.symmetric(
-                  //                           horizontal: 12,vertical: 4),
-                  //                     ),
-                  //                   ),
-                  //                 ),
-                  //                 const SizedBox(height: 28),
-                  //                                          CustomButton(title: 
-                                   
-                  //                   'Confirm'.tr,
-                  //                   buttonColor: Color(0xFFDC362E),
-                                
-                  //                  textColor: Colors.white,
-                  //                  borderColor:Color(0xFFDC362E) ,
-                                    
-                                    
-                  //                   ),
-                  //                   ],
-                  //                 ),
-                  //               ),
-                  //             ],
-                  //           ),
-                  //         ),
-                  //      );
+               // const Expanded(child: SizedBox()), // Takes up remaining space
+             
+          
+          
+           Spacer(),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 35),
+                    child: Column(
+                      children:[
                     
-                  //   },
-                  // );
-                
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          // contentPadding: EdgeInsets.only(left:12,right:12,top:15,bottom: 8),
-                          // insetPadding: EdgeInsets.symmetric(horizontal: 40),
-                          backgroundColor: Colors.white,
-                          surfaceTintColor: Colors.white,
-                          shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(8.0))),
-                          // shape: RoundedRectangleBorder(
-                          //   borderRadius: BorderRadius.circular(8),
-                          // ),
-                          // backgroundColor: Colors.white,
-                          content: Container(
-                            width: 270,
-                            height: 143,
-                            //child: Padding(
-                            // padding: const EdgeInsets.only(left:12,right:12,top:12,bottom: 8),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                SvgPicture.asset(
-                                  'assets/icons/warning.svg',
-                                ),
-                                SizedBox(height: 8),
-                                Text(
-                                  AppUtil.rtlDirection2(context)
-                                      ? "الغاء"
-                                      : "Canceling",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w500,
-                                    fontFamily: 'HT Rakik',
-                                  ),
-                                ),
-                                SizedBox(height: 1),
-                                Text(
-                                  'CancelBookingConfirm'.tr,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontSize: 13,
-                                      fontFamily: 'SF Pro',
-                                      fontWeight: FontWeight.w500),
-                                ),
-                                SizedBox(height: 11),
-                                Container(
-                                  width: 268,
-                                  height: 33,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors
-                                          .red, // Set the border color to red
-                                      width: 1.5, // Set the border width
-                                    ),
-                                    borderRadius: BorderRadius.circular(
-                                        4), // Set border radius
-                                  ),
-                                  child: CustomButton(
-                                    onPressed: () {
-                                      // Handle cancel booking
-                                      Obx(() => _offerController
-                                              .isBookingCancelLoading.value
-                                          ? const Center(
-                                              child: CircularProgressIndicator(
-                                                  color: Colors.black),
-                                            )
-                                          : GestureDetector(
-                                              onTap: () async {
-                                                log("Cancele ticket ${booking!.id}");
-
-                                                bool bookingCancel =
-                                                    await _offerController
-                                                            .bookingCancel(
-                                                                context:
-                                                                    context,
-                                                                bookingId:
-                                                                    booking!
-                                                                        .id!) ??
-                                                        false;
-                                                if (bookingCancel) {
-                                                  if (context.mounted) {
-                                                    AppUtil.successToast(
-                                                        context, 'EndTrip'.tr);
-                                                    await Future.delayed(
-                                                        const Duration(
-                                                            seconds: 1));
-                                                  }
-                                                  Get.offAll(
-                                                      const TouristBottomBar());
-                                                  await flutterLocalNotificationsPlugin
-                                                      .cancel(int.tryParse(
-                                                              booking!.id!) ??
-                                                          0);
-                                                }
-                                              },
-
-                                              // child: Text(
-                                              //   "Confirm".tr,
-                                              //   textAlign: TextAlign.center,
-                                              //   style: TextStyle(
-                                              //     fontSize: 16,
-                                              //     fontWeight: FontWeight.w500,
-                                              //     color: const Color(0xFFDC362E),
-                                              //   ),
-                                              // ),
-                                            ));
-                                    },
-                                    title: 'Confirm'.tr,
-                                    buttonColor: Colors.white.withOpacity(
-                                        0.5), // Set the button color to transparent white
-                                    textColor:
-                                        Colors.red, // Set the text color to red
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          // ),
-                        );
-                      },
-                    );
-                  },
-                  title: 'CancelBooking'.tr,
-                  buttonColor:
-                      lightGreyBackground, // Set the button color to transparent white
-                  textColor: Colors.red,
-                  // Set the text color to red
+                      CustomButton(
+                        onPressed: () {
+                          showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            builder: (BuildContext context) {
+                             
+                            return CancleSheet();
+                            },
+                          );
+                        },
+                        //   showDialog(
+                        //     context: context,
+                        //     builder: (BuildContext context) {
+                        //       return AlertDialog(
+                        //         // contentPadding: EdgeInsets.only(left:12,right:12,top:15,bottom: 8),
+                        //         // insetPadding: EdgeInsets.symmetric(horizontal: 40),
+                        //         backgroundColor: Colors.white,
+                        //         surfaceTintColor: Colors.white,
+                        //         shape: const RoundedRectangleBorder(
+                        //             borderRadius:
+                        //                 BorderRadius.all(Radius.circular(8.0))),
+                        //         // shape: RoundedRectangleBorder(
+                        //         //   borderRadius: BorderRadius.circular(8),
+                        //         // ),
+                        //         // backgroundColor: Colors.white,
+                        //         content: Container(
+                        //           width: 270,
+                        //           height: 143,
+                        //           //child: Padding(
+                        //           // padding: const EdgeInsets.only(left:12,right:12,top:12,bottom: 8),
+                        //           child: Column(
+                        //             mainAxisSize: MainAxisSize.min,
+                        //             children: [
+                        //               SvgPicture.asset(
+                        //                 'assets/icons/warning.svg',
+                        //               ),
+                        //               SizedBox(height: 8),
+                        //               Text(
+                        //                 AppUtil.rtlDirection2(context)
+                        //                     ? "الغاء"
+                        //                     : "Canceling",
+                        //                 textAlign: TextAlign.center,
+                        //                 style: TextStyle(
+                        //                   fontSize: 17,
+                        //                   fontWeight: FontWeight.w500,
+                        //                   fontFamily: 'HT Rakik',
+                        //                 ),
+                        //               ),
+                        //               SizedBox(height: 1),
+                        //               Text(
+                        //                 'CancelBookingConfirm'.tr,
+                        //                 textAlign: TextAlign.center,
+                        //                 style: TextStyle(
+                        //                     fontSize: 13,
+                        //                     fontFamily: 'SF Pro',
+                        //                     fontWeight: FontWeight.w500),
+                        //               ),
+                        //               SizedBox(height: 11),
+                        //               Container(
+                        //                 width: 268,
+                        //                 height: 33,
+                        //                 decoration: BoxDecoration(
+                        //                   border: Border.all(
+                        //                     color: Colors
+                        //                         .red, // Set the border color to red
+                        //                     width: 1.5, // Set the border width
+                        //                   ),
+                        //                   borderRadius: BorderRadius.circular(
+                        //                       4), // Set border radius
+                        //                 ),
+                        //                 child: CustomButton(
+                        //                   onPressed: () {
+                        //                     // Handle cancel booking
+                        //                     Obx(() => _offerController
+                        //                             .isBookingCancelLoading.value
+                        //                         ? const Center(
+                        //                             child: CircularProgressIndicator(
+                        //                                 color: Colors.black),
+                        //                           )
+                        //                         : GestureDetector(
+                        //                             onTap: () async {
+                        //                               log("Cancele ticket ${booking!.id}");
+                      
+                        //                               bool bookingCancel =
+                        //                                   await _offerController
+                        //                                           .bookingCancel(
+                        //                                               context:
+                        //                                                   context,
+                        //                                               bookingId:
+                        //                                                   booking!
+                        //                                                       .id!) ??
+                        //                                       false;
+                        //                               if (bookingCancel) {
+                        //                                 if (context.mounted) {
+                        //                                   AppUtil.successToast(
+                        //                                       context, 'EndTrip'.tr);
+                        //                                   await Future.delayed(
+                        //                                       const Duration(
+                        //                                           seconds: 1));
+                        //                                 }
+                        //                                 Get.offAll(
+                        //                                     const TouristBottomBar());
+                        //                                 await flutterLocalNotificationsPlugin
+                        //                                     .cancel(int.tryParse(
+                        //                                             booking!.id!) ??
+                        //                                         0);
+                        //                               }
+                        //                             },
+                      
+                        //                             // child: Text(
+                        //                             //   "Confirm".tr,
+                        //                             //   textAlign: TextAlign.center,
+                        //                             //   style: TextStyle(
+                        //                             //     fontSize: 16,
+                        //                             //     fontWeight: FontWeight.w500,
+                        //                             //     color: const Color(0xFFDC362E),
+                        //                             //   ),
+                        //                             // ),
+                        //                           ));
+                        //                   },
+                        //                   title: 'Confirm'.tr,
+                        //                   buttonColor: Colors.white.withOpacity(
+                        //                       0.5), // Set the button color to transparent white
+                        //                   textColor:
+                        //                       Colors.red, // Set the text color to red
+                        //                 ),
+                        //               ),
+                        //             ],
+                        //           ),
+                        //         ),
+                        //         // ),
+                        //       );
+                        //     },
+                        //   );
+                        // },
+                        title: 'CancelBooking'.tr,
+                        buttonColor:
+                            lightGreyBackground, // Set the button color to transparent white
+                        textColor: Colors.red,
+                        borderColor: colorRed,
+                        // Set the text color to red
+                      ),
+                    ],
+                  ),
                 ),
               ),
+            ],
+          ),
+           ],
             ),
           ),
         ],
@@ -395,10 +267,12 @@ class TicketDetailsScreen extends StatelessWidget {
   Widget getBookingTypeWidget(BuildContext context, String bookingType) {
     switch (bookingType) {
       case 'place':
+      case 'جولة':
         return TicketData(
             booking: booking!, icon: icon, bookTypeText: bookTypeText);
 
       case 'adventure':
+      case 'مغامرة':
         if (adventure == null)
           return AdventureTicketData(
               booking: booking!, icon: icon, bookTypeText: bookTypeText);
@@ -407,6 +281,7 @@ class TicketDetailsScreen extends StatelessWidget {
               adventure: adventure, icon: icon, bookTypeText: bookTypeText);
 
       case 'hospitality':
+      case 'ضيافة':
         if (hospitality == null)
           return HostTicketData(
               booking: booking!, icon: icon, bookTypeText: bookTypeText);
@@ -415,6 +290,7 @@ class TicketDetailsScreen extends StatelessWidget {
               hospitality: hospitality, icon: icon, bookTypeText: bookTypeText);
 
       case 'event':
+      case 'فعالية':
         if (event == null) {
           return EventTicketData(
               booking: booking, icon: icon, bookTypeText: bookTypeText);

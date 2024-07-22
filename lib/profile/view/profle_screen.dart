@@ -265,9 +265,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   builder: (BuildContext context) {
                                     return AlertDialog(
                                       backgroundColor: Colors.white,
+                                      surfaceTintColor: Colors.white,
                                       shape: const RoundedRectangleBorder(
                                           borderRadius: BorderRadius.all(
-                                              Radius.circular(32.0))),
+                                              Radius.circular(8.0))),
                                       content: Column(
                                         mainAxisSize: MainAxisSize.min,
                                         crossAxisAlignment:
@@ -278,16 +279,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           ),
                                           CustomText(
                                               textAlign: TextAlign.center,
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w300,
-                                              color: dividerColor,
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w500,
+                                              color: black,
+                                              fontFamily:AppUtil.rtlDirection2(context) ? "SF Arabic" : 'SF Pro',
                                               text: "youWantSiginOut".tr),
                                           const SizedBox(
                                             height: 20,
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.symmetric(
-                                                horizontal: 20),
+                                                horizontal: 4),
                                             child: CustomButton(
                                               height: 25,
                                               title: "signOut".tr,
@@ -298,20 +300,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               },
                                             ),
                                           ),
-                                          const SizedBox(
-                                            height: 20,
-                                          ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              Get.back();
-                                            },
-                                            child: CustomText(
-                                                textAlign: TextAlign.center,
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w300,
-                                                color: colorRed,
-                                                text:
-                                                    "cancel".tr.toUpperCase()),
+                                         
+                                          
+                                           Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 4),
+                                            child: CustomButton(
+                                              height: 25,
+                                              borderColor: colorRed,
+                                              buttonColor: Colors.white,
+                                              textColor: colorRed,
+                                              title:  "cancel".tr.toUpperCase(),
+                                              onPressed: () {
+                                                Get.back();
+
+                                              },
+                                            ),
                                           ),
                                         ],
                                       ),

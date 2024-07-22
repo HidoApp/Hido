@@ -100,7 +100,12 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
 //       });
 //  }
 // Compare the times
-    if (currentDate.isAfter(timeToGo) || currentDate.isAtSameMomentAs(timeToGo)) {
+print('lkjhgfdsfgbnm');
+print(currentTime);
+print(timeToGo);
+print(currentTime.isAfter(timeToGo));
+print(currentTime.isAtSameMomentAs(timeToGo));
+    if (currentTime.isAfter(timeToGo) || currentTime.isAtSameMomentAs(timeToGo)) {
 
       setState(() {
         isTripStart.value = true;
@@ -115,11 +120,12 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
     super.initState();
 
     _controller = ExpandedTileController(isExpanded: false);
+        checkCondition();
+
     getAddressFromCoordinates(
         double.parse(widget.nextTrip!.booking!.coordinates.latitude ?? ''),
         double.parse((widget.nextTrip!.booking!.coordinates.longitude ?? '')));
 
-    checkCondition();
   }
 
   void getAddressFromCoordinates(double latitude, double longitude) async {
@@ -142,7 +148,6 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
         Get.put(TouristExploreController());
     print(_tripController.nextStep.value);
     print(_tripController.progress.value);
-
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
@@ -398,7 +403,7 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                       children: [
                         ItineraryTile(
                           title:
-                              ' ${AppUtil.formatStringTimeWithLocale(context, widget.nextTrip!.booking!.timeToReturn)} -  ${AppUtil.formatStringTimeWithLocale(context, widget.nextTrip!.booking!.timeToGo)}',
+                              ' ${AppUtil.formatStringTimeWithLocale(context, widget.nextTrip!.booking!.timeToGo)} -  ${AppUtil.formatStringTimeWithLocale(context, widget.nextTrip!.booking!.timeToReturn)}',
                           image: "assets/icons/timeGrey.svg",
                         ),
                         //SizedBox(height: width * 0.025),

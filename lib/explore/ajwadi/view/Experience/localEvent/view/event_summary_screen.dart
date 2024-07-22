@@ -83,20 +83,22 @@ int totalguest = 0;
     _overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
         top: 117,
-        left: AppUtil.rtlDirection2(context)? MediaQuery.of(context).size.width * 0.65:null,
-        right:AppUtil.rtlDirection2(context)?null: MediaQuery.of(context).size.width * 0.25,
+        left: AppUtil.rtlDirection2(context)? MediaQuery.of(context).size.width * 0.35:null,
+        right:AppUtil.rtlDirection2(context)?null: MediaQuery.of(context).size.width * 0.35,
         child: Material(
           color: Colors.transparent,
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+            padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
             decoration: BoxDecoration(
               color: Colors.black,
               borderRadius: BorderRadius.circular(8.0),
             ),
             child: Text(
-             AppUtil.rtlDirection2(context)?"تم النسخ": 'Summary ID copied',
+             AppUtil.rtlDirection2(context)?"تم النسخ إلى الحافظة ": 'Copied tp clipboard',
               style: TextStyle(color: Colors.white,
                fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic': 'SF Pro',
+               fontSize: 11,
+               fontWeight: FontWeight.w400,
                     ),
             ),
           ),

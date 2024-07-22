@@ -83,19 +83,30 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
 print("day deference");
       print(daysDifference);
+     
       if (daysDifference == 2) {
         _upcomingBookings.add(booking);
         print(_upcomingBookings.length);
         AppUtil.rtlDirection2(context)
-            ? days = " بعد يوم , عند الساعة" + booking.timeToGo
-            : days = " is after a day at " + booking.timeToGo;
+            ? days = " بعد يومين , عند الساعة " + booking.timeToGo
+            : days = " is after two day at " + booking.timeToGo;
       } else if (daysDifference == 1) {
-        print('inter');
+        print('inter1');
         _upcomingBookings.add(booking);
         print(_upcomingBookings.length);
         AppUtil.rtlDirection2(context)
-            ? days = " غدا عند الساعة" + booking.timeToGo
+           ? days = " بعد يوم , عند الساعة " + booking.timeToGo
+           : days = " is after a day at " + booking.timeToGo;
+          
+      } else if (daysDifference == 0){
+              print('inter0');
+        _upcomingBookings.add(booking);
+        print(_upcomingBookings.length);
+        AppUtil.rtlDirection2(context)
+      ? days = " غدا عند الساعة " + booking.timeToGo
             : days = " is tomorrow at " + booking.timeToGo;
+     
+     
       } else {
         print(bookingDate);
         print(currentDateInRiyadh);
@@ -106,7 +117,7 @@ print("day deference");
 
         // DateTime todayWithoutTime = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
 
-        if (bookingDateWithoutTime == todayWithoutTime) {
+        if (bookingDateWithoutTime.isAtSameMomentAs(todayWithoutTime)) {
           _upcomingBookings.add(booking);
           AppUtil.rtlDirection2(context)
               ? days = " اليوم عند الساعة " + booking.timeToGo
@@ -122,54 +133,7 @@ print("day deference");
     print(  widget.hasNotifications);
   }
 
-  
-//   void getUpcomingBookings() async {
-// if (_upcomingTicket.isEmpty) {
-//   print('love null');
-// }
-//   for (Booking booking in _upcomingTicket ) {
-//     DateTime bookingDate = DateTime.parse(booking.date);
-//      String combinedTimeString = intel.DateFormat("yyyy-MM-dd").format(bookingDate) + " " + booking.timeToGo;
-//      DateTime parsedTime = intel.DateFormat("yyyy-MM-dd HH:mm:ss").parse(combinedTimeString);
-//     int daysDifference = parsedTime.difference(DateTime.now()).inHours;
-//     print(daysDifference);
-
-//  print(parsedTime);
-//  print(DateTime.now());
-//   DateTime bookingDateWithoutTime = DateTime(bookingDate.year, bookingDate.month, bookingDate.day);
-//   DateTime todayWithoutTime = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
-
-//   if (bookingDateWithoutTime == todayWithoutTime) {
-//        if (daysDifference == 2) {
-//       _upcomingBookings.add(booking);
-//       print(_upcomingBookings.length);
-//       AppUtil.rtlDirection2(context)? days="بعد ساعتين عند" + booking.timeToGo: days=" is after two hour at"+ booking.timeToGo;
-//     }
-//        else if(daysDifference == 1){
-//         _upcomingBookings.add(booking);
-//       print(_upcomingBookings.length);
-//       AppUtil.rtlDirection2(context)? days="بعد ساعة عند" + booking.timeToGo: days=" is after one hour at"+ booking.timeToGo;
-//        }
-//        else if(daysDifference == 0){
-//         _upcomingBookings.add(booking);
-//       print(_upcomingBookings.length);
-//       AppUtil.rtlDirection2(context)? days=" الان عند" + booking.timeToGo: days=" is now at"+ booking.timeToGo;
-//        }
-
-//     else{
-//       setState(() {
-//      widget.hasNotifications=false;
-
-//     });
-//     }
-//   }
-//     else{
-//     widget.hasNotifications=false;
-
-//     }
-//        }
-
-// }
+ 
 
   void disableNotification(int index) {
     setState(() {
@@ -317,7 +281,7 @@ print("day deference");
 
 
                         );
-                      }else{
+                      }else if(_upcomingBookings[index].bookingType=='adventure'){
                          return NotificationCrd(
                           name: AppUtil.rtlDirection2(context)
                               ? _upcomingBookings[index].adventure?.nameAr??''
@@ -335,6 +299,22 @@ print("day deference");
 
                         );
                         
+                      }else{
+                        return NotificationCrd(
+                          name: AppUtil.rtlDirection2(context)
+                              ? _upcomingBookings[index].event?.nameAr??''
+                              : _upcomingBookings[index].event?.nameEn?? "",
+                          isRtl: AppUtil.rtlDirection2(context),
+                          width: width,
+                          days: days,
+                          isDisabled: isDisabled,
+                          onCancel: () {
+                            disableNotification(index);
+                          },
+                    onDismissed: () => _dismissNotification(index),
+                    isViewed: isViewed,
+
+                        );
                       }
                       
                     } 
