@@ -313,6 +313,23 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.9.3+1"
+
+  fixnum:
+    dependency: transitive
+    description:
+      name: fixnum
+      sha256: "25517a4deb0c03aa0f32fd12db525856438902d9c16536311e76cdc57b31d7d1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
+  floating_draggable_advn:
+    dependency: "direct main"
+    description:
+      name: floating_draggable_advn
+      sha256: "97033ddd2bcc720318b9cc94cd6ab7887aa85f641f9dd484d3c7167347c9326f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.6"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -685,6 +702,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.8.9+5"
+
   image_picker_for_web:
     dependency: transitive
     description:
@@ -1049,10 +1067,10 @@ packages:
     dependency: transitive
     description:
       name: shared_preferences_platform_interface
-      sha256: "22e2ecac9419b4246d7c22bfbbda589e3acf5c0351137d87dd2939d984d37c3b"
+      sha256: "034650b71e73629ca08a0bd789fd1d83cc63c2d1e405946f7cef7bc37432f93a"
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.2"
+    version: "2.4.0"
   shared_preferences_web:
     dependency: transitive
     description:
@@ -1078,10 +1096,10 @@ packages:
     dependency: "direct main"
     description:
       name: smooth_page_indicator
-      sha256: eebe23a5bd887ca4bc7b9c6173362edb2c625e37aee6043a567a342973357a7b
+      sha256: "3b28b0c545fa67ed9e5997d9f9720d486f54c0c607e056a1094544e36934dff3"
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.0"
+    version: "1.2.0+3"
   source_span:
     dependency: transitive
     description:
@@ -1274,6 +1292,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.3.0"
+
   url_launcher_ios:
     dependency: transitive
     description:

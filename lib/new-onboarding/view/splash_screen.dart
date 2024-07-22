@@ -51,7 +51,7 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen>
+class _SplashScreenState extends State<SplashScreen> 
     with SingleTickerProviderStateMixin {
   final _authController = Get.put(AuthController());
   final _getStorage = GetStorage();
@@ -61,12 +61,11 @@ class _SplashScreenState extends State<SplashScreen>
   late dynamic token;
 
   Future<String?> checkForBoarding() async {
-    dynamic onBoarding = await _getStorage.read('onBoarding') ?? '' ;
+    dynamic onBoarding = await _getStorage.read('onBoarding') ?? '';
     print('onBoarding  onBoarding $onBoarding');
     userRole = _getStorage.read('userRole') ?? '';
     token = _getStorage.read('accessToken') ?? '';
     token = _getStorage.read('accessToken') ?? '';
-
 
     if (onBoarding == 'yes') {
       return onBoarding;
@@ -74,7 +73,6 @@ class _SplashScreenState extends State<SplashScreen>
       return null;
     }
   }
-
 
   @override
   void initState() {
@@ -85,46 +83,40 @@ class _SplashScreenState extends State<SplashScreen>
     )..forward();
 
     Future.delayed(const Duration(seconds: 5), () async {
-     onBoarding =  await checkForBoarding()?? 'no';
- _controller.dispose();
-     print('onBoarding onBoarding onBoarding $onBoarding');
-        if (onBoarding == 'no' && token != '' && userRole == 'local') {
-          if (JwtDecoder.isExpired(token)) {
-            final String refreshToken = _getStorage.read('refreshToken');
-            var user = await _authController.refreshToken(
-                refreshToken: refreshToken, context: context);
-            if (user != null) {
-              token = user.accessToken;
-            }
-     print('token $token');
-
+      onBoarding = await checkForBoarding() ?? 'no';
+      _controller.dispose();
+      print('onBoarding onBoarding onBoarding $onBoarding');
+      if (onBoarding == 'no' && token != '' && userRole == 'local') {
+        if (JwtDecoder.isExpired(token)) {
+          final String refreshToken = _getStorage.read('refreshToken');
+          var user = await _authController.refreshToken(
+              refreshToken: refreshToken, context: context);
+          if (user != null) {
+            token = user.accessToken;
           }
-
-          Get.off(() => AjwadiBottomBar());
-        } else if (onBoarding == 'no' && token != '' && userRole == 'tourist') {
-          if (JwtDecoder.isExpired(token)) {
-            final String refreshToken = _getStorage.read('refreshToken');
-            var user = await _authController.refreshToken(
-                refreshToken: refreshToken, context: context);
-            if (user != null) {
-              token = user.accessToken;
-                   print('token $token');
-
-            }
-          }
-
-          Get.off(() => TouristBottomBar());
-        } else if (onBoarding == 'no') {
-          //  Get.off(() => const AccountTypeScreen());
-           Get.off( OnboardingScreen(),
-                        transition: Transition.fade);
-                  
-        } else {
-        Get.off( OnboardingScreen(),
-                        transition: Transition.fade);
+          print('token $token');
         }
-      });
-  
+
+        Get.off(() => const AjwadiBottomBar());
+      } else if (onBoarding == 'no' && token != '' && userRole == 'tourist') {
+        if (JwtDecoder.isExpired(token)) {
+          final String refreshToken = _getStorage.read('refreshToken');
+          var user = await _authController.refreshToken(
+              refreshToken: refreshToken, context: context);
+          if (user != null) {
+            token = user.accessToken;
+            print('token $token');
+          }
+        }
+
+        Get.off(() => const TouristBottomBar());
+      } else if (onBoarding == 'no') {
+        //  Get.off(() => const AccountTypeScreen());
+        Get.off(() => const OnboardingScreen(), transition: Transition.fade);
+      } else {
+        Get.off(() => const OnboardingScreen(), transition: Transition.fade);
+      }
+    });
   }
 
   // @override

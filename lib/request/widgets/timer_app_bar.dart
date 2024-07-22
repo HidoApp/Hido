@@ -1,5 +1,6 @@
 import 'package:ajwad_v4/auth/widget/countdown_timer.dart';
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/explore/tourist/controller/timer_controller.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
 import 'package:ajwad_v4/request/widgets/offer_timer.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
@@ -35,6 +36,7 @@ class TimerAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _TimerAppBarState extends State<TimerAppBar> {
+  final _timerController = Get.put(TimerController(), permanent: true);
   @override
   Widget build(BuildContext context) {
     return PreferredSize(
@@ -71,23 +73,29 @@ class _TimerAppBarState extends State<TimerAppBar> {
               ),
             ),
             actions: <Widget>[
-              const Padding(
-                padding: EdgeInsets.all(4),
-                child: OfferTimer(),
-              ),
-              if (widget.action)
-                Padding(
+              Padding(
                   padding: EdgeInsets.all(4),
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.more_vert,
-                      size: 29,
-                      color: widget.color ?? Colors.black,
+                  child: Obx(
+                    () => CustomText(
+                      text: _timerController.time.value,
+                      color: colorGreen,
+                      fontSize: 16,
+                      fontFamily: 'SF Pro',
                     ),
-                    tooltip: "more",
-                    onPressed: widget.onPressedAction,
+                  )),
+              // if (widget.action)
+              Padding(
+                padding: EdgeInsets.all(4),
+                child: IconButton(
+                  icon: Icon(
+                    Icons.more_vert,
+                    size: 29,
+                    color: widget.color ?? Colors.black,
                   ),
+                  tooltip: "more",
+                  onPressed: widget.onPressedAction,
                 ),
+              ),
             ], //
             centerTitle: true,
 

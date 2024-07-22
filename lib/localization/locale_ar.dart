@@ -568,5 +568,10 @@ const localeAr = {
   'accountNumberHint': "لارسال الاشعارات وتسهيل عملية تسجيل الدخول",
   'delAccount': 'حذف الحساب', 'editPhoneNumber': 'تحديث رقم الجوال',
   "phoneEditSubtitle": "سنقوم بارسال رمز لتأكيد رقم الجوال الجديد ",
-  'addProvidedServices': 'تحديث الخدمات المقدمة'
+  'addProvidedServices': 'تحديث الخدمات المقدمة',
+  'timerDialogContent':
+      'ما في عروض جولات من المرشدين المحليين على حسب طلبك. حياك جرب ثاني لاحقا أو اختار يوم تاني',
+  'unfortunately': 'اعذرنا',
+  'requestTimedOut': "انتهى وقت الاختيار!",
+  'contentTimedOut': "قدم طلب جديد في حال كنت ترغب في الاستمرار"
 };
