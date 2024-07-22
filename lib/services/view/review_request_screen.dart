@@ -4,6 +4,7 @@ import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart' as book;
 import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
+import 'package:ajwad_v4/explore/widget/floating_timer.dart';
 import 'package:ajwad_v4/payment/controller/payment_controller.dart';
 import 'package:ajwad_v4/payment/model/invoice.dart';
 import 'package:ajwad_v4/payment/view/payment_type_new.dart';
@@ -20,6 +21,7 @@ import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/dotted_line_separator.dart';
 import 'package:ajwad_v4/widgets/payment_web_view.dart';
 import 'package:ajwad_v4/widgets/promocode_field.dart';
+import 'package:floating_draggable_advn/floating_draggable_advn_bk.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -111,136 +113,137 @@ class _ReviewRequestState extends State<ReviewRequest> {
           ? Scaffold(
               body: Center(
                   child: CircularProgressIndicator(color: Colors.green[800])))
-          : Scaffold(
-              extendBodyBehindAppBar: false,
-              appBar: TimerAppBar(
-                "ReviewRequest".tr,
-                action: true,
-                onPressedAction: () {},
-              ),
-              body: Container(
-                padding: EdgeInsets.only(
-                    top: width * 0.01,
-                    left: width * 0.043,
-                    right: width * 0.043),
-                child: SizedBox(
-                  height: MediaQuery.sizeOf(context).height,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CustomText(
-                          text: 'RequestedTourDetails'.tr,
-                          fontSize: width * 0.043,
-                          fontFamily: 'HT Rakik',
-                          fontWeight: FontWeight.w500,
-                        ),
-                        SizedBox(
-                          height: width * 0.04,
-                        ),
-                        ReviewDetailsTile(
-                            title:
-                                '${AppUtil.formatBookingDate(context, widget.booking!.date!)}',
-                            image: 'assets/icons/date.svg'),
-                        SizedBox(
-                          height: width * .010,
-                        ),
-                        // Details
-                        ReviewDetailsTile(
-                            title: AppUtil.rtlDirection2(context)
-                                ? 'من ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)} إلى ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)} '
-                                : 'Pick up: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)}, Drop off: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)}',
-                            image: 'assets/icons/time3.svg'),
-                        SizedBox(
-                          height: width * .010,
-                        ),
-                        ReviewDetailsTile(
-                            title:
-                                '${widget.booking?.guestNumber} ${'guests'.tr}',
-                            image: 'assets/icons/guests.svg'),
-                        SizedBox(
-                          height: width * .010,
-                        ),
-                        ReviewDetailsTile(
-                          title: widget.booking!.vehicleType!,
-                          image:
-                              'assets/icons/unselected_${widget.booking?.vehicleType!}_icon.svg',
-                          widthh: 26,
-                        ),
-                        SizedBox(
-                          height: width * 0.041,
-                        ),
-                        const Divider(
-                          color: lightGrey,
-                        ),
-                        SizedBox(
-                          height: width * 0.03,
-                        ),
-                        CustomText(
-                          text: "ItineraryDetails".tr,
-                          fontSize: width * 0.043,
-                          fontFamily: 'HT Rakik',
-                          fontWeight: FontWeight.w500,
-                        ),
-                        ScheduleContainerWidget(
-                            scheduleList: widget.scheduleList,
+          : FloatingDraggableADVN(
+              floatingWidget: const FloatingTimer(),
+              child: Scaffold(
+                extendBodyBehindAppBar: false,
+                appBar: CustomAppBar(
+                  "ReviewRequest".tr,
+                ),
+                body: Container(
+                  padding: EdgeInsets.only(
+                      top: width * 0.01,
+                      left: width * 0.043,
+                      right: width * 0.043),
+                  child: SizedBox(
+                    height: MediaQuery.sizeOf(context).height,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomText(
+                            text: 'RequestedTourDetails'.tr,
+                            fontSize: width * 0.043,
+                            fontFamily: 'HT Rakik',
+                            fontWeight: FontWeight.w500,
+                          ),
+                          SizedBox(
+                            height: width * 0.04,
+                          ),
+                          ReviewDetailsTile(
+                              title:
+                                  '${AppUtil.formatBookingDate(context, widget.booking!.date!)}',
+                              image: 'assets/icons/date.svg'),
+                          SizedBox(
+                            height: width * .010,
+                          ),
+                          // Details
+                          ReviewDetailsTile(
+                              title: AppUtil.rtlDirection2(context)
+                                  ? 'من ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)} إلى ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)} '
+                                  : 'Pick up: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)}, Drop off: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)}',
+                              image: 'assets/icons/time3.svg'),
+                          SizedBox(
+                            height: width * .010,
+                          ),
+                          ReviewDetailsTile(
+                              title:
+                                  '${widget.booking?.guestNumber} ${'guests'.tr}',
+                              image: 'assets/icons/guests.svg'),
+                          SizedBox(
+                            height: width * .010,
+                          ),
+                          ReviewDetailsTile(
+                            title: widget.booking!.vehicleType!,
+                            image:
+                                'assets/icons/unselected_${widget.booking?.vehicleType!}_icon.svg',
+                            widthh: 26,
+                          ),
+                          SizedBox(
+                            height: width * 0.041,
+                          ),
+                          const Divider(
+                            color: lightGrey,
+                          ),
+                          SizedBox(
+                            height: width * 0.03,
+                          ),
+                          CustomText(
+                            text: "ItineraryDetails".tr,
+                            fontSize: width * 0.043,
+                            fontFamily: 'HT Rakik',
+                            fontWeight: FontWeight.w500,
+                          ),
+                          ScheduleContainerWidget(
+                              scheduleList: widget.scheduleList,
+                              offerController: widget.offerController,
+                              isReview: true),
+
+                          const Divider(
+                            color: lightGrey,
+                          ),
+                          SizedBox(
+                            height: width * 0.25,
+                          ),
+
+                          // SizedBox(
+                          //   height: width * 0.25,
+                          // ),
+
+                          //discount widget
+                          // const PromocodeField(),
+                          SizedBox(
+                            height: width * 0.071,
+                          ),
+                          DottedSeparator(
+                            color: almostGrey,
+                            height: width * 0.002,
+                          ),
+                          SizedBox(
+                            height: width * 0.09,
+                          ),
+
+                          TotalWidget(
                             offerController: widget.offerController,
-                            isReview: true),
+                            place: widget.place!,
+                          ),
 
-                        const Divider(
-                          color: lightGrey,
-                        ),
-                        SizedBox(
-                          height: width * 0.25,
-                        ),
-
-                        // SizedBox(
-                        //   height: width * 0.25,
-                        // ),
-
-                        //discount widget
-                        // const PromocodeField(),
-                        SizedBox(
-                          height: width * 0.071,
-                        ),
-                        DottedSeparator(
-                          color: almostGrey,
-                          height: width * 0.002,
-                        ),
-                        SizedBox(
-                          height: width * 0.09,
-                        ),
-
-                        TotalWidget(
-                          offerController: widget.offerController,
-                          place: widget.place!,
-                        ),
-
-                        SizedBox(
-                          height: width * 0.02,
-                        ),
-                        paymentController.isPaymenInvoiceLoading.value
-                            ? const CircularProgressIndicator(
-                                color: colorGreen,
-                              )
-                            : CustomButton(
-                                title: 'checkout'.tr,
-                                icon: const Icon(Icons.keyboard_arrow_right,
-                                    color: Colors.white),
-                                onPressed: () async {
-                                  Get.to(
-                                    PaymentType(
-                                      price: (widget.offerController!.totalPrice
-                                              .value *
-                                          widget.offerController!.offerDetails
-                                              .value.booking!.guestNumber!),
-                                      type: 'tour',
-                                      offerController: widget.offerController,
-                                      booking: widget.booking,
-                                    ),
-                                  );
-                                }),
-                      ],
+                          SizedBox(
+                            height: width * 0.02,
+                          ),
+                          paymentController.isPaymenInvoiceLoading.value
+                              ? const CircularProgressIndicator(
+                                  color: colorGreen,
+                                )
+                              : CustomButton(
+                                  title: 'checkout'.tr,
+                                  icon: const Icon(Icons.keyboard_arrow_right,
+                                      color: Colors.white),
+                                  onPressed: () async {
+                                    Get.to(
+                                      PaymentType(
+                                        price: (widget.offerController!
+                                                .totalPrice.value *
+                                            widget.offerController!.offerDetails
+                                                .value.booking!.guestNumber!),
+                                        type: 'tour',
+                                        offerController: widget.offerController,
+                                        booking: widget.booking,
+                                      ),
+                                    );
+                                  }),
+                        ],
+                      ),
                     ),
                   ),
                 ),

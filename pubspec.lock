@@ -321,6 +321,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+  floating_draggable_advn:
+    dependency: "direct main"
+    description:
+      name: floating_draggable_advn
+      sha256: "97033ddd2bcc720318b9cc94cd6ab7887aa85f641f9dd484d3c7167347c9326f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.6"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -689,10 +697,10 @@ packages:
     dependency: transitive
     description:
       name: image_picker_android
-      sha256: "9e32a194887720d6bc40bbae6035511bdd6cd0f03ea7af92166387504471f147"
+      sha256: cea2bd5b9fcff039a4901d3b13c67fe747f940be9ba76bde1bcd218d168eeb7f
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.12+5"
+    version: "0.8.12+6"
   image_picker_for_web:
     dependency: transitive
     description:
@@ -1081,10 +1089,10 @@ packages:
     dependency: transitive
     description:
       name: shared_preferences_platform_interface
-      sha256: "22e2ecac9419b4246d7c22bfbbda589e3acf5c0351137d87dd2939d984d37c3b"
+      sha256: "034650b71e73629ca08a0bd789fd1d83cc63c2d1e405946f7cef7bc37432f93a"
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.2"
+    version: "2.4.0"
   shared_preferences_web:
     dependency: transitive
     description:
@@ -1110,10 +1118,10 @@ packages:
     dependency: "direct main"
     description:
       name: smooth_page_indicator
-      sha256: eebe23a5bd887ca4bc7b9c6173362edb2c625e37aee6043a567a342973357a7b
+      sha256: "3b28b0c545fa67ed9e5997d9f9720d486f54c0c607e056a1094544e36934dff3"
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.0"
+    version: "1.2.0+3"
   source_span:
     dependency: transitive
     description:
@@ -1302,10 +1310,10 @@ packages:
     dependency: transitive
     description:
       name: url_launcher_android
-      sha256: eac82dc8e5f48818054f46021e9e5f34c239f8d301e7e29165b977c8d1189fed
+      sha256: "95d8027db36a0e52caf55680f91e33ea6aa12a3ce608c90b06f4e429a21067ac"
       url: "https://pub.dev"
     source: hosted
-    version: "6.3.4"
+    version: "6.3.5"
   url_launcher_ios:
     dependency: transitive
     description:
