@@ -578,5 +578,11 @@ const localeEn = {
   'delAccount': 'Delete account',
   'editPhoneNumber': 'Edit phone number',
   "phoneEditSubtitle": "We’ll text you code to verify your number ",
-  'addProvidedServices':'Add your provided services'
+  'addProvidedServices': 'Add your provided services',
+  'timerDialogContent':
+      "no local guides offered tours matching your request. We suggest searching again later or exploring other dates.",
+  'unfortunately': 'Unfortunately',
+  'requestTimedOut': "Your tour request timed out!",
+  'contentTimedOut':
+      "Submit a new request to find your perfect adventure."
 };
