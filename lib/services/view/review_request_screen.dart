@@ -9,7 +9,6 @@ import 'package:ajwad_v4/payment/controller/payment_controller.dart';
 import 'package:ajwad_v4/payment/model/invoice.dart';
 import 'package:ajwad_v4/payment/view/payment_type_new.dart';
 import 'package:ajwad_v4/request/tourist/models/offer_details.dart';
-import 'package:ajwad_v4/request/widgets/timer_app_bar.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/services/model/hospitality.dart';
 import 'package:ajwad_v4/services/view/widgets/review_details_tile.dart';
