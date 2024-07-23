@@ -16,11 +16,10 @@ class EventController extends GetxController {
   var isEventListLoading = false.obs;
   var isEventByIdLoading = false.obs;
   var ischeckBookingLoading = false.obs;
-  var  selectedImages=<String>[].obs;
+  var selectedImages = <String>[].obs;
   var address = ''.obs;
-  var DateErrorMessage=false.obs;
-  var TimeErrorMessage=false.obs;
-
+  var DateErrorMessage = false.obs;
+  var TimeErrorMessage = false.obs;
   var selectedDate = ''.obs;
   var selectedDates = [].obs; //new
   var selectedTime = ''.obs;
@@ -39,87 +38,13 @@ class EventController extends GetxController {
   var titleEn = "".obs;
   var bioAr = "".obs;
   var bioEn = "".obs;
-  var isEventLoading = false.obs;
+
   var isEventDateSelcted = false.obs;
   var isEventTimeSelcted = false.obs;
 
   // Rx<LatLng> pickUpLocLatLang = const LatLng(24.9470921, 45.9903698).obs;
-  //  Rx<LatLng> pickUpLocLatLang = const LatLng(24.6264,46.544731).obs; 
-   Rx<LatLng> pickUpLocLatLang = const LatLng(24.788299,46.631608).obs;
-
-
-
-
-
-
-
-
-
-//   Future<List<Adventure>?> getAdvdentureList(
-//       {required BuildContext context, String? region}) async {
-//     try {
-//       isAdventureListLoading(true);
-//       final data = await AdventureService.getAdvdentureList(
-//           context: context, region: region);
-//       if (data != null) {
-//         adventureList(data);
-//       }
-//       return adventureList;
-//     } catch (e) {
-//       isAdventureListLoading(false);
-//       if (context.mounted) {
-//         AppUtil.errorToast(context, e.toString());
-//       }
-//       return null;
-//     } finally {
-//       isAdventureListLoading(false);
-//     }
-//   }
-
-  Future<Event?> getEventById({
-    required BuildContext context,
-    required String id,
-  }) async {
-    try {
-      isEventByIdLoading(true);
-      final data =
-          await EventService.getEventById(context: context, id: id);
-      return data;
-    } catch (e) {
-       isEventByIdLoading(false);
-      if (context.mounted) {
-        AppUtil.errorToast(context, e.toString());
-      }
-      return null;
-    } finally {
-      isEventByIdLoading(false);
-    }
-  }
-
-//   Future<bool> checkAdventureBooking(
-//       {required BuildContext context,
-//       required String adventureID,
-//       String? invoiceId,
-//       required int personNumber}) async {
-//     try {
-//       ischeckBookingLoading(true);
-//       final data = await AdventureService.checkAdventureBooking(
-//           context: context,
-//           adventureID: adventureID,
-//           personNumber: personNumber,
-//           invoiceId: invoiceId);
-
-//       return data;
-//     } catch (e) {
-//       // AppUtil.errorToast(context, e.toString());
-//       ischeckBookingLoading(false);
-//       return false;
-//     } finally {
-//       ischeckBookingLoading(false);
-//     }
-//   }
-
-
+  //  Rx<LatLng> pickUpLocLatLang = const LatLng(24.6264,46.544731).obs;
+  Rx<LatLng> pickUpLocLatLang = const LatLng(24.788299, 46.631608).obs;
 
   Future<List<Event>?> getEventList(
       {required BuildContext context, String? region}) async {
@@ -161,6 +86,8 @@ class EventController extends GetxController {
     }
   }
 
+  var isEventLoading = false.obs;
+
   Future<bool> createEvent({
     required String nameAr,
     required String nameEn,
@@ -173,8 +100,7 @@ class EventController extends GetxController {
     required String regionAr,
     required String locationUrl,
     required String regionEn,
-   required List<Map<String, dynamic>> daysInfo,
-
+    required List<Map<String, dynamic>> daysInfo,
     required BuildContext context,
   }) async {
     //print(rememberMe);
@@ -183,7 +109,6 @@ class EventController extends GetxController {
       final isSuccess = await EventService.createEvent(
           nameAr: nameAr,
           nameEn: nameEn,
-
           descriptionAr: descriptionAr,
           descriptionEn: descriptionEn,
           longitude: longitude,
@@ -194,10 +119,7 @@ class EventController extends GetxController {
           locationUrl: locationUrl,
           regionEn: regionEn,
           daysInfo: daysInfo,
-          context: context
-          
-          );
-
+          context: context);
 
       print(isSuccess);
       return isSuccess;
@@ -223,7 +145,6 @@ class EventController extends GetxController {
     required String locationUrl,
     required String regionEn,
     required List<Map<String, dynamic>> daysInfo,
-
     required BuildContext context,
   }) async {
     try {
@@ -233,7 +154,6 @@ class EventController extends GetxController {
           id: id,
           nameAr: nameAr,
           nameEn: nameEn,
-
           descriptionAr: descriptionAr,
           descriptionEn: descriptionEn,
           longitude: longitude,
@@ -243,10 +163,8 @@ class EventController extends GetxController {
           regionAr: regionAr,
           locationUrl: locationUrl,
           regionEn: regionEn,
-         daysInfo: daysInfo,
-          context: context
-      );
-
+          daysInfo: daysInfo,
+          context: context);
       if (event != null) {
         return event;
       } else {
@@ -332,7 +250,7 @@ class EventController extends GetxController {
       isEventDeleteLoading(false);
     }
   }
-  
+
   Future<EventSummary?> getEventSummaryById({
     required BuildContext context,
     required String id,
@@ -344,13 +262,37 @@ class EventController extends GetxController {
           await EventService.getEventSummaryById(context: context, id: id);
       return data;
     } catch (e) {
-       isEventByIdLoading(false);
+      isEventByIdLoading(false);
       return null;
     } finally {
-       isEventByIdLoading(false);
+      isEventByIdLoading(false);
     }
   }
-  
-  
 
+  Future<bool> checkAndBookEvent(
+      {required BuildContext context,
+      required String paymentId,
+      required String eventId,
+      required int cost,
+      required String dayId,
+      required int person,
+      required String date}) async {
+    try {
+      ischeckBookingLoading(true);
+      final data = await EventService.checkAndBookEvent(
+          context: context,
+          paymentId: paymentId,
+          eventId: eventId,
+          cost: cost,
+          dayId: dayId,
+          person: person,
+          date: date);
+      return data;
+    } catch (e) {
+      ischeckBookingLoading(false);
+      return false;
+    } finally {
+      ischeckBookingLoading(false);
+    }
+  }
 }

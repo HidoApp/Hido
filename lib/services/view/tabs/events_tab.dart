@@ -2,11 +2,14 @@ import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/services/controller/event_controller.dart';
 import 'package:ajwad_v4/services/controller/regions_controller.dart';
 import 'package:ajwad_v4/services/view/event_details.dart';
+import 'package:ajwad_v4/services/view/local_event_details.dart';
 import 'package:ajwad_v4/services/view/widgets/ad_cards.dart';
+import 'package:ajwad_v4/services/view/widgets/custom_adventure_item.dart';
 import 'package:ajwad_v4/services/view/widgets/custom_chips.dart';
 import 'package:ajwad_v4/services/view/widgets/custom_city_item.dart';
 import 'package:ajwad_v4/services/view/widgets/custom_event_item.dart';
 import 'package:ajwad_v4/services/view/widgets/custom_hospitality_item.dart';
+import 'package:ajwad_v4/services/view/widgets/event_card.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +24,7 @@ class EventsTab extends StatefulWidget {
 
 class _EventsTabState extends State<EventsTab> {
   final _eventController = Get.put(EventController());
-  final _regionsController = Get.put(RegionsController());
+  final _regionsController = Get.put(RegionsController(), tag: "event");
 
   void getEventList() async {
     await _eventController.getEventList(context: context);
@@ -40,7 +43,6 @@ class _EventsTabState extends State<EventsTab> {
     final double width = MediaQuery.of(context).size.width;
     return SingleChildScrollView(
       child: Padding(
-        //TODO: Rehab you must replace padding in adventure screen with these values
         // padding: EdgeInsets.symmetric(
         //     horizontal: width * 0.04, vertical: width * 0.035),
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -85,28 +87,23 @@ class _EventsTabState extends State<EventsTab> {
                             ),
                             itemBuilder: (context, index) => Obx(
                               () => GestureDetector(
-                                onTap: () {
+                                onTap: () async {
                                   if (index !=
                                       _regionsController.selectedEventIndex
                                           .value) // for handle user clicks
                                   {
                                     _regionsController
                                         .selectedEventIndex.value = index;
-                                    print(_regionsController
-                                        .regionsHospitalty
-                                        .value
-                                        .regionEn![index != 0 ? index - 1 : 0]);
+
                                     if (index == 0) {
-                                      _eventController.getEventList(
+                                      await _eventController.getEventList(
                                           context: context);
                                     } else {
-                                      _eventController.getEventList(
+                                      await _eventController.getEventList(
                                           context: context,
                                           region: index != 0
-                                              ? _regionsController
-                                                      .regionsHospitalty
-                                                      .value
-                                                      .regionEn![
+                                              ? _regionsController.regionsEvent
+                                                      .value.regionEn![
                                                   index != 0 ? index - 1 : 0]
                                               : null);
                                     }
@@ -145,6 +142,7 @@ class _EventsTabState extends State<EventsTab> {
                 SizedBox(
                   height: width * 0.06,
                 ),
+
                 Obx(
                   () => _eventController.isEventListLoading.value
                       ? //if list is loading
@@ -154,48 +152,49 @@ class _EventsTabState extends State<EventsTab> {
                           child: const Center(
                               child: CircularProgressIndicator.adaptive()))
                       //List of hospitalities
-                      : ListView.separated(
-                          padding: EdgeInsets.zero,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: _eventController.eventList.length,
-                          itemBuilder: (context, index) {
-                            return ServicesCard(
-                              onTap: () {
-                                // Get.to(() => E);
-                              },
-                              image: _eventController
-                                  .eventList[index].images.first,
-                              title: !AppUtil.rtlDirection(context)
-                                  ? _eventController.eventList[index].nameAr ??
-                                      "empty"
-                                  : _eventController.eventList[index].nameEn ??
-                                      "empty",
-                              location: AppUtil.rtlDirection2(context)
-                                  ? _eventController
-                                          .eventList[index].regionAr ??
-                                      ""
-                                  : _eventController
-                                          .eventList[index].regionEn ??
-                                      "",
-                              meal: _eventController
-                                  .eventList[index].allowedGuests
-                                  .toString(),
-                              category: AppUtil.rtlDirection(context)
-                                  ? _eventController.eventList[index].nameAr ??
-                                      ""
-                                  : _eventController.eventList[index].nameEn ??
-                                      "",
-                              rate: '4.7',
-                              dayInfo:
-                                  _eventController.eventList[index].daysInfo,
-                            );
-                          },
-                          separatorBuilder: (context, index) {
-                            return SizedBox(
-                              height: width * 0.041,
-                            );
-                          },
+                      : Obx(
+                          () => ListView.separated(
+                            padding: EdgeInsets.zero,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: _eventController.eventList.length,
+                            itemBuilder: (context, index) {
+                              return EventCardItem(
+                                onTap: () {
+                                  Get.to(() => LocalEventDetails(
+                                      eventId: _eventController
+                                          .eventList[index].id));
+                                },
+                                image: _eventController
+                                    .eventList[index].images.first,
+                                title: AppUtil.rtlDirection2(context)
+                                    ? _eventController
+                                            .eventList[index].nameAr ??
+                                        ""
+                                    : _eventController
+                                            .eventList[index].nameEn ??
+                                        "",
+                                location: AppUtil.rtlDirection2(context)
+                                    ? _eventController
+                                            .eventList[index].regionAr ??
+                                        ""
+                                    : _eventController
+                                            .eventList[index].regionEn ??
+                                        "",
+                                seats: _eventController
+                                    .eventList[index].daysInfo!.first.seats
+                                    .toString(),
+                                rate: "5",
+                                daysInfo:
+                                    _eventController.eventList[index].daysInfo!,
+                              );
+                            },
+                            separatorBuilder: (context, index) {
+                              return SizedBox(
+                                height: width * 0.041,
+                              );
+                            },
+                          ),
                         ),
                 ),
               ],

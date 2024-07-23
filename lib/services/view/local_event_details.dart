@@ -10,6 +10,7 @@ import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/services/controller/event_controller.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
 import 'package:ajwad_v4/services/view/service_local_info.dart';
+import 'package:ajwad_v4/services/view/widgets/event_booking.dart';
 
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/StackWidgets.dart';
@@ -41,15 +42,14 @@ class LocalEventDetails extends StatefulWidget {
     Key? key,
     required this.eventId,
     this.isLocal = false,
-    this.address='',
-    this.isHasBooking=false,
-
+    this.address = '',
+    this.isHasBooking = false,
   }) : super(key: key);
 
   final String eventId;
   final bool isLocal;
   final String address;
-    final bool isHasBooking;
+  final bool isHasBooking;
 
   @override
   State<LocalEventDetails> createState() => _LocalEventDetailsState();
@@ -63,7 +63,7 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
   bool isExpanded = false;
   bool isAviailable = false;
   List<DateTime> avilableDate = [];
-  String address='';
+  String address = '';
   var locLatLang = const LatLng(24.691846000000012, 46.68552199999999);
 
   BitmapDescriptor markerIcon = BitmapDescriptor.defaultMarker;
@@ -78,10 +78,12 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
       },
     );
   }
-Future<String> _getAddressFromLatLng(double position1,double position2) async {
+
+  Future<String> _getAddressFromLatLng(
+      double position1, double position2) async {
     try {
       List<Placemark> placemarks =
-          await placemarkFromCoordinates(position1,position2);
+          await placemarkFromCoordinates(position1, position2);
       print(placemarks);
 
       if (placemarks.isNotEmpty) {
@@ -95,12 +97,12 @@ Future<String> _getAddressFromLatLng(double position1,double position2) async {
     return '';
   }
 
-  Future<void> _fetchAddress(String position1,String position2) async {
+  Future<void> _fetchAddress(String position1, String position2) async {
     try {
       String result = await _getAddressFromLatLng(
- double.parse( position1),double.parse( position2)) ;    
-  setState(() {
-        _eventController.address.value= result;
+          double.parse(position1), double.parse(position2));
+      setState(() {
+        _eventController.address.value = result;
       });
     } catch (e) {
       // Handle error if necessary
@@ -117,14 +119,24 @@ Future<String> _getAddressFromLatLng(double position1,double position2) async {
     //  initializeDateFormatting(); //very important
 
     addCustomIcon();
-  getEventById();
+    getEventById();
   }
 
   void getEventById() async {
-  event = (await _eventController.getEventById(
+    event = (await _eventController.getEventById(
         context: context, id: widget.eventId));
-     if(!widget.isLocal)
-    _fetchAddress(event!.coordinates!.latitude??'', event!.coordinates!.longitude??'');
+    if (!widget.isLocal)
+      _fetchAddress(event!.coordinates!.latitude ?? '',
+          event!.coordinates!.longitude ?? '');
+
+    for (var day in event!.daysInfo!) {
+      print(day.startTime);
+      avilableDate.add(
+        DateTime.parse(
+          day.startTime.substring(0, 10),
+        ),
+      );
+    }
   }
 
   @override
@@ -141,15 +153,17 @@ Future<String> _getAddressFromLatLng(double position1,double position2) async {
               body: Center(child: CircularProgressIndicator.adaptive()),
             )
           : Scaffold(
-              bottomNavigationBar: !widget.isLocal?
-              SizedBox(
-                child: Padding(
-                  padding: EdgeInsets.only(top: width * 0.025),
-                  // child: BottomAdventureBooking(
-                  //   adventure: adventure!,
-                  // ),
-                ),
-              ) : Padding(
+              bottomNavigationBar: !widget.isLocal
+                  ? SizedBox(
+                      child: Padding(
+                        padding: EdgeInsets.only(top: width * 0.025),
+                        child: BottomEventBooking(
+                          event: event!,
+                          avilableDate: avilableDate,
+                        ),
+                      ),
+                    )
+                  : Padding(
                       padding: EdgeInsets.only(
                           right: 17, left: 17, bottom: width * 0.085),
                       child: Row(
@@ -159,8 +173,9 @@ Future<String> _getAddressFromLatLng(double position1,double position2) async {
                             fontSize: width * 0.038,
                             color: colorDarkGrey,
                             fontWeight: FontWeight.w400,
-                           fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
-
+                            fontFamily: AppUtil.rtlDirection2(context)
+                                ? 'SF Arabic'
+                                : 'SF Pro',
                           ),
                           CustomText(
                             text: " /  ",
@@ -172,8 +187,9 @@ Future<String> _getAddressFromLatLng(double position1,double position2) async {
                             text: '${event!.price} ${'sar'.tr}',
                             fontWeight: FontWeight.w900,
                             fontSize: width * 0.043,
-                            fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
-
+                            fontFamily: AppUtil.rtlDirection2(context)
+                                ? 'SF Arabic'
+                                : 'SF Pro',
                           ),
                         ],
                       ),
@@ -227,7 +243,9 @@ Future<String> _getAddressFromLatLng(double position1,double position2) async {
                                     : event!.nameEn ?? '',
                                 fontSize: width * 0.07,
                                 fontWeight: FontWeight.w500,
-                                fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+                                fontFamily: AppUtil.rtlDirection2(context)
+                                    ? 'SF Arabic'
+                                    : 'SF Pro',
                               )),
                           SizedBox(
                             height: width * 0.025,
@@ -235,7 +253,9 @@ Future<String> _getAddressFromLatLng(double position1,double position2) async {
                           Row(
                             children: [
                               Padding(
-                                padding:AppUtil.rtlDirection2(context)? const EdgeInsets.only(right: 1): const EdgeInsets.only(left: 1),
+                                padding: AppUtil.rtlDirection2(context)
+                                    ? const EdgeInsets.only(right: 1)
+                                    : const EdgeInsets.only(left: 1),
                                 child: SvgPicture.asset(
                                   "assets/icons/locationHos.svg",
                                   color: starGreyColor,
@@ -245,12 +265,15 @@ Future<String> _getAddressFromLatLng(double position1,double position2) async {
                                 width: width * 0.012,
                               ),
                               CustomText(
-                                text:!widget.isLocal?_eventController.address.value:widget.address,
-                              
+                                text: !widget.isLocal
+                                    ? _eventController.address.value
+                                    : widget.address,
                                 color: colorDarkGrey,
                                 fontSize: width * 0.038,
                                 fontWeight: FontWeight.w300,
-                                fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+                                fontFamily: AppUtil.rtlDirection2(context)
+                                    ? 'SF Arabic'
+                                    : 'SF Pro',
                               ),
                             ],
                           ),
@@ -260,7 +283,9 @@ Future<String> _getAddressFromLatLng(double position1,double position2) async {
                           Row(
                             children: [
                               Padding(
-                                padding:AppUtil.rtlDirection2(context)? const EdgeInsets.only(right: 2): const EdgeInsets.only(left: 2),
+                                padding: AppUtil.rtlDirection2(context)
+                                    ? const EdgeInsets.only(right: 2)
+                                    : const EdgeInsets.only(left: 2),
                                 child: SvgPicture.asset(
                                   'assets/icons/grey_calender.svg',
                                   color: starGreyColor,
@@ -270,11 +295,14 @@ Future<String> _getAddressFromLatLng(double position1,double position2) async {
                                 width: width * 0.012,
                               ),
                               CustomText(
-                                text: AppUtil.formatSelectedDaysInfo( event!.daysInfo!,context),
+                                text: AppUtil.formatSelectedDaysInfo(
+                                    event!.daysInfo!, context),
                                 color: colorDarkGrey,
                                 fontSize: width * 0.038,
                                 fontWeight: FontWeight.w300,
-                                fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+                                fontFamily: AppUtil.rtlDirection2(context)
+                                    ? 'SF Arabic'
+                                    : 'SF Pro',
                               ),
                             ],
                           ),
@@ -292,12 +320,14 @@ Future<String> _getAddressFromLatLng(double position1,double position2) async {
                               ),
                               //time
                               CustomText(
-                                text:'${AppUtil.formatTimeOnly(context, event!.daysInfo!.first.startTime)} -  ${AppUtil.formatTimeOnly(context,  event!.daysInfo!.first.endTime)}',
+                                text:
+                                    '${AppUtil.formatTimeOnly(context, event!.daysInfo!.first.startTime)} -  ${AppUtil.formatTimeOnly(context, event!.daysInfo!.first.endTime)}',
                                 color: colorDarkGrey,
                                 fontSize: width * 0.038,
                                 fontWeight: FontWeight.w300,
-                                 fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
-                          
+                                fontFamily: AppUtil.rtlDirection2(context)
+                                    ? 'SF Arabic'
+                                    : 'SF Pro',
                               ),
                             ],
                           ),
@@ -316,30 +346,29 @@ Future<String> _getAddressFromLatLng(double position1,double position2) async {
                                 fontSize: width * 0.046,
                                 fontWeight: FontWeight.w400,
                                 fontFamily: 'HT Rakik',
-
-
                               )),
                           SizedBox(
                             height: width * 0.025,
                           ),
-                         Align(
-                              alignment: AppUtil.rtlDirection2(context)
-                                  ? Alignment.centerRight
-                                  : Alignment.centerLeft,
+                          Align(
+                            alignment: AppUtil.rtlDirection2(context)
+                                ? Alignment.centerRight
+                                : Alignment.centerLeft,
                             child: ConstrainedBox(
-                                  constraints: isExpanded
-                                      ? const BoxConstraints()
-                                      : BoxConstraints(maxHeight: width * 0.09),
-                                  child: CustomText(
-                                      textDirection: AppUtil.rtlDirection(context)
-                                          ? TextDirection.ltr
-                                          : TextDirection.rtl,
-                                      textOverflow: isExpanded
-                                          ? TextOverflow.visible
-                                          : TextOverflow.clip,
-                                         
-                                   fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
-                                   color: Color(0xFF9392A0),
+                              constraints: isExpanded
+                                  ? const BoxConstraints()
+                                  : BoxConstraints(maxHeight: width * 0.09),
+                              child: CustomText(
+                                textDirection: AppUtil.rtlDirection(context)
+                                    ? TextDirection.ltr
+                                    : TextDirection.rtl,
+                                textOverflow: isExpanded
+                                    ? TextOverflow.visible
+                                    : TextOverflow.clip,
+                                fontFamily: AppUtil.rtlDirection2(context)
+                                    ? 'SF Arabic'
+                                    : 'SF Pro',
+                                color: Color(0xFF9392A0),
                                 fontSize: width * 0.035,
                                 text: AppUtil.rtlDirection2(context)
                                     ? event!.descriptionAr ?? ''
@@ -352,9 +381,9 @@ Future<String> _getAddressFromLatLng(double position1,double position2) async {
                           ),
                           isExpanded
                               ? Align(
-                                   alignment: AppUtil.rtlDirection2(context)
-                                          ? Alignment.bottomRight
-                                          : Alignment.bottomLeft,
+                                  alignment: AppUtil.rtlDirection2(context)
+                                      ? Alignment.bottomRight
+                                      : Alignment.bottomLeft,
                                   child: GestureDetector(
                                     onTap: () {
                                       setState(() => isExpanded = false);
@@ -364,23 +393,25 @@ Future<String> _getAddressFromLatLng(double position1,double position2) async {
                                           ? "القليل"
                                           : "Show less",
                                       color: blue,
-                                     fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
-
+                                      fontFamily: AppUtil.rtlDirection2(context)
+                                          ? 'SF Arabic'
+                                          : 'SF Pro',
                                     ),
                                   ),
                                 )
                               : Align(
-                                    alignment: AppUtil.rtlDirection2(context)
-                                          ? Alignment.bottomRight
-                                          : Alignment.bottomLeft,
+                                  alignment: AppUtil.rtlDirection2(context)
+                                      ? Alignment.bottomRight
+                                      : Alignment.bottomLeft,
                                   child: GestureDetector(
                                     onTap: () =>
                                         setState(() => isExpanded = true),
                                     child: CustomText(
                                       text: "readMore".tr,
                                       color: blue,
-                                      fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
-
+                                      fontFamily: AppUtil.rtlDirection2(context)
+                                          ? 'SF Arabic'
+                                          : 'SF Pro',
                                     ),
                                   ),
                                 ),
@@ -398,11 +429,14 @@ Future<String> _getAddressFromLatLng(double position1,double position2) async {
                                   ? Alignment.centerRight
                                   : Alignment.centerLeft,
                               child: CustomText(
-                                text:!widget.isLocal? "whereWeWillBe".tr:AppUtil.rtlDirection2(context)?'الموقع':'Location',
+                                text: !widget.isLocal
+                                    ? "whereWeWillBe".tr
+                                    : AppUtil.rtlDirection2(context)
+                                        ? 'الموقع'
+                                        : 'Location',
                                 fontSize: width * 0.046,
                                 fontWeight: FontWeight.w500,
-                              fontFamily: 'HT Rakik',
-
+                                fontFamily: 'HT Rakik',
                               )),
                           SizedBox(
                             height: width * 0.025,
@@ -424,8 +458,8 @@ Future<String> _getAddressFromLatLng(double position1,double position2) async {
                                     target: event == null
                                         ? locLatLang
                                         : LatLng(
-                                            double.parse(event!
-                                                .coordinates!.latitude!),
+                                            double.parse(
+                                                event!.coordinates!.latitude!),
                                             double.parse(event!
                                                 .coordinates!.longitude!)),
                                     zoom: 15,
@@ -451,95 +485,141 @@ Future<String> _getAddressFromLatLng(double position1,double position2) async {
                               ),
                             ],
                           ),
-                              if (widget.isLocal)...[
-                                SizedBox(
-                                    height: width * 0.028,
-                                  ),
-                                const Divider(
-                                  color: lightGrey,
-                                ),
-                                SizedBox(
-                                  height: width * 0.038,
-                                ),
-                               ],
-                         if (!widget.isLocal) ...[
-
-                          SizedBox(
-                            height: width * 0.025,
-                          ),
-                          const Divider(
-                            color: lightGrey,
-                          ),
-                          SizedBox(
-                            height: width * 0.05,
-                          ),
-                          InkWell(
-                            onTap: () {
-                              Get.bottomSheet(
-                                const CustomPloicySheet(),
-                              );
-                            },
-                            child: Align(
-                                alignment: !AppUtil.rtlDirection(context)
-                                    ? Alignment.centerRight
-                                    : Alignment.centerLeft,
-                                child: Row(
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        CustomText(
-                                          text: "cancellationPolicy".tr,
-                                          fontSize: width * 0.046,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                        SizedBox(
-                                          height: width * 0.01,
-                                        ),
-                                        SizedBox(
-                                          width: width * 0.8,
-                                          child: CustomText(
-                                            text:
-                                                "cancellationPolicyBreifAdventure"
-                                                    .tr,
-                                            fontSize: width * 0.03,
+                          if (widget.isLocal) ...[
+                            SizedBox(
+                              height: width * 0.028,
+                            ),
+                            const Divider(
+                              color: lightGrey,
+                            ),
+                            SizedBox(
+                              height: width * 0.038,
+                            ),
+                          ],
+                          if (!widget.isLocal) ...[
+                            SizedBox(
+                              height: width * 0.025,
+                            ),
+                            const Divider(
+                              color: lightGrey,
+                            ),
+                            SizedBox(
+                              height: width * 0.05,
+                            ),
+                            InkWell(
+                              onTap: () {
+                                Get.bottomSheet(
+                                  const CustomPloicySheet(),
+                                );
+                              },
+                              child: Align(
+                                  alignment: !AppUtil.rtlDirection(context)
+                                      ? Alignment.centerRight
+                                      : Alignment.centerLeft,
+                                  child: Row(
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          CustomText(
+                                            text: "cancellationPolicy".tr,
+                                            fontSize: width * 0.046,
                                             fontWeight: FontWeight.w400,
-                                            maxlines: 2,
-                                            color: tileGreyColor,
-                                             fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
-
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    const Spacer(),
-                                    Icon(
-                                      Icons.arrow_forward_ios,
-                                      color: tileGreyColor,
-                                      size: width * 0.046,
-                                    )
-                                  ],
-                                )),
-                          ),
-                          const Divider(
-                            color: lightGrey,
-                          ),
-                        ],
+                                          SizedBox(
+                                            height: width * 0.01,
+                                          ),
+                                          SizedBox(
+                                            width: width * 0.8,
+                                            child: CustomText(
+                                              text:
+                                                  "cancellationPolicyBreifAdventure"
+                                                      .tr,
+                                              fontSize: width * 0.03,
+                                              fontWeight: FontWeight.w400,
+                                              maxlines: 2,
+                                              color: tileGreyColor,
+                                              fontFamily:
+                                                  AppUtil.rtlDirection2(context)
+                                                      ? 'SF Arabic'
+                                                      : 'SF Pro',
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const Spacer(),
+                                      Icon(
+                                        Icons.arrow_forward_ios,
+                                        color: tileGreyColor,
+                                        size: width * 0.046,
+                                      )
+                                    ],
+                                  )),
+                            ),
+                            const Divider(
+                              color: lightGrey,
+                            ),
+                          ],
                         ],
                       ),
                     )
                   ],
                 ),
                 if (!widget.isLocal)
-
-                 Positioned(
-                        top: height * 0.066,
-                        right: AppUtil.rtlDirection2(context)
-                            ? width * 0.82
-                            : width * 0.072,
-                        child: Container(
-                            width: 35,
+                  Positioned(
+                    top: height * 0.066,
+                    right: AppUtil.rtlDirection2(context)
+                        ? width * 0.82
+                        : width * 0.072,
+                    child: Container(
+                        width: 35,
+                        height: 36,
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.20000000298023224),
+                          shape: BoxShape.circle,
+                        ),
+                        alignment: Alignment.center,
+                        child: SvgPicture.asset(
+                          "assets/icons/white_bookmark.svg",
+                          height: 28,
+                        )),
+                  ),
+                Positioned(
+                  top: height * 0.06,
+                  left: AppUtil.rtlDirection2(context)
+                      ? width * 0.82
+                      : width * 0.06,
+                  child: IconButton(
+                    icon: Icon(Icons.arrow_back_ios,
+                        textDirection: AppUtil.rtlDirection2(context)
+                            ? TextDirection.rtl
+                            : TextDirection.ltr,
+                        size: 20,
+                        color: Colors.white),
+                    onPressed: () => Get.back(),
+                    color: Colors.white,
+                  ),
+                ),
+                if (widget.isLocal)
+                  Positioned(
+                      top: height * 0.066,
+                      right: AppUtil.rtlDirection2(context)
+                          ? width * 0.82
+                          : width * 0.072,
+                      child: GestureDetector(
+                          onTap: widget.isHasBooking
+                              ? () async {
+                                  AppUtil.errorToast(
+                                      context, 'editExperience'.tr);
+                                  await Future.delayed(
+                                      const Duration(seconds: 1));
+                                }
+                              : () {
+                                  Get.to(EditEvent(eventObj: event!));
+                                },
+                          child: Container(
+                            width: 36,
                             height: 36,
                             decoration: BoxDecoration(
                               color:
@@ -548,58 +628,11 @@ Future<String> _getAddressFromLatLng(double position1,double position2) async {
                             ),
                             alignment: Alignment.center,
                             child: SvgPicture.asset(
-                              "assets/icons/white_bookmark.svg",
+                              'assets/icons/editPin.svg',
                               height: 28,
-                            )),
-                      ),
-                Positioned(
-                      top: height * 0.06,
-                      left: AppUtil.rtlDirection2(context)
-                          ? width * 0.82
-                          : width * 0.06,
-                      child: IconButton(
-                        icon: Icon(Icons.arrow_back_ios,
-                            textDirection: AppUtil.rtlDirection2(context)
-                                ? TextDirection.rtl
-                                : TextDirection.ltr,
-                            size: 20,
-                            color: Colors.white),
-                        onPressed: () => Get.back(),
-                        color: Colors.white,
-                      ),
-                    ),
-                if (widget.isLocal)
-                      Positioned(
-                          top: height * 0.066,
-                          right: AppUtil.rtlDirection2(context)
-                              ? width * 0.82
-                              : width * 0.072,
-                          child: GestureDetector(
-                              onTap:widget.isHasBooking?
-                               () async {
-                                 AppUtil.errorToast(context,
-                                          'editExperience'.tr);
-                                      await Future.delayed(
-                                          const Duration(seconds: 1));
-                              }:() {
-                              Get.to(EditEvent(eventObj: event!));
-
-                              },
-                              child: Container(
-                                width: 36,
-                                height: 36,
-                                decoration: BoxDecoration(
-                                  color: Colors.white
-                                      .withOpacity(0.20000000298023224),
-                                  shape: BoxShape.circle,
-                                ),
-                                alignment: Alignment.center,
-                                child: SvgPicture.asset(
-                                  'assets/icons/editPin.svg',
-                                  height: 28,
-                                  color: Colors.white,
-                                ),
-                              ))),
+                              color: Colors.white,
+                            ),
+                          ))),
                 Positioned(
                     top: height * 0.265,
                     right: width * 0.1,
@@ -607,8 +640,7 @@ Future<String> _getAddressFromLatLng(double position1,double position2) async {
                     // local profile
                     child: ServicesProfileCard(
                       onTap: () {
-                        Get.to(() =>
-                            ServicesLocalInfo(profileId: event!.id));
+                        Get.to(() => ServicesLocalInfo(profileId: event!.id));
                       },
                       image: event!.user!.profileImage ?? '',
                       name: event!.user!.name ?? '',
@@ -631,19 +663,19 @@ Future<String> _getAddressFromLatLng(double position1,double position2) async {
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: _currentIndex == index
-                           ? event!.image!.length == 1
-                                          ? Colors.white.withOpacity(0.1)
-                                          : Colors.white
+                              ? event!.image!.length == 1
+                                  ? Colors.white.withOpacity(0.1)
+                                  : Colors.white
                               : Colors.white.withOpacity(0.8),
                           boxShadow: _currentIndex == index
                               ? event?.image!.length == 1
-                              ?[]
-                              : [
-                                  const BoxShadow(
-                                      color: Colors.white,
-                                      blurRadius: 5,
-                                      spreadRadius: 1)
-                                ]
+                                  ? []
+                                  : [
+                                      const BoxShadow(
+                                          color: Colors.white,
+                                          blurRadius: 5,
+                                          spreadRadius: 1)
+                                    ]
                               : [],
                         ),
                       );

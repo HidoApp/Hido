@@ -29,7 +29,7 @@ class _VehcileSheetState extends State<VehcileSheet> {
     final width = MediaQuery.of(context).size.width;
 
     return Container(
-      height: 245,
+      height: width * 0.628,
       width: double.infinity,
       decoration: const BoxDecoration(
           color: Colors.white,
@@ -50,7 +50,7 @@ class _VehcileSheetState extends State<VehcileSheet> {
           CustomText(
             text: "vehicleLicense".tr,
             fontWeight: FontWeight.w500,
-            fontSize: 17,
+            fontSize: width * 0.043,
             fontFamily: "SF Pro",
           ),
           Form(
@@ -66,7 +66,7 @@ class _VehcileSheetState extends State<VehcileSheet> {
             ),
           ),
           SizedBox(
-            height: 24,
+            height: width * 0.061,
           ),
           Obx(
             () => _authController.isVicheleOTPLoading.value

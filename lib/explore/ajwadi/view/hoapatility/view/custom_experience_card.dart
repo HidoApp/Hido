@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/adventure/view/Adventure_summary_screen.dart';
+import 'package:ajwad_v4/explore/ajwadi/view/Experience/localEvent/view/event_summary_screen.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/summary_screen.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 import 'package:ajwad_v4/services/model/hospitality.dart';
@@ -221,6 +222,8 @@ bool isDateBefore24Hours() {
     }
     else{
       
+      Get.to(EventSummaryScreen(eventId:experience.id));
+
     }
   },
   style: ElevatedButton.styleFrom(

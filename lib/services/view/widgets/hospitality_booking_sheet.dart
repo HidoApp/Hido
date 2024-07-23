@@ -199,7 +199,7 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
                                           .toString()
                                           .substring(0, 10)
                                       : 'mm/dd/yyy'.tr,
-                                  borderColor: lightGreyColor,
+                                  borderColor: borderGrey,
                                   prefixIcon: SvgPicture.asset(
                                     'assets/icons/Time (2).svg',
                                     //  color: widget.color,

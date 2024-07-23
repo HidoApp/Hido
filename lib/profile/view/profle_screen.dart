@@ -7,12 +7,13 @@ import 'package:ajwad_v4/payment/view/payment_type_new.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/view/booking_screen.dart';
 import 'package:ajwad_v4/profile/view/bookmark_screen.dart';
-import 'package:ajwad_v4/profile/view/lega_doc_screen.dart';
+import 'package:ajwad_v4/profile/view/legal_doc_screen.dart';
 import 'package:ajwad_v4/profile/view/terms&conditions.dart';
 import 'package:ajwad_v4/profile/view/messages_screen.dart';
 import 'package:ajwad_v4/profile/view/my_account.dart';
 import 'package:ajwad_v4/profile/view/profile_details.dart';
 import 'package:ajwad_v4/profile/view/switch_acount.dart';
+import 'package:ajwad_v4/request/ajwadi/view/widget/accept_bottom_sheet.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 
 import 'package:ajwad_v4/widgets/custom_button.dart';
@@ -185,12 +186,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ));
                             },
                           ),
-                          if (widget.fromAjwady && storage.read("TourGuide"))
-                            CustomListTile(
-                              title: 'legalDoc'.tr,
-                              leading: "assets/icons/legal.svg",
-                              onTap: () => Get.to(() => const LegalDocument()),
-                            ),
+                          if (storage.read("TourGuide") != null)
+                            if (widget.fromAjwady && storage.read("TourGuide"))
+                              CustomListTile(
+                                title: 'legalDoc'.tr,
+                                leading: "assets/icons/legal.svg",
+                                onTap: () =>
+                                    Get.to(() => const LegalDocument()),
+                              ),
                           if (!widget.fromAjwady)
                             CustomListTile(
                               title: "myTickets".tr,
@@ -206,7 +209,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           // CustomListTile(
                           //   title: "bookmark".tr,
                           //   leading: "assets/icons/bookmark_icon.svg",
-                          //   onTap: () {
+                          //   onTap: () async {
                           //     Get.to(() => const BookmarkScreen());
                           //   },
                           // ),
@@ -247,7 +250,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               // fromAjwady: widget.fromAjwady,
 
                               onTap: () {
-                                Get.to(() => TermsAndConditions(
+                                Get.to(() => const TermsAndConditions(
                                       fromAjwady: false,
                                     ));
                               },
@@ -262,9 +265,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   builder: (BuildContext context) {
                                     return AlertDialog(
                                       backgroundColor: Colors.white,
+                                      surfaceTintColor: Colors.white,
                                       shape: const RoundedRectangleBorder(
                                           borderRadius: BorderRadius.all(
-                                              Radius.circular(32.0))),
+                                              Radius.circular(8.0))),
                                       content: Column(
                                         mainAxisSize: MainAxisSize.min,
                                         crossAxisAlignment:
@@ -275,16 +279,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           ),
                                           CustomText(
                                               textAlign: TextAlign.center,
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w300,
-                                              color: dividerColor,
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w500,
+                                              color: black,
+                                              fontFamily:AppUtil.rtlDirection2(context) ? "SF Arabic" : 'SF Pro',
                                               text: "youWantSiginOut".tr),
                                           const SizedBox(
                                             height: 20,
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.symmetric(
-                                                horizontal: 20),
+                                                horizontal: 4),
                                             child: CustomButton(
                                               height: 25,
                                               title: "signOut".tr,
@@ -295,20 +300,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               },
                                             ),
                                           ),
-                                          const SizedBox(
-                                            height: 20,
-                                          ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              Get.back();
-                                            },
-                                            child: CustomText(
-                                                textAlign: TextAlign.center,
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w300,
-                                                color: colorRed,
-                                                text:
-                                                    "cancel".tr.toUpperCase()),
+                                         
+                                          
+                                           Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 4),
+                                            child: CustomButton(
+                                              height: 25,
+                                              borderColor: colorRed,
+                                              buttonColor: Colors.white,
+                                              textColor: colorRed,
+                                              title:  "cancel".tr.toUpperCase(),
+                                              onPressed: () {
+                                                Get.back();
+
+                                              },
+                                            ),
                                           ),
                                         ],
                                       ),

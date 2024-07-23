@@ -34,6 +34,7 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
+  floating_draggable_advn: ^1.0.6
   cupertino_icons: ^1.0.2
   flutter_svg:
   carousel_slider: ^4.2.1
@@ -47,12 +48,12 @@ dependencies:
   cached_network_image: ^3.3.0
   flutter_switch: ^0.3.2
   get: ^4.6.5
-  # syncfusion_flutter_datepicker: ^22.2.7
-  syncfusion_flutter_datepicker: ^26.1.40
+  syncfusion_flutter_datepicker: ^22.2.7
+  # syncfusion_flutter_datepicker: ^26.1.40
   flutter_image_slideshow: ^0.1.5
   flutter_staggered_grid_view: ^0.6.2
-  # intl: ^0.18.1
-  intl: ^0.19.0
+  intl: ^0.18.1
+  # intl: ^0.19.0
   get_storage: ^2.1.1
   http:
   #flutter_flushbar:
@@ -93,6 +94,7 @@ dependencies:
   timer_count_down: ^2.2.2
   iban: ^1.0.1
   jhijri_picker: ^1.0.1
+  super_tooltip: ^2.0.8
 
 dev_dependencies:
   flutter_test:

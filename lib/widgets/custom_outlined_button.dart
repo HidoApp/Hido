@@ -1,4 +1,5 @@
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +16,8 @@ class CustomOutlinedButton extends StatelessWidget {
   final void Function() onTap;
   @override
   Widget build(BuildContext context) {
+        final width = MediaQuery.of(context).size.width;
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -28,6 +31,10 @@ class CustomOutlinedButton extends StatelessWidget {
         child: CustomText(
           text: title,
           color: titleColor!,
+           fontFamily:
+           AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+            fontSize: width*0.038,
+           fontWeight: FontWeight.w500,
         ),
       ),
     );

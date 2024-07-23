@@ -112,7 +112,7 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                       CustomText(text: widget.schedule.scheduleName),
                       CustomText(
                         text:
-                            "${widget.schedule.scheduleTime!.to!}-${widget.schedule.scheduleTime!.from!}",
+                            "${AppUtil.formatStringTimeWithLocale(context, widget.schedule.scheduleTime!.from!)}-${AppUtil.formatStringTimeWithLocale(context,widget.schedule.scheduleTime!.to!)}",
                         color: almostGrey,
                         fontSize: width * .03,
                       ),
@@ -139,14 +139,14 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
         content: Obx(
           () => Container(
             height: widget.requestController.validReviewSave.value
-                ? width * 0.82
+                ? width * 0.78
                 : width * 0.92,
             width: double.infinity,
             padding: EdgeInsets.only(
-                left: width * 0.03,
+                left: width * 0.030,
                 top: width * 0.051,
                 bottom: width * 0.051,
-                right: width * 0.051),
+                right: width * 0.030),
             decoration: const BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.only(
@@ -165,66 +165,79 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                         decoration: const BoxDecoration(
                             color: colorGreen, shape: BoxShape.circle),
                       ),
-                    CustomText(
-                      text: "activityName".tr,
-                      fontSize: width * 0.038,
-                      fontWeight: FontWeight.w500,
+                    Padding(
+                  padding: EdgeInsets.symmetric(horizontal: width * 0.016),
+                      child: CustomText(
+                        text: "activityName".tr,
+                        fontSize: width * 0.038,
+                        fontWeight: FontWeight.w500,
+                           fontFamily:AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+                      ),
                     ),
                   ],
                 ),
                 SizedBox(
                   height: width * 0.01,
                 ),
-                CustomTextField(
-                  keyboardType: TextInputType.name,
-                  controller: _activityConroller,
-                  borderColor:
-                      widget.requestController.isActivtyReviewValid.value
-                          ? almostGrey
-                          : colorRed,
-                  onChanged: (value) {},
-                  height: width * 0.107,
-                  hintText: 'activityHint'.tr,
+                Padding(
+                  padding:AppUtil.rtlDirection2(context)?EdgeInsets.only( right: width * 0.04): EdgeInsets.only( left: width * 0.04),
+                  child: CustomTextField(
+                    keyboardType: TextInputType.name,
+                    controller: _activityConroller,
+                    borderColor:
+                        widget.requestController.isActivtyReviewValid.value
+                            ? almostGrey
+                            : colorRed,
+                    onChanged: (value) {},
+                    height: width * 0.09,
+                    hintText: 'activityHint'.tr,
+                  ),
                 ),
                 if (!widget.requestController.isActivtyReviewValid.value)
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: width * 0.03),
+                    padding: EdgeInsets.symmetric(horizontal: width * 0.53),
                     child: CustomText(
                       text: "activityError".tr,
                       color: colorRed,
                       fontSize: width * 0.028,
+                           fontFamily:AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
                     ),
                   ),
-                SizedBox(
-                  height: width * 0.030,
-                ),
+                  SizedBox(
+                height: width * 0.03,
+              ),
                 Padding(
-                    padding: EdgeInsets.symmetric(horizontal: width * 0.033),
+                    padding: EdgeInsets.symmetric(horizontal: width * 0.058),
                     child: CustomText(
                       text: "price".tr,
                       fontSize: width * 0.038,
                       fontWeight: FontWeight.w500,
+                           fontFamily:AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
                     )),
                 Obx(
-                  () => CustomTextField(
-                    keyboardType: TextInputType.number,
-                    controller: _priceContorller,
-                    borderColor:
-                        widget.requestController.isPriceReviewValid.value
-                            ? almostGrey
-                            : colorRed,
-                    height: width * 0.10,
-                    hintText: '00.00 ${"sar".tr}',
-                    onChanged: (value) {},
+                  () => Padding(
+                  padding:AppUtil.rtlDirection2(context)?EdgeInsets.only( right: width * 0.04): EdgeInsets.only( left: width * 0.04),
+                    child: CustomTextField(
+                      keyboardType: TextInputType.number,
+                      controller: _priceContorller,
+                      borderColor:
+                          widget.requestController.isPriceReviewValid.value
+                              ? almostGrey
+                              : colorRed,
+                      height: width * 0.09,
+                      hintText: '00.00 ${"sar".tr}',
+                      onChanged: (value) {},
+                    ),
                   ),
                 ),
                 if (!widget.requestController.isPriceReviewValid.value)
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: width * 0.03),
+                    padding: EdgeInsets.symmetric(horizontal: width * 0.53),
                     child: CustomText(
                       text: "priceError".tr,
                       color: colorRed,
                       fontSize: width * 0.028,
+                     fontFamily:AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
                     ),
                   ),
                 SizedBox(
@@ -236,10 +249,14 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        CustomText(
-                          text: "startTime".tr,
-                          fontSize: width * 0.038,
-                          fontWeight: FontWeight.w500,
+                        Padding(
+                         padding: EdgeInsets.symmetric(horizontal: width * 0.035),
+                          child: CustomText(
+                            text: "startTime".tr,
+                            fontSize: width * 0.038,
+                            fontWeight: FontWeight.w500,
+                           fontFamily:AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+                          ),
                         ),
                         SizedBox(
                           width: width * 0.37,
@@ -267,38 +284,49 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                                 },
                               );
                             },
-                            child: Container(
-                              width: width * 0.369,
-                              height: width * 0.087,
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: width * 0.030,
-                                  vertical: width * 0.015),
-                              alignment: Alignment.centerLeft,
-                              decoration: BoxDecoration(
-                                border: Border.all(color: almostGrey),
-                                borderRadius: BorderRadius.circular(8),
+                            child: Padding(
+                  padding:AppUtil.rtlDirection2(context)?EdgeInsets.only( right: width * 0.015): EdgeInsets.only( left: width * 0.015),
+                              child: Container(
+                                width: width * 0.45,
+                                height: width * 0.087,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: width * 0.030,
+                                    vertical: width * 0.015),
+                                alignment: Alignment.centerLeft,
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: almostGrey),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Row(children: [
+                                  SvgPicture.asset('assets/icons/Arrows-s.svg'),
+                                  SizedBox(width:width*0.01),
+                                  CustomText(
+                                      color: almostGrey,
+                                      text: widget.schedule.scheduleTime!.from,
+                                      fontSize: width * 0.033,
+                                      fontFamily:AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',),
+                                ]),
                               ),
-                              child: Row(children: [
-                                SvgPicture.asset('assets/icons/Arrows-s.svg'),
-                                CustomText(
-                                    color: almostGrey,
-                                    text: widget.schedule.scheduleTime!.from),
-                              ]),
                             ),
                           ),
                         ),
                       ],
                     ),
+                    
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        CustomText(
-                          text: "endTime".tr,
-                          fontSize: width * 0.038,
-                          fontWeight: FontWeight.w500,
+                        Padding(
+                         padding: EdgeInsets.symmetric(horizontal: width * 0.02),
+                          child: CustomText(
+                            text: "endTime".tr,
+                            fontSize: width * 0.038,
+                            fontWeight: FontWeight.w500,
+                           fontFamily:AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+                          ),
                         ),
                         SizedBox(
-                          width: width * 0.37,
+                          width: width * 0.4,
                           height: width * 0.087,
                           child: GestureDetector(
                             onTap: () async {
@@ -323,7 +351,7 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                               );
                             },
                             child: Container(
-                              width: width * 0.369,
+                              width: width * 0.39,
                               height: width * 0.087,
                               padding: EdgeInsets.symmetric(
                                   horizontal: width * 0.030,
@@ -335,7 +363,11 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                               ),
                               child: Row(children: [
                                 SvgPicture.asset('assets/icons/Arrows-s.svg'),
+                                   SizedBox(width:width*0.01),
+
                                 CustomText(
+                                  fontSize: width * 0.033,
+                           fontFamily:AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
                                     color: almostGrey,
                                     text: widget.schedule.scheduleTime!.to),
                               ]),
@@ -347,8 +379,8 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                   ],
                 ),
                 SizedBox(
-                  height: width * 0.05,
-                ),
+                height: width * 0.06,
+              ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -358,8 +390,8 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                             .removeAt(widget.indx);
                       },
                       child: Container(
-                        width: width * 0.33,
-                        height: width * 0.087,
+                        width: width * 0.36,
+                        height: width * 0.088,
                         alignment: Alignment.center,
                         padding:
                             EdgeInsets.symmetric(horizontal: width * .0410),
@@ -376,8 +408,8 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                       ),
                     ),
                     SizedBox(
-                      width: width * 0.33,
-                      height: width * 0.087,
+                      width: width * 0.38,
+                      height: width * 0.088,
                       child: CustomButton(
                         raduis: 4,
                         title: 'save'.tr,

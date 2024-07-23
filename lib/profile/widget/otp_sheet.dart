@@ -33,7 +33,7 @@ class _OtpSheetState extends State<OtpSheet> {
     final width = MediaQuery.of(context).size.width;
 
     return Container(
-      height: 300,
+      height: width * .769,
       width: double.infinity,
       padding: EdgeInsets.only(
           left: width * 0.0615,
@@ -120,7 +120,7 @@ class _OtpSheetState extends State<OtpSheet> {
             ),
           ),
           SizedBox(
-            height: 12,
+            height: width * 0.030,
           ),
           Center(
             child: Obx(

@@ -201,7 +201,7 @@ offset: Offset(-5, 0),
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ItineraryTile(
-                  title: ' ${AppUtil.formatStringTimeWithLocale(context, widget.trip.booking!.timeToReturn)} -  ${AppUtil.formatStringTimeWithLocale(context, widget.trip.booking!.timeToGo)}',
+                  title: ' ${AppUtil.formatStringTimeWithLocale(context, widget.trip.booking!.timeToGo)} -  ${AppUtil.formatStringTimeWithLocale(context, widget.trip.booking!.timeToReturn)}',
                   image: "assets/icons/timeGrey.svg",
                 ),
                 //SizedBox(height: width * 0.025),

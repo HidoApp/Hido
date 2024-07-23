@@ -1,4 +1,5 @@
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -87,37 +88,38 @@ class CustomTextField extends StatelessWidget {
           errorBorder: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(10)),
               borderSide: BorderSide(color: colorRed, width: 1)),
-          errorStyle: const TextStyle(
+          errorStyle:  TextStyle(
               color: colorRed,
               fontSize: 11,
               fontWeight: FontWeight.w400,
-              fontFamily: 'SF Pro'),
+              fontFamily:AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',),
           contentPadding:
               const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
           counterStyle: const TextStyle(fontSize: 0, height: 100),
           counterText: '',
           border: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
+              borderRadius: BorderRadius.all(Radius.circular(8)),
               borderSide: BorderSide(color: borderGrey, width: 1)),
+              
           enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
+              borderRadius: BorderRadius.all(Radius.circular(8)),
               borderSide:
                   BorderSide(color: borderColor ?? borderGrey, width: 1)),
           disabledBorder: OutlineInputBorder(
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              borderRadius: const BorderRadius.all(Radius.circular(8)),
               borderSide:
                   BorderSide(color: borderColor ?? borderGrey, width: 1)),
           focusedBorder: OutlineInputBorder(
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              borderRadius: const BorderRadius.all(Radius.circular(8)),
               borderSide:
                   BorderSide(color: borderColor ?? borderGrey, width: 1)),
           prefixIcon: null == prefixIcon ? null : prefixIcon,
           suffixIcon: null == suffixIcon ? null : suffixIcon,
           hintText: hintText,
-          hintStyle: const TextStyle(
-              fontSize: 15,
-              fontFamily: 'SF Pro',
-              color: starGreyColor,
+          hintStyle:  TextStyle(
+              fontSize: 13,
+              fontFamily:AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+              color: almostGrey,
               fontWeight: FontWeight.w400),
         ),
         onChanged: onChanged,

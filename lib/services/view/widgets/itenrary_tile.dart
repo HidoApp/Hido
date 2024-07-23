@@ -7,13 +7,21 @@ import 'package:url_launcher/url_launcher.dart';
 
 class ItineraryTile extends StatelessWidget {
   const ItineraryTile(
-      {super.key, required this.title, required this.image, this.imageUrl,this.line=false});
+      {super.key,
+      required this.title,
+      required this.image,
+      this.imageUrl,
+      this.color= borderGrey,
+      this.line = false,
+      this.widthImage = 0,
+});
 
   final String title;
   final String image;
   final String? imageUrl;
   final bool line;
-
+  final Color? color;
+  final double widthImage;
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +31,7 @@ class ItineraryTile extends StatelessWidget {
       children: [
         SvgPicture.asset(
           image,
+         width: widthImage,
 
           // width: width * 0.05,
         ),
@@ -30,34 +39,33 @@ class ItineraryTile extends StatelessWidget {
           width: 4,
         ),
         GestureDetector(
-          onTap: imageUrl!=''?() async {
-            final Uri url = Uri.parse(imageUrl!);
-            if (await canLaunchUrl(url)) {
-              await launchUrl(url, mode: LaunchMode.externalApplication);
-            } else {
-              throw 'Could not launch $url';
-            }
-          }:() {
-            
-          },
+          onTap: imageUrl != ''
+              ? () async {
+                  final Uri url = Uri.parse(imageUrl!);
+                  if (await canLaunchUrl(url)) {
+                    await launchUrl(url, mode: LaunchMode.externalApplication);
+                  } else {
+                    throw 'Could not launch $url';
+                  }
+                }
+              : () {},
           child: Text(
             title,
             style: TextStyle(
-            color: borderGrey,
-            fontSize: 12,
-            fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-            fontWeight: FontWeight.w400,
-            decoration:TextDecoration.none,
+              color: color,
+              fontSize: width * 0.03,
+              fontFamily:
+                  AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+              fontWeight: FontWeight.w400,
+              decoration: line?TextDecoration.underline:TextDecoration.none,
             ),
           ),
         ),
-        
-        if(line)
-        SvgPicture.asset(
-          "assets/icons/arrow_up.svg",
-
-          // width: width * 0.05,
-        ),
+        if (line)
+          SvgPicture.asset(
+            "assets/icons/arrow_up.svg",
+            // width: width * 0.05,
+          ),
       ],
     );
   }

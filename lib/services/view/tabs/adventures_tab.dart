@@ -90,7 +90,7 @@ class _AdventuresTabState extends State<AdventuresTab> {
                           scrollDirection: Axis.horizontal,
                           shrinkWrap: true,
                           itemCount: _regionsController
-                                  .regionsHospitalty.value.regionEn!.length +
+                                  .regionsAdventure.value.regionEn!.length +
                               1,
                           separatorBuilder: (context, index) => SizedBox(
                             width: width * 0.025,
@@ -117,12 +117,12 @@ class _AdventuresTabState extends State<AdventuresTab> {
                                         region: index != 0
                                             ? AppUtil.rtlDirection2(context)
                                                 ? _regionsController
-                                                        .regionsHospitalty
+                                                        .regionsAdventure
                                                         .value
                                                         .regionAr![
                                                     index != 0 ? index - 1 : 0]
                                                 : _regionsController
-                                                        .regionsHospitalty
+                                                        .regionsAdventure
                                                         .value
                                                         .regionEn![
                                                     index != 0 ? index - 1 : 0]
@@ -149,9 +149,9 @@ class _AdventuresTabState extends State<AdventuresTab> {
                                 title: index == 0
                                     ? 'all'.tr
                                     : AppUtil.rtlDirection2(context)
-                                        ? _regionsController.regionsHospitalty
+                                        ? _regionsController.regionsAdventure
                                             .value.regionAr![index - 1]
-                                        : _regionsController.regionsHospitalty
+                                        : _regionsController.regionsAdventure
                                             .value.regionEn![index - 1],
                               ),
                             ),
@@ -181,40 +181,37 @@ class _AdventuresTabState extends State<AdventuresTab> {
                           physics: const NeverScrollableScrollPhysics(),
                           itemCount: _adventureController.adventureList.length,
                           itemBuilder: (context, index) {
-                            return GestureDetector(
-                              // card for any services Hospitality,Adventure etc ..
-                              child: CustomAdventureItem(
-                                onTap: () {
-                                  Get.to(() => AdventureDetails(
-                                        adventureId: _adventureController
-                                            .adventureList[index].id,
-                                      ));
-                                },
-                                image: _adventureController
-                                    .adventureList[index].image![0],
-                                date: _adventureController
-                                    .adventureList[index].date!,
-                                title: !AppUtil.rtlDirection(context)
-                                    ? _adventureController
-                                        .adventureList[index].nameAr!
-                                    : _adventureController
-                                        .adventureList[index].nameEn!,
-                                location: AppUtil.rtlDirection2(context)
-                                    ? _adventureController
-                                        .adventureList[index].regionAr!
-                                    : _adventureController
-                                        .adventureList[index].regionEn!,
-                                seats: _adventureController
-                                    .adventureList[index].seats
-                                    .toString(),
-                                times: _adventureController
-                                    .adventureList[index].times,
-                                rate: '4.7',
-                                lang: _adventureController
-                                    .adventureList[index].coordinates?.latitude,
-                                long:_adventureController
-                                    .adventureList[index].coordinates?.longitude,
-                              ),
+                            return CustomAdventureItem(
+                              onTap: () {
+                                Get.to(() => AdventureDetails(
+                                      adventureId: _adventureController
+                                          .adventureList[index].id,
+                                    ));
+                              },
+                              image: _adventureController
+                                  .adventureList[index].image![0],
+                              date: _adventureController
+                                  .adventureList[index].date!,
+                              title: !AppUtil.rtlDirection(context)
+                                  ? _adventureController
+                                      .adventureList[index].nameAr!
+                                  : _adventureController
+                                      .adventureList[index].nameEn!,
+                              location: AppUtil.rtlDirection2(context)
+                                  ? _adventureController
+                                      .adventureList[index].regionAr!
+                                  : _adventureController
+                                      .adventureList[index].regionEn!,
+                              seats: _adventureController
+                                  .adventureList[index].seats
+                                  .toString(),
+                              times: _adventureController
+                                  .adventureList[index].times,
+                              rate: '4.7',
+                              lang: _adventureController
+                                  .adventureList[index].coordinates?.latitude,
+                              long: _adventureController
+                                  .adventureList[index].coordinates?.longitude,
                             );
                           },
                           separatorBuilder: (context, index) {

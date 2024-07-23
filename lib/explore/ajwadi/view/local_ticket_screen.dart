@@ -1,5 +1,6 @@
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/widget/local_trip_card.dart';
+import 'package:ajwad_v4/explore/ajwadi/view/hoapatility/view/event_experience_card.dart';
 import 'package:ajwad_v4/explore/widget/trip_card.dart';
 import 'package:ajwad_v4/profile/view/custom_ticket_card.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
@@ -145,7 +146,14 @@ class _LocalTicketScreenState extends State<LocalTicketScreen>
                                       LocalTripCard(
                                         trip: widget.servicesController
                                             .upcommingTicket[index],
-                                      ): CustomExperienceCard(
+                                      ):widget.type == 'event'?
+                                      
+                                      EventExperienceCard(
+                                        experience: widget.servicesController
+                                            .upcommingTicket[index],
+                                            type:widget.type
+                                      )
+                                      : CustomExperienceCard(
                                         experience: widget.servicesController
                                             .upcommingTicket[index],
                                             type:widget.type
@@ -193,7 +201,15 @@ class _LocalTicketScreenState extends State<LocalTicketScreen>
                                       LocalTripCard(
                                         trip: widget.servicesController
                                             .pastTicket[index],
-                                      ): CustomExperienceCard(
+                                      ):widget.type == 'event'?
+                                      
+                                      EventExperienceCard(
+                                        experience: widget.servicesController
+                                            .upcommingTicket[index],
+                                            type:widget.type
+                                      )
+                                      
+                                      : CustomExperienceCard(
                                         experience:  widget.servicesController
                                            .pastTicket[index],
                                         type:widget.type

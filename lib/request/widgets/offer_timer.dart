@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/explore/tourist/controller/timer_controller.dart';
 import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
@@ -20,7 +21,6 @@ class OfferTimer extends StatefulWidget {
 
 class _OfferTimerState extends State<OfferTimer> {
   final _controller = CountdownController(autoStart: true);
-  final _touristExploreController = Get.put(TouristExploreController());
   @override
   void initState() {
     // TODO: implement initState
@@ -30,7 +30,7 @@ class _OfferTimerState extends State<OfferTimer> {
   @override
   Widget build(BuildContext context) {
     return Countdown(
-      seconds: _touristExploreController.timerSec.value,
+      seconds: 20,
       controller: _controller,
       build: (BuildContext context, double time) => CustomText(
         text: AppUtil.countdwonFormat(time),

@@ -2,6 +2,7 @@ import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class AccountTile extends StatelessWidget {
   const AccountTile(
@@ -59,8 +60,8 @@ class AccountTile extends StatelessWidget {
         const Spacer(),
         GestureDetector(
           onTap: onTap,
-          child: const CustomText(
-            text: "Edit",
+          child: CustomText(
+            text: "edit".tr,
             fontSize: 14,
             textDecoration: TextDecoration.underline,
             color: almostGrey,

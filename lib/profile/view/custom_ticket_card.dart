@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
@@ -5,49 +7,119 @@ import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ajwad_v4/profile/view/ticket_details_screen.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/request/tourist/view/find_ajwady.dart';
 import 'package:intl/intl.dart' as intel;
 
-class CustomTicketCard extends StatelessWidget {
+class CustomTicketCard extends StatefulWidget {
   const CustomTicketCard({
-    super.key,
+    Key? key,
     required this.booking,
-  });
+  }) : super(key: key);
 
   final Booking booking;
+  @override
+  _CustomTicketCardState createState() => _CustomTicketCardState();
+}
+
+class _CustomTicketCardState extends State<CustomTicketCard> {
+  String address = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchAddress();
+  }
+
+  Future<String> _getAddressFromLatLng(
+      double position1, double position2) async {
+    try {
+      List<Placemark> placemarks =
+          await placemarkFromCoordinates(position1, position2);
+      print(placemarks);
+
+      if (placemarks.isNotEmpty) {
+        Placemark placemark = placemarks.first;
+        print(placemarks.first);
+        return '${placemark.locality}, ${placemark.subLocality}';
+      }
+    } catch (e) {
+      print("Error retrieving address: $e");
+    }
+    return '';
+  }
+
+
+  Future<void> _fetchAddress() async {
+  try {
+    double? latitude;
+    double? longitude;
+
+    switch (widget.booking.bookingType) {
+      case 'hospitality':
+        latitude =   double.parse(widget.booking.hospitality?.coordinate.latitude??'');
+        longitude =   double.parse(widget.booking.hospitality?.coordinate.longitude??'');
+        break;
+      case 'event':
+        latitude =  double.parse(widget.booking.event?.coordinates?.latitude??'');
+        longitude =   double.parse(widget.booking.event?.coordinates?.longitude??'');
+        break;
+      case 'adventure':
+        latitude =   double.parse(widget.booking.adventure?.coordinates?.latitude??'');
+        longitude =  double.parse(widget.booking.adventure?.coordinates?.longitude??'');
+        break;
+      case 'place':
+        latitude =  double.parse(widget.booking.place?.coordinates?.latitude??'');
+        longitude =   double.parse(widget.booking.place?.coordinates?.longitude??'');
+        break;
+      default:
+        throw Exception('Unknown booking type');
+    }
+
+      String result = await _getAddressFromLatLng(latitude, longitude);
+      setState(() {
+        address = result;
+      });
+    
+  } catch (e) {
+    // Handle error if necessary
+    print('Error fetching address: $e');
+  }
+}
 
   @override
   Widget build(BuildContext context) {
     final TouristExploreController _touristExploreController =
         Get.put(TouristExploreController());
     Place? thePlace;
-
+    log(widget.booking.cost!);
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return InkWell(
-      onTap: booking.orderStatus == 'ACCEPTED' ||
-              booking.bookingType == 'hospitality' ||
-              booking.bookingType == 'adventure'
+      onTap: widget.booking.orderStatus == 'ACCEPTED' ||
+              widget.booking.bookingType == 'hospitality' ||
+              widget.booking.bookingType == 'adventure' ||
+              widget.booking.bookingType == 'event'
           ? () {
               Get.to(() => TicketDetailsScreen(
-                    booking: booking,
+                    booking: widget.booking,
                     icon: SvgPicture.asset(
-                      'assets/icons/${booking.bookingType! == 'place' ? 'place.svg' : booking.bookingType! == 'hospitality' ? 'hospitality.svg' : 'adventure.svg'}',
+                      'assets/icons/${widget.booking.bookingType! == 'place' ? 'place.svg' : widget.booking.bookingType! == 'hospitality' ? 'hospitality.svg' : widget.booking.bookingType == 'event' ? 'event.svg' : 'adventure.svg'}',
                     ),
-                    bookTypeText:
-                        getBookingTypeText(context, booking.bookingType!),
+                    bookTypeText: getBookingTypeText(
+                        context, widget.booking.bookingType!),
                   ));
             }
-          : booking.orderStatus == 'PENDING'
+          : widget.booking.orderStatus == 'PENDING'
               ? () {
                   print("id place");
-                  print(booking.placeId ?? '');
+                  print(widget.booking.placeId ?? '');
                   _touristExploreController
                       .getPlaceById(
-                    id: booking.place?.id,
+                    id: widget.booking.place?.id,
                     context: context,
                   )
                       .then((place) {
@@ -55,7 +127,7 @@ class CustomTicketCard extends StatelessWidget {
                     Get.to(
                       () => FindAjwady(
                         booking: thePlace!.booking![0],
-                        place: booking.place!,
+                        place: widget.booking.place!,
                         placeId: thePlace!.id!,
                       ),
                     );
@@ -78,8 +150,8 @@ class CustomTicketCard extends StatelessWidget {
               BoxShadow(
                 color: Color(0x3FC7C7C7),
                 blurRadius: 10,
-                offset: Offset( 1,2),
-                spreadRadius:0,
+                offset: Offset(1, 2),
+                spreadRadius: 0,
               ),
             ],
           ),
@@ -102,11 +174,13 @@ class CustomTicketCard extends StatelessWidget {
                     child: ClipRRect(
                       borderRadius: const BorderRadius.all(Radius.circular(4)),
                       child: Image.network(
-                        booking.bookingType == "place"
-                            ? booking.place!.image![0]
-                            : booking.bookingType == "hospitality"
-                                ? booking.hospitality!.images[0]
-                                : booking.adventure!.image![0],
+                        widget.booking.bookingType == "place"
+                            ? widget.booking.place!.image![0]
+                            : widget.booking.bookingType == "hospitality"
+                                ? widget.booking.hospitality!.images[0]
+                                : widget.booking.bookingType == 'event'
+                                    ? widget.booking.event!.images[0]
+                                    : widget.booking.adventure!.image![0],
                         height: height * 0.076,
                         width: width * 0.16,
                         fit: BoxFit.cover,
@@ -128,16 +202,32 @@ class CustomTicketCard extends StatelessWidget {
                             children: [
                               CustomText(
                                 text: AppUtil.rtlDirection(context)
-                                    ? booking.bookingType == "place"
-                                        ? booking.place!.nameEn!
-                                        : booking.bookingType == "hospitality"
-                                            ? booking.hospitality!.titleEn
-                                            : booking.adventure!.nameEn ?? ''
-                                    : booking.bookingType == "place"
-                                        ? booking.place!.nameAr!
-                                        : booking.bookingType == "hospitality"
-                                            ? booking.hospitality!.titleAr
-                                            : booking.adventure!.nameAr ?? '',
+                                    ? widget.booking.bookingType == "place"
+                                        ? widget.booking.place!.nameEn!
+                                        : widget.booking.bookingType ==
+                                                "hospitality"
+                                            ? widget
+                                                .booking.hospitality!.titleEn
+                                            : widget.booking.bookingType ==
+                                                    'event'
+                                                ? widget.booking.event!
+                                                        .nameEn ??
+                                                    ""
+                                                : widget.booking.adventure!
+                                                        .nameEn ??
+                                                    ''
+                                    : widget.booking.bookingType == "place"
+                                        ? widget.booking.place!.nameAr!
+                                        : widget.booking.bookingType ==
+                                                "hospitality"
+                                            ? widget
+                                                .booking.hospitality!.titleAr
+                                            : widget.booking.bookingType ==
+                                                    'event'
+                                                ? widget.booking.event!.nameAr!
+                                                : widget.booking.adventure!
+                                                        .nameAr ??
+                                                    '',
                                 fontSize: 19,
                                 fontWeight: FontWeight.w700,
                                 fontFamily: AppUtil.rtlDirection(context)
@@ -150,14 +240,14 @@ class CustomTicketCard extends StatelessWidget {
                                     : TextDirection.ltr,
                                 children: [
                                   SvgPicture.asset(
-                                    'assets/icons/${booking.bookingType! == 'place' ? 'place.svg' : booking.bookingType! == 'hospitality' ? 'hospitality.svg' : 'adventure.svg'}',
+                                    'assets/icons/${widget.booking.bookingType! == 'place' ? 'place.svg' : widget.booking.bookingType! == 'hospitality' ? 'hospitality.svg' : widget.booking.bookingType == 'event' ? 'event.svg' : 'adventure.svg'}',
                                   ),
                                   const SizedBox(
                                     width: 4,
                                   ),
                                   CustomText(
                                     text: getBookingTypeText(
-                                        context, booking.bookingType!),
+                                        context, widget.booking.bookingType!),
                                     fontSize: 13,
                                     fontWeight: FontWeight.w500,
                                     color: black,
@@ -177,17 +267,25 @@ class CustomTicketCard extends StatelessWidget {
                               width: 4,
                             ),
                             CustomText(
-                              text: AppUtil.rtlDirection2(context)
-                                  ? booking.bookingType == "place"
-                                      ? booking.place!.regionAr!
-                                      : booking.bookingType! == 'hospitality'
-                                          ? booking.hospitality!.regionAr!
-                                          : booking.adventure!.regionAr ?? ''
-                                  : booking.bookingType == "place"
-                                      ? booking.place!.regionEn!
-                                      : booking.bookingType! == 'hospitality'
-                                          ? booking.hospitality!.regionEn
-                                          : booking.adventure!.regionEn ?? '',
+                              text: address,
+
+                              //  AppUtil.rtlDirection2(context)
+                              //     ? widget.booking.bookingType == "place"
+                              //         ? widget.booking.place!.regionAr!
+                              //         : widget.booking.bookingType! == 'hospitality'
+                              //             ? widget.booking.hospitality!.regionAr!
+                              //             : widget.booking.bookingType == 'event'
+                              //                 ?widget.booking.event!.regionAr ?? ""
+                              //                 : widget.booking.adventure!.regionAr ??
+                              //                     ''
+                              //     : widget.booking.bookingType == "place"
+                              //         ? widget.booking.place!.regionEn!
+                              //         : widget.booking.bookingType! == 'hospitality'
+                              //             ? widget.booking.hospitality!.regionEn
+                              //             : widget.booking.bookingType == 'event'
+                              //                 ? widget.booking.event!.regionEn ?? ""
+                              //                 : widget.booking.adventure!.regionEn ??
+                              //                     '',
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
                               color: textGreyColor,
@@ -207,7 +305,8 @@ class CustomTicketCard extends StatelessWidget {
                             ),
                             CustomText(
                               // text:intel.DateFormat.yMMMMd().format(DateTime.parse(booking.date!)),
-                              text: formatBookingDate(context, booking.date),
+                              text: formatBookingDate(
+                                  context, widget.booking.date),
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
                               color: textGreyColor,
@@ -222,21 +321,22 @@ class CustomTicketCard extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             SvgPicture.asset(
-                              'assets/icons/${booking.orderStatus! == 'ACCEPTED' || booking.orderStatus! == 'Finished' ? 'confirmed.svg' : booking.orderStatus! == 'CANCELED' ? 'canceled.svg' : 'waiting.svg'}',
+                              'assets/icons/${widget.booking.orderStatus! == 'ACCEPTED' || widget.booking.orderStatus! == 'Finished' ? 'confirmed.svg' : widget.booking.orderStatus! == 'CANCELED' ? 'canceled.svg' : 'waiting.svg'}',
                             ),
                             const SizedBox(
                               width: 4,
                             ),
                             CustomText(
                               text: getOrderStatusText(
-                                  context, booking.orderStatus!),
+                                  context, widget.booking.orderStatus!),
                               //text:booking.orderStatus!,
                               fontSize: 13,
                               fontWeight: FontWeight.w500,
-                              color: booking.orderStatus! == 'ACCEPTED' ||
-                                      booking.orderStatus! == 'Finished'
+                              color: widget.booking.orderStatus! ==
+                                          'ACCEPTED' ||
+                                      widget.booking.orderStatus! == 'Finished'
                                   ? colorGreen
-                                  : booking.orderStatus! == 'CANCELED'
+                                  : widget.booking.orderStatus! == 'CANCELED'
                                       ? Color(0xFFDC362E)
                                       : colorDarkGrey,
                             ),
@@ -253,57 +353,57 @@ class CustomTicketCard extends StatelessWidget {
       ),
     );
   }
+}
 
-  String getOrderStatusText(BuildContext context, String orderStatus) {
-    if (AppUtil.rtlDirection2(context)) {
-      switch (orderStatus) {
-        case 'ACCEPTED':
-          return 'مؤكد';
-        case 'Uppending':
-          return 'في الانتظار';
-        case 'Finished':
-          return 'اكتملت';
-        case 'CANCELED':
-          return 'تم الالغاء';
-        default:
-          return orderStatus;
-      }
-    } else {
-      return orderStatus;
+String getOrderStatusText(BuildContext context, String orderStatus) {
+  if (AppUtil.rtlDirection2(context)) {
+    switch (orderStatus) {
+      case 'ACCEPTED':
+        return 'مؤكد';
+      case 'PENDING':
+        return 'في الإنتظار';
+      case 'Finished':
+        return 'اكتملت';
+      case 'CANCELED':
+        return 'تم الالغاء';
+      default:
+        return orderStatus;
     }
+  } else {
+    return orderStatus;
   }
+}
 
-  String getBookingTypeText(BuildContext context, String bookingType) {
-    if (AppUtil.rtlDirection2(context)) {
-      switch (bookingType) {
-        case 'place':
-          return 'جولة';
-        case 'adventure':
-          return 'مغامرة';
-        case 'hospitality':
-          return 'ضيافة';
-        case 'event':
-          return 'فعالية';
-        default:
-          return bookingType;
-      }
-    } else {
-      if (bookingType == 'place') {
-        return "Tour";
-      } else {
+String getBookingTypeText(BuildContext context, String bookingType) {
+  if (AppUtil.rtlDirection2(context)) {
+    switch (bookingType) {
+      case 'place':
+        return 'جولة';
+      case 'adventure':
+        return 'مغامرة';
+      case 'hospitality':
+        return 'ضيافة';
+      case 'event':
+        return 'فعالية';
+      default:
         return bookingType;
-      }
+    }
+  } else {
+    if (bookingType == 'place') {
+      return "Tour";
+    } else {
+      return bookingType;
     }
   }
+}
 
-  String formatBookingDate(BuildContext context, String date) {
-    DateTime dateTime = DateTime.parse(date);
-    if (AppUtil.rtlDirection2(context)) {
-      // Set Arabic locale for date formatting
-      return intel.DateFormat('EEEE، d MMMM yyyy', 'ar').format(dateTime);
-    } else {
-      // Default to English locale
-      return intel.DateFormat('EEEE, d MMMM yyyy').format(dateTime);
-    }
+String formatBookingDate(BuildContext context, String date) {
+  DateTime dateTime = DateTime.parse(date);
+  if (AppUtil.rtlDirection2(context)) {
+    // Set Arabic locale for date formatting
+    return intel.DateFormat('EEEE، d MMMM yyyy', 'ar').format(dateTime);
+  } else {
+    // Default to English locale
+    return intel.DateFormat('EEEE, d MMMM yyyy').format(dateTime);
   }
 }

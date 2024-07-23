@@ -54,6 +54,7 @@ class _MyAccountState extends State<MyAccount> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: CustomAppBar("account".tr),
@@ -82,15 +83,14 @@ class _MyAccountState extends State<MyAccount> {
               color: lightGrey,
             ),
             SizedBox(
-              height: 20,
+              height: width * 0.051,
             ),
             Obx(
               () => widget.profileController.isProfileLoading.value
                   ? Container()
                   : AccountTile(
-                      title: "Phone number",
-                      titleHint:
-                          "For notification , remainder , and help login",
+                      title: "phoneNum".tr,
+                      titleHint: "accountNumberHint".tr,
                       subtitle: getPhoneNumber(),
                       onTap: () {
                         Get.bottomSheet(const PhoneSheet());
@@ -101,7 +101,7 @@ class _MyAccountState extends State<MyAccount> {
               color: lightGrey,
             ),
             SizedBox(
-              height: 20,
+              height: width * 0.051,
             ),
             if (widget.isLocal)
               Column(
@@ -109,7 +109,6 @@ class _MyAccountState extends State<MyAccount> {
                   AccountTile(
                     title: 'iban'.tr,
                     subtitle: AppUtil.maskIban(
-                      //TODO: must uncomment this line
                       //  widget.profileController.profile.iban ??
                       "SA5480000246608016008348",
                     ),
@@ -119,7 +118,7 @@ class _MyAccountState extends State<MyAccount> {
                     color: lightGrey,
                   ),
                   SizedBox(
-                    height: 20,
+                    height: width * 0.051,
                   ),
                   if (!isTourGuide)
                     AccountTile(
@@ -129,7 +128,7 @@ class _MyAccountState extends State<MyAccount> {
                     ),
                   if (!isTourGuide)
                     SizedBox(
-                      height: 20,
+                      height: width * 0.051,
                     ),
                   if (!isTourGuide)
                     const Divider(
@@ -137,7 +136,7 @@ class _MyAccountState extends State<MyAccount> {
                     ),
                   if (!isTourGuide)
                     SizedBox(
-                      height: 24,
+                      height: width * .061,
                     ),
                 ],
               ),
@@ -154,82 +153,80 @@ class _MyAccountState extends State<MyAccount> {
                         shape: const RoundedRectangleBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(32.0))),
-                        content: Container(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              const SizedBox(
-                                height: 10,
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            SizedBox(
+                              height: width * 0.025,
+                            ),
+                            CustomText(
+                                textAlign: TextAlign.center,
+                                fontSize: width * 0.046,
+                                fontWeight: FontWeight.w300,
+                                color: dividerColor,
+                                text: "youWantDeleteYourAccount".tr),
+                            SizedBox(
+                              height: width * 0.051,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: width * 0.051,
                               ),
-                              CustomText(
-                                  textAlign: TextAlign.center,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w300,
-                                  color: dividerColor,
-                                  text: "youWantDeleteYourAccount".tr),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 20),
-                                child: GestureDetector(
-                                  onTap: () async {
-                                    final authController =
-                                        Get.put(AuthController());
-                                    final isSuccess = await authController
-                                        .deleteAccount(context: context);
+                              child: GestureDetector(
+                                onTap: () async {
+                                  final authController =
+                                      Get.put(AuthController());
+                                  final isSuccess = await authController
+                                      .deleteAccount(context: context);
 
-                                    if (isSuccess) {
-                                      // Get.offAll(
-                                      //     () => const AccountTypeScreen());
-                                      Get.offAll(() => OnboardingScreen());
-                                    }
-                                  },
-                                  child: Container(
-                                    height: 40,
-                                    width: 357,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(8),
-                                        border: Border.all(
-                                            color: Colors.red, strokeAlign: 1)),
-                                    child: CustomText(
-                                      text: "deleteAccount".tr,
-                                      color: Colors.red,
-                                      fontSize: 16,
-                                    ),
+                                  if (isSuccess) {
+                                    Get.offAll(() => const OnboardingScreen());
+                                  }
+                                },
+                                child: Container(
+                                  height: width * 0.102,
+                                  width: width * 0.915,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                      border: Border.all(
+                                          color: Colors.red, strokeAlign: 1)),
+                                  child: CustomText(
+                                    text: "deleteAccount".tr,
+                                    color: Colors.red,
+                                    fontSize: width * .041,
                                   ),
                                 ),
                               ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  Get.back();
-                                },
-                                child: CustomText(
-                                    textAlign: TextAlign.center,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                    color: black,
-                                    text: "cancel".tr.toUpperCase()),
-                              ),
-                            ],
-                          ),
+                            ),
+                            SizedBox(
+                              height: width * 0.051,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Get.back();
+                              },
+                              child: CustomText(
+                                  textAlign: TextAlign.center,
+                                  fontSize: width * .041,
+                                  fontWeight: FontWeight.w500,
+                                  color: black,
+                                  text: "cancel".tr.toUpperCase()),
+                            ),
+                          ],
                         ),
                       );
                     },
                   );
                 },
-                child: const CustomText(
-                  text: "Delete  account",
-                  textDecoration: TextDecoration.underline,
+                child: CustomText(
+                  text: "delAccount".tr,
                   color: Colors.red,
-                  fontSize: 18,
+                  fontSize: width * .0435,
+                  fontFamily: 'SF Pro',
                   fontWeight: FontWeight.w500,
+                  textDecoration: TextDecoration.underline,
                 ),
               ),
             ),
