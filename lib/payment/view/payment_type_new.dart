@@ -392,7 +392,7 @@ class _PaymentTypeState extends State<PaymentType> {
       context: context,
       offerId: widget.offerController!.offerDetails.value.id!,
       invoiceId: checkInvoice.id,
-      schedules: widget.offerController!.offerDetails.value.schedule!,
+      schedules: widget.offerController!.updateScheduleList,
     );
     print(acceptedOffer?.orderStatus);
     //Get.back();
