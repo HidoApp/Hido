@@ -23,10 +23,12 @@ import 'package:intl/intl.dart';
 class EventSummaryScreen extends StatefulWidget {
   // final ProfileController profileController;
  final String eventId;
+ final String date;
 
   const  EventSummaryScreen({
     super.key,
      required this.eventId,
+     required this.date,
   });
 
   @override
@@ -56,7 +58,7 @@ class _AdventureSummaryScreenState extends State<EventSummaryScreen>{
 
 void getEventSummary() async {
   
-    _summary = await _servicesController.getEventSummaryById(context: context, id: widget.eventId);
+    _summary = await _servicesController.getEventSummaryById(context: context, id: widget.eventId,date:widget.date);
     print(_summary?.cost);
      for (var guest in _summary!.touristList) {
   totalguest += guest.guestNumber;
@@ -208,8 +210,8 @@ int totalguest = 0;
                   ),
                   Text(
                     
-                     AppUtil.formatBookingDate(context,
-                                        _summary!.daysInfo.first.startTime),
+                     formatBookingDate(context,
+                                        widget.date),
                     style: TextStyle(
                       color: Color(0xFF070708),
                       fontSize: 15,

@@ -1,10 +1,12 @@
 import 'dart:developer';
 
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/event/model/event.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/adventure/view/Adventure_summary_screen.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/localEvent/view/event_summary_screen.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/summary_screen.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
+import 'package:ajwad_v4/services/model/booking_dates.dart';
 import 'package:ajwad_v4/services/model/hospitality.dart';
 import 'package:ajwad_v4/services/view/hospitality_details.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
@@ -25,8 +27,9 @@ class EventExperienceCard extends StatefulWidget {
   const EventExperienceCard({Key?key, required this.experience,this.type}): super(key: key);
 
 
-  final experience;
+  final Event experience;
   final String? type;
+  
 
   @override
   State<EventExperienceCard> createState() => _EventExperienceCardState();
@@ -36,20 +39,22 @@ class _EventExperienceCardState extends State<EventExperienceCard> {
    @override
   void initState() {
     super.initState();
-    selectedDate = dates.first;
+    sortedBookingDates = widget.experience.bookingDates!..sort((a, b) => a.date.compareTo(b.date));
+    selectedDate =  sortedBookingDates?.first.date;
+
 
     _controller = ExpandedTileController(isExpanded: false);
   }
    
    
-bool isDateBefore24Hours() {
+bool isDateBefore24Hours(String date) {
    final String timeZoneName = 'Asia/Riyadh';
   late tz.Location location;
   
   tz.initializeTimeZones();
     location = tz.getLocation(timeZoneName);
     DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
-     DateTime parsedDate = DateTime.parse(widget.experience.daysInfo.first.startTime);
+     DateTime parsedDate = DateTime.parse(date);
     Duration difference =  parsedDate.difference(currentDateInRiyadh);
     print('this deffrence');
     print(difference);
@@ -57,7 +62,7 @@ bool isDateBefore24Hours() {
   }
   late ExpandedTileController _controller;
 String? selectedDate;
-
+ List<BookingDates>? sortedBookingDates;
   final List<String> dates = [
     '27 فبراير',
     '25 فبراير',
@@ -111,7 +116,7 @@ String? selectedDate;
                  borderRadius:
                      const BorderRadius.all(Radius.circular(6.57)),
                  child: Image.network(
-                   widget.experience.image[0],
+                   widget.experience.image![0],
                    height: height * 0.06,
                    width: width * 0.132,
                    fit: BoxFit.cover,
@@ -150,7 +155,7 @@ String? selectedDate;
                          CustomText(
                            text: 
                          formatBookingDate(context,
-                              widget. experience.daysInfo.first.startTime),
+                              widget. experience.daysInfo!.first.startTime),
                            fontSize: 12,
                            fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic': 'SF Pro',
                            fontWeight: FontWeight.w600,
@@ -168,9 +173,9 @@ String? selectedDate;
                        //  if(hospitality.status!='DELETED')
 
                          CustomText(
-                           text:selectedDate,
-                          //  formatBookingDate(context,
-                          //    widget.  experience.daysInfo.first.startTime),
+                           text:
+                           formatBookingDate(context,
+                             selectedDate!),
                            fontSize: 12,
                             fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic': 'SF Pro',
 
@@ -189,13 +194,13 @@ String? selectedDate;
          
                    Padding(
                      padding: const EdgeInsets.only(bottom:14),
-                     child: isDateBefore24Hours()?
+                     child: isDateBefore24Hours(selectedDate!)?
 
                     ElevatedButton(
   onPressed: () {
    
      
-     Get.to(EventSummaryScreen(eventId:widget.experience.id));
+   Get.to(EventSummaryScreen(eventId:widget.experience.id,date: selectedDate!,));
 
     
   },
@@ -258,7 +263,9 @@ AppUtil.rtlDirection2(context)? 'ملخص':'Summary',
                     child: Wrap(
                       spacing: 8.0,
                       runSpacing: 8.0,
-                      children: dates.map((date) {
+                              children:sortedBookingDates!.map<Widget>((bookingDate) {
+
+          final date = bookingDate.date; // Access the date property directly
                         bool isSelected = date == selectedDate;
                         return GestureDetector(
                           onTap: () {
@@ -276,7 +283,7 @@ AppUtil.rtlDirection2(context)? 'ملخص':'Summary',
                             ),
                             child: Center(
                               child: Text(
-                                date,
+                               formatBookingDate(context, date),
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: isSelected ? Color(0xFF37B268) : Color(0xFF9392A0),

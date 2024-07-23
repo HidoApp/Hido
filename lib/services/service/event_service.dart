@@ -372,6 +372,7 @@ class EventService {
   static Future<EventSummary?> getEventSummaryById({
     required BuildContext context,
     required String id,
+    required String date,
   }) async {
     final getStorage = GetStorage();
     String token = getStorage.read('accessToken') ?? "";
@@ -387,7 +388,8 @@ class EventService {
     print("TRUE $id");
     final response = await http.get(
       Uri.parse('$baseUrl/event/$id/summary')
-          .replace(queryParameters: ({'id': id})),
+          .replace(queryParameters: ({'date':date,'id': id})),
+         
       headers: {
         'Accept': 'application/json',
         if (token != '') 'Authorization': 'Bearer $token',

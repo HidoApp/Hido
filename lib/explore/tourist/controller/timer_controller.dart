@@ -11,10 +11,10 @@ import 'package:get/get.dart';
 class TimerController extends GetxController {
   Timer? _timer;
   int remainingSeconds = 1;
-  final time = '06.00'.obs;
+  final time = '45.00'.obs;
   @override
   void onReady() {
-    _startTimer(360);
+    _startTimer(2700);
     super.onReady();
   }
 

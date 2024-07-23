@@ -145,7 +145,7 @@ class LocalNotification {
               day;
     } else {
       descreption = AppUtil.rtlDirection2(context)
-          ?'متبقي ' + day + ' حتى تبدأ تجربتك لاستكشاف ' + placeName
+          ?'متبقي ' + 'يوم' + ' حتى تبدأ تجربتك لاستكشاف ' + placeName
           : day +
               "  left and  your experience to discover " +
               placeName +
@@ -227,7 +227,7 @@ class LocalNotification {
               day;
     } else {
       descreption = AppUtil.rtlDirection2(context)
-          ? "متبقي " + day + " وستبدأ استضافتك في  " + FamilyName + " على " + mealName
+          ? "متبقي " + "يوم" + " وستبدأ استضافتك في  " + FamilyName + " على " + mealName
           : day +
               "  left and your hosting begins at " +
               FamilyName +
@@ -295,7 +295,7 @@ class LocalNotification {
           : " Your " + PlaceName + " adventure " + " will begin " + day;
     } else {
       descreption = AppUtil.rtlDirection2(context)
-          ? "متبقي " + day + " وستبدأ مغامرة " + PlaceName + " الخاصة بك"
+          ? "متبقي " + "يوم" + " وستبدأ مغامرة " + PlaceName + " الخاصة بك"
           : day + "  left and your " + PlaceName + " adventure begins ";
     }
     await flutterLocalNotificationsPlugin.zonedSchedule(
@@ -358,7 +358,7 @@ class LocalNotification {
           : " Your " + PlaceName + " event " + " will begin " + day;
     } else {
       descreption = AppUtil.rtlDirection2(context)
-          ? "متبقي " + day + " وستبدأ فعالية " + PlaceName + " الخاصة بك"
+          ? "متبقي " + "يوم" + " وستبدأ فعالية " + PlaceName + " الخاصة بك"
           : day + "  left and your " + PlaceName + " event begins ";
     }
     await flutterLocalNotificationsPlugin.zonedSchedule(
