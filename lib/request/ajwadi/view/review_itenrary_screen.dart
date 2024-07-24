@@ -57,11 +57,13 @@ class _ReviewIenraryScreenState extends State<ReviewIenraryScreen> {
       appBar: CustomAppBar(
         'reviewItenrary'.tr,
       ),
-      backgroundColor: lightGreyBackground,
+      backgroundColor: Colors.white,
       body: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: width * 0.04,
-          vertical: width * 0.03,
+        padding: EdgeInsets.only(
+           top: width * 0.03,
+          left: width * 0.04,
+          right: width * 0.04,
+          bottom: width * 0.08,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -69,6 +71,9 @@ class _ReviewIenraryScreenState extends State<ReviewIenraryScreen> {
             CustomText(
               text: "ItineraryDetails".tr,
               fontSize: width * 0.044,
+             color: black,
+             
+                    
             ),
             SizedBox(
               height: width * 0.033,
@@ -90,8 +95,11 @@ class _ReviewIenraryScreenState extends State<ReviewIenraryScreen> {
                 itemCount: widget.requestController.reviewItenrary.length,
               ),
             ),
+              SizedBox(
+              height: width * 0.05,
+            ),
             const Divider(
-              color: almostGrey,
+              color: lightGrey,
             ),
             const Spacer(),
             Obx(

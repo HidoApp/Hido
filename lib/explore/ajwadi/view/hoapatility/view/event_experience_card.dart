@@ -61,8 +61,8 @@ bool isDateBefore24Hours(String date) {
     return difference.inHours <= 24;
   }
   late ExpandedTileController _controller;
-String? selectedDate;
- List<BookingDates>? sortedBookingDates;
+  String? selectedDate;
+  List<BookingDates>? sortedBookingDates;
   final List<String> dates = [
     '27 فبراير',
     '25 فبراير',
@@ -154,8 +154,8 @@ String? selectedDate;
                        children: [
                          CustomText(
                            text: 
-                         formatBookingDate(context,
-                              widget. experience.daysInfo!.first.startTime),
+                         AppUtil.formatSelectedDaysInfo(
+                              widget. experience.daysInfo!,context),
                            fontSize: 12,
                            fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic': 'SF Pro',
                            fontWeight: FontWeight.w600,
@@ -283,7 +283,7 @@ AppUtil.rtlDirection2(context)? 'ملخص':'Summary',
                             ),
                             child: Center(
                               child: Text(
-                               formatBookingDate(context, date),
+                               formatBookingDateMonth(context, date),
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: isSelected ? Color(0xFF37B268) : Color(0xFF9392A0),
@@ -370,6 +370,16 @@ AppUtil.rtlDirection2(context)? 'ملخص':'Summary',
     } else {
       // Default to English locale
       return intel.DateFormat('d MMMM yyyy').format(dateTime);
+    }
+  }
+  String formatBookingDateMonth(BuildContext context, String date) {
+    DateTime dateTime = DateTime.parse(date);
+    if (AppUtil.rtlDirection2(context)) {
+      // Set Arabic locale for date formatting
+      return intel.DateFormat('d MMMM', 'ar').format(dateTime);
+    } else {
+      // Default to English locale
+      return intel.DateFormat('d MMMM').format(dateTime);
     }
   }
 }

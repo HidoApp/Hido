@@ -74,6 +74,7 @@ class _ChatScreenState extends State<ChatScreen> {
     userId = jwtToken.id;
     
     log("Chat Screen senderIdchatId ${userId}");
+    
   }
 
   void getChat() async {
@@ -665,12 +666,12 @@ class _ChatScreenState extends State<ChatScreen> {
                     // Send Button
                     Container(
                       width: 390,
-                      height: 95,
+                      height: 92,
                       padding: const EdgeInsets.only(
                         top: 14,
-                        left: 1,
-                        right: 1,
-                        bottom: 16,
+                        left: 16,
+                        right: 16,
+                        bottom: 14,
                       ),
                       decoration: BoxDecoration(color: Colors.white),
                       child: Row(

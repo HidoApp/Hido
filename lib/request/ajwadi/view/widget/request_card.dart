@@ -35,7 +35,6 @@ class RequestCard extends StatefulWidget {
 
 class _RequestCardState extends State<RequestCard> {
   late ExpandedTileController _controller;
-  String address='';
 
   Future<String> _getAddressFromLatLng(double position1,double position2) async {
     try {
@@ -59,7 +58,7 @@ class _RequestCardState extends State<RequestCard> {
       String result = await _getAddressFromLatLng(
  double.parse( position1),double.parse( position2)) ;    
   setState(() {
-        address=result;
+       widget.requestController.address.value  =result;
       });
     } catch (e) {
       // Handle error if necessary
@@ -188,15 +187,15 @@ class _RequestCardState extends State<RequestCard> {
                 ItineraryTile(
                   title: DateFormat('EEE, d MMMM yyyy',
                           AppUtil.rtlDirection2(context) ? 'ar' : 'en')
-                      .format(DateTime.parse(widget.request.date!)),
+                      .format(DateTime.parse(widget.request.booking?.date??'')),
                   image: "assets/icons/date.svg",
                   color: starGreyColor,
                 ),
                 SizedBox(height: width * 0.025),
                 ItineraryTile(
                   title:
-                      "${"pickUp".tr} ${formatTime(widget.request.booking!.timeToGo!)}"
-                      ", ${"dropOff".tr} ${formatTime(widget.request.booking!.timeToReturn!)}",
+                      "${"pickUp".tr} ${AppUtil.formatStringTimeWithLocale(context,widget.request.booking!.timeToGo!)}"
+                      " ,  ${"dropOff".tr} ${AppUtil.formatStringTimeWithLocale(context,widget.request.booking!.timeToReturn!)}",
                   image: "assets/icons/timeGrey.svg",
                  color: starGreyColor,
 
@@ -211,7 +210,7 @@ class _RequestCardState extends State<RequestCard> {
                 ),
                  SizedBox(height: width * 0.025),
                 ItineraryTile(
-                  title: address,
+                  title:  widget.requestController.address.value ,
                   image: 'assets/icons/map_pin.svg',
                  color: starGreyColor,
 
@@ -266,7 +265,7 @@ class _RequestCardState extends State<RequestCard> {
                 child: CustomButton(
                   raduis: 4,
                   onPressed: () {
-                    Get.to(() => AddItinerary(requestId: widget.request.id!));
+                    Get.to(() => AddItinerary(requestId: widget.request.id!,booking: widget.request.booking,));
                   },
                   title: 'accept'.tr,
                 ),

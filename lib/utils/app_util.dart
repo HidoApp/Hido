@@ -297,6 +297,23 @@ static String getLocationUrl(Coordinate location) {
       return formattedTime;
     }
   }
+  static String formatStringTime(
+      BuildContext context, String dateTimeString) {
+    DateTime time = DateFormat("hh:mm").parse(dateTimeString);
+    String formattedTime = DateFormat.jm().format(time);
+    if (AppUtil.rtlDirection2(context)) {
+      // Arabic locale
+      String suffix = time.hour < 12 ? 'صباحًا' : 'مساءً';
+      formattedTime = formattedTime
+          .replaceAll('AM', '')
+          .replaceAll('PM', '')
+          .trim(); // Remove AM/PM
+      return '$formattedTime $suffix';
+    } else {
+      // Default to English locale
+      return formattedTime;
+    }
+      }
 
   static bool isGuest() {
     final _getStorage = GetStorage();

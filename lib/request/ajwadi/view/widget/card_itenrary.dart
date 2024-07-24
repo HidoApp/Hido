@@ -245,13 +245,16 @@ class _ItineraryCardState extends State<ItineraryCard> {
                             ),
                             child: Row(
                               children: [
-                                SvgPicture.asset('assets/icons/Arrows-s.svg'),
+                               // SvgPicture.asset('assets/icons/Arrows-s.svg'),
                                 CustomText(
                                  fontSize: width * 0.03,
 
                                   text: widget.requestController.startTime.isEmpty
                                       ? ' 00:00'.tr
-                                      : widget.requestController.startTime.value,
+                                      :  AppUtil.formatStringTimeWithLocale(
+                                          context,
+                                         DateFormat('HH:mm:ss').format(
+                                             _dateTimeTo)),
                                   color: almostGrey,
                                   fontFamily:AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
                                 ),
@@ -327,7 +330,7 @@ class _ItineraryCardState extends State<ItineraryCard> {
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Row(children: [
-                            SvgPicture.asset('assets/icons/Arrows-s.svg'),
+                           // SvgPicture.asset('assets/icons/Arrows-s.svg'),
                             CustomText(
                                 color: almostGrey,
                                 fontSize: width * 0.03,
@@ -335,7 +338,10 @@ class _ItineraryCardState extends State<ItineraryCard> {
                                  fontFamily:AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
                                 text: widget.requestController.endtime.isEmpty
                                     ? ' 00:00'.tr
-                                    : widget.requestController.endtime.value),
+                                    :  AppUtil.formatStringTimeWithLocale(
+                                          context,
+                                         DateFormat('HH:mm:ss').format(
+                                             _dateTimeFrom))),
                           ]),
                         ),
                       ),
@@ -385,6 +391,8 @@ class _ItineraryCardState extends State<ItineraryCard> {
                           textAlign: TextAlign.center,
                           color: colorRed,
                           fontSize: width * 0.038,
+                          fontFamily: 'HT Rakik',
+
                         ),
                       ),
                     ),

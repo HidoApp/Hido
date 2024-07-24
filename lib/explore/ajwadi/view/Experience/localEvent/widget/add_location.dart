@@ -160,14 +160,7 @@ class _AddEventLocationState extends State<AddEventLocation> {
       _isLoading = false;
     });
   }
-  void _onTap(LatLng position) {
-    setState(() {
-      _EventrController.pickUpLocLatLang.value = position;
-      _currentPosition = position;
-      _isLoading = true;
-      _fetchAddress();
-    });
-  }
+
 
   @override
   Widget build(BuildContext context) {
