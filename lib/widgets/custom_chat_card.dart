@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/request/ajwadi/controllers/request_controller.dart';
+import 'package:ajwad_v4/request/chat/controllers/chat_controller.dart';
 import 'package:ajwad_v4/request/chat/model/chat_model.dart';
 import 'package:ajwad_v4/request/chat/view/chat_screen_live.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
@@ -24,9 +25,14 @@ class CustomChatCard extends StatelessWidget {
 
   CustomChatCard(
       {super.key, required this.chatModel, this.booking2, this.chatId2});
-
+  final chatController = Get.put(ChatController());
+ final offerController=Get.put(OfferController());
+ 
   @override
   Widget build(BuildContext context) {
+                   
+
+print(";lkjhgfd");
     return InkWell(
       onTap: () async {
 
@@ -118,7 +124,9 @@ class CustomChatCard extends StatelessWidget {
                           : chatModel.touristInChat!.profileInChat!.name ?? '',
                       color: Color(0xFF070708),
                       fontSize: 16,
-                      fontFamily: 'SF Pro',
+                      fontFamily:   AppUtil.rtlDirection2(context)
+                                                    ? 'SF Arabic'
+                                                    : 'SF Pro',
                       fontWeight: FontWeight.w500,
                       height: chatModel.messages!.isNotEmpty ? 0 : 3,
                     ),
@@ -136,7 +144,9 @@ class CustomChatCard extends StatelessWidget {
                         text: chatModel.messages!.last.message,
                         color: Color(0xFF9392A0),
                         fontSize: 13,
-                        fontFamily: 'SF Pro',
+                        fontFamily:   AppUtil.rtlDirection2(context)
+                                                    ? 'SF Arabic'
+                                                    : 'SF Pro',
                         fontWeight: FontWeight.w400,
                         height: 0,
                       )
@@ -157,7 +167,9 @@ class CustomChatCard extends StatelessWidget {
                             : '',
                         color: Color(0xFF37B268),
                         fontSize: 13,
-                        fontFamily: 'SF Pro',
+                        fontFamily:   AppUtil.rtlDirection2(context)
+                                                    ? 'SF Arabic'
+                                                    : 'SF Pro',
                         fontWeight: FontWeight.w500,
                         height: 0),
                     SizedBox(

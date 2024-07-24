@@ -79,6 +79,11 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
     }
   }
 
+  String formatTime(String time) {
+    DateTime dateTime = DateFormat('HH:mm:ss').parse(time);
+    return DateFormat('h:mm a', AppUtil.rtlDirection2(context) ? 'ar' : 'en')
+        .format(dateTime);
+  }
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -112,7 +117,8 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                       CustomText(text: widget.schedule.scheduleName),
                       CustomText(
                         text:
-                            "${AppUtil.formatStringTimeWithLocale(context, widget.schedule.scheduleTime!.from!)}-${AppUtil.formatStringTimeWithLocale(context,widget.schedule.scheduleTime!.to!)}",
+                            "${widget.schedule.scheduleTime!.to!} - ${widget.schedule.scheduleTime!.from!}",
+
                         color: almostGrey,
                         fontSize: width * .03,
                       ),
@@ -271,7 +277,7 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
 
                                   widget.schedule.scheduleTime!.from =
                                       DateFormat(
-                                    'h:mma',
+                                    ' h:mm a ',
                                   ).format(_dateTimeTo);
                                   log("${widget.schedule.scheduleTime!.to}");
                                   // setState(() {
@@ -298,11 +304,14 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: Row(children: [
-                                  SvgPicture.asset('assets/icons/Arrows-s.svg'),
-                                  SizedBox(width:width*0.01),
+                                  // SvgPicture.asset('assets/icons/Arrows-s.svg'),
+                                 // SizedBox(width:width*0.01),
                                   CustomText(
                                       color: almostGrey,
-                                      text: widget.schedule.scheduleTime!.from,
+                                      text: AppUtil.formatStringTimeWithLocale(
+                                          context,
+                                         DateFormat('HH:mm:ss').format(
+                                             _dateTimeTo)),
                                       fontSize: width * 0.033,
                                       fontFamily:AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',),
                                 ]),
@@ -338,7 +347,7 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                                   _dateTimeFrom = time;
                                   isPickedTimeFrom = true;
                                   widget.schedule.scheduleTime!.to = DateFormat(
-                                    'h:mma',
+                                    'h: mm a',
                                   ).format(_dateTimeFrom);
                                   log("   timeTo.value  ${_timeFrom.value}");
                                   // setState(() {
@@ -362,14 +371,17 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Row(children: [
-                                SvgPicture.asset('assets/icons/Arrows-s.svg'),
-                                   SizedBox(width:width*0.01),
+                               // SvgPicture.asset('assets/icons/Arrows-s.svg'),
+                                 //  SizedBox(width:width*0.01),
 
                                 CustomText(
                                   fontSize: width * 0.033,
                            fontFamily:AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
                                     color: almostGrey,
-                                    text: widget.schedule.scheduleTime!.to),
+                                    text: AppUtil.formatStringTimeWithLocale(
+                                          context,
+                                         DateFormat('HH:mm:ss').format(
+                                             _dateTimeFrom))),
                               ]),
                             ),
                           ),
@@ -403,6 +415,8 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                           text: 'delete'.tr,
                           textAlign: TextAlign.center,
                           color: colorRed,
+                          fontFamily: 'HT Rakik',
+
                           fontSize: width * .038,
                         ),
                       ),

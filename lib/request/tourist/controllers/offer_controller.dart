@@ -14,6 +14,7 @@ import '../models/schedule.dart';
 class OfferController extends GetxController {
   var isOffersLoading = false.obs;
   var isOfferLoading = false.obs;
+  var messageCreated = ''.obs;
   var isAcceptOfferLoading = false.obs;
   var offers = <Offer>[].obs;
   var offerDetails = OfferDetails().obs;

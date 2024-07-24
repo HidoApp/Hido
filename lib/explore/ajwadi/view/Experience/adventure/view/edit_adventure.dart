@@ -32,6 +32,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_datetime_picker_bdaya/flutter_datetime_picker_bdaya.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
@@ -245,13 +246,11 @@ class _EditAdventureState extends State<EditAdventure> {
         PriceLarger = price == null || price! < 150;
         print(PriceLarger = price == null || price! < 150);
 
-      //check if price not int
-      String priceText = _priceController.text;
-      RegExp doubleRegex = RegExp(r'^[0-9]*\.[0-9]+$'); 
-      PriceDouble=doubleRegex.hasMatch(priceText);
-      
+        //check if price not int
+        String priceText = _priceController.text;
+        RegExp doubleRegex = RegExp(r'^[0-9]*\.[0-9]+$');
+        PriceDouble = doubleRegex.hasMatch(priceText);
       }
-      
     });
 
     if (!titleArEmpty &&
@@ -262,7 +261,8 @@ class _EditAdventureState extends State<EditAdventure> {
         !DateErrorMessage! &&
         !TimeErrorMessage! &&
         !PriceEmpty &&
-        !PriceLarger && ! PriceDouble &&
+        !PriceLarger &&
+        !PriceDouble &&
         _servicesController.DateErrorMessage.value &&
         !_servicesController.TimeErrorMessage.value) {
       _updateAdventure();
@@ -1287,9 +1287,10 @@ class _EditAdventureState extends State<EditAdventure> {
                                     Padding(
                                       padding: const EdgeInsets.only(top: 8),
                                       child: Text(
-                                        DateErrorMessage ?? false  ||
-                                          !_servicesController
-                                              .DateErrorMessage.value
+                                        DateErrorMessage ??
+                                                false ||
+                                                    !_servicesController
+                                                        .DateErrorMessage.value
                                             ? AppUtil.rtlDirection2(context)
                                                 ? "اختر التاريخ"
                                                 : "You need to choose a valid date"
@@ -1363,128 +1364,181 @@ class _EditAdventureState extends State<EditAdventure> {
                                               child: Row(
                                                 children: [
                                                   GestureDetector(
-                                                    onTap: () {
-                                                      showCupertinoModalPopup<
-                                                              void>(
-                                                          context: context,
-                                                          barrierDismissible:
-                                                              false,
-                                                          builder: (BuildContext
-                                                              context) {
-                                                            return Column(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .end,
-                                                              children: [
-                                                                Container(
-                                                                  decoration:
-                                                                      BoxDecoration(
-                                                                    color: Color(
-                                                                        0xffffffff),
-                                                                    border:
-                                                                        Border(
-                                                                      bottom:
-                                                                          BorderSide(
-                                                                        width:
-                                                                            0.0,
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                  child: Row(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .spaceBetween,
-                                                                    children: <Widget>[
-                                                                      CupertinoButton(
-                                                                        onPressed:
-                                                                            () {
-                                                                          _servicesController
-                                                                              .isAdventureDateSelcted(true);
-                                                                          setState(
-                                                                              () {
-                                                                            Get.back();
-                                                                            time =
-                                                                                newTimeToGo;
-                                                                           _servicesController.selectedStartTime.value =
-                                                                                newTimeToGo;
+                                                    // onTap: () {
+                                                    //   showCupertinoModalPopup<
+                                                    //           void>(
+                                                    //       context: context,
+                                                    //       barrierDismissible:
+                                                    //           false,
+                                                    //       builder: (BuildContext
+                                                    //           context) {
+                                                    //         return Column(
+                                                    //           mainAxisAlignment:
+                                                    //               MainAxisAlignment
+                                                    //                   .end,
+                                                    //           children: [
+                                                    //             Container(
+                                                    //               decoration:
+                                                    //                   BoxDecoration(
+                                                    //                 color: Color(
+                                                    //                     0xffffffff),
+                                                    //                 border:
+                                                    //                     Border(
+                                                    //                   bottom:
+                                                    //                       BorderSide(
+                                                    //                     width:
+                                                    //                         0.0,
+                                                    //                   ),
+                                                    //                 ),
+                                                    //               ),
+                                                    //               child: Row(
+                                                    //                 mainAxisAlignment:
+                                                    //                     MainAxisAlignment
+                                                    //                         .spaceBetween,
+                                                    //                 children: <Widget>[
+                                                    //                   CupertinoButton(
+                                                    //                     onPressed:
+                                                    //                         () {
+                                                    //                       _servicesController
+                                                    //                           .isAdventureDateSelcted(true);
+                                                    //                       setState(
+                                                    //                           () {
+                                                    //                         Get.back();
+                                                    //                         time =
+                                                    //                             newTimeToGo;
+                                                    //                        _servicesController.selectedStartTime.value =
+                                                    //                             newTimeToGo;
 
-                                                                            _servicesController.TimeErrorMessage.value =
-                                                                                AppUtil.isEndTimeLessThanStartTime( newTimeToGo,newTimeToReturn);
-                                                                          });
-                                                                        },
-                                                                        padding:
-                                                                            const EdgeInsets.symmetric(
-                                                                          horizontal:
-                                                                              16.0,
-                                                                          vertical:
-                                                                              5.0,
-                                                                        ),
-                                                                        child:
-                                                                            CustomText(
-                                                                          text:
-                                                                              "confirm".tr,
-                                                                          color:
-                                                                              colorGreen,
-                                                                          fontSize:
-                                                                              15,
-                                                                          fontFamily: AppUtil.rtlDirection2(context)
-                                                                              ? 'SF Arabic'
-                                                                              : 'SF Pro',
-                                                                          fontWeight:
-                                                                              FontWeight.w500,
-                                                                        ),
-                                                                      )
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                                Container(
-                                                                  height: 220,
-                                                                  width: width,
-                                                                  margin:
-                                                                      EdgeInsets
-                                                                          .only(
-                                                                    bottom: MediaQuery.of(
-                                                                            context)
-                                                                        .viewInsets
-                                                                        .bottom,
-                                                                  ),
-                                                                  child:
-                                                                      Container(
-                                                                    width:
-                                                                        width,
-                                                                    color: Colors
-                                                                        .white,
-                                                                    child:
-                                                                        CupertinoDatePicker(
-                                                                      backgroundColor:
-                                                                          Colors
-                                                                              .white,
-                                                                      initialDateTime:
-                                                                          newTimeToGo,
-                                                                      mode: CupertinoDatePickerMode
-                                                                          .time,
-                                                                      use24hFormat:
-                                                                          false,
-                                                                      onDateTimeChanged:
-                                                                          (DateTime
-                                                                              newT) {
-                                                                        setState(
-                                                                            () {
-                                                                          newTimeToGo =
-                                                                              newT;
-                                                                            _servicesController.selectedStartTime.value =
-                                                                                newTimeToGo;
+                                                    //                         _servicesController.TimeErrorMessage.value =
+                                                    //                             AppUtil.isEndTimeLessThanStartTime( newTimeToGo,newTimeToReturn);
+                                                    //                       });
+                                                    //                     },
+                                                    //                     padding:
+                                                    //                         const EdgeInsets.symmetric(
+                                                    //                       horizontal:
+                                                    //                           16.0,
+                                                    //                       vertical:
+                                                    //                           5.0,
+                                                    //                     ),
+                                                    //                     child:
+                                                    //                         CustomText(
+                                                    //                       text:
+                                                    //                           "confirm".tr,
+                                                    //                       color:
+                                                    //                           colorGreen,
+                                                    //                       fontSize:
+                                                    //                           15,
+                                                    //                       fontFamily: AppUtil.rtlDirection2(context)
+                                                    //                           ? 'SF Arabic'
+                                                    //                           : 'SF Pro',
+                                                    //                       fontWeight:
+                                                    //                           FontWeight.w500,
+                                                    //                     ),
+                                                    //                   )
+                                                    //                 ],
+                                                    //               ),
+                                                    //             ),
+                                                    //             Container(
+                                                    //               height: 220,
+                                                    //               width: width,
+                                                    //               margin:
+                                                    //                   EdgeInsets
+                                                    //                       .only(
+                                                    //                 bottom: MediaQuery.of(
+                                                    //                         context)
+                                                    //                     .viewInsets
+                                                    //                     .bottom,
+                                                    //               ),
+                                                    //               child:
+                                                    //                   Container(
+                                                    //                 width:
+                                                    //                     width,
+                                                    //                 color: Colors
+                                                    //                     .white,
+                                                    //                 child:
+                                                    //                     CupertinoDatePicker(
+                                                    //                   backgroundColor:
+                                                    //                       Colors
+                                                    //                           .white,
+                                                    //                   initialDateTime:
+                                                    //                       newTimeToGo,
+                                                    //                   mode: CupertinoDatePickerMode
+                                                    //                       .time,
+                                                    //                   use24hFormat:
+                                                    //                       false,
+                                                    //                   onDateTimeChanged:
+                                                    //                       (DateTime
+                                                    //                           newT) {
+                                                    //                     setState(
+                                                    //                         () {
+                                                    //                       newTimeToGo =
+                                                    //                           newT;
+                                                    //                         _servicesController.selectedStartTime.value =
+                                                    //                             newTimeToGo;
 
-                                                                            _servicesController.TimeErrorMessage.value =
-                                                                                AppUtil.isEndTimeLessThanStartTime(newTimeToGo,newTimeToReturn);
-                                                                        });
-                                                                      },
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            );
+                                                    //                         _servicesController.TimeErrorMessage.value =
+                                                    //                             AppUtil.isEndTimeLessThanStartTime(newTimeToGo,newTimeToReturn);
+                                                    //                     });
+                                                    //                   },
+                                                    //                 ),
+                                                    //               ),
+                                                    //             ),
+                                                    //           ],
+                                                    //         );
+                                                    //       });
+                                                    // },
+                                                    onTap: () async {
+                                                      await DatePickerBdaya
+                                                          .showTime12hPicker(
+                                                        context,
+                                                        locale:AppUtil.rtlDirection2(context)?LocaleType.ar:LocaleType.en ,
+                                                        showTitleActions: true,
+                                                        currentTime:
+                                                            newTimeToGo,
+                                                        onConfirm: (newT) {
+                                                          _servicesController
+                                                              .isAdventureTimeSelcted(
+                                                                  true);
+
+                                                          setState(() {
+
+                                                            newTimeToGo = newT;
+                                                            _servicesController
+                                                                    .selectedStartTime
+                                                                    .value =
+                                                                newTimeToGo;
+                                                            time = newTimeToGo;
+
+                                                            _servicesController
+                                                                    .TimeErrorMessage
+                                                                    .value =
+                                                                AppUtil.isEndTimeLessThanStartTime(
+                                                                    newTimeToGo,
+                                                                    newTimeToReturn);
                                                           });
+                                                        },
+                                                        onChanged: (newT){
+                                                                          _servicesController
+                                                                              .isAdventureTimeSelcted(true);
+                                                                         setState(() {
+
+                                                            newTimeToGo = newT;
+                                                            _servicesController
+                                                                    .selectedStartTime
+                                                                    .value =
+                                                                newTimeToGo;
+                                                            time = newTimeToGo;
+
+                                                            _servicesController
+                                                                    .TimeErrorMessage
+                                                                    .value =
+                                                                AppUtil.isEndTimeLessThanStartTime(
+                                                                    newTimeToGo,
+                                                                    newTimeToReturn);
+                                                          });
+                                                                        
+                                                        }
+                                                      );
                                                     },
                                                     child: CustomText(
                                                       text: AppUtil
@@ -1509,17 +1563,21 @@ class _EditAdventureState extends State<EditAdventure> {
                                               ),
                                             ),
                                           ),
-                                          if (TimeErrorMessage ?? false||_servicesController
-                                                        .TimeErrorMessage.value)
+                                          if (TimeErrorMessage ??
+                                              false ||
+                                                  _servicesController
+                                                      .TimeErrorMessage.value)
                                             Padding(
                                               padding:
                                                   const EdgeInsets.only(top: 8),
                                               child: Text(
-                                               ! _servicesController
-                                                        .TimeErrorMessage.value?
-                                                AppUtil.rtlDirection2(context)
-                                                    ? "يجب اختيار الوقت"
-                                                    : "Select The Time":'',
+                                                !_servicesController
+                                                        .TimeErrorMessage.value
+                                                    ? AppUtil.rtlDirection2(
+                                                            context)
+                                                        ? "يجب اختيار الوقت"
+                                                        : "Select The Time"
+                                                    : '',
                                                 style: TextStyle(
                                                   color: Color(0xFFDC362E),
                                                   fontSize: 11,
@@ -1591,124 +1649,200 @@ class _EditAdventureState extends State<EditAdventure> {
                                               child: Row(
                                                 children: [
                                                   GestureDetector(
-                                                    onTap: () {
-                                                      showCupertinoModalPopup<
-                                                              void>(
-                                                          context: context,
-                                                          barrierDismissible:
-                                                              false,
-                                                          builder: (BuildContext
-                                                              context) {
-                                                            return Column(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .end,
-                                                              children: [
-                                                                Container(
-                                                                  decoration:
-                                                                      BoxDecoration(
-                                                                    color: Color(
-                                                                        0xffffffff),
-                                                                    border:
-                                                                        Border(
-                                                                      bottom:
-                                                                          BorderSide(
-                                                                        width:
-                                                                            0.0,
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                  child: Row(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .spaceBetween,
-                                                                    children: <Widget>[
-                                                                      CupertinoButton(
-                                                                        onPressed:
-                                                                            () {
-                                                                          _servicesController
-                                                                              .isAdventureTimeSelcted(true);
+                                                    // onTap: () {
+                                                    //   showCupertinoModalPopup<
+                                                    //           void>(
+                                                    //       context: context,
+                                                    //       barrierDismissible:
+                                                    //           false,
+                                                    //       builder: (BuildContext
+                                                    //           context) {
+                                                    //         return Column(
+                                                    //           mainAxisAlignment:
+                                                    //               MainAxisAlignment
+                                                    //                   .end,
+                                                    //           children: [
+                                                    //             Container(
+                                                    //               decoration:
+                                                    //                   BoxDecoration(
+                                                    //                 color: Color(
+                                                    //                     0xffffffff),
+                                                    //                 border:
+                                                    //                     Border(
+                                                    //                   bottom:
+                                                    //                       BorderSide(
+                                                    //                     width:
+                                                    //                         0.0,
+                                                    //                   ),
+                                                    //                 ),
+                                                    //               ),
+                                                    //               child: Row(
+                                                    //                 mainAxisAlignment:
+                                                    //                     MainAxisAlignment
+                                                    //                         .spaceBetween,
+                                                    //                 children: <Widget>[
+                                                    //                   CupertinoButton(
+                                                    //                     onPressed:
+                                                    //                         () {
+                                                    //                       _servicesController
+                                                    //                           .isAdventureTimeSelcted(true);
 
-                                                                          setState(
-                                                                              () {
-                                                                            Get.back();
-                                                                            returnTime =
-                                                                                newTimeToReturn;
-                                                                             _servicesController.selectedEndTime.value =
-                                                                               newTimeToReturn;
+                                                    //                       setState(
+                                                    //                           () {
+                                                    //                         Get.back();
+                                                    //                         returnTime =
+                                                    //                             newTimeToReturn;
+                                                    //                         _servicesController.selectedEndTime.value =
+                                                    //                             newTimeToReturn;
 
-                                                                            _servicesController.TimeErrorMessage.value =
-                                                                                AppUtil.isEndTimeLessThanStartTime( _servicesController.selectedStartTime.value,  _servicesController.selectedEndTime.value);
-                                                                          });
-                                                                        },
-                                                                        padding:
-                                                                            const EdgeInsets.symmetric(
-                                                                          horizontal:
-                                                                              16.0,
-                                                                          vertical:
-                                                                              5.0,
-                                                                        ),
-                                                                        child:
-                                                                            CustomText(
-                                                                          text:
-                                                                              "confirm".tr,
-                                                                          color:
-                                                                              colorGreen,
-                                                                        ),
-                                                                      )
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                                Container(
-                                                                  height: 220,
-                                                                  width: width,
-                                                                  margin:
-                                                                      EdgeInsets
-                                                                          .only(
-                                                                    bottom: MediaQuery.of(
-                                                                            context)
-                                                                        .viewInsets
-                                                                        .bottom,
-                                                                  ),
-                                                                  child:
-                                                                      Container(
-                                                                    width:
-                                                                        width,
-                                                                    color: Colors
-                                                                        .white,
-                                                                    child:
-                                                                        CupertinoDatePicker(
-                                                                      backgroundColor:
-                                                                          Colors
-                                                                              .white,
-                                                                      initialDateTime:
-                                                                          newTimeToReturn,
-                                                                      mode: CupertinoDatePickerMode
-                                                                          .time,
-                                                                      use24hFormat:
-                                                                          false,
-                                                                      onDateTimeChanged:
-                                                                          (DateTime
-                                                                              newT) {
-                                                                        print(DateFormat('HH:mm:ss')
-                                                                            .format(newTimeToReturn));
-                                                                        setState(
-                                                                            () {
-                                                                          newTimeToReturn =
-                                                                              newT;
-                                                                         _servicesController.selectedEndTime.value =
-                                                                               newTimeToReturn;
+                                                    //                         _servicesController.TimeErrorMessage.value =
+                                                    //                             AppUtil.isEndTimeLessThanStartTime(_servicesController.selectedStartTime.value, _servicesController.selectedEndTime.value);
+                                                    //                       });
+                                                    //                     },
+                                                    //                     padding:
+                                                    //                         const EdgeInsets.symmetric(
+                                                    //                       horizontal:
+                                                    //                           16.0,
+                                                    //                       vertical:
+                                                    //                           5.0,
+                                                    //                     ),
+                                                    //                     child:
+                                                    //                         CustomText(
+                                                    //                       text:
+                                                    //                           "confirm".tr,
+                                                    //                       color:
+                                                    //                           colorGreen,
+                                                    //                     ),
+                                                    //                   )
+                                                    //                 ],
+                                                    //               ),
+                                                    //             ),
+                                                    //             Container(
+                                                    //               height: 220,
+                                                    //               width: width,
+                                                    //               margin:
+                                                    //                   EdgeInsets
+                                                    //                       .only(
+                                                    //                 bottom: MediaQuery.of(
+                                                    //                         context)
+                                                    //                     .viewInsets
+                                                    //                     .bottom,
+                                                    //               ),
+                                                    //               child:
+                                                    //                   Container(
+                                                    //                 width:
+                                                    //                     width,
+                                                    //                 color: Colors
+                                                    //                     .white,
+                                                    //                 child:
+                                                    //                     CupertinoDatePicker(
+                                                    //                   backgroundColor:
+                                                    //                       Colors
+                                                    //                           .white,
+                                                    //                   initialDateTime:
+                                                    //                       newTimeToReturn,
+                                                    //                   mode: CupertinoDatePickerMode
+                                                    //                       .time,
+                                                    //                   use24hFormat:
+                                                    //                       false,
+                                                    //                   onDateTimeChanged:
+                                                    //                       (DateTime
+                                                    //                           newT) {
+                                                    //                     print(DateFormat('HH:mm:ss')
+                                                    //                         .format(newTimeToReturn));
+                                                    //                     setState(
+                                                    //                         () {
+                                                    //                       newTimeToReturn =
+                                                    //                           newT;
+                                                    //                       _servicesController
+                                                    //                           .selectedEndTime
+                                                    //                           .value = newTimeToReturn;
 
-                                                                            _servicesController.TimeErrorMessage.value =
-                                                                                AppUtil.isEndTimeLessThanStartTime( _servicesController.selectedStartTime.value,  _servicesController.selectedEndTime.value);
-                                                                        });
-                                                                      },
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            );
+                                                    //                       _servicesController.TimeErrorMessage.value = AppUtil.isEndTimeLessThanStartTime(
+                                                    //                           _servicesController.selectedStartTime.value,
+                                                    //                           _servicesController.selectedEndTime.value);
+                                                    //                     });
+                                                    //                   },
+                                                    //                 ),
+                                                    //               ),
+                                                    //             ),
+                                                    //           ],
+                                                    //         );
+                                                    //       });
+                                                    // },
+                                                    onTap: () async {
+                                                      await DatePickerBdaya
+                                                          .showTime12hPicker(
+                                                        context,
+                                                       locale:AppUtil.rtlDirection2(context)?LocaleType.ar:LocaleType.en ,
+                                                        showTitleActions: true,
+                                                        currentTime:
+                                                            newTimeToReturn,
+                                                        onConfirm: (newT) {
+                                                          _servicesController
+                                                              .isAdventureTimeSelcted(
+                                                                  true);
+
+                                                          print(DateFormat(
+                                                                  'HH:mm:ss')
+                                                              .format(
+                                                                  newTimeToReturn));
+                                                          setState(() {
+
+                                                            newTimeToReturn =
+                                                                newT;
+                                                            returnTime =
+                                                                newTimeToReturn;
+                                                            _servicesController
+                                                                    .selectedEndTime
+                                                                    .value =
+                                                                newTimeToReturn;
+
+                                                            _servicesController
+                                                                    .TimeErrorMessage
+                                                                    .value =
+                                                                AppUtil.isEndTimeLessThanStartTime(
+                                                                    _servicesController
+                                                                        .selectedStartTime
+                                                                        .value,
+                                                                    _servicesController
+                                                                        .selectedEndTime
+                                                                        .value);
                                                           });
+                                                        },
+                                                        onChanged: (newT) {
+                                                          _servicesController
+                                                              .isAdventureTimeSelcted(
+                                                                  true);
+
+                                                          print(DateFormat(
+                                                                  'HH:mm:ss')
+                                                              .format(
+                                                                  newTimeToReturn));
+                                                          setState(() {
+
+                                                            newTimeToReturn =
+                                                                newT;
+                                                            returnTime =
+                                                                newTimeToReturn;
+                                                            _servicesController
+                                                                    .selectedEndTime
+                                                                    .value =
+                                                                newTimeToReturn;
+
+                                                            _servicesController
+                                                                    .TimeErrorMessage
+                                                                    .value =
+                                                                AppUtil.isEndTimeLessThanStartTime(
+                                                                    _servicesController
+                                                                        .selectedStartTime
+                                                                        .value,
+                                                                    _servicesController
+                                                                        .selectedEndTime
+                                                                        .value);
+                                                          });
+                                                        },
+                                                      );
                                                     },
                                                     child: CustomText(
                                                       text: AppUtil
@@ -1813,16 +1947,13 @@ class _EditAdventureState extends State<EditAdventure> {
                                             zoomControlsEnabled: false,
                                             initialCameraPosition:
                                                 CameraPosition(
-                                              target:
-                                               
-                                                  _currentPosition,
+                                              target: _currentPosition,
                                               zoom: 15,
                                             ),
                                             markers: {
                                               Marker(
                                                 markerId: MarkerId("marker1"),
                                                 position: _currentPosition,
-                                             
                                                 draggable: true,
                                                 onDragEnd:
                                                     (LatLng newPosition) {
@@ -1944,7 +2075,9 @@ class _EditAdventureState extends State<EditAdventure> {
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                           width: 1,
-                                          color: PriceEmpty || PriceLarger || PriceDouble
+                                          color: PriceEmpty ||
+                                                  PriceLarger ||
+                                                  PriceDouble
                                               ? Color(0xFFDC362E)
                                               : Color(0xFFB9B8C1),
                                         ),
@@ -1959,19 +2092,17 @@ class _EditAdventureState extends State<EditAdventure> {
                                     Padding(
                                       padding: const EdgeInsets.only(top: 8.0),
                                       child: Text(
-                                        AppUtil.rtlDirection2(context)?
-                                            PriceEmpty
-                                            ?'يجب عليك ان تضع السعر المقدر'
-                                            : PriceDouble
-                                             ? '*السعر يجب أن يكون عدد صحيح فقط'
-                                             : 'السعر يجب أن يكون اكبر من أو يساوي 150'
-                                             
-                                            :  PriceEmpty?
-                                            'You need to add a valid price'
-                                            : PriceDouble?
-                                            '*The price must be an integer value only'
-                                            :'You need to add a valid price, >= 150',
-                                          
+                                        AppUtil.rtlDirection2(context)
+                                            ? PriceEmpty
+                                                ? 'يجب عليك ان تضع السعر المقدر'
+                                                : PriceDouble
+                                                    ? '*السعر يجب أن يكون عدد صحيح فقط'
+                                                    : 'السعر يجب أن يكون اكبر من أو يساوي 150'
+                                            : PriceEmpty
+                                                ? 'You need to add a valid price'
+                                                : PriceDouble
+                                                    ? '*The price must be an integer value only'
+                                                    : 'You need to add a valid price, >= 150',
                                         style: TextStyle(
                                           color: Color(0xFFDC362E),
                                           fontSize: 11,
@@ -1994,8 +2125,7 @@ class _EditAdventureState extends State<EditAdventure> {
                         left: width * 0.4,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                           crossAxisAlignment: CrossAxisAlignment.center,
-
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: widget.adventureObj.image!
                               .asMap()
                               .entries

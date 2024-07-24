@@ -84,12 +84,12 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
 
   //  print("kjhgfdswsdfghjkl;lkjhgfdsasdfghjk");
   //  print(currentDateInRiyadh.hour);
-  //  print(currentDateString);
-  //         print(formattedTime);
   //         print(widget.nextTrip!.booking!.timeToGo);
    
     if (widget.nextTrip!.booking!.date == currentDateString){
-
+     setState(() {
+        isTripStart.value = true;
+      });
      String timeToGoStr = widget.nextTrip!.booking!.timeToGo;
 
     DateTime timeToGo = DateTime.parse('$currentDateString $timeToGoStr');
@@ -105,23 +105,39 @@ print(currentTime);
 print(timeToGo);
 print(currentTime.isAfter(timeToGo));
 print(currentTime.isAtSameMomentAs(timeToGo));
-    if (currentTime.isAfter(timeToGo) || currentTime.isAtSameMomentAs(timeToGo)) {
+    // if (currentTime.isAfter(timeToGo) || currentTime.isAtSameMomentAs(timeToGo)) {
 
+      
+   // }
+    }
+//  _tripController.nextStep.value=='PENDING';
+// _tripController.progress.value==0.1;
+  }
+  void isDateBefore24Hours() {
+   final String timeZoneName = 'Asia/Riyadh';
+  late tz.Location location;
+  
+  tz.initializeTimeZones();
+    location = tz.getLocation(timeZoneName);
+    DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
+     DateTime parsedDate = DateTime.parse(widget.nextTrip!.booking!.date??'');
+    Duration difference =  parsedDate.difference(currentDateInRiyadh);
+    print('this deffrence');
+    print(difference);
+    if(difference.inHours < 6){
       setState(() {
         isTripStart.value = true;
       });
     }
-    }
-//  _tripController.nextStep.value=='PENDING';
-// _tripController.progress.value==0.1;
+    
+    
   }
 
   void initState() {
     super.initState();
 
     _controller = ExpandedTileController(isExpanded: false);
-        checkCondition();
-
+    checkCondition();
     getAddressFromCoordinates(
         double.parse(widget.nextTrip!.booking!.coordinates.latitude ?? ''),
         double.parse((widget.nextTrip!.booking!.coordinates.longitude ?? '')));

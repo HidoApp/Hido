@@ -4,6 +4,8 @@ import 'package:ajwad_v4/request/ajwadi/controllers/request_controller.dart';
 import 'package:ajwad_v4/request/ajwadi/view/review_itenrary_screen.dart';
 import 'package:ajwad_v4/request/ajwadi/view/widget/card_itenrary.dart';
 import 'package:ajwad_v4/request/ajwadi/view/widget/review_itenrary_card.dart';
+import 'package:ajwad_v4/request/tourist/models/offer_details.dart';
+import 'package:ajwad_v4/services/view/widgets/itenrary_tile.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
@@ -11,14 +13,17 @@ import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/state_manager.dart';
+import 'package:intl/intl.dart';
 
 class AddItinerary extends StatefulWidget {
-  const AddItinerary({super.key, required this.requestId});
+  const AddItinerary({super.key, required this.requestId, this.booking});
   final String requestId;
+  final Booking? booking;
   @override
   State<AddItinerary> createState() => _AddItineraryState();
 }
@@ -27,10 +32,13 @@ class _AddItineraryState extends State<AddItinerary> {
   var count = 0;
   var flag = false;
   final requestController = Get.put(RequestController());
+  late ExpandedTileController _controller;
 
   @override
   void initState() {
     super.initState();
+        _controller = ExpandedTileController(isExpanded: false);
+
     // requestController.itineraryList.add(ItineraryCard(
     //   requestController: requestController,
     //   indx: requestController.intinraryCount.value,
@@ -98,6 +106,105 @@ class _AddItineraryState extends State<AddItinerary> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+      Container(
+      height: _controller.isExpanded ? width * 0.51: width * 0.17,
+      padding: EdgeInsets.only(
+        left: width * 0.04,
+        top: width * 0.048,
+        right: width * 0.04,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: const [
+          BoxShadow(color: Color.fromRGBO(199, 199, 199, 0.25), blurRadius: 16)
+        ],
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+         
+          ExpandedTile(
+            contentseparator: 12,
+            trailing: Icon(
+              Icons.keyboard_arrow_down_outlined,
+             size: width * 0.062,
+            ),
+            disableAnimation: true,
+            trailingRotation: 180,
+            onTap: () {
+              setState(() {});
+            },
+            title: CustomText(
+              text: "tripDetails".tr,
+              fontSize: width * 0.044,
+             color: black,
+            ),
+            content: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ItineraryTile(
+                  title: DateFormat('EEE, d MMMM yyyy',
+                          AppUtil.rtlDirection2(context) ? 'ar' : 'en')
+                      .format(DateTime.parse(widget.booking!.date!)),
+                  image: "assets/icons/date.svg",
+                  color: starGreyColor,
+                ),
+                SizedBox(height: width * 0.025),
+                ItineraryTile(
+                  title:
+                      "${"pickUp".tr} ${AppUtil.formatStringTimeWithLocale(context,widget.booking!.timeToGo!)}"
+                      " ,  ${"dropOff".tr} ${AppUtil.formatStringTimeWithLocale(context,widget.booking!.timeToReturn!)}",
+                  image: "assets/icons/timeGrey.svg",
+                 color: starGreyColor,
+
+                ),
+                SizedBox(height: width * 0.025),
+                ItineraryTile(
+                  title:
+                      "${widget.booking!.guestNumber} ${"guests".tr}",
+                  image: "assets/icons/guests.svg",
+                  color: starGreyColor,
+
+                ),
+                 SizedBox(height: width * 0.025),
+                ItineraryTile(
+                  title: requestController.address.value ,
+                  image: 'assets/icons/map_pin.svg',
+                 color: starGreyColor,
+
+                ),
+                SizedBox(height: width * 0.025),
+                ItineraryTile(
+                  title: widget.booking!.vehicleType.toString(),
+                  image:
+                      'assets/icons/unselected_${widget.booking!.vehicleType.toString()}_icon.svg',
+                 color: starGreyColor,
+                 widthImage: 20,
+
+                ),
+                
+              ],
+            ),
+            controller: _controller,
+            theme: const ExpandedTileThemeData(
+              leadingPadding: EdgeInsets.zero,
+              titlePadding: EdgeInsets.zero,
+              headerPadding: EdgeInsets.zero,
+              contentPadding: EdgeInsets.zero,
+              headerSplashColor: Colors.transparent,
+              headerColor: Colors.transparent,
+              contentBackgroundColor: Colors.transparent,
+            ),
+          ),
+
+        ],
+      ),
+),
+
+
+                SizedBox(height: width * 0.055),
+
               CustomText(
                 text: "atLeastItenrary".tr,
                 fontWeight: FontWeight.w400,
@@ -147,6 +254,7 @@ class _AddItineraryState extends State<AddItinerary> {
                       if (requestController.intinraryCount >= 1) {
                         return;
                       }
+                      
                       requestController.itineraryList.add(ItineraryCard(
                         requestController: requestController,
                         indx: requestController.intinraryCount.value,

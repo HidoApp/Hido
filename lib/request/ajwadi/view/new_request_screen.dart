@@ -90,7 +90,7 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
                                         id: _requestController
                                             .requestList[index].id!,
                                         context: context);
-                                if (reject == true && context.mounted) {
+                                if (reject == false && context.mounted) {
                                   _requestController.requestList.removeAt(
                                       _requestController.requestIndex.value);
                                   // await _requestController.getRequestList(

@@ -411,7 +411,8 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                                               place: widget.place!,
                                             ));
                                       },
-                                      buttonColor:widget.offerController!.scheduleState.value?const Color.fromARGB(255, 206, 240, 207) :colorGreen,
+                                      buttonColor:widget.offerController!.scheduleState.value?colorlightGreen :colorGreen,
+                                      borderColor: widget.offerController!.scheduleState.value?colorlightGreen :colorGreen,
                                       title: 'confirm'.tr,
                                     ),
                                   ),
