@@ -11,11 +11,13 @@ import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.d
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/explore/tourist/view/notification/notification_screen.dart';
 import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
+import 'package:ajwad_v4/explore/widget/progress_sheet.dart';
 import 'package:ajwad_v4/explore/widget/trip_card.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/view/messages_screen.dart';
 import 'package:ajwad_v4/profile/view/ticket_screen.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
+import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -32,6 +34,7 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:solid_bottom_sheet/solid_bottom_sheet.dart';
 
 class TouristMapScreen extends StatefulWidget {
   const TouristMapScreen({super.key, this.fromAjwady = false});
@@ -76,12 +79,19 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   late UserLocation? userLocation;
 
   final ProfileController _profileController = Get.put(ProfileController());
+  final _sheetController = SolidController();
+
   List<Booking> _EndTicket = [];
   List<Booking> _upcomingBookings = [];
   late String days;
   bool isStarChecked = false;
   int startIndex = -1;
   bool isSendTapped = false;
+  bool showSheet = true;
+
+  void getActivityProgress() async {
+    await _touristExploreController.getActivityProgress(context: context);
+  }
 
   void getBooking() async {
     List<Booking>? bookings =
@@ -431,11 +441,12 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   void initState() {
     super.initState();
     getScrollingCards('ALL');
-
     addCustomIcon();
     getLocation();
     if (!AppUtil.isGuest()) {
       getBooking();
+
+      getActivityProgress();
     }
 
     // Show the bottom sheet after a short delay
@@ -484,6 +495,31 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.white,
+      bottomSheet: SolidBottomSheet(
+        showOnAppear: showSheet,
+        toggleVisibilityOnTap: true,
+        maxHeight: 209,
+        controller: _sheetController,
+        onHide: () {
+          setState(() {
+            showSheet = false;
+          });
+        },
+        onShow: () {
+          setState(() {
+            showSheet = true;
+          });
+        },
+        headerBar: Container(
+          decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(24), topLeft: Radius.circular(24))),
+          height: 50,
+          child: const BottomSheetIndicator(),
+        ),
+        body: const ProgressSheet(),
+      ),
       body: Obx(
         () => Stack(
           children: [

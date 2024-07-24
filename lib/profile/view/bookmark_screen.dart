@@ -27,13 +27,11 @@ class _BookmarkScreenState extends State<BookmarkScreen>
   late TabController _tabController;
   int tabIndex = 0;
   List<String> status = ['canceled', 'waiting', 'confirmed'];
-  SolidController _controller = SolidController();
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
-    _controller.show();
   }
 
   @override
@@ -42,22 +40,6 @@ class _BookmarkScreenState extends State<BookmarkScreen>
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: lightGreyBackground,
-      bottomSheet: SolidBottomSheet(
-        showOnAppear: true,
-        //   toggleVisibilityOnTap: true,
-        maxHeight: 215,
-        controller: _controller,
-        onShow: () {},
-        headerBar: Container(
-          decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(24), topLeft: Radius.circular(24))),
-          height: 50,
-          child: const BottomSheetIndicator(),
-        ),
-        body: const ProgressSheet(),
-      ),
       appBar: CustomAppBar(
         'bookmark'.tr,
       ),

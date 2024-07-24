@@ -206,13 +206,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 );
                               },
                             ),
-                          CustomListTile(
-                            title: "bookmark".tr,
-                            leading: "assets/icons/bookmark_icon.svg",
-                            onTap: () async {
-                              Get.to(() => const BookmarkScreen());
-                            },
-                          ),
+                          // CustomListTile(
+                          //   title: "bookmark".tr,
+                          //   leading: "assets/icons/bookmark_icon.svg",
+                          //   onTap: () async {
+                          //     Get.to(() => const BookmarkScreen());
+                          //   },
+                          // ),
                         ],
                       ),
                       const Padding(
@@ -282,7 +282,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               fontSize: 20,
                                               fontWeight: FontWeight.w500,
                                               color: black,
-                                              fontFamily:AppUtil.rtlDirection2(context) ? "SF Arabic" : 'SF Pro',
+                                              fontFamily:
+                                                  AppUtil.rtlDirection2(context)
+                                                      ? "SF Arabic"
+                                                      : 'SF Pro',
                                               text: "youWantSiginOut".tr),
                                           const SizedBox(
                                             height: 20,
@@ -300,9 +303,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               },
                                             ),
                                           ),
-                                         
-                                          
-                                           Padding(
+                                          Padding(
                                             padding: const EdgeInsets.symmetric(
                                                 horizontal: 4),
                                             child: CustomButton(
@@ -310,10 +311,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               borderColor: colorRed,
                                               buttonColor: Colors.white,
                                               textColor: colorRed,
-                                              title:  "cancel".tr.toUpperCase(),
+                                              title: "cancel".tr.toUpperCase(),
                                               onPressed: () {
                                                 Get.back();
-
                                               },
                                             ),
                                           ),

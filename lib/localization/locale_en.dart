@@ -583,6 +583,20 @@ const localeEn = {
       "no local guides offered tours matching your request. We suggest searching again later or exploring other dates.",
   'unfortunately': 'Unfortunately',
   'requestTimedOut': "Your tour request timed out!",
-  'contentTimedOut':
-      "Submit a new request to find your perfect adventure."
+  'contentTimedOut': "Submit a new request to find your perfect adventure.",
+  'localOnway': 'Your local guide is on the way',
+  "localOnwaySubtitle":
+      'Be ready your local guide is on the way to the pick up location ',
+  'localArrived': 'Your local guide arrived ',
+  'localArrivedSubtitle': 'Please meet your guide at the pick up point ',
+  'pickUpTitle': 'Rode with your local guide',
+  'pickUpSubtitle': "It looks like you've met up with your tour guide. ",
+  'tourStarted': 'Tour Started! ',
+  'tourStartedSubtitle': 'We hope you have unforgettable time in your tour ',
+  'tourCompleted': 'Your tour is completed !',
+  'tourCompletedSubtitle':
+      'Thank you for using our app! Please tell us about your experience ',
+  'PickUp': 'Pick up',
+  'tourTime': "Tour time ",
+  'completeTour': 'Completed'
 };

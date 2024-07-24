@@ -22,10 +22,14 @@ class _CustomBookmarkCardState extends State<CustomBookmarkCard> {
       //     bord
 
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(20)),
-        boxShadow: [BoxShadow(offset: Offset(1, 1),blurRadius: 10,color: colorDarkGrey.withOpacity(0.3))]
-      ),
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+          boxShadow: [
+            BoxShadow(
+                offset: Offset(1, 1),
+                blurRadius: 10,
+                color: colorDarkGrey.withOpacity(0.3))
+          ]),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8).copyWith(
           right: AppUtil.rtlDirection(context) ? 10 : 30,
@@ -46,6 +50,7 @@ class _CustomBookmarkCardState extends State<CustomBookmarkCard> {
                   text: 'حافة العالم',
                   fontSize: 20,
                   fontWeight: FontWeight.w500,
+                  fontFamily: 'SF Arabic',
                   color: black,
                 ),
                 const SizedBox(

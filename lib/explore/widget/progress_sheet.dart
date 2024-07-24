@@ -14,25 +14,68 @@ class ProgressSheet extends StatefulWidget {
 }
 
 class _ProgressSheetState extends State<ProgressSheet> {
-  int activeStep = 1;
+  String getTitle() {
+    switch (activeStep) {
+      case -1:
+        return 'localOnway'.tr;
+      case 0:
+        return 'localArrived'.tr;
+      case 1:
+        return 'pickUpTitle'.tr;
+      case 2:
+        return 'tourStarted'.tr;
+      case 3:
+        return 'tourCompleted'.tr;
+      default:
+        return '';
+    }
+  }
+
+  String getSubTitle() {
+    switch (activeStep) {
+      case -1:
+        return 'localOnwaySubtitle'.tr;
+      case 0:
+        return 'localArrivedSubtitle'.tr;
+      case 1:
+        return 'pickUpSubtitle'.tr;
+      case 2:
+        return 'tourStartedSubtitle'.tr;
+      case 3:
+        return 'tourCompletedSubtitle'.tr;
+      default:
+        return '';
+    }
+  }
+
+  int activeStep = -1;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
-        padding: EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 12),
+        padding: EdgeInsets.only(left: 24, right: 24, bottom: 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CustomText(
-              text: 'Your local guide arrived ',
-              fontSize: 17,
-              fontWeight: FontWeight.w500,
+            GestureDetector(
+              onTap: () {
+                if (activeStep != 3) {
+                  setState(() {
+                    activeStep++;
+                  });
+                }
+              },
+              child: CustomText(
+                text: getTitle(),
+                fontSize: 17,
+                fontWeight: FontWeight.w500,
+              ),
             ),
             CustomText(
-              text:
-                  'We hope you had the best time in your tour! Now set and relax while your local guide takes you to your destination. ',
+              text: getSubTitle(),
               fontSize: 15,
-              fontFamily: 'SF Pro',
+              fontFamily:
+                  AppUtil.rtlDirection2(context) ? "SF Arabic" : 'SF Pro',
               color: starGreyColor,
               fontWeight: FontWeight.w500,
             ),
@@ -40,63 +83,50 @@ class _ProgressSheetState extends State<ProgressSheet> {
               padding: const EdgeInsets.symmetric(vertical: 20),
               child: EasyStepper(
                 activeStep: activeStep,
+                activeStepBackgroundColor: Colors.white,
+                finishedStepBackgroundColor: Colors.white,
                 activeStepTextColor: Colors.black87,
                 finishedStepTextColor: Colors.black87,
-                internalPadding: 25,
+                unreachedStepTextColor: lightGrey,
+                internalPadding: 0,
                 showLoadingAnimation: false,
-                stepRadius: 15,
+                stepRadius: 13,
                 showStepBorder: false,
-                lineStyle: LineStyle(
-                  lineType: LineType.normal,
-                ),
+                lineStyle: const LineStyle(
+                    lineType: LineType.normal,
+                    lineThickness: 2,
+                    unreachedLineColor: lightGrey,
+                    activeLineColor: colorGreen,
+                    lineWidth: 10,
+                    lineSpace: 29,
+                    lineLength: 120),
                 steps: [
                   EasyStep(
-                    customStep: CircleAvatar(
-                      radius: 8,
-                      backgroundColor: Colors.white,
-                      child: CircleAvatar(
-                        radius: 7,
-                        backgroundColor:
-                            activeStep >= 0 ? Colors.orange : Colors.white,
+                      customStep: SvgPicture.asset(
+                        'assets/icons/slider_touriest.svg',
+                        color: activeStep >= 0 ? colorGreen : lightGrey,
                       ),
+                      title: 'Arrived'.tr),
+                  // EasyStep(
+                  //   customStep: SvgPicture.asset(
+                  //     'assets/icons/slider_touriest.svg',
+                  //     color: activeStep >= 1 ? colorGreen : lightGrey,
+                  //   ),
+                  //   title: 'PickUp'.tr,
+                  // ),
+                  EasyStep(
+                    customStep: SvgPicture.asset(
+                      'assets/icons/slider_touriest.svg',
+                      color: activeStep >= 1 ? colorGreen : lightGrey,
                     ),
-                    title: 'Waiting',
+                    title: 'tourTime'.tr,
                   ),
                   EasyStep(
-                    customStep: CircleAvatar(
-                      radius: 8,
-                      backgroundColor: Colors.white,
-                      child: CircleAvatar(
-                        radius: 7,
-                        backgroundColor:
-                            activeStep >= 1 ? Colors.orange : Colors.white,
-                      ),
+                    customStep: SvgPicture.asset(
+                      'assets/icons/slider_touriest.svg',
+                      color: activeStep >= 2 ? colorGreen : lightGrey,
                     ),
-                    title: 'Order Received',
-                  ),
-                  EasyStep(
-                    customStep: CircleAvatar(
-                      radius: 8,
-                      backgroundColor: Colors.white,
-                      child: CircleAvatar(
-                        radius: 7,
-                        backgroundColor:
-                            activeStep >= 3 ? Colors.orange : Colors.white,
-                      ),
-                    ),
-                    title: 'On Way',
-                  ),
-                  EasyStep(
-                    customStep: CircleAvatar(
-                      radius: 8,
-                      backgroundColor: Colors.white,
-                      child: CircleAvatar(
-                        radius: 7,
-                        backgroundColor:
-                            activeStep >= 4 ? Colors.orange : Colors.white,
-                      ),
-                    ),
-                    title: 'Delivered',
+                    title: 'completeTour'.tr,
                   ),
                 ],
                 onStepReached: (index) => setState(() => activeStep = index),
@@ -104,36 +134,6 @@ class _ProgressSheetState extends State<ProgressSheet> {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget buildStep({required String text, required bool isActive}) {
-    return Container(
-      width: 64,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 2),
-            child: SvgPicture.asset('assets/icons/slider.svg',
-                color: isActive ? Color(0xFF36B268) : Color(0xFFDCDCE0),
-                height: 20,
-                width: 20),
-          ),
-          Text(
-            text,
-            style: TextStyle(
-              color: isActive ? Color(0xFF36B268) : Color(0xFFDCDCE0),
-              fontSize: 11,
-              fontFamily:
-                  AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ],
       ),
     );
   }

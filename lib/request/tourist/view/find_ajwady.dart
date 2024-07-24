@@ -10,7 +10,7 @@ import 'package:ajwad_v4/explore/widget/floating_timer.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
 import 'package:ajwad_v4/request/tourist/view/offers_screen.dart';
 import 'package:ajwad_v4/request/tourist/view/select_ajwady_sheet.dart';
- import 'package:ajwad_v4/utils/app_util.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/StackWidgets.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
@@ -60,6 +60,28 @@ class _FindAjwadyState extends State<FindAjwady> {
     checkBooking = await _touristExploreController.getTouristBookingById(
         context: context, bookingId: widget.booking.id!);
   }
+
+  // void getOfferinfo() async {
+  //   thePlace = await _touristExploreController.getPlaceById(
+  //       id: widget.place!.id!, context: context);
+
+  //   if (thePlace!.booking!.length != 0 &&
+  //       thePlace!.booking!.first.orderStatus == 'PENDING') {
+  //     isViewBooking.value = true;
+  //     lockPlaces.value = true;
+  //   } else if (thePlace!.booking!.length != 0 &&
+  //       thePlace!.booking!.first.orderStatus == 'ACCEPTED') {
+  //     isHasOffers.value = true;
+
+  //     isViewBooking.value = true;
+
+  //     theProfile = await _profileController.getProfile(
+  //         context: context,
+  //         profileId: thePlace!.booking!.first.profileId ?? '');
+  //   } else {
+  //     isViewBooking.value = false;
+  //   }
+  // }
 
   @override
   void initState() {
@@ -264,23 +286,6 @@ class _FindAjwadyState extends State<FindAjwady> {
     return FloatingDraggableADVN(
       floatingWidget: const FloatingTimer(),
       child: Scaffold(
-        // appBar: widget.booking.orderStatus == "PENDING"
-        //     ? TimerAppBar("findLocal".tr, action: true,
-        //         onPressedAction: () async {
-        //         print("enter");
-        //         showDialog(
-        //           context: context,
-        //           builder: (BuildContext context) {
-        //             return CancelBookingDialog(
-        //               dialogWidth: 256,
-        //               buttonWidth: 268,
-        //               booking: widget.booking,
-        //               offerController: _offerController,
-        //             );
-        //           },
-        //         );
-        //       })
-        //     :
         appBar: CustomAppBar(
           "findLocal".tr,
           action: true,
@@ -325,12 +330,12 @@ class _FindAjwadyState extends State<FindAjwady> {
           }
           return RefreshIndicator.adaptive(
             onRefresh: () async {
+              getBookingForCountdown();
               await _offerController.getOffers(
                 context: context,
                 placeId: widget.placeId,
                 bookingId: widget.booking.id!,
               );
-              getBookingForCountdown();
             },
             child: Container(
               color: lightGreyBackground,

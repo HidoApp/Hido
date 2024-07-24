@@ -35,7 +35,7 @@ class _OfferScreenState extends State<OfferScreen> {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     print("offer");
-    print(_offerController.offers.length);
+    print(_offerController.acceptedOffer.value.orderStatus);
 
     return FloatingDraggableADVN(
       floatingWidget: const FloatingTimer(),

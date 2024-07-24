@@ -5,11 +5,13 @@ import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/auth/models/token.dart';
 import 'package:ajwad_v4/auth/services/auth_service.dart';
 import 'package:ajwad_v4/constants/base_url.dart';
+import 'package:ajwad_v4/explore/tourist/model/activity_progress.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/explore/tourist/model/tourist_map_model.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
@@ -259,6 +261,40 @@ class TouristExploreService {
       Map<String, dynamic> data = jsonDecode(response.body);
 
       return TouristMapModel.fromJson(data);
+    } else {
+      String errorMessage = jsonDecode(response.body)['message'];
+      if (context.mounted) {
+        AppUtil.errorToast(context, errorMessage);
+      }
+      return null;
+    }
+  }
+
+  static Future<ActivityProgress?> getActivityProgress(
+      {required BuildContext context}) async {
+    final getStorage = GetStorage();
+    String token = getStorage.read('accessToken') ?? "";
+
+    if (JwtDecoder.isExpired(token)) {
+      final _authController = Get.put(AuthController());
+
+      String refreshToken = getStorage.read('refreshToken');
+      var user = await _authController.refreshToken(
+          refreshToken: refreshToken, context: context);
+      token = getStorage.read('accessToken');
+    }
+    final response = await http.get(
+      Uri.parse('$baseUrl/activity-progress'),
+      headers: {
+        'Accept': 'application/json',
+        if (token != "") 'Authorization': 'Bearer $token',
+      },
+    );
+    log('ACtivity');
+    log(response.statusCode.toString());
+    log(response.body.toString());
+    if (response.statusCode == 200) {
+      return ActivityProgress.fromJson(jsonDecode(response.body));
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
       if (context.mounted) {
