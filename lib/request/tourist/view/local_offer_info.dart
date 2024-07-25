@@ -82,9 +82,6 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
 
   @override
   Widget build(BuildContext context) {
-    // log(_offerController.acceptedOffer.value.orderStatus!);
-    print(_offerController.acceptedOffer.value.orderStatus);
-
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
     return DefaultTabController(

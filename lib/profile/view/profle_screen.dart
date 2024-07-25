@@ -53,6 +53,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     getProfile();
   }
 
+ 
+
   void getProfile() async {
     await _profileController.getProfile(context: context);
   }

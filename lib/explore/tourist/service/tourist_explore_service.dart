@@ -253,7 +253,7 @@ class TouristExploreService {
           .replace(queryParameters: queryParameters),
       headers: {
         'Accept': 'application/json',
-        //  if(token != '') 'Authorization': 'Bearer $token',
+        if (token != '') 'Authorization': 'Bearer $token',
       },
     );
 
@@ -293,9 +293,10 @@ class TouristExploreService {
     log('ACtivity');
     log(response.statusCode.toString());
     log(response.body.toString());
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 && response.body.isNotEmpty) {
       return ActivityProgress.fromJson(jsonDecode(response.body));
     } else {
+      log("empty");
       String errorMessage = jsonDecode(response.body)['message'];
       if (context.mounted) {
         AppUtil.errorToast(context, errorMessage);

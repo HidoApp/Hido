@@ -1,6 +1,7 @@
 import 'dart:async';
-import 'dart:io';
+import 'dart:developer';
 import 'dart:math';
+import 'dart:io';
 import 'dart:ui' as ui;
 
 import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
@@ -8,6 +9,7 @@ import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/model/userLocation.dart';
 import 'package:ajwad_v4/explore/ajwadi/services/location_service.dart';
 import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
+import 'package:ajwad_v4/explore/tourist/model/activity_progress.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/explore/tourist/view/notification/notification_screen.dart';
 import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
@@ -16,6 +18,8 @@ import 'package:ajwad_v4/explore/widget/trip_card.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/view/messages_screen.dart';
 import 'package:ajwad_v4/profile/view/ticket_screen.dart';
+import 'package:ajwad_v4/profile/widget/otp_sheet.dart';
+import 'package:ajwad_v4/profile/widget/phone_sheet.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
@@ -33,8 +37,12 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:solid_bottom_sheet/solid_bottom_sheet.dart';
+import 'package:intl/intl.dart' as intel;
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest_all.dart' as tz;
 
 class TouristMapScreen extends StatefulWidget {
   const TouristMapScreen({super.key, this.fromAjwady = false});
@@ -62,6 +70,8 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
     colorGreen,
     pink,
   ];
+  final String timeZoneName = 'Asia/Riyadh';
+  late tz.Location location;
   final titles = [
     'ALL',
     'EVENT',
@@ -87,7 +97,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   bool isStarChecked = false;
   int startIndex = -1;
   bool isSendTapped = false;
-  bool showSheet = true;
+  bool showSheet = false;
 
   void getActivityProgress() async {
     await _touristExploreController.getActivityProgress(context: context);
@@ -440,31 +450,79 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   @override
   void initState() {
     super.initState();
-    getScrollingCards('ALL');
+    getPlaces();
     addCustomIcon();
     getLocation();
     if (!AppUtil.isGuest()) {
       getBooking();
-
-      getActivityProgress();
+      // getActivityProgress();
     }
-
-    // Show the bottom sheet after a short delay
-    // Future.delayed(Duration(milliseconds: 500), () {
-    //   getEndBookings();
-    // });
   }
 
-  // void searchForPlace(String letters) {
-  //   //for searching feature
-  //   searchedPlaces = _touristExploreController.touristModel.value!.places!
-  //       .where((place) =>
-  //           place.nameEn!.toLowerCase().startsWith(letters.toLowerCase()))
-  //       .toList();
-  //   if (searchedPlaces.isEmpty) {
-  //     searchedPlaces = _touristExploreController.touristModel.value!.places!;
-  //   }
-  // }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _sheetController.dispose();
+
+    super.dispose();
+  }
+
+  void getPlaces() async {
+    await _touristExploreController.touristMap(
+        context: context, tourType: "PLACE");
+    if (!AppUtil.isGuest()) {
+      checkForProgress();
+    }
+  }
+
+  void checkForProgress() async {
+    tz.initializeTimeZones();
+    location = tz.getLocation(timeZoneName);
+    DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
+    DateTime currentDate = DateTime(currentDateInRiyadh.year,
+        currentDateInRiyadh.month, currentDateInRiyadh.day);
+    String currentDateString =
+        intel.DateFormat('yyyy-MM-dd').format(currentDate);
+    int length = _touristExploreController.touristModel.value!.places!.length;
+    for (var i = 0; i < length; i++) {
+      if (_touristExploreController
+              .touristModel.value!.places![i].booking!.isNotEmpty &&
+          currentDateString ==
+              _touristExploreController
+                  .touristModel.value!.places![i].booking!.first.date) {
+        print("EQUALLL");
+        print(currentDateString);
+        print(_touristExploreController
+            .touristModel.value!.places![i].booking!.first.date);
+        getActivityProgress();
+        setProgressStep();
+
+        return;
+      }
+    }
+  }
+
+  void setProgressStep() {
+    switch (
+        _touristExploreController.activityProgres.value!.activityProgress!) {
+      case 'PENDING':
+        _touristExploreController.activeStepProgres(-1);
+
+        break;
+      case 'ON_WAY':
+        _touristExploreController.activeStepProgres(0);
+        break;
+      case 'IN_PROGRESS':
+        _touristExploreController.activeStepProgres(1);
+        break;
+      case 'COMPLETED':
+        _touristExploreController.activeStepProgres(2);
+        _touristExploreController.showActivityProgress(false);
+
+        break;
+      default:
+    }
+  }
 
   void toTripDetails(int index, double distance) async {
     if (userLocation != null) {
@@ -493,32 +551,40 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
+
     return Scaffold(
-      backgroundColor: Colors.white,
-      bottomSheet: SolidBottomSheet(
-        showOnAppear: showSheet,
-        toggleVisibilityOnTap: true,
-        maxHeight: 209,
-        controller: _sheetController,
-        onHide: () {
-          setState(() {
-            showSheet = false;
-          });
-        },
-        onShow: () {
-          setState(() {
-            showSheet = true;
-          });
-        },
-        headerBar: Container(
-          decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(24), topLeft: Radius.circular(24))),
-          height: 50,
-          child: const BottomSheetIndicator(),
-        ),
-        body: const ProgressSheet(),
+      bottomSheet: Obx(
+        () => _touristExploreController.isActivityProgressLoading.value ||
+                _touristExploreController.isTouristMapLoading.value
+            ? const CircularProgressIndicator.adaptive()
+            : _touristExploreController.showActivityProgress.value
+                ? SolidBottomSheet(
+                    showOnAppear: showSheet,
+                    toggleVisibilityOnTap: true,
+                    maxHeight: 209,
+                    controller: _sheetController,
+                    onHide: () {
+                      setState(() {
+                        showSheet = false;
+                      });
+                    },
+                    onShow: () {
+                      setState(() {
+                        showSheet = true;
+                      });
+                    },
+                    headerBar: Container(
+                      decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(24),
+                              topLeft: Radius.circular(24))),
+                      height: 50,
+                      child: const BottomSheetIndicator(),
+                    ),
+                    body: const ProgressSheet(),
+                  )
+                : SizedBox.shrink(),
       ),
       body: Obx(
         () => Stack(
