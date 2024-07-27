@@ -1,4 +1,5 @@
 import 'package:ajwad_v4/services/view/event_details.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +36,9 @@ class CustomChips extends StatelessWidget {
         fontSize: width * 0.038,
         fontWeight: FontWeight.w600,
         color: textColor,
+          fontFamily: !AppUtil.rtlDirection2(context)
+                                  ? 'SF Pro'
+                                  : 'SF Arabic',
         textAlign: TextAlign.center,
       ),
     );

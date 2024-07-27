@@ -251,7 +251,7 @@ const localeEn = {
   "contactHidoTeam": "Contact Hido Team",
   "cancelTrip": "Cancel Tour",
   "trips2": "Tours",
-  "review": "Review",
+  "review": "Rating",
   "acceptOffer": "Accept offer",
   "about": "About",
   "expert": "Expert",
@@ -358,7 +358,7 @@ const localeEn = {
   "whereWeWillBe": 'Location',
   "cancellationPolicy": 'Cancellation policy',
   "cancellationPolicyBreif":
-      'Cancel up to 7 days before your tour for a full refund, or within 24 hours of booking as long as the booking is made more than 48 hours before the tour.',
+  'Full refund: Cancellations made 48 hours or more before the tour departure time will receive a full refund.',
   "locationWillBeAvailableAfterBooking":
       'Location will be available after booking',
   "Evaluationoftheperson": 'What do you think about Mohammed As ajwady?',
@@ -367,7 +367,7 @@ const localeEn = {
   "contact": "Contact Hido Team",
   "cansle": "Cancle Tour",
   "selectLocal": "Select local tour guide :",
-  "tour": "Tour",
+  "tour": "Tours",
   "expertise": "Expertise",
   "noReviews": "No Reviews yet",
   "HintMessage": "write your message here",
@@ -378,9 +378,10 @@ const localeEn = {
   "CancelBookingConfirm": 'Are you sure you want to cancel your booking?',
   'Confirm': 'Confirm',
   "cancellationPolicyBreifAdventure":
-      "Our cancellation policy requires a 48-hour prior notice for a full refund and a 24-hour prior notice for a partial refund.",
+  "Partial refund: Cancellations made between 24 and 48 hours before the tour departure time will receive a 50% refund.",
   "cancellationPolicyNote":
-      "Please note that no refunds will be issued for cancellations made on the same day as the booking.",
+  "No refund: Cancellations made within 24 hours of the tour departure time will not be eligible for a refund.",
+   "cancellationPolicySubNote":'  All refunds will be processed within 1-7 business days.',
   "notFind":
       "We couldn't find any local guides available for your chosen date and location",
   "noteDo": "Here is what you can do",
@@ -584,5 +585,10 @@ const localeEn = {
   'unfortunately': 'Unfortunately',
   'requestTimedOut': "Your tour request timed out!",
   'contentTimedOut':
-      "Submit a new request to find your perfect adventure."
+      "Submit a new request to find your perfect adventure.",
+  "noNextActivity": 'you don‘t have any activity yet',
+  "noExpertise":"There are no expertise yet",
+  "noAbout":"There are no informations yet",
+  "NoReview":"There are no reviews yet",
+  
 };

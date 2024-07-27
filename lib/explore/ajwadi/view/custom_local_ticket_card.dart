@@ -81,12 +81,10 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
       currentDateInRiyadh.minute,
       currentDateInRiyadh.second
   );
+      final parsedBookingDate = DateTime.parse(widget.nextTrip!.booking!.date??'');
 
-  //  print("kjhgfdswsdfghjkl;lkjhgfdsasdfghjk");
-  //  print(currentDateInRiyadh.hour);
-  //         print(widget.nextTrip!.booking!.timeToGo);
-   
-    if (widget.nextTrip!.booking!.date == currentDateString){
+  
+    if (widget.nextTrip!.booking!.date == currentDateString || parsedBookingDate.isAfter(currentDate)){
      setState(() {
         isTripStart.value = true;
       });

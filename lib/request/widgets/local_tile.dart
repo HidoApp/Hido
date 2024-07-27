@@ -1,4 +1,5 @@
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -14,14 +15,19 @@ class LocalTile extends StatelessWidget {
   final bool isRating;
   @override
   Widget build(BuildContext context) {
+   final width = MediaQuery.of(context).size.width;
+
     return Column(
       children: [
         Row(
           children: [
             CustomText(
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
+              fontSize:width*0.038,
+              fontWeight: FontWeight.w500,
               text: tripNumber.toString(),
+              color: black,
+              fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
+
             ),
             if (isRating)
               const SizedBox(
@@ -36,9 +42,10 @@ class LocalTile extends StatelessWidget {
         ),
         CustomText(
           text: subtitle,
-          fontWeight: FontWeight.w300,
-          fontSize: 14,
-          color: almostGrey,
+          fontWeight: FontWeight.w500,
+          fontSize: width*0.038,
+          fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
+          color: black,
         )
       ],
     );
