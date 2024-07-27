@@ -84,13 +84,13 @@ class _NotificationScreenState extends State<NotificationScreen> {
 print("day deference");
       print(daysDifference);
      
-      if (daysDifference == 2) {
+      if (daysDifference == 3) {
         _upcomingBookings.add(booking);
         print(_upcomingBookings.length);
         AppUtil.rtlDirection2(context)
             ? days = " بعد يومين , عند الساعة " + booking.timeToGo
             : days = " is after two day at " + booking.timeToGo;
-      } else if (daysDifference == 1) {
+      } else if (daysDifference == 2) {
         print('inter1');
         _upcomingBookings.add(booking);
         print(_upcomingBookings.length);
@@ -98,7 +98,7 @@ print("day deference");
            ? days = " بعد يوم , عند الساعة " + booking.timeToGo
            : days = " is after a day at " + booking.timeToGo;
           
-      } else if (daysDifference == 0){
+      } else if (daysDifference == 1){
               print('inter0');
         _upcomingBookings.add(booking);
         print(_upcomingBookings.length);

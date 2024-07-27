@@ -1,6 +1,7 @@
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/request/tourist/controllers/rating_controller.dart';
 import 'package:ajwad_v4/request/widgets/review_card.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -36,8 +37,21 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
 
   @override
   Widget build(BuildContext context) {
+            final width = MediaQuery.of(context).size.width;
+
     return _rattingController.ratings.isEmpty
-        ? Center(child: Text("noReviews".tr))
+        ? Center(child: Text("NoReview".tr,
+        style: TextStyle(
+              fontSize: width*0.04,
+              fontFamily:!AppUtil.rtlDirection2(context)
+                                  ? 'SF Pro'
+                                  : 'SF Arabic',
+             fontWeight: FontWeight.w400,
+            color: starGreyColor,
+        ),
+        
+        
+        ))
         : ListView.builder(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
             itemCount: _rattingController.ratings.length,

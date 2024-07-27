@@ -12,7 +12,7 @@ class BottomSheetIndicator extends StatelessWidget {
       width: width * 0.16,
       height: width * 0.010,
       decoration: BoxDecoration(
-          color: lightGreyColor,
+          color:Color(0xFFECECEE),
           borderRadius: BorderRadius.circular(width * 0.051)),
     ));
   }

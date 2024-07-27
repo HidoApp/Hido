@@ -59,3 +59,5 @@ const Color containerGreyColor = Color(0xffF5F5F5);
 const Color dotGreyColor = Color(0xff979797);
 const Color shadowColor   = Color(0x3FC7C7C7);
 const Color graySmallText =Color(0xFF41404A);
+const Color graySubSmallText =Color(0xFFDCDCE0);
+
