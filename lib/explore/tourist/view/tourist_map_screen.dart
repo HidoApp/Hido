@@ -14,6 +14,7 @@ import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/explore/tourist/view/notification/notification_screen.dart';
 import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
 import 'package:ajwad_v4/explore/widget/progress_sheet.dart';
+import 'package:ajwad_v4/explore/widget/rating_sheet.dart';
 import 'package:ajwad_v4/explore/widget/trip_card.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/view/messages_screen.dart';
@@ -101,6 +102,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
 
   void getActivityProgress() async {
     await _touristExploreController.getActivityProgress(context: context);
+    _touristExploreController.showActivityProgress(true);
   }
 
   void getBooking() async {
@@ -518,6 +520,10 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
       case 'COMPLETED':
         _touristExploreController.activeStepProgres(2);
         _touristExploreController.showActivityProgress(false);
+        Get.bottomSheet(
+          const RatingSheet(),
+          isScrollControlled: true,
+        );
 
         break;
       default:

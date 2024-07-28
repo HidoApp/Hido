@@ -569,6 +569,8 @@ const localeAr = {
   'delAccount': 'حذف الحساب', 'editPhoneNumber': 'تحديث رقم الجوال',
   "phoneEditSubtitle": "سنقوم بارسال رمز لتأكيد رقم الجوال الجديد ",
   'addProvidedServices': 'تحديث الخدمات المقدمة',
+
+  /// progress sheet
   'timerDialogContent':
       'ما في عروض جولات من المرشدين المحليين على حسب طلبك. حياك جرب ثاني لاحقا أو اختار يوم تاني',
   'unfortunately': 'اعذرنا',
@@ -587,5 +589,11 @@ const localeAr = {
   'tourCompletedSubtitle': 'لا تنسى تحكينا عن تجربتك ;) ',
   'PickUp': 'في الطريق',
   'tourTime': "وقت الجولة",
-  'completeTour': 'انتهت الجولة'
+  'completeTour': 'انتهت الجولة',
+  'signOutDialog': "طلب جولة فعال",
+  'signOutDialogContent':
+      "حاليًا عندك طلب جولة قيد التنفيذ. من فضلك، أكمل طلبك أو ألغه لتتمكن من تسجيل الخروج",
+  'submit': 'إرسال', 'howYourTour': " كيف كانت تجربتك في",
+  'howYourGudie': "كيف كانت تجربتك مع ",
+  //-----end
 };

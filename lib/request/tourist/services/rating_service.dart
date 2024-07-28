@@ -53,11 +53,15 @@ class RatingService {
     }
   }
 
-  static Future<void> postRating(
-      {required BuildContext context,
-      required String localId,
-      required String bookingId,
-      required Rating rating}) async {
+  static Future<bool> postRating({
+    required BuildContext context,
+    required String localId,
+    required String bookingId,
+    int? placeRate,
+    int? localRate,
+    String? placeReview,
+    String? localReview,
+  }) async {
     //check token
     log("jwtToken");
     final getStorage = GetStorage();
@@ -87,13 +91,22 @@ class RatingService {
           'Authorization': 'Bearer $token',
         },
         body: jsonEncode({
-          "rating": rating.rating,
-          'description': rating.description,
-          'userRating': rating.userRating,
-          'userDescription': rating.userDescription,
+          'rating': placeRate,
+          "description": placeReview,
+          "userRating": localRate,
+          "userDescription": localReview
         }));
-    print("response.statusCode");
-    print(response.statusCode);
-    print(response.body);
+    log(response.statusCode.toString());
+    log(response.body);
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      String errorMessage = jsonDecode(response.body)['message'];
+      if (context.mounted) {
+        AppUtil.errorToast(context, "errorMessage");
+      }
+      return false;
+    }
   }
 }

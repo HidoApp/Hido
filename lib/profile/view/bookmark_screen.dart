@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/widget/floating_timer.dart';
 import 'package:ajwad_v4/explore/widget/progress_sheet.dart';
+import 'package:ajwad_v4/explore/widget/rating_sheet.dart';
 import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_bookmark_card.dart';
@@ -10,6 +11,7 @@ import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:floating_draggable_advn/floating_draggable_advn_bk.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:solid_bottom_sheet/solid_bottom_sheet.dart';
 

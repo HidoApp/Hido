@@ -5,30 +5,30 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class CustomTextField extends StatelessWidget {
-  const CustomTextField({
-    super.key,
-    this.keyboardType,
-    this.obscureText = false,
-    this.hintText,
-    this.icon,
-    this.prefixIcon,
-    this.suffixIcon,
-    this.initialValue,
-    required this.onChanged,
-    this.maxLength,
-    this.inputFormatters,
-    this.borderColor,
-    this.controller,
-    this.enable,
-    this.maxLines = 1,
-    this.isPassword = false,
-    this.height,
-    this.textColor,
-    this.minLines,
-    this.validator = true,
-    this.readOnly = false,
-    this.validatorHandle,
-  });
+  const CustomTextField(
+      {super.key,
+      this.keyboardType,
+      this.obscureText = false,
+      this.hintText,
+      this.icon,
+      this.prefixIcon,
+      this.suffixIcon,
+      this.initialValue,
+      required this.onChanged,
+      this.maxLength,
+      this.inputFormatters,
+      this.borderColor,
+      this.controller,
+      this.enable,
+      this.maxLines = 1,
+      this.isPassword = false,
+      this.height,
+      this.textColor,
+      this.minLines,
+      this.validator = true,
+      this.readOnly = false,
+      this.validatorHandle,
+      this.expand = false});
 
   final TextEditingController? controller;
   final TextInputType? keyboardType;
@@ -41,7 +41,7 @@ class CustomTextField extends StatelessWidget {
   final ValueChanged<String> onChanged;
   final bool? enable;
   final bool validator;
-  final int maxLines;
+  final int? maxLines;
   final int? maxLength;
   final double? height;
   final String? initialValue;
@@ -49,6 +49,7 @@ class CustomTextField extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final String? Function(String?)? validatorHandle;
   final int? minLines;
+  final bool expand;
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +58,7 @@ class CustomTextField extends StatelessWidget {
       // padding: const EdgeInsets.symmetric(horizontal: 16),
       height: height,
       child: TextFormField(
+        expands: expand,
         initialValue: initialValue,
         inputFormatters: inputFormatters ?? [],
         maxLength: maxLength,
@@ -88,11 +90,12 @@ class CustomTextField extends StatelessWidget {
           errorBorder: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(10)),
               borderSide: BorderSide(color: colorRed, width: 1)),
-          errorStyle:  TextStyle(
-              color: colorRed,
-              fontSize: 11,
-              fontWeight: FontWeight.w400,
-              fontFamily:AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',),
+          errorStyle: TextStyle(
+            color: colorRed,
+            fontSize: 11,
+            fontWeight: FontWeight.w400,
+            fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+          ),
           contentPadding:
               const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
           counterStyle: const TextStyle(fontSize: 0, height: 100),
@@ -100,7 +103,6 @@ class CustomTextField extends StatelessWidget {
           border: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(8)),
               borderSide: BorderSide(color: borderGrey, width: 1)),
-              
           enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(8)),
               borderSide:
@@ -116,10 +118,11 @@ class CustomTextField extends StatelessWidget {
           prefixIcon: null == prefixIcon ? null : prefixIcon,
           suffixIcon: null == suffixIcon ? null : suffixIcon,
           hintText: hintText,
-          hintStyle:  TextStyle(
+          hintStyle: TextStyle(
               fontSize: 13,
-              fontFamily:AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-              color: almostGrey,
+              fontFamily:
+                  AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+              color: almostGrey, 
               fontWeight: FontWeight.w400),
         ),
         onChanged: onChanged,

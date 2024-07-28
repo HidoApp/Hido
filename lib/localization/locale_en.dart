@@ -180,7 +180,7 @@ const localeEn = {
   "others": "Others",
   "update": "Update",
   "sameLocation": "Same Location",
-  "change": "change",
+  "change": "Change",
   "locBreif": "Street Number, Sector Number, City Name, State, India",
   "confirmLocation": "Confirm location",
   'tuwaik': "Tuwaik",
@@ -579,6 +579,7 @@ const localeEn = {
   'editPhoneNumber': 'Edit phone number',
   "phoneEditSubtitle": "We’ll text you code to verify your number ",
   'addProvidedServices': 'Add your provided services',
+  //branch progress sheet
   'timerDialogContent':
       "no local guides offered tours matching your request. We suggest searching again later or exploring other dates.",
   'unfortunately': 'Unfortunately',
@@ -598,5 +599,12 @@ const localeEn = {
       'Thank you for using our app! Please tell us about your experience ',
   'PickUp': 'Pick up',
   'tourTime': "Tour time ",
-  'completeTour': 'Completed'
+  'completeTour': 'Completed',
+  'signOutDialog': "Active Tour Request",
+  'signOutDialogContent':
+      "There is ongoing tour request. To sign out, please complete or cancel your request",
+  'submit': 'Submit',
+  'howYourTour': "How was your tour in",
+  'howYourGudie': "How was you guide",
+  //end progress sheet
 };

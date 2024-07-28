@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
+import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +34,8 @@ class TimerController extends GetxController {
       if (remainingSeconds == 0) {
         timer.cancel();
         final offerController = Get.put(OfferController());
+        final _profileController = Get.put(ProfileController());
+        _profileController.enableSignOut(false);
         if (offerController.offers.isEmpty) {
           await Get.dialog(Dialog(
             backgroundColor: Colors.white,
@@ -70,6 +73,7 @@ class TimerController extends GetxController {
           )).then((val) async {
             await Get.delete<TimerController>(force: true);
             Get.offAll(() => const TouristBottomBar());
+            _profileController.enableSignOut(true);
           });
         } else {
           await Get.dialog(Dialog(
@@ -107,6 +111,7 @@ class TimerController extends GetxController {
             ),
           )).then((val) async {
             await Get.delete<TimerController>(force: true);
+            _profileController.enableSignOut(true);
             Get.offAll(() => const TouristBottomBar());
           });
         }

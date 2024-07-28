@@ -6,6 +6,7 @@ import 'package:get/get_rx/get_rx.dart';
 
 class RatingController extends GetxController {
   var isRatingsLoading = false.obs;
+  var isSendRatingsLoading = false.obs;
   var ratings = <Rating>[].obs;
   var placeReview = '';
   var localReview = '';
@@ -27,6 +28,34 @@ class RatingController extends GetxController {
       return null;
     } finally {
       isRatingsLoading(false);
+    }
+  }
+
+  Future<bool> postRating({
+    required BuildContext context,
+    required String localId,
+    required String bookingId,
+    int? placeRate,
+    int? localRate,
+    String? placeReview,
+    String? localReview,
+  }) async {
+    try {
+      isSendRatingsLoading(true);
+      final isSucces = await RatingService.postRating(
+          context: context,
+          localId: localId,
+          bookingId: bookingId,
+          localRate: localRate,
+          localReview: localReview,
+          placeRate: placeRate,
+          placeReview: placeReview);
+      return isSucces;
+    } catch (e) {
+      isSendRatingsLoading(false);
+      return false;
+    } finally {
+      isSendRatingsLoading(false);
     }
   }
 }
