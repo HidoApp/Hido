@@ -92,12 +92,14 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
 
     DateTime timeToGo = DateTime.parse('$currentDateString $timeToGoStr');
 
+
 //     if(widget.nextTrip!.booking!.timeToGo == formattedTime){
 //       setState(() {
 //         isTripStart.value = true;
 //       });
 //  }
 // Compare the times
+
 print('lkjhgfdsfgbnm');
 print(currentTime);
 print(timeToGo);
@@ -136,10 +138,10 @@ print(currentTime.isAtSameMomentAs(timeToGo));
 
     _controller = ExpandedTileController(isExpanded: false);
     checkCondition();
+
     getAddressFromCoordinates(
         double.parse(widget.nextTrip!.booking!.coordinates.latitude ?? ''),
         double.parse((widget.nextTrip!.booking!.coordinates.longitude ?? '')));
-
   }
 
   void getAddressFromCoordinates(double latitude, double longitude) async {

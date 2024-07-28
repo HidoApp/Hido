@@ -16,7 +16,6 @@ import 'package:ajwad_v4/request/chat/view/widgets/chat_bubble.dart';
 import 'package:ajwad_v4/request/chat/view/widgets/show_request_widget.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
 import 'package:ajwad_v4/request/tourist/models/offer_details.dart';
-import 'package:ajwad_v4/request/widgets/timer_app_bar.dart';
 import 'package:ajwad_v4/services/view/paymentType.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/available_container_widget.dart';
@@ -394,6 +393,7 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                                     offerController: widget.offerController,
                                     place: widget.place!,
                                   ),
+
 
                                   IgnorePointer(
                                     ignoring: widget.offerController!.scheduleState.value,

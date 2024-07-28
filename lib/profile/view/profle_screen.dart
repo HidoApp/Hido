@@ -260,68 +260,122 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               leading: "assets/icons/signout_icon.svg",
                               // fromAjwady: widget.fromAjwady,
                               onTap: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      backgroundColor: Colors.white,
-                                      surfaceTintColor: Colors.white,
-                                      shape: const RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(8.0))),
-                                      content: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: <Widget>[
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                          CustomText(
-                                              textAlign: TextAlign.center,
-                                              fontSize: 20,
+                                if (_profileController.enableSignOut.value) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        backgroundColor: Colors.white,
+                                        surfaceTintColor: Colors.white,
+                                        shape: const RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(8.0))),
+                                        content: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                            CustomText(
+                                                textAlign: TextAlign.center,
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.w500,
+                                                color: black,
+                                                fontFamily:
+                                                    AppUtil.rtlDirection2(
+                                                            context)
+                                                        ? "SF Arabic"
+                                                        : 'SF Pro',
+                                                text: "youWantSiginOut".tr),
+                                            const SizedBox(
+                                              height: 20,
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 4),
+                                              child: CustomButton(
+                                                height: 25,
+                                                title: "signOut".tr,
+                                                onPressed: () {
+                                                  AuthService.logOut();
+                                                  Get.offAll(() =>
+                                                      const OnboardingScreen());
+                                                },
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 4),
+                                              child: CustomButton(
+                                                height: 25,
+                                                borderColor: colorRed,
+                                                buttonColor: Colors.white,
+                                                textColor: colorRed,
+                                                title:
+                                                    "cancel".tr.toUpperCase(),
+                                                onPressed: () {
+                                                  Get.back();
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  );
+                                } else {
+                                  // can't sign out while looking for an offer
+                                  Get.dialog(Dialog(
+                                    backgroundColor: Colors.white,
+                                    surfaceTintColor: Colors.white,
+                                    shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(8.0))),
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: width * 0.051,
+                                          horizontal: width * 0.061),
+                                      child: SizedBox(
+                                        width: width * 0.948,
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Container(
+                                                padding: EdgeInsets.all(
+                                                    width * 0.0205),
+                                                alignment: Alignment.center,
+                                                decoration: const BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color: Color.fromRGBO(
+                                                        251, 234, 233, 1)),
+                                                child: SvgPicture.asset(
+                                                    'assets/icons/Alerts_signOut.svg')),
+                                            SizedBox(
+                                              height: width * 0.0205,
+                                            ),
+                                            CustomText(
+                                              text: "signOutDialog".tr,
+                                              fontSize: width * 0.0384,
+                                              fontFamily: "SF Pro",
                                               fontWeight: FontWeight.w500,
-                                              color: black,
-                                              fontFamily:AppUtil.rtlDirection2(context) ? "SF Arabic" : 'SF Pro',
-                                              text: "youWantSiginOut".tr),
-                                          const SizedBox(
-                                            height: 20,
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 4),
-                                            child: CustomButton(
-                                              height: 25,
-                                              title: "signOut".tr,
-                                              onPressed: () {
-                                                AuthService.logOut();
-                                                Get.offAll(() =>
-                                                    const OnboardingScreen());
-                                              },
                                             ),
-                                          ),
-                                         
-                                          
-                                           Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 4),
-                                            child: CustomButton(
-                                              height: 25,
-                                              borderColor: colorRed,
-                                              buttonColor: Colors.white,
-                                              textColor: colorRed,
-                                              title:  "cancel".tr.toUpperCase(),
-                                              onPressed: () {
-                                                Get.back();
-
-                                              },
+                                            CustomText(
+                                              textAlign: TextAlign.center,
+                                              text: 'signOutDialogContent'.tr,
+                                              fontSize: width * 0.0384,
+                                              fontFamily: "SF Pro",
+                                              fontWeight: FontWeight.w400,
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
-                                    );
-                                  },
-                                );
+                                    ),
+                                  ));
+                                }
                               },
                             ),
                           ],

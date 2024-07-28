@@ -1,4 +1,4 @@
-import 'dart:math';
+import 'dart:developer';
 
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
@@ -75,6 +75,7 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
     // TODO: implement initState
 
     super.initState();
+    log(_offerController.acceptedOffer.value.orderStatus ?? "s");
 
     getProfile();
   }
@@ -89,7 +90,7 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
       length: widget.fromService ? 2 : 3,
       child: FloatingDraggableADVN(
         floatingWidget:
-            _offerController.acceptedOffer.value.orderStatus == 'ACCEPTED' ||
+            _offerController.acceptedOffer.value.orderStatus == 'ACCEPTED' &&
                     widget.place!.booking != null
                 ? const SizedBox.shrink()
                 : const FloatingTimer(),
@@ -167,7 +168,7 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
                   if (!widget.fromService)
                     Obx(() {
                       if (_offerController.acceptedOffer.value.orderStatus ==
-                              'ACCEPTED' ||
+                              'ACCEPTED' &&
                           widget.place!.booking != null) {
                         return Padding(
                           padding: const EdgeInsets.symmetric(horizontal:4),

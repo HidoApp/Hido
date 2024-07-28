@@ -29,6 +29,7 @@ class ProfileController extends GetxController {
   var isEmailNotValid = false.obs;
   var isNumberNotValid = false.obs;
   var isOTPMode = false.obs;
+  var enableSignOut= true.obs;
   //update var
   var updatedMobile = '';
   //------

@@ -296,7 +296,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                           SizedBox(height: 27),
                           Obx(
                             () => _tripController.isNextActivityLoading.value
-                                ? Center(
+                                ? const Center(
                                     child: CircularProgressIndicator.adaptive())
                                 : _tripController.nextTrip.isEmpty
                                     ? Container(
@@ -318,7 +318,10 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                                             style: TextStyle(
                                               color: Color(0xFFDCDCE0),
                                               fontSize: 16,
-                                              fontFamily:AppUtil.rtlDirection2(context) ? "SF Arabic" : 'SF Pro',
+                                              fontFamily:
+                                                  AppUtil.rtlDirection2(context)
+                                                      ? "SF Arabic"
+                                                      : 'SF Pro',
                                               fontWeight: FontWeight.w400,
                                             ),
                                           ),

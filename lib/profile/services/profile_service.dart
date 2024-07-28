@@ -177,7 +177,7 @@ class ProfileService {
     required String bookingType,
     required BuildContext context,
   }) async {
-    print(" getUpcomingTicket ");
+    log(" getUpcomingTicket ");
     final getStorage = GetStorage();
     final String? token = getStorage.read('accessToken');
     print(token);

@@ -102,28 +102,25 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
                               requestController: _requestController,
                             ),
                           )
-                          : Center(
+                        : Center(
                             child: CustomEmptyWidget(
-                          
-                              title: "offline".tr ,
-                              image:"emptyRequest" ,
+                              title: "offline".tr,
+                              image: "emptyRequest",
                               subtitle: 'offlineText'.tr,
                             ),
                           ),
 
-                        // : const EmptyRequest(),
+                // : const EmptyRequest(),
               ),
             )
           : Center(
-             child: CustomEmptyWidget(
-
-                                title: "offline".tr ,
-                                image:"offline" ,
-                                subtitle: 'offlineText'.tr,
-                              ),
-            
-          ),
-          //const OfflineRequest(),
+              child: CustomEmptyWidget(
+                title: "offline".tr,
+                image: "offline",
+                subtitle: 'offlineText'.tr,
+              ),
+            ),
+      //const OfflineRequest(),
     );
   }
 }
