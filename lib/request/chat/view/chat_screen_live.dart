@@ -393,29 +393,28 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                                     offerController: widget.offerController,
                                     place: widget.place!,
                                   ),
-                                  CustomButton(
-                                    onPressed: () {
-                                      //  Get.to(() =>PaymentTypeScreen(
-                                      //           booking: widget.booking,
-                                      //           offerController: widget.offerController,
-                                      //           place: widget.place!,
-                                      //         ));
-                                      log('sh length');
-                                      print(widget.offerController?.offerDetails
-                                          .value.schedule!.length);
-                                      log('sh name');
-                                      print(widget.offerController?.offerDetails
-                                          .value.schedule!.first.scheduleName);
-                                      // Get.to(() => ReviewRequest(
-                                      //       booking: widget.booking,
-                                      //       scheduleList: widget.offerController
-                                      //           ?.offerDetails.value.schedule,
-                                      //       offerController:
-                                      //           widget.offerController,
-                                      //       place: widget.place!,
-                                      //     ));
-                                    },
-                                    title: 'confirm'.tr,
+
+
+                                  IgnorePointer(
+                                    ignoring: widget.offerController!.scheduleState.value,
+                                    child: CustomButton(
+                                      onPressed: () {
+                                        
+                                       
+                                  
+                                        Get.to(() => ReviewRequest(
+                                              booking: widget.booking,
+                                              scheduleList: widget.offerController
+                                                  ?.offerDetails.value.schedule,
+                                              offerController:
+                                                  widget.offerController,
+                                              place: widget.place!,
+                                            ));
+                                      },
+                                      buttonColor:widget.offerController!.scheduleState.value?colorlightGreen :colorGreen,
+                                      borderColor: widget.offerController!.scheduleState.value?colorlightGreen :colorGreen,
+                                      title: 'confirm'.tr,
+                                    ),
                                   ),
                                   SizedBox(height: 10),
 

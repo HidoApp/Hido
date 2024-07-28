@@ -234,9 +234,9 @@ class _HostInfoReviewState extends State<HostInfoReview> {
     if (widget.experienceType == 'hospitality') {
       daysInfo();
     }
-    if(widget.experienceType == 'adventure'){
-      advDates();
-    }
+  
+       WidgetsBinding.instance.addPostFrameCallback((_) {
+
     setState(() {
       locationUrl = widget.experienceType == 'hospitality'
           ? getLocationUrl(widget.hospitalityController!.pickUpLocLatLang.value)
@@ -250,6 +250,8 @@ class _HostInfoReviewState extends State<HostInfoReview> {
 
       // widget.hospitalityController.pickUpLocLatLang.value=LatLng(24.786828,46.647622);
     });
+       }
+       );
   }
 
   Widget build(BuildContext context) {

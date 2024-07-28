@@ -196,7 +196,7 @@ class _CustomCheckWidget extends StatelessWidget {
       children: [
         Stack(children: [
           InkWell(
-            onTap: onTap,
+            onTap:onTap,
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -209,7 +209,7 @@ class _CustomCheckWidget extends StatelessWidget {
                         borderRadius:
                             isCircle ? null : BorderRadius.circular(3),
                         border: Border.all(color: colorGreen, width: 1.5),
-                        color: isChecked ? colorGreen : Colors.white,
+                        color: isChecked ?  colorGreen : Colors.white,
                       ),
                       child: const Icon(Icons.check,
                           size: 12, color: Colors.white)),

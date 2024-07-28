@@ -121,8 +121,8 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
                   ),
                   CustomText(
                     text: widget.name,
-                    fontSize: 24,
-                    fontWeight: FontWeight.w500,
+                    fontSize: width*0.044,
+                    fontFamily: 'HT Rakik',
                   ),
                   const SizedBox(
                     height: 14,
@@ -142,7 +142,7 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
                       const SizedBox(
                         height: 44,
                         child: VerticalDivider(
-                          color: tileGreyColor,
+                          color:graySubSmallText,
                           thickness: 1,
                           indent: 10,
                           width: 0,
@@ -162,7 +162,7 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
                     ],
                   ),
                   const SizedBox(
-                    height: 21,
+                    height: 18,
                   ),
                   //view offer button
                   if (!widget.fromService)
@@ -170,14 +170,17 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
                       if (_offerController.acceptedOffer.value.orderStatus ==
                               'ACCEPTED' &&
                           widget.place!.booking != null) {
-                        return CustomAcceptButton(
-                          onPressed: () async {
-                            Get.to(() => ChatScreen(
-                                chatId: widget.booking?.chatId,
-                                booking2: widget.booking));
-                          },
-                          title: 'chat'.tr,
-                          icon: 'chat',
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal:4),
+                          child: CustomAcceptButton(
+                            onPressed: () async {
+                              Get.to(() => ChatScreen(
+                                  chatId: widget.booking?.chatId,
+                                  booking2: widget.booking));
+                            },
+                            title: 'chat'.tr,
+                            icon: 'chat',
+                          ),
                         );
                       }
                       if (_offerController.isAcceptOfferLoading.value) {
@@ -195,36 +198,39 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
                                 ? Center(
                                     child: CircularProgressIndicator(
                                         color: Colors.green[700]))
-                                : CustomAcceptButton(
-                                    onPressed: () async {
-                                      OfferDetails? offerDetails =
-                                          await _offerController.getOfferById(
-                                              context: context,
-                                              offerId: _offerController
-                                                  .offerDetails.value.id!);
-                                      // offerDetails
-
-                                      if (offerDetails != null) {
-                                        // String userId = getStorage.read('userId');
-                                        // log("chatId ${offerDetails.booking!.chatId!}");
-                                        // log("userId $userId");
-                                        // Get.to(() => ChatScreen(
-                                        //       senderId: userId,
-                                        //       chatId: offerDetails.chatId!,
-                                        //     ));
-                                        Get.to(() => ChatScreenLive(
-                                              isAjwadi: false,
-                                              offerController: _offerController,
-                                              booking: offerDetails.booking!,
-                                              chatId:
-                                                  offerDetails.booking!.chatId!,
-                                              place: widget.place,
-                                            ));
-                                      }
-                                    },
-                                    title: 'chat'.tr,
-                                    icon: 'chat',
-                                  ),
+                                : Padding(
+                          padding: const EdgeInsets.symmetric(horizontal:4),
+                                  child: CustomAcceptButton(
+                                      onPressed: () async {
+                                        OfferDetails? offerDetails =
+                                            await _offerController.getOfferById(
+                                                context: context,
+                                                offerId: _offerController
+                                                    .offerDetails.value.id!);
+                                        // offerDetails
+                                
+                                        if (offerDetails != null) {
+                                          // String userId = getStorage.read('userId');
+                                          // log("chatId ${offerDetails.booking!.chatId!}");
+                                          // log("userId $userId");
+                                          // Get.to(() => ChatScreen(
+                                          //       senderId: userId,
+                                          //       chatId: offerDetails.chatId!,
+                                          //     ));
+                                          Get.to(() => ChatScreenLive(
+                                                isAjwadi: false,
+                                                offerController: _offerController,
+                                                booking: offerDetails.booking!,
+                                                chatId:
+                                                    offerDetails.booking!.chatId!,
+                                                place: widget.place,
+                                              ));
+                                        }
+                                      },
+                                      title: 'chat'.tr,
+                                      icon: 'chat',
+                                    ),
+                                ),
                           ),
                         );
                       }
@@ -296,13 +302,15 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
                 ],
               ),
               bottom: TabBar(
-                indicatorSize: TabBarIndicatorSize.tab,
-                labelColor: black,
-                unselectedLabelColor: almostGrey,
-                indicatorPadding: EdgeInsets.symmetric(horizontal: 14),
+              indicatorSize: TabBarIndicatorSize.tab,
+              labelColor: colorGreen,
+              unselectedLabelColor: colorDarkGrey,
+              dividerColor: Color(0xFFB9B8C1),
+              overlayColor:MaterialStatePropertyAll( const Color.fromARGB(255, 255, 255, 255)),
+                indicatorPadding: EdgeInsets.only(top: 12),
                 tabs: [
                   Tab(
-                    text: "about".tr,
+                    text: "aboutMe".tr,
                   ),
                   if (!widget.fromService)
                     Tab(

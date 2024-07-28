@@ -1,6 +1,7 @@
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 import 'package:ajwad_v4/explore/tourist/model/coordinates.dart';
 import 'package:ajwad_v4/profile/models/profile.dart';
+import 'package:ajwad_v4/services/model/booking_dates.dart';
 import 'package:ajwad_v4/services/model/days_info.dart';
 
 class Event {
@@ -20,6 +21,8 @@ class Event {
   final String? status;
   final List<Booking>? booking;
   final List<DayInfo>? daysInfo;
+    final List<BookingDates>?bookingDates;
+
   final Profile? user;
   final List<String> images;
   final String? cost; //final int?seats;
@@ -37,6 +40,7 @@ class Event {
     this.cost,
     this.price,
     this.locationUrl,
+    this.bookingDates,
     // this.date,
     required this.allowedGuests,
     required this.status,
@@ -79,6 +83,9 @@ class Event {
           : null,
       daysInfo: json['daysInfo'] != null
           ? (json['daysInfo'] as List).map((e) => DayInfo.fromJson(e)).toList()
+          : [],
+       bookingDates: json['bookingDates'] != null
+          ? (json['bookingDates'] as List).map((e) => BookingDates.fromJson(e)).toList()
           : [],
       //  times: json['times'] != null
       //     ? (json['times'] as List)

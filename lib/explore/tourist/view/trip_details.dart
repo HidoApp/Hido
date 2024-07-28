@@ -240,7 +240,7 @@ class _TripDetailsState extends State<TripDetails> {
                                     ? widget.place!.nameAr!
                                     : widget.place!.nameEn!,
                             color: Color(0xFF070708),
-                            fontSize: 28,
+                           fontSize: width * 0.072,
                             fontFamily: 'HT Rakik',
                             fontWeight: FontWeight.w500,
                           )),
@@ -251,7 +251,7 @@ class _TripDetailsState extends State<TripDetails> {
                         children: [
                           SvgPicture.asset("assets/icons/map_pin.svg"),
                           SizedBox(
-                            width: width * 0.018,
+                            width: width * 0.015,
                           ),
                           CustomText(
                             text: widget.place != null
@@ -260,8 +260,8 @@ class _TripDetailsState extends State<TripDetails> {
                                         ", المملكة العربية السعودية"
                                     : widget.place!.regionEn! + ", Saudi Arabia"
                                 : '',
-                            color: Color(0xFF9392A0),
-                            fontSize: 13,
+                            color: starGreyColor,
+                            fontSize: width * 0.03,
                             fontFamily: AppUtil.rtlDirection2(context)
                                 ? 'SF Arabic'
                                 : 'SF Pro',
@@ -280,7 +280,7 @@ class _TripDetailsState extends State<TripDetails> {
                                 ? widget.place!.rating.toString()
                                 : '',
                             color: Color(0xFF9392A0),
-                            fontSize: 13,
+                            fontSize: width * 0.03,
                             fontFamily: AppUtil.rtlDirection2(context)
                                 ? 'SF Arabic'
                                 : 'SF Pro',
@@ -290,7 +290,7 @@ class _TripDetailsState extends State<TripDetails> {
                       ),
 
                       const SizedBox(
-                        height: 20,
+                        height: 18,
                       ),
                       Align(
                           alignment: !AppUtil.rtlDirection(context)
@@ -301,12 +301,12 @@ class _TripDetailsState extends State<TripDetails> {
                                 ? "نبذة عن الموقع"
                                 : "About",
                             color: black,
-                            fontSize: width * 0.0461,
+                            fontSize: width * 0.044,
                             fontFamily: 'HT Rakik',
                             fontWeight: FontWeight.w500,
                           )),
                          SizedBox(
-                                height: width * 0.025,
+                                height: width * 0.023,
                               ),
                       Align(
                         alignment: AppUtil.rtlDirection2(context)
@@ -315,7 +315,7 @@ class _TripDetailsState extends State<TripDetails> {
                         child: ConstrainedBox(
                           constraints: isExpanded
                               ? const BoxConstraints()
-                              : BoxConstraints(maxHeight: width * 0.1),
+                              : BoxConstraints(maxHeight: width * 0.2),
                           child: CustomText(
                               textDirection: AppUtil.rtlDirection(context)
                                   ? TextDirection.ltr
@@ -385,13 +385,7 @@ class _TripDetailsState extends State<TripDetails> {
                               ),
                             ),
 
-                      // const SizedBox(
-                      //   height: 24,
-                      // ),
-                      // Divider(
-                      //     color: lightGrey,
-                      //     thickness: 1,
-                      //   ),
+                  
                       SizedBox(
                         height: width * 0.026,
                       ),
@@ -410,7 +404,7 @@ class _TripDetailsState extends State<TripDetails> {
                           text: AppUtil.rtlDirection2(context)
                               ? "الموقع"
                               : "Location".tr,
-                         fontSize: width * 0.0461,
+                         fontSize: width * 0.044,
                           fontWeight: FontWeight.w500,
                           color: black,
                           fontFamily: 'HT Rakik',
@@ -494,7 +488,7 @@ class _TripDetailsState extends State<TripDetails> {
                                     SizedBox(
                                       width: width * 0.8,
                                       child: CustomText(
-                                        text: "cancellationPolicyBreifAdventure"
+                                        text: "cancellationPolicyBreif"
                                             .tr,
                                         fontSize: width * 0.038,
                                         fontWeight: FontWeight.w400,

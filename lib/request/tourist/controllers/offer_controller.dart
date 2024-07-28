@@ -14,6 +14,7 @@ import '../models/schedule.dart';
 class OfferController extends GetxController {
   var isOffersLoading = false.obs;
   var isOfferLoading = false.obs;
+  var messageCreated = ''.obs;
   var isAcceptOfferLoading = false.obs;
   var offers = <Offer>[].obs;
   var offerDetails = OfferDetails().obs;
@@ -117,7 +118,19 @@ class OfferController extends GetxController {
     if (index == null) {
       log("index nulll");
       checkedList.value = List.generate(
-          offerDetails.value.schedule?.length ?? 0, (index) => false);
+
+          offerDetails.value.schedule?.length ?? 0, (index) => true);
+        updateScheduleList = List<Schedule>.generate(
+        offerDetails.value.schedule?.length??0,
+        (index) => offerDetails.value.schedule![index],
+      
+      );
+      print("data");
+      print(  updateScheduleList[0].scheduleName);
+            print(  updateScheduleList[1].scheduleName);
+                  print(  updateScheduleList[2].scheduleName);
+
+
     } else {
       checkedList[index] = checked;
     }
@@ -154,16 +167,60 @@ class OfferController extends GetxController {
     // Update total price
     totalPrice.value = total;
     print('Final total price: ${totalPrice.value}');
+
+
+}
+  
+  List<Schedule> updateScheduleList = <Schedule>[].obs; 
+  RxBool scheduleState = false.obs;
+ void checkTotal(int index, bool check) {
+  List<Schedule>? scheduleList = offerDetails.value.schedule;
+  if (scheduleList == null || index < 0 || index >= scheduleList.length) {
+    return;
   }
 
-  void checkTotal(int index, bool check) {
-    List<Schedule>? scheduleList = offerDetails.value.schedule;
-    log("check");
-    log(check.toString());
+  Schedule schedule = scheduleList[index];
+  if (check) {
+      totalPrice += schedule.price ?? 0;
+      print("Before add");
+      print(updateScheduleList.length);
+      if (index < updateScheduleList.length) {
+        updateScheduleList.insert(index, schedule);
+                      scheduleState.value=false;
 
-    if (scheduleList == null || index < 0 || index >= scheduleList.length) {
-      return;
+      } else {
+                updateScheduleList.add(schedule);
+              scheduleState.value=false;
+
+      }
+      print("After add");
+      print(updateScheduleList.length);
+    } else {
+      totalPrice -= schedule.price ?? 0;
+      print("Before remove");
+      print(updateScheduleList.length);
+      if (index < updateScheduleList.length) {
+
+        updateScheduleList.removeAt(index);
+        
+      } else {
+        
+      updateScheduleList.removeLast();
+      if(updateScheduleList.isEmpty){
+        scheduleState.value=true;
+      }
+
+      }
+      print("After remove");
+            print(updateScheduleList.length);
+
+
+
     }
+
+  // Update the checked status in the list
+  checkedList[index] = check;
+  print(check);
 
     Schedule schedule = scheduleList[index];
     if (check) {

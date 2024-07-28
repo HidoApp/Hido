@@ -1,6 +1,7 @@
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/services/view/widgets/custom_chips.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ class AboutScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(profileController.profile.descriptionAboutMe);
     final width = MediaQuery.of(context).size.width;
     return Obx(
       () => profileController.isProfileLoading.value
@@ -23,20 +25,46 @@ class AboutScreen extends StatelessWidget {
                 horizontal: width * 0.084,
                 vertical: width * 0.035,
               ),
-              child: Column(
+              child:profileController.profile.descriptionAboutMe!.isEmpty && !profileController.profile.spokenLanguage!.isEmpty
+              ? Center(
+          child: CustomText(
+            text: "noAbout".tr,
+            fontSize: width*0.04,
+              fontFamily:!AppUtil.rtlDirection2(context)
+                                  ? 'SF Pro'
+                                  : 'SF Arabic',
+             fontWeight: FontWeight.w400,
+            color: starGreyColor,
+          ),
+              )
+               :Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  //descripton
-                  CustomText(
-                      text: profileController.profile.descriptionAboutMe ??
-                          "Enjoy your favorite dishe and a lovely your friends and family and have a great time. Food from local food trucks will be available for purchase. "),
 
+                  CustomText(
+                      text:  (profileController.profile.descriptionAboutMe?.isNotEmpty ?? false)
+                      ? profileController.profile.descriptionAboutMe!
+                      :'',
+                  color: Color(0xFF41404A),
+                  fontSize:  width * 0.038,
+                   fontFamily: !AppUtil.rtlDirection2(context)
+                                  ? 'SF Pro'
+                                  : 'SF Arabic',
+                  fontWeight: FontWeight.w400,
+                  
+                  ),
+                  if(profileController.profile.descriptionAboutMe!.isNotEmpty)
                   SizedBox(
-                    height: width * 0.035,
+                    height: width * 0.038,
                   ),
                   CustomText(
                     text: 'languages'.tr,
-                    fontSize: width * 0.043,
+                    fontSize: width * 0.044,
+                      fontFamily: !AppUtil.rtlDirection2(context)
+                                  ? 'SF Pro'
+                                  : 'SF Arabic',
+                      fontWeight:  FontWeight.w500,
+                    color: black,
                   ),
                   SizedBox(
                     height: width * 0.030,
@@ -60,11 +88,12 @@ class AboutScreen extends StatelessWidget {
                                   : profileController
                                       .profile.spokenLanguage![index],
                           backgroundColor: Colors.transparent,
-                          borderColor: almostGrey,
-                          textColor: almostGrey),
+                          borderColor: Graytext,
+                          textColor: Graytext),
                     ),
                   )
-                ],
+                  ]
+                
               ),
             ),
     );

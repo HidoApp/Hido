@@ -11,7 +11,7 @@ class RequestController extends GetxController {
   /* ?
             ? getRequestList 
   */
-
+ RxString address = ''.obs;
   var isRequestListLoading = false.obs;
   var isBookingLoading = false.obs;
   var requestList = <RequestModel>[].obs;

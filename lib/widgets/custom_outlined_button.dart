@@ -31,8 +31,7 @@ class CustomOutlinedButton extends StatelessWidget {
         child: CustomText(
           text: title,
           color: titleColor!,
-           fontFamily:
-           AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+                fontFamily: 'HT Rakik',
             fontSize: width*0.038,
            fontWeight: FontWeight.w500,
         ),

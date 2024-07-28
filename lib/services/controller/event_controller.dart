@@ -254,12 +254,14 @@ class EventController extends GetxController {
   Future<EventSummary?> getEventSummaryById({
     required BuildContext context,
     required String id,
+
+    required String date,
   }) async {
     try {
       print("TRUE");
       isEventByIdLoading(true);
       final data =
-          await EventService.getEventSummaryById(context: context, id: id);
+          await EventService.getEventSummaryById(context: context, id: id,date:date);
       return data;
     } catch (e) {
       isEventByIdLoading(false);

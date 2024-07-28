@@ -22,6 +22,7 @@ const Color borderGrey = Color(0xFFB9B8C1);
 
 const Color colorGreen = Color(0xFF36B268);
 const Color colorDarkGreen = Color(0xFF3C9351);
+const Color colorlightGreen = Color(0xFF7ED7A2);
 const Color colorRed = Color(0xFFD75051);
 const Color colorDarkRed = Color(0xFFB64243);
 
@@ -58,3 +59,5 @@ const Color containerGreyColor = Color(0xffF5F5F5);
 const Color dotGreyColor = Color(0xff979797);
 const Color shadowColor   = Color(0x3FC7C7C7);
 const Color graySmallText =Color(0xFF41404A);
+const Color graySubSmallText =Color(0xFFDCDCE0);
+

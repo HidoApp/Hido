@@ -320,15 +320,8 @@ packages:
       sha256: "2ad726953f6e8affbc4df8dc78b77c3b4a060967a291e528ef72ae846c60fb69"
       url: "https://pub.dev"
     source: hosted
-    version: "0.9.3+2"
-  fixnum:
-    dependency: transitive
-    description:
-      name: fixnum
-      sha256: "25517a4deb0c03aa0f32fd12db525856438902d9c16536311e76cdc57b31d7d1"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.0"
+
+    version: "0.9.3+1"
   floating_draggable_advn:
     dependency: "direct main"
     description:
@@ -708,7 +701,8 @@ packages:
       sha256: a26dc9a03fe042440c1e4be554fb0fceae2bf6d887d7467fc48c688fa4a81889
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.12+7"
+
+    version: "0.8.9+5"
   image_picker_for_web:
     dependency: transitive
     description:
@@ -1097,10 +1091,10 @@ packages:
     dependency: transitive
     description:
       name: shared_preferences_platform_interface
-      sha256: "034650b71e73629ca08a0bd789fd1d83cc63c2d1e405946f7cef7bc37432f93a"
+      sha256: "22e2ecac9419b4246d7c22bfbbda589e3acf5c0351137d87dd2939d984d37c3b"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.0"
+    version: "2.3.2"
   shared_preferences_web:
     dependency: transitive
     description:
@@ -1126,18 +1120,11 @@ packages:
     dependency: "direct main"
     description:
       name: smooth_page_indicator
-      sha256: "3b28b0c545fa67ed9e5997d9f9720d486f54c0c607e056a1094544e36934dff3"
+      sha256: eebe23a5bd887ca4bc7b9c6173362edb2c625e37aee6043a567a342973357a7b
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.0+3"
-  solid_bottom_sheet:
-    dependency: "direct main"
-    description:
-      name: solid_bottom_sheet
-      sha256: "7a18ee17da1c57fdad953f785be4cbdaf5e1116650888162ceaccb80e6b6a6aa"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.10"
+
+    version: "1.2.0"
   source_span:
     dependency: transitive
     description:
@@ -1329,8 +1316,9 @@ packages:
       sha256: "95d8027db36a0e52caf55680f91e33ea6aa12a3ce608c90b06f4e429a21067ac"
       url: "https://pub.dev"
     source: hosted
-    version: "6.3.5"
-  url_launcher_ios:
+
+    version: "6.3.0"
+   url_launcher_ios:
     dependency: transitive
     description:
       name: url_launcher_ios

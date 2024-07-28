@@ -313,7 +313,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                                         ),
                                         child: Center(
                                           child: Text(
-                                            'you don‘t have any activity yet',
+                                            "noNextActivity".tr,
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               color: Color(0xFFDCDCE0),

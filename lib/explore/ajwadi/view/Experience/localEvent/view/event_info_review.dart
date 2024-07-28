@@ -179,6 +179,7 @@ class _EventInfoReviewState extends State<EventInfoReview> {
     // _fetchAddress();
 
     daysInfo();
+   WidgetsBinding.instance.addPostFrameCallback((_) {
 
     setState(() {
      locationUrl = getLocationUrl(_EventController.pickUpLocLatLang.value);
@@ -190,10 +191,12 @@ class _EventInfoReviewState extends State<EventInfoReview> {
 ];
 
       //  "https://media.cntraveler.com/photos/607313c3d1058698d13c31b5/1:1/w_1636,h_1636,c_limit/FamilyCamping-2021-GettyImages-948512452-4.jpg"
-    _EventController.pickUpLocLatLang.value=LatLng(24.9591,46.7661);
+    // _EventController.pickUpLocLatLang.value=LatLng(24.9591,46.7661);
 
     });
-        _fetchAddress();
+            _fetchAddress();
+    }
+    );
 
   }
 

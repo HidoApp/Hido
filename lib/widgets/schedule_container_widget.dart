@@ -332,7 +332,7 @@ class _CustomCheckWidget extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(top: 20),
                 child: SizedBox(
-                  width: 20,
+                  width: 10,
                   height: 32,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,

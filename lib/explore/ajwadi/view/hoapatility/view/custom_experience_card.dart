@@ -222,7 +222,7 @@ bool isDateBefore24Hours() {
     }
     else{
       
-      Get.to(EventSummaryScreen(eventId:experience.id));
+     // Get.to(EventSummaryScreen(eventId:experience.id));
 
     }
   },
