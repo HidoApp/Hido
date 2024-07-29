@@ -137,71 +137,28 @@ class _PaymentTypeState extends State<PaymentType> {
 
         break;
       case PaymentMethod.creditCard:
-        creditValidaiotn();
-        _paymentController.isNameValid(true);
-        _paymentController.isCardNumberValid(true);
-        _paymentController.isDateValid(true);
-        _paymentController.isCvvValid(true);
-        var month = '';
-        var year = '';
-        month = _cardDate.text.substring(0, 2);
-        year = _cardDate.text.substring(3, 5);
-        // if (widget.type == "hospitality") {
-        //   checkHospitality(false);
-        // }
-        invoice = await _paymentController.creditCardPayment(
-            context: context,
-            creditCard: CreditCard(
-                name: _cardHolder.text,
-                number: _cardNumber.text,
-                cvc: _cardCvv.text,
-                month: month,
-                year: year),
-            invoiceValue: widget.price);
-        if (invoice != null) {
-          switch (widget.type) {
-            case 'adventure':
-              adventureBooking(invoice!);
-              break;
-            case 'tour':
-              tourBooking(invoice!);
-              break;
-            case 'hospitality':
-              hospitalityBooking(invoice!);
-
-              break;
-            case 'event':
-              eventBooking(invoice!);
-              break;
-            default:
-          }
+        invoice = await _paymentController.paymentGateway(
+          context: context,
+          language: AppUtil.rtlDirection2(context) ? 'AR' : 'EN',
+          paymentMethod: 'VISA_MASTER',
+          price: widget.price,
+        );
+        if (widget.type == "hospitality") {
+          check = await checkHospitality(false);
         }
+        log('before success');
+        log(check.toString());
+        if (widget.type == 'hospitality') {
+          if (check) {
+            paymentWebView();
+          }
+        } else {
+          paymentWebView();
+        }
+        log('after success');
         break;
       default:
         AppUtil.errorToast(context, 'Must pick methoed');
-    }
-  }
-
-  void creditValidaiotn() {
-    //for fileds validation
-    if (_cardHolder.text.isEmpty) {
-      _paymentController.isNameValid(false);
-    }
-    if (_cardNumber.text.isEmpty) {
-      _paymentController.isCardNumberValid(false);
-    }
-    if (_cardDate.text.isEmpty) {
-      _paymentController.isDateValid(false);
-    }
-    if (_cardCvv.text.isEmpty) {
-      _paymentController.isCvvValid(false);
-    }
-    if (_cardCvv.text.isEmpty ||
-        _cardHolder.text.isEmpty ||
-        _cardDate.text.isEmpty ||
-        _cardNumber.text.isEmpty) {
-      AppUtil.errorToast(context, 'must fill all fields');
-      return;
     }
   }
 
@@ -432,6 +389,7 @@ class _PaymentTypeState extends State<PaymentType> {
 
       Get.to(() => TicketDetailsScreen(
           booking: fetchedBooking,
+          
           icon: SvgPicture.asset('assets/icons/place.svg'),
           bookTypeText: 'place'));
     });
@@ -844,16 +802,6 @@ class _PaymentTypeState extends State<PaymentType> {
                     ),
                   ],
                 ),
-                SizedBox(
-                  height: width * 0.030,
-                ),
-                if (_selectedPaymentMethod == PaymentMethod.creditCard)
-                  CreditForm(
-                      paymentController: _paymentController,
-                      cardHolder: _cardHolder,
-                      cardDate: _cardDate,
-                      cardNumber: _cardNumber,
-                      cardCvv: _cardCvv),
               ],
             ),
           ),

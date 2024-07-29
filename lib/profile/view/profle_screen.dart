@@ -61,6 +61,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
+
     return Obx(
       () => _profileController.isProfileLoading.value
           ? const Scaffold(
@@ -206,13 +207,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 );
                               },
                             ),
-                          // CustomListTile(
-                          //   title: "bookmark".tr,
-                          //   leading: "assets/icons/bookmark_icon.svg",
-                          //   onTap: () async {
-                          //     Get.to(() => const BookmarkScreen());
-                          //   },
-                          // ),
+                          CustomListTile(
+                            title: "bookmark".tr,
+                            leading: "assets/icons/bookmark_icon.svg",
+                            onTap: () async {
+                              Get.to(() => const BookmarkScreen());
+                            },
+                          ),
                         ],
                       ),
                       const Padding(

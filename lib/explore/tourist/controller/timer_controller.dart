@@ -26,6 +26,7 @@ class TimerController extends GetxController {
     }
     super.onClose();
   }
+  
 
   _startTimer(int seconds) {
     const duration = Duration(seconds: 1);

@@ -115,12 +115,18 @@ class Booking {
 class GuestInfo {
   final int female;
   final int male;
+  final int guestNumber;
   final String dayId;
 
-  GuestInfo({required this.female, required this.male, required this.dayId});
+  GuestInfo(
+      {required this.female,
+      required this.male,
+      required this.dayId,
+      required this.guestNumber});
 
   factory GuestInfo.fromJson(Map<String, dynamic> json) {
     return GuestInfo(
+      guestNumber: json['guestNumber'],
       female: json['female'] ?? 0,
       male: json['male'] ?? 0,
       dayId: json['dayId'] ?? '',

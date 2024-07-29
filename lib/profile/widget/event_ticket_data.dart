@@ -200,7 +200,7 @@ class _EventTicketDataState extends State<EventTicketData> {
               Text(
                 widget.event == null
                     ? '${widget.booking?.guestNumber} ${'person'.tr}'
-                    : '${widget.event!.booking!.last.guestNumber} ${'person'.tr}',
+                    : '${widget.event!.booking!.first.guestInfo!.guestNumber} ${'person'.tr}',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color(0xFF111113),
