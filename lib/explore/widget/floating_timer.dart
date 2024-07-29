@@ -13,37 +13,8 @@ class FloatingTimer extends StatefulWidget {
   State<FloatingTimer> createState() => _FloatingTimerState();
 }
 
-class _FloatingTimerState extends State<FloatingTimer>
-    with WidgetsBindingObserver {
+class _FloatingTimerState extends State<FloatingTimer> {
   final _timerController = Get.put(TimerController(), permanent: true);
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addObserver(this);
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.paused) {
-      // App is going to the background
-      log('App is paused');
-      // Save state here
-    } else if (state == AppLifecycleState.resumed) {
-      // App is coming to the foreground
-      log('App is resumed');
-      // Restore state here
-    } else if (state == AppLifecycleState.detached) {
-      // App is detached
-      log('App is detached');
-      // Perform cleanup if necessary
-    }
-  }
 
   @override
   Widget build(BuildContext context) {

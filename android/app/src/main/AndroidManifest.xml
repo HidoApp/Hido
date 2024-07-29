@@ -1,4 +1,7 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+>
+   
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
@@ -11,7 +14,11 @@
    <application
         android:label="Hido هايدو"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+         tools:replace="android:label"
+         >
+        
+
         <meta-data 
           android:name="com.google.android.geo.API_KEY"
           android:value="AIzaSyDEu_YVaJqld6W7TLKpEgm69opRNILPzl4"
@@ -32,7 +39,6 @@
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
               />
-              
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -43,6 +49,13 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+            <service
+    android:name=".MyForegroundService"
+    android:enabled="true"
+    android:exported="true"
+    android:foregroundServiceType="location|dataSync">
+</service>
+
 
         <receiver android:exported="false" android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver" />
         <receiver android:exported="false" android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver">
