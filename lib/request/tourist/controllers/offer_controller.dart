@@ -112,25 +112,18 @@ class OfferController extends GetxController {
   }
 
   RxList<bool> checkedList = <bool>[].obs;
-
   getCheckedList(int? index, bool checked) {
-    log("checkedList[index!].toString()");
     if (index == null) {
-      log("index nulll");
       checkedList.value = List.generate(
-
           offerDetails.value.schedule?.length ?? 0, (index) => true);
-        updateScheduleList = List<Schedule>.generate(
-        offerDetails.value.schedule?.length??0,
+      updateScheduleList = List<Schedule>.generate(
+        offerDetails.value.schedule?.length ?? 0,
         (index) => offerDetails.value.schedule![index],
-      
       );
       print("data");
-      print(  updateScheduleList[0].scheduleName);
-            print(  updateScheduleList[1].scheduleName);
-                  print(  updateScheduleList[2].scheduleName);
-
-
+      print(updateScheduleList[0].scheduleName);
+      print(updateScheduleList[1].scheduleName);
+      print(updateScheduleList[2].scheduleName);
     } else {
       checkedList[index] = checked;
     }
@@ -167,31 +160,27 @@ class OfferController extends GetxController {
     // Update total price
     totalPrice.value = total;
     print('Final total price: ${totalPrice.value}');
-
-
-}
-  
-  List<Schedule> updateScheduleList = <Schedule>[].obs; 
-  RxBool scheduleState = false.obs;
- void checkTotal(int index, bool check) {
-  List<Schedule>? scheduleList = offerDetails.value.schedule;
-  if (scheduleList == null || index < 0 || index >= scheduleList.length) {
-    return;
   }
 
-  Schedule schedule = scheduleList[index];
-  if (check) {
+  List<Schedule> updateScheduleList = <Schedule>[].obs;
+  RxBool scheduleState = false.obs;
+  void checkTotal(int index, bool check) {
+    List<Schedule>? scheduleList = offerDetails.value.schedule;
+    if (scheduleList == null || index < 0 || index >= scheduleList.length) {
+      return;
+    }
+
+    Schedule schedule = scheduleList[index];
+    if (check) {
       totalPrice += schedule.price ?? 0;
       print("Before add");
       print(updateScheduleList.length);
       if (index < updateScheduleList.length) {
         updateScheduleList.insert(index, schedule);
-                      scheduleState.value=false;
-
+        scheduleState.value = false;
       } else {
-                updateScheduleList.add(schedule);
-              scheduleState.value=false;
-
+        updateScheduleList.add(schedule);
+        scheduleState.value = false;
       }
       print("After add");
       print(updateScheduleList.length);
@@ -200,39 +189,20 @@ class OfferController extends GetxController {
       print("Before remove");
       print(updateScheduleList.length);
       if (index < updateScheduleList.length) {
-
         updateScheduleList.removeAt(index);
-        
       } else {
-        
-      updateScheduleList.removeLast();
-      if(updateScheduleList.isEmpty){
-        scheduleState.value=true;
-      }
-
+        updateScheduleList.removeLast();
+        if (updateScheduleList.isEmpty) {
+          scheduleState.value = true;
+        }
       }
       print("After remove");
-            print(updateScheduleList.length);
-
-
-
-    }
-
-  // Update the checked status in the list
-  checkedList[index] = check;
-  print(check);
-
-    Schedule schedule = scheduleList[index];
-    if (check) {
-      totalPrice += schedule.price ?? 0;
-    } else {
-      totalPrice -= schedule.price ?? 0;
+      print(updateScheduleList.length);
     }
 
     // Update the checked status in the list
     checkedList[index] = check;
-    log("checkd list");
-    log(checkedList.length.toString());
+    print(check);
 
     // Notify listeners of the changes
     update();
