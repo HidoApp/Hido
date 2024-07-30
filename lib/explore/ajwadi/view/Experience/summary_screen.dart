@@ -400,7 +400,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
       return DateFormat('d MMMM yyyy', 'ar').format(dateTime);
     } else {
       // Default to English locale
-      return DateFormat('d MMMM yyyy').format(dateTime);
+      return DateFormat('E dd MMM yyyy').format(dateTime);
     }
   }
 }

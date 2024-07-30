@@ -309,7 +309,7 @@ static Future<List<Experience>?> getAllExperiences(
     print("response.statusCode Profile ");
     print(response.statusCode);
     print(response.body);
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 && response.body.isNotEmpty) {
       var trip = jsonDecode(response.body);
       print(trip);
       return NextActivity.fromJson(trip);

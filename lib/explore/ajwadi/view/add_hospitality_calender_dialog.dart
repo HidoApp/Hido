@@ -64,6 +64,17 @@ class _HostCalenderDialogState extends State<HostCalenderDialog> {
 
   @override
   Widget build(BuildContext context) {
+    // Convert the initial selected date from String to DateTime
+    DateTime? initialSelectedDate;
+    if (widget.type == 'adv' && widget.advController != null) {
+      if (widget.advController!.isAdventureDateSelcted.value) {
+        initialSelectedDate = DateTime.tryParse(widget.advController!.selectedDate.value);
+      }
+    } else if (widget.srvicesController != null) {
+      if (widget.srvicesController!.isHospatilityDateSelcted.value) {
+        initialSelectedDate = DateTime.tryParse(widget.srvicesController!.selectedDate.value);
+      }
+    }
     final width = MediaQuery.of(context).size.width;
     return AlertDialog(
       backgroundColor: Colors.white,
@@ -92,6 +103,7 @@ class _HostCalenderDialogState extends State<HostCalenderDialog> {
                 ),
                 alignment: Alignment.bottomRight,
                 child: SfDateRangePicker(
+                  initialSelectedDate:initialSelectedDate==null? null:initialSelectedDate,
                  backgroundColor: Colors.white,
                   minDate: DateTime.now(),
                   enablePastDates: false,

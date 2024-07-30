@@ -404,6 +404,6 @@ String formatBookingDate(BuildContext context, String date) {
     return intel.DateFormat('EEEE، d MMMM yyyy', 'ar').format(dateTime);
   } else {
     // Default to English locale
-    return intel.DateFormat('EEEE, d MMMM yyyy').format(dateTime);
+    return intel.DateFormat('E dd MMM yyyy').format(dateTime);
   }
 }

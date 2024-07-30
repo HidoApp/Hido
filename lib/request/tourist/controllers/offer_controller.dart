@@ -96,11 +96,11 @@ class OfferController extends GetxController {
   var isBookingCancel = false.obs;
 
   Future<bool?> bookingCancel(
-      {required BuildContext context, required String bookingId}) async {
+      {required BuildContext context, required String bookingId,required String type,String? reason}) async {
     try {
       isBookingCancelLoading(true);
       final data = await OfferService.bookingCancel(
-          context: context, bookingId: bookingId);
+          context: context, bookingId: bookingId,type: type,reason: reason);
       isBookingCancel(data ?? false);
       return isBookingCancel.value;
     } catch (e) {

@@ -107,7 +107,8 @@ class CancelBookingDialog extends StatelessWidget {
                       bool bookingCancel =
                           await offerController.bookingCancel(
                               context: context,
-                              bookingId: booking!.id!) ??
+                              bookingId: booking!.id!,
+                              type: 'PLACE') ??
                           false;
                       if (bookingCancel) {
                         if (context.mounted) {

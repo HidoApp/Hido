@@ -38,12 +38,6 @@ print(";lkjhgfd");
 
         Get.to(() =>
 
-            // ChatScreenLive(
-            //   offerController: Get.put(OfferController()),
-            //     chatId: chatModel.id,
-            //     booking: chatModel.booking!,
-            //     requestController: Get.put(RequestController()),
-            //     isAjwadi: chatModel.localInChat == null ? true : false)
 
             ChatScreen(
                 chatId: chatModel.id,

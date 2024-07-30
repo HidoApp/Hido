@@ -590,5 +590,9 @@ const localeEn = {
   "noExpertise":"There are no expertise yet",
   "noAbout":"There are no informations yet",
   "NoReview":"There are no reviews yet",
+  'eventDetailsSub':"Get to join the locals in their cultural events",
+  "saudiEvent": 'saudiEvent',
+
+
   
 };

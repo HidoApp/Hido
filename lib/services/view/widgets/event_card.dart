@@ -6,6 +6,7 @@ import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 
 class EventCardItem extends StatefulWidget {
@@ -36,6 +37,44 @@ class EventCardItem extends StatefulWidget {
 
 class _EventCardItemState extends State<EventCardItem> {
   final _eventController = Get.put(EventController());
+  Future<String> _getAddressFromLatLng(
+      double position1, double position2) async {
+    try {
+      List<Placemark> placemarks =
+          await placemarkFromCoordinates(position1, position2);
+      print(placemarks);
+
+      if (placemarks.isNotEmpty) {
+        Placemark placemark = placemarks.first;
+        print(placemarks.first);
+        return '${placemark.locality}, ${placemark.subLocality}';
+      }
+    } catch (e) {
+      print("Error retrieving address: $e");
+    }
+    return '';
+  }
+
+  Future<void> _fetchAddress(String position1, String position2) async {
+    try {
+      String result = await _getAddressFromLatLng(
+          double.parse(position1), double.parse(position2));
+      setState(() {
+        _eventController.address.value = result;
+      });
+    } catch (e) {
+      // Handle error if necessary
+      print('Error fetching address: $e');
+    }
+  }
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.lang!.isNotEmpty && widget.lang!.isNotEmpty)
+      _fetchAddress(widget.lang!, widget.long!);
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -127,8 +166,9 @@ class _EventCardItemState extends State<EventCardItem> {
                             width: width * 0.02,
                           ),
                           CustomText(
-                            text: AppUtil.formatSelectedDaysInfo(
-                                widget.daysInfo, context),
+                            text: '',
+                            // AppUtil.formatSelectedDaysInfo(
+                            //     widget.daysInfo, context),
                             fontFamily: AppUtil.rtlDirection2(context)
                                 ? 'SF Arabic'
                                 : 'SF Pro',

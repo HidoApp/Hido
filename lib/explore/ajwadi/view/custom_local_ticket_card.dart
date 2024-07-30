@@ -283,7 +283,7 @@ print(currentTime.isAtSameMomentAs(timeToGo));
                                           if (!_tripController
                                               .isActivityProgressLoading
                                               .value) {
-                                            if (updatedValue == []) {
+                                            if (updatedValue!.isEmpty) {
                                               print("this is widget book");
                                             } else {
                                               print('this the value');
@@ -291,10 +291,10 @@ print(currentTime.isAtSameMomentAs(timeToGo));
                                                       .progress.value +
                                                   0.25));
 
-                                              updateStepss(updatedValue!
+                                              updateStepss(updatedValue
                                                       .activityProgress ??
                                                   '');
-                                              if (updatedValue!
+                                              if (updatedValue
                                                       .activityProgress ==
                                                   'COMPLETED') {
                                                 log("End Trip Taped ${widget.nextTrip!.id}");
@@ -319,8 +319,14 @@ print(currentTime.isAtSameMomentAs(timeToGo));
                                                       )
                                                       .then((value) =>
                                                           setState(() {
+                                                         
+                                                             if(value == null){
+                                                              _tripController.nextTrip= NextActivity();
+                                                            }
+                                                            else{
                                                             widget.nextTrip =
                                                                 value;
+                                                            }
                                                             _tripController
                                                                     .nextStep
                                                                     .value =

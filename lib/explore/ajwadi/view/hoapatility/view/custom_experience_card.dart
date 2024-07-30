@@ -21,31 +21,27 @@ import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest_all.dart' as tz;
 
 class CustomExperienceCard extends StatelessWidget {
-  const CustomExperienceCard({super.key, required this.experience,this.type});
-
+  const CustomExperienceCard({super.key, required this.experience, this.type});
 
   final experience;
   final String? type;
 
-   
-   
-   
-bool isDateBefore24Hours() {
-   final String timeZoneName = 'Asia/Riyadh';
-  late tz.Location location;
-  
-  tz.initializeTimeZones();
+  bool isDateBefore24Hours() {
+    final String timeZoneName = 'Asia/Riyadh';
+    late tz.Location location;
+
+    tz.initializeTimeZones();
     location = tz.getLocation(timeZoneName);
     DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
-     DateTime parsedDate = type=='hospitality' || type=='event'? DateTime.parse(experience.daysInfo.first.startTime): DateTime.parse(experience.date);
-    Duration difference =  parsedDate.difference(currentDateInRiyadh);
+    DateTime parsedDate = type == 'hospitality' || type == 'event'
+        ? DateTime.parse(experience.daysInfo.first.startTime)
+        : DateTime.parse(experience.date);
+    Duration difference = parsedDate.difference(currentDateInRiyadh);
     print('this deffrence');
     print(difference);
     return difference.inHours <= 24;
   }
 
-
-  
   @override
   Widget build(BuildContext context) {
     final TouristExploreController _touristExploreController =
@@ -55,13 +51,7 @@ bool isDateBefore24Hours() {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return InkWell(
-      onTap:
-         
-               () {
-                      
-                      
-                },
-        
+      onTap: () {},
       child: Container(
         width: 334,
         height: 120,
@@ -98,14 +88,20 @@ bool isDateBefore24Hours() {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SvgPicture.asset('assets/icons/Summary.svg',width: 20,height: 20,),
+                      SvgPicture.asset(
+                        'assets/icons/Summary.svg',
+                        width: 20,
+                        height: 20,
+                      ),
                       const SizedBox(width: 8),
                       Text(
-                         '#${experience.id.substring(0, 7)}',
+                        '#${experience.id.substring(0, 7)}',
                         style: TextStyle(
                           color: borderGrey,
                           fontSize: 15,
-                          fontFamily:AppUtil.rtlDirection2(context)? 'SF Arabic': 'SF Pro',
+                          fontFamily: AppUtil.rtlDirection2(context)
+                              ? 'SF Arabic'
+                              : 'SF Pro',
                           fontWeight: FontWeight.w500,
                           height: 0,
                         ),
@@ -123,18 +119,19 @@ bool isDateBefore24Hours() {
                         child: ClipRRect(
                           borderRadius:
                               const BorderRadius.all(Radius.circular(6.57)),
-                          child: type=='hospitality'?
-                          Image.network(
-                            experience.images[0],
-                            height: height * 0.06,
-                            width: width * 0.144,
-                            fit: BoxFit.cover,
-                          ):Image.network(
-                            experience.image[0],
-                            height: height * 0.06,
-                            width: width * 0.144,
-                            fit: BoxFit.cover,
-                          ),
+                          child: type == 'hospitality'
+                              ? Image.network(
+                                  experience.images[0],
+                                  height: height * 0.06,
+                                  width: width * 0.144,
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.network(
+                                  experience.image[0],
+                                  height: height * 0.06,
+                                  width: width * 0.144,
+                                  fit: BoxFit.cover,
+                                ),
                         ),
                       ),
                       SizedBox(
@@ -153,102 +150,112 @@ bool isDateBefore24Hours() {
                                 children: [
                                   CustomText(
                                     text: AppUtil.rtlDirection2(context)
-                                        ? type=='hospitality'? experience.titleAr:experience.nameAr
-                                        : type=='hospitality'? experience.titleEn:experience.nameEn,
+                                        ? type == 'hospitality'
+                                            ? experience.titleAr
+                                            : experience.nameAr
+                                        : type == 'hospitality'
+                                            ? experience.titleEn
+                                            : experience.nameEn,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600,
                                     fontFamily: AppUtil.rtlDirection2(context)
                                         ? 'SF Pro'
                                         : 'SF Arabic',
                                   ),
-
-                            if(experience.status=='DELETED')
-
-                            Row(
-                                children: [
-                                  CustomText(
-                                    text: 
-                                  type=='hospitality'||type=='event'?  formatBookingDate(context,
-                                        experience.daysInfo.first.startTime):formatBookingDate(context,
-                                        experience.date),
-                                    fontSize: 12,
-                                    fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic': 'SF Pro',
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(0xFFB9B8C1),
-                                 
-                                  ),
+                                  if (experience.status == 'DELETED')
+                                    Row(
+                                      children: [
+                                        CustomText(
+                                          text: type == 'hospitality' ||
+                                                  type == 'event'
+                                              ? formatBookingDate(
+                                                  context,
+                                                  experience
+                                                      .daysInfo.first.startTime)
+                                              : formatBookingDate(
+                                                  context, experience.date),
+                                          fontSize: 12,
+                                          fontFamily:
+                                              AppUtil.rtlDirection2(context)
+                                                  ? 'SF Arabic'
+                                                  : 'SF Pro',
+                                          fontWeight: FontWeight.w600,
+                                          color: Color(0xFFB9B8C1),
+                                        ),
+                                      ],
+                                    ),
                                 ],
                               ),
-                                  
-                                ],
-                              ),
-
                               Row(
                                 children: [
-                                //  if(hospitality.status!='DELETED')
+                                  //  if(hospitality.status!='DELETED')
 
                                   CustomText(
-                                    text:experience.status!='DELETED'?type=='hospitality'||type=='event' ?formatBookingDate(context,
-                                        experience.daysInfo.first.startTime):formatBookingDate(context,
-                                        experience.date):'',
+                                    text: experience.status != 'DELETED'
+                                        ? type == 'hospitality' ||
+                                                type == 'event'
+                                            ? formatBookingDate(
+                                                context,
+                                                experience
+                                                    .daysInfo.first.startTime)
+                                            : formatBookingDate(
+                                                context, experience.date)
+                                        : '',
                                     fontSize: 12,
-                                     fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic': 'SF Pro',
-
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
                                     fontWeight: FontWeight.w600,
                                     color: colorGreen,
                                   ),
                                 ],
                               ),
-
                             ],
                           ),
                         ),
-
                       ),
-                      if(experience.status!='DELETED')
-                
-                            Padding(
-                              padding: const EdgeInsets.only(bottom:14),
-                              child: isDateBefore24Hours()?
-
-                             ElevatedButton(
-  onPressed: () {
-    if(type=='hospitality'){
-    Get.to(SummaryScreen(hospitalityId:experience.id));
-    }
-    else if(type=='adventure'){
-      Get.to(AdventureSummaryScreen(adventureId:experience.id));
-
-    }
-    else{
-      
-     // Get.to(EventSummaryScreen(eventId:experience.id));
-
-    }
-  },
-  style: ElevatedButton.styleFrom(
-    backgroundColor:colorGreen, 
-    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(4),
-    ),
-    minimumSize: Size(100, 37), // Width and height
-  ),
-  child: Text(
-AppUtil.rtlDirection2(context)? 'ملخص':'Summary',
-    textAlign: TextAlign.center,
-    style: TextStyle(
-      color: Colors.white,
-      fontSize: 13,
-      fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic': 'SF Pro',
-
-      fontWeight: FontWeight.w600,
-    ),
-  ),
-):Container(),
-                            ),
-                            
-
+                      if (experience.status != 'DELETED')
+                        isDateBefore24Hours()
+                            ? Padding(
+                                padding: const EdgeInsets.only(bottom: 14),
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    if (type == 'hospitality') {
+                                      Get.to(SummaryScreen(
+                                          hospitalityId: experience.id));
+                                    } else if (type == 'adventure') {
+                                      Get.to(AdventureSummaryScreen(
+                                          adventureId: experience.id));
+                                    } else {
+                                      // Get.to(EventSummaryScreen(eventId:experience.id));
+                                    }
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: colorGreen,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16, vertical: 8),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                    minimumSize:
+                                        Size(100, 37), // Width and height
+                                  ),
+                                  child: Text(
+                                    AppUtil.rtlDirection2(context)
+                                        ? 'ملخص'
+                                        : 'Summary',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 13,
+                                      fontFamily: AppUtil.rtlDirection2(context)
+                                          ? 'SF Arabic'
+                                          : 'SF Pro',
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ))
+                            : Container(),
                     ],
                   ),
                 ),

@@ -93,7 +93,7 @@ class TicketDetailsScreen extends StatelessWidget {
                // const Expanded(child: SizedBox()), // Takes up remaining space
              
           
-          
+          if(booking!=null)...[
            Spacer(),
             Row(
               mainAxisSize: MainAxisSize.min,
@@ -114,7 +114,7 @@ class TicketDetailsScreen extends StatelessWidget {
                             isScrollControlled: true,
                             builder: (BuildContext context) {
                              
-                            return CancleSheet();
+                            return CancelSheet(bookId: booking!.id??'',type: booking!.bookingType??'');
                             },
                           );
                         },
@@ -256,6 +256,7 @@ class TicketDetailsScreen extends StatelessWidget {
               ),
             ],
           ),
+          ],
            ],
             ),
           ),

@@ -188,7 +188,7 @@ class OfferService {
    */
 
   static Future<bool?> bookingCancel(
-      {required BuildContext context, required String bookingId}) async {
+      {required BuildContext context, required String bookingId,required String type,String? reason}) async {
     log("jwtToken");
     final getStorage = GetStorage();
     String token = getStorage.read('accessToken');
@@ -205,14 +205,21 @@ class OfferService {
       }
     }
 
+ Map<String, dynamic> body = {
+      "reason": reason
+    };
+    print(body);
     final response = await http.post(
-      Uri.parse('$baseUrl/booking/cancel/$bookingId'),
+      Uri.parse('$baseUrl/booking/cancel/$bookingId').replace(queryParameters: {
+        'type': type,
+      }),
       headers: {
         'Accept': 'application/json',
         "Content-Type": "application/json",
         'Authorization': 'Bearer $token',
       },
-      body: json.encode({}),
+       body: jsonEncode(body)
+
     );
     print("response.statusCode");
     print(response.statusCode);

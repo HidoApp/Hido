@@ -6,6 +6,7 @@ import 'package:ajwad_v4/explore/ajwadi/services/location_service.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geocoding/geocoding.dart';
@@ -40,6 +41,41 @@ class _AddLocationState extends State<AddLocation> {
   Set<Marker> _markers = {};
   LatLng _currentLocation = const LatLng(24.7136, 46.6753);
 
+final List<String> genderItems = [
+    'Male',
+    'Female',
+  ];
+  final List<String> regionListEn = [
+    "Riyadh",
+    "Mecca",
+    "Medina",
+    "Dammam",
+    "Qassim",
+    "Hail",
+    "Northern Borders",
+    "Jazan",
+    "Asir",
+    "Tabuk",
+    "Najran",
+    "Al Baha",
+    "Al Jouf"
+  ];
+
+  final List<String> regionListAr = [
+    "الرياض",
+    "مكة",
+    "المدينة",
+    "الدمام",
+    "القصيم",
+    "حائل",
+    "الحدود الشمالية",
+    "جازان",
+    "عسير",
+    "تبوك",
+    "نجران",
+    "الباحة",
+    "الجوف"
+  ];
 
   void addCustomIcon() {
     BitmapDescriptor.fromAssetImage(
@@ -176,69 +212,8 @@ class _AddLocationState extends State<AddLocation> {
               : TextDirection.ltr,
           child: Column(
             children: [
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                   
-                    Container(
-                      width: double.infinity,
-                      height: 48,
-                      decoration: ShapeDecoration(
-                        color: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(width: 1, color: Color(0xFFB9B8C1)),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 10),
-                          child: _isLoading
-                            ? Align(
-                              alignment: Alignment.topLeft,
-                              child: Container()
-                              )
-                            :  TextField(
-                                controller: widget.textField1Controller,
-                                enabled:false,
-
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 15,
-                                  fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                decoration: InputDecoration(
-                                  hintText: address,
-                                  hintStyle: TextStyle(
-                                    color: Color(0xFFB9B8C1),
-                                    fontSize: 15,
-                                    fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                    borderSide: BorderSide.none,
-                                  ),
-                                  prefixIcon: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 10.0, right: 10, bottom: 14),
-                                    child: SvgPicture.asset(
-                                      'assets/icons/map_pin.svg',
-                                      color: Color(0xFFB9B8C1),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 3),
+              
+              SizedBox(height: 20),
               Stack(
                 children: [
                   ClipRRect(
@@ -248,7 +223,7 @@ class _AddLocationState extends State<AddLocation> {
                         color: almostGrey.withOpacity(0.2),
                         borderRadius: BorderRadius.all(Radius.circular(12)),
                       ),
-                       height: AppUtil.rtlDirection2(context)? height*0.57:height*0.57,
+                       height: AppUtil.rtlDirection2(context)? height*0.54:height*0.54,
                       width: double.infinity,
                       child: _currentPosition == null
                     ? Center(child: CircularProgressIndicator.adaptive())
@@ -327,6 +302,169 @@ class _AddLocationState extends State<AddLocation> {
                     ),
                   ),
                 ],
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    DropdownButtonHideUnderline(
+                      child: DropdownButtonFormField2<String>(
+                        isExpanded: true,
+                        value: _AdventureController.ragionAr.isEmpty ||
+                                _AdventureController.ragionEn.isEmpty
+                            ? null
+                            : AppUtil.rtlDirection2(context)
+                                ?  _AdventureController.ragionAr.value
+                                :_AdventureController.ragionEn.value,
+                        decoration: InputDecoration(
+                          focusedBorder: const OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 1, color: Graytext)),
+                          enabledBorder: const OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 1, color: Graytext)),
+                          contentPadding:
+                              const EdgeInsets.symmetric(vertical: 16),
+                          border: OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(width: 1, color: Graytext),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        hint: Text(
+                          AppUtil.rtlDirection2(context)
+                              ? "اختر المنطقة"
+                              : 'Choose your Region',
+                          style: TextStyle(
+                            color: Graytext,
+                            fontSize: 14,
+                            fontFamily: AppUtil.rtlDirection2(context)
+                                ? 'SF Arabic'
+                                : 'SF Pro',
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        items: AppUtil.rtlDirection2(context)
+                            ? regionListAr
+                                .map((item) => DropdownMenuItem<String>(
+                                      value: item,
+                                      child: Text(
+                                        item,
+                                        style: TextStyle(
+                                          color: black,
+                                          fontSize: 15,
+                                          fontFamily:
+                                              AppUtil.rtlDirection2(context)
+                                                  ? 'SF Arabic'
+                                                  : 'SF Pro',
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ))
+                                .toList()
+                            : regionListEn
+                                .map((item) => DropdownMenuItem<String>(
+                                      value: item,
+                                      child: Text(
+                                        item,
+                                        style: TextStyle(
+                                          color: black,
+                                          fontSize: 15,
+                                          fontFamily:
+                                              AppUtil.rtlDirection2(context)
+                                                  ? 'SF Arabic'
+                                                  : 'SF Pro',
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ))
+                                .toList(),
+                        validator: (value) {
+                          if (value == null) {
+                            return 'Please select gender.';
+                          }
+                          return null;
+                        },
+                        onChanged: (value) {
+                          if (AppUtil.rtlDirection2(context)) {
+                         _AdventureController.ragionAr.value = value.toString();
+
+                            int index = regionListAr.indexOf(value.toString());
+
+                            if (index != -1 && index < regionListEn.length) {
+                             _AdventureController.ragionEn.value =
+                                  regionListEn[index];
+                            }
+                          } else {
+                          _AdventureController.ragionEn.value = value.toString();
+
+                            int index = regionListEn.indexOf(value.toString());
+
+                            if (index != -1 && index < regionListAr.length) {
+                           _AdventureController.ragionAr.value =
+                                  regionListAr[index];
+                            }
+                          }
+                          print(_AdventureController.ragionAr.value);
+                          print(_AdventureController.ragionEn.value);
+                        },
+                        onSaved: (value) {
+                          if (AppUtil.rtlDirection2(context)) {
+                           _AdventureController.ragionAr.value = value.toString();
+
+                            int index = regionListAr.indexOf(value.toString());
+
+                            if (index != -1 && index < regionListEn.length) {
+                             _AdventureController.ragionEn.value =
+                                  regionListEn[index];
+                            }
+                          } else {
+                           _AdventureController.ragionEn.value = value.toString();
+
+                            int index = regionListEn.indexOf(value.toString());
+
+                            if (index != -1 && index < regionListAr.length) {
+                           _AdventureController.ragionAr.value =
+                                  regionListAr[index];
+                            }
+                          }
+                          print(_AdventureController.ragionAr.value);
+                          print(_AdventureController.ragionEn.value);
+                        },
+                        buttonStyleData: const ButtonStyleData(
+                          padding: EdgeInsets.only(right: 8),
+                        ),
+                        iconStyleData: const IconStyleData(
+                          icon: Icon(
+                            Icons.keyboard_arrow_down_outlined,
+                            color: Graytext,
+                          ),
+                          iconSize: 24,
+                        ),
+                        dropdownStyleData: DropdownStyleData(
+                          maxHeight: 100,
+                          decoration: BoxDecoration(),
+                          scrollbarTheme: ScrollbarThemeData(
+                            radius: const Radius.circular(40),
+                            thickness: MaterialStateProperty.all(8),
+                            thumbVisibility: MaterialStateProperty.all(true),
+                            thumbColor:
+                                MaterialStateProperty.all(starGreyColor),
+                            trackColor:
+                                MaterialStateProperty.all(lightGreyColor),
+                            trackVisibility: MaterialStateProperty.all(true),
+                          ),
+                        ),
+                        menuItemStyleData: const MenuItemStyleData(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

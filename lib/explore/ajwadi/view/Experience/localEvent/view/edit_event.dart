@@ -27,6 +27,7 @@ import 'package:ajwad_v4/services/view/widgets/service_profile_card.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
+import 'package:ajwad_v4/widgets/custom_succes_dialog.dart';
 import 'package:ajwad_v4/widgets/custom_policy_sheet.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/floating_booking_button.dart';
@@ -74,10 +75,10 @@ class _EditEventState extends State<EditEvent> {
 
   final TextEditingController eventTitleControllerAr = TextEditingController();
   final TextEditingController eventBioControllerAr = TextEditingController();
+  TextEditingController _textField1Controller = TextEditingController();
 
   String address = '';
-  String ragionAr = '';
-  String ragionEn = '';
+  
 
   BitmapDescriptor markerIcon = BitmapDescriptor.defaultMarker;
   void addCustomIcon() {
@@ -129,10 +130,8 @@ class _EditEventState extends State<EditEvent> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    //    initializeDateFormatting(); //very important
 
-    addCustomIcon();
-    //getHospitalityById();
+    //addCustomIcon();
 
     _servicesController.isEventDateSelcted(false);
     _servicesController.selectedDate('');
@@ -156,22 +155,22 @@ class _EditEventState extends State<EditEvent> {
       if (placemarks.isNotEmpty) {
         Placemark placemark = placemarks.first;
         print(placemarks.first);
-        setState(() {
-          if (AppUtil.rtlDirection2(context)) {
-            ragionAr = placemark.locality!;
-            ragionEn = 'Riyadh';
-          } else {
-            ragionAr = 'الرياض';
-            ragionEn = placemark.locality!;
-          }
-          if (!regionListEn.contains(ragionEn) ||
-              !regionListAr.contains(ragionAr)) {
-            setState(() {
-              ragionAr = 'الرياض';
-              ragionEn = 'Riyadh';
-            });
-          }
-        });
+        // setState(() {
+        //   if (AppUtil.rtlDirection2(context)) {
+        //     ragionAr = placemark.locality!;
+        //     ragionEn = 'Riyadh';
+        //   } else {
+        //     ragionAr = 'الرياض';
+        //     ragionEn = placemark.locality!;
+        //   }
+        //   if (!regionListEn.contains(ragionEn) ||
+        //       !regionListAr.contains(ragionAr)) {
+        //     setState(() {
+        //       ragionAr = 'الرياض';
+        //       ragionEn = 'Riyadh';
+        //     });
+        //   }
+        // });
         return '${placemark.locality}, ${placemark.subLocality}, ${placemark.country}';
       }
     } catch (e) {
@@ -242,7 +241,7 @@ class _EditEventState extends State<EditEvent> {
       var newEntry = {
         "startTime": formatter.format(newStartTime),
         "endTime": formatter.format(newEndTime),
-        "seats": guestNum
+        "seats": _servicesController.seletedSeat.value
       };
 
       DaysInfo.add(newEntry);
@@ -263,7 +262,7 @@ class _EditEventState extends State<EditEvent> {
       _selectedLanguageIndex =
           (titleArEmpty || bioArEmpty) && !(titleENEmpty && bioEnEmpty) ? 0 : 1;
 
-      guestEmpty = guestNum == 0;
+      guestEmpty = _textField1Controller.text.isEmpty ||_servicesController.seletedSeat.value.toString()=='0';
 
       DateErrorMessage = !_servicesController.isEventDateSelcted.value;
       TimeErrorMessage = !_servicesController.isEventTimeSelcted.value;
@@ -318,20 +317,20 @@ class _EditEventState extends State<EditEvent> {
       eventTitleControllerEn.text = widget.eventObj.nameEn!;
       eventBioControllerEn.text = widget.eventObj.descriptionEn!;
 
-      guestNum = widget.eventObj.daysInfo!.first.seats;
-
+      _textField1Controller.text = widget.eventObj.daysInfo!.first.seats.toString();
+      _servicesController.seletedSeat.value=widget.eventObj.daysInfo!.first.seats;
       newTimeToGo = DateTime.parse(widget.eventObj.daysInfo!.first.startTime);
       newTimeToReturn = DateTime.parse(widget.eventObj.daysInfo!.first.endTime);
       // _servicesController.selectedDates.value =
       //     widget.eventObj.daysInfo!;
       for (var info in widget.eventObj.daysInfo!) {
         DateTime startDateTime = DateTime.parse(info.startTime);
-        DateTime endDateTime = DateTime.parse(info.endTime);
+        // DateTime endDateTime = DateTime.parse(info.endTime);
 
         _servicesController.selectedDates.add(DateTime(
             startDateTime.year, startDateTime.month, startDateTime.day));
-        _servicesController.selectedDates.add(
-            DateTime(endDateTime.year, endDateTime.month, endDateTime.day));
+        // _servicesController.selectedDates.add(
+        //     DateTime(endDateTime.year, endDateTime.month, endDateTime.day));
       }
       _priceController.text = widget.eventObj.price.toString();
       _servicesController.isEventDateSelcted.value = true;
@@ -377,7 +376,7 @@ class _EditEventState extends State<EditEvent> {
       print("Latitude: ${_servicesController.pickUpLocLatLang.value.latitude}");
       print("Price: ${double.parse(_priceController.text)}");
       print("Images: ${widget.eventObj.image}");
-      print("Region AR: $ragionAr");
+      print("Region AR: ${widget.eventObj.regionAr}");
       print("Location: $locationUrl");
       print("Region EN: Riyadh");
       print("Start Time: ${DateFormat('HH:mm:ss').format(newTimeToGo)}");
@@ -396,9 +395,9 @@ class _EditEventState extends State<EditEvent> {
             _servicesController.pickUpLocLatLang.value.latitude.toString(),
         price: double.parse(_priceController.text),
         image: widget.eventObj.image!,
-        regionAr: ragionAr,
+        regionAr: widget.eventObj.regionAr??'',
         locationUrl: locationUrl,
-        regionEn: ragionEn,
+        regionEn:widget.eventObj.regionEn??'',
         daysInfo: DaysInfo,
         context: context,
       );
@@ -425,7 +424,12 @@ class _EditEventState extends State<EditEvent> {
                       !AppUtil.rtlDirection2(context)
                           ? "Changes have been saved successfully!"
                           : "تم حفظ التغييرات بنجاح ",
-                      style: TextStyle(fontSize: 14),
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontFamily: AppUtil.rtlDirection2(context)
+                            ? 'SF Arabic'
+                            : 'SF Pro',
+                      ),
                       textDirection: AppUtil.rtlDirection2(context)
                           ? TextDirection.rtl
                           : TextDirection.ltr,
@@ -441,9 +445,6 @@ class _EditEventState extends State<EditEvent> {
 
         print("Profile updated successfully: $result");
       } else {
-        // Get.offAll(AddExperienceInfo());
-        //Get.offAll(() => const AjwadiBottomBar());
-
         print("Profile update returned null");
       }
     } catch (e) {
@@ -459,7 +460,7 @@ class _EditEventState extends State<EditEvent> {
 
     final TextEditingController textField1Controller =
         _selectedLanguageIndex == 0
-            ? eventBioControllerAr
+            ? eventTitleControllerAr
             : eventTitleControllerEn;
 
     final TextEditingController textField2Controller =
@@ -520,7 +521,9 @@ class _EditEventState extends State<EditEvent> {
                                 fontSize: 15,
                                 fontWeight: FontWeight.w400,
                                 color: Color(0xFF41404A),
-                                text: 'You’re about to delete this experience',
+                                text: AppUtil.rtlDirection2(context)
+                                    ? "أنت على وشك حذف هذه التجربة"
+                                    : 'You’re about to delete this experience',
                                 fontFamily: 'SF Pro',
                               ),
                               const SizedBox(
@@ -599,7 +602,9 @@ class _EditEventState extends State<EditEvent> {
                                   ),
                                   child: CustomText(
                                     textAlign: TextAlign.center,
-                                    text: "Delete",
+                                    text: AppUtil.rtlDirection2(context)
+                                        ? 'حذف'
+                                        : "Delete",
                                     color: Colors.white,
                                     fontSize: 15,
                                     fontFamily: 'SF Pro',
@@ -1118,9 +1123,11 @@ class _EditEventState extends State<EditEvent> {
                                   SizedBox(
                                     height: width * 0.02,
                                   ),
-                                  ListView(
-                                    shrinkWrap: true,
+                                  Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+
                                     children: [
+                                      
                                       SizedBox(
                                         height: width * 0.012,
                                       ),
@@ -1128,9 +1135,7 @@ class _EditEventState extends State<EditEvent> {
                                         width: double.infinity,
                                         height: height * 0.063,
                                         padding: const EdgeInsets.only(
-                                          left: 15,
-                                          right: 15,
-                                        ),
+                                            left: 6, right: 6),
                                         decoration: ShapeDecoration(
                                           color: Colors.white,
                                           shape: RoundedRectangleBorder(
@@ -1143,53 +1148,42 @@ class _EditEventState extends State<EditEvent> {
                                                 BorderRadius.circular(8),
                                           ),
                                         ),
-                                        child: Row(
-                                          children: [
-                                            CustomText(
-                                              text: "guests".tr,
-                                              fontWeight: FontWeight.w400,
+                                        child: TextField(
+                                          keyboardType: TextInputType.number,
+                                          controller: _textField1Controller,
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 15,
+                                            fontFamily:
+                                                AppUtil.rtlDirection2(context)
+                                                    ? 'SF Arabic'
+                                                    : 'SF Pro',
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                          decoration: InputDecoration(
+                                            hintText: 'seatHint'.tr,
+                                            hintStyle: TextStyle(
                                               color: Graytext,
+                                              fontSize: 15,
                                               fontFamily:
                                                   AppUtil.rtlDirection2(context)
                                                       ? 'SF Arabic'
                                                       : 'SF Pro',
-                                              fontSize: 15,
-                                            ),
-                                            Spacer(),
-                                            GestureDetector(
-                                                onTap: () {
-                                                  if (guestNum > 0) {
-                                                    setState(() {
-                                                      guestNum = guestNum - 1;
-                                                    });
-                                                  }
-                                                },
-                                                child: const Icon(
-                                                    Icons
-                                                        .horizontal_rule_outlined,
-                                                    color: Graytext,
-                                                    size: 24)),
-                                            const SizedBox(
-                                              width: 15,
-                                            ),
-                                            CustomText(
-                                              text: guestNum.toString(),
-                                              color: Graytext,
-                                              fontSize: 15,
                                               fontWeight: FontWeight.w400,
                                             ),
-                                            const SizedBox(
-                                              width: 15,
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                              borderSide: BorderSide.none,
                                             ),
-                                            GestureDetector(
-                                                onTap: () {
-                                                  setState(() {
-                                                    guestNum = guestNum + 1;
-                                                  });
-                                                },
-                                                child: const Icon(Icons.add,
-                                                    color: Graytext, size: 24)),
-                                          ],
+                                          ),
+                                          onSubmitted: (newValue) {
+                                            setState(() {
+                                              _servicesController
+                                                      .seletedSeat.value =
+                                                  int.tryParse(newValue) ?? 0;
+                                            });
+                                          },
                                         ),
                                       ),
                                       if (guestEmpty)
@@ -1211,9 +1205,7 @@ class _EditEventState extends State<EditEvent> {
                                             ),
                                           ),
                                         ),
-                                      SizedBox(
-                                        height: width * 0.047,
-                                      ),
+                                   
                                     ],
                                   ),
                                 ],
@@ -1227,8 +1219,8 @@ class _EditEventState extends State<EditEvent> {
                               SizedBox(
                                 height: width * 0.077,
                               ),
-                              ListView(
-                                shrinkWrap: true,
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   SizedBox(
                                     height: width * 0.012,
@@ -1557,7 +1549,7 @@ class _EditEventState extends State<EditEvent> {
                                                             .isEventTimeSelcted(
                                                                 true);
                                                         setState(() {
-                                                           time = newTimeToGo;
+                                                          time = newTimeToGo;
 
                                                           newTimeToGo = newT;
                                                           _servicesController
@@ -1818,15 +1810,15 @@ class _EditEventState extends State<EditEvent> {
                                                               showTitleActions:
                                                                   true,
                                                               currentTime:
-                                                            newTimeToReturn,
+                                                                  newTimeToReturn,
                                                               onConfirm:
                                                                   (newT) {
                                                         _servicesController
-                                                   .isEventTimeSelcted(true);
+                                                            .isEventTimeSelcted(
+                                                                true);
 
-                                                                      
                                                         setState(() {
-                                                             returnTime =
+                                                          returnTime =
                                                               newTimeToReturn;
                                                           newTimeToReturn =
                                                               newT;
@@ -1850,7 +1842,6 @@ class _EditEventState extends State<EditEvent> {
                                                             .isEventTimeSelcted(
                                                                 true);
                                                         setState(() {
-                                                       
                                                           newTimeToReturn =
                                                               newT;
                                                           _servicesController

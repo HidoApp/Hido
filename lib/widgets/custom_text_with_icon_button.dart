@@ -45,7 +45,8 @@ class CustomTextWithIconButton extends StatelessWidget {
               CustomText(
                 text: title,
                 color: textColor,
-                fontSize: size.width * 0.04,
+                fontSize: size.width * 0.038,
+                fontWeight: FontWeight.w400,
               ),
               const Spacer(),
               suffixIcon

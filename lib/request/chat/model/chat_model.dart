@@ -31,12 +31,12 @@ class ChatModel {
       });
 
   ChatModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    id = json['id']??'';
     status = json['status'];
-    language = json['language'];
-    localId = json['localId'];
-    touristId = json['touristId'];
-    bookingId = json['bookingId'];
+    language = json['language']??'';
+    localId = json['localId']??'';
+    touristId = json['touristId']??'';
+    bookingId = json['bookingId']??'';
 
     if (json['messages'] != null) {
       messages = <ChatMessage>[];

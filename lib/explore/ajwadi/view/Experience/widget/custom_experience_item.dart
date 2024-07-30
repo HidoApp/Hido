@@ -31,22 +31,23 @@ class _ServicesCardState extends State<ServicesCard> {
   String address = '';
   bool isLoading = true;
 
-   @override
+  @override
   void initState() {
     super.initState();
-_fetchAddress(); 
+    _fetchAddress();
   }
 
-  Future<String> _getAddressFromLatLng(double position1,double position2) async {
+  Future<String> _getAddressFromLatLng(
+      double position1, double position2) async {
     try {
       List<Placemark> placemarks =
-          await placemarkFromCoordinates(position1,position2);
+          await placemarkFromCoordinates(position1, position2);
       print(placemarks);
 
       if (placemarks.isNotEmpty) {
         Placemark placemark = placemarks.first;
         print(placemarks.first);
-        return '${placemark.locality}, ${placemark.subLocality}';
+        return '${placemark.subLocality}';
       }
     } catch (e) {
       print("Error retrieving address: $e");
@@ -57,7 +58,9 @@ _fetchAddress();
   Future<void> _fetchAddress() async {
     try {
       String result = await _getAddressFromLatLng(
- double.parse(  widget. experience.coordinates.latitude??''),double.parse(  widget. experience.coordinates.longitude??'')) ;     setState(() {
+          double.parse(widget.experience.coordinates.latitude ?? ''),
+          double.parse(widget.experience.coordinates.longitude ?? ''));
+      setState(() {
         address = result;
       });
     } catch (e) {
@@ -66,17 +69,30 @@ _fetchAddress();
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
-    
     final width = MediaQuery.of(context).size.width;
     return GestureDetector(
-     onTap:() {            
-     widget.experience.experiencesType=='hospitality'
-     ?  Get.to(() => HospitalityDetails(hospitalityId: widget.experience.id,isLocal: true,experienceType:widget.experience.experiencesType,address:address,isHasBooking:widget.experience.isHasBooking ))
-     :widget.experience.experiencesType=='adventure'?Get.to(() => AdventureDetails(adventureId: widget.experience.id,isLocal: true ,address:address,isHasBooking:widget.experience.isHasBooking)):Get.to(() => LocalEventDetails(eventId: widget.experience.id,isLocal: true ,address:address,isHasBooking:widget.experience.isHasBooking));
-     },
+      onTap: () {
+        widget.experience.experiencesType == 'hospitality'
+            ? Get.to(() => HospitalityDetails(
+                hospitalityId: widget.experience.id,
+                isLocal: true,
+                experienceType: widget.experience.experiencesType,
+                address: address,
+                isHasBooking: widget.experience.isHasBooking))
+            : widget.experience.experiencesType == 'adventure'
+                ? Get.to(() => AdventureDetails(
+                    adventureId: widget.experience.id,
+                    isLocal: true,
+                    address: address,
+                    isHasBooking: widget.experience.isHasBooking))
+                : Get.to(() => LocalEventDetails(
+                    eventId: widget.experience.id,
+                    isLocal: true,
+                    address: address,
+                    isHasBooking: widget.experience.isHasBooking));
+      },
       child: Container(
         height: width * 0.29,
         padding: EdgeInsets.symmetric(
@@ -99,7 +115,7 @@ _fetchAddress();
                 ClipRRect(
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   child: Image.network(
-                   widget. experience.image.first,
+                    widget.experience.image.first,
                     width: width * 0.23,
                     height: width * 0.23,
                     fit: BoxFit.fill,
@@ -112,10 +128,18 @@ _fetchAddress();
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustomText(
-                      text: AppUtil.rtlDirection2(context)?widget.experience.experiencesType=='hospitality' ?widget.experience.titleAr??'':widget.experience.nameAr??'':widget.experience.experiencesType=='hospitality' ?widget.experience.titleEn??'':widget.experience.nameEn??'',
+                      text: AppUtil.rtlDirection2(context)
+                          ? widget.experience.experiencesType == 'hospitality'
+                              ? widget.experience.titleAr ?? ''
+                              : widget.experience.nameAr ?? ''
+                          : widget.experience.experiencesType == 'hospitality'
+                              ? widget.experience.titleEn ?? ''
+                              : widget.experience.nameEn ?? '',
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
-                      fontFamily:AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
+                      fontFamily: AppUtil.rtlDirection2(context)
+                          ? 'SF Arabic'
+                          : 'SF Pro',
                     ),
                     SizedBox(
                       height: width * 0.010,
@@ -132,10 +156,14 @@ _fetchAddress();
                           width: width * 0.017,
                         ),
                         CustomText(
-                          text: address,
+                          text: AppUtil.rtlDirection2(context)
+                              ? '${widget.experience.regionAr}, ${address}'
+                              : '${widget.experience.regionEn}, ${address}',
                           fontSize: 11,
                           fontWeight: FontWeight.w400,
-                          fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
+                          fontFamily: AppUtil.rtlDirection2(context)
+                              ? 'SF Arabic'
+                              : 'SF Pro',
                           color: starGreyColor,
                         ),
                       ],
@@ -143,31 +171,37 @@ _fetchAddress();
                     SizedBox(
                       height: width * 0.01,
                     ),
-                    
-                     if (widget.experience.experiencesType=='adventure' || widget.experience.experiencesType=='event')
+                    if (widget.experience.experiencesType == 'adventure' ||
+                        widget.experience.experiencesType == 'event')
                       Row(
                         children: [
                           SizedBox(
                             width: width * 0.016,
                           ),
-                         SvgPicture.asset(
-                                'assets/icons/grey_calender.svg',
-                                color: starGreyColor,
-                              ),
+                          SvgPicture.asset(
+                            'assets/icons/grey_calender.svg',
+                            color: starGreyColor,
+                          ),
                           SizedBox(
                             width: width * 0.019,
                           ),
                           CustomText(
-                                text: widget.experience.experiencesType=='adventure'?AppUtil.formatBookingDate(context,widget. experience.date ?? ''):AppUtil.formatSelectedDaysInfo(widget.experience.daysInfo, context),
-                             color: starGreyColor,
+                            text:
+                                widget.experience.experiencesType == 'adventure'
+                                    ? AppUtil.formatBookingDate(
+                                        context, widget.experience.date ?? '')
+                                    : AppUtil.formatSelectedDaysInfo(
+                                        widget.experience.daysInfo, context),
+                            color: starGreyColor,
                             fontSize: 11,
-                            fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
-                                fontWeight: FontWeight.w400,
-                              ),
+                            fontFamily: AppUtil.rtlDirection2(context)
+                                ? 'SF Arabic'
+                                : 'SF Pro',
+                            fontWeight: FontWeight.w400,
+                          ),
                         ],
                       ),
-                 
-                    if (  widget.experience.experiencesType=='hospitality')
+                    if (widget.experience.experiencesType == 'hospitality')
                       Row(
                         children: [
                           SizedBox(
@@ -179,25 +213,23 @@ _fetchAddress();
                           SizedBox(
                             width: width * 0.01,
                           ),
-                      
-
                           CustomText(
                             text:
-                                '${ AppUtil.formatBookingDate(context,
-                                      widget. experience.daysInfo[0].startTime ?? '')} - ${AppUtil.formatTimeOnly(context,   widget. experience.daysInfo[0].startTime)} ',
-                              
+                                '${AppUtil.formatBookingDate(context, widget.experience.daysInfo[0].startTime ?? '')} - ${AppUtil.formatTimeOnly(context, widget.experience.daysInfo[0].startTime)} ',
                             color: starGreyColor,
                             fontSize: 11,
-                            fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
+                            fontFamily: AppUtil.rtlDirection2(context)
+                                ? 'SF Arabic'
+                                : 'SF Pro',
                             fontWeight: FontWeight.w400,
                           ),
                         ],
                       ),
-                       SizedBox(
+                    SizedBox(
                       height: width * 0.01,
                     ),
-                       if (  widget.experience.experiencesType=='adventure'||widget.experience.experiencesType=='event')
-                       
+                    if (widget.experience.experiencesType == 'adventure' ||
+                        widget.experience.experiencesType == 'event')
                       Row(
                         children: [
                           SizedBox(
@@ -209,42 +241,46 @@ _fetchAddress();
                           SizedBox(
                             width: width * 0.01,
                           ),
-                      
-
                           CustomText(
-                            text: widget.experience.experiencesType=='adventure'?
-                              '${AppUtil.formatStringTimeWithLocale(context, widget. experience.times.first.startTime)} -  ${AppUtil.formatStringTimeWithLocale(context, widget. experience.times.first.endTime)}'
-                             :'${AppUtil.formatTimeOnly(context, widget.experience.daysInfo.first.startTime)} -  ${AppUtil.formatTimeOnly(context,  widget.experience.daysInfo.first.endTime)}',
+                            text: widget.experience.experiencesType ==
+                                    'adventure'
+                                ? '${AppUtil.formatStringTimeWithLocale(context, widget.experience.times.first.startTime)} -  ${AppUtil.formatStringTimeWithLocale(context, widget.experience.times.first.endTime)}'
+                                : '${AppUtil.formatTimeOnly(context, widget.experience.daysInfo.first.startTime)} -  ${AppUtil.formatTimeOnly(context, widget.experience.daysInfo.first.endTime)}',
                             color: starGreyColor,
                             fontSize: 11,
-                            fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
+                            fontFamily: AppUtil.rtlDirection2(context)
+                                ? 'SF Arabic'
+                                : 'SF Pro',
                             fontWeight: FontWeight.w400,
                           ),
                         ],
                       ),
-                   
                     Row(
                       children: [
                         SizedBox(
                           width: width * 0.015,
                         ),
-                       if (widget.experience.experiencesType=='hospitality')
-
-                        Row(
-                          children: [
-                            SvgPicture.asset('assets/icons/meal.svg'),
-                            SizedBox(
-                              width: width * 0.024,
-                            ),
+                        if (widget.experience.experiencesType == 'hospitality')
+                          Row(
+                            children: [
+                              SvgPicture.asset('assets/icons/meal.svg'),
+                              SizedBox(
+                                width: width * 0.024,
+                              ),
                               CustomText(
-                                text:AppUtil.rtlDirection2(context)? widget. experience.mealTypeAr:AppUtil.capitalizeFirstLetter(widget. experience.mealTypeEn),
+                                text: AppUtil.rtlDirection2(context)
+                                    ? widget.experience.mealTypeAr
+                                    : AppUtil.capitalizeFirstLetter(
+                                        widget.experience.mealTypeEn),
                                 fontSize: 11,
                                 fontWeight: FontWeight.w400,
-                                fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
+                                fontFamily: AppUtil.rtlDirection2(context)
+                                    ? 'SF Arabic'
+                                    : 'SF Pro',
                                 color: starGreyColor,
                               ),
-                          ],
-                        ),
+                            ],
+                          ),
                       ],
                     ),
                   ],
@@ -268,7 +304,4 @@ _fetchAddress();
       ),
     );
   }
-
-   
-
 }

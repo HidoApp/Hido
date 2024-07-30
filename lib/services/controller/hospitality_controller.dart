@@ -17,6 +17,7 @@ class HospitalityController extends GetxController {
   var DateErrorMessage=false.obs;
   var TimeErrorMessage=false.obs;
   var isHospitalityLoading = true.obs;
+  var showErrorMaxGuest = false.obs;
   var selectedDate = ''.obs;
   var selectedDates = [].obs; //new
   var selectedTime = ''.obs;
@@ -44,6 +45,8 @@ class HospitalityController extends GetxController {
   var isHospatilityTimeSelcted = false.obs;
   var address = ''.obs;
   var isAdventureTimeSelcted = false.obs;
+    var ragionAr="".obs;
+  var ragionEn="".obs;
   // Rx<LatLng> pickUpLocLatLang = const LatLng(24.9470921, 45.9903698).obs;
    Rx<LatLng> pickUpLocLatLang = const LatLng(24.6264,46.544731).obs; 
 

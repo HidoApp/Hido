@@ -32,7 +32,8 @@ class AdventureController extends GetxController {
   var selectedGender = ''.obs;
   var selectedDateIndex = (-1).obs;
   var selectedDateId = "".obs;
-
+  var ragionAr="".obs;
+  var ragionEn="".obs;
 
   var isAdventureDateSelcted = false.obs;
   var isAdventureTimeSelcted = false.obs;
