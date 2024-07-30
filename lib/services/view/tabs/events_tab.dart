@@ -43,9 +43,8 @@ class _EventsTabState extends State<EventsTab> {
     final double width = MediaQuery.of(context).size.width;
     return SingleChildScrollView(
       child: Padding(
-        // padding: EdgeInsets.symmetric(
-        //     horizontal: width * 0.04, vertical: width * 0.035),
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 32),
         child: Column(
           children: [
             //Ad cards
@@ -60,7 +59,7 @@ class _EventsTabState extends State<EventsTab> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     CustomText(
-                      text: 'event'.tr,
+                      text: 'saudiEvent'.tr,
                       color: Color(0xFF070708),
                       fontSize: 17,
                       fontFamily: 'HT Rakik',
@@ -68,7 +67,7 @@ class _EventsTabState extends State<EventsTab> {
                     ),
                   ],
                 ),
-                SizedBox(
+                 SizedBox(
                   height: width * 0.05,
                 ),
                 //cities list view

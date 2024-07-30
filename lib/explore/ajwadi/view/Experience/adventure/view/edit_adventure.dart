@@ -78,8 +78,8 @@ class _EditAdventureState extends State<EditAdventure> {
       TextEditingController();
 
   String address = '';
-  String ragionAr = '';
-  String ragionEn = '';
+  // String ragionAr = '';
+  // String ragionEn = '';
 
   BitmapDescriptor markerIcon = BitmapDescriptor.defaultMarker;
   void addCustomIcon() {
@@ -131,10 +131,8 @@ class _EditAdventureState extends State<EditAdventure> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    //    initializeDateFormatting(); //very important
 
-    addCustomIcon();
-    //getHospitalityById();
+    //addCustomIcon();
 
     _servicesController.isAdventureDateSelcted(false);
     _servicesController.selectedDate('');
@@ -158,22 +156,22 @@ class _EditAdventureState extends State<EditAdventure> {
       if (placemarks.isNotEmpty) {
         Placemark placemark = placemarks.first;
         print(placemarks.first);
-        setState(() {
-          if (AppUtil.rtlDirection2(context)) {
-            ragionAr = placemark.locality!;
-            ragionEn = 'Riyadh';
-          } else {
-            ragionAr = 'الرياض';
-            ragionEn = placemark.locality!;
-          }
-          if (!regionListEn.contains(ragionEn) ||
-              !regionListAr.contains(ragionAr)) {
-            setState(() {
-              ragionAr = 'الرياض';
-              ragionEn = 'Riyadh';
-            });
-          }
-        });
+        // setState(() {
+        //   if (AppUtil.rtlDirection2(context)) {
+        //     ragionAr = placemark.locality!;
+        //     ragionEn = 'Riyadh';
+        //   } else {
+        //     ragionAr = 'الرياض';
+        //     ragionEn = placemark.locality!;
+        //   }
+        //   if (!regionListEn.contains(ragionEn) ||
+        //       !regionListAr.contains(ragionAr)) {
+        //     setState(() {
+        //       ragionAr = 'الرياض';
+        //       ragionEn = 'Riyadh';
+        //     });
+        //   }
+        // });
         return '${placemark.locality}, ${placemark.subLocality}, ${placemark.country}';
       }
     } catch (e) {
@@ -343,7 +341,7 @@ class _EditAdventureState extends State<EditAdventure> {
       print("Tourists Gender: ${_guestsController.text}");
       print("Price: ${double.parse(_priceController.text)}");
       print("Images: ${widget.adventureObj.image}");
-      print("Region AR: $ragionAr");
+      print("Region AR: ${widget.adventureObj.regionAr}");
       print("Location: $locationUrl");
       print("Region EN: Riyadh");
       print("Start Time: ${DateFormat('HH:mm:ss').format(newTimeToGo)}");
@@ -363,9 +361,9 @@ class _EditAdventureState extends State<EditAdventure> {
             _servicesController.pickUpLocLatLang.value.latitude.toString(),
         price: int.parse(_priceController.text),
         image: widget.adventureObj.image!,
-        regionAr: ragionAr,
+        regionAr: widget.adventureObj.regionAr??'',
         locationUrl: locationUrl,
-        regionEn: ragionEn,
+        regionEn: widget.adventureObj.regionEn??'',
         start: DateFormat('HH:mm:ss').format(newTimeToGo),
         end: DateFormat('HH:mm:ss').format(newTimeToReturn),
         seat: guestNum,
@@ -1086,8 +1084,8 @@ class _EditAdventureState extends State<EditAdventure> {
                                   SizedBox(
                                     height: width * 0.02,
                                   ),
-                                  ListView(
-                                    shrinkWrap: true,
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       SizedBox(
                                         height: width * 0.012,
@@ -1195,8 +1193,8 @@ class _EditAdventureState extends State<EditAdventure> {
                               SizedBox(
                                 height: width * 0.077,
                               ),
-                              ListView(
-                                shrinkWrap: true,
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   SizedBox(
                                     height: width * 0.012,

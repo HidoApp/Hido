@@ -1,6 +1,10 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
+import 'package:ajwad_v4/profile/view/ticket_screen.dart';
 import 'package:ajwad_v4/profile/widget/otp_sheet.dart';
+import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
@@ -11,9 +15,38 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-class CancleSheet extends StatelessWidget {
+class CancelSheet extends StatefulWidget {
+  final String bookId;
+  final String type;
+
+
+  CancelSheet({Key? key, required this.bookId,required this.type}) : super(key: key);
+
+  @override
+  _CancelSheetState createState() => _CancelSheetState();
+}
+
+class _CancelSheetState extends State<CancelSheet> {
+  late TextEditingController textField2Controller;
+
+  @override
+  void initState() {
+    super.initState();
+    textField2Controller = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    textField2Controller.dispose();
+    super.dispose();
+  }
+   OfferController offerController =
+      Get.put(OfferController());
+      
   @override
   Widget build(BuildContext context) {
+    print(widget.bookId);
+    print(widget.type.toUpperCase());
     return Padding(
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).viewInsets.bottom,
@@ -94,6 +127,9 @@ class CancleSheet extends StatelessWidget {
                       ),
                     ),
                     child: TextField(
+                                               
+                       controller: textField2Controller,
+
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 15,
@@ -116,6 +152,28 @@ class CancleSheet extends StatelessWidget {
                   ),
                   const SizedBox(height: 28),
                   CustomButton(
+                    onPressed: () async {
+                      log("End Trip Taped ${widget.bookId}");
+
+                      bool bookingCancel =
+                          await offerController.bookingCancel(
+                              context: context,
+                              bookingId: widget.bookId,
+                              type: widget.type.toUpperCase(),
+                              reason: textField2Controller.text) ??
+                          false;
+                      if (bookingCancel) {
+                        if (context.mounted) {
+                          AppUtil.successToast(context, 'EndTrip'.tr);
+                          await Future.delayed(const Duration(seconds: 1));
+                        }
+                          ProfileController _profileController =
+                                          Get.put(ProfileController());
+                        Get.to( TicketScreen(
+                                              profileController:
+                                                  _profileController) );
+                      }
+                    },
                     title: 'Confirm'.tr,
                     buttonColor: Color(0xFFDC362E),
                     textColor: Colors.white,

@@ -95,6 +95,7 @@ dependencies:
   iban: ^1.0.1
   jhijri_picker: ^1.0.1
   super_tooltip: ^2.0.8
+  dropdown_button2: ^2.3.8
   solid_bottom_sheet: ^0.1.10
   easy_stepper: ^0.8.3
 

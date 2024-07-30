@@ -191,6 +191,7 @@ class _CalenderDialogState extends State<CalenderDialog> {
                     } else if (widget.type == 'hospitality') {
                       widget.srvicesController!.isHospatilityDateSelcted.value =
                           true;
+                          widget.srvicesController!.DateErrorMessage.value=false;
                       widget.srvicesController!.selectedDate(selectedDate);
 
                       for (int i = 0;

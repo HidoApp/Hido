@@ -97,7 +97,7 @@ class ChatService {
       log("chat \n $chat");
       ChatModel chatModel = ChatModel.fromJson(chat);
       log('this is booking by id');
-      log(chatModel.bookingId!);
+     // log(chatModel.bookingId!);
       return chatModel;
     } else {
       String errorMessage = jsonDecode(response.body)['message'];

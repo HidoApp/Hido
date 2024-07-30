@@ -43,8 +43,7 @@ class ChatController extends GetxController {
       final data = await ChatService.getChatById(id: id, context: context);
       chat= data!;
       print("this booking id in chat controller");
-      print(data?.bookingId);
-      print(chat.bookingId);
+      //print(chat.bookingId);
 
       return chat;
     } catch (e) {

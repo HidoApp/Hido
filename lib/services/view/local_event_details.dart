@@ -14,8 +14,10 @@ import 'package:ajwad_v4/services/view/widgets/event_booking.dart';
 
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/StackWidgets.dart';
+import 'package:ajwad_v4/widgets/custom_aleart_widget.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
+import 'package:ajwad_v4/widgets/custom_succes_dialog.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -79,37 +81,7 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
     );
   }
 
-  Future<String> _getAddressFromLatLng(
-      double position1, double position2) async {
-    try {
-      List<Placemark> placemarks =
-          await placemarkFromCoordinates(position1, position2);
-      print(placemarks);
-
-      if (placemarks.isNotEmpty) {
-        Placemark placemark = placemarks.first;
-        print(placemarks.first);
-        return '${placemark.locality}, ${placemark.subLocality}, ${placemark.country}';
-      }
-    } catch (e) {
-      print("Error retrieving address: $e");
-    }
-    return '';
-  }
-
-  Future<void> _fetchAddress(String position1, String position2) async {
-    try {
-      String result = await _getAddressFromLatLng(
-          double.parse(position1), double.parse(position2));
-      setState(() {
-        _eventController.address.value = result;
-      });
-    } catch (e) {
-      // Handle error if necessary
-      print('Error fetching address: $e');
-    }
-  }
-
+  
   late Event? event;
 
   @override
@@ -117,17 +89,14 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
     // TODO: implement initState
     super.initState();
     //  initializeDateFormatting(); //very important
-
+     getEventById();
     addCustomIcon();
-    getEventById();
   }
 
   void getEventById() async {
     event = (await _eventController.getEventById(
         context: context, id: widget.eventId));
-    if (!widget.isLocal)
-      _fetchAddress(event!.coordinates!.latitude ?? '',
-          event!.coordinates!.longitude ?? '');
+    
 
     for (var day in event!.daysInfo!) {
       print(day.startTime);
@@ -227,7 +196,7 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                       ),
                     ),
                     SizedBox(
-                      height: width * 0.10,
+                      height: height * 0.03,
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: width * 0.05),
@@ -267,7 +236,9 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                               CustomText(
                                 text: !widget.isLocal
                                     ? _eventController.address.value
-                                    : widget.address,
+                                    :AppUtil.rtlDirection2(context)
+                                           ? '${event!.regionAr}, ${widget.address}'
+                                            : '${event!.regionEn}, ${widget.address}',
                                 color: colorDarkGrey,
                                 fontSize: width * 0.038,
                                 fontWeight: FontWeight.w300,
@@ -610,10 +581,16 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                       child: GestureDetector(
                           onTap: widget.isHasBooking
                               ? () async {
-                                  AppUtil.errorToast(
-                                      context, 'editExperience'.tr);
-                                  await Future.delayed(
-                                      const Duration(seconds: 1));
+                                 showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return CustomAlertDialog(
+                
+                  
+                );
+              },
+            );
+         
                                 }
                               : () {
                                   Get.to(EditEvent(eventObj: event!));
@@ -633,18 +610,18 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                               color: Colors.white,
                             ),
                           ))),
-                Positioned(
-                    top: height * 0.265,
-                    right: width * 0.1,
-                    left: width * 0.1,
-                    // local profile
-                    child: ServicesProfileCard(
-                      onTap: () {
-                        Get.to(() => ServicesLocalInfo(profileId: event!.id));
-                      },
-                      image: event!.user!.profileImage ?? '',
-                      name: event!.user!.name ?? '',
-                    )),
+                // Positioned(
+                //     top: height * 0.265,
+                //     right: width * 0.1,
+                //     left: width * 0.1,
+                //     // local profile
+                //     child: ServicesProfileCard(
+                //       onTap: () {
+                //         Get.to(() => ServicesLocalInfo(profileId: event!.id));
+                //       },
+                //       image: event!.user!.profileImage ?? '',
+                //       name: event!.user!.name ?? '',
+                //     )),
                 //indicator
                 Positioned(
                   top: height * 0.22,

@@ -377,10 +377,10 @@ class _FindAjwadyState extends State<FindAjwady> {
                                       CustomText(
                                         text: AppUtil.formatBookingDate(
                                             context, widget.booking.date),
-                                        color: almostGrey,
-                                        fontSize: 13,
+                                        color: starGreyColor ,
+                                        fontSize: width*0.03,
                                         fontWeight: FontWeight.w400,
-                                        fontFamily: 'SF Pro',
+                                        fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
                                       ),
                                     ],
                                   ),
@@ -398,10 +398,10 @@ class _FindAjwadyState extends State<FindAjwady> {
                                         text: AppUtil.rtlDirection2(context)
                                             ? 'من ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)} إلى ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)} '
                                             : 'Pick up: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)}, Drop off: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)}',
-                                        color: almostGrey,
-                                        fontSize: 13,
+                                        color:  starGreyColor ,
+                                      fontSize: width*0.03,
                                         fontWeight: FontWeight.w400,
-                                        fontFamily: 'SF Pro',
+                                          fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
                                       ),
                                     ],
                                   ),
@@ -418,10 +418,10 @@ class _FindAjwadyState extends State<FindAjwady> {
                                       CustomText(
                                         text:
                                             '${widget.booking.guestNumber} ${'guests'.tr}',
-                                        color: almostGrey,
-                                        fontSize: 13,
+                                        color: starGreyColor ,
+                                      fontSize: width*0.03,
                                         fontWeight: FontWeight.w400,
-                                        fontFamily: 'SF Pro',
+                                        fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
                                       ),
                                     ],
                                   ),
@@ -439,10 +439,10 @@ class _FindAjwadyState extends State<FindAjwady> {
                                       ),
                                       CustomText(
                                         text: widget.booking.vehicleType!,
-                                        color: almostGrey,
-                                        fontSize: 13,
+                                        color:  starGreyColor ,
+                                       fontSize: width*0.03,
                                         fontWeight: FontWeight.w400,
-                                        fontFamily: 'SF Pro',
+                                        fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
                                       ),
                                     ],
                                   ),
@@ -480,8 +480,8 @@ class _FindAjwadyState extends State<FindAjwady> {
                                   CustomText(
                                     text: "searchforLocal".tr,
                                     color: colorGreen,
-                                    fontWeight: FontWeight.w900,
-                                    fontSize: 20,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: width*0.044,
                                   ),
                                   const SizedBox(
                                     height: 5,
@@ -491,9 +491,12 @@ class _FindAjwadyState extends State<FindAjwady> {
                                     text:
                                         "WeSentYourRequestAndWaiteTillAccepted"
                                             .tr,
-                                    color: almostGrey,
+                                    color: starGreyColor,
                                     textAlign: TextAlign.center,
-                                    fontSize: 12,
+                                    fontSize: width*0.03,
+                                    fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+                                    fontWeight: FontWeight.w400,
+
                                   )),
                                   const SizedBox(
                                     height: 10,

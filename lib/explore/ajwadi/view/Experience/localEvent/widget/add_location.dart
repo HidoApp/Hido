@@ -5,6 +5,7 @@ import 'package:ajwad_v4/explore/ajwadi/model/userLocation.dart';
 import 'package:ajwad_v4/explore/ajwadi/services/location_service.dart';
 import 'package:ajwad_v4/services/controller/event_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geocoding/geocoding.dart';
@@ -12,9 +13,8 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 
-
 class AddEventLocation extends StatefulWidget {
- AddEventLocation({
+  AddEventLocation({
     Key? key,
     required this.textField1Controller,
   }) : super(key: key);
@@ -25,11 +25,9 @@ class AddEventLocation extends StatefulWidget {
   _AddEventLocationState createState() => _AddEventLocationState();
 }
 
-
 class _AddEventLocationState extends State<AddEventLocation> {
-  final EventController _EventrController =
-      Get.put( EventController());
-      
+  final EventController _EventrController = Get.put(EventController());
+
   BitmapDescriptor markerIcon = BitmapDescriptor.defaultMarker;
 
   final Completer<GoogleMapController> _controller = Completer();
@@ -38,11 +36,10 @@ class _AddEventLocationState extends State<AddEventLocation> {
   late GoogleMapController mapController;
   LatLng? _currentPosition;
   String address = '';
-   UserLocation? userLocation;
-    Set<Marker> _userMarkers = {};
+  UserLocation? userLocation;
+  Set<Marker> _userMarkers = {};
   Set<Marker> _markers = {};
   LatLng _currentLocation = const LatLng(24.7136, 46.6753);
-
 
   void addCustomIcon() {
     BitmapDescriptor.fromAssetImage(
@@ -56,39 +53,35 @@ class _AddEventLocationState extends State<AddEventLocation> {
     );
   }
 
-    
   void getLocation() async {
     userLocation = await LocationService().getUserLocation();
     //Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     print('this location');
-   // print(position.latitude);
+    // print(position.latitude);
 //print(position.longitude);
 
     if (userLocation != null) {
       setState(() {
-      if (mounted) {
-      //  _currentPosition = LatLng(position.latitude, position.longitude);
-         _currentPosition = LatLng(userLocation!.latitude, userLocation!.longitude);
+        if (mounted) {
+          //  _currentPosition = LatLng(position.latitude, position.longitude);
+          _currentPosition =
+              LatLng(userLocation!.latitude, userLocation!.longitude);
 
-         _EventrController.pickUpLocLatLang.value = _currentPosition!;
-                                    
-       
-      }
-    });
-        _fetchAddress();
-
-  
+          _EventrController.pickUpLocLatLang.value = _currentPosition!;
+        }
+      });
+      _fetchAddress();
     } else {
-       setState(() {
-      if (mounted) {
-       _currentPosition = LatLng( _currentLocation.latitude, _currentLocation.longitude);
-       
-      }
-    });
-   _fetchAddress();
-
+      setState(() {
+        if (mounted) {
+          _currentPosition =
+              LatLng(_currentLocation.latitude, _currentLocation.longitude);
+        }
+      });
+      _fetchAddress();
     }
   }
+
   Future<void> _getAddressFromCoordinates(double lat, double lng) async {
     try {
       List<Placemark> placemarks = await placemarkFromCoordinates(lat, lng);
@@ -116,12 +109,12 @@ class _AddEventLocationState extends State<AddEventLocation> {
     //_loadMapStyles();
 
     //addCustomIcon();
-          getLocation();
+    getLocation();
     //  if(_currentPosition==null){//remove
     //    setState(() {
     //    _currentPosition = LatLng( _currentLocation.latitude, _currentLocation.longitude);
     //     _EventrController.pickUpLocLatLang.value= _currentPosition!;
-    
+
     // });
     //    _fetchAddress();
 
@@ -161,6 +154,41 @@ class _AddEventLocationState extends State<AddEventLocation> {
     });
   }
 
+  final List<String> genderItems = [
+    'Male',
+    'Female',
+  ];
+  final List<String> regionListEn = [
+    "Riyadh",
+    "Mecca",
+    "Medina",
+    "Dammam",
+    "Qassim",
+    "Hail",
+    "Northern Borders",
+    "Jazan",
+    "Asir",
+    "Tabuk",
+    "Najran",
+    "Al Baha",
+    "Al Jouf"
+  ];
+
+  final List<String> regionListAr = [
+    "الرياض",
+    "مكة",
+    "المدينة",
+    "الدمام",
+    "القصيم",
+    "حائل",
+    "الحدود الشمالية",
+    "جازان",
+    "عسير",
+    "تبوك",
+    "نجران",
+    "الباحة",
+    "الجوف"
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -170,7 +198,6 @@ class _AddEventLocationState extends State<AddEventLocation> {
     print(address);
     print('this location');
     print(_EventrController.pickUpLocLatLang.toString());
-
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -184,7 +211,8 @@ class _AddEventLocationState extends State<AddEventLocation> {
               style: TextStyle(
                 color: black,
                 fontSize: 17,
-                fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
+                fontFamily:
+                    AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -196,79 +224,7 @@ class _AddEventLocationState extends State<AddEventLocation> {
               : TextDirection.ltr,
           child: Column(
             children: [
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Text(
-                    //   'locationMSG'.tr,
-                    //   style: TextStyle(
-                    //     color: starGreyColor,
-                    //     fontSize: 16,
-                    //     fontFamily: 'SF Pro',
-                    //     fontWeight: FontWeight.w400,
-                    //     height: 0,
-                    //   ),
-                    // ),
-                    // SizedBox(height: 25),
-                    Container(
-                      width: double.infinity,
-                      height: 48,
-                      decoration: ShapeDecoration(
-                        color: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(width: 1, color: Color(0xFFB9B8C1)),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 10),
-                        child: _isLoading
-                            ? Align(
-                              alignment: Alignment.topLeft,
-                              child: Container()
-                              )
-                            : TextField(
-                                controller: widget.textField1Controller,
-                                enabled:false,
-
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 15,
-                                  fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                decoration: InputDecoration(
-                                  hintText: address,
-                                  hintStyle: TextStyle(
-                                    color: Color(0xFFB9B8C1),
-                                    fontSize: 15,
-                                    fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                    borderSide: BorderSide.none,
-                                  ),
-                                  prefixIcon: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 10.0, right: 10, bottom: 14),
-                                    child: SvgPicture.asset(
-                                      'assets/icons/map_pin.svg',
-                                      color: Color(0xFFB9B8C1),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 3),
+              SizedBox(height: 20),
               Stack(
                 children: [
                   ClipRRect(
@@ -279,71 +235,117 @@ class _AddEventLocationState extends State<AddEventLocation> {
                         borderRadius: BorderRadius.all(Radius.circular(12)),
                       ),
                       // height: 520,
-                        height: AppUtil.rtlDirection2(context)? height*0.57:height*0.57,
+                      height: AppUtil.rtlDirection2(context)
+                          ? height * 0.54
+                          : height * 0.54,
                       width: double.infinity,
                       child: _currentPosition == null
-          ? Center(child: CircularProgressIndicator.adaptive())
-          : GoogleMap(
-                        scrollGesturesEnabled: true,
-                        zoomControlsEnabled: false,
-                        initialCameraPosition: CameraPosition(
-                          target:
-                              // // _servicesController == null
-                              // //     ? locLatLang
-                              // // :
-                              // LatLng(
-                              //     _servicesController
-                              //         .pickUpLocLatLang
-                              //         .value
-                              //         .latitude,
-                              //     _servicesController
-                              //         .pickUpLocLatLang
-                              //         .value
-                              //         .longitude!)
-                              _currentPosition!,
-                          zoom: 15,
-                        ),
-                        markers: {
-                          Marker(
-                            markerId: MarkerId("marker1"),
-                            position: _currentPosition!,
-                            // LatLng(
-                            //     _servicesController
-                            //         .pickUpLocLatLang
-                            //         .value
-                            //         .latitude,
-                            //     _servicesController
-                            //         .pickUpLocLatLang
-                            //         .value
-                            //         .longitude),
-                            draggable: true,
-                            onDragEnd: (LatLng newPosition) {
-                              setState(() {
-                                _EventrController.pickUpLocLatLang
-                                    .value = newPosition;
-                                _currentPosition = newPosition;
+                          ? Center(child: CircularProgressIndicator.adaptive())
+                          : GoogleMap(
+                              scrollGesturesEnabled: true,
+                              zoomControlsEnabled: false,
+                              initialCameraPosition: CameraPosition(
+                                target:
+                                    // // _servicesController == null
+                                    // //     ? locLatLang
+                                    // // :
+                                    // LatLng(
+                                    //     _servicesController
+                                    //         .pickUpLocLatLang
+                                    //         .value
+                                    //         .latitude,
+                                    //     _servicesController
+                                    //         .pickUpLocLatLang
+                                    //         .value
+                                    //         .longitude!)
+                                    _currentPosition!,
+                                zoom: 15,
+                              ),
+                              markers: {
+                                Marker(
+                                  markerId: MarkerId("marker1"),
+                                  position: _currentPosition!,
+                                  // LatLng(
+                                  //     _servicesController
+                                  //         .pickUpLocLatLang
+                                  //         .value
+                                  //         .latitude,
+                                  //     _servicesController
+                                  //         .pickUpLocLatLang
+                                  //         .value
+                                  //         .longitude),
+                                  draggable: true,
+                                  onDragEnd: (LatLng newPosition) {
+                                    setState(() {
+                                      _EventrController.pickUpLocLatLang.value =
+                                          newPosition;
+                                      _currentPosition = newPosition;
 
-                                _isLoading = true;
-                              });
+                                      _isLoading = true;
+                                    });
 
-                              //  mapController.animateCamera(
-                              //   CameraUpdate.newCameraPosition(
-                              //     CameraPosition(
-                              //       target: newPosition,
-                              //       zoom: 15,
-                              //     ),
-                              //   ),
-                              // );
-                              _fetchAddress();
+                                    //  mapController.animateCamera(
+                                    //   CameraUpdate.newCameraPosition(
+                                    //     CameraPosition(
+                                    //       target: newPosition,
+                                    //       zoom: 15,
+                                    //     ),
+                                    //   ),
+                                    // );
+                                    _fetchAddress();
+                                  },
+                                  //              onTap: () {
+                                  //         _onTap(_currentPosition!);
+                                  // },
+                                  icon: markerIcon,
+                                ),
+                              },
+                              onTap: (position) async {
+            
+                                _EventrController.pickUpLocLatLang.value =
+                                    position;
+                                _currentPosition = position;
+                                mapController.animateCamera(
+                                    CameraUpdate.newLatLngZoom(position, 18));
 
-                            },
-                //              onTap: () {
-                //         _onTap(_currentPosition!);
-                // },
-                            icon: markerIcon,
-                          ),
-                        },
-                      ),
+                               
+                                setState(() {
+                                      _isLoading = true;
+
+                                  _markers.add(
+                                    Marker(
+                                      markerId: const MarkerId("marker1"),
+                                      position: position,
+                                      draggable: true,
+                                      onDragEnd: (position) async {
+                                        setState(() {
+                                          _EventrController.pickUpLocLatLang
+                                              .value = position;
+                                          _currentPosition = position;
+
+                                          _isLoading = true;
+                                        });
+
+                                        _fetchAddress();
+                                        mapController.animateCamera(
+                                            CameraUpdate.newLatLngZoom(
+                                                position, 18));
+                                      },
+                                      icon: markerIcon,
+                                    ),
+                                  );
+                                });
+                             _fetchAddress();
+
+                              },
+                             
+                              onCameraMove: (position) {
+                                setState(() {
+                                  _currentLocation = position.target;
+                                    _isLoading = true;
+                                });
+                              },
+                            ),
                     ),
                   ),
                   Positioned(
@@ -378,7 +380,10 @@ class _AddEventLocationState extends State<AddEventLocation> {
                                       style: TextStyle(
                                         color: Color(0xFF9392A0),
                                         fontSize: 13,
-                                        fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
+                                        fontFamily:
+                                            AppUtil.rtlDirection2(context)
+                                                ? 'SF Arabic'
+                                                : 'SF Pro',
                                         fontWeight: FontWeight.w400,
                                         height: 0,
                                       ),
@@ -390,6 +395,169 @@ class _AddEventLocationState extends State<AddEventLocation> {
                     ),
                   ),
                 ],
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    DropdownButtonHideUnderline(
+                      child: DropdownButtonFormField2<String>(
+                        isExpanded: true,
+                        value: _EventrController.ragionAr.isEmpty ||
+                                _EventrController.ragionEn.isEmpty
+                            ? null
+                            : AppUtil.rtlDirection2(context)
+                                ? _EventrController.ragionAr.value
+                                : _EventrController.ragionEn.value,
+                        decoration: InputDecoration(
+                          focusedBorder: const OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 1, color: Graytext)),
+                          enabledBorder: const OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 1, color: Graytext)),
+                          contentPadding:
+                              const EdgeInsets.symmetric(vertical: 16),
+                          border: OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(width: 1, color: Graytext),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        hint: Text(
+                          AppUtil.rtlDirection2(context)
+                              ? "اختر المنطقة"
+                              : 'Choose your Region',
+                          style: TextStyle(
+                            color: Graytext,
+                            fontSize: 14,
+                            fontFamily: AppUtil.rtlDirection2(context)
+                                ? 'SF Arabic'
+                                : 'SF Pro',
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        items: AppUtil.rtlDirection2(context)
+                            ? regionListAr
+                                .map((item) => DropdownMenuItem<String>(
+                                      value: item,
+                                      child: Text(
+                                        item,
+                                        style: TextStyle(
+                                          color: black,
+                                          fontSize: 15,
+                                          fontFamily:
+                                              AppUtil.rtlDirection2(context)
+                                                  ? 'SF Arabic'
+                                                  : 'SF Pro',
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ))
+                                .toList()
+                            : regionListEn
+                                .map((item) => DropdownMenuItem<String>(
+                                      value: item,
+                                      child: Text(
+                                        item,
+                                        style: TextStyle(
+                                          color: black,
+                                          fontSize: 15,
+                                          fontFamily:
+                                              AppUtil.rtlDirection2(context)
+                                                  ? 'SF Arabic'
+                                                  : 'SF Pro',
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ))
+                                .toList(),
+                        validator: (value) {
+                          if (value == null) {
+                            return 'Please select gender.';
+                          }
+                          return null;
+                        },
+                        onChanged: (value) {
+                          if (AppUtil.rtlDirection2(context)) {
+                            _EventrController.ragionAr.value = value.toString();
+
+                            int index = regionListAr.indexOf(value.toString());
+
+                            if (index != -1 && index < regionListEn.length) {
+                              _EventrController.ragionEn.value =
+                                  regionListEn[index];
+                            }
+                          } else {
+                            _EventrController.ragionEn.value = value.toString();
+
+                            int index = regionListEn.indexOf(value.toString());
+
+                            if (index != -1 && index < regionListAr.length) {
+                              _EventrController.ragionAr.value =
+                                  regionListAr[index];
+                            }
+                          }
+                          print(_EventrController.ragionAr.value);
+                          print(_EventrController.ragionEn.value);
+                        },
+                        onSaved: (value) {
+                          if (AppUtil.rtlDirection2(context)) {
+                            _EventrController.ragionAr.value = value.toString();
+
+                            int index = regionListAr.indexOf(value.toString());
+
+                            if (index != -1 && index < regionListEn.length) {
+                              _EventrController.ragionEn.value =
+                                  regionListEn[index];
+                            }
+                          } else {
+                            _EventrController.ragionEn.value = value.toString();
+
+                            int index = regionListEn.indexOf(value.toString());
+
+                            if (index != -1 && index < regionListAr.length) {
+                              _EventrController.ragionAr.value =
+                                  regionListAr[index];
+                            }
+                          }
+                          print(_EventrController.ragionAr.value);
+                          print(_EventrController.ragionEn.value);
+                        },
+                        buttonStyleData: const ButtonStyleData(
+                          padding: EdgeInsets.only(right: 8),
+                        ),
+                        iconStyleData: const IconStyleData(
+                          icon: Icon(
+                            Icons.keyboard_arrow_down_outlined,
+                            color: Graytext,
+                          ),
+                          iconSize: 24,
+                        ),
+                        dropdownStyleData: DropdownStyleData(
+                          maxHeight: 100,
+                          decoration: BoxDecoration(),
+                          scrollbarTheme: ScrollbarThemeData(
+                            radius: const Radius.circular(40),
+                            thickness: MaterialStateProperty.all(8),
+                            thumbVisibility: MaterialStateProperty.all(true),
+                            thumbColor:
+                                MaterialStateProperty.all(starGreyColor),
+                            trackColor:
+                                MaterialStateProperty.all(lightGreyColor),
+                            trackVisibility: MaterialStateProperty.all(true),
+                          ),
+                        ),
+                        menuItemStyleData: const MenuItemStyleData(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

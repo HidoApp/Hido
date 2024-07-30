@@ -38,7 +38,8 @@ class EventController extends GetxController {
   var titleEn = "".obs;
   var bioAr = "".obs;
   var bioEn = "".obs;
-
+  var ragionAr="".obs;
+  var ragionEn="".obs;
   var isEventDateSelcted = false.obs;
   var isEventTimeSelcted = false.obs;
 

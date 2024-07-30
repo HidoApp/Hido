@@ -12,18 +12,19 @@ import 'package:get/get.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class EventCalenderDialog extends StatefulWidget {
-  const EventCalenderDialog({
-    Key? key,
-    this.fromAjwady = true,
-    required this.type,
-    this.ajwadiExploreController,
-    this.touristExploreController,
-    this.avilableDate,
-    this.srvicesController,
-    this.advController,
-    this.hospitality,
-    this.eventController
-  }) : super(key: key);
+  const EventCalenderDialog(
+      {Key? key,
+      this.fromAjwady = true,
+      required this.type,
+      this.ajwadiExploreController,
+      this.touristExploreController,
+      this.avilableDate,
+      this.srvicesController,
+      this.advController,
+      this.hospitality,
+      this.avilableDate2,
+      this.eventController})
+      : super(key: key);
   final bool fromAjwady;
   final String type;
   final AjwadiExploreController? ajwadiExploreController;
@@ -31,10 +32,10 @@ class EventCalenderDialog extends StatefulWidget {
   final AdventureController? advController;
   final EventController? eventController;
 
-
-
   final TouristExploreController? touristExploreController;
   final List<DateTime>? avilableDate;
+    final List<dynamic>? avilableDate2;
+
   final Hospitality? hospitality;
 
   @override
@@ -43,9 +44,10 @@ class EventCalenderDialog extends StatefulWidget {
 
 class _EventCalenderDialogState extends State<EventCalenderDialog> {
   String selectedDate = '';
-    List<DateTime> selectedDates = [];
+  List<DateTime> selectedDates = [];
 
   final _ajwadiExploreController = Get.put(AjwadiExploreController());
+  DateRangePickerController _controller = DateRangePickerController();
 
   @override
   void initState() {
@@ -59,7 +61,9 @@ class _EventCalenderDialogState extends State<EventCalenderDialog> {
         print(date);
       }
     }
+    
   }
+
 
   bool defineSelectable(DateTime val) {
     if (widget.avilableDate!.contains(val)) {
@@ -68,6 +72,8 @@ class _EventCalenderDialogState extends State<EventCalenderDialog> {
       return false;
     }
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -92,73 +98,111 @@ class _EventCalenderDialogState extends State<EventCalenderDialog> {
                   height: width * 0.76,
                   width: width * 0.76,
                   decoration: ShapeDecoration(
-                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8))),
                   alignment: Alignment.bottomRight,
                   child: SfDateRangePicker(
-                   backgroundColor: Colors.white,
+                    backgroundColor: Colors.white,
 
-                      minDate: DateTime.now(),
-                      enablePastDates: false,
-                      selectableDayPredicate:
-                          widget.avilableDate != null ? defineSelectable : null,
-                      selectionMode: widget.type =='event'?  DateRangePickerSelectionMode.multiple:DateRangePickerSelectionMode.single,
-                      selectionColor: Colors.green,
-                      selectionTextStyle: TextStyle(),
-                      selectionShape: DateRangePickerSelectionShape.circle,
-                      todayHighlightColor: colorGreen,
-                      startRangeSelectionColor: colorGreen,
-                      endRangeSelectionColor: colorGreen,
-                      rangeSelectionColor: colorGreen.withOpacity(0.1),
-                      monthCellStyle: const DateRangePickerMonthCellStyle(
-                           textStyle: TextStyle(
-                             fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                               color: Color(0xFF37B268),
-                                   ),
-                            todayTextStyle: TextStyle(
-                            fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                             color: Colors.red,
-                                    ),
-                              //  weekendTextStyle: TextStyle(
-                              //    fontSize: 12,
-                              //  fontWeight: FontWeight.w500,
-                              //      color: Colors.blue,
-                              //      ),
-                                ),
-                 monthViewSettings: const DateRangePickerMonthViewSettings(
-                     dayFormat: 'EEE', // Short format for day names (e.g., Mon, Tue)
-                     
-                   viewHeaderStyle: DateRangePickerViewHeaderStyle(
-                  backgroundColor: Colors.white,
+                    minDate: DateTime.now(),
+                 initialSelectedRange: widget.eventController != null && widget.eventController!.isEventDateSelcted.value
+    ? PickerDateRange(
+        widget.eventController!.selectedDates.first,
+        widget.eventController!.selectedDates.last,
+      )
+    : null,
 
-                textStyle: TextStyle(
-                  color: Color(0xFF070708),
-             fontSize: 12,
-            fontFamily: 'SF Pro',
-               fontWeight: FontWeight.w600,
-             height: 0,
-                ),
-                 
-              ),
-              
-            ),
-                      //  showNavigationArrow: true,
+           
+                    enablePastDates: false,
+                    selectableDayPredicate:
+                        widget.avilableDate != null ? defineSelectable :null,
+                    selectionMode: widget.type == 'event'
+                        ? DateRangePickerSelectionMode.range
+                        : DateRangePickerSelectionMode.single,
+                    selectionColor: Colors.green,
+                    
+                    selectionTextStyle: TextStyle(),
+                    
+                    selectionShape: DateRangePickerSelectionShape.circle,
+                    todayHighlightColor: colorGreen,
+                    
+                    startRangeSelectionColor: colorGreen,
+                    endRangeSelectionColor: colorGreen,
+                    rangeSelectionColor: colorGreen.withOpacity(0.1),
+                    monthCellStyle: const DateRangePickerMonthCellStyle(
+                      textStyle: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xFF37B268),
+                      ),
+                      todayTextStyle: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.red,
+                      ),
+                      //  weekendTextStyle: TextStyle(
+                      //    fontSize: 12,
+                      //  fontWeight: FontWeight.w500,
+                      //      color: Colors.blue,
+                      //      ),
+                    ),
+                    monthViewSettings: const DateRangePickerMonthViewSettings(
+                      dayFormat:
+                          'EEE', // Short format for day names (e.g., Mon, Tue)
 
-                          headerStyle: const DateRangePickerHeaderStyle(
-                          textAlign: TextAlign.left,
-                          textStyle: TextStyle(color:Color(0xFF37B268),)
-                          ),
-                           showNavigationArrow: true,
+                      viewHeaderStyle: DateRangePickerViewHeaderStyle(
+                        backgroundColor: Colors.white,
+                        textStyle: TextStyle(
+                          color: Color(0xFF070708),
+                          fontSize: 12,
+                          fontFamily: 'SF Pro',
+                          fontWeight: FontWeight.w600,
+                          height: 0,
+                        ),
+                      ),
+                    ),
+                    //  showNavigationArrow: true,
 
-                      onSelectionChanged: (selected) {
-                        print(selected.value);
-                      selectedDate = selected.value.toString();
+                    headerStyle: const DateRangePickerHeaderStyle(
+                        textAlign: TextAlign.left,
+                        textStyle: TextStyle(
+                          color: Color(0xFF37B268),
+                        )),
+                    showNavigationArrow: true,
+                   
+                    onSelectionChanged: (selected) {
+                      if (selected.value is PickerDateRange) {
+                        DateTime? startDate = selected.value.startDate;
+                        DateTime? endDate = selected.value.endDate;
 
-                       selectedDates = selected.value.cast<DateTime>();
-                        
-                        print(selected);
-                      }),
+                        // Ensure both startDate and endDate are not null
+                        if (startDate != null && endDate != null) {
+                          selectedDates = [];
+                          for (DateTime date = startDate;
+                              date.isBefore(endDate) ||
+                                  date.isAtSameMomentAs(endDate);
+                              date = date.add(Duration(days: 1))) {
+                            selectedDates.add(DateTime(date.year, date.month, date.day));
+                          }
+                          selectedDate =
+                          '${DateTime(startDate.year, startDate.month, startDate.day).toString()}';
+
+                        } else {
+                        DateTime startDate = selected.value.startDate;
+
+                           selectedDates = [DateTime(startDate.year, startDate.month, startDate.day)];
+                      selectedDate = DateTime(startDate.year, startDate.month, startDate.day).toString();
+                        }
+                      } else {
+                        DateTime singleDate = selected.value;
+                      selectedDates = [DateTime(singleDate.year, singleDate.month, singleDate.day)];
+                      selectedDate = DateTime(singleDate.year, singleDate.month, singleDate.day).toString();
+                      }
+                      print("thi");
+                      print(selectedDates);
+                      print(selectedDate);
+                    },
+                  ),
                 ),
               ),
             ),
@@ -169,49 +213,41 @@ class _EventCalenderDialogState extends State<EventCalenderDialog> {
                   if (selectedDate == '') {
                   } else {
                     if (widget.type == 'adv') {
-                     // widget.ajwadiExploreController!.isDateEmpty.value = false;
-                       widget.advController!.isAdventureDateSelcted.value = true;
+                      // widget.ajwadiExploreController!.isDateEmpty.value = false;
+                      widget.advController!.isAdventureDateSelcted.value = true;
                       // widget.ajwadiExploreController!
                       //     .selectedAdvDate(selectedDate);
 
                       widget.advController!.selectedDate(selectedDate);
-                    //  widget.advController!.selectedDates(selectedDates);
-
-
+                      //  widget.advController!.selectedDates(selectedDates);
                     } else if (widget.type == 'event') {
-                    
                       widget.eventController!.isEventDateSelcted.value = true;
-                   widget.eventController!.selectedDate(selectedDate);
 
-                    widget.eventController!.selectedDates(selectedDates);
-                    widget.eventController!.DateErrorMessage.value= !AppUtil.areAllDatesAfter24Hours(widget.eventController!.selectedDates);
-
+                      widget.eventController!.selectedDate(selectedDate);
+                      widget.eventController!.selectedDates(selectedDates);
+                      print("this selected dates");
+                      print( widget.eventController!.selectedDates.length);
+                      widget.eventController!.DateErrorMessage.value =
+                          !AppUtil.areAllDatesAfter24Hours(
+                              widget.eventController!.selectedDates);
                     } else if (widget.type == 'book') {
                       widget.touristExploreController!.isBookingDateSelected
                           .value = true;
                       widget.touristExploreController!
                           .selectedDate(selectedDate);
-                    } 
-                    else if (widget.type == 'hospitality'  )//new
-                     {
+                    } else if (widget.type == 'hospitality') //new
+                    {
                       print('8');
                       widget.srvicesController!.isHospatilityDateSelcted.value =
                           true;
-                     // widget.srvicesController!.selectedDates(selectedDates);
-                    widget.srvicesController!.selectedDate(selectedDate);
+                      // widget.srvicesController!.selectedDates(selectedDates);
+                      widget.srvicesController!.selectedDate(selectedDate);
+                    }
 
-
-                         
-                         
-
-                        }
-                  
-
-                  
                     Get.back();
                   }
                 },
-                title:"confirm".tr)
+                title: "confirm".tr)
           ],
         ));
   }

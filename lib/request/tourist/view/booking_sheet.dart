@@ -8,6 +8,7 @@ import 'package:ajwad_v4/explore/ajwadi/model/userLocation.dart';
 import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
 import 'package:ajwad_v4/request/tourist/view/find_ajwady.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
+import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/custom_text_with_icon_button.dart';
@@ -65,7 +66,7 @@ class _BookingSheetState extends State<BookingSheet> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    addCustomIcon();
+    //addCustomIcon();
 
     _touristExploreController.isBookingDateSelected(false);
     _touristExploreController.isBookingTimeSelected(false);
@@ -105,7 +106,7 @@ class _BookingSheetState extends State<BookingSheet> {
  late tz.Location location;
   bool? DateErrorMessage;
   bool? TimeErrorMessage;
-  bool? DurationErrorMessage;
+bool? DurationErrorMessage;
 
   bool? GuestErrorMessage;
   bool? vehicleErrorMessage;
@@ -157,16 +158,15 @@ final Duration adjustedTotalTime = totalTime.isNegative
   print( adjustedTotalTime );
   if ( adjustedTotalTime >= fourHours &&  adjustedTotalTime  <= eightHours) {
     setState(() {
-      DurationErrorMessage = false;
+     DurationErrorMessage = false;
     });
-    print(DurationErrorMessage);
+    print( DurationErrorMessage);
     return true;
     
   } else {
      setState(() {
-      DurationErrorMessage = true;
+     DurationErrorMessage = true;
     });
-        print(DurationErrorMessage);
 
     return false;
     
@@ -201,15 +201,15 @@ final Duration adjustedTotalTime = totalTime.isNegative
                     right: width * 0.023,
                     bottom: height * 0.03),
                 child: ListView(children: [
-                  const Icon(
-                    Icons.keyboard_arrow_up_outlined,
-                    size: 30,
+                  BottomSheetIndicator(),
+
+                  const SizedBox(
+                    height: 12,
                   ),
-                 
                   CustomText(
                     text: "date".tr,
                     color: Color(0xFF070708),
-                    fontSize: 17,
+                    fontSize: width*0.044,
                     fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
                     fontWeight: FontWeight.w500,
                     height: 0,
@@ -240,25 +240,20 @@ final Duration adjustedTotalTime = totalTime.isNegative
                               );
                             });
                       },
-                      height: height * 0.063,
+                      height: height * 0.061,
                       width: width * 0.90,
                       title:
                           !_touristExploreController.isBookingDateSelected.value
                               ? 'mm/dd/yyy'.tr
                               : _touristExploreController.selectedDate.value
                                   .substring(0, 10),
-                          borderColor:       DateErrorMessage ?? false ?Colors.red: lightGreyColor,
+                          borderColor:   DateErrorMessage ?? false ?Colors.red: borderGrey,
 
-                     // borderColor: lightGreyColor,
-                      prefixIcon: SvgPicture.asset(
+                      prefixIcon:Container(),
+                      suffixIcon: SvgPicture.asset(
                         "assets/icons/green_calendar.svg",
                       ),
-                      suffixIcon: const Icon(
-                        Icons.arrow_forward_ios,
-                        color: almostGrey,
-                        size: 15,
-                      ),
-                      textColor: almostGrey,
+                      textColor: borderGrey,
                     ),
                     
                   ),
@@ -266,10 +261,12 @@ final Duration adjustedTotalTime = totalTime.isNegative
                 Padding(
                   padding: const EdgeInsets.only(top:10),
                   child: Text(
-                    AppUtil.rtlDirection2(context) ?"اختر التاريخ" :"Select Date",
+                    AppUtil.rtlDirection2(context) ?'*لابد من اختيار تاريخ للجولة ':"Select Date",
                     style: TextStyle(
                       color: Colors.red,
-                      fontSize: 12,
+                      fontSize:width* 0.028,
+                       fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+
                     ),
                   ),
                 ),
@@ -286,7 +283,7 @@ final Duration adjustedTotalTime = totalTime.isNegative
                            CustomText(
                             text: AppUtil.rtlDirection2(context)?"وقت الذهاب":"Pick up time",
                             color: Colors.black,
-                            fontSize: 17,
+                            fontSize:  width*0.044,
                              fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
                                fontWeight: FontWeight.w500,
                           ),
@@ -298,7 +295,7 @@ final Duration adjustedTotalTime = totalTime.isNegative
                                 ? Alignment.centerLeft
                                 : Alignment.centerRight,
                             child: CustomTextWithIconButton(
-                              onTap: () {
+                              onTap:  () {
                                 showCupertinoModalPopup<void>(
                                     context: context,
                                     // barrierColor: Colors.white,
@@ -351,7 +348,7 @@ final Duration adjustedTotalTime = totalTime.isNegative
                                                   child: CustomText(
                                                     text: "confirm".tr,
                                                     color: colorGreen,
-                                                     fontSize: 15,
+                                                     fontSize: width*0.038,
                                          fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
                                                     fontWeight: FontWeight.w500,
                                                   ),
@@ -396,26 +393,27 @@ final Duration adjustedTotalTime = totalTime.isNegative
                               width: width * 0.41,
                               title: !_touristExploreController
                                       .isBookingTimeSelected.value
-                                  ? "00 :00 PM"
+                                  ? "00:00"
                                   : DateFormat('hh:mm a').format(newTimeToGo),
                               //  test,
-                              borderColor: TimeErrorMessage??false?  Colors.red :  DurationErrorMessage ?? false ? Colors.red : lightGreyColor,
+                              borderColor: TimeErrorMessage??false?  Colors.red :DurationErrorMessage??false ? Colors.red : borderGrey,
  
-                              prefixIcon: SvgPicture.asset(
-                                "assets/icons/time_icon.svg",
-                              ),
+                              prefixIcon:Container(),
                               suffixIcon: Container(),
-                              textColor: almostGrey,
+                              textColor: borderGrey,
+                            
                             ),
                           ),
                           if ( TimeErrorMessage??false)
                           Padding(
                           padding: const EdgeInsets.only(top:10),
                          child: Text(
-                          AppUtil.rtlDirection2(context)?"اختر الوقت":"Select Time",
+                          AppUtil.rtlDirection2(context)?"*لابد من إدخال وقت الذهاب":"Select Time",
                           style: TextStyle(
                            color: Colors.red,
-                           fontSize: 12,
+                           fontSize: width* 0.028,
+                           fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+
                     ),
                   ),
                 ),
@@ -430,7 +428,7 @@ final Duration adjustedTotalTime = totalTime.isNegative
                            CustomText(
                             text: AppUtil.rtlDirection2(context)?"وقت العودة":"Drop off time",
                             color: Colors.black,
-                            fontSize: 17,
+                            fontSize: width*0.044,
                             fontWeight: FontWeight.w500,
                           fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
 
@@ -533,27 +531,27 @@ final Duration adjustedTotalTime = totalTime.isNegative
                               width: width * 0.41,
                               title: !_touristExploreController
                                       .isBookingTimeSelected.value
-                                  ? "00:00 PM"
+                                  ? "00:00"
                                   : DateFormat('hh:mm a')
                                       .format(newTimeToReturn),
                               //  test,
-                                borderColor: TimeErrorMessage??false?  Colors.red : DurationErrorMessage ?? false ? Colors.red : lightGreyColor,
+                                borderColor: TimeErrorMessage??false?  Colors.red :DurationErrorMessage??false  ? Colors.red :borderGrey,
 
-                              prefixIcon: SvgPicture.asset(
-                                "assets/icons/time_icon.svg",
-                              ),
+                              prefixIcon: Container(),
                               suffixIcon: Container(),
-                              textColor: almostGrey,
+                              textColor:borderGrey,
                             ),
                           ),
                       if ( TimeErrorMessage??false)
                            Padding(
                             padding: const EdgeInsets.only(top:10),
                              child: Text(
-                            AppUtil.rtlDirection2(context)?"اختر الوقت":"Select Time",
+                            AppUtil.rtlDirection2(context)?"*لابد من إدخال وقت العودة":"Select Time",
                               style: TextStyle(
                                  color: Colors.red,
-                                fontSize: 12,
+                                    fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+
+                                fontSize: width*width* 0.028,
                              ),
                           ),
                            ),
@@ -567,7 +565,7 @@ final Duration adjustedTotalTime = totalTime.isNegative
                   CustomText(
                     text: "numberOfPeople".tr,
                     color: Colors.black,
-                    fontSize: 17,
+                    fontSize: width*0.044,
                     fontWeight: FontWeight.w500,
                  fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
 
@@ -585,14 +583,15 @@ final Duration adjustedTotalTime = totalTime.isNegative
                    // margin: EdgeInsets.only(top: height * 0.02, bottom: 5),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-                      border: Border.all(width:2,color: lightGreyColor),
+                      border: Border.all(width:1,color: borderGrey),
                     ),
                     child: Row(
                       children: [
                         CustomText(
                           text: "person".tr,
-                          fontWeight: FontWeight.w700,
-                          color: textGreyColor,
+                          fontWeight: FontWeight.w400,
+                          fontSize: width*0.035,
+                          color: borderGrey,
                         fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
 
                         ),
@@ -610,15 +609,16 @@ final Duration adjustedTotalTime = totalTime.isNegative
                               }
                             },
                             child: const Icon(Icons.horizontal_rule_outlined,
-                                color: almostGrey)),
+                                color: borderGrey)),
                         const SizedBox(
                           width: 15,
                         ),
                         CustomText(
                           text: guestNum.toString(),
-                          color: colorDarkGrey,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
+                            fontWeight: FontWeight.w400,
+                          fontSize: width*0.035,
+                          color: borderGrey,
+                        fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
                         ),
                         const SizedBox(
                           width: 15,
@@ -631,22 +631,22 @@ final Duration adjustedTotalTime = totalTime.isNegative
 
                                 guestNum = guestNum + 1;
                               });
-                              if (selectedRide == 'van' && guestNum <= 10) {
+                              if (selectedRide == 'van' && guestNum <= 7) {
                                 selectedRide = "";
                               }
                               print(selectedRide);
                             },
-                            child: const Icon(Icons.add, color: almostGrey)),
+                            child: const Icon(Icons.add, color: borderGrey)),
                       ],
                     ),
                   ),
                  
                   Align(
-                      alignment: Alignment.centerLeft,
+                      alignment:AppUtil.rtlDirection2(context)?Alignment.centerRight: Alignment.centerLeft,
                       child: CustomText(
                         text: "forMoreThan10".tr,
                         fontSize: 10,
-                        color: almostGrey,
+                        color: borderGrey,
                      fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
 
                       )),
@@ -656,7 +656,7 @@ final Duration adjustedTotalTime = totalTime.isNegative
                   CustomText(
                     text: "pickUpLocation".tr,
                     color: Colors.black,
-                     fontSize: 18,
+                     fontSize: width*0.044,
                     fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
                      fontWeight: FontWeight.w500,
                   ),
@@ -726,13 +726,13 @@ final Duration adjustedTotalTime = totalTime.isNegative
                   CustomText(
                     text: "pickUpRide".tr,
                     color: Colors.black,
-                    fontSize: 17,
+                    fontSize: width*0.044,
                     fontWeight: FontWeight.w500,
                       fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
 
                   ),
                   SizedBox(
-                    height: height * 0.02,
+                            height: height * 0.01,
                   ),
                   pickupRide(),
                   if ( vehicleErrorMessage??false)
@@ -741,8 +741,10 @@ final Duration adjustedTotalTime = totalTime.isNegative
                              child: Text(
                             AppUtil.rtlDirection2(context)?"اختر نوع السيارة":"Select vehicle type",
                               style: TextStyle(
+                            fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+
                                  color: Colors.red,
-                                fontSize: 12,
+                                fontSize: width*0.028,
                              ),
                           ),
                            ),
@@ -754,23 +756,7 @@ final Duration adjustedTotalTime = totalTime.isNegative
                   // ),
                   Row(
                     children: [
-                      // Column(
-                      //   children: [
-                      //     CustomText(
-                      //       text: "startFrom".tr,
-                      //       fontSize: 12,
-                      //     ),
-                      //     const SizedBox(
-                      //       height: 6,
-                      //     ),
-                      //     CustomText(
-                      //       text: '${widget.place!.price} ${'sar'.tr}',
-                      //       fontWeight: FontWeight.w900,
-                      //       fontSize: 22,
-                      //     )
-                      //   ],
-                      // ),
-                      //const Spacer(),
+                    
                       _touristExploreController.isBookingIsMaking.value ||
                               _touristExploreController.isPlaceIsLoading.value
                           ? const CircularProgressIndicator(
@@ -781,13 +767,6 @@ final Duration adjustedTotalTime = totalTime.isNegative
                               title: "findLocal".tr,
                               onPressed: () async {
                              
-                                // Get.to(() => const FindAjwady());
-                          //         if(!_touristExploreController.isBookingDateSelected.value){
-                          //      AppUtil.errorToast(context, 'hello');
-                          // }
-                        
-
-
                            if(!_touristExploreController.isBookingDateSelected.value)
                               setState(() {
                                       DateErrorMessage = true;
@@ -801,11 +780,9 @@ final Duration adjustedTotalTime = totalTime.isNegative
                               setState(() {
                                       TimeErrorMessage = true;
                                        });
-                            // else{
-                            //    setState(() {
-                            //         TimeErrorMessage = false;
-                            //            });
-                            // }
+                         
+                         
+
 
                           
                             if( selectedRide == "")
@@ -830,6 +807,7 @@ final Duration adjustedTotalTime = totalTime.isNegative
                             if( _validateTime()){
                            print(_validateTime());
                             if(newTimeToGoInRiyadh.isAfter(nowPlusTwoHours)){
+                              
 
                                   _touristExploreController.isBookedMade(true);
 
@@ -924,7 +902,7 @@ print(isSuccess);
             child: GestureDetector(
               onTap: () {
                 setState(() {
-                  if (key == 'van' && guestNum > 10) {
+                  if (key == 'van' && guestNum > 7) {
                     selectedRide = key;
                   } else if (key != 'van') {
                     selectedRide = key;
@@ -937,7 +915,7 @@ print(isSuccess);
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
-                    color: (key == 'van' && guestNum <= 10)
+                    color: (key == 'van' && guestNum <= 7)
                         ? Colors.transparent
                         : selectedRide == key
                             ? colorGreen
@@ -949,7 +927,7 @@ print(isSuccess);
                   //       blurRadius: 9,
                   //       spreadRadius: 8)
                   // ],
-                  color: (key == 'van' && guestNum <= 10)
+                  color: (key == 'van' && guestNum <= 7)
                       ? lightGreyColor
                       : selectedRide == key
                           ? lightGreen
@@ -960,7 +938,7 @@ print(isSuccess);
                     Spacer(),
                     SvgPicture.asset(
                       selectedRide == key ? values[0] : values[1],
-                      color: (key == 'van' && guestNum <= 10)
+                      color: (key == 'van' && guestNum <= 7)
                           ? tileGreyColor
                           : null,
                     ),
@@ -968,7 +946,7 @@ print(isSuccess);
                   
                     CustomText(
                       text: "$key".tr,
-                      color: (key == 'van' && guestNum <= 10)
+                      color: (key == 'van' && guestNum <= 7)
                           ? tileGreyColor
                           : selectedRide == key
                               ? colorGreen

@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:ajwad_v4/explore/ajwadi/controllers/ajwadi_explore_controller.dart';
-import 'package:ajwad_v4/explore/ajwadi/view/Experience/LocalEvent/widget/add_event_info.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/localEvent/view/event_info_review.dart';
+import 'package:ajwad_v4/explore/ajwadi/view/Experience/localEvent/widget/add_event_info.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/localEvent/widget/add_guests.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/localEvent/widget/add_location.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/localEvent/widget/add_price.dart';
@@ -148,7 +148,7 @@ class _EventAddProgressState extends State<EventAddProgress> {
       case 1:
         print(_EventController.bioAr.value);
         print(_EventController.bioEn.value);
-        print('1');
+        //print('1');
 
         return AddEventLocation(
           textField1Controller: EventLocation,
@@ -187,9 +187,9 @@ class _EventAddProgressState extends State<EventAddProgress> {
   bool _validateFields() {
     if (activeIndex == 0) {
       return
+       _EventController.titleAr.isNotEmpty&&
         _EventController.bioAr.isNotEmpty &&
         _EventController.bioEn.isNotEmpty &&
-       _EventController.titleAr.isNotEmpty &&
         _EventController.titleEn.isNotEmpty;
       // EventTitleControllerEn.text.isNotEmpty &&
       //     EventBioControllerEn.text.isNotEmpty &&
@@ -199,7 +199,7 @@ class _EventAddProgressState extends State<EventAddProgress> {
     if (activeIndex == 1) {
       return
      _EventController.pickUpLocLatLang.value !=
-          const LatLng(0.0, 0.0);
+          const LatLng(0.0, 0.0) &&  _EventController.ragionAr.isNotEmpty && _EventController.ragionEn.isNotEmpty;
     }
    
      if (activeIndex == 3) {
@@ -260,10 +260,10 @@ class _EventAddProgressState extends State<EventAddProgress> {
                 });
               } else if (activeIndex == totalIndex - 1) {
                 Get.to(EventInfoReview(
-                  hospitalityTitleEn: EventBioControllerEn.text,
-                  hospitalityBioEn: EventBioControllerEn.text,
-                  hospitalityTitleAr: EventTitleControllerAr.text,
-                  hospitalityBioAr: EventBioControllerAr.text,
+                  hospitalityTitleEn: _EventController.titleEn.value,
+                  hospitalityBioEn: _EventController.bioEn.value,
+                  hospitalityTitleAr: _EventController.titleAr.value,
+                  hospitalityBioAr: _EventController.bioAr.value,
                   adventurePrice: double.parse(EventPrice.text),
                  hospitalityLocation: EventLocation.text,
                 ));

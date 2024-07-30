@@ -17,6 +17,7 @@ import 'package:ajwad_v4/request/ajwadi/view/widget/accept_bottom_sheet.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_request_item.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -210,7 +211,7 @@ class _ButtomProgressState extends State<ButtomProgress> {
     if (activeIndex == 1) {
       return
       _hospitalityController.pickUpLocLatLang.value !=
-          const LatLng(0.0, 0.0);
+          const LatLng(0.0, 0.0) && _hospitalityController.ragionAr.isNotEmpty && _hospitalityController.ragionEn.isNotEmpty;
     }
     // if (activeIndex == 2) {
     //   return
@@ -805,7 +806,38 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
     });
   }
 
- 
+   final List<String> regionListEn = [
+    "Riyadh",
+    "Mecca",
+    "Medina",
+    "Dammam",
+    "Qassim",
+    "Hail",
+    "Northern Borders",
+    "Jazan",
+    "Asir",
+    "Tabuk",
+    "Najran",
+    "Al Baha",
+    "Al Jouf"
+  ];
+
+  final List<String> regionListAr = [
+    "الرياض",
+    "مكة",
+    "المدينة",
+    "الدمام",
+    "القصيم",
+    "حائل",
+    "الحدود الشمالية",
+    "جازان",
+    "عسير",
+    "تبوك",
+    "نجران",
+    "الباحة",
+    "الجوف"
+  ];
+
 
 
   @override
@@ -855,73 +887,21 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
                         fontWeight: FontWeight.w400,
                         height: 0,
                       ),
-                    ),
-                    SizedBox(height: 18),
-                    Container(
-                      width: double.infinity,
-                      height: 48,
-                      decoration: ShapeDecoration(
-                        color: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(width: 1, color: Color(0xFFB9B8C1)),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 10),
-                       child: _isLoading
-                            ? Align(
-                              alignment: Alignment.topLeft,
-                              child: Container()
-                              )
-                            :  TextField(
-                                controller: widget.textField1Controller,
-                                enabled:false,
-
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 15,
-                                    fontFamily:  AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                decoration: InputDecoration(
-                                  hintText: address,
-                                  hintStyle: TextStyle(
-                                    color: Color(0xFFB9B8C1),
-                                    fontSize: 15,
-                                    fontFamily:  AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                    borderSide: BorderSide.none,
-                                  ),
-                                  prefixIcon: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 10.0, right: 10, bottom: 14),
-                                    child: SvgPicture.asset(
-                                      'assets/icons/map_pin.svg',
-                                      color: Color(0xFFB9B8C1),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                      ),
-                    ),
+                    ),             
                   ],
                 ),
               ),
-              SizedBox(height: 3),
+            const SizedBox(height: 16),
               Stack(
                 children: [
                   ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                    borderRadius: const BorderRadius.all(Radius.circular(12)),
                     child: Container(
                       decoration: BoxDecoration(
                         color: almostGrey.withOpacity(0.2),
                         borderRadius: BorderRadius.all(Radius.circular(12)),
                       ),
-                      height: AppUtil.rtlDirection2(context)? height*0.54:height*0.53,
+                      height: AppUtil.rtlDirection2(context)? height*0.54:height*0.54,
                       width: double.infinity,
                       child: _currentPosition == null
                     ? Center(child: CircularProgressIndicator.adaptive())
@@ -1001,6 +981,169 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
                     ),
                   ),
                 ],
+              ),
+               Container(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    DropdownButtonHideUnderline(
+                      child: DropdownButtonFormField2<String>(
+                        isExpanded: true,
+                        value:  widget.hospitalityController.ragionAr.isEmpty ||
+                               widget.hospitalityController.ragionEn.isEmpty
+                            ? null
+                            : AppUtil.rtlDirection2(context)
+                                ?  widget.hospitalityController.ragionAr.value
+                                : widget.hospitalityController.ragionEn.value,
+                        decoration: InputDecoration(
+                          focusedBorder: const OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 1, color: Graytext)),
+                          enabledBorder: const OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 1, color: Graytext)),
+                          contentPadding:
+                              const EdgeInsets.symmetric(vertical: 16),
+                          border: OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(width: 1, color: Graytext),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        hint: Text(
+                          AppUtil.rtlDirection2(context)
+                              ? "اختر المنطقة"
+                              : 'Choose your Region',
+                          style: TextStyle(
+                            color: Graytext,
+                            fontSize: 14,
+                            fontFamily: AppUtil.rtlDirection2(context)
+                                ? 'SF Arabic'
+                                : 'SF Pro',
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        items: AppUtil.rtlDirection2(context)
+                            ? regionListAr
+                                .map((item) => DropdownMenuItem<String>(
+                                      value: item,
+                                      child: Text(
+                                        item,
+                                        style: TextStyle(
+                                          color: black,
+                                          fontSize: 15,
+                                          fontFamily:
+                                              AppUtil.rtlDirection2(context)
+                                                  ? 'SF Arabic'
+                                                  : 'SF Pro',
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ))
+                                .toList()
+                            : regionListEn
+                                .map((item) => DropdownMenuItem<String>(
+                                      value: item,
+                                      child: Text(
+                                        item,
+                                        style: TextStyle(
+                                          color: black,
+                                          fontSize: 15,
+                                          fontFamily:
+                                              AppUtil.rtlDirection2(context)
+                                                  ? 'SF Arabic'
+                                                  : 'SF Pro',
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ))
+                                .toList(),
+                        validator: (value) {
+                          if (value == null) {
+                            return 'Please select gender.';
+                          }
+                          return null;
+                        },
+                        onChanged: (value) {
+                          if (AppUtil.rtlDirection2(context)) {
+                          widget.hospitalityController.ragionAr.value = value.toString();
+
+                            int index = regionListAr.indexOf(value.toString());
+
+                            if (index != -1 && index < regionListEn.length) {
+                             widget.hospitalityController.ragionEn.value =
+                                  regionListEn[index];
+                            }
+                          } else {
+                          widget.hospitalityController.ragionEn.value = value.toString();
+
+                            int index = regionListEn.indexOf(value.toString());
+
+                            if (index != -1 && index < regionListAr.length) {
+                          widget.hospitalityController.ragionAr.value =
+                                  regionListAr[index];
+                            }
+                          }
+                          print( widget.hospitalityController.ragionAr.value);
+                          print( widget.hospitalityController.ragionEn.value);
+                        },
+                        onSaved: (value) {
+                          if (AppUtil.rtlDirection2(context)) {
+                            widget.hospitalityController.ragionAr.value = value.toString();
+
+                            int index = regionListAr.indexOf(value.toString());
+
+                            if (index != -1 && index < regionListEn.length) {
+                             widget.hospitalityController.ragionEn.value =
+                                  regionListEn[index];
+                            }
+                          } else {
+                          widget.hospitalityController.ragionEn.value = value.toString();
+
+                            int index = regionListEn.indexOf(value.toString());
+
+                            if (index != -1 && index < regionListAr.length) {
+                          widget.hospitalityController.ragionAr.value =
+                                  regionListAr[index];
+                            }
+                          }
+                          print( widget.hospitalityController.ragionAr.value);
+                          print( widget.hospitalityController.ragionEn.value);
+                        },
+                        buttonStyleData: const ButtonStyleData(
+                          padding: EdgeInsets.only(right: 8),
+                        ),
+                        iconStyleData: const IconStyleData(
+                          icon: Icon(
+                            Icons.keyboard_arrow_down_outlined,
+                            color: Graytext,
+                          ),
+                          iconSize: 24,
+                        ),
+                        dropdownStyleData: DropdownStyleData(
+                          maxHeight: 100,
+                          decoration: BoxDecoration(),
+                          scrollbarTheme: ScrollbarThemeData(
+                            radius: const Radius.circular(40),
+                            thickness: MaterialStateProperty.all(8),
+                            thumbVisibility: MaterialStateProperty.all(true),
+                            thumbColor:
+                                MaterialStateProperty.all(starGreyColor),
+                            trackColor:
+                                MaterialStateProperty.all(lightGreyColor),
+                            trackVisibility: MaterialStateProperty.all(true),
+                          ),
+                        ),
+                        menuItemStyleData: const MenuItemStyleData(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

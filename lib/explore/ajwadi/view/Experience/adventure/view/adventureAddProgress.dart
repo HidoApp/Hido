@@ -196,7 +196,7 @@ class _AdventureAddProgressState extends State<AdventureAddProgress> {
     if (activeIndex == 1) {
       return
      _AdventureControllerController.pickUpLocLatLang.value !=
-          const LatLng(0.0, 0.0);
+          const LatLng(0.0, 0.0)&&  _AdventureControllerController.ragionAr.isNotEmpty && _AdventureControllerController.ragionEn.isNotEmpty;;
     
     }
     // if (activeIndex == 2) {

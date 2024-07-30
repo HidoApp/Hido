@@ -107,7 +107,7 @@ print("day deference");
             : days = " is tomorrow at " + booking.timeToGo;
      
      
-      } else {
+      } else if(daysDifference == 0) {
         print(bookingDate);
         print(currentDateInRiyadh);
         DateTime bookingDateWithoutTime =
@@ -124,11 +124,16 @@ print("day deference");
               : days = " is today at " + booking.timeToGo;
         }
         
-      }
-    }setState(() {
+      }else{
+        setState(() {
         widget.hasNotifications = false;
       });
-    
+      }
+    }else{
+      setState(() {
+        widget.hasNotifications = false;
+      });
+    }
     }
     print(  widget.hasNotifications);
   }
