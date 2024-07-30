@@ -74,7 +74,6 @@ class _CheckContainerWidgetState extends State<CheckContainerWidget> {
                     fontWeight: FontWeight.w500,
                   ),
                 )
-                
               ],
             ),
             const SizedBox(
@@ -94,17 +93,17 @@ class _CheckContainerWidgetState extends State<CheckContainerWidget> {
               height: 10,
             ),
             Container(
-         width: 318,
-      decoration: ShapeDecoration(
-        shape: RoundedRectangleBorder(
-     side: BorderSide(
-        width: 1,
-           strokeAlign: BorderSide.strokeAlignCenter,
-           color: Color(0xFFDCDCE0),
-        ),
-          ),
-        ),
-),
+              width: 318,
+              decoration: ShapeDecoration(
+                shape: RoundedRectangleBorder(
+                  side: BorderSide(
+                    width: 1,
+                    strokeAlign: BorderSide.strokeAlignCenter,
+                    color: Color(0xFFDCDCE0),
+                  ),
+                ),
+              ),
+            ),
             const SizedBox(
               height: 28,
             ),
@@ -119,10 +118,14 @@ class _CheckContainerWidgetState extends State<CheckContainerWidget> {
                                   widget.offerController?.checkedList[index] ??
                                       false,
                               onTap: () {
-  bool check = !(widget.offerController?.checkedList[index] ?? false);
-  widget.offerController?.checkTotal(index, check);
-  widget.offerController?.getTotalPrice(scheduleList, index);
-},
+                                bool check = !(widget
+                                        .offerController?.checkedList[index] ??
+                                    false);
+                                widget.offerController
+                                    ?.checkTotal(index, check);
+                                widget.offerController
+                                    ?.getTotalPrice(scheduleList, index);
+                              },
                               schedule: scheduleList![index],
                               isLast: index == scheduleList!.length - 1,
                               isBold: !(index == 0 || index == 2),
@@ -241,9 +244,7 @@ class _CustomCheckWidget extends StatelessWidget {
                     children: [
                       Text(
                         schedule?.scheduleName ?? '',
-                       style: isBold ? titleBold : titleStyle,
-
-
+                        style: isBold ? titleBold : titleStyle,
                       ),
                       const SizedBox(
                         height: 1,
@@ -251,16 +252,15 @@ class _CustomCheckWidget extends StatelessWidget {
                       if (schedule?.scheduleTime != null)
                         Row(
                           children: [
-                            Text(AppUtil.formatStringTimeWithLocale(context, 
-                                  schedule?.scheduleTime!['from']),
-                             
+                            Text(
+                              AppUtil.formatStringTimeWithLocale(
+                                  context, schedule?.scheduleTime!['from']),
                               style: const TextStyle(
                                 color: Color(0xFF676767),
                                 fontSize: 13,
                                 fontFamily: 'SF Pro',
                                 fontWeight: FontWeight.w400,
                               ),
-                              
                             ),
                             const Text(
                               " - ",
@@ -271,8 +271,8 @@ class _CustomCheckWidget extends StatelessWidget {
                                 fontWeight: FontWeight.w400,
                               ),
                             ),
-                             Text("${AppUtil.formatStringTimeWithLocale(context,
-                                  schedule?.scheduleTime!['to'])} ",
+                            Text(
+                              "${AppUtil.formatStringTimeWithLocale(context, schedule?.scheduleTime!['to'])} ",
                               style: const TextStyle(
                                 color: Color(0xFF676767),
                                 fontSize: 13,
@@ -285,31 +285,33 @@ class _CustomCheckWidget extends StatelessWidget {
                     ],
                   ),
                   Spacer(),
-                   Row(
-                //     mainAxisAlignment: MainAxisAlignment.end,
-                // crossAxisAlignment: CrossAxisAlignment.end,
-                  children:[
-                     Text.rich(
-                    TextSpan(
-                      children: [
+                  Row(
+                    //     mainAxisAlignment: MainAxisAlignment.end,
+                    // crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text.rich(
                         TextSpan(
-                          text: AppUtil.rtlDirection2(context)?'${schedule?.price ?? 0} ريال ':'${schedule?.price ?? 0} SAR ',
-                          style: isBold ? priceBold : priceStyle,
+                          children: [
+                            TextSpan(
+                              text: AppUtil.rtlDirection2(context)
+                                  ? '${schedule?.price ?? 0} ريال '
+                                  : '${schedule?.price ?? 0} SAR ',
+                              style: isBold ? priceBold : priceStyle,
+                            ),
+                            // const TextSpan(
+                            //   text: 'للشخص',
+                            //   style: TextStyle(
+                            //     color: colorDarkGrey,
+                            //     fontSize: 8,
+                            //     fontFamily: 'HT Rakik',
+                            //     fontWeight: FontWeight.w500,
+                            //   ),
+                            // ),
+                          ],
                         ),
-                        // const TextSpan(
-                        //   text: 'للشخص',
-                        //   style: TextStyle(
-                        //     color: colorDarkGrey,
-                        //     fontSize: 8,
-                        //     fontFamily: 'HT Rakik',
-                        //     fontWeight: FontWeight.w500,
-                        //   ),
-                        // ),
-                      ],
-                    ),
-                    textAlign: TextAlign.right,
-                  ),
-                  ],
+                        textAlign: TextAlign.right,
+                      ),
+                    ],
                   ),
                   // const SizedBox(
                   //   width: 22,
@@ -318,7 +320,9 @@ class _CustomCheckWidget extends StatelessWidget {
           ),
           if (!isLast)
             Align(
-              alignment:AppUtil.rtlDirection2(context) ? Alignment.centerRight : Alignment.centerLeft,
+              alignment: AppUtil.rtlDirection2(context)
+                  ? Alignment.centerRight
+                  : Alignment.centerLeft,
               child: Padding(
                 padding: const EdgeInsets.only(top: 20),
                 child: SizedBox(

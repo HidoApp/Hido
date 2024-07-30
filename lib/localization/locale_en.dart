@@ -180,7 +180,7 @@ const localeEn = {
   "others": "Others",
   "update": "Update",
   "sameLocation": "Same Location",
-  "change": "change",
+  "change": "Change",
   "locBreif": "Street Number, Sector Number, City Name, State, India",
   "confirmLocation": "Confirm location",
   'tuwaik': "Tuwaik",
@@ -580,12 +580,35 @@ const localeEn = {
   'editPhoneNumber': 'Edit phone number',
   "phoneEditSubtitle": "We’ll text you code to verify your number ",
   'addProvidedServices': 'Add your provided services',
+  //branch progress sheet
   'timerDialogContent':
       "no local guides offered tours matching your request. We suggest searching again later or exploring other dates.",
   'unfortunately': 'Unfortunately',
   'requestTimedOut': "Your tour request timed out!",
-  'contentTimedOut':
-      "Submit a new request to find your perfect adventure.",
+  'contentTimedOut': "Submit a new request to find your perfect adventure.",
+  'localOnway': 'Your local guide is on the way',
+  "localOnwaySubtitle":
+      'Be ready your local guide is on the way to the pick up location ',
+  'localArrived': 'Your local guide arrived ',
+  'localArrivedSubtitle': 'Please meet your guide at the pick up point ',
+  'pickUpTitle': 'Rode with your local guide',
+  'pickUpSubtitle': "It looks like you've met up with your tour guide. ",
+  'tourStarted': 'Tour Started! ',
+  'tourStartedSubtitle': 'We hope you have unforgettable time in your tour ',
+  'tourCompleted': 'Your tour is completed !',
+  'tourCompletedSubtitle':
+      'Thank you for using our app! Please tell us about your experience ',
+  'PickUp': 'Pick up',
+  'tourTime': "Tour time ",
+  'completeTour': 'Completed',
+  'signOutDialog': "Active Tour Request",
+  'signOutDialogContent':
+      "There is ongoing tour request. To sign out, please complete or cancel your request",
+  'submit': 'Submit',
+  'howYourTour': "How was your tour in",
+  'howYourGudie': "How was you guide",
+  //end progress sheet
+
   "noNextActivity": 'you don‘t have any activity yet',
   "noExpertise":"There are no expertise yet",
   "noAbout":"There are no informations yet",

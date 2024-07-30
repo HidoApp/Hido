@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
- 
   const CustomAppBar(this.title,
       {Key? key,
       this.color = black,
@@ -15,7 +14,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       this.backgroundColor,
       this.isAjwadi = false,
       this.isBack = false,
-       this.isDeleteIcon = false,
+      this.isDeleteIcon = false,
       this.isTimer = false})
       : preferredSize = const Size.fromHeight(75.0),
         super(key: key);
@@ -33,7 +32,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   final Size preferredSize;
 
- @override
+  @override
   Widget build(BuildContext context) {
     return PreferredSize(
         preferredSize: const Size.fromHeight(79.0),
@@ -69,16 +68,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     ),
                   ),
                   actions: <Widget>[
-                    if(!isDeleteIcon!)
-                    if (action)
-                      Padding(
-                        padding: AppUtil.rtlDirection2(context)
-                            ? EdgeInsets.only(
-                                bottom: 35,
-                                left: 15,
-                              )
-                            : EdgeInsets.only(bottom: 35, right: 15),
-                        child: IconButton(
+                    if (!isDeleteIcon!)
+                      if (action)
+                        IconButton(
                           icon: Icon(
                             Icons.more_vert,
                             size: 29,
@@ -87,47 +79,31 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                           tooltip: "more",
                           onPressed: onPressedAction,
                         ),
-                      ),
-                       
-                       if(isDeleteIcon!)
-                       Padding(
-                        padding: AppUtil.rtlDirection2(context)
-                            ? EdgeInsets.only(
-                                top: 10,
-                                left: 15,
-                              )
-                            : EdgeInsets.only(bottom: 35, right: 13),
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.delete_outline,
-                            size: 29,
-                            color:Colors.red,
-
-                          ),
-                          tooltip: "more",
-                          onPressed: onPressedAction,
+                    if (isDeleteIcon!)
+                      IconButton(
+                        icon: Icon(
+                          Icons.delete_outline,
+                          size: 29,
+                          color: Colors.red,
                         ),
+                        tooltip: "more",
+                        onPressed: onPressedAction,
                       )
-                       ],
-                
+                  ],
+
                   //
                   centerTitle: true,
 
                   leading: !isBack
                       ? Padding(
                           padding: AppUtil.rtlDirection2(context)
-
-                        ?!isAjwadi
-                              ? EdgeInsets.only(bottom: 6, right: 30)
-                              : EdgeInsets.only(top: 9, right: 30)
-                        :!isAjwadi
-                              ? EdgeInsets.only(bottom: 6, left: 30,top:2)
-                              : EdgeInsets.only(bottom: 23, left: 30,top:8),
-
-
-                              
-
-
+                              ? !isAjwadi
+                                  ? EdgeInsets.only(bottom: 6, right: 30)
+                                  : EdgeInsets.only(top: 9, right: 30)
+                              : !isAjwadi
+                                  ? EdgeInsets.only(bottom: 6, left: 30, top: 2)
+                                  : EdgeInsets.only(
+                                      bottom: 23, left: 30, top: 8),
                           child: IconButton(
                             icon: Icon(
                               Icons.arrow_back_ios,

@@ -570,11 +570,33 @@ const localeAr = {
   'delAccount': 'حذف الحساب', 'editPhoneNumber': 'تحديث رقم الجوال',
   "phoneEditSubtitle": "سنقوم بارسال رمز لتأكيد رقم الجوال الجديد ",
   'addProvidedServices': 'تحديث الخدمات المقدمة',
+
+  /// progress sheet
   'timerDialogContent':
       'ما في عروض جولات من المرشدين المحليين على حسب طلبك. حياك جرب ثاني لاحقا أو اختار يوم ثاني',
   'unfortunately': 'اعذرنا',
   'requestTimedOut': "انتهى وقت الاختيار!",
   'contentTimedOut': "قدم طلب جديد في حال كنت ترغب في الاستمرار",
+  'localOnway': 'مرشدك المحلي في  طريقه إليك  ',
+  "localOnwaySubtitle": 'جهز نفسك مرشدكم المحلي قادم ',
+  'localArrived': 'مرشدك المحلي وصل',
+  'localArrivedSubtitle': 'مرشدك المحلي في الانتظار عند نقطة الالتقاء',
+  'pickUpTitle': 'التقيت بمرشدك المحلي  ',
+  'pickUpSubtitle':
+      "ممتاز! طالع لنا إنك التقيت بمرشدك المحلي. وبكذا جولتك بدأت :)",
+  'tourStarted': 'وقت الجولة بدأ!',
+  'tourStartedSubtitle': 'نتمنى لك وقت ممتع ، وذكريات وتجارب مميزة لا تنسى',
+  'tourCompleted': 'اكتملت جولتك!',
+  'tourCompletedSubtitle': 'لا تنسى تحكينا عن تجربتك ;) ',
+  'PickUp': 'في الطريق',
+  'tourTime': "وقت الجولة",
+  'completeTour': 'انتهت الجولة',
+  'signOutDialog': "طلب جولة فعال",
+  'signOutDialogContent':
+      "حاليًا عندك طلب جولة قيد التنفيذ. من فضلك، أكمل طلبك أو ألغه لتتمكن من تسجيل الخروج",
+  'submit': 'إرسال', 'howYourTour': " كيف كانت تجربتك في",
+  'howYourGudie': "كيف كانت تجربتك مع ",
+  //-----end
   'noNextActivity':" ليس لديك أنشطة قادمة بعد",
    "noExpertise":"لا يوجد خبرات بعد",
   "noAbout":"لا يوجد معلومات بعد",

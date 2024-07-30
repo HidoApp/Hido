@@ -296,7 +296,7 @@ _tripController.nextTrip= NextActivity();
                           SizedBox(height: 27),
                           Obx(
                             () => _tripController.isNextActivityLoading.value
-                                ? Center(
+                                ? const Center(
                                     child: CircularProgressIndicator.adaptive())
                                 : _tripController.nextTrip.isEmpty
                                     ? Column(
@@ -324,6 +324,7 @@ _tripController.nextTrip= NextActivity();
                                                   fontWeight: FontWeight.w400,
                                                 ),
                                               ),
+
                                             ),
                                           ),
                                           SizedBox(height: 20)

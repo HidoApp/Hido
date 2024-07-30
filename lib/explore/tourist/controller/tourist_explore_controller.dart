@@ -1,3 +1,4 @@
+import 'package:ajwad_v4/explore/tourist/model/activity_progress.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/explore/tourist/model/tourist_map_model.dart';
@@ -19,8 +20,12 @@ class TouristExploreController extends GetxController {
   var isBookingLoading = false.obs;
   var isBookingByIdLoading = false.obs;
   var isTouristMapLoading = false.obs;
+  var isActivityProgressLoading = false.obs;
+  var showActivityProgress = false.obs;
+  var activeStepProgres = (-1).obs;
   var timerSec = 300.obs;
   var isTimerEnabled = true.obs;
+  Rx<ActivityProgress?> activityProgres = ActivityProgress().obs;
   Rx<TouristMapModel?> touristModel = TouristMapModel().obs;
 
   Rx<LatLng> pickUpLocLatLang = const LatLng(24.9470921, 45.9903698).obs;
@@ -172,6 +177,24 @@ class TouristExploreController extends GetxController {
       return null;
     } finally {
       isTouristMapLoading(false);
+    }
+  }
+
+  Future<ActivityProgress?> getActivityProgress(
+      {required BuildContext context}) async {
+    try {
+      isActivityProgressLoading(true);
+      final data =
+          await TouristExploreService.getActivityProgress(context: context);
+      if (data != null) {
+        activityProgres(data);
+      }
+      return data;
+    } catch (e) {
+      isActivityProgressLoading(false);
+      return null;
+    } finally {
+      isActivityProgressLoading(false);
     }
   }
 }

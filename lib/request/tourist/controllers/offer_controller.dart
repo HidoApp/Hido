@@ -39,8 +39,8 @@ class OfferController extends GetxController {
     }
   }
 
-
-  List<String?> get firstThreeImages => offers.take(3).map((offer) => offer.image).toList();
+  List<String?> get firstThreeImages =>
+      offers.take(3).map((offer) => offer.image).toList();
 
   Future<OfferDetails?> getOfferById({
     required BuildContext context,
@@ -116,17 +116,14 @@ class OfferController extends GetxController {
     if (index == null) {
       checkedList.value = List.generate(
           offerDetails.value.schedule?.length ?? 0, (index) => true);
-        updateScheduleList = List<Schedule>.generate(
-        offerDetails.value.schedule?.length??0,
+      updateScheduleList = List<Schedule>.generate(
+        offerDetails.value.schedule?.length ?? 0,
         (index) => offerDetails.value.schedule![index],
-      
       );
       print("data");
-      print(  updateScheduleList[0].scheduleName);
-            print(  updateScheduleList[1].scheduleName);
-                  print(  updateScheduleList[2].scheduleName);
-
-
+      print(updateScheduleList[0].scheduleName);
+      print(updateScheduleList[1].scheduleName);
+      print(updateScheduleList[2].scheduleName);
     } else {
       checkedList[index] = checked;
     }
@@ -137,56 +134,53 @@ class OfferController extends GetxController {
   //?         ======
 
   RxInt totalPrice = RxInt(0);
- void getTotalPrice(List<Schedule>? scheduleList, int? indexRemove) {
-  int total = 0;
+  void getTotalPrice(List<Schedule>? scheduleList, int? indexRemove) {
+    int total = 0;
 
-  // Calculate total without considering current checkbox state
-  if (scheduleList != null && scheduleList.isNotEmpty) {
-    for (int x = 0; x < scheduleList.length; x++) {
-      total += scheduleList[x].price ?? 0;
-    }
-  }
-    print('Total price before adjustments: $total');
-
-
-  // Adjust total based on checkbox state changes
-  if (checkedList.isNotEmpty) {
-    for (int x = 0; x < checkedList.length; x++) {
-      if (!checkedList[x]) {
-                print('Removing price of schedule at index $x: ${scheduleList?[x].price}');
-
-        total -= scheduleList?[x].price ?? 0;
+    // Calculate total without considering current checkbox state
+    if (scheduleList != null && scheduleList.isNotEmpty) {
+      for (int x = 0; x < scheduleList.length; x++) {
+        total += scheduleList[x].price ?? 0;
       }
     }
-  }
+    print('Total price before adjustments: $total');
 
-  // Update total price
-  totalPrice.value = total;
+    // Adjust total based on checkbox state changes
+    if (checkedList.isNotEmpty) {
+      for (int x = 0; x < checkedList.length; x++) {
+        if (!checkedList[x]) {
+          print(
+              'Removing price of schedule at index $x: ${scheduleList?[x].price}');
+
+          total -= scheduleList?[x].price ?? 0;
+        }
+      }
+    }
+
+    // Update total price
+    totalPrice.value = total;
     print('Final total price: ${totalPrice.value}');
-
-}
-  
-  List<Schedule> updateScheduleList = <Schedule>[].obs; 
-  RxBool scheduleState = false.obs;
- void checkTotal(int index, bool check) {
-  List<Schedule>? scheduleList = offerDetails.value.schedule;
-  if (scheduleList == null || index < 0 || index >= scheduleList.length) {
-    return;
   }
 
-  Schedule schedule = scheduleList[index];
-  if (check) {
+  List<Schedule> updateScheduleList = <Schedule>[].obs;
+  RxBool scheduleState = false.obs;
+  void checkTotal(int index, bool check) {
+    List<Schedule>? scheduleList = offerDetails.value.schedule;
+    if (scheduleList == null || index < 0 || index >= scheduleList.length) {
+      return;
+    }
+
+    Schedule schedule = scheduleList[index];
+    if (check) {
       totalPrice += schedule.price ?? 0;
       print("Before add");
       print(updateScheduleList.length);
       if (index < updateScheduleList.length) {
         updateScheduleList.insert(index, schedule);
-                      scheduleState.value=false;
-
+        scheduleState.value = false;
       } else {
-                updateScheduleList.add(schedule);
-              scheduleState.value=false;
-
+        updateScheduleList.add(schedule);
+        scheduleState.value = false;
       }
       print("After add");
       print(updateScheduleList.length);
@@ -195,31 +189,22 @@ class OfferController extends GetxController {
       print("Before remove");
       print(updateScheduleList.length);
       if (index < updateScheduleList.length) {
-
         updateScheduleList.removeAt(index);
-        
       } else {
-        
-      updateScheduleList.removeLast();
-      if(updateScheduleList.isEmpty){
-        scheduleState.value=true;
-      }
-
+        updateScheduleList.removeLast();
+        if (updateScheduleList.isEmpty) {
+          scheduleState.value = true;
+        }
       }
       print("After remove");
-            print(updateScheduleList.length);
-
-
-
+      print(updateScheduleList.length);
     }
 
-  // Update the checked status in the list
-  checkedList[index] = check;
-  print(check);
+    // Update the checked status in the list
+    checkedList[index] = check;
+    print(check);
 
-  // Notify listeners of the changes
-  update();
-}
-
-
+    // Notify listeners of the changes
+    update();
+  }
 }

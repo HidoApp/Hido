@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/event/model/event.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
@@ -41,6 +43,8 @@ class _EventTicketDataState extends State<EventTicketData> {
 
   @override
   Widget build(BuildContext context) {
+    log('fff');
+    log(widget.event!.booking!.first.date.isEmpty.toString());
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -115,7 +119,7 @@ class _EventTicketDataState extends State<EventTicketData> {
                                 ? AppUtil.formatBookingDate(
                                     context, widget.booking!.date)
                                 : AppUtil.formatBookingDate(
-                                    context, widget.event!.booking!.last.date),
+                                    context, widget.event!.booking!.first.date),
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Color(0xFF111113),
