@@ -11,7 +11,7 @@ class TripController extends GetxController {
   var isChatLoading = false.obs;
   var upcommingTicket = <LocalTrip>[].obs;
   var pastTicket = <LocalTrip>[].obs;
-  var nextTrip = NextActivity();
+  NextActivity? nextTrip = NextActivity();
   var updatedActivity= NextActivity();
   Rx<String> nextStep = 'PENDING'.obs;
     Rx<double> progress = 0.1.obs;
@@ -85,7 +85,7 @@ class TripController extends GetxController {
       print("TRUE");
 
       isNextActivityLoading(true);
-      nextTrip = (await TripService.getNextActivity(context: context))!;
+      nextTrip = (await TripService.getNextActivity(context: context));
 
       return nextTrip;
     } catch (e) {
@@ -105,10 +105,12 @@ class TripController extends GetxController {
      isActivityProgressLoading(true);
 
        updatedActivity = (await TripService.updateActivity(id: id, context: context))!;
-      if (updatedActivity != null) {
+       print("this update");
+       print(updatedActivity.isEmpty);
+      if (!updatedActivity.isEmpty) {
         return updatedActivity;
       } else {
-        return null;
+        return NextActivity();
       }
     } catch (e) {
       print(e);

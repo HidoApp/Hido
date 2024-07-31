@@ -204,7 +204,7 @@ class _LocalTicketScreenState extends State<LocalTicketScreen>
                                       
                                       EventExperienceCard(
                                         experience: widget.servicesController
-                                            .upcommingTicket[index],
+                                            .pastTicket[index],
                                             type:widget.type
                                       )
                                       

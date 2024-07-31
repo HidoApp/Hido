@@ -113,7 +113,7 @@ class _EventInfoReviewState extends State<EventInfoReview> {
         //  }
         // });
         print(placemarks.first);
-        return '${placemark.subLocality}, ${placemark.thoroughfare}';
+        return '${placemark.subLocality}';
       }
     } catch (e) {
       print("Error retrieving address: $e");

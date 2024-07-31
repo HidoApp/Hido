@@ -60,7 +60,6 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
   @override
   void initState() {
     super.initState();
-_tripController.nextTrip= NextActivity();
     getProfile();
     getNextActivity();
   }
@@ -298,7 +297,7 @@ _tripController.nextTrip= NextActivity();
                             () => _tripController.isNextActivityLoading.value
                                 ? const Center(
                                     child: CircularProgressIndicator.adaptive())
-                                : _tripController.nextTrip.isEmpty
+                                : _tripController.nextTrip==null || _tripController.nextTrip!.isEmpty
                                     ? Column(
                                       children: [
                                         Container(

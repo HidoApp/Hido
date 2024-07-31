@@ -614,7 +614,9 @@ const localeEn = {
   "noAbout":"There are no informations yet",
   "NoReview":"There are no reviews yet",
   'eventDetailsSub':"Get to join the locals in their cultural events",
-  "saudiEvent": 'saudiEvent',
+  "saudiEvent": 'saudi Event',
+  "Region":'Region'
+
 
 
   

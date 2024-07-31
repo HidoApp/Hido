@@ -100,6 +100,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
     }
     for (var day in hospitalityObj!.daysInfo) {
       print(day.startTime);
+     if(AppUtil.isDateBefore24Hours(day.startTime))
       avilableDate.add(
         DateTime.parse(
           day.startTime.substring(0, 10),

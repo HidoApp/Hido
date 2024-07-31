@@ -100,6 +100,8 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
 
     for (var day in event!.daysInfo!) {
       print(day.startTime);
+    
+     if(AppUtil.isDateTimeBefore24Hours(day.startTime))
       avilableDate.add(
         DateTime.parse(
           day.startTime.substring(0, 10),

@@ -53,7 +53,9 @@ class _EventExperienceCardState extends State<EventExperienceCard> {
     location = tz.getLocation(timeZoneName);
     DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
     DateTime parsedDate = DateTime.parse(date);
-    Duration difference = parsedDate.difference(currentDateInRiyadh);
+   final parsedDateInRiyadh = tz.TZDateTime.from( parsedDate, location).subtract(Duration(hours: 3));
+
+    Duration difference = parsedDateInRiyadh.difference(currentDateInRiyadh);
     print('this deffrence');
     print(difference);
     return difference.inHours <= 24;

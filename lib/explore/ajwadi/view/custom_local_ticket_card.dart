@@ -315,25 +315,30 @@ print(currentTime.isAtSameMomentAs(timeToGo));
                                                   returnProgress(_tripController
                                                           .progress.value -
                                                       1.0);
-                                                  await _tripController
+                                                 var next =  await _tripController
                                                       .getNextActivity(
                                                         context: context,
-                                                      )
-                                                      .then((value) =>
-                                                          setState(() {
+                                                      );
+                                                      
+                                                    
                                                          
-                                                             if(value == null){
+                                                         if(next== null ){
                                                               _tripController.nextTrip= NextActivity();
+                                                               widget.nextTrip = NextActivity();
+                                                               print('inter');
+                                                               print(next== null);
                                                             }
                                                             else{
+                                                                   print('inter2');
+
                                                             widget.nextTrip =
-                                                                value;
+                                                                next;
                                                             }
                                                             _tripController
                                                                     .nextStep
                                                                     .value =
                                                                 'PENDING';
-                                                          }));
+                                                        
                                                 } else {
                                                   AppUtil.errorToast(
                                                       context, 'EndTrip'.tr);

@@ -6,6 +6,7 @@ import 'package:ajwad_v4/explore/ajwadi/services/location_service.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
+import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -223,7 +224,7 @@ final List<String> genderItems = [
                         color: almostGrey.withOpacity(0.2),
                         borderRadius: BorderRadius.all(Radius.circular(12)),
                       ),
-                       height: AppUtil.rtlDirection2(context)? height*0.54:height*0.54,
+                       height: AppUtil.rtlDirection2(context)? height*0.51:height*0.51,
                       width: double.infinity,
                       child: _currentPosition == null
                     ? Center(child: CircularProgressIndicator.adaptive())
@@ -255,6 +256,27 @@ final List<String> genderItems = [
                             icon: markerIcon,
                           ),
                         },
+                             onTap: (position) async {
+                                setState(() {
+                                  _AdventureController.pickUpLocLatLang.value =
+                                      position;
+                                  _currentPosition = position;
+                                  _isLoading = true;
+
+                                  mapController.animateCamera(
+                                      CameraUpdate.newLatLngZoom(position, 18));
+                                });
+                                _fetchAddress();
+                              },
+                              onCameraMove: (position) {
+                                setState(() {
+                                  _currentLocation = position.target;
+                                 _AdventureController.pickUpLocLatLang.value =
+                                      position.target;
+                                });
+                                _fetchAddress();
+                              },
+                            
                       ),
                     ),
                   ),
@@ -304,12 +326,20 @@ final List<String> genderItems = [
                 ],
               ),
               Container(
-                padding: const EdgeInsets.symmetric(vertical: 16),
+                padding: const EdgeInsets.symmetric(vertical: 14),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    CustomText(
+          text: "Region".tr,
+          color: black,
+          fontSize: width*0.044,
+          fontWeight: FontWeight.w500,
+          fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+        ),
+        SizedBox(height: width * 0.02),
                     DropdownButtonHideUnderline(
                       child: DropdownButtonFormField2<String>(
                         isExpanded: true,

@@ -36,7 +36,9 @@ class CustomExperienceCard extends StatelessWidget {
     DateTime parsedDate = type == 'hospitality' || type == 'event'
         ? DateTime.parse(experience.daysInfo.first.startTime)
         : DateTime.parse(experience.date);
-    Duration difference = parsedDate.difference(currentDateInRiyadh);
+    final parsedDateInRiyadh = tz.TZDateTime.from( parsedDate, location).subtract(Duration(hours: 3));
+
+    Duration difference = parsedDateInRiyadh.difference(currentDateInRiyadh);
     print('this deffrence');
     print(difference);
     return difference.inHours <= 24;
@@ -166,14 +168,15 @@ class CustomExperienceCard extends StatelessWidget {
                                     Row(
                                       children: [
                                         CustomText(
-                                          text: type == 'hospitality' ||
-                                                  type == 'event'
-                                              ? formatBookingDate(
-                                                  context,
-                                                  experience
-                                                      .daysInfo.first.startTime)
-                                              : formatBookingDate(
-                                                  context, experience.date),
+                                          text:'',
+                                          // text: type == 'hospitality' ||
+                                          //         type == 'event'
+                                          //     ? formatBookingDate(
+                                          //         context,
+                                          //         experience
+                                          //             .daysInfo.first.startTime)
+                                          //     : formatBookingDate(
+                                          //         context, experience.date),
                                           fontSize: 12,
                                           fontFamily:
                                               AppUtil.rtlDirection2(context)

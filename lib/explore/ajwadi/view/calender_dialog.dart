@@ -171,6 +171,7 @@ class _CalenderDialogState extends State<CalenderDialog> {
                     } else if (widget.type == 'event') {
                       widget.eventController!.isEventDateSelcted.value = true;
                       widget.eventController!.selectedDate(selectedDate);
+                              widget.eventController!.DateErrorMessage.value=false;
                       for (int i = 0; i < widget.event!.daysInfo!.length; i++) {
                         if (DateTime.parse(widget.event!.daysInfo![i].startTime
                                     .substring(0, 10))

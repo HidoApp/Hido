@@ -603,5 +603,6 @@ const localeAr = {
   "NoReview":"لا يوجد تقييمات بعد",
   'eventDetailsSub':'فرصة لمشاركة الشعب فعالياتهم المحلية ',
   "saudiEvent":"الفعاليات المحلية",
+  "Region":'المنطقه'
   
 };
