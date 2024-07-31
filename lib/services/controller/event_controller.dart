@@ -13,8 +13,11 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class EventController extends GetxController {
   var eventList = <Event>[].obs;
+  
   var isEventListLoading = false.obs;
   var isEventByIdLoading = false.obs;
+    var showErrorMaxGuest = false.obs;
+
   var ischeckBookingLoading = false.obs;
   var selectedImages = <String>[].obs;
   var address = ''.obs;

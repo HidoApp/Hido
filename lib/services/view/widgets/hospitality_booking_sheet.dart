@@ -63,19 +63,19 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
   late tz.Location location;
 
   bool isDateBeforeToday() {
-    DateTime hospitalityDate = DateFormat('yyyy-MM-dd')
-        .parse(widget.serviceController.selectedDate.value);
+  
+     DateTime parsedDate =  DateTime.parse(widget.serviceController.selectedDate.value);
+     final parsedDateInRiyadh = tz.TZDateTime.from(parsedDate, location).subtract(Duration(hours: 3));
+
+
     tz.initializeTimeZones();
     location = tz.getLocation(timeZoneName);
 
     DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
-    DateTime currentDate = DateTime(currentDateInRiyadh.year,
-        currentDateInRiyadh.month, currentDateInRiyadh.day);
-    print(hospitalityDate.isBefore(currentDate));
-    print(hospitalityDate);
-    print(currentDate);
-
-    return hospitalityDate.isBefore(currentDate);
+    
+   Duration difference =  parsedDateInRiyadh.difference(currentDateInRiyadh);
+    print(difference);
+    return difference.inHours > 24;
   }
 
   bool isSameDay() {
@@ -127,13 +127,18 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-
+    widget.serviceController.showErrorMaxGuest.value = false;
+    widget.serviceController.DateErrorMessage.value = false;
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
-      return Align(
-        child: Obx(
-          () => SingleChildScrollView(
+      return Obx(
+        () => SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 2.0),
             child: Container(
+                height: widget.hospitality!.touristsGender == 'BOTH'
+                    ? height * 0.49
+                    : height * 0.42,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: const BorderRadius.only(
@@ -147,212 +152,77 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
                   ),
                   child: ListView(shrinkWrap: true, children: [
                     const BottomSheetIndicator(),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CustomText(
-                          text: "date".tr,
-                          color: Colors.black,
-                          fontSize: width * 0.044,
-                          fontFamily: AppUtil.rtlDirection2(context)
-                              ? 'SF Arabic'
-                              : 'SF Pro',
-                          fontWeight: FontWeight.w500,
-                        ),
-                        SizedBox(
-                          height: height * 0.01,
-                        ),
-                        Align(
-                          alignment: AppUtil.rtlDirection(context)
-                              ? Alignment.centerLeft
-                              : Alignment.centerRight,
-                          child: CustomTextWithIconButton(
-                            onTap: () {
-                              print("object");
-                              setState(() {
-                                selectedChoice = 3;
-                              });
-                              showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return CalenderDialog(
-                                      fromAjwady: false,
-                                      type: 'hospitality',
-                                      avilableDate: widget.avilableDate,
-                                      srvicesController:
-                                          widget.serviceController,
-                                      hospitality: widget.hospitality,
-                                    );
-                                  });
-                            },
-                            height: height * 0.06,
-                            width: double.infinity,
-                            title: widget.serviceController
-                                    .isHospatilityDateSelcted.value
-                                ? widget.serviceController.selectedDate.value
-                                    .toString()
-                                    .substring(0, 10)
-                                : 'mm/dd/yyy'.tr,
-                            borderColor:widget.serviceController.DateErrorMessage.value?colorRed: borderGrey,
-                            prefixIcon: Container(),
-                            suffixIcon: SvgPicture.asset(
-                              'assets/icons/Time (2).svg',
-                            ),
-                            textColor: borderGrey,
+                    Padding(
+                      padding: EdgeInsets.only(top: width * 0.08),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomText(
+                            text: "date".tr,
+                            color: Colors.black,
+                            fontSize: width * 0.044,
+                            fontFamily: AppUtil.rtlDirection2(context)
+                                ? 'SF Arabic'
+                                : 'SF Pro',
+                            fontWeight: FontWeight.w500,
                           ),
-                        ),
-                        if (showErrorDate)
-                          Padding(
-                            padding: EdgeInsets.only(left: width * 0.038),
-                            child: Text(
-                              AppUtil.rtlDirection2(context)
-                                  ? "لم تعد هناك مقاعد متاحة في هذا اليوم"
-                                  : 'No avaliable seat in this date ',
-                              style: TextStyle(
-                                color:colorRed,
-                                fontSize: width * 0.028,
-                                fontFamily: AppUtil.rtlDirection2(context)
-                                    ? 'SF Arabic'
-                                    : 'SF Pro',
+                          SizedBox(
+                            height: height * 0.01,
+                          ),
+                          Align(
+                            alignment: AppUtil.rtlDirection(context)
+                                ? Alignment.centerLeft
+                                : Alignment.centerRight,
+                            child: CustomTextWithIconButton(
+                              onTap: () {
+                                print("object");
+                                setState(() {
+                                  selectedChoice = 3;
+                                });
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return CalenderDialog(
+                                        fromAjwady: false,
+                                        type: 'hospitality',
+                                        avilableDate: widget.avilableDate,
+                                        srvicesController:
+                                            widget.serviceController,
+                                        hospitality: widget.hospitality,
+                                      );
+                                    });
+                              },
+                              height: height * 0.06,
+                              width: double.infinity,
+                              title: widget.serviceController
+                                      .isHospatilityDateSelcted.value
+                                  ? widget.serviceController.selectedDate.value
+                                      .toString()
+                                      .substring(0, 10)
+                                  : 'mm/dd/yyy'.tr,
+                              borderColor: widget
+                                      .serviceController.DateErrorMessage.value
+                                  ? colorRed
+                                  : borderGrey,
+                              prefixIcon: SvgPicture.asset(
+                                'assets/icons/Time (2).svg',
+                                //  color: widget.color,
                               ),
-                            ),
-                          ),
-                        if (widget.serviceController.DateErrorMessage.value)
-                          Padding(
-                            padding: EdgeInsets.only(left: width * 0.038),
-                            child: Text(
-                              !AppUtil.rtlDirection2(context)
-                                  ? "Select Date"
-                                  : "اختر التاريخ",
-                              style: TextStyle(
-                                color: colorRed,
-                                fontSize: width * 0.028,
-                                fontFamily: AppUtil.rtlDirection2(context)
-                                    ? 'SF Arabic'
-                                    : 'SF Pro',
+                              suffixIcon: Icon(
+                                Icons.arrow_forward_ios,
+                                color: borderGrey,
+                                size: width * 0.038,
                               ),
+                              textColor: borderGrey,
                             ),
                           ),
-                        SizedBox(
-                          height: height * 0.01,
-                        ),
-                        CustomText(
-                          text: "guests2".tr,
-                          color: Colors.black,
-                          fontSize: width * 0.044,
-                          fontFamily: AppUtil.rtlDirection2(context)
-                              ? 'SF Arabic'
-                              : 'SF Pro',
-                          fontWeight: FontWeight.w500,
-                        ),
-                        
-                        if (widget.hospitality!.touristsGender == 'BOTH' ||
-                            widget.hospitality!.touristsGender == 'MALE')...[
-                             SizedBox(
-                          height: height * 0.01,
-                        ),
-                          Container(
-                            //male counter
-                            // height: width * 0.164,
-                            // width: width * 0.97,
-                            height: height * 0.06,
-                            width: double.infinity,
-                            padding:
-                                EdgeInsets.symmetric(horizontal: width * 0.038),
-                            // margin: EdgeInsets.only(
-                            //     top: height * 0.02, bottom: width * 0.012),
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.circular(width * 0.025),
-                              border: Border.all(
-                                  color:widget.serviceController.showErrorMaxGuest.value || showErrorGuests
-                                      ?colorDarkRed
-                                      : borderGrey,
-                                  width: 1),
-                            ),
-
-                            child: Row(
-                              children: [
-                                CustomText(
-                                  text: "male".tr,
-                                  fontWeight: FontWeight.w400,
-                                  color: borderGrey,
-                                  fontSize: width * 0.035,
-                                  fontFamily: AppUtil.rtlDirection2(context)
-                                      ? 'SF Arabic'
-                                      : 'SF Pro',
-                                ),
-                                const Spacer(),
-                                // - button
-                                GestureDetector(
-                                  onTap: () {
-                                    if (guestNum > 0 && maleGuestNum > 0) {
-                                      setState(() {
-                                        guestNum = guestNum - 1;
-                                        maleGuestNum = maleGuestNum - 1;
-                                       widget.serviceController.showErrorMaxGuest.value = false;
-
-                                        if (guestNum <= 10) {}
-                                      });
-                                    }
-                                  },
-                                  child: const Icon(
-                                      Icons.horizontal_rule_outlined,
-                                      color: borderGrey),
-                                ),
-                                SizedBox(
-                                  width: width * 0.038,
-                                ),
-                                CustomText(
-                                  text: maleGuestNum.toString(),
-                                  fontWeight: FontWeight.w400,
-                                  color: borderGrey,
-                                  fontSize: width * 0.035,
-                                  fontFamily: AppUtil.rtlDirection2(context)
-                                      ? 'SF Arabic'
-                                      : 'SF Pro',
-                                ),
-                                SizedBox(
-                                  width: width * 0.038,
-                                ),
-                                GestureDetector(
-                                    onTap: () {
-                                  if(widget.serviceController.isHospatilityDateSelcted.value){
-
-                                      if (guestNum <
-                                          widget
-                                              .hospitality!
-                                              .daysInfo[widget.serviceController
-                                                  .selectedDateIndex.value]
-                                              .seats) {
-                                        setState(() {
-                                          guestNum = guestNum + 1;
-                                          maleGuestNum = maleGuestNum + 1;
-                                          showErrorGuests = false;
-                                        });
-                                      } else {
-                                       widget.serviceController.showErrorMaxGuest.value = true;
-                                          
-                                      
-                                      }
-                                  }else{
-                                    widget.serviceController.DateErrorMessage.value = true;
-                                  }
-                                    },
-                                    child: const Icon(Icons.add,
-                                        color: borderGrey)),
-                              ],
-                            ),
-                          ),
-                            ],
-                        if (widget.hospitality!.touristsGender == 'MALE')
-                          if (widget.serviceController.showErrorMaxGuest.value)
+                          if (showErrorDate)
                             Padding(
-                              padding: EdgeInsets.only(left: width * 0.038),
+                              padding: EdgeInsets.only(left: width * 0.01),
                               child: Text(
                                 AppUtil.rtlDirection2(context)
-                                    ? "ليس هناك مقاعد متاحة أكثر من العدد الحالي"
-                                    : '*There are no more seats available than the current number',
+                                    ? "لم تعد هناك مقاعد متاحة في هذا اليوم"
+                                    : 'No avaliable seat in this date ',
                                 style: TextStyle(
                                   color: colorRed,
                                   fontSize: width * 0.028,
@@ -362,68 +232,82 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
                                 ),
                               ),
                             ),
-                          if (widget.hospitality!.touristsGender == 'BOTH' ||
-                            widget.hospitality!.touristsGender == 'MALE')
-                        if (showErrorGuests)
-                          Padding(
-                            padding: EdgeInsets.only(left: width * 0.038),
-                            child: Text(
-                              AppUtil.rtlDirection2(context)
-                                  ? "يجب أن تختار شخص على الأقل"
-                                  : '*You need to add at least one guest',
-                              style: TextStyle(
-                                color: colorRed,
+                          if (widget.serviceController.DateErrorMessage.value)
+                            Padding(
+                              padding: EdgeInsets.only(left: width * 0.01),
+                              child: Text(
+                                 AppUtil.rtlDirection2(context)
+                                ? "مطلوب ادخال التاريخ "
+                                 : '*the date is required',
+                                style: TextStyle(
+                                  color: colorRed,
                                   fontSize: width * 0.028,
                                   fontFamily: AppUtil.rtlDirection2(context)
                                       ? 'SF Arabic'
                                       : 'SF Pro',
+                                ),
                               ),
                             ),
+                          SizedBox(
+                            height: height * 0.01,
                           ),
-                        if (widget.hospitality!.touristsGender == 'BOTH' ||
-                            widget.hospitality!.touristsGender == 'FEMALE')...[
-                                 SizedBox(
-                          height: height * 0.01,
-                        ),
-                            
-                          Container(
-                            // female conuter
-                            // height: width * 0.164,
-                            // width: width * 0.97,
-                            height: height * 0.06,
-                            width: double.infinity,
-                            padding:
-                                EdgeInsets.symmetric(horizontal: width * 0.038),
-                            // margin: EdgeInsets.only(
-                            //     top: height * 0.02, bottom: width * 0.0128),
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.circular(width * 0.025),
-                              border: Border.all(
-                                  color: widget.serviceController.showErrorMaxGuest.value || showErrorGuests
-                                      ? colorRed
-                                      : borderGrey,
-                                  width: 1),
+                          CustomText(
+                            text: "guests2".tr,
+                            color: Colors.black,
+                            fontSize: width * 0.044,
+                            fontFamily: AppUtil.rtlDirection2(context)
+                                ? 'SF Arabic'
+                                : 'SF Pro',
+                            fontWeight: FontWeight.w500,
+                          ),
+                          if (widget.hospitality!.touristsGender == 'BOTH' ||
+                              widget.hospitality!.touristsGender == 'MALE') ...[
+                            SizedBox(
+                              height: height * 0.01,
                             ),
-                            child: Row(
-                              children: [
-                                CustomText(
-                                  text: "female".tr,
-                                  fontWeight: FontWeight.w400,
-                                  color: borderGrey,
-                                  fontSize: width * 0.035,
-                                  fontFamily: AppUtil.rtlDirection2(context)
-                                      ? 'SF Arabic'
-                                      : 'SF Pro',
-                                ),
-                                const Spacer(),
-                                GestureDetector(
+                            Container(
+                              //male counter
+                              // height: width * 0.164,
+                              // width: width * 0.97,
+                              height: height * 0.06,
+                              width: double.infinity,
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: width * 0.038),
+                              // margin: EdgeInsets.only(
+                              //     top: height * 0.02, bottom: width * 0.012),
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.circular(width * 0.025),
+                                border: Border.all(
+                                    color: widget.serviceController
+                                                .showErrorMaxGuest.value ||
+                                            showErrorGuests
+                                        ? colorRed
+                                        : borderGrey,
+                                    width: 1),
+                              ),
+
+                              child: Row(
+                                children: [
+                                  CustomText(
+                                    text: "male".tr,
+                                    fontWeight: FontWeight.w400,
+                                    color: borderGrey,
+                                    fontSize: width * 0.035,
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
+                                  ),
+                                  const Spacer(),
+                                  // - button
+                                  GestureDetector(
                                     onTap: () {
-                                      if (guestNum > 0 && femaleGuestNum > 0) {
+                                      if (guestNum > 0 && maleGuestNum > 0) {
                                         setState(() {
                                           guestNum = guestNum - 1;
-                                          femaleGuestNum = femaleGuestNum - 1;
-                                         widget.serviceController.showErrorMaxGuest.value = false;
+                                          maleGuestNum = maleGuestNum - 1;
+                                          widget.serviceController
+                                              .showErrorMaxGuest.value = false;
 
                                           if (guestNum <= 10) {}
                                         });
@@ -431,103 +315,251 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
                                     },
                                     child: const Icon(
                                         Icons.horizontal_rule_outlined,
-                                        color: borderGrey)),
-                                SizedBox(
-                                  width: width * 0.038,
-                                ),
-                                CustomText(
-                                  text: femaleGuestNum.toString(),
-                                  fontWeight: FontWeight.w400,
-                                  color: borderGrey,
-                                  fontSize: width * 0.035,
-                                  fontFamily: AppUtil.rtlDirection2(context)
-                                      ? 'SF Arabic'
-                                      : 'SF Pro',
-                                ),
-                                SizedBox(
-                                  width: width * 0.038,
-                                ),
-                                GestureDetector(
-                                    onTap: () {
-                                      if(widget.serviceController.isHospatilityDateSelcted.value){
-                                      if (guestNum <
-                                          widget
-                                              .hospitality!
-                                              .daysInfo[widget.serviceController
-                                                  .selectedDateIndex.value]
-                                              .seats) {
-                                        setState(() {
-                                          guestNum = guestNum + 1;
-                                          femaleGuestNum = femaleGuestNum + 1;
-                                          showErrorGuests = false;
-                                        });
-                                      } else {
-                                         widget.serviceController.showErrorMaxGuest.value = true;
-                                        
-                                      }
-                                      }else{
-                                        widget.serviceController.DateErrorMessage.value=true;
-                                      }
-                                    },
-                                    child: const Icon(Icons.add,
-                                        color: borderGrey)),
-                              ],
-                            ),
-                          ),
-                            ],
-                        if (widget.hospitality!.touristsGender == 'BOTH' ||
-                            widget.hospitality!.touristsGender == 'FEMALE')
-                          if (widget.serviceController.showErrorMaxGuest.value && !showErrorGuests)
-                            Padding(
-                              padding: EdgeInsets.only(left: width * 0.038),
-                              child: Text(
-                                AppUtil.rtlDirection2(context)
-                                    ? "ليس هناك مقاعد متاحة أكثر من العدد الحالي"
-                                    : '*There are no more seats available than the current number',
-                                style: TextStyle(
-                                  color: colorRed,
-                                  fontSize: width * 0.028,
-                                  fontFamily: AppUtil.rtlDirection2(context)
-                                      ? 'SF Arabic'
-                                      : 'SF Pro',
-                                ),
+                                        color: borderGrey),
+                                  ),
+                                  SizedBox(
+                                    width: width * 0.038,
+                                  ),
+                                  CustomText(
+                                    text: maleGuestNum.toString(),
+                                    fontWeight: FontWeight.w400,
+                                    color: borderGrey,
+                                    fontSize: width * 0.035,
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
+                                  ),
+                                  SizedBox(
+                                    width: width * 0.038,
+                                  ),
+                                  GestureDetector(
+                                      onTap: () {
+                                        if (widget.serviceController
+                                            .isHospatilityDateSelcted.value) {
+                                          if (guestNum <
+                                              widget
+                                                  .hospitality!
+                                                  .daysInfo[widget
+                                                      .serviceController
+                                                      .selectedDateIndex
+                                                      .value]
+                                                  .seats) {
+                                            setState(() {
+                                              guestNum = guestNum + 1;
+                                              maleGuestNum = maleGuestNum + 1;
+                                              showErrorGuests = false;
+                                            });
+                                          } else {
+                                            widget.serviceController
+                                                .showErrorMaxGuest.value = true;
+                                          }
+                                        } else {
+                                          widget.serviceController
+                                              .DateErrorMessage.value = true;
+                                        }
+                                      },
+                                      child: const Icon(Icons.add,
+                                          color: borderGrey)),
+                                ],
                               ),
                             ),
-                              if (widget.hospitality!.touristsGender == 'BOTH' ||
-                            widget.hospitality!.touristsGender == 'FEMALE')
-                        if (showErrorGuests)
-                          Padding(
-                            padding: EdgeInsets.only(left: width * 0.038),
-                            child: Text(
-                              AppUtil.rtlDirection2(context)
-                                  ? "يجب أن تختار شخص على الأقل"
-                                  : '*You need to add at least one guest',
-                              style: TextStyle(
-                                color: colorRed,
-                                  fontSize: width * 0.028,
-                                  fontFamily: AppUtil.rtlDirection2(context)
-                                      ? 'SF Arabic'
-                                      : 'SF Pro',
+                          ],
+                          if (widget.hospitality!.touristsGender == 'MALE')
+                            if (widget
+                                .serviceController.showErrorMaxGuest.value)
+                              Padding(
+                              padding: EdgeInsets.only(left: width * 0.01),
+                                child: Text(
+                                  AppUtil.rtlDirection2(context)
+                                      ? "ليس هناك مقاعد متاحة أكثر من العدد الحالي"
+                                      : '*There are no more seats available than the current number',
+                                  style: TextStyle(
+                                    color: colorRed,
+                                    fontSize: width * 0.028,
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
+                                  ),
+                                ),
                               ),
+                          if (widget.hospitality!.touristsGender == 'BOTH' ||
+                              widget.hospitality!.touristsGender == 'MALE')
+                            if (showErrorGuests)
+                              Padding(
+                              padding: EdgeInsets.only(left: width * 0.01),
+                                child: Text(
+                                  AppUtil.rtlDirection2(context)
+                                      ? "يجب أن تختار شخص على الأقل"
+                                      : '*You need to add at least one guest',
+                                  style: TextStyle(
+                                    color: colorRed,
+                                    fontSize: width * 0.028,
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
+                                  ),
+                                ),
+                              ),
+                          if (widget.hospitality!.touristsGender == 'BOTH' ||
+                              widget.hospitality!.touristsGender ==
+                                  'FEMALE') ...[
+                            SizedBox(
+                              height: height * 0.01,
                             ),
-                          ),
-                      ],
-                    ),
+                            Container(
+                              // female conuter
+                              // height: width * 0.164,
+                              // width: width * 0.97,
+                              height: height * 0.06,
+                              width: double.infinity,
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: width * 0.038),
+                              // margin: EdgeInsets.only(
+                              //     top: height * 0.02, bottom: width * 0.0128),
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.circular(width * 0.025),
+                                border: Border.all(
+                                    color: widget.serviceController
+                                                .showErrorMaxGuest.value ||
+                                            showErrorGuests
+                                        ? colorRed
+                                        : borderGrey,
+                                    width: 1),
+                              ),
+                              child: Row(
+                                children: [
+                                  CustomText(
+                                    text: "female".tr,
+                                    fontWeight: FontWeight.w400,
+                                    color: borderGrey,
+                                    fontSize: width * 0.035,
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
+                                  ),
+                                  const Spacer(),
+                                  GestureDetector(
+                                      onTap: () {
+                                        if (guestNum > 0 &&
+                                            femaleGuestNum > 0) {
+                                          setState(() {
+                                            guestNum = guestNum - 1;
+                                            femaleGuestNum = femaleGuestNum - 1;
+                                            widget
+                                                .serviceController
+                                                .showErrorMaxGuest
+                                                .value = false;
 
+                                            if (guestNum <= 10) {}
+                                          });
+                                        }
+                                      },
+                                      child: const Icon(
+                                          Icons.horizontal_rule_outlined,
+                                          color: borderGrey)),
+                                  SizedBox(
+                                    width: width * 0.038,
+                                  ),
+                                  CustomText(
+                                    text: femaleGuestNum.toString(),
+                                    fontWeight: FontWeight.w400,
+                                    color: borderGrey,
+                                    fontSize: width * 0.035,
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
+                                  ),
+                                  SizedBox(
+                                    width: width * 0.038,
+                                  ),
+                                  GestureDetector(
+                                      onTap: () {
+                                        if (widget.serviceController
+                                            .isHospatilityDateSelcted.value) {
+                                          if (guestNum <
+                                              widget
+                                                  .hospitality!
+                                                  .daysInfo[widget
+                                                      .serviceController
+                                                      .selectedDateIndex
+                                                      .value]
+                                                  .seats) {
+                                            setState(() {
+                                              guestNum = guestNum + 1;
+                                              femaleGuestNum =
+                                                  femaleGuestNum + 1;
+                                              showErrorGuests = false;
+                                            });
+                                          } else {
+                                            widget.serviceController
+                                                .showErrorMaxGuest.value = true;
+                                          }
+                                        } else {
+                                          widget.serviceController
+                                              .DateErrorMessage.value = true;
+                                        }
+                                      },
+                                      child: const Icon(Icons.add,
+                                          color: borderGrey)),
+                                ],
+                              ),
+                            ),
+                          ],
+                          if (widget.hospitality!.touristsGender == 'BOTH' ||
+                              widget.hospitality!.touristsGender == 'FEMALE')
+                            if (widget.serviceController.showErrorMaxGuest
+                                    .value &&
+                                !showErrorGuests)
+                              Padding(
+                              padding: EdgeInsets.only(left: width * 0.01),
+                                child: Text(
+                                  AppUtil.rtlDirection2(context)
+                                      ? "ليس هناك مقاعد متاحة أكثر من العدد الحالي"
+                                      : '*There are no more seats available than the current number',
+                                  style: TextStyle(
+                                    color: colorRed,
+                                    fontSize: width * 0.028,
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
+                                  ),
+                                ),
+                              ),
+                          if (widget.hospitality!.touristsGender == 'BOTH' ||
+                              widget.hospitality!.touristsGender == 'FEMALE')
+                            if (showErrorGuests)
+                              Padding(
+                                 padding: EdgeInsets.only(left: width * 0.01),
+                                child: Text(
+                                  AppUtil.rtlDirection2(context)
+                                      ? "يجب أن تختار شخص على الأقل"
+                                      : '*You need to add at least one guest',
+                                  style: TextStyle(
+                                    color: colorRed,
+                                    fontSize: width * 0.028,
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
+                                  ),
+                                ),
+                              ),
+                        ],
+                      ),
+                    ),
                     SizedBox(
                       height: height * 0.03,
                     ),
-                   
-
-                   
                     CustomButton(
                       title: "confirm".tr,
                       onPressed: () async {
                         if (widget.serviceController.isHospatilityDateSelcted
                                 .value ==
                             false) {
-                          setState(() => widget.serviceController.DateErrorMessage.value = true);
-                        } if (guestNum == 0 ) {
+                          setState(() => widget
+                              .serviceController.DateErrorMessage.value = true);
+                        }
+                        if (guestNum == 0) {
                           setState(() {
                             showErrorGuests = true;
                           });
@@ -535,20 +567,24 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
                             .serviceController.selectedDate.value
                             .substring(0, 10))) {
                           setState(() => showErrorDate = true);
-                        } else if (isSameDay()) {
+                        }
+                         else if (isSameDay()) {
                           AppUtil.errorToast(
                               context,
                               AppUtil.rtlDirection2(context)
                                   ? "يجب أن تحجز قبل 24 ساعة "
                                   : "You must booking before 24 hours");
-                        } else if (isDateBeforeToday()) {
+                        } 
+                        else if (!isDateBeforeToday()) {
+                          print("ynter");
                           AppUtil.errorToast(
                               context,
                               AppUtil.rtlDirection2(context)
                                   ? "غير متاح"
                                   : "not avalible ");
                         } else {
-                          widget.serviceController.showErrorMaxGuest.value=false;
+                          widget.serviceController.showErrorMaxGuest.value =
+                              false;
                           Get.to(() => ReviewHospitalty(
                               hospitality: widget.hospitality!,
                               maleGuestNum: maleGuestNum,

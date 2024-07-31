@@ -352,7 +352,7 @@ static Future<List<Experience>?> getAllExperiences(
       if (context.mounted) {
         AppUtil.errorToast(context, errorMessage);
       }
-      return null;
+      return NextActivity();
     }
   }
 }

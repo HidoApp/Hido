@@ -118,6 +118,39 @@ static bool isDateBefore24Hours(String Date) {
     return difference.inHours >= 48;
   }
 
+  
+ static  bool isDateTimeBefore24Hours(String date) {
+ const String timeZoneName = 'Asia/Riyadh';
+
+  // Initialize time zones
+  tz.initializeTimeZones();
+
+  // Get the Riyadh location
+  final location = tz.getLocation(timeZoneName);
+
+  // Get the current date and time in Riyadh
+  final currentDateInRiyadh = tz.TZDateTime.now(location);
+
+  // Parse the trip date string as UTC
+  final parsedTripDate = DateTime.parse(date);
+  
+  // Convert the parsed trip date to the Riyadh time zone
+  final tripDateInRiyadh = tz.TZDateTime.from(parsedTripDate, location).subtract(Duration(hours: 3));
+
+  // Calculate the difference
+  final difference = tripDateInRiyadh.difference(currentDateInRiyadh);
+
+  // Print the current time and difference for debugging
+  print('Current Time in Riyadh: $currentDateInRiyadh');
+    print('trip before: $parsedTripDate');
+
+  print('Trip Time in Riyadh: $tripDateInRiyadh');
+  print('Difference: $difference');
+
+  // Check if the difference is greater than or equal to 24 hours
+  return difference.inHours > 24;
+
+ }
   static bool areAllDatesAfter24Hours(List<dynamic> dates) {
   final String timeZoneName = 'Asia/Riyadh';
   late tz.Location location;

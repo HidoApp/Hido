@@ -121,7 +121,7 @@ class _HostInfoReviewState extends State<HostInfoReview> {
         //  }
         // });
         print(placemarks.first);
-        return '${placemark.subLocality}, ${placemark.thoroughfare}';
+        return '${placemark.subLocality}';
       }
     } catch (e) {
       print("Error retrieving address: $e");

@@ -38,20 +38,21 @@ class _EventBookingSheetState extends State<EventBookingSheet> {
   int person = 0;
   final String timeZoneName = 'Asia/Riyadh';
   late tz.Location location;
+ 
+
   bool isDateBeforeToday() {
-    DateTime hospitalityDate =
-        DateFormat('yyyy-MM-dd').parse(_eventController.selectedDate.value);
+  
+     DateTime parsedDate =  DateTime.parse(_eventController.selectedDate.value);
+ final parsedDateInRiyadh = tz.TZDateTime.from(parsedDate, location).subtract(Duration(hours: 3));
+
     tz.initializeTimeZones();
     location = tz.getLocation(timeZoneName);
 
     DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
-    DateTime currentDate = DateTime(currentDateInRiyadh.year,
-        currentDateInRiyadh.month, currentDateInRiyadh.day);
-    print(hospitalityDate.isBefore(currentDate));
-    print(hospitalityDate);
-    print(currentDate);
-
-    return hospitalityDate.isBefore(currentDate);
+    
+   Duration difference = parsedDateInRiyadh.difference(currentDateInRiyadh);
+    print(difference);
+    return difference.inHours > 24;
   }
 
   bool isSameDay() {
@@ -111,112 +112,150 @@ class _EventBookingSheetState extends State<EventBookingSheet> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+         _eventController.showErrorMaxGuest.value = false;
     return Container(
-      height: showErrorGuests ? 372 : 350,
+      height:_eventController.DateErrorMessage.value||
+      showErrorGuests ||
+              showErrorSeat ||
+               _eventController.showErrorMaxGuest.value
+          ? height * 0.43
+          : height * 0.39,
       width: double.infinity,
       padding: EdgeInsets.only(
-          left: width * 0.0615,
-          right: width * 0.0615,
-          top: width * 0.041,
-          bottom: width * 0.082),
+        left: width * 0.0615,
+        right: width * 0.0615,
+        top: width * 0.045,
+      ),
       child: Obx(
         () => Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const BottomSheetIndicator(),
             SizedBox(
-              height: 12,
+              height: width * 0.065,
             ),
             CustomText(
               text: 'date'.tr,
-              fontSize: width * 0.043,
-              fontFamily: 'SF Pro',
+              color: Colors.black,
+              fontSize: width * 0.044,
+              fontFamily:
+                  AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
               fontWeight: FontWeight.w500,
             ),
-            CustomTextWithIconButton(
-              onTap: () {
-                print("object");
-                setState(() {
-                  selectedChoice = 3;
-                });
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return CalenderDialog(
-                        fromAjwady: false,
-                        type: 'event',
-                        avilableDate: widget.avilableDate,
-                        eventController: _eventController,
-                        event: widget.event,
-                      );
-                    });
-              },
-              height: height * 0.06,
-              width: double.infinity,
-              title: _eventController.isEventDateSelcted.value
-                  ? _eventController.selectedDate.value
-                      .toString()
-                      .substring(0, 10)
-                  : 'mm/dd/yyy'.tr,
-              borderColor: showErrorDate ? colorRed : borderGrey,
-              prefixIcon: SvgPicture.asset(
-                'assets/icons/Time (2).svg',
-                //  color: widget.color,
-              ),
-              suffixIcon: Icon(
-                Icons.arrow_forward_ios,
-                color: almostGrey,
-                size: width * 0.038,
-              ),
-              textColor: almostGrey,
+            SizedBox(
+              height: height * 0.01,
             ),
-            if (showErrorDate)
-              Text(
-                AppUtil.rtlDirection2(context)
-                    ? "مطلوب ادخال التاريخ "
-                    : '*the date is required',
-                style: TextStyle(
-                  color: Colors.red,
-                  fontSize: width * 0.03,
+            Align(
+              alignment: AppUtil.rtlDirection(context)
+                  ? Alignment.centerLeft
+                  : Alignment.centerRight,
+              child: CustomTextWithIconButton(
+                onTap: () {
+                  print("object");
+                  setState(() {
+                    selectedChoice = 3;
+                  });
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return CalenderDialog(
+                          fromAjwady: false,
+                          type: 'event',
+                          avilableDate: widget.avilableDate,
+                          eventController: _eventController,
+                          event: widget.event,
+                        );
+                      });
+                },
+                height: height * 0.06,
+                width: double.infinity,
+                title: _eventController.isEventDateSelcted.value
+                    ? _eventController.selectedDate.value
+                        .toString()
+                        .substring(0, 10)
+                    : 'mm/dd/yyy'.tr,
+                borderColor:
+                   _eventController.DateErrorMessage.value
+                        ? colorRed
+                        : borderGrey,
+                prefixIcon: SvgPicture.asset(
+                  'assets/icons/Time (2).svg',
+                  //  color: widget.color,
+                ),
+                suffixIcon: Icon(
+                  Icons.arrow_forward_ios,
+                  color: borderGrey,
+                  size: width * 0.038,
+                ),
+                textColor: borderGrey,
+              ),
+            ),
+            if (_eventController.DateErrorMessage.value)
+              Padding(
+                padding: EdgeInsets.only(left: width * 0.01),
+                child: Text(
+                  AppUtil.rtlDirection2(context)
+                      ? "مطلوب ادخال التاريخ "
+                      : '*the date is required',
+                  style: TextStyle(
+                    color: colorRed,
+                    fontSize: width * 0.028,
+                    fontFamily:
+                        AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+                  ),
                 ),
               ),
             if (showErrorSeat)
-              Text(
-                AppUtil.rtlDirection2(context)
-                    ? "لم تعد هناك مقاعد متاحة في هذا اليوم"
-                    : 'No avaliable seat in this date ',
-                style: TextStyle(
-                  color: Colors.red,
-                  fontSize: width * 0.03,
+              Padding(
+                padding: EdgeInsets.only(left: width * 0.01),
+                child: Text(
+                  AppUtil.rtlDirection2(context)
+                      ? "لم تعد هناك مقاعد متاحة في هذا اليوم"
+                      : 'No avaliable seat in this date ',
+                  style: TextStyle(
+                    color: colorRed,
+                    fontSize: width * 0.028,
+                    fontFamily:
+                        AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+                  ),
                 ),
               ),
             SizedBox(
-              height: 16,
+              height: height * 0.01,
             ),
             CustomText(
               text: 'numberofpeorson'.tr,
-              fontSize: width * 0.043,
-              fontFamily: 'SF Pro',
+              color: Colors.black,
+              fontSize: width * 0.044,
+              fontFamily:
+                  AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
               fontWeight: FontWeight.w500,
             ),
+            SizedBox(
+              height: height * 0.01,
+            ),
             Container(
-              height: width * 0.123,
-              width: width * 0.87,
-              padding: EdgeInsets.symmetric(horizontal: width * 0.025),
-              margin:
-                  EdgeInsets.only(top: height * 0.02, bottom: width * 0.012),
+              height: height * 0.06,
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(horizontal: width * 0.038),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(width * 0.02),
                 border: Border.all(
-                  color: showErrorGuests ? Colors.red : borderGrey,
+                  color: _eventController.showErrorMaxGuest.value ||
+                          showErrorGuests
+                      ? colorRed
+                      : borderGrey,
                 ),
               ),
               child: Row(
                 children: [
                   CustomText(
                     text: "person".tr,
-                    fontWeight: FontWeight.w200,
-                    color: textGreyColor,
+                    fontWeight: FontWeight.w400,
+                    color: borderGrey,
+                    fontSize: width * 0.035,
+                    fontFamily:
+                        AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
                   ),
                   const Spacer(),
                   GestureDetector(
@@ -224,31 +263,29 @@ class _EventBookingSheetState extends State<EventBookingSheet> {
                       setState(() {
                         if (person > 0) {
                           person = person - 1;
-                        } else {
-                          // AppUtil.errorToast(
-                          //     context,
-                          //     AppUtil.rtlDirection2(context)
-                          //         ? "لاتوجد مقاعد متاحة"
-                          //         : "There is no seats available");
+                          _eventController.showErrorMaxGuest.value = false;
                         }
                       });
                     },
                     child: const Icon(
                       Icons.horizontal_rule_outlined,
-                      color: darkGrey,
+                      color: borderGrey,
                     ),
                   ),
                   SizedBox(width: width * 0.038),
                   CustomText(
                     text: person.toString(),
-                    color: tileGreyColor,
-                    fontSize: 18,
                     fontWeight: FontWeight.w400,
+                    color: borderGrey,
+                    fontSize: width * 0.035,
+                    fontFamily:
+                        AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
                   ),
                   SizedBox(width: width * 0.038),
                   GestureDetector(
                     onTap: () {
                       if (_eventController.selectedDateIndex.value == -1) {
+                        _eventController.DateErrorMessage.value = true;
                         return;
                       }
                       if (person <
@@ -259,33 +296,47 @@ class _EventBookingSheetState extends State<EventBookingSheet> {
                               .seats) {
                         setState(() {
                           person = person + 1;
+                          showErrorGuests = false;
                         });
                       } else {
-                        AppUtil.errorToast(
-                            context,
-                            AppUtil.rtlDirection2(context)
-                                ? "لاتوجد مقاعد متاحة"
-                                : "There is no seats available");
+                        _eventController.showErrorMaxGuest.value = true;
                       }
                     },
                     child: const Icon(
                       Icons.add,
-                      color: darkGrey,
+                      color: borderGrey,
                     ),
                   ),
                 ],
               ),
             ),
+            if (_eventController.showErrorMaxGuest.value)
+              Padding(
+                padding: EdgeInsets.only(left: width * 0.01),
+                child: Text(
+                  AppUtil.rtlDirection2(context)
+                      ? "ليس هناك مقاعد متاحة أكثر من العدد الحالي"
+                      : '*There are no more seats available than the current number',
+                  style: TextStyle(
+                    color: colorRed,
+                    fontSize: width * 0.028,
+                    fontFamily:
+                        AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+                  ),
+                ),
+              ),
             if (showErrorGuests)
               Padding(
-                padding: EdgeInsets.only(left: width * 0.038),
+                padding: EdgeInsets.only(left: width * 0.01),
                 child: Text(
                   AppUtil.rtlDirection2(context)
                       ? "يجب أن تختار شخص على الأقل"
                       : '*You need to add at least one guest',
                   style: TextStyle(
-                    color: Colors.red,
-                    fontSize: width * 0.03,
+                    color: colorRed,
+                    fontSize: width * 0.028,
+                    fontFamily:
+                        AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
                   ),
                 ),
               ),
@@ -295,39 +346,42 @@ class _EventBookingSheetState extends State<EventBookingSheet> {
             CustomButton(
               title: 'confirm'.tr,
               onPressed: () async {
-                if (person == 0) {
+               
+                if (_eventController.isEventDateSelcted.value==false) {
+                  setState(() {
+                   _eventController.DateErrorMessage.value = true;
+                  });
+                  // return;
+                }
+                 if (person == 0) {
                   setState(() {
                     showErrorGuests = true;
                   });
                 }
-                if (_eventController.selectedDate.isEmpty) {
-                  setState(() {
-                    showErrorDate = true;
-                  });
-                  return;
-                }
-                if (getSeat(_eventController.selectedDate.value)) {
+               else if ((getSeat(
+                    _eventController.selectedDate.value.substring(0, 10)))) {
                   setState(() {
                     showErrorSeat = true;
                   });
-                  return;
-                }
-
-                if (isSameDay()) {
+                  // return;
+                } 
+                else if (isSameDay()) {
                   AppUtil.errorToast(
                       context,
                       AppUtil.rtlDirection2(context)
                           ? "يجب أن تحجز قبل 24 ساعة "
                           : "You must booking before 24 hours");
-                } else if (isDateBeforeToday()) {
+                }
+                else if (!isDateBeforeToday()) {
                   AppUtil.errorToast(
                       context,
                       AppUtil.rtlDirection2(context)
                           ? "غير متاح"
                           : "not avalible ");
                 } else {
+                  _eventController.showErrorMaxGuest.value = false;
+
                   setState(() {
-                    showErrorDate = false;
                     showErrorGuests = false;
                     showErrorSeat = false;
                   });

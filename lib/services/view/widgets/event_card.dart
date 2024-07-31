@@ -36,7 +36,7 @@ class EventCardItem extends StatefulWidget {
 }
 
 class _EventCardItemState extends State<EventCardItem> {
-  final _eventController = Get.put(EventController());
+final _eventController = Get.put(EventController());
   Future<String> _getAddressFromLatLng(
       double position1, double position2) async {
     try {
@@ -71,7 +71,6 @@ class _EventCardItemState extends State<EventCardItem> {
   void initState() {
     super.initState();
 
-    if (widget.lang!.isNotEmpty && widget.lang!.isNotEmpty)
       _fetchAddress(widget.lang!, widget.long!);
   }
 
@@ -166,9 +165,8 @@ class _EventCardItemState extends State<EventCardItem> {
                             width: width * 0.02,
                           ),
                           CustomText(
-                            text: '',
-                            // AppUtil.formatSelectedDaysInfo(
-                            //     widget.daysInfo, context),
+                            text: AppUtil.formatSelectedDaysInfo(
+                                widget.daysInfo, context),
                             fontFamily: AppUtil.rtlDirection2(context)
                                 ? 'SF Arabic'
                                 : 'SF Pro',
