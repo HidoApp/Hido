@@ -64,7 +64,7 @@ class Booking {
       orderStatus: json['orderStatus'],
       timeToGo: json['timeToGo'] ?? '',
       timeToReturn: json['timeToReturn'] ?? '',
-      guestNumber: json['guestNumber'],
+      guestNumber: json['guestNumber']??0,
       guestInfo: json["guestInfo"] == null
           ? null
           : GuestInfo.fromJson(json["guestInfo"]),

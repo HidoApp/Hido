@@ -196,11 +196,9 @@ class ProfileService {
     print("response.statusCode Update profile ");
     print(response.statusCode);
     if (response.statusCode == 200) {
+      //log(response.body);
       List<dynamic> data = jsonDecode(response.body);
-      log('data: $data');
-      print("lenghth");
-      print(data.length);
-      print(data.isEmpty);
+      log('upcomong');
       return data.map((booking) => Booking.fromJson(booking)).toList();
     } else {
       String errorMessage = jsonDecode(response.body)['message'];

@@ -2,8 +2,6 @@ PODS:
   - awesome_notifications (0.8.1):
     - Flutter
     - IosAwnCore (~> 0.8.0)
-  - background_fetch (1.3.5):
-    - Flutter
   - DKImagePickerController/Core (4.3.9):
     - DKImagePickerController/ImageDataManager
     - DKImagePickerController/Resource
@@ -81,7 +79,6 @@ PODS:
 
 DEPENDENCIES:
   - awesome_notifications (from `.symlinks/plugins/awesome_notifications/ios`)
-  - background_fetch (from `.symlinks/plugins/background_fetch/ios`)
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
   - Flutter (from `Flutter`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
@@ -109,8 +106,6 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   awesome_notifications:
     :path: ".symlinks/plugins/awesome_notifications/ios"
-  background_fetch:
-    :path: ".symlinks/plugins/background_fetch/ios"
   file_picker:
     :path: ".symlinks/plugins/file_picker/ios"
   Flutter:
@@ -142,7 +137,6 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   awesome_notifications: db394d2e061e4583ba0f738ddea611e3986cc3fb
-  background_fetch: f73d045fee3d313ea8c0afa205317bff8a6bf8d2
   DKImagePickerController: 946cec48c7873164274ecc4624d19e3da4c1ef3c
   DKPhotoGallery: b3834fecb755ee09a593d7c9e389d8b5d6deed60
   file_picker: ce3938a0df3cc1ef404671531facef740d03f920

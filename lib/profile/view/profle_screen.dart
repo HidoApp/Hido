@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/auth/services/auth_service.dart';
 import 'package:ajwad_v4/constants/colors.dart';
@@ -261,6 +263,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               leading: "assets/icons/signout_icon.svg",
                               // fromAjwady: widget.fromAjwady,
                               onTap: () {
+                                log(_profileController.enableSignOut.value
+                                    .toString());
                                 if (_profileController.enableSignOut.value) {
                                   showDialog(
                                     context: context,
