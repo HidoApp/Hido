@@ -28,7 +28,7 @@ class _TicketScreenState extends State<TicketScreen>
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
-    //widget.profileController.getPastTicket(context: context);
+    widget.profileController.getPastTicket(context: context);
     widget.profileController.getUpcommingTicket(context: context);
   }
 

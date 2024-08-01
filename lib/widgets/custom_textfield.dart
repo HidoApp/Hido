@@ -82,7 +82,10 @@ class CustomTextField extends StatelessWidget {
                 return null;
               }
             : validatorHandle,
-        style: TextStyle(color: textColor, fontFamily: 'Noto Kufi Arabic'),
+        style: TextStyle(
+          color: textColor,
+          fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+        ),
         decoration: InputDecoration(
           focusedErrorBorder: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -122,7 +125,7 @@ class CustomTextField extends StatelessWidget {
               fontSize: 13,
               fontFamily:
                   AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-              color: almostGrey, 
+              color: almostGrey,
               fontWeight: FontWeight.w400),
         ),
         onChanged: onChanged,

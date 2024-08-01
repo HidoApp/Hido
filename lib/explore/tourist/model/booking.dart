@@ -64,7 +64,7 @@ class Booking {
       orderStatus: json['orderStatus'],
       timeToGo: json['timeToGo'] ?? '',
       timeToReturn: json['timeToReturn'] ?? '',
-      guestNumber: json['guestNumber']??0,
+      guestNumber: json['guestNumber'] ?? 0,
       guestInfo: json["guestInfo"] == null
           ? null
           : GuestInfo.fromJson(json["guestInfo"]),
@@ -126,7 +126,7 @@ class GuestInfo {
 
   factory GuestInfo.fromJson(Map<String, dynamic> json) {
     return GuestInfo(
-      guestNumber: json['guestNumber'],
+      guestNumber: json['guestNumber'] ?? 0,
       female: json['female'] ?? 0,
       male: json['male'] ?? 0,
       dayId: json['dayId'] ?? '',

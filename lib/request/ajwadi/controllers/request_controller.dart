@@ -3,6 +3,7 @@ import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 import 'package:ajwad_v4/request/ajwadi/models/request_model.dart';
 import 'package:ajwad_v4/request/ajwadi/services/request_service.dart';
 import 'package:ajwad_v4/request/ajwadi/view/widget/card_itenrary.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -11,7 +12,7 @@ class RequestController extends GetxController {
   /* ?
             ? getRequestList 
   */
- RxString address = ''.obs;
+  RxString address = ''.obs;
   var isRequestListLoading = false.obs;
   var isBookingLoading = false.obs;
   var requestList = <RequestModel>[].obs;
@@ -24,7 +25,9 @@ class RequestController extends GetxController {
 // valditon itenrary
   var isActivtyValid = true.obs;
   var isPriceValid = true.obs;
+
   var isStartTimeValid = true.obs;
+  //var isStartTimeValidWITH = true.obs;
   var isEndTimeValid = true.obs;
   var validSave = true.obs;
 

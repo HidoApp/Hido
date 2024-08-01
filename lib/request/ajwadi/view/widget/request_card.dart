@@ -36,10 +36,11 @@ class RequestCard extends StatefulWidget {
 class _RequestCardState extends State<RequestCard> {
   late ExpandedTileController _controller;
 
-  Future<String> _getAddressFromLatLng(double position1,double position2) async {
+  Future<String> _getAddressFromLatLng(
+      double position1, double position2) async {
     try {
       List<Placemark> placemarks =
-          await placemarkFromCoordinates(position1,position2);
+          await placemarkFromCoordinates(position1, position2);
       print(placemarks);
 
       if (placemarks.isNotEmpty) {
@@ -53,25 +54,26 @@ class _RequestCardState extends State<RequestCard> {
     return '';
   }
 
-  Future<void> _fetchAddress(String position1,String position2) async {
+  Future<void> _fetchAddress(String position1, String position2) async {
     try {
       String result = await _getAddressFromLatLng(
- double.parse( position1),double.parse( position2)) ;    
-  setState(() {
-       widget.requestController.address.value  =result;
+          double.parse(position1), double.parse(position2));
+      setState(() {
+        widget.requestController.address.value = result;
       });
     } catch (e) {
       // Handle error if necessary
       print('Error fetching address: $e');
     }
   }
+
   @override
   void initState() {
     super.initState();
-     
-     _fetchAddress(widget.request.booking?.coordinates?.latitude??'',widget.request.booking?.coordinates?.longitude??'');
-    _controller = ExpandedTileController(isExpanded: false);
 
+    _fetchAddress(widget.request.booking?.coordinates?.latitude ?? '',
+        widget.request.booking?.coordinates?.longitude ?? '');
+    _controller = ExpandedTileController(isExpanded: false);
   }
 
   String formatTime(String time) {
@@ -90,7 +92,7 @@ class _RequestCardState extends State<RequestCard> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return Container(
-      height: _controller.isExpanded ? width * 0.8: width * 0.48,
+      height: _controller.isExpanded ? width * 0.8 : width * 0.48,
       padding: EdgeInsets.symmetric(
         horizontal: width * 0.03,
         vertical: width * 0.04,
@@ -132,16 +134,16 @@ class _RequestCardState extends State<RequestCard> {
                         : widget.request.requestName!.nameEn,
                     fontFamily:
                         AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-                    fontSize: width*0.038,
+                    fontSize: width * 0.038,
                     fontWeight: FontWeight.w500,
                   ),
                   CustomText(
                     text: '${"tourist".tr} : ${widget.request.senderName}',
                     color: starGreyColor,
-                    fontSize: width*0.03,
-                       fontFamily:
+                    fontSize: width * 0.03,
+                    fontFamily:
                         AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-                        fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.w400,
                   )
                 ],
               ),
@@ -152,10 +154,10 @@ class _RequestCardState extends State<RequestCard> {
                   text: timeago.format(DateTime.parse(widget.request.date!),
                       locale: AppUtil.rtlDirection2(context) ? 'ar' : 'en'),
                   color: starGreyColor,
-                   fontSize: width*0.028,
-                       fontFamily:
-                        AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-                        fontWeight: FontWeight.w500,
+                  fontSize: width * 0.028,
+                  fontFamily:
+                      AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ],
@@ -177,9 +179,9 @@ class _RequestCardState extends State<RequestCard> {
               text: "tripDetails".tr,
               fontSize: width * 0.03,
               fontFamily:
-               AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-             fontWeight: FontWeight.w600,
-             color: black,
+                  AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+              fontWeight: FontWeight.w600,
+              color: black,
             ),
             content: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -187,18 +189,18 @@ class _RequestCardState extends State<RequestCard> {
                 ItineraryTile(
                   title: DateFormat('EEE, d MMMM yyyy',
                           AppUtil.rtlDirection2(context) ? 'ar' : 'en')
-                      .format(DateTime.parse(widget.request.booking?.date??'')),
+                      .format(
+                          DateTime.parse(widget.request.booking?.date ?? '')),
                   image: "assets/icons/date.svg",
                   color: starGreyColor,
                 ),
                 SizedBox(height: width * 0.025),
                 ItineraryTile(
                   title:
-                      "${"pickUp".tr} ${AppUtil.formatStringTimeWithLocale(context,widget.request.booking!.timeToGo!)}"
-                      " ,  ${"dropOff".tr} ${AppUtil.formatStringTimeWithLocale(context,widget.request.booking!.timeToReturn!)}",
+                      "${"pickUp".tr} ${AppUtil.formatStringTimeWithLocale(context, widget.request.booking!.timeToGo!)}"
+                      " ,  ${"dropOff".tr} ${AppUtil.formatStringTimeWithLocale(context, widget.request.booking!.timeToReturn!)}",
                   image: "assets/icons/timeGrey.svg",
-                 color: starGreyColor,
-
+                  color: starGreyColor,
                 ),
                 SizedBox(height: width * 0.025),
                 ItineraryTile(
@@ -206,25 +208,21 @@ class _RequestCardState extends State<RequestCard> {
                       "${widget.request.booking!.guestNumber} ${"guests".tr}",
                   image: "assets/icons/guests.svg",
                   color: starGreyColor,
-
                 ),
-                 SizedBox(height: width * 0.025),
+                SizedBox(height: width * 0.025),
                 ItineraryTile(
-                  title:  widget.requestController.address.value ,
+                  title: widget.requestController.address.value,
                   image: 'assets/icons/map_pin.svg',
-                 color: starGreyColor,
-
+                  color: starGreyColor,
                 ),
                 SizedBox(height: width * 0.025),
                 ItineraryTile(
                   title: widget.request.booking!.vehicleType.toString(),
                   image:
                       'assets/icons/unselected_${widget.request.booking!.vehicleType.toString()}_icon.svg',
-                 color: starGreyColor,
-                 widthImage: 20,
-
+                  color: starGreyColor,
+                  widthImage: 20,
                 ),
-                
               ],
             ),
             controller: _controller,
@@ -240,7 +238,7 @@ class _RequestCardState extends State<RequestCard> {
           ),
           const Spacer(),
           const Divider(color: lightGrey),
-          const Spacer(flex:4),
+          const Spacer(flex: 4),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -265,7 +263,10 @@ class _RequestCardState extends State<RequestCard> {
                 child: CustomButton(
                   raduis: 4,
                   onPressed: () {
-                    Get.to(() => AddItinerary(requestId: widget.request.id!,booking: widget.request.booking,));
+                    Get.to(() => AddItinerary(
+                          requestId: widget.request.id!,
+                          booking: widget.request.booking,
+                        ));
                   },
                   title: 'accept'.tr,
                 ),

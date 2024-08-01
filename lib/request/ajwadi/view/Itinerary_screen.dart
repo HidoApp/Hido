@@ -37,8 +37,7 @@ class _AddItineraryState extends State<AddItinerary> {
   @override
   void initState() {
     super.initState();
-        _controller = ExpandedTileController(isExpanded: false);
-
+    _controller = ExpandedTileController(isExpanded: false);
     // requestController.itineraryList.add(ItineraryCard(
     //   requestController: requestController,
     //   indx: requestController.intinraryCount.value,
@@ -106,116 +105,111 @@ class _AddItineraryState extends State<AddItinerary> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-      Container(
-      height: _controller.isExpanded ? width * 0.51: width * 0.17,
-      padding: EdgeInsets.only(
-        left: width * 0.04,
-        top: width * 0.048,
-        right: width * 0.04,
-      ),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: const [
-          BoxShadow(color: Color.fromRGBO(199, 199, 199, 0.25), blurRadius: 16)
-        ],
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-         
-          ExpandedTile(
-            contentseparator: 12,
-            trailing: Icon(
-              Icons.keyboard_arrow_down_outlined,
-             size: width * 0.062,
-            ),
-            disableAnimation: true,
-            trailingRotation: 180,
-            onTap: () {
-              setState(() {});
-            },
-            title: CustomText(
-              text: "tripDetails".tr,
-              fontSize: width * 0.044,
-             color: black,
-            ),
-            content: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ItineraryTile(
-                  title: DateFormat('EEE, d MMMM yyyy',
-                          AppUtil.rtlDirection2(context) ? 'ar' : 'en')
-                      .format(DateTime.parse(widget.booking!.date!)),
-                  image: "assets/icons/date.svg",
-                  color: starGreyColor,
+              Container(
+                height: _controller.isExpanded ? width * 0.51 : width * 0.17,
+                padding: EdgeInsets.only(
+                  left: width * 0.04,
+                  top: width * 0.048,
+                  right: width * 0.04,
                 ),
-                SizedBox(height: width * 0.025),
-                ItineraryTile(
-                  title:
-                      "${"pickUp".tr} ${AppUtil.formatStringTimeWithLocale(context,widget.booking!.timeToGo!)}"
-                      " ,  ${"dropOff".tr} ${AppUtil.formatStringTimeWithLocale(context,widget.booking!.timeToReturn!)}",
-                  image: "assets/icons/timeGrey.svg",
-                 color: starGreyColor,
-
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: const [
+                    BoxShadow(
+                        color: Color.fromRGBO(199, 199, 199, 0.25),
+                        blurRadius: 16)
+                  ],
+                  borderRadius: BorderRadius.circular(8),
                 ),
-                SizedBox(height: width * 0.025),
-                ItineraryTile(
-                  title:
-                      "${widget.booking!.guestNumber} ${"guests".tr}",
-                  image: "assets/icons/guests.svg",
-                  color: starGreyColor,
-
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ExpandedTile(
+                      contentseparator: 12,
+                      trailing: Icon(
+                        Icons.keyboard_arrow_down_outlined,
+                        size: width * 0.062,
+                      ),
+                      disableAnimation: true,
+                      trailingRotation: 180,
+                      onTap: () {
+                        setState(() {});
+                      },
+                      title: CustomText(
+                        text: "tripDetails".tr,
+                        fontSize: width * 0.044,
+                        color: black,
+                      ),
+                      content: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ItineraryTile(
+                            title: DateFormat(
+                                    'EEE, d MMMM yyyy',
+                                    AppUtil.rtlDirection2(context)
+                                        ? 'ar'
+                                        : 'en')
+                                .format(DateTime.parse(widget.booking!.date!)),
+                            image: "assets/icons/date.svg",
+                            color: starGreyColor,
+                          ),
+                          SizedBox(height: width * 0.025),
+                          ItineraryTile(
+                            title:
+                                "${"pickUp".tr} ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)}"
+                                " ,  ${"dropOff".tr} ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)}",
+                            image: "assets/icons/timeGrey.svg",
+                            color: starGreyColor,
+                          ),
+                          SizedBox(height: width * 0.025),
+                          ItineraryTile(
+                            title:
+                                "${widget.booking!.guestNumber} ${"guests".tr}",
+                            image: "assets/icons/guests.svg",
+                            color: starGreyColor,
+                          ),
+                          SizedBox(height: width * 0.025),
+                          ItineraryTile(
+                            title: requestController.address.value,
+                            image: 'assets/icons/map_pin.svg',
+                            color: starGreyColor,
+                          ),
+                          SizedBox(height: width * 0.025),
+                          ItineraryTile(
+                            title: widget.booking!.vehicleType.toString(),
+                            image:
+                                'assets/icons/unselected_${widget.booking!.vehicleType.toString()}_icon.svg',
+                            color: starGreyColor,
+                            widthImage: 20,
+                          ),
+                        ],
+                      ),
+                      controller: _controller,
+                      theme: const ExpandedTileThemeData(
+                        leadingPadding: EdgeInsets.zero,
+                        titlePadding: EdgeInsets.zero,
+                        headerPadding: EdgeInsets.zero,
+                        contentPadding: EdgeInsets.zero,
+                        headerSplashColor: Colors.transparent,
+                        headerColor: Colors.transparent,
+                        contentBackgroundColor: Colors.transparent,
+                      ),
+                    ),
+                  ],
                 ),
-                 SizedBox(height: width * 0.025),
-                ItineraryTile(
-                  title: requestController.address.value ,
-                  image: 'assets/icons/map_pin.svg',
-                 color: starGreyColor,
-
-                ),
-                SizedBox(height: width * 0.025),
-                ItineraryTile(
-                  title: widget.booking!.vehicleType.toString(),
-                  image:
-                      'assets/icons/unselected_${widget.booking!.vehicleType.toString()}_icon.svg',
-                 color: starGreyColor,
-                 widthImage: 20,
-
-                ),
-                
-              ],
-            ),
-            controller: _controller,
-            theme: const ExpandedTileThemeData(
-              leadingPadding: EdgeInsets.zero,
-              titlePadding: EdgeInsets.zero,
-              headerPadding: EdgeInsets.zero,
-              contentPadding: EdgeInsets.zero,
-              headerSplashColor: Colors.transparent,
-              headerColor: Colors.transparent,
-              contentBackgroundColor: Colors.transparent,
-            ),
-          ),
-
-        ],
-      ),
-),
-
-
-                SizedBox(height: width * 0.055),
-
+              ),
+              SizedBox(height: width * 0.09),
               CustomText(
                 text: "atLeastItenrary".tr,
                 fontWeight: FontWeight.w400,
-               color: starGreyColor,
-                fontSize: width*0.033,
-               fontFamily:
-                AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+                color: starGreyColor,
+                fontSize: width * 0.033,
+                fontFamily:
+                    AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
               ),
-              SizedBox(
-                height: width * 0.05,
-              ),
+              // SizedBox(
+              //   height: width * 0.05,
+              // ),
               Obx(() => ListView.separated(
                     separatorBuilder: (context, index) => SizedBox(
                       height: width * 0.03,
@@ -254,8 +248,9 @@ class _AddItineraryState extends State<AddItinerary> {
                       if (requestController.intinraryCount >= 1) {
                         return;
                       }
-                      
+
                       requestController.itineraryList.add(ItineraryCard(
+                        booking: widget.booking!,
                         requestController: requestController,
                         indx: requestController.intinraryCount.value,
                       ));
@@ -281,8 +276,8 @@ class _AddItineraryState extends State<AddItinerary> {
                   CustomText(
                     text: "addActicity".tr,
                     fontSize: width * 0.038,
-                    fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-
+                    fontFamily:
+                        AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
                     fontWeight: FontWeight.w400,
                   ),
                 ],

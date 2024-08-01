@@ -22,11 +22,6 @@ class ReviewIenraryScreen extends StatefulWidget {
 }
 
 class _ReviewIenraryScreenState extends State<ReviewIenraryScreen> {
-  String convertTime(String time) {
-    DateTime dateTime = DateFormat('h:mm a').parse(time);
-    return DateFormat('HH:mm:ss').format(dateTime);
-  }
-
   String ensureSpaceBeforePeriod(String time) {
     if (time.contains('AM') || time.contains('PM')) {
       time = time.replaceAll('AM', ' AM').replaceAll('PM', ' PM');
@@ -42,11 +37,13 @@ class _ReviewIenraryScreenState extends State<ReviewIenraryScreen> {
       widget.requestController.reviewItenrary[i].scheduleTime!.from =
           ensureSpaceBeforePeriod(
               widget.requestController.reviewItenrary[i].scheduleTime!.from!);
-      widget.requestController.reviewItenrary[i].scheduleTime!.to = convertTime(
-          widget.requestController.reviewItenrary[i].scheduleTime!.to!);
+      widget.requestController.reviewItenrary[i].scheduleTime!.to =
+          AppUtil.convertTime(
+              widget.requestController.reviewItenrary[i].scheduleTime!.to!);
       widget.requestController.reviewItenrary[i].scheduleTime!.from =
-          convertTime(
-              widget.requestController.reviewItenrary[i].scheduleTime!.from!);
+          AppUtil.convertTime(
+        widget.requestController.reviewItenrary[i].scheduleTime!.from!,
+      );
     }
   }
 
@@ -60,7 +57,7 @@ class _ReviewIenraryScreenState extends State<ReviewIenraryScreen> {
       backgroundColor: Colors.white,
       body: Padding(
         padding: EdgeInsets.only(
-           top: width * 0.03,
+          top: width * 0.03,
           left: width * 0.04,
           right: width * 0.04,
           bottom: width * 0.08,
@@ -71,9 +68,7 @@ class _ReviewIenraryScreenState extends State<ReviewIenraryScreen> {
             CustomText(
               text: "ItineraryDetails".tr,
               fontSize: width * 0.044,
-             color: black,
-             
-                    
+              color: black,
             ),
             SizedBox(
               height: width * 0.033,
@@ -95,7 +90,7 @@ class _ReviewIenraryScreenState extends State<ReviewIenraryScreen> {
                 itemCount: widget.requestController.reviewItenrary.length,
               ),
             ),
-              SizedBox(
+            SizedBox(
               height: width * 0.05,
             ),
             const Divider(
