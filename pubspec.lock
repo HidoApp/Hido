@@ -418,10 +418,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_localization
-      sha256: faaeb1eba307473032e2c2af737f36ced61fc98735608410d0a6d9c231b50912
+      sha256: c2918388c56fe2d555074215dba44bc47bd5c1036e6b237f72f210b7136cfe61
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.0"
+    version: "0.2.1"
   flutter_localizations:
     dependency: transitive
     description: flutter
@@ -537,6 +537,7 @@ packages:
     dependency: transitive
     description:
       name: geolocator_android
+
       sha256: "06e37fa32392f69f133e166ef6b358a8b6afddbf4c418fc236988184cc115a49"
       url: "https://pub.dev"
     source: hosted
@@ -705,6 +706,7 @@ packages:
     dependency: transitive
     description:
       name: image_picker_android
+
       sha256: "42c098e7fb6334746be37cdc30369ade356ed4f14d48b7a0313f95a9159f4321"
       url: "https://pub.dev"
     source: hosted
@@ -929,6 +931,7 @@ packages:
     dependency: transitive
     description:
       name: path_provider_android
+
       sha256: "51f0d2c554cfbc9d6a312ab35152fc77e2f0b758ce9f1a444a3a1e5b8f3c6b7f"
       url: "https://pub.dev"
     source: hosted
@@ -1198,6 +1201,7 @@ packages:
     dependency: transitive
     description:
       name: syncfusion_flutter_core
+
       sha256: "9f0a4593f7642b2f106e329734d0e5fc746baf8d0a59495eec586cd0d9ba7d02"
       url: "https://pub.dev"
     source: hosted
@@ -1206,6 +1210,7 @@ packages:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_datepicker
+
       sha256: c09d8a84f07da41c12b02ac350f4aab8b73be2c51095fca9f9404b2a5af67585
       url: "https://pub.dev"
     source: hosted
@@ -1242,6 +1247,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.2"
+  time_picker_spinner_pop_up:
+    dependency: "direct main"
+    description:
+      name: time_picker_spinner_pop_up
+      sha256: "835f94121ef87ffc9f61ecf359f4d2001fc24517cad1578f95a35da00a4664f7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
   timeago:
     dependency: "direct main"
     description:
@@ -1302,6 +1315,7 @@ packages:
     dependency: transitive
     description:
       name: url_launcher_android
+
       sha256: d4ed0711849dd8e33eb2dd69c25db0d0d3fdc37e0a62e629fe32f57a22db2745
       url: "https://pub.dev"
     source: hosted
@@ -1382,6 +1396,7 @@ packages:
     dependency: transitive
     description:
       name: video_player_android
+
       sha256: "4dd9b8b86d70d65eecf3dcabfcdfbb9c9115d244d022654aba49a00336d540c2"
       url: "https://pub.dev"
     source: hosted

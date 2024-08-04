@@ -102,9 +102,21 @@ class _EventsTabState extends State<EventsTab> {
                                       await _eventController.getEventList(
                                           context: context,
                                           region: index != 0
-                                              ? _regionsController.regionsEvent
-                                                      .value.regionEn![
-                                                  index != 0 ? index - 1 : 0]
+                                              ? AppUtil.rtlDirection2(context)
+                                                  ? _regionsController
+                                                          .regionsEvent
+                                                          .value
+                                                          .regionAr![
+                                                      index != 0
+                                                          ? index - 1
+                                                          : 0]
+                                                  : _regionsController
+                                                      .regionsEvent
+                                                      .value
+                                                      .regionEn![index != 0
+                                                          ? index - 1
+                                                          : 0]
+                                                      .capitalizeFirst
                                               : null);
                                     }
                                   }
@@ -130,8 +142,11 @@ class _EventsTabState extends State<EventsTab> {
                                       : AppUtil.rtlDirection2(context)
                                           ? _regionsController.regionsEvent
                                               .value.regionAr![index - 1]
-                                          : _regionsController.regionsEvent
-                                              .value.regionEn![index - 1],
+                                          : _regionsController
+                                              .regionsEvent
+                                              .value
+                                              .regionEn![index - 1]
+                                              .capitalizeFirst!,
                                 ),
                               ),
                             ),

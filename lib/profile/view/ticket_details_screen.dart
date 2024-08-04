@@ -60,6 +60,8 @@ class TicketDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log("message");
+
     // log(booking!.bookingType! ?? "NULLL");
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
@@ -90,6 +92,7 @@ class TicketDetailsScreen extends StatelessWidget {
                     //TicketData(booking: booking,icon: icon,bookTypeText: bookTypeText,),
                   ),
                 ),
+
                // const Expanded(child: SizedBox()), // Takes up remaining space
              
           
@@ -250,9 +253,10 @@ class TicketDetailsScreen extends StatelessWidget {
                         borderColor: colorRed,
                         // Set the text color to red
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
+
               ),
             ],
           ),
@@ -320,6 +324,7 @@ class TicketData extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // log("inside");
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

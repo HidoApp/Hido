@@ -3,11 +3,11 @@ import 'package:ajwad_v4/services/controller/event_controller.dart';
 import 'package:ajwad_v4/services/model/days_info.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class EventCardItem extends StatefulWidget {
   const EventCardItem(
@@ -165,8 +165,8 @@ final _eventController = Get.put(EventController());
                             width: width * 0.02,
                           ),
                           CustomText(
-                            text: AppUtil.formatSelectedDaysInfo(
-                                widget.daysInfo, context),
+                            text:
+                                '${'From'.tr}  ${AppUtil.formatTimeWithLocale(context, widget.daysInfo[0].startTime, 'hh:mm a')} ${'To'.tr}  ${AppUtil.formatTimeWithLocale(context, widget.daysInfo[0].endTime, 'hh:mm a')}',
                             fontFamily: AppUtil.rtlDirection2(context)
                                 ? 'SF Arabic'
                                 : 'SF Pro',

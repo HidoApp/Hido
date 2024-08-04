@@ -42,6 +42,7 @@ class _BookmarkScreenState extends State<BookmarkScreen>
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: lightGreyBackground,
+      floatingActionButton: FloatingTimer(),
       appBar: CustomAppBar(
         'bookmark'.tr,
       ),
