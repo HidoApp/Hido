@@ -172,7 +172,7 @@ class _ServiceScreenState extends State<ServiceScreen>
                 //   top: 10,
                 // ),
                 //dividerColor: Colors.transparent,
-                dividerHeight: 0,
+             //   dividerHeight: 0,
                 // overlayColor: WidgetStateProperty.all(Colors.transparent),
                 indicator: BoxDecoration(
                   borderRadius: BorderRadius.only(
