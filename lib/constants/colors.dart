@@ -29,7 +29,9 @@ const Color colorDarkRed = Color(0xFFB64243);
 const Color colorPurple = Color(0xFF8937E7);
 const Color colorDarkPurple = Color(0xFF772ECA);
 
-const Color colorDarkGrey = Color(0xFF959595);
+// const Color colorDarkGrey = Color(0xFF959595);
+const Color colorDarkGrey = Color(0xFF9392A0);
+
 
 const Color lightBlack = Color(0xFF202020);
 const Color dividerColor = Color(0xff606060);
@@ -54,6 +56,7 @@ const Color Graytext = Color(0xFFB9B8C1);
 const Color darkBlack = Color(0xff252525);
 const Color textAreaColor = Color(0xffE4DFDF);
 const Color starGreyColor = Color(0xFF9392A0);
+
 // Color(0xff5F5F5F);
 const Color containerGreyColor = Color(0xffF5F5F5);
 const Color dotGreyColor = Color(0xff979797);

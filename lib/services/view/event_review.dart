@@ -61,7 +61,10 @@ class _EventReviewState extends State<EventReview> {
                   height: width * 0.0205,
                 ),
                 ReviewDetailsTile(
-                    title: AppUtil.rtlDirection2(context)
+                    title: _eventController.address.isNotEmpty
+                    ?_eventController.address.value
+                    
+                   : AppUtil.rtlDirection2(context)
                         ? widget.event.regionAr ?? ""
                         : widget.event.regionEn ?? "",
                     image: "assets/icons/locationHos.svg"),

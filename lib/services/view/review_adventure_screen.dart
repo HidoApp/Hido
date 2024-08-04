@@ -75,7 +75,11 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                   height: width * 0.0205,
                 ),
                 ReviewDetailsTile(
-                    title:_adventureController.address.value,
+                    title:_adventureController.address.value.isNotEmpty
+                    ?_adventureController.address.value
+                    : AppUtil.rtlDirection2(context)
+                        ? widget.adventure  .regionAr ?? ""
+                        : widget.adventure .regionEn ?? "",
                     image: "assets/icons/locationHos.svg"),
                 SizedBox(
                   height: width * .010,

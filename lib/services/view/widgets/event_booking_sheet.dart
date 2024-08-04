@@ -21,6 +21,7 @@ class EventBookingSheet extends StatefulWidget {
   const EventBookingSheet({super.key, this.event, this.avilableDate});
   final Event? event;
   final List<DateTime>? avilableDate;
+  
   @override
   State<EventBookingSheet> createState() => _EventBookingSheetState();
 }
@@ -178,15 +179,11 @@ class _EventBookingSheetState extends State<EventBookingSheet> {
                    _eventController.DateErrorMessage.value
                         ? colorRed
                         : borderGrey,
-                prefixIcon: SvgPicture.asset(
-                  'assets/icons/Time (2).svg',
-                  //  color: widget.color,
-                ),
-                suffixIcon: Icon(
-                  Icons.arrow_forward_ios,
-                  color: borderGrey,
-                  size: width * 0.038,
-                ),
+                
+                      prefixIcon:Container(),
+                      suffixIcon: SvgPicture.asset(
+                        "assets/icons/green_calendar.svg",
+                      ),
                 textColor: borderGrey,
               ),
             ),

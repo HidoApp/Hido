@@ -16,6 +16,7 @@ class TripController extends GetxController {
   Rx<String> nextStep = 'PENDING'.obs;
     Rx<double> progress = 0.1.obs;
   Rx<bool> isTripOnWay = false.obs;
+  Rx<bool> isTripUpdated = false.obs;
 
 
 
@@ -78,7 +79,9 @@ class TripController extends GetxController {
 
   var isNextActivityLoading = false.obs;
 
-  Future<NextActivity?> getNextActivity({
+  
+
+   Future<NextActivity?> getNextActivity({
     required BuildContext context,
   }) async {
     try {
@@ -87,7 +90,10 @@ class TripController extends GetxController {
       isNextActivityLoading(true);
       nextTrip = (await TripService.getNextActivity(context: context));
 
-      return nextTrip;
+    
+      print('this trip data');
+         return nextTrip;
+     
     } catch (e) {
       isNextActivityLoading(false);
       return null;
@@ -104,14 +110,9 @@ class TripController extends GetxController {
     try {
      isActivityProgressLoading(true);
 
-       updatedActivity = (await TripService.updateActivity(id: id, context: context))!;
-       print("this update");
-       print(updatedActivity.isEmpty);
-      if (!updatedActivity.isEmpty) {
-        return updatedActivity;
-      } else {
-        return NextActivity();
-      }
+       final data = await TripService.updateActivity(id: id, context: context);
+        return data;
+    
     } catch (e) {
       print(e);
       isActivityProgressLoading(false);

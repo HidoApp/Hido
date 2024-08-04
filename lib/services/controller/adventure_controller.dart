@@ -34,7 +34,7 @@ class AdventureController extends GetxController {
   var selectedDateId = "".obs;
   var ragionAr="".obs;
   var ragionEn="".obs;
-
+var showErrorMaxGuest=false.obs;
   var isAdventureDateSelcted = false.obs;
   var isAdventureTimeSelcted = false.obs;
 

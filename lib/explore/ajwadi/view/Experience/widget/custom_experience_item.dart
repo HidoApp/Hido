@@ -151,6 +151,7 @@ class _ServicesCardState extends State<ServicesCard> {
                         ),
                         SvgPicture.asset(
                           'assets/icons/map_pin.svg',
+                          color: colorDarkGrey,
                         ),
                         SizedBox(
                           width: width * 0.017,
@@ -164,7 +165,7 @@ class _ServicesCardState extends State<ServicesCard> {
                           fontFamily: AppUtil.rtlDirection2(context)
                               ? 'SF Arabic'
                               : 'SF Pro',
-                          color: starGreyColor,
+                         color: colorDarkGrey,
                         ),
                       ],
                     ),
@@ -180,7 +181,7 @@ class _ServicesCardState extends State<ServicesCard> {
                           ),
                           SvgPicture.asset(
                             'assets/icons/grey_calender.svg',
-                            color: starGreyColor,
+                          color: colorDarkGrey,
                           ),
                           SizedBox(
                             width: width * 0.019,
@@ -192,7 +193,7 @@ class _ServicesCardState extends State<ServicesCard> {
                                         context, widget.experience.date ?? '')
                                     : AppUtil.formatSelectedDaysInfo(
                                         widget.experience.daysInfo, context),
-                            color: starGreyColor,
+                           color: colorDarkGrey,
                             fontSize: 11,
                             fontFamily: AppUtil.rtlDirection2(context)
                                 ? 'SF Arabic'
@@ -209,6 +210,7 @@ class _ServicesCardState extends State<ServicesCard> {
                           ),
                           SvgPicture.asset(
                             'assets/icons/timeGrey.svg',
+                            color: colorDarkGrey,
                           ),
                           SizedBox(
                             width: width * 0.01,
@@ -216,7 +218,7 @@ class _ServicesCardState extends State<ServicesCard> {
                           CustomText(
                             text:
                                 '${AppUtil.formatBookingDate(context, widget.experience.daysInfo[0].startTime ?? '')} - ${AppUtil.formatTimeOnly(context, widget.experience.daysInfo[0].startTime)} ',
-                            color: starGreyColor,
+                          color: colorDarkGrey,
                             fontSize: 11,
                             fontFamily: AppUtil.rtlDirection2(context)
                                 ? 'SF Arabic'
@@ -237,6 +239,7 @@ class _ServicesCardState extends State<ServicesCard> {
                           ),
                           SvgPicture.asset(
                             'assets/icons/timeGrey.svg',
+                            color: colorDarkGrey,
                           ),
                           SizedBox(
                             width: width * 0.01,
@@ -246,7 +249,7 @@ class _ServicesCardState extends State<ServicesCard> {
                                     'adventure'
                                 ? '${AppUtil.formatStringTimeWithLocale(context, widget.experience.times.first.startTime)} -  ${AppUtil.formatStringTimeWithLocale(context, widget.experience.times.first.endTime)}'
                                 : '${AppUtil.formatTimeOnly(context, widget.experience.daysInfo.first.startTime)} -  ${AppUtil.formatTimeOnly(context, widget.experience.daysInfo.first.endTime)}',
-                            color: starGreyColor,
+                             color: colorDarkGrey,
                             fontSize: 11,
                             fontFamily: AppUtil.rtlDirection2(context)
                                 ? 'SF Arabic'
@@ -263,7 +266,7 @@ class _ServicesCardState extends State<ServicesCard> {
                         if (widget.experience.experiencesType == 'hospitality')
                           Row(
                             children: [
-                              SvgPicture.asset('assets/icons/meal.svg'),
+                              SvgPicture.asset('assets/icons/meal.svg',color: colorDarkGrey,),
                               SizedBox(
                                 width: width * 0.024,
                               ),
@@ -277,7 +280,7 @@ class _ServicesCardState extends State<ServicesCard> {
                                 fontFamily: AppUtil.rtlDirection2(context)
                                     ? 'SF Arabic'
                                     : 'SF Pro',
-                                color: starGreyColor,
+                                color: colorDarkGrey,
                               ),
                             ],
                           ),

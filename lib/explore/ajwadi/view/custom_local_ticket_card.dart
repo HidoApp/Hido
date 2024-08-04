@@ -68,30 +68,31 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
   void checkCondition() {
     tz.initializeTimeZones();
     location = tz.getLocation(timeZoneName);
-     DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
-     DateTime currentDate = DateTime(currentDateInRiyadh.year, currentDateInRiyadh.month, currentDateInRiyadh.day);
-    String currentDateString = intel.DateFormat('yyyy-MM-dd').format(currentDate);
-     // String formattedTime = intel.DateFormat('HH:mm:ss').format(currentDateInRiyadh);
-     // Format current date and time
-  DateTime currentTime = DateTime(
-      currentDateInRiyadh.year,
-      currentDateInRiyadh.month,
-      currentDateInRiyadh.day,
-      currentDateInRiyadh.hour,
-      currentDateInRiyadh.minute,
-      currentDateInRiyadh.second
-  );
-      final parsedBookingDate = DateTime.parse(widget.nextTrip!.booking!.date??'');
+    DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
+    DateTime currentDate = DateTime(currentDateInRiyadh.year,
+        currentDateInRiyadh.month, currentDateInRiyadh.day);
+    String currentDateString =
+        intel.DateFormat('yyyy-MM-dd').format(currentDate);
+    // String formattedTime = intel.DateFormat('HH:mm:ss').format(currentDateInRiyadh);
+    // Format current date and time
+    DateTime currentTime = DateTime(
+        currentDateInRiyadh.year,
+        currentDateInRiyadh.month,
+        currentDateInRiyadh.day,
+        currentDateInRiyadh.hour,
+        currentDateInRiyadh.minute,
+        currentDateInRiyadh.second);
+    final parsedBookingDate =
+        DateTime.parse(widget.nextTrip!.booking!.date ?? '');
 
-  
-    if (widget.nextTrip!.booking!.date == currentDateString || parsedBookingDate.isAfter(currentDate)){
-     setState(() {
+    if (widget.nextTrip!.booking!.date == currentDateString ||
+        parsedBookingDate.isAtSameMomentAs(currentDate) ||parsedBookingDate.isBefore(currentDate)) {
+      setState(() {
         isTripStart.value = true;
       });
-     String timeToGoStr = widget.nextTrip!.booking!.timeToGo;
+      String timeToGoStr = widget.nextTrip!.booking!.timeToGo;
 
-    DateTime timeToGo = DateTime.parse('$currentDateString $timeToGoStr');
-
+      DateTime timeToGo = DateTime.parse('$currentDateString $timeToGoStr');
 
 //     if(widget.nextTrip!.booking!.timeToGo == formattedTime){
 //       setState(() {
@@ -100,37 +101,35 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
 //  }
 // Compare the times
 
-print('lkjhgfdsfgbnm');
-print(currentTime);
-print(timeToGo);
-print(currentTime.isAfter(timeToGo));
-print(currentTime.isAtSameMomentAs(timeToGo));
-    // if (currentTime.isAfter(timeToGo) || currentTime.isAtSameMomentAs(timeToGo)) {
+      print('rehablkjhgfdsfgbnm ');
+      print(currentTime);
+      print(parsedBookingDate);
+      print(parsedBookingDate.isAfter(currentDate));
+      print(currentTime.isAtSameMomentAs(timeToGo));
+      // if (currentTime.isAfter(timeToGo) || currentTime.isAtSameMomentAs(timeToGo)) {
 
-      
-   // }
+      // }
     }
 //  _tripController.nextStep.value=='PENDING';
 // _tripController.progress.value==0.1;
   }
+
   void isDateBefore24Hours() {
-   final String timeZoneName = 'Asia/Riyadh';
-  late tz.Location location;
-  
-  tz.initializeTimeZones();
+    final String timeZoneName = 'Asia/Riyadh';
+    late tz.Location location;
+
+    tz.initializeTimeZones();
     location = tz.getLocation(timeZoneName);
     DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
-     DateTime parsedDate = DateTime.parse(widget.nextTrip!.booking!.date??'');
-    Duration difference =  parsedDate.difference(currentDateInRiyadh);
+    DateTime parsedDate = DateTime.parse(widget.nextTrip!.booking!.date ?? '');
+    Duration difference = parsedDate.difference(currentDateInRiyadh);
     print('this deffrence');
     print(difference);
-    if(difference.inHours < 6){
+    if (difference.inHours < 6) {
       setState(() {
         isTripStart.value = true;
       });
     }
-    
-    
   }
 
   void initState() {
@@ -139,9 +138,20 @@ print(currentTime.isAtSameMomentAs(timeToGo));
     _controller = ExpandedTileController(isExpanded: false);
     checkCondition();
 
-    getAddressFromCoordinates(
-        double.parse(widget.nextTrip!.booking!.coordinates.latitude ?? ''),
-        double.parse((widget.nextTrip!.booking!.coordinates.longitude ?? '')));
+    String latitudeStr = widget.nextTrip!.booking?.coordinates.latitude ?? '';
+    String longitudeStr = widget.nextTrip!.booking?.coordinates.longitude ?? '';
+
+    if (latitudeStr.isNotEmpty && longitudeStr.isNotEmpty) {
+      try {
+        double latitude = double.parse(latitudeStr);
+        double longitude = double.parse(longitudeStr);
+        getAddressFromCoordinates(latitude, longitude);
+      } catch (e) {
+        print("Error parsing coordinates: $e");
+      }
+    } else {
+      print("Invalid coordinates: latitude or longitude is empty");
+    }
   }
 
   void getAddressFromCoordinates(double latitude, double longitude) async {
@@ -281,11 +291,11 @@ print(currentTime.isAtSameMomentAs(timeToGo));
                                           id: widget.nextTrip!.id ?? '',
                                           context: context,
                                         )
-                                            .then((updatedValue) async {
+                                                    .then((updatedValue) async {
                                           if (!_tripController
                                               .isActivityProgressLoading
                                               .value) {
-                                            if (updatedValue!.isEmpty) {
+                                            if (updatedValue == []) {
                                               print("this is widget book");
                                             } else {
                                               print('this the value');
@@ -293,10 +303,10 @@ print(currentTime.isAtSameMomentAs(timeToGo));
                                                       .progress.value +
                                                   0.25));
 
-                                              updateStepss(updatedValue
+                                              updateStepss(updatedValue!
                                                       .activityProgress ??
                                                   '');
-                                              if (updatedValue
+                                              if (updatedValue!
                                                       .activityProgress ==
                                                   'COMPLETED') {
                                                 log("End Trip Taped ${widget.nextTrip!.id}");
@@ -315,30 +325,19 @@ print(currentTime.isAtSameMomentAs(timeToGo));
                                                   returnProgress(_tripController
                                                           .progress.value -
                                                       1.0);
-                                                 var next =  await _tripController
+                                                  await _tripController
                                                       .getNextActivity(
                                                         context: context,
-                                                      );
-                                                      
-                                                    
-                                                         
-                                                         if(next== null ){
-                                                              _tripController.nextTrip= NextActivity();
-                                                               widget.nextTrip = NextActivity();
-                                                               print('inter');
-                                                               print(next== null);
-                                                            }
-                                                            else{
-                                                                   print('inter2');
-
+                                                      )
+                                                      .then((value) =>
+                                                          setState(() {
                                                             widget.nextTrip =
-                                                                next;
-                                                            }
+                                                                value;
                                                             _tripController
                                                                     .nextStep
                                                                     .value =
                                                                 'PENDING';
-                                                        
+                                                          }));
                                                 } else {
                                                   AppUtil.errorToast(
                                                       context, 'EndTrip'.tr);
@@ -399,7 +398,7 @@ print(currentTime.isAtSameMomentAs(timeToGo));
                   const Divider(
                     color: lightGrey,
                   ),
-                  //                              // SizedBox(height: width * 0.03),
+                  // SizedBox(height: width * 0.03),
                   ExpandedTile(
                     contentseparator: 12,
                     trailing: Icon(
@@ -434,16 +433,18 @@ print(currentTime.isAtSameMomentAs(timeToGo));
                           image: "assets/icons/timeGrey.svg",
                         ),
                         //SizedBox(height: width * 0.025),
+                        
+                if(address.isNotEmpty)...[
                         SizedBox(height: 8),
-
-                        ItineraryTile(
-                          title: address,
-                          image: 'assets/icons/map_pin.svg',
-                          imageUrl: AppUtil.getLocationUrl(
-                              widget.nextTrip!.booking!.coordinates),
-                          line: true,
-                        ),
-                        // SizedBox(height: width * 0.025),
+                      
+                          ItineraryTile(
+                            title: address,
+                            image: 'assets/icons/map_pin.svg',
+                            imageUrl: AppUtil.getLocationUrl(
+                                widget.nextTrip!.booking!.coordinates),
+                            line: true,
+                          ),
+                ],
                         SizedBox(height: 8),
 
                         ItineraryTile(
