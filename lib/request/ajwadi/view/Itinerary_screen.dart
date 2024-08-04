@@ -48,9 +48,9 @@ class _AddItineraryState extends State<AddItinerary> {
   @override
   void dispose() {
     super.dispose();
-    requestController.itineraryList.clear();
-    requestController.intinraryCount(0);
-    requestController.reviewItenrary.clear();
+    // requestController.itineraryList.clear();
+    // requestController.intinraryCount(0);
+    // requestController.reviewItenrary.clear();
   }
 
   @override
@@ -65,31 +65,33 @@ class _AddItineraryState extends State<AddItinerary> {
           right: width * 0.04,
           bottom: width * 0.08,
         ),
-        child: CustomButton(
-          buttonColor: requestController.reviewItenrary.length < 3
-              ? colorGreen.withOpacity(0.5)
-              : null,
-          borderColor: requestController.reviewItenrary.length < 3
-              ? colorGreen.withOpacity(0.5)
-              : null,
-          onPressed: () {
-            if (requestController.reviewItenrary.length < 3) {
-              //  AppUtil.errorToast(context, "atLeastItenrary".tr);
-            } else {
-              Get.to(
-                () => ReviewIenraryScreen(
-                  requestController: requestController,
-                  requestId: widget.requestId,
-                ),
-              );
-            }
-          },
-          title: "next".tr,
-          icon: Icon(
-            AppUtil.rtlDirection2(context)
-                ? Icons.arrow_back_ios
-                : Icons.arrow_forward_ios,
-            size: width * 0.046,
+        child: Obx(
+          () => CustomButton(
+            buttonColor: requestController.reviewItenrary.length < 3
+                ? colorGreen.withOpacity(0.5)
+                : null,
+            borderColor: requestController.reviewItenrary.length < 3
+                ? colorGreen.withOpacity(0.5)
+                : null,
+            onPressed: () {
+              if (requestController.reviewItenrary.length < 3) {
+                //  AppUtil.errorToast(context, "atLeastItenrary".tr);
+              } else {
+                Get.to(
+                  () => ReviewIenraryScreen(
+                    requestController: requestController,
+                    requestId: widget.requestId,
+                  ),
+                );
+              }
+            },
+            title: "next".tr,
+            icon: Icon(
+              AppUtil.rtlDirection2(context)
+                  ? Icons.arrow_back_ios
+                  : Icons.arrow_forward_ios,
+              size: width * 0.046,
+            ),
           ),
         ),
       ),
@@ -248,7 +250,6 @@ class _AddItineraryState extends State<AddItinerary> {
                       if (requestController.intinraryCount >= 1) {
                         return;
                       }
-
                       requestController.itineraryList.add(ItineraryCard(
                         booking: widget.booking!,
                         requestController: requestController,

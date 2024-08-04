@@ -22,11 +22,22 @@ class ReviewIenraryScreen extends StatefulWidget {
 }
 
 class _ReviewIenraryScreenState extends State<ReviewIenraryScreen> {
+  String convertTime(String time) {
+    try {
+      DateTime dateTime = DateFormat('h:mm a').parse(time.trim());
+      return DateFormat('HH:mm:ss').format(dateTime);
+    } catch (e) {
+      // Handle the error, for example, log it or return a default value
+      print('Error parsing time: $e');
+      return '00:00:00'; // Return a default value in case of error
+    }
+  }
+
   String ensureSpaceBeforePeriod(String time) {
     if (time.contains('AM') || time.contains('PM')) {
       time = time.replaceAll('AM', ' AM').replaceAll('PM', ' PM');
     }
-    return time;
+    return time.trim(); // Remove any leading or trailing spaces
   }
 
   void convertAllTimes() {
@@ -37,13 +48,11 @@ class _ReviewIenraryScreenState extends State<ReviewIenraryScreen> {
       widget.requestController.reviewItenrary[i].scheduleTime!.from =
           ensureSpaceBeforePeriod(
               widget.requestController.reviewItenrary[i].scheduleTime!.from!);
-      widget.requestController.reviewItenrary[i].scheduleTime!.to =
-          AppUtil.convertTime(
-              widget.requestController.reviewItenrary[i].scheduleTime!.to!);
+      widget.requestController.reviewItenrary[i].scheduleTime!.to = convertTime(
+          widget.requestController.reviewItenrary[i].scheduleTime!.to!);
       widget.requestController.reviewItenrary[i].scheduleTime!.from =
-          AppUtil.convertTime(
-        widget.requestController.reviewItenrary[i].scheduleTime!.from!,
-      );
+          convertTime(
+              widget.requestController.reviewItenrary[i].scheduleTime!.from!);
     }
   }
 
@@ -132,14 +141,9 @@ class _ReviewIenraryScreenState extends State<ReviewIenraryScreen> {
                                   ),
                                 );
                               },
-                            );
-                            // await widget.requestController
-                            //     .getRequestList(context: context);
-                            Future.delayed(
-                              const Duration(seconds: 2),
-                              () => Get.offAll(() => const AjwadiBottomBar()),
-                            );
-                            // Get.offAll(() => const AjwadiBottomBar());
+                            ).then((val) {
+                              Get.offAll(() => const AjwadiBottomBar());
+                            });
                           } else {
                             AppUtil.errorToast(context, 'error'.tr);
                           }

@@ -104,14 +104,16 @@ class _PaymentTypeState extends State<PaymentType> {
             context: context, invoiceValue: widget.price);
         if (widget.type == "hospitality") {
           check = await checkHospitality(false);
-        }
-        log('before success');
-        log(check.toString());
-        if (check) {
+          log('before success');
+          log(check.toString());
+          if (check) {
+            applePayWebView();
+          }
+
+          log('after success');
+        } else {
           applePayWebView();
         }
-
-        log('after success');
 
         break;
       case PaymentMethod.stcpay:
@@ -389,7 +391,6 @@ class _PaymentTypeState extends State<PaymentType> {
 
       Get.to(() => TicketDetailsScreen(
           booking: fetchedBooking,
-          
           icon: SvgPicture.asset('assets/icons/place.svg'),
           bookTypeText: 'place'));
     });

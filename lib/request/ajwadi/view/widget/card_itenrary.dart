@@ -49,7 +49,7 @@ class _ItineraryCardState extends State<ItineraryCard> {
   bool validItnrary = true;
 
   void itineraryValdiation() {
-    _formKey.currentState!.validate();
+    final isSucces = _formKey.currentState!.validate();
     if (widget.requestController.startTime.value.isEmpty) {
       widget.requestController.isStartTimeValid(false);
     } else {
@@ -60,41 +60,25 @@ class _ItineraryCardState extends State<ItineraryCard> {
     } else {
       widget.requestController.isEndTimeValid(true);
     }
+
     if (widget.requestController.endtime.value.isNotEmpty &&
-        widget.requestController.startTime.value.isNotEmpty) {
+        widget.requestController.startTime.value.isNotEmpty &&
+        widget.requestController.isStartTimeInRange.value &&
+        widget.requestController.isEndTimeInRange.value &&
+        isSucces) {
       widget.requestController.validSave(true);
     } else {
       widget.requestController.validSave(false);
     }
   }
 
-  bool compareTime(DateTime time, DateTime dateTimeFromPicker) {
-    // Parse the 24-hour format time string to DateTime
-    // DateTime parsedStringTime = DateFormat('HH:mm:ss').parse(stringTime24);
-
+  bool compareTime(DateTime dateTimeFromPicker) {
     String pickerTime24 = DateFormat('HH:mm:ss').format(dateTimeFromPicker);
     DateTime parsedPickerTime = DateFormat('HH:mm:ss').parse(pickerTime24);
-
-    log(_timeToGo!.hour.toString());
-    log(_timeToGo!.minute.toString());
-    log(parsedPickerTime.hour.toString());
-    log(parsedPickerTime.minute.toString());
-    // Extract hour and minute from both DateTime objects
-    int stringTimeHour = _timeToGo!.hour;
-    int stringTimeMinute = _timeToGo!.minute;
-
-    int pickerTimeHour = parsedPickerTime.hour;
-    int pickerTimeMinute = parsedPickerTime.minute;
-
     // Compare hour and minute
-    if (stringTimeHour >= pickerTimeHour) {
-      if (stringTimeMinute >= pickerTimeMinute) {
-        return true;
-      }
-      return false; // time to go is after pickerTime
-    } else {
-      return false; // time to go is before or the same as pickerTime
-    }
+    return parsedPickerTime.isAtSameMomentAs(_timeToGo!) ||
+        parsedPickerTime.isAfter(_timeToGo!) &&
+            parsedPickerTime.isBefore(_timeToReturn!);
   }
 
   @override
@@ -102,18 +86,30 @@ class _ItineraryCardState extends State<ItineraryCard> {
     // TODO: implement initState
     super.initState();
     _timeToGo = DateFormat('HH:mm:ss').parse(widget.booking.timeToGo!);
-
     _timeToReturn = DateFormat('HH:mm:ss').parse(widget.booking.timeToReturn!);
+    widget.requestController.timeToGo(_timeToGo);
+    widget.requestController.timeToReturn(_timeToReturn);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    widget.requestController.isStartTimeInRange(true);
+    widget.requestController.isStartTimeValid(true);
+    widget.requestController.isEndTimeInRange(true);
+    widget.requestController.isEndTimeValid(true);
   }
 
   @override
   Widget build(BuildContext context) {
     log(widget.booking.timeToGo ?? "");
+    log(widget.booking.timeToReturn ?? "");
     final width = MediaQuery.of(context).size.width;
     return Obx(
       () => Container(
         height:
-            widget.requestController.validSave.value ? width * 0.86 : width * 1,
+            widget.requestController.validSave.value ? width * 0.9 : width * 1,
         padding: EdgeInsets.only(
           left: width * 0.030,
           top: width * 0.05,
@@ -201,7 +197,12 @@ class _ItineraryCardState extends State<ItineraryCard> {
                     return '*TheMinimumPrice'.tr;
                   }
                 },
-                onChanged: (value) => price = int.parse(value),
+                onChanged: (value) {
+                  if (value.isEmpty) {
+                    return;
+                  }
+                  price = int.parse(value);
+                },
               ),
               SizedBox(
                 height: width * 0.035,
@@ -227,20 +228,19 @@ class _ItineraryCardState extends State<ItineraryCard> {
                             currentTime: _dateTimeTo,
                             onConfirm: (time) {
                               _dateTimeTo = time;
-                              log(compareTime(_timeToGo!, time).toString());
-
+                              log(compareTime(time).toString());
+                              widget.requestController.isStartTimeInRange
+                                  .value = compareTime(time);
                               widget.requestController.startTime.value =
                                   DateFormat(
                                 'h:mm a',
                               ).format(_dateTimeTo);
                               // widget.timeTO(_timeTo.value);
                               log("   timeTo.value  ${widget.requestController.startTime.value}");
-
-                              // requestController.requestScheduleList[index].scheduleTime!
-                              //     .to = _timeTo.value;
-                              // log("to ${requestController.requestScheduleList[index].scheduleTime!.to}");
-                              // setState(() {});
-                              widget.requestController.isStartTimeValid(true);
+                              if (widget
+                                  .requestController.isStartTimeInRange.value) {
+                                widget.requestController.isStartTimeValid(true);
+                              }
                             },
                           );
                         },
@@ -254,10 +254,15 @@ class _ItineraryCardState extends State<ItineraryCard> {
                           alignment: Alignment.centerLeft,
                           decoration: BoxDecoration(
                             border: Border.all(
-                                color: widget.requestController.isStartTimeValid
-                                        .value
-                                    ? colorRed
-                                    : borderGrey),
+                                color: widget.requestController
+                                        .isStartTimeInRange.value
+                                    ? widget.requestController.isStartTimeValid
+                                                .value ||
+                                            widget.requestController
+                                                .isStartTimeInRange.value
+                                        ? borderGrey
+                                        : colorRed
+                                    : colorRed),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Row(
@@ -267,10 +272,7 @@ class _ItineraryCardState extends State<ItineraryCard> {
                                 fontSize: width * 0.03,
                                 text: widget.requestController.startTime.isEmpty
                                     ? ' 00:00'.tr
-                                    : AppUtil.formatStringTimeWithLocale(
-                                        context,
-                                        DateFormat('HH:mm:ss')
-                                            .format(_dateTimeTo)),
+                                    : widget.requestController.startTime.value,
                                 color: almostGrey,
                                 fontFamily: AppUtil.rtlDirection2(context)
                                     ? 'SF Arabic'
@@ -289,12 +291,19 @@ class _ItineraryCardState extends State<ItineraryCard> {
                               ? 'SF Arabic'
                               : 'SF Pro',
                         ),
+                      if (!widget.requestController.isStartTimeInRange.value)
+                        CustomText(
+                          text: 'timeErorrRange'.tr,
+                          color: colorRed,
+                          fontSize: width * 0.028,
+                          fontFamily: AppUtil.SfFontType(context),
+                        ),
                     ],
                   ),
                   // SizedBox(
                   //   width: width * 0.04,
                   // ),
-                  Spacer(),
+                  const Spacer(),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -314,7 +323,8 @@ class _ItineraryCardState extends State<ItineraryCard> {
                             currentTime: _dateTimeFrom,
                             onConfirm: (time) {
                               _dateTimeFrom = time;
-                              widget.requestController.isEndTimeValid(true);
+                              widget.requestController.isEndTimeInRange.value =
+                                  compareTime(time);
                               widget.requestController.endtime.value =
                                   DateFormat(
                                 'h:mma',
@@ -322,6 +332,9 @@ class _ItineraryCardState extends State<ItineraryCard> {
                               log("   timeTo.value  ${widget.requestController.endtime.value}");
                             },
                           );
+                          if (widget.requestController.isEndTimeInRange.value) {
+                            widget.requestController.isEndTimeValid(true);
+                          }
                         },
                         child: Container(
                           width: width * 0.40,
@@ -333,26 +346,27 @@ class _ItineraryCardState extends State<ItineraryCard> {
                           alignment: Alignment.centerLeft,
                           decoration: BoxDecoration(
                             border: Border.all(
-                                color: !widget
-                                        .requestController.isEndTimeValid.value
-                                    ? colorRed
-                                    : borderGrey),
+                                color: widget.requestController.isEndTimeInRange
+                                        .value
+                                    ? widget.requestController.isEndTimeValid
+                                            .value
+                                        ? borderGrey
+                                        : colorRed
+                                    : colorRed),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Row(children: [
                             // SvgPicture.asset('assets/icons/Arrows-s.svg'),
                             CustomText(
-                                color: almostGrey,
-                                fontSize: width * 0.03,
-                                fontFamily: AppUtil.rtlDirection2(context)
-                                    ? 'SF Arabic'
-                                    : 'SF Pro',
-                                text: widget.requestController.endtime.isEmpty
-                                    ? ' 00:00'.tr
-                                    : AppUtil.formatStringTimeWithLocale(
-                                        context,
-                                        DateFormat('HH:mm:ss')
-                                            .format(_dateTimeFrom))),
+                              color: almostGrey,
+                              fontSize: width * 0.03,
+                              fontFamily: AppUtil.rtlDirection2(context)
+                                  ? 'SF Arabic'
+                                  : 'SF Pro',
+                              text: widget.requestController.endtime.isEmpty
+                                  ? ' 00:00'.tr
+                                  : widget.requestController.endtime.value,
+                            ),
                           ]),
                         ),
                       ),
@@ -364,6 +378,13 @@ class _ItineraryCardState extends State<ItineraryCard> {
                           fontFamily: AppUtil.rtlDirection2(context)
                               ? 'SF Arabic'
                               : 'SF Pro',
+                        ),
+                      if (!widget.requestController.isEndTimeInRange.value)
+                        CustomText(
+                          text: 'timeErorrRange'.tr,
+                          color: colorRed,
+                          fontSize: width * 0.028,
+                          fontFamily: AppUtil.SfFontType(context),
                         ),
                     ],
                   ),
@@ -423,11 +444,11 @@ class _ItineraryCardState extends State<ItineraryCard> {
                               price: price,
                               scheduleName: activity,
                               scheduleTime: ScheduleTime(
-                                  to: widget.requestController.endtime.value,
-                                  from:
-                                      widget.requestController.startTime.value),
+                                  to: widget.requestController.startTime.value,
+                                  from: widget.requestController.endtime.value),
                             ),
                           );
+                          _formKey.currentState!.reset();
 
                           log("${widget.requestController.reviewItenrary.length}");
                           widget.requestController.itineraryList.removeLast();

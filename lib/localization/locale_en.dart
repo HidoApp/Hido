@@ -581,7 +581,6 @@ const localeEn = {
   'editPhoneNumber': 'Edit phone number',
   "phoneEditSubtitle": "We’ll text you code to verify your number ",
   'addProvidedServices': 'Add your provided services',
-  //branch progress sheet
   'timerDialogContent':
       "no local guides offered tours matching your request. We suggest searching again later or exploring other dates.",
   'unfortunately': 'Unfortunately',
@@ -608,12 +607,10 @@ const localeEn = {
   'submit': 'Submit',
   'howYourTour': "How was your tour in",
   'howYourGudie': "How was you guide",
-  //end progress sheet
-
   "noNextActivity": 'you don‘t have any activity yet',
   "noExpertise": "There are no expertise yet",
   "noAbout": "There are no informations yet",
   "NoReview": "There are no reviews yet",
-  '*TheMinimumPrice':
-      '*The minimum price for an activity is 30 SAR '
+  '*TheMinimumPrice': '*The minimum price for an activity is 30 SAR ',
+  'timeErorrRange': "The time selected out of range"
 };

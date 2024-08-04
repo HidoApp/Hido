@@ -27,11 +27,19 @@ class RequestController extends GetxController {
   var isPriceValid = true.obs;
 
   var isStartTimeValid = true.obs;
+  var isStartTimeInRange = true.obs;
   //var isStartTimeValidWITH = true.obs;
   var isEndTimeValid = true.obs;
+  var isEndTimeInRange = true.obs;
+
   var validSave = true.obs;
 
   /// valditon itenrary review
+  var timeToGo = DateTime.now().obs;
+  var timeToReturn = DateTime.now().obs;
+  var isStartTimeReviewInRange = true.obs;
+  var isEndTimeReviewInRange = true.obs;
+
   var isActivtyReviewValid = true.obs;
   var isPriceReviewValid = true.obs;
   var isStartTimeReviewValid = true.obs;

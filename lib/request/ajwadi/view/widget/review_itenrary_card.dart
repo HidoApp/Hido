@@ -10,6 +10,7 @@ import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/custom_textfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_datetime_picker_bdaya/flutter_datetime_picker_bdaya.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
@@ -41,10 +42,10 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
 
   var isPickedTimeTo = false;
   var isPickedTimeFrom = false;
-  final RxString _timeFrom =
-      RxString(DateFormat('HH:mm:ss').format(DateTime.now()).toString());
-  final RxString _timeTo =
-      RxString(DateFormat('HH:mm:ss').format(DateTime.now()).toString());
+  // final RxString _timeFrom =
+  //     RxString(DateFormat('HH:mm:ss').format(DateTime.now()).toString());
+  // final RxString _timeTo =
+  //     RxString(DateFormat('HH:mm:ss').format(DateTime.now()).toString());
   late ExpandedTileController _controller;
   void initState() {
     // TODO: implement initState
@@ -60,6 +61,26 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
     widget.schedule.scheduleName = _activityConroller.text;
   }
 
+  bool compareTime(DateTime dateTimeFromPicker) {
+    String pickerTime24 = DateFormat('HH:mm:ss').format(dateTimeFromPicker);
+    DateTime parsedPickerTime = DateFormat('HH:mm:ss').parse(pickerTime24);
+    // Compare hour and minute
+    return parsedPickerTime
+            .isAtSameMomentAs(widget.requestController.timeToGo.value) ||
+        parsedPickerTime.isAfter(widget.requestController.timeToGo.value) &&
+            parsedPickerTime
+                .isBefore(widget.requestController.timeToReturn.value);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _activityConroller.dispose();
+    _priceContorller.dispose();
+    _controller.dispose();
+  }
+
   void itineraryValdiation() {
     if (_activityConroller.text.isEmpty) {
       widget.requestController.isActivtyReviewValid(false);
@@ -72,7 +93,9 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
       widget.requestController.isPriceReviewValid(true);
     }
     if (_activityConroller.text.isNotEmpty &&
-        _priceContorller.text.isNotEmpty) {
+        _priceContorller.text.isNotEmpty &&
+        widget.requestController.isStartTimeReviewInRange.value &&
+        widget.requestController.isEndTimeReviewInRange.value) {
       widget.requestController.validReviewSave(true);
     } else {
       widget.requestController.validReviewSave(false);
@@ -84,18 +107,21 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
     return DateFormat('h:mm a', AppUtil.rtlDirection2(context) ? 'ar' : 'en')
         .format(dateTime);
   }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
 
     return Card(
-      elevation: 4,
+      elevation: 10,
       surfaceTintColor: Colors.black12,
       shadowColor: Colors.black12,
       color: Colors.white,
       child: ExpandedTile(
         onTap: () {
           //TODO : must change to obx
+          //   _controller.collapse();
+
           setState(() {});
         },
         trailing: null,
@@ -118,7 +144,6 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                       CustomText(
                         text:
                             "${widget.schedule.scheduleTime!.to!} - ${widget.schedule.scheduleTime!.from!}",
-
                         color: almostGrey,
                         fontSize: width * .03,
                       ),
@@ -145,11 +170,11 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
         content: Obx(
           () => Container(
             height: widget.requestController.validReviewSave.value
-                ? width * 0.78
+                ? width * 0.9
                 : width * 0.92,
             width: double.infinity,
             padding: EdgeInsets.only(
-                left: width * 0.030,
+                //   left: width * 0.030,
                 top: width * 0.051,
                 bottom: width * 0.051,
                 right: width * 0.030),
@@ -172,12 +197,14 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                             color: colorGreen, shape: BoxShape.circle),
                       ),
                     Padding(
-                  padding: EdgeInsets.symmetric(horizontal: width * 0.016),
+                      padding: EdgeInsets.symmetric(horizontal: width * 0.016),
                       child: CustomText(
                         text: "activityName".tr,
                         fontSize: width * 0.038,
                         fontWeight: FontWeight.w500,
-                           fontFamily:AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+                        fontFamily: AppUtil.rtlDirection2(context)
+                            ? 'SF Arabic'
+                            : 'SF Pro',
                       ),
                     ),
                   ],
@@ -185,224 +212,231 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                 SizedBox(
                   height: width * 0.01,
                 ),
-                Padding(
-                  padding:AppUtil.rtlDirection2(context)?EdgeInsets.only( right: width * 0.04): EdgeInsets.only( left: width * 0.04),
-                  child: CustomTextField(
-                    keyboardType: TextInputType.name,
-                    controller: _activityConroller,
-                    borderColor:
-                        widget.requestController.isActivtyReviewValid.value
-                            ? almostGrey
-                            : colorRed,
-                    onChanged: (value) {},
-                    height: width * 0.09,
-                    hintText: 'activityHint'.tr,
-                  ),
+                CustomTextField(
+                  keyboardType: TextInputType.text,
+                  onChanged: (value) => activityName = value,
+                  validator: false,
+                  controller: _activityConroller,
+                  validatorHandle: (activity) {
+                    if (activity == null || activity.isEmpty) {
+                      return "activityError".tr;
+                    }
+                  },
+                  hintText: 'activityHint'.tr,
                 ),
-                if (!widget.requestController.isActivtyReviewValid.value)
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: width * 0.53),
-                    child: CustomText(
-                      text: "activityError".tr,
-                      color: colorRed,
-                      fontSize: width * 0.028,
-                           fontFamily:AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-                    ),
-                  ),
-                  SizedBox(
-                height: width * 0.03,
-              ),
-                Padding(
-                    padding: EdgeInsets.symmetric(horizontal: width * 0.058),
-                    child: CustomText(
-                      text: "price".tr,
-                      fontSize: width * 0.038,
-                      fontWeight: FontWeight.w500,
-                           fontFamily:AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-                    )),
-                Obx(
-                  () => Padding(
-                  padding:AppUtil.rtlDirection2(context)?EdgeInsets.only( right: width * 0.04): EdgeInsets.only( left: width * 0.04),
-                    child: CustomTextField(
-                      keyboardType: TextInputType.number,
-                      controller: _priceContorller,
-                      borderColor:
-                          widget.requestController.isPriceReviewValid.value
-                              ? almostGrey
-                              : colorRed,
-                      height: width * 0.09,
-                      hintText: '00.00 ${"sar".tr}',
-                      onChanged: (value) {},
-                    ),
-                  ),
+                SizedBox(
+                  height: width * 0.03,
                 ),
-                if (!widget.requestController.isPriceReviewValid.value)
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: width * 0.53),
-                    child: CustomText(
-                      text: "priceError".tr,
-                      color: colorRed,
-                      fontSize: width * 0.028,
-                     fontFamily:AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-                    ),
-                  ),
+                CustomText(
+                  text: "price".tr,
+                  fontSize: width * 0.038,
+                  fontWeight: FontWeight.w500,
+                  fontFamily:
+                      AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+                ),
+                CustomTextField(
+                  validator: false,
+                  controller: _priceContorller,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
+                  keyboardType: TextInputType.number,
+                  hintText: '00.00 ${'sar'.tr}',
+                  validatorHandle: (price) {
+                    if (price == null || price.isEmpty) {
+                      return 'fieldRequired'.tr;
+                    }
+                    if (int.parse(price) < 30) {
+                      return '*TheMinimumPrice'.tr;
+                    }
+                  },
+                  onChanged: (value) {
+                    if (value.isEmpty) {
+                      return;
+                    }
+                    price = int.parse(value);
+                  },
+                ),
                 SizedBox(
                   height: width * 0.051,
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  //  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                         padding: EdgeInsets.symmetric(horizontal: width * 0.035),
-                          child: CustomText(
-                            text: "startTime".tr,
-                            fontSize: width * 0.038,
-                            fontWeight: FontWeight.w500,
-                           fontFamily:AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-                          ),
+                        CustomText(
+                          text: "startTime".tr,
+                          fontSize: width * 0.038,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: AppUtil.rtlDirection2(context)
+                              ? 'SF Arabic'
+                              : 'SF Pro',
                         ),
-                        SizedBox(
-                          width: width * 0.37,
-                          height: width * 0.087,
-                          child: GestureDetector(
-                            onTap: () async {
-                              await DatePickerBdaya.showTime12hPicker(
-                                context,
-                                currentTime: _dateTimeTo,
-                                onConfirm: (time) {
-                                  _dateTimeTo = time;
+                        GestureDetector(
+                          onTap: () async {
+                            await DatePickerBdaya.showTime12hPicker(
+                              context,
+                              currentTime: _dateTimeTo,
+                              onConfirm: (time) {
+                                _dateTimeTo = time;
+                                log(compareTime(time).toString());
+                                widget
+                                    .requestController
+                                    .isStartTimeReviewInRange
+                                    .value = compareTime(time);
 
-                                  widget.schedule.scheduleTime!.from =
-                                      DateFormat(
-                                    ' h:mm a ',
-                                  ).format(_dateTimeTo);
-                                  log("${widget.schedule.scheduleTime!.to}");
-                                  // setState(() {
-                                  //   // widget.timeTO(_timeTo.value);
+                                if (widget.requestController.isStartTimeInRange
+                                    .value) {
+                                  setState(() {
+                                    widget.schedule.scheduleTime!.to =
+                                        DateFormat(
+                                      ' h:mm a ',
+                                    ).format(_dateTimeTo);
+                                  });
+                                }
+                                //   log("${widget.schedule.scheduleTime!.to}");
+                                // setState(() {
+                                //   // widget.timeTO(_timeTo.value);
 
-                                  //   // requestController.requestScheduleList[index].scheduleTime!
-                                  //   //     .to = _timeTo.value;
-                                  //   // log("to ${requestController.requestScheduleList[index].scheduleTime!.to}");
-                                  // });
-                                },
-                              );
-                            },
-                            child: Padding(
-                  padding:AppUtil.rtlDirection2(context)?EdgeInsets.only( right: width * 0.015): EdgeInsets.only( left: width * 0.015),
-                              child: Container(
-                                width: width * 0.45,
-                                height: width * 0.087,
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: width * 0.030,
-                                    vertical: width * 0.015),
-                                alignment: Alignment.centerLeft,
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: almostGrey),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: Row(children: [
-                                  // SvgPicture.asset('assets/icons/Arrows-s.svg'),
-                                 // SizedBox(width:width*0.01),
-                                  CustomText(
-                                      color: almostGrey,
-                                      text: AppUtil.formatStringTimeWithLocale(
-                                          context,
-                                         DateFormat('HH:mm:ss').format(
-                                             _dateTimeTo)),
-                                      fontSize: width * 0.033,
-                                      fontFamily:AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',),
-                                ]),
-                              ),
+                                //   // requestController.requestScheduleList[index].scheduleTime!
+                                //   //     .to = _timeTo.value;
+                                //   // log("to ${requestController.requestScheduleList[index].scheduleTime!.to}");
+                                // });
+                              },
+                            );
+                          },
+                          child: Container(
+                            width: width * 0.39,
+                            height: width * 0.11,
+                            padding: EdgeInsets.symmetric(
+                              horizontal: width * 0.030,
+                              vertical: 0,
                             ),
+                            alignment: Alignment.centerLeft,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: widget.requestController
+                                          .isStartTimeReviewInRange.value
+                                      ? borderGrey
+                                      : colorRed),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Row(children: [
+                              // SvgPicture.asset('assets/icons/Arrows-s.svg'),
+                              // SizedBox(width:width*0.01),
+                              CustomText(
+                                color: starGreyColor,
+                                text: widget.schedule.scheduleTime!.to ??
+                                    ' 00:00'.tr,
+                                fontSize: width * 0.033,
+                                fontFamily: AppUtil.rtlDirection2(context)
+                                    ? 'SF Arabic'
+                                    : 'SF Pro',
+                              ),
+                            ]),
                           ),
                         ),
+                        if (!widget
+                            .requestController.isStartTimeReviewInRange.value)
+                          CustomText(
+                            text: 'timeErorrRange'.tr,
+                            color: colorRed,
+                            fontSize: width * 0.028,
+                            fontFamily: AppUtil.SfFontType(context),
+                          ),
                       ],
                     ),
-                    
+                    const Spacer(),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                         padding: EdgeInsets.symmetric(horizontal: width * 0.02),
-                          child: CustomText(
-                            text: "endTime".tr,
-                            fontSize: width * 0.038,
-                            fontWeight: FontWeight.w500,
-                           fontFamily:AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-                          ),
+                        CustomText(
+                          text: "endTime".tr,
+                          fontSize: width * 0.038,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: AppUtil.rtlDirection2(context)
+                              ? 'SF Arabic'
+                              : 'SF Pro',
                         ),
-                        SizedBox(
-                          width: width * 0.4,
-                          height: width * 0.087,
-                          child: GestureDetector(
-                            onTap: () async {
-                              await DatePickerBdaya.showTime12hPicker(
-                                context,
-                                showTitleActions: true,
-                                currentTime: _dateTimeFrom,
-                                onConfirm: (time) {
-                                  _dateTimeFrom = time;
-                                  isPickedTimeFrom = true;
-                                  widget.schedule.scheduleTime!.to = DateFormat(
-                                    'h: mm a',
-                                  ).format(_dateTimeFrom);
-                                  log("   timeTo.value  ${_timeFrom.value}");
-                                  // setState(() {
-                                  //   // widget.timeFrom(_timeTo.value);
-                                  //   // requestController.requestScheduleList[index].scheduleTime!
-                                  //   //     .to = _timeTo.value;
-                                  //   // log("to ${requestController.requestScheduleList[index].scheduleTime!.to}");
-                                  // });
-                                },
-                              );
-                            },
-                            child: Container(
-                              width: width * 0.39,
-                              height: width * 0.087,
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: width * 0.030,
-                                  vertical: width * 0.015),
-                              alignment: Alignment.centerLeft,
-                              decoration: BoxDecoration(
-                                border: Border.all(color: almostGrey),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Row(children: [
-                               // SvgPicture.asset('assets/icons/Arrows-s.svg'),
-                                 //  SizedBox(width:width*0.01),
+                        GestureDetector(
+                          onTap: () async {
+                            await DatePickerBdaya.showTime12hPicker(
+                              context,
+                              showTitleActions: true,
+                              currentTime: _dateTimeFrom,
+                              onConfirm: (time) {
+                                _dateTimeFrom = time;
+                                log(compareTime(time).toString());
+                                widget.requestController.isEndTimeReviewInRange
+                                    .value = compareTime(time);
 
-                                CustomText(
-                                  fontSize: width * 0.033,
-                           fontFamily:AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-                                    color: almostGrey,
-                                    text: AppUtil.formatStringTimeWithLocale(
-                                          context,
-                                         DateFormat('HH:mm:ss').format(
-                                             _dateTimeFrom))),
-                              ]),
+                                widget.schedule.scheduleTime!.from = DateFormat(
+                                  'h: mm a',
+                                ).format(_dateTimeFrom);
+                              },
+                            );
+                          },
+                          child: Container(
+                            width: width * 0.39,
+                            height: width * 0.11,
+                            padding: EdgeInsets.symmetric(
+                              horizontal: width * 0.030,
+                              vertical: 0,
                             ),
+                            alignment: Alignment.centerLeft,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: widget.requestController
+                                          .isEndTimeReviewInRange.value
+                                      ? borderGrey
+                                      : colorRed),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Row(children: [
+                              // SvgPicture.asset('assets/icons/Arrows-s.svg'),
+                              //  SizedBox(width:width*0.01),
+
+                              CustomText(
+                                  fontSize: width * 0.033,
+                                  fontFamily: AppUtil.rtlDirection2(context)
+                                      ? 'SF Arabic'
+                                      : 'SF Pro',
+                                  color: starGreyColor,
+                                  text: AppUtil.formatStringTimeWithLocale(
+                                      context,
+                                      DateFormat('HH:mm:ss')
+                                          .format(_dateTimeFrom))),
+                            ]),
                           ),
                         ),
+                        if (!widget
+                            .requestController.isEndTimeReviewInRange.value)
+                          CustomText(
+                            text: 'timeErorrRange'.tr,
+                            color: colorRed,
+                            fontSize: width * 0.028,
+                            fontFamily: AppUtil.SfFontType(context),
+                          ),
                       ],
                     ),
                   ],
                 ),
                 SizedBox(
-                height: width * 0.06,
-              ),
+                  height: width * 0.06,
+                ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     GestureDetector(
                       onTap: () {
                         widget.requestController.reviewItenrary
                             .removeAt(widget.indx);
+                        widget.requestController.startTime('');
+                        widget.requestController.endtime('');
                       },
                       child: Container(
-                        width: width * 0.36,
+                        width: width * 0.38,
                         height: width * 0.088,
                         alignment: Alignment.center,
                         padding:
@@ -416,11 +450,11 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                           textAlign: TextAlign.center,
                           color: colorRed,
                           fontFamily: 'HT Rakik',
-
                           fontSize: width * .038,
                         ),
                       ),
                     ),
+                    Spacer(),
                     SizedBox(
                       width: width * 0.38,
                       height: width * 0.088,
