@@ -37,6 +37,7 @@ class EventCardItem extends StatefulWidget {
 
 class _EventCardItemState extends State<EventCardItem> {
 final _eventController = Get.put(EventController());
+String  address ='';
   Future<String> _getAddressFromLatLng(
       double position1, double position2) async {
     try {
@@ -60,7 +61,7 @@ final _eventController = Get.put(EventController());
       String result = await _getAddressFromLatLng(
           double.parse(position1), double.parse(position2));
       setState(() {
-        _eventController.address.value = result;
+      address = result;
       });
     } catch (e) {
       // Handle error if necessary
@@ -140,8 +141,8 @@ final _eventController = Get.put(EventController());
                             width: width * 0.017,
                           ),
                           CustomText(
-                            text: _eventController.address.value.isNotEmpty
-                                ? _eventController.address.value
+                            text: address.isNotEmpty
+                                ?  address
                                 : widget.location,
                             fontSize: 11,
                             fontFamily: AppUtil.rtlDirection2(context)

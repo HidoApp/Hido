@@ -100,12 +100,46 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
     }
     for (var day in hospitalityObj!.daysInfo) {
       print(day.startTime);
-     if(AppUtil.isDateBefore24Hours(day.startTime))
+     if(AppUtil.isDateTimeBefore24Hours(day.startTime))
       avilableDate.add(
         DateTime.parse(
           day.startTime.substring(0, 10),
         ),
       );
+    }
+
+   if(!widget.isLocal){
+     _fetchAddress(hospitalityObj!.coordinate!.latitude??'',hospitalityObj!.coordinate!.longitude??'');
+     }
+  }
+ Future<String> _getAddressFromLatLng(
+      double position1, double position2) async {
+    try {
+      List<Placemark> placemarks =
+          await placemarkFromCoordinates(position1, position2);
+      print(placemarks);
+
+      if (placemarks.isNotEmpty) {
+        Placemark placemark = placemarks.first;
+        print(placemarks.first);
+        return '${placemark.locality}, ${placemark.subLocality}';
+      }
+    } catch (e) {
+      print("Error retrieving address: $e");
+    }
+    return '';
+  }
+
+  Future<void> _fetchAddress(String position1, String position2) async {
+    try {
+      String result = await _getAddressFromLatLng(
+          double.parse(position1), double.parse(position2));
+      setState(() {
+      address = result;
+      });
+    } catch (e) {
+      // Handle error if necessary
+      print('Error fetching address: $e');
     }
   }
 
@@ -133,6 +167,8 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                           hospitalityObj: hospitalityObj!,
                           servicesController: _servicesController,
                           avilableDate: avilableDate,
+                         address:address,
+
                         ),
                       ),
                     )
@@ -229,14 +265,14 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                 children: [
                                   SvgPicture.asset(
                                     "assets/icons/locationHos.svg",
-                                    color: starGreyColor,
+                                    color: colorDarkGrey,
                                   ),
                                   SizedBox(
                                     width: width * 0.012,
                                   ),
                                   CustomText(
                                     text: !widget.isLocal
-                                        ? _servicesController.address.value
+                                        ? address
                                         : AppUtil.rtlDirection2(context)
                                            ? '${ hospitalityObj!.regionAr}, ${widget.address}'
                                             : '${ hospitalityObj!.regionEn}, ${widget.address}',
@@ -256,7 +292,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                 children: [
                                   SvgPicture.asset(
                                     "assets/icons/timeGrey.svg",
-                                    color: almostGrey,
+                                    color: colorDarkGrey,
                                   ),
                                   SizedBox(
                                     width: width * .012,

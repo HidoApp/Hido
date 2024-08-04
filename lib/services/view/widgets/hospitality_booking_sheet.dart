@@ -45,6 +45,7 @@ class HospitalityBookingSheet extends StatefulWidget {
       _HospitalityBookingSheetState();
 }
 
+
 class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
   final _formKey = GlobalKey<FormState>();
 
@@ -204,15 +205,11 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
                                       .serviceController.DateErrorMessage.value
                                   ? colorRed
                                   : borderGrey,
-                              prefixIcon: SvgPicture.asset(
-                                'assets/icons/Time (2).svg',
-                                //  color: widget.color,
-                              ),
-                              suffixIcon: Icon(
-                                Icons.arrow_forward_ios,
-                                color: borderGrey,
-                                size: width * 0.038,
-                              ),
+                              
+                      prefixIcon:Container(),
+                      suffixIcon: SvgPicture.asset(
+                        "assets/icons/green_calendar.svg",
+                      ),
                               textColor: borderGrey,
                             ),
                           ),

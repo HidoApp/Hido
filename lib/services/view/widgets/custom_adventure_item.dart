@@ -45,7 +45,7 @@ class CustomAdventureItem extends StatefulWidget {
 
 class _CustomAdventureItemState extends State<CustomAdventureItem> {
   final _servicesController = Get.put(AdventureController());
-
+String address = '';
   Future<String> _getAddressFromLatLng(
       double position1, double position2) async {
     try {
@@ -69,7 +69,7 @@ class _CustomAdventureItemState extends State<CustomAdventureItem> {
       String result = await _getAddressFromLatLng(
           double.parse(position1), double.parse(position2));
       setState(() {
-        _servicesController.address.value = result;
+        address = result;
       });
     } catch (e) {
       // Handle error if necessary
@@ -150,8 +150,8 @@ class _CustomAdventureItemState extends State<CustomAdventureItem> {
                             width: width * 0.017,
                           ),
                           CustomText(
-                            text: _servicesController.address.value.isNotEmpty
-                                ? _servicesController.address.value
+                            text:address.isNotEmpty
+                                ?address
                                 : widget.location,
                             fontSize: 11,
                             fontFamily: AppUtil.rtlDirection2(context)

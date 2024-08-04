@@ -90,6 +90,7 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
     super.initState();
     //  initializeDateFormatting(); //very important
      getEventById();
+    
     addCustomIcon();
   }
 
@@ -108,8 +109,40 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
         ),
       );
     }
+     if(!widget.isLocal){
+     _fetchAddress(event!.coordinates!.latitude??'', event!.coordinates!.longitude??'');
+     }
+  }
+ Future<String> _getAddressFromLatLng(
+      double position1, double position2) async {
+    try {
+      List<Placemark> placemarks =
+          await placemarkFromCoordinates(position1, position2);
+      print(placemarks);
+
+      if (placemarks.isNotEmpty) {
+        Placemark placemark = placemarks.first;
+        print(placemarks.first);
+        return '${placemark.locality}, ${placemark.subLocality}';
+      }
+    } catch (e) {
+      print("Error retrieving address: $e");
+    }
+    return '';
   }
 
+  Future<void> _fetchAddress(String position1, String position2) async {
+    try {
+      String result = await _getAddressFromLatLng(
+          double.parse(position1), double.parse(position2));
+      setState(() {
+      address = result;
+      });
+    } catch (e) {
+      // Handle error if necessary
+      print('Error fetching address: $e');
+    }
+  }
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
@@ -131,6 +164,7 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                         child: BottomEventBooking(
                           event: event!,
                           avilableDate: avilableDate,
+                          address:address,
                         ),
                       ),
                     )
@@ -229,7 +263,7 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                                     : const EdgeInsets.only(left: 1),
                                 child: SvgPicture.asset(
                                   "assets/icons/locationHos.svg",
-                                  color: starGreyColor,
+                                  color: colorDarkGrey,
                                 ),
                               ),
                               SizedBox(
@@ -237,7 +271,7 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                               ),
                               CustomText(
                                 text: !widget.isLocal
-                                    ? _eventController.address.value
+                                    ?address
                                     :AppUtil.rtlDirection2(context)
                                            ? '${event!.regionAr}, ${widget.address}'
                                             : '${event!.regionEn}, ${widget.address}',
@@ -261,7 +295,7 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                                     : const EdgeInsets.only(left: 2),
                                 child: SvgPicture.asset(
                                   'assets/icons/grey_calender.svg',
-                                  color: starGreyColor,
+                                  color:colorDarkGrey,
                                 ),
                               ),
                               SizedBox(
@@ -286,7 +320,7 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                             children: [
                               SvgPicture.asset(
                                 "assets/icons/timeGrey.svg",
-                                color: starGreyColor,
+                                color:colorDarkGrey,
                               ),
                               SizedBox(
                                 width: width * 0.011,

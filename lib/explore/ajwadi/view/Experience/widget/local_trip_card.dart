@@ -41,7 +41,21 @@ class _LocalTripCardState extends State<LocalTripCard> {
     super.initState();
 
     _controller = ExpandedTileController(isExpanded: false);
-    getAddressFromCoordinates(double.parse(widget.trip.booking!.coordinates.latitude??''), double.parse(widget.trip.booking!.coordinates.longitude??''));
+   
+    String latitudeStr = widget.trip.booking?.coordinates?.latitude ?? '';
+    String longitudeStr = widget.trip.booking?.coordinates?.longitude ?? '';
+
+    if (latitudeStr.isNotEmpty && longitudeStr.isNotEmpty) {
+      try {
+        double latitude = double.parse(latitudeStr);
+        double longitude = double.parse(longitudeStr);
+        getAddressFromCoordinates(latitude, longitude);
+      } catch (e) {
+        print("Error parsing coordinates: $e");
+      }
+    } else {
+      print("Invalid coordinates: latitude or longitude is empty");
+    }
   }
 
  
@@ -129,16 +143,16 @@ offset: Offset(-5, 0),
                           : 'SF Pro',
                       fontWeight: FontWeight.w500,
                     ),
-                    CustomText(
-                      text:
-                          '${AppUtil.rtlDirection2(context) ? "الحجز من" : 'Booking by'} : ${widget.trip.booking!.touristName}',
-                      color: Color(0xFF41404A),
-                      fontSize: 12,
-                      fontFamily: AppUtil.rtlDirection2(context)
-                          ? 'SF Arabic'
-                          : 'SF Pro',
-                      fontWeight: FontWeight.w500,
-                    )
+                    // CustomText(
+                    //   text:
+                    //       '${AppUtil.rtlDirection2(context) ? "الحجز من" : 'Booking by'} : ${widget.trip.booking!.touristName}',
+                    //   color: Color(0xFF41404A),
+                    //   fontSize: 12,
+                    //   fontFamily: AppUtil.rtlDirection2(context)
+                    //       ? 'SF Arabic'
+                    //       : 'SF Pro',
+                    //   fontWeight: FontWeight.w500,
+                    // )
                   ],
                 ),
               ),
@@ -203,20 +217,23 @@ offset: Offset(-5, 0),
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ItineraryTile(
-                  title: ' ${AppUtil.formatStringTimeWithLocale(context, widget.trip.booking!.timeToGo)} -  ${AppUtil.formatStringTimeWithLocale(context, widget.trip.booking!.timeToReturn)}',
+                  title: ' ${AppUtil.formatStringTimeWithLocale(context, widget.trip.booking!.timeToGo??'')} -  ${AppUtil.formatStringTimeWithLocale(context, widget.trip.booking!.timeToReturn??'')}',
                   image: "assets/icons/timeGrey.svg",
                 ),
                 //SizedBox(height: width * 0.025),
+
+                if(address.isNotEmpty)...[
               SizedBox(height: 8),
 
-                ItineraryTile(
+                // ItineraryTile(
                    
-                  title: address,                    
-                  image: 'assets/icons/map_pin.svg',
-                  imageUrl: AppUtil.getLocationUrl(widget.trip.booking!.coordinates),
-                  line: true,
+                //   title: address,                    
+                //   image: 'assets/icons/map_pin.svg',
+                //   imageUrl: AppUtil.getLocationUrl(widget.trip!.booking!.coordinates??''),
+                //   line: true,
                       
-                ),
+                // ),
+                ],
                 // SizedBox(height: width * 0.025),
                 SizedBox(height: 8),
 

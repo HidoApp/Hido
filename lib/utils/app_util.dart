@@ -112,10 +112,15 @@ static bool isDateBefore24Hours(String Date) {
     location = tz.getLocation(timeZoneName);
     DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
      DateTime parsedDate =  DateTime.parse(Date);
-    Duration difference =  parsedDate.difference(currentDateInRiyadh);
+    final tripDateInRiyadh = tz.TZDateTime.from(parsedDate, location).subtract(Duration(hours: 3));
+
+    Duration difference =  tripDateInRiyadh .difference(currentDateInRiyadh);
     print('this deffrence');
     print(difference);
-    return difference.inHours >= 48;
+    print(parsedDate);
+    print(tripDateInRiyadh);
+    print(currentDateInRiyadh);
+    return difference.inHours >= 24;
   }
 
   
@@ -160,11 +165,13 @@ static bool isDateBefore24Hours(String Date) {
   DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
 
   for (DateTime date in dates) {
-    Duration difference = date.difference(currentDateInRiyadh);
+      final DateInRiyadh = tz.TZDateTime.from(date, location).subtract(Duration(hours: 3));
+
+    Duration difference =  DateInRiyadh.difference(currentDateInRiyadh);
 
     print('Difference for $date: $difference');
 
-    if (difference.inHours < 48) {
+    if (difference.inHours < 24) {
       return false;
     }
   }

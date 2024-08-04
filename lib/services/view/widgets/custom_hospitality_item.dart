@@ -47,7 +47,7 @@ class ServicesCard extends StatefulWidget {
 
 class _ServicesCardState extends State<ServicesCard> {
   final _servicesController = Get.put(HospitalityController());
-
+  String address='';
   Future<String> _getAddressFromLatLng(
       double position1, double position2) async {
     try {
@@ -71,7 +71,7 @@ class _ServicesCardState extends State<ServicesCard> {
       String result = await _getAddressFromLatLng(
           double.parse(position1), double.parse(position2));
       setState(() {
-        _servicesController.address.value = result;
+      address = result;
       });
     } catch (e) {
       // Handle error if necessary
@@ -150,9 +150,9 @@ class _ServicesCardState extends State<ServicesCard> {
                           width: width * 0.017,
                         ),
                         CustomText(
-                          text: _servicesController.address.value.isNotEmpty
-                              ? _servicesController.address.value
-                              : widget.location,
+                          text: address.isNotEmpty
+                                ? address
+                                 : widget.location,
                           fontSize: 11,
                           fontWeight: FontWeight.w400,
                           fontFamily: AppUtil.rtlDirection2(context)

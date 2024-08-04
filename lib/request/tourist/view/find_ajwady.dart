@@ -95,189 +95,13 @@ class _FindAjwadyState extends State<FindAjwady> {
     print("place");
 
     if (_offerController.offers != [] || _offerController.offers.isNotEmpty) {
-      // showCancelDialogAfterDelay(5);
       print(_offerController.offers.isEmpty);
       print('inter');
     }
     if (_offerController.offers == [] || _offerController.offers.isEmpty) {
-      // showCancelDialogAfterDelay(2);
     }
   }
 
-  // void startCountdown() {
-  //   countdownTimer = Timer(Duration(minutes: 5), () async {
-  //     if (_offerController.offers != []) {
-  //       // Cancel the booking and navigate to the home page
-  //       // bool bookingCancel = await _offerController.bookingCancel(
-  //       //         context: context, bookingId: widget.booking.id!) ??
-  //       //     false;
-  //       // if (bookingCancel) {
-  //       //   if (context.mounted) {
-  //       //     AppUtil.successToast(context, 'EndTrip'.tr);
-  //       //     await Future.delayed(const Duration(seconds: 1));
-  //       //   }
-  //       //   Get.offAll(const TouristBottomBar());
-  //       // }
-  //       log("End Trip Taped ${widget.booking.id}");
-
-  //       bool bookingCancel = await _offerController.bookingCancel(
-  //               context: context, bookingId: widget.booking.id!) ??
-  //           false;
-  //       if (bookingCancel) {
-  //         if (context.mounted) {
-  //           AppUtil.successToast(context, 'EndTrip'.tr);
-  //           await Future.delayed(const Duration(seconds: 1));
-  //         }
-  //         Get.offAll(
-  //           const TouristBottomBar(),
-  //         );
-  //       }
-  //     } else {
-  //       print("this state");
-  //       print(_offerController.acceptedOffer.value.orderStatus);
-  //     }
-  //   });
-  // }
-
-  // void showCancelDialogAfterDelay(int minute) {
-  //   //  if (_offerController.acceptedOffer==null||_offerController.acceptedOffer==[] ){
-  //   Future.delayed(Duration(minutes: minute), () {
-  //     showDialog(
-  //       context: context,
-  //       builder: (BuildContext context) {
-  //         return AlertDialog(
-  //           backgroundColor: Colors.white,
-  //           surfaceTintColor: Colors.white,
-  //           shape: const RoundedRectangleBorder(
-  //               borderRadius: BorderRadius.all(Radius.circular(8.0))),
-  //           content: Container(
-  //             width: 258,
-  //             height: AppUtil.rtlDirection2(context)
-  //                 ? 170
-  //                 : 167, // Set the width here
-  //             child: Column(
-  //               mainAxisSize: MainAxisSize.min,
-  //               crossAxisAlignment: CrossAxisAlignment.center,
-  //               children: <Widget>[
-  //                 const SizedBox(
-  //                   height: 4,
-  //                 ),
-  //                 CustomText(
-  //                   textAlign: TextAlign.center,
-  //                   fontSize: 18,
-  //                   fontFamily: 'SF Pro',
-  //                   fontWeight: FontWeight.w500,
-  //                   color: Color(0xFFDC362E),
-  //                   text: AppUtil.rtlDirection2(context) ? "!عذرا" : "Sorry!",
-  //                 ),
-  //                 const SizedBox(
-  //                   height: 4,
-  //                 ),
-  //                 CustomText(
-  //                   textAlign: TextAlign.center,
-  //                   fontSize: 13,
-  //                   fontWeight: FontWeight.w600,
-  //                   color: Color(0xFF070708),
-  //                   text: _offerController.offers == [] ||
-  //                           _offerController.offers.isEmpty
-  //                       ? 'notFind'.tr
-  //                       : 'noteCansle'.tr,
-  //                   //!AppUtil.rtlDirection2(context)?"We couldn't find any local guides available for your chosen date and location":"لم نتمكن من العثور على أي مرشدين محليين متاحين في التاريخ والموقع الذي اخترته",
-  //                   fontFamily: 'SF Pro',
-  //                 ),
-  //                 const SizedBox(
-  //                   height: 16,
-  //                 ),
-  //                 GestureDetector(
-  //                   onTap: () {
-  //                     Get.back();
-
-  //                     if (_offerController.offers != [] ||
-  //                         _offerController.offers.isNotEmpty) {
-  //                       startCountdown();
-  //                       print('enter');
-  //                       print(widget.booking.orderStatus);
-  //                     }
-  //                   },
-  //                   child: Container(
-  //                     width: 268,
-  //                     height: 34,
-  //                     padding: const EdgeInsets.symmetric(vertical: 3),
-  //                     decoration: BoxDecoration(
-  //                       color: colorGreen,
-  //                       borderRadius: BorderRadius.circular(4),
-  //                     ),
-  //                     child: CustomText(
-  //                       textAlign: TextAlign.center,
-  //                       text: _offerController.offers == [] ||
-  //                               _offerController.offers.isEmpty
-  //                           ? "Expand".tr
-  //                           : AppUtil.rtlDirection2(context)
-  //                               ? "الإستمرار في مشاهدة العروض"
-  //                               : "Continue viewing offers",
-  //                       color: Colors.white,
-  //                       fontSize: 15,
-  //                       fontFamily: 'SF Pro',
-  //                       fontWeight: FontWeight.w500,
-  //                     ),
-  //                   ),
-  //                 ),
-  //                 const SizedBox(
-  //                   height: 10,
-  //                 ),
-  //                 Obx(() => _offerController.isBookingCancelLoading.value
-  //                     ? const Center(
-  //                         child: CircularProgressIndicator(color: Colors.black))
-  //                     : GestureDetector(
-  //                         onTap: () async {
-  //                           log("End Trip Taped ${widget.booking.id}");
-
-  //                           bool bookingCancel =
-  //                               await _offerController.bookingCancel(
-  //                                       context: context,
-  //                                       bookingId: widget.booking.id!) ??
-  //                                   false;
-  //                           if (bookingCancel) {
-  //                             if (context.mounted) {
-  //                               AppUtil.successToast(context, 'EndTrip'.tr);
-  //                               await Future.delayed(
-  //                                   const Duration(seconds: 1));
-  //                             }
-  //                             Get.offAll(
-  //                               const TouristBottomBar(),
-  //                             );
-  //                           }
-  //                         },
-  //                         child: Container(
-  //                             width: 268,
-  //                             height: 34,
-  //                             padding: const EdgeInsets.symmetric(vertical: 2),
-  //                             decoration: BoxDecoration(
-  //                               border: Border.all(
-  //                                 color: Color(0xFFDC362E),
-  //                                 width: 2,
-  //                               ),
-  //                               borderRadius: BorderRadius.circular(4),
-  //                             ),
-  //                             child: CustomText(
-  //                                 textAlign: TextAlign.center,
-  //                                 fontSize: 15,
-  //                                 fontFamily: 'SF Pro',
-  //                                 fontWeight: FontWeight.w500,
-  //                                 color: Color(0xFFDC362E),
-  //                                 text: AppUtil.rtlDirection2(context)
-  //                                     ? 'الغاء الطلب'
-  //                                     : 'Cancel Request')),
-  //                       )),
-  //               ],
-  //             ),
-  //           ),
-  //         );
-  //       },
-  //     );
-  //   });
-  //   //}
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -348,16 +172,16 @@ class _FindAjwadyState extends State<FindAjwady> {
                             },
                             title: CustomText(
                               text: 'tripDetails'.tr,
-                              fontSize: 17,
+                              fontSize: width*0.044,
                               fontFamily: 'HT Rakik',
                               fontWeight: FontWeight.w500,
-                              color: Colors.black,
+                              color: black,
                             ),
                             trailing: Icon(
                               isDetailsTapped
                                   ? Icons.keyboard_arrow_up
                                   : Icons.keyboard_arrow_down,
-                              color: darkGrey,
+                              color: black,
                               size: 24,
                             ),
                           ),
@@ -607,13 +431,14 @@ class _FindAjwadyState extends State<FindAjwady> {
                               text:
                                   "${_offerController.offers.length} ${"offers".tr}",
                               color: black,
-                              fontSize: 17,
+                              fontSize: width*0.044,
                               fontFamily: 'HT Rakik',
                               fontWeight: FontWeight.w500,
                             ),
                             const Spacer(),
                             const Icon(
                               Icons.arrow_forward_ios_sharp,
+                              color: black,
                               size: 15,
                             )
                           ]),

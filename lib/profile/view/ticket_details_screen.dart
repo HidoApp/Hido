@@ -93,7 +93,7 @@ class TicketDetailsScreen extends StatelessWidget {
                // const Expanded(child: SizedBox()), // Takes up remaining space
              
           
-          if(booking!=null)...[
+          if(booking!.orderStatus=='ACCEPTED')...[
            Spacer(),
             Row(
               mainAxisSize: MainAxisSize.min,

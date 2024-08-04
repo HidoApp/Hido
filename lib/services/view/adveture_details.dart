@@ -94,6 +94,39 @@ class _AdventureDetailsState extends State<AdventureDetails> {
     adventure = (await _adventureController.getAdvdentureById(
         context: context, id: widget.adventureId));
    
+   if(!widget.isLocal){
+     _fetchAddress( adventure!.coordinates!.latitude??'', adventure!.coordinates!.longitude??'');
+     }
+  }
+ Future<String> _getAddressFromLatLng(
+      double position1, double position2) async {
+    try {
+      List<Placemark> placemarks =
+          await placemarkFromCoordinates(position1, position2);
+      print(placemarks);
+
+      if (placemarks.isNotEmpty) {
+        Placemark placemark = placemarks.first;
+        print(placemarks.first);
+        return '${placemark.locality}, ${placemark.subLocality}';
+      }
+    } catch (e) {
+      print("Error retrieving address: $e");
+    }
+    return '';
+  }
+
+  Future<void> _fetchAddress(String position1, String position2) async {
+    try {
+      String result = await _getAddressFromLatLng(
+          double.parse(position1), double.parse(position2));
+      setState(() {
+      address = result;
+      });
+    } catch (e) {
+      // Handle error if necessary
+      print('Error fetching address: $e');
+    }
   }
 
   @override
@@ -116,6 +149,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                   padding: EdgeInsets.only(top: width * 0.025),
                   child: BottomAdventureBooking(
                     adventure: adventure!,
+                    address:address,
                   ),
                 ),
               ) : Padding(
@@ -207,14 +241,15 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                 padding: const EdgeInsets.only(right: 1),
                                 child: SvgPicture.asset(
                                   "assets/icons/locationHos.svg",
-                                  color: starGreyColor,
+                                  color: colorDarkGrey,
                                 ),
                               ),
                               SizedBox(
                                 width: width * 0.012,
                               ),
                               CustomText(
-                                text:!widget.isLocal?_adventureController.address.value
+                                text:!widget.isLocal?
+                               address
                                 : AppUtil.rtlDirection2(context)
                                            ? '${adventure!.regionAr}, ${widget.address}'
                                             : '${adventure!.regionEn}, ${widget.address}',
@@ -235,7 +270,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                 padding: const EdgeInsets.only(right: 2),
                                 child: SvgPicture.asset(
                                   'assets/icons/grey_calender.svg',
-                                  color: starGreyColor,
+                                  color: colorDarkGrey,
                                 ),
                               ),
                               SizedBox(
@@ -257,7 +292,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                             children: [
                               SvgPicture.asset(
                                 "assets/icons/timeGrey.svg",
-                                color: starGreyColor,
+                                color: colorDarkGrey,
                               ),
                               SizedBox(
                                 width: width * 0.011,

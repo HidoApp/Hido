@@ -58,7 +58,7 @@ class _EventExperienceCardState extends State<EventExperienceCard> {
     Duration difference = parsedDateInRiyadh.difference(currentDateInRiyadh);
     print('this deffrence');
     print(difference);
-    return difference.inHours <= 24;
+    return difference.inHours <= 24 &&  difference.inHours > 12;
   }
 
   late ExpandedTileController _controller;
@@ -158,9 +158,10 @@ class _EventExperienceCardState extends State<EventExperienceCard> {
                             ),
                         ],
                       ),
+                        if(widget.experience.status!='DELETED')
                       Row(
                         children: [
-                          //  if(hospitality.status!='DELETED')
+                       
 
                           CustomText(
                             text: formatBookingDate(context, selectedDate!),
@@ -177,7 +178,7 @@ class _EventExperienceCardState extends State<EventExperienceCard> {
                   ),
                 ),
               ),
-              if (widget.experience.status != 'DELETED')
+              if (widget.experience.status != 'DELETED')...[
                 isDateBefore24Hours(selectedDate!)
                     ? Padding(
                         padding: const EdgeInsets.only(bottom: 14),
@@ -212,12 +213,14 @@ class _EventExperienceCardState extends State<EventExperienceCard> {
                         ))
                     : Container(),
             ],
+            ]
           ),
 
           const Divider(
             color: lightGrey,
           ),
-          
+        if (widget.experience.status != 'DELETED')...[
+
           ExpandedTile(
             contentseparator: 12,
             trailing: Icon(
@@ -302,6 +305,7 @@ class _EventExperienceCardState extends State<EventExperienceCard> {
               contentBackgroundColor: Colors.transparent,
             ),
           ),
+        ],
         ],
       ),
     );

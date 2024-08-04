@@ -1282,13 +1282,10 @@ class _EditAdventureState extends State<EditAdventure> {
                                       false ||
                                           !_servicesController
                                               .DateErrorMessage.value)
-                                    Padding(
+                                   Padding(
                                       padding: const EdgeInsets.only(top: 8),
                                       child: Text(
-                                        DateErrorMessage ??
-                                                false ||
-                                                    !_servicesController
-                                                        .DateErrorMessage.value
+                                        DateErrorMessage ?? false
                                             ? AppUtil.rtlDirection2(context)
                                                 ? "اختر التاريخ"
                                                 : "You need to choose a valid date"

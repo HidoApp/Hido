@@ -52,9 +52,10 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
 
   final _profileController = Get.put(ProfileController());
   final _tripController = Get.put(TripController());
+  NextActivity? nextTrip;
 
   void getNextActivity() async {
-    await _tripController.getNextActivity(context: context);
+   nextTrip = await _tripController.getNextActivity(context: context);
   }
 
   @override
@@ -72,6 +73,8 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
+
+    print(_tripController.isTripUpdated);
 
     return Obx(
       () => _profileController.isProfileLoading.value
@@ -297,7 +300,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                             () => _tripController.isNextActivityLoading.value
                                 ? const Center(
                                     child: CircularProgressIndicator.adaptive())
-                                : _tripController.nextTrip==null || _tripController.nextTrip!.isEmpty
+                                :! _tripController.isTripUpdated.value
                                     ? Column(
                                       children: [
                                         Container(
@@ -333,7 +336,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                                         children: [
                                           //  SizedBox(height: 11),
                                           CustomLocalTicketCard(
-                                            nextTrip: _tripController.nextTrip,
+                                            nextTrip: nextTrip,
                                           ),
 
                                           SizedBox(height: 11),

@@ -1,5 +1,6 @@
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/event/model/event.dart';
+import 'package:ajwad_v4/services/controller/event_controller.dart';
 import 'package:ajwad_v4/services/view/widgets/event_booking_sheet.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
@@ -15,9 +16,11 @@ class BottomEventBooking extends StatefulWidget {
     super.key,
     required this.event,
     required this.avilableDate,
+    this.address='',
   });
   final Event event;
   final List<DateTime> avilableDate;
+  final String address;
 
   @override
   State<BottomEventBooking> createState() => _BottomAdventureBookingState();
@@ -26,6 +29,12 @@ class BottomEventBooking extends StatefulWidget {
 class _BottomAdventureBookingState extends State<BottomEventBooking> {
   final String timeZoneName = 'Asia/Riyadh';
   late tz.Location location;
+  final _eventController = Get.put(EventController());
+
+ void initState(){
+_eventController.address(widget.address);
+
+ }
 
   @override
   Widget build(BuildContext context) {

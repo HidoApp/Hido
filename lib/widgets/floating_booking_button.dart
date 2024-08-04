@@ -7,6 +7,7 @@ import 'package:ajwad_v4/services/model/adventure.dart';
 import 'package:ajwad_v4/services/model/hospitality.dart';
 import 'package:ajwad_v4/services/view/widgets/hospitality_booking_sheet.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
+import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/sign_sheet.dart';
@@ -17,17 +18,34 @@ import 'package:intl/intl.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest_all.dart' as tz;
 
-class BottomHospitalityBooking extends StatelessWidget {
+class BottomHospitalityBooking extends StatefulWidget {
   const BottomHospitalityBooking(
       {super.key,
       required this.hospitalityObj,
       required this.servicesController,
-      required this.avilableDate});
+      required this.avilableDate,
+          this.address='',
+
+      
+      });
   final Hospitality hospitalityObj;
   final List<DateTime> avilableDate;
   final HospitalityController servicesController;
+  final String address;
+
+   @override
+  State<BottomHospitalityBooking> createState() => _BottomHospitalityBookingState();
+}
+class _BottomHospitalityBookingState extends State<BottomHospitalityBooking> {
+
+void initState(){
+
+widget.servicesController.address(widget.address);
+
+ }
   @override
   Widget build(BuildContext context) {
+
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Container(
@@ -52,7 +70,7 @@ class BottomHospitalityBooking extends StatelessWidget {
                 color: Colors.black,
               ),
               CustomText(
-                text: '${hospitalityObj!.price} ${'sar'.tr}',
+                text: '${widget.hospitalityObj.price} ${'sar'.tr}',
                 fontWeight: FontWeight.w900,
                 fontSize: width * 0.043,
                 fontFamily: 'HT Rakik',
@@ -89,9 +107,9 @@ class BottomHospitalityBooking extends StatelessWidget {
                       : Get.bottomSheet(
                           HospitalityBookingSheet(
                               color: Colors.green,
-                              hospitality: hospitalityObj,
-                              avilableDate: avilableDate,
-                              serviceController: servicesController),
+                              hospitality: widget.hospitalityObj,
+                              avilableDate: widget.avilableDate,
+                              serviceController: widget.servicesController),
                           backgroundColor: Colors.white,
                           elevation: 0,
                           shape: RoundedRectangleBorder(
@@ -118,13 +136,25 @@ class BottomAdventureBooking extends StatefulWidget {
   const BottomAdventureBooking({
     super.key,
     required this.adventure,
+  this.address='',
   });
   final Adventure adventure;
+    final String address;
+
   @override
   State<BottomAdventureBooking> createState() => _BottomAdventureBookingState();
 }
 
 class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
+  
+
+  final _adventureController = Get.put(AdventureController());
+
+
+  void initState(){
+print(";lkjhgfds");
+
+ }
   final String timeZoneName = 'Asia/Riyadh';
   late tz.Location location;
   int seat = 0;
@@ -171,8 +201,9 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
   bool getSeat() {
     seat = widget.adventure.seats;
     print('the avaliable seat  -> ${seat}');
+_adventureController.address(widget.address);
 
-    return seat != 0;
+    return seat == 0;
   }
 
   var person = 0;
@@ -240,107 +271,140 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
                       : Get.bottomSheet(
                           StatefulBuilder(
                             builder: (context, setState) => Container(
-                              height: width * 0.687,
+                              height: width * 0.58,
                               width: double.infinity,
                               padding: EdgeInsets.symmetric(
                                 horizontal: width * 0.06,
-                                vertical: width * 0.05,
+                                vertical: width * 0.03,
                               ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  const BottomSheetIndicator(),
+                                  SizedBox(
+                                    height: width * 0.065,
+                                  ),
                                   CustomText(
                                     text: 'numberofpeorson'.tr,
-                                    fontSize: width * 0.043,
-                                    fontFamily: 'SF Pro',
+                                    color: Colors.black,
+                                    fontSize: width * 0.044,
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
                                     fontWeight: FontWeight.w500,
                                   ),
+                                  SizedBox(
+                                    height: height * 0.01,
+                                  ),
                                   Container(
-                                    height: width * 0.123,
-                                    width: width * 0.87,
+                                    height: height * 0.06,
+                                    width: double.infinity,
                                     padding: EdgeInsets.symmetric(
-                                        horizontal: width * 0.025),
-                                    margin: EdgeInsets.only(
-                                        top: height * 0.02,
-                                        bottom: width * 0.012),
+                                        horizontal: width * 0.038),
                                     decoration: BoxDecoration(
                                       borderRadius:
                                           BorderRadius.circular(width * 0.02),
                                       border: Border.all(
                                         color: showErrorGuests
-                                            ? Colors.red
-                                            : lightGreyColor,
+                                            ? colorRed
+                                            : borderGrey,
                                       ),
                                     ),
                                     child: Row(
                                       children: [
                                         CustomText(
-                                          text: "guests2".tr,
-                                          fontWeight: FontWeight.w200,
-                                          color: textGreyColor,
+                                          text: "person".tr,
+                                          fontWeight: FontWeight.w400,
+                                          color: borderGrey,
+                                          fontSize: width * 0.035,
+                                          fontFamily:
+                                              AppUtil.rtlDirection2(context)
+                                                  ? 'SF Arabic'
+                                                  : 'SF Pro',
                                         ),
                                         const Spacer(),
                                         GestureDetector(
                                           onTap: () {
                                             setState(() {
-                                              if (person > 0 && getSeat()) {
+                                              if (person > 0) {
                                                 person = person - 1;
-                                              } else {
-                                                AppUtil.errorToast(
-                                                    context,
-                                                    AppUtil.rtlDirection2(
-                                                            context)
-                                                        ? "لاتوجد مقاعد متاحة"
-                                                        : "There is no seats available");
+                                                _adventureController
+                                                    .showErrorMaxGuest
+                                                    .value = false;
                                               }
                                             });
                                           },
                                           child: const Icon(
                                             Icons.horizontal_rule_outlined,
-                                            color: darkGrey,
+                                            color: borderGrey,
                                           ),
                                         ),
                                         SizedBox(width: width * 0.038),
                                         CustomText(
                                           text: person.toString(),
-                                          color: tileGreyColor,
-                                          fontSize: 18,
                                           fontWeight: FontWeight.w400,
+                                          color: borderGrey,
+                                          fontSize: width * 0.035,
+                                          fontFamily:
+                                              AppUtil.rtlDirection2(context)
+                                                  ? 'SF Arabic'
+                                                  : 'SF Pro',
                                         ),
                                         SizedBox(width: width * 0.038),
                                         GestureDetector(
                                           onTap: () {
-                                            if (getSeat()) {
+                                            if (!getSeat()) {
                                               setState(() {
                                                 person = person + 1;
                                               });
                                             } else {
-                                              AppUtil.errorToast(
-                                                  context,
-                                                  AppUtil.rtlDirection2(context)
-                                                      ? "لاتوجد مقاعد متاحة"
-                                                      : "There is no seats available");
+                                              _adventureController
+                                                  .showErrorMaxGuest
+                                                  .value = true;
                                             }
                                           },
                                           child: const Icon(
                                             Icons.add,
-                                            color: darkGrey,
+                                            color: borderGrey,
                                           ),
                                         ),
                                       ],
                                     ),
                                   ),
+                                  if (_adventureController
+                                      .showErrorMaxGuest.value)
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.only(left: width * 0.01),
+                                      child: Text(
+                                        AppUtil.rtlDirection2(context)
+                                            ? "ليس هناك مقاعد متاحة أكثر من العدد الحالي"
+                                            : '*There are no more seats available than the current number',
+                                        style: TextStyle(
+                                          color: colorRed,
+                                          fontSize: width * 0.028,
+                                          fontFamily:
+                                              AppUtil.rtlDirection2(context)
+                                                  ? 'SF Arabic'
+                                                  : 'SF Pro',
+                                        ),
+                                      ),
+                                    ),
                                   if (showErrorGuests)
                                     Padding(
                                       padding:
-                                          EdgeInsets.only(left: width * 0.038),
+                                          EdgeInsets.only(left: width * 0.01),
                                       child: Text(
                                         AppUtil.rtlDirection2(context)
                                             ? "يجب أن تختار شخص على الأقل"
                                             : '*You need to add at least one guest',
                                         style: TextStyle(
-                                          color: Colors.red,
-                                          fontSize: width * 0.03,
+                                          color: colorRed,
+                                          fontSize: width * 0.028,
+                                          fontFamily:
+                                              AppUtil.rtlDirection2(context)
+                                                  ? 'SF Arabic'
+                                                  : 'SF Pro',
                                         ),
                                       ),
                                     ),
@@ -349,24 +413,24 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
                                   ),
                                   CustomButton(
                                       onPressed: () {
-                                        if (!getSeat()) {
-                                        } else if (person == 0) {
+                                        if (person == 0) {
                                           setState(() {
                                             showErrorGuests = true;
                                           });
-                                        } else if (isSameDay()) {
-                                          AppUtil.errorToast(
-                                              context,
-                                              AppUtil.rtlDirection2(context)
-                                                  ? "يجب أن تحجز قبل 24 ساعة "
-                                                  : "You must booking before 24 hours");
-                                        } else if (isDateBeforeToday()) {
-                                          AppUtil.errorToast(
-                                              context,
-                                              AppUtil.rtlDirection2(context)
-                                                  ? "غير متاح"
-                                                  : "not avalible ");
+                                        } else if ((getSeat())) {
+                                          setState(() {
+                                            _adventureController
+                                                    .showErrorMaxGuest.value ==
+                                                true;
+                                          });
                                         } else {
+                                          _adventureController
+                                                  .showErrorMaxGuest.value ==
+                                              false;
+
+                                          setState(() {
+                                            showErrorGuests = false;
+                                          });
                                           Get.to(() => ReviewAdventure(
                                                     adventure: widget.adventure,
                                                     person: person,
@@ -392,7 +456,11 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
                                 topLeft: Radius.circular(width * 0.06),
                                 topRight: Radius.circular(width * 0.06)),
                           ),
-                        ).then((value) => person = 0);
+                        ).then((value){
+                         person = 0;
+                        showErrorGuests=false;
+                        
+                  }  );
                 },
                 iconColor: darkPurple,
                 title: "book".tr,

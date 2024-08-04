@@ -7,6 +7,7 @@ import 'package:ajwad_v4/auth/models/image.dart';
 import 'package:ajwad_v4/auth/services/auth_service.dart';
 import 'package:ajwad_v4/constants/base_url.dart';
 import 'package:ajwad_v4/constants/trip_options.dart';
+import 'package:ajwad_v4/explore/ajwadi/controllers/trip_controller.dart';
 import 'package:ajwad_v4/explore/ajwadi/model/last_activity.dart';
 import 'package:ajwad_v4/explore/ajwadi/model/local_trip.dart';
 import 'package:ajwad_v4/explore/ajwadi/model/trip.dart';
@@ -21,6 +22,8 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import '../../../services/model/experiences.dart';
 
 class TripService {
+   static final _tripController = Get.put(TripController());
+
   static Future<UploadImage?> uploadImages(
       {required File file,
       required String fileType,
@@ -306,15 +309,18 @@ static Future<List<Experience>?> getAllExperiences(
       },
     );
 
-    print("response.statusCode Profile ");
+    print("response.statusCode Trip ");
     print(response.statusCode);
-    print(response.body);
+    print(response.body.isNotEmpty);
     if (response.statusCode == 200 && response.body.isNotEmpty) {
+      
       var trip = jsonDecode(response.body);
-      print(trip);
+      _tripController.isTripUpdated(true);
       return NextActivity.fromJson(trip);
 
     } else {
+      _tripController.isTripUpdated(false);
+
       String errorMessage = jsonDecode(response.body)['message'];
       if (context.mounted) {
         AppUtil.errorToast(context, errorMessage);
@@ -342,17 +348,20 @@ static Future<List<Experience>?> getAllExperiences(
 
     print(response.statusCode);
     print(response.body);
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200  && response.body.isNotEmpty) {
       var trip = jsonDecode(response.body);
-      print(trip);
+     _tripController.isTripUpdated(true);
+
       return NextActivity.fromJson(trip);
 
     } else {
+     _tripController.isTripUpdated(false);
+
       String errorMessage = jsonDecode(response.body)['message'];
       if (context.mounted) {
         AppUtil.errorToast(context, errorMessage);
       }
-      return NextActivity();
+      return null;
     }
   }
 }

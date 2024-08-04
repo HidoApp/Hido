@@ -84,14 +84,15 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
+
     return DefaultTabController(
       //animationDuration: Durations.long1
       //,
       length: widget.fromService ? 2 : 3,
       child: FloatingDraggableADVN(
         floatingWidget:
-            _offerController.acceptedOffer.value.orderStatus == 'ACCEPTED' &&
-                    widget.place!.booking != null
+            _offerController.acceptedOffer.value.orderStatus == 'ACCEPTED' || widget.booking?.orderStatus == 'ACCEPTED'&&
+                    widget.place.booking != null
                 ? const SizedBox.shrink()
                 : const FloatingTimer(),
         child: Scaffold(
@@ -168,8 +169,8 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
                   if (!widget.fromService)
                     Obx(() {
                       if (_offerController.acceptedOffer.value.orderStatus ==
-                              'ACCEPTED' &&
-                          widget.place!.booking != null) {
+                              'ACCEPTED' || widget.booking?.orderStatus == 'ACCEPTED'&&
+                          widget.place.booking != null) {
                         return Padding(
                           padding: const EdgeInsets.symmetric(horizontal:4),
                           child: CustomAcceptButton(
@@ -190,7 +191,7 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
                       }
 
                       if (_offerController.acceptedOffer.value.orderStatus ==
-                          'ACCEPTED') {
+                              'ACCEPTED' || widget.booking?.orderStatus == 'ACCEPTED'&& widget.place.booking != null) {
                         return Center(
                           child: SizedBox(
                             width: width * 0.5,
