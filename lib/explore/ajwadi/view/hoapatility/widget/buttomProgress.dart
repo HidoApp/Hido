@@ -17,6 +17,7 @@ import 'package:ajwad_v4/request/ajwadi/view/widget/accept_bottom_sheet.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_request_item.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -104,13 +105,11 @@ class _ButtomProgressState extends State<ButtomProgress> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
 
               // Your main content here
               child: nextStep(),
             ),
-            
           ],
         ),
       ),
@@ -122,10 +121,8 @@ class _ButtomProgressState extends State<ButtomProgress> {
             StepProgressIndicator(
               totalSteps: 6,
               currentStep: activeIndex + 1,
-              
               selectedColor: Color(0xFF36B268),
               unselectedColor: Color(0xFFDCDCE0),
-             
             ),
             Padding(
               padding: const EdgeInsets.only(
@@ -200,41 +197,43 @@ class _ButtomProgressState extends State<ButtomProgress> {
 
   bool _validateFields() {
     if (activeIndex == 0) {
-      return
-      hospitalityTitleControllerEn.text.isNotEmpty &&
-
+      return hospitalityTitleControllerEn.text.isNotEmpty &&
           hospitalityBioControllerEn.text.isNotEmpty &&
           hospitalityTitleControllerAr.text.isNotEmpty &&
           hospitalityBioControllerAr.text.isNotEmpty;
     }
     if (activeIndex == 1) {
-      return
-      _hospitalityController.pickUpLocLatLang.value !=
-          const LatLng(0.0, 0.0);
+      return _hospitalityController.pickUpLocLatLang.value !=
+              const LatLng(0.0, 0.0) &&
+          _hospitalityController.ragionAr.isNotEmpty &&
+          _hospitalityController.ragionEn.isNotEmpty;
     }
     // if (activeIndex == 2) {
     //   return
     //   _hospitalityImages.length >= 3;
     // }
-     if (activeIndex == 3) {
-      return  _hospitalityController.seletedSeat.value != 0 &&  _hospitalityController.selectedGender.value != '';
+    if (activeIndex == 3) {
+      return _hospitalityController.seletedSeat.value != 0 &&
+          _hospitalityController.selectedGender.value != '';
     }
-     if (activeIndex == 4) {
+    if (activeIndex == 4) {
+      return _hospitalityController.isHospatilityDateSelcted.value &&
+          _hospitalityController.isHospatilityTimeSelcted.value &&
+          _hospitalityController.selectedMealEn.value != '' &&
+          !_hospitalityController.TimeErrorMessage.value &&
+          _hospitalityController.DateErrorMessage.value;
+    }
 
-     return _hospitalityController.isHospatilityDateSelcted.value && _hospitalityController.isHospatilityTimeSelcted.value 
-     &&  _hospitalityController.selectedMealEn.value!='' && !_hospitalityController.TimeErrorMessage.value && _hospitalityController.DateErrorMessage.value;
-    }
-      
-      if (activeIndex == 5) {
-    if (hospitalityPrice.text.isNotEmpty) {
-      int? price = int.tryParse(hospitalityPrice.text);
-      if (price != null && price >= 150) {
-        return true;
+    if (activeIndex == 5) {
+      if (hospitalityPrice.text.isNotEmpty) {
+        int? price = int.tryParse(hospitalityPrice.text);
+        if (price != null && price >= 150) {
+          return true;
+        }
       }
+      return false;
     }
-    return false;
-  }
-    
+
     return true; // Add validation for other steps if needed
   }
 
@@ -261,103 +260,103 @@ class _ButtomProgressState extends State<ButtomProgress> {
   }
 
   Widget nextButton() {
-     if (activeIndex != 0) {
-    return Obx(() {
+    if (activeIndex != 0) {
+      return Obx(() {
+        return IgnorePointer(
+          ignoring: !_validateFields(),
+          child: Opacity(
+            opacity: _validateFields() ? 1.0 : 0.5,
+            child: GestureDetector(
+              onTap: () {
+                if (activeIndex < totalIndex - 1) {
+                  setState(() {
+                    activeIndex++;
+                    print(activeIndex < totalIndex - 1);
+                    print(totalIndex);
+                    print(activeIndex);
+                  });
+                } else if (activeIndex == totalIndex - 1) {
+                  print(hospitalityPrice.text);
+                  Get.to(HostInfoReview(
+                    hospitalityTitleEn: hospitalityTitleControllerEn.text,
+                    hospitalityBioEn: hospitalityBioControllerEn.text,
+                    hospitalityTitleAr: hospitalityTitleControllerAr.text,
+                    hospitalityBioAr: hospitalityBioControllerAr.text,
+                    hospitalityPrice: int.parse(hospitalityPrice.text),
+                    hospitalityImages: _hospitalityImages,
+                    hospitalityController: _hospitalityController,
+                    hospitalityLocation: hospitalityLocation.text,
+                    experienceType: 'hospitality',
+                  ));
+                }
+              },
+              child: Container(
+                width: 157,
+                height: 48,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                clipBehavior: Clip.antiAlias,
+                decoration: ShapeDecoration(
+                  color: Color(0xFF36B268),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  'Next'.tr,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 17,
+                    fontFamily: 'HT Rakik',
+                    fontWeight: FontWeight.w500,
+                    height: 0.10,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      });
+    } else {
       return IgnorePointer(
-      ignoring: !_validateFields(),
-      child: Opacity(
-        opacity: _validateFields() ? 1.0 : 0.5,
-        child: GestureDetector(
-          onTap: () {
-            if (activeIndex < totalIndex - 1) {
+        ignoring: !_validateFields(),
+        child: Opacity(
+          opacity: _validateFields() ? 1.0 : 0.5,
+          child: GestureDetector(
+            onTap: () {
               setState(() {
                 activeIndex++;
-                print(activeIndex < totalIndex - 1);
-                print(totalIndex);
-                print(activeIndex);
               });
-            } else if (activeIndex == totalIndex - 1) {
-              print(hospitalityPrice.text);
-              Get.to(HostInfoReview(
-                hospitalityTitleEn: hospitalityTitleControllerEn.text,
-                hospitalityBioEn: hospitalityBioControllerEn.text,
-                hospitalityTitleAr: hospitalityTitleControllerAr.text,
-                hospitalityBioAr: hospitalityBioControllerAr.text,
-                hospitalityPrice: int.parse(hospitalityPrice.text),
-                hospitalityImages: _hospitalityImages,
-                hospitalityController: _hospitalityController,
-                hospitalityLocation: hospitalityLocation.text,
-                experienceType: 'hospitality',
-              ));
-            }
-          },
-          child: Container(
-            width: 157,
-            height: 48,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            clipBehavior: Clip.antiAlias,
-            decoration: ShapeDecoration(
-              color: Color(0xFF36B268),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8)),
-            ),
-            alignment: Alignment.center,
-            child: Text(
-              'Next'.tr,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 17,
-                fontFamily: 'HT Rakik',
-                fontWeight: FontWeight.w500,
-                height: 0.10,
+            },
+            child: Container(
+              width: 157,
+              height: 48,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              clipBehavior: Clip.antiAlias,
+              decoration: ShapeDecoration(
+                color: Color(0xFF36B268),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)),
+              ),
+              alignment: Alignment.center,
+              child: Text(
+                'Next'.tr,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 17,
+                  fontFamily: 'HT Rakik',
+                  fontWeight: FontWeight.w500,
+                  height: 0.10,
+                ),
               ),
             ),
           ),
         ),
-      ),
-    );
+      );
     }
-    );
-     } else {
-    return IgnorePointer(
-        ignoring: !_validateFields(),
-        child: Opacity(
-          opacity: _validateFields() ? 1.0 : 0.5,
-      child: GestureDetector(
-      onTap: () {
-        setState(() {
-          activeIndex++;
-        });
-      },
-      child: Container(
-        width: 157,
-        height: 48,
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        clipBehavior: Clip.antiAlias,
-        decoration: ShapeDecoration(
-          color: Color(0xFF36B268),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        ),
-        alignment: Alignment.center,
-        child: Text(
-          'Next'.tr,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 17,
-            fontFamily: 'HT Rakik',
-            fontWeight: FontWeight.w500,
-            height: 0.10,
-          ),
-        ),
-      ),
-      ),
-        ),
-    );
   }
-}
-  
 
   Widget previousButton() {
     return GestureDetector(
@@ -428,8 +427,7 @@ class _AddHospitalityInfoState extends State<AddHospitalityInfo> {
   void initState() {
     super.initState();
     setState(() {
-           _selectedLanguageIndex = AppUtil.rtlDirection2(context)?0:1;
-
+      _selectedLanguageIndex = AppUtil.rtlDirection2(context) ? 0 : 1;
     });
   }
 
@@ -476,15 +474,17 @@ class _AddHospitalityInfoState extends State<AddHospitalityInfo> {
                 radiusStyle: true,
                 customTextStyles: [
                   TextStyle(
-                    fontSize: _selectedLanguageIndex == 0 ? 11: 13,
-                    fontFamily:  _selectedLanguageIndex == 0 ? 'SF Arabic' : 'SF Pro',
+                    fontSize: _selectedLanguageIndex == 0 ? 11 : 13,
+                    fontFamily:
+                        _selectedLanguageIndex == 0 ? 'SF Arabic' : 'SF Pro',
                     fontWeight: _selectedLanguageIndex == 0
                         ? FontWeight.w500
                         : FontWeight.w500,
                   ),
                   TextStyle(
                     fontSize: _selectedLanguageIndex == 0 ? 11 : 13,
-                    fontFamily:  _selectedLanguageIndex == 0 ? 'SF Arabic' : 'SF Pro',
+                    fontFamily:
+                        _selectedLanguageIndex == 0 ? 'SF Arabic' : 'SF Pro',
                     fontWeight: _selectedLanguageIndex == 0
                         ? FontWeight.w500
                         : FontWeight.w500,
@@ -547,7 +547,9 @@ class _AddHospitalityInfoState extends State<AddHospitalityInfo> {
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 15,
-                            fontFamily:      _selectedLanguageIndex == 0 ? 'SF Arabic' : 'SF Pro',
+                            fontFamily: _selectedLanguageIndex == 0
+                                ? 'SF Arabic'
+                                : 'SF Pro',
                             fontWeight: FontWeight.w400,
                           ),
                           decoration: InputDecoration(
@@ -557,7 +559,9 @@ class _AddHospitalityInfoState extends State<AddHospitalityInfo> {
                             hintStyle: TextStyle(
                               color: Color(0xFFB9B8C1),
                               fontSize: 15,
-                              fontFamily:      _selectedLanguageIndex == 0 ? 'SF Arabic' : 'SF Pro',
+                              fontFamily: _selectedLanguageIndex == 0
+                                  ? 'SF Arabic'
+                                  : 'SF Pro',
                               fontWeight: FontWeight.w400,
                             ),
                             border: OutlineInputBorder(
@@ -606,10 +610,10 @@ class _AddHospitalityInfoState extends State<AddHospitalityInfo> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 0, vertical: 0),
                         child: TextField(
-                        maxLines: 8,
-                        // minLines: 1,
+                          maxLines: 8,
+                          // minLines: 1,
                           controller: textField2Controller,
-                         focusNode: _focusNode,
+                          focusNode: _focusNode,
                           inputFormatters: [
                             TextInputFormatter.withFunction(
                               (oldValue, newValue) {
@@ -627,7 +631,9 @@ class _AddHospitalityInfoState extends State<AddHospitalityInfo> {
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 15,
-                            fontFamily:      _selectedLanguageIndex == 0 ? 'SF Arabic' : 'SF Pro',
+                            fontFamily: _selectedLanguageIndex == 0
+                                ? 'SF Arabic'
+                                : 'SF Pro',
                             fontWeight: FontWeight.w400,
                           ),
                           decoration: InputDecoration(
@@ -637,7 +643,9 @@ class _AddHospitalityInfoState extends State<AddHospitalityInfo> {
                             hintStyle: TextStyle(
                               color: Color(0xFFB9B8C1),
                               fontSize: 15,
-                              fontFamily:      _selectedLanguageIndex == 0 ? 'SF Arabic' : 'SF Pro',
+                              fontFamily: _selectedLanguageIndex == 0
+                                  ? 'SF Arabic'
+                                  : 'SF Pro',
                               fontWeight: FontWeight.w400,
                             ),
                             border: OutlineInputBorder(
@@ -657,7 +665,9 @@ class _AddHospitalityInfoState extends State<AddHospitalityInfo> {
                         style: TextStyle(
                           color: Color(0xFFB9B8C1),
                           fontSize: 11,
-                          fontFamily:     _selectedLanguageIndex == 0 ? 'SF Arabic' : 'SF Pro',
+                          fontFamily: _selectedLanguageIndex == 0
+                              ? 'SF Arabic'
+                              : 'SF Pro',
                           fontWeight: FontWeight.w400,
                         ),
                       ),
@@ -665,7 +675,6 @@ class _AddHospitalityInfoState extends State<AddHospitalityInfo> {
                   ],
                 ),
               ),
-             
             ],
           ),
         ),
@@ -691,19 +700,16 @@ class AddHospitalityLocation extends StatefulWidget {
 class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
   BitmapDescriptor markerIcon = BitmapDescriptor.defaultMarker;
 
- 
-  
   final Completer<GoogleMapController> _controller = Completer();
   bool _isLoading = true;
 
   late GoogleMapController mapController;
   LatLng? _currentPosition;
   String address = '';
-   UserLocation? userLocation;
-    Set<Marker> _userMarkers = {};
+  UserLocation? userLocation;
+  Set<Marker> _userMarkers = {};
   Set<Marker> _markers = {};
   LatLng _currentLocation = const LatLng(24.7136, 46.6753);
-
 
   void addCustomIcon() {
     BitmapDescriptor.fromAssetImage(
@@ -717,36 +723,32 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
     );
   }
 
-    
   void getLocation() async {
     userLocation = await LocationService().getUserLocation();
     print('this location');
-   
 
     if (userLocation != null) {
       setState(() {
-      if (mounted) {
-         _currentPosition = LatLng(userLocation!.latitude, userLocation!.longitude);
+        if (mounted) {
+          _currentPosition =
+              LatLng(userLocation!.latitude, userLocation!.longitude);
 
-        widget.hospitalityController.pickUpLocLatLang.value = _currentPosition!;
-                                    
-       
-      }
-    });
-        _fetchAddress();
-
-  
+          widget.hospitalityController.pickUpLocLatLang.value =
+              _currentPosition!;
+        }
+      });
+      _fetchAddress();
     } else {
-       setState(() {
-      if (mounted) {
-       _currentPosition = LatLng( _currentLocation.latitude, _currentLocation.longitude);
-       
-      }
-    });
-   _fetchAddress();
-
+      setState(() {
+        if (mounted) {
+          _currentPosition =
+              LatLng(_currentLocation.latitude, _currentLocation.longitude);
+        }
+      });
+      _fetchAddress();
     }
   }
+
   Future<void> _getAddressFromCoordinates(double lat, double lng) async {
     try {
       List<Placemark> placemarks = await placemarkFromCoordinates(lat, lng);
@@ -770,10 +772,8 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
     // TODO: implement initState
     super.initState();
 
-
-   // addCustomIcon();
-          getLocation();
-
+    // addCustomIcon();
+    getLocation();
   }
 
   Future<String> _getAddressFromLatLng(
@@ -805,8 +805,37 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
     });
   }
 
- 
+  final List<String> regionListEn = [
+    "Riyadh",
+    "Mecca",
+    "Medina",
+    "Dammam",
+    "Qassim",
+    "Hail",
+    "Northern Borders",
+    "Jazan",
+    "Asir",
+    "Tabuk",
+    "Najran",
+    "Al Baha",
+    "Al Jouf"
+  ];
 
+  final List<String> regionListAr = [
+    "الرياض",
+    "مكة",
+    "المدينة",
+    "الدمام",
+    "القصيم",
+    "حائل",
+    "الحدود الشمالية",
+    "جازان",
+    "عسير",
+    "تبوك",
+    "نجران",
+    "الباحة",
+    "الجوف"
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -827,7 +856,8 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
               style: TextStyle(
                 color: black,
                 fontSize: 17,
-                fontFamily:  AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
+                fontFamily:
+                    AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -851,112 +881,80 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
                       style: TextStyle(
                         color: starGreyColor,
                         fontSize: 15,
-                         fontFamily:  AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
+                        fontFamily: AppUtil.rtlDirection2(context)
+                            ? 'SF Arabic'
+                            : 'SF Pro',
                         fontWeight: FontWeight.w400,
                         height: 0,
-                      ),
-                    ),
-                    SizedBox(height: 18),
-                    Container(
-                      width: double.infinity,
-                      height: 48,
-                      decoration: ShapeDecoration(
-                        color: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(width: 1, color: Color(0xFFB9B8C1)),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 10),
-                       child: _isLoading
-                            ? Align(
-                              alignment: Alignment.topLeft,
-                              child: Container()
-                              )
-                            :  TextField(
-                                controller: widget.textField1Controller,
-                                enabled:false,
-
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 15,
-                                    fontFamily:  AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                decoration: InputDecoration(
-                                  hintText: address,
-                                  hintStyle: TextStyle(
-                                    color: Color(0xFFB9B8C1),
-                                    fontSize: 15,
-                                    fontFamily:  AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                    borderSide: BorderSide.none,
-                                  ),
-                                  prefixIcon: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 10.0, right: 10, bottom: 14),
-                                    child: SvgPicture.asset(
-                                      'assets/icons/map_pin.svg',
-                                      color: Color(0xFFB9B8C1),
-                                    ),
-                                  ),
-                                ),
-                              ),
                       ),
                     ),
                   ],
                 ),
               ),
-              SizedBox(height: 3),
+              const SizedBox(height: 16),
               Stack(
                 children: [
                   ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                    borderRadius: const BorderRadius.all(Radius.circular(12)),
                     child: Container(
                       decoration: BoxDecoration(
                         color: almostGrey.withOpacity(0.2),
                         borderRadius: BorderRadius.all(Radius.circular(12)),
                       ),
-                      height: AppUtil.rtlDirection2(context)? height*0.54:height*0.53,
+                      height: AppUtil.rtlDirection2(context)
+                          ? height * 0.49
+                          : height * 0.49,
                       width: double.infinity,
                       child: _currentPosition == null
-                    ? Center(child: CircularProgressIndicator.adaptive())
-                     :  GoogleMap(
-                        scrollGesturesEnabled: true,
-                        zoomControlsEnabled: false,
-                        initialCameraPosition: CameraPosition(
-                          target:
-                            
-                              _currentPosition!,
-                          zoom: 15,
-                        ),
-                        markers: {
-                          Marker(
-                            markerId: MarkerId("marker1"),
-                            position: _currentPosition!,
-                           
-                            draggable: true,
-                            onDragEnd: (LatLng newPosition) {
-                              setState(() {
-                                widget.hospitalityController.pickUpLocLatLang
-                                    .value = newPosition;
-                                _currentPosition = newPosition;
+                          ? Center(child: CircularProgressIndicator.adaptive())
+                          : GoogleMap(
+                              scrollGesturesEnabled: true,
+                              zoomControlsEnabled: false,
+                              initialCameraPosition: CameraPosition(
+                                target: _currentPosition!,
+                                zoom: 15,
+                              ),
+                              markers: {
+                                Marker(
+                                  markerId: MarkerId("marker1"),
+                                  position: _currentPosition!,
+                                  draggable: true,
+                                  onDragEnd: (LatLng newPosition) {
+                                    setState(() {
+                                      widget.hospitalityController
+                                          .pickUpLocLatLang.value = newPosition;
+                                      _currentPosition = newPosition;
 
-                                _isLoading = true;
-                              });
-                              _fetchAddress();
-                            },
-                            icon: markerIcon,
-                          ),
-                        },
-                      ),
+                                      _isLoading = true;
+                                    });
+                                    _fetchAddress();
+                                  },
+                                  icon: markerIcon,
+                                ),
+                              },
+                              onTap: (position) async {
+                                setState(() {
+                                  widget.hospitalityController.pickUpLocLatLang
+                                      .value = position;
+                                  _currentPosition = position;
+                                  _isLoading = true;
+
+                                  mapController.animateCamera(
+                                      CameraUpdate.newLatLngZoom(position, 18));
+                                });
+                                _fetchAddress();
+                              },
+                              onCameraMove: (position) {
+                                setState(() {
+                                  _currentLocation = position.target;
+                                  widget.hospitalityController.pickUpLocLatLang
+                                      .value = position.target;
+                                });
+                                _fetchAddress();
+                              },
+                            ),
                     ),
                   ),
-                           
                   Positioned(
                     bottom: 0,
                     left: 0,
@@ -989,7 +987,10 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
                                       style: TextStyle(
                                         color: Color(0xFF9392A0),
                                         fontSize: 13,
-                                        fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
+                                        fontFamily:
+                                            AppUtil.rtlDirection2(context)
+                                                ? 'SF Arabic'
+                                                : 'SF Pro',
                                         fontWeight: FontWeight.w400,
                                         height: 0,
                                       ),
@@ -1001,6 +1002,184 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
                     ),
                   ),
                 ],
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 14),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomText(
+                      text: "Region".tr,
+                      color: black,
+                      fontSize: width * 0.044,
+                      fontWeight: FontWeight.w500,
+                      fontFamily: AppUtil.rtlDirection2(context)
+                          ? 'SF Arabic'
+                          : 'SF Pro',
+                    ),
+                    SizedBox(height: width * 0.02),
+
+                    DropdownButtonHideUnderline(
+                      child: DropdownButtonFormField2<String>(
+                        isExpanded: true,
+                        value: widget.hospitalityController.ragionAr.isEmpty ||
+                                widget.hospitalityController.ragionEn.isEmpty
+                            ? null
+                            : AppUtil.rtlDirection2(context)
+                                ? widget.hospitalityController.ragionAr.value
+                                : widget.hospitalityController.ragionEn.value,
+                        decoration: InputDecoration(
+                          focusedBorder: const OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 1, color: Graytext)),
+                          enabledBorder: const OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 1, color: Graytext)),
+                          contentPadding:
+                              const EdgeInsets.symmetric(vertical: 16),
+                          border: OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(width: 1, color: Graytext),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        hint: Text(
+                          AppUtil.rtlDirection2(context)
+                              ? "اختر المنطقة"
+                              : 'Choose your Region',
+                          style: TextStyle(
+                            color: Graytext,
+                            fontSize: 14,
+                            fontFamily: AppUtil.rtlDirection2(context)
+                                ? 'SF Arabic'
+                                : 'SF Pro',
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        items: AppUtil.rtlDirection2(context)
+                            ? regionListAr
+                                .map((item) => DropdownMenuItem<String>(
+                                      value: item,
+                                      child: Text(
+                                        item,
+                                        style: TextStyle(
+                                          color: black,
+                                          fontSize: 15,
+                                          fontFamily:
+                                              AppUtil.rtlDirection2(context)
+                                                  ? 'SF Arabic'
+                                                  : 'SF Pro',
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ))
+                                .toList()
+                            : regionListEn
+                                .map((item) => DropdownMenuItem<String>(
+                                      value: item,
+                                      child: Text(
+                                        item,
+                                        style: TextStyle(
+                                          color: black,
+                                          fontSize: 15,
+                                          fontFamily:
+                                              AppUtil.rtlDirection2(context)
+                                                  ? 'SF Arabic'
+                                                  : 'SF Pro',
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ))
+                                .toList(),
+                        validator: (value) {
+                          if (value == null) {
+                            return 'Please select gender.';
+                          }
+                          return null;
+                        },
+                        onChanged: (value) {
+                          if (AppUtil.rtlDirection2(context)) {
+                            widget.hospitalityController.ragionAr.value =
+                                value.toString();
+
+                            int index = regionListAr.indexOf(value.toString());
+
+                            if (index != -1 && index < regionListEn.length) {
+                              widget.hospitalityController.ragionEn.value =
+                                  regionListEn[index];
+                            }
+                          } else {
+                            widget.hospitalityController.ragionEn.value =
+                                value.toString();
+
+                            int index = regionListEn.indexOf(value.toString());
+
+                            if (index != -1 && index < regionListAr.length) {
+                              widget.hospitalityController.ragionAr.value =
+                                  regionListAr[index];
+                            }
+                          }
+                          print(widget.hospitalityController.ragionAr.value);
+                          print(widget.hospitalityController.ragionEn.value);
+                        },
+                        onSaved: (value) {
+                          if (AppUtil.rtlDirection2(context)) {
+                            widget.hospitalityController.ragionAr.value =
+                                value.toString();
+
+                            int index = regionListAr.indexOf(value.toString());
+
+                            if (index != -1 && index < regionListEn.length) {
+                              widget.hospitalityController.ragionEn.value =
+                                  regionListEn[index];
+                            }
+                          } else {
+                            widget.hospitalityController.ragionEn.value =
+                                value.toString();
+
+                            int index = regionListEn.indexOf(value.toString());
+
+                            if (index != -1 && index < regionListAr.length) {
+                              widget.hospitalityController.ragionAr.value =
+                                  regionListAr[index];
+                            }
+                          }
+                          print(widget.hospitalityController.ragionAr.value);
+                          print(widget.hospitalityController.ragionEn.value);
+                        },
+                        buttonStyleData: const ButtonStyleData(
+                          padding: EdgeInsets.only(right: 8),
+                        ),
+                        iconStyleData: const IconStyleData(
+                          icon: Icon(
+                            Icons.keyboard_arrow_down_outlined,
+                            color: Graytext,
+                          ),
+                          iconSize: 24,
+                        ),
+                        dropdownStyleData: DropdownStyleData(
+                          maxHeight: 100,
+                          decoration: BoxDecoration(),
+                          scrollbarTheme: ScrollbarThemeData(
+                            radius: const Radius.circular(40),
+                            thickness: MaterialStateProperty.all(8),
+                            thumbVisibility: MaterialStateProperty.all(true),
+                            thumbColor:
+                                MaterialStateProperty.all(starGreyColor),
+                            trackColor:
+                                MaterialStateProperty.all(lightGreyColor),
+                            trackVisibility: MaterialStateProperty.all(true),
+                          ),
+                        ),
+                        menuItemStyleData: const MenuItemStyleData(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -1265,8 +1444,9 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                             text: 'UploadPhotos'.tr,
                             color: Color(0xFF070708),
                             fontSize: 15,
-                           fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                          : 'SF Pro',
+                            fontFamily: AppUtil.rtlDirection2(context)
+                                ? 'SF Arabic'
+                                : 'SF Pro',
                             fontWeight: FontWeight.w500,
                             height: 0,
                           ),
@@ -1276,8 +1456,9 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                             textAlign: TextAlign.center,
                             color: Color(0xFFB9B8C1),
                             fontSize: 11,
-                             fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                          : 'SF Pro',
+                            fontFamily: AppUtil.rtlDirection2(context)
+                                ? 'SF Arabic'
+                                : 'SF Pro',
                             fontWeight: FontWeight.w500,
                             height: 0,
                           ),
@@ -1330,8 +1511,9 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 13,
-                                     fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                                    : 'SF Pro',
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
                                     fontWeight: FontWeight.w500,
                                     height: 0,
                                   ),
@@ -1392,8 +1574,10 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                                       style: TextStyle(
                                         color: Color(0xFFB9B8C1),
                                         fontSize: 11,
-                                         fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                                         : 'SF Pro',
+                                        fontFamily:
+                                            AppUtil.rtlDirection2(context)
+                                                ? 'SF Arabic'
+                                                : 'SF Pro',
                                         fontWeight: FontWeight.w500,
                                         height: 0,
                                       ),
@@ -1600,12 +1784,13 @@ class _AddGuestsState extends State<AddGuests> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CustomText(
-          text: AppUtil.rtlDirection2(context)?'عدد الضيوف في اليوم':"Number of Guests ",
+          text: AppUtil.rtlDirection2(context)
+              ? 'عدد الضيوف في اليوم'
+              : "Number of Guests ",
           color: black,
           fontSize: 17,
           fontWeight: FontWeight.w500,
-           fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                        : 'SF Pro',
+          fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
         ),
         SizedBox(
           height: width * 0.02,
@@ -1638,7 +1823,8 @@ class _AddGuestsState extends State<AddGuests> {
                       text: "guests".tr,
                       fontWeight: FontWeight.w400,
                       color: Graytext,
-                        fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                      fontFamily: AppUtil.rtlDirection2(context)
+                          ? 'SF Arabic'
                           : 'SF Pro',
                       fontSize: 15,
                     ),
@@ -1687,12 +1873,12 @@ class _AddGuestsState extends State<AddGuests> {
                 height: width * 0.047,
               ),
               CustomText(
-                text:AppUtil.rtlDirection2(context)?"يستقبل فقط": "Accepts",
+                text: AppUtil.rtlDirection2(context) ? "يستقبل فقط" : "Accepts",
                 color: black,
                 fontSize: 17,
                 fontWeight: FontWeight.w500,
-                  fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                          : 'SF Pro',
+                fontFamily:
+                    AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
               ),
               SizedBox(
                 height: width * 0.025,
@@ -1730,8 +1916,9 @@ class _AddGuestsState extends State<AddGuests> {
                           style: TextStyle(
                             color: Color(0xFF41404A),
                             fontSize: 13,
-                             fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                             : 'SF Pro',
+                            fontFamily: AppUtil.rtlDirection2(context)
+                                ? 'SF Arabic'
+                                : 'SF Pro',
                             fontWeight: FontWeight.w500,
                             height: 0,
                           ),
@@ -1768,8 +1955,9 @@ class _AddGuestsState extends State<AddGuests> {
                           style: TextStyle(
                             color: Color(0xFF41404A),
                             fontSize: 13,
-                            fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                            : 'SF Pro',
+                            fontFamily: AppUtil.rtlDirection2(context)
+                                ? 'SF Arabic'
+                                : 'SF Pro',
                             fontWeight: FontWeight.w500,
                             height: 0,
                           ),
@@ -1806,8 +1994,9 @@ class _AddGuestsState extends State<AddGuests> {
                           style: TextStyle(
                             color: Color(0xFF41404A),
                             fontSize: 13,
-                            fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                           : 'SF Pro',
+                            fontFamily: AppUtil.rtlDirection2(context)
+                                ? 'SF Arabic'
+                                : 'SF Pro',
                             fontWeight: FontWeight.w500,
                             height: 0,
                           ),
@@ -1836,17 +2025,15 @@ class SelectDateTime extends StatefulWidget {
   @override
   _SelectDateTimeState createState() => _SelectDateTimeState();
 }
-    
 
 class _SelectDateTimeState extends State<SelectDateTime> {
   // bool? DateErrorMessage;
 
-
-@override
+  @override
   void initState() {
     super.initState();
-   // checkDate();
-     }
+    // checkDate();
+  }
 
   final TextEditingController _textField1Controller = TextEditingController();
   int? _selectedRadio;
@@ -1882,7 +2069,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
         widget.hospitalityController.selectedMealEn.value = "LUNCH";
         widget.hospitalityController.selectedMealAr.value = "غداء";
       }
-     
+
       // widget.onGenderChanged(gender!);  // Call the callback with the new gender value
     });
   }
@@ -1908,8 +2095,8 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                 color: black,
                 fontSize: 17,
                 fontWeight: FontWeight.w500,
-                 fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                          : 'SF Pro',
+                fontFamily:
+                    AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
               ),
               SizedBox(
                 height: width * 0.02,
@@ -1927,7 +2114,10 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                     shape: RoundedRectangleBorder(
                       side: BorderSide(
                           width: 1,
-                          color: widget.hospitalityController.isHospatilityDateSelcted.value && !widget.hospitalityController.DateErrorMessage.value
+                          color: widget.hospitalityController
+                                      .isHospatilityDateSelcted.value &&
+                                  !widget.hospitalityController.DateErrorMessage
+                                      .value
                               ? Colors.red
                               : Color(0xFFB9B8C1)),
                       borderRadius: BorderRadius.circular(8),
@@ -1965,8 +2155,9 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                               : 'DD/MM/YYYY'.tr,
                           fontWeight: FontWeight.w400,
                           color: Graytext,
-                            fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                          : 'SF Pro',
+                          fontFamily: AppUtil.rtlDirection2(context)
+                              ? 'SF Arabic'
+                              : 'SF Pro',
                           fontSize: 15,
                         ),
                       ),
@@ -1974,22 +2165,24 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                   ),
                 ),
               ),
-                  Obx(
-                () =>
-                  widget.hospitalityController.isHospatilityDateSelcted.value && !widget.hospitalityController.DateErrorMessage.value?
-                   Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: Text(
-                      AppUtil.rtlDirection2(context)
-                      ? "يجب اختيار تاريخ بعد 48 ساعة من الآن على الأقل"
-                        : "*Please select a date at least 48 hours from now",
-                      style: TextStyle(
-                        color: Colors.red,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ):Container(),
-                ),
+              Obx(
+                () => widget.hospitalityController.isHospatilityDateSelcted
+                            .value &&
+                        !widget.hospitalityController.DateErrorMessage.value
+                    ? Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: Text(
+                          AppUtil.rtlDirection2(context)
+                              ? "يجب اختيار تاريخ بعد 48 ساعة من الآن على الأقل"
+                              : "*Please select a date at least 48 hours from now",
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 12,
+                          ),
+                        ),
+                      )
+                    : Container(),
+              ),
               const SizedBox(
                 height: 12,
               ),
@@ -2005,8 +2198,9 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                         color: black,
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
-                          fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                          : 'SF Pro',
+                        fontFamily: AppUtil.rtlDirection2(context)
+                            ? 'SF Arabic'
+                            : 'SF Pro',
                       ),
                       SizedBox(
                         height: height * 0.01,
@@ -2027,10 +2221,9 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                             shape: RoundedRectangleBorder(
                               side: BorderSide(
                                   width: 1,
-                                  color: 
-                                       DurationErrorMessage ?? false
-                                          ? Colors.red
-                                          : Color(0xFFB9B8C1)),
+                                  color: DurationErrorMessage ?? false
+                                      ? Colors.red
+                                      : Color(0xFFB9B8C1)),
                               borderRadius: BorderRadius.circular(8),
                             ),
                           ),
@@ -2073,7 +2266,16 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                                             .hospitalityController
                                                             .selectedStartTime
                                                             .value = newTimeToGo;
-                                                      widget.hospitalityController.TimeErrorMessage.value= AppUtil.isEndTimeLessThanStartTime(widget.hospitalityController.selectedStartTime.value, newTimeToReturn);
+                                                        widget
+                                                                .hospitalityController
+                                                                .TimeErrorMessage
+                                                                .value =
+                                                            AppUtil.isEndTimeLessThanStartTime(
+                                                                widget
+                                                                    .hospitalityController
+                                                                    .selectedStartTime
+                                                                    .value,
+                                                                newTimeToReturn);
                                                         //  widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
                                                         //   .format(newTimeToGo) as RxString;
                                                       });
@@ -2087,8 +2289,11 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                                       text: "confirm".tr,
                                                       color: colorGreen,
                                                       fontSize: 15,
-                                                      fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                                                      : 'SF Pro',
+                                                      fontFamily:
+                                                          AppUtil.rtlDirection2(
+                                                                  context)
+                                                              ? 'SF Arabic'
+                                                              : 'SF Pro',
                                                       fontWeight:
                                                           FontWeight.w500,
                                                     ),
@@ -2121,7 +2326,16 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                                           .hospitalityController
                                                           .selectedStartTime
                                                           .value = newT;
-                                                      widget.hospitalityController.TimeErrorMessage.value= AppUtil.isEndTimeLessThanStartTime(widget.hospitalityController.selectedStartTime.value, newTimeToReturn);
+                                                      widget
+                                                              .hospitalityController
+                                                              .TimeErrorMessage
+                                                              .value =
+                                                          AppUtil.isEndTimeLessThanStartTime(
+                                                              widget
+                                                                  .hospitalityController
+                                                                  .selectedStartTime
+                                                                  .value,
+                                                              newTimeToReturn);
 
                                                       //    widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
                                                       // .format(newTimeToGo) as RxString;
@@ -2151,8 +2365,9 @@ class _SelectDateTimeState extends State<SelectDateTime> {
 
                                   fontWeight: FontWeight.w400,
                                   color: Graytext,
-                                  fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                                  : 'SF Pro',
+                                  fontFamily: AppUtil.rtlDirection2(context)
+                                      ? 'SF Arabic'
+                                      : 'SF Pro',
                                   fontSize: 15,
                                 ),
                               ),
@@ -2183,14 +2398,14 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomText(
-                        text: AppUtil.rtlDirection2(context)
-                            ? "إلى"
-                            : "End Time",
+                        text:
+                            AppUtil.rtlDirection2(context) ? "إلى" : "End Time",
                         color: black,
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
-                        fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                        : 'SF Pro',
+                        fontFamily: AppUtil.rtlDirection2(context)
+                            ? 'SF Arabic'
+                            : 'SF Pro',
                       ),
                       SizedBox(
                         height: height * 0.01,
@@ -2211,7 +2426,9 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                             shape: RoundedRectangleBorder(
                               side: BorderSide(
                                   width: 1,
-                                  color:  widget.hospitalityController.TimeErrorMessage.value ?? false
+                                  color: widget.hospitalityController
+                                              .TimeErrorMessage.value ??
+                                          false
                                       ? Colors.red
                                       : DurationErrorMessage ?? false
                                           ? Colors.red
@@ -2264,13 +2481,19 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                                                 .selectedEndTime
                                                                 .value =
                                                             newTimeToReturn;
-                                         widget.hospitalityController.TimeErrorMessage.value= AppUtil.isEndTimeLessThanStartTime(  widget
+                                                        widget
                                                                 .hospitalityController
-                                                                .selectedStartTime
-                                                                .value,   widget
-                                                                .hospitalityController
-                                                                .selectedEndTime
-                                                                .value);
+                                                                .TimeErrorMessage
+                                                                .value =
+                                                            AppUtil.isEndTimeLessThanStartTime(
+                                                                widget
+                                                                    .hospitalityController
+                                                                    .selectedStartTime
+                                                                    .value,
+                                                                widget
+                                                                    .hospitalityController
+                                                                    .selectedEndTime
+                                                                    .value);
 
                                                         //      widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
                                                         // .format( newTimeToReturn) as RxString;
@@ -2319,13 +2542,17 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                                           .hospitalityController
                                                           .selectedEndTime
                                                           .value = newT;
-                                                         widget.hospitalityController.TimeErrorMessage.value= AppUtil.isEndTimeLessThanStartTime(  widget
-                                                                .hospitalityController
-                                                                .selectedStartTime
-                                                                .value,   widget
-                                                                .hospitalityController
-                                                                .selectedEndTime
-                                                                .value);
+                                                      widget.hospitalityController
+                                                              .TimeErrorMessage.value =
+                                                          AppUtil.isEndTimeLessThanStartTime(
+                                                              widget
+                                                                  .hospitalityController
+                                                                  .selectedStartTime
+                                                                  .value,
+                                                              widget
+                                                                  .hospitalityController
+                                                                  .selectedEndTime
+                                                                  .value);
                                                       //  widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
                                                       //     .format( newTimeToReturn) as RxString;
                                                     });
@@ -2351,10 +2578,11 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                   // : intel.DateFormat('hh:mm a').format(
                                   //     widget.hospitalityController
                                   //         .selectedEndTime.value),
-                               fontWeight: FontWeight.w400,
+                                  fontWeight: FontWeight.w400,
                                   color: Graytext,
-                                  fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                                  :'SF Pro',
+                                  fontFamily: AppUtil.rtlDirection2(context)
+                                      ? 'SF Arabic'
+                                      : 'SF Pro',
                                   fontSize: 15,
                                 ),
                               ),
@@ -2362,24 +2590,27 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                           ),
                         ),
                       ),
-                       Obx(
-                           () =>
-                            widget.hospitalityController.TimeErrorMessage.value?
-                         Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: Text(
-                              AppUtil.rtlDirection2(context)
-                                  ? "وقت الإنتهاء اقل من وقت البداية"
-                                  : "End time is less than start time",
-                              style: TextStyle(
-                                color: Colors.red,
-                                fontSize: 12,
-                                 fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                            : 'SF Pro',
-                              ),
-                            ),
-                          ):Container(),
-                        ),
+                      Obx(
+                        () =>
+                            widget.hospitalityController.TimeErrorMessage.value
+                                ? Padding(
+                                    padding: const EdgeInsets.only(top: 10),
+                                    child: Text(
+                                      AppUtil.rtlDirection2(context)
+                                          ? "وقت الإنتهاء اقل من وقت البداية"
+                                          : "End time is less than start time",
+                                      style: TextStyle(
+                                        color: Colors.red,
+                                        fontSize: 12,
+                                        fontFamily:
+                                            AppUtil.rtlDirection2(context)
+                                                ? 'SF Arabic'
+                                                : 'SF Pro',
+                                      ),
+                                    ),
+                                  )
+                                : Container(),
+                      ),
                     ],
                   )
                 ],
@@ -2392,8 +2623,8 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                 color: black,
                 fontSize: 17,
                 fontWeight: FontWeight.w500,
-                  fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                          : 'SF Pro',
+                fontFamily:
+                    AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
               ),
               SizedBox(
                 height: width * 0.025,
@@ -2431,8 +2662,9 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                           style: TextStyle(
                             color: Color(0xFF41404A),
                             fontSize: 13,
-                              fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                          : 'SF Pro',
+                            fontFamily: AppUtil.rtlDirection2(context)
+                                ? 'SF Arabic'
+                                : 'SF Pro',
                             fontWeight: FontWeight.w500,
                             height: 0,
                           ),
@@ -2469,8 +2701,9 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                           style: TextStyle(
                             color: Color(0xFF41404A),
                             fontSize: 13,
-                            fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                            :'SF Pro',
+                            fontFamily: AppUtil.rtlDirection2(context)
+                                ? 'SF Arabic'
+                                : 'SF Pro',
                             fontWeight: FontWeight.w500,
                             height: 0,
                           ),
@@ -2507,8 +2740,9 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                           style: TextStyle(
                             color: Color(0xFF41404A),
                             fontSize: 13,
-                            fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                            :'SF Pro',
+                            fontFamily: AppUtil.rtlDirection2(context)
+                                ? 'SF Arabic'
+                                : 'SF Pro',
                             fontWeight: FontWeight.w500,
                             height: 0,
                           ),
@@ -2556,7 +2790,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
   @override
   void initState() {
     super.initState();
-        widget.priceController.text = price.toString();
+    widget.priceController.text = price.toString();
 
     // widget.priceController.text = '0.00';
     widget.priceController.addListener(_validatePrice);
@@ -2569,32 +2803,33 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
   }
 
   void _validatePrice() {
-  if (!mounted) return; // Check if the widget is still mounted
-  String priceText = widget.priceController.text;
-  RegExp doubleRegex = RegExp(r'^[0-9]*\.[0-9]+$'); // Regular expression to match doubles
-  
-  if (doubleRegex.hasMatch(priceText)) {
-    setState(() {
-      errorMessage = AppUtil.rtlDirection2(context)
-          ? '*السعر يجب أن يكون عدد صحيح فقط'
-          : '*The price must be an integer value only';
-    });
-  } else {
-    int price = int.tryParse(priceText) ?? 0;
-    if (price < 150) {
+    if (!mounted) return; // Check if the widget is still mounted
+    String priceText = widget.priceController.text;
+    RegExp doubleRegex =
+        RegExp(r'^[0-9]*\.[0-9]+$'); // Regular expression to match doubles
+
+    if (doubleRegex.hasMatch(priceText)) {
       setState(() {
         errorMessage = AppUtil.rtlDirection2(context)
-            ? '*الحد الأدنى لسعر التجربة هو 150 ريال سعودي'
-            : '*The minimum price for an experience is 150 SAR';
+            ? '*السعر يجب أن يكون عدد صحيح فقط'
+            : '*The price must be an integer value only';
       });
     } else {
-      setState(() {
-        errorMessage = '';
-      });
+      int price = int.tryParse(priceText) ?? 0;
+      if (price < 150) {
+        setState(() {
+          errorMessage = AppUtil.rtlDirection2(context)
+              ? '*الحد الأدنى لسعر التجربة هو 150 ريال سعودي'
+              : '*The minimum price for an experience is 150 SAR';
+        });
+      } else {
+        setState(() {
+          errorMessage = '';
+        });
+      }
     }
+    _updateFees();
   }
-  _updateFees();
-}
 
   void _updateFees() {
     if (!mounted) return; // Check if the widget is still mounted
@@ -2607,7 +2842,6 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
 
   @override
   Widget build(BuildContext context) {
-    
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.start,
@@ -2618,7 +2852,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
           color: black,
           fontSize: 17,
           fontWeight: FontWeight.w500,
-          fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic': 'SF Pro',
+          fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
         ),
         const SizedBox(height: 2),
         Text(
@@ -2626,11 +2860,10 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
           style: TextStyle(
             color: starGreyColor,
             fontSize: 15,
-          fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic': 'SF Pro',
+            fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
             fontWeight: FontWeight.w500,
           ),
         ),
-      
         const SizedBox(height: 20),
         Container(
           width: double.infinity,
@@ -2735,7 +2968,9 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                       style: TextStyle(
                           color: Graytext,
                           fontSize: 12,
-          fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic': 'SF Pro',
+                          fontFamily: AppUtil.rtlDirection2(context)
+                              ? 'SF Arabic'
+                              : 'SF Pro',
                           fontWeight: FontWeight.w500,
                           height: 3),
                     )
@@ -2753,7 +2988,8 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
               style: TextStyle(
                 color: Colors.red,
                 fontSize: 14,
-          fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic': 'SF Pro',
+                fontFamily:
+                    AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
                 fontWeight: FontWeight.w400,
               ),
             ),
@@ -2785,7 +3021,9 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                       style: TextStyle(
                         color: graySmallText,
                         fontSize: 15,
-          fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic': 'SF Pro',
+                        fontFamily: AppUtil.rtlDirection2(context)
+                            ? 'SF Arabic'
+                            : 'SF Pro',
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -2795,7 +3033,9 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                       style: TextStyle(
                         color: graySmallText,
                         fontSize: 15,
-          fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic': 'SF Pro',
+                        fontFamily: AppUtil.rtlDirection2(context)
+                            ? 'SF Arabic'
+                            : 'SF Pro',
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -2817,7 +3057,9 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                       style: TextStyle(
                         color: graySmallText,
                         fontSize: 15,
-          fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic': 'SF Pro',
+                        fontFamily: AppUtil.rtlDirection2(context)
+                            ? 'SF Arabic'
+                            : 'SF Pro',
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -2827,7 +3069,9 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                       style: TextStyle(
                         color: graySmallText,
                         fontSize: 15,
-          fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic': 'SF Pro',
+                        fontFamily: AppUtil.rtlDirection2(context)
+                            ? 'SF Arabic'
+                            : 'SF Pro',
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -2846,7 +3090,6 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
               ),
               Container(
                 width: double.infinity,
-               
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -2857,7 +3100,9 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                       style: TextStyle(
                         color: Color(0xFF070708),
                         fontSize: 17,
-          fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic': 'SF Pro',
+                        fontFamily: AppUtil.rtlDirection2(context)
+                            ? 'SF Arabic'
+                            : 'SF Pro',
                         fontWeight: FontWeight.w500,
                       ),
                     ),

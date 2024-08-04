@@ -74,8 +74,7 @@ class _EditHospitalityState extends State<EditHospitality> {
       TextEditingController();
 
   String address = '';
-  String ragionAr = '';
-  String ragionEn = '';
+  
 
   List<String> regionListEn = [
     "Riyadh",
@@ -130,7 +129,7 @@ class _EditHospitalityState extends State<EditHospitality> {
     super.initState();
     //    initializeDateFormatting(); //very important
 
-    addCustomIcon();
+    //addCustomIcon();
     //getHospitalityById();
 
     _servicesController.isHospatilityDateSelcted(false);
@@ -155,22 +154,22 @@ class _EditHospitalityState extends State<EditHospitality> {
       if (placemarks.isNotEmpty) {
         Placemark placemark = placemarks.first;
         print(placemarks.first);
-        setState(() {
-          if (AppUtil.rtlDirection2(context)) {
-            ragionAr = placemark.locality!;
-            ragionEn = 'Riyadh';
-          } else {
-            ragionAr = 'الرياض';
-            ragionEn = placemark.locality!;
-          }
-          if (!regionListEn.contains(ragionEn) ||
-              !regionListAr.contains(ragionAr)) {
-            setState(() {
-              ragionAr = 'الرياض';
-              ragionEn = 'Riyadh';
-            });
-          }
-        });
+        // setState(() {
+        //   if (AppUtil.rtlDirection2(context)) {
+        //     ragionAr = placemark.locality!;
+        //     ragionEn = 'Riyadh';
+        //   } else {
+        //     ragionAr = 'الرياض';
+        //     ragionEn = placemark.locality!;
+        //   }
+        //   if (!regionListEn.contains(ragionEn) ||
+        //       !regionListAr.contains(ragionAr)) {
+        //     setState(() {
+        //       ragionAr = 'الرياض';
+        //       ragionEn = 'Riyadh';
+        //     });
+        //   }
+        // });
         return '${placemark.locality}, ${placemark.subLocality}, ${placemark.country}';
       }
     } catch (e) {
@@ -424,9 +423,9 @@ class _EditHospitalityState extends State<EditHospitality> {
       print("Tourists Gender: ${_guestsController.text}");
       print("Price: ${double.parse(_priceController.text)}");
       print("Images: ${widget.hospitalityObj.images}");
-      print("Region AR: $ragionAr");
+      print("Region AR: ${widget.hospitalityObj.regionAr}");
       print("Location: $locationUrl");
-      print("Region EN: $ragionEn");
+      print("Region EN: ${widget.hospitalityObj.regionEn}");
       print("Start Time: $startTime");
       print("End Time: $endTime");
       print("Guest Number: $guestNum");
@@ -445,9 +444,9 @@ class _EditHospitalityState extends State<EditHospitality> {
         touristsGender: _guestsController.text,
         price: double.parse(_priceController.text),
         images: widget.hospitalityObj.images,
-        regionAr: ragionAr,
+        regionAr: widget.hospitalityObj.regionAr??'',
         location: locationUrl,
-        regionEn: ragionEn,
+        regionEn: widget.hospitalityObj.regionEn,
         start: startTime,
         end: endTime,
         seat: guestNum,
@@ -1168,8 +1167,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                   SizedBox(
                                     height: width * 0.02,
                                   ),
-                                  ListView(
-                                    shrinkWrap: true,
+                                  Column(
+                                   crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       SizedBox(
                                         height: width * 0.012,
@@ -1451,8 +1450,9 @@ class _EditHospitalityState extends State<EditHospitality> {
                               SizedBox(
                                 height: width * 0.077,
                               ),
-                              ListView(
-                                shrinkWrap: true,
+                              Column(
+                         crossAxisAlignment: CrossAxisAlignment.start,
+
                                 children: [
                                   SizedBox(
                                     height: width * 0.012,

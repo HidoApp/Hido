@@ -60,7 +60,6 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
   @override
   void initState() {
     super.initState();
-
     getProfile();
     getNextActivity();
   }
@@ -298,39 +297,41 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                             () => _tripController.isNextActivityLoading.value
                                 ? const Center(
                                     child: CircularProgressIndicator.adaptive())
-                                : _tripController.nextTrip.isEmpty
-                                    ? Container(
-                                        width: double.infinity,
-                                        height: 135,
-                                        decoration: ShapeDecoration(
-                                          shape: RoundedRectangleBorder(
-                                            side: BorderSide(
-                                                width: 1.50,
-                                                color: Color(0xFFECECEE)),
-                                            borderRadius:
-                                                BorderRadius.circular(12),
-                                          ),
-                                        ),
-                                        child: Center(
-                                          child: Text(
-                                            "noNextActivity".tr,
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              color: Color(0xFFDCDCE0),
-                                              fontSize: 16,
-                                              fontFamily:
-                                                  AppUtil.rtlDirection2(context)
-                                                      ? "SF Arabic"
-                                                      : 'SF Pro',
-                                              fontWeight: FontWeight.w400,
+                                : _tripController.nextTrip==null || _tripController.nextTrip!.isEmpty
+                                    ? Column(
+                                      children: [
+                                        Container(
+                                            width: double.infinity,
+                                            height: 135,
+                                            decoration: ShapeDecoration(
+                                              shape: RoundedRectangleBorder(
+                                                side: BorderSide(
+                                                    width: 1.50,
+                                                    color: Color(0xFFECECEE)),
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                              ),
+                                            ),
+                                            child: Center(
+                                              child: Text(
+                                                "noNextActivity".tr,
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  color: Color(0xFFDCDCE0),
+                                                  fontSize: 16,
+                                                  fontFamily:AppUtil.rtlDirection2(context) ? "SF Arabic" : 'SF Pro',
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              ),
+
                                             ),
                                           ),
-                                        ),
-                                      )
+                                          SizedBox(height: 20)
+                                      ],
+                                    )
                                     : Column(
                                         children: [
                                           //  SizedBox(height: 11),
-
                                           CustomLocalTicketCard(
                                             nextTrip: _tripController.nextTrip,
                                           ),

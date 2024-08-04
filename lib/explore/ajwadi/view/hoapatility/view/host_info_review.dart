@@ -60,42 +60,40 @@ class _HostInfoReviewState extends State<HostInfoReview> {
   String endTime = '';
   List<String> imageUrls = [];
   List<Map<String, dynamic>> DaysInfo = [];
-  String ragionAr = '';
-  String ragionEn = '';
 
   String locationUrl = '';
 
   List<String> regionListEn = [
-  "Riyadh",
-  "Mecca",
-  "Medina",
-  "Dammam",
-  "Qassim",
-  "Hail",
-  "Northern Borders",
-  "Jazan",
-  "Asir",
-  "Tabuk",
-  "Najran",
-  "Al Baha",
-  "Al Jouf"
-];
+    "Riyadh",
+    "Mecca",
+    "Medina",
+    "Dammam",
+    "Qassim",
+    "Hail",
+    "Northern Borders",
+    "Jazan",
+    "Asir",
+    "Tabuk",
+    "Najran",
+    "Al Baha",
+    "Al Jouf"
+  ];
 
- List<String> regionListAr = [
-  "الرياض",
-  "مكة",
-  "المدينة",
-  "الدمام",
-  "القصيم",
-  "حائل",
-  "الحدود الشمالية",
-  "جازان",
-  "عسير",
-  "تبوك",
-  "نجران",
-  "الباحة",
-  "الجوف"
-];
+  List<String> regionListAr = [
+    "الرياض",
+    "مكة",
+    "المدينة",
+    "الدمام",
+    "القصيم",
+    "حائل",
+    "الحدود الشمالية",
+    "جازان",
+    "عسير",
+    "تبوك",
+    "نجران",
+    "الباحة",
+    "الجوف"
+  ];
 
   Future<String> _getAddressFromLatLng(LatLng position) async {
     try {
@@ -105,26 +103,25 @@ class _HostInfoReviewState extends State<HostInfoReview> {
 
       if (placemarks.isNotEmpty) {
         Placemark placemark = placemarks.first;
-        setState(() {
-          if (AppUtil.rtlDirection2(context)) {
-            ragionAr = placemark.locality!;
-            ragionEn = 'Riyadh';
-          } else {
-            ragionAr = 'الرياض';
-            ragionEn = placemark.locality!;
-          }
-         if (!regionListEn.contains(ragionEn) || !regionListAr.contains(ragionAr)) {
-           setState(() {
-         
-          
-            ragionAr = 'الرياض';
-            ragionEn = 'Riyadh'; 
-       
-          });
-         }
-        });
+        // setState(() {
+        //   if (AppUtil.rtlDirection2(context)) {
+        //     ragionAr = placemark.locality!;
+        //     ragionEn = 'Riyadh';
+        //   } else {
+        //     ragionAr = 'الرياض';
+        //     ragionEn = placemark.locality!;
+        //   }
+        //  if (!regionListEn.contains(ragionEn) || !regionListAr.contains(ragionAr)) {
+        //    setState(() {
+
+        //     ragionAr = 'الرياض';
+        //     ragionEn = 'Riyadh';
+
+        //   });
+        //  }
+        // });
         print(placemarks.first);
-        return '${placemark.locality}, ${placemark.subLocality}, ${placemark.country}';
+        return '${placemark.subLocality}';
       }
     } catch (e) {
       print("Error retrieving address: $e");
@@ -194,18 +191,18 @@ class _HostInfoReviewState extends State<HostInfoReview> {
           date.year,
           date.month,
           date.day,
-        widget.adventureController!.selectedStartTime.value.hour,
-        widget.adventureController!.selectedStartTime.value.minute,
-        widget.adventureController!.selectedStartTime.value.second,
-       widget.adventureController!.selectedStartTime.value.millisecond);
+          widget.adventureController!.selectedStartTime.value.hour,
+          widget.adventureController!.selectedStartTime.value.minute,
+          widget.adventureController!.selectedStartTime.value.second,
+          widget.adventureController!.selectedStartTime.value.millisecond);
       DateTime newEndTime = DateTime(
           date.year,
           date.month,
           date.day,
-         widget.adventureController!.selectedEndTime.value.hour,
-       widget.adventureController!.selectedEndTime.value.minute,
-        widget.adventureController!.selectedEndTime.value.second,
-        widget.adventureController!.selectedEndTime.value.millisecond);
+          widget.adventureController!.selectedEndTime.value.hour,
+          widget.adventureController!.selectedEndTime.value.minute,
+          widget.adventureController!.selectedEndTime.value.second,
+          widget.adventureController!.selectedEndTime.value.millisecond);
 
       //startTime = formatter.format(newStartTime);
       //endTime = formatter.format(newEndTime);
@@ -222,6 +219,7 @@ class _HostInfoReviewState extends State<HostInfoReview> {
     // Print the new dates list
     print(DaysInfo);
   }
+
   // Function to generate the Google Maps URL
   String getLocationUrl(LatLng location) {
     return 'https://www.google.com/maps/search/?api=1&query=${location.latitude},${location.longitude}';
@@ -234,35 +232,30 @@ class _HostInfoReviewState extends State<HostInfoReview> {
     if (widget.experienceType == 'hospitality') {
       daysInfo();
     }
-  
-       WidgetsBinding.instance.addPostFrameCallback((_) {
 
-    setState(() {
-      locationUrl = widget.experienceType == 'hospitality'
-          ? getLocationUrl(widget.hospitalityController!.pickUpLocLatLang.value)
-          : getLocationUrl(widget.adventureController!.pickUpLocLatLang.value);
-      print('Location URL: $locationUrl');
-      imageUrls = [
-       "https://media.cntraveler.com/photos/607313c3d1058698d13c31b5/1:1/w_1636,h_1636,c_limit/FamilyCamping-2021-GettyImages-948512452-4.jpg"
-
-      ];
-//        "https://img.aso.fr/core_app/img-cycling-tdf-jpg/echappee-7/57226/0:0,1200:801-1000-0-70/632b8"
-
-      // widget.hospitalityController.pickUpLocLatLang.value=LatLng(24.786828,46.647622);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        locationUrl = widget.experienceType == 'hospitality'
+            ? getLocationUrl(
+                widget.hospitalityController!.pickUpLocLatLang.value)
+            : getLocationUrl(
+                widget.adventureController!.pickUpLocLatLang.value);
+        print('Location URL: $locationUrl');
+        imageUrls = [
+          "https://media.cntraveler.com/photos/607313c3d1058698d13c31b5/1:1/w_1636,h_1636,c_limit/FamilyCamping-2021-GettyImages-948512452-4.jpg"
+        ];
+      });
     });
-       }
-       );
   }
 
   Widget build(BuildContext context) {
     print('Location URL: $locationUrl');
-print(widget.hospitalityController?.selectedMealAr);
-print(widget.hospitalityController?.selectedMealEn);
+    print(widget.hospitalityController?.selectedMealAr);
+    print(widget.hospitalityController?.selectedMealEn);
 
     return Scaffold(
       appBar: CustomAppBar(
         'Review'.tr,
-
         isAjwadi: true,
       ),
       body: Padding(
@@ -271,13 +264,14 @@ print(widget.hospitalityController?.selectedMealEn);
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-               widget.experienceType=='hospitality'?
-             'Reviewexperience'.tr
-            :'Reviewadventure'.tr,
+              widget.experienceType == 'hospitality'
+                  ? 'Reviewexperience'.tr
+                  : 'Reviewadventure'.tr,
               style: TextStyle(
                 color: Color(0xFF070708),
                 fontSize: 17,
-                fontFamily:AppUtil.rtlDirection2(context)?'SF Arabic': 'SF Pro',
+                fontFamily:
+                    AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -285,13 +279,14 @@ print(widget.hospitalityController?.selectedMealEn);
             SizedBox(
               width: double.infinity,
               child: Text(
-                 widget.experienceType=='hospitality'?
-              'explination'.tr
-             :'explinationAdve'.tr,
+                widget.experienceType == 'hospitality'
+                    ? 'explination'.tr
+                    : 'explinationAdve'.tr,
                 style: TextStyle(
                   color: Color(0xFF9392A0),
                   fontSize: 15,
-                  fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic': 'SF Pro',
+                  fontFamily:
+                      AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
                   fontWeight: FontWeight.w400,
                 ),
               ),
@@ -346,7 +341,9 @@ print(widget.hospitalityController?.selectedMealEn);
                               style: TextStyle(
                                 color: Color(0xFF070708),
                                 fontSize: 16,
-                                fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic': 'SF Pro',
+                                fontFamily: AppUtil.rtlDirection2(context)
+                                    ? 'SF Arabic'
+                                    : 'SF Pro',
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -360,7 +357,9 @@ print(widget.hospitalityController?.selectedMealEn);
                                   style: TextStyle(
                                     color: Color(0xFF36B268),
                                     fontSize: 12,
-                                    fontFamily:AppUtil.rtlDirection2(context)?'SF Arabic': 'SF Pro',
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
@@ -381,9 +380,14 @@ print(widget.hospitalityController?.selectedMealEn);
                                         'assets/icons/map_pin.svg'),
                                     const SizedBox(width: 4),
                                     Text(
-                                      address,
-                                     
-                                      style: TextStyle(
+                                      widget.experienceType == 'hospitality'
+                                          ? AppUtil.rtlDirection2(context)
+                                              ? '${widget.hospitalityController!.ragionAr.value}, ${address}'
+                                              : '${widget.hospitalityController!.ragionEn.value}, ${address}'
+                                          : AppUtil.rtlDirection2(context)
+                                              ? '${widget.adventureController!.ragionAr.value}, ${address}'
+                                              : '${widget.adventureController!.ragionEn.value}, ${address}',
+                                      style: const TextStyle(
                                         color: Color(0xFF9392A0),
                                         fontSize: 11,
                                         fontFamily: 'SF Pro',
@@ -405,7 +409,10 @@ print(widget.hospitalityController?.selectedMealEn);
                                         style: TextStyle(
                                           color: Color(0xFF9392A0),
                                           fontSize: 11,
-                                          fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic': 'SF Pro',
+                                          fontFamily:
+                                              AppUtil.rtlDirection2(context)
+                                                  ? 'SF Arabic'
+                                                  : 'SF Pro',
                                           fontWeight: FontWeight.w400,
                                         ),
                                       ),
@@ -419,15 +426,17 @@ print(widget.hospitalityController?.selectedMealEn);
                                       ),
                                       const SizedBox(width: 6),
                                       Text(
-                                    //'${AppUtil.formatSelectedDates(widget.adventureController!.selectedDates,context,)} ',
+                                        //'${AppUtil.formatSelectedDates(widget.adventureController!.selectedDates,context,)} ',
 
-                                 '${AppUtil.formatBookingDate(context, widget.adventureController!.selectedDate.value)} ',
+                                        '${AppUtil.formatBookingDate(context, widget.adventureController!.selectedDate.value)} ',
                                         style: TextStyle(
                                           color: Color(0xFF9392A0),
                                           fontSize: 11,
-                                         fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                                       : 'SF Pro',   
-                                       fontWeight: FontWeight.w400,
+                                          fontFamily:
+                                              AppUtil.rtlDirection2(context)
+                                                  ? 'SF Arabic'
+                                                  : 'SF Pro',
+                                          fontWeight: FontWeight.w400,
                                         ),
                                       ),
                                     ],
@@ -448,8 +457,10 @@ print(widget.hospitalityController?.selectedMealEn);
                                         style: TextStyle(
                                           color: Color(0xFF9392A0),
                                           fontSize: 11,
-                                            fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                                       : 'SF Pro',
+                                          fontFamily:
+                                              AppUtil.rtlDirection2(context)
+                                                  ? 'SF Arabic'
+                                                  : 'SF Pro',
                                           fontWeight: FontWeight.w400,
                                         ),
                                       ),
@@ -471,8 +482,10 @@ print(widget.hospitalityController?.selectedMealEn);
                                         style: TextStyle(
                                           color: Color(0xFF9392A0),
                                           fontSize: 11,
-                                         fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                                          : 'SF Pro',
+                                          fontFamily:
+                                              AppUtil.rtlDirection2(context)
+                                                  ? 'SF Arabic'
+                                                  : 'SF Pro',
                                           fontWeight: FontWeight.w400,
                                         ),
                                       ),
@@ -521,151 +534,138 @@ print(widget.hospitalityController?.selectedMealEn);
                     padding:
                         const EdgeInsets.symmetric(horizontal: 4, vertical: 35),
                     child: Column(
-                      children:[
-                    CustomButton(
-                          onPressed: () async {
-                            final isSuccess = widget.experienceType ==
-                                    'hospitality'
-                                ? await widget.hospitalityController!
-                                    .createHospitality(
-                                        titleAr: widget.hospitalityTitleAr,
-                                        titleEn: widget.hospitalityTitleEn,
-                                        bioAr: widget.hospitalityBioAr,
-                                        bioEn: widget.hospitalityBioEn,
-                                        mealTypeAr: widget
-                                            .hospitalityController!
-                                            .selectedMealAr
-                                            .value,
-                                        mealTypeEn: widget
-                                            .hospitalityController!
-                                            .selectedMealEn
-                                            .value,
-                                        longitude: widget.hospitalityController!
-                                            .pickUpLocLatLang.value.longitude
-                                            .toString(),
-                                        latitude: widget.hospitalityController!
-                                            .pickUpLocLatLang.value.latitude
-                                            .toString(),
-                                        //     longitude: '46.647622',
+                      children: [
+                        CustomButton(
+                            onPressed: () async {
+                              final isSuccess = widget.experienceType ==
+                                      'hospitality'
+                                  ? await widget.hospitalityController!
+                                      .createHospitality(
+                                          titleAr: widget.hospitalityTitleAr,
+                                          titleEn: widget.hospitalityTitleEn,
+                                          bioAr: widget.hospitalityBioAr,
+                                          bioEn: widget.hospitalityBioEn,
+                                          mealTypeAr: widget
+                                              .hospitalityController!
+                                              .selectedMealAr
+                                              .value,
+                                          mealTypeEn: widget
+                                              .hospitalityController!
+                                              .selectedMealEn
+                                              .value,
+                                          longitude: widget
+                                              .hospitalityController!
+                                              .pickUpLocLatLang
+                                              .value
+                                              .longitude
+                                              .toString(),
+                                          latitude: widget
+                                              .hospitalityController!
+                                              .pickUpLocLatLang
+                                              .value
+                                              .latitude
+                                              .toString(),
+                                          //     longitude: '46.647622',
 
-                                        // latitude: '24.786828',
-                                        touristsGender: widget
-                                            .hospitalityController!
-                                            .selectedGender
-                                            .value,
-                                        price: widget.hospitalityPrice!,
-                                        images: imageUrls,
-                                        regionAr: ragionAr,
-                                        regionEn: ragionEn,
-                                        location: locationUrl,
-                                        daysInfo: DaysInfo,
-                                        start: startTime,
-                                        end: endTime,
-                                        seat: widget.hospitalityController!
-                                            .seletedSeat.value,
-                                        context: context)
+                                          // latitude: '24.786828',
+                                          touristsGender: widget
+                                              .hospitalityController!
+                                              .selectedGender
+                                              .value,
+                                          price: widget.hospitalityPrice!,
+                                          images: imageUrls,
+                                          regionAr: widget
+                                              .hospitalityController!
+                                              .ragionAr
+                                              .value,
+                                          regionEn: widget
+                                              .hospitalityController!
+                                              .ragionEn
+                                              .value,
+                                          location: locationUrl,
+                                          daysInfo: DaysInfo,
+                                          start: startTime,
+                                          end: endTime,
+                                          seat: widget.hospitalityController!.seletedSeat.value,
+                                          context: context)
+                                  : await widget.adventureController!.createAdventure(nameAr: widget.hospitalityTitleAr, nameEn: widget.hospitalityTitleEn, descriptionAr: widget.hospitalityBioAr, descriptionEn: widget.hospitalityBioEn, longitude: widget.adventureController!.pickUpLocLatLang.value.longitude.toString(), latitude: widget.adventureController!.pickUpLocLatLang.value.latitude.toString(), date: widget.adventureController!.selectedDate.value.substring(0, 10), price: widget.adventurePrice!, image: imageUrls, regionAr: widget.adventureController!.ragionAr.value, locationUrl: locationUrl, regionEn: widget.adventureController!.ragionEn.value, start: intl.DateFormat('HH:mm:ss').format(widget.adventureController!.selectedStartTime.value), end: intl.DateFormat('HH:mm:ss').format(widget.adventureController!.selectedEndTime.value), seat: widget.adventureController!.seletedSeat.value, context: context);
 
-
-
-
-
-                                : await widget.adventureController!.createAdventure(
-                                    nameAr: widget.hospitalityTitleAr,
-                                    nameEn: widget.hospitalityTitleEn,
-                                    descriptionAr: widget.hospitalityBioAr,
-                                    descriptionEn: widget.hospitalityBioEn,
-                                    longitude: widget.adventureController!.pickUpLocLatLang.value.longitude.toString(),
-                                    latitude: widget.adventureController!.pickUpLocLatLang.value.latitude.toString(),
-                                    date: widget.adventureController!.selectedDate.value.substring(0, 10),
-                                    price: widget.adventurePrice!,
-                                    image: imageUrls,
-                                    regionAr: ragionAr,
-                                    locationUrl: locationUrl,
-                                    regionEn: ragionEn,
-                                    start: intl.DateFormat('HH:mm:ss').format(widget.adventureController!.selectedStartTime.value),
-                                    end: intl.DateFormat('HH:mm:ss').format(widget.adventureController!.selectedEndTime.value),
-                                    seat: widget.adventureController!.seletedSeat.value,
-                                    context: context);
-
-                            print('is sucssssss');
-                            print(isSuccess);
-                            if (isSuccess) {
-                              // Place? thePlace =
-                              //     await _touristExploreController
-                              //         .getPlaceById(
-                              //             id: widget.place!.id!,
-                              //             context: context);
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return Dialog(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    child: Container(
-                                      width: 350,
-                                      height: 110, // Custom width
-                                      padding: EdgeInsets.all(16),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Image.asset(
-                                              'assets/images/paymentSuccess.gif',
-                                              width: 38),
-                                          SizedBox(height: 16),
-                                          Text(
-                                            !AppUtil.rtlDirection2(context)
-                                                ? "Experience published successfully"
-                                                : "تم نشر تجربتك بنجاح ",
-                                            style: TextStyle(fontSize: 15),
-                                            textDirection:
-                                                AppUtil.rtlDirection2(context)
-                                                    ? TextDirection.rtl
-                                                    : TextDirection.ltr,
-                                          ),
-                                        ],
+                              print('is sucssssss');
+                              print(isSuccess);
+                              if (isSuccess) {
+                                // Place? thePlace =
+                                //     await _touristExploreController
+                                //         .getPlaceById(
+                                //             id: widget.place!.id!,
+                                //             context: context);
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return Dialog(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8),
                                       ),
-                                    ),
-                                  );
-                                },
-                              ).then((_) {
-                        Get.offAll(() => const AjwadiBottomBar());
-                              });
+                                      child: Container(
+                                        width: 350,
+                                        height: 110, // Custom width
+                                        padding: EdgeInsets.all(16),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Image.asset(
+                                                'assets/images/paymentSuccess.gif',
+                                                width: 38),
+                                            SizedBox(height: 16),
+                                            Text(
+                                              !AppUtil.rtlDirection2(context)
+                                                  ? "Experience published successfully"
+                                                  : "تم نشر تجربتك بنجاح ",
+                                              style: TextStyle(fontSize: 15),
+                                              textDirection:
+                                                  AppUtil.rtlDirection2(context)
+                                                      ? TextDirection.rtl
+                                                      : TextDirection.ltr,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ).then((_) {
+                                  Get.offAll(() => const AjwadiBottomBar());
+                                });
 
-                              // Get.to(
-                              //   () => FindAjwady(
-                              //     place: thePlace!,
-                              //     booking: thePlace.booking![0],
-                              //     placeId: thePlace.id!,
-                              //   ),
-                              // );
-                            } else {
-                              AppUtil.errorToast(
-                                  context, 'somthingWentWrong'.tr);
-                            }
-                          },
-                          title: 'Publish'.tr),
-                          
-                    SizedBox(height: 10),
-
-                                CustomButton(
-                                    onPressed: () {
-                                      Get.until((route) =>
-                                          Get.currentRoute == '/ExperienceType');
-                                    },
-                                    title: AppUtil.rtlDirection2(context)
-                                        ? 'عودة للتجارب'
-                                        : 'Return to Experiences',
-                                    buttonColor: Colors.white.withOpacity(0.3),
-                                    textColor: Color(0xFF070708)),
-
-              ],
-            ),
+                                // Get.to(
+                                //   () => FindAjwady(
+                                //     place: thePlace!,
+                                //     booking: thePlace.booking![0],
+                                //     placeId: thePlace.id!,
+                                //   ),
+                                // );
+                              } else {
+                                AppUtil.errorToast(
+                                    context, 'somthingWentWrong'.tr);
+                              }
+                            },
+                            title: 'Publish'.tr),
+                        SizedBox(height: 10),
+                        CustomButton(
+                            onPressed: () {
+                              Get.until((route) =>
+                                  Get.currentRoute == '/ExperienceType');
+                            },
+                            title: AppUtil.rtlDirection2(context)
+                                ? 'عودة للتجارب'
+                                : 'Return to Experiences',
+                            buttonColor: Colors.white.withOpacity(0.3),
+                            borderColor: Colors.white,
+                            textColor: Color(0xFF070708)),
+                      ],
+                    ),
                   ),
                 ),
-                
               ],
             ),
           ],

@@ -101,48 +101,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // App Bar
-                    // Row(
-                    //   children: [
-                    //     if (AppUtil.rtlDirection(context))
-                    //       IconButton(
-                    //         onPressed: () {
-                    //           Get.back();
-                    //         },
-                    //         icon: const Icon(
-                    //           Icons.arrow_back,
-                    //           color: black,
-                    //           size: 26,
-                    //         ),
-                    //       ),
-                    //     if (AppUtil.rtlDirection(context))
-                    //       const SizedBox(
-                    //         width: 4,
-                    //       ),
-                    //     CustomText(
-                    //       text: 'chat'.tr,
-                    //       fontSize: 24,
-                    //       fontWeight: FontWeight.w500,
-                    //     ),
-                    //     if (!AppUtil.rtlDirection(context))
-                    //       const SizedBox(
-                    //         width: 4,
-                    //       ),
-                    //     if (!AppUtil.rtlDirection(context))
-                    //       IconButton(
-                    //         onPressed: () {
-                    //           Get.back();
-                    //         },
-                    //         icon: const Icon(
-                    //           Icons.arrow_forward,
-                    //           color: black,
-                    //           size: 26,
-                    //         ),
-                    //       ),
-                    //   ],
-                    // ),
-                    // const SizedBox(height: 12),
-                    // Chat List View
+                    
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -156,7 +115,10 @@ class _ChatScreenState extends State<ChatScreen> {
                                         padding:
                                             const EdgeInsets.only(left: 90)),
                                     Center(
-                                      child: Container(
+                                      child:chat!.bookingId==''
+                                     ? Container()
+                                      
+                                      : Container(
                                         width: 0.90 * width,
                                         //  height: 0.089 *height,
 
@@ -165,7 +127,9 @@ class _ChatScreenState extends State<ChatScreen> {
                                           borderRadius:
                                               BorderRadius.circular(8),
                                         ),
-                                        child: Column(
+                                        child:
+                                        
+                                         Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
@@ -343,109 +307,14 @@ class _ChatScreenState extends State<ChatScreen> {
                                         ),
                                       ),
                                     ),
-                                    // Container(
-                                    //   decoration: const BoxDecoration(
-                                    //     color: Colors.white,
-                                    //     borderRadius: BorderRadius.all(Radius.circular(12)),
-                                    //   ),
-                                    //   child: ListTile(
-                                    //     onTap: () async{
-                                    //     booking2 = await _touristExploreController.getTouristBookingById(
-                                    //      context: context,
-                                    //     bookingId: chat!.bookingId!,
-                                    //               );
-                                    //       if(booking2!=null|| widget.booking!=null){
-                                    //       print("this is widget book");
-                                    //       print(chat!.bookingId!);
-                                    //       setState(() {
-                                    //         isDetailsTapped1 = !isDetailsTapped1;
-                                    //       });
-                                    //       }
-                                    //     },
-                                    //     title: CustomText(
-                                    //       text: 'tripDetails'.tr,
-                                    //       fontSize: 14,
-                                    //       fontWeight: FontWeight.w500,
-                                    //       color: Colors.black,
-                                    //       textAlign: AppUtil.rtlDirection2(context)
-                                    //           ? TextAlign.right
-                                    //           : TextAlign.left,
-                                    //     ),
-                                    //     trailing: Icon(
-                                    //       isDetailsTapped1
-                                    //           ? Icons.keyboard_arrow_up
-                                    //           : Icons.keyboard_arrow_down,
-                                    //       color: darkGrey,
-                                    //       size: 24,
-                                    //     ),
-                                    //   ),
-                                    // ),
-                                    // if (isDetailsTapped1)
-                                    //   Container(
-                                    //     decoration: const BoxDecoration(
-                                    //       color: Colors.white,
-                                    //       borderRadius: BorderRadius.all(Radius.circular(12)),
-                                    //     ),
-                                    //     padding: EdgeInsets.only(top: 20),
-                                    //     child: Padding(
-                                    //       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                                    //       child: Column(
-                                    //         crossAxisAlignment: CrossAxisAlignment.start,
-                                    //         children: [
-                                    //           Row(
-                                    //             children: [
-                                    //               SvgPicture.asset('assets/icons/guests.svg'),
-                                    //               const SizedBox(width: 10),
-                                    //               CustomText(
-                                    //                 text: widget.booking!=null?'${widget.booking?.guestNumber ?? 0} ${'guests'.tr}':'${booking2?.guestNumber ?? 0} ${'guests'.tr}',
-                                    //                 color: almostGrey,
-                                    //                 fontSize: 10,
-                                    //                 fontWeight: FontWeight.w300,
-                                    //               ),
-                                    //             ],
-                                    //           ),
-                                    //           const SizedBox(height: 10),
-                                    //           Row(
-                                    //             children: [
-                                    //               SvgPicture.asset('assets/icons/date.svg'),
-                                    //               const SizedBox(width: 10),
-                                    //               CustomText(
-                                    //                 text:widget.booking!=null?'${intel.DateFormat('dd/MM/yyyy').format(DateTime.parse(widget.booking?.date ?? '2022-01-01'))} - ${widget.booking?.timeToGo}':'${intel.DateFormat('dd/MM/yyyy').format(DateTime.parse(booking2?.date ?? '2022-01-01'))} - ${booking2?.timeToGo}',
-                                    //                 color: almostGrey,
-                                    //                 fontSize: 10,
-                                    //                 fontWeight: FontWeight.w300,
-                                    //               ),
-                                    //             ],
-                                    //           ),
-                                    //           const SizedBox(height: 10),
-                                    //           Row(
-                                    //             children: [
-                                    //               widget.booking!=null?
-                                    //               SvgPicture.asset(
-                                    //                 'assets/icons/unselected_${widget.booking?.vehicleType!}_icon.svg',
-                                    //                 width: 20,
-                                    //               ): SvgPicture.asset(
-                                    //                 'assets/icons/unselected_${booking2?.vehicleType!}_icon.svg',
-                                    //                 width: 20,
-                                    //               ),
-                                    //               const SizedBox(width: 10),
-                                    //               CustomText(
-                                    //                 text: widget.booking!=null?widget.booking?.vehicleType ?? '':booking2?.vehicleType ?? '',
-                                    //                 color: almostGrey,
-                                    //                 fontSize: 10,
-                                    //                 fontWeight: FontWeight.w300,
-                                    //               ),
-                                    //             ],
-                                    //           ),
-                                    //         ],
-                                    //       ),
-                                    //     ),
-                                    //   ),
+                                   
                                     const SizedBox(
                                       height: 15,
                                     ),
                                     Center(
-                                      child: Container(
+                                      child:chat!.bookingId==''
+                                      ?Container()
+                                       :Container(
                                         width: 0.90 * width,
                                         decoration: BoxDecoration(
                                           color: Colors.white,

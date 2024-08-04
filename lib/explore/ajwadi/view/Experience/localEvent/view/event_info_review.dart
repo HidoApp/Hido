@@ -42,14 +42,46 @@ class EventInfoReview extends StatefulWidget {
   _EventInfoReviewState createState() => _EventInfoReviewState();
 }
 
+//   List<String> regionListEn = [
+//   "Riyadh",
+//   "Mecca",
+//   "Medina",
+//   "Dammam",
+//   "Qassim",
+//   "Hail",
+//   "Northern Borders",
+//   "Jazan",
+//   "Asir",
+//   "Tabuk",
+//   "Najran",
+//   "Al Baha",
+//   "Al Jouf"
+// ];
+
+//  List<String> regionListAr = [
+//   "الرياض",
+//   "مكة",
+//   "المدينة",
+//   "الدمام",
+//   "القصيم",
+//   "حائل",
+//   "الحدود الشمالية",
+//   "جازان",
+//   "عسير",
+//   "تبوك",
+//   "نجران",
+//   "الباحة",
+//   "الجوف"
+// ];
+
 class _EventInfoReviewState extends State<EventInfoReview> {
   String address = ''; // State variable to store the fetched address
   String startTime = '';
   String endTime = '';
   List<String> imageUrls = [];
   List<Map<String, dynamic>> DaysInfo = [];
-  String ragionAr = '';
-  String ragionEn = '';
+  // String ragionAr = '';
+  // String ragionEn = '';
   final EventController _EventController = Get.put(EventController());
 
   String locationUrl = '';
@@ -62,17 +94,26 @@ class _EventInfoReviewState extends State<EventInfoReview> {
 
       if (placemarks.isNotEmpty) {
         Placemark placemark = placemarks.first;
-        setState(() {
-          if (AppUtil.rtlDirection2(context)) {
-            ragionAr = placemark.locality!;
-            ragionEn = 'Riyadh';
-          } else {
-            ragionAr = 'الرياض';
-            ragionEn = placemark.locality!;
-          }
-        });
+        // setState(() {
+        //   if (AppUtil.rtlDirection2(context)) {
+        //     ragionAr = placemark.locality!;
+        //     ragionEn = 'Riyadh';
+        //   } else {
+        //     ragionAr = 'الرياض';
+        //     ragionEn = placemark.locality!;
+        //   }
+        //    if (!regionListEn.contains(ragionEn) || !regionListAr.contains(ragionAr)) {
+        //    setState(() {
+         
+          
+        //     ragionAr = 'الرياض';
+        //     ragionEn = 'Riyadh'; 
+       
+        //   });
+        //  }
+        // });
         print(placemarks.first);
-        return '${placemark.subLocality}, ${placemark.locality},${placemark.country}';
+        return '${placemark.subLocality}';
       }
     } catch (e) {
       print("Error retrieving address: $e");
@@ -319,12 +360,12 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                                         'assets/icons/map_pin.svg'),
                                     const SizedBox(width: 4),
                                     Text(
-                                      address,
+                                      AppUtil.rtlDirection2(context)? '${_EventController.ragionAr.value}, ${address}':'${_EventController.ragionEn.value}, ${address}' ,
                                      
                                       style: TextStyle(
                                         color: Color(0xFF9392A0),
                                         fontSize: 11,
-                                        fontFamily: 'SF Pro',
+                                        fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic': 'SF Pro',
                                         fontWeight: FontWeight.w400,
                                       ),
                                     ),
@@ -333,7 +374,7 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                                 const SizedBox(height: 4),
                                   Row(
                                     children: [
-                                  const SizedBox(width: 1),
+                                  const SizedBox(width: 2),
 
                                       SvgPicture.asset(
                                         'assets/icons/grey_calender.svg',
@@ -355,7 +396,7 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                                   Row(
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsets.only(left: 2),
+                                        padding:AppUtil.rtlDirection2(context)? const EdgeInsets.only(left: 2):const EdgeInsets.only(right: 2),
                                         child: SvgPicture.asset(
                                           'assets/icons/timeGrey.svg',
                                         ),
@@ -409,10 +450,10 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                             latitude: _EventController.pickUpLocLatLang.value.latitude.toString(),
                             price: widget.adventurePrice!,
                             image: imageUrls,
-                            regionAr: ragionAr,
+                            regionAr: _EventController.ragionAr.value,
                             locationUrl: locationUrl,
                             daysInfo: DaysInfo,
-                            regionEn: ragionEn,
+                            regionEn: _EventController.ragionEn.value,
                             context: context);
 
                     print('is sucssssss');
@@ -477,24 +518,15 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                                         ? 'عودة للتجارب'
                                         : 'Return to Experiences',
                                     buttonColor: Colors.white.withOpacity(0.3),
+                                    borderColor:Colors. white,
                                     textColor: Color(0xFF070708)),
+                                  
 
               ],
             ),
                   ),
                 ),
-                //  SizedBox(height: 10),
-
-                //                 CustomButton(
-                //                     onPressed: () {
-                //                       Get.until((route) =>
-                //                           Get.currentRoute == '/FindAjwady');
-                //                     },
-                //                     title: AppUtil.rtlDirection2(context)
-                //                         ? 'عودة للعروض'
-                //                         : 'Return to Offers'.tr,
-                //                     buttonColor: Colors.white.withOpacity(0.3),
-                //                     textColor: Color(0xFF070708)),
+              
 
           ],
           

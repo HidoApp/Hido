@@ -8,6 +8,7 @@ import 'package:ajwad_v4/explore/ajwadi/model/userLocation.dart';
 import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
 import 'package:ajwad_v4/request/tourist/view/find_ajwady.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
+import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/custom_text_with_icon_button.dart';
@@ -65,7 +66,7 @@ class _BookingSheetState extends State<BookingSheet> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    addCustomIcon();
+    //addCustomIcon();
 
     _touristExploreController.isBookingDateSelected(false);
     _touristExploreController.isBookingTimeSelected(false);
@@ -105,7 +106,7 @@ class _BookingSheetState extends State<BookingSheet> {
   late tz.Location location;
   bool? DateErrorMessage;
   bool? TimeErrorMessage;
-  bool? DurationErrorMessage;
+bool? DurationErrorMessage;
 
   bool? GuestErrorMessage;
   bool? vehicleErrorMessage;
@@ -147,20 +148,21 @@ class _BookingSheetState extends State<BookingSheet> {
           : totalTime;
       // ? totalTime + Duration(days: 1) +Duration(hours: 1);
 
-      print('total');
-      print(adjustedTotalTime >= fourHours && adjustedTotalTime <= eightHours);
-      print(adjustedTotalTime);
-      if (adjustedTotalTime >= fourHours && adjustedTotalTime <= eightHours) {
-        setState(() {
-          DurationErrorMessage = false;
-        });
-        print(DurationErrorMessage);
-        return true;
-      } else {
-        setState(() {
-          DurationErrorMessage = true;
-        });
-        print(DurationErrorMessage);
+
+  print('total');
+  print(adjustedTotalTime  >= fourHours &&  adjustedTotalTime  <= eightHours);
+  print( adjustedTotalTime );
+  if ( adjustedTotalTime >= fourHours &&  adjustedTotalTime  <= eightHours) {
+    setState(() {
+     DurationErrorMessage = false;
+    });
+    print( DurationErrorMessage);
+    return true;
+    
+  } else {
+     setState(() {
+     DurationErrorMessage = true;
+    });
 
         return false;
       }
@@ -192,17 +194,17 @@ class _BookingSheetState extends State<BookingSheet> {
                     right: width * 0.023,
                     bottom: height * 0.03),
                 child: ListView(children: [
-                  const Icon(
-                    Icons.keyboard_arrow_up_outlined,
-                    size: 30,
+                  BottomSheetIndicator(),
+
+                  const SizedBox(
+                    height: 12,
                   ),
 
                   CustomText(
                     text: "date".tr,
                     color: Color(0xFF070708),
-                    fontSize: 17,
-                    fontFamily:
-                        AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+                    fontSize: width*0.044,
+                    fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
                     fontWeight: FontWeight.w500,
                     height: 0,
                   ),
@@ -232,41 +234,34 @@ class _BookingSheetState extends State<BookingSheet> {
                               );
                             });
                       },
-                      height: height * 0.063,
+                      height: height * 0.061,
                       width: width * 0.90,
                       title:
                           !_touristExploreController.isBookingDateSelected.value
                               ? 'mm/dd/yyy'.tr
                               : _touristExploreController.selectedDate.value
                                   .substring(0, 10),
-                      borderColor: DateErrorMessage ?? false
-                          ? Colors.red
-                          : lightGreyColor,
 
-                      // borderColor: lightGreyColor,
-                      prefixIcon: SvgPicture.asset(
+                          borderColor:   DateErrorMessage ?? false ?Colors.red: borderGrey,
+
+                      prefixIcon:Container(),
+                      suffixIcon: SvgPicture.asset(
                         "assets/icons/green_calendar.svg",
                       ),
-                      suffixIcon: const Icon(
-                        Icons.arrow_forward_ios,
-                        color: almostGrey,
-                        size: 15,
-                      ),
-                      textColor: almostGrey,
+                      textColor: borderGrey,
                     ),
                   ),
-                  if (DateErrorMessage ?? false)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: Text(
-                        AppUtil.rtlDirection2(context)
-                            ? "اختر التاريخ"
-                            : "Select Date",
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontSize: 12,
-                        ),
-                      ),
+
+                   if ( DateErrorMessage??false)
+                Padding(
+                  padding: const EdgeInsets.only(top:10),
+                  child: Text(
+                    AppUtil.rtlDirection2(context) ?'*لابد من اختيار تاريخ للجولة ':"Select Date",
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontSize:width* 0.028,
+                       fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+
                     ),
 
                   const SizedBox(
@@ -283,11 +278,10 @@ class _BookingSheetState extends State<BookingSheet> {
                                 ? "وقت الذهاب"
                                 : "Pick up time",
                             color: Colors.black,
-                            fontSize: 17,
-                            fontFamily: AppUtil.rtlDirection2(context)
-                                ? 'SF Arabic'
-                                : 'SF Pro',
-                            fontWeight: FontWeight.w500,
+
+                            fontSize:  width*0.044,
+                             fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+                               fontWeight: FontWeight.w500,
                           ),
                           SizedBox(
                             height: height * 0.01,
@@ -297,7 +291,7 @@ class _BookingSheetState extends State<BookingSheet> {
                                 ? Alignment.centerLeft
                                 : Alignment.centerRight,
                             child: CustomTextWithIconButton(
-                              onTap: () {
+                              onTap:  () {
                                 showCupertinoModalPopup<void>(
                                     context: context,
                                     // barrierColor: Colors.white,
@@ -362,12 +356,9 @@ class _BookingSheetState extends State<BookingSheet> {
                                                   child: CustomText(
                                                     text: "confirm".tr,
                                                     color: colorGreen,
-                                                    fontSize: 15,
-                                                    fontFamily:
-                                                        AppUtil.rtlDirection2(
-                                                                context)
-                                                            ? 'SF Arabic'
-                                                            : 'SF Pro',
+
+                                                     fontSize: width*0.038,
+                                         fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
                                                     fontWeight: FontWeight.w500,
                                                   ),
                                                 )
@@ -411,35 +402,32 @@ class _BookingSheetState extends State<BookingSheet> {
                               width: width * 0.41,
                               title: !_touristExploreController
                                       .isBookingTimeSelected.value
-                                  ? "00 :00 PM"
+                                  ? "00:00"
                                   : DateFormat('hh:mm a').format(newTimeToGo),
                               //  test,
-                              borderColor: TimeErrorMessage ?? false
-                                  ? Colors.red
-                                  : DurationErrorMessage ?? false
-                                      ? Colors.red
-                                      : lightGreyColor,
 
-                              prefixIcon: SvgPicture.asset(
-                                "assets/icons/time_icon.svg",
-                              ),
+                              borderColor: TimeErrorMessage??false?  Colors.red :DurationErrorMessage??false ? Colors.red : borderGrey,
+ 
+                              prefixIcon:Container(),
                               suffixIcon: Container(),
-                              textColor: almostGrey,
+                              textColor: borderGrey,
+                            
                             ),
                           ),
-                          if (TimeErrorMessage ?? false)
-                            Padding(
-                              padding: const EdgeInsets.only(top: 10),
-                              child: Text(
-                                AppUtil.rtlDirection2(context)
-                                    ? "اختر الوقت"
-                                    : "Select Time",
-                                style: TextStyle(
-                                  color: Colors.red,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ),
+
+                          if ( TimeErrorMessage??false)
+                          Padding(
+                          padding: const EdgeInsets.only(top:10),
+                         child: Text(
+                          AppUtil.rtlDirection2(context)?"*لابد من إدخال وقت الذهاب":"Select Time",
+                          style: TextStyle(
+                           color: Colors.red,
+                           fontSize: width* 0.028,
+                           fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+
+                    ),
+                  ),
+                ),
                         ],
                       ),
                       const SizedBox(
@@ -453,7 +441,7 @@ class _BookingSheetState extends State<BookingSheet> {
                                 ? "وقت العودة"
                                 : "Drop off time",
                             color: Colors.black,
-                            fontSize: 17,
+                            fontSize: width*0.044,
                             fontWeight: FontWeight.w500,
                             fontFamily: AppUtil.rtlDirection2(context)
                                 ? 'SF Arabic'
@@ -556,36 +544,32 @@ class _BookingSheetState extends State<BookingSheet> {
                               width: width * 0.41,
                               title: !_touristExploreController
                                       .isBookingTimeSelected.value
-                                  ? "00:00 PM"
+                                  ? "00:00"
                                   : DateFormat('hh:mm a')
                                       .format(newTimeToReturn),
                               //  test,
-                              borderColor: TimeErrorMessage ?? false
-                                  ? Colors.red
-                                  : DurationErrorMessage ?? false
-                                      ? Colors.red
-                                      : lightGreyColor,
 
-                              prefixIcon: SvgPicture.asset(
-                                "assets/icons/time_icon.svg",
-                              ),
+                                borderColor: TimeErrorMessage??false?  Colors.red :DurationErrorMessage??false  ? Colors.red :borderGrey,
+
+                              prefixIcon: Container(),
                               suffixIcon: Container(),
-                              textColor: almostGrey,
+                              textColor:borderGrey,
                             ),
                           ),
-                          if (TimeErrorMessage ?? false)
-                            Padding(
-                              padding: const EdgeInsets.only(top: 10),
-                              child: Text(
-                                AppUtil.rtlDirection2(context)
-                                    ? "اختر الوقت"
-                                    : "Select Time",
-                                style: TextStyle(
-                                  color: Colors.red,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ),
+
+                      if ( TimeErrorMessage??false)
+                           Padding(
+                            padding: const EdgeInsets.only(top:10),
+                             child: Text(
+                            AppUtil.rtlDirection2(context)?"*لابد من إدخال وقت العودة":"Select Time",
+                              style: TextStyle(
+                                 color: Colors.red,
+                                    fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+
+                                fontSize: width*width* 0.028,
+                             ),
+                          ),
+                           ),
                         ],
                       )
                     ],
@@ -596,7 +580,7 @@ class _BookingSheetState extends State<BookingSheet> {
                   CustomText(
                     text: "numberOfPeople".tr,
                     color: Colors.black,
-                    fontSize: 17,
+                    fontSize: width*0.044,
                     fontWeight: FontWeight.w500,
                     fontFamily:
                         AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
@@ -614,17 +598,19 @@ class _BookingSheetState extends State<BookingSheet> {
                     // margin: EdgeInsets.only(top: height * 0.02, bottom: 5),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-                      border: Border.all(width: 2, color: lightGreyColor),
+
+                      border: Border.all(width:1,color: borderGrey),
                     ),
                     child: Row(
                       children: [
                         CustomText(
                           text: "person".tr,
-                          fontWeight: FontWeight.w700,
-                          color: textGreyColor,
-                          fontFamily: AppUtil.rtlDirection2(context)
-                              ? 'SF Arabic'
-                              : 'SF Pro',
+
+                          fontWeight: FontWeight.w400,
+                          fontSize: width*0.035,
+                          color: borderGrey,
+                        fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+
                         ),
                         const Spacer(),
                         GestureDetector(
@@ -640,15 +626,16 @@ class _BookingSheetState extends State<BookingSheet> {
                               }
                             },
                             child: const Icon(Icons.horizontal_rule_outlined,
-                                color: almostGrey)),
+                                color: borderGrey)),
                         const SizedBox(
                           width: 15,
                         ),
                         CustomText(
                           text: guestNum.toString(),
-                          color: colorDarkGrey,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
+                            fontWeight: FontWeight.w400,
+                          fontSize: width*0.035,
+                          color: borderGrey,
+                        fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
                         ),
                         const SizedBox(
                           width: 15,
@@ -661,25 +648,25 @@ class _BookingSheetState extends State<BookingSheet> {
 
                                 guestNum = guestNum + 1;
                               });
-                              if (selectedRide == 'van' && guestNum <= 10) {
+                              if (selectedRide == 'van' && guestNum <= 7) {
                                 selectedRide = "";
                               }
                               print(selectedRide);
                             },
-                            child: const Icon(Icons.add, color: almostGrey)),
+                            child: const Icon(Icons.add, color: borderGrey)),
                       ],
                     ),
                   ),
 
                   Align(
-                      alignment: Alignment.centerLeft,
+                      alignment:AppUtil.rtlDirection2(context)?Alignment.centerRight: Alignment.centerLeft,
                       child: CustomText(
                         text: "forMoreThan10".tr,
                         fontSize: 10,
-                        color: almostGrey,
-                        fontFamily: AppUtil.rtlDirection2(context)
-                            ? 'SF Arabic'
-                            : 'SF Pro',
+
+                        color: borderGrey,
+                     fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+
                       )),
                   SizedBox(
                     height: height * 0.015,
@@ -687,10 +674,10 @@ class _BookingSheetState extends State<BookingSheet> {
                   CustomText(
                     text: "pickUpLocation".tr,
                     color: Colors.black,
-                    fontSize: 18,
-                    fontFamily:
-                        AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-                    fontWeight: FontWeight.w500,
+
+                     fontSize: width*0.044,
+                    fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+                     fontWeight: FontWeight.w500,
                   ),
                   SizedBox(
                     height: height * 0.01,
@@ -758,28 +745,29 @@ class _BookingSheetState extends State<BookingSheet> {
                   CustomText(
                     text: "pickUpRide".tr,
                     color: Colors.black,
-                    fontSize: 17,
+                    fontSize: width*0.044,
                     fontWeight: FontWeight.w500,
                     fontFamily:
                         AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
                   ),
                   SizedBox(
-                    height: height * 0.02,
+                            height: height * 0.01,
                   ),
                   pickupRide(),
-                  if (vehicleErrorMessage ?? false)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: Text(
-                        AppUtil.rtlDirection2(context)
-                            ? "اختر نوع السيارة"
-                            : "Select vehicle type",
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ),
+
+                  if ( vehicleErrorMessage??false)
+                           Padding(
+                            padding: const EdgeInsets.only(top:10),
+                             child: Text(
+                            AppUtil.rtlDirection2(context)?"اختر نوع السيارة":"Select vehicle type",
+                              style: TextStyle(
+                            fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+
+                                 color: Colors.red,
+                                fontSize: width*0.028,
+                             ),
+                          ),
+                           ),
                   SizedBox(
                     height: height * 0.025,
                   ),
@@ -788,23 +776,7 @@ class _BookingSheetState extends State<BookingSheet> {
                   // ),
                   Row(
                     children: [
-                      // Column(
-                      //   children: [
-                      //     CustomText(
-                      //       text: "startFrom".tr,
-                      //       fontSize: 12,
-                      //     ),
-                      //     const SizedBox(
-                      //       height: 6,
-                      //     ),
-                      //     CustomText(
-                      //       text: '${widget.place!.price} ${'sar'.tr}',
-                      //       fontWeight: FontWeight.w900,
-                      //       fontSize: 22,
-                      //     )
-                      //   ],
-                      // ),
-                      //const Spacer(),
+                    
                       _touristExploreController.isBookingIsMaking.value ||
                               _touristExploreController.isPlaceIsLoading.value
                           ? const CircularProgressIndicator(
@@ -813,38 +785,32 @@ class _BookingSheetState extends State<BookingSheet> {
                           : CustomButton(
                               title: "findLocal".tr,
                               onPressed: () async {
-                                // Get.to(() => const FindAjwady());
-                                //         if(!_touristExploreController.isBookingDateSelected.value){
-                                //      AppUtil.errorToast(context, 'hello');
-                                // }
 
-                                if (!_touristExploreController
-                                    .isBookingDateSelected.value)
-                                  setState(() {
-                                    DateErrorMessage = true;
-                                  });
-                                else {
-                                  setState(() {
-                                    DateErrorMessage = false;
-                                  });
-                                }
-                                if (!_touristExploreController
-                                    .isBookingTimeSelected.value)
-                                  setState(() {
-                                    TimeErrorMessage = true;
-                                  });
-                                // else{
-                                //    setState(() {
-                                //         TimeErrorMessage = false;
-                                //            });
-                                // }
+                             
+                           if(!_touristExploreController.isBookingDateSelected.value)
+                              setState(() {
+                                      DateErrorMessage = true;
+                                       });
+                            else{
+                               setState(() {
+                                     DateErrorMessage = false;
+                                       });
+                            }
+                            if(!_touristExploreController.isBookingTimeSelected.value)
+                              setState(() {
+                                      TimeErrorMessage = true;
+                                       });
+                         
+                         
 
-                                if (selectedRide == "")
-                                  setState(() {
-                                    vehicleErrorMessage = true;
-                                  });
-                                else {
-                                  setState(() {
+
+                          
+                            if( selectedRide == "")
+                             setState(() {
+                                     vehicleErrorMessage = true;
+                                       });
+                            else{
+                               setState(() {
                                     vehicleErrorMessage = false;
                                   });
                                 }
@@ -857,21 +823,24 @@ class _BookingSheetState extends State<BookingSheet> {
                                 if (_touristExploreController.isBookingDateSelected.value &&
                                     _touristExploreController
                                         .isBookingTimeSelected.value &&
-                                    selectedRide != "") {
-                                  if (_validateTime()) {
-                                    print(_validateTime());
-                                    if (newTimeToGoInRiyadh
-                                        .isAfter(nowPlusTwoHours)) {
-                                      _touristExploreController
-                                          .isBookedMade(true);
 
-                                      // AppUtil.successToast(
-                                      //     context, 'TIME AND DATE IS SELECTED');
+                                    selectedRide != "" ) {
+                                      
+                            if( _validateTime()){
+                           print(_validateTime());
+                            if(newTimeToGoInRiyadh.isAfter(nowPlusTwoHours)){
+                              
 
-                                      //  Navigator.pop(context);
-                                      if (widget.place != null) {
-                                        final isSuccess =
-                                            await _touristExploreController.bookPlace(
+                                  _touristExploreController.isBookedMade(true);
+
+                                  // AppUtil.successToast(
+                                  //     context, 'TIME AND DATE IS SELECTED');
+
+                                  //  Navigator.pop(context);
+                                  if (widget.place != null) {
+                                    final isSuccess =
+                                        await _touristExploreController
+                                            .bookPlace(
                                                 placeId: widget.place!.id!,
                                                 timeToGo: DateFormat(
                                                         'HH:mm:ss')
@@ -961,7 +930,7 @@ class _BookingSheetState extends State<BookingSheet> {
             child: GestureDetector(
               onTap: () {
                 setState(() {
-                  if (key == 'van' && guestNum > 10) {
+                  if (key == 'van' && guestNum > 7) {
                     selectedRide = key;
                   } else if (key != 'van') {
                     selectedRide = key;
@@ -974,7 +943,7 @@ class _BookingSheetState extends State<BookingSheet> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
-                    color: (key == 'van' && guestNum <= 10)
+                    color: (key == 'van' && guestNum <= 7)
                         ? Colors.transparent
                         : selectedRide == key
                             ? colorGreen
@@ -986,7 +955,7 @@ class _BookingSheetState extends State<BookingSheet> {
                   //       blurRadius: 9,
                   //       spreadRadius: 8)
                   // ],
-                  color: (key == 'van' && guestNum <= 10)
+                  color: (key == 'van' && guestNum <= 7)
                       ? lightGreyColor
                       : selectedRide == key
                           ? lightGreen
@@ -997,14 +966,14 @@ class _BookingSheetState extends State<BookingSheet> {
                     Spacer(),
                     SvgPicture.asset(
                       selectedRide == key ? values[0] : values[1],
-                      color: (key == 'van' && guestNum <= 10)
+                      color: (key == 'van' && guestNum <= 7)
                           ? tileGreyColor
                           : null,
                     ),
                     Spacer(),
                     CustomText(
                       text: "$key".tr,
-                      color: (key == 'van' && guestNum <= 10)
+                      color: (key == 'van' && guestNum <= 7)
                           ? tileGreyColor
                           : selectedRide == key
                               ? colorGreen

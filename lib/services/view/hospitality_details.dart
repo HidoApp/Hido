@@ -15,6 +15,7 @@ import 'package:ajwad_v4/services/view/widgets/hospitality_booking_sheet.dart';
 import 'package:ajwad_v4/services/view/widgets/service_profile_card.dart';
 
 import 'package:ajwad_v4/utils/app_util.dart';
+import 'package:ajwad_v4/widgets/custom_aleart_widget.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_policy_sheet.dart';
@@ -32,20 +33,19 @@ import 'package:intl/intl.dart' hide TextDirection;
 import 'review_hospitalty_screen.dart';
 
 class HospitalityDetails extends StatefulWidget {
-  const HospitalityDetails({
-    Key? key,
-    required this.hospitalityId,
-    this.isLocal = false,
-    this.experienceType = '',
-    this.address='',
-    this.isHasBooking=false
-
-  }) : super(key: key);
+  const HospitalityDetails(
+      {Key? key,
+      required this.hospitalityId,
+      this.isLocal = false,
+      this.experienceType = '',
+      this.address = '',
+      this.isHasBooking = false})
+      : super(key: key);
 
   final String hospitalityId;
   final bool isLocal;
   final String experienceType;
-    final String address;
+  final String address;
   final bool isHasBooking;
 
   @override
@@ -61,7 +61,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
   bool isAviailable = false;
   List<DateTime> avilableDate = [];
   var locLatLang = const LatLng(24.691846000000012, 46.68552199999999);
- String address='';
+  String address = '';
   BitmapDescriptor markerIcon = BitmapDescriptor.defaultMarker;
   void addCustomIcon() {
     BitmapDescriptor.fromAssetImage(
@@ -74,7 +74,6 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
       },
     );
   }
-
 
   late Hospitality? hospitalityObj;
   var hideLocation = true;
@@ -95,14 +94,13 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
   void getHospitalityById() async {
     hospitalityObj = (await _servicesController.getHospitalityById(
         context: context, id: widget.hospitalityId));
- 
-  
+
     if (hospitalityObj!.booking != null) {
       hideLocation = hospitalityObj!.booking!.isEmpty;
-    
     }
     for (var day in hospitalityObj!.daysInfo) {
       print(day.startTime);
+     if(AppUtil.isDateBefore24Hours(day.startTime))
       avilableDate.add(
         DateTime.parse(
           day.startTime.substring(0, 10),
@@ -148,8 +146,9 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                             fontSize: width * 0.038,
                             color: colorDarkGrey,
                             fontWeight: FontWeight.w400,
-                            fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
-
+                            fontFamily: AppUtil.rtlDirection2(context)
+                                ? 'SF Arabic'
+                                : 'SF Pro',
                           ),
                           CustomText(
                             text: " /  ",
@@ -161,7 +160,9 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                             text: '${hospitalityObj!.price} ${'sar'.tr}',
                             fontWeight: FontWeight.w900,
                             fontSize: width * 0.043,
-                           fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+                            fontFamily: AppUtil.rtlDirection2(context)
+                                ? 'SF Arabic'
+                                : 'SF Pro',
                           ),
                         ],
                       ),
@@ -217,8 +218,9 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                         : hospitalityObj!.titleEn,
                                     fontSize: width * 0.07,
                                     fontWeight: FontWeight.w700,
-                             fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
-
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
                                   )),
                               SizedBox(
                                 height: width * 0.025,
@@ -233,13 +235,17 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                     width: width * 0.012,
                                   ),
                                   CustomText(
-                                    text:!widget.isLocal? _servicesController.address.value: widget.address,
-                                  
+                                    text: !widget.isLocal
+                                        ? _servicesController.address.value
+                                        : AppUtil.rtlDirection2(context)
+                                           ? '${ hospitalityObj!.regionAr}, ${widget.address}'
+                                            : '${ hospitalityObj!.regionEn}, ${widget.address}',
                                     color: colorDarkGrey,
                                     fontSize: width * 0.038,
                                     fontWeight: FontWeight.w300,
-                                fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
-
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
                                   ),
                                 ],
                               ),
@@ -261,8 +267,9 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                     color: colorDarkGrey,
                                     fontSize: width * 0.038,
                                     fontWeight: FontWeight.w300,
-                                  fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
-
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
                                   ),
                                 ],
                               ),
@@ -281,12 +288,14 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                   CustomText(
                                     text: AppUtil.rtlDirection2(context)
                                         ? hospitalityObj!.mealTypeAr
-                                        : AppUtil.capitalizeFirstLetter( hospitalityObj!.mealTypeEn),
+                                        : AppUtil.capitalizeFirstLetter(
+                                            hospitalityObj!.mealTypeEn),
                                     color: colorDarkGrey,
                                     fontSize: width * 0.038,
                                     fontWeight: FontWeight.w300,
-                                   fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
-
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
                                   ),
                                 ],
                               ),
@@ -305,31 +314,33 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                     fontSize: width * 0.046,
                                     fontWeight: FontWeight.w400,
                                     fontFamily: 'HT Rakik',
-
                                   )),
                               SizedBox(
                                 height: width * 0.025,
                               ),
-                                 Align(
-                              alignment: AppUtil.rtlDirection2(context)
-                                  ? Alignment.centerRight
-                                  : Alignment.centerLeft,
-                                  child: ConstrainedBox(
+                              Align(
+                                alignment: AppUtil.rtlDirection2(context)
+                                    ? Alignment.centerRight
+                                    : Alignment.centerLeft,
+                                child: ConstrainedBox(
                                   constraints: isExpanded
                                       ? const BoxConstraints()
-                                      : BoxConstraints(maxHeight: width * 0.097),
+                                      : BoxConstraints(
+                                          maxHeight: width * 0.097),
                                   child: CustomText(
                                       //   textAlign: AppUtil.rtlDirection(context) ? TextAlign.end : TextAlign.start ,
-                                      textDirection: AppUtil.rtlDirection(context)
-                                          ? TextDirection.ltr
-                                          : TextDirection.rtl,
+                                      textDirection:
+                                          AppUtil.rtlDirection(context)
+                                              ? TextDirection.ltr
+                                              : TextDirection.rtl,
                                       textOverflow: isExpanded
                                           ? TextOverflow.visible
                                           : TextOverflow.clip,
-                                         fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
-                                fontSize: width * 0.038,
-                                     color: starGreyColor,
-                              
+                                      fontFamily: AppUtil.rtlDirection2(context)
+                                          ? 'SF Arabic'
+                                          : 'SF Pro',
+                                      fontSize: width * 0.038,
+                                      color: starGreyColor,
                                       text: !AppUtil.rtlDirection(context)
                                           ? hospitalityObj!.bioAr
                                           : hospitalityObj!.bioEn),
@@ -355,8 +366,10 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                           text: AppUtil.rtlDirection2(context)
                                               ? "القليل"
                                               : "Show less",
-                                        fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
-
+                                          fontFamily:
+                                              AppUtil.rtlDirection2(context)
+                                                  ? 'SF Arabic'
+                                                  : 'SF Pro',
                                           color: blue,
                                         ),
                                       ),
@@ -374,8 +387,10 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                                   ? TextDirection.rtl
                                                   : TextDirection.ltr,
                                           text: "readMore".tr,
-                                        fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
-
+                                          fontFamily:
+                                              AppUtil.rtlDirection2(context)
+                                                  ? 'SF Arabic'
+                                                  : 'SF Pro',
                                           color: blue,
                                         ),
                                       ),
@@ -394,11 +409,14 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                       ? Alignment.centerRight
                                       : Alignment.centerLeft,
                                   child: CustomText(
-                                text:!widget.isLocal? "whereWeWillBe".tr:AppUtil.rtlDirection2(context)?'الموقع':'Location',
+                                    text: !widget.isLocal
+                                        ? "whereWeWillBe".tr
+                                        : AppUtil.rtlDirection2(context)
+                                            ? 'الموقع'
+                                            : 'Location',
                                     fontSize: width * 0.046,
                                     fontWeight: FontWeight.w400,
                                     fontFamily: 'HT Rakik',
-
                                   )),
                               SizedBox(
                                 height: width * 0.025,
@@ -445,7 +463,6 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                       },
                                     ),
                                   ),
-                                    
                                   if (!widget.isLocal)
                                     if (hideLocation)
                                       Container(
@@ -457,8 +474,10 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                             text:
                                                 'locationWillBeAvailableAfterBooking'
                                                     .tr,
-                                   fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
-
+                                            fontFamily:
+                                                AppUtil.rtlDirection2(context)
+                                                    ? 'SF Arabic'
+                                                    : 'SF Pro',
                                             color: Colors.white,
                                             fontWeight: FontWeight.w300,
                                           ),
@@ -466,17 +485,17 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                       ),
                                 ],
                               ),
-                               if (widget.isLocal)...[
+                              if (widget.isLocal) ...[
                                 SizedBox(
-                                    height: width * 0.028,
-                                  ),
+                                  height: width * 0.028,
+                                ),
                                 const Divider(
                                   color: lightGrey,
                                 ),
                                 SizedBox(
                                   height: width * 0.038,
                                 ),
-                               ],
+                              ],
                               if (!widget.isLocal) ...[
                                 if (hideLocation)
                                   SizedBox(
@@ -508,8 +527,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                                 text: "cancellationPolicy".tr,
                                                 fontSize: width * 0.0461,
                                                 fontWeight: FontWeight.w400,
-                                               fontFamily: 'HT Rakik',
-
+                                                fontFamily: 'HT Rakik',
                                               ),
                                               SizedBox(
                                                 height: width * 0.010,
@@ -524,8 +542,11 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                                   fontWeight: FontWeight.w400,
                                                   maxlines: 2,
                                                   color: tileGreyColor,
-                                             fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
-
+                                                  fontFamily:
+                                                      AppUtil.rtlDirection2(
+                                                              context)
+                                                          ? 'SF Arabic'
+                                                          : 'SF Pro',
                                                 ),
                                               ),
                                             ],
@@ -575,16 +596,21 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                               ? width * 0.82
                               : width * 0.072,
                           child: GestureDetector(
-                              onTap:widget.isHasBooking?
-                               () async {
-                                 AppUtil.errorToast(context,
-                                          'editExperience'.tr);
-                                      await Future.delayed(
-                                          const Duration(seconds: 1));
-                              }:() {
-                         Get.to(EditHospitality(hospitalityObj: hospitalityObj!,experienceType:widget.experienceType));
-
-                              },
+                              onTap: widget.isHasBooking
+                                  ? () async {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return CustomAlertDialog();
+                                        },
+                                      );
+                                    }
+                                  : () {
+                                      Get.to(EditHospitality(
+                                          hospitalityObj: hospitalityObj!,
+                                          experienceType:
+                                              widget.experienceType));
+                                    },
                               child: Container(
                                 width: 36,
                                 height: 36,
@@ -600,7 +626,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                   color: Colors.white,
                                 ),
                               ))),
-                   
+
                     Positioned(
                       top: height * 0.06,
                       left: AppUtil.rtlDirection2(context)
@@ -649,20 +675,20 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                 horizontal: width * 0.005),
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: _currentIndex == index?
-                              hospitalityObj!.images.length==1
-                                   ? Colors.white.withOpacity(0.1)
-                                    : Colors.white
+                              color: _currentIndex == index
+                                  ? hospitalityObj!.images.length == 1
+                                      ? Colors.white.withOpacity(0.1)
+                                      : Colors.white
                                   : Colors.white.withOpacity(0.8),
                               boxShadow: _currentIndex == index
-                                  ? hospitalityObj!.images.length==1
-                                  ?[]
-                                  : [
-                                      const BoxShadow(
-                                          color: Colors.white,
-                                          blurRadius: 5,
-                                          spreadRadius: 1)
-                                    ]
+                                  ? hospitalityObj!.images.length == 1
+                                      ? []
+                                      : [
+                                          const BoxShadow(
+                                              color: Colors.white,
+                                              blurRadius: 5,
+                                              spreadRadius: 1)
+                                        ]
                                   : [],
                             ),
                           );

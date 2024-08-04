@@ -30,6 +30,7 @@ class SetLocationScreen extends StatefulWidget {
 class _SetLocationScreenState extends State<SetLocationScreen> {
   late List<Placemark> placemarks;
   String address = "";
+  String subLocality ='';
 
 
   BitmapDescriptor markerIcon = BitmapDescriptor.defaultMarker;
@@ -42,6 +43,7 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
   Future<void> getPlaceAddress(double lat , double lng)async {
      placemarks = await placemarkFromCoordinates(lat , lng);
      setState(() {
+      subLocality = '${placemarks.first.subLocality}';
        address = '${placemarks.first.country} - ${placemarks.first.locality} - ${placemarks.first.name} - ${placemarks.first.street}';
      });
      print(placemarks.first.country);
@@ -116,22 +118,21 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
       _loadMapStyles();
     }
     Future.delayed(Duration.zero, () {
-      //   addCustomIcon();
-      addMaker();
+     addMaker();
     
     });
   }
 
   Future<void> addMaker() async {
-    await BitmapDescriptor.fromAssetImage(
-            const ImageConfiguration(), "assets/images/pin_marker.png")
-        .then(
-      (icon) {
-        setState(() {
-          markerIcon = icon;
-        });
-      },
-    );
+    // await BitmapDescriptor.fromAssetImage(
+    //         const ImageConfiguration(), "assets/images/pin_marker.png")
+    //     .then(
+    //   (icon) {
+    //     setState(() {
+    //       markerIcon = icon;
+    //     });
+    //   },
+    // );
     print('addMaker');
     if (widget.touristExploreController != null) {
       _markers.add(
@@ -139,9 +140,20 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
           markerId: const MarkerId("marker1"),
           position: widget.touristExploreController!.pickUpLocLatLang.value,
           draggable: true,
-          onDragEnd: (value) {
-            // value is the new position
-          },
+          onDragEnd: (position) async {
+              print(position.latitude);
+
+              getPlaceAddress(position.latitude, position.longitude);
+
+            
+              setState(() {
+                 widget.touristExploreController!.pickUpLocLatLang(position);
+             
+              widget.mapController!
+                  .animateCamera(CameraUpdate.newLatLngZoom(position, 18));
+
+              });
+            },
           icon: markerIcon,
         ),
       );
@@ -158,6 +170,7 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
           GoogleMap(
             zoomControlsEnabled: false,
             myLocationButtonEnabled: false,
+          
             initialCameraPosition: CameraPosition(
               target: widget.touristExploreController != null
                   ? widget.touristExploreController!.pickUpLocLatLang.value
@@ -183,14 +196,26 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
                     markerId: const MarkerId("marker1"),
                     position: position,
                     draggable: true,
-                    onDragEnd: (value) {
-                      // value is the new position
-                    },
+                     onDragEnd: (position) async {
+                   print(position.latitude);
+
+                 getPlaceAddress(position.latitude, position.longitude);
+
+            
+              setState(() {
+                 widget.touristExploreController!.pickUpLocLatLang(position);
+             
+              widget.mapController!
+                  .animateCamera(CameraUpdate.newLatLngZoom(position, 18));
+
+              });
+            },
                     icon: markerIcon,
                   ),
                 );
               });
             },
+            
             onMapCreated: (controller) {
               _controller.complete(controller);
               _loadMapStyles();
@@ -203,15 +228,15 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
           ),
           Positioned(
             bottom: 21,
-            left: 24,
-            right: 24,
+            left: 16,
+            right: 16,
             child: Align(
               alignment: AlignmentDirectional.bottomCenter,
               child: Container(
                 padding:
                     EdgeInsets.only(top: 20, left: 15, right: 15, bottom: 10),
                 height: 200,
-                width: 360,
+                width: double.infinity,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(20)),
@@ -227,8 +252,11 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
                           ),
                         ),
                         CustomText(
-                          text: "sameLocation".tr,
-                          color: Colors.black,
+                          text: subLocality,
+                         color: black,
+                      fontFamily: 'HT Rakik',
+                      fontWeight: FontWeight.w400,
+                      fontSize: width*0.044,
                         ),
                         // Spacer(),
                         // CustomText(text: "change".tr, color: Colors.black),
@@ -239,8 +267,12 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
                     ),
                     CustomText(
                       text: address,
-                      color: dividerColor,
+                      color:starGreyColor,
+                      fontFamily: 'HT Rakik',
+                      fontWeight: FontWeight.w400,
                       textAlign: TextAlign.center,
+                      fontSize: width*0.035,
+
                     ),
                     Spacer(),
                     Padding(

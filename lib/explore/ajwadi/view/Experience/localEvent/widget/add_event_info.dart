@@ -7,7 +7,7 @@ import 'package:toggle_switch/toggle_switch.dart';
 
 class AddInfo extends StatefulWidget {
  AddInfo({
-    Key? key,
+  Key? key,
     required this.textField1ControllerEN,
     required this.textField2ControllerEN,
     required this.textField1ControllerAR,
@@ -24,6 +24,16 @@ class AddInfo extends StatefulWidget {
 }
 
 class _AddInfoState extends State<AddInfo> {
+  //  final TextEditingController EventTitleControllerEn =
+  //     TextEditingController();
+  // final TextEditingController EventBioControllerEn =
+  //     TextEditingController();
+
+  // final TextEditingController EventTitleControllerAr =
+  //     TextEditingController();
+  // final TextEditingController EventBioControllerAr =
+  //     TextEditingController();
+
   int _selectedLanguageIndex = 1; // 0 for AR, 1 for EN
   FocusNode _focusNode = FocusNode();
     final EventController _EventController = Get.put(EventController());
@@ -37,10 +47,10 @@ class _AddInfoState extends State<AddInfo> {
   @override
   void initState() {
     super.initState();
-setState(() {
-  _selectedLanguageIndex = AppUtil.rtlDirection2(context)?0:1;
+ setState(() {
+           _selectedLanguageIndex = AppUtil.rtlDirection2(context)?0:1;
 
-});
+    });
     
     }
 
@@ -50,8 +60,8 @@ setState(() {
     final height = MediaQuery.of(context).size.height;
  final TextEditingController textField1Controller =
         _selectedLanguageIndex == 0
-            ? widget.textField1ControllerAR
-            : widget.textField1ControllerEN;
+            ?widget.textField1ControllerAR
+            :widget.textField1ControllerEN;
     final TextEditingController textField2Controller =
         _selectedLanguageIndex == 0
             ? widget.textField2ControllerAR
@@ -104,12 +114,7 @@ setState(() {
                 onToggle: (index) {
                   setState(() {
                     _selectedLanguageIndex = index!;
-                  _EventController.titleAr.value = widget.textField1ControllerAR.text;
-                    
-               _EventController.titleEn.value= widget.textField1ControllerEN.text;
-                
-                _EventController.bioAr.value=widget.textField2ControllerAR.text;
-                _EventController.bioEn.value=widget.textField2ControllerEN.text;
+             
                 });
                   print('switched to: $index');
                 },
@@ -182,6 +187,14 @@ setState(() {
                               borderSide: BorderSide.none,
                             ),
                           ),
+                          onChanged: (value) {
+                            _selectedLanguageIndex == 0
+                ? _EventController.titleAr.value = textField1Controller.text
+                    
+                : _EventController.titleEn.value= textField1Controller.text;
+                
+              
+                          },
                         ),
                       ),
                     ),
@@ -235,6 +248,7 @@ setState(() {
                               return newValue;
                             },
                           ),
+                        
                         ],
                         style: TextStyle(
                           color: Colors.black,
@@ -261,6 +275,11 @@ setState(() {
                             borderSide: BorderSide.none,
                           ),
                         ),
+                        onChanged: (value) {
+                          _selectedLanguageIndex==0
+                          ?  _EventController.bioAr.value=textField2Controller.text
+                         :_EventController.bioEn.value=textField2Controller.text;
+                        },
                       ),
                     ),
                     Padding(

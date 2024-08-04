@@ -10,6 +10,7 @@ import 'package:ajwad_v4/services/view/service_local_info.dart';
 
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/StackWidgets.dart';
+import 'package:ajwad_v4/widgets/custom_aleart_widget.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
@@ -213,7 +214,10 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                 width: width * 0.012,
                               ),
                               CustomText(
-                                text:!widget.isLocal?_adventureController.address.value:widget.address,
+                                text:!widget.isLocal?_adventureController.address.value
+                                : AppUtil.rtlDirection2(context)
+                                           ? '${adventure!.regionAr}, ${widget.address}'
+                                            : '${adventure!.regionEn}, ${widget.address}',
                               
                                 color: colorDarkGrey,
                                 fontSize: width * 0.038,
@@ -549,10 +553,15 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                           child: GestureDetector(
                               onTap:widget.isHasBooking?
                                () async {
-                                 AppUtil.errorToast(context,
-                                          'editExperience'.tr);
-                                      await Future.delayed(
-                                          const Duration(seconds: 1));
+                                 showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return CustomAlertDialog(
+                
+                  
+                );
+              },
+            );
                               }:() {
                               Get.to(EditAdventure(adventureObj: adventure!));
 

@@ -142,6 +142,7 @@ offset: Offset(-5, 0),
                   ],
                 ),
               ),
+              if(widget.trip.booking!.orderStatus!="FINISHED")...[
                              Spacer(),
 
                Padding(
@@ -170,6 +171,7 @@ offset: Offset(-5, 0),
                  ),
                  ),
                ),
+              ]
             ],
           ),
           const Divider(

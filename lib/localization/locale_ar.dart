@@ -181,7 +181,7 @@ const localeAr = {
   "sameLocation": "نفس الموقع",
   "change": "تغيير",
   "locBreif": "7911 Ibn Al Athir, 3616, Al Olaya, Riyadh 12333",
-  "confirmLocation": "أكد الموقع",
+  "confirmLocation": "تأكيد الموقع",
   'tuwaik': "طويق",
   "images": "الصور",
   "invite": "شارك",
@@ -206,11 +206,11 @@ const localeAr = {
   "skype": "سكايب",
   "massages": "المحادثات",
   "cancel": "إلغاء",
-  "date": "تاريخ الرحلة",
+  "date": "التاريخ",
   "confirm": "تأكيد",
   "guests2": "عدد الاشخاص",
-  "forMoreThan10": "لأكثر من 10 يمكنك اختيار الباص",
-  "pickUpLocation": "موقع",
+  "forMoreThan10": "لأكثر من 7 يمكنك اختيار الباص",
+  "pickUpLocation": "موقعك",
   "pickUpRide": "نوع المركبة",
   "sedan": "سيدان",
   "SUV": "SUV",
@@ -242,9 +242,9 @@ const localeAr = {
   "sorryForHearingThat": "من المؤسف انه لم تعبجك!",
   "tellUsWhatHappened": "أخبرنا مالذي لم يعجبك حتى نتفادى المرة القادمة",
   "searchforAjwady": "بحث عن أجودي",
-  "searchforLocal": "نبحث عن مواطن محلي مناسب لك",
+  "searchforLocal": "يتم البحث عن مرشد محلي",
   "WeSentYourRequestAndWaiteTillAccepted":
-      "لقد أرسلنا طلبك وسنعلمك بموعد قبوله.",
+  "لقد تم إرسال طلبك في انتظار قبول أحد المرشدين المحليين للطلب وإرسال عروضهم",
   "until": "حتى",
   "offers": "عروض",
   "contactAjwadAppTeam": "تواصل مع فريق اجواد",
@@ -604,4 +604,9 @@ const localeAr = {
   "NoReview": "لا يوجد تقييمات بعد",
   '*TheMinimumPrice': '*الحد الأدنى لسعر النشاط هو 150 ريال سعودي',
   'timeErorrRange': 'الوقت المحدد خارج الأوقات المطلوبة'
+ 
+  'eventDetailsSub':'فرصة لمشاركة الشعب فعالياتهم المحلية ',
+  "saudiEvent":"الفعاليات المحلية",
+  "Region":'المنطقه'
+  
 };

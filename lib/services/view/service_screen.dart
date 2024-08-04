@@ -85,7 +85,9 @@ class _ServiceScreenState extends State<ServiceScreen>
                     CustomText(
                       text: _tabIndex == 0
                           ? "hospitalityDetails".tr
-                          : "adventureDetails".tr,
+                          :_tabIndex == 1
+                          ?"adventureDetails".tr
+                          :"eventDetailsSub".tr,
                       color: Colors.white,
                       fontSize: 11,
                       maxlines: 2,
@@ -243,14 +245,18 @@ class _ServiceScreenState extends State<ServiceScreen>
                     ),
                   ),
                   Padding(
-                    // padding: const EdgeInsets.symmetric(horizontal: 18),
-
                     padding: EdgeInsets.symmetric(
                         horizontal:
                             // !AppUtil.rtlDirection(context) ? 15 : 5),
-                            AppUtil.rtlDirection2(context) ? 15 : 5),
-
-                    //padding: const EdgeInsets.symmetric(horizontal: 15),
+                            AppUtil.rtlDirection2(context)
+                                ? width * 0.038
+                                : width * 0.012),
+                    child: Container(
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(width * 0.03),
+                              topRight: Radius.circular(width * 0.03))),
                     child: CustomText(
                       text: "events".tr,
                       color: _tabIndex == 2 ? darkBlue : Colors.white,
@@ -258,6 +264,7 @@ class _ServiceScreenState extends State<ServiceScreen>
                           _tabIndex == 2 ? FontWeight.w700 : FontWeight.w400,
                       fontSize: _tabIndex == 2 ? width * 0.033 : width * 0.028,
                     ),
+                  ),
                   ),
                   // Padding(
                   //   padding: const EdgeInsets.symmetric(horizontal: 18),

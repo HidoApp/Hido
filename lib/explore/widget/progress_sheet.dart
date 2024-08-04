@@ -62,97 +62,99 @@ class _ProgressSheetState extends State<ProgressSheet> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Padding(
-        padding: EdgeInsets.only(left: 24, right: 24, bottom: 0),
-        child: Obx(
-          () => _touristExploreController.isActivityProgressLoading.value
-              ? const Center(child: CircularProgressIndicator.adaptive())
-              : Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CustomText(
-                      text: getTitle(),
-                      fontSize: 17,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    CustomText(
-                      text: getSubTitle(),
-                      fontSize: 15,
-                      fontFamily: AppUtil.rtlDirection2(context)
-                          ? "SF Arabic"
-                          : 'SF Pro',
-                      color: starGreyColor,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 20),
-                      child: EasyStepper(
-                        enableStepTapping: false,
-                        activeStep:
-                            _touristExploreController.activeStepProgres.value,
-                        activeStepBackgroundColor: Colors.white,
-                        finishedStepBackgroundColor: Colors.white,
-                        activeStepTextColor: Colors.black87,
-                        finishedStepTextColor: Colors.black87,
-                        unreachedStepTextColor: lightGrey,
-                        internalPadding: 0,
-                        showLoadingAnimation: false,
-                        stepRadius: 13,
-                        showStepBorder: false,
-                        lineStyle: const LineStyle(
-                            lineType: LineType.normal,
-                            lineThickness: 2,
-                            unreachedLineColor: lightGrey,
-                            activeLineColor: colorGreen,
-                            lineWidth: 10,
-                            lineSpace: 29,
-                            lineLength: 120),
-                        steps: [
-                          EasyStep(
+      child: Container(
+        child: Padding(
+          padding: EdgeInsets.only(left: 24, right: 24, bottom: 0),
+          child: Obx(
+            () => _touristExploreController.isActivityProgressLoading.value
+                ? const Center(child: CircularProgressIndicator.adaptive())
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomText(
+                        text: getTitle(),
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      CustomText(
+                        text: getSubTitle(),
+                        fontSize: 15,
+                        fontFamily: AppUtil.rtlDirection2(context)
+                            ? "SF Arabic"
+                            : 'SF Pro',
+                        color: starGreyColor,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20),
+                        child: EasyStepper(
+                          enableStepTapping: false,
+                          activeStep:
+                              _touristExploreController.activeStepProgres.value,
+                          activeStepBackgroundColor: Colors.white,
+                          finishedStepBackgroundColor: Colors.white,
+                          activeStepTextColor: Colors.black87,
+                          finishedStepTextColor: Colors.black87,
+                          unreachedStepTextColor: lightGrey,
+                          internalPadding: 0,
+                          showLoadingAnimation: false,
+                          stepRadius: 13,
+                          showStepBorder: false,
+                          lineStyle: const LineStyle(
+                              lineType: LineType.normal,
+                              lineThickness: 2,
+                              unreachedLineColor: lightGrey,
+                              activeLineColor: colorGreen,
+                              lineWidth: 10,
+                              lineSpace: 29,
+                              lineLength: 120),
+                          steps: [
+                            EasyStep(
+                                customStep: SvgPicture.asset(
+                                  'assets/icons/slider_touriest.svg',
+                                  color: _touristExploreController
+                                              .activeStepProgres.value >=
+                                          0
+                                      ? colorGreen
+                                      : lightGrey,
+                                ),
+                                title: 'Arrived'.tr),
+                            // EasyStep(
+                            //   customStep: SvgPicture.asset(
+                            //     'assets/icons/slider_touriest.svg',
+                            //     color: activeStep >= 1 ? colorGreen : lightGrey,
+                            //   ),
+                            //   title: 'PickUp'.tr,
+                            // ),
+                            EasyStep(
                               customStep: SvgPicture.asset(
                                 'assets/icons/slider_touriest.svg',
                                 color: _touristExploreController
                                             .activeStepProgres.value >=
-                                        0
+                                        1
                                     ? colorGreen
                                     : lightGrey,
                               ),
-                              title: 'Arrived'.tr),
-                          // EasyStep(
-                          //   customStep: SvgPicture.asset(
-                          //     'assets/icons/slider_touriest.svg',
-                          //     color: activeStep >= 1 ? colorGreen : lightGrey,
-                          //   ),
-                          //   title: 'PickUp'.tr,
-                          // ),
-                          EasyStep(
-                            customStep: SvgPicture.asset(
-                              'assets/icons/slider_touriest.svg',
-                              color: _touristExploreController
-                                          .activeStepProgres.value >=
-                                      1
-                                  ? colorGreen
-                                  : lightGrey,
+                              title: 'tourTime'.tr,
                             ),
-                            title: 'tourTime'.tr,
-                          ),
-                          EasyStep(
-                            customStep: SvgPicture.asset(
-                              'assets/icons/slider_touriest.svg',
-                              color: _touristExploreController
-                                          .activeStepProgres.value >=
-                                      2
-                                  ? colorGreen
-                                  : lightGrey,
+                            EasyStep(
+                              customStep: SvgPicture.asset(
+                                'assets/icons/slider_touriest.svg',
+                                color: _touristExploreController
+                                            .activeStepProgres.value >=
+                                        2
+                                    ? colorGreen
+                                    : lightGrey,
+                              ),
+                              title: 'completeTour'.tr,
                             ),
-                            title: 'completeTour'.tr,
-                          ),
-                        ],
-                        onStepReached: (index) {},
+                          ],
+                          onStepReached: (index) {},
+                        ),
                       ),
-                    ),
-                  ],
-                ),
+                    ],
+                  ),
+          ),
         ),
       ),
     );

@@ -358,33 +358,39 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                 _touristExploreController.isTouristMapLoading.value
             ? const CircularProgressIndicator.adaptive()
             : _touristExploreController.showActivityProgress.value
-                ? SolidBottomSheet(
-                    showOnAppear: showSheet,
-                    toggleVisibilityOnTap: true,
-                    maxHeight: 209,
-                    controller: _sheetController,
-                    onHide: () {
-                      setState(() {
-                        showSheet = false;
-                      });
-                    },
-                    onShow: () {
-                      setState(() {
-                        showSheet = true;
-                      });
-                    },
-                    headerBar: Container(
-                      decoration: const BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(24),
-                              topLeft: Radius.circular(24))),
-                      height: 50,
-                      child: const BottomSheetIndicator(),
+                ? Container(
+                  color: Colors.white,
+                  child: SolidBottomSheet(
+                      showOnAppear: showSheet,
+                      toggleVisibilityOnTap: true,
+                      
+                      maxHeight: 209,
+                      controller: _sheetController,
+                      onHide: () {
+                        setState(() {
+                          showSheet = false;
+                        });
+                      },
+                      onShow: () {
+                        setState(() {
+                          showSheet = true;
+                        });
+                      },
+                      headerBar: Container(
+                        decoration: const BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(24),
+                                topLeft: Radius.circular(24))),
+                        height: 50,
+                        child: const BottomSheetIndicator(),
+                      ),
+                      body: const ProgressSheet(),
                     ),
                     body: const ProgressSheet(),
                   )
                 : const SizedBox.shrink(),
+
       ),
       body: Obx(
         () => Stack(

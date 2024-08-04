@@ -262,7 +262,7 @@ class _CustomAdventureItemState extends State<CustomAdventureItem> {
       return DateFormat('EEEE، d MMMM', 'ar').format(dateTime);
     } else {
       // Default to English locale
-      return DateFormat('EEEE, d MMMM').format(dateTime);
+      return DateFormat('EEE، d MMMM').format(dateTime);
     }
   }
 }

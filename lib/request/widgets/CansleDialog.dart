@@ -106,8 +106,12 @@ class CancelBookingDialog extends StatelessWidget {
                     onTap: () async {
                       log("End Trip Taped ${booking!.id}");
 
-                      bool bookingCancel = await offerController.bookingCancel(
-                              context: context, bookingId: booking!.id!) ??
+                      bool bookingCancel =
+                          await offerController.bookingCancel(
+                              context: context,
+                              bookingId: booking!.id!,
+                              type: 'PLACE') ??
+
                           false;
                       if (bookingCancel) {
                         if (context.mounted) {
