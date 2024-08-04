@@ -375,8 +375,8 @@ static String getLocationUrl(Coordinate location) {
       return formattedTime;
     }
   }
-  static String formatStringTime(
-      BuildContext context, String dateTimeString) {
+
+  static String formatStringTime(BuildContext context, String dateTimeString) {
     DateTime time = DateFormat("hh:mm").parse(dateTimeString);
     String formattedTime = DateFormat.jm().format(time);
     if (AppUtil.rtlDirection2(context)) {
@@ -391,7 +391,7 @@ static String getLocationUrl(Coordinate location) {
       // Default to English locale
       return formattedTime;
     }
-      }
+  }
 
   static bool isGuest() {
     final _getStorage = GetStorage();
@@ -537,5 +537,10 @@ static String getLocationUrl(Coordinate location) {
 
   static String SfFontType(BuildContext context) {
     return AppUtil.rtlDirection2(context) ? 'SF Arabic' : "SF Pro";
+  }
+
+  static String convertTime(String time) {
+    DateTime dateTime = DateFormat('h:mm a').parse(time);
+    return DateFormat('HH:mm:ss').format(dateTime);
   }
 }

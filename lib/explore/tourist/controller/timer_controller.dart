@@ -29,13 +29,13 @@ class TimerController extends GetxController {
 
   _startTimer(int seconds) {
     const duration = Duration(seconds: 1);
+    final _profileController = Get.put(ProfileController());
+    _profileController.enableSignOut(false);
     remainingSeconds = seconds;
     _timer = Timer.periodic(duration, (Timer timer) async {
       if (remainingSeconds == 0) {
         timer.cancel();
         final offerController = Get.put(OfferController());
-        final _profileController = Get.put(ProfileController());
-        _profileController.enableSignOut(false);
         if (offerController.offers.isEmpty) {
           await Get.dialog(Dialog(
             backgroundColor: Colors.white,

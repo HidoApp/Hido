@@ -56,14 +56,13 @@ class _ServiceScreenState extends State<ServiceScreen>
           headerSliverBuilder: (context, isScrolled) => [
             SliverAppBar(
               automaticallyImplyLeading: false,
-              expandedHeight: width * 0.48,
+              //  expandedHeight: width * 0.48,
               toolbarHeight: width * 0.31,
               forceMaterialTransparency: true,
 
               pinned: true,
               centerTitle: false,
-              // collapsedHeight: 150,
-              // expandedHeight: 300,
+
               leading: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
@@ -172,6 +171,9 @@ class _ServiceScreenState extends State<ServiceScreen>
                 // indicatorPadding: const EdgeInsets.only(
                 //   top: 10,
                 // ),
+                //dividerColor: Colors.transparent,
+                dividerHeight: 0,
+                // overlayColor: WidgetStateProperty.all(Colors.transparent),
                 indicator: BoxDecoration(
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(width * 0.03),

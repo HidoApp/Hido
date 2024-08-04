@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/controller/timer_controller.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
@@ -13,6 +15,7 @@ class FloatingTimer extends StatefulWidget {
 
 class _FloatingTimerState extends State<FloatingTimer> {
   final _timerController = Get.put(TimerController(), permanent: true);
+
   @override
   Widget build(BuildContext context) {
     return Container(

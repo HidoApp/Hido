@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
@@ -100,14 +102,29 @@ class _HospitalityTabState extends State<HospitalityTab> {
                                       _srvicesController.getAllHospitality(
                                           context: context);
                                     } else {
+                                      log(_regionsController
+                                          .regionsHospitalty
+                                          .value
+                                          .regionEn![index != 0 ? index - 1 : 0]
+                                          .capitalizeFirst!);
                                       _srvicesController.getAllHospitality(
                                           context: context,
                                           region: index != 0
-                                              ? _regionsController
+                                              ? AppUtil.rtlDirection2(context)
+                                                  ? _regionsController
+                                                          .regionsHospitalty
+                                                          .value
+                                                          .regionAr![
+                                                      index != 0
+                                                          ? index - 1
+                                                          : 0]
+                                                  : _regionsController
                                                       .regionsHospitalty
                                                       .value
-                                                      .regionEn![
-                                                  index != 0 ? index - 1 : 0]
+                                                      .regionEn![index != 0
+                                                          ? index - 1
+                                                          : 0]
+                                                      .capitalizeFirst
                                               : null);
                                     }
                                   }
@@ -133,8 +150,11 @@ class _HospitalityTabState extends State<HospitalityTab> {
                                       : AppUtil.rtlDirection2(context)
                                           ? _regionsController.regionsHospitalty
                                               .value.regionAr![index - 1]
-                                          : _regionsController.regionsHospitalty
-                                              .value.regionEn![index - 1],
+                                          : _regionsController
+                                              .regionsHospitalty
+                                              .value
+                                              .regionEn![index - 1]
+                                              .capitalizeFirst!,
                                 ),
                               ),
                             ),
@@ -161,45 +181,45 @@ class _HospitalityTabState extends State<HospitalityTab> {
                           itemCount: _srvicesController.hospitalityList.length,
                           itemBuilder: (context, index) {
                             return ServicesCard(
-                              onTap: () {
-                                Get.to(() => HospitalityDetails(
-                                      hospitalityId: _srvicesController
-                                          .hospitalityList[index].id,
-                                    ));
-                              },
-                              image: _srvicesController
-                                  .hospitalityList[index].images.first,
-                              personImage: _srvicesController
-                                  .hospitalityList[index].user.profile.image,
-                              title: !AppUtil.rtlDirection(context)
-                                  ? _srvicesController
-                                      .hospitalityList[index].titleAr
-                                  : _srvicesController
-                                      .hospitalityList[index].titleEn,
-                              location: AppUtil.rtlDirection2(context)
-                                  ? _srvicesController
-                                          .hospitalityList[index].regionAr ??
-                                      ""
-                                  : _srvicesController
-                                      .hospitalityList[index].regionEn,
-                              meal: !AppUtil.rtlDirection(context)
-                                  ? _srvicesController
-                                      .hospitalityList[index].mealTypeAr
-                                  :AppUtil.capitalizeFirstLetter( _srvicesController
-                                      .hospitalityList[index].mealTypeEn),
-                              category: AppUtil.rtlDirection(context)
-                                  ? _srvicesController
-                                      .hospitalityList[index].categoryAr
-                                  : _srvicesController
-                                      .hospitalityList[index].categoryEn,
-                              rate: '4.7',
-                              dayInfo: _srvicesController
-                                  .hospitalityList[index].daysInfo,
-                              lang:_srvicesController
-                                  .hospitalityList[index].coordinate.latitude??'' ,
-                              long:_srvicesController
-                                  .hospitalityList[index].coordinate.longitude??''
-                            );
+                                onTap: () {
+                                  Get.to(() => HospitalityDetails(
+                                        hospitalityId: _srvicesController
+                                            .hospitalityList[index].id,
+                                      ));
+                                },
+                                image: _srvicesController
+                                    .hospitalityList[index].images.first,
+                                personImage: _srvicesController
+                                    .hospitalityList[index].user.profile.image,
+                                title: !AppUtil.rtlDirection(context)
+                                    ? _srvicesController
+                                        .hospitalityList[index].titleAr
+                                    : _srvicesController
+                                        .hospitalityList[index].titleEn,
+                                location: AppUtil.rtlDirection2(context)
+                                    ? _srvicesController.hospitalityList[index].regionAr ??
+                                        ""
+                                    : _srvicesController
+                                        .hospitalityList[index].regionEn,
+                                meal: !AppUtil.rtlDirection(context)
+                                    ? _srvicesController
+                                        .hospitalityList[index].mealTypeAr
+                                    : AppUtil.capitalizeFirstLetter(_srvicesController
+                                        .hospitalityList[index].mealTypeEn),
+                                category: AppUtil.rtlDirection(context)
+                                    ? _srvicesController
+                                        .hospitalityList[index].categoryAr
+                                    : _srvicesController
+                                        .hospitalityList[index].categoryEn,
+                                rate: '4.7',
+                                dayInfo: _srvicesController
+                                    .hospitalityList[index].daysInfo,
+                                lang: _srvicesController.hospitalityList[index]
+                                        .coordinate.latitude ??
+                                    '',
+                                long: _srvicesController.hospitalityList[index]
+                                        .coordinate.longitude ??
+                                    '');
                           },
                           separatorBuilder: (context, index) {
                             return SizedBox(

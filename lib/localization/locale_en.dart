@@ -358,7 +358,7 @@ const localeEn = {
   "whereWeWillBe": 'Location',
   "cancellationPolicy": 'Cancellation policy',
   "cancellationPolicyBreif":
-  'Full refund: Cancellations made 48 hours or more before the tour departure time will receive a full refund.',
+      'Full refund: Cancellations made 48 hours or more before the tour departure time will receive a full refund.',
   "locationWillBeAvailableAfterBooking":
       'Location will be available after booking',
   "Evaluationoftheperson": 'What do you think about Mohammed As ajwady?',
@@ -378,10 +378,11 @@ const localeEn = {
   "CancelBookingConfirm": 'Are you sure you want to cancel your booking?',
   'Confirm': 'Confirm',
   "cancellationPolicyBreifAdventure":
-  "Partial refund: Cancellations made between 24 and 48 hours before the tour departure time will receive a 50% refund.",
+      "Partial refund: Cancellations made between 24 and 48 hours before the tour departure time will receive a 50% refund.",
   "cancellationPolicyNote":
-  "No refund: Cancellations made within 24 hours of the tour departure time will not be eligible for a refund.",
-   "cancellationPolicySubNote":'  All refunds will be processed within 1-7 business days.',
+      "No refund: Cancellations made within 24 hours of the tour departure time will not be eligible for a refund.",
+  "cancellationPolicySubNote":
+      '  All refunds will be processed within 1-7 business days.',
   "notFind":
       "We couldn't find any local guides available for your chosen date and location",
   "noteDo": "Here is what you can do",
@@ -580,7 +581,6 @@ const localeEn = {
   'editPhoneNumber': 'Edit phone number',
   "phoneEditSubtitle": "We’ll text you code to verify your number ",
   'addProvidedServices': 'Add your provided services',
-  //branch progress sheet
   'timerDialogContent':
       "no local guides offered tours matching your request. We suggest searching again later or exploring other dates.",
   'unfortunately': 'Unfortunately',
@@ -607,12 +607,12 @@ const localeEn = {
   'submit': 'Submit',
   'howYourTour': "How was your tour in",
   'howYourGudie': "How was you guide",
-  //end progress sheet
-
   "noNextActivity": 'you don‘t have any activity yet',
-  "noExpertise":"There are no expertise yet",
-  "noAbout":"There are no informations yet",
-  "NoReview":"There are no reviews yet",
+  "noExpertise": "There are no expertise yet",
+  "noAbout": "There are no informations yet",
+  "NoReview": "There are no reviews yet",
+  '*TheMinimumPrice': '*The minimum price for an activity is 30 SAR ',
+  'timeErorrRange': "The time selected out of range" ,
   'eventDetailsSub':"Get to join the locals in their cultural events",
   "saudiEvent": 'saudi Event',
   "Region":'Region'
@@ -620,4 +620,5 @@ const localeEn = {
 
 
   
+
 };

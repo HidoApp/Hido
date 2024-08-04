@@ -46,10 +46,10 @@ class Place {
       regionAr: json['regionAr'],
       regionEn: json['regionEn'],
       image: List<String>.from(json["image"]),
-      price: json['price'],
+      price: json['price'] ?? 0,
       locationUrl: json['locationUrl'],
-      visitors: json['visitors'],
-      rating: json['rating'],
+      visitors: json['visitors'] ?? 0,
+      rating: json['rating'] ?? 0,
       coordinates: Coordinate.fromJson(json['coordinates']),
       booking: json['booking'] == null
           ? null

@@ -249,15 +249,12 @@ class TicketDetailsScreen extends StatelessWidget {
                         textColor: Colors.red,
                         borderColor: colorRed,
                         // Set the text color to red
+
                       ),
                     ],
                   ),
-                ),
-              ),
-            ],
-          ),
-          ],
-           ],
+                ],
+              ],
             ),
           ),
         ],

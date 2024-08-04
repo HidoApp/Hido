@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:ajwad_v4/constants/colors.dart';
@@ -52,7 +53,7 @@ class _MyAppState extends State<MyApp> {
     // TODO: implement initState
     super.initState();
     token = _getStorage.read('token') ?? '';
-    print('token $token');
+    log('token $token');
     print('${Platform.localeName.toLocale().languageCode}');
 
     local = Platform.localeName.toLocale().languageCode;
