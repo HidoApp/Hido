@@ -387,7 +387,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                       ),
                       body: const ProgressSheet(),
                     ),
-                    body: const ProgressSheet(),
+              
                   )
                 : const SizedBox.shrink(),
 

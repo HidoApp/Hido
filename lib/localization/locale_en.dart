@@ -612,7 +612,7 @@ const localeEn = {
   "noAbout": "There are no informations yet",
   "NoReview": "There are no reviews yet",
   '*TheMinimumPrice': '*The minimum price for an activity is 30 SAR ',
-  'timeErorrRange': "The time selected out of range" 
+  'timeErorrRange': "The time selected out of range" ,
   'eventDetailsSub':"Get to join the locals in their cultural events",
   "saudiEvent": 'saudi Event',
   "Region":'Region'

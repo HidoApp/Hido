@@ -106,7 +106,7 @@ class _BookingSheetState extends State<BookingSheet> {
   late tz.Location location;
   bool? DateErrorMessage;
   bool? TimeErrorMessage;
-bool? DurationErrorMessage;
+  bool? DurationErrorMessage;
 
   bool? GuestErrorMessage;
   bool? vehicleErrorMessage;
@@ -148,21 +148,19 @@ bool? DurationErrorMessage;
           : totalTime;
       // ? totalTime + Duration(days: 1) +Duration(hours: 1);
 
-
-  print('total');
-  print(adjustedTotalTime  >= fourHours &&  adjustedTotalTime  <= eightHours);
-  print( adjustedTotalTime );
-  if ( adjustedTotalTime >= fourHours &&  adjustedTotalTime  <= eightHours) {
-    setState(() {
-     DurationErrorMessage = false;
-    });
-    print( DurationErrorMessage);
-    return true;
-    
-  } else {
-     setState(() {
-     DurationErrorMessage = true;
-    });
+      print('total');
+      print(adjustedTotalTime >= fourHours && adjustedTotalTime <= eightHours);
+      print(adjustedTotalTime);
+      if (adjustedTotalTime >= fourHours && adjustedTotalTime <= eightHours) {
+        setState(() {
+          DurationErrorMessage = false;
+        });
+        print(DurationErrorMessage);
+        return true;
+      } else {
+        setState(() {
+          DurationErrorMessage = true;
+        });
 
         return false;
       }
@@ -199,12 +197,12 @@ bool? DurationErrorMessage;
                   const SizedBox(
                     height: 12,
                   ),
-
                   CustomText(
                     text: "date".tr,
                     color: Color(0xFF070708),
-                    fontSize: width*0.044,
-                    fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+                    fontSize: width * 0.044,
+                    fontFamily:
+                        AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
                     fontWeight: FontWeight.w500,
                     height: 0,
                   ),
@@ -241,27 +239,30 @@ bool? DurationErrorMessage;
                               ? 'mm/dd/yyy'.tr
                               : _touristExploreController.selectedDate.value
                                   .substring(0, 10),
-
-                          borderColor:   DateErrorMessage ?? false ?Colors.red: borderGrey,
-
-                      prefixIcon:Container(),
+                      borderColor:
+                          DateErrorMessage ?? false ? Colors.red : borderGrey,
+                      prefixIcon: Container(),
                       suffixIcon: SvgPicture.asset(
                         "assets/icons/green_calendar.svg",
                       ),
                       textColor: borderGrey,
                     ),
                   ),
-
-                   if ( DateErrorMessage??false)
-                Padding(
-                  padding: const EdgeInsets.only(top:10),
-                  child: Text(
-                    AppUtil.rtlDirection2(context) ?'*لابد من اختيار تاريخ للجولة ':"Select Date",
-                    style: TextStyle(
-                      color: Colors.red,
-                      fontSize:width* 0.028,
-                       fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
-
+                  if (DateErrorMessage ?? false)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Text(
+                        AppUtil.rtlDirection2(context)
+                            ? '*لابد من اختيار تاريخ للجولة '
+                            : "Select Date",
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontSize: width * 0.028,
+                          fontFamily: AppUtil.rtlDirection2(context)
+                              ? 'SF Arabic'
+                              : 'SF Pro',
+                        ),
+                      ),
                     ),
 
                   const SizedBox(
@@ -278,10 +279,11 @@ bool? DurationErrorMessage;
                                 ? "وقت الذهاب"
                                 : "Pick up time",
                             color: Colors.black,
-
-                            fontSize:  width*0.044,
-                             fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
-                               fontWeight: FontWeight.w500,
+                            fontSize: width * 0.044,
+                            fontFamily: AppUtil.rtlDirection2(context)
+                                ? 'SF Arabic'
+                                : 'SF Pro',
+                            fontWeight: FontWeight.w500,
                           ),
                           SizedBox(
                             height: height * 0.01,
@@ -291,7 +293,7 @@ bool? DurationErrorMessage;
                                 ? Alignment.centerLeft
                                 : Alignment.centerRight,
                             child: CustomTextWithIconButton(
-                              onTap:  () {
+                              onTap: () {
                                 showCupertinoModalPopup<void>(
                                     context: context,
                                     // barrierColor: Colors.white,
@@ -356,9 +358,12 @@ bool? DurationErrorMessage;
                                                   child: CustomText(
                                                     text: "confirm".tr,
                                                     color: colorGreen,
-
-                                                     fontSize: width*0.038,
-                                         fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+                                                    fontSize: width * 0.038,
+                                                    fontFamily:
+                                                        AppUtil.rtlDirection2(
+                                                                context)
+                                                            ? 'SF Arabic'
+                                                            : 'SF Pro',
                                                     fontWeight: FontWeight.w500,
                                                   ),
                                                 )
@@ -405,29 +410,33 @@ bool? DurationErrorMessage;
                                   ? "00:00"
                                   : DateFormat('hh:mm a').format(newTimeToGo),
                               //  test,
+                              borderColor: TimeErrorMessage ?? false
+                                  ? Colors.red
+                                  : DurationErrorMessage ?? false
+                                      ? Colors.red
+                                      : borderGrey,
 
-                              borderColor: TimeErrorMessage??false?  Colors.red :DurationErrorMessage??false ? Colors.red : borderGrey,
- 
-                              prefixIcon:Container(),
+                              prefixIcon: Container(),
                               suffixIcon: Container(),
                               textColor: borderGrey,
-                            
                             ),
                           ),
-
-                          if ( TimeErrorMessage??false)
-                          Padding(
-                          padding: const EdgeInsets.only(top:10),
-                         child: Text(
-                          AppUtil.rtlDirection2(context)?"*لابد من إدخال وقت الذهاب":"Select Time",
-                          style: TextStyle(
-                           color: Colors.red,
-                           fontSize: width* 0.028,
-                           fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
-
-                    ),
-                  ),
-                ),
+                          if (TimeErrorMessage ?? false)
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10),
+                              child: Text(
+                                AppUtil.rtlDirection2(context)
+                                    ? "*لابد من إدخال وقت الذهاب"
+                                    : "Select Time",
+                                style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: width * 0.028,
+                                  fontFamily: AppUtil.rtlDirection2(context)
+                                      ? 'SF Arabic'
+                                      : 'SF Pro',
+                                ),
+                              ),
+                            ),
                         ],
                       ),
                       const SizedBox(
@@ -441,7 +450,7 @@ bool? DurationErrorMessage;
                                 ? "وقت العودة"
                                 : "Drop off time",
                             color: Colors.black,
-                            fontSize: width*0.044,
+                            fontSize: width * 0.044,
                             fontWeight: FontWeight.w500,
                             fontFamily: AppUtil.rtlDirection2(context)
                                 ? 'SF Arabic'
@@ -548,28 +557,33 @@ bool? DurationErrorMessage;
                                   : DateFormat('hh:mm a')
                                       .format(newTimeToReturn),
                               //  test,
-
-                                borderColor: TimeErrorMessage??false?  Colors.red :DurationErrorMessage??false  ? Colors.red :borderGrey,
+                              borderColor: TimeErrorMessage ?? false
+                                  ? Colors.red
+                                  : DurationErrorMessage ?? false
+                                      ? Colors.red
+                                      : borderGrey,
 
                               prefixIcon: Container(),
                               suffixIcon: Container(),
-                              textColor:borderGrey,
+                              textColor: borderGrey,
                             ),
                           ),
-
-                      if ( TimeErrorMessage??false)
-                           Padding(
-                            padding: const EdgeInsets.only(top:10),
-                             child: Text(
-                            AppUtil.rtlDirection2(context)?"*لابد من إدخال وقت العودة":"Select Time",
-                              style: TextStyle(
-                                 color: Colors.red,
-                                    fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
-
-                                fontSize: width*width* 0.028,
-                             ),
-                          ),
-                           ),
+                          if (TimeErrorMessage ?? false)
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10),
+                              child: Text(
+                                AppUtil.rtlDirection2(context)
+                                    ? "*لابد من إدخال وقت العودة"
+                                    : "Select Time",
+                                style: TextStyle(
+                                  color: Colors.red,
+                                  fontFamily: AppUtil.rtlDirection2(context)
+                                      ? 'SF Arabic'
+                                      : 'SF Pro',
+                                  fontSize: width * width * 0.028,
+                                ),
+                              ),
+                            ),
                         ],
                       )
                     ],
@@ -580,7 +594,7 @@ bool? DurationErrorMessage;
                   CustomText(
                     text: "numberOfPeople".tr,
                     color: Colors.black,
-                    fontSize: width*0.044,
+                    fontSize: width * 0.044,
                     fontWeight: FontWeight.w500,
                     fontFamily:
                         AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
@@ -598,19 +612,18 @@ bool? DurationErrorMessage;
                     // margin: EdgeInsets.only(top: height * 0.02, bottom: 5),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-
-                      border: Border.all(width:1,color: borderGrey),
+                      border: Border.all(width: 1, color: borderGrey),
                     ),
                     child: Row(
                       children: [
                         CustomText(
                           text: "person".tr,
-
                           fontWeight: FontWeight.w400,
-                          fontSize: width*0.035,
+                          fontSize: width * 0.035,
                           color: borderGrey,
-                        fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
-
+                          fontFamily: AppUtil.rtlDirection2(context)
+                              ? 'SF Arabic'
+                              : 'SF Pro',
                         ),
                         const Spacer(),
                         GestureDetector(
@@ -632,10 +645,12 @@ bool? DurationErrorMessage;
                         ),
                         CustomText(
                           text: guestNum.toString(),
-                            fontWeight: FontWeight.w400,
-                          fontSize: width*0.035,
+                          fontWeight: FontWeight.w400,
+                          fontSize: width * 0.035,
                           color: borderGrey,
-                        fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+                          fontFamily: AppUtil.rtlDirection2(context)
+                              ? 'SF Arabic'
+                              : 'SF Pro',
                         ),
                         const SizedBox(
                           width: 15,
@@ -659,14 +674,16 @@ bool? DurationErrorMessage;
                   ),
 
                   Align(
-                      alignment:AppUtil.rtlDirection2(context)?Alignment.centerRight: Alignment.centerLeft,
+                      alignment: AppUtil.rtlDirection2(context)
+                          ? Alignment.centerRight
+                          : Alignment.centerLeft,
                       child: CustomText(
                         text: "forMoreThan10".tr,
                         fontSize: 10,
-
                         color: borderGrey,
-                     fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
-
+                        fontFamily: AppUtil.rtlDirection2(context)
+                            ? 'SF Arabic'
+                            : 'SF Pro',
                       )),
                   SizedBox(
                     height: height * 0.015,
@@ -674,10 +691,10 @@ bool? DurationErrorMessage;
                   CustomText(
                     text: "pickUpLocation".tr,
                     color: Colors.black,
-
-                     fontSize: width*0.044,
-                    fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
-                     fontWeight: FontWeight.w500,
+                    fontSize: width * 0.044,
+                    fontFamily:
+                        AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+                    fontWeight: FontWeight.w500,
                   ),
                   SizedBox(
                     height: height * 0.01,
@@ -745,29 +762,31 @@ bool? DurationErrorMessage;
                   CustomText(
                     text: "pickUpRide".tr,
                     color: Colors.black,
-                    fontSize: width*0.044,
+                    fontSize: width * 0.044,
                     fontWeight: FontWeight.w500,
                     fontFamily:
                         AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
                   ),
                   SizedBox(
-                            height: height * 0.01,
+                    height: height * 0.01,
                   ),
                   pickupRide(),
-
-                  if ( vehicleErrorMessage??false)
-                           Padding(
-                            padding: const EdgeInsets.only(top:10),
-                             child: Text(
-                            AppUtil.rtlDirection2(context)?"اختر نوع السيارة":"Select vehicle type",
-                              style: TextStyle(
-                            fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
-
-                                 color: Colors.red,
-                                fontSize: width*0.028,
-                             ),
-                          ),
-                           ),
+                  if (vehicleErrorMessage ?? false)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Text(
+                        AppUtil.rtlDirection2(context)
+                            ? "اختر نوع السيارة"
+                            : "Select vehicle type",
+                        style: TextStyle(
+                          fontFamily: AppUtil.rtlDirection2(context)
+                              ? 'SF Arabic'
+                              : 'SF Pro',
+                          color: Colors.red,
+                          fontSize: width * 0.028,
+                        ),
+                      ),
+                    ),
                   SizedBox(
                     height: height * 0.025,
                   ),
@@ -776,7 +795,6 @@ bool? DurationErrorMessage;
                   // ),
                   Row(
                     children: [
-                    
                       _touristExploreController.isBookingIsMaking.value ||
                               _touristExploreController.isPlaceIsLoading.value
                           ? const CircularProgressIndicator(
@@ -785,32 +803,28 @@ bool? DurationErrorMessage;
                           : CustomButton(
                               title: "findLocal".tr,
                               onPressed: () async {
+                                if (!_touristExploreController
+                                    .isBookingDateSelected.value)
+                                  setState(() {
+                                    DateErrorMessage = true;
+                                  });
+                                else {
+                                  setState(() {
+                                    DateErrorMessage = false;
+                                  });
+                                }
+                                if (!_touristExploreController
+                                    .isBookingTimeSelected.value)
+                                  setState(() {
+                                    TimeErrorMessage = true;
+                                  });
 
-                             
-                           if(!_touristExploreController.isBookingDateSelected.value)
-                              setState(() {
-                                      DateErrorMessage = true;
-                                       });
-                            else{
-                               setState(() {
-                                     DateErrorMessage = false;
-                                       });
-                            }
-                            if(!_touristExploreController.isBookingTimeSelected.value)
-                              setState(() {
-                                      TimeErrorMessage = true;
-                                       });
-                         
-                         
-
-
-                          
-                            if( selectedRide == "")
-                             setState(() {
-                                     vehicleErrorMessage = true;
-                                       });
-                            else{
-                               setState(() {
+                                if (selectedRide == "")
+                                  setState(() {
+                                    vehicleErrorMessage = true;
+                                  });
+                                else {
+                                  setState(() {
                                     vehicleErrorMessage = false;
                                   });
                                 }
@@ -823,24 +837,21 @@ bool? DurationErrorMessage;
                                 if (_touristExploreController.isBookingDateSelected.value &&
                                     _touristExploreController
                                         .isBookingTimeSelected.value &&
+                                    selectedRide != "") {
+                                  if (_validateTime()) {
+                                    print(_validateTime());
+                                    if (newTimeToGoInRiyadh
+                                        .isAfter(nowPlusTwoHours)) {
+                                      _touristExploreController
+                                          .isBookedMade(true);
 
-                                    selectedRide != "" ) {
-                                      
-                            if( _validateTime()){
-                           print(_validateTime());
-                            if(newTimeToGoInRiyadh.isAfter(nowPlusTwoHours)){
-                              
+                                      // AppUtil.successToast(
+                                      //     context, 'TIME AND DATE IS SELECTED');
 
-                                  _touristExploreController.isBookedMade(true);
-
-                                  // AppUtil.successToast(
-                                  //     context, 'TIME AND DATE IS SELECTED');
-
-                                  //  Navigator.pop(context);
-                                  if (widget.place != null) {
-                                    final isSuccess =
-                                        await _touristExploreController
-                                            .bookPlace(
+                                      //  Navigator.pop(context);
+                                      if (widget.place != null) {
+                                        final isSuccess =
+                                            await _touristExploreController.bookPlace(
                                                 placeId: widget.place!.id!,
                                                 timeToGo: DateFormat(
                                                         'HH:mm:ss')
