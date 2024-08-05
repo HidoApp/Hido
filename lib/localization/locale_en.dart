@@ -616,5 +616,8 @@ const localeEn = {
   'eventDetailsSub': "Get to join the locals in their cultural events",
   "saudiEvent": 'saudi Event',
   "Region": 'Region',
-  'tellUsMore': 'Tell us more about yourself '
+  'tellUsMore': 'Tell us more about yourself ',
+  'noExperiences': 'No Experiences Yet',
+  'noExperiencesSubtitle':
+      'Our local hosts are currently building exciting experiences. Check back soon to explore this region!',
 };

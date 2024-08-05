@@ -11,6 +11,7 @@ import 'package:ajwad_v4/services/view/widgets/ad_cards.dart';
 import 'package:ajwad_v4/services/view/widgets/custom_chips.dart';
 import 'package:ajwad_v4/services/view/widgets/custom_hospitality_item.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
+import 'package:ajwad_v4/widgets/custom_empty_widget.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,13 @@ class _HospitalityTabState extends State<HospitalityTab> {
     // TODO: implement initState
     super.initState();
     _srvicesController.getAllHospitality(context: context);
-    _regionsController.getRegions(context: context, regionType: "HOSPITALITY");
+  }
+
+  @override
+  void dispose() {
+    _regionsController.selectedHospitaltyIndex(0);
+    // TODO: implement dispose
+    super.dispose();
   }
 
   var selectedValue = 0;
@@ -73,95 +80,47 @@ class _HospitalityTabState extends State<HospitalityTab> {
                 ),
                 //cities list view
                 SizedBox(
-                  height: width * 0.080,
-                  child: Obx(
-                    () => !_regionsController.isRegionsLoading.value
-                        ? ListView.separated(
-                            scrollDirection: Axis.horizontal,
-                            shrinkWrap: true,
-                            itemCount: _regionsController
-                                    .regionsHospitalty.value.regionEn!.length +
-                                1,
-                            separatorBuilder: (context, index) => SizedBox(
-                              width: width * 0.025,
-                            ),
-                            itemBuilder: (context, index) => Obx(
-                              () => GestureDetector(
-                                onTap: () {
-                                  if (index !=
-                                      _regionsController.selectedHospitaltyIndex
-                                          .value) // for handle user clicks
-                                  {
-                                    _regionsController
-                                        .selectedHospitaltyIndex.value = index;
-                                    print(_regionsController
-                                        .regionsHospitalty
-                                        .value
-                                        .regionEn![index != 0 ? index - 1 : 0]);
-                                    if (index == 0) {
-                                      _srvicesController.getAllHospitality(
-                                          context: context);
-                                    } else {
-                                      log(_regionsController
-                                          .regionsHospitalty
-                                          .value
-                                          .regionEn![index != 0 ? index - 1 : 0]
-                                          .capitalizeFirst!);
-                                      _srvicesController.getAllHospitality(
-                                          context: context,
-                                          region: index != 0
-                                              ? AppUtil.rtlDirection2(context)
-                                                  ? _regionsController
-                                                          .regionsHospitalty
-                                                          .value
-                                                          .regionAr![
-                                                      index != 0
-                                                          ? index - 1
-                                                          : 0]
-                                                  : _regionsController
-                                                      .regionsHospitalty
-                                                      .value
-                                                      .regionEn![index != 0
-                                                          ? index - 1
-                                                          : 0]
-                                                      .capitalizeFirst
-                                              : null);
-                                    }
-                                  }
-                                },
-                                child: CustomChips(
-                                  borderColor: _regionsController
-                                              .selectedHospitaltyIndex.value ==
-                                          index
-                                      ? colorGreen
-                                      : almostGrey,
-                                  backgroundColor: _regionsController
-                                              .selectedHospitaltyIndex.value ==
-                                          index
-                                      ? colorGreen
-                                      : Colors.transparent,
-                                  textColor: _regionsController
-                                              .selectedHospitaltyIndex.value ==
-                                          index
-                                      ? Colors.white
-                                      : almostGrey,
-                                  title: index == 0
-                                      ? 'all'.tr
-                                      : AppUtil.rtlDirection2(context)
-                                          ? _regionsController.regionsHospitalty
-                                              .value.regionAr![index - 1]
-                                          : _regionsController
-                                              .regionsHospitalty
-                                              .value
-                                              .regionEn![index - 1]
-                                              .capitalizeFirst!,
-                                ),
-                              ),
-                            ),
-                          )
-                        : const CircularProgressIndicator.adaptive(),
-                  ),
-                ),
+                    height: width * 0.080,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      itemCount: AppUtil.regionListEn.length,
+                      separatorBuilder: (context, index) => SizedBox(
+                        width: width * 0.025,
+                      ),
+                      itemBuilder: (context, index) => Obx(
+                        () => GestureDetector(
+                          onTap: () async {
+                            _regionsController.selectedHospitaltyIndex(index);
+                            await _srvicesController.getAllHospitality(
+                                context: context,
+                                region: index != 0
+                                    ? AppUtil.regionListEn[index]
+                                    : null);
+                          },
+                          child: CustomChips(
+                            borderColor: _regionsController
+                                        .selectedHospitaltyIndex.value ==
+                                    index
+                                ? colorGreen
+                                : almostGrey,
+                            backgroundColor: _regionsController
+                                        .selectedHospitaltyIndex.value ==
+                                    index
+                                ? colorGreen
+                                : Colors.transparent,
+                            textColor: _regionsController
+                                        .selectedHospitaltyIndex.value ==
+                                    index
+                                ? Colors.white
+                                : almostGrey,
+                            title: AppUtil.rtlDirection2(context)
+                                ? AppUtil.regionListAr[index]
+                                : AppUtil.regionListEn[index],
+                          ),
+                        ),
+                      ),
+                    )),
                 SizedBox(
                   height: width * 0.06,
                 ),
@@ -174,59 +133,75 @@ class _HospitalityTabState extends State<HospitalityTab> {
                           child: const Center(
                               child: CircularProgressIndicator.adaptive()))
                       //List of hospitalities
-                      : ListView.separated(
-                          padding: EdgeInsets.zero,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: _srvicesController.hospitalityList.length,
-                          itemBuilder: (context, index) {
-                            return ServicesCard(
-                                onTap: () {
-                                  Get.to(() => HospitalityDetails(
-                                        hospitalityId: _srvicesController
-                                            .hospitalityList[index].id,
-                                      ));
-                                },
-                                image: _srvicesController
-                                    .hospitalityList[index].images.first,
-                                personImage: _srvicesController
-                                    .hospitalityList[index].user.profile.image,
-                                title: !AppUtil.rtlDirection(context)
-                                    ? _srvicesController
-                                        .hospitalityList[index].titleAr
-                                    : _srvicesController
-                                        .hospitalityList[index].titleEn,
-                                location: AppUtil.rtlDirection2(context)
-                                    ? _srvicesController.hospitalityList[index].regionAr ??
-                                        ""
-                                    : _srvicesController
-                                        .hospitalityList[index].regionEn,
-                                meal: !AppUtil.rtlDirection(context)
-                                    ? _srvicesController
-                                        .hospitalityList[index].mealTypeAr
-                                    : AppUtil.capitalizeFirstLetter(_srvicesController
-                                        .hospitalityList[index].mealTypeEn),
-                                category: AppUtil.rtlDirection(context)
-                                    ? _srvicesController
-                                        .hospitalityList[index].categoryAr
-                                    : _srvicesController
-                                        .hospitalityList[index].categoryEn,
-                                rate: '4.7',
-                                dayInfo: _srvicesController
-                                    .hospitalityList[index].daysInfo,
-                                lang: _srvicesController.hospitalityList[index]
-                                        .coordinate.latitude ??
-                                    '',
-                                long: _srvicesController.hospitalityList[index]
-                                        .coordinate.longitude ??
-                                    '');
-                          },
-                          separatorBuilder: (context, index) {
-                            return SizedBox(
-                              height: width * 0.041,
-                            );
-                          },
-                        ),
+                      : _srvicesController.hospitalityList.isNotEmpty
+                          ? ListView.separated(
+                              padding: EdgeInsets.zero,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount:
+                                  _srvicesController.hospitalityList.length,
+                              itemBuilder: (context, index) {
+                                return ServicesCard(
+                                    onTap: () {
+                                      Get.to(() => HospitalityDetails(
+                                            hospitalityId: _srvicesController
+                                                .hospitalityList[index].id,
+                                          ));
+                                    },
+                                    image: _srvicesController
+                                        .hospitalityList[index].images.first,
+                                    personImage: _srvicesController
+                                        .hospitalityList[index]
+                                        .user
+                                        .profile
+                                        .image,
+                                    title: !AppUtil.rtlDirection(context)
+                                        ? _srvicesController
+                                            .hospitalityList[index].titleAr
+                                        : _srvicesController
+                                            .hospitalityList[index].titleEn,
+                                    location: AppUtil.rtlDirection2(context)
+                                        ? _srvicesController.hospitalityList[index].regionAr ??
+                                            ""
+                                        : _srvicesController
+                                            .hospitalityList[index].regionEn,
+                                    meal: !AppUtil.rtlDirection(context)
+                                        ? _srvicesController
+                                            .hospitalityList[index].mealTypeAr
+                                        : AppUtil.capitalizeFirstLetter(_srvicesController
+                                            .hospitalityList[index].mealTypeEn),
+                                    category: AppUtil.rtlDirection(context)
+                                        ? _srvicesController
+                                            .hospitalityList[index].categoryAr
+                                        : _srvicesController
+                                            .hospitalityList[index].categoryEn,
+                                    rate: '4.7',
+                                    dayInfo: _srvicesController
+                                        .hospitalityList[index].daysInfo,
+                                    lang: _srvicesController
+                                            .hospitalityList[index]
+                                            .coordinate
+                                            .latitude ??
+                                        '',
+                                    long: _srvicesController
+                                            .hospitalityList[index]
+                                            .coordinate
+                                            .longitude ??
+                                        '');
+                              },
+                              separatorBuilder: (context, index) {
+                                return SizedBox(
+                                  height: width * 0.041,
+                                );
+                              },
+                            )
+                          : Center(
+                              child: CustomEmptyWidget(
+                                title: "noExperiences".tr,
+                               // image: "",
+                                subtitle: 'noExperiencesSubtitle'.tr,
+                              ),
+                            ),
                 ),
               ],
             )

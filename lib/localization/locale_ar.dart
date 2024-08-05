@@ -608,5 +608,8 @@ const localeAr = {
   'eventDetailsSub': 'فرصة لمشاركة الشعب فعالياتهم المحلية ',
   "saudiEvent": "الفعاليات المحلية",
   "Region": 'المنطقه',
-  'tellUsMore': 'أخبرنا أكثر عن نفسك  '
+  'tellUsMore': 'أخبرنا أكثر عن نفسك  ',
+  'noExperiences': 'لا توجد تجارب بعد',
+  'noExperiencesSubtitle':
+      'أصحابنا المحليين يعملون حاليًا على صنع تجارب مثيرة. جرب وشيك  في وقت ثاني ',
 };

@@ -11,6 +11,7 @@ import 'package:ajwad_v4/services/view/widgets/custom_event_item.dart';
 import 'package:ajwad_v4/services/view/widgets/custom_hospitality_item.dart';
 import 'package:ajwad_v4/services/view/widgets/event_card.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
+import 'package:ajwad_v4/widgets/custom_empty_widget.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,7 +25,7 @@ class EventsTab extends StatefulWidget {
 
 class _EventsTabState extends State<EventsTab> {
   final _eventController = Get.put(EventController());
-  final _regionsController = Get.put(RegionsController(), tag: "event");
+  final _regionsController = Get.put(RegionsController());
 
   void getEventList() async {
     await _eventController.getEventList(context: context);
@@ -35,7 +36,14 @@ class _EventsTabState extends State<EventsTab> {
     // TODO: implement initState
     super.initState();
     getEventList();
-    _regionsController.getRegions(context: context, regionType: "EVENT");
+    // _regionsController.getRegions(context: context, regionType: "EVENT");
+  }
+
+  @override
+  void dispose() {
+    _regionsController.selectedEventIndex(0);
+    // TODO: implement dispose
+    super.dispose();
   }
 
   @override
@@ -59,7 +67,7 @@ class _EventsTabState extends State<EventsTab> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                   CustomText(
+                    CustomText(
                       text: 'saudiEvent'.tr,
                       color: Color(0xFF070708),
                       fontSize: 17,
@@ -73,87 +81,47 @@ class _EventsTabState extends State<EventsTab> {
                 ),
                 //cities list view
                 SizedBox(
-                  height: width * 0.080,
-                  child: Obx(
-                    () => !_regionsController.isRegionsLoading.value
-                        ? ListView.separated(
-                            scrollDirection: Axis.horizontal,
-                            shrinkWrap: true,
-                            itemCount: _regionsController
-                                    .regionsEvent.value.regionEn!.length +
-                                1,
-                            separatorBuilder: (context, index) => SizedBox(
-                              width: width * 0.025,
-                            ),
-                            itemBuilder: (context, index) => Obx(
-                              () => GestureDetector(
-                                onTap: () async {
-                                  if (index !=
-                                      _regionsController.selectedEventIndex
-                                          .value) // for handle user clicks
-                                  {
-                                    _regionsController
-                                        .selectedEventIndex.value = index;
-
-                                    if (index == 0) {
-                                      await _eventController.getEventList(
-                                          context: context);
-                                    } else {
-                                      await _eventController.getEventList(
-                                          context: context,
-                                          region: index != 0
-                                              ? AppUtil.rtlDirection2(context)
-                                                  ? _regionsController
-                                                          .regionsEvent
-                                                          .value
-                                                          .regionAr![
-                                                      index != 0
-                                                          ? index - 1
-                                                          : 0]
-                                                  : _regionsController
-                                                      .regionsEvent
-                                                      .value
-                                                      .regionEn![index != 0
-                                                          ? index - 1
-                                                          : 0]
-                                                      .capitalizeFirst
-                                              : null);
-                                    }
-                                  }
-                                },
-                                child: CustomChips(
-                                  borderColor: _regionsController
-                                              .selectedEventIndex.value ==
-                                          index
-                                      ? colorGreen
-                                      : almostGrey,
-                                  backgroundColor: _regionsController
-                                              .selectedEventIndex.value ==
-                                          index
-                                      ? colorGreen
-                                      : Colors.transparent,
-                                  textColor: _regionsController
-                                              .selectedEventIndex.value ==
-                                          index
-                                      ? Colors.white
-                                      : almostGrey,
-                                  title: index == 0
-                                      ? 'all'.tr
-                                      : AppUtil.rtlDirection2(context)
-                                          ? _regionsController.regionsEvent
-                                              .value.regionAr![index - 1]
-                                          : _regionsController
-                                              .regionsEvent
-                                              .value
-                                              .regionEn![index - 1]
-                                              .capitalizeFirst!,
-                                ),
-                              ),
-                            ),
-                          )
-                        : const CircularProgressIndicator.adaptive(),
-                  ),
-                ),
+                    height: width * 0.080,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      itemCount: AppUtil.regionListEn.length,
+                      separatorBuilder: (context, index) => SizedBox(
+                        width: width * 0.025,
+                      ),
+                      itemBuilder: (context, index) => Obx(
+                        () => GestureDetector(
+                          onTap: () async {
+                            _regionsController.selectedEventIndex(index);
+                            await _eventController.getEventList(
+                                context: context,
+                                region: index != 0
+                                    ? AppUtil.regionListEn[index]
+                                    : null);
+                          },
+                          child: CustomChips(
+                            borderColor:
+                                _regionsController.selectedEventIndex.value ==
+                                        index
+                                    ? colorGreen
+                                    : almostGrey,
+                            backgroundColor:
+                                _regionsController.selectedEventIndex.value ==
+                                        index
+                                    ? colorGreen
+                                    : Colors.transparent,
+                            textColor:
+                                _regionsController.selectedEventIndex.value ==
+                                        index
+                                    ? Colors.white
+                                    : almostGrey,
+                            title: AppUtil.rtlDirection2(context)
+                                ? AppUtil.regionListAr[index]
+                                : AppUtil.regionListEn[index],
+                          ),
+                        ),
+                      ),
+                    )),
                 SizedBox(
                   height: width * 0.06,
                 ),
@@ -168,52 +136,62 @@ class _EventsTabState extends State<EventsTab> {
                               child: CircularProgressIndicator.adaptive()))
                       //List of hospitalities
                       : Obx(
-                          () => ListView.separated(
-                            padding: EdgeInsets.zero,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: _eventController.eventList.length,
-                            itemBuilder: (context, index) {
-                              return EventCardItem(
-                                onTap: () {
-                                  Get.to(() => LocalEventDetails(
-                                      eventId: _eventController
-                                          .eventList[index].id));
-                                },
-                                image: _eventController
-                                    .eventList[index].images.first,
-                                title: AppUtil.rtlDirection2(context)
-                                    ? _eventController
-                                            .eventList[index].nameAr ??
-                                        ""
-                                    : _eventController
-                                            .eventList[index].nameEn ??
-                                        "",
-                                location: AppUtil.rtlDirection2(context)
-                                    ? _eventController
-                                            .eventList[index].regionAr ??
-                                        ""
-                                    : _eventController
-                                            .eventList[index].regionEn ??
-                                        "",
-                                seats: _eventController
-                                    .eventList[index].daysInfo!.first.seats
-                                    .toString(),
-                                lang:_eventController
-                                    .eventList[index].coordinates!.latitude??'',
-                                 long:_eventController
-                                    .eventList[index].coordinates!.longitude??'',
-                                rate: "5",
-                                daysInfo:
-                                    _eventController.eventList[index].daysInfo!,
-                              );
-                            },
-                            separatorBuilder: (context, index) {
-                              return SizedBox(
-                                height: width * 0.041,
-                              );
-                            },
-                          ),
+                          () => _eventController.eventList.isNotEmpty
+                              ? ListView.separated(
+                                  padding: EdgeInsets.zero,
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: _eventController.eventList.length,
+                                  itemBuilder: (context, index) {
+                                    return EventCardItem(
+                                      onTap: () {
+                                        Get.to(() => LocalEventDetails(
+                                            eventId: _eventController
+                                                .eventList[index].id));
+                                      },
+                                      image: _eventController
+                                          .eventList[index].images.first,
+                                      title: AppUtil.rtlDirection2(context)
+                                          ? _eventController
+                                                  .eventList[index].nameAr ??
+                                              ""
+                                          : _eventController
+                                                  .eventList[index].nameEn ??
+                                              "",
+                                      location: AppUtil.rtlDirection2(context)
+                                          ? _eventController
+                                                  .eventList[index].regionAr ??
+                                              ""
+                                          : _eventController
+                                                  .eventList[index].regionEn ??
+                                              "",
+                                      seats: _eventController.eventList[index]
+                                          .daysInfo!.first.seats
+                                          .toString(),
+                                      lang: _eventController.eventList[index]
+                                              .coordinates!.latitude ??
+                                          '',
+                                      long: _eventController.eventList[index]
+                                              .coordinates!.longitude ??
+                                          '',
+                                      rate: "5",
+                                      daysInfo: _eventController
+                                          .eventList[index].daysInfo!,
+                                    );
+                                  },
+                                  separatorBuilder: (context, index) {
+                                    return SizedBox(
+                                      height: width * 0.041,
+                                    );
+                                  },
+                                )
+                              : Center(
+                                  child: CustomEmptyWidget(
+                                    title: "noExperiences".tr,
+                                    //    image: "",
+                                    subtitle: 'noExperiencesSubtitle'.tr,
+                                  ),
+                                ),
                         ),
                 ),
               ],
