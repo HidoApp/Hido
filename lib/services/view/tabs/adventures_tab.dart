@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/request/ajwadi/view/widget/empty_request.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/services/controller/regions_controller.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
@@ -7,6 +10,7 @@ import 'package:ajwad_v4/services/view/adveture_details.dart';
 import 'package:ajwad_v4/services/view/widgets/custom_adventure_item.dart';
 import 'package:ajwad_v4/services/view/widgets/custom_city_item.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
+import 'package:ajwad_v4/widgets/custom_empty_widget.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -49,6 +53,13 @@ class _AdventuresTabState extends State<AdventuresTab> {
   }
 
   @override
+  void dispose() {
+    _regionsController.selectedAdventureIndex(0);
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
@@ -71,7 +82,7 @@ class _AdventuresTabState extends State<AdventuresTab> {
                 children: [
                   CustomText(
                     text: 'saudiAdventure'.tr,
-                    color: Color(0xFF070708),
+                    color: const Color(0xFF070708),
                     fontSize: 17,
                     fontFamily: 'HT Rakik',
                     fontWeight: FontWeight.w500,
@@ -83,83 +94,48 @@ class _AdventuresTabState extends State<AdventuresTab> {
               ),
               //cities list view
               SizedBox(
-                height: width * 0.080,
-                child: Obx(
-                  () => !_regionsController.isRegionsLoading.value
-                      ? ListView.separated(
-                          scrollDirection: Axis.horizontal,
-                          shrinkWrap: true,
-                          itemCount: _regionsController
-                                  .regionsAdventure.value.regionEn!.length +
-                              1,
-                          separatorBuilder: (context, index) => SizedBox(
-                            width: width * 0.025,
-                          ),
-                          itemBuilder: (context, index) => Obx(
-                            () => GestureDetector(
-                              onTap: () {
-                                if (index !=
-                                    _regionsController.selectedAdventureIndex
-                                        .value) // for handle user clicks
-                                {
-                                  _regionsController
-                                      .selectedAdventureIndex.value = index;
-                                  print(_regionsController
-                                      .regionsAdventure
-                                      .value
-                                      .regionAr![index != 0 ? index - 1 : 0]);
-                                  if (index == 0) {
-                                    _adventureController.getAdvdentureList(
-                                        context: context);
-                                  } else {
-                                    _adventureController.getAdvdentureList(
-                                        context: context,
-                                        region: index != 0
-                                            ? AppUtil.rtlDirection2(context)
-                                                ? _regionsController
-                                                        .regionsAdventure
-                                                        .value
-                                                        .regionAr![
-                                                    index != 0 ? index - 1 : 0]
-                                                : _regionsController
-                                                        .regionsAdventure
-                                                        .value
-                                                        .regionEn![
-                                                    index != 0 ? index - 1 : 0]
-                                            : null);
-                                  }
-                                }
-                              },
-                              child: CustomChips(
-                                borderColor: _regionsController
-                                            .selectedAdventureIndex.value ==
-                                        index
-                                    ? colorGreen
-                                    : almostGrey,
-                                backgroundColor: _regionsController
-                                            .selectedAdventureIndex.value ==
-                                        index
-                                    ? colorGreen
-                                    : Colors.transparent,
-                                textColor: _regionsController
-                                            .selectedAdventureIndex.value ==
-                                        index
-                                    ? Colors.white
-                                    : almostGrey,
-                                title: index == 0
-                                    ? 'all'.tr
-                                    : AppUtil.rtlDirection2(context)
-                                        ? _regionsController.regionsAdventure
-                                            .value.regionAr![index - 1]
-                                        : _regionsController.regionsAdventure
-                                            .value.regionEn![index - 1],
-                              ),
-                            ),
-                          ),
-                        )
-                      : const CircularProgressIndicator.adaptive(),
-                ),
-              ),
+                  height: width * 0.080,
+                  child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    itemCount: AppUtil.regionListEn.length,
+                    separatorBuilder: (context, index) => SizedBox(
+                      width: width * 0.025,
+                    ),
+                    itemBuilder: (context, index) => Obx(
+                      () => GestureDetector(
+                        onTap: () async {
+                          _regionsController.selectedAdventureIndex(index);
+                          await _adventureController.getAdvdentureList(
+                              context: context,
+                              region: index != 0
+                                  ? AppUtil.regionListEn[index]
+                                  : null);
+                        },
+                        child: CustomChips(
+                          borderColor:
+                              _regionsController.selectedAdventureIndex.value ==
+                                      index
+                                  ? colorGreen
+                                  : almostGrey,
+                          backgroundColor:
+                              _regionsController.selectedAdventureIndex.value ==
+                                      index
+                                  ? colorGreen
+                                  : Colors.transparent,
+                          textColor:
+                              _regionsController.selectedAdventureIndex.value ==
+                                      index
+                                  ? Colors.white
+                                  : almostGrey,
+                          title: AppUtil.rtlDirection2(context)
+                              ? AppUtil.regionListAr[index]
+                              : AppUtil.regionListEn[index],
+                        ),
+                      ),
+                    ),
+                  )),
+
               SizedBox(
                 height: width * 0.06,
               ),
@@ -175,51 +151,64 @@ class _AdventuresTabState extends State<AdventuresTab> {
                       )
                     //List of hospitalities
                     : Obx(
-                        () => ListView.separated(
-                          padding: EdgeInsets.zero,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: _adventureController.adventureList.length,
-                          itemBuilder: (context, index) {
-                            return CustomAdventureItem(
-                              onTap: () {
-                                Get.to(() => AdventureDetails(
-                                      adventureId: _adventureController
-                                          .adventureList[index].id,
-                                    ));
-                              },
-                              image: _adventureController
-                                  .adventureList[index].image![0],
-                              date: _adventureController
-                                  .adventureList[index].date!,
-                              title: !AppUtil.rtlDirection(context)
-                                  ? _adventureController
-                                      .adventureList[index].nameAr!
-                                  : _adventureController
-                                      .adventureList[index].nameEn!,
-                              location: AppUtil.rtlDirection2(context)
-                                  ? _adventureController
-                                      .adventureList[index].regionAr!
-                                  : _adventureController
-                                      .adventureList[index].regionEn!,
-                              seats: _adventureController
-                                  .adventureList[index].seats
-                                  .toString(),
-                              times: _adventureController
-                                  .adventureList[index].times,
-                              rate: '4.7',
-                              lang: _adventureController
-                                  .adventureList[index].coordinates?.latitude,
-                              long: _adventureController
-                                  .adventureList[index].coordinates?.longitude,
-                            );
-                          },
-                          separatorBuilder: (context, index) {
-                            return SizedBox(
-                              height: width * 0.041,
-                            );
-                          },
-                        ),
+                        () => _adventureController.adventureList.isNotEmpty
+                            ? ListView.separated(
+                                padding: EdgeInsets.zero,
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount:
+                                    _adventureController.adventureList.length,
+                                itemBuilder: (context, index) {
+                                  return CustomAdventureItem(
+                                    onTap: () {
+                                      Get.to(() => AdventureDetails(
+                                            adventureId: _adventureController
+                                                .adventureList[index].id,
+                                          ));
+                                    },
+                                    image: _adventureController
+                                        .adventureList[index].image![0],
+                                    date: _adventureController
+                                        .adventureList[index].date!,
+                                    title: !AppUtil.rtlDirection(context)
+                                        ? _adventureController
+                                            .adventureList[index].nameAr!
+                                        : _adventureController
+                                            .adventureList[index].nameEn!,
+                                    location: AppUtil.rtlDirection2(context)
+                                        ? _adventureController
+                                            .adventureList[index].regionAr!
+                                        : _adventureController
+                                            .adventureList[index].regionEn!,
+                                    seats: _adventureController
+                                        .adventureList[index].seats
+                                        .toString(),
+                                    times: _adventureController
+                                        .adventureList[index].times,
+                                    rate: '4.7',
+                                    lang: _adventureController
+                                        .adventureList[index]
+                                        .coordinates
+                                        ?.latitude,
+                                    long: _adventureController
+                                        .adventureList[index]
+                                        .coordinates
+                                        ?.longitude,
+                                  );
+                                },
+                                separatorBuilder: (context, index) {
+                                  return SizedBox(
+                                    height: width * 0.041,
+                                  );
+                                },
+                              )
+                            : Center(
+                                child: CustomEmptyWidget(
+                                  title: "noExperiences".tr,
+                              //    image: "",
+                                  subtitle: 'noExperiencesSubtitle'.tr,
+                                ),
+                              ),
                       ),
               ),
             ],

@@ -85,9 +85,9 @@ class _ServiceScreenState extends State<ServiceScreen>
                     CustomText(
                       text: _tabIndex == 0
                           ? "hospitalityDetails".tr
-                          :_tabIndex == 1
-                          ?"adventureDetails".tr
-                          :"eventDetailsSub".tr,
+                          : _tabIndex == 1
+                              ? "adventureDetails".tr
+                              : "eventDetailsSub".tr,
                       color: Colors.white,
                       fontSize: 11,
                       maxlines: 2,
@@ -171,8 +171,8 @@ class _ServiceScreenState extends State<ServiceScreen>
                 // indicatorPadding: const EdgeInsets.only(
                 //   top: 10,
                 // ),
-                //dividerColor: Colors.transparent,
-             //   dividerHeight: 0,
+                dividerColor: Colors.transparent,
+                //dividerHeight: 0,
                 // overlayColor: WidgetStateProperty.all(Colors.transparent),
                 indicator: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -257,14 +257,15 @@ class _ServiceScreenState extends State<ServiceScreen>
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(width * 0.03),
                               topRight: Radius.circular(width * 0.03))),
-                    child: CustomText(
-                      text: "events".tr,
-                      color: _tabIndex == 2 ? darkBlue : Colors.white,
-                      fontWeight:
-                          _tabIndex == 2 ? FontWeight.w700 : FontWeight.w400,
-                      fontSize: _tabIndex == 2 ? width * 0.033 : width * 0.028,
+                      child: CustomText(
+                        text: "events".tr,
+                        color: _tabIndex == 2 ? darkBlue : Colors.white,
+                        fontWeight:
+                            _tabIndex == 2 ? FontWeight.w700 : FontWeight.w400,
+                        fontSize:
+                            _tabIndex == 2 ? width * 0.033 : width * 0.028,
+                      ),
                     ),
-                  ),
                   ),
                   // Padding(
                   //   padding: const EdgeInsets.symmetric(horizontal: 18),
@@ -284,7 +285,6 @@ class _ServiceScreenState extends State<ServiceScreen>
             physics: const NeverScrollableScrollPhysics(),
             children: const [
               HospitalityTab(),
-
               AdventuresTab(),
               EventsTab(),
               // RestaurantsTab(

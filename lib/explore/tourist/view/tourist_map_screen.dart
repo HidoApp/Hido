@@ -286,7 +286,9 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                   .touristModel.value!.places![i].booking!.first.date) {
         if (_touristExploreController
                 .touristModel.value!.places![i].booking!.first.orderStatus ==
-            '') {}
+            'PENDING') {
+          return;
+        }
         print("EQUALLL");
         print(currentDateString);
         print(_touristExploreController
@@ -359,11 +361,10 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
             ? const CircularProgressIndicator.adaptive()
             : _touristExploreController.showActivityProgress.value
                 ? Container(
-                  color: Colors.white,
-                  child: SolidBottomSheet(
+                    color: Colors.white,
+                    child: SolidBottomSheet(
                       showOnAppear: showSheet,
                       toggleVisibilityOnTap: true,
-                      
                       maxHeight: 209,
                       controller: _sheetController,
                       onHide: () {
@@ -387,10 +388,8 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                       ),
                       body: const ProgressSheet(),
                     ),
-              
                   )
                 : const SizedBox.shrink(),
-
       ),
       body: Obx(
         () => Stack(

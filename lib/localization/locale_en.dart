@@ -612,13 +612,12 @@ const localeEn = {
   "noAbout": "There are no informations yet",
   "NoReview": "There are no reviews yet",
   '*TheMinimumPrice': '*The minimum price for an activity is 30 SAR ',
-  'timeErorrRange': "The time selected out of range" ,
-  'eventDetailsSub':"Get to join the locals in their cultural events",
+  'timeErorrRange': "The time selected out of range",
+  'eventDetailsSub': "Get to join the locals in their cultural events",
   "saudiEvent": 'saudi Event',
-  "Region":'Region'
-
-
-
-  
-
+  "Region": 'Region',
+  'tellUsMore': 'Tell us more about yourself ',
+  'noExperiences': 'No Experiences Yet',
+  'noExperiencesSubtitle':
+      'Our local hosts are currently building exciting experiences. Check back soon to explore this region!',
 };
