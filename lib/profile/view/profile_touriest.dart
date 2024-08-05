@@ -19,15 +19,15 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
 
-class ProfileDetails extends StatefulWidget {
-  const ProfileDetails(
+class TouriestProfile extends StatefulWidget {
+  const TouriestProfile(
       {Key? key, this.fromAjwady = true, required this.profileController})
       : super(key: key);
 
   final bool fromAjwady;
   final ProfileController profileController;
   @override
-  State<ProfileDetails> createState() => _ProfileDetailsState();
+  State<TouriestProfile> createState() => _ProfileDetailsState();
 }
 
 final ImagePicker picker = ImagePicker();
@@ -42,7 +42,7 @@ bool isSendTapped = false;
 List<String> languages = [];
 List<ValueItem> nationalites = [];
 
-class _ProfileDetailsState extends State<ProfileDetails> {
+class _ProfileDetailsState extends State<TouriestProfile> {
   @override
   void dispose() {
     _userName.dispose();

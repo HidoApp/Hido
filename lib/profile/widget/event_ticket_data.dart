@@ -43,8 +43,6 @@ class _EventTicketDataState extends State<EventTicketData> {
 
   @override
   Widget build(BuildContext context) {
-    log('fff');
-    log(widget.event!.booking!.first.date.isEmpty.toString());
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

@@ -244,7 +244,7 @@ const localeAr = {
   "searchforAjwady": "بحث عن أجودي",
   "searchforLocal": "يتم البحث عن مرشد محلي",
   "WeSentYourRequestAndWaiteTillAccepted":
-  "لقد تم إرسال طلبك في انتظار قبول أحد المرشدين المحليين للطلب وإرسال عروضهم",
+      "لقد تم إرسال طلبك في انتظار قبول أحد المرشدين المحليين للطلب وإرسال عروضهم",
   "until": "حتى",
   "offers": "عروض",
   "contactAjwadAppTeam": "تواصل مع فريق اجواد",
@@ -604,9 +604,9 @@ const localeAr = {
   "NoReview": "لا يوجد تقييمات بعد",
   '*TheMinimumPrice': '*الحد الأدنى لسعر النشاط هو 150 ريال سعودي',
   'timeErorrRange': 'الوقت المحدد خارج الأوقات المطلوبة',
- 
-  'eventDetailsSub':'فرصة لمشاركة الشعب فعالياتهم المحلية ',
-  "saudiEvent":"الفعاليات المحلية",
-  "Region":'المنطقه'
-  
+
+  'eventDetailsSub': 'فرصة لمشاركة الشعب فعالياتهم المحلية ',
+  "saudiEvent": "الفعاليات المحلية",
+  "Region": 'المنطقه',
+  'tellUsMore': 'أخبرنا أكثر عن نفسك  '
 };
