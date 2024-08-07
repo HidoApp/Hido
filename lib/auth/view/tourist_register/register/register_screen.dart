@@ -1,4 +1,5 @@
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
+import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/auth/view/tourist_register/register/last_step.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
@@ -264,7 +265,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                             TextButton(
                               onPressed: () {
-                                Get.back();
+                                Get.off(() => const SignInScreen());
                               },
                               child: CustomText(
                                 text: "signIn".tr,

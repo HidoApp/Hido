@@ -612,4 +612,8 @@ const localeAr = {
   'noExperiences': 'لا توجد تجارب بعد',
   'noExperiencesSubtitle':
       'أصحابنا المحليين يعملون حاليًا على صنع تجارب مثيرة. جرب وشيك  في وقت ثاني ',
+  'accountUpadted': 'تم تحديث الحساب',
+  "updateEmail": "تحديث البريد الالكتروني ",
+  'emailEditSubtitle': "سنقوم بارسال رمز على بريدك الجديد للتوثيق ",
+  'emailConfirm': 'التحقق من البريد الالكتروني'
 };

@@ -53,7 +53,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-
+    storage.write('key', 'value');
     getProfile();
   }
 
@@ -157,7 +157,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     fontSize: width * 0.03,
                                     fontWeight: FontWeight.w500,
                                   ),
-                                  SvgPicture.asset("assets/icons/star.svg")
+                                  if (widget.fromAjwady)
+                                    SvgPicture.asset("assets/icons/star.svg")
                                 ],
                               )
                             ],
@@ -244,25 +245,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Expanded(
                         child: Column(
                           children: [
-                            // CustomListTile(
-                            //   title: "paymentMethods".tr,
-                            //   leading: "assets/icons/payment_icon.svg",
-                            //   iconColor: colorGreen,
-                            //   onTap: () {
-                            //     // showModalBottomSheet(
-                            //     //     isScrollControlled: true,
-                            //     //     backgroundColor: Colors.transparent,
-                            //     //     shape: const RoundedRectangleBorder(
-                            //     //         borderRadius: BorderRadius.only(
-                            //     //       topRight: Radius.circular(30),
-                            //     //       topLeft: Radius.circular(30),
-                            //     //     )),
-                            //     //     context: context,
-                            //     //     builder: (context) {
-                            //     //       return PaymentMethod();
-                            //     //     });
-                            //   },
-                            // ),
                             CustomListTile(
                               title: "terms".tr,
                               leading: "assets/icons/help_icon.svg",

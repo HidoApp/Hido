@@ -1,6 +1,7 @@
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/widget/otp_sheet.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
@@ -25,7 +26,6 @@ class _PhoneSheetState extends State<PhoneSheet> {
     final width = MediaQuery.of(context).size.width;
     final hieht = MediaQuery.of(context).size.height;
     return Container(
-      height: width * 0.76,
       width: double.infinity,
       decoration: const BoxDecoration(
           color: Colors.white,
@@ -38,6 +38,7 @@ class _PhoneSheetState extends State<PhoneSheet> {
           bottom: width * 0.082),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           const BottomSheetIndicator(),
           SizedBox(
@@ -50,7 +51,7 @@ class _PhoneSheetState extends State<PhoneSheet> {
           ),
           CustomText(
             text: "phoneEditSubtitle".tr,
-            fontFamily: "SF Pro",
+            fontFamily: AppUtil.SfFontType(context),
             fontWeight: FontWeight.w400,
             fontSize: width * 0.0410,
             color: starGreyColor,
@@ -61,7 +62,7 @@ class _PhoneSheetState extends State<PhoneSheet> {
           CustomText(
             text: "phoneNum".tr,
             fontSize: width * 0.043,
-            fontFamily: "SF Pro",
+            fontFamily: AppUtil.SfFontType(context),
             fontWeight: FontWeight.w500,
           ),
           Form(

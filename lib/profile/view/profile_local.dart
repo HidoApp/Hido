@@ -57,7 +57,7 @@ class _LocalProfileState extends State<LocalProfile> {
         descripttion = '';
       }
       if (context.mounted) {
-        AppUtil.successToast(context, "account upadted");
+        AppUtil.successToast(context, "accountUpadted".tr);
       }
     } else {
       log("error");

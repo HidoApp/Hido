@@ -121,7 +121,7 @@ class _ReviewIenraryScreenState extends State<ReviewIenraryScreen> {
 
                         if (widget.requestController.isRequestAccept.value) {
                           if (context.mounted) {
-                            AppUtil.successToast(context, 'done'.tr);
+                            //AppUtil.successToast(context, "offerSent".tr);
                             showDialog(
                               context: context,
                               builder: (ctx) {
@@ -145,7 +145,7 @@ class _ReviewIenraryScreenState extends State<ReviewIenraryScreen> {
                               Get.offAll(() => const AjwadiBottomBar());
                             });
                           } else {
-                            AppUtil.errorToast(context, 'error'.tr);
+                            // AppUtil.errorToast(context, 'error'.tr);
                           }
                         }
                       },

@@ -9,7 +9,7 @@ class ReviewDetailsTile extends StatelessWidget {
     super.key,
     required this.title,
     required this.image,
-    this.widthh=0,
+    this.widthh = 0,
   });
   final String title;
   final String image;
@@ -26,14 +26,11 @@ class ReviewDetailsTile extends StatelessWidget {
           // margin: EdgeInsets.only(
           //     left: image == 'assets/icons/meal.svg' ? 3 : 0,
           //     right: image == 'assets/icons/meal.svg' ? 2 : 0),
-          child: width!=0 ?SvgPicture.asset(
-            image,
-           
-           width:widthh
-
-          ):SvgPicture.asset(
-            image,
-          ),
+          child: width != 0
+              ? SvgPicture.asset(image, width: widthh)
+              : SvgPicture.asset(
+                  image,
+                ),
         ),
         SizedBox(
           width: width * 0.012,
@@ -42,7 +39,7 @@ class ReviewDetailsTile extends StatelessWidget {
           text: title,
           color: const Color(0xFF9392A0),
           fontSize: width * 0.038,
-         fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+          fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
           fontWeight: FontWeight.w400,
         ),
       ],

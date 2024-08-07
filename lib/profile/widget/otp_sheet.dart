@@ -33,7 +33,7 @@ class _OtpSheetState extends State<OtpSheet> {
     final width = MediaQuery.of(context).size.width;
 
     return Container(
-      height: width * .769,
+      //height: width * .769,
       width: double.infinity,
       padding: EdgeInsets.only(
           left: width * 0.0615,
@@ -46,6 +46,7 @@ class _OtpSheetState extends State<OtpSheet> {
               topRight: Radius.circular(24), topLeft: Radius.circular(24))),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           const BottomSheetIndicator(),
           SizedBox(
@@ -128,6 +129,7 @@ class _OtpSheetState extends State<OtpSheet> {
                       _profileController.isUpdatingMobileLoading.value ||
                       _profileController.isProfileLoading.value ||
                       _authController.isLienceseLoading.value ||
+                      _authController.isOTPLoading.value ||
                       _authController.isVicheleLoading.value
                   ? const CircularProgressIndicator.adaptive()
                   : CountdownTimer(resendOtp: widget.resendOtp),
