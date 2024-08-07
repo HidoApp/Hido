@@ -4,6 +4,7 @@ import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/widget/floating_timer.dart';
 import 'package:ajwad_v4/explore/widget/progress_sheet.dart';
 import 'package:ajwad_v4/explore/widget/rating_sheet.dart';
+import 'package:ajwad_v4/payment/widget/webview_sheet.dart';
 import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_bookmark_card.dart';
@@ -42,7 +43,16 @@ class _BookmarkScreenState extends State<BookmarkScreen>
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: lightGreyBackground,
-      floatingActionButton: FloatingTimer(),
+      floatingActionButton: FloatingActionButton.extended(
+        
+        label: Icon(Icons.add),
+        onPressed: () {
+          // Get.bottomSheet(WebViewSheet(
+          //     url:
+          //         'https://kijiji-trembl-dvds-fixes.trycloudflare.com/payment/myfatoorah/embedded/apple/view?&sessionId=cb093a76-8c0f-4b38-8770-c107811c74e6&amount=1',
+          //     title: "title"));
+        },
+      ),
       appBar: CustomAppBar(
         'bookmark'.tr,
       ),

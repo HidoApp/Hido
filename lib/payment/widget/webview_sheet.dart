@@ -1,3 +1,4 @@
+import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -9,11 +10,12 @@ class WebViewSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.only(top: 20),
       decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(12), topRight: Radius.circular(12))),
-      height: 112,
+      height: 120,
       child: WebViewWidget(
         controller: WebViewController()
           ..setJavaScriptMode(JavaScriptMode.unrestricted)

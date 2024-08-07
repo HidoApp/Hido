@@ -25,6 +25,7 @@ import 'package:ajwad_v4/profile/widget/phone_sheet.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
+import 'package:ajwad_v4/widgets/custom_textfield.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:custom_map_markers/custom_map_markers.dart';
@@ -32,12 +33,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text_area.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -392,12 +395,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                 }
                 if (isNew) {
                   storage.write('markers', markers);
-                  print("isNew WITH WRITE");
-                  print(isNew);
                   isNew = false;
-                } else {
-                  print("isNew");
-                  print(isNew);
                 }
 
                 return GoogleMap(
@@ -421,64 +419,115 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                 );
               }),
           Positioned(
-            top: width * .125,
+            top: width * .19,
             left: width * 0.041,
             right: width * 0.041,
             child: Column(
               children: [
                 // text field and icons
-                Container(
-                  alignment: Alignment.center,
-                  width: width * 0.87,
-                  height: width * 0.087,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(width * 0.051),
+                CupertinoTypeAheadField<Place>(
+                  decorationBuilder: (context, child) => Container(
+                    padding: EdgeInsets.only(
+                      top: 12,
+                      // left: 16,
+                      bottom: 8,
                     ),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: child,
                   ),
-                  child: TextField(
-                    controller: searchTextController,
-                    style: TextStyle(
-                        fontSize: width * 0.035, fontWeight: FontWeight.normal),
-                    textInputAction: TextInputAction.search,
-                    decoration: InputDecoration(
-                      prefixIcon: SvgPicture.asset(
-                        'assets/icons/General.svg',
+                  itemSeparatorBuilder: (context, index) => const Divider(
+                    color: lightGrey,
+                  ),
+                  suggestionsCallback: (search) {
+                    if (AppUtil.rtlDirection2(context)) {
+                      return _touristExploreController
+                          .touristModel.value!.places!
+                          .where((place) => place.nameAr!
+                              .toLowerCase()
+                              .contains(search.toLowerCase()))
+                          .toList();
+                    }
+                    return _touristExploreController.touristModel.value!.places!
+                        .where((place) => place.nameEn!
+                            .toLowerCase()
+                            .contains(search.toLowerCase()))
+                        .toList();
+                  },
+                  builder: (context, controller, focusNode) {
+                    return Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(25),
                       ),
-                      contentPadding: EdgeInsets.only(
-                          top: width * .02,
-                          left: width * 0.11,
-                          right: width * 0.030),
-                      disabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(width * 0.051),
+                      child: CustomTextField(
+                        borderColor: Colors.transparent,
+                        raduis: 25,
+                        height: 34,
+                        hintText: 'search'.tr,
+                        prefixIcon: Padding(
+                          padding: EdgeInsets.all(8),
+                          child: SvgPicture.asset(
+                            'assets/icons/General.svg',
+                            width: 10,
+                            height: 1,
                           ),
-                          borderSide: BorderSide(
-                              color: Colors.grey, width: width * .002)),
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(width * 0.051),
-                          ),
-                          borderSide: BorderSide(
-                              color: Colors.grey, width: width * .002)),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(width * 0.051),
                         ),
-                        borderSide:
-                            BorderSide(color: Colors.grey, width: width * .002),
+                        focusNode: focusNode,
+                        controller: controller,
+                        onChanged: (value) {},
                       ),
-                      hintText: "Search",
-                      hintStyle: TextStyle(
-                          color: lightGrey,
-                          fontSize: width * 0.041,
-                          fontWeight: ui.FontWeight.w400),
-                    ),
-                    onChanged: (value) {
-                      setState(() {});
-                    },
-                  ),
+                    );
+                  },
+                  itemBuilder: (context, place) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 1, horizontal: 16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomText(
+                            text: AppUtil.rtlDirection2(context)
+                                ? place.nameAr
+                                : place.nameEn,
+                            fontFamily: AppUtil.SfFontType(context),
+                            fontSize: width * 0.038,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black,
+                          ),
+                          CustomText(
+                            text: AppUtil.rtlDirection2(context)
+                                ? place.regionAr
+                                : place.regionEn,
+                            fontFamily: AppUtil.SfFontType(context),
+                            fontSize: width * 0.033,
+                            fontWeight: FontWeight.w500,
+                            color: starGreyColor,
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                  onSelected: (place) {
+                    final distance = calculateDistanceBtwUserAndPlace(
+                      userLocation!.latitude,
+                      userLocation!.longitude,
+                      double.parse(place.coordinates!.latitude!),
+                      double.parse(place.coordinates!.longitude!),
+                    );
+                    Get.to(
+                      () => TripDetails(
+                        fromAjwady: false,
+                        place: place,
+                        distance: distance != 0.0
+                            ? distance.roundToDouble()
+                            : distance,
+                        userLocation: userLocation,
+                      ),
+                    );
+                  },
                 ),
                 SizedBox(
                   height: width * 0.03,
