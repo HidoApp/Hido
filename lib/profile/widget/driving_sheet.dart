@@ -54,7 +54,7 @@ class _DrivingSheetState extends State<DrivingSheet> {
     final width = MediaQuery.of(context).size.width;
     return Container(
       width: double.infinity,
-      height: width * 0.628,
+      //  height: width * 0.628,
       padding: EdgeInsets.only(
           left: width * 0.0615,
           right: width * 0.0615,
@@ -67,6 +67,7 @@ class _DrivingSheetState extends State<DrivingSheet> {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           const BottomSheetIndicator(),
           SizedBox(

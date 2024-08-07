@@ -141,7 +141,7 @@ class _ProfileDetailsState extends State<TouriestProfile> {
                     );
 
                     if (context.mounted) {
-                      AppUtil.successToast(context, "account upadted");
+                      AppUtil.successToast(context, "accountUpadted".tr);
                     }
                     newProfileImage = null;
                   } else {

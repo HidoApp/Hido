@@ -67,14 +67,11 @@ class _ChatScreenState extends State<ChatScreen> {
     log("\n \n");
     getChat();
 
-    
-
     String token = getStorage.read('accessToken');
     final Token jwtToken = AuthService.jwtForToken(token)!;
     userId = jwtToken.id;
-    
+
     log("Chat Screen senderIdchatId ${userId}");
-    
   }
 
   void getChat() async {
@@ -89,9 +86,7 @@ class _ChatScreenState extends State<ChatScreen> {
     print('im');
     return Obx(
       () => chatController.isGetChatByIdLoading.value
-          ? Scaffold(
-              body: Center(
-                  child: CircularProgressIndicator.adaptive()))
+          ? Scaffold(body: Center(child: CircularProgressIndicator.adaptive()))
           : Scaffold(
               backgroundColor: lightGreyBackground,
               appBar: CustomAppBar(
@@ -101,7 +96,6 @@ class _ChatScreenState extends State<ChatScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -115,303 +109,341 @@ class _ChatScreenState extends State<ChatScreen> {
                                         padding:
                                             const EdgeInsets.only(left: 90)),
                                     Center(
-                                      child:chat!.bookingId==''
-                                     ? Container()
-                                      
-                                      : Container(
-                                        width: 0.90 * width,
-                                        //  height: 0.089 *height,
+                                      child: chat!.bookingId == ''
+                                          ? Container()
+                                          : Container(
+                                              width: 0.90 * width,
+                                              //  height: 0.089 *height,
 
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                        child:
-                                        
-                                         Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            ListTile(
-                                              onTap: () async {
-                                                if (widget.booking2 == null) {
-                                                  widget.booking2 =
-                                                      await _touristExploreController
-                                                          .getTouristBookingById(
-                                                    context: context,
-                                                    bookingId: chat!.bookingId!,
-                                                  );
-
-                                                  if (widget.booking2 != null ||
-                                                      widget.booking != null) {
-                                                    print(
-                                                        "this is widget book");
-                                                    print(chat!.bookingId!);
-                                                  }
-                                                }
-                                                setState(() {
-                                                  isDetailsTapped1 =
-                                                      !isDetailsTapped1;
-                                                });
-                                              },
-                                              title: CustomText(
-                                                text: 'tripDetails'.tr,
-                                                color: Color(0xFF070708),
-                                                fontSize: 17,
-                                                fontFamily: 'HT Rakik',
-                                                fontWeight: FontWeight.w500,
-                                                height: 0.10,
-                                                textAlign:
-                                                    AppUtil.rtlDirection2(
-                                                            context)
-                                                        ? TextAlign.right
-                                                        : TextAlign.left,
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
                                               ),
-                                              trailing: Icon(
-                                                isDetailsTapped
-                                                    ? Icons.keyboard_arrow_up
-                                                    : Icons.keyboard_arrow_down,
-                                                color: darkGrey,
-                                                size: 24,
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  ListTile(
+                                                    onTap: () async {
+                                                      if (widget.booking2 ==
+                                                          null) {
+                                                        widget.booking2 =
+                                                            await _touristExploreController
+                                                                .getTouristBookingById(
+                                                          context: context,
+                                                          bookingId:
+                                                              chat!.bookingId!,
+                                                        );
+
+                                                        if (widget.booking2 !=
+                                                                null ||
+                                                            widget.booking !=
+                                                                null) {
+                                                          print(
+                                                              "this is widget book");
+                                                          print(
+                                                              chat!.bookingId!);
+                                                        }
+                                                      }
+                                                      setState(() {
+                                                        isDetailsTapped1 =
+                                                            !isDetailsTapped1;
+                                                      });
+                                                    },
+                                                    title: CustomText(
+                                                      text: 'tripDetails'.tr,
+                                                      color: Color(0xFF070708),
+                                                      fontSize: 17,
+                                                      fontFamily: 'HT Rakik',
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      height: 0.10,
+                                                      textAlign:
+                                                          AppUtil.rtlDirection2(
+                                                                  context)
+                                                              ? TextAlign.right
+                                                              : TextAlign.left,
+                                                    ),
+                                                    trailing: Icon(
+                                                      isDetailsTapped
+                                                          ? Icons
+                                                              .keyboard_arrow_up
+                                                          : Icons
+                                                              .keyboard_arrow_down,
+                                                      color: darkGrey,
+                                                      size: 24,
+                                                    ),
+                                                  ),
+                                                  if (isDetailsTapped1)
+                                                    Padding(
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 20,
+                                                          vertical: 10),
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Row(
+                                                            children: [
+                                                              SvgPicture.asset(
+                                                                  'assets/icons/date.svg'),
+                                                              const SizedBox(
+                                                                width: 10,
+                                                              ),
+                                                              CustomText(
+                                                                text: widget.booking !=
+                                                                        null
+                                                                    ? AppUtil.formatBookingDate(
+                                                                        context,
+                                                                        widget
+                                                                            .booking!
+                                                                            .date!)
+                                                                    : AppUtil.formatBookingDate(
+                                                                        context,
+                                                                        widget
+                                                                            .booking2!
+                                                                            .date!),
+                                                                color:
+                                                                    almostGrey,
+                                                                fontSize: 13,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
+                                                                fontFamily:
+                                                                    'SF Pro',
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          const SizedBox(
+                                                            height: 10,
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              SvgPicture.asset(
+                                                                  'assets/icons/time3.svg'),
+                                                              const SizedBox(
+                                                                width: 9,
+                                                              ),
+                                                              CustomText(
+                                                                text: widget.booking !=
+                                                                        null
+                                                                    ? AppUtil.rtlDirection2(
+                                                                            context)
+                                                                        ? 'من ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)} إلى ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)} '
+                                                                        : 'Pick up: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)}, Drop off: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)}'
+                                                                    : AppUtil.rtlDirection2(
+                                                                            context)
+                                                                        ? 'من ${AppUtil.formatStringTimeWithLocale(context, widget.booking2!.timeToGo)} إلى ${AppUtil.formatStringTimeWithLocale(context, widget.booking2!.timeToReturn!)} '
+                                                                        : 'Pick up: ${AppUtil.formatStringTimeWithLocale(context, widget.booking2!.timeToGo)}, Drop off: ${AppUtil.formatStringTimeWithLocale(context, widget.booking2!.timeToReturn)}',
+                                                                color:
+                                                                    almostGrey,
+                                                                fontSize: 13,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
+                                                                fontFamily:
+                                                                    'SF Pro',
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          const SizedBox(
+                                                            height: 10,
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              SvgPicture.asset(
+                                                                  'assets/icons/guests.svg'),
+                                                              const SizedBox(
+                                                                width: 10,
+                                                              ),
+                                                              CustomText(
+                                                                text: widget.booking !=
+                                                                        null
+                                                                    ? '${widget.booking?.guestNumber ?? 0} ${'guests'.tr}'
+                                                                    : '${widget.booking2?.guestNumber ?? 0} ${'guests'.tr}',
+                                                                color:
+                                                                    almostGrey,
+                                                                fontSize: 13,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
+                                                                fontFamily:
+                                                                    'SF Pro',
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          const SizedBox(
+                                                            height: 10,
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              widget.booking !=
+                                                                      null
+                                                                  ? SvgPicture
+                                                                      .asset(
+                                                                      'assets/icons/unselected_${widget.booking?.vehicleType!}_icon.svg',
+                                                                      width: 20,
+                                                                    )
+                                                                  : SvgPicture
+                                                                      .asset(
+                                                                      'assets/icons/unselected_${widget.booking2?.vehicleType!}_icon.svg',
+                                                                      width: 20,
+                                                                    ),
+                                                              const SizedBox(
+                                                                width: 10,
+                                                              ),
+                                                              CustomText(
+                                                                text: widget.booking !=
+                                                                        null
+                                                                    ? widget.booking
+                                                                            ?.vehicleType ??
+                                                                        ''
+                                                                    : widget.booking2
+                                                                            ?.vehicleType ??
+                                                                        '',
+                                                                color:
+                                                                    almostGrey,
+                                                                fontSize: 13,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
+                                                                fontFamily:
+                                                                    'SF Pro',
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                ],
                                               ),
                                             ),
-                                            if (isDetailsTapped1)
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 20,
-                                                        vertical: 10),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Row(
-                                                      children: [
-                                                        SvgPicture.asset(
-                                                            'assets/icons/date.svg'),
-                                                        const SizedBox(
-                                                          width: 10,
-                                                        ),
-                                                        CustomText(
-                                                          text: widget.booking !=
-                                                                  null
-                                                              ? AppUtil.formatBookingDate(
-                                                                  context,
-                                                                  widget
-                                                                      .booking!
-                                                                      .date!)
-                                                              : AppUtil.formatBookingDate(
-                                                                  context,
-                                                                  widget
-                                                                      .booking2!
-                                                                      .date!),
-                                                          color: almostGrey,
-                                                          fontSize: 13,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          fontFamily: 'SF Pro',
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 10,
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        SvgPicture.asset(
-                                                            'assets/icons/time3.svg'),
-                                                        const SizedBox(
-                                                          width: 9,
-                                                        ),
-                                                        CustomText(
-                                                          text: widget.booking !=
-                                                                  null
-                                                               ? AppUtil.rtlDirection2(context)
-                                              ? 'من ${ AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)} إلى ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)} '
-                                              : 'Pick up: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)}, Drop off: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)}'
-                                             
-                                              :  AppUtil.rtlDirection2(context)
-                                              ? 'من ${ AppUtil.formatStringTimeWithLocale(context, widget.booking2!.timeToGo)} إلى ${AppUtil.formatStringTimeWithLocale(context, widget.booking2!.timeToReturn!)} '
-                                              : 'Pick up: ${AppUtil.formatStringTimeWithLocale(context,widget.booking2!.timeToGo)}, Drop off: ${AppUtil.formatStringTimeWithLocale(context, widget.booking2!.timeToReturn)}',
-                                                        
-                                                          color: almostGrey,
-                                                          fontSize: 13,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          fontFamily: 'SF Pro',
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 10,
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        SvgPicture.asset(
-                                                            'assets/icons/guests.svg'),
-                                                        const SizedBox(
-                                                          width: 10,
-                                                        ),
-                                                        CustomText(
-                                                          text: widget.booking !=
-                                                                  null
-                                                              ? '${widget.booking?.guestNumber ?? 0} ${'guests'.tr}'
-                                                              : '${widget.booking2?.guestNumber ?? 0} ${'guests'.tr}',
-                                                          color: almostGrey,
-                                                          fontSize: 13,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          fontFamily: 'SF Pro',
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 10,
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        widget.booking != null
-                                                            ? SvgPicture.asset(
-                                                                'assets/icons/unselected_${widget.booking?.vehicleType!}_icon.svg',
-                                                                width: 20,
-                                                              )
-                                                            : SvgPicture.asset(
-                                                                'assets/icons/unselected_${widget.booking2?.vehicleType!}_icon.svg',
-                                                                width: 20,
-                                                              ),
-                                                        const SizedBox(
-                                                          width: 10,
-                                                        ),
-                                                        CustomText(
-                                                          text: widget.booking !=
-                                                                  null
-                                                              ? widget.booking
-                                                                      ?.vehicleType ??
-                                                                  ''
-                                                              : widget.booking2
-                                                                      ?.vehicleType ??
-                                                                  '',
-                                                          color: almostGrey,
-                                                          fontSize: 13,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          fontFamily: 'SF Pro',
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                          ],
-                                        ),
-                                      ),
                                     ),
-                                   
                                     const SizedBox(
                                       height: 15,
                                     ),
                                     Center(
-                                      child:chat!.bookingId==''
-                                      ?Container()
-                                       :Container(
-                                        width: 0.90 * width,
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            ListTile(
-                                              onTap: () async {
-                                                widget.booking2 =
-                                                    await _touristExploreController
-                                                        .getTouristBookingById(
-                                                  context: context,
-                                                  bookingId: chat!.bookingId!,
-                                                );
-                                                if (widget.booking2 != null ||
-                                                    widget.booking != null) {
-                                                  if (widget.booking2?.offers !=
-                                                      []) {
-                                                    offers = widget
-                                                        .booking2?.offers!;
-                                                    //  await _offerController.getOfferById(context: context, offerId:booking2?.offers!.last.id??'');
-                                                  }
-                                                  setState(() {
-                                                    isDetailsTapped3 =
-                                                        !isDetailsTapped3;
-                                                    print('state of secdle');
-                                                    print(offers?.last.schedule
-                                                        ?.length);
-                                                  });
-                                                }
-                                              },
-                                              title: Row(
+                                      child: chat!.bookingId == ''
+                                          ? Container()
+                                          : Container(
+                                              width: 0.90 * width,
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                              ),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
-                                                  // const CircleAvatar(
-                                                  //   backgroundImage: AssetImage('assets/images/ajwadi_image.png'),
-                                                  // ),
-                                                  // const SizedBox(width: 12),
-                                                  CustomText(
-                                                    text: 'ItineraryDetails'.tr,
-                                                    color: Color(0xFF070708),
-                                                    fontSize: 17,
-                                                    fontFamily: 'HT Rakik',
-                                                    fontWeight: FontWeight.w500,
-                                                    height: 0.10,
-                                                    textAlign:
-                                                        AppUtil.rtlDirection2(
-                                                                context)
-                                                            ? TextAlign.right
-                                                            : TextAlign.left,
+                                                  ListTile(
+                                                    onTap: () async {
+                                                      widget.booking2 =
+                                                          await _touristExploreController
+                                                              .getTouristBookingById(
+                                                        context: context,
+                                                        bookingId:
+                                                            chat!.bookingId!,
+                                                      );
+                                                      if (widget.booking2 !=
+                                                              null ||
+                                                          widget.booking !=
+                                                              null) {
+                                                        if (widget.booking2
+                                                                ?.offers !=
+                                                            []) {
+                                                          offers = widget
+                                                              .booking2
+                                                              ?.offers!;
+                                                          //  await _offerController.getOfferById(context: context, offerId:booking2?.offers!.last.id??'');
+                                                        }
+                                                        setState(() {
+                                                          isDetailsTapped3 =
+                                                              !isDetailsTapped3;
+                                                          print(
+                                                              'state of secdle');
+                                                          print(offers
+                                                              ?.last
+                                                              .schedule
+                                                              ?.length);
+                                                        });
+                                                      }
+                                                    },
+                                                    title: Row(
+                                                      children: [
+                                                        // const CircleAvatar(
+                                                        //   backgroundImage: AssetImage('assets/images/ajwadi_image.png'),
+                                                        // ),
+                                                        // const SizedBox(width: 12),
+                                                        CustomText(
+                                                          text:
+                                                              'ItineraryDetails'
+                                                                  .tr,
+                                                          color:
+                                                              Color(0xFF070708),
+                                                          fontSize: 17,
+                                                          fontFamily:
+                                                              'HT Rakik',
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          height: 0.10,
+                                                          textAlign: AppUtil
+                                                                  .rtlDirection2(
+                                                                      context)
+                                                              ? TextAlign.right
+                                                              : TextAlign.left,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    trailing: Icon(
+                                                      isDetailsTapped3
+                                                          ? Icons
+                                                              .keyboard_arrow_up
+                                                          : Icons
+                                                              .keyboard_arrow_down,
+                                                      color: const Color(
+                                                          0xFF454545),
+                                                      size: 24,
+                                                    ),
                                                   ),
+                                                  if (isDetailsTapped3)
+                                                    Padding(
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 7,
+                                                          vertical: 0),
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          ScheduleContainerWidget(
+                                                              scheduleList:
+                                                                  offers?.last
+                                                                      .schedule),
+                                                          // CustomText(
+                                                          //   text: !AppUtil.rtlDirection2(context)
+                                                          //       ?  ScheduleContainerWidget(
+                                                          //       offerController: _offerController),
+                                                          //       : 'I\'m happy to help you, this is the flight schedule check out the things you want to do',
+
+                                                          //      // _offerController.offerDetails.value.schedule?.last.scheduleName??'bn'
+                                                          //       //'يسعدني مساعدتك,  هذا هو جدول الرحلة ، تحقق من الأشياء التي تريد القيام بها'
+                                                          //       // : 'I\'m happy to help you, this is the flight schedule check out the things you want to do',
+                                                          //   fontSize: 12,
+                                                          //   fontWeight: FontWeight.w400,
+                                                          //   color: colorDarkGrey,
+                                                          //   textAlign: AppUtil.rtlDirection2(context) ? TextAlign.right : TextAlign.left,
+                                                          // ),
+                                                        ],
+                                                      ),
+                                                    ),
                                                 ],
                                               ),
-                                              trailing: Icon(
-                                                isDetailsTapped3
-                                                    ? Icons.keyboard_arrow_up
-                                                    : Icons.keyboard_arrow_down,
-                                                color: const Color(0xFF454545),
-                                                size: 24,
-                                              ),
                                             ),
-                                            if (isDetailsTapped3)
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 7,
-                                                        vertical: 0),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    ScheduleContainerWidget(
-                                                        scheduleList: offers
-                                                            ?.last.schedule),
-                                                    // CustomText(
-                                                    //   text: !AppUtil.rtlDirection2(context)
-                                                    //       ?  ScheduleContainerWidget(
-                                                    //       offerController: _offerController),
-                                                    //       : 'I\'m happy to help you, this is the flight schedule check out the things you want to do',
-
-                                                    //      // _offerController.offerDetails.value.schedule?.last.scheduleName??'bn'
-                                                    //       //'يسعدني مساعدتك,  هذا هو جدول الرحلة ، تحقق من الأشياء التي تريد القيام بها'
-                                                    //       // : 'I\'m happy to help you, this is the flight schedule check out the things you want to do',
-                                                    //   fontSize: 12,
-                                                    //   fontWeight: FontWeight.w400,
-                                                    //   color: colorDarkGrey,
-                                                    //   textAlign: AppUtil.rtlDirection2(context) ? TextAlign.right : TextAlign.left,
-                                                    // ),
-                                                  ],
-                                                ),
-                                              ),
-                                          ],
-                                        ),
-                                      ),
                                     ),
                                     SizedBox(
                                       height:
@@ -433,8 +465,8 @@ class _ChatScreenState extends State<ChatScreen> {
                                           child: Padding(
                                             padding: const EdgeInsets.only(
                                                 right: 14),
-                                            child: CircularProgressIndicator.adaptive(),
-                                               
+                                            child: CircularProgressIndicator
+                                                .adaptive(),
                                           ),
                                         )
                                       : (chatController.chat.messages == null ||
@@ -552,7 +584,6 @@ class _ChatScreenState extends State<ChatScreen> {
                             () => chatController.isPostMessageLoading.value
                                 ? Center(
                                     child: CircularProgressIndicator.adaptive())
-                                        
                                 : Expanded(
                                     child: CustomTextField(
                                       controller: messageController,

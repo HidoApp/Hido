@@ -9,7 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
- import 'package:file_picker/file_picker.dart';
+import 'package:file_picker/file_picker.dart';
 
 class TourLicenseSheet extends StatefulWidget {
   const TourLicenseSheet({super.key});
@@ -36,7 +36,7 @@ class _TourLicenseSheetState extends State<TourLicenseSheet> {
     final width = MediaQuery.of(context).size.width;
 
     return Container(
-      height: width * 0.628,
+      //   height: width * 0.628,
       width: double.infinity,
       decoration: const BoxDecoration(
           color: Colors.white,
@@ -49,6 +49,7 @@ class _TourLicenseSheetState extends State<TourLicenseSheet> {
           bottom: width * 0.082),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           const BottomSheetIndicator(),
           SizedBox(

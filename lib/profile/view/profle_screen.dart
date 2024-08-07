@@ -53,7 +53,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-
+    storage.write('key', 'value');
     getProfile();
   }
 
@@ -157,7 +157,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     fontSize: width * 0.03,
                                     fontWeight: FontWeight.w500,
                                   ),
-                                  SvgPicture.asset("assets/icons/star.svg")
+                                  if (widget.fromAjwady)
+                                    SvgPicture.asset("assets/icons/star.svg")
                                 ],
                               )
                             ],

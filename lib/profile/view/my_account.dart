@@ -7,6 +7,7 @@ import 'package:ajwad_v4/profile/models/profile.dart';
 import 'package:ajwad_v4/profile/widget/account_edit_sheet.dart';
 import 'package:ajwad_v4/profile/widget/account_tile.dart';
 import 'package:ajwad_v4/profile/widget/email_otp_sheet.dart';
+import 'package:ajwad_v4/profile/widget/email_sheet.dart';
 import 'package:ajwad_v4/profile/widget/iban_sheet.dart';
 import 'package:ajwad_v4/profile/widget/otp_sheet.dart';
 import 'package:ajwad_v4/profile/widget/phone_sheet.dart';
@@ -68,14 +69,15 @@ class _MyAccountState extends State<MyAccount> {
                       title: 'email'.tr,
                       subtitle: widget.profileController.profile.email!,
                       onTap: () {
-                        showModalBottomSheet(
-                          isScrollControlled: true,
-                          enableDrag: true,
-                          context: context,
-                          builder: (context) => AccountEditSheet(
-                            profileController: widget.profileController,
-                          ),
-                        );
+                        Get.bottomSheet(const EmailSheet());
+                        // showModalBottomSheet(
+                        //   isScrollControlled: true,
+                        //   enableDrag: true,
+                        //   context: context,
+                        //   builder: (context) => AccountEditSheet(
+                        //     profileController: widget.profileController,
+                        //   ),
+                        // );
                       },
                     ),
             ),
@@ -92,9 +94,7 @@ class _MyAccountState extends State<MyAccount> {
                       title: "phoneNum".tr,
                       titleHint: "accountNumberHint".tr,
                       subtitle: getPhoneNumber(),
-                      onTap: () {
-                        Get.bottomSheet(const PhoneSheet());
-                      },
+                      onTap: () => Get.bottomSheet(const PhoneSheet()),
                     ),
             ),
             const Divider(

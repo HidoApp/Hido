@@ -620,4 +620,9 @@ const localeEn = {
   'noExperiences': 'No Experiences Yet',
   'noExperiencesSubtitle':
       'Our local hosts are currently building exciting experiences. Check back soon to explore this region!',
+  'accountUpadted': 'Account upadted',
+  "updateEmail": "Update email",
+  'emailEditSubtitle':
+      "We’ll send you an email to confirm your new email address",
+  'emailConfirm': 'Confirm your email'
 };

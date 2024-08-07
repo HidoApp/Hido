@@ -21,7 +21,6 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 
 import '../../new-onboarding/view/intro_screen.dart';
 
-
 class EmailOTPSheet extends StatefulWidget {
   const EmailOTPSheet(
       {super.key,
@@ -89,7 +88,6 @@ class _EmailOTPSheetState extends State<EmailOTPSheet>
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-
     return Padding(
       padding:
           EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
@@ -237,7 +235,7 @@ class _EmailOTPSheetState extends State<EmailOTPSheet>
                             if (result) {
                               _authController.logOut();
                               // Get.offAll(() =>  AccountTypeScreen());
-                              Get.offAll(() => OnboardingScreen());
+                              Get.offAll(() => const OnboardingScreen());
                               Get.to(() => const SignInScreen());
                             }
                           } else {
