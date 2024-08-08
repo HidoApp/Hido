@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/request/ajwadi/controllers/request_controller.dart';
@@ -22,34 +24,25 @@ class ReviewIenraryScreen extends StatefulWidget {
 }
 
 class _ReviewIenraryScreenState extends State<ReviewIenraryScreen> {
-  String convertTime(String time) {
-    try {
-      DateTime dateTime = DateFormat('h:mm a').parse(time.trim());
-      return DateFormat('HH:mm:ss').format(dateTime);
-    } catch (e) {
-      // Handle the error, for example, log it or return a default value
-      print('Error parsing time: $e');
-      return '00:00:00'; // Return a default value in case of error
-    }
-  }
+  // import 'package:intl/intl.dart';
 
-  String ensureSpaceBeforePeriod(String time) {
-    if (time.contains('AM') || time.contains('PM')) {
-      time = time.replaceAll('AM', ' AM').replaceAll('PM', ' PM');
-    }
-    return time.trim(); // Remove any leading or trailing spaces
+  String convertTime(String time) {
+    time = time.trim().replaceAll(RegExp(r'\s+'), ' ');
+    final inputFormat = DateFormat('h:mma'); // Allow leading zeros for hours
+    final outputFormat = DateFormat('HH:mm:ss');
+
+    DateTime dateTime = inputFormat.parse(time);
+    return outputFormat.format(dateTime);
   }
 
   void convertAllTimes() {
     for (var i = 0; i < widget.requestController.reviewItenrary.length; i++) {
-      widget.requestController.reviewItenrary[i].scheduleTime!.to =
-          ensureSpaceBeforePeriod(
-              widget.requestController.reviewItenrary[i].scheduleTime!.to!);
-      widget.requestController.reviewItenrary[i].scheduleTime!.from =
-          ensureSpaceBeforePeriod(
-              widget.requestController.reviewItenrary[i].scheduleTime!.from!);
-      widget.requestController.reviewItenrary[i].scheduleTime!.to = convertTime(
+      String convertedTo = convertTime(
           widget.requestController.reviewItenrary[i].scheduleTime!.to!);
+      if (convertedTo.isNotEmpty) {
+        widget.requestController.reviewItenrary[i].scheduleTime!.to =
+            convertedTo;
+      }
       widget.requestController.reviewItenrary[i].scheduleTime!.from =
           convertTime(
               widget.requestController.reviewItenrary[i].scheduleTime!.from!);
@@ -112,6 +105,13 @@ class _ReviewIenraryScreenState extends State<ReviewIenraryScreen> {
                   : CustomButton(
                       onPressed: () async {
                         convertAllTimes();
+                        // log('start');
+                        // log(widget.requestController.reviewItenrary[2]
+                        //     .scheduleTime!.to!);
+                        // log('end');
+                        // log(widget.requestController.reviewItenrary[2]
+                        //     .scheduleTime!.from!);
+
                         await widget.requestController.requestAccept(
                           id: widget.requestId,
                           requestScheduleList:

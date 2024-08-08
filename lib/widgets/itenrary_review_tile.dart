@@ -42,7 +42,7 @@ class ReviewItenraryTile extends StatelessWidget {
               Row(
                 children: [
                   CustomText(
-                    text: "$timeTo - $timeFrom",
+                    text: "$timeFrom - $timeTo",
                     color: starGreyColor,
                     fontWeight: FontWeight.w400,
                     fontFamily: !AppUtil.rtlDirection2(context)

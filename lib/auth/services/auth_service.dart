@@ -289,11 +289,7 @@ class AuthService {
         "Content-Type": "application/json",
         'Authorization': 'Bearer $token',
       },
-      body: jsonEncode({
-        'email': email,
-        'iban': iban,
-        'accountType': type
-      }),
+      body: jsonEncode({'email': email, 'iban': iban, 'accountType': type}),
     );
     log('crearte account');
     log(response.body);
@@ -352,18 +348,10 @@ class AuthService {
 
       final getStorage = GetStorage();
 
-      // print('rememberMe : ${getStorage.read('rememberMe')}');
-
-      if (rememberMe) {
-        getStorage.write('accessToken', accessToken);
-        getStorage.write('refreshToken', refreshToken);
-        getStorage.write('rememberMe', rememberMe);
-        getStorage.write('userRole', token.userRole);
-      } else {
-        getStorage.remove('token');
-      }
-      //change guest
-
+      getStorage.write('accessToken', accessToken);
+      getStorage.write('refreshToken', refreshToken);
+      getStorage.write('rememberMe', true);
+      getStorage.write('userRole', token.userRole);
       return User.fromJson(user);
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
