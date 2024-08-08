@@ -80,11 +80,21 @@ class _ItineraryCardState extends State<ItineraryCard> {
     log(pickerTime24);
     log(_timeToReturn.toString());
     log((parsedPickerTime.day == _timeToGo!.day).toString());
-    // Compare hour and minute
-    return parsedPickerTime.isAtSameMomentAs(_timeToGo!) ||
-        parsedPickerTime.isAtSameMomentAs(_timeToReturn!) ||
-        parsedPickerTime.isAfter(_timeToGo!) &&
-            parsedPickerTime.isBefore(_timeToReturn!);
+
+    if (_timeToGo!.isAfter(_timeToReturn!)) {
+      // pm to am
+      // Compare hour and minute
+      return parsedPickerTime.isAtSameMomentAs(_timeToGo!) ||
+          parsedPickerTime.isAtSameMomentAs(_timeToReturn!) ||
+          !(parsedPickerTime.isBefore(_timeToGo!) &&
+              parsedPickerTime.isAfter(_timeToReturn!));
+    } else {
+      // Compare hour and minute
+      return parsedPickerTime.isAtSameMomentAs(_timeToGo!) ||
+          parsedPickerTime.isAtSameMomentAs(_timeToReturn!) ||
+          parsedPickerTime.isAfter(_timeToGo!) &&
+              parsedPickerTime.isBefore(_timeToReturn!);
+    }
   }
 
   @override
@@ -95,6 +105,8 @@ class _ItineraryCardState extends State<ItineraryCard> {
     _timeToReturn = DateFormat('HH:mm:ss').parse(widget.booking.timeToReturn!);
     widget.requestController.timeToGo(_timeToGo);
     widget.requestController.timeToReturn(_timeToReturn);
+    // that for check if user boking from pm to am
+    log((_timeToGo!.isAfter(_timeToReturn!)).toString());
   }
 
   @override
