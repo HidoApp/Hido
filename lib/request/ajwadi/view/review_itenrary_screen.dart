@@ -28,8 +28,7 @@ class _ReviewIenraryScreenState extends State<ReviewIenraryScreen> {
 
   String convertTime(String time) {
     time = time.trim().replaceAll(RegExp(r'\s+'), ' ');
-
-    final inputFormat = DateFormat('hh:mm'); // Allow leading zeros for hours
+    final inputFormat = DateFormat('h:mma'); // Allow leading zeros for hours
     final outputFormat = DateFormat('HH:mm:ss');
 
     DateTime dateTime = inputFormat.parse(time);

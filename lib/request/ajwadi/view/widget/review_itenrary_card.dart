@@ -296,7 +296,7 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                                     setState(() {
                                       widget.schedule.scheduleTime!.from =
                                           DateFormat(
-                                        ' h:mm a ',
+                                        'h:mma',
                                       ).format(_dateTimeFrom);
                                     });
                                   }
@@ -369,7 +369,7 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                                       .value = compareTime(time);
 
                                   widget.schedule.scheduleTime!.to = DateFormat(
-                                    'h: mm a',
+                                    'h:mma',
                                   ).format(_dateTimeTo);
                                 },
                               );

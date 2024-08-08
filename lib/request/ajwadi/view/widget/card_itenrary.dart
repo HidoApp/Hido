@@ -74,7 +74,12 @@ class _ItineraryCardState extends State<ItineraryCard> {
 
   bool compareTime(DateTime dateTimeFromPicker) {
     String pickerTime24 = DateFormat('HH:mm:ss').format(dateTimeFromPicker);
+
     DateTime parsedPickerTime = DateFormat('HH:mm:ss').parse(pickerTime24);
+    log("pickerTime24");
+    log(pickerTime24);
+    log(_timeToReturn.toString());
+    log((parsedPickerTime.day == _timeToGo!.day).toString());
     // Compare hour and minute
     return parsedPickerTime.isAtSameMomentAs(_timeToGo!) ||
         parsedPickerTime.isAtSameMomentAs(_timeToReturn!) ||
@@ -234,7 +239,7 @@ class _ItineraryCardState extends State<ItineraryCard> {
                                   .value = compareTime(time);
                               widget.requestController.startTime.value =
                                   DateFormat(
-                                'h:mm a',
+                                'h:mma',
                               ).format(_dateTimeFrom);
                               // widget.timeTO(_timeTo.value);
                               log("   timeTo.value  ${widget.requestController.startTime.value}");
