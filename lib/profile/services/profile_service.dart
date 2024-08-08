@@ -39,11 +39,11 @@ class ProfileService {
       refreshToken = getStorage.read('refreshToken');
       token = getStorage.read('accessToken');
       jwtToken = AuthService.jwtForToken(refreshToken)!;
-      print(jwtToken.id);
+      // print(jwtToken.id);
       id = jwtToken.id;
     } else {
       jwtToken = AuthService.jwtForToken(token)!;
-      print('jwtToken.id AuthService AuthService${jwtToken.id}');
+      //  print('jwtToken.id AuthService AuthService${jwtToken.id}');
 
       id = jwtToken.id;
     }

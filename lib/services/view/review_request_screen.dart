@@ -229,7 +229,7 @@ class _ReviewRequestState extends State<ReviewRequest> {
                                       color: Colors.white),
                                   onPressed: () async {
                                     Get.to(
-                                      PaymentType(
+                                      () => PaymentType(
                                         price: (widget.offerController!
                                                 .totalPrice.value *
                                             widget.offerController!.offerDetails

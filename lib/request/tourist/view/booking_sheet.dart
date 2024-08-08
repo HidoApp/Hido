@@ -793,86 +793,81 @@ class _BookingSheetState extends State<BookingSheet> {
                   // SizedBox(
                   //   height: height * 0.01,
                   // ),
-                  Row(
-                    children: [
-                      _touristExploreController.isBookingIsMaking.value ||
-                              _touristExploreController.isPlaceIsLoading.value
-                          ? const CircularProgressIndicator(
-                              color: colorGreen,
-                            )
-                          : CustomButton(
-                              title: "findLocal".tr,
-                              onPressed: () async {
-                                if (!_touristExploreController
-                                    .isBookingDateSelected.value)
-                                  setState(() {
-                                    DateErrorMessage = true;
-                                  });
-                                else {
-                                  setState(() {
-                                    DateErrorMessage = false;
-                                  });
-                                }
-                                if (!_touristExploreController
-                                    .isBookingTimeSelected.value)
-                                  setState(() {
-                                    TimeErrorMessage = true;
-                                  });
+                  _touristExploreController.isBookingIsMaking.value ||
+                          _touristExploreController.isPlaceIsLoading.value
+                      ? const Center(
+                          child: CircularProgressIndicator.adaptive(),
+                        )
+                      : CustomButton(
+                          title: "findLocal".tr,
+                          onPressed: () async {
+                            if (!_touristExploreController
+                                .isBookingDateSelected.value)
+                              setState(() {
+                                DateErrorMessage = true;
+                              });
+                            else {
+                              setState(() {
+                                DateErrorMessage = false;
+                              });
+                            }
+                            if (!_touristExploreController
+                                .isBookingTimeSelected.value)
+                              setState(() {
+                                TimeErrorMessage = true;
+                              });
 
-                                if (selectedRide == "")
-                                  setState(() {
-                                    vehicleErrorMessage = true;
-                                  });
-                                else {
-                                  setState(() {
-                                    vehicleErrorMessage = false;
-                                  });
-                                }
+                            if (selectedRide == "")
+                              setState(() {
+                                vehicleErrorMessage = true;
+                              });
+                            else {
+                              setState(() {
+                                vehicleErrorMessage = false;
+                              });
+                            }
 
-                                print(newTimeToGoInRiyadh
-                                    .isAfter(nowPlusTwoHours));
-                                print(newTimeToGoInRiyadh);
-                                print(nowPlusTwoHours);
+                            print(newTimeToGoInRiyadh.isAfter(nowPlusTwoHours));
+                            print(newTimeToGoInRiyadh);
+                            print(nowPlusTwoHours);
 
-                                if (_touristExploreController.isBookingDateSelected.value &&
-                                    _touristExploreController
-                                        .isBookingTimeSelected.value &&
-                                    selectedRide != "") {
-                                  if (_validateTime()) {
-                                    print(_validateTime());
-                                    if (newTimeToGoInRiyadh
-                                        .isAfter(nowPlusTwoHours)) {
-                                      _touristExploreController
-                                          .isBookedMade(true);
+                            if (_touristExploreController.isBookingDateSelected.value &&
+                                _touristExploreController
+                                    .isBookingTimeSelected.value &&
+                                selectedRide != "") {
+                              if (_validateTime()) {
+                                print(_validateTime());
+                                if (newTimeToGoInRiyadh
+                                    .isAfter(nowPlusTwoHours)) {
+                                  _touristExploreController.isBookedMade(true);
 
-                                      // AppUtil.successToast(
-                                      //     context, 'TIME AND DATE IS SELECTED');
+                                  // AppUtil.successToast(
+                                  //     context, 'TIME AND DATE IS SELECTED');
 
-                                      //  Navigator.pop(context);
-                                      if (widget.place != null) {
-                                        final isSuccess =
-                                            await _touristExploreController.bookPlace(
+                                  //  Navigator.pop(context);
+                                  if (widget.place != null) {
+                                    final isSuccess =
+                                        await _touristExploreController
+                                            .bookPlace(
                                                 placeId: widget.place!.id!,
-                                                timeToGo: DateFormat(
-                                                        'HH:mm:ss')
+                                                timeToGo: DateFormat('HH:mm:ss')
                                                     .format(newTimeToGo),
-                                                timeToReturn: DateFormat(
-                                                        'HH:mm:ss')
-                                                    .format(newTimeToReturn),
-                                                date:
-                                                    _touristExploreController
-                                                        .selectedDate.value
-                                                        .substring(0, 10),
+                                                timeToReturn:
+                                                    DateFormat(
+                                                            'HH:mm:ss')
+                                                        .format(
+                                                            newTimeToReturn),
+                                                date: _touristExploreController
+                                                    .selectedDate.value
+                                                    .substring(0, 10),
                                                 guestNumber: guestNum,
-                                                cost:
-                                                    guestNum *
-                                                        widget.place!.price!,
-                                                lng:
-                                                    _touristExploreController
-                                                        .pickUpLocLatLang
-                                                        .value
-                                                        .longitude
-                                                        .toString(),
+                                                cost: guestNum *
+                                                    widget.place!.price!,
+                                                lng: _touristExploreController
+                                                    .pickUpLocLatLang
+                                                    .value
+                                                    .longitude
+                                                    .toString(),
                                                 lat: _touristExploreController
                                                     .pickUpLocLatLang
                                                     .value
@@ -880,52 +875,50 @@ class _BookingSheetState extends State<BookingSheet> {
                                                     .toString(),
                                                 vehicle: selectedRide,
                                                 context: context);
-                                        print('is sucssssss');
-                                        print(isSuccess);
-                                        if (isSuccess) {
-                                          Place? thePlace =
-                                              await _touristExploreController
-                                                  .getPlaceById(
-                                                      id: widget.place!.id!,
-                                                      context: context);
-                                          Get.back();
-                                          Get.to(
-                                            () => FindAjwady(
-                                              place: thePlace!,
-                                              booking: thePlace.booking![0],
-                                              placeId: thePlace.id!,
-                                            ),
-                                          );
-                                        } else {
-                                          AppUtil.errorToast(
-                                              context, 'somthingWentWrong'.tr);
-                                        }
-                                      }
+                                    print('is sucssssss');
+                                    print(isSuccess);
+                                    if (isSuccess) {
+                                      Place? thePlace =
+                                          await _touristExploreController
+                                              .getPlaceById(
+                                                  id: widget.place!.id!,
+                                                  context: context);
+                                      Get.back();
+                                      Get.to(
+                                        () => FindAjwady(
+                                          place: thePlace!,
+                                          booking: thePlace.booking![0],
+                                          placeId: thePlace.id!,
+                                        ),
+                                      );
                                     } else {
                                       AppUtil.errorToast(
-                                          context,
-                                          AppUtil.rtlDirection2(context)
-                                              ? "يجب أن يكون وقت الجولة بعد ساعتين على الأقل من الوقت الحالي"
-                                              : "The tour time must be at least two hours after the current time.");
+                                          context, 'somthingWentWrong'.tr);
                                     }
-                                  } else {
-                                    AppUtil.errorToast(
-                                        context,
-                                        AppUtil.rtlDirection2(context)
-                                            ? "يجب أن تكون مدة الجولة بين ٤ و ٨ ساعات"
-                                            : "The Tour duration must be between 4 and 8 hours");
                                   }
                                 } else {
-                                  print('error');
+                                  AppUtil.errorToast(
+                                      context,
+                                      AppUtil.rtlDirection2(context)
+                                          ? "يجب أن يكون وقت الجولة بعد ساعتين على الأقل من الوقت الحالي"
+                                          : "The tour time must be at least two hours after the current time.");
                                 }
-                              },
-                              icon: !AppUtil.rtlDirection(context)
-                                  ? const Icon(Icons.arrow_back_ios)
-                                  : const Icon(Icons.arrow_forward_ios),
-                              customWidth: width * 0.87,
-                            ),
-                    ],
-                  )
+                              } else {
+                                AppUtil.errorToast(
+                                    context,
+                                    AppUtil.rtlDirection2(context)
+                                        ? "يجب أن تكون مدة الجولة بين ٤ و ٨ ساعات"
+                                        : "The Tour duration must be between 4 and 8 hours");
+                              }
+                            } else {
+                              print('error');
+                            }
+                          },
+                          icon: !AppUtil.rtlDirection(context)
+                              ? const Icon(Icons.arrow_back_ios)
+                              : const Icon(Icons.arrow_forward_ios),
+                          customWidth: width * 0.87,
+                        )
                 ]),
               ),
             ),

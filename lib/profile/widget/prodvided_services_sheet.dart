@@ -27,7 +27,7 @@ class _ProdvidedServicesSheetState extends State<ProdvidedServicesSheet> {
             color: Colors.white,
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(24), topRight: Radius.circular(24))),
-        height: width * 0.794,
+        //  height: width * 0.794,
         padding: EdgeInsets.only(
             left: width * 0.0615,
             right: width * 0.0615,
@@ -35,6 +35,7 @@ class _ProdvidedServicesSheetState extends State<ProdvidedServicesSheet> {
             bottom: width * 0.082),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             const BottomSheetIndicator(),
             SizedBox(

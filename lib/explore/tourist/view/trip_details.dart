@@ -173,12 +173,12 @@ class _TripDetailsState extends State<TripDetails> {
             children: [
               GestureDetector(
                 onTap: () {
-                  Get.to(ViewTripImages(
-                    tripImageUrl: widget.place == null
-                        ? _tripUrlImages
-                        : widget.place!.image!,
-                    fromNetwork: widget.place == null ? false : true,
-                  ));
+                  Get.to(() => ViewTripImages(
+                        tripImageUrl: widget.place == null
+                            ? _tripUrlImages
+                            : widget.place!.image!,
+                        fromNetwork: widget.place == null ? false : true,
+                      ));
                 },
                 child: CarouselSlider.builder(
                   options: CarouselOptions(
@@ -240,7 +240,7 @@ class _TripDetailsState extends State<TripDetails> {
                                     ? widget.place!.nameAr!
                                     : widget.place!.nameEn!,
                             color: Color(0xFF070708),
-                           fontSize: width * 0.072,
+                            fontSize: width * 0.072,
                             fontFamily: 'HT Rakik',
                             fontWeight: FontWeight.w500,
                           )),
@@ -305,9 +305,9 @@ class _TripDetailsState extends State<TripDetails> {
                             fontFamily: 'HT Rakik',
                             fontWeight: FontWeight.w500,
                           )),
-                         SizedBox(
-                                height: width * 0.023,
-                              ),
+                      SizedBox(
+                        height: width * 0.023,
+                      ),
                       Align(
                         alignment: AppUtil.rtlDirection2(context)
                             ? Alignment.centerRight
@@ -323,7 +323,7 @@ class _TripDetailsState extends State<TripDetails> {
                               textOverflow: isExpanded
                                   ? TextOverflow.visible
                                   : TextOverflow.clip,
-                                fontSize: width * 0.038,
+                              fontSize: width * 0.038,
                               color: starGreyColor,
                               fontFamily: AppUtil.rtlDirection2(context)
                                   ? 'SF Arabic'
@@ -358,8 +358,8 @@ class _TripDetailsState extends State<TripDetails> {
                                   color: blue,
                                   fontSize: 15,
                                   fontFamily: AppUtil.rtlDirection2(context)
-                                  ? 'SF Arabic'
-                                  : 'SF Pro',
+                                      ? 'SF Arabic'
+                                      : 'SF Pro',
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
@@ -377,15 +377,14 @@ class _TripDetailsState extends State<TripDetails> {
                                   text: "readMore".tr,
                                   color: blue,
                                   fontSize: 15,
-                                  fontFamily:  AppUtil.rtlDirection2(context)
-                                  ? 'SF Arabic'
-                                  : 'SF Pro',
+                                  fontFamily: AppUtil.rtlDirection2(context)
+                                      ? 'SF Arabic'
+                                      : 'SF Pro',
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
                             ),
 
-                  
                       SizedBox(
                         height: width * 0.026,
                       ),
@@ -396,15 +395,15 @@ class _TripDetailsState extends State<TripDetails> {
                       SizedBox(
                         height: width * 0.026,
                       ),
-                     Align(
-                         alignment: AppUtil.rtlDirection2(context)
-                                      ? Alignment.centerRight
-                                      : Alignment.centerLeft,
+                      Align(
+                        alignment: AppUtil.rtlDirection2(context)
+                            ? Alignment.centerRight
+                            : Alignment.centerLeft,
                         child: CustomText(
                           text: AppUtil.rtlDirection2(context)
                               ? "الموقع"
                               : "Location".tr,
-                         fontSize: width * 0.044,
+                          fontSize: width * 0.044,
                           fontWeight: FontWeight.w500,
                           color: black,
                           fontFamily: 'HT Rakik',
@@ -453,15 +452,15 @@ class _TripDetailsState extends State<TripDetails> {
                           },
                         ),
                       ),
-                       SizedBox(
-                         height: width * 0.026,
-                           ),
-                                const Divider(
-                                  color: lightGrey,
-                                ),
-                                SizedBox(
-                                  height: width * 0.051,
-                                ),
+                      SizedBox(
+                        height: width * 0.026,
+                      ),
+                      const Divider(
+                        color: lightGrey,
+                      ),
+                      SizedBox(
+                        height: width * 0.051,
+                      ),
                       InkWell(
                         onTap: () {
                           Get.bottomSheet(const CustomPloicySheet());
@@ -478,7 +477,7 @@ class _TripDetailsState extends State<TripDetails> {
                                     CustomText(
                                       text: "cancellationPolicy".tr,
                                       color: Color(0xFF070708),
-                                     fontSize: width * 0.0461,
+                                      fontSize: width * 0.0461,
                                       fontFamily: 'HT Rakik',
                                       fontWeight: FontWeight.w500,
                                     ),
@@ -488,11 +487,13 @@ class _TripDetailsState extends State<TripDetails> {
                                     SizedBox(
                                       width: width * 0.8,
                                       child: CustomText(
-                                        text: "cancellationPolicyBreif"
-                                            .tr,
+                                        text: "cancellationPolicyBreif".tr,
                                         fontSize: width * 0.038,
                                         fontWeight: FontWeight.w400,
-                                         fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+                                        fontFamily:
+                                            AppUtil.rtlDirection2(context)
+                                                ? 'SF Arabic'
+                                                : 'SF Pro',
                                         color: starGreyColor,
                                         maxlines: 1,
                                       ),

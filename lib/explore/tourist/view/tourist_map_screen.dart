@@ -13,6 +13,7 @@ import 'package:ajwad_v4/explore/tourist/model/activity_progress.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/explore/tourist/view/notification/notification_screen.dart';
 import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
+import 'package:ajwad_v4/explore/widget/map_marker.dart';
 import 'package:ajwad_v4/explore/widget/progress_sheet.dart';
 import 'package:ajwad_v4/explore/widget/rating_sheet.dart';
 import 'package:ajwad_v4/explore/widget/trip_card.dart';
@@ -24,6 +25,7 @@ import 'package:ajwad_v4/profile/widget/phone_sheet.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
+import 'package:ajwad_v4/widgets/custom_textfield.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:custom_map_markers/custom_map_markers.dart';
@@ -31,12 +33,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text_area.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -56,9 +60,9 @@ class TouristMapScreen extends StatefulWidget {
 
 class _TouristMapScreenState extends State<TouristMapScreen> {
   late GoogleMapController mapController;
-  final TouristExploreController _touristExploreController =
-      Get.put(TouristExploreController());
+  final _touristExploreController = Get.put(TouristExploreController());
   final Completer<GoogleMapController> _controller = Completer();
+  List<MarkerData> customMarkers = [];
   Set<Marker> _userMarkers = {};
   Set<Marker> _markers = {};
   LatLng _currentLocation = const LatLng(24.7136, 46.6753);
@@ -88,7 +92,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   BitmapDescriptor adventureIcon = BitmapDescriptor.defaultMarker;
 
   late UserLocation? userLocation;
-
+  final storage = GetStorage();
   final ProfileController _profileController = Get.put(ProfileController());
   final _sheetController = SolidController();
 
@@ -99,6 +103,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   int startIndex = -1;
   bool isSendTapped = false;
   bool showSheet = false;
+  bool isNew = true;
 
   void getActivityProgress() async {
     await _touristExploreController.getActivityProgress(context: context);
@@ -153,71 +158,6 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
     await controller.setMapStyle(_darkMapStyle);
   }
 
-  void getScrollingCards(String tourType) async {
-    _markers = {};
-
-    if (_userMarkers.isNotEmpty) {
-      _markers.add(_userMarkers.first);
-    }
-
-    await _touristExploreController.touristMap(
-        context: context, tourType: tourType);
-
-    if (_touristExploreController.touristModel.value!.places != null) {
-      for (var element
-          in _touristExploreController.touristModel.value!.places!) {
-        if (mounted) {
-          _markers.add(Marker(
-            markerId: MarkerId('place${element.id}'),
-            icon: await getMarkerIcon(
-                name: !AppUtil.rtlDirection(context)
-                    ? element.nameAr!
-                    : element.nameEn!,
-                color: colorGreen),
-            position: LatLng(double.parse(element.coordinates!.latitude!),
-                double.parse(element.coordinates!.longitude!)),
-          ));
-        }
-      }
-    }
-
-    if (_touristExploreController.touristModel.value!.adventures != null) {
-      for (var element
-          in _touristExploreController.touristModel.value!.adventures!) {
-        if (mounted) {
-          _markers.add(Marker(
-            markerId: MarkerId('adv${element.id}'),
-            icon: await getMarkerIcon(
-                name: !AppUtil.rtlDirection(context)
-                    ? element.nameAr!
-                    : element.nameEn!,
-                color: pink),
-            position: LatLng(double.parse(element.coordinates!.latitude!),
-                double.parse(element.coordinates!.longitude!)),
-          ));
-        }
-      }
-    }
-
-    if (_touristExploreController.touristModel.value!.events != null) {
-      for (var element
-          in _touristExploreController.touristModel.value!.events!) {
-        if (mounted) {
-          _markers.add(Marker(
-            markerId: MarkerId('event${element.id}'),
-            icon: await getMarkerIcon(
-                name: !AppUtil.rtlDirection(context)
-                    ? element.nameAr!
-                    : element.nameEn!,
-                color: yellowDark),
-            position: LatLng(double.parse(element.coordinates!.latitude!),
-                double.parse(element.coordinates!.longitude!)),
-          ));
-        }
-      }
-    }
-  }
-
   void getLocation() async {
     userLocation = await LocationService().getUserLocation();
 
@@ -244,6 +184,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   @override
   void initState() {
     super.initState();
+    isNew = true;
     getPlaces();
     addCustomIcon();
     getLocation();
@@ -257,6 +198,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   void dispose() {
     // TODO: implement dispose
     _sheetController.dispose();
+    isNew = true;
 
     super.dispose();
   }
@@ -264,9 +206,42 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   void getPlaces() async {
     await _touristExploreController.touristMap(
         context: context, tourType: "PLACE");
+    isNew = true;
+    genreateMarkers();
     if (!AppUtil.isGuest()) {
       checkForProgress();
     }
+  }
+
+  void genreateMarkers() {
+    customMarkers = List.generate(
+      _touristExploreController.touristModel.value!.places!.length,
+      (index) {
+        double distance = 0.0;
+        return MarkerData(
+            marker: Marker(
+                onTap: () {
+                  toTripDetails(index, distance);
+                },
+                markerId: MarkerId(_touristExploreController
+                    .touristModel.value!.places![index].id!),
+                position: LatLng(
+                  double.parse(_touristExploreController.touristModel.value!
+                      .places![index].coordinates!.latitude!),
+                  double.parse(_touristExploreController.touristModel.value!
+                      .places![index].coordinates!.longitude!),
+                )),
+            child: MapMarker(
+              image: _touristExploreController
+                  .touristModel.value!.places![index].image!.first,
+              region: AppUtil.rtlDirection2(context)
+                  ? _touristExploreController
+                      .touristModel.value!.places![index].nameAr!
+                  : _touristExploreController
+                      .touristModel.value!.places![index].nameEn!,
+            ));
+      },
+    ).toList();
   }
 
   void checkForProgress() async {
@@ -286,7 +261,9 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                   .touristModel.value!.places![i].booking!.first.date) {
         if (_touristExploreController
                 .touristModel.value!.places![i].booking!.first.orderStatus ==
-            '') {}
+            'PENDING') {
+          return;
+        }
         print("EQUALLL");
         print(currentDateString);
         print(_touristExploreController
@@ -359,11 +336,10 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
             ? const CircularProgressIndicator.adaptive()
             : _touristExploreController.showActivityProgress.value
                 ? Container(
-                  color: Colors.white,
-                  child: SolidBottomSheet(
+                    color: Colors.white,
+                    child: SolidBottomSheet(
                       showOnAppear: showSheet,
                       toggleVisibilityOnTap: true,
-                      
                       maxHeight: 209,
                       controller: _sheetController,
                       onHide: () {
@@ -387,108 +363,24 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                       ),
                       body: const ProgressSheet(),
                     ),
-              
                   )
                 : const SizedBox.shrink(),
-
       ),
-      body: Obx(
-        () => Stack(
-          children: [
-            //  isLoaded ?
-            CustomGoogleMapMarkerBuilder(
-                customMarkers: List.generate(
-                  _touristExploreController.touristModel.value!.places!.length,
-                  (index) {
-                    double distance = 0.0;
-                    return MarkerData(
-                      marker: Marker(
-                          onTap: () {
-                            toTripDetails(index, distance);
-                          },
-                          markerId: MarkerId(_touristExploreController
-                              .touristModel.value!.places![index].id!),
-                          position: LatLng(
-                            double.parse(_touristExploreController.touristModel
-                                .value!.places![index].coordinates!.latitude!),
-                            double.parse(_touristExploreController.touristModel
-                                .value!.places![index].coordinates!.longitude!),
-                          )),
-                      child: Column(children: [
-                        Container(
-                          height: width * 0.1,
-                          width: width * 0.1,
-                          padding: EdgeInsets.all(width * 0.025),
-                          margin: EdgeInsets.all(width * 0.025),
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: index % 2 == 0 ? colorGreen : yellow,
-                                  blurRadius: width * 0.035,
-                                )
-                              ],
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: CachedNetworkImageProvider(
-                                  errorListener: (p0) =>
-                                      const CircularProgressIndicator(),
-                                  _touristExploreController.touristModel.value!
-                                      .places![index].image!.first,
-                                ),
-                              ),
-                              border: Border.all(
-                                  color: Colors.white, width: width * 0.0025)),
-                        ),
-                        CustomText(
-                          text: AppUtil.rtlDirection2(context)
-                              ? _touristExploreController
-                                  .touristModel.value!.places![index].nameAr!
-                              : _touristExploreController
-                                  .touristModel.value!.places![index].nameEn!,
-                          fontSize: width * 0.03,
-                          fontWeight: ui.FontWeight.w700,
-                          shadows: const [
-                            BoxShadow(
-                              color: Colors.white,
-                              offset: ui.Offset(1, 1),
-                            ),
-                          ],
-                        )
-                      ]),
-                    );
-                  },
-                ),
-                builder: (context, markers) {
-                  if (markers == null) {
-                    return GoogleMap(
-                      zoomControlsEnabled: false,
-                      myLocationButtonEnabled: false,
-                      markers: _userMarkers,
-                      initialCameraPosition: CameraPosition(
-                        target: _currentLocation,
-                        zoom: 10,
-                      ),
-                      mapType: MapType.normal,
-                      onMapCreated: (controller) {
-                        _controller.complete(controller);
-                        _loadMapStyles();
-                      },
-                      onCameraMove: (position) {
-                        setState(() {
-                          _currentLocation = position.target;
-                        });
-                      },
-                    );
-                  }
+      body: Stack(
+        children: [
+          //  isLoaded ?
+          CustomGoogleMapMarkerBuilder(
+              customMarkers: customMarkers,
+              builder: (context, markers) {
+                if (markers == null) {
                   return GoogleMap(
                     zoomControlsEnabled: false,
                     myLocationButtonEnabled: false,
+                    markers: storage.read('markers'),
                     initialCameraPosition: CameraPosition(
                       target: _currentLocation,
                       zoom: 10,
                     ),
-                    markers: markers,
                     mapType: MapType.normal,
                     onMapCreated: (controller) {
                       _controller.complete(controller);
@@ -500,157 +392,231 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                       });
                     },
                   );
-                }),
-            Positioned(
-              top: width * .125,
-              left: width * 0.041,
-              right: width * 0.041,
-              child: Column(
-                children: [
-                  // text field and icons
-                  Container(
-                    alignment: Alignment.center,
-                    width: width * 0.87,
-                    height: width * 0.087,
+                }
+                if (isNew) {
+                  storage.write('markers', markers);
+                  isNew = false;
+                }
+
+                return GoogleMap(
+                  zoomControlsEnabled: false,
+                  myLocationButtonEnabled: false,
+                  initialCameraPosition: CameraPosition(
+                    target: _currentLocation,
+                    zoom: 10,
+                  ),
+                  markers: markers,
+                  mapType: MapType.normal,
+                  onMapCreated: (controller) {
+                    _controller.complete(controller);
+                    _loadMapStyles();
+                  },
+                  onCameraMove: (position) {
+                    setState(() {
+                      _currentLocation = position.target;
+                    });
+                  },
+                );
+              }),
+          Positioned(
+            top: width * .19,
+            left: width * 0.041,
+            right: width * 0.041,
+            child: Column(
+              children: [
+                // text field and icons
+                CupertinoTypeAheadField<Place>(
+                  decorationBuilder: (context, child) => Container(
+                    padding: EdgeInsets.only(
+                      top: 12,
+                      // left: 16,
+                      bottom: 8,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(width * 0.051),
-                      ),
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                    child: TextField(
-                      controller: searchTextController,
-                      style: TextStyle(
-                          fontSize: width * 0.035,
-                          fontWeight: FontWeight.normal),
-                      textInputAction: TextInputAction.search,
-                      decoration: InputDecoration(
-                        prefixIcon: SvgPicture.asset(
-                          'assets/icons/General.svg',
+                    child: child,
+                  ),
+                  itemSeparatorBuilder: (context, index) => const Divider(
+                    color: lightGrey,
+                  ),
+                  suggestionsCallback: (search) {
+                    if (AppUtil.rtlDirection2(context)) {
+                      return _touristExploreController
+                          .touristModel.value!.places!
+                          .where((place) => place.nameAr!
+                              .toLowerCase()
+                              .contains(search.toLowerCase()))
+                          .toList();
+                    }
+                    return _touristExploreController.touristModel.value!.places!
+                        .where((place) => place.nameEn!
+                            .toLowerCase()
+                            .contains(search.toLowerCase()))
+                        .toList();
+                  },
+                  builder: (context, controller, focusNode) {
+                    return Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                      child: CustomTextField(
+                        borderColor: Colors.transparent,
+                        raduis: 25,
+                        height: 34,
+                        hintText: 'search'.tr,
+                        prefixIcon: Padding(
+                          padding: EdgeInsets.all(8),
+                          child: SvgPicture.asset(
+                            'assets/icons/General.svg',
+                            width: 10,
+                            height: 1,
+                          ),
                         ),
-                        contentPadding: EdgeInsets.only(
-                            top: width * .02,
-                            left: width * 0.11,
-                            right: width * 0.030),
-                        disabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(width * 0.051),
-                            ),
-                            borderSide: BorderSide(
-                                color: Colors.grey, width: width * .002)),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(width * 0.051),
-                            ),
-                            borderSide: BorderSide(
-                                color: Colors.grey, width: width * .002)),
-                        focusedBorder: OutlineInputBorder(
+                        focusNode: focusNode,
+                        controller: controller,
+                        onChanged: (value) {},
+                      ),
+                    );
+                  },
+                  itemBuilder: (context, place) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 1, horizontal: 16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomText(
+                            text: AppUtil.rtlDirection2(context)
+                                ? place.nameAr
+                                : place.nameEn,
+                            fontFamily: AppUtil.SfFontType(context),
+                            fontSize: width * 0.038,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black,
+                          ),
+                          CustomText(
+                            text: AppUtil.rtlDirection2(context)
+                                ? place.regionAr
+                                : place.regionEn,
+                            fontFamily: AppUtil.SfFontType(context),
+                            fontSize: width * 0.033,
+                            fontWeight: FontWeight.w500,
+                            color: starGreyColor,
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                  onSelected: (place) {
+                    final distance = calculateDistanceBtwUserAndPlace(
+                      userLocation!.latitude,
+                      userLocation!.longitude,
+                      double.parse(place.coordinates!.latitude!),
+                      double.parse(place.coordinates!.longitude!),
+                    );
+                    Get.to(
+                      () => TripDetails(
+                        fromAjwady: false,
+                        place: place,
+                        distance: distance != 0.0
+                            ? distance.roundToDouble()
+                            : distance,
+                        userLocation: userLocation,
+                      ),
+                    );
+                  },
+                ),
+                SizedBox(
+                  height: width * 0.03,
+                ),
+                if (!AppUtil.isGuest())
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      //ticket
+                      Container(
+                        padding: EdgeInsets.all(width * 0.012),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
                           borderRadius: BorderRadius.all(
-                            Radius.circular(width * 0.051),
+                            Radius.circular(width * 0.04),
                           ),
-                          borderSide: BorderSide(
-                              color: Colors.grey, width: width * .002),
                         ),
-                        hintText: "Search",
-                        hintStyle: TextStyle(
-                            color: lightGrey,
-                            fontSize: width * 0.041,
-                            fontWeight: ui.FontWeight.w400),
-                      ),
-                      onChanged: (value) {
-                        setState(() {});
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    height: width * 0.03,
-                  ),
-                  if (!AppUtil.isGuest())
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        //ticket
-                        Container(
-                          padding: EdgeInsets.all(width * 0.012),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(width * 0.04),
-                            ),
-                          ),
-                          child: GestureDetector(
-                              onTap: () {
-                                ProfileController profileController =
-                                    Get.put(ProfileController());
-                                Get.to(() => AppUtil.isGuest()
-                                    ? const SignInScreen()
-                                    : TicketScreen(
-                                        profileController: profileController,
-                                      ));
-                              },
-                              child: SvgPicture.asset(
-                                'assets/icons/ticket_icon.svg',
-                                color: colorGreen,
-                              )),
-                        ),
-                        SizedBox(
-                          width: width * 0.030,
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(width * 0.0128),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(width * 0.04),
-                            ),
-                          ),
-                          child: GestureDetector(
+                        child: GestureDetector(
                             onTap: () {
-                              ProfileController _profileController =
+                              ProfileController profileController =
                                   Get.put(ProfileController());
                               Get.to(() => AppUtil.isGuest()
                                   ? const SignInScreen()
-                                  : MessagesScreen(
-                                      profileController: _profileController));
+                                  : TicketScreen(
+                                      profileController: profileController,
+                                    ));
                             },
                             child: SvgPicture.asset(
-                              'assets/icons/Communication.svg',
+                              'assets/icons/ticket_icon.svg',
                               color: colorGreen,
-                            ),
+                            )),
+                      ),
+                      SizedBox(
+                        width: width * 0.030,
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(width * 0.0128),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(width * 0.04),
                           ),
                         ),
-                        SizedBox(
-                          width: width * 0.030,
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(width * 0.0128),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(width * 0.04),
-                            ),
+                        child: GestureDetector(
+                          onTap: () {
+                            ProfileController _profileController =
+                                Get.put(ProfileController());
+                            Get.to(() => AppUtil.isGuest()
+                                ? const SignInScreen()
+                                : MessagesScreen(
+                                    profileController: _profileController));
+                          },
+                          child: SvgPicture.asset(
+                            'assets/icons/Communication.svg',
+                            color: colorGreen,
                           ),
-                          child: GestureDetector(
-                              onTap: () => Get.to(
-                                    () => AppUtil.isGuest()
-                                        ? const SignInScreen()
-                                        : NotificationScreen(),
-                                  ),
-                              child: SvgPicture.asset(
-                                'assets/icons/Alerts.svg',
-                                color: colorGreen,
-                              )),
                         ),
-                        SizedBox(
-                          width: width * 0.030,
+                      ),
+                      SizedBox(
+                        width: width * 0.030,
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(width * 0.0128),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(width * 0.04),
+                          ),
                         ),
-                      ],
-                    )
-                ],
-              ),
+                        child: GestureDetector(
+                            onTap: () => Get.to(
+                                  () => AppUtil.isGuest()
+                                      ? const SignInScreen()
+                                      : NotificationScreen(),
+                                ),
+                            child: SvgPicture.asset(
+                              'assets/icons/Alerts.svg',
+                              color: colorGreen,
+                            )),
+                      ),
+                      SizedBox(
+                        width: width * 0.030,
+                      ),
+                    ],
+                  )
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

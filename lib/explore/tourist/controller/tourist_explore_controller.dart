@@ -21,6 +21,7 @@ class TouristExploreController extends GetxController {
   var isBookingByIdLoading = false.obs;
   var isTouristMapLoading = false.obs;
   var isActivityProgressLoading = false.obs;
+  var isNewMarkers = true.obs;
   var showActivityProgress = false.obs;
   var activeStepProgres = (-1).obs;
   var timerSec = 300.obs;

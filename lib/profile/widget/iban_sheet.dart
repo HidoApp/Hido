@@ -27,7 +27,7 @@ class _IbanSheetState extends State<IbanSheet> {
 
     return Container(
       width: double.infinity,
-      height: width * 0.610,
+      // height: width * 0.610,
       decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
@@ -39,6 +39,7 @@ class _IbanSheetState extends State<IbanSheet> {
           bottom: width * 0.082),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           const BottomSheetIndicator(),
           SizedBox(

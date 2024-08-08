@@ -29,7 +29,7 @@ class _VehcileSheetState extends State<VehcileSheet> {
     final width = MediaQuery.of(context).size.width;
 
     return Container(
-      height: width * 0.628,
+      // height: width * 0.628,
       width: double.infinity,
       decoration: const BoxDecoration(
           color: Colors.white,
@@ -42,6 +42,7 @@ class _VehcileSheetState extends State<VehcileSheet> {
           bottom: width * 0.082),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           const BottomSheetIndicator(),
           SizedBox(

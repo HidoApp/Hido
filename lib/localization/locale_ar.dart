@@ -244,7 +244,7 @@ const localeAr = {
   "searchforAjwady": "بحث عن أجودي",
   "searchforLocal": "يتم البحث عن مرشد محلي",
   "WeSentYourRequestAndWaiteTillAccepted":
-  "لقد تم إرسال طلبك في انتظار قبول أحد المرشدين المحليين للطلب وإرسال عروضهم",
+      "لقد تم إرسال طلبك في انتظار قبول أحد المرشدين المحليين للطلب وإرسال عروضهم",
   "until": "حتى",
   "offers": "عروض",
   "contactAjwadAppTeam": "تواصل مع فريق اجواد",
@@ -605,10 +605,20 @@ const localeAr = {
   '*TheMinimumPrice': '*الحد الأدنى لسعر النشاط هو 150 ريال سعودي',
   'timeErorrRange': 'الوقت المحدد خارج الأوقات المطلوبة',
  
-  'eventDetailsSub':'فرصة لمشاركة الشعب فعالياتهم المحلية ',
-  "saudiEvent":"الفعاليات المحلية",
-  "Region":'المنطقه',
+  
   "uploadError":"يجب أن تكون الصور  بصيغة 'jpg' أو 'jpeg' أو 'png'",
   "imageError": "اختر 3 صور على الأقل",
   
+
+  'eventDetailsSub': 'فرصة لمشاركة الشعب فعالياتهم المحلية ',
+  "saudiEvent": "الفعاليات المحلية",
+  "Region": 'المنطقه',
+  'tellUsMore': 'أخبرنا أكثر عن نفسك  ',
+  'noExperiences': 'لا توجد تجارب بعد',
+  'noExperiencesSubtitle':
+      'أصحابنا المحليين يعملون حاليًا على صنع تجارب مثيرة. جرب وشيك  في وقت ثاني ',
+  'accountUpadted': 'تم تحديث الحساب',
+  "updateEmail": "تحديث البريد الالكتروني ",
+  'emailEditSubtitle': "سنقوم بارسال رمز على بريدك الجديد للتوثيق ",
+  'emailConfirm': 'التحقق من البريد الالكتروني'
 };

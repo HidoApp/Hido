@@ -28,7 +28,9 @@ class CustomTextField extends StatelessWidget {
       this.validator = true,
       this.readOnly = false,
       this.validatorHandle,
-      this.expand = false});
+      this.expand = false,
+      this.focusNode,
+      this.raduis});
 
   final TextEditingController? controller;
   final TextInputType? keyboardType;
@@ -49,6 +51,8 @@ class CustomTextField extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final String? Function(String?)? validatorHandle;
   final int? minLines;
+  final FocusNode? focusNode;
+  final double? raduis;
   final bool expand;
 
   @override
@@ -58,6 +62,7 @@ class CustomTextField extends StatelessWidget {
       // padding: const EdgeInsets.symmetric(horizontal: 16),
       height: height,
       child: TextFormField(
+        focusNode: focusNode,
         expands: expand,
         initialValue: initialValue,
         inputFormatters: inputFormatters ?? [],
@@ -103,24 +108,26 @@ class CustomTextField extends StatelessWidget {
               const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
           counterStyle: const TextStyle(fontSize: 0, height: 100),
           counterText: '',
-          border: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(8)),
-              borderSide: BorderSide(color: borderGrey, width: 1)),
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(raduis ?? 8)),
+              borderSide: const BorderSide(color: borderGrey, width: 1)),
           enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(8)),
+              borderRadius: BorderRadius.all(Radius.circular(raduis ?? 8)),
               borderSide:
                   BorderSide(color: borderColor ?? borderGrey, width: 1)),
           disabledBorder: OutlineInputBorder(
-              borderRadius: const BorderRadius.all(Radius.circular(8)),
+              borderRadius: BorderRadius.all(Radius.circular(raduis ?? 8)),
               borderSide:
                   BorderSide(color: borderColor ?? borderGrey, width: 1)),
           focusedBorder: OutlineInputBorder(
-              borderRadius: const BorderRadius.all(Radius.circular(8)),
+              borderRadius: BorderRadius.all(Radius.circular(raduis ?? 8)),
               borderSide:
                   BorderSide(color: borderColor ?? borderGrey, width: 1)),
-          prefixIcon: null == prefixIcon ? null : prefixIcon,
-          suffixIcon: null == suffixIcon ? null : suffixIcon,
+          prefixIcon: prefixIcon,
+          suffixIcon: suffixIcon,
+          // prefixIconConstraints: BoxConstraints(maxWidth: 24, maxHeight: 24),
           hintText: hintText,
+
           hintStyle: TextStyle(
               fontSize: 13,
               fontFamily:

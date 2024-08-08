@@ -52,43 +52,49 @@ class _CustomTicketCardState extends State<CustomTicketCard> {
     return '';
   }
 
-
   Future<void> _fetchAddress() async {
-  try {
-    double? latitude;
-    double? longitude;
+    try {
+      double? latitude;
+      double? longitude;
 
-    switch (widget.booking.bookingType) {
-      case 'hospitality':
-        latitude =   double.parse(widget.booking.hospitality?.coordinate.latitude??'');
-        longitude =   double.parse(widget.booking.hospitality?.coordinate.longitude??'');
-        break;
-      case 'event':
-        latitude =  double.parse(widget.booking.event?.coordinates?.latitude??'');
-        longitude =   double.parse(widget.booking.event?.coordinates?.longitude??'');
-        break;
-      case 'adventure':
-        latitude =   double.parse(widget.booking.adventure?.coordinates?.latitude??'');
-        longitude =  double.parse(widget.booking.adventure?.coordinates?.longitude??'');
-        break;
-      case 'place':
-        latitude =  double.parse(widget.booking.place?.coordinates?.latitude??'');
-        longitude =   double.parse(widget.booking.place?.coordinates?.longitude??'');
-        break;
-      default:
-        throw Exception('Unknown booking type');
-    }
+      switch (widget.booking.bookingType) {
+        case 'hospitality':
+          latitude = double.parse(
+              widget.booking.hospitality?.coordinate.latitude ?? '');
+          longitude = double.parse(
+              widget.booking.hospitality?.coordinate.longitude ?? '');
+          break;
+        case 'event':
+          latitude =
+              double.parse(widget.booking.event?.coordinates?.latitude ?? '');
+          longitude =
+              double.parse(widget.booking.event?.coordinates?.longitude ?? '');
+          break;
+        case 'adventure':
+          latitude = double.parse(
+              widget.booking.adventure?.coordinates?.latitude ?? '');
+          longitude = double.parse(
+              widget.booking.adventure?.coordinates?.longitude ?? '');
+          break;
+        case 'place':
+          latitude =
+              double.parse(widget.booking.place?.coordinates?.latitude ?? '');
+          longitude =
+              double.parse(widget.booking.place?.coordinates?.longitude ?? '');
+          break;
+        default:
+          throw Exception('Unknown booking type');
+      }
 
       String result = await _getAddressFromLatLng(latitude, longitude);
       setState(() {
         address = result;
       });
-    
-  } catch (e) {
-    // Handle error if necessary
-    print('Error fetching address: $e');
+    } catch (e) {
+      // Handle error if necessary
+      print('Error fetching address: $e');
+    }
   }
-}
 
   @override
   Widget build(BuildContext context) {
@@ -359,7 +365,7 @@ String getOrderStatusText(BuildContext context, String orderStatus) {
         return 'مؤكد';
       case 'PENDING':
         return 'في الإنتظار';
-      case 'Finished':
+      case 'FINISHED':
         return 'اكتملت';
       case 'CANCELED':
         return 'تم الالغاء';

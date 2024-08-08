@@ -9,7 +9,7 @@ class ReviewDetailsTile extends StatelessWidget {
     super.key,
     required this.title,
     required this.image,
-    this.widthh=0,
+    this.widthh = 0,
   });
   final String title;
   final String image;
@@ -31,6 +31,7 @@ class ReviewDetailsTile extends StatelessWidget {
          ? SvgPicture.asset(image,width: widthh,)
          : SvgPicture.asset(image),
 
+
         ),
         SizedBox(
           width: width*0.026,
@@ -39,7 +40,7 @@ class ReviewDetailsTile extends StatelessWidget {
           text: title,
           color: starGreyColor,
           fontSize: width * 0.038,
-         fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+          fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
           fontWeight: FontWeight.w400,
         ),
       ],

@@ -135,6 +135,7 @@ class TicketDetailsScreen extends StatelessWidget {
           ),
           ],
            ],
+
             ),
           ),
         ],
