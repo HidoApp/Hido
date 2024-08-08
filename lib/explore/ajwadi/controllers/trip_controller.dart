@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/explore/ajwadi/model/last_activity.dart';
 import 'package:ajwad_v4/explore/ajwadi/model/local_trip.dart';
 import 'package:ajwad_v4/explore/ajwadi/services/trip_service.dart';
@@ -11,8 +13,8 @@ class TripController extends GetxController {
   var isChatLoading = false.obs;
   var upcommingTicket = <LocalTrip>[].obs;
   var pastTicket = <LocalTrip>[].obs;
-  NextActivity? nextTrip = NextActivity();
-  var updatedActivity= NextActivity();
+  var nextTrip = NextActivity().obs;
+  var updatedActivity= NextActivity().obs;
   Rx<String> nextStep = 'PENDING'.obs;
     Rx<double> progress = 0.1.obs;
   Rx<bool> isTripOnWay = false.obs;
@@ -85,17 +87,27 @@ class TripController extends GetxController {
     required BuildContext context,
   }) async {
     try {
-      print("TRUE");
 
       isNextActivityLoading(true);
-      nextTrip = (await TripService.getNextActivity(context: context));
+      var next= await TripService.getNextActivity(context: context);
+ 
+    if(nextTrip!=null ){
+     log('data not equal null');
+   
+    isTripUpdated(true);
+      return  nextTrip(next);
+    }
+    else{
+        log('data equal null');
 
-    
-      print('this trip data');
-         return nextTrip;
+       isTripUpdated(false);
+      return  nextTrip(next);
+    }
      
     } catch (e) {
       isNextActivityLoading(false);
+     isTripUpdated(false);
+
       return null;
     } finally {
       isNextActivityLoading(false);
@@ -111,7 +123,18 @@ class TripController extends GetxController {
      isActivityProgressLoading(true);
 
        final data = await TripService.updateActivity(id: id, context: context);
-        return data;
+          if(data!=null ){
+            log('data not equal null2');
+            log(data.id??'');
+    isTripUpdated(true);
+      return updatedActivity(data);
+    }
+    else{
+     log('data equal null2');
+
+       isTripUpdated(false);
+       return updatedActivity(data);
+    }
     
     } catch (e) {
       print(e);

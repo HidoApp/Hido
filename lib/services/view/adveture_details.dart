@@ -598,7 +598,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
               },
             );
                               }:() {
-                              Get.to(EditAdventure(adventureObj: adventure!));
+                              Get.to(()=>EditAdventure(adventureObj: adventure!));
 
                               },
                               child: Container(

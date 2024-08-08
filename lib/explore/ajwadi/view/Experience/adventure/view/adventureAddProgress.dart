@@ -199,10 +199,10 @@ class _AdventureAddProgressState extends State<AdventureAddProgress> {
           const LatLng(0.0, 0.0)&&  _AdventureControllerController.ragionAr.isNotEmpty && _AdventureControllerController.ragionEn.isNotEmpty;;
     
     }
-    // if (activeIndex == 2) {
-    //   return
-    //   _AdventureImages.length >= 3;
-    // }
+    if (activeIndex == 2) {
+      return
+    _AdventureControllerController.selectedImages.length >= 3;
+    }
     
      if (activeIndex == 3) {
       return  _AdventureControllerController.seletedSeat.value != 0 ;

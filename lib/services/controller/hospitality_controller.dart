@@ -10,6 +10,7 @@ import 'package:ajwad_v4/services/service/hospitality_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../model/summary.dart';
 
@@ -35,6 +36,8 @@ class HospitalityController extends GetxController {
   var selectedDateIndex = (-1).obs;
   var selectedDateId = "".obs;
   var isHospitalityByIdLoading = false.obs;
+  var selectedImages = <XFile>[].obs;
+   var  images = <dynamic>[].obs;
 
   var isCheckAndBookLoading = false.obs;
   var isCheckHospitalitPaymentLoading = false.obs;

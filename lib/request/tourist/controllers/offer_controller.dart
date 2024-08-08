@@ -190,10 +190,13 @@ class OfferController extends GetxController {
       print(updateScheduleList.length);
       if (index < updateScheduleList.length) {
         updateScheduleList.removeAt(index);
+        if(updateScheduleList.length==0){
+           scheduleState.value = true;
+        }
       } else {
         updateScheduleList.removeLast();
-        if (updateScheduleList.isEmpty) {
-          scheduleState.value = true;
+       if(updateScheduleList.length==0){
+           scheduleState.value = true;
         }
       }
       print("After remove");

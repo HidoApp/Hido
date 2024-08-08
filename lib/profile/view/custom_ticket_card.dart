@@ -105,10 +105,7 @@ class _CustomTicketCardState extends State<CustomTicketCard> {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return InkWell(
-      onTap: widget.booking.orderStatus == 'ACCEPTED' ||
-              widget.booking.bookingType == 'hospitality' ||
-              widget.booking.bookingType == 'adventure' ||
-              widget.booking.bookingType == 'event'
+      onTap: widget.booking.orderStatus == 'ACCEPTED'
           ? () {
               Get.to(() => TicketDetailsScreen(
                     booking: widget.booking,

@@ -127,48 +127,6 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                     children: [
                       const SizedBox(height: 10),
 
-                      // InkWell(
-                      //   onTap: () async {
-                      //     showDialog(
-                      //       context: context,
-                      //       builder: (BuildContext context) {
-                      //         return CancelBookingDialog(
-                      //           dialogWidth:
-                      //               MediaQuery.of(context).size.width * 0.588,
-                      //           buttonWidth:
-                      //               MediaQuery.of(context).size.width * 1.191,
-                      //           // booking: widget.booking,
-                      //           offerController: _offerController,
-                      //         );
-                      //       },
-                      //     );
-                      //   },
-                      //   child: SvgPicture.asset(
-                      //     'assets/icons/more.svg',
-                      //      color: black,
-
-                      //   ),
-                      // ),
-
-                      //                if (AppUtil.rtlDirection(context) && (!widget.isAjwadi))
-                      // const SizedBox(
-                      //   width: 4,
-                      // ),
-                      // if (!(!AppUtil.rtlDirection2(context)))
-                      //   Padding(
-                      //     padding: const EdgeInsets.only(left: 90),
-                      //     child: IconButton(
-                      //       onPressed: () {
-                      //         Get.back();
-                      //       },
-                      //       icon: const Icon(
-                      //         Icons.keyboard_arrow_left,
-                      //         color: yellow,
-                      //         size: 26,
-                      //                       ),
-                      //                     ),
-                      //   ),
-
                       Padding(padding: const EdgeInsets.only(left: 90)),
                       Center(
                         child: Container(
@@ -188,9 +146,10 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                                 },
                                 title: CustomText(
                                   text: 'tripDetails'.tr,
-                                  fontSize: 14,
+                                  fontSize: width * 0.044,
+                                  fontFamily: 'HT Rakik',
                                   fontWeight: FontWeight.w500,
-                                  color: Colors.black,
+                                  color: black,
                                   textAlign: AppUtil.rtlDirection2(context)
                                       ? TextAlign.right
                                       : TextAlign.left,
@@ -199,7 +158,7 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                                   isDetailsTapped
                                       ? Icons.keyboard_arrow_up
                                       : Icons.keyboard_arrow_down,
-                                  color: darkGrey,
+                                  color: black,
                                   size: 24,
                                 ),
                               ),
@@ -221,13 +180,10 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                                           CustomText(
                                             text:
                                                 '${AppUtil.formatBookingDate(context, widget.booking!.date!)}',
-                                            color: almostGrey,
-                                            fontSize:
-                                                AppUtil.rtlDirection2(context)
-                                                    ? 14
-                                                    : 13,
-                                            fontWeight: FontWeight.w400,
-                                            fontFamily: 'SF Pro',
+                                       color: starGreyColor ,
+                                        fontSize: width*0.03,
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
                                           ),
                                         ],
                                       ),
@@ -245,10 +201,10 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                                             text: AppUtil.rtlDirection2(context)
                                                 ? 'من ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)} إلى ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)} '
                                                 : 'Pick up: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)}, Drop off: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)}',
-                                            color: almostGrey,
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w400,
-                                            fontFamily: 'SF Pro',
+                                        color: starGreyColor ,
+                                        fontSize: width*0.03,
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
                                           ),
                                         ],
                                       ),
@@ -265,10 +221,10 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                                           CustomText(
                                             text:
                                                 '${widget.booking?.guestNumber} ${'guests'.tr}',
-                                            color: almostGrey,
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w400,
-                                            fontFamily: 'SF Pro',
+                                              color: starGreyColor ,
+                                        fontSize: width*0.03,
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
                                           ),
                                         ],
                                       ),
@@ -286,10 +242,10 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                                           ),
                                           CustomText(
                                             text: widget.booking!.vehicleType!,
-                                            color: almostGrey,
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w400,
-                                            fontFamily: 'SF Pro',
+                                           color: starGreyColor ,
+                                        fontSize: width*0.03,
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
                                           ),
                                         ],
                                       ),
@@ -346,9 +302,9 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                                     child: Text(
                                       'notePrice'.tr,
                                       style: TextStyle(
-                                        color: Color(0xFF9392A0),
-                                        fontSize: 12,
-                                        fontFamily: 'SF Pro',
+                                        color: starGreyColor,
+                                        fontSize: width*0.029,
+                                        fontFamily: AppUtil.SfFontType(context),
                                         fontWeight: FontWeight.w400,
                                         height: 0,
                                       ),
@@ -394,26 +350,34 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                                     place: widget.place!,
                                   ),
 
-
-                                  IgnorePointer(
-                                    ignoring: widget.offerController!.scheduleState.value,
-                                    child: CustomButton(
-                                      onPressed: () {
-                                        
-                                       
-                                  
-                                        Get.to(() => ReviewRequest(
-                                              booking: widget.booking,
-                                              scheduleList: widget.offerController
-                                                  ?.offerDetails.value.schedule,
-                                              offerController:
-                                                  widget.offerController,
-                                              place: widget.place!,
-                                            ));
-                                      },
-                                      buttonColor:widget.offerController!.scheduleState.value?colorlightGreen :colorGreen,
-                                      borderColor: widget.offerController!.scheduleState.value?colorlightGreen :colorGreen,
-                                      title: 'confirm'.tr,
+                                  Obx(() =>
+                                    IgnorePointer(
+                                      ignoring: widget
+                                          .offerController!.scheduleState.value,
+                                      child: CustomButton(
+                                        onPressed: () {
+                                          Get.to(() => ReviewRequest(
+                                                booking: widget.booking,
+                                                scheduleList: widget
+                                                    .offerController
+                                                    ?.offerDetails
+                                                    .value
+                                                    .schedule,
+                                                offerController:
+                                                    widget.offerController,
+                                                place: widget.place!,
+                                              ));
+                                        },
+                                        buttonColor: widget.offerController!
+                                                .scheduleState.value
+                                            ? colorlightGreen
+                                            : colorGreen,
+                                        borderColor: widget.offerController!
+                                                .scheduleState.value
+                                            ? colorlightGreen
+                                            : colorGreen,
+                                        title: 'ReviewRequest'.tr,
+                                      ),
                                     ),
                                   ),
                                   SizedBox(height: 10),
@@ -428,7 +392,8 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                                           : 'Return to Offers'.tr,
                                       buttonColor:
                                           Colors.white.withOpacity(0.3),
-                                      textColor: Color(0xFF070708)),
+                                      borderColor: Colors.white.withOpacity(0.3) ,
+                                      textColor:black),
 
                                   // paymentController.isPaymenInvoiceLoading.value
                                   //     ? CircularProgressIndicator(

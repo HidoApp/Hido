@@ -26,18 +26,19 @@ class ReviewDetailsTile extends StatelessWidget {
           // margin: EdgeInsets.only(
           //     left: image == 'assets/icons/meal.svg' ? 3 : 0,
           //     right: image == 'assets/icons/meal.svg' ? 2 : 0),
-          child: width != 0
-              ? SvgPicture.asset(image, width: widthh)
-              : SvgPicture.asset(
-                  image,
-                ),
+          child:
+         widthh!=0
+         ? SvgPicture.asset(image,width: widthh,)
+         : SvgPicture.asset(image),
+
+
         ),
         SizedBox(
-          width: width * 0.012,
+          width: width*0.026,
         ),
         CustomText(
           text: title,
-          color: const Color(0xFF9392A0),
+          color: starGreyColor,
           fontSize: width * 0.038,
           fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
           fontWeight: FontWeight.w400,

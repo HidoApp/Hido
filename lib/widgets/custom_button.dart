@@ -36,12 +36,10 @@ class CustomButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ButtonStyle(
-        
-         elevation: MaterialStateProperty.all(0),
-         overlayColor:  buttonColor != null
+        elevation: MaterialStateProperty.all(0),
+        overlayColor: buttonColor != null
             ? MaterialStateProperty.all(buttonColor)
             : MaterialStateProperty.all(colorGreen),
-       
         backgroundColor: buttonColor != null
             ? MaterialStateProperty.all(buttonColor)
             : MaterialStateProperty.all(colorGreen),
@@ -52,8 +50,9 @@ class CustomButton extends StatelessWidget {
               Radius.circular(raduis ?? 8),
             ),
             side: BorderSide(
-                color: borderColor ==null ? colorGreen:borderColor??Colors.white
-                   ), 
+                color: borderColor == null
+                    ? colorGreen
+                    : borderColor ?? Colors.white),
           ),
         ),
         fixedSize:
@@ -78,7 +77,7 @@ class CustomButton extends StatelessWidget {
                 text: title,
                 fontFamily: 'HT Rakik',
                 textAlign: TextAlign.center,
-                fontSize: 17,
+                fontSize: width * 0.044,
                 fontWeight: FontWeight.w500,
                 color: Colors.white,
                 fontStyle: italic ? FontStyle.italic : FontStyle.normal,

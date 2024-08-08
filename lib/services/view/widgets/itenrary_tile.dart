@@ -29,12 +29,7 @@ class ItineraryTile extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        SvgPicture.asset(
-          image,
-         width: widthImage,
-
-          // width: width * 0.05,
-        ),
+       SvgPicture.asset(image),
         SizedBox(
           width: 4,
         ),

@@ -25,10 +25,14 @@ class _CheckContainerWidgetState extends State<CheckContainerWidget> {
     super.initState();
     scheduleList = widget.offerController?.offerDetails.value.schedule;
     widget.offerController?.getCheckedList(null, true);
+       widget.offerController?.scheduleState.value = false;
+      
   }
 
   @override
   Widget build(BuildContext context) {
+        final width = MediaQuery.of(context).size.width;
+
     return Container(
         padding: const EdgeInsets.only(
           top: 24,
@@ -59,7 +63,7 @@ class _CheckContainerWidgetState extends State<CheckContainerWidget> {
                             )
                           : const CircleAvatar(
                               backgroundImage:
-                                  AssetImage('assets/images/app_icon.jpeg'),
+                                  AssetImage('assets/images/profile_image.png'),
                             ),
                 ),
                 const SizedBox(
@@ -67,11 +71,11 @@ class _CheckContainerWidgetState extends State<CheckContainerWidget> {
                 ),
                 Text(
                   widget.offerController?.offerDetails.value.name ?? "",
-                  style: const TextStyle(
-                    color: Color(0xFF1D2129),
-                    fontSize: 14,
-                    fontFamily: 'HT Rakik',
-                    fontWeight: FontWeight.w500,
+                  style: TextStyle(
+                    color: black,
+                  fontSize: width * 0.038,
+                  fontFamily: AppUtil.SfFontType(context),
+                  fontWeight: FontWeight.w500,
                   ),
                 )
               ],

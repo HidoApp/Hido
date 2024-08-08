@@ -90,51 +90,52 @@ class TicketDetailsScreen extends StatelessWidget {
                     //TicketData(booking: booking,icon: icon,bookTypeText: bookTypeText,),
                   ),
                 ),
-                // const Expanded(child: SizedBox()), // Takes up remaining space
+               // const Expanded(child: SizedBox()), // Takes up remaining space
+             
+          if(adventure == null && event==null && hospitality==null)
+          if(booking!.orderStatus=='ACCEPTED')...[
+           Spacer(),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 35),
+                    child: Column(
+                      children:[
+                    
+                      CustomButton(
+                        onPressed: () {
+                          showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            builder: (BuildContext context) {
+                             
+                            return CancelSheet(bookId: booking!.id??'',type: booking!.bookingType??'');
+                            },
+                          );
+                        },
+                     
+                        // },
+                        title: 'CancelBooking'.tr,
+                        buttonColor:
+                            lightGreyBackground, // Set the button color to transparent white
+                        textColor: Colors.red,
+                        borderColor: colorRed,
+                        // Set the text color to red
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          ],
+           ],
 
-                if (hospitality == null && adventure == null && event == null)
-                  if (booking!.orderStatus == 'ACCEPTED') ...[
-                    Spacer(),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 35),
-                            child: Column(
-                              children: [
-                                CustomButton(
-                                  onPressed: () {
-                                    showModalBottomSheet(
-                                      context: context,
-                                      isScrollControlled: true,
-                                      builder: (BuildContext context) {
-                                        return CancelSheet(
-                                            bookId: booking!.id ?? '',
-                                            type: booking!.bookingType ?? '');
-                                      },
-                                    );
-                                  },
-
-                                  // },
-                                  title: 'CancelBooking'.tr,
-                                  buttonColor:
-                                      lightGreyBackground, // Set the button color to transparent white
-                                  textColor: Colors.red,
-                                  borderColor: colorRed,
-                                  // Set the text color to red
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-              ],
             ),
           ),
         ],

@@ -32,11 +32,13 @@ class _TotalWidgetState extends State<TotalWidget> {
 
   @override
   Widget build(BuildContext context) {
+  final width = MediaQuery.of(context).size.width;
+
 //     print('Price per night: ${widget.place.price!}');
-    print(
-        'Number of guests: ${widget.offerController!.offerDetails.value.booking!.guestNumber!}');
-    print(
-        'Additional charges total: ${widget.offerController!.totalPrice.value}');
+    // print(
+    //     'Number of guests: ${widget.offerController!.offerDetails.value.booking!.guestNumber!}');
+    // print(
+    //     'Additional charges total: ${widget.offerController!.totalPrice.value}');
 // print('Total price: ${(widget.place.price! * widget.offerController!.offerDetails.value.booking!.guestNumber!) + (widget.offerController!.totalPrice.value * widget.offerController!.offerDetails.value.booking!.guestNumber!)}');
 
     return Padding(
@@ -54,11 +56,11 @@ class _TotalWidgetState extends State<TotalWidget> {
                 Text(
                   'total'.tr,
                   textAlign: TextAlign.right,
-                  style: const TextStyle(
+                  style:  TextStyle(
                     color: black,
-                    fontSize: 20,
+                    fontSize: width*0.05,
                     fontFamily: 'HT Rakik',
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
                
@@ -82,10 +84,10 @@ class _TotalWidgetState extends State<TotalWidget> {
                               // ' ${(widget.place.price! * widget.offerController!.offerDetails.value.booking!.guestNumber!) + (widget.offerController!.totalPrice.value * widget.offerController!.offerDetails.value.booking!.guestNumber!)} ',
                               // '${(widget.place?.price ?? 0) * (widget.offerController?.offerDetails.value?.booking?.guestNumber ?? 0) + (widget.offerController?.totalPrice.value ?? 0) * (widget.offerController?.offerDetails.value?.booking?.guestNumber ?? 0)}',
                               '${(widget.offerController?.totalPrice.value ?? 0) * (widget.offerController?.offerDetails.value.booking?.guestNumber ?? 0)}',
-                          style: const TextStyle(
+                          style:  TextStyle(
                             color: black,
-                            fontSize: 20,
-                            fontFamily: 'HT Rakik',
+                             fontSize: width*0.05,
+                          fontFamily: 'HT Rakik',
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -94,9 +96,9 @@ class _TotalWidgetState extends State<TotalWidget> {
                           text: 'sar'.tr,
                           style: TextStyle(
                             color: black,
-                            fontSize: 20,
-                            fontFamily: 'HT Rakik',
-                            fontWeight: FontWeight.w500,
+                             fontSize: width*0.05,
+                              fontFamily: 'HT Rakik',
+                               fontWeight: FontWeight.w500,
                           ),
                         ),
                       ],

@@ -1,7 +1,10 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
+import 'package:ajwad_v4/auth/models/image.dart';
+import 'package:ajwad_v4/auth/services/auth_service.dart';
 import 'package:ajwad_v4/constants/base_url.dart';
 import 'package:ajwad_v4/event/model/event.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
@@ -461,4 +464,60 @@ class EventService {
       return false;
     }
   }
+
+   static Future<UploadImage?> uploadImages(
+      {required File file,
+      required String fileType,
+      required BuildContext context}) async {
+    final getStorage = GetStorage();
+    String? token = getStorage.read('accessToken');
+
+    if (JwtDecoder.isExpired(token!)) {
+      final String refreshToken = getStorage.read('refreshToken');
+      var user = await AuthService.refreshToken(
+          refreshToken: refreshToken, context: context);
+      token = user!.accessToken;
+    }
+    Map<String, String> headers = {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': 'Bearer $token',
+    };
+
+    var request = http.MultipartRequest(
+        'POST',  Uri.parse('$baseUrl/asset/upload/$fileType').replace(queryParameters: {
+           'fileType': fileType,
+  }));
+    request.headers.addAll(headers);
+    request.files.add(await http.MultipartFile.fromPath('image', file.path));
+
+    http.StreamedResponse response = await request.send();
+
+    late String id, filePath, publicId;
+    if (response.statusCode == 200) {
+      UploadImage imageIbject;
+      var jsonImage;
+      print('Image uploaded successfully');
+      print(response.stream);
+
+      await response.stream.transform(utf8.decoder).listen((value) {
+        id = UploadImage.fromJson(jsonDecode(value)).id;
+        filePath = UploadImage.fromJson(jsonDecode(value)).filePath;
+        if (UploadImage.fromJson(jsonDecode(value)).publicId != null) {
+          publicId = UploadImage.fromJson(jsonDecode(value)).publicId!;
+        } else {
+          publicId = '';
+        }
+      });
+
+      return UploadImage(id: id, filePath: filePath, publicId: publicId);
+    } else {
+      print('Image upload failed with status code: ${response.statusCode}');
+
+      response.stream.transform(utf8.decoder).listen((value) {
+        print(value);
+      });
+    }
+    return null;
+  }
+
 }

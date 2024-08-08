@@ -14,6 +14,7 @@ class ViewTripImages extends StatefulWidget {
   State<ViewTripImages> createState() => _ViewTripImagesState();
 }
 
+
 class _ViewTripImagesState extends State<ViewTripImages> {
   // final imageItems = widget.tripImageUrl.map((e) => null);
   @override

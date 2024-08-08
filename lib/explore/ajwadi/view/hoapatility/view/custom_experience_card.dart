@@ -164,19 +164,19 @@ class CustomExperienceCard extends StatelessWidget {
                                         ? 'SF Pro'
                                         : 'SF Arabic',
                                   ),
-                                  if (experience.status == 'DELETED')
+                                  if (experience.status == 'DRAFT'||experience.status == 'CLOSED')
                                     Row(
                                       children: [
                                         CustomText(
-                                          text:'',
-                                          // text: type == 'hospitality' ||
-                                          //         type == 'event'
-                                          //     ? formatBookingDate(
-                                          //         context,
-                                          //         experience
-                                          //             .daysInfo.first.startTime)
-                                          //     : formatBookingDate(
-                                          //         context, experience.date),
+                                          
+                                          text: type == 'hospitality' ||
+                                                  type == 'event'
+                                              ? formatBookingDate(
+                                                  context,
+                                                  experience
+                                                      .daysInfo.first.startTime)
+                                              : formatBookingDate(
+                                                  context, experience.date),
                                           fontSize: 12,
                                           fontFamily:
                                               AppUtil.rtlDirection2(context)
@@ -194,7 +194,7 @@ class CustomExperienceCard extends StatelessWidget {
                                   //  if(hospitality.status!='DELETED')
 
                                   CustomText(
-                                    text: experience.status != 'DELETED'
+                                    text: experience.status != 'DRAFT' && experience.status != 'CLOSED'
                                         ? type == 'hospitality' ||
                                                 type == 'event'
                                             ? formatBookingDate(
@@ -217,7 +217,7 @@ class CustomExperienceCard extends StatelessWidget {
                           ),
                         ),
                       ),
-                      if (experience.status != 'DELETED')
+                      if (experience.status != 'DRAFT' && experience.status != 'CLOSED')
                         isDateBefore24Hours()
                             ? Padding(
                                 padding: const EdgeInsets.only(bottom: 14),

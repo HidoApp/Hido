@@ -513,8 +513,8 @@ class _AddEventLocationState extends State<AddEventLocation> {
                           print(_EventrController.ragionAr.value);
                           print(_EventrController.ragionEn.value);
                         },
-                        buttonStyleData: const ButtonStyleData(
-                          padding: EdgeInsets.only(right: 8),
+                        buttonStyleData:  ButtonStyleData(
+                          padding:AppUtil.rtlDirection2(context) ?EdgeInsets.only(left: 9):EdgeInsets.only(right: 9),
                         ),
                         iconStyleData: const IconStyleData(
                           icon: Icon(

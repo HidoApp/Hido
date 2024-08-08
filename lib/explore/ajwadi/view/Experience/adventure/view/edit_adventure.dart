@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
@@ -11,8 +12,10 @@ import 'package:ajwad_v4/explore/ajwadi/view/hoapatility/widget/image_slider.dar
 import 'package:ajwad_v4/explore/ajwadi/view/local_home_screen.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/explore/tourist/view/view_trip_images.dart';
+import 'package:ajwad_v4/request/ajwadi/view/view_experience_images.dart';
 import 'package:ajwad_v4/request/tourist/view/local_offer_info.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
+import 'package:ajwad_v4/services/controller/event_controller.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
 import 'package:ajwad_v4/services/model/hospitality.dart';
@@ -76,7 +79,8 @@ class _EditAdventureState extends State<EditAdventure> {
       TextEditingController();
   final TextEditingController adventureBioControllerAr =
       TextEditingController();
-
+  List<String> imageUrls = [];
+  final _eventController = Get.put(EventController());
   String address = '';
   // String ragionAr = '';
   // String ragionEn = '';
@@ -137,6 +141,7 @@ class _EditAdventureState extends State<EditAdventure> {
     _servicesController.isAdventureDateSelcted(false);
     _servicesController.selectedDate('');
     _servicesController.selectedDateIndex(-1);
+    _loadImages();
 
     updateData();
     _currentPosition = LatLng(
@@ -144,6 +149,81 @@ class _EditAdventureState extends State<EditAdventure> {
       _servicesController.pickUpLocLatLang.value.longitude,
     );
     _fetchAddress();
+  }
+
+  Future<void> _loadImages() async {
+    List<dynamic> images = [];
+    _servicesController.images.clear();
+    for (var path in widget.adventureObj!.image!) {
+      images.add(
+          path); // Add all paths to the list, they can be URLs or File paths.
+    }
+
+    setState(() {
+      _servicesController.images.addAll(images);
+    });
+  }
+
+  Future<bool> uploadImages() async {
+    List<dynamic> imagesToUpload = [];
+    bool allExtensionsValid = true;
+
+    // Allowed formats
+    final allowedFormats = ['jpg', 'jpeg', 'png'];
+
+    for (int i = 0; i < _servicesController.images.length; i++) {
+      var image = _servicesController.images[i];
+
+      // Check if the path is a URL
+      if (image is String && Uri.parse(image).isAbsolute) {
+        imageUrls.add(image);
+      } else {
+        String fileExtension = image.path.split('.').last.toLowerCase();
+
+        if (!allowedFormats.contains(fileExtension)) {
+          allExtensionsValid = false;
+          print(
+              'File ${image.path} is not in an allowed format (${allowedFormats.join(', ')}).');
+        } else {
+          imagesToUpload.add(image);
+        }
+      }
+    }
+
+    if (!allExtensionsValid) {
+      // if (context.mounted) {
+      //   AppUtil.errorToast(context,
+      //     'uploadError'.tr);
+      //   await Future.delayed(const Duration(seconds: 3));
+      // }
+      return false;
+    }
+
+    // Upload images that are not URLs
+
+    for (var imageFile in imagesToUpload) {
+      try {
+        final uploadedImage = await _eventController.uploadProfileImages(
+          file: File(imageFile.path),
+          fileType: "adventures",
+          context: context,
+        );
+
+        if (uploadedImage != null) {
+          log('valid');
+          imageUrls.add(uploadedImage.filePath);
+          log(uploadedImage.filePath);
+        } else {
+          log('not valid');
+          // return false;
+        }
+      } catch (e) {
+        log('Error uploading file ${imageFile.path}: $e');
+        return false;
+      }
+    }
+
+    return true;
   }
 
   Future<String> _getAddressFromLatLng(
@@ -237,6 +317,8 @@ class _EditAdventureState extends State<EditAdventure> {
       TimeErrorMessage = !_servicesController.isAdventureTimeSelcted.value;
       // DateDurationError =
       //     !AppUtil.isDateBefore24Hours(_servicesController.selectedDate.value);
+      _servicesController.DateErrorMessage.value =
+          AppUtil.isDateBefore24Hours(_servicesController.selectedDate.value);
 
       PriceEmpty = _priceController.text.isEmpty;
       if (_priceController.text.isNotEmpty) {
@@ -262,8 +344,16 @@ class _EditAdventureState extends State<EditAdventure> {
         !PriceLarger &&
         !PriceDouble &&
         _servicesController.DateErrorMessage.value &&
-        !_servicesController.TimeErrorMessage.value) {
+        !_servicesController.TimeErrorMessage.value && _servicesController.images.length >= 3 &&
+        _servicesController.DateErrorMessage.value ) {
       _updateAdventure();
+      if (await uploadImages()) {
+        _updateAdventure();
+      } else {
+ if (context.mounted) {
+          AppUtil.errorToast(context,'uploadError'.tr);
+          await Future.delayed(const Duration(seconds: 3));
+        }      }
     } else {
       if (!_servicesController.DateErrorMessage.value) {
         if (context.mounted) {
@@ -274,6 +364,14 @@ class _EditAdventureState extends State<EditAdventure> {
       if (_servicesController.TimeErrorMessage.value) {
         if (context.mounted) {
           AppUtil.errorToast(context, 'TimeDuration'.tr);
+          await Future.delayed(const Duration(seconds: 3));
+        }
+      }
+       if (_servicesController.images.length < 3) {
+        if (context.mounted) {
+          AppUtil.errorToast(
+              context,
+             'imageError'.tr);
           await Future.delayed(const Duration(seconds: 3));
         }
       }
@@ -360,10 +458,10 @@ class _EditAdventureState extends State<EditAdventure> {
         latitude:
             _servicesController.pickUpLocLatLang.value.latitude.toString(),
         price: int.parse(_priceController.text),
-        image: widget.adventureObj.image!,
-        regionAr: widget.adventureObj.regionAr??'',
+        image: imageUrls,
+        regionAr: widget.adventureObj.regionAr ?? '',
         locationUrl: locationUrl,
-        regionEn: widget.adventureObj.regionEn??'',
+        regionEn: widget.adventureObj.regionEn ?? '',
         start: DateFormat('HH:mm:ss').format(newTimeToGo),
         end: DateFormat('HH:mm:ss').format(newTimeToReturn),
         seat: guestNum,
@@ -410,7 +508,11 @@ class _EditAdventureState extends State<EditAdventure> {
             );
           },
         ).then((_) {
-          Get.offAll(() => const AjwadiBottomBar());
+          // Get.offAll(() => const AjwadiBottomBar());
+            Get.back();
+          Get.back();
+          final _experienceController = Get.put(AjwadiExploreController());
+          _experienceController.getAllExperiences(context: context);
         });
 
         print("Profile updated successfully: $result");
@@ -635,11 +737,18 @@ class _EditAdventureState extends State<EditAdventure> {
 
               bottomNavigationBar: Padding(
                   padding: EdgeInsets.all(16.0),
-                  child: CustomButton(
-                      onPressed: () {
-                        validateAndSave();
-                      },
-                      title: 'SaveChanges'.tr)),
+                  child: Obx(()=>
+                      _servicesController.isEditAdveentureLoading.value
+                         ? const Center(
+                              child: CircularProgressIndicator.adaptive(),
+                            )
+                         
+                            : CustomButton(
+                        onPressed: () {
+                          validateAndSave();
+                        },
+                        title: 'SaveChanges'.tr),
+                  )),
               body: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -664,30 +773,33 @@ class _EditAdventureState extends State<EditAdventure> {
                                 ),
                               ]),
                           // images widget on top of screen
-                          Padding(
-                            padding: const EdgeInsets.only(top: 16.0),
-                            child: GestureDetector(
-                              onTap: () {
-                                // Get.to(ViewTripImages(
-                                //   tripImageUrl: hospitalityObj!.images,
-                                //   fromNetwork: true,
-                                // ));
-                              },
-                              child: CarouselSlider.builder(
-                                carouselController: _carouselController,
-                                options: CarouselOptions(
-                                    viewportFraction: 1,
-                                    onPageChanged: (i, reason) {
-                                      setState(() {
-                                        _currentIndex = i;
-                                      });
-                                    }),
-                                itemCount: widget.adventureObj.image!.length,
-                                itemBuilder: (context, index, realIndex) {
-                                  return ImagesSliderWidget(
-                                    image: widget.adventureObj.image![index],
-                                  );
+                          Obx(()=>
+                             Padding(
+                              padding: const EdgeInsets.only(top: 16.0),
+                              child: GestureDetector(
+                                onTap: () {
+                                  Get.to(() => ViewImages(
+                                        tripImageUrl: widget.adventureObj.image!,
+                                        fromNetwork: true,
+                                        Type:'adventure',
+                                      ));
                                 },
+                                child: CarouselSlider.builder(
+                                  carouselController: _carouselController,
+                                  options: CarouselOptions(
+                                      viewportFraction: 1,
+                                      onPageChanged: (i, reason) {
+                                        setState(() {
+                                          _currentIndex = i;
+                                        });
+                                      }),
+                                  itemCount: _servicesController.images.length,
+                                  itemBuilder: (context, index, realIndex) {
+                                    return ImagesSliderWidget(
+                                      image: _servicesController.images[index],
+                                    );
+                                  },
+                                ),
                               ),
                             ),
                           ),
@@ -1085,7 +1197,8 @@ class _EditAdventureState extends State<EditAdventure> {
                                     height: width * 0.02,
                                   ),
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       SizedBox(
                                         height: width * 0.012,
@@ -1282,7 +1395,7 @@ class _EditAdventureState extends State<EditAdventure> {
                                       false ||
                                           !_servicesController
                                               .DateErrorMessage.value)
-                                   Padding(
+                                    Padding(
                                       padding: const EdgeInsets.only(top: 8),
                                       child: Text(
                                         DateErrorMessage ?? false
@@ -1485,55 +1598,57 @@ class _EditAdventureState extends State<EditAdventure> {
                                                     onTap: () async {
                                                       await DatePickerBdaya
                                                           .showTime12hPicker(
-                                                        context,
-                                                        locale:AppUtil.rtlDirection2(context)?LocaleType.ar:LocaleType.en ,
-                                                        showTitleActions: true,
-                                                        currentTime:
-                                                            newTimeToGo,
-                                                        onConfirm: (newT) {
+                                                              context,
+                                                              locale: AppUtil
+                                                                      .rtlDirection2(
+                                                                          context)
+                                                                  ? LocaleType
+                                                                      .ar
+                                                                  : LocaleType
+                                                                      .en,
+                                                              showTitleActions:
+                                                                  true,
+                                                              currentTime:
+                                                                  newTimeToGo,
+                                                              onConfirm:
+                                                                  (newT) {
+                                                        _servicesController
+                                                            .isAdventureTimeSelcted(
+                                                                true);
+
+                                                        setState(() {
+                                                          newTimeToGo = newT;
                                                           _servicesController
-                                                              .isAdventureTimeSelcted(
-                                                                  true);
+                                                              .selectedStartTime
+                                                              .value = newTimeToGo;
+                                                          time = newTimeToGo;
 
-                                                          setState(() {
+                                                          _servicesController
+                                                                  .TimeErrorMessage
+                                                                  .value =
+                                                              AppUtil.isEndTimeLessThanStartTime(
+                                                                  newTimeToGo,
+                                                                  newTimeToReturn);
+                                                        });
+                                                      }, onChanged: (newT) {
+                                                        _servicesController
+                                                            .isAdventureTimeSelcted(
+                                                                true);
+                                                        setState(() {
+                                                          newTimeToGo = newT;
+                                                          _servicesController
+                                                              .selectedStartTime
+                                                              .value = newTimeToGo;
+                                                          time = newTimeToGo;
 
-                                                            newTimeToGo = newT;
-                                                            _servicesController
-                                                                    .selectedStartTime
-                                                                    .value =
-                                                                newTimeToGo;
-                                                            time = newTimeToGo;
-
-                                                            _servicesController
-                                                                    .TimeErrorMessage
-                                                                    .value =
-                                                                AppUtil.isEndTimeLessThanStartTime(
-                                                                    newTimeToGo,
-                                                                    newTimeToReturn);
-                                                          });
-                                                        },
-                                                        onChanged: (newT){
-                                                                          _servicesController
-                                                                              .isAdventureTimeSelcted(true);
-                                                                         setState(() {
-
-                                                            newTimeToGo = newT;
-                                                            _servicesController
-                                                                    .selectedStartTime
-                                                                    .value =
-                                                                newTimeToGo;
-                                                            time = newTimeToGo;
-
-                                                            _servicesController
-                                                                    .TimeErrorMessage
-                                                                    .value =
-                                                                AppUtil.isEndTimeLessThanStartTime(
-                                                                    newTimeToGo,
-                                                                    newTimeToReturn);
-                                                          });
-                                                                        
-                                                        }
-                                                      );
+                                                          _servicesController
+                                                                  .TimeErrorMessage
+                                                                  .value =
+                                                              AppUtil.isEndTimeLessThanStartTime(
+                                                                  newTimeToGo,
+                                                                  newTimeToReturn);
+                                                        });
+                                                      });
                                                     },
                                                     child: CustomText(
                                                       text: AppUtil
@@ -1769,7 +1884,11 @@ class _EditAdventureState extends State<EditAdventure> {
                                                       await DatePickerBdaya
                                                           .showTime12hPicker(
                                                         context,
-                                                       locale:AppUtil.rtlDirection2(context)?LocaleType.ar:LocaleType.en ,
+                                                        locale: AppUtil
+                                                                .rtlDirection2(
+                                                                    context)
+                                                            ? LocaleType.ar
+                                                            : LocaleType.en,
                                                         showTitleActions: true,
                                                         currentTime:
                                                             newTimeToReturn,
@@ -1783,7 +1902,6 @@ class _EditAdventureState extends State<EditAdventure> {
                                                               .format(
                                                                   newTimeToReturn));
                                                           setState(() {
-
                                                             newTimeToReturn =
                                                                 newT;
                                                             returnTime =
@@ -1815,7 +1933,6 @@ class _EditAdventureState extends State<EditAdventure> {
                                                               .format(
                                                                   newTimeToReturn));
                                                           setState(() {
-
                                                             newTimeToReturn =
                                                                 newT;
                                                             returnTime =
@@ -2121,7 +2238,7 @@ class _EditAdventureState extends State<EditAdventure> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
-                          children: widget.adventureObj.image!
+                          children: _servicesController.images
                               .asMap()
                               .entries
                               .map((entry) {
@@ -2137,7 +2254,7 @@ class _EditAdventureState extends State<EditAdventure> {
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: _currentIndex == entry.key
-                                      ? widget.adventureObj.image!.length == 1
+                                      ? _servicesController.images.length == 1
                                           ? Colors.white.withOpacity(0.1)
                                           : Colors.white
                                       : Colors.white.withOpacity(0.4),

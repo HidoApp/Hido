@@ -1,3 +1,4 @@
+import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/explore/widget/floating_timer.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
@@ -34,8 +35,8 @@ class _OfferScreenState extends State<OfferScreen> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    print("offer");
-    print(_offerController.acceptedOffer.value.orderStatus);
+    // print("offer");
+    // print(_offerController.acceptedOffer.value.orderStatus);
 
     return FloatingDraggableADVN(
       floatingWidget: const FloatingTimer(),
@@ -59,68 +60,72 @@ class _OfferScreenState extends State<OfferScreen> {
               );
             },
           ),
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: AppUtil.rtlDirection2(context)
-                    ? const EdgeInsets.only(top: 25, right: 28)
-                    : const EdgeInsets.only(top: 25, left: 28),
-                child: CustomText(
-                  text: "selectLocal".tr,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
+          body: Container(
+            color: lightGreyBackground,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: AppUtil.rtlDirection2(context)
+                      ? const EdgeInsets.only(top: 16, right: 16)
+                      : const EdgeInsets.only(top: 16, left: 16),
+                  child: CustomText(
+                    text: "selectLocal".tr,
+                    fontSize: width*0.044,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: AppUtil.SfFontType(context),
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              ListView.separated(
-                shrinkWrap: true,
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                //  physics:const NeverScrollableScrollPhysics(),
-                itemCount: _offerController.offers.length,
-                separatorBuilder: (context, index) {
-                  return const SizedBox(
-                    height: 7,
-                  );
-                },
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      _offerController.getOfferById(
-                        context: context,
-                        offerId: _offerController.offers[index].offerId!,
-                      );
-                      print('image');
-                      print(_offerController.offers[index].image ?? '');
-                      // name: _offerController.offers[index].name!??'',
-                      // rating: _offerController.offers[index].rating!??0,
-                      // price: _offerController.offers[index].price!??0,
-                      // tripNumber: _offerController.offers[index].tourNumber??0,
-                      Get.to(() => LocalOfferInfo(
-                          place: widget.place,
-                          image: _offerController.offers[index].image ?? '',
-                          name: _offerController.offers[index].name!,
-                          profileId: _offerController.offers[index].profileId!,
-                          rating:
-                              _offerController.offers[index].tourRating ?? 0,
-                          price: _offerController.offers[index].price!,
-                          tripNumber:
-                              _offerController.offers[index].tourNumber ?? 0));
-                    },
-                    child: CustomAjwadiCard(
-                      image: _offerController.offers[index].image ?? '',
-                      name: _offerController.offers[index].name ?? '',
-                      rating: _offerController.offers[index].tourRating ?? 0,
-                      price: _offerController.offers[index].price ?? 0,
-                      tripNumber:
-                          _offerController.offers[index].tourNumber ?? 0,
-                    ),
-                  );
-                },
-              ),
-            ],
+                const SizedBox(
+                  height: 16,
+                ),
+                ListView.separated(
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  //  physics:const NeverScrollableScrollPhysics(),
+                  itemCount: _offerController.offers.length,
+                  separatorBuilder: (context, index) {
+                    return const SizedBox(
+                      height: 15,
+                    );
+                  },
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        _offerController.getOfferById(
+                          context: context,
+                          offerId: _offerController.offers[index].offerId!,
+                        );
+                        // print('image');
+                        // print(_offerController.offers[index].image ?? '');
+                        // name: _offerController.offers[index].name!??'',
+                        // rating: _offerController.offers[index].rating!??0,
+                        // price: _offerController.offers[index].price!??0,
+                        // tripNumber: _offerController.offers[index].tourNumber??0,
+                        Get.to(() => LocalOfferInfo(
+                            place: widget.place,
+                            image: _offerController.offers[index].image ?? '',
+                            name: _offerController.offers[index].name!,
+                            profileId: _offerController.offers[index].profileId!,
+                            rating:
+                                _offerController.offers[index].tourRating ?? 0,
+                            price: _offerController.offers[index].price!,
+                            tripNumber:
+                                _offerController.offers[index].tourNumber ?? 0));
+                      },
+                      child: CustomAjwadiCard(
+                        image: _offerController.offers[index].image ?? '',
+                        name: _offerController.offers[index].name ?? '',
+                        rating: _offerController.offers[index].tourRating ?? 0,
+                        price: _offerController.offers[index].price ?? 0,
+                        tripNumber:
+                            _offerController.offers[index].tourNumber ?? 0,
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
           )),
     );
   }

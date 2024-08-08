@@ -1,19 +1,13 @@
-import 'dart:math';
 
-import 'package:ajwad_v4/constants/colors.dart';
-import 'package:ajwad_v4/request/ajwadi/controllers/request_controller.dart';
 import 'package:ajwad_v4/request/chat/controllers/chat_controller.dart';
 import 'package:ajwad_v4/request/chat/model/chat_model.dart';
-import 'package:ajwad_v4/request/chat/view/chat_screen_live.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
 import 'package:ajwad_v4/request/tourist/models/offer_details.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:ajwad_v4/request/tourist/view/tourist_chat_screen.dart';
 import 'package:intl/intl.dart';
 
 import '../request/chat/view/chat_screen.dart';
@@ -32,7 +26,6 @@ class CustomChatCard extends StatelessWidget {
   Widget build(BuildContext context) {
                    
 
-print(";lkjhgfd");
     return InkWell(
       onTap: () async {
 

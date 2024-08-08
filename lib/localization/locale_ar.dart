@@ -604,6 +604,11 @@ const localeAr = {
   "NoReview": "لا يوجد تقييمات بعد",
   '*TheMinimumPrice': '*الحد الأدنى لسعر النشاط هو 150 ريال سعودي',
   'timeErorrRange': 'الوقت المحدد خارج الأوقات المطلوبة',
+ 
+  
+  "uploadError":"يجب أن تكون الصور  بصيغة 'jpg' أو 'jpeg' أو 'png'",
+  "imageError": "اختر 3 صور على الأقل",
+  
 
   'eventDetailsSub': 'فرصة لمشاركة الشعب فعالياتهم المحلية ',
   "saudiEvent": "الفعاليات المحلية",

@@ -132,7 +132,7 @@ class _ReviewRequestState extends State<ReviewRequest> {
                         children: [
                           CustomText(
                             text: 'RequestedTourDetails'.tr,
-                            fontSize: width * 0.043,
+                            fontSize: width * 0.044,
                             fontFamily: 'HT Rakik',
                             fontWeight: FontWeight.w500,
                           ),
@@ -142,7 +142,9 @@ class _ReviewRequestState extends State<ReviewRequest> {
                           ReviewDetailsTile(
                               title:
                                   '${AppUtil.formatBookingDate(context, widget.booking!.date!)}',
-                              image: 'assets/icons/date.svg'),
+                              image:'assets/icons/date.svg'
+                              
+                              ),
                           SizedBox(
                             height: width * .010,
                           ),
@@ -166,7 +168,7 @@ class _ReviewRequestState extends State<ReviewRequest> {
                             title: widget.booking!.vehicleType!,
                             image:
                                 'assets/icons/unselected_${widget.booking?.vehicleType!}_icon.svg',
-                            widthh: 26,
+                            widthh: 20,
                           ),
                           SizedBox(
                             height: width * 0.041,
@@ -175,11 +177,11 @@ class _ReviewRequestState extends State<ReviewRequest> {
                             color: lightGrey,
                           ),
                           SizedBox(
-                            height: width * 0.03,
+                            height: width * 0.05,
                           ),
                           CustomText(
                             text: "ItineraryDetails".tr,
-                            fontSize: width * 0.043,
+                            fontSize: width * 0.044,
                             fontFamily: 'HT Rakik',
                             fontWeight: FontWeight.w500,
                           ),
@@ -191,23 +193,20 @@ class _ReviewRequestState extends State<ReviewRequest> {
                           const Divider(
                             color: lightGrey,
                           ),
-                          SizedBox(
-                            height: width * 0.25,
-                          ),
-
                           // SizedBox(
                           //   height: width * 0.25,
                           // ),
 
+                       
                           //discount widget
                           // const PromocodeField(),
-                          SizedBox(
-                            height: width * 0.071,
-                          ),
-                          DottedSeparator(
-                            color: almostGrey,
-                            height: width * 0.002,
-                          ),
+                          // SizedBox(
+                          //   height: width * 0.071,
+                          // ),
+                          // DottedSeparator(
+                          //   color: almostGrey,
+                          //   height: width * 0.002,
+                          // ),
                           SizedBox(
                             height: width * 0.09,
                           ),
@@ -241,6 +240,22 @@ class _ReviewRequestState extends State<ReviewRequest> {
                                       ),
                                     );
                                   }),
+
+                                  SizedBox(height: 10),
+
+                                  CustomButton(
+                                      onPressed: () {
+                                        Get.until((route) =>
+                                            Get.currentRoute == '/FindAjwady');
+                                      },
+                                      title: AppUtil.rtlDirection2(context)
+                                          ? 'عودة للعروض'
+                                          : 'Return to Offers'.tr,
+                                      buttonColor:
+                                          Colors.white.withOpacity(0.3),
+                                      borderColor: Colors.white.withOpacity(0.3) ,
+                                      textColor:black),
+
                         ],
                       ),
                     ),
