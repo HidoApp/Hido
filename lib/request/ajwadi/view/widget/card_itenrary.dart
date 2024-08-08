@@ -77,6 +77,7 @@ class _ItineraryCardState extends State<ItineraryCard> {
     DateTime parsedPickerTime = DateFormat('HH:mm:ss').parse(pickerTime24);
     // Compare hour and minute
     return parsedPickerTime.isAtSameMomentAs(_timeToGo!) ||
+        parsedPickerTime.isAtSameMomentAs(_timeToReturn!) ||
         parsedPickerTime.isAfter(_timeToGo!) &&
             parsedPickerTime.isBefore(_timeToReturn!);
   }
@@ -108,8 +109,8 @@ class _ItineraryCardState extends State<ItineraryCard> {
     final width = MediaQuery.of(context).size.width;
     return Obx(
       () => Container(
-        height:
-            widget.requestController.validSave.value ? width * 0.9 : width * 1,
+        // height:
+        //     widget.requestController.validSave.value ? width * 0.9 : width * 1,
         padding: EdgeInsets.only(
           left: width * 0.030,
           top: width * 0.05,
@@ -225,16 +226,16 @@ class _ItineraryCardState extends State<ItineraryCard> {
                           await DatePickerBdaya.showTime12hPicker(
                             context,
                             showTitleActions: true,
-                            currentTime: _dateTimeTo,
+                            currentTime: _dateTimeFrom,
                             onConfirm: (time) {
-                              _dateTimeTo = time;
+                              _dateTimeFrom = time;
                               log(compareTime(time).toString());
                               widget.requestController.isStartTimeInRange
                                   .value = compareTime(time);
                               widget.requestController.startTime.value =
                                   DateFormat(
                                 'h:mm a',
-                              ).format(_dateTimeTo);
+                              ).format(_dateTimeFrom);
                               // widget.timeTO(_timeTo.value);
                               log("   timeTo.value  ${widget.requestController.startTime.value}");
                               if (widget
@@ -257,9 +258,7 @@ class _ItineraryCardState extends State<ItineraryCard> {
                                 color: widget.requestController
                                         .isStartTimeInRange.value
                                     ? widget.requestController.isStartTimeValid
-                                                .value ||
-                                            widget.requestController
-                                                .isStartTimeInRange.value
+                                            .value
                                         ? borderGrey
                                         : colorRed
                                     : colorRed),
@@ -320,15 +319,15 @@ class _ItineraryCardState extends State<ItineraryCard> {
                           await DatePickerBdaya.showTime12hPicker(
                             context,
                             showTitleActions: true,
-                            currentTime: _dateTimeFrom,
+                            currentTime: _dateTimeTo,
                             onConfirm: (time) {
-                              _dateTimeFrom = time;
+                              _dateTimeTo = time;
                               widget.requestController.isEndTimeInRange.value =
                                   compareTime(time);
                               widget.requestController.endtime.value =
                                   DateFormat(
                                 'h:mma',
-                              ).format(_dateTimeFrom);
+                              ).format(_dateTimeTo);
                               log("   timeTo.value  ${widget.requestController.endtime.value}");
                             },
                           );
@@ -444,8 +443,9 @@ class _ItineraryCardState extends State<ItineraryCard> {
                               price: price,
                               scheduleName: activity,
                               scheduleTime: ScheduleTime(
-                                  to: widget.requestController.startTime.value,
-                                  from: widget.requestController.endtime.value),
+                                  from:
+                                      widget.requestController.startTime.value,
+                                  to: widget.requestController.endtime.value),
                             ),
                           );
                           _formKey.currentState!.reset();

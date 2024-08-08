@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/auth/services/auth_service.dart';
+import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/new-onboarding/view/account_type_screen.dart';
 import 'package:ajwad_v4/new-onboarding/view/intro_screen.dart';
@@ -53,7 +54,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    storage.write('key', 'value');
     getProfile();
   }
 
@@ -301,9 +301,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               height: 25,
                                               title: "signOut".tr,
                                               onPressed: () {
+                                                log(storage
+                                                        .read('accessToken') ??
+                                                    "EMPTY 1");
                                                 AuthService.logOut();
                                                 Get.offAll(() =>
                                                     const OnboardingScreen());
+                                                log(storage
+                                                        .read('accessToken') ??
+                                                    "empty 2");
                                               },
                                             ),
                                           ),
