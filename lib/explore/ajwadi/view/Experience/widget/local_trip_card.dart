@@ -97,7 +97,7 @@ offset: Offset(-5, 0),
           Padding(
             padding: const EdgeInsets.only(bottom: 4),
             child: Text(
-              AppUtil.formatBookingDate(context, widget.trip.date),
+              AppUtil.formatBookingDate(context, widget.trip.booking!.date!),
               style: TextStyle(
                 color: Color(0xFF9392A0),
                 fontSize: 12,
@@ -143,16 +143,16 @@ offset: Offset(-5, 0),
                           : 'SF Pro',
                       fontWeight: FontWeight.w500,
                     ),
-                    // CustomText(
-                    //   text:
-                    //       '${AppUtil.rtlDirection2(context) ? "الحجز من" : 'Booking by'} : ${widget.trip.booking!.touristName}',
-                    //   color: Color(0xFF41404A),
-                    //   fontSize: 12,
-                    //   fontFamily: AppUtil.rtlDirection2(context)
-                    //       ? 'SF Arabic'
-                    //       : 'SF Pro',
-                    //   fontWeight: FontWeight.w500,
-                    // )
+                    CustomText(
+                      text:
+                          '${AppUtil.rtlDirection2(context) ? "الحجز من" : 'Booking by'} : ${widget.trip.booking!.touristName}',
+                      color: Color(0xFF41404A),
+                      fontSize: 12,
+                      fontFamily: AppUtil.rtlDirection2(context)
+                          ? 'SF Arabic'
+                          : 'SF Pro',
+                      fontWeight: FontWeight.w500,
+                    )
                   ],
                 ),
               ),
@@ -225,14 +225,14 @@ offset: Offset(-5, 0),
                 if(address.isNotEmpty)...[
               SizedBox(height: 8),
 
-                // ItineraryTile(
+                ItineraryTile(
                    
-                //   title: address,                    
-                //   image: 'assets/icons/map_pin.svg',
-                //   imageUrl: AppUtil.getLocationUrl(widget.trip!.booking!.coordinates??''),
-                //   line: true,
+                  title: address,                    
+                  image: 'assets/icons/map_pin.svg',
+                  imageUrl: AppUtil.getLocationUrl(widget.trip.booking!.coordinates),
+                  line: true,
                       
-                // ),
+                ),
                 ],
                 // SizedBox(height: width * 0.025),
                 SizedBox(height: 8),

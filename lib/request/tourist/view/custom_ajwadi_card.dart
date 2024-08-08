@@ -22,14 +22,15 @@ class CustomAjwadiCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-     print("inter");
-     print(name);
-     print(price);
+    final width = MediaQuery.of(context).size.width;
 
     return Container(
-      color: Colors.white,
+      decoration: ShapeDecoration(
+        color: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12),
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -38,55 +39,70 @@ class CustomAjwadiCard extends StatelessWidget {
                     backgroundImage: CachedNetworkImageProvider(
                       image,
                     ),
-                    radius: 30,
+                    radius: 25,
                   )
                 : const CircleAvatar(
                     backgroundImage: AssetImage(
                       'assets/images/profile_image.png',
                     ),
-                    radius: 32,
+                    radius: 25,
                   ),
             const SizedBox(
               width: 10,
             ),
-            // Image.network(
-            //   image,
-            //   height: 60,
-            // ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomText(
                   text: name,
-                  color: black,
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
+                  fontSize: width * 0.038,
+                  fontFamily: AppUtil.SfFontType(context),
+                  fontWeight: FontWeight.w500,
                 ),
                 Row(
                   children: [
-                    CustomText(text: "$tripNumber  "),
+                    CustomText(
+                        text: "$tripNumber  ",
+                        fontSize: width * 0.028,
+                        fontFamily: AppUtil.SfFontType(context),
+                        fontWeight: FontWeight.w500,
+                        color: starGreyColor),
                     // CustomText(text: " ${"trips2".tr}   |  $rating  "),
-                   CustomText(text: " ${"trips2".tr}   |  "),
+                    CustomText(
+                      text: "${"trips2".tr}     ",
+                      fontSize: width * 0.028,
+                      fontFamily: AppUtil.SfFontType(context),
+                      fontWeight: FontWeight.w500,
+                      color: starGreyColor,
+                    ),
 
                     SvgPicture.asset("assets/icons/star.svg"),
-                    CustomText(text: "  $rating  "  ),
-
+                    CustomText(
+                      text: "  $rating  ",
+                      fontSize: width * 0.028,
+                      fontFamily: AppUtil.SfFontType(context),
+                      fontWeight: FontWeight.w500,
+                      color: starGreyColor,
+                    ),
                   ],
                 ),
               ],
             ),
             const Spacer(),
             Container(
-              height: 40,
-              width: 100,
+              height: 34,
+              width: 115,
               decoration: BoxDecoration(
-                  color: colorGreen, borderRadius: BorderRadius.circular(10)),
+                  color: colorGreen, borderRadius: BorderRadius.circular(4)),
               child: Center(
                 child: CustomText(
-                  text: AppUtil.rtlDirection2(context)?"$price ريال":"$price SAR",
-                  color: Colors.white,
-                  fontSize: 14,
-                ),
+                    text: AppUtil.rtlDirection2(context)
+                        ? "$price ريال"
+                        : "$price SAR",
+                    color: Colors.white,
+                    fontSize: width * 0.038,
+                    fontFamily: AppUtil.SfFontType(context),
+                    fontWeight: FontWeight.w500),
               ),
             )
           ],

@@ -32,7 +32,6 @@ OfferController offerController = Get.put(OfferController());
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
-    print('iner');
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CustomAppBar(

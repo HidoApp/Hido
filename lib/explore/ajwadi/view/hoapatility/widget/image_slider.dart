@@ -1,20 +1,29 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ImagesSliderWidget extends StatelessWidget {
   const ImagesSliderWidget({super.key, required this.image});
-  final String image;
+  final dynamic image;
   @override
   Widget build(BuildContext context) {
+    bool isNetworkImage = image is String && Uri.parse(image).isAbsolute;
+  
     return Container(
       child: Container(
         width: double.infinity,
         height: 194,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: NetworkImage(
-              image,
-            ),
+            // image: NetworkImage(
+            //   image,
+            // ),
+            image: isNetworkImage ? NetworkImage(image) : FileImage(File(
+                                  (image as XFile).path))
+                              as ImageProvider,
             fit: BoxFit.cover,
           ),
           borderRadius: BorderRadius.circular(16),

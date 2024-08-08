@@ -1,5 +1,7 @@
 import 'dart:developer';
+import 'dart:io';
 
+import 'package:ajwad_v4/auth/models/image.dart';
 import 'package:ajwad_v4/event/model/event.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
 import 'package:ajwad_v4/services/model/event_summary.dart';
@@ -10,6 +12,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 
 class EventController extends GetxController {
   var eventList = <Event>[].obs;
@@ -19,7 +22,9 @@ class EventController extends GetxController {
     var showErrorMaxGuest = false.obs;
 
   var ischeckBookingLoading = false.obs;
-  var selectedImages = <String>[].obs;
+  var selectedImages = <XFile>[].obs;
+   var  images = <dynamic>[].obs;
+
   var address = ''.obs;
   var DateErrorMessage = false.obs;
   var TimeErrorMessage = false.obs;
@@ -299,6 +304,26 @@ class EventController extends GetxController {
       return false;
     } finally {
       ischeckBookingLoading(false);
+    }
+  }
+    var isImagesLoading = false.obs;
+
+  Future<UploadImage?> uploadProfileImages(
+      {required File file,
+      required String fileType,
+      required BuildContext context}) async {
+    try {
+      isImagesLoading(true);
+      final isSucces = await EventService.uploadImages(
+          file: file, fileType:fileType, context: context);
+
+      return isSucces;
+    } catch (e) {
+      print('error');
+      print(e);
+      return null;
+    } finally {
+      isImagesLoading(false);
     }
   }
 }

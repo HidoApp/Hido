@@ -1,3 +1,4 @@
+import 'package:ajwad_v4/explore/ajwadi/view/Experience/adventure/view/edit_adventure.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,40 +10,37 @@ import '../request/tourist/models/schedule.dart';
 
 class ScheduleContainerWidget extends StatefulWidget {
   final OfferController? offerController;
-   final  List<Schedule>? scheduleList;
-   final bool isReview;
+  final List<Schedule>? scheduleList;
+  final bool isReview;
   const ScheduleContainerWidget({
     super.key,
     required this.scheduleList,
-    this.isReview =false,
+    this.isReview = false,
     this.offerController,
   });
 
   @override
-  State<ScheduleContainerWidget> createState() => _ScheduleContainerWidgetState();
+  State<ScheduleContainerWidget> createState() =>
+      _ScheduleContainerWidgetState();
 }
 
 class _ScheduleContainerWidgetState extends State<ScheduleContainerWidget> {
   List<Schedule>? scheduleList2;
- List<bool> checkedList = [];
-
- 
+  List<bool> checkedList = [];
 
   @override
   Widget build(BuildContext context) {
-    print('enter');
+        final width = MediaQuery.of(context).size.width;
+
     return Container(
-      
-         padding: !widget.isReview? const EdgeInsets.only(
-          top: 15,
-          left: 12,
-          right: 9,
-          bottom: 24,
-        ):const EdgeInsets.only(
-          top: 12,
-          left: 5,
-          right: 9,
-          bottom: 24),
+        padding: !widget.isReview
+            ? const EdgeInsets.only(
+                top: 15,
+                left: 12,
+                right: 9,
+                bottom: 24,
+              )
+            : const EdgeInsets.only(top: 12, left: 5, right: 9, bottom: 24),
         decoration: ShapeDecoration(
           color: Colors.white,
           shape: RoundedRectangleBorder(
@@ -53,70 +51,60 @@ class _ScheduleContainerWidgetState extends State<ScheduleContainerWidget> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-           
-          
-    
             Column(
-                children: [
-                  if (widget.scheduleList != null)
-                    ...List.generate(
-                        widget.scheduleList!.length,
-                        
-                        (index) {
-                        // widget.offerController?.checkedList[index] == true?
-                     print('inter2');
+              children: [
+                if (widget.scheduleList != null)
+                  ...List.generate(widget.scheduleList!.length, (index) {
+                    // widget.offerController?.checkedList[index] == true?
+                    print('inter2');
 
-                   if (widget.offerController != null)  {
-                   final bool isChecked = widget.offerController?.checkedList[index] ?? false;
+                    if (widget.offerController != null) {
+                      final bool isChecked =
+                          widget.offerController?.checkedList[index] ?? false;
 
-                  if( isChecked){
-                    
-                       return _CustomCheckWidget(
-                              // isChecked:
-                              //     widget.offerController?.checkedList[index] ??false,
-                              
-                              isReview:widget.isReview,
-                              onTap: () {
-  //bool check = !(widget.offerController?.checkedList[index] ?? false);
-  //widget.offerController?.checkTotal(index, check);
-  // widget.offerController?.getTotalPrice(scheduleList, index);
-},
-                              schedule: widget.scheduleList![index],
-                              isLast: index == widget.scheduleList!.length - 1,
-                              isBold: !(index == 0 || index == 2),
-                            );
-                          // Return an empty Container if not checked
-                        }else{
-                        return SizedBox.shrink(); // Return an empty widget if not checked
+                      if (isChecked) {
+                        return _CustomCheckWidget(
+                          // isChecked:
+                          //     widget.offerController?.checkedList[index] ??false,
 
-                        }
-                        }
-                        else if(widget.scheduleList![index].userAgreed??false){
-                         return _CustomCheckWidget(
-                              // isChecked:
-                              //     widget.offerController?.checkedList[index] ??false,
-                              
-                              isReview:widget.isReview,
-                              onTap: () {
-  //bool check = !(widget.offerController?.checkedList[index] ?? false);
-  //widget.offerController?.checkTotal(index, check);
-  // widget.offerController?.getTotalPrice(scheduleList, index);
-},
-                              schedule: widget.scheduleList![index],
-                              isLast: index == widget.scheduleList!.length - 1,
-                              isBold: !(index == 0 || index == 2),
-                            );
-                        }else{
-                 return SizedBox.shrink(); // Return an empty widget if not checked
+                          isReview: widget.isReview,
+                          onTap: () {
+                            //bool check = !(widget.offerController?.checkedList[index] ?? false);
+                            //widget.offerController?.checkTotal(index, check);
+                            // widget.offerController?.getTotalPrice(scheduleList, index);
+                          },
+                          schedule: widget.scheduleList![index],
+                          isLast: index == widget.scheduleList!.length - 1,
+                          isBold: !(index == 0 || index == 2),
+                        );
+                        // Return an empty Container if not checked
+                      } else {
+                        return SizedBox
+                            .shrink(); // Return an empty widget if not checked
+                      }
+                    } else if (widget.scheduleList![index].userAgreed ??
+                        false) {
+                      return _CustomCheckWidget(
+                        // isChecked:
+                        //     widget.offerController?.checkedList[index] ??false,
 
-                        }
-                        }
-                        
-                            ),
-  
-                ],
-              ),
-            
+                        isReview: widget.isReview,
+                        onTap: () {
+                          //bool check = !(widget.offerController?.checkedList[index] ?? false);
+                          //widget.offerController?.checkTotal(index, check);
+                          // widget.offerController?.getTotalPrice(scheduleList, index);
+                        },
+                        schedule: widget.scheduleList![index],
+                        isLast: index == widget.scheduleList!.length - 1,
+                        isBold: !(index == 0 || index == 2),
+                      );
+                    } else {
+                      return SizedBox
+                          .shrink(); // Return an empty widget if not checked
+                    }
+                  }),
+              ],
+            ),
           ],
         ));
   }
@@ -127,59 +115,58 @@ class _CustomCheckWidget extends StatelessWidget {
   final Schedule? schedule;
   //final bool isChecked;
   final bool isReview;
-
   final bool isCircle;
   final bool isBold;
   final bool isLast;
   final void Function()? onTap;
   _CustomCheckWidget({
-   // this.isChecked = false,
+    // this.isChecked = false,
     this.isLast = false,
     this.isBold = false,
     this.schedule,
     this.onTap,
     this.isCircle = true,
-    this.isReview=false,
+    this.isReview = false,
   });
 
-  TextStyle titleStyle = const TextStyle(
+  TextStyle titleStyle = TextStyle(
     color: Color(0xFF070708),
     fontSize: 15,
-    fontFamily: 'SF Pro',
-    fontWeight: FontWeight.w600,
+    fontFamily:  "SF Pro",
+    fontWeight: FontWeight.w500,
   );
-  TextStyle titleBold = const TextStyle(
+  TextStyle titleBold =  TextStyle(
     color: Color(0xFF070708),
     fontSize: 15,
-    fontFamily: 'SF Pro',
-    fontWeight: FontWeight.w600,
+    fontFamily:  "SF Pro",
+    fontWeight: FontWeight.w500,
   );
- TextStyle titleReview = const TextStyle(
-    color: Color(0xFF9392A0),
+  TextStyle titleReview = TextStyle(
+    color: starGreyColor,
     fontSize: 15,
-    fontFamily: 'SF Pro',
-    fontWeight: FontWeight.w600,
+    fontFamily:  "SF Pro",
+    fontWeight: FontWeight.w500,
   );
-  TextStyle priceBold = const TextStyle(
+  TextStyle priceBold = TextStyle(
     color: Color(0xFF37B268),
     fontSize: 13,
-    fontFamily: 'SF Pro',
-    fontWeight: FontWeight.w600,
+    fontFamily: "SF Pro",
+    fontWeight: FontWeight.w500,
     height: 0,
   );
 
-  TextStyle priceStyle = const TextStyle(
+  TextStyle priceStyle = TextStyle(
     color: Color(0xFF37B268),
     fontSize: 13,
-    fontFamily: 'SF Pro',
-    fontWeight: FontWeight.w600,
+    fontFamily: "SF Pro",
+    fontWeight: FontWeight.w500,
     height: 0,
   );
-    TextStyle priceReview = const TextStyle(
-    color: Color(0xFF9392A0),
+  TextStyle priceReview = TextStyle(
+    color: starGreyColor,
     fontSize: 13,
-    fontFamily: 'SF Pro',
-    fontWeight: FontWeight.w600,
+    fontFamily: "SF Pro",
+    fontWeight: FontWeight.w500,
     height: 0,
   );
 
@@ -195,30 +182,29 @@ class _CustomCheckWidget extends StatelessWidget {
       children: [
         Stack(children: [
           InkWell(
-          // onTap: onTap,
+            // onTap: onTap,
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-             // Adjust opacity based on condition
-        Visibility(
-            visible: !isReview, // Ignore pointer events when disabled
-              child:Container(
-                      height: 23,
-                      width: 10,
-                      decoration: BoxDecoration(
-                        shape: isCircle ? BoxShape.circle : BoxShape.rectangle,
-                        borderRadius:
-                            isCircle ? null : BorderRadius.circular(3),
-                        border: Border.all(color: colorGreen),
-                        color: colorGreen ,
-                      ),
-                   )),
-                  
-                 SizedBox(
-                    width:!isReview?22:0
-                  ),
-                  
+                  // Adjust opacity based on condition
+                  Visibility(
+                      visible: !isReview, // Ignore pointer events when disabled
+                      child: Container(
+                        height: 23,
+                        width: 10,
+                        decoration: BoxDecoration(
+                          shape:
+                              isCircle ? BoxShape.circle : BoxShape.rectangle,
+                          borderRadius:
+                              isCircle ? null : BorderRadius.circular(3),
+                          border: Border.all(color: colorGreen),
+                          color: colorGreen,
+                        ),
+                      )),
+
+                  SizedBox(width: !isReview ? 22 : 0),
+
                   // Text.rich(
                   //   TextSpan(
                   //     children: [
@@ -247,9 +233,11 @@ class _CustomCheckWidget extends StatelessWidget {
                     children: [
                       Text(
                         schedule?.scheduleName ?? '',
-                       style:!isReview? isBold ? titleBold : titleStyle : titleReview,
-
-
+                        style: !isReview
+                            ? isBold
+                                ? titleBold
+                                : titleStyle
+                            : titleReview,
                       ),
                       const SizedBox(
                         height: 1,
@@ -258,33 +246,37 @@ class _CustomCheckWidget extends StatelessWidget {
                         Row(
                           children: [
                             Text(
-                            AppUtil.formatStringTimeWithLocale(context, 
-                                  schedule?.scheduleTime!['from']),
-                              style:  TextStyle(
-                                color:!isReview? Color(0xFF676767):Color(0xFFB9B8C1),
-                                fontSize: 13,
-                                fontFamily: 'SF Pro',
-                                fontWeight: FontWeight.w400,
-                              ),
-                              
-                            ),
-                           Text(
-                              " - ",
+                              AppUtil.formatStringTimeWithLocale(
+                                  context, schedule?.scheduleTime!['from']),
                               style: TextStyle(
-                                color:!isReview? Color(0xFF676767):Color(0xFFB9B8C1),
+                                color: !isReview
+                                    ? Color(0xFF676767)
+                                    :  Color(0xFFB9B8C1),
                                 fontSize: 13,
-                                fontFamily: 'SF Pro',
-                                fontWeight: FontWeight.w400,
+                                fontFamily: AppUtil.SfFontType(context),
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
                             Text(
-                              "${AppUtil.formatStringTimeWithLocale(context, 
-                                  schedule?.scheduleTime!['to'])} ",
-                              style:  TextStyle(
-                                color: !isReview? Color(0xFF676767):Color(0xFFB9B8C1),
+                              " - ",
+                              style: TextStyle(
+                                color: !isReview
+                                    ? Color(0xFF676767)
+                                    : Color(0xFFB9B8C1),
                                 fontSize: 13,
-                                fontFamily: 'SF Pro',
-                                fontWeight: FontWeight.w400,
+                                fontFamily: AppUtil.SfFontType(context),
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            Text(
+                              "${AppUtil.formatStringTimeWithLocale(context, schedule?.scheduleTime!['to'])} ",
+                              style: TextStyle(
+                                color: !isReview
+                                    ? Color(0xFF676767)
+                                    :Color(0xFFB9B8C1),
+                                 fontSize: 13,
+                                 fontFamily: AppUtil.SfFontType(context),
+                                 fontWeight: FontWeight.w500,
                               ),
                             ),
                           ],
@@ -292,55 +284,62 @@ class _CustomCheckWidget extends StatelessWidget {
                     ],
                   ),
                   Spacer(),
-                   Row(
-                //     mainAxisAlignment: MainAxisAlignment.end,
-                // crossAxisAlignment: CrossAxisAlignment.end,
-                  children:[
-                     Text.rich(
-                    TextSpan(
-                      children: [
+                  Row(
+                    //     mainAxisAlignment: MainAxisAlignment.end,
+                    // crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text.rich(
                         TextSpan(
-                          text: AppUtil.rtlDirection2(context)?'${schedule?.price ?? 0} ريال ':'${schedule?.price ?? 0} SAR ',
-                          style: !isReview? isBold ? priceBold : priceStyle:priceReview,
+                          children: [
+                            TextSpan(
+                              text: AppUtil.rtlDirection2(context)
+                                  ? '${schedule?.price ?? 0} ريال '
+                                  : '${schedule?.price ?? 0} SAR ',
+                              style: !isReview
+                                  ? isBold
+                                      ? priceBold
+                                      : priceStyle
+                                  : priceReview,
+                            ),
+                            // const TextSpan(
+                            //   text: 'للشخص',
+                            //   style: TextStyle(
+                            //     color: colorDarkGrey,
+                            //     fontSize: 8,
+                            //     fontFamily: 'HT Rakik',
+                            //     fontWeight: FontWeight.w500,
+                            //   ),
+                            // ),
+                          ],
                         ),
-                        // const TextSpan(
-                        //   text: 'للشخص',
-                        //   style: TextStyle(
-                        //     color: colorDarkGrey,
-                        //     fontSize: 8,
-                        //     fontFamily: 'HT Rakik',
-                        //     fontWeight: FontWeight.w500,
-                        //   ),
-                        // ),
-                      ],
-                    ),
-                    textAlign: TextAlign.right,
-                  ),
-                  ],
+                        textAlign: TextAlign.right,
+                      ),
+                    ],
                   ),
                   // const SizedBox(
                   //   width: 22,
                   // ),
                 ]),
           ),
-          
           if (!isLast)
-           Visibility(
-            visible: !isReview,
-            child:Align(
-              alignment:AppUtil.rtlDirection2(context) ? Alignment.centerRight : Alignment.centerLeft,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: SizedBox(
-                  width: 10,
-                  height: 32,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [_divider(), _divider(), _divider()],
+            Visibility(
+                visible: !isReview,
+                child: Align(
+                  alignment: AppUtil.rtlDirection2(context)
+                      ? Alignment.centerRight
+                      : Alignment.centerLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: SizedBox(
+                      width: 10,
+                      height: 32,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [_divider(), _divider(), _divider()],
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            )),
+                )),
         ]),
       ],
     );

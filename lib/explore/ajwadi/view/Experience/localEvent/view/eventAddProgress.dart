@@ -159,8 +159,8 @@ class _EventAddProgressState extends State<EventAddProgress> {
 
       return PhotoGalleryPage();
       case 3:
-        print('3');
-        //print(_hospitalityImages.first);
+        print(_EventController.selectedImages.length);
+        print('length image');
        return AddGuests();
       case 4:
        print(_EventController.seletedSeat.value);
@@ -201,7 +201,9 @@ class _EventAddProgressState extends State<EventAddProgress> {
      _EventController.pickUpLocLatLang.value !=
           const LatLng(0.0, 0.0) &&  _EventController.ragionAr.isNotEmpty && _EventController.ragionEn.isNotEmpty;
     }
-   
+    if (activeIndex == 2) {
+      return   _EventController.selectedImages.length >= 3;
+    }
      if (activeIndex == 3) {
       return   _EventController.seletedSeat.value != 0 ;
     }

@@ -615,8 +615,9 @@ const localeEn = {
   'timeErorrRange': "The time selected out of range" ,
   'eventDetailsSub':"Get to join the locals in their cultural events",
   "saudiEvent": 'saudi Event',
-  "Region":'Region'
-
+  "Region":'Region',
+  "uploadError":"Invalid image extension detected. Only 'jpg', 'jpeg', and 'png' are allowed",
+ "imageError":'Select at least three photos',
 
 
   

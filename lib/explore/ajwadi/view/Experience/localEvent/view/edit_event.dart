@@ -1,9 +1,11 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/event/model/event.dart';
+import 'package:ajwad_v4/explore/ajwadi/controllers/ajwadi_explore_controller.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/add_experience_info.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/add_event_calender_dialog.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/add_hospitality_calender_dialog.dart';
@@ -12,6 +14,7 @@ import 'package:ajwad_v4/explore/ajwadi/view/hoapatility/widget/image_slider.dar
 import 'package:ajwad_v4/explore/ajwadi/view/local_home_screen.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/explore/tourist/view/view_trip_images.dart';
+import 'package:ajwad_v4/request/ajwadi/view/view_experience_images.dart';
 import 'package:ajwad_v4/request/tourist/view/local_offer_info.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/services/controller/event_controller.dart';
@@ -40,9 +43,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:intl/intl.dart' as intl;
+import 'package:image/image.dart' as img; // Import the image package
 
 class EditEvent extends StatefulWidget {
   const EditEvent({
@@ -78,7 +83,6 @@ class _EditEventState extends State<EditEvent> {
   TextEditingController _textField1Controller = TextEditingController();
 
   String address = '';
-  
 
   BitmapDescriptor markerIcon = BitmapDescriptor.defaultMarker;
   void addCustomIcon() {
@@ -136,7 +140,7 @@ class _EditEventState extends State<EditEvent> {
     _servicesController.isEventDateSelcted(false);
     _servicesController.selectedDate('');
     _servicesController.selectedDateIndex(-1);
-
+    _loadImages();
     updateData();
     _currentPosition = LatLng(
       _servicesController.pickUpLocLatLang.value.latitude,
@@ -192,6 +196,7 @@ class _EditEventState extends State<EditEvent> {
   final CarouselController _carouselController = CarouselController();
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _guestsController = TextEditingController();
+  List<String> imageUrls = [];
 
   int? _selectedRadio1 = 1;
   int guestNum = 0;
@@ -213,6 +218,13 @@ class _EditEventState extends State<EditEvent> {
   bool PriceDouble = false;
 
   String gender = '';
+  static Future<File> convertImageToJpg(File file) async {
+    final image = img.decodeImage(await file.readAsBytes())!;
+    final jpg = img.encodeJpg(image);
+    final newFile = File('${file.path}.jpg');
+    await newFile.writeAsBytes(jpg);
+    return newFile;
+  }
 
   void daysInfo() {
     var formatter = intl.DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
@@ -251,6 +263,72 @@ class _EditEventState extends State<EditEvent> {
     print(DaysInfo);
   }
 
+  Future<bool> uploadImages() async {
+    List<dynamic> imagesToUpload = [];
+    bool allExtensionsValid = true;
+
+    // Allowed formats
+    final allowedFormats = ['jpg', 'jpeg', 'png'];
+
+    for (int i = 0; i < _servicesController.images.length; i++) {
+      var image = _servicesController.images[i];
+
+      // Check if the path is a URL
+      if (image is String && Uri.parse(image).isAbsolute) {
+        imageUrls.add(image);
+      } else {
+      
+        String fileExtension = image.path.split('.').last.toLowerCase();
+
+        if (!allowedFormats.contains(fileExtension)) {
+          allExtensionsValid = false;
+          print(
+              'File ${image.path} is not in an allowed format (${allowedFormats.join(', ')}).');
+        } else {
+          imagesToUpload.add(image);
+        }
+      }
+    }
+
+    if (!allExtensionsValid) {
+      // if (context.mounted) {
+      //   AppUtil.errorToast(context,
+      //     'uploadError'.tr);
+      //   await Future.delayed(const Duration(seconds: 3));
+      // }
+      return false;
+    }
+
+    // Upload images that are not URLs
+
+    for (var imageFile in imagesToUpload) {
+      //  File file = await convertImageToJpg(File(imageFile.path));
+
+      try {
+        final uploadedImage = await _servicesController.uploadProfileImages(
+          file: File(imageFile.path),
+          //file:file,
+          fileType: "event",
+          context: context,
+        );
+
+        if (uploadedImage != null) {
+          log('valid');
+          imageUrls.add(uploadedImage.filePath);
+          log(uploadedImage.filePath);
+        } else {
+          log('not valid');
+          // return false;
+        }
+      } catch (e) {
+        log('Error uploading file ${imageFile.path}: $e');
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   Future<void> validateAndSave() async {
     setState(() {
       titleArEmpty = eventTitleControllerAr.text.isEmpty;
@@ -262,11 +340,13 @@ class _EditEventState extends State<EditEvent> {
       _selectedLanguageIndex =
           (titleArEmpty || bioArEmpty) && !(titleENEmpty && bioEnEmpty) ? 0 : 1;
 
-      guestEmpty = _textField1Controller.text.isEmpty ||_servicesController.seletedSeat.value.toString()=='0';
+      guestEmpty = _textField1Controller.text.isEmpty ||
+          _servicesController.seletedSeat.value.toString() == '0';
 
       DateErrorMessage = !_servicesController.isEventDateSelcted.value;
       TimeErrorMessage = !_servicesController.isEventTimeSelcted.value;
-
+      _servicesController.DateErrorMessage.value =
+          !AppUtil.areAllDatesAfter24Hours(_servicesController.selectedDates);
       // DateDurationError =
       //     !AppUtil.areAllDatesAfter24Hours(_servicesController.selectedDates);
       PriceEmpty = _priceController.text.isEmpty;
@@ -289,9 +369,18 @@ class _EditEventState extends State<EditEvent> {
         !PriceEmpty &&
         !PriceDouble &&
         !_servicesController.DateErrorMessage.value &&
-        !_servicesController.TimeErrorMessage.value) {
-      daysInfo();
-      _updateEvent();
+        !_servicesController.TimeErrorMessage.value &&
+        _servicesController.images.length >= 3 &&
+        !_servicesController.DateErrorMessage.value) {
+      if (await uploadImages()) {
+        daysInfo();
+
+        _updateEvent();
+      } else {
+       if (context.mounted) {
+          AppUtil.errorToast(context,'uploadError'.tr);
+          await Future.delayed(const Duration(seconds: 3));
+        }      }
     } else {
       if (_servicesController.DateErrorMessage.value) {
         if (context.mounted) {
@@ -305,8 +394,28 @@ class _EditEventState extends State<EditEvent> {
           await Future.delayed(const Duration(seconds: 3));
         }
       }
+      if (_servicesController.images.length < 3) {
+        if (context.mounted) {
+          AppUtil.errorToast(
+              context,'imageError'.tr);
+          await Future.delayed(const Duration(seconds: 3));
+        }
+      }
       print("Please fill all required fields");
     }
+  }
+
+  Future<void> _loadImages() async {
+    List<dynamic> images = [];
+    _servicesController.images.clear();
+    for (var path in widget.eventObj.image!) {
+      images.add(
+          path); // Add all paths to the list, they can be URLs or File paths.
+    }
+
+    setState(() {
+      _servicesController.images.addAll(images);
+    });
   }
 
   void updateData() {
@@ -317,8 +426,10 @@ class _EditEventState extends State<EditEvent> {
       eventTitleControllerEn.text = widget.eventObj.nameEn!;
       eventBioControllerEn.text = widget.eventObj.descriptionEn!;
 
-      _textField1Controller.text = widget.eventObj.daysInfo!.first.seats.toString();
-      _servicesController.seletedSeat.value=widget.eventObj.daysInfo!.first.seats;
+      _textField1Controller.text =
+          widget.eventObj.daysInfo!.first.seats.toString();
+      _servicesController.seletedSeat.value =
+          widget.eventObj.daysInfo!.first.seats;
       newTimeToGo = DateTime.parse(widget.eventObj.daysInfo!.first.startTime);
       newTimeToReturn = DateTime.parse(widget.eventObj.daysInfo!.first.endTime);
       // _servicesController.selectedDates.value =
@@ -326,12 +437,12 @@ class _EditEventState extends State<EditEvent> {
       for (var info in widget.eventObj.daysInfo!) {
         DateTime startDateTime = DateTime.parse(info.startTime);
         // DateTime endDateTime = DateTime.parse(info.endTime);
-
         _servicesController.selectedDates.add(DateTime(
             startDateTime.year, startDateTime.month, startDateTime.day));
         // _servicesController.selectedDates.add(
         //     DateTime(endDateTime.year, endDateTime.month, endDateTime.day));
       }
+
       _priceController.text = widget.eventObj.price.toString();
       _servicesController.isEventDateSelcted.value = true;
       _servicesController.isEventTimeSelcted.value = true;
@@ -394,10 +505,10 @@ class _EditEventState extends State<EditEvent> {
         latitude:
             _servicesController.pickUpLocLatLang.value.latitude.toString(),
         price: double.parse(_priceController.text),
-        image: widget.eventObj.image!,
-        regionAr: widget.eventObj.regionAr??'',
+        image: imageUrls,
+        regionAr: widget.eventObj.regionAr ?? '',
         locationUrl: locationUrl,
-        regionEn:widget.eventObj.regionEn??'',
+        regionEn: widget.eventObj.regionEn ?? '',
         daysInfo: DaysInfo,
         context: context,
       );
@@ -440,7 +551,11 @@ class _EditEventState extends State<EditEvent> {
             );
           },
         ).then((_) {
-          Get.offAll(() => const AjwadiBottomBar());
+          // Get.offAll(() => const AjwadiBottomBar());
+          Get.back();
+          Get.back();
+          final _experienceController = Get.put(AjwadiExploreController());
+          _experienceController.getAllExperiences(context: context);
         });
 
         print("Profile updated successfully: $result");
@@ -456,7 +571,11 @@ class _EditEventState extends State<EditEvent> {
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
-    print(widget.eventObj.daysInfo!.first);
+    log("length");
+    print(_servicesController.images.first);
+    print(_servicesController.images.last);
+
+    print(_servicesController.images.length);
 
     final TextEditingController textField1Controller =
         _selectedLanguageIndex == 0
@@ -650,11 +769,19 @@ class _EditEventState extends State<EditEvent> {
 
               bottomNavigationBar: Padding(
                   padding: EdgeInsets.all(16.0),
-                  child: CustomButton(
-                      onPressed: () {
-                        validateAndSave();
-                      },
-                      title: 'SaveChanges'.tr)),
+                  child:
+                   Obx(()=>
+                      _servicesController.isEditEventLoading.value
+                         ? const Center(
+                              child: CircularProgressIndicator.adaptive(),
+                            )
+                         
+                            : CustomButton(
+                        onPressed: () {
+                          validateAndSave();
+                        },
+                        title: 'SaveChanges'.tr),
+                   )),
               body: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -683,10 +810,11 @@ class _EditEventState extends State<EditEvent> {
                             padding: const EdgeInsets.only(top: 16.0),
                             child: GestureDetector(
                               onTap: () {
-                                // Get.to(ViewTripImages(
-                                //   tripImageUrl: hospitalityObj!.images,
-                                //   fromNetwork: true,
-                                // ));
+                                Get.to(() => ViewImages(
+                                      tripImageUrl: widget.eventObj.image!,
+                                      fromNetwork: true,
+                                      Type:'event'
+                                    ));
                               },
                               child: CarouselSlider.builder(
                                 carouselController: _carouselController,
@@ -697,10 +825,10 @@ class _EditEventState extends State<EditEvent> {
                                         _currentIndex = i;
                                       });
                                     }),
-                                itemCount: widget.eventObj.image!.length,
+                                itemCount:_servicesController.images.length,
                                 itemBuilder: (context, index, realIndex) {
                                   return ImagesSliderWidget(
-                                    image: widget.eventObj.image![index],
+                                    image:_servicesController.images[index],
                                   );
                                 },
                               ),
@@ -1124,10 +1252,9 @@ class _EditEventState extends State<EditEvent> {
                                     height: width * 0.02,
                                   ),
                                   Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      
                                       SizedBox(
                                         height: width * 0.012,
                                       ),
@@ -1205,7 +1332,6 @@ class _EditEventState extends State<EditEvent> {
                                             ),
                                           ),
                                         ),
-                                   
                                     ],
                                   ),
                                 ],
@@ -2150,7 +2276,7 @@ class _EditEventState extends State<EditEvent> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
-                          children: widget.eventObj.image!
+                          children:  _servicesController.images
                               .asMap()
                               .entries
                               .map((entry) {
@@ -2166,7 +2292,7 @@ class _EditEventState extends State<EditEvent> {
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: _currentIndex == entry.key
-                                      ? widget.eventObj.image!.length == 1
+                                      ? _servicesController.images.length == 1
                                           ? Colors.white.withOpacity(0.1)
                                           : Colors.white
                                       : Colors.white.withOpacity(0.4),

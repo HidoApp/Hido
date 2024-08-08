@@ -642,7 +642,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                       );
                                     }
                                   : () {
-                                      Get.to(EditHospitality(
+                                      Get.to(()=> EditHospitality(
                                           hospitalityObj: hospitalityObj!,
                                           experienceType:
                                               widget.experienceType));

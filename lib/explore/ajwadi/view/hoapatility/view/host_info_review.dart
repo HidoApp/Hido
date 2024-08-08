@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:ffi';
 import 'dart:io';
 
@@ -6,6 +7,7 @@ import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/widget/experience_card.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/hoapatility/widget/buttomProgress.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
+import 'package:ajwad_v4/services/controller/event_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
@@ -14,6 +16,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:geocoding/geocoding.dart';
 
@@ -61,6 +64,9 @@ class _HostInfoReviewState extends State<HostInfoReview> {
   List<String> imageUrls = [];
   List<Map<String, dynamic>> DaysInfo = [];
 
+  // String ragionAr = '';
+  // String ragionEn = '';
+  final EventController _EventController = Get.put(EventController());
   String locationUrl = '';
 
   List<String> regionListEn = [
@@ -225,6 +231,240 @@ class _HostInfoReviewState extends State<HostInfoReview> {
     return 'https://www.google.com/maps/search/?api=1&query=${location.latitude},${location.longitude}';
   }
 
+  Future<bool> uploadhostImages() async {
+    //List<String> uploadedImagePaths = [];
+    bool allExtensionsValid = true;
+
+    // Allowed formats
+    final allowedFormats = ['jpg', 'jpeg', 'png'];
+
+    for (XFile imagePath in widget.hospitalityController!.selectedImages) {
+      String fileExtension = imagePath.path.split('.').last.toLowerCase();
+      if (!allowedFormats.contains(fileExtension)) {
+        allExtensionsValid = false;
+        print(
+            'File ${imagePath.path} is not in an allowed format (${allowedFormats.join(', ')}).');
+      }
+      if (!allExtensionsValid) {
+        if (context.mounted) {
+          AppUtil.errorToast(context,
+              'uploadError'.tr);
+          await Future.delayed(const Duration(seconds: 3));
+        }
+        return false;
+      } else {
+        final image = await _EventController.uploadProfileImages(
+          file: File(imagePath.path),
+          fileType: "hospitality",
+          context: context,
+        );
+
+        //  File file = await convertImageToJpg(File(imagePath.path));
+        //   final image = await _EventController.uploadProfileImages(
+        //     file:file,
+        //     fileType: "event",
+        //     context: context,
+        //   );
+
+        if (image != null) {
+          log('vaalid');
+
+          imageUrls.add(image.filePath);
+          log(image.filePath);
+        } else {
+          log('not vaalid');
+        }
+        return true;
+      }
+    }
+    return true;
+
+    // Handle the list of uploaded image paths as needed
+  }
+
+  Future<bool> uploadAdveImages() async {
+    //List<String> uploadedImagePaths = [];
+    bool allExtensionsValid = true;
+
+    // Allowed formats
+    final allowedFormats = ['jpg', 'jpeg', 'png'];
+
+    for (XFile imagePath in widget.adventureController!.selectedImages) {
+      String fileExtension = imagePath.path.split('.').last.toLowerCase();
+      if (!allowedFormats.contains(fileExtension)) {
+        allExtensionsValid = false;
+        print(
+            'File ${imagePath.path} is not in an allowed format (${allowedFormats.join(', ')}).');
+      }
+      if (!allExtensionsValid) {
+        if (context.mounted) {
+          AppUtil.errorToast(context,
+             'uploadError'.tr);
+          await Future.delayed(const Duration(seconds: 3));
+        }
+        return false;
+      } else {
+        final image = await _EventController.uploadProfileImages(
+          file: File(imagePath.path),
+          fileType: "adventures",
+          context: context,
+        );
+
+        //  File file = await convertImageToJpg(File(imagePath.path));
+        //   final image = await _EventController.uploadProfileImages(
+        //     file:file,
+        //     fileType: "event",
+        //     context: context,
+        //   );
+
+        if (image != null) {
+          log('vaalid');
+
+          imageUrls.add(image.filePath);
+          log(image.filePath);
+        } else {
+          log('not vaalid');
+        }
+        return true;
+      }
+    }
+    return true;
+
+    // Handle the list of uploaded image paths as needed
+  }
+
+  Future<void> createHospitalityExperience() async {
+    final isSuccess = await widget.hospitalityController!.createHospitality(
+        titleAr: widget.hospitalityTitleAr,
+        titleEn: widget.hospitalityTitleEn,
+        bioAr: widget.hospitalityBioAr,
+        bioEn: widget.hospitalityBioEn,
+        mealTypeAr: widget.hospitalityController!.selectedMealAr.value,
+        mealTypeEn: widget.hospitalityController!.selectedMealEn.value,
+        longitude: widget
+            .hospitalityController!.pickUpLocLatLang.value.longitude
+            .toString(),
+        latitude: widget.hospitalityController!.pickUpLocLatLang.value.latitude
+            .toString(),
+        touristsGender: widget.hospitalityController!.selectedGender.value,
+        price: widget.hospitalityPrice!,
+        images: imageUrls,
+        regionAr: widget.hospitalityController!.ragionAr.value,
+        regionEn: widget.hospitalityController!.ragionEn.value,
+        location: locationUrl,
+        daysInfo: DaysInfo,
+        start: startTime,
+        end: endTime,
+        seat: widget.hospitalityController!.seletedSeat.value,
+        context: context);
+
+    print('is sucssssss');
+    print(isSuccess);
+    if (isSuccess) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Container(
+              width: 350,
+              height: 110, // Custom width
+              padding: EdgeInsets.all(16),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset('assets/images/paymentSuccess.gif', width: 38),
+                  SizedBox(height: 16),
+                  Text(
+                    !AppUtil.rtlDirection2(context)
+                        ? "Experience published successfully"
+                        : "تم نشر تجربتك بنجاح ",
+                    style: TextStyle(fontSize: 15),
+                    textDirection: AppUtil.rtlDirection2(context)
+                        ? TextDirection.rtl
+                        : TextDirection.ltr,
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ).then((_) {
+        Get.offAll(() => const AjwadiBottomBar());
+      });
+    } else {
+      AppUtil.errorToast(context, 'somthingWentWrong'.tr);
+    }
+  }
+
+  Future<void> createAdventureExperience() async {
+    final isSuccess = await widget.adventureController!.createAdventure(
+      nameAr: widget.hospitalityTitleAr,
+      nameEn: widget.hospitalityTitleEn,
+      descriptionAr: widget.hospitalityBioAr,
+      descriptionEn: widget.hospitalityBioEn,
+      longitude: widget.adventureController!.pickUpLocLatLang.value.longitude
+          .toString(),
+      latitude: widget.adventureController!.pickUpLocLatLang.value.latitude
+          .toString(),
+      date: widget.adventureController!.selectedDate.value.substring(0, 10),
+      price: widget.adventurePrice!,
+      image: imageUrls,
+      regionAr: widget.adventureController!.ragionAr.value,
+      locationUrl: locationUrl,
+      regionEn: widget.adventureController!.ragionEn.value,
+      start: intl.DateFormat('HH:mm:ss')
+          .format(widget.adventureController!.selectedStartTime.value),
+      end: intl.DateFormat('HH:mm:ss')
+          .format(widget.adventureController!.selectedEndTime.value),
+      seat: widget.adventureController!.seletedSeat.value,
+      context: context,
+    );
+    print('is sucssssss');
+    print(isSuccess);
+    if (isSuccess) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Container(
+              width: 350,
+              height: 110, // Custom width
+              padding: EdgeInsets.all(16),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset('assets/images/paymentSuccess.gif', width: 38),
+                  SizedBox(height: 16),
+                  Text(
+                    !AppUtil.rtlDirection2(context)
+                        ? "Experience published successfully"
+                        : "تم نشر تجربتك بنجاح ",
+                    style: TextStyle(fontSize: 15),
+                    textDirection: AppUtil.rtlDirection2(context)
+                        ? TextDirection.rtl
+                        : TextDirection.ltr,
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ).then((_) {
+        Get.offAll(() => const AjwadiBottomBar());
+      });
+    } else {
+      AppUtil.errorToast(context, 'somthingWentWrong'.tr);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -241,17 +481,12 @@ class _HostInfoReviewState extends State<HostInfoReview> {
             : getLocationUrl(
                 widget.adventureController!.pickUpLocLatLang.value);
         print('Location URL: $locationUrl');
-        imageUrls = [
-          "https://media.cntraveler.com/photos/607313c3d1058698d13c31b5/1:1/w_1636,h_1636,c_limit/FamilyCamping-2021-GettyImages-948512452-4.jpg"
-        ];
       });
     });
   }
 
   Widget build(BuildContext context) {
     print('Location URL: $locationUrl');
-    print(widget.hospitalityController?.selectedMealAr);
-    print(widget.hospitalityController?.selectedMealEn);
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -317,8 +552,11 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                     height: 90,
                     decoration: ShapeDecoration(
                       image: DecorationImage(
-                        image: NetworkImage(imageUrls[0]),
-                        // FileImage(File(widget.hospitalityImages[0])),
+                        image: widget.experienceType == 'hospitality'
+                            ? FileImage(File(widget
+                                .hospitalityController!.selectedImages[0].path))
+                            : FileImage(File(widget
+                                .adventureController!.selectedImages[0].path)),
                         fit: BoxFit.cover,
                       ),
                       shape: RoundedRectangleBorder(
@@ -399,7 +637,8 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                                 const SizedBox(height: 4),
                                 if (widget.experienceType == 'hospitality')
                                   Row(
-                                    children: [
+                                    children: [                                    
+                                    
                                       SvgPicture.asset(
                                         'assets/icons/grey_calender.svg',
                                       ),
@@ -535,121 +774,46 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                         const EdgeInsets.symmetric(horizontal: 4, vertical: 35),
                     child: Column(
                       children: [
-                        CustomButton(
-                            onPressed: () async {
-                              final isSuccess = widget.experienceType ==
-                                      'hospitality'
-                                  ? await widget.hospitalityController!
-                                      .createHospitality(
-                                          titleAr: widget.hospitalityTitleAr,
-                                          titleEn: widget.hospitalityTitleEn,
-                                          bioAr: widget.hospitalityBioAr,
-                                          bioEn: widget.hospitalityBioEn,
-                                          mealTypeAr: widget
-                                              .hospitalityController!
-                                              .selectedMealAr
-                                              .value,
-                                          mealTypeEn: widget
-                                              .hospitalityController!
-                                              .selectedMealEn
-                                              .value,
-                                          longitude: widget
-                                              .hospitalityController!
-                                              .pickUpLocLatLang
-                                              .value
-                                              .longitude
-                                              .toString(),
-                                          latitude: widget
-                                              .hospitalityController!
-                                              .pickUpLocLatLang
-                                              .value
-                                              .latitude
-                                              .toString(),
-                                          //     longitude: '46.647622',
+                        Obx(() {
+                          bool isLoading = false;
 
-                                          // latitude: '24.786828',
-                                          touristsGender: widget
-                                              .hospitalityController!
-                                              .selectedGender
-                                              .value,
-                                          price: widget.hospitalityPrice!,
-                                          images: imageUrls,
-                                          regionAr: widget
-                                              .hospitalityController!
-                                              .ragionAr
-                                              .value,
-                                          regionEn: widget
-                                              .hospitalityController!
-                                              .ragionEn
-                                              .value,
-                                          location: locationUrl,
-                                          daysInfo: DaysInfo,
-                                          start: startTime,
-                                          end: endTime,
-                                          seat: widget.hospitalityController!.seletedSeat.value,
-                                          context: context)
-                                  : await widget.adventureController!.createAdventure(nameAr: widget.hospitalityTitleAr, nameEn: widget.hospitalityTitleEn, descriptionAr: widget.hospitalityBioAr, descriptionEn: widget.hospitalityBioEn, longitude: widget.adventureController!.pickUpLocLatLang.value.longitude.toString(), latitude: widget.adventureController!.pickUpLocLatLang.value.latitude.toString(), date: widget.adventureController!.selectedDate.value.substring(0, 10), price: widget.adventurePrice!, image: imageUrls, regionAr: widget.adventureController!.ragionAr.value, locationUrl: locationUrl, regionEn: widget.adventureController!.ragionEn.value, start: intl.DateFormat('HH:mm:ss').format(widget.adventureController!.selectedStartTime.value), end: intl.DateFormat('HH:mm:ss').format(widget.adventureController!.selectedEndTime.value), seat: widget.adventureController!.seletedSeat.value, context: context);
+                          if (widget.experienceType == 'hospitality') {
+                            isLoading = widget.hospitalityController!
+                                .isSaudiHospitalityLoading.value;
+                          } else if (widget.experienceType == 'adventure') {
+                            isLoading = widget
+                                .adventureController!.isAdventureLoading.value;
+                          }
 
-                              print('is sucssssss');
-                              print(isSuccess);
-                              if (isSuccess) {
-                                // Place? thePlace =
-                                //     await _touristExploreController
-                                //         .getPlaceById(
-                                //             id: widget.place!.id!,
-                                //             context: context);
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return Dialog(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                      child: Container(
-                                        width: 350,
-                                        height: 110, // Custom width
-                                        padding: EdgeInsets.all(16),
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Image.asset(
-                                                'assets/images/paymentSuccess.gif',
-                                                width: 38),
-                                            SizedBox(height: 16),
-                                            Text(
-                                              !AppUtil.rtlDirection2(context)
-                                                  ? "Experience published successfully"
-                                                  : "تم نشر تجربتك بنجاح ",
-                                              style: TextStyle(fontSize: 15),
-                                              textDirection:
-                                                  AppUtil.rtlDirection2(context)
-                                                      ? TextDirection.rtl
-                                                      : TextDirection.ltr,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ).then((_) {
-                                  Get.offAll(() => const AjwadiBottomBar());
-                                });
-
-                                // Get.to(
-                                //   () => FindAjwady(
-                                //     place: thePlace!,
-                                //     booking: thePlace.booking![0],
-                                //     placeId: thePlace.id!,
-                                //   ),
-                                // );
-                              } else {
-                                AppUtil.errorToast(
-                                    context, 'somthingWentWrong'.tr);
-                              }
-                            },
-                            title: 'Publish'.tr),
+                          if (isLoading) {
+                            return const Center(
+                              child: CircularProgressIndicator.adaptive(),
+                            );
+                          } else {
+                            return CustomButton(
+                                onPressed: () async {
+                                  if (widget.experienceType == 'hospitality') {
+                                    bool uploadSuccess =
+                                        await uploadhostImages();
+                                    if (uploadSuccess) {
+                                      await createHospitalityExperience();
+                                    } else {
+                                      // Handle upload failure
+                                    }
+                                  } else if (widget.experienceType ==
+                                      'adventure') {
+                                    bool uploadSuccess =
+                                        await uploadAdveImages();
+                                    if (uploadSuccess) {
+                                      await createAdventureExperience();
+                                    } else {
+                                      // Handle upload failure
+                                    }
+                                  }
+                                },
+                                title: 'Publish'.tr);
+                          }
+                        }),
                         SizedBox(height: 10),
                         CustomButton(
                             onPressed: () {

@@ -97,6 +97,7 @@ class _ChatScreenState extends State<ChatScreen> {
               appBar: CustomAppBar(
                 "chat".tr,
               ),
+             
               body: SafeArea(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -534,8 +535,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
                     // Send Button
                     Container(
-                      width: 390,
-                      height: 92,
+                     width: double.infinity,
                       padding: const EdgeInsets.only(
                         top: 14,
                         left: 16,
@@ -662,7 +662,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         ],
                       ),
                     ),
-                    //const SizedBox(height: 4)
+                    const SizedBox(height: 4)
                   ],
                 ),
               ),

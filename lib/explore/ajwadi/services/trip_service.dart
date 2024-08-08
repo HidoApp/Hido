@@ -316,15 +316,19 @@ static Future<List<Experience>?> getAllExperiences(
       
       var trip = jsonDecode(response.body);
       _tripController.isTripUpdated(true);
+      log("condition");
+      log('${response.statusCode == 200 && response.body.isNotEmpty}');
+      log('${  _tripController.isTripUpdated.value}');
+
       return NextActivity.fromJson(trip);
 
     } else {
       _tripController.isTripUpdated(false);
-
       String errorMessage = jsonDecode(response.body)['message'];
       if (context.mounted) {
         AppUtil.errorToast(context, errorMessage);
       }
+     _tripController.isTripUpdated(false);
       return null;
     }
   }

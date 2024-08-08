@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AdventureController extends GetxController {
   var adventureList = <Adventure>[].obs;
@@ -34,6 +35,9 @@ class AdventureController extends GetxController {
   var selectedDateId = "".obs;
   var ragionAr="".obs;
   var ragionEn="".obs;
+    var selectedImages = <XFile>[].obs;
+   var  images = <dynamic>[].obs;
+
 var showErrorMaxGuest=false.obs;
   var isAdventureDateSelcted = false.obs;
   var isAdventureTimeSelcted = false.obs;

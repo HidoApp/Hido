@@ -607,6 +607,8 @@ const localeAr = {
  
   'eventDetailsSub':'فرصة لمشاركة الشعب فعالياتهم المحلية ',
   "saudiEvent":"الفعاليات المحلية",
-  "Region":'المنطقه'
+  "Region":'المنطقه',
+  "uploadError":"يجب أن تكون الصور  بصيغة 'jpg' أو 'jpeg' أو 'png'",
+  "imageError": "اختر 3 صور على الأقل",
   
 };

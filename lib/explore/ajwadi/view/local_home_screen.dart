@@ -73,8 +73,10 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
+    
 
-    print(_tripController.isTripUpdated);
+    print("this trip controller");
+    print(_tripController.isTripUpdated.value);
 
     return Obx(
       () => _profileController.isProfileLoading.value
@@ -336,7 +338,6 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                                         children: [
                                           //  SizedBox(height: 11),
                                           CustomLocalTicketCard(
-                                            nextTrip: nextTrip,
                                           ),
 
                                           SizedBox(height: 11),

@@ -1,4 +1,6 @@
 import 'dart:developer';
+import 'dart:ffi' as ffi;
+import 'dart:ui' as ui;
 
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/controllers/trip_controller.dart';
@@ -28,10 +30,7 @@ import 'package:get/get.dart';
 class CustomLocalTicketCard extends StatefulWidget {
   CustomLocalTicketCard({
     Key? key,
-    this.nextTrip,
   }) : super(key: key);
-
-  NextActivity? nextTrip;
 
   @override
   _CustomLocalTicketCardState createState() => _CustomLocalTicketCardState();
@@ -42,10 +41,12 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
   late ExpandedTileController _controller;
   String address = '';
   Rx<bool> isTripStart = false.obs;
+  Rx<bool> isTripEnd = false.obs;
+
   final String timeZoneName = 'Asia/Riyadh';
   late tz.Location location;
 
-  final _tripController = Get.put(TripController());
+  final _tripController = Get.put(TripController(), permanent: true);
   final _requestController = Get.put(RequestController());
   void updateProgress(double newProgress) {
     setState(() {
@@ -83,14 +84,15 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
         currentDateInRiyadh.minute,
         currentDateInRiyadh.second);
     final parsedBookingDate =
-        DateTime.parse(widget.nextTrip!.booking!.date ?? '');
+        DateTime.parse(_tripController.nextTrip.value.booking!.date ?? '');
 
-    if (widget.nextTrip!.booking!.date == currentDateString ||
-        parsedBookingDate.isAtSameMomentAs(currentDate) ||parsedBookingDate.isBefore(currentDate)) {
+    if (_tripController.nextTrip.value.booking!.date == currentDateString ||
+        parsedBookingDate.isAtSameMomentAs(currentDate) ||
+        parsedBookingDate.isBefore(currentDate)) {
       setState(() {
         isTripStart.value = true;
       });
-      String timeToGoStr = widget.nextTrip!.booking!.timeToGo;
+      String timeToGoStr = _tripController.nextTrip.value.booking!.timeToGo;
 
       DateTime timeToGo = DateTime.parse('$currentDateString $timeToGoStr');
 
@@ -114,6 +116,52 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
 // _tripController.progress.value==0.1;
   }
 
+  bool checkEndTime(String Time) {
+    tz.initializeTimeZones();
+    location = tz.getLocation(timeZoneName);
+    DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
+    DateTime currentDate = DateTime(currentDateInRiyadh.year,
+        currentDateInRiyadh.month, currentDateInRiyadh.day);
+    String currentDateString =
+        intel.DateFormat('yyyy-MM-dd').format(currentDate);
+    String formattedTime =
+        intel.DateFormat('HH:mm:ss').format(currentDateInRiyadh);
+    // Format current date and time
+    DateTime currentTime = DateTime(
+        currentDateInRiyadh.year,
+        currentDateInRiyadh.month,
+        currentDateInRiyadh.day,
+        currentDateInRiyadh.hour,
+        currentDateInRiyadh.minute,
+        currentDateInRiyadh.second);
+    final parsedBookingDate =
+        DateTime.parse(_tripController.nextTrip.value.booking!.date ?? '');
+
+    String timeToReturnStr = Time;
+
+    DateTime timeToReturn =
+        DateTime.parse('$currentDateString $timeToReturnStr');
+
+    if (currentTime.isAfter(timeToReturn) ||
+        currentTime.isAtSameMomentAs(timeToReturn)) {
+      print('rehablkjhgfdsfgbnm ');
+      print(currentTime);
+      print(parsedBookingDate);
+      print(parsedBookingDate.isAfter(currentDate));
+      print(currentTime.isAtSameMomentAs(timeToReturn));
+      return true;
+    } else {
+      print('rehablkjhgfdsfgbnm ');
+      print(currentTime);
+      print(parsedBookingDate);
+      print(parsedBookingDate.isAfter(currentDate));
+      print(currentTime.isAtSameMomentAs(timeToReturn));
+      return false;
+    }
+
+    // }
+  }
+
   void isDateBefore24Hours() {
     final String timeZoneName = 'Asia/Riyadh';
     late tz.Location location;
@@ -121,7 +169,8 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
     tz.initializeTimeZones();
     location = tz.getLocation(timeZoneName);
     DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
-    DateTime parsedDate = DateTime.parse(widget.nextTrip!.booking!.date ?? '');
+    DateTime parsedDate =
+        DateTime.parse(_tripController.nextTrip.value.booking!.date ?? '');
     Duration difference = parsedDate.difference(currentDateInRiyadh);
     print('this deffrence');
     print(difference);
@@ -138,8 +187,10 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
     _controller = ExpandedTileController(isExpanded: false);
     checkCondition();
 
-    String latitudeStr = widget.nextTrip!.booking?.coordinates.latitude ?? '';
-    String longitudeStr = widget.nextTrip!.booking?.coordinates.longitude ?? '';
+    String latitudeStr =
+        _tripController.nextTrip.value.booking?.coordinates.latitude ?? '';
+    String longitudeStr =
+        _tripController.nextTrip.value.booking?.coordinates.longitude ?? '';
 
     if (latitudeStr.isNotEmpty && longitudeStr.isNotEmpty) {
       try {
@@ -216,8 +267,10 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                           children: [
                             CustomText(
                               text: AppUtil.rtlDirection2(context)
-                                  ? widget.nextTrip!.requestName!.nameAr
-                                  : widget.nextTrip!.requestName!.nameEn,
+                                  ? _tripController
+                                      .nextTrip.value.requestName!.nameAr
+                                  : _tripController
+                                      .nextTrip.value.requestName!.nameEn,
                               color: Color(0xFF070708),
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
@@ -247,7 +300,8 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                             ElevatedButton(
                               onPressed: () {
                                 Get.to(ChatScreen(
-                                    chatId: widget.nextTrip!.booking!.chatId));
+                                    chatId: _tripController
+                                        .nextTrip.value.booking!.chatId));
                               },
                               style: ButtonStyle(
                                 padding: MaterialStateProperty.all(
@@ -288,14 +342,18 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                                     ? () async {
                                         await _tripController
                                             .updateActivity(
-                                          id: widget.nextTrip!.id ?? '',
+                                          id: _tripController
+                                                  .nextTrip.value.id ??
+                                              '',
                                           context: context,
                                         )
-                                                    .then((updatedValue) async {
+                                            .then((updatedValue) async {
                                           if (!_tripController
                                               .isActivityProgressLoading
                                               .value) {
-                                            if (updatedValue == []) {
+                                            if (_tripController
+                                                    .updatedActivity.value.id ==
+                                                null) {
                                               print("this is widget book");
                                             } else {
                                               print('this the value');
@@ -303,44 +361,66 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                                                       .progress.value +
                                                   0.25));
 
-                                              updateStepss(updatedValue!
+                                              updateStepss(_tripController
+                                                      .updatedActivity
+                                                      .value
                                                       .activityProgress ??
                                                   '');
-                                              if (updatedValue!
+                                              if (_tripController
+                                                      .updatedActivity
+                                                      .value
                                                       .activityProgress ==
                                                   'COMPLETED') {
-                                                log("End Trip Taped ${widget.nextTrip!.id}");
+                                                if (checkEndTime(_tripController
+                                                    .updatedActivity
+                                                    .value
+                                                    .booking!
+                                                    .timeToReturn)) {
+                                                  log("End Trip Taped ${_tripController.nextTrip.value.id}");
 
-                                                bool requestEnd =
-                                                    await _requestController
-                                                            .requestEnd(
-                                                                context:
-                                                                    context,
-                                                                id: widget
-                                                                        .nextTrip!
-                                                                        .id ??
-                                                                    '') ??
-                                                        false;
-                                                if (requestEnd) {
-                                                  returnProgress(_tripController
-                                                          .progress.value -
-                                                      1.0);
-                                                  await _tripController
-                                                      .getNextActivity(
-                                                        context: context,
-                                                      )
-                                                      .then((value) =>
-                                                          setState(() {
-                                                            widget.nextTrip =
-                                                                value;
-                                                            _tripController
-                                                                    .nextStep
-                                                                    .value =
-                                                                'PENDING';
-                                                          }));
+                                                  bool requestEnd =
+                                                      await _requestController
+                                                              .requestEnd(
+                                                                  context:
+                                                                      context,
+                                                                  id: _tripController
+                                                                          .nextTrip
+                                                                          .value
+                                                                          .id ??
+                                                                      '') ??
+                                                          false;
+                                                  if (requestEnd) {
+                                                    returnProgress(
+                                                        _tripController.progress
+                                                                .value -
+                                                            1.0);
+                                                    await _tripController
+                                                        .getNextActivity(
+                                                      context: context,
+                                                    )
+                                                        .then((value) {
+                                                      if (!_tripController
+                                                          .isNextActivityLoading
+                                                          .value) {
+                                                        _tripController.nextStep
+                                                            .value = 'PENDING';
+                                                      } else {
+                                                        print(
+                                                            "this is widget book2");
+                                                      }
+                                                    });
+                                                  } else {
+                                                    AppUtil.errorToast(
+                                                        context, 'EndTrip'.tr);
+                                                    await Future.delayed(
+                                                        const Duration(
+                                                            seconds: 1));
+                                                  }
                                                 } else {
                                                   AppUtil.errorToast(
-                                                      context, 'EndTrip'.tr);
+                                                      context,
+                                                      'End Time of trip not now'
+                                                          .tr);
                                                   await Future.delayed(
                                                       const Duration(
                                                           seconds: 1));
@@ -429,27 +509,33 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                       children: [
                         ItineraryTile(
                           title:
-                              ' ${AppUtil.formatStringTimeWithLocale(context, widget.nextTrip!.booking!.timeToGo)} -  ${AppUtil.formatStringTimeWithLocale(context, widget.nextTrip!.booking!.timeToReturn)}',
-                          image: "assets/icons/timeGrey.svg",
+                              ' ${AppUtil.formatBookingDate(context, _tripController.nextTrip.value.booking!.date!)}',
+                          image: "assets/icons/date.svg",
                         ),
-                        //SizedBox(height: width * 0.025),
-                        
-                if(address.isNotEmpty)...[
-                        SizedBox(height: 8),
-                      
-                          ItineraryTile(
-                            title: address,
-                            image: 'assets/icons/map_pin.svg',
-                            imageUrl: AppUtil.getLocationUrl(
-                                widget.nextTrip!.booking!.coordinates),
-                            line: true,
-                          ),
-                ],
                         SizedBox(height: 8),
 
                         ItineraryTile(
                           title:
-                              "${widget.nextTrip!.booking!.guestNumber} ${"guests".tr}",
+                              ' ${AppUtil.formatStringTimeWithLocale(context, _tripController.nextTrip.value.booking!.timeToGo)} -  ${AppUtil.formatStringTimeWithLocale(context, _tripController.nextTrip.value.booking!.timeToReturn)}',
+                          image: "assets/icons/timeGrey.svg",
+                        ),
+                        //SizedBox(height: width * 0.025),
+
+                        if (address.isNotEmpty) ...[
+                          SizedBox(height: 8),
+                          ItineraryTile(
+                            title: address,
+                            image: 'assets/icons/map_pin.svg',
+                            imageUrl: AppUtil.getLocationUrl(_tripController
+                                .nextTrip.value.booking!.coordinates),
+                            line: true,
+                          ),
+                        ],
+                        SizedBox(height: 8),
+
+                        ItineraryTile(
+                          title:
+                              "${_tripController.nextTrip.value.booking!.guestNumber} ${"guests".tr}",
                           image: "assets/icons/guests.svg",
                         ),
 

@@ -1,14 +1,18 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/explore/ajwadi/controllers/ajwadi_explore_controller.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/add_experience_info.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/add_hospitality_calender_dialog.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/local_home_screen.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/explore/tourist/view/view_trip_images.dart';
+import 'package:ajwad_v4/request/ajwadi/view/view_experience_images.dart';
 import 'package:ajwad_v4/request/tourist/view/local_offer_info.dart';
+import 'package:ajwad_v4/services/controller/event_controller.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/services/model/hospitality.dart';
 import 'package:ajwad_v4/services/view/service_local_info.dart';
@@ -55,6 +59,8 @@ late double width, height;
 
 class _EditHospitalityState extends State<EditHospitality> {
   final _servicesController = Get.put(HospitalityController());
+    final _eventController = Get.put(EventController());
+
   int _currentIndex = 0;
   bool isExpanded = false;
   bool isAviailable = false;
@@ -72,9 +78,9 @@ class _EditHospitalityState extends State<EditHospitality> {
       TextEditingController();
   final TextEditingController hospitalityBioControllerAr =
       TextEditingController();
+  List<String> imageUrls = [];
 
   String address = '';
-  
 
   List<String> regionListEn = [
     "Riyadh",
@@ -127,15 +133,13 @@ class _EditHospitalityState extends State<EditHospitality> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    //    initializeDateFormatting(); //very important
 
     //addCustomIcon();
-    //getHospitalityById();
 
     _servicesController.isHospatilityDateSelcted(false);
     _servicesController.selectedDate('');
     _servicesController.selectedDateIndex(-1);
-
+    _loadImages();
     updateData();
     _currentPosition = LatLng(
       _servicesController.pickUpLocLatLang.value.latitude,
@@ -188,6 +192,77 @@ class _EditHospitalityState extends State<EditHospitality> {
     });
   }
 
+ Future<bool> uploadImages() async {
+
+  List<dynamic> imagesToUpload = [];
+  bool allExtensionsValid = true;
+
+  // Allowed formats
+  final allowedFormats = ['jpg', 'jpeg', 'png'];
+
+  for (int i = 0; i < _servicesController.images.length; i++) {
+    var image = _servicesController.images[i];
+    
+    // Check if the path is a URL
+    if (image is String && Uri.parse(image).isAbsolute) {
+
+    
+      imageUrls.add(image);
+    } else {
+  
+  
+      
+     String fileExtension = image.path.split('.').last.toLowerCase();
+
+      if (!allowedFormats.contains(fileExtension)) {
+        allExtensionsValid = false;
+        print('File ${image.path} is not in an allowed format (${allowedFormats.join(', ')}).');
+      } else {
+        imagesToUpload.add(image);
+     }
+    }
+  }
+
+  if (!allExtensionsValid) {
+    //  if (context.mounted) {
+    //       AppUtil.errorToast(context,'uploadError'.tr);
+    //       await Future.delayed(const Duration(seconds: 3));
+    //     }
+    return false;
+  }
+
+  // Upload images that are not URLs
+  
+  for (var imageFile in imagesToUpload) {
+
+    try {
+      final uploadedImage = await _eventController.uploadProfileImages(
+        file: File(imageFile.path),
+        fileType: "hospitality",
+        context: context,
+      );
+
+         if (uploadedImage != null) {
+          log('valid');
+          imageUrls.add(uploadedImage.filePath);
+          log(uploadedImage.filePath);
+        } else {
+          log('not valid');
+          // return false;
+        }
+      } catch (e) {
+        log('Error uploading file ${imageFile.path}: $e');
+        return false;
+      }
+  }
+
+      return true;
+
+  }
+
+  
+
+
   final CarouselController _carouselController = CarouselController();
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _guestsController = TextEditingController();
@@ -228,6 +303,8 @@ class _EditHospitalityState extends State<EditHospitality> {
 
       DateErrorMessage = !_servicesController.isHospatilityDateSelcted.value;
       TimeErrorMessage = !_servicesController.isHospatilityTimeSelcted.value;
+      _servicesController.DateErrorMessage.value =
+          AppUtil.isDateBefore24Hours(_servicesController.selectedDate.value);
 
       // !AppUtil.isDateBefore24Hours(_servicesController.selectedDate.value);
       PriceEmpty = _priceController.text.isEmpty;
@@ -256,9 +333,19 @@ class _EditHospitalityState extends State<EditHospitality> {
         !PriceLarger &&
         !PriceDouble &&
         _servicesController.DateErrorMessage.value &&
-        !_servicesController.TimeErrorMessage.value) {
-      daysInfo();
+        !_servicesController.TimeErrorMessage.value && _servicesController.images.length >= 3 &&
+        _servicesController.DateErrorMessage.value ) {
+       if( await uploadImages()){
+
+         daysInfo();
       _updateProfile();
+    }else{
+ if (context.mounted) {
+          AppUtil.errorToast(context,'uploadError'.tr);
+          await Future.delayed(const Duration(seconds: 3));
+        }
+    }
+    
     } else {
       if (!_servicesController.DateErrorMessage.value) {
         if (context.mounted) {
@@ -269,6 +356,13 @@ class _EditHospitalityState extends State<EditHospitality> {
       if (_servicesController.TimeErrorMessage.value) {
         if (context.mounted) {
           AppUtil.errorToast(context, 'TimeDuration'.tr);
+          await Future.delayed(const Duration(seconds: 3));
+        }
+      }
+       if (_servicesController.images.length < 3) {
+        if (context.mounted) {
+          AppUtil.errorToast(
+              context,'imageError'.tr);
           await Future.delayed(const Duration(seconds: 3));
         }
       }
@@ -340,6 +434,18 @@ class _EditHospitalityState extends State<EditHospitality> {
 
     startTime = formatter.format(newStartTime);
     endTime = formatter.format(newEndTime);
+  }
+
+  Future<void> _loadImages() async {
+    List<dynamic> images = [];
+    _servicesController.images.clear();
+    for (var path in widget.hospitalityObj.images) {
+      images.add(path); // Add all paths to the list, they can be URLs or File paths.
+    }
+
+    setState(() {
+      _servicesController.images.addAll(images);
+    });
   }
 
   void _updateGender(int? newValue) {
@@ -443,8 +549,8 @@ class _EditHospitalityState extends State<EditHospitality> {
             _servicesController.pickUpLocLatLang.value.latitude.toString(),
         touristsGender: _guestsController.text,
         price: double.parse(_priceController.text),
-        images: widget.hospitalityObj.images,
-        regionAr: widget.hospitalityObj.regionAr??'',
+        images: imageUrls,
+        regionAr: widget.hospitalityObj.regionAr ?? '',
         location: locationUrl,
         regionEn: widget.hospitalityObj.regionEn,
         start: startTime,
@@ -491,7 +597,11 @@ class _EditHospitalityState extends State<EditHospitality> {
             );
           },
         ).then((_) {
-          Get.offAll(() => const AjwadiBottomBar());
+          //   Get.offAll(() => const AjwadiBottomBar());
+          Get.back();
+          Get.back();
+          final _experienceController = Get.put(AjwadiExploreController());
+          _experienceController.getAllExperiences(context: context);
         });
 
         print("Profile updated successfully: $result");
@@ -718,11 +828,18 @@ class _EditHospitalityState extends State<EditHospitality> {
 
               bottomNavigationBar: Padding(
                   padding: EdgeInsets.all(16.0),
-                  child: CustomButton(
-                      onPressed: () {
-                        validateAndSave();
-                      },
-                      title: 'SaveChanges'.tr)),
+                  child:  Obx(()=>
+                      _servicesController.isEditHospitalityLoading.value
+                         ? const Center(
+                              child: CircularProgressIndicator.adaptive(),
+                            )
+                         
+                            :CustomButton(
+                        onPressed: () {
+                          validateAndSave();
+                        },
+                        title: 'SaveChanges'.tr),
+                  )),
               body: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -751,10 +868,11 @@ class _EditHospitalityState extends State<EditHospitality> {
                             padding: const EdgeInsets.only(top: 16.0),
                             child: GestureDetector(
                               onTap: () {
-                                // Get.to(ViewTripImages(
-                                //   tripImageUrl: hospitalityObj!.images,
-                                //   fromNetwork: true,
-                                // ));
+                                  Get.to(() => ViewImages(
+                                      tripImageUrl: widget.hospitalityObj.images!,
+                                      fromNetwork: true,
+                                      Type:'hospitality',
+                                    ));
                               },
                               child: CarouselSlider.builder(
                                 carouselController: _carouselController,
@@ -765,10 +883,10 @@ class _EditHospitalityState extends State<EditHospitality> {
                                         _currentIndex = i;
                                       });
                                     }),
-                                itemCount: widget.hospitalityObj.images.length,
+                                itemCount:_servicesController.images.length,
                                 itemBuilder: (context, index, realIndex) {
                                   return ImagesSliderWidget(
-                                    image: widget.hospitalityObj.images[index],
+                                    image:_servicesController.images[index],
                                   );
                                 },
                               ),
@@ -1168,7 +1286,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                     height: width * 0.02,
                                   ),
                                   Column(
-                                   crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       SizedBox(
                                         height: width * 0.012,
@@ -1451,8 +1570,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                                 height: width * 0.077,
                               ),
                               Column(
-                         crossAxisAlignment: CrossAxisAlignment.start,
-
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   SizedBox(
                                     height: width * 0.012,
@@ -1620,7 +1738,11 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                       await DatePickerBdaya
                                                           .showTime12hPicker(
                                                         context,
-                                                       locale:AppUtil.rtlDirection2(context)?LocaleType.ar:LocaleType.en ,
+                                                        locale: AppUtil
+                                                                .rtlDirection2(
+                                                                    context)
+                                                            ? LocaleType.ar
+                                                            : LocaleType.en,
                                                         showTitleActions: true,
                                                         currentTime:
                                                             newTimeToGo,
@@ -1628,7 +1750,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                           setState(() {
                                                             newTimeToGo = newT;
                                                             _servicesController
-                                                         .isHospatilityTimeSelcted(true);
+                                                                .isHospatilityTimeSelcted(
+                                                                    true);
 
                                                             _servicesController
                                                                     .selectedStartTime
@@ -1647,7 +1770,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                           setState(() {
                                                             newTimeToGo = newT;
                                                             _servicesController
-                                                         .isHospatilityTimeSelcted(true);
+                                                                .isHospatilityTimeSelcted(
+                                                                    true);
 
                                                             _servicesController
                                                                     .selectedStartTime
@@ -1896,192 +2020,196 @@ class _EditHospitalityState extends State<EditHospitality> {
                                               child: Row(
                                                 children: [
                                                   GestureDetector(
-                                                   // onTap: () {
-                                                      // showCupertinoModalPopup<
-                                                      //         void>(
-                                                      //     context: context,
-                                                      //     barrierDismissible:
-                                                      //         false,
-                                                      //     builder: (BuildContext
-                                                      //         context) {
-                                                      //       return Column(
-                                                      //         mainAxisAlignment:
-                                                      //             MainAxisAlignment
-                                                      //                 .end,
-                                                      //         children: [
-                                                      //           Container(
-                                                      //             decoration:
-                                                      //                 BoxDecoration(
-                                                      //               color: Color(
-                                                      //                   0xffffffff),
-                                                      //               border:
-                                                      //                   Border(
-                                                      //                 bottom:
-                                                      //                     BorderSide(
-                                                      //                   width:
-                                                      //                       0.0,
-                                                      //                 ),
-                                                      //               ),
-                                                      //             ),
-                                                      //             child: Row(
-                                                      //               mainAxisAlignment:
-                                                      //                   MainAxisAlignment
-                                                      //                       .spaceBetween,
-                                                      //               children: <Widget>[
-                                                      //                 CupertinoButton(
-                                                      //                   onPressed:
-                                                      //                       () {
-                                                      //                     _servicesController
-                                                      //                         .isHospatilityTimeSelcted(true);
+                                                    // onTap: () {
+                                                    // showCupertinoModalPopup<
+                                                    //         void>(
+                                                    //     context: context,
+                                                    //     barrierDismissible:
+                                                    //         false,
+                                                    //     builder: (BuildContext
+                                                    //         context) {
+                                                    //       return Column(
+                                                    //         mainAxisAlignment:
+                                                    //             MainAxisAlignment
+                                                    //                 .end,
+                                                    //         children: [
+                                                    //           Container(
+                                                    //             decoration:
+                                                    //                 BoxDecoration(
+                                                    //               color: Color(
+                                                    //                   0xffffffff),
+                                                    //               border:
+                                                    //                   Border(
+                                                    //                 bottom:
+                                                    //                     BorderSide(
+                                                    //                   width:
+                                                    //                       0.0,
+                                                    //                 ),
+                                                    //               ),
+                                                    //             ),
+                                                    //             child: Row(
+                                                    //               mainAxisAlignment:
+                                                    //                   MainAxisAlignment
+                                                    //                       .spaceBetween,
+                                                    //               children: <Widget>[
+                                                    //                 CupertinoButton(
+                                                    //                   onPressed:
+                                                    //                       () {
+                                                    //                     _servicesController
+                                                    //                         .isHospatilityTimeSelcted(true);
 
-                                                      //                     setState(
-                                                      //                         () {
-                                                      //                       Get.back();
-                                                      //                       returnTime =
-                                                      //                           newTimeToReturn;
-                                                      //                       _servicesController.selectedEndTime.value =
-                                                      //                           newTimeToReturn;
+                                                    //                     setState(
+                                                    //                         () {
+                                                    //                       Get.back();
+                                                    //                       returnTime =
+                                                    //                           newTimeToReturn;
+                                                    //                       _servicesController.selectedEndTime.value =
+                                                    //                           newTimeToReturn;
 
-                                                      //                       _servicesController.TimeErrorMessage.value =
-                                                      //                           AppUtil.isEndTimeLessThanStartTime(_servicesController.selectedStartTime.value, _servicesController.selectedEndTime.value);
-                                                      //                     });
-                                                      //                   },
-                                                      //                   padding:
-                                                      //                       const EdgeInsets.symmetric(
-                                                      //                     horizontal:
-                                                      //                         16.0,
-                                                      //                     vertical:
-                                                      //                         5.0,
-                                                      //                   ),
-                                                      //                   child:
-                                                      //                       CustomText(
-                                                      //                     text:
-                                                      //                         "confirm".tr,
-                                                      //                     color:
-                                                      //                         colorGreen,
-                                                      //                   ),
-                                                      //                 )
-                                                      //               ],
-                                                      //             ),
-                                                      //           ),
-                                                      //           Container(
-                                                      //             height: 220,
-                                                      //             width: width,
-                                                      //             margin:
-                                                      //                 EdgeInsets
-                                                      //                     .only(
-                                                      //               bottom: MediaQuery.of(
-                                                      //                       context)
-                                                      //                   .viewInsets
-                                                      //                   .bottom,
-                                                      //             ),
-                                                      //             child:
-                                                      //                 Container(
-                                                      //               width:
-                                                      //                   width,
-                                                      //               color: Colors
-                                                      //                   .white,
-                                                      //               child:
-                                                      //                   CupertinoDatePicker(
-                                                      //                 backgroundColor:
-                                                      //                     Colors
-                                                      //                         .white,
-                                                      //                 initialDateTime:
-                                                      //                     newTimeToReturn,
-                                                      //                 mode: CupertinoDatePickerMode
-                                                      //                     .time,
-                                                      //                 use24hFormat:
-                                                      //                     false,
-                                                      //                 onDateTimeChanged:
-                                                      //                     (DateTime
-                                                      //                         newT) {
-                                                      //                   print(DateFormat('HH:mm:ss')
-                                                      //                       .format(newTimeToReturn));
-                                                      //                   setState(
-                                                      //                       () {
-                                                      //                     newTimeToReturn =
-                                                      //                         newT;
-                                                      //                     _servicesController
-                                                      //                         .selectedEndTime
-                                                      //                         .value = newTimeToReturn;
+                                                    //                       _servicesController.TimeErrorMessage.value =
+                                                    //                           AppUtil.isEndTimeLessThanStartTime(_servicesController.selectedStartTime.value, _servicesController.selectedEndTime.value);
+                                                    //                     });
+                                                    //                   },
+                                                    //                   padding:
+                                                    //                       const EdgeInsets.symmetric(
+                                                    //                     horizontal:
+                                                    //                         16.0,
+                                                    //                     vertical:
+                                                    //                         5.0,
+                                                    //                   ),
+                                                    //                   child:
+                                                    //                       CustomText(
+                                                    //                     text:
+                                                    //                         "confirm".tr,
+                                                    //                     color:
+                                                    //                         colorGreen,
+                                                    //                   ),
+                                                    //                 )
+                                                    //               ],
+                                                    //             ),
+                                                    //           ),
+                                                    //           Container(
+                                                    //             height: 220,
+                                                    //             width: width,
+                                                    //             margin:
+                                                    //                 EdgeInsets
+                                                    //                     .only(
+                                                    //               bottom: MediaQuery.of(
+                                                    //                       context)
+                                                    //                   .viewInsets
+                                                    //                   .bottom,
+                                                    //             ),
+                                                    //             child:
+                                                    //                 Container(
+                                                    //               width:
+                                                    //                   width,
+                                                    //               color: Colors
+                                                    //                   .white,
+                                                    //               child:
+                                                    //                   CupertinoDatePicker(
+                                                    //                 backgroundColor:
+                                                    //                     Colors
+                                                    //                         .white,
+                                                    //                 initialDateTime:
+                                                    //                     newTimeToReturn,
+                                                    //                 mode: CupertinoDatePickerMode
+                                                    //                     .time,
+                                                    //                 use24hFormat:
+                                                    //                     false,
+                                                    //                 onDateTimeChanged:
+                                                    //                     (DateTime
+                                                    //                         newT) {
+                                                    //                   print(DateFormat('HH:mm:ss')
+                                                    //                       .format(newTimeToReturn));
+                                                    //                   setState(
+                                                    //                       () {
+                                                    //                     newTimeToReturn =
+                                                    //                         newT;
+                                                    //                     _servicesController
+                                                    //                         .selectedEndTime
+                                                    //                         .value = newTimeToReturn;
 
-                                                      //                     _servicesController.TimeErrorMessage.value = AppUtil.isEndTimeLessThanStartTime(
-                                                      //                         _servicesController.selectedStartTime.value,
-                                                      //                         _servicesController.selectedEndTime.value);
-                                                      //                   });
-                                                      //                 },
-                                                      //               ),
-                                                      //             ),
-                                                      //           ),
-                                                      //         ],
-                                                      //       );
-                                                      //     });
-                                                   // },
+                                                    //                     _servicesController.TimeErrorMessage.value = AppUtil.isEndTimeLessThanStartTime(
+                                                    //                         _servicesController.selectedStartTime.value,
+                                                    //                         _servicesController.selectedEndTime.value);
+                                                    //                   });
+                                                    //                 },
+                                                    //               ),
+                                                    //             ),
+                                                    //           ),
+                                                    //         ],
+                                                    //       );
+                                                    //     });
+                                                    // },
                                                     onTap: () async {
                                                       await DatePickerBdaya
                                                           .showTime12hPicker(
                                                         context,
-                                                     locale:AppUtil.rtlDirection2(context)?LocaleType.ar:LocaleType.en ,
+                                                        locale: AppUtil
+                                                                .rtlDirection2(
+                                                                    context)
+                                                            ? LocaleType.ar
+                                                            : LocaleType.en,
                                                         showTitleActions: true,
                                                         currentTime:
                                                             newTimeToReturn,
-                                                        onConfirm:
-                                                          (newT) {
+                                                        onConfirm: (newT) {
+                                                          _servicesController
+                                                              .isHospatilityTimeSelcted(
+                                                                  true);
+
+                                                          print(DateFormat(
+                                                                  'HH:mm:ss')
+                                                              .format(
+                                                                  newTimeToReturn));
+                                                          setState(() {
+                                                            newTimeToReturn =
+                                                                newT;
                                                             _servicesController
-                                                      .isHospatilityTimeSelcted(true);
+                                                                    .selectedEndTime
+                                                                    .value =
+                                                                newTimeToReturn;
 
-                                                            print(DateFormat(
-                                                                    'HH:mm:ss')
-                                                                .format(
-                                                                    newTimeToReturn));
-                                                            setState(() {
-                                                              newTimeToReturn =
-                                                                  newT;
-                                                              _servicesController
-                                                                      .selectedEndTime
-                                                                      .value =
-                                                                  newTimeToReturn;
-
-                                                              _servicesController
-                                                                      .TimeErrorMessage
-                                                                      .value =
-                                                                  AppUtil.isEndTimeLessThanStartTime(
-                                                                      _servicesController
-                                                                          .selectedStartTime
-                                                                          .value,
-                                                                      _servicesController
-                                                                          .selectedEndTime
-                                                                          .value);
-                                                            });
+                                                            _servicesController
+                                                                    .TimeErrorMessage
+                                                                    .value =
+                                                                AppUtil.isEndTimeLessThanStartTime(
+                                                                    _servicesController
+                                                                        .selectedStartTime
+                                                                        .value,
+                                                                    _servicesController
+                                                                        .selectedEndTime
+                                                                        .value);
+                                                          });
                                                         },
-                                                        onChanged:
-                                                          (newT) {
+                                                        onChanged: (newT) {
+                                                          _servicesController
+                                                              .isHospatilityTimeSelcted(
+                                                                  true);
+
+                                                          print(DateFormat(
+                                                                  'HH:mm:ss')
+                                                              .format(
+                                                                  newTimeToReturn));
+                                                          setState(() {
+                                                            newTimeToReturn =
+                                                                newT;
                                                             _servicesController
-                                                      .isHospatilityTimeSelcted(true);
+                                                                    .selectedEndTime
+                                                                    .value =
+                                                                newTimeToReturn;
 
-                                                            print(DateFormat(
-                                                                    'HH:mm:ss')
-                                                                .format(
-                                                                    newTimeToReturn));
-                                                            setState(() {
-                                                              newTimeToReturn =
-                                                                  newT;
-                                                              _servicesController
-                                                                      .selectedEndTime
-                                                                      .value =
-                                                                  newTimeToReturn;
-
-                                                              _servicesController
-                                                                      .TimeErrorMessage
-                                                                      .value =
-                                                                  AppUtil.isEndTimeLessThanStartTime(
-                                                                      _servicesController
-                                                                          .selectedStartTime
-                                                                          .value,
-                                                                      _servicesController
-                                                                          .selectedEndTime
-                                                                          .value);
-                                                            });
+                                                            _servicesController
+                                                                    .TimeErrorMessage
+                                                                    .value =
+                                                                AppUtil.isEndTimeLessThanStartTime(
+                                                                    _servicesController
+                                                                        .selectedStartTime
+                                                                        .value,
+                                                                    _servicesController
+                                                                        .selectedEndTime
+                                                                        .value);
+                                                          });
                                                         },
                                                       );
                                                     },
@@ -2534,7 +2662,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
-                          children: widget.hospitalityObj.images
+                          children:  _servicesController.images
                               .asMap()
                               .entries
                               .map((entry) {
@@ -2550,7 +2678,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: _currentIndex == entry.key
-                                      ? widget.hospitalityObj.images.length == 1
+                                      ?  _servicesController.images.length == 1
                                           ? Colors.white.withOpacity(0.1)
                                           : Colors.white
                                       : Colors.white.withOpacity(0.4),

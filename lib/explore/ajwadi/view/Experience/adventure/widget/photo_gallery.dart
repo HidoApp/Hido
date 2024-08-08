@@ -26,10 +26,14 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
   List<XFile> _selectedImages = [];
   final AdventureController _adventureController =
       Get.put(AdventureController());
-      
+      final ImagePicker _picker = ImagePicker();
+
+
   void initState() {
     super.initState();
-    _selectedImages = widget.selectedImages.map((path) => XFile(path)).toList();
+    // _selectedImages = widget.selectedImages.map((path) => XFile(path)).toList();
+     _selectedImages = _adventureController.selectedImages;
+
   }
 
   Future<void> _showImagePickerOptions(BuildContext context) async {
@@ -46,7 +50,8 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
           onImagesSelected: (images) {
             setState(() {
               _selectedImages = images;
-              widget.selectedImages.addAll(images.map((file) => file.path));
+               _adventureController.selectedImages.addAll(images);
+
             });
           },
         );
@@ -55,39 +60,50 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
   }
 
   
-  Future<void> _pickImage(ImageSource source) async {
-    final ImagePicker _picker = ImagePicker();
+
+   Future<void> _pickImage(ImageSource source) async {
     try {
       final List<XFile>? pickedImages = await _picker.pickMultiImage();
       if (pickedImages != null) {
+        if (AppUtil.isImageValidate(await pickedImages.length)) {
+        print(" is asdded");
         setState(() {
-          _selectedImages.addAll(pickedImages);
-          widget.selectedImages.addAll(pickedImages.map((file) => file.path));
+            _selectedImages.addAll(pickedImages);
+         _adventureController.selectedImages.addAll(pickedImages);
         });
-        // Upload each picked image
-        //   for (var pickedFile in pickedImages) {
-        //     if (AppUtil.isImageValidate(await pickedFile.length())) {
-        //       final image = await _hospitalityController.uploadProfileImages(
-        //         file: File(pickedFile.path),
-        //         uploadOrUpdate: "upload",
-        //         context: context,
-        //       );
-
-        //       if (image != null) {
-        //         setState(() {
-        //           widget.selectedImages.add(image.filePath);
-        //           print('yhis kjhgfghjkjhgfghnm') ;// Add to newProfileImages list
-        //           print(image.filePath);
-        //         });
-        //       }
-        //     }
-        //   }
+        }   else {
+        AppUtil.errorToast(
+            context, 'Image is too large, you can only upload less than 2 MB');
+      }
+    
+      
       }
     } catch (e) {
       print('Error picking images: $e');
     }
   }
+Future<void> _takePhoto() async {
+    try {
+      final XFile? photo = await _picker.pickImage(source: ImageSource.camera);
+      if (photo != null) {
+        
+          if (AppUtil.isImageValidate(await photo.length())) {
+        print(" is asdded");
+       setState(() {
+          _selectedImages =
+              _selectedImages != null ? [..._selectedImages!, photo] : [photo];
+    _adventureController.selectedImages.add(photo);
 
+        });
+        }   else {
+        AppUtil.errorToast(
+            context, 'Image is too large, you can only upload less than 2 MB');
+      }
+      }
+    } catch (e) {
+      print('Error taking photo: $e');
+    }
+  }
   Future<void> _showImageOptions(BuildContext context, int index) async {
     showModalBottomSheet(
       context: context,
@@ -142,11 +158,11 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                         final selectedImage = _selectedImages.removeAt(index);
                         _selectedImages.insert(0, selectedImage);
 
-                        final selectedImagePath =
-                            widget.selectedImages.removeAt(index);
-                        widget.selectedImages.insert(0, selectedImagePath);
+                       final selectedImagePath =
+                          _adventureController.selectedImages.removeAt(index);
+                          _adventureController.selectedImages.insert(0, selectedImagePath);
                       });
-                      Navigator.pop(context);
+                      Get.back();
                     },
                     child: Container(
                       width: double.infinity,
@@ -176,9 +192,9 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                     onTap: () {
                       setState(() {
                         _selectedImages.removeAt(index);
-                        widget.selectedImages.removeAt(index);
+                        _adventureController.selectedImages.removeAt(index);
                       });
-                      Navigator.pop(context);
+                      Get.back();
                     },
                     child: Container(
                       width: double.infinity,
@@ -390,7 +406,7 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                           );
                         } else if (index == _selectedImages!.length) {
                           return GestureDetector(
-                            onTap: () => _pickImage(ImageSource.camera),
+                            onTap: () => _takePhoto(),
                             child: DottedBorder(
                               strokeWidth: 1,
                               color: Color(0xFFDCDCE0),
@@ -433,13 +449,20 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> {
   final ImagePicker _picker = ImagePicker();
   List<XFile>? _selectedImages;
 
-  Future<void> _pickImages() async {
+ Future<void> _pickImages() async {
     try {
       final List<XFile>? pickedImages = await _picker.pickMultiImage();
       if (pickedImages != null) {
+        if (AppUtil.isImageValidate(await pickedImages.length)) {
+        print(" is asdded");
         setState(() {
           _selectedImages = pickedImages;
         });
+        }   else {
+        AppUtil.errorToast(
+            context, 'Image is too large, you can only upload less than 2 MB');
+      }
+        
       }
     } catch (e) {
       print('Error picking images: $e');
@@ -450,10 +473,17 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> {
     try {
       final XFile? photo = await _picker.pickImage(source: ImageSource.camera);
       if (photo != null) {
-        setState(() {
+        
+          if (AppUtil.isImageValidate(await photo.length())) {
+        print(" is asdded");
+       setState(() {
           _selectedImages =
               _selectedImages != null ? [..._selectedImages!, photo] : [photo];
         });
+        }   else {
+        AppUtil.errorToast(
+            context, 'Image is too large, you can only upload less than 2 MB');
+      }
       }
     } catch (e) {
       print('Error taking photo: $e');
