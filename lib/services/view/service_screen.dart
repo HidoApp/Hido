@@ -57,14 +57,14 @@ class _ServiceScreenState extends State<ServiceScreen>
             SliverAppBar(
               automaticallyImplyLeading: false,
               //  expandedHeight: width * 0.48,
-              toolbarHeight: width * 0.31,
+              toolbarHeight: width * 0.36,
               forceMaterialTransparency: true,
 
               pinned: true,
               centerTitle: false,
 
               leading: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
+                padding: EdgeInsets.only(left: 16,right:16,bottom: 18),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -181,7 +181,7 @@ class _ServiceScreenState extends State<ServiceScreen>
                   ),
                   color: Colors.white,
                 ),
-                labelPadding: EdgeInsets.all(width * 0.03),
+                labelPadding: EdgeInsets.all(width * 0.026),
                 padding: EdgeInsets.symmetric(horizontal: width * 0.02),
                 onTap: (index) {
                   setState(() {
@@ -259,11 +259,14 @@ class _ServiceScreenState extends State<ServiceScreen>
                               topRight: Radius.circular(width * 0.03))),
                       child: CustomText(
                         text: "events".tr,
-                        color: _tabIndex == 2 ? darkBlue : Colors.white,
+                        color: _tabIndex == 2 ? black : Colors.white,
                         fontWeight:
-                            _tabIndex == 2 ? FontWeight.w700 : FontWeight.w400,
+                            _tabIndex == 2 ? FontWeight.w500 : FontWeight.w400,
                         fontSize:
-                            _tabIndex == 2 ? width * 0.033 : width * 0.028,
+                            _tabIndex == 2 ? width * 0.033 : width * 0.033,
+                        fontFamily: AppUtil.rtlDirection2(context)
+                            ? 'SF Arabic'
+                            : 'SF Pro',
                       ),
                     ),
                   ),

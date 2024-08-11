@@ -620,5 +620,18 @@ const localeAr = {
   'accountUpadted': 'تم تحديث الحساب',
   "updateEmail": "تحديث البريد الالكتروني ",
   'emailEditSubtitle': "سنقوم بارسال رمز على بريدك الجديد للتوثيق ",
-  'emailConfirm': 'التحقق من البريد الالكتروني'
+  'emailConfirm': 'التحقق من البريد الالكتروني',
+ 'Arabic': 'العربية',
+  'English': 'الإنجليزية',
+  'French': 'الفرنسية',
+  'German': 'الألمانية',
+  'Chinese': 'الصينية',
+  'Spanish': 'الإسبانية',
+  'Russian': 'الروسية',
+  'Alert':"تنبيه!",
+  "DeleteNote": "أنت على وشك حذف هذه التجربة",
+  'DeleteDone': "تم حذف التجربة بنجاح ",
+  'notDelete':"لم يتم حذف التجربة",
+   'saveChange': "تم حفظ التغييرات بنجاح ",
+
 };

@@ -151,10 +151,9 @@ class _ServicesCardState extends State<ServicesCard> {
                         ),
                         SvgPicture.asset(
                           'assets/icons/map_pin.svg',
-                          color: colorDarkGrey,
                         ),
                         SizedBox(
-                          width: width * 0.017,
+                          width: width * 0.01,
                         ),
                         CustomText(
                           text: AppUtil.rtlDirection2(context)
@@ -177,14 +176,13 @@ class _ServicesCardState extends State<ServicesCard> {
                       Row(
                         children: [
                           SizedBox(
-                            width: width * 0.016,
+                            width: width * 0.01,
                           ),
                           SvgPicture.asset(
-                            'assets/icons/grey_calender.svg',
-                          color: colorDarkGrey,
+                            'assets/icons/calendar.svg',
                           ),
                           SizedBox(
-                            width: width * 0.019,
+                            width: width * 0.01,
                           ),
                           CustomText(
                             text:
@@ -209,8 +207,7 @@ class _ServicesCardState extends State<ServicesCard> {
                             width: width * 0.01,
                           ),
                           SvgPicture.asset(
-                            'assets/icons/timeGrey.svg',
-                            color: colorDarkGrey,
+                            'assets/icons/Clock.svg',
                           ),
                           SizedBox(
                             width: width * 0.01,
@@ -238,8 +235,7 @@ class _ServicesCardState extends State<ServicesCard> {
                             width: width * 0.01,
                           ),
                           SvgPicture.asset(
-                            'assets/icons/timeGrey.svg',
-                            color: colorDarkGrey,
+                            'assets/icons/Clock.svg',
                           ),
                           SizedBox(
                             width: width * 0.01,
@@ -261,14 +257,15 @@ class _ServicesCardState extends State<ServicesCard> {
                     Row(
                       children: [
                         SizedBox(
-                          width: width * 0.015,
+                          width: width * 0.013,
                         ),
                         if (widget.experience.experiencesType == 'hospitality')
                           Row(
                             children: [
-                              SvgPicture.asset('assets/icons/meal.svg',color: colorDarkGrey,),
+                               
+                              SvgPicture.asset('assets/icons/meal.svg'),
                               SizedBox(
-                                width: width * 0.024,
+                                width: width * 0.01,
                               ),
                               CustomText(
                                 text: AppUtil.rtlDirection2(context)

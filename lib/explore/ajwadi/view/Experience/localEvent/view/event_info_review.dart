@@ -247,8 +247,7 @@ class _EventInfoReviewState extends State<EventInfoReview> {
       }
       if (!allExtensionsValid) {
         if (context.mounted) {
-          AppUtil.errorToast(context,
-            'uploadError'.tr);
+          AppUtil.errorToast(context, 'uploadError'.tr);
           await Future.delayed(const Duration(seconds: 3));
         }
         return false;
@@ -273,8 +272,9 @@ class _EventInfoReviewState extends State<EventInfoReview> {
           log(image.filePath);
         } else {
           log('not vaalid');
+          return false;
+
         }
-        return true;
       }
     }
     return true;
@@ -435,9 +435,8 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                                   const SizedBox(height: 4),
                                   Row(
                                     children: [
-                                      const SizedBox(width: 2),
                                       SvgPicture.asset(
-                                        'assets/icons/grey_calender.svg',
+                                        'assets/icons/calendar.svg',
                                       ),
                                       const SizedBox(width: 6),
                                       Text(
@@ -464,7 +463,7 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                                             ? const EdgeInsets.only(left: 2)
                                             : const EdgeInsets.only(right: 2),
                                         child: SvgPicture.asset(
-                                          'assets/icons/timeGrey.svg',
+                                          'assets/icons/Clock.svg',
                                         ),
                                       ),
                                       const SizedBox(width: 4),
@@ -504,96 +503,102 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                           horizontal: 4, vertical: 35),
                       child: Column(
                         children: [
-                          Obx(()=>
-                         _EventController.isEventLoading.value
-                         ? const Center(
-                              child: CircularProgressIndicator.adaptive(),
-                            )
-                         
-                            :CustomButton(
-                              onPressed: () async {
-                                uploadImages().then((value) async {
-                                  if (!value) {
-                                  } else {
-                                    final isSuccess = await _EventController!
-                                        .createEvent(
-                                            nameAr:
-                                                _EventController.titleAr.value,
-                                            nameEn:
-                                                _EventController.titleEn.value,
-                                            descriptionAr:
-                                                _EventController.bioAr.value,
-                                            descriptionEn:
-                                                _EventController.bioEn.value,
-                                            longitude: _EventController
-                                                .pickUpLocLatLang.value.longitude
-                                                .toString(),
-                                            latitude: _EventController
-                                                .pickUpLocLatLang.value.latitude
-                                                .toString(),
-                                            price: widget.adventurePrice!,
-                                            image: imageUrls,
-                                            regionAr:
-                                                _EventController.ragionAr.value,
-                                            locationUrl: locationUrl,
-                                            daysInfo: DaysInfo,
-                                            regionEn:
-                                                _EventController.ragionEn.value,
-                                            context: context);
-                          
-                                    print('is sucssssss');
-                                    print(isSuccess);
-                                    if (isSuccess) {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return Dialog(
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                            ),
-                                            child: Container(
-                                              width: 350,
-                                              height: 110, // Custom width
-                                              padding: EdgeInsets.all(16),
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Image.asset(
-                                                      'assets/images/paymentSuccess.gif',
-                                                      width: 38),
-                                                  SizedBox(height: 16),
-                                                  Text(
-                                                    !AppUtil.rtlDirection2(
-                                                            context)
-                                                        ? "Experience published successfully"
-                                                        : "تم نشر تجربتك بنجاح ",
-                                                    style:
-                                                        TextStyle(fontSize: 15),
-                                                    //textDirection:
-                                                    //AppUtil.rtlDirection2(context)
-                                                    //? TextDirection.rtl
-                                                    //: TextDirection.ltr,
+                          Obx(
+                            () =>  _EventController.isImagesLoading.value
+                                ? const Center(
+                                    child: CircularProgressIndicator.adaptive(),
+                                  )
+                                : CustomButton(
+                                    onPressed: () async {
+                                      uploadImages().then((value) async {
+                                        if (!value) {
+                                        } else {
+                                          final isSuccess = await _EventController!.createEvent(
+                                              nameAr: _EventController
+                                                  .titleAr.value,
+                                              nameEn: _EventController
+                                                  .titleEn.value,
+                                              descriptionAr:
+                                                  _EventController.bioAr.value,
+                                              descriptionEn:
+                                                  _EventController.bioEn.value,
+                                              longitude: _EventController
+                                                  .pickUpLocLatLang
+                                                  .value
+                                                  .longitude
+                                                  .toString(),
+                                              latitude: _EventController
+                                                  .pickUpLocLatLang
+                                                  .value
+                                                  .latitude
+                                                  .toString(),
+                                              price: widget.adventurePrice!,
+                                              image: imageUrls,
+                                              regionAr: _EventController
+                                                  .ragionAr.value,
+                                              locationUrl: locationUrl,
+                                              daysInfo: DaysInfo,
+                                              regionEn: _EventController
+                                                  .ragionEn.value,
+                                              context: context);
+
+                                          print('is sucssssss');
+                                          print(isSuccess);
+                                          if (isSuccess) {
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return Dialog(
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8),
                                                   ),
-                                                ],
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                      ).then((_) {
-                                        Get.offAll(() => const AjwadiBottomBar());
+                                                  child: Container(
+                                                    width: 350,
+                                                    height: 110, // Custom width
+                                                    padding: EdgeInsets.all(16),
+                                                    child: Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Image.asset(
+                                                            'assets/images/paymentSuccess.gif',
+                                                            width: 38),
+                                                        SizedBox(height: 16),
+                                                        Text(
+                                                          !AppUtil.rtlDirection2(
+                                                                  context)
+                                                              ? "Experience published successfully"
+                                                              : "تم نشر تجربتك بنجاح ",
+                                                          style: TextStyle(
+                                                              fontSize: 15),
+                                                          //textDirection:
+                                                          //AppUtil.rtlDirection2(context)
+                                                          //? TextDirection.rtl
+                                                          //: TextDirection.ltr,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                            ).then((_) {
+                                              Get.offAll(() =>
+                                                  const AjwadiBottomBar());
+                                            });
+                                          } else {
+                                            AppUtil.errorToast(context,
+                                                'somthingWentWrong'.tr);
+                                          }
+                                        }
                                       });
-                                    } else {
-                                      AppUtil.errorToast(
-                                          context, 'somthingWentWrong'.tr);
-                                    }
-                                  }
-                                });
-                              },
-                              title: 'Publish'.tr,
-                            ),
+                                    },
+                                    title: 'Publish'.tr,
+                                  ),
                           ),
                           SizedBox(height: 10),
                           CustomButton(

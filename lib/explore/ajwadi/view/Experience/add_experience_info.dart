@@ -98,7 +98,7 @@ class _AddExperienceInfoState extends State<AddExperienceInfo> {
             right: 16,
             child: GestureDetector(
               onTap: () {
-                Get.to(ExperienceType());
+                Get.to(()=> ExperienceType());
               },
               child: Container(
                 width: 48,

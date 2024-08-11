@@ -57,10 +57,10 @@ class _EventsTabState extends State<EventsTab> {
         child: Column(
           children: [
             //Ad cards
-            const AdCards(),
-            SizedBox(
-              height: width * 0.085,
-            ),
+            // const AdCards(),
+            // SizedBox(
+            //   height: width * 0.085,
+            // ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

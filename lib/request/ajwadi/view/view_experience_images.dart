@@ -72,7 +72,7 @@ class _ViewImagesState extends State<ViewImages> {
 
   Future<void> _takePhoto() async {
     try {
-      final XFile? photo = await _picker.pickImage(source: ImageSource.camera);
+      final XFile? photo = await _picker.pickImage(source: ImageSource.camera, imageQuality: 30);
       if (photo != null) {
         if (AppUtil.isImageValidate(await photo.length())) {
           print(" is asdded");
@@ -132,8 +132,7 @@ class _ViewImagesState extends State<ViewImages> {
       ),
       builder: (context) {
         return Container(
-          width: 390,
-          height: 184,
+        
           padding: const EdgeInsets.only(
             top: 16,
             left: 24,

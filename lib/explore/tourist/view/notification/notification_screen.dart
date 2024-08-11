@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_empty_widget.dart';
@@ -38,6 +40,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   static List<int> canceledIndices = [];
    static List<int> removeIndices = [];
   Set<int> viewedNotifications = Set<int>();
+  List<String> notificationMessages = []; // List to hold notification messages
 
 
   final ProfileController _profileController = Get.put(ProfileController());
@@ -46,9 +49,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
     List<Booking>? bookings =
         await _profileController.getUpcommingTicket(context: context);
 
-    
-
-    if (bookings != null) {
+    if (bookings!.isNotEmpty) {
       setState(() {
         _upcomingTicket = bookings;
         getUpcomingBookingsNotification();
@@ -84,50 +85,59 @@ class _NotificationScreenState extends State<NotificationScreen> {
 print("day deference");
       print(daysDifference);
      
-      if (daysDifference == 3) {
+      if (daysDifference == 2) {
         _upcomingBookings.add(booking);
         print(_upcomingBookings.length);
-        AppUtil.rtlDirection2(context)
-            ? days = " بعد يومين , عند الساعة " + booking.timeToGo
-            : days = " is after two day at " + booking.timeToGo;
-      } else if (daysDifference == 2) {
+        notificationMessages.add(AppUtil.rtlDirection2(context)
+            ? days = " بعد يومين , عند الساعة " +AppUtil.formatStringTimeWithLocale(context, booking.timeToGo)
+            : days = " is after two day at " + AppUtil.formatStringTimeWithLocale(context,booking.timeToGo));
+       
+      } else if (daysDifference == 1) {
+        
         print('inter1');
         _upcomingBookings.add(booking);
         print(_upcomingBookings.length);
-        AppUtil.rtlDirection2(context)
-           ? days = " بعد يوم , عند الساعة " + booking.timeToGo
-           : days = " is after a day at " + booking.timeToGo;
+         notificationMessages.add( AppUtil.rtlDirection2(context)
+           ? days = " بعد يوم , عند الساعة " +AppUtil.formatStringTimeWithLocale(context, booking.timeToGo)
+           : days = " is after a day at " +AppUtil.formatStringTimeWithLocale(context, booking.timeToGo));
           
-      } else if (daysDifference == 1){
-              print('inter0');
-        _upcomingBookings.add(booking);
-        print(_upcomingBookings.length);
-        AppUtil.rtlDirection2(context)
-      ? days = " غدا عند الساعة " + booking.timeToGo
-            : days = " is tomorrow at " + booking.timeToGo;
+      // } else if (daysDifference == 1){
+      //   _upcomingBookings.add(booking);
+      //   print(_upcomingBookings.length);
+      //    notificationMessages.add( AppUtil.rtlDirection2(context)
+      // ? days = " غدا عند الساعة " + booking.timeToGo
+      //       : days = " is tomorrow at " + booking.timeToGo);
      
-     
-      } else if(daysDifference == 0) {
+      // } 
+      }else if(daysDifference == 0) {
         print(bookingDate);
         print(currentDateInRiyadh);
         DateTime bookingDateWithoutTime =
             DateTime(bookingDate.year, bookingDate.month, bookingDate.day);
         DateTime todayWithoutTime = DateTime(currentDateInRiyadh.year,
             currentDateInRiyadh.month, currentDateInRiyadh.day);
-
+ 
         // DateTime todayWithoutTime = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
 
         if (bookingDateWithoutTime.isAtSameMomentAs(todayWithoutTime)) {
           _upcomingBookings.add(booking);
-          AppUtil.rtlDirection2(context)
-              ? days = " اليوم عند الساعة " + booking.timeToGo
-              : days = " is today at " + booking.timeToGo;
+           notificationMessages.add( AppUtil.rtlDirection2(context)
+              ? days = " اليوم عند الساعة " +AppUtil.formatStringTimeWithLocale(context, booking.timeToGo) 
+              : days = " is today at " +AppUtil.formatStringTimeWithLocale(context, booking.timeToGo));
+        }
+        else{
+            _upcomingBookings.add(booking);
+        print(_upcomingBookings.length);
+         notificationMessages.add( AppUtil.rtlDirection2(context)
+      ? days = " غدا عند الساعة " +AppUtil.formatStringTimeWithLocale(context,booking.timeToGo)
+            : days = " is tomorrow at " +AppUtil.formatStringTimeWithLocale(context, booking.timeToGo));
         }
         
       }else{
         setState(() {
         widget.hasNotifications = false;
       });
+     
       }
     }else{
       setState(() {
@@ -259,7 +269,7 @@ print("day deference");
                           isRtl: AppUtil.rtlDirection2(context),
                           width: width,
                           isTour: true,
-                          days: days,
+                          days:  notificationMessages[index],
                           isDisabled: isDisabled,
                           onCancel: () {
                             disableNotification(index);
@@ -276,7 +286,7 @@ print("day deference");
                           isRtl: AppUtil.rtlDirection2(context),
                           width: width,
                           isHost: true,
-                          days: days,
+                          days:  notificationMessages[index],
                           isDisabled: isDisabled,
                           onCancel: () {
                             disableNotification(index);
@@ -294,7 +304,7 @@ print("day deference");
                           isRtl: AppUtil.rtlDirection2(context),
                           width: width,
                           isAdve: true,
-                          days: days,
+                          days:  notificationMessages[index],
                           isDisabled: isDisabled,
                           onCancel: () {
                             disableNotification(index);
@@ -311,7 +321,7 @@ print("day deference");
                               : _upcomingBookings[index].event?.nameEn?? "",
                           isRtl: AppUtil.rtlDirection2(context),
                           width: width,
-                          days: days,
+                          days:  notificationMessages[index],
                           isDisabled: isDisabled,
                           onCancel: () {
                             disableNotification(index);

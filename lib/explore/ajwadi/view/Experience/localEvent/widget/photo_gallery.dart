@@ -34,7 +34,7 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
   void initState() {
     super.initState();
    // _selectedImages = _EventrController.selectedImages.map((path) => XFile(path)).toList();
-       _selectedImages = _EventrController.selectedImages;
+      //  _selectedImages = _EventrController.selectedImages;
 
   }
 
@@ -51,7 +51,6 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
         return ImagePickerBottomSheet(
           onImagesSelected: (images) {
             setState(() {
-              _selectedImages = images;
              _EventrController.selectedImages.addAll(images);
             });
           },
@@ -68,7 +67,6 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
         if (AppUtil.isImageValidate(await pickedImages.length)) {
         print(" is asdded");
         setState(() {
-            _selectedImages.addAll(pickedImages);
          _EventrController.selectedImages.addAll(pickedImages);
         });
         }   else {
@@ -85,14 +83,14 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
 
   Future<void> _takePhoto() async {
     try {
-      final XFile? photo = await _picker.pickImage(source: ImageSource.camera);
+      final XFile? photo = await _picker.pickImage(source: ImageSource.camera, imageQuality: 30);
       if (photo != null) {
         
           if (AppUtil.isImageValidate(await photo.length())) {
         print(" is asdded");
        setState(() {
-          _selectedImages =
-              _selectedImages != null ? [..._selectedImages!, photo] : [photo];
+          // _selectedImages =
+          //     _selectedImages != null ? [..._selectedImages!, photo] : [photo];
     _EventrController.selectedImages.add(photo);
 
         });
@@ -117,8 +115,7 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
       ),
       builder: (context) {
         return Container(
-          width: 390,
-          height: 184,
+        
           padding: const EdgeInsets.only(
             top: 16,
             left: 24,
@@ -157,9 +154,7 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                     onTap: () {
                       setState(() {
                         // Move the selected image to the first position to set it as cover image
-                        final selectedImage = _selectedImages.removeAt(index);
-                        _selectedImages.insert(0, selectedImage);
-
+                   
                         final selectedImagePath =
                             _EventrController.selectedImages.removeAt(index);
                        _EventrController.selectedImages.insert(0, selectedImagePath);
@@ -193,7 +188,6 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                   GestureDetector(
                     onTap: () {
                       setState(() {
-                        _selectedImages.removeAt(index);
                         _EventrController.selectedImages.removeAt(index);
                       });
                       Get.back();
@@ -233,207 +227,209 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        _selectedImages.isEmpty
-            ? Center(
-                child: DottedBorder(
-                  strokeWidth: 1,
-                  color: Color(0xFFDCDCE0),
-                  borderType: BorderType.RRect,
-                  radius: Radius.circular(12),
-                  dashPattern: [5, 5],
-                  child: Container(
-                      width: 390,
-                      // height: 599,
-                      height: 561,
-                      color: Colors.white,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          GestureDetector(
-                            onTap: () => _showImagePickerOptions(context),
-                            child: Container(
-                              width: 42,
-                              height: 42,
-                              padding: const EdgeInsets.all(8),
-                              decoration: ShapeDecoration(
-                                color: Color(0xFFECF9F1),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(9.33),
-                                ),
-                              ),
-                              child: SvgPicture.asset(
-                                  'assets/icons/UploadIcon.svg'),
-                            ),
-                          ),
-                          const SizedBox(height: 12),
-                          CustomText(
-                            text: 'UploadPhotos'.tr,
-                            color: Color(0xFF070708),
-                            fontSize: 15,
-                         fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                          : 'SF Pro',
-                            fontWeight: FontWeight.w500,
-                            height: 0,
-                          ),
-                          const SizedBox(height: 4),
-                          CustomText(
-                            text: 'uploadLimit'.tr,
-                            textAlign: TextAlign.center,
-                            color: Color(0xFFB9B8C1),
-                            fontSize: 11,
-                            fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                          : 'SF Pro',
-                            fontWeight: FontWeight.w500,
-                            height: 0,
-                          ),
-                        ],
-                      )),
-                ),
-              )
-            : Column(
-                children: [
-                  Container(
+    return Obx(()=>
+      Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          _EventrController.selectedImages.isEmpty
+              ? Center(
+                  child: DottedBorder(
+                    strokeWidth: 1,
+                    color: Color(0xFFDCDCE0),
+                    borderType: BorderType.RRect,
+                    radius: Radius.circular(12),
+                    dashPattern: [5, 5],
                     child: Container(
-                      width: double.infinity,
-                      height: 186,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: FileImage(File(_selectedImages![0].path)),
-                          fit: BoxFit.cover,
-                        ),
-                        borderRadius: BorderRadius.circular(16),
-                       
-                      ),
-                      child: Stack(
-                        children: [
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 12,
-                                  right: 12,
-                                  left: 12), // Add padding here
+                        width: 390,
+                        // height: 599,
+                        height: 561,
+                        color: Colors.white,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            GestureDetector(
+                              onTap: () => _showImagePickerOptions(context),
                               child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 12, vertical: 8),
+                                width: 42,
+                                height: 42,
+                                padding: const EdgeInsets.all(8),
                                 decoration: ShapeDecoration(
-                                  color: Colors.white
-                                      .withOpacity(0.20000000298023224),
+                                  color: Color(0xFFECF9F1),
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16),
+                                    borderRadius: BorderRadius.circular(9.33),
                                   ),
                                 ),
-                                child: Text(
-                                  'Coverphoto'.tr,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 13,
-                                    fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                                  : 'SF Pro',
-                                    fontWeight: FontWeight.w500,
-                                    height: 0,
-                                  ),
-                                ),
+                                child: SvgPicture.asset(
+                                    'assets/icons/UploadIcon.svg'),
                               ),
                             ),
+                            const SizedBox(height: 12),
+                            CustomText(
+                              text: 'UploadPhotos'.tr,
+                              color: Color(0xFF070708),
+                              fontSize: 15,
+                           fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                            : 'SF Pro',
+                              fontWeight: FontWeight.w500,
+                              height: 0,
+                            ),
+                            const SizedBox(height: 4),
+                            CustomText(
+                              text: 'uploadLimit'.tr,
+                              textAlign: TextAlign.center,
+                              color: Color(0xFFB9B8C1),
+                              fontSize: 11,
+                              fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                            : 'SF Pro',
+                              fontWeight: FontWeight.w500,
+                              height: 0,
+                            ),
+                          ],
+                        )),
+                  ),
+                )
+              : Column(
+                  children: [
+                    Container(
+                      child: Container(
+                        width: double.infinity,
+                        height: 186,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: FileImage(File( _EventrController.selectedImages[0].path)),
+                            fit: BoxFit.cover,
                           ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 16),
-                  Container(
-                    height: 360,
-                    child: GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 15,
-                        mainAxisSpacing: 15,
-                      ),
-                      itemCount: (_selectedImages!.length - 1) + 3,
-                      itemBuilder: (context, index) {
-                        if (index < _selectedImages!.length - 1) {
-                          return GestureDetector(
-                            onTap: () => _showImageOptions(context, index + 1),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: FileImage(
-                                      File(_selectedImages![index + 1].path)),
-                                  fit: BoxFit.cover,
+                          borderRadius: BorderRadius.circular(16),
+                         
+                        ),
+                        child: Stack(
+                          children: [
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 12,
+                                    right: 12,
+                                    left: 12), // Add padding here
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 8),
+                                  decoration: ShapeDecoration(
+                                    color: Colors.white
+                                        .withOpacity(0.20000000298023224),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(16),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    'Coverphoto'.tr,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 13,
+                                      fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                                    : 'SF Pro',
+                                      fontWeight: FontWeight.w500,
+                                      height: 0,
+                                    ),
+                                  ),
                                 ),
-                                borderRadius: BorderRadius.circular(12),
                               ),
                             ),
-                          );
-                        } else if (index == _selectedImages!.length - 1) {
-                          return GestureDetector(
-                            onTap: () => _pickImage(ImageSource.gallery),
-                            child: DottedBorder(
-                              strokeWidth: 1,
-                              color: Color(0xFFDCDCE0),
-                              borderType: BorderType.RRect,
-                              radius: Radius.circular(12),
-                              dashPattern: [5, 5],
-                              child: Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      Icons.add,
-                                      size: 24,
-                                      color: Color(0xFFB9B8C1),
-                                    ),
-                                    SizedBox(height: 4),
-                                    Text(
-                                      'Addmore'.tr,
-                                      style: TextStyle(
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 16),
+                    Container(
+                      height: 360,
+                      child: GridView.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 15,
+                          mainAxisSpacing: 15,
+                        ),
+                        itemCount: (  _EventrController.selectedImages.length - 1) + 3,
+                        itemBuilder: (context, index) {
+                          if (index <   _EventrController.selectedImages.length - 1) {
+                            return GestureDetector(
+                              onTap: () => _showImageOptions(context, index + 1),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: FileImage(
+                                        File( _EventrController.selectedImages[index + 1].path)),
+                                    fit: BoxFit.cover,
+                                  ),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                            );
+                          } else if (index ==   _EventrController.selectedImages.length - 1) {
+                            return GestureDetector(
+                              onTap: () => _pickImage(ImageSource.gallery),
+                              child: DottedBorder(
+                                strokeWidth: 1,
+                                color: Color(0xFFDCDCE0),
+                                borderType: BorderType.RRect,
+                                radius: Radius.circular(12),
+                                dashPattern: [5, 5],
+                                child: Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.add,
+                                        size: 24,
                                         color: Color(0xFFB9B8C1),
-                                        fontSize: 11,
-                                        fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                                       : 'SF Pro',
-                                        fontWeight: FontWeight.w500,
-                                        height: 0,
                                       ),
-                                    ),
-                                  ],
+                                      SizedBox(height: 4),
+                                      Text(
+                                        'Addmore'.tr,
+                                        style: TextStyle(
+                                          color: Color(0xFFB9B8C1),
+                                          fontSize: 11,
+                                          fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                                         : 'SF Pro',
+                                          fontWeight: FontWeight.w500,
+                                          height: 0,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          );
-                        } else if (index == _selectedImages!.length) {
-                          return GestureDetector(
-                            onTap: () =>_takePhoto(),
-                            child: DottedBorder(
-                              strokeWidth: 1,
-                              color: Color(0xFFDCDCE0),
-                              borderType: BorderType.RRect,
-                              radius: Radius.circular(12),
-                              dashPattern: [5, 5],
-                              child: Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(Icons.camera_alt_outlined,
-                                        size: 32, color: Color(0xFFB9B8C1)),
-                                  ],
+                            );
+                          } else if (index ==   _EventrController.selectedImages.length) {
+                            return GestureDetector(
+                              onTap: () =>_takePhoto(),
+                              child: DottedBorder(
+                                strokeWidth: 1,
+                                color: Color(0xFFDCDCE0),
+                                borderType: BorderType.RRect,
+                                radius: Radius.circular(12),
+                                dashPattern: [5, 5],
+                                child: Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(Icons.camera_alt_outlined,
+                                          size: 32, color: Color(0xFFB9B8C1)),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          );
-                        }
-                        return Container(); // Placeholder for the last item (will not be displayed)
-                      },
+                            );
+                          }
+                          return Container(); // Placeholder for the last item (will not be displayed)
+                        },
+                      ),
                     ),
-                  ),
-                ],
-              ),
-      ],
+                  ],
+                ),
+        ],
+      ),
     );
   }
 }
@@ -473,7 +469,7 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> {
 
   Future<void> _takePhoto() async {
     try {
-      final XFile? photo = await _picker.pickImage(source: ImageSource.camera);
+      final XFile? photo = await _picker.pickImage(source: ImageSource.camera, imageQuality: 30);
       if (photo != null) {
         
           if (AppUtil.isImageValidate(await photo.length())) {

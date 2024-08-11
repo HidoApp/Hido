@@ -44,7 +44,7 @@ class ExperienceType extends StatelessWidget {
               title: 'hostType'.tr,
               iconPath: 'HostType',
               subtitle:'hostSub'.tr,
-               onTap: () { Get.to(const ButtomProgress());},
+               onTap: () { Get.to(()=>const ButtomProgress());},
               
 
             ),
@@ -53,14 +53,14 @@ class ExperienceType extends StatelessWidget {
               title: 'adventureType'.tr,
               iconPath: 'AdventureType',
               subtitle:'adveSub'.tr,
-               onTap: () { Get.to(const AdventureAddProgress());},
+               onTap: () { Get.to(()=>const AdventureAddProgress());},
             ),
             const SizedBox(height: 16),
             ExperienceCard(
               title: 'LocalEvent'.tr,
               iconPath: 'EventType',
               subtitle:'eventSub'.tr,
-              onTap: () { Get.to( EventAddProgress());},
+              onTap: () { Get.to(()=> EventAddProgress());},
 
             ),
           ],

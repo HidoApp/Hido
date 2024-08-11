@@ -220,23 +220,23 @@ class _LocalProfileState extends State<LocalProfile> {
                             onOptionSelected: (options) {
                               debugPrint(options.toString());
                             },
-                            options: const <ValueItem>[
+                            options:  <ValueItem>[
                               ValueItem(
-                                label: 'Arabic',
+                                label: 'Arabic'.tr,
                                 value: 'Arabic',
                               ),
-                              ValueItem(label: 'English', value: 'English'),
+                              ValueItem(label: 'English'.tr, value: 'English'),
                               ValueItem(
-                                label: 'French',
+                                label: 'French'.tr,
                                 value: 'French',
                               ),
                               ValueItem(
-                                label: 'German',
+                                label: 'German'.tr,
                                 value: 'German',
                               ),
-                              ValueItem(label: 'Chinese', value: 'Chinese'),
-                              ValueItem(label: 'Spanish', value: 'Spanish'),
-                              ValueItem(label: 'Russian', value: 'Russian'),
+                              ValueItem(label: 'Chinese'.tr, value: 'Chinese'),
+                              ValueItem(label: 'Spanish'.tr, value: 'Spanish'),
+                              ValueItem(label: 'Russian'.tr, value: 'Russian'),
                             ],
 
                             selectionType: SelectionType.multi,

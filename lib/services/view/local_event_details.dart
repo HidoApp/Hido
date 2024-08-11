@@ -257,14 +257,8 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                           ),
                           Row(
                             children: [
-                              Padding(
-                                padding: AppUtil.rtlDirection2(context)
-                                    ? const EdgeInsets.only(right: 1)
-                                    : const EdgeInsets.only(left: 1),
-                                child: SvgPicture.asset(
-                                  "assets/icons/locationHos.svg",
-                                  color: colorDarkGrey,
-                                ),
+                              SvgPicture.asset(
+                                "assets/icons/map_pin.svg",
                               ),
                               SizedBox(
                                 width: width * 0.012,
@@ -289,14 +283,8 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                           ),
                           Row(
                             children: [
-                              Padding(
-                                padding: AppUtil.rtlDirection2(context)
-                                    ? const EdgeInsets.only(right: 2)
-                                    : const EdgeInsets.only(left: 2),
-                                child: SvgPicture.asset(
-                                  'assets/icons/grey_calender.svg',
-                                  color:colorDarkGrey,
-                                ),
+                              SvgPicture.asset(
+                                'assets/icons/calendar.svg',
                               ),
                               SizedBox(
                                 width: width * 0.012,
@@ -319,11 +307,11 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                           Row(
                             children: [
                               SvgPicture.asset(
-                                "assets/icons/timeGrey.svg",
+                                "assets/icons/Clock.svg",
                                 color:colorDarkGrey,
                               ),
                               SizedBox(
-                                width: width * 0.011,
+                                width: width * 0.012,
                               ),
                               //time
                               CustomText(
@@ -660,39 +648,33 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                 //     )),
                 //indicator
                 Positioned(
-                  top: height * 0.22,
-                  left: width * 0.44,
-
+                  top: height * 0.26,
+                  left: width * 0.4,
+                  right:width * 0.4,
                   // left: width * 0.36,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: event!.image!.map((imageUrl) {
-                      int index = event!.image!.indexOf(imageUrl);
-                      return Container(
-                        width: width * 0.025,
-                        height: width * 0.025,
-                        margin: EdgeInsets.symmetric(
-                            vertical: width * 0.025, horizontal: width * 0.005),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: _currentIndex == index
-                              ? event!.image!.length == 1
-                                  ? Colors.white.withOpacity(0.1)
-                                  : Colors.white
-                              : Colors.white.withOpacity(0.8),
-                          boxShadow: _currentIndex == index
-                              ? event?.image!.length == 1
-                                  ? []
-                                  : [
-                                      const BoxShadow(
-                                          color: Colors.white,
-                                          blurRadius: 5,
-                                          spreadRadius: 1)
-                                    ]
-                              : [],
-                        ),
-                      );
-                    }).toList(),
+                child: Align(
+                          alignment: Alignment.center,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: event!.image!.map((imageUrl) {
+                        int index = event!.image!.indexOf(imageUrl);
+                        return Container(
+                          width: width * 0.025,
+                          height: width * 0.025,
+                          margin: EdgeInsets.symmetric(
+                              vertical: width * 0.025, horizontal: width * 0.005),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: _currentIndex == index
+                                ? event!.image!.length == 1
+                                    ? Colors.white.withOpacity(0.1)
+                                    : Colors.white
+                                : Colors.white.withOpacity(0.8),
+                          
+                          ),
+                        );
+                      }).toList(),
+                    ),
                   ),
                 ),
               ]))),

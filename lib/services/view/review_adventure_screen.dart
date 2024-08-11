@@ -80,7 +80,7 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                     : AppUtil.rtlDirection2(context)
                         ? widget.adventure  .regionAr ?? ""
                         : widget.adventure .regionEn ?? "",
-                    image: "assets/icons/locationHos.svg"),
+                    image: "assets/icons/map_pin.svg"),
                 SizedBox(
                   height: width * .010,
 
@@ -92,7 +92,7 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                     title: AppUtil.formatBookingDate(context,
                       widget.adventure.date!),
                     
-                    image: 'assets/icons/grey_calender.svg'),
+                    image: 'assets/icons/calendar.svg'),
                 SizedBox(
                   height: width * .010,
                 ),
@@ -108,7 +108,7 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                     //             context, time.startTime))
                     //         .join(', ')
                     //     : '5:00-8:00 AM',
-                    image: "assets/icons/timeGrey.svg"),
+                    image: "assets/icons/Clock.svg"),
                  SizedBox(
                   height: width * 0.041,
                 ),

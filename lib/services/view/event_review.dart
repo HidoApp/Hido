@@ -67,7 +67,7 @@ class _EventReviewState extends State<EventReview> {
                    : AppUtil.rtlDirection2(context)
                         ? widget.event.regionAr ?? ""
                         : widget.event.regionEn ?? "",
-                    image: "assets/icons/locationHos.svg"),
+                    image: "assets/icons/map_pin.svg"),
                 SizedBox(
                   height: width * .010,
                 ),
@@ -76,7 +76,7 @@ class _EventReviewState extends State<EventReview> {
                 ReviewDetailsTile(
                     title: AppUtil.formatBookingDate(
                         context, _eventController.selectedDate.value),
-                    image: 'assets/icons/grey_calender.svg'),
+                    image: 'assets/icons/calendar.svg'),
                 SizedBox(
                   height: width * .010,
                 ),
@@ -92,7 +92,7 @@ class _EventReviewState extends State<EventReview> {
                     //             context, time.startTime))
                     //         .join(', ')
                     //     : '5:00-8:00 AM',
-                    image: "assets/icons/timeGrey.svg"),
+                    image: "assets/icons/Clock.svg"),
                 SizedBox(
                   height: width * 0.041,
                 ),

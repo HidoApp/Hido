@@ -344,16 +344,18 @@ class _EditAdventureState extends State<EditAdventure> {
         !PriceLarger &&
         !PriceDouble &&
         _servicesController.DateErrorMessage.value &&
-        !_servicesController.TimeErrorMessage.value && _servicesController.images.length >= 3 &&
-        _servicesController.DateErrorMessage.value ) {
+        !_servicesController.TimeErrorMessage.value &&
+        _servicesController.images.length >= 3 &&
+        _servicesController.DateErrorMessage.value) {
       _updateAdventure();
       if (await uploadImages()) {
         _updateAdventure();
       } else {
- if (context.mounted) {
-          AppUtil.errorToast(context,'uploadError'.tr);
+        if (context.mounted) {
+          AppUtil.errorToast(context, 'uploadError'.tr);
           await Future.delayed(const Duration(seconds: 3));
-        }      }
+        }
+      }
     } else {
       if (!_servicesController.DateErrorMessage.value) {
         if (context.mounted) {
@@ -367,11 +369,9 @@ class _EditAdventureState extends State<EditAdventure> {
           await Future.delayed(const Duration(seconds: 3));
         }
       }
-       if (_servicesController.images.length < 3) {
+      if (_servicesController.images.length < 3) {
         if (context.mounted) {
-          AppUtil.errorToast(
-              context,
-             'imageError'.tr);
+          AppUtil.errorToast(context, 'imageError'.tr);
           await Future.delayed(const Duration(seconds: 3));
         }
       }
@@ -489,9 +489,7 @@ class _EditAdventureState extends State<EditAdventure> {
                     Image.asset('assets/images/paymentSuccess.gif', width: 38),
                     SizedBox(height: 16),
                     Text(
-                      !AppUtil.rtlDirection2(context)
-                          ? "Changes have been saved successfully!"
-                          : "تم حفظ التغييرات بنجاح ",
+                      'saveChange'.tr,
                       style: TextStyle(
                         fontSize: 14,
                         fontFamily: AppUtil.rtlDirection2(context)
@@ -509,7 +507,7 @@ class _EditAdventureState extends State<EditAdventure> {
           },
         ).then((_) {
           // Get.offAll(() => const AjwadiBottomBar());
-            Get.back();
+          Get.back();
           Get.back();
           final _experienceController = Get.put(AjwadiExploreController());
           _experienceController.getAllExperiences(context: context);
@@ -582,9 +580,7 @@ class _EditAdventureState extends State<EditAdventure> {
                                     ? 'SF Arabic'
                                     : 'SF Pro',
                                 fontWeight: FontWeight.w500,
-                                text: AppUtil.rtlDirection2(context)
-                                    ? "تنبيه"
-                                    : "Alert!",
+                                text: "Alert".tr,
                               ),
                               const SizedBox(
                                 height: 1,
@@ -594,9 +590,7 @@ class _EditAdventureState extends State<EditAdventure> {
                                 fontSize: 15,
                                 fontWeight: FontWeight.w400,
                                 color: Color(0xFF41404A),
-                                text: AppUtil.rtlDirection2(context)
-                                    ? "أنت على وشك حذف هذه التجربة"
-                                    : 'You’re about to delete this experience',
+                                text: 'DeleteNote'.tr,
                                 fontFamily: AppUtil.rtlDirection2(context)
                                     ? 'SF Arabic'
                                     : 'SF Pro',
@@ -637,10 +631,7 @@ class _EditAdventureState extends State<EditAdventure> {
                                                     width: 38),
                                                 SizedBox(height: 16),
                                                 Text(
-                                                  !AppUtil.rtlDirection2(
-                                                          context)
-                                                      ? 'The experience has been deleted'
-                                                      : "تم حذف التجربة بنجاح ",
+                                                  'DeleteDone'.tr,
                                                   style: TextStyle(
                                                     fontSize: 14,
                                                     fontFamily:
@@ -661,12 +652,19 @@ class _EditAdventureState extends State<EditAdventure> {
                                         );
                                       },
                                     ).then((_) {
-                                      Get.offAll(() => const AjwadiBottomBar());
+                                      Get.back();
+                                      Get.back();
+                                      Get.back();
+
+                                      final _experienceController =
+                                          Get.put(AjwadiExploreController());
+                                      _experienceController.getAllExperiences(
+                                          context: context);
                                     });
                                   } else {
                                     if (context.mounted) {
                                       AppUtil.errorToast(context,
-                                          'The experience not deleted'.tr);
+                                          'notDelete'.tr);
                                       await Future.delayed(
                                           const Duration(seconds: 1));
                                     }
@@ -684,9 +682,7 @@ class _EditAdventureState extends State<EditAdventure> {
                                   ),
                                   child: CustomText(
                                     textAlign: TextAlign.center,
-                                    text: AppUtil.rtlDirection2(context)
-                                        ? "حذف"
-                                        : "Delete",
+                                    text: "Delete".tr,
                                     color: Colors.white,
                                     fontSize: 15,
                                     fontFamily: AppUtil.rtlDirection2(context)
@@ -722,9 +718,7 @@ class _EditAdventureState extends State<EditAdventure> {
                                                 : 'SF Pro',
                                         fontWeight: FontWeight.w500,
                                         color: Color(0xFFDC362E),
-                                        text: AppUtil.rtlDirection2(context)
-                                            ? 'الغاء'
-                                            : 'Cancel')),
+                                       text: 'cancel'.tr)),
                               ),
                             ],
                           ),
@@ -737,17 +731,17 @@ class _EditAdventureState extends State<EditAdventure> {
 
               bottomNavigationBar: Padding(
                   padding: EdgeInsets.all(16.0),
-                  child: Obx(()=>
-                      _servicesController.isEditAdveentureLoading.value
-                         ? const Center(
-                              child: CircularProgressIndicator.adaptive(),
-                            )
-                         
-                            : CustomButton(
-                        onPressed: () {
-                          validateAndSave();
-                        },
-                        title: 'SaveChanges'.tr),
+                  child: Obx(
+                    () =>  _eventController.isImagesLoading.value
+                        ?  Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 160),
+                          child: CircularProgressIndicator.adaptive(),
+                        )
+                        : CustomButton(
+                            onPressed: () {
+                              validateAndSave();
+                            },
+                            title: 'SaveChanges'.tr),
                   )),
               body: SingleChildScrollView(
                 child: Padding(
@@ -773,15 +767,16 @@ class _EditAdventureState extends State<EditAdventure> {
                                 ),
                               ]),
                           // images widget on top of screen
-                          Obx(()=>
-                             Padding(
+                          Obx(
+                            () => Padding(
                               padding: const EdgeInsets.only(top: 16.0),
                               child: GestureDetector(
                                 onTap: () {
                                   Get.to(() => ViewImages(
-                                        tripImageUrl: widget.adventureObj.image!,
+                                        tripImageUrl:
+                                            widget.adventureObj.image!,
                                         fromNetwork: true,
-                                        Type:'adventure',
+                                        Type: 'adventure',
                                       ));
                                 },
                                 child: CarouselSlider.builder(
@@ -933,11 +928,11 @@ class _EditAdventureState extends State<EditAdventure> {
                                                       _selectedLanguageIndex ==
                                                               0
                                                           ? titleArEmpty
-                                                              ? Colors.red
+                                                              ?colorRed
                                                               : Color(
                                                                   0xFFB9B8C1)
                                                           : titleENEmpty
-                                                              ? Colors.red
+                                                              ? colorRed
                                                               : Color(
                                                                   0xFFB9B8C1),
                                                 ),
@@ -1055,11 +1050,11 @@ class _EditAdventureState extends State<EditAdventure> {
                                                         _selectedLanguageIndex ==
                                                                 0
                                                             ? bioArEmpty
-                                                                ? Colors.red
+                                                                ? colorRed
                                                                 : Color(
                                                                     0xFFB9B8C1)
                                                             : bioEnEmpty
-                                                                ? Colors.red
+                                                                ? colorRed
                                                                 : Color(
                                                                     0xFFB9B8C1)),
                                                 borderRadius:
@@ -1216,7 +1211,7 @@ class _EditAdventureState extends State<EditAdventure> {
                                             side: BorderSide(
                                                 width: 1,
                                                 color: guestEmpty
-                                                    ? Colors.red
+                                                    ? colorRed
                                                     : Color(0xFFB9B8C1)),
                                             borderRadius:
                                                 BorderRadius.circular(8),
@@ -1459,10 +1454,10 @@ class _EditAdventureState extends State<EditAdventure> {
                                                       width: 1,
                                                       color: TimeErrorMessage ??
                                                               false
-                                                          ? Colors.red
+                                                          ? colorRed
                                                           : DurationErrorMessage ??
                                                                   false
-                                                              ? Colors.red
+                                                              ? colorRed
                                                               : Color(
                                                                   0xFFB9B8C1)),
                                                   borderRadius:
@@ -1746,10 +1741,10 @@ class _EditAdventureState extends State<EditAdventure> {
                                                                   _servicesController
                                                                       .TimeErrorMessage
                                                                       .value
-                                                          ? Colors.red
+                                                          ? colorRed
                                                           : DurationErrorMessage ??
                                                                   false
-                                                              ? Colors.red
+                                                              ? colorRed
                                                               : Color(
                                                                   0xFFB9B8C1)),
                                                   borderRadius:
@@ -2232,36 +2227,40 @@ class _EditAdventureState extends State<EditAdventure> {
                           ),
                         ],
                       ),
-                      Positioned(
+                        Positioned(
                         top: height * 0.256,
-                        left: width * 0.4,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: _servicesController.images
-                              .asMap()
-                              .entries
-                              .map((entry) {
-                            return GestureDetector(
-                              onTap: () =>
-                                  _carouselController.animateToPage(entry.key),
-                              child: Container(
-                                width: 8,
-                                height: 8,
-                                margin: EdgeInsets.symmetric(
-                                    vertical: width * 0.025,
-                                    horizontal: width * 0.009),
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: _currentIndex == entry.key
-                                      ? _servicesController.images.length == 1
-                                          ? Colors.white.withOpacity(0.1)
-                                          : Colors.white
-                                      : Colors.white.withOpacity(0.4),
+                        left: width * 0.2,
+                        right: width * 0.2,
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: _servicesController.images
+                                .asMap()
+                                .entries
+                                .map((entry) {
+                              return GestureDetector(
+                                onTap: () =>
+                                    _carouselController.animateToPage(entry.key),
+                                child: Container(
+                                  width: 8,
+                                  height: 8,
+                                  margin: EdgeInsets.symmetric(
+                                      vertical: width * 0.025,
+                                      horizontal: width * 0.009),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: _currentIndex == entry.key
+                                        ? _servicesController.images.length == 1
+                                            ? Colors.white.withOpacity(0.1)
+                                            : Colors.white
+                                        : Colors.white.withOpacity(0.4),
+                                  ),
                                 ),
-                              ),
-                            );
-                          }).toList(),
+                              );
+                            }).toList(),
+                          ),
                         ),
                       ),
                     ],
