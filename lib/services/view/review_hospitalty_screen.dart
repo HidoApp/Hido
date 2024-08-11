@@ -98,7 +98,7 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                     : AppUtil.rtlDirection2(context)
                         ? widget.hospitality  .regionAr ?? ""
                         : widget.hospitality .regionEn ?? "",
-                    image: "assets/icons/locationHos.svg"),
+                    image: "assets/icons/map_pin.svg"),
                 SizedBox(
                   height: width * 0.010,
                 ),
@@ -106,7 +106,7 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                 ReviewDetailsTile(
                     title:
                         '${AppUtil.formatTimeOnly(context, widget.hospitality.daysInfo.first.startTime)} - ${AppUtil.formatTimeOnly(context, widget.hospitality.daysInfo.first.endTime)} ',
-                    image: "assets/icons/timeGrey.svg"),
+                    image: "assets/icons/Clock.svg"),
                  SizedBox(
                   height: width * 0.010,
                 ),

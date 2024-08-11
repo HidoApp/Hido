@@ -106,7 +106,6 @@ class TripController extends GetxController {
      
     } catch (e) {
       isNextActivityLoading(false);
-     isTripUpdated(false);
 
       return null;
     } finally {

@@ -247,8 +247,7 @@ class _HostInfoReviewState extends State<HostInfoReview> {
       }
       if (!allExtensionsValid) {
         if (context.mounted) {
-          AppUtil.errorToast(context,
-              'uploadError'.tr);
+          AppUtil.errorToast(context, 'uploadError'.tr);
           await Future.delayed(const Duration(seconds: 3));
         }
         return false;
@@ -298,8 +297,7 @@ class _HostInfoReviewState extends State<HostInfoReview> {
       }
       if (!allExtensionsValid) {
         if (context.mounted) {
-          AppUtil.errorToast(context,
-             'uploadError'.tr);
+          AppUtil.errorToast(context, 'uploadError'.tr);
           await Future.delayed(const Duration(seconds: 3));
         }
         return false;
@@ -324,8 +322,9 @@ class _HostInfoReviewState extends State<HostInfoReview> {
           log(image.filePath);
         } else {
           log('not vaalid');
+         return false;
+
         }
-        return true;
       }
     }
     return true;
@@ -487,6 +486,7 @@ class _HostInfoReviewState extends State<HostInfoReview> {
 
   Widget build(BuildContext context) {
     print('Location URL: $locationUrl');
+    final width = MediaQuery.of(context).size.width;
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -616,7 +616,9 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                                   children: [
                                     SvgPicture.asset(
                                         'assets/icons/map_pin.svg'),
-                                    const SizedBox(width: 4),
+                                    SizedBox(
+                                      width: width * 0.01,
+                                    ),
                                     Text(
                                       widget.experienceType == 'hospitality'
                                           ? AppUtil.rtlDirection2(context)
@@ -625,10 +627,10 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                                           : AppUtil.rtlDirection2(context)
                                               ? '${widget.adventureController!.ragionAr.value}, ${address}'
                                               : '${widget.adventureController!.ragionEn.value}, ${address}',
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         color: Color(0xFF9392A0),
                                         fontSize: 11,
-                                        fontFamily: 'SF Pro',
+                                        fontFamily: AppUtil.SfFontType(context),
                                         fontWeight: FontWeight.w400,
                                       ),
                                     ),
@@ -637,12 +639,13 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                                 const SizedBox(height: 4),
                                 if (widget.experienceType == 'hospitality')
                                   Row(
-                                    children: [                                    
-                                    
+                                    children: [
                                       SvgPicture.asset(
-                                        'assets/icons/grey_calender.svg',
+                                        'assets/icons/calendar.svg',
                                       ),
-                                      const SizedBox(width: 6),
+                                      SizedBox(
+                                        width: width * 0.01,
+                                      ),
                                       Text(
                                         '${AppUtil.formatBookingDate(context, widget.hospitalityController!.selectedDate.value)} - ${AppUtil.formatStringTimeWithLocale(context, intl.DateFormat('HH:mm:ss').format(widget.hospitalityController!.selectedStartTime.value))}',
                                         style: TextStyle(
@@ -661,9 +664,11 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                                   Row(
                                     children: [
                                       SvgPicture.asset(
-                                        'assets/icons/grey_calender.svg',
+                                        'assets/icons/calendar.svg',
                                       ),
-                                      const SizedBox(width: 6),
+                                      SizedBox(
+                                        width: width * 0.01,
+                                      ),
                                       Text(
                                         //'${AppUtil.formatSelectedDates(widget.adventureController!.selectedDates,context,)} ',
 
@@ -687,10 +692,12 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                                       Padding(
                                         padding: const EdgeInsets.only(left: 2),
                                         child: SvgPicture.asset(
-                                          'assets/icons/timeGrey.svg',
+                                          'assets/icons/Clock.svg',
                                         ),
                                       ),
-                                      const SizedBox(width: 4),
+                                      SizedBox(
+                                        width: width * 0.01,
+                                      ),
                                       Text(
                                         '${AppUtil.formatStringTimeWithLocale(context, intl.DateFormat('HH:mm:ss').format(widget.adventureController!.selectedStartTime.value))} - ${AppUtil.formatStringTimeWithLocale(context, intl.DateFormat('HH:mm:ss').format(widget.adventureController!.selectedEndTime.value))}',
                                         style: TextStyle(
@@ -709,9 +716,11 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                                   Row(
                                     children: [
                                       SvgPicture.asset(
-                                        "assets/icons/meal_icon.svg",
+                                        "assets/icons/meal.svg",
                                       ),
-                                      const SizedBox(width: 5),
+                                      SizedBox(
+                                        width: width * 0.01,
+                                      ),
                                       Text(
                                         AppUtil.rtlDirection2(context)
                                             ? widget.hospitalityController!
@@ -778,11 +787,9 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                           bool isLoading = false;
 
                           if (widget.experienceType == 'hospitality') {
-                            isLoading = widget.hospitalityController!
-                                .isSaudiHospitalityLoading.value;
+                            isLoading = _EventController.isImagesLoading .value;
                           } else if (widget.experienceType == 'adventure') {
-                            isLoading = widget
-                                .adventureController!.isAdventureLoading.value;
+                            isLoading =  _EventController.isImagesLoading .value;
                           }
 
                           if (isLoading) {

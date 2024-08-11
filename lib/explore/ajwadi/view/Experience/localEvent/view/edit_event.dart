@@ -532,9 +532,7 @@ class _EditEventState extends State<EditEvent> {
                     Image.asset('assets/images/paymentSuccess.gif', width: 38),
                     SizedBox(height: 16),
                     Text(
-                      !AppUtil.rtlDirection2(context)
-                          ? "Changes have been saved successfully!"
-                          : "تم حفظ التغييرات بنجاح ",
+                        'saveChange'.tr,
                       style: TextStyle(
                         fontSize: 14,
                         fontFamily: AppUtil.rtlDirection2(context)
@@ -571,11 +569,7 @@ class _EditEventState extends State<EditEvent> {
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
-    log("length");
-    print(_servicesController.images.first);
-    print(_servicesController.images.last);
-
-    print(_servicesController.images.length);
+  
 
     final TextEditingController textField1Controller =
         _selectedLanguageIndex == 0
@@ -599,7 +593,7 @@ class _EditEventState extends State<EditEvent> {
               backgroundColor: Colors.white,
               // extendBodyBehindAppBar: true,
               appBar: CustomAppBar(
-                "Experience Edit",
+                "ExperienceEdit".tr,
                 isAjwadi: true,
                 isDeleteIcon: true,
                 onPressedAction: () {
@@ -628,9 +622,7 @@ class _EditEventState extends State<EditEvent> {
                                 fontSize: 15,
                                 fontFamily: 'SF Pro',
                                 fontWeight: FontWeight.w500,
-                                text: AppUtil.rtlDirection2(context)
-                                    ? "تنبيه"
-                                    : "Alert!",
+                                text:"Alert".tr,
                               ),
                               const SizedBox(
                                 height: 1,
@@ -640,10 +632,10 @@ class _EditEventState extends State<EditEvent> {
                                 fontSize: 15,
                                 fontWeight: FontWeight.w400,
                                 color: Color(0xFF41404A),
-                                text: AppUtil.rtlDirection2(context)
-                                    ? "أنت على وشك حذف هذه التجربة"
-                                    : 'You’re about to delete this experience',
-                                fontFamily: 'SF Pro',
+                                text:'DeleteNote'.tr,
+                                fontFamily:  AppUtil.rtlDirection2(context)
+                                    ? 'SF Arabic'
+                                    : 'SF Pro',
                               ),
                               const SizedBox(
                                 height: 10,
@@ -680,10 +672,7 @@ class _EditEventState extends State<EditEvent> {
                                                     width: 38),
                                                 SizedBox(height: 16),
                                                 Text(
-                                                  !AppUtil.rtlDirection2(
-                                                          context)
-                                                      ? 'The experience has been deleted'
-                                                      : "تم حذف التجربة بنجاح ",
+                                                  'DeleteDone'.tr,
                                                   style:
                                                       TextStyle(fontSize: 15),
                                                   textDirection:
@@ -698,12 +687,18 @@ class _EditEventState extends State<EditEvent> {
                                         );
                                       },
                                     ).then((_) {
-                                      Get.offAll(() => const AjwadiBottomBar());
+                                      Get.back();
+                                      Get.back();
+                                      Get.back();
+                                      final _experienceController =
+                                          Get.put(AjwadiExploreController());
+                                      _experienceController.getAllExperiences(
+                                          context: context);
                                     });
                                   } else {
                                     if (context.mounted) {
                                       AppUtil.errorToast(context,
-                                          'The experience not deleted'.tr);
+                                        'notDelete'.tr);
                                       await Future.delayed(
                                           const Duration(seconds: 1));
                                     }
@@ -721,12 +716,12 @@ class _EditEventState extends State<EditEvent> {
                                   ),
                                   child: CustomText(
                                     textAlign: TextAlign.center,
-                                    text: AppUtil.rtlDirection2(context)
-                                        ? 'حذف'
-                                        : "Delete",
+                                    text:"Delete".tr,
                                     color: Colors.white,
                                     fontSize: 15,
-                                    fontFamily: 'SF Pro',
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
@@ -751,12 +746,12 @@ class _EditEventState extends State<EditEvent> {
                                     child: CustomText(
                                         textAlign: TextAlign.center,
                                         fontSize: 15,
-                                        fontFamily: 'SF Pro',
+                                        fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
                                         fontWeight: FontWeight.w500,
                                         color: Color(0xFFDC362E),
-                                        text: AppUtil.rtlDirection2(context)
-                                            ? 'الغاء'
-                                            : 'Cancel')),
+                                        text: 'cancel'.tr)),
                               ),
                             ],
                           ),
@@ -771,11 +766,11 @@ class _EditEventState extends State<EditEvent> {
                   padding: EdgeInsets.all(16.0),
                   child:
                    Obx(()=>
-                      _servicesController.isEditEventLoading.value
-                         ? const Center(
-                              child: CircularProgressIndicator.adaptive(),
-                            )
-                         
+                      _servicesController.isImagesLoading.value
+                         ?  Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 160),
+                          child: CircularProgressIndicator.adaptive(),
+                        )
                             : CustomButton(
                         onPressed: () {
                           validateAndSave();
@@ -835,30 +830,7 @@ class _EditEventState extends State<EditEvent> {
                             ),
                           ),
 
-                          // GestureDetector(
-                          //   onTap: () {
-                          //     Get.to(ViewTripImages(
-                          //       tripImageUrl: hospitalityObj!.images,
-                          //       fromNetwork: true,
-                          //     ));
-                          //   },
-                          //   child: CarouselSlider.builder(
-                          //     options: CarouselOptions(
-                          //         height: height * 0.3,
-                          //         viewportFraction: 1,
-                          //         onPageChanged: (i, reason) {
-                          //           setState(() {
-                          //             _currentIndex = i;
-                          //           });
-                          //         }),
-                          //     itemCount: hospitalityObj!.images.length,
-                          //     itemBuilder: (context, index, realIndex) {
-                          //       return ImagesServicesWidget(
-                          //         image: hospitalityObj!.images[index],
-                          //       );
-                          //     },
-                          //   ),
-                          // ),
+                        
                           SizedBox(
                             height: width * 0.055,
                           ),
@@ -988,11 +960,11 @@ class _EditEventState extends State<EditEvent> {
                                                       _selectedLanguageIndex ==
                                                               0
                                                           ? titleArEmpty
-                                                              ? Colors.red
+                                                              ? colorRed
                                                               : Color(
                                                                   0xFFB9B8C1)
                                                           : titleENEmpty
-                                                              ? Colors.red
+                                                              ?colorRed
                                                               : Color(
                                                                   0xFFB9B8C1),
                                                 ),
@@ -1110,11 +1082,11 @@ class _EditEventState extends State<EditEvent> {
                                                         _selectedLanguageIndex ==
                                                                 0
                                                             ? bioArEmpty
-                                                                ? Colors.red
+                                                                ? colorRed
                                                                 : Color(
                                                                     0xFFB9B8C1)
                                                             : bioEnEmpty
-                                                                ? Colors.red
+                                                                ? colorRed
                                                                 : Color(
                                                                     0xFFB9B8C1)),
                                                 borderRadius:
@@ -1269,7 +1241,7 @@ class _EditEventState extends State<EditEvent> {
                                             side: BorderSide(
                                                 width: 1,
                                                 color: guestEmpty
-                                                    ? Colors.red
+                                                    ? colorRed
                                                     : Color(0xFFB9B8C1)),
                                             borderRadius:
                                                 BorderRadius.circular(8),
@@ -1383,7 +1355,7 @@ class _EditEventState extends State<EditEvent> {
                                                           _servicesController
                                                               .DateErrorMessage
                                                               .value
-                                                  ? Colors.red
+                                                  ? colorRed
                                                   : Color(0xFFB9B8C1)),
                                           borderRadius:
                                               BorderRadius.circular(8),
@@ -1442,7 +1414,7 @@ class _EditEventState extends State<EditEvent> {
                                                 ? "يجب اختيار تاريخ بعد 48 ساعة من الآن على الأقل"
                                                 : "*Please select a date at least 48 hours from now",
                                         style: TextStyle(
-                                          color: Color(0xFFDC362E),
+                                          color:colorRed,
                                           fontSize: 11,
                                           fontFamily:
                                               AppUtil.rtlDirection2(context)
@@ -1495,10 +1467,10 @@ class _EditEventState extends State<EditEvent> {
                                                       width: 1,
                                                       color: TimeErrorMessage ??
                                                               false
-                                                          ? Colors.red
+                                                          ?colorRed
                                                           : DurationErrorMessage ??
                                                                   false
-                                                              ? Colors.red
+                                                              ? colorRed
                                                               : Color(
                                                                   0xFFB9B8C1)),
                                                   borderRadius:
@@ -1787,10 +1759,10 @@ class _EditEventState extends State<EditEvent> {
                                                                   _servicesController
                                                                       .TimeErrorMessage
                                                                       .value
-                                                          ? Colors.red
+                                                          ? colorRed
                                                           : DurationErrorMessage ??
                                                                   false
-                                                              ? Colors.red
+                                                              ?colorRed
                                                               : Color(
                                                                   0xFFB9B8C1)),
                                                   borderRadius:
@@ -2270,36 +2242,40 @@ class _EditEventState extends State<EditEvent> {
 
                       //indicator
 
-                      Positioned(
+                       Positioned(
                         top: height * 0.256,
-                        left: width * 0.4,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children:  _servicesController.images
-                              .asMap()
-                              .entries
-                              .map((entry) {
-                            return GestureDetector(
-                              onTap: () =>
-                                  _carouselController.animateToPage(entry.key),
-                              child: Container(
-                                width: 8,
-                                height: 8,
-                                margin: EdgeInsets.symmetric(
-                                    vertical: width * 0.025,
-                                    horizontal: width * 0.009),
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: _currentIndex == entry.key
-                                      ? _servicesController.images.length == 1
-                                          ? Colors.white.withOpacity(0.1)
-                                          : Colors.white
-                                      : Colors.white.withOpacity(0.4),
+                        left: width * 0.2,
+                        right: width * 0.2,
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children:  _servicesController.images
+                                .asMap()
+                                .entries
+                                .map((entry) {
+                              return GestureDetector(
+                                onTap: () =>
+                                    _carouselController.animateToPage(entry.key),
+                                child: Container(
+                                  width: 8,
+                                  height: 8,
+                                  margin: EdgeInsets.symmetric(
+                                      vertical: width * 0.025,
+                                      horizontal: width * 0.009),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: _currentIndex == entry.key
+                                        ? _servicesController.images.length == 1
+                                            ? Colors.white.withOpacity(0.1)
+                                            : Colors.white
+                                        : Colors.white.withOpacity(0.4),
+                                  ),
                                 ),
-                              ),
-                            );
-                          }).toList(),
+                              );
+                            }).toList(),
+                          ),
                         ),
                       ),
                     ],

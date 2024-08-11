@@ -215,8 +215,13 @@ class AppUtil {
   }
 
   static bool isEndTimeLessThanStartTime(DateTime startTime, DateTime endTime) {
-    return endTime.isBefore(startTime);
+  // If the end time is before the start time, adjust end time by adding one day
+  if (endTime.isBefore(startTime)) {
+    endTime = endTime.add(Duration(days: 1));
   }
+  
+  return endTime.isBefore(startTime);
+}
 
   static String formatSelectedDates(
       RxList<dynamic> dates, BuildContext context) {

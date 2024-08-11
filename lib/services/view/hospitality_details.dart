@@ -264,8 +264,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                               Row(
                                 children: [
                                   SvgPicture.asset(
-                                    "assets/icons/locationHos.svg",
-                                    color: colorDarkGrey,
+                                    "assets/icons/map_pin.svg",
                                   ),
                                   SizedBox(
                                     width: width * 0.012,
@@ -291,8 +290,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                               Row(
                                 children: [
                                   SvgPicture.asset(
-                                    "assets/icons/timeGrey.svg",
-                                    color: colorDarkGrey,
+                                    "assets/icons/Clock.svg",
                                   ),
                                   SizedBox(
                                     width: width * .012,
@@ -315,8 +313,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                               Row(
                                 children: [
                                   SvgPicture.asset(
-                                    "assets/icons/meal_icon.svg",
-                                    color: colorDarkGrey,
+                                    "assets/icons/meal.svg",
                                   ),
                                   SizedBox(
                                     width: width * 0.012,
@@ -697,38 +694,33 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                         )),
                     //indicator
                     Positioned(
-                      top: height * 0.22,
-                      left: width * 0.44,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: hospitalityObj!.images.map((imageUrl) {
-                          int index = hospitalityObj!.images.indexOf(imageUrl);
-                          return Container(
-                            width: width * 0.025,
-                            height: width * 0.025,
-                            margin: EdgeInsets.symmetric(
-                                vertical: width * 0.025,
-                                horizontal: width * 0.005),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: _currentIndex == index
-                                  ? hospitalityObj!.images.length == 1
-                                      ? Colors.white.withOpacity(0.1)
-                                      : Colors.white
-                                  : Colors.white.withOpacity(0.8),
-                              boxShadow: _currentIndex == index
-                                  ? hospitalityObj!.images.length == 1
-                                      ? []
-                                      : [
-                                          const BoxShadow(
-                                              color: Colors.white,
-                                              blurRadius: 5,
-                                              spreadRadius: 1)
-                                        ]
-                                  : [],
-                            ),
-                          );
-                        }).toList(),
+                  top: height * 0.22,
+                  left: width * 0.4,
+                  right:width * 0.4,
+                      child: Align(
+                          alignment: Alignment.center,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: hospitalityObj!.images.map((imageUrl) {
+                            int index = hospitalityObj!.images.indexOf(imageUrl);
+                            return Container(
+                              width: width * 0.025,
+                              height: width * 0.025,
+                              margin: EdgeInsets.symmetric(
+                                  vertical: width * 0.025,
+                                  horizontal: width * 0.005),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: _currentIndex == index
+                                    ? hospitalityObj!.images.length == 1
+                                        ? Colors.white.withOpacity(0.1)
+                                        : Colors.white
+                                    : Colors.white.withOpacity(0.8),
+                               
+                              ),
+                            );
+                          }).toList(),
+                        ),
                       ),
                     ),
                   ],

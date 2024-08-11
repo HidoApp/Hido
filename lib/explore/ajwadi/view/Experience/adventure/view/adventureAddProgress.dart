@@ -264,7 +264,7 @@ class _AdventureAddProgressState extends State<AdventureAddProgress> {
                   activeIndex++;
                 });
               } else if (activeIndex == totalIndex - 1) {
-                Get.to(HostInfoReview(
+                Get.to(()=>HostInfoReview(
                   hospitalityTitleEn: AdventureTitleControllerEn.text,
                   hospitalityBioEn: AdventureBioControllerEn.text,
                   hospitalityTitleAr: AdventureTitleControllerAr.text,

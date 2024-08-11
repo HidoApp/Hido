@@ -32,7 +32,7 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
   void initState() {
     super.initState();
     // _selectedImages = widget.selectedImages.map((path) => XFile(path)).toList();
-     _selectedImages = _adventureController.selectedImages;
+   //  _selectedImages = _adventureController.selectedImages;
 
   }
 
@@ -49,7 +49,7 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
         return ImagePickerBottomSheet(
           onImagesSelected: (images) {
             setState(() {
-              _selectedImages = images;
+             // _selectedImages = images;
                _adventureController.selectedImages.addAll(images);
 
             });
@@ -68,7 +68,7 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
         if (AppUtil.isImageValidate(await pickedImages.length)) {
         print(" is asdded");
         setState(() {
-            _selectedImages.addAll(pickedImages);
+            // _selectedImages.addAll(pickedImages);
          _adventureController.selectedImages.addAll(pickedImages);
         });
         }   else {
@@ -84,14 +84,14 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
   }
 Future<void> _takePhoto() async {
     try {
-      final XFile? photo = await _picker.pickImage(source: ImageSource.camera);
+      final XFile? photo = await _picker.pickImage(source: ImageSource.camera, imageQuality: 30);
       if (photo != null) {
         
           if (AppUtil.isImageValidate(await photo.length())) {
         print(" is asdded");
        setState(() {
-          _selectedImages =
-              _selectedImages != null ? [..._selectedImages!, photo] : [photo];
+          // _selectedImages =
+          //     _selectedImages != null ? [..._selectedImages!, photo] : [photo];
     _adventureController.selectedImages.add(photo);
 
         });
@@ -115,8 +115,6 @@ Future<void> _takePhoto() async {
       ),
       builder: (context) {
         return Container(
-          width: 390,
-          height: 184,
           padding: const EdgeInsets.only(
             top: 16,
             left: 24,
@@ -155,8 +153,8 @@ Future<void> _takePhoto() async {
                     onTap: () {
                       setState(() {
                         // Move the selected image to the first position to set it as cover image
-                        final selectedImage = _selectedImages.removeAt(index);
-                        _selectedImages.insert(0, selectedImage);
+                        // final selectedImage = _selectedImages.removeAt(index);
+                        // _selectedImages.insert(0, selectedImage);
 
                        final selectedImagePath =
                           _adventureController.selectedImages.removeAt(index);
@@ -191,7 +189,7 @@ Future<void> _takePhoto() async {
                   GestureDetector(
                     onTap: () {
                       setState(() {
-                        _selectedImages.removeAt(index);
+                      //  _selectedImages.removeAt(index);
                         _adventureController.selectedImages.removeAt(index);
                       });
                       Get.back();
@@ -234,7 +232,7 @@ Future<void> _takePhoto() async {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _selectedImages.isEmpty
+           _adventureController.selectedImages.isEmpty
             ? Center(
                 child: DottedBorder(
                   strokeWidth: 1,
@@ -293,144 +291,146 @@ Future<void> _takePhoto() async {
                       )),
                 ),
               )
-            : Column(
-                children: [
-                  Container(
-                    child: Container(
-                      width: double.infinity,
-                      height: 186,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: FileImage(File(_selectedImages![0].path)),
-                          fit: BoxFit.cover,
-                        ),
-                        borderRadius: BorderRadius.circular(16),
-                       
-                      ),
-                      child: Stack(
-                        children: [
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 12,
-                                  right: 12,
-                                  left: 12), // Add padding here
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 12, vertical: 8),
-                                decoration: ShapeDecoration(
-                                  color: Colors.white
-                                      .withOpacity(0.20000000298023224),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                ),
-                                child: Text(
-                                  'Coverphoto'.tr,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 13,
-                                    fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                                    : 'SF Pro',
-                                    fontWeight: FontWeight.w500,
-                                    height: 0,
-                                  ),
-                                ),
-                              ),
-                            ),
+            : Obx(()=>
+               Column(
+                  children: [
+                    Container(
+                      child: Container(
+                        width: double.infinity,
+                        height: 186,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: FileImage(File( _adventureController.selectedImages[0].path)),
+                            fit: BoxFit.cover,
                           ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 16),
-                  Container(
-                    height: 360,
-                    child: GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 15,
-                        mainAxisSpacing: 15,
-                      ),
-                      itemCount: (_selectedImages!.length - 1) + 3,
-                      itemBuilder: (context, index) {
-                        if (index < _selectedImages!.length - 1) {
-                          return GestureDetector(
-                            onTap: () => _showImageOptions(context, index + 1),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: FileImage(
-                                      File(_selectedImages![index + 1].path)),
-                                  fit: BoxFit.cover,
+                          borderRadius: BorderRadius.circular(16),
+                         
+                        ),
+                        child: Stack(
+                          children: [
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 12,
+                                    right: 12,
+                                    left: 12), // Add padding here
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 8),
+                                  decoration: ShapeDecoration(
+                                    color: Colors.white
+                                        .withOpacity(0.20000000298023224),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(16),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    'Coverphoto'.tr,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 13,
+                                      fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                                      : 'SF Pro',
+                                      fontWeight: FontWeight.w500,
+                                      height: 0,
+                                    ),
+                                  ),
                                 ),
-                                borderRadius: BorderRadius.circular(12),
                               ),
                             ),
-                          );
-                        } else if (index == _selectedImages!.length - 1) {
-                          return GestureDetector(
-                            onTap: () => _pickImage(ImageSource.gallery),
-                            child: DottedBorder(
-                              strokeWidth: 1,
-                              color: Color(0xFFDCDCE0),
-                              borderType: BorderType.RRect,
-                              radius: Radius.circular(12),
-                              dashPattern: [5, 5],
-                              child: Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      Icons.add,
-                                      size: 24,
-                                      color: Color(0xFFB9B8C1),
-                                    ),
-                                    SizedBox(height: 4),
-                                    Text(
-                                      'Addmore'.tr,
-                                      style: TextStyle(
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 16),
+                    Container(
+                      height: 360,
+                      child: GridView.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 15,
+                          mainAxisSpacing: 15,
+                        ),
+                        itemCount: (    _adventureController.selectedImages.length - 1) + 3,
+                        itemBuilder: (context, index) {
+                          if (index <    _adventureController.selectedImages.length - 1) {
+                            return GestureDetector(
+                              onTap: () => _showImageOptions(context, index+1 ),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: FileImage(
+                                        File(    _adventureController.selectedImages[index+1].path)),
+                                    fit: BoxFit.cover,
+                                  ),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                            );
+                          } else if (index ==     _adventureController.selectedImages.length - 1) {
+                            return GestureDetector(
+                              onTap: () => _pickImage(ImageSource.gallery),
+                              child: DottedBorder(
+                                strokeWidth: 1,
+                                color: Color(0xFFDCDCE0),
+                                borderType: BorderType.RRect,
+                                radius: Radius.circular(12),
+                                dashPattern: [5, 5],
+                                child: Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.add,
+                                        size: 24,
                                         color: Color(0xFFB9B8C1),
-                                        fontSize: 11,
-                                        fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                                        : 'SF Pro',
-                                        fontWeight: FontWeight.w500,
-                                        height: 0,
                                       ),
-                                    ),
-                                  ],
+                                      SizedBox(height: 4),
+                                      Text(
+                                        'Addmore'.tr,
+                                        style: TextStyle(
+                                          color: Color(0xFFB9B8C1),
+                                          fontSize: 11,
+                                          fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                                          : 'SF Pro',
+                                          fontWeight: FontWeight.w500,
+                                          height: 0,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          );
-                        } else if (index == _selectedImages!.length) {
-                          return GestureDetector(
-                            onTap: () => _takePhoto(),
-                            child: DottedBorder(
-                              strokeWidth: 1,
-                              color: Color(0xFFDCDCE0),
-                              borderType: BorderType.RRect,
-                              radius: Radius.circular(12),
-                              dashPattern: [5, 5],
-                              child: Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(Icons.camera_alt_outlined,
-                                        size: 32, color: Color(0xFFB9B8C1)),
-                                  ],
+                            );
+                          } else if (index ==     _adventureController.selectedImages.length) {
+                            return GestureDetector(
+                              onTap: () => _takePhoto(),
+                              child: DottedBorder(
+                                strokeWidth: 1,
+                                color: Color(0xFFDCDCE0),
+                                borderType: BorderType.RRect,
+                                radius: Radius.circular(12),
+                                dashPattern: [5, 5],
+                                child: Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(Icons.camera_alt_outlined,
+                                          size: 32, color: Color(0xFFB9B8C1)),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          );
-                        }
-                        return Container(); // Placeholder for the last item (will not be displayed)
-                      },
+                            );
+                          }
+                          return Container(); // Placeholder for the last item (will not be displayed)
+                        },
+                      ),
                     ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
+            ),
       ],
     );
   }
@@ -471,7 +471,7 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> {
 
   Future<void> _takePhoto() async {
     try {
-      final XFile? photo = await _picker.pickImage(source: ImageSource.camera);
+      final XFile? photo = await _picker.pickImage(source: ImageSource.camera, imageQuality: 30);
       if (photo != null) {
         
           if (AppUtil.isImageValidate(await photo.length())) {

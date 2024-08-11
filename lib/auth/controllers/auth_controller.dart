@@ -382,11 +382,11 @@ class AuthController extends GetxController {
     }
   }
 
-  bool logOut() {
+  Future<bool> logOut() async {
     try {
       final isSuccess = AuthService.logOut();
 
-      if (isSuccess) {
+      if (await isSuccess) {
         return true;
       } else {
         return false;
