@@ -565,21 +565,22 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
                             .substring(0, 10))) {
                           setState(() => showErrorDate = true);
                         }
-                         else if (isSameDay()) {
-                          AppUtil.errorToast(
-                              context,
-                              AppUtil.rtlDirection2(context)
-                                  ? "يجب أن تحجز قبل 24 ساعة "
-                                  : "You must booking before 24 hours");
-                        } 
-                        else if (!isDateBeforeToday()) {
-                          print("ynter");
-                          AppUtil.errorToast(
-                              context,
-                              AppUtil.rtlDirection2(context)
-                                  ? "غير متاح"
-                                  : "not avalible ");
-                        } else {
+                        //  else if (isSameDay()) {
+                        //   AppUtil.errorToast(
+                        //       context,
+                        //       AppUtil.rtlDirection2(context)
+                        //           ? "يجب أن تحجز قبل 24 ساعة "
+                        //           : "You must booking before 24 hours");
+                        // } 
+                        // else if (!isDateBeforeToday()) {
+                        //   print("ynter");
+                        //   AppUtil.errorToast(
+                        //       context,
+                        //       AppUtil.rtlDirection2(context)
+                        //           ? "غير متاح"
+                        //           : "not avalible ");
+                        // }
+                         else {
                           widget.serviceController.showErrorMaxGuest.value =
                               false;
                           Get.to(() => ReviewHospitalty(

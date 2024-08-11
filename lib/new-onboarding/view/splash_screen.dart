@@ -67,7 +67,7 @@ class _SplashScreenState extends State<SplashScreen>
     token = _getStorage.read('accessToken') ?? '';
     token = _getStorage.read('accessToken') ?? '';
 
-    if (onBoarding == 'no') {
+    if (onBoarding == 'yes') {
       return onBoarding;
     } else {
       return null;

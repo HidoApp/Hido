@@ -132,7 +132,7 @@ class _ItineraryCardState extends State<ItineraryCard> {
           left: width * 0.030,
           top: width * 0.05,
           bottom: width * 0.05,
-          right: width * 0.05,
+          right: width * 0.030,
         ),
         decoration: BoxDecoration(
             color: Colors.white,
@@ -237,6 +237,7 @@ class _ItineraryCardState extends State<ItineraryCard> {
                         fontFamily: AppUtil.rtlDirection2(context)
                             ? 'SF Arabic'
                             : 'SF Pro',
+                            color: black,
                       ),
                       GestureDetector(
                         onTap: () async {
@@ -330,6 +331,7 @@ class _ItineraryCardState extends State<ItineraryCard> {
                         fontFamily: AppUtil.rtlDirection2(context)
                             ? 'SF Arabic'
                             : 'SF Pro',
+                            color: black,
                       ),
                       GestureDetector(
                         onTap: () async {
@@ -395,6 +397,7 @@ class _ItineraryCardState extends State<ItineraryCard> {
                               ? 'SF Arabic'
                               : 'SF Pro',
                         ),
+                   
                       if (!widget.requestController.isEndTimeInRange.value)
                         CustomText(
                           text: 'timeErorrRange'.tr,
