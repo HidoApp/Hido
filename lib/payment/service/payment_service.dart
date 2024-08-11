@@ -227,6 +227,47 @@ class PaymentService {
     }
   }
 
+  static Future<Invoice?> creditCardEmbedded({
+    required BuildContext context,
+    required int price,
+  }) async {
+    final getStorage = GetStorage();
+    String token = getStorage.read('accessToken') ?? "";
+    if (JwtDecoder.isExpired(token)) {
+      final authController = Get.put(AuthController());
+      String refreshToken = getStorage.read('refreshToken');
+      var user = await authController.refreshToken(
+          refreshToken: refreshToken, context: context);
+      token = getStorage.read('accessToken');
+    }
+    final response = await http.post(
+      Uri.parse(
+        "$baseUrl/payment/myfatoorah/embedded/credit",
+      ),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: json.encode({
+        "InvoiceValue": price,
+      }),
+    );
+    if (response.statusCode == 200) {
+      Map<String, dynamic> data = jsonDecode(response.body);
+
+      return Invoice.fromJson(data);
+    } else {
+      String errorMessage = jsonDecode(response.body)['message'];
+      print(response.statusCode);
+      print(errorMessage);
+      if (context.mounted) {
+        AppUtil.errorToast(context, errorMessage);
+      }
+      return null;
+    }
+  }
+
   static Future<Invoice?> paymentInvoiceById({
     required BuildContext context,
     required String id,

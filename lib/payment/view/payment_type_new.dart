@@ -109,7 +109,6 @@ class _PaymentTypeState extends State<PaymentType> {
           if (check) {
             applePayWebView();
           }
-
           log('after success');
         } else {
           applePayWebView();
@@ -139,10 +138,8 @@ class _PaymentTypeState extends State<PaymentType> {
 
         break;
       case PaymentMethod.creditCard:
-        invoice = await _paymentController.paymentGateway(
+        invoice = await _paymentController.creditCardEmbedded(
           context: context,
-          language: AppUtil.rtlDirection2(context) ? 'AR' : 'EN',
-          paymentMethod: 'VISA_MASTER',
           price: widget.price,
         );
         if (widget.type == "hospitality") {
@@ -166,10 +163,12 @@ class _PaymentTypeState extends State<PaymentType> {
 
   void applePayWebView() async {
     if (invoice != null) {
-      Get.bottomSheet(WebViewSheet(url: invoice!.url!, title: ""))
-          .then((value) async {
+      Get.bottomSheet(WebViewSheet(
+        url: invoice!.url!,
+        title: "",
+        height: 120,
+      )).then((value) async {
         Invoice? checkInvoice;
-
         checkInvoice = await _paymentController.applePayEmbeddedExecute(
             context: context,
             invoiceValue: widget.price,
@@ -268,13 +267,20 @@ class _PaymentTypeState extends State<PaymentType> {
   void paymentWebView() async {
     // webview for Stc pay
     if (invoice != null) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) =>
-              PaymentWebView(url: invoice!.url!, title: 'payment'.tr),
-        ),
-      ).then((value) async {
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(
+      //     builder: (context) =>
+      //         PaymentWebView(url: invoice!.url!, title: 'payment'.tr),
+      //   ),
+      // )
+      Get.bottomSheet(
+          // isScrollControlled: true,
+
+          WebViewSheet(
+        url: invoice!.url!,
+        title: 'payment'.tr,
+      )).then((value) async {
         Invoice? checkInvoice;
 
         checkInvoice = await _paymentController.getPaymentId(
@@ -814,7 +820,11 @@ class _PaymentTypeState extends State<PaymentType> {
   Future<void> navigateToPayment(
       BuildContext context, String url, String type) async {
     if (type == 'apple') {
-      await Get.bottomSheet(WebViewSheet(url: url, title: ""));
+      await Get.bottomSheet(WebViewSheet(
+        url: url,
+        title: "",
+        height: 120,
+      ));
     } else {
       await Navigator.push(
         context,

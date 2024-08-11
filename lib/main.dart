@@ -16,23 +16,10 @@ import 'package:timeago/timeago.dart' as timeago;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await GetStorage.init();
   await initializeDateFormatting('ar');
-
   await LocalNotification.init();
   timeago.setLocaleMessages('ar', timeago.ArMessages());
-
-  // AwesomeNotifications().initialize(
-  //   '',
-  //   [
-  //     NotificationChannel(
-  //       channelKey: 'key',
-  //       channelName: 'Channel Name',
-  //       channelDescription: 'Channel Description',
-  //       defaultColor: Color(0xFF9D50DD),
-  //       ledColor: Colors.white,
-  //     )
-  //   ],
-  // );
   runApp(const MyApp());
 }
 

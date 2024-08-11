@@ -261,9 +261,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               leading: "assets/icons/signout_icon.svg",
                               // fromAjwady: widget.fromAjwady,
                               onTap: () {
-                                log(_profileController.enableSignOut.value
-                                    .toString());
-                                //   if (_profileController.enableSignOut.value) {
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
@@ -300,16 +297,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             child: CustomButton(
                                               height: 25,
                                               title: "signOut".tr,
-                                              onPressed: () {
-                                                log(storage
-                                                        .read('accessToken') ??
-                                                    "EMPTY 1");
-                                                AuthService.logOut();
-                                                Get.offAll(() =>
-                                                    const OnboardingScreen());
-                                                log(storage
-                                                        .read('accessToken') ??
-                                                    "empty 2");
+                                              onPressed: () async {
+                                                // log(storage
+                                                //         .read('accessToken') ??
+                                                //     "EMPTY 1");
+                                                var isLogout =
+                                                    await AuthService.logOut();
+                                                if (isLogout) {
+                                                  Get.offAll(() =>
+                                                      const OnboardingScreen());
+                                                  log(storage.read(
+                                                          'accessToken') ??
+                                                      "empty 2x");
+                                                }
                                               },
                                             ),
                                           ),

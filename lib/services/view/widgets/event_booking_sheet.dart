@@ -21,7 +21,7 @@ class EventBookingSheet extends StatefulWidget {
   const EventBookingSheet({super.key, this.event, this.avilableDate});
   final Event? event;
   final List<DateTime>? avilableDate;
-  
+
   @override
   State<EventBookingSheet> createState() => _EventBookingSheetState();
 }
@@ -39,19 +39,18 @@ class _EventBookingSheetState extends State<EventBookingSheet> {
   int person = 0;
   final String timeZoneName = 'Asia/Riyadh';
   late tz.Location location;
- 
 
   bool isDateBeforeToday() {
-  
-     DateTime parsedDate =  DateTime.parse(_eventController.selectedDate.value);
- final parsedDateInRiyadh = tz.TZDateTime.from(parsedDate, location).subtract(Duration(hours: 3));
+    DateTime parsedDate = DateTime.parse(_eventController.selectedDate.value);
+    final parsedDateInRiyadh =
+        tz.TZDateTime.from(parsedDate, location).subtract(Duration(hours: 3));
 
     tz.initializeTimeZones();
     location = tz.getLocation(timeZoneName);
 
     DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
-    
-   Duration difference = parsedDateInRiyadh.difference(currentDateInRiyadh);
+
+    Duration difference = parsedDateInRiyadh.difference(currentDateInRiyadh);
     print(difference);
     return difference.inHours > 24;
   }
@@ -113,14 +112,14 @@ class _EventBookingSheetState extends State<EventBookingSheet> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-         _eventController.showErrorMaxGuest.value = false;
+    _eventController.showErrorMaxGuest.value = false;
     return Container(
-      height:_eventController.DateErrorMessage.value||
-      showErrorGuests ||
+      height: _eventController.DateErrorMessage.value ||
+              showErrorGuests ||
               showErrorSeat ||
-               _eventController.showErrorMaxGuest.value
+              _eventController.showErrorMaxGuest.value
           ? height * 0.43
-          : height * 0.39,
+          : height * 0.41,
       width: double.infinity,
       padding: EdgeInsets.only(
         left: width * 0.0615,
@@ -175,15 +174,13 @@ class _EventBookingSheetState extends State<EventBookingSheet> {
                         .toString()
                         .substring(0, 10)
                     : 'mm/dd/yyy'.tr,
-                borderColor:
-                   _eventController.DateErrorMessage.value
-                        ? colorRed
-                        : borderGrey,
-                
-                      prefixIcon:Container(),
-                      suffixIcon: SvgPicture.asset(
-                        "assets/icons/green_calendar.svg",
-                      ),
+                borderColor: _eventController.DateErrorMessage.value
+                    ? colorRed
+                    : borderGrey,
+                prefixIcon: Container(),
+                suffixIcon: SvgPicture.asset(
+                  "assets/icons/green_calendar.svg",
+                ),
                 textColor: borderGrey,
               ),
             ),
@@ -343,33 +340,29 @@ class _EventBookingSheetState extends State<EventBookingSheet> {
             CustomButton(
               title: 'confirm'.tr,
               onPressed: () async {
-               
-                if (_eventController.isEventDateSelcted.value==false) {
+                if (_eventController.isEventDateSelcted.value == false) {
                   setState(() {
-                   _eventController.DateErrorMessage.value = true;
+                    _eventController.DateErrorMessage.value = true;
                   });
                   // return;
                 }
-                 if (person == 0) {
+                if (person == 0) {
                   setState(() {
                     showErrorGuests = true;
                   });
-                }
-               else if ((getSeat(
+                } else if ((getSeat(
                     _eventController.selectedDate.value.substring(0, 10)))) {
                   setState(() {
                     showErrorSeat = true;
                   });
                   // return;
-                } 
-                else if (isSameDay()) {
+                } else if (isSameDay()) {
                   AppUtil.errorToast(
                       context,
                       AppUtil.rtlDirection2(context)
                           ? "يجب أن تحجز قبل 24 ساعة "
                           : "You must booking before 24 hours");
-                }
-                else if (!isDateBeforeToday()) {
+                } else if (!isDateBeforeToday()) {
                   AppUtil.errorToast(
                       context,
                       AppUtil.rtlDirection2(context)

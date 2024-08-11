@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
@@ -710,13 +711,13 @@ class AuthService {
     }
   }
 
-  static bool logOut() {
+  static Future<bool> logOut() async {
     final getStorage = GetStorage();
-    getStorage.remove('accessToken');
-    getStorage.remove('refreshToken');
-    getStorage.remove('rememberMe');
-    getStorage.remove('userRole');
-    getStorage.remove('userId');
+    await getStorage.remove('accessToken');
+    await getStorage.remove('refreshToken');
+    await getStorage.remove('rememberMe');
+    await getStorage.remove('userRole');
+    await getStorage.remove('userId');
 
     return true;
   }
