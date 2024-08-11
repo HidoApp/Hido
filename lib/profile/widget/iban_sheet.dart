@@ -27,7 +27,6 @@ class _IbanSheetState extends State<IbanSheet> {
 
     return Container(
       width: double.infinity,
-      // height: width * 0.610,
       decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(

@@ -15,18 +15,18 @@ import 'package:get/get.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class HostCalenderDialog extends StatefulWidget {
-  const HostCalenderDialog({
-    Key? key,
-    this.fromAjwady = true,
-    required this.type,
-    this.ajwadiExploreController,
-    this.touristExploreController,
-    this.avilableDate,
-    this.srvicesController,
-    this.advController,
-    this.hospitality,
-    this.eventController
-  }) : super(key: key);
+  const HostCalenderDialog(
+      {Key? key,
+      this.fromAjwady = true,
+      required this.type,
+      this.ajwadiExploreController,
+      this.touristExploreController,
+      this.avilableDate,
+      this.srvicesController,
+      this.advController,
+      this.hospitality,
+      this.eventController})
+      : super(key: key);
   final bool fromAjwady;
   final String type;
   final AjwadiExploreController? ajwadiExploreController;
@@ -68,11 +68,13 @@ class _HostCalenderDialogState extends State<HostCalenderDialog> {
     DateTime? initialSelectedDate;
     if (widget.type == 'adv' && widget.advController != null) {
       if (widget.advController!.isAdventureDateSelcted.value) {
-        initialSelectedDate = DateTime.tryParse(widget.advController!.selectedDate.value);
+        initialSelectedDate =
+            DateTime.tryParse(widget.advController!.selectedDate.value);
       }
     } else if (widget.srvicesController != null) {
       if (widget.srvicesController!.isHospatilityDateSelcted.value) {
-        initialSelectedDate = DateTime.tryParse(widget.srvicesController!.selectedDate.value);
+        initialSelectedDate =
+            DateTime.tryParse(widget.srvicesController!.selectedDate.value);
       }
     }
     final width = MediaQuery.of(context).size.width;
@@ -103,8 +105,9 @@ class _HostCalenderDialogState extends State<HostCalenderDialog> {
                 ),
                 alignment: Alignment.bottomRight,
                 child: SfDateRangePicker(
-                  initialSelectedDate:initialSelectedDate==null? null:initialSelectedDate,
-                 backgroundColor: Colors.white,
+                  initialSelectedDate:
+                      initialSelectedDate == null ? null : initialSelectedDate,
+                  backgroundColor: Colors.white,
                   minDate: DateTime.now(),
                   enablePastDates: false,
                   selectableDayPredicate:
@@ -130,11 +133,9 @@ class _HostCalenderDialogState extends State<HostCalenderDialog> {
                     ),
                   ),
                   monthViewSettings: const DateRangePickerMonthViewSettings(
-                    
                     dayFormat: 'EEE',
                     viewHeaderStyle: DateRangePickerViewHeaderStyle(
-                    backgroundColor: Colors.white,
-
+                      backgroundColor: Colors.white,
                       textStyle: TextStyle(
                         color: Color(0xFF070708),
                         fontSize: 12,
@@ -146,6 +147,7 @@ class _HostCalenderDialogState extends State<HostCalenderDialog> {
                   ),
                   headerStyle: const DateRangePickerHeaderStyle(
                     textAlign: TextAlign.left,
+                    backgroundColor: Colors.white,
                     textStyle: TextStyle(
                       color: Color(0xFF37B268),
                     ),
@@ -167,10 +169,12 @@ class _HostCalenderDialogState extends State<HostCalenderDialog> {
               if (selectedDate != '') {
                 if (widget.type == 'adv') {
                   widget.ajwadiExploreController!.isDateEmpty.value = false;
-                  widget.advController?.isAdventureDateSelcted.value=true;
+                  widget.advController?.isAdventureDateSelcted.value = true;
                   widget.advController!.selectedDate(selectedDate);
-                  widget..advController!.DateErrorMessage.value =  AppUtil.isDateBefore24Hours(widget.advController!.selectedDate.value);
-
+                  widget
+                    ..advController!.DateErrorMessage.value =
+                        AppUtil.isDateBefore24Hours(
+                            widget.advController!.selectedDate.value);
                 } else if (widget.type == 'event') {
                   widget.eventController!.isEventDateSelcted.value = true;
                   widget.eventController!.selectedDate(selectedDate);
@@ -182,8 +186,9 @@ class _HostCalenderDialogState extends State<HostCalenderDialog> {
                   widget.srvicesController!.isHospatilityDateSelcted.value =
                       true;
                   widget.srvicesController!.selectedDate(selectedDate);
-                  widget.srvicesController!.DateErrorMessage.value =  AppUtil.isDateBefore24Hours(widget.srvicesController!.selectedDate.value);
-
+                  widget.srvicesController!.DateErrorMessage.value =
+                      AppUtil.isDateBefore24Hours(
+                          widget.srvicesController!.selectedDate.value);
                 }
                 Get.back();
               }

@@ -19,33 +19,30 @@ import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest_all.dart' as tz;
 
 class BottomHospitalityBooking extends StatefulWidget {
-  const BottomHospitalityBooking(
-      {super.key,
-      required this.hospitalityObj,
-      required this.servicesController,
-      required this.avilableDate,
-          this.address='',
-
-      
-      });
+  const BottomHospitalityBooking({
+    super.key,
+    required this.hospitalityObj,
+    required this.servicesController,
+    required this.avilableDate,
+    this.address = '',
+  });
   final Hospitality hospitalityObj;
   final List<DateTime> avilableDate;
   final HospitalityController servicesController;
   final String address;
 
-   @override
-  State<BottomHospitalityBooking> createState() => _BottomHospitalityBookingState();
+  @override
+  State<BottomHospitalityBooking> createState() =>
+      _BottomHospitalityBookingState();
 }
+
 class _BottomHospitalityBookingState extends State<BottomHospitalityBooking> {
+  void initState() {
+    widget.servicesController.address(widget.address);
+  }
 
-void initState(){
-
-widget.servicesController.address(widget.address);
-
- }
   @override
   Widget build(BuildContext context) {
-
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Container(
@@ -136,25 +133,22 @@ class BottomAdventureBooking extends StatefulWidget {
   const BottomAdventureBooking({
     super.key,
     required this.adventure,
-  this.address='',
+    this.address = '',
   });
   final Adventure adventure;
-    final String address;
+  final String address;
 
   @override
   State<BottomAdventureBooking> createState() => _BottomAdventureBookingState();
 }
 
 class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
-  
-
   final _adventureController = Get.put(AdventureController());
 
+  void initState() {
+    print(";lkjhgfds");
+  }
 
-  void initState(){
-print(";lkjhgfds");
-
- }
   final String timeZoneName = 'Asia/Riyadh';
   late tz.Location location;
   int seat = 0;
@@ -201,7 +195,7 @@ print(";lkjhgfds");
   bool getSeat() {
     seat = widget.adventure.seats;
     print('the avaliable seat  -> ${seat}');
-_adventureController.address(widget.address);
+    _adventureController.address(widget.address);
 
     return seat == 0;
   }
@@ -215,8 +209,8 @@ _adventureController.address(widget.address);
       padding: EdgeInsets.symmetric(horizontal: width * 0.041),
       color: Colors.white,
       width: double.infinity,
-      height: width * 0.38,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Row(
             children: [
@@ -271,13 +265,16 @@ _adventureController.address(widget.address);
                       : Get.bottomSheet(
                           StatefulBuilder(
                             builder: (context, setState) => Container(
-                              height: width * 0.58,
-                              width: double.infinity,
-                              padding: EdgeInsets.symmetric(
-                                horizontal: width * 0.06,
-                                vertical: width * 0.03,
+                              // height: width * 0.58,
+                              // width: double.infinity,
+                              padding: EdgeInsets.only(
+                                left: width * 0.0615,
+                                right: width * 0.0615,
+                                top: width * 0.045,
+                                bottom: width * 0.0820,
                               ),
                               child: Column(
+                                mainAxisSize: MainAxisSize.min,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   const BottomSheetIndicator(),
@@ -456,11 +453,10 @@ _adventureController.address(widget.address);
                                 topLeft: Radius.circular(width * 0.06),
                                 topRight: Radius.circular(width * 0.06)),
                           ),
-                        ).then((value){
-                         person = 0;
-                        showErrorGuests=false;
-                        
-                  }  );
+                        ).then((value) {
+                          person = 0;
+                          showErrorGuests = false;
+                        });
                 },
                 iconColor: darkPurple,
                 title: "book".tr,

@@ -314,7 +314,6 @@ class PaymentService {
       return null;
     }
   }
-
   static Future<Invoice?> getPaymentId(
       {required BuildContext context, required String id}) async {
     final getStorage = GetStorage();
@@ -340,6 +339,8 @@ class PaymentService {
         'Authorization': 'Bearer $token',
       },
     );
+    log(response.statusCode.toString());
+    log(response.body.toString());
     if (response.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(response.body);
       return Invoice.fromJson(data);

@@ -69,7 +69,9 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
           ],
         ),
         body: RefreshIndicator(
-          onRefresh: () => _requestController.getRequestList(context: context),
+          onRefresh: () async {
+            await _requestController.getRequestList(context: context);
+          },
           child: isSwitched
               ? Obx(
                   () => Padding(
@@ -97,7 +99,7 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
                                             id: _requestController
                                                 .requestList[index].id!,
                                             context: context);
-                                    if (reject == false && context.mounted) {
+                                    if (reject!) {
                                       _requestController.requestList.removeAt(
                                           _requestController
                                               .requestIndex.value);

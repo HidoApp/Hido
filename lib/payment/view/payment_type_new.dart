@@ -169,10 +169,13 @@ class _PaymentTypeState extends State<PaymentType> {
         height: 120,
       )).then((value) async {
         Invoice? checkInvoice;
-        checkInvoice = await _paymentController.applePayEmbeddedExecute(
-            context: context,
-            invoiceValue: widget.price,
-            sessionId: invoice!.sessionId);
+        checkInvoice = await _paymentController.getPaymentId(
+            context: context, id: invoice!.id);
+        // checkInvoice = await _paymentController.applePayEmbeddedExecute(
+        //     context: context,
+        //     invoiceValue: widget.price,
+        //     sessionId: invoice!.sessionId);
+
         if (checkInvoice == null) {
           showDialog(
               context: context,
@@ -276,7 +279,6 @@ class _PaymentTypeState extends State<PaymentType> {
       // )
       Get.bottomSheet(
           // isScrollControlled: true,
-
           WebViewSheet(
         url: invoice!.url!,
         title: 'payment'.tr,

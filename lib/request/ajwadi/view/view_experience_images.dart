@@ -16,9 +16,12 @@ import 'package:image_picker/image_picker.dart';
 class ViewImages extends StatefulWidget {
   final List<String> tripImageUrl;
   final bool fromNetwork;
-  final String? Type ;
+  final String? Type;
   const ViewImages(
-      {Key? key, required this.tripImageUrl, this.fromNetwork = false,this.Type})
+      {Key? key,
+      required this.tripImageUrl,
+      this.fromNetwork = false,
+      this.Type})
       : super(key: key);
 
   @override
@@ -31,7 +34,7 @@ class _ViewImagesState extends State<ViewImages> {
   @override
   void initState() {
     super.initState();
-    _ExperienceController = _initializeController(widget.Type??'');
+    _ExperienceController = _initializeController(widget.Type ?? '');
   }
 
   dynamic _initializeController(String type) {
@@ -43,9 +46,9 @@ class _ViewImagesState extends State<ViewImages> {
       return Get.put(AdventureController());
     }
   }
+
   List<XFile> _selectedImages = [];
   final ImagePicker _picker = ImagePicker();
-
 
   Future<void> _pickImage(ImageSource source) async {
     try {
@@ -56,10 +59,9 @@ class _ViewImagesState extends State<ViewImages> {
           log(pickedImages.first.path);
           setState(() {
             // _selectedImages.addAll(pickedImages);
-           _ExperienceController.images.addAll(pickedImages);
+            _ExperienceController.images.addAll(pickedImages);
           });
-                    print(_ExperienceController.images.last.path);
-
+          print(_ExperienceController.images.last.path);
         } else {
           AppUtil.errorToast(context,
               'Image is too large, you can only upload less than 2 MB');
@@ -80,7 +82,7 @@ class _ViewImagesState extends State<ViewImages> {
             _selectedImages = _selectedImages != null
                 ? [..._selectedImages!, photo]
                 : [photo];
-          _ExperienceController.images.add(photo);
+            _ExperienceController.images.add(photo);
           });
         } else {
           AppUtil.errorToast(context,
@@ -101,13 +103,13 @@ class _ViewImagesState extends State<ViewImages> {
       //   widget.tripImageUrl.removeAt(index);
       // }
 
-    _ExperienceController.images.removeAt(index);
+      _ExperienceController.images.removeAt(index);
     });
   }
 
   void _insetRemoveImage(int index) {
     setState(() {
-     // final image = _EventrController.images[index];
+      // final image = _EventrController.images[index];
 
       // Check if the image exists in the original URL list
       // if (widget.tripImageUrl.contains(image)) {
@@ -117,7 +119,6 @@ class _ViewImagesState extends State<ViewImages> {
 
       final removedImage2 = _ExperienceController.images.removeAt(index);
       _ExperienceController.images.insert(0, removedImage2);
-
     });
   }
 
@@ -132,8 +133,6 @@ class _ViewImagesState extends State<ViewImages> {
       ),
       builder: (context) {
         return Container(
-          width: 390,
-          height: 184,
           padding: const EdgeInsets.only(
             top: 16,
             left: 24,
@@ -256,11 +255,12 @@ class _ViewImagesState extends State<ViewImages> {
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: _ExperienceController.images[0] is String &&
-                              Uri.parse(_ExperienceController.images[0]).isAbsolute
+                              Uri.parse(_ExperienceController.images[0])
+                                  .isAbsolute
                           ? NetworkImage(_ExperienceController.images[0])
                           : FileImage(File(
-                                  (_ExperienceController.images[0] as XFile).path))
-                              as ImageProvider,
+                              (_ExperienceController.images[0] as XFile)
+                                  .path)) as ImageProvider,
                       fit: BoxFit.cover,
                     ),
                     borderRadius: BorderRadius.circular(16),
@@ -332,7 +332,8 @@ class _ViewImagesState extends State<ViewImages> {
                           ),
                         ),
                       );
-                    } else if (index == _ExperienceController.images.length - 1) {
+                    } else if (index ==
+                        _ExperienceController.images.length - 1) {
                       return GestureDetector(
                         onTap: () => _pickImage(ImageSource.gallery),
                         child: DottedBorder(
@@ -368,7 +369,7 @@ class _ViewImagesState extends State<ViewImages> {
                           ),
                         ),
                       );
-                    } else if (index ==_ExperienceController.images.length) {
+                    } else if (index == _ExperienceController.images.length) {
                       return GestureDetector(
                         onTap: () => _takePhoto(),
                         child: DottedBorder(

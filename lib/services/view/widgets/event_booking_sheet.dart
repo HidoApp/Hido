@@ -114,21 +114,23 @@ class _EventBookingSheetState extends State<EventBookingSheet> {
     final height = MediaQuery.of(context).size.height;
     _eventController.showErrorMaxGuest.value = false;
     return Container(
-      height: _eventController.DateErrorMessage.value ||
-              showErrorGuests ||
-              showErrorSeat ||
-              _eventController.showErrorMaxGuest.value
-          ? height * 0.43
-          : height * 0.41,
+      // height: _eventController.DateErrorMessage.value ||
+      //         showErrorGuests ||
+      //         showErrorSeat ||
+      //         _eventController.showErrorMaxGuest.value
+      //     ? height * 0.43
+      //     : height * 0.41,
       width: double.infinity,
       padding: EdgeInsets.only(
         left: width * 0.0615,
         right: width * 0.0615,
         top: width * 0.045,
+        bottom: width * 0.0820,
       ),
       child: Obx(
         () => Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             const BottomSheetIndicator(),
             SizedBox(
