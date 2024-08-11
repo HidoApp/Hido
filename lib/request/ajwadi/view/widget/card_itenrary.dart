@@ -72,7 +72,7 @@ class _ItineraryCardState extends State<ItineraryCard> {
     }
   }
 
-  bool compareTime(DateTime dateTimeFromPicker) {
+  bool checkTimeInRange(DateTime dateTimeFromPicker) {
     String pickerTime24 = DateFormat('HH:mm:ss').format(dateTimeFromPicker);
 
     DateTime parsedPickerTime = DateFormat('HH:mm:ss').parse(pickerTime24);
@@ -246,9 +246,9 @@ class _ItineraryCardState extends State<ItineraryCard> {
                             currentTime: _dateTimeFrom,
                             onConfirm: (time) {
                               _dateTimeFrom = time;
-                              log(compareTime(time).toString());
+                              log(checkTimeInRange(time).toString());
                               widget.requestController.isStartTimeInRange
-                                  .value = compareTime(time);
+                                  .value = checkTimeInRange(time);
                               widget.requestController.startTime.value =
                                   DateFormat(
                                 'h:mma',
@@ -340,7 +340,7 @@ class _ItineraryCardState extends State<ItineraryCard> {
                             onConfirm: (time) {
                               _dateTimeTo = time;
                               widget.requestController.isEndTimeInRange.value =
-                                  compareTime(time);
+                                  checkTimeInRange(time);
                               widget.requestController.endtime.value =
                                   DateFormat(
                                 'h:mma',

@@ -59,17 +59,38 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
     widget.schedule.scheduleName = _activityConroller.text;
   }
 
-  bool compareTime(DateTime dateTimeFromPicker) {
+  bool checkTimeInRange(DateTime dateTimeFromPicker) {
     String pickerTime24 = DateFormat('HH:mm:ss').format(dateTimeFromPicker);
+
     DateTime parsedPickerTime = DateFormat('HH:mm:ss').parse(pickerTime24);
-    // Compare hour and minute
-    return parsedPickerTime
-            .isAtSameMomentAs(widget.requestController.timeToGo.value) ||
-        parsedPickerTime
-            .isAtSameMomentAs(widget.requestController.timeToReturn.value) ||
-        parsedPickerTime.isAfter(widget.requestController.timeToGo.value) &&
-            parsedPickerTime
-                .isBefore(widget.requestController.timeToReturn.value);
+    log("pickerTime24");
+    log(pickerTime24);
+    log(widget.requestController.timeToReturn.value.toString());
+    log((parsedPickerTime.day == widget.requestController.timeToGo.value.day)
+        .toString());
+
+    if (widget.requestController.timeToGo.value
+        .isAfter(widget.requestController.timeToReturn.value)) {
+      // pm to am
+      // Compare hour and minute
+      return parsedPickerTime
+              .isAtSameMomentAs(widget.requestController.timeToGo.value) ||
+          parsedPickerTime
+              .isAtSameMomentAs(widget.requestController.timeToReturn.value) ||
+          !(parsedPickerTime
+                  .isBefore(widget.requestController.timeToGo.value) &&
+              parsedPickerTime
+                  .isAfter(widget.requestController.timeToReturn.value));
+    } else {
+      // Compare hour and minute
+      return parsedPickerTime
+              .isAtSameMomentAs(widget.requestController.timeToGo.value) ||
+          parsedPickerTime
+              .isAtSameMomentAs(widget.requestController.timeToReturn.value) ||
+          parsedPickerTime.isAfter(widget.requestController.timeToGo.value) &&
+              parsedPickerTime
+                  .isBefore(widget.requestController.timeToReturn.value);
+    }
   }
 
   @override
@@ -285,11 +306,11 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                                 currentTime: _dateTimeFrom,
                                 onConfirm: (time) {
                                   _dateTimeFrom = time;
-                                  log(compareTime(time).toString());
+                                  log(checkTimeInRange(time).toString());
                                   widget
                                       .requestController
                                       .isStartTimeReviewInRange
-                                      .value = compareTime(time);
+                                      .value = checkTimeInRange(time);
 
                                   if (widget.requestController
                                       .isStartTimeInRange.value) {
@@ -362,11 +383,11 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                                 currentTime: _dateTimeTo,
                                 onConfirm: (time) {
                                   _dateTimeTo = time;
-                                  log(compareTime(time).toString());
+                                  log(checkTimeInRange(time).toString());
                                   widget
                                       .requestController
                                       .isEndTimeReviewInRange
-                                      .value = compareTime(time);
+                                      .value = checkTimeInRange(time);
 
                                   widget.schedule.scheduleTime!.to = DateFormat(
                                     'h:mma',
