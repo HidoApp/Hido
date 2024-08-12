@@ -146,7 +146,6 @@ class _HostCalenderDialogState extends State<HostCalenderDialog> {
                     ),
                   ),
                   headerStyle: const DateRangePickerHeaderStyle(
-                 backgroundColor: Colors.white,
                     textAlign: TextAlign.left,
                     backgroundColor: Colors.white,
                     textStyle: TextStyle(
