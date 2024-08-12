@@ -24,6 +24,7 @@ import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_list_tile.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/local_auth_mark.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -104,13 +105,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         _profileController
                                                 .profile.profileImage !=
                                             null
-                                    ? Image.network(
-                                        _profileController
-                                            .profile.profileImage!,
+                                    ? CachedNetworkImage(
                                         height: 65,
                                         width: 65,
                                         fit: BoxFit.cover,
-                                      )
+                                        imageUrl: _profileController
+                                            .profile.profileImage!,
+                                        placeholder: (context, url) =>
+                                            Image.asset(
+                                              "assets/images/profile_image.png",
+                                              height: 65,
+                                              width: 65,
+                                              fit: BoxFit.cover,
+                                            ),
+                                        errorWidget: (context, url, error) =>
+                                            Image.asset(
+                                              "assets/images/profile_image.png",
+                                              height: 65,
+                                              width: 65,
+                                              fit: BoxFit.cover,
+                                            ))
                                     : Image.asset(
                                         "assets/images/profile_image.png",
                                         height: 65,
@@ -261,9 +275,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               leading: "assets/icons/signout_icon.svg",
                               // fromAjwady: widget.fromAjwady,
                               onTap: () {
-                                log(_profileController.enableSignOut.value
-                                    .toString());
-                                //   if (_profileController.enableSignOut.value) {
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
@@ -300,16 +311,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             child: CustomButton(
                                               height: 25,
                                               title: "signOut".tr,
-                                              onPressed: () {
-                                                log(storage
-                                                        .read('accessToken') ??
-                                                    "EMPTY 1");
-                                                AuthService.logOut();
-                                                Get.offAll(() =>
-                                                    const OnboardingScreen());
-                                                log(storage
-                                                        .read('accessToken') ??
-                                                    "empty 2");
+                                              onPressed: () async {
+                                                // log(storage
+                                                //         .read('accessToken') ??
+                                                //     "EMPTY 1");
+                                                var isLogout =
+                                                    await AuthService.logOut();
+                                                if (isLogout) {
+                                                  Get.offAll(() =>
+                                                      const OnboardingScreen());
+                                                  log(storage.read(
+                                                          'accessToken') ??
+                                                      "empty 2x");
+                                                }
                                               },
                                             ),
                                           ),

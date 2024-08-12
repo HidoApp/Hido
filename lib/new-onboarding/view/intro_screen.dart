@@ -79,7 +79,8 @@ class _OnboardingScreenState extends State<OnboardingScreen>
               width: screenSize.width,
             ),
           ),
-          Positioned(//comment
+          Positioned(
+            //comment
             right: _currentIndex == 0 ? 0 : 5,
             left: _currentIndex == 0 ? 0 : 5,
             bottom: _currentIndex == 0
@@ -148,7 +149,8 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                         return Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Padding(//comment
+                            Padding(
+                              //comment
                               padding: const EdgeInsets.only(
                                   left: 8, right: 8, bottom: 0),
                               child: _currentIndex == 0
@@ -259,7 +261,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                       title: 'tourist'.tr,
                       textColor: _currentIndex == 0 ? black : null,
                       onPressed: () {
-                        Get.to(() => SignInScreen());
+                        Get.to(() => const SignInScreen());
                         // Get.off(() => AjwadiBottomBar());
                       },
                       raduis: 8,

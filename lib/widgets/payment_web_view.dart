@@ -8,6 +8,7 @@ import '../request/tourist/controllers/offer_controller.dart';
 class PaymentWebView extends StatefulWidget {
   final String url;
   final String title;
+  
   const PaymentWebView({super.key, required this.url, required this.title});
 
   @override

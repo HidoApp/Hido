@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
@@ -710,6 +711,7 @@ class AuthService {
     }
   }
 
+
   static Future<bool> logOut() async{
    final getStorage = GetStorage();
     await getStorage.remove('accessToken');
@@ -717,6 +719,7 @@ class AuthService {
     await getStorage.remove('rememberMe');
     await getStorage.remove('userRole');
     await getStorage.remove('userId');
+
     await getStorage.write('onBoarding','yes');
 
     // Optionally, clear all data
