@@ -384,7 +384,7 @@ class AuthController extends GetxController {
 
   Future<bool> logOut() async {
     try {
-      final isSuccess = AuthService.logOut();
+      final isSuccess = await AuthService.logOut();
 
       if (await isSuccess) {
         return true;

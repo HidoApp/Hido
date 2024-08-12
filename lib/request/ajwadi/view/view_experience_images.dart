@@ -134,6 +134,7 @@ class _ViewImagesState extends State<ViewImages> {
       ),
       builder: (context) {
         return Container(
+
           padding: const EdgeInsets.only(
             top: 16,
             left: 24,
@@ -265,6 +266,7 @@ class _ViewImagesState extends State<ViewImages> {
                               : FileImage(File(
                                   (_ExperienceController.images[0] as XFile)
                                       .path)) as ImageProvider,
+
                       fit: BoxFit.cover,
                     ),
                     borderRadius: BorderRadius.circular(16),

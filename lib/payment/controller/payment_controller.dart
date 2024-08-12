@@ -196,4 +196,21 @@ class PaymentController extends GetxController {
       isApplePayExecuteLoading(false);
     }
   }
+
+  Future<Invoice?> creditCardEmbedded({
+    required BuildContext context,
+    required int price,
+  }) async {
+    try {
+      isCreditCardPaymentLoading(true);
+      final data = await PaymentService.creditCardEmbedded(
+          context: context, price: price);
+      return data;
+    } catch (e) {
+      isCreditCardPaymentLoading(false);
+      return null;
+    } finally {
+      isCreditCardPaymentLoading(false);
+    }
+  }
 }
