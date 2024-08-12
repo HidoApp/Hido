@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ffi';
 
 import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
@@ -152,30 +153,33 @@ class _CancelSheetState extends State<CancelSheet> {
                     ),
                   ),
                   const SizedBox(height: 28),
-                  CustomButton(
-                    onPressed: () async {
-                      log("End Trip Taped ${widget.bookId}");
-
-                      bool bookingCancel =
-                          await offerController.bookingCancel(
-                              context: context,
-                              bookingId: widget.bookId,
-                              type: widget.type.toUpperCase(),
-                              reason: textField2Controller.text) ??
-                          false;
-                      if (bookingCancel) {
-                        if (context.mounted) {
-                          AppUtil.successToast(context, 'EndTrip'.tr);
-                          await Future.delayed(const Duration(seconds: 1));
+                  Obx(()=> offerController.isBookingCancelLoading.value
+                  ?Center(child: CircularProgressIndicator.adaptive())
+                  : CustomButton(
+                      onPressed: () async {
+                        log("End Trip Taped ${widget.bookId}");
+                        
+                        bool bookingCancel =
+                            await offerController.bookingCancel(
+                                context: context,
+                                bookingId: widget.bookId,
+                                type: widget.type.toUpperCase(),
+                                reason: textField2Controller.text) ??
+                            false;
+                        if (bookingCancel) {
+                          if (context.mounted) {
+                            AppUtil.successToast(context, 'EndTrip'.tr);
+                            await Future.delayed(const Duration(seconds: 1));
+                          }
+                           
+                          Get.to(const TouristBottomBar());
                         }
-                         
-                        Get.to(const TouristBottomBar());
-                      }
-                    },
-                    title: 'Confirm'.tr,
-                    buttonColor: Color(0xFFDC362E),
-                    textColor: Colors.white,
-                    borderColor: Color(0xFFDC362E),
+                      },
+                      title: 'Confirm'.tr,
+                      buttonColor: Color(0xFFDC362E),
+                      textColor: Colors.white,
+                      borderColor: Color(0xFFDC362E),
+                    ),
                   ),
                 ],
               ),

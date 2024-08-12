@@ -11,6 +11,10 @@ class TripController extends GetxController {
   var isPastTicketLoading = false.obs;
   var isUpcommingTicketLoading = false.obs;
   var isChatLoading = false.obs;
+  Rx<bool> isTripFinallyEnd = false.obs;
+    Rx<bool> isTripEnd = false.obs;
+
+
   var upcommingTicket = <LocalTrip>[].obs;
   var pastTicket = <LocalTrip>[].obs;
   var nextTrip = NextActivity().obs;

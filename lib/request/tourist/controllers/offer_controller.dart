@@ -116,7 +116,7 @@ class OfferController extends GetxController {
     if (index == null) {
       checkedList.value = List.generate(
           offerDetails.value.schedule?.length ?? 0, (index) => true);
-      updateScheduleList = List<Schedule>.generate(
+      updateScheduleList.value = List<Schedule>.generate(
         offerDetails.value.schedule?.length ?? 0,
         (index) => offerDetails.value.schedule![index],
       );
@@ -162,43 +162,43 @@ class OfferController extends GetxController {
     print('Final total price: ${totalPrice.value}');
   }
 
-  List<Schedule> updateScheduleList = <Schedule>[].obs;
+  var updateScheduleList = <Schedule>[].obs;
+    var ScheduleList = <Schedule>[].obs;
+
   RxBool scheduleState = false.obs;
   void checkTotal(int index, bool check) {
-    List<Schedule>? scheduleList = offerDetails.value.schedule;
-    if (scheduleList == null || index < 0 || index >= scheduleList.length) {
+    ScheduleList.value = offerDetails.value.schedule!;
+    if (  ScheduleList.isEmpty|| index < 0 || index >=   ScheduleList.length) {
       return;
     }
 
-    Schedule schedule = scheduleList[index];
+    Schedule schedule =  ScheduleList[index];
     if (check) {
       totalPrice += schedule.price ?? 0;
-      print("Before add");
-      print(updateScheduleList.length);
-      if (index < updateScheduleList.length) {
-        updateScheduleList.insert(index, schedule);
-        scheduleState.value = false;
-      } else {
-        updateScheduleList.add(schedule);
-        scheduleState.value = false;
-      }
-      print("After add");
-      print(updateScheduleList.length);
+          print(" before Added schedule to updateScheduleList ");
+          print(schedule.price);
+       if (!updateScheduleList.contains(schedule)) {
+      updateScheduleList.add(schedule);
+          print("Added schedule to updateScheduleList ");
+          print(schedule.price);
+      
+      scheduleState.value = false;
+    }
+       print("After added");
+      print(updateScheduleList.length); 
+    
     } else {
       totalPrice -= schedule.price ?? 0;
-      print("Before remove");
-      print(updateScheduleList.length);
-      if (index < updateScheduleList.length) {
-        updateScheduleList.removeAt(index);
+       print("remove schedule to updateScheduleList ");
+          print(schedule.price);
+       updateScheduleList.remove(schedule);
+         
+
+        
         if(updateScheduleList.length==0){
            scheduleState.value = true;
         }
-      } else {
-        updateScheduleList.removeLast();
-       if(updateScheduleList.length==0){
-           scheduleState.value = true;
-        }
-      }
+    
       print("After remove");
       print(updateScheduleList.length);
     }

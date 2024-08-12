@@ -319,7 +319,7 @@ const localeAr = {
   "StartChat": "ابدأ الدردشة!",
   'message': 'رسالة',
   "EndRound": "إنهاء الجولة",
-  "EndTrip": "إلغاء الرحلة",
+  "EndTrip": "تم إلغاء الحجز",
   "ContactTheHedoTeam": " تواصل مع فريق هيدو",
   "km": "كيلومتر",
   "sar": "ر.س",

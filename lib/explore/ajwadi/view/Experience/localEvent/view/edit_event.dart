@@ -640,89 +640,95 @@ class _EditEventState extends State<EditEvent> {
                               const SizedBox(
                                 height: 10,
                               ),
-                              GestureDetector(
-                                onTap: () async {
-                                  log("End Trip Taped ${widget.eventObj.id}");
-
-                                  bool result =
-                                      await _servicesController.EventDelete(
-                                              context: context,
-                                              eventId: widget.eventObj.id) ??
-                                          false;
-                                  if (result) {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return Dialog(
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                          ),
-                                          child: Container(
-                                            width: 350,
-                                            height: 110, // Custom width
-                                            padding: EdgeInsets.all(16),
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Image.asset(
-                                                    'assets/images/paymentSuccess.gif',
-                                                    width: 38),
-                                                SizedBox(height: 16),
-                                                Text(
-                                                  'DeleteDone'.tr,
-                                                  style:
-                                                      TextStyle(fontSize: 15),
-                                                  textDirection:
-                                                      AppUtil.rtlDirection2(
-                                                              context)
-                                                          ? TextDirection.rtl
-                                                          : TextDirection.ltr,
-                                                ),
-                                              ],
+                             Obx(
+                                () => _servicesController.isEventDeleteLoading.value
+                                    ? Center(
+                                        child: CircularProgressIndicator
+                                            .adaptive())
+                                    : GestureDetector(
+                                  onTap: () async {
+                                    log("End Trip Taped ${widget.eventObj.id}");
+                              
+                                    bool result =
+                                        await _servicesController.EventDelete(
+                                                context: context,
+                                                eventId: widget.eventObj.id) ??
+                                            false;
+                                    if (result) {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return Dialog(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
                                             ),
-                                          ),
-                                        );
-                                      },
-                                    ).then((_) {
-                                      Get.back();
-                                      Get.back();
-                                      Get.back();
-                                      final _experienceController =
-                                          Get.put(AjwadiExploreController());
-                                      _experienceController.getAllExperiences(
-                                          context: context);
-                                    });
-                                  } else {
-                                    if (context.mounted) {
-                                      AppUtil.errorToast(context,
-                                        'notDelete'.tr);
-                                      await Future.delayed(
-                                          const Duration(seconds: 1));
+                                            child: Container(
+                                              width: 350,
+                                              height: 110, // Custom width
+                                              padding: EdgeInsets.all(16),
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Image.asset(
+                                                      'assets/images/paymentSuccess.gif',
+                                                      width: 38),
+                                                  SizedBox(height: 16),
+                                                  Text(
+                                                    'DeleteDone'.tr,
+                                                    style:
+                                                        TextStyle(fontSize: 15),
+                                                    textDirection:
+                                                        AppUtil.rtlDirection2(
+                                                                context)
+                                                            ? TextDirection.rtl
+                                                            : TextDirection.ltr,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ).then((_) {
+                                        Get.back();
+                                        Get.back();
+                                        Get.back();
+                                        final _experienceController =
+                                            Get.put(AjwadiExploreController());
+                                        _experienceController.getAllExperiences(
+                                            context: context);
+                                      });
+                                    } else {
+                                      if (context.mounted) {
+                                        AppUtil.errorToast(context,
+                                          'notDelete'.tr);
+                                        await Future.delayed(
+                                            const Duration(seconds: 1));
+                                      }
                                     }
-                                  }
-                                },
-                                child: Container(
-                                  height: 34,
-                                  width: 278,
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 3),
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    color: Color(0xFFDC362E),
-                                    borderRadius: BorderRadius.circular(4),
-                                  ),
-                                  child: CustomText(
-                                    textAlign: TextAlign.center,
-                                    text:"Delete".tr,
-                                    color: Colors.white,
-                                    fontSize: 15,
-                                    fontFamily: AppUtil.rtlDirection2(context)
-                                        ? 'SF Arabic'
-                                        : 'SF Pro',
-                                    fontWeight: FontWeight.w500,
+                                  },
+                                  child: Container(
+                                    height: 34,
+                                    width: 278,
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 3),
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      color: Color(0xFFDC362E),
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                    child: CustomText(
+                                      textAlign: TextAlign.center,
+                                      text:"Delete".tr,
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                      fontFamily: AppUtil.rtlDirection2(context)
+                                          ? 'SF Arabic'
+                                          : 'SF Pro',
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -766,7 +772,7 @@ class _EditEventState extends State<EditEvent> {
                   padding: EdgeInsets.all(16.0),
                   child:
                    Obx(()=>
-                      _servicesController.isImagesLoading.value
+                      _servicesController.isImagesLoading.value ||  _servicesController.isEditEventLoading.value
                          ?  Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 160),
                           child: CircularProgressIndicator.adaptive(),

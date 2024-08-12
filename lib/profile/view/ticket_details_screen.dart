@@ -40,7 +40,8 @@ class TicketDetailsScreen extends StatelessWidget {
       this.bookTypeText,
       this.hospitality,
       this.adventure,
-      this.event
+      this.event,
+      this.isTour=false
       // this.femaleGuestNum,
       // this.maleGuestNum
       })
@@ -52,6 +53,7 @@ class TicketDetailsScreen extends StatelessWidget {
   final Hospitality? hospitality;
   final Adventure? adventure;
   final Event? event;
+  bool? isTour;
   // final int? maleGuestNum;
   // final int? femaleGuestNum;
 
@@ -92,7 +94,7 @@ class TicketDetailsScreen extends StatelessWidget {
                 ),
                // const Expanded(child: SizedBox()), // Takes up remaining space
              
-          if(adventure == null && event==null && hospitality==null)
+          if(adventure == null && event==null && hospitality==null && !isTour!)...[
           if(booking!.orderStatus=='ACCEPTED')...[
            Spacer(),
             Row(
@@ -123,7 +125,7 @@ class TicketDetailsScreen extends StatelessWidget {
                         title: 'CancelBooking'.tr,
                         buttonColor:
                             lightGreyBackground, // Set the button color to transparent white
-                        textColor: Colors.red,
+                        textColor:colorRed,
                         borderColor: colorRed,
                         // Set the text color to red
                       ),
@@ -135,7 +137,7 @@ class TicketDetailsScreen extends StatelessWidget {
           ),
           ],
            ],
-
+              ],
             ),
           ),
         ],

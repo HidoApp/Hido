@@ -74,7 +74,8 @@ class _ViewImagesState extends State<ViewImages> {
 
   Future<void> _takePhoto() async {
     try {
-      final XFile? photo = await _picker.pickImage(source: ImageSource.camera, imageQuality: 30);
+      final XFile? photo =
+          await _picker.pickImage(source: ImageSource.camera, imageQuality: 30);
       if (photo != null) {
         if (AppUtil.isImageValidate(await photo.length())) {
           print(" is asdded");
@@ -255,13 +256,17 @@ class _ViewImagesState extends State<ViewImages> {
                   height: 186,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: _ExperienceController.images[0] is String &&
-                              Uri.parse(_ExperienceController.images[0])
-                                  .isAbsolute
-                          ? NetworkImage(_ExperienceController.images[0])
-                          : FileImage(File(
-                              (_ExperienceController.images[0] as XFile)
-                                  .path)) as ImageProvider,
+                      image: _ExperienceController.images == null ||
+                              _ExperienceController.images.isEmpty
+                          ? const AssetImage('assets/images/Placeholder.png')
+                          : _ExperienceController.images[0] is String &&
+                                  Uri.parse(_ExperienceController.images[0])
+                                      .isAbsolute
+                              ? NetworkImage(_ExperienceController.images[0])
+                              : FileImage(File(
+                                  (_ExperienceController.images[0] as XFile)
+                                      .path)) as ImageProvider,
+
                       fit: BoxFit.cover,
                     ),
                     borderRadius: BorderRadius.circular(16),
