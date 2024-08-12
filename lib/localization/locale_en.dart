@@ -394,7 +394,7 @@ const localeEn = {
   'hospitalitydetails': 'Hospitality Details',
   "numberofpeople": 'Number of People',
   "numberofpeorson": 'Number of People',
-  'bookingdate': 'Booking Date & Time ',
+  'bookingdate': 'Booking Date',
   'applied': 'Applied',
   'addpromocode': 'Add Promocode',
   'ReviewRequest': "Review Request",
@@ -627,5 +627,19 @@ const localeEn = {
   "updateEmail": "Update email",
   'emailEditSubtitle':
       "We’ll send you an email to confirm your new email address",
-  'emailConfirm': 'Confirm your email'
+  'emailConfirm': 'Confirm your email',
+   'Arabic': 'Arabic',
+  'English': 'English',
+  'French': 'French',
+  'German': 'German',
+  'Chinese': 'Chinese',
+  'Spanish': 'Spanish',
+  'Russian': 'Russian',
+  'Alert':'Alert!',
+  'DeleteNote':'You’re about to delete this experience',
+  'DeleteDone':'The experience has been deleted',
+  'notDelete':  'The experience not deleted',
+  'saveChange':"Changes have been saved successfully!",
+
+
 };

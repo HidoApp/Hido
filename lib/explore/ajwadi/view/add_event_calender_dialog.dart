@@ -119,7 +119,7 @@ class _EventCalenderDialogState extends State<EventCalenderDialog> {
                     selectionMode: widget.type == 'event'
                         ? DateRangePickerSelectionMode.range
                         : DateRangePickerSelectionMode.single,
-                    selectionColor: Colors.green,
+                    selectionColor: colorGreen,
                     
                     selectionTextStyle: TextStyle(),
                     
@@ -133,7 +133,7 @@ class _EventCalenderDialogState extends State<EventCalenderDialog> {
                       textStyle: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
-                        color: Color(0xFF37B268),
+                        color:colorPurple,
                       ),
                       todayTextStyle: TextStyle(
                         fontSize: 12,
@@ -164,6 +164,7 @@ class _EventCalenderDialogState extends State<EventCalenderDialog> {
                     //  showNavigationArrow: true,
 
                     headerStyle: const DateRangePickerHeaderStyle(
+                        backgroundColor: Colors.white,
                         textAlign: TextAlign.left,
                         textStyle: TextStyle(
                           color: Color(0xFF37B268),

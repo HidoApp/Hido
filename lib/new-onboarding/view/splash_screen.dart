@@ -110,9 +110,6 @@ class _SplashScreenState extends State<SplashScreen>
         }
 
         Get.off(() => const TouristBottomBar());
-      } else if (onBoarding == 'no') {
-        //  Get.off(() => const AccountTypeScreen());
-        Get.off(() => const OnboardingScreen(), transition: Transition.fade);
       } else {
         Get.off(() => const OnboardingScreen(), transition: Transition.fade);
       }

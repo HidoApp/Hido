@@ -358,19 +358,23 @@ class _EventBookingSheetState extends State<EventBookingSheet> {
                     showErrorSeat = true;
                   });
                   // return;
-                } else if (isSameDay()) {
-                  AppUtil.errorToast(
-                      context,
-                      AppUtil.rtlDirection2(context)
-                          ? "يجب أن تحجز قبل 24 ساعة "
-                          : "You must booking before 24 hours");
-                } else if (!isDateBeforeToday()) {
-                  AppUtil.errorToast(
-                      context,
-                      AppUtil.rtlDirection2(context)
-                          ? "غير متاح"
-                          : "not avalible ");
-                } else {
+
+                } 
+                // else if (isSameDay()) {
+                //   AppUtil.errorToast(
+                //       context,
+                //       AppUtil.rtlDirection2(context)
+                //           ? "يجب أن تحجز قبل 24 ساعة "
+                //           : "You must booking before 24 hours");
+                // }
+                // else if (!isDateBeforeToday()) {
+                //   AppUtil.errorToast(
+                //       context,
+                //       AppUtil.rtlDirection2(context)
+                //           ? "غير متاح"
+                //           : "not avalible ");
+                // }
+                 else {
                   _eventController.showErrorMaxGuest.value = false;
 
                   setState(() {

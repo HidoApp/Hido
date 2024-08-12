@@ -711,14 +711,19 @@ class AuthService {
     }
   }
 
-  static Future<bool> logOut() async {
-    final getStorage = GetStorage();
+
+  static Future<bool> logOut() async{
+   final getStorage = GetStorage();
     await getStorage.remove('accessToken');
     await getStorage.remove('refreshToken');
     await getStorage.remove('rememberMe');
     await getStorage.remove('userRole');
     await getStorage.remove('userId');
 
+    await getStorage.write('onBoarding','yes');
+
+    // Optionally, clear all data
+    // await getStorage.erase();
     return true;
   }
 
@@ -747,11 +752,13 @@ class AuthService {
     } else {
       Get.off(() => const SignInScreen());
       String errorMessage = jsonDecode(response.body)['message'];
-      getStorage.remove('accessToken');
-      getStorage.remove('refreshToken');
-      getStorage.remove('rememberMe');
-      getStorage.remove('userRole');
-      getStorage.remove('userId');
+      await getStorage.remove('accessToken');
+    await getStorage.remove('refreshToken');
+    await getStorage.remove('rememberMe');
+    await getStorage.remove('userRole');
+    await getStorage.remove('userId');
+   await getStorage.write('onBoarding','yes');
+
 
       if (context.mounted) {
         AppUtil.errorToast(context, errorMessage);

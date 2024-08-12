@@ -31,7 +31,7 @@ class CustomWalletCard extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     return InkWell(
       onTap: () {
-        Get.to(() => LocalWalletScreen());
+       // Get.to(() => LocalWalletScreen());
       },
       child: Container(
         width: double.infinity,

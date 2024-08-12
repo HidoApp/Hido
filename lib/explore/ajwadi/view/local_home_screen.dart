@@ -303,6 +303,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                                 ? const Center(
                                     child: CircularProgressIndicator.adaptive())
                                 :! _tripController.isTripUpdated.value
+                                //! _tripController.isTripUpdated.value
                                     ? Column(
                                       children: [
                                         Container(

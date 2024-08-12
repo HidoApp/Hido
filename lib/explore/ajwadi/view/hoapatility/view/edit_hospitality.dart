@@ -59,7 +59,7 @@ late double width, height;
 
 class _EditHospitalityState extends State<EditHospitality> {
   final _servicesController = Get.put(HospitalityController());
-    final _eventController = Get.put(EventController());
+  final _eventController = Get.put(EventController());
 
   int _currentIndex = 0;
   bool isExpanded = false;
@@ -192,57 +192,51 @@ class _EditHospitalityState extends State<EditHospitality> {
     });
   }
 
- Future<bool> uploadImages() async {
+  Future<bool> uploadImages() async {
+    List<dynamic> imagesToUpload = [];
+    bool allExtensionsValid = true;
 
-  List<dynamic> imagesToUpload = [];
-  bool allExtensionsValid = true;
+    // Allowed formats
+    final allowedFormats = ['jpg', 'jpeg', 'png'];
 
-  // Allowed formats
-  final allowedFormats = ['jpg', 'jpeg', 'png'];
+    for (int i = 0; i < _servicesController.images.length; i++) {
+      var image = _servicesController.images[i];
 
-  for (int i = 0; i < _servicesController.images.length; i++) {
-    var image = _servicesController.images[i];
-    
-    // Check if the path is a URL
-    if (image is String && Uri.parse(image).isAbsolute) {
-
-    
-      imageUrls.add(image);
-    } else {
-  
-  
-      
-     String fileExtension = image.path.split('.').last.toLowerCase();
-
-      if (!allowedFormats.contains(fileExtension)) {
-        allExtensionsValid = false;
-        print('File ${image.path} is not in an allowed format (${allowedFormats.join(', ')}).');
+      // Check if the path is a URL
+      if (image is String && Uri.parse(image).isAbsolute) {
+        imageUrls.add(image);
       } else {
-        imagesToUpload.add(image);
-     }
+        String fileExtension = image.path.split('.').last.toLowerCase();
+
+        if (!allowedFormats.contains(fileExtension)) {
+          allExtensionsValid = false;
+          print(
+              'File ${image.path} is not in an allowed format (${allowedFormats.join(', ')}).');
+        } else {
+          imagesToUpload.add(image);
+        }
+      }
     }
-  }
 
-  if (!allExtensionsValid) {
-    //  if (context.mounted) {
-    //       AppUtil.errorToast(context,'uploadError'.tr);
-    //       await Future.delayed(const Duration(seconds: 3));
-    //     }
-    return false;
-  }
+    if (!allExtensionsValid) {
+      //  if (context.mounted) {
+      //       AppUtil.errorToast(context,'uploadError'.tr);
+      //       await Future.delayed(const Duration(seconds: 3));
+      //     }
+      return false;
+    }
 
-  // Upload images that are not URLs
-  
-  for (var imageFile in imagesToUpload) {
+    // Upload images that are not URLs
 
-    try {
-      final uploadedImage = await _eventController.uploadProfileImages(
-        file: File(imageFile.path),
-        fileType: "hospitality",
-        context: context,
-      );
+    for (var imageFile in imagesToUpload) {
+      try {
+        final uploadedImage = await _eventController.uploadProfileImages(
+          file: File(imageFile.path),
+          fileType: "hospitality",
+          context: context,
+        );
 
-         if (uploadedImage != null) {
+        if (uploadedImage != null) {
           log('valid');
           imageUrls.add(uploadedImage.filePath);
           log(uploadedImage.filePath);
@@ -254,14 +248,10 @@ class _EditHospitalityState extends State<EditHospitality> {
         log('Error uploading file ${imageFile.path}: $e');
         return false;
       }
+    }
+
+    return true;
   }
-
-      return true;
-
-  }
-
-  
-
 
   final CarouselController _carouselController = CarouselController();
   final TextEditingController _priceController = TextEditingController();
@@ -333,19 +323,18 @@ class _EditHospitalityState extends State<EditHospitality> {
         !PriceLarger &&
         !PriceDouble &&
         _servicesController.DateErrorMessage.value &&
-        !_servicesController.TimeErrorMessage.value && _servicesController.images.length >= 3 &&
-        _servicesController.DateErrorMessage.value ) {
-       if( await uploadImages()){
-
-         daysInfo();
-      _updateProfile();
-    }else{
- if (context.mounted) {
-          AppUtil.errorToast(context,'uploadError'.tr);
+        !_servicesController.TimeErrorMessage.value &&
+        _servicesController.images.length >= 3 &&
+        _servicesController.DateErrorMessage.value) {
+      if (await uploadImages()) {
+        daysInfo();
+        _updateProfile();
+      } else {
+        if (context.mounted) {
+          AppUtil.errorToast(context, 'uploadError'.tr);
           await Future.delayed(const Duration(seconds: 3));
         }
-    }
-    
+      }
     } else {
       if (!_servicesController.DateErrorMessage.value) {
         if (context.mounted) {
@@ -359,10 +348,9 @@ class _EditHospitalityState extends State<EditHospitality> {
           await Future.delayed(const Duration(seconds: 3));
         }
       }
-       if (_servicesController.images.length < 3) {
+      if (_servicesController.images.length < 3) {
         if (context.mounted) {
-          AppUtil.errorToast(
-              context,'imageError'.tr);
+          AppUtil.errorToast(context, 'imageError'.tr);
           await Future.delayed(const Duration(seconds: 3));
         }
       }
@@ -440,7 +428,8 @@ class _EditHospitalityState extends State<EditHospitality> {
     List<dynamic> images = [];
     _servicesController.images.clear();
     for (var path in widget.hospitalityObj.images) {
-      images.add(path); // Add all paths to the list, they can be URLs or File paths.
+      images.add(
+          path); // Add all paths to the list, they can be URLs or File paths.
     }
 
     setState(() {
@@ -576,11 +565,9 @@ class _EditHospitalityState extends State<EditHospitality> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset('assets/images/paymentSuccess.gif', width: 38),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     Text(
-                      !AppUtil.rtlDirection2(context)
-                          ? "Changes have been saved successfully!"
-                          : "تم حفظ التغييرات بنجاح ",
+                     'saveChange'.tr,
                       style: TextStyle(
                         fontSize: 14,
                         fontFamily: AppUtil.rtlDirection2(context)
@@ -597,7 +584,7 @@ class _EditHospitalityState extends State<EditHospitality> {
             );
           },
         ).then((_) {
-          //   Get.offAll(() => const AjwadiBottomBar());
+            // Get.offAll(() => const AjwadiBottomBar());
           Get.back();
           Get.back();
           final _experienceController = Get.put(AjwadiExploreController());
@@ -667,15 +654,13 @@ class _EditHospitalityState extends State<EditHospitality> {
                               ),
                               CustomText(
                                 textAlign: TextAlign.center,
-                                color: Color(0xFFDC362E),
+                                color:colorRed,
                                 fontSize: 15,
                                 fontFamily: AppUtil.rtlDirection2(context)
                                     ? 'SF Arabic'
                                     : 'SF Pro',
                                 fontWeight: FontWeight.w500,
-                                text: AppUtil.rtlDirection2(context)
-                                    ? "تنبيه"
-                                    : "Alert!",
+                                text:"Alert".tr,
                               ),
                               const SizedBox(
                                 height: 1,
@@ -685,9 +670,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                                 fontSize: 15,
                                 fontWeight: FontWeight.w400,
                                 color: Color(0xFF41404A),
-                                text: AppUtil.rtlDirection2(context)
-                                    ? "أنت على وشك حذف هذه التجربة"
-                                    : 'You’re about to delete this experience',
+                                text:'DeleteNote'.tr,
                                 fontFamily: AppUtil.rtlDirection2(context)
                                     ? 'SF Arabic'
                                     : 'SF Pro',
@@ -728,10 +711,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                     width: 38),
                                                 SizedBox(height: 16),
                                                 Text(
-                                                  !AppUtil.rtlDirection2(
-                                                          context)
-                                                      ? 'The experience has been deleted'
-                                                      : "تم حذف التجربة بنجاح ",
+                                               'DeleteDone'.tr,
                                                   style: TextStyle(
                                                     fontSize: 14,
                                                     fontFamily:
@@ -752,12 +732,18 @@ class _EditHospitalityState extends State<EditHospitality> {
                                         );
                                       },
                                     ).then((_) {
-                                      Get.offAll(() => const AjwadiBottomBar());
+                                      Get.back();
+                                      Get.back();
+                                      Get.back();
+                                      final _experienceController =
+                                          Get.put(AjwadiExploreController());
+                                      _experienceController.getAllExperiences(
+                                          context: context);
                                     });
                                   } else {
                                     if (context.mounted) {
                                       AppUtil.errorToast(context,
-                                          'The experience not deleted'.tr);
+                                        'notDelete'.tr);
                                       await Future.delayed(
                                           const Duration(seconds: 1));
                                     }
@@ -770,14 +756,12 @@ class _EditHospitalityState extends State<EditHospitality> {
                                       const EdgeInsets.symmetric(vertical: 3),
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
-                                    color: Color(0xFFDC362E),
+                                    color: colorRed,
                                     borderRadius: BorderRadius.circular(4),
                                   ),
                                   child: CustomText(
                                     textAlign: TextAlign.center,
-                                    text: AppUtil.rtlDirection2(context)
-                                        ? "حذف"
-                                        : "Delete",
+                                    text: "Delete".tr,
                                     color: Colors.white,
                                     fontSize: 15,
                                     fontFamily: AppUtil.rtlDirection2(context)
@@ -799,7 +783,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                                         const EdgeInsets.symmetric(vertical: 2),
                                     decoration: BoxDecoration(
                                       border: Border.all(
-                                        color: Color(0xFFDC362E),
+                                        color: colorRed,
                                         width: 2,
                                       ),
                                       borderRadius: BorderRadius.circular(4),
@@ -812,10 +796,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                 ? 'SF Arabic'
                                                 : 'SF Pro',
                                         fontWeight: FontWeight.w500,
-                                        color: Color(0xFFDC362E),
-                                        text: AppUtil.rtlDirection2(context)
-                                            ? 'الغاء'
-                                            : 'Cancel')),
+                                        color:colorRed,
+                                        text: 'cancel'.tr)),
                               ),
                             ],
                           ),
@@ -828,17 +810,17 @@ class _EditHospitalityState extends State<EditHospitality> {
 
               bottomNavigationBar: Padding(
                   padding: EdgeInsets.all(16.0),
-                  child:  Obx(()=>
-                      _servicesController.isEditHospitalityLoading.value
-                         ? const Center(
-                              child: CircularProgressIndicator.adaptive(),
-                            )
-                         
-                            :CustomButton(
-                        onPressed: () {
-                          validateAndSave();
-                        },
-                        title: 'SaveChanges'.tr),
+                  child: Obx(
+                    () =>  _eventController.isImagesLoading.value
+                        ?  Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 160),
+                          child: CircularProgressIndicator.adaptive(),
+                        )
+                        : CustomButton(
+                            onPressed: () {
+                              validateAndSave();
+                            },
+                            title: 'SaveChanges'.tr),
                   )),
               body: SingleChildScrollView(
                 child: Padding(
@@ -868,10 +850,11 @@ class _EditHospitalityState extends State<EditHospitality> {
                             padding: const EdgeInsets.only(top: 16.0),
                             child: GestureDetector(
                               onTap: () {
-                                  Get.to(() => ViewImages(
-                                      tripImageUrl: widget.hospitalityObj.images!,
+                                Get.to(() => ViewImages(
+                                      tripImageUrl:
+                                          widget.hospitalityObj.images,
                                       fromNetwork: true,
-                                      Type:'hospitality',
+                                      Type: 'hospitality',
                                     ));
                               },
                               child: CarouselSlider.builder(
@@ -883,10 +866,10 @@ class _EditHospitalityState extends State<EditHospitality> {
                                         _currentIndex = i;
                                       });
                                     }),
-                                itemCount:_servicesController.images.length,
+                                itemCount: _servicesController.images.length,
                                 itemBuilder: (context, index, realIndex) {
                                   return ImagesSliderWidget(
-                                    image:_servicesController.images[index],
+                                    image: _servicesController.images[index],
                                   );
                                 },
                               ),
@@ -1144,11 +1127,11 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                         _selectedLanguageIndex ==
                                                                 0
                                                             ? bioArEmpty
-                                                                ? Colors.red
+                                                                ?colorRed
                                                                 : Color(
                                                                     0xFFB9B8C1)
                                                             : bioEnEmpty
-                                                                ? Colors.red
+                                                                ? colorRed
                                                                 : Color(
                                                                     0xFFB9B8C1)),
                                                 borderRadius:
@@ -1215,7 +1198,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                                               child: Text(
                                                 'You need to add a discription for the experience',
                                                 style: TextStyle(
-                                                  color: Color(0xFFDC362E),
+                                                  color: colorRed,
                                                   fontSize: 11,
                                                   fontFamily: 'SF Pro',
                                                   fontWeight: FontWeight.w400,
@@ -1305,7 +1288,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                                             side: BorderSide(
                                                 width: 1,
                                                 color: guestEmpty
-                                                    ? Colors.red
+                                                    ?colorRed
                                                     : Color(0xFFB9B8C1)),
                                             borderRadius:
                                                 BorderRadius.circular(8),
@@ -1605,7 +1588,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                           !_servicesController
                                                               .DateErrorMessage
                                                               .value
-                                                  ? Colors.red
+                                                  ? colorRed
                                                   : Color(0xFFB9B8C1)),
                                           borderRadius:
                                               BorderRadius.circular(8),
@@ -1721,10 +1704,10 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                       width: 1,
                                                       color: TimeErrorMessage ??
                                                               false
-                                                          ? Colors.red
+                                                          ? colorRed
                                                           : DurationErrorMessage ??
                                                                   false
-                                                              ? Colors.red
+                                                              ? colorRed
                                                               : Color(
                                                                   0xFFB9B8C1)),
                                                   borderRadius:
@@ -1950,7 +1933,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                         : "Select The Time"
                                                     : '',
                                                 style: TextStyle(
-                                                  color: Color(0xFFDC362E),
+                                                  color:colorRed,
                                                   fontSize: 11,
                                                   fontFamily:
                                                       AppUtil.rtlDirection2(
@@ -2007,10 +1990,10 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                                   _servicesController
                                                                       .TimeErrorMessage
                                                                       .value
-                                                          ? Colors.red
+                                                          ?colorRed
                                                           : DurationErrorMessage ??
                                                                   false
-                                                              ? Colors.red
+                                                              ? colorRed
                                                               : Color(
                                                                   0xFFB9B8C1)),
                                                   borderRadius:
@@ -2658,34 +2641,38 @@ class _EditHospitalityState extends State<EditHospitality> {
                       //indicator
                       Positioned(
                         top: height * 0.256,
-                        left: width * 0.4,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children:  _servicesController.images
-                              .asMap()
-                              .entries
-                              .map((entry) {
-                            return GestureDetector(
-                              onTap: () =>
-                                  _carouselController.animateToPage(entry.key),
-                              child: Container(
-                                width: 8,
-                                height: 8,
-                                margin: EdgeInsets.symmetric(
-                                    vertical: width * 0.025,
-                                    horizontal: width * 0.009),
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: _currentIndex == entry.key
-                                      ?  _servicesController.images.length == 1
-                                          ? Colors.white.withOpacity(0.1)
-                                          : Colors.white
-                                      : Colors.white.withOpacity(0.4),
+                        left: width * 0.2,
+                        right: width * 0.2,
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: _servicesController.images
+                                .asMap()
+                                .entries
+                                .map((entry) {
+                              return GestureDetector(
+                                onTap: () => _carouselController
+                                    .animateToPage(entry.key),
+                                child: Container(
+                                  width: 8,
+                                  height: 8,
+                                  margin: EdgeInsets.symmetric(
+                                      vertical: width * 0.025,
+                                      horizontal: width * 0.009),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: _currentIndex == entry.key
+                                        ? _servicesController.images.length == 1
+                                            ? Colors.white.withOpacity(0.1)
+                                            : Colors.white
+                                        : Colors.white.withOpacity(0.4),
+                                  ),
                                 ),
-                              ),
-                            );
-                          }).toList(),
+                              );
+                            }).toList(),
+                          ),
                         ),
                       ),
                     ],

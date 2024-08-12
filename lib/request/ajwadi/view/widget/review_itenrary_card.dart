@@ -209,7 +209,7 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
             //     : width * 0.92,
             width: double.infinity,
             padding: EdgeInsets.only(
-                //   left: width * 0.030,
+                 left: width * 0.030,
                 top: width * 0.051,
                 bottom: width * 0.051,
                 right: width * 0.030),

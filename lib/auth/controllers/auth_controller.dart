@@ -386,7 +386,7 @@ class AuthController extends GetxController {
     try {
       final isSuccess = await AuthService.logOut();
 
-      if (isSuccess) {
+      if (await isSuccess) {
         return true;
       } else {
         return false;

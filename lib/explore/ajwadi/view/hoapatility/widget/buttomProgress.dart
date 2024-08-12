@@ -277,7 +277,7 @@ class _ButtomProgressState extends State<ButtomProgress> {
                   });
                 } else if (activeIndex == totalIndex - 1) {
                   print(hospitalityPrice.text);
-                  Get.to(HostInfoReview(
+                  Get.to(()=>HostInfoReview(
                     hospitalityTitleEn: hospitalityTitleControllerEn.text,
                     hospitalityBioEn: hospitalityBioControllerEn.text,
                     hospitalityTitleAr: hospitalityTitleControllerAr.text,
@@ -1209,8 +1209,6 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
       Get.put(HospitalityController());
   void initState() {
     super.initState();
-    // _selectedImages = widget.selectedImages.map((path) => XFile(path)).toList(
-     _selectedImages = _hospitalityController.selectedImages;
   }
 
   Future<void> _showImagePickerOptions(BuildContext context) async {
@@ -1226,7 +1224,6 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
         return ImagePickerBottomSheet(
           onImagesSelected: (images) {
             setState(() {
-              _selectedImages = images;
               _hospitalityController.selectedImages.addAll(images);
 
             });
@@ -1244,7 +1241,6 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
         if (AppUtil.isImageValidate(await pickedImages.length)) {
         print(" is asdded");
         setState(() {
-            _selectedImages.addAll(pickedImages);
          _hospitalityController.selectedImages.addAll(pickedImages);
         });
         }   else {
@@ -1261,14 +1257,14 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
 
   Future<void> _takePhoto() async {
     try {
-      final XFile? photo = await _picker.pickImage(source: ImageSource.camera);
+      final XFile? photo = await _picker.pickImage(source: ImageSource.camera, imageQuality: 30);
       if (photo != null) {
         
           if (AppUtil.isImageValidate(await photo.length())) {
         print(" is asdded");
        setState(() {
-          _selectedImages =
-              _selectedImages != null ? [..._selectedImages!, photo] : [photo];
+          // _selectedImages =
+          //     _selectedImages != null ? [..._selectedImages!, photo] : [photo];
                _hospitalityController.selectedImages.add(photo);
 
         });
@@ -1294,8 +1290,7 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
       ),
       builder: (context) {
         return Container(
-          width: 390,
-          height: 184,
+       
           padding: const EdgeInsets.only(
             top: 16,
             left: 24,
@@ -1334,8 +1329,7 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                     onTap: () {
                       setState(() {
                         // Move the selected image to the first position to set it as cover image
-                        final selectedImage = _selectedImages.removeAt(index);
-                        _selectedImages.insert(0, selectedImage);
+                       
 
                        final selectedImagePath =
                             _hospitalityController.selectedImages.removeAt(index);
@@ -1370,7 +1364,6 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                   GestureDetector(
                     onTap: () {
                       setState(() {
-                        _selectedImages.removeAt(index);
                         _hospitalityController.selectedImages.removeAt(index);
                       });
                       Get.back();
@@ -1413,7 +1406,7 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _selectedImages.isEmpty
+     _hospitalityController.selectedImages.isEmpty
             ? Center(
                 child: DottedBorder(
                   strokeWidth: 1,
@@ -1482,7 +1475,7 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                       height: 186,
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: FileImage(File(_selectedImages![0].path)),
+                          image: FileImage(File(_hospitalityController.selectedImages[0].path)),
                           fit: BoxFit.cover,
                         ),
                         borderRadius: BorderRadius.circular(16),
@@ -1542,23 +1535,23 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                         crossAxisSpacing: 15,
                         mainAxisSpacing: 15,
                       ),
-                      itemCount: (_selectedImages!.length - 1) + 3,
+                      itemCount: (_hospitalityController.selectedImages.length - 1) + 3,
                       itemBuilder: (context, index) {
-                        if (index < _selectedImages!.length - 1) {
+                        if (index < _hospitalityController.selectedImages.length - 1) {
                           return GestureDetector(
                             onTap: () => _showImageOptions(context, index + 1),
                             child: Container(
                               decoration: BoxDecoration(
                                 image: DecorationImage(
                                   image: FileImage(
-                                      File(_selectedImages![index + 1].path)),
+                                      File(_hospitalityController.selectedImages[index + 1].path)),
                                   fit: BoxFit.cover,
                                 ),
                                 borderRadius: BorderRadius.circular(12),
                               ),
                             ),
                           );
-                        } else if (index == _selectedImages!.length - 1) {
+                        } else if (index == _hospitalityController.selectedImages.length - 1) {
                           return GestureDetector(
                             onTap: () => _pickImage(ImageSource.gallery),
                             child: DottedBorder(
@@ -1595,7 +1588,7 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                               ),
                             ),
                           );
-                        } else if (index == _selectedImages!.length) {
+                        } else if (index == _hospitalityController.selectedImages.length) {
                           return GestureDetector(
                             onTap: () => _takePhoto(),
                             child: DottedBorder(
@@ -1661,7 +1654,7 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> {
 
   Future<void> _takePhoto() async {
     try {
-      final XFile? photo = await _picker.pickImage(source: ImageSource.camera);
+      final XFile? photo = await _picker.pickImage(source: ImageSource.camera, imageQuality: 30);
       if (photo != null) {
         
           if (AppUtil.isImageValidate(await photo.length())) {

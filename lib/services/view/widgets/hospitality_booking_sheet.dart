@@ -480,93 +480,63 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
                           ],
                         ),
                       ),
-                    ],
-                    if (widget.hospitality!.touristsGender == 'BOTH' ||
-                        widget.hospitality!.touristsGender == 'FEMALE')
-                      if (widget.serviceController.showErrorMaxGuest.value &&
-                          !showErrorGuests)
-                        Padding(
-                          padding: EdgeInsets.only(left: width * 0.01),
-                          child: Text(
-                            AppUtil.rtlDirection2(context)
-                                ? "ليس هناك مقاعد متاحة أكثر من العدد الحالي"
-                                : '*There are no more seats available than the current number',
-                            style: TextStyle(
-                              color: colorRed,
-                              fontSize: width * 0.028,
-                              fontFamily: AppUtil.rtlDirection2(context)
-                                  ? 'SF Arabic'
-                                  : 'SF Pro',
-                            ),
-                          ),
-                        ),
-                    if (widget.hospitality!.touristsGender == 'BOTH' ||
-                        widget.hospitality!.touristsGender == 'FEMALE')
-                      if (showErrorGuests)
-                        Padding(
-                          padding: EdgeInsets.only(left: width * 0.01),
-                          child: Text(
-                            AppUtil.rtlDirection2(context)
-                                ? "يجب أن تختار شخص على الأقل"
-                                : '*You need to add at least one guest',
-                            style: TextStyle(
-                              color: colorRed,
-                              fontSize: width * 0.028,
-                              fontFamily: AppUtil.rtlDirection2(context)
-                                  ? 'SF Arabic'
-                                  : 'SF Pro',
-                            ),
-                          ),
-                        ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: height * 0.03,
-              ),
-              CustomButton(
-                title: "confirm".tr,
-                onPressed: () async {
-                  if (widget.serviceController.isHospatilityDateSelcted.value ==
-                      false) {
-                    setState(() =>
-                        widget.serviceController.DateErrorMessage.value = true);
-                  }
-                  if (guestNum == 0) {
-                    setState(() {
-                      showErrorGuests = true;
-                    });
-                  } else if (getSeat(widget.serviceController.selectedDate.value
-                      .substring(0, 10))) {
-                    setState(() => showErrorDate = true);
-                  } else if (isSameDay()) {
-                    AppUtil.errorToast(
-                        context,
-                        AppUtil.rtlDirection2(context)
-                            ? "يجب أن تحجز قبل 24 ساعة "
-                            : "You must booking before 24 hours");
-                  } else if (!isDateBeforeToday()) {
-                    print("ynter");
-                    AppUtil.errorToast(
-                        context,
-                        AppUtil.rtlDirection2(context)
-                            ? "غير متاح"
-                            : "not avalible ");
-                  } else {
-                    widget.serviceController.showErrorMaxGuest.value = false;
-                    Get.to(() => ReviewHospitalty(
-                        hospitality: widget.hospitality!,
-                        maleGuestNum: maleGuestNum,
-                        femaleGuestNum: femaleGuestNum,
-                        servicesController: widget.serviceController));
-                  }
-                },
-                icon: AppUtil.rtlDirection2(context)
-                    ? const Icon(Icons.arrow_back_ios)
-                    : const Icon(Icons.arrow_forward_ios),
-                customWidth: width * 0.5,
-              ),
-            ])),
+
+                    ),
+                    SizedBox(
+                      height: height * 0.03,
+                    ),
+                    CustomButton(
+                      title: "confirm".tr,
+                      onPressed: () async {
+                        if (widget.serviceController.isHospatilityDateSelcted
+                                .value ==
+                            false) {
+                          setState(() => widget
+                              .serviceController.DateErrorMessage.value = true);
+                        }
+                        if (guestNum == 0) {
+                          setState(() {
+                            showErrorGuests = true;
+                          });
+                        } else if (getSeat(widget
+                            .serviceController.selectedDate.value
+                            .substring(0, 10))) {
+                          setState(() => showErrorDate = true);
+                        }
+                        //  else if (isSameDay()) {
+                        //   AppUtil.errorToast(
+                        //       context,
+                        //       AppUtil.rtlDirection2(context)
+                        //           ? "يجب أن تحجز قبل 24 ساعة "
+                        //           : "You must booking before 24 hours");
+                        // } 
+                        // else if (!isDateBeforeToday()) {
+                        //   print("ynter");
+                        //   AppUtil.errorToast(
+                        //       context,
+                        //       AppUtil.rtlDirection2(context)
+                        //           ? "غير متاح"
+                        //           : "not avalible ");
+                        // }
+                         else {
+                          widget.serviceController.showErrorMaxGuest.value =
+                              false;
+                          Get.to(() => ReviewHospitalty(
+                              hospitality: widget.hospitality!,
+                              maleGuestNum: maleGuestNum,
+                              femaleGuestNum: femaleGuestNum,
+                              servicesController: widget.serviceController));
+                        }
+                      },
+                      icon: AppUtil.rtlDirection2(context)
+                          ? const Icon(Icons.arrow_back_ios)
+                          : const Icon(Icons.arrow_forward_ios),
+                      customWidth: width * 0.5,
+                    ),
+                  ]),
+                )),
+          ),
+        ),
       );
     });
   }

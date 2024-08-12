@@ -41,7 +41,7 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
   late ExpandedTileController _controller;
   String address = '';
   Rx<bool> isTripStart = false.obs;
-  Rx<bool> isTripEnd = false.obs;
+  Rx<bool> isTripEnd = true.obs;
 
   final String timeZoneName = 'Asia/Riyadh';
   late tz.Location location;
@@ -116,51 +116,58 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
 // _tripController.progress.value==0.1;
   }
 
-  bool checkEndTime(String Time) {
+ bool checkEndTime(String timeToReturnStr) {
     tz.initializeTimeZones();
     location = tz.getLocation(timeZoneName);
     DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
-    DateTime currentDate = DateTime(currentDateInRiyadh.year,
-        currentDateInRiyadh.month, currentDateInRiyadh.day);
-    String currentDateString =
-        intel.DateFormat('yyyy-MM-dd').format(currentDate);
-    String formattedTime =
-        intel.DateFormat('HH:mm:ss').format(currentDateInRiyadh);
-    // Format current date and time
-    DateTime currentTime = DateTime(
+
+    // Set current date without the time component
+    DateTime currentDate = DateTime(
         currentDateInRiyadh.year,
         currentDateInRiyadh.month,
-        currentDateInRiyadh.day,
-        currentDateInRiyadh.hour,
-        currentDateInRiyadh.minute,
-        currentDateInRiyadh.second);
-    final parsedBookingDate =
-        DateTime.parse(_tripController.nextTrip.value.booking!.date ?? '');
+        currentDateInRiyadh.day
+    );
 
-    String timeToReturnStr = Time;
+    // Parse the time to return
+    List<String> timeParts = timeToReturnStr.split(':');
+    int returnHour = int.parse(timeParts[0]);
+    int returnMinute = int.parse(timeParts[1]);
 
-    DateTime timeToReturn =
-        DateTime.parse('$currentDateString $timeToReturnStr');
+    // Determine if the return time is on the next day
+    bool isReturnOnNextDay = returnHour < currentDateInRiyadh.hour;
 
-    if (currentTime.isAfter(timeToReturn) ||
-        currentTime.isAtSameMomentAs(timeToReturn)) {
-      print('rehablkjhgfdsfgbnm ');
-      print(currentTime);
-      print(parsedBookingDate);
-      print(parsedBookingDate.isAfter(currentDate));
-      print(currentTime.isAtSameMomentAs(timeToReturn));
-      return true;
+    // Adjust the return date accordingly
+    DateTime timeToReturn = DateTime(
+        currentDateInRiyadh.year,
+        currentDateInRiyadh.month,
+        currentDateInRiyadh.day + (isReturnOnNextDay ? 1 : 0),
+        returnHour,
+        returnMinute
+    );
+
+    // Compare the current time with the return time
+    if (currentDateInRiyadh.isAfter(timeToReturn) || currentDateInRiyadh.isAtSameMomentAs(timeToReturn)) {
+  setState(() {
+        isTripStart.value = true;
+      });   
+      
+           print('inter1');
+        print(currentDateInRiyadh);
+        print(timeToReturn);
+        print(currentDateInRiyadh.isAfter(timeToReturn) || currentDateInRiyadh.isAtSameMomentAs(timeToReturn));
+        return true;
     } else {
-      print('rehablkjhgfdsfgbnm ');
-      print(currentTime);
-      print(parsedBookingDate);
-      print(parsedBookingDate.isAfter(currentDate));
-      print(currentTime.isAtSameMomentAs(timeToReturn));
-      return false;
+       setState(() {
+        isTripStart.value = false;
+      });  
+        print('inter2');
+        print(currentDateInRiyadh);
+        print(timeToReturn);
+        print(currentDateInRiyadh.isAfter(timeToReturn) || currentDateInRiyadh.isAtSameMomentAs(timeToReturn));
+        return false;
     }
+}
 
-    // }
-  }
 
   void isDateBefore24Hours() {
     final String timeZoneName = 'Asia/Riyadh';
@@ -185,8 +192,7 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
     super.initState();
 
     _controller = ExpandedTileController(isExpanded: false);
-    checkCondition();
-
+   checkCondition();
     String latitudeStr =
         _tripController.nextTrip.value.booking?.coordinates.latitude ?? '';
     String longitudeStr =
@@ -209,6 +215,7 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
     try {
       List<Placemark> placemarks =
           await placemarkFromCoordinates(latitude, longitude);
+
       if (placemarks.isNotEmpty) {
         Placemark placemark = placemarks.first;
         address =
@@ -314,7 +321,7 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                                   TextStyle(
                                     color: Color(0xFF37B268),
                                     fontSize: 13,
-                                    fontFamily: 'SF Pro',
+                                    fontFamily: AppUtil.SfFontType(context),
                                     fontWeight: FontWeight.w500,
                                     height: 0,
                                   ),
@@ -338,7 +345,7 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                             const SizedBox(width: 8),
                             Obx(
                               () => ElevatedButton(
-                                onPressed: isTripStart.value
+                                onPressed: isTripStart.value && isTripEnd.value
                                     ? () async {
                                         await _tripController
                                             .updateActivity(
@@ -355,8 +362,14 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                                                     .updatedActivity.value.id ==
                                                 null) {
                                               print("this is widget book");
+                                              log('enter 1');
                                             } else {
                                               print('this the value');
+                                              if(_tripController
+                                                      .updatedActivity
+                                                      .value
+                                                      .activityProgress !=
+                                                  'COMPLETED'){
                                               updateProgress((_tripController
                                                       .progress.value +
                                                   0.25));
@@ -366,16 +379,49 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                                                       .value
                                                       .activityProgress ??
                                                   '');
+                                                  if(_tripController
+                                                      .updatedActivity
+                                                      .value
+                                                      .activityProgress ==
+                                                  ' IN_PROGRESS'){
+                                                     if (!checkEndTime(_tripController
+                                                    .updatedActivity
+                                                    .value
+                                                    .booking!
+                                                    .timeToReturn)){
+                                                        AppUtil.errorToast(
+                                                        context, 'EndTrip'.tr);
+                                                    await Future.delayed(
+                                                        const Duration(
+                                                            seconds: 1));
+                                                    }
+                                                  
+                                                    
+                                                  }
+                                                  }
                                               if (_tripController
                                                       .updatedActivity
                                                       .value
                                                       .activityProgress ==
                                                   'COMPLETED') {
+                                          log('enter 3 completed and ubdate state');
+
                                                 if (checkEndTime(_tripController
                                                     .updatedActivity
                                                     .value
                                                     .booking!
                                                     .timeToReturn)) {
+                                                     log('enter 4 completed and true end time');
+
+                                                       updateProgress((_tripController
+                                                      .progress.value +
+                                                  0.25));
+
+                                              updateStepss(_tripController
+                                                      .updatedActivity
+                                                      .value
+                                                      .activityProgress ??
+                                                  '');
                                                   log("End Trip Taped ${_tripController.nextTrip.value.id}");
 
                                                   bool requestEnd =
@@ -417,9 +463,10 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                                                             seconds: 1));
                                                   }
                                                 } else {
+                                                  
                                                   AppUtil.errorToast(
                                                       context,
-                                                      'End Time of trip not now'
+                                                      "The tour time hasn't ended yet"
                                                           .tr);
                                                   await Future.delayed(
                                                       const Duration(
@@ -436,7 +483,7 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                                     EdgeInsets.symmetric(
                                         horizontal: 10, vertical: 8),
                                   ),
-                                  backgroundColor: isTripStart.value
+                                  backgroundColor: isTripStart.value 
                                       ? MaterialStateProperty.all(colorGreen)
                                       : MaterialStateProperty.all(lightGrey),
                                   fixedSize:
@@ -521,7 +568,6 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                         ),
                         //SizedBox(height: width * 0.025),
 
-                        if (address.isNotEmpty) ...[
                           SizedBox(height: 8),
                           ItineraryTile(
                             title: address,
@@ -530,7 +576,7 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                                 .nextTrip.value.booking!.coordinates),
                             line: true,
                           ),
-                        ],
+                        
                         SizedBox(height: 8),
 
                         ItineraryTile(

@@ -13,7 +13,7 @@ class ItineraryTile extends StatelessWidget {
       this.imageUrl,
       this.color= borderGrey,
       this.line = false,
-      this.widthImage = 0,
+      this.widthImage ,
 });
 
   final String title;
@@ -21,7 +21,7 @@ class ItineraryTile extends StatelessWidget {
   final String? imageUrl;
   final bool line;
   final Color? color;
-  final double widthImage;
+  final double? widthImage;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,10 @@ class ItineraryTile extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-       SvgPicture.asset(image),
+        widthImage == null
+      ? SvgPicture.asset(image)
+      : SvgPicture.asset(image, width: widthImage),
+       
         SizedBox(
           width: 4,
         ),

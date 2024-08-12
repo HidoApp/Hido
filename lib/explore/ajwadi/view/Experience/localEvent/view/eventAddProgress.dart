@@ -261,7 +261,7 @@ class _EventAddProgressState extends State<EventAddProgress> {
                   print(activeIndex);
                 });
               } else if (activeIndex == totalIndex - 1) {
-                Get.to(EventInfoReview(
+                Get.to(()=>EventInfoReview(
                   hospitalityTitleEn: _EventController.titleEn.value,
                   hospitalityBioEn: _EventController.bioEn.value,
                   hospitalityTitleAr: _EventController.titleAr.value,

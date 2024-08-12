@@ -40,6 +40,7 @@ _eventController.address(widget.address);
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
+
     return Container(
       padding: EdgeInsets.symmetric(horizontal: width * 0.041),
       color: Colors.white,
@@ -83,6 +84,8 @@ _eventController.address(widget.address);
 
               child: CustomButton(
                 onPressed: () {
+                       _eventController.DateErrorMessage.value = false;
+
                   AppUtil.isGuest()
                       ? showModalBottomSheet(
                           context: context,
