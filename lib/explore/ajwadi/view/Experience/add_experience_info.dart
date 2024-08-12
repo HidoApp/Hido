@@ -39,71 +39,83 @@ class _AddExperienceInfoState extends State<AddExperienceInfo> {
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: lightGreyBackground,
-      floatingActionButton: GestureDetector(
-        onTap: () {
-          Get.to(() => ExperienceType());
-        },
-        child: Container(
-          width: 48,
-          height: 48,
-          clipBehavior: Clip.antiAlias,
-          decoration: ShapeDecoration(
-            color: Color(0xFF36B268),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(9999),
-            ),
-          ),
-          child: Center(
-              child: Icon(
-            Icons.add,
-            color: Colors.white,
-            size: 24.0,
-          )),
-        ),
-      ),
-      body: Column(
+      body:
+          // Obx(
+          //   () =>
+
+          Stack(
         children: [
-          Expanded(
-            child: Container(
-              child: Obx(
-                () => Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 40),
-                  child: _experienceController.isAllExperiencesLoading.value
-                      ? const Center(
-                          child: CircularProgressIndicator(
-                            color: colorGreen,
-                          ),
-                        )
-                      : _experienceController.experienceList.isEmpty
-                          ? Padding(
-                              padding: EdgeInsets.only(top: width * 0.3),
-                              child: SizedBox(
-                                  //new
-                                  width: width,
-                                  child: CustomEmptyWidget(
-                                    title: 'noExperience'.tr,
-                                    image: 'noExperiences',
-                                    subtitle: 'noExperienceSub'.tr,
-                                  )),
+          Column(
+            children: [
+              Expanded(
+                child: Container(
+                  child: Obx(
+                    () => Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 40),
+                      child: _experienceController.isAllExperiencesLoading.value
+                          ? const Center(
+                              child: CircularProgressIndicator(
+                                color: colorGreen,
+                              ),
                             )
-                          : ListView.separated(
-                              shrinkWrap: true,
-                              itemCount:
-                                  _experienceController.experienceList.length,
-                              separatorBuilder: (context, index) {
-                                return const SizedBox(
-                                  height: 11,
-                                );
-                              },
-                              itemBuilder: (context, index) {
-                                return ServicesCard(
-                                  experience: _experienceController
-                                      .experienceList[index],
-                                );
-                              },
-                            ),
+                          : _experienceController.experienceList.isEmpty
+                              ? Padding(
+                                  padding: EdgeInsets.only(top: width * 0.3),
+                                  child: SizedBox(
+                                      //new
+                                      width: width,
+                                      child: CustomEmptyWidget(
+                                        title: 'noExperience'.tr,
+                                        image: 'noExperiences',
+                                        subtitle: 'noExperienceSub'.tr,
+                                      )),
+                                )
+                              : ListView.separated(
+                                  shrinkWrap: true,
+                                  itemCount: _experienceController
+                                      .experienceList.length,
+                                  separatorBuilder: (context, index) {
+                                    return const SizedBox(
+                                      height: 11,
+                                    );
+                                  },
+                                  itemBuilder: (context, index) {
+                                    return ServicesCard(
+                                      experience: _experienceController
+                                          .experienceList[index],
+                                    );
+                                  },
+                                ),
+                    ),
+                  ),
                 ),
+              ),
+            ],
+          ),
+          Positioned(
+            bottom: 30,
+            right: 16,
+            child: GestureDetector(
+              onTap: () {
+                Get.to(() => ExperienceType());
+              },
+              child: Container(
+                width: 48,
+                height: 48,
+                clipBehavior: Clip.antiAlias,
+                decoration: ShapeDecoration(
+                  color: Color(0xFF36B268),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(9999),
+                  ),
+                ),
+                child: Center(
+                    child: Icon(
+                  Icons.add,
+                  color: Colors.white,
+                  size: 24.0,
+                )),
               ),
             ),
           ),
