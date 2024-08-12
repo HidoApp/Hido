@@ -392,7 +392,8 @@ class _PaymentTypeState extends State<PaymentType> {
       Get.to(() => TicketDetailsScreen(
           booking: fetchedBooking,
           icon: SvgPicture.asset('assets/icons/place.svg'),
-          bookTypeText: 'place'));
+          bookTypeText: 'place',
+          isTour: true,));
     });
   }
 

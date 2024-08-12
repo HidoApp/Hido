@@ -81,7 +81,6 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
     );
   }
 
-  
   late Event? event;
 
   @override
@@ -89,31 +88,32 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
     // TODO: implement initState
     super.initState();
     //  initializeDateFormatting(); //very important
-     getEventById();
-    
+    getEventById();
+
     addCustomIcon();
   }
 
   void getEventById() async {
     event = (await _eventController.getEventById(
         context: context, id: widget.eventId));
-    
 
     for (var day in event!.daysInfo!) {
       print(day.startTime);
-    
-     if(AppUtil.isDateTimeBefore24Hours(day.startTime))
-      avilableDate.add(
-        DateTime.parse(
-          day.startTime.substring(0, 10),
-        ),
-      );
+
+      if (AppUtil.isDateTimeBefore24Hours(day.startTime))
+        avilableDate.add(
+          DateTime.parse(
+            day.startTime.substring(0, 10),
+          ),
+        );
     }
-     if(!widget.isLocal){
-     _fetchAddress(event!.coordinates!.latitude??'', event!.coordinates!.longitude??'');
-     }
+    if (!widget.isLocal) {
+      _fetchAddress(event!.coordinates!.latitude ?? '',
+          event!.coordinates!.longitude ?? '');
+    }
   }
- Future<String> _getAddressFromLatLng(
+
+  Future<String> _getAddressFromLatLng(
       double position1, double position2) async {
     try {
       List<Placemark> placemarks =
@@ -136,13 +136,14 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
       String result = await _getAddressFromLatLng(
           double.parse(position1), double.parse(position2));
       setState(() {
-      address = result;
+        address = result;
       });
     } catch (e) {
       // Handle error if necessary
       print('Error fetching address: $e');
     }
   }
+
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
@@ -164,7 +165,7 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                         child: BottomEventBooking(
                           event: event!,
                           avilableDate: avilableDate,
-                          address:address,
+                          address: address,
                         ),
                       ),
                     )
@@ -209,27 +210,39 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                     // images widget on top of screen
                     GestureDetector(
                       onTap: () {
-                        Get.to(ViewTripImages(
-                          tripImageUrl: event!.image!,
-                          fromNetwork: true,
-                        ));
+                        event!.image!.isEmpty
+                            ? Get.snackbar(
+                                'No Images',
+                                'No images available for this trip.',
+                                snackPosition: SnackPosition.BOTTOM,
+                              )
+                            : Get.to(ViewTripImages(
+                                tripImageUrl: event!.image!,
+                                fromNetwork: true,
+                              ));
                       },
-                      child: CarouselSlider.builder(
-                        options: CarouselOptions(
-                            height: height * 0.3,
-                            viewportFraction: 1,
-                            onPageChanged: (i, reason) {
-                              setState(() {
-                                _currentIndex = i;
-                              });
-                            }),
-                        itemCount: event!.image!.length,
-                        itemBuilder: (context, index, realIndex) {
-                          return ImagesServicesWidget(
-                            image: event!.image![index],
-                          );
-                        },
-                      ),
+                      child: event!.image!.isEmpty
+                          ? Image.asset(
+                              'assets/images/Placeholder.png',
+                              height: height * 0.3,
+                              fit: BoxFit.cover,
+                            )
+                          : CarouselSlider.builder(
+                              options: CarouselOptions(
+                                  height: height * 0.3,
+                                  viewportFraction: 1,
+                                  onPageChanged: (i, reason) {
+                                    setState(() {
+                                      _currentIndex = i;
+                                    });
+                                  }),
+                              itemCount: event!.image!.length,
+                              itemBuilder: (context, index, realIndex) {
+                                return ImagesServicesWidget(
+                                  image: event!.image![index],
+                                );
+                              },
+                            ),
                     ),
                     SizedBox(
                       height: height * 0.03,
@@ -265,10 +278,10 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                               ),
                               CustomText(
                                 text: !widget.isLocal
-                                    ?address
-                                    :AppUtil.rtlDirection2(context)
-                                           ? '${event!.regionAr}, ${widget.address}'
-                                            : '${event!.regionEn}, ${widget.address}',
+                                    ? address
+                                    : AppUtil.rtlDirection2(context)
+                                        ? '${event!.regionAr}, ${widget.address}'
+                                        : '${event!.regionEn}, ${widget.address}',
                                 color: colorDarkGrey,
                                 fontSize: width * 0.038,
                                 fontWeight: FontWeight.w300,
@@ -308,7 +321,7 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                             children: [
                               SvgPicture.asset(
                                 "assets/icons/Clock.svg",
-                                color:colorDarkGrey,
+                                color: colorDarkGrey,
                               ),
                               SizedBox(
                                 width: width * 0.012,
@@ -605,16 +618,12 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                       child: GestureDetector(
                           onTap: widget.isHasBooking
                               ? () async {
-                                 showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return CustomAlertDialog(
-                
-                  
-                );
-              },
-            );
-         
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return CustomAlertDialog();
+                                    },
+                                  );
                                 }
                               : () {
                                   Get.to(EditEvent(eventObj: event!));
@@ -650,30 +659,30 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                 Positioned(
                   top: height * 0.26,
                   left: width * 0.4,
-                  right:width * 0.4,
+                  right: width * 0.4,
                   // left: width * 0.36,
-                child: Align(
-                          alignment: Alignment.center,
+                  child: Align(
+                    alignment: Alignment.center,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: event!.image!.map((imageUrl) {
-                        int index = event!.image!.indexOf(imageUrl);
-                        return Container(
-                          width: width * 0.025,
-                          height: width * 0.025,
-                          margin: EdgeInsets.symmetric(
-                              vertical: width * 0.025, horizontal: width * 0.005),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: _currentIndex == index
-                                ? event!.image!.length == 1
-                                    ? Colors.white.withOpacity(0.1)
-                                    : Colors.white
-                                : Colors.white.withOpacity(0.8),
-                          
-                          ),
-                        );
-                      }).toList(),
+                              int index = event!.image!.indexOf(imageUrl);
+                              return Container(
+                                width: width * 0.025,
+                                height: width * 0.025,
+                                margin: EdgeInsets.symmetric(
+                                    vertical: width * 0.025,
+                                    horizontal: width * 0.005),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: _currentIndex == index
+                                      ? event!.image!.length == 1
+                                          ? Colors.white.withOpacity(0.1)
+                                          : Colors.white
+                                      : Colors.white.withOpacity(0.8),
+                                ),
+                              );
+                            }).toList(),
                     ),
                   ),
                 ),

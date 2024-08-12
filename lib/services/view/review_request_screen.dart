@@ -193,24 +193,26 @@ class _ReviewRequestState extends State<ReviewRequest> {
                           const Divider(
                             color: lightGrey,
                           ),
-                          // SizedBox(
-                          //   height: width * 0.25,
-                          // ),
-
-                       
-                          //discount widget
-                          // const PromocodeField(),
-                          // SizedBox(
-                          //   height: width * 0.071,
-                          // ),
-                          // DottedSeparator(
-                          //   color: almostGrey,
-                          //   height: width * 0.002,
-                          // ),
                           SizedBox(
-                            height: width * 0.09,
+                            height: width * 0.06,
                           ),
 
+                       
+                         // discount widget
+                          const PromocodeField(),
+                          SizedBox(
+                            height: width * 0.071,
+                          ),
+                          DottedSeparator(
+                            color: almostGrey,
+                            height: width * 0.002,
+                          ),
+                          // SizedBox(
+                          //   height: width * 0.09,
+                          // ),
+                            SizedBox(
+                            height: width * 0.07,
+                          ),
                           TotalWidget(
                             offerController: widget.offerController,
                             place: widget.place!,
@@ -228,6 +230,16 @@ class _ReviewRequestState extends State<ReviewRequest> {
                                   icon: const Icon(Icons.keyboard_arrow_right,
                                       color: Colors.white),
                                   onPressed: () async {
+                                     if ( widget.offerController!.updateScheduleList !=
+                                              null) {
+                                            for (var item in  widget.offerController!.updateScheduleList) {
+                                                  print("this sedule");
+                                              print(item.scheduleName);
+                                            }
+                                          } else {
+                                            print(
+                                                'The schedule list is null or does not exist.');
+                                          }
                                     Get.to(
                                       () => PaymentType(
                                         price: (widget.offerController!

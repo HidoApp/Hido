@@ -567,7 +567,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                     Image.asset('assets/images/paymentSuccess.gif', width: 38),
                     const SizedBox(height: 16),
                     Text(
-                     'saveChange'.tr,
+                      'saveChange'.tr,
                       style: TextStyle(
                         fontSize: 14,
                         fontFamily: AppUtil.rtlDirection2(context)
@@ -584,7 +584,7 @@ class _EditHospitalityState extends State<EditHospitality> {
             );
           },
         ).then((_) {
-            // Get.offAll(() => const AjwadiBottomBar());
+          // Get.offAll(() => const AjwadiBottomBar());
           Get.back();
           Get.back();
           final _experienceController = Get.put(AjwadiExploreController());
@@ -654,13 +654,13 @@ class _EditHospitalityState extends State<EditHospitality> {
                               ),
                               CustomText(
                                 textAlign: TextAlign.center,
-                                color:colorRed,
+                                color: colorRed,
                                 fontSize: 15,
                                 fontFamily: AppUtil.rtlDirection2(context)
                                     ? 'SF Arabic'
                                     : 'SF Pro',
                                 fontWeight: FontWeight.w500,
-                                text:"Alert".tr,
+                                text: "Alert".tr,
                               ),
                               const SizedBox(
                                 height: 1,
@@ -670,7 +670,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                                 fontSize: 15,
                                 fontWeight: FontWeight.w400,
                                 color: Color(0xFF41404A),
-                                text:'DeleteNote'.tr,
+                                text: 'DeleteNote'.tr,
                                 fontFamily: AppUtil.rtlDirection2(context)
                                     ? 'SF Arabic'
                                     : 'SF Pro',
@@ -678,98 +678,116 @@ class _EditHospitalityState extends State<EditHospitality> {
                               const SizedBox(
                                 height: 10,
                               ),
-                              GestureDetector(
-                                onTap: () async {
-                                  log("End Trip Taped ${widget.hospitalityObj.id}");
+                              Obx(
+                                () => _servicesController
+                                        .isHospitalityDeleteLoading.value
+                                    ? Center(
+                                        child: CircularProgressIndicator
+                                            .adaptive())
+                                    : GestureDetector(
+                                        onTap: () async {
+                                          log("End Trip Taped ${widget.hospitalityObj.id}");
 
-                                  bool result = await _servicesController
-                                          .hospitalityDelete(
+                                          bool result =
+                                              await _servicesController
+                                                      .hospitalityDelete(
+                                                          context: context,
+                                                          hospitalityId: widget
+                                                              .hospitalityObj
+                                                              .id) ??
+                                                  false;
+                                          if (result) {
+                                            showDialog(
                                               context: context,
-                                              hospitalityId:
-                                                  widget.hospitalityObj.id) ??
-                                      false;
-                                  if (result) {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return Dialog(
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                          ),
-                                          child: Container(
-                                            width: 350,
-                                            height: 110, // Custom width
-                                            padding: EdgeInsets.all(16),
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Image.asset(
-                                                    'assets/images/paymentSuccess.gif',
-                                                    width: 38),
-                                                SizedBox(height: 16),
-                                                Text(
-                                               'DeleteDone'.tr,
-                                                  style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontFamily:
-                                                        AppUtil.rtlDirection2(
-                                                                context)
-                                                            ? 'SF Arabic'
-                                                            : 'SF Pro',
+                                              builder: (BuildContext context) {
+                                                return Dialog(
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8),
                                                   ),
-                                                  textDirection:
-                                                      AppUtil.rtlDirection2(
-                                                              context)
-                                                          ? TextDirection.rtl
-                                                          : TextDirection.ltr,
-                                                ),
-                                              ],
-                                            ),
+                                                  child: Container(
+                                                    width: 350,
+                                                    height: 110, // Custom width
+                                                    padding: EdgeInsets.all(16),
+                                                    child: Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Image.asset(
+                                                            'assets/images/paymentSuccess.gif',
+                                                            width: 38),
+                                                        SizedBox(height: 16),
+                                                        Text(
+                                                          'DeleteDone'.tr,
+                                                          style: TextStyle(
+                                                            fontSize: 14,
+                                                            fontFamily: AppUtil
+                                                                    .rtlDirection2(
+                                                                        context)
+                                                                ? 'SF Arabic'
+                                                                : 'SF Pro',
+                                                          ),
+                                                          textDirection: AppUtil
+                                                                  .rtlDirection2(
+                                                                      context)
+                                                              ? TextDirection
+                                                                  .rtl
+                                                              : TextDirection
+                                                                  .ltr,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                            ).then((_) {
+                                              Get.back();
+                                              Get.back();
+                                              Get.back();
+                                              final _experienceController =
+                                                  Get.put(
+                                                      AjwadiExploreController());
+                                              _experienceController
+                                                  .getAllExperiences(
+                                                      context: context);
+                                            });
+                                          } else {
+                                            if (context.mounted) {
+                                              AppUtil.errorToast(
+                                                  context, 'notDelete'.tr);
+                                              await Future.delayed(
+                                                  const Duration(seconds: 1));
+                                            }
+                                          }
+                                        },
+                                        child: Container(
+                                          height: 34,
+                                          width: 278,
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 3),
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                            color: colorRed,
+                                            borderRadius:
+                                                BorderRadius.circular(4),
                                           ),
-                                        );
-                                      },
-                                    ).then((_) {
-                                      Get.back();
-                                      Get.back();
-                                      Get.back();
-                                      final _experienceController =
-                                          Get.put(AjwadiExploreController());
-                                      _experienceController.getAllExperiences(
-                                          context: context);
-                                    });
-                                  } else {
-                                    if (context.mounted) {
-                                      AppUtil.errorToast(context,
-                                        'notDelete'.tr);
-                                      await Future.delayed(
-                                          const Duration(seconds: 1));
-                                    }
-                                  }
-                                },
-                                child: Container(
-                                  height: 34,
-                                  width: 278,
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 3),
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    color: colorRed,
-                                    borderRadius: BorderRadius.circular(4),
-                                  ),
-                                  child: CustomText(
-                                    textAlign: TextAlign.center,
-                                    text: "Delete".tr,
-                                    color: Colors.white,
-                                    fontSize: 15,
-                                    fontFamily: AppUtil.rtlDirection2(context)
-                                        ? 'SF Arabic'
-                                        : 'SF Pro',
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
+                                          child: CustomText(
+                                            textAlign: TextAlign.center,
+                                            text: "Delete".tr,
+                                            color: Colors.white,
+                                            fontSize: 15,
+                                            fontFamily:
+                                                AppUtil.rtlDirection2(context)
+                                                    ? 'SF Arabic'
+                                                    : 'SF Pro',
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ),
                               ),
                               const SizedBox(height: 10),
                               GestureDetector(
@@ -796,7 +814,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                 ? 'SF Arabic'
                                                 : 'SF Pro',
                                         fontWeight: FontWeight.w500,
-                                        color:colorRed,
+                                        color: colorRed,
                                         text: 'cancel'.tr)),
                               ),
                             ],
@@ -811,11 +829,13 @@ class _EditHospitalityState extends State<EditHospitality> {
               bottomNavigationBar: Padding(
                   padding: EdgeInsets.all(16.0),
                   child: Obx(
-                    () =>  _eventController.isImagesLoading.value
-                        ?  Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 160),
-                          child: CircularProgressIndicator.adaptive(),
-                        )
+                    () => _eventController.isImagesLoading.value ||
+                            _servicesController.isEditHospitalityLoading.value
+                        ? Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 160),
+                            child: CircularProgressIndicator.adaptive(),
+                          )
                         : CustomButton(
                             onPressed: () {
                               validateAndSave();
@@ -1127,7 +1147,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                         _selectedLanguageIndex ==
                                                                 0
                                                             ? bioArEmpty
-                                                                ?colorRed
+                                                                ? colorRed
                                                                 : Color(
                                                                     0xFFB9B8C1)
                                                             : bioEnEmpty
@@ -1288,7 +1308,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                                             side: BorderSide(
                                                 width: 1,
                                                 color: guestEmpty
-                                                    ?colorRed
+                                                    ? colorRed
                                                     : Color(0xFFB9B8C1)),
                                             borderRadius:
                                                 BorderRadius.circular(8),
@@ -1933,7 +1953,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                         : "Select The Time"
                                                     : '',
                                                 style: TextStyle(
-                                                  color:colorRed,
+                                                  color: colorRed,
                                                   fontSize: 11,
                                                   fontFamily:
                                                       AppUtil.rtlDirection2(
@@ -1990,7 +2010,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                                   _servicesController
                                                                       .TimeErrorMessage
                                                                       .value
-                                                          ?colorRed
+                                                          ? colorRed
                                                           : DurationErrorMessage ??
                                                                   false
                                                               ? colorRed

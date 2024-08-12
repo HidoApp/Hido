@@ -323,7 +323,7 @@ const localeEn = {
   "StartChat": "Start Chat!",
   'message': 'message',
   "EndRound": "End Round",
-  "EndTrip": "Cancel Tour",
+  "EndTrip": "Booking cancelled",
   "ContactTheHedoTeam": "Contact Hido Team",
   "km": "km",
   "sar": "SAR",

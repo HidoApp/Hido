@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class ImagesServicesWidget extends StatelessWidget {
@@ -13,10 +14,13 @@ class ImagesServicesWidget extends StatelessWidget {
                 Radius.circular(MediaQuery.of(context).size.width * 0.04),
             bottomRight:
                 Radius.circular(MediaQuery.of(context).size.width * 0.04)),
-        child: Image.network(
-          image,
-          fit: BoxFit.fill,
-        ),
+        child: CachedNetworkImage(
+                   imageUrl:  image,
+                   placeholder:(context, url) => Image.asset('assets/images/Placeholder.png') ,
+                 
+                    fit: BoxFit.fill,
+
+                 )
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
@@ -56,10 +57,20 @@ class _ViewTripImagesState extends State<ViewTripImages> {
               borderRadius: BorderRadius.all(Radius.circular(20)),
             ),
             padding: EdgeInsets.all(6),
-            child: Image.network(
-              url,
-              fit: BoxFit.fill,
-            )))
+            // child: Image.network(
+            //   url,
+            //   fit: BoxFit.fill,
+            // )
+            child: CachedNetworkImage(
+                   imageUrl:  url,
+                   placeholder:(context, url) => Image.asset('assets/images/Placeholder.png') ,
+                 
+                    fit: BoxFit.fill,
+
+                 )
+            )
+            
+            )
         .toList();
     return items;
   }

@@ -216,9 +216,9 @@ class AppUtil {
 
   static bool isEndTimeLessThanStartTime(DateTime startTime, DateTime endTime) {
   // If the end time is before the start time, adjust end time by adding one day
-  if (endTime.isBefore(startTime)) {
-    endTime = endTime.add(Duration(days: 1));
-  }
+  // if (endTime.isBefore(startTime)) {
+  //   endTime = endTime.add(Duration(days: 1));
+  // }
   
   return endTime.isBefore(startTime);
 }

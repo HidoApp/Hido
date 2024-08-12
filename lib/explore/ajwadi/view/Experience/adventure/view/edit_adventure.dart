@@ -347,7 +347,6 @@ class _EditAdventureState extends State<EditAdventure> {
         !_servicesController.TimeErrorMessage.value &&
         _servicesController.images.length >= 3 &&
         _servicesController.DateErrorMessage.value) {
-      _updateAdventure();
       if (await uploadImages()) {
         _updateAdventure();
       } else {
@@ -598,97 +597,103 @@ class _EditAdventureState extends State<EditAdventure> {
                               const SizedBox(
                                 height: 10,
                               ),
-                              GestureDetector(
-                                onTap: () async {
-                                  log("End Trip Taped ${widget.adventureObj.id}");
-
-                                  bool result =
-                                      await _servicesController.AdventureDelete(
-                                              context: context,
-                                              adventureId:
-                                                  widget.adventureObj.id) ??
-                                          false;
-                                  if (result) {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return Dialog(
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                          ),
-                                          child: Container(
-                                            width: 350,
-                                            height: 110, // Custom width
-                                            padding: EdgeInsets.all(16),
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Image.asset(
-                                                    'assets/images/paymentSuccess.gif',
-                                                    width: 38),
-                                                SizedBox(height: 16),
-                                                Text(
-                                                  'DeleteDone'.tr,
-                                                  style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontFamily:
+                               Obx(
+                                () => _servicesController.isAdventureDeleteLoading.value
+                                    ? Center(
+                                        child: CircularProgressIndicator
+                                            .adaptive())
+                                    : GestureDetector(
+                                  onTap: () async {
+                                    log("End Trip Taped ${widget.adventureObj.id}");
+                              
+                                    bool result =
+                                        await _servicesController.AdventureDelete(
+                                                context: context,
+                                                adventureId:
+                                                    widget.adventureObj.id) ??
+                                            false;
+                                    if (result) {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return Dialog(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                            child: Container(
+                                              width: 350,
+                                              height: 110, // Custom width
+                                              padding: EdgeInsets.all(16),
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Image.asset(
+                                                      'assets/images/paymentSuccess.gif',
+                                                      width: 38),
+                                                  SizedBox(height: 16),
+                                                  Text(
+                                                    'DeleteDone'.tr,
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontFamily:
+                                                          AppUtil.rtlDirection2(
+                                                                  context)
+                                                              ? 'SF Arabic'
+                                                              : 'SF Pro',
+                                                    ),
+                                                    textDirection:
                                                         AppUtil.rtlDirection2(
                                                                 context)
-                                                            ? 'SF Arabic'
-                                                            : 'SF Pro',
+                                                            ? TextDirection.rtl
+                                                            : TextDirection.ltr,
                                                   ),
-                                                  textDirection:
-                                                      AppUtil.rtlDirection2(
-                                                              context)
-                                                          ? TextDirection.rtl
-                                                          : TextDirection.ltr,
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                        );
-                                      },
-                                    ).then((_) {
-                                      Get.back();
-                                      Get.back();
-                                      Get.back();
-
-                                      final _experienceController =
-                                          Get.put(AjwadiExploreController());
-                                      _experienceController.getAllExperiences(
-                                          context: context);
-                                    });
-                                  } else {
-                                    if (context.mounted) {
-                                      AppUtil.errorToast(context,
-                                          'notDelete'.tr);
-                                      await Future.delayed(
-                                          const Duration(seconds: 1));
+                                          );
+                                        },
+                                      ).then((_) {
+                                        Get.back();
+                                        Get.back();
+                                        Get.back();
+                              
+                                        final _experienceController =
+                                            Get.put(AjwadiExploreController());
+                                        _experienceController.getAllExperiences(
+                                            context: context);
+                                      });
+                                    } else {
+                                      if (context.mounted) {
+                                        AppUtil.errorToast(
+                                            context, 'notDelete'.tr);
+                                        await Future.delayed(
+                                            const Duration(seconds: 1));
+                                      }
                                     }
-                                  }
-                                },
-                                child: Container(
-                                  height: 34,
-                                  width: 278,
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 3),
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    color: Color(0xFFDC362E),
-                                    borderRadius: BorderRadius.circular(4),
-                                  ),
-                                  child: CustomText(
-                                    textAlign: TextAlign.center,
-                                    text: "Delete".tr,
-                                    color: Colors.white,
-                                    fontSize: 15,
-                                    fontFamily: AppUtil.rtlDirection2(context)
-                                        ? 'SF Arabic'
-                                        : 'SF Pro',
-                                    fontWeight: FontWeight.w500,
+                                  },
+                                  child: Container(
+                                    height: 34,
+                                    width: 278,
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 3),
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      color: Color(0xFFDC362E),
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                    child: CustomText(
+                                      textAlign: TextAlign.center,
+                                      text: "Delete".tr,
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                      fontFamily: AppUtil.rtlDirection2(context)
+                                          ? 'SF Arabic'
+                                          : 'SF Pro',
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -718,7 +723,7 @@ class _EditAdventureState extends State<EditAdventure> {
                                                 : 'SF Pro',
                                         fontWeight: FontWeight.w500,
                                         color: Color(0xFFDC362E),
-                                       text: 'cancel'.tr)),
+                                        text: 'cancel'.tr)),
                               ),
                             ],
                           ),
@@ -732,11 +737,12 @@ class _EditAdventureState extends State<EditAdventure> {
               bottomNavigationBar: Padding(
                   padding: EdgeInsets.all(16.0),
                   child: Obx(
-                    () =>  _eventController.isImagesLoading.value
-                        ?  Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 160),
-                          child: CircularProgressIndicator.adaptive(),
-                        )
+                    () => _eventController.isImagesLoading.value||_servicesController.isEditAdveentureLoading.value
+                        ? Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 160),
+                            child: CircularProgressIndicator.adaptive(),
+                          )
                         : CustomButton(
                             onPressed: () {
                               validateAndSave();
@@ -779,22 +785,31 @@ class _EditAdventureState extends State<EditAdventure> {
                                         Type: 'adventure',
                                       ));
                                 },
-                                child: CarouselSlider.builder(
-                                  carouselController: _carouselController,
-                                  options: CarouselOptions(
-                                      viewportFraction: 1,
-                                      onPageChanged: (i, reason) {
-                                        setState(() {
-                                          _currentIndex = i;
-                                        });
-                                      }),
-                                  itemCount: _servicesController.images.length,
-                                  itemBuilder: (context, index, realIndex) {
-                                    return ImagesSliderWidget(
-                                      image: _servicesController.images[index],
-                                    );
-                                  },
-                                ),
+                                child: _servicesController.images.isEmpty
+                                    ? Image.asset(
+                                        'assets/images/Placeholder.png',
+                                        height: height * 0.3,
+                                        fit: BoxFit.cover,
+                                      )
+                                    : CarouselSlider.builder(
+                                        carouselController: _carouselController,
+                                        options: CarouselOptions(
+                                            viewportFraction: 1,
+                                            onPageChanged: (i, reason) {
+                                              setState(() {
+                                                _currentIndex = i;
+                                              });
+                                            }),
+                                        itemCount:
+                                            _servicesController.images.length,
+                                        itemBuilder:
+                                            (context, index, realIndex) {
+                                          return ImagesSliderWidget(
+                                            image: _servicesController
+                                                .images[index],
+                                          );
+                                        },
+                                      ),
                               ),
                             ),
                           ),
@@ -928,7 +943,7 @@ class _EditAdventureState extends State<EditAdventure> {
                                                       _selectedLanguageIndex ==
                                                               0
                                                           ? titleArEmpty
-                                                              ?colorRed
+                                                              ? colorRed
                                                               : Color(
                                                                   0xFFB9B8C1)
                                                           : titleENEmpty
@@ -2227,7 +2242,7 @@ class _EditAdventureState extends State<EditAdventure> {
                           ),
                         ],
                       ),
-                        Positioned(
+                      Positioned(
                         top: height * 0.256,
                         left: width * 0.2,
                         right: width * 0.2,
@@ -2241,8 +2256,8 @@ class _EditAdventureState extends State<EditAdventure> {
                                 .entries
                                 .map((entry) {
                               return GestureDetector(
-                                onTap: () =>
-                                    _carouselController.animateToPage(entry.key),
+                                onTap: () => _carouselController
+                                    .animateToPage(entry.key),
                                 child: Container(
                                   width: 8,
                                   height: 8,

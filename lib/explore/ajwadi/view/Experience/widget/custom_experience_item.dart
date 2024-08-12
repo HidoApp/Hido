@@ -8,6 +8,7 @@ import 'package:ajwad_v4/services/view/hospitality_details.dart';
 import 'package:ajwad_v4/services/view/local_event_details.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geocoding/geocoding.dart';
@@ -114,12 +115,23 @@ class _ServicesCardState extends State<ServicesCard> {
               children: [
                 ClipRRect(
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  child: Image.network(
-                    widget.experience.image.first,
+                  child: widget.experience.image.isEmpty?
+                  Image.asset('assets/images/Placeholder.png')
+                  
+                 : CachedNetworkImage(
+                   imageUrl:  widget.experience.image.first,
+                   placeholder:(context, url) => Image.asset('assets/images/Placeholder.png') ,
                     width: width * 0.23,
                     height: width * 0.23,
                     fit: BoxFit.fill,
-                  ),
+
+                 )
+                //  Image.network(
+                //     widget.experience.image.first,
+                //     width: width * 0.23,
+                //     height: width * 0.23,
+                //     fit: BoxFit.fill,
+                //   ),
                 ),
                 SizedBox(
                   width: width * 0.028,

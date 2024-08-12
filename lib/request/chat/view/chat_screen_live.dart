@@ -180,10 +180,13 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                                           CustomText(
                                             text:
                                                 '${AppUtil.formatBookingDate(context, widget.booking!.date!)}',
-                                       color: starGreyColor ,
-                                        fontSize: width*0.03,
-                                        fontWeight: FontWeight.w400,
-                                        fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+                                            color: starGreyColor,
+                                            fontSize: width * 0.03,
+                                            fontWeight: FontWeight.w400,
+                                            fontFamily:
+                                                AppUtil.rtlDirection2(context)
+                                                    ? 'SF Arabic'
+                                                    : 'SF Pro',
                                           ),
                                         ],
                                       ),
@@ -201,10 +204,13 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                                             text: AppUtil.rtlDirection2(context)
                                                 ? 'من ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)} إلى ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)} '
                                                 : 'Pick up: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)}, Drop off: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)}',
-                                        color: starGreyColor ,
-                                        fontSize: width*0.03,
-                                        fontWeight: FontWeight.w400,
-                                        fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+                                            color: starGreyColor,
+                                            fontSize: width * 0.03,
+                                            fontWeight: FontWeight.w400,
+                                            fontFamily:
+                                                AppUtil.rtlDirection2(context)
+                                                    ? 'SF Arabic'
+                                                    : 'SF Pro',
                                           ),
                                         ],
                                       ),
@@ -221,10 +227,13 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                                           CustomText(
                                             text:
                                                 '${widget.booking?.guestNumber} ${'guests'.tr}',
-                                              color: starGreyColor ,
-                                        fontSize: width*0.03,
-                                        fontWeight: FontWeight.w400,
-                                        fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+                                            color: starGreyColor,
+                                            fontSize: width * 0.03,
+                                            fontWeight: FontWeight.w400,
+                                            fontFamily:
+                                                AppUtil.rtlDirection2(context)
+                                                    ? 'SF Arabic'
+                                                    : 'SF Pro',
                                           ),
                                         ],
                                       ),
@@ -242,10 +251,13 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                                           ),
                                           CustomText(
                                             text: widget.booking!.vehicleType!,
-                                           color: starGreyColor ,
-                                        fontSize: width*0.03,
-                                        fontWeight: FontWeight.w400,
-                                        fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+                                            color: starGreyColor,
+                                            fontSize: width * 0.03,
+                                            fontWeight: FontWeight.w400,
+                                            fontFamily:
+                                                AppUtil.rtlDirection2(context)
+                                                    ? 'SF Arabic'
+                                                    : 'SF Pro',
                                           ),
                                         ],
                                       ),
@@ -303,7 +315,7 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                                       'notePrice'.tr,
                                       style: TextStyle(
                                         color: starGreyColor,
-                                        fontSize: width*0.029,
+                                        fontSize: width * 0.029,
                                         fontFamily: AppUtil.SfFontType(context),
                                         fontWeight: FontWeight.w400,
                                         height: 0,
@@ -350,12 +362,22 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                                     place: widget.place!,
                                   ),
 
-                                  Obx(() =>
-                                    IgnorePointer(
+                                  Obx(
+                                    () => IgnorePointer(
                                       ignoring: widget
                                           .offerController!.scheduleState.value,
                                       child: CustomButton(
                                         onPressed: () {
+                                          if ( widget.offerController!.updateScheduleList !=
+                                              null) {
+                                            for (var item in  widget.offerController!.updateScheduleList) {
+                                                  print("this sedule");
+                                              print(item.scheduleName);
+                                            }
+                                          } else {
+                                            print(
+                                                'The schedule list is null or does not exist.');
+                                          }
                                           Get.to(() => ReviewRequest(
                                                 booking: widget.booking,
                                                 scheduleList: widget
@@ -392,8 +414,9 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                                           : 'Return to Offers'.tr,
                                       buttonColor:
                                           Colors.white.withOpacity(0.3),
-                                      borderColor: Colors.white.withOpacity(0.3) ,
-                                      textColor:black),
+                                      borderColor:
+                                          Colors.white.withOpacity(0.3),
+                                      textColor: black),
 
                                   // paymentController.isPaymenInvoiceLoading.value
                                   //     ? CircularProgressIndicator(
