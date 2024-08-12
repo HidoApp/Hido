@@ -51,44 +51,46 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> 
+class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
   final _authController = Get.put(AuthController());
-  final _getStorage = GetStorage();
+  final getStorage = GetStorage();
   late AnimationController _controller;
   var onBoarding;
   late dynamic userRole;
   late dynamic token;
 
-  Future<String?> checkForBoarding() async {
-    dynamic onBoarding = await _getStorage.read('onBoarding') ?? '';
-    print('onBoarding  onBoarding $onBoarding');
-    userRole = _getStorage.read('userRole') ?? '';
-    token = _getStorage.read('accessToken') ?? '';
-    token = _getStorage.read('accessToken') ?? '';
+  // Future<String?> checkForBoarding() async {
+  //   dynamic onBoarding = await _getStorage.read('onBoarding') ?? '';
+  //   print('onBoarding  onBoarding $onBoarding');
 
-    if (onBoarding == 'yes') {
-      return onBoarding;
-    } else {
-      return null;
-    }
-  }
+  //   token = _getStorage.read('accessToken') ?? '';
+
+  //   if (onBoarding == 'yes') {
+  //     return onBoarding;
+  //   } else {
+  //     return null;
+  //   }
+  // }
 
   @override
   void initState() {
     super.initState();
+    print(userRole = getStorage.read('userRole') ?? 'NULL ROLE');
+    print(userRole = getStorage.read('accessToken') ?? 'NULL ');
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 1), // Set the desired duration here
     )..forward();
-
+    userRole = getStorage.read('userRole') ?? '';
+    token = getStorage.read('accessToken') ?? '';
     Future.delayed(const Duration(seconds: 5), () async {
-      onBoarding = await checkForBoarding() ?? 'no';
+      //  onBoarding = await checkForBoarding() ?? 'no';
       _controller.dispose();
       print('onBoarding onBoarding onBoarding $onBoarding');
-      if (onBoarding == 'no' && token != '' && userRole == 'local') {
+      if (token != '' && userRole == 'local') {
         if (JwtDecoder.isExpired(token)) {
-          final String refreshToken = _getStorage.read('refreshToken');
+          final String refreshToken = getStorage.read('refreshToken');
           var user = await _authController.refreshToken(
               refreshToken: refreshToken, context: context);
           if (user != null) {
@@ -98,9 +100,9 @@ class _SplashScreenState extends State<SplashScreen>
         }
 
         Get.off(() => const AjwadiBottomBar());
-      } else if (onBoarding == 'no' && token != '' && userRole == 'tourist') {
+      } else if (token != '' && userRole == 'tourist') {
         if (JwtDecoder.isExpired(token)) {
-          final String refreshToken = _getStorage.read('refreshToken');
+          final String refreshToken = getStorage.read('refreshToken');
           var user = await _authController.refreshToken(
               refreshToken: refreshToken, context: context);
           if (user != null) {

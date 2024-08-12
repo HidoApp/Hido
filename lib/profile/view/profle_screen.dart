@@ -320,7 +320,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 if (isLogout) {
                                                   Get.offAll(() =>
                                                       const OnboardingScreen());
-                                                  log(storage.read(
+                                                  print(storage.read(
                                                           'accessToken') ??
                                                       "empty 2x");
                                                 }
