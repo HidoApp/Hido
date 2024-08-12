@@ -314,6 +314,7 @@ class PaymentService {
       return null;
     }
   }
+
   static Future<Invoice?> getPaymentId(
       {required BuildContext context, required String id}) async {
     final getStorage = GetStorage();
@@ -346,9 +347,9 @@ class PaymentService {
       return Invoice.fromJson(data);
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
-      if (context.mounted) {
-        AppUtil.errorToast(context, errorMessage);
-      }
+      // if (context.mounted) {
+      //   AppUtil.errorToast(context, errorMessage);
+      // }
       return null;
     }
   }

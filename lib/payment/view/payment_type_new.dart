@@ -170,7 +170,7 @@ class _PaymentTypeState extends State<PaymentType> {
       )).then((value) async {
         Invoice? checkInvoice;
         checkInvoice = await _paymentController.getPaymentId(
-            context: context, id: invoice!.id);
+            context: context, id: invoice!.payId!);
         // checkInvoice = await _paymentController.applePayEmbeddedExecute(
         //     context: context,
         //     invoiceValue: widget.price,
@@ -278,17 +278,15 @@ class _PaymentTypeState extends State<PaymentType> {
       //   ),
       // )
       Get.bottomSheet(
-          // isScrollControlled: true,
+          //  isScrollControlled: true,
           WebViewSheet(
         url: invoice!.url!,
         title: 'payment'.tr,
       )).then((value) async {
         Invoice? checkInvoice;
-
         checkInvoice = await _paymentController.getPaymentId(
-            context: context, id: invoice!.id);
-
-        if (checkInvoice!.payStatus == 'Paid') {
+            context: context, id: invoice!.payId!);
+        if (checkInvoice != null) {
           //if the invoice paid then will booking depend on the type of booking
           switch (widget.type) {
             case 'adventure':
@@ -326,7 +324,7 @@ class _PaymentTypeState extends State<PaymentType> {
                   ),
                 );
               }).then((value) async {
-            await navigateToPayment(context, invoice!.url!, 'else');
+            await navigateToPayment(context, invoice!.url!, 'credit');
           });
         }
       });
@@ -825,7 +823,12 @@ class _PaymentTypeState extends State<PaymentType> {
       await Get.bottomSheet(WebViewSheet(
         url: url,
         title: "",
-        height: 120,
+        height: 115,
+      ));
+    } else if (type == 'credit') {
+      await Get.bottomSheet(WebViewSheet(
+        url: url,
+        title: "",
       ));
     } else {
       await Navigator.push(

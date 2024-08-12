@@ -24,6 +24,7 @@ import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_list_tile.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/local_auth_mark.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -104,13 +105,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         _profileController
                                                 .profile.profileImage !=
                                             null
-                                    ? Image.network(
-                                        _profileController
-                                            .profile.profileImage!,
+                                    ? CachedNetworkImage(
                                         height: 65,
                                         width: 65,
                                         fit: BoxFit.cover,
-                                      )
+                                        imageUrl: _profileController
+                                            .profile.profileImage!,
+                                        placeholder: (context, url) =>
+                                            Image.asset(
+                                              "assets/images/profile_image.png",
+                                              height: 65,
+                                              width: 65,
+                                              fit: BoxFit.cover,
+                                            ),
+                                        errorWidget: (context, url, error) =>
+                                            Image.asset(
+                                              "assets/images/profile_image.png",
+                                              height: 65,
+                                              width: 65,
+                                              fit: BoxFit.cover,
+                                            ))
                                     : Image.asset(
                                         "assets/images/profile_image.png",
                                         height: 65,

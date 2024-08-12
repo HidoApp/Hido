@@ -13,6 +13,7 @@ class WebViewSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.zero,
       decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(12), topRight: Radius.circular(12))),
@@ -21,6 +22,8 @@ class WebViewSheet extends StatelessWidget {
         color: Colors.white,
         child: WebViewWidget(
           controller: WebViewController()
+            ..enableZoom(false)
+            ..setBackgroundColor(Colors.white)
             ..setJavaScriptMode(JavaScriptMode.unrestricted)
             ..setBackgroundColor(const Color.fromARGB(0, 255, 254, 254))
             ..setNavigationDelegate(

@@ -3,6 +3,7 @@ class Invoice {
   // final String invoiceStatus;
   // final String? url;
   final String id;
+  final String? payId;
   final String invoiceStatus;
   final String? url;
   final String sessionId;
@@ -13,6 +14,7 @@ class Invoice {
       {required this.id,
       required this.invoiceStatus,
       required this.sessionId,
+      required this.payId,
       this.url,
       this.payStatus,
       this.message,
@@ -20,6 +22,7 @@ class Invoice {
 
   factory Invoice.fromJson(Map<String, dynamic> json) {
     return Invoice(
+      payId: json['payId'] ?? "",
       sessionId: json['sessionId'] ?? "",
       payStatus: json['payStatus'] ?? '',
       id: json['id'] ?? '',

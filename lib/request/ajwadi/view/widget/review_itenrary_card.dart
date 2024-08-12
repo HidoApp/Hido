@@ -61,16 +61,50 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
 
   bool compareTime(DateTime dateTimeFromPicker) {
     String pickerTime24 = DateFormat('HH:mm:ss').format(dateTimeFromPicker);
+
     DateTime parsedPickerTime = DateFormat('HH:mm:ss').parse(pickerTime24);
-    // Compare hour and minute
-    return parsedPickerTime
-            .isAtSameMomentAs(widget.requestController.timeToGo.value) ||
-        parsedPickerTime
-            .isAtSameMomentAs(widget.requestController.timeToReturn.value) ||
-        parsedPickerTime.isAfter(widget.requestController.timeToGo.value) &&
-            parsedPickerTime
-                .isBefore(widget.requestController.timeToReturn.value);
+    log("pickerTime24");
+    log(pickerTime24);
+    log(widget.requestController.timeToReturn.value.toString());
+    log((parsedPickerTime.day == widget.requestController.timeToGo.value.day)
+        .toString());
+
+    if (widget.requestController.timeToGo.value
+        .isAfter(widget.requestController.timeToReturn.value)) {
+      // pm to am
+      // Compare hour and minute
+      return parsedPickerTime
+              .isAtSameMomentAs(widget.requestController.timeToGo.value) ||
+          parsedPickerTime
+              .isAtSameMomentAs(widget.requestController.timeToReturn.value) ||
+          !(parsedPickerTime
+                  .isBefore(widget.requestController.timeToGo.value) &&
+              parsedPickerTime
+                  .isAfter(widget.requestController.timeToReturn.value));
+    } else {
+      // Compare hour and minute
+      return parsedPickerTime
+              .isAtSameMomentAs(widget.requestController.timeToGo.value) ||
+          parsedPickerTime
+              .isAtSameMomentAs(widget.requestController.timeToReturn.value) ||
+          parsedPickerTime.isAfter(widget.requestController.timeToGo.value) &&
+              parsedPickerTime
+                  .isBefore(widget.requestController.timeToReturn.value);
+    }
   }
+
+  // bool compareTime(DateTime dateTimeFromPicker) {
+  //   String pickerTime24 = DateFormat('HH:mm:ss').format(dateTimeFromPicker);
+  //   DateTime parsedPickerTime = DateFormat('HH:mm:ss').parse(pickerTime24);
+  //   // Compare hour and minute
+  //   return parsedPickerTime
+  //           .isAtSameMomentAs(widget.requestController.timeToGo.value) ||
+  //       parsedPickerTime
+  //           .isAtSameMomentAs(widget.requestController.timeToReturn.value) ||
+  //       parsedPickerTime.isAfter(widget.requestController.timeToGo.value) &&
+  //           parsedPickerTime
+  //               .isBefore(widget.requestController.timeToReturn.value);
+  // }
 
   @override
   void dispose() {
