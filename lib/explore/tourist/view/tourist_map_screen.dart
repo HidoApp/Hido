@@ -92,7 +92,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   BitmapDescriptor adventureIcon = BitmapDescriptor.defaultMarker;
 
   late UserLocation? userLocation;
-  final storage = GetStorage();
+  final storage = GetStorage('map_markers');
   final ProfileController _profileController = Get.put(ProfileController());
   final _sheetController = SolidController();
 

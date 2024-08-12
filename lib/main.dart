@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/new-onboarding/view/splash_screen.dart';
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import 'package:flutter/material.dart';
@@ -17,6 +16,8 @@ import 'package:timeago/timeago.dart' as timeago;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
+  await GetStorage.init('map_markers');
+
   await initializeDateFormatting('ar');
   await LocalNotification.init();
   timeago.setLocaleMessages('ar', timeago.ArMessages());
@@ -39,7 +40,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    token = _getStorage.read('token') ?? '';
+    token = _getStorage.read('accessToken') ?? '';
     log('token $token');
     print('${Platform.localeName.toLocale().languageCode}');
 
