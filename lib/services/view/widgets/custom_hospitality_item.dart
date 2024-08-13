@@ -7,6 +7,7 @@ import 'package:ajwad_v4/services/view/event_details.dart';
 import 'package:ajwad_v4/services/view/hospitality_details.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
+import 'package:ajwad_v4/widgets/image_cache_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geocoding/geocoding.dart';
@@ -47,7 +48,7 @@ class ServicesCard extends StatefulWidget {
 
 class _ServicesCardState extends State<ServicesCard> {
   final _servicesController = Get.put(HospitalityController());
-  String address='';
+  String address = '';
   Future<String> _getAddressFromLatLng(
       double position1, double position2) async {
     try {
@@ -71,7 +72,7 @@ class _ServicesCardState extends State<ServicesCard> {
       String result = await _getAddressFromLatLng(
           double.parse(position1), double.parse(position2));
       setState(() {
-      address = result;
+        address = result;
       });
     } catch (e) {
       // Handle error if necessary
@@ -114,12 +115,15 @@ class _ServicesCardState extends State<ServicesCard> {
               children: [
                 ClipRRect(
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  child: Image.network(
-                    widget.image,
+                  child: ImageCacheWidget(
+                    image: widget.image,
                     width: width * 0.23,
                     height: width * 0.23,
-                    fit: BoxFit.fill,
                   ),
+                  // Image.network(
+                  //   widget.image,
+                  //   fit: BoxFit.fill,
+                  // ),
                 ),
                 SizedBox(
                   width: width * 0.028,
@@ -150,9 +154,7 @@ class _ServicesCardState extends State<ServicesCard> {
                           width: width * 0.017,
                         ),
                         CustomText(
-                          text: address.isNotEmpty
-                                ? address
-                                 : widget.location,
+                          text: address.isNotEmpty ? address : widget.location,
                           fontSize: 11,
                           fontWeight: FontWeight.w400,
                           fontFamily: AppUtil.rtlDirection2(context)

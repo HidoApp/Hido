@@ -23,6 +23,7 @@ import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_list_tile.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
+import 'package:ajwad_v4/widgets/image_cache_widget.dart';
 import 'package:ajwad_v4/widgets/local_auth_mark.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -107,26 +108,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         _profileController
                                                 .profile.profileImage !=
                                             null
-                                    ? CachedNetworkImage(
+                                    ? ImageCacheWidget(
+                                        image: _profileController
+                                            .profile.profileImage!,
                                         height: 65,
                                         width: 65,
-                                        fit: BoxFit.cover,
-                                        imageUrl: _profileController
-                                            .profile.profileImage!,
-                                        placeholder: (context, url) =>
-                                            Image.asset(
-                                          "assets/images/profile_image.png",
-                                          height: 65,
-                                          width: 65,
-                                          fit: BoxFit.cover,
-                                        ),
-                                        errorWidget: (context, url, error) =>
-                                            Image.asset(
-                                          "assets/images/profile_image.png",
-                                          height: 65,
-                                          width: 65,
-                                          fit: BoxFit.cover,
-                                        ),
+                                        placeholder:
+                                            "assets/images/profile_image.png",
                                       )
                                     : Image.asset(
                                         "assets/images/profile_image.png",
@@ -222,15 +210,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ));
                             },
                           ),
-                          // if (_profileController.profile.accountType != null)
-                          //   if (widget.fromAjwady &&
-                          //       _profileController.profile.accountType ==
-                          //           'TOUR_GUID')
-                          CustomListTile(
-                            title: 'legalDoc'.tr,
-                            leading: "assets/icons/legal.svg",
-                            onTap: () => Get.to(() => const LegalDocument()),
-                          ),
+                          if (_profileController.profile.accountType != null)
+                            if (widget.fromAjwady &&
+                                _profileController.profile.accountType ==
+                                    'TOUR_GUID')
+                              CustomListTile(
+                                title: 'legalDoc'.tr,
+                                leading: "assets/icons/legal.svg",
+                                onTap: () =>
+                                    Get.to(() => const LegalDocument()),
+                              ),
                           if (!widget.fromAjwady)
                             CustomListTile(
                               title: "myTickets".tr,
@@ -322,7 +311,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 if (isLogout) {
                                                   Get.offAll(() =>
                                                       const OnboardingScreen());
-                                                
                                                 }
                                               },
                                             ),

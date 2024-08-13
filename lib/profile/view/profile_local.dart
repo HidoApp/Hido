@@ -7,6 +7,7 @@ import 'package:ajwad_v4/services/view/widgets/custom_chips.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/custom_textfield.dart';
+import 'package:ajwad_v4/widgets/image_cache_widget.dart';
 import 'package:ajwad_v4/widgets/local_auth_mark.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -172,13 +173,13 @@ class _LocalProfileState extends State<LocalProfile> {
                             : _profileController.profile.profileImage != "" &&
                                     _profileController.profile.profileImage !=
                                         null
-                                ? Image.network(
-                                    newProfileImage ??
-                                        _profileController
-                                            .profile.profileImage!,
+                                ? ImageCacheWidget(
+                                    image: _profileController
+                                        .profile.profileImage!,
                                     height: 100,
                                     width: 100,
-                                    fit: BoxFit.cover,
+                                    placeholder:
+                                        "assets/images/profile_image.png",
                                   )
                                 : Image.asset(
                                     "assets/images/profile_image.png",

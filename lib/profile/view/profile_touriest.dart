@@ -9,6 +9,7 @@ import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 
 import 'package:ajwad_v4/widgets/custom_textfield.dart';
+import 'package:ajwad_v4/widgets/image_cache_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -204,31 +205,31 @@ class _ProfileDetailsState extends State<TouriestProfile> {
                         Center(
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(50.0),
-                            child:
-                                widget.profileController.isImagesLoading.value
-                                    ? const CircularProgressIndicator(
-                                        color: colorGreen,
-                                      )
-                                    : widget.profileController.profile
-                                                    .profileImage !=
-                                                "" &&
-                                            widget.profileController.profile
-                                                    .profileImage !=
-                                                null
-                                        ? Image.network(
-                                            newProfileImage ??
-                                                widget.profileController.profile
-                                                    .profileImage!,
-                                            height: 100,
-                                            width: 100,
-                                            fit: BoxFit.cover,
-                                          )
-                                        : Image.asset(
+                            child: widget
+                                    .profileController.isImagesLoading.value
+                                ? const CircularProgressIndicator(
+                                    color: colorGreen,
+                                  )
+                                : widget.profileController.profile
+                                                .profileImage !=
+                                            "" &&
+                                        widget.profileController.profile
+                                                .profileImage !=
+                                            null
+                                    ? ImageCacheWidget(
+                                        image: widget.profileController.profile
+                                            .profileImage!,
+                                        height: 100,
+                                        width: 100,
+                                        placeholder:
                                             "assets/images/profile_image.png",
-                                            height: 100,
-                                            width: 100,
-                                            fit: BoxFit.cover,
-                                          ),
+                                      )
+                                    : Image.asset(
+                                        "assets/images/profile_image.png",
+                                        height: 100,
+                                        width: 100,
+                                        fit: BoxFit.cover,
+                                      ),
                           ),
                         ),
                         SizedBox(

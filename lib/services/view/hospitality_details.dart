@@ -100,19 +100,21 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
     }
     for (var day in hospitalityObj!.daysInfo) {
       print(day.startTime);
-     if(AppUtil.isDateTimeBefore24Hours(day.startTime))
-      avilableDate.add(
-        DateTime.parse(
-          day.startTime.substring(0, 10),
-        ),
-      );
+      if (AppUtil.isDateTimeBefore24Hours(day.startTime))
+        avilableDate.add(
+          DateTime.parse(
+            day.startTime.substring(0, 10),
+          ),
+        );
     }
 
-   if(!widget.isLocal){
-     _fetchAddress(hospitalityObj!.coordinate!.latitude??'',hospitalityObj!.coordinate!.longitude??'');
-     }
+    if (!widget.isLocal) {
+      _fetchAddress(hospitalityObj!.coordinate!.latitude ?? '',
+          hospitalityObj!.coordinate!.longitude ?? '');
+    }
   }
- Future<String> _getAddressFromLatLng(
+
+  Future<String> _getAddressFromLatLng(
       double position1, double position2) async {
     try {
       List<Placemark> placemarks =
@@ -135,7 +137,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
       String result = await _getAddressFromLatLng(
           double.parse(position1), double.parse(position2));
       setState(() {
-      address = result;
+        address = result;
       });
     } catch (e) {
       // Handle error if necessary
@@ -167,8 +169,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                           hospitalityObj: hospitalityObj!,
                           servicesController: _servicesController,
                           avilableDate: avilableDate,
-                         address:address,
-
+                          address: address,
                         ),
                       ),
                     )
@@ -273,8 +274,8 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                     text: !widget.isLocal
                                         ? address
                                         : AppUtil.rtlDirection2(context)
-                                           ? '${ hospitalityObj!.regionAr}, ${widget.address}'
-                                            : '${ hospitalityObj!.regionEn}, ${widget.address}',
+                                            ? '${hospitalityObj!.regionAr}, ${widget.address}'
+                                            : '${hospitalityObj!.regionEn}, ${widget.address}',
                                     color: colorDarkGrey,
                                     fontSize: width * 0.038,
                                     fontWeight: FontWeight.w300,
@@ -287,26 +288,27 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                               SizedBox(
                                 height: width * 0.01,
                               ),
-                              Row(
-                                children: [
-                                  SvgPicture.asset(
-                                    "assets/icons/Clock.svg",
-                                  ),
-                                  SizedBox(
-                                    width: width * .012,
-                                  ),
-                                  CustomText(
-                                    text:
-                                        '${'From'.tr}  ${AppUtil.formatTimeWithLocale(context, hospitalityObj!.daysInfo[0].startTime, 'hh:mm a')} ${'To'.tr}  ${AppUtil.formatTimeWithLocale(context, hospitalityObj!.daysInfo[0].endTime, 'hh:mm a')}',
-                                    color: colorDarkGrey,
-                                    fontSize: width * 0.038,
-                                    fontWeight: FontWeight.w300,
-                                    fontFamily: AppUtil.rtlDirection2(context)
-                                        ? 'SF Arabic'
-                                        : 'SF Pro',
-                                  ),
-                                ],
-                              ),
+                              if (hospitalityObj!.daysInfo.isNotEmpty)
+                                Row(
+                                  children: [
+                                    SvgPicture.asset(
+                                      "assets/icons/Clock.svg",
+                                    ),
+                                    SizedBox(
+                                      width: width * .012,
+                                    ),
+                                    CustomText(
+                                      text:
+                                          '${'From'.tr}  ${AppUtil.formatTimeWithLocale(context, hospitalityObj!.daysInfo[0].startTime, 'hh:mm a')} ${'To'.tr}  ${AppUtil.formatTimeWithLocale(context, hospitalityObj!.daysInfo[0].endTime, 'hh:mm a')}',
+                                      color: colorDarkGrey,
+                                      fontSize: width * 0.038,
+                                      fontWeight: FontWeight.w300,
+                                      fontFamily: AppUtil.rtlDirection2(context)
+                                          ? 'SF Arabic'
+                                          : 'SF Pro',
+                                    ),
+                                  ],
+                                ),
                               SizedBox(
                                 height: width * 0.01,
                               ),
@@ -639,7 +641,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                       );
                                     }
                                   : () {
-                                      Get.to(()=> EditHospitality(
+                                      Get.to(() => EditHospitality(
                                           hospitalityObj: hospitalityObj!,
                                           experienceType:
                                               widget.experienceType));
@@ -694,15 +696,16 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                         )),
                     //indicator
                     Positioned(
-                  top: height * 0.22,
-                  left: width * 0.4,
-                  right:width * 0.4,
+                      top: height * 0.22,
+                      left: width * 0.4,
+                      right: width * 0.4,
                       child: Align(
-                          alignment: Alignment.center,
+                        alignment: Alignment.center,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: hospitalityObj!.images.map((imageUrl) {
-                            int index = hospitalityObj!.images.indexOf(imageUrl);
+                            int index =
+                                hospitalityObj!.images.indexOf(imageUrl);
                             return Container(
                               width: width * 0.025,
                               height: width * 0.025,
@@ -716,7 +719,6 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                         ? Colors.white.withOpacity(0.1)
                                         : Colors.white
                                     : Colors.white.withOpacity(0.8),
-                               
                               ),
                             );
                           }).toList(),
