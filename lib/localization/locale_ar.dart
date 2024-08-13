@@ -604,11 +604,9 @@ const localeAr = {
   "NoReview": "لا يوجد تقييمات بعد",
   '*TheMinimumPrice': '*الحد الأدنى لسعر النشاط هو 30 ريال سعودي',
   'timeErorrRange': 'الوقت المحدد خارج الأوقات المطلوبة',
- 
-  
-  "uploadError":"يجب أن تكون الصور  بصيغة 'jpg' أو 'jpeg' أو 'png'",
+
+  "uploadError": "يجب أن تكون الصور  بصيغة 'jpg' أو 'jpeg' أو 'png'",
   "imageError": "اختر 3 صور على الأقل",
-  
 
   'eventDetailsSub': 'فرصة لمشاركة الشعب فعالياتهم المحلية ',
   "saudiEvent": "الفعاليات المحلية",
@@ -621,17 +619,17 @@ const localeAr = {
   "updateEmail": "تحديث البريد الالكتروني ",
   'emailEditSubtitle': "سنقوم بارسال رمز على بريدك الجديد للتوثيق ",
   'emailConfirm': 'التحقق من البريد الالكتروني',
- 'Arabic': 'العربية',
+  'Arabic': 'العربية',
   'English': 'الإنجليزية',
   'French': 'الفرنسية',
   'German': 'الألمانية',
   'Chinese': 'الصينية',
   'Spanish': 'الإسبانية',
   'Russian': 'الروسية',
-  'Alert':"تنبيه!",
+  'Alert': "تنبيه!",
   "DeleteNote": "أنت على وشك حذف هذه التجربة",
   'DeleteDone': "تم حذف التجربة بنجاح ",
-  'notDelete':"لم يتم حذف التجربة",
-   'saveChange': "تم حفظ التغييرات بنجاح ",
-
+  'notDelete': "لم يتم حذف التجربة",
+  'saveChange': "تم حفظ التغييرات بنجاح ",
+  'imageValidSize': 'حجم الصورة لازم يكون اقل من ٢ ميجابايت',
 };

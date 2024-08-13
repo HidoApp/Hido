@@ -32,6 +32,10 @@ class ProfileController extends GetxController {
   var enableSignOut = true.obs;
   //update var
   var updatedMobile = '';
+  var pdfName = ''.obs;
+  var isPdfValidSize = true.obs;
+  var isPdfValidNotEmpty = true.obs;
+
   //------
   Future<Profile?> getProfile(
       {required BuildContext context, String profileId = ""}) async {
@@ -75,6 +79,7 @@ class ProfileController extends GetxController {
     String? profileImage,
     String? descripttion,
     String? iban,
+    String? nationality,
     List<String>? spokenLanguage,
     required BuildContext context,
   }) async {
@@ -86,6 +91,7 @@ class ProfileController extends GetxController {
         profileImage: profileImage,
         descripttion: descripttion,
         iban: iban,
+        nationality: nationality,
         spokenLanguage: spokenLanguage,
         context: context,
       );

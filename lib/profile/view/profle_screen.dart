@@ -51,11 +51,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
 //
   final _profileController = Get.put(ProfileController());
   final storage = GetStorage();
+  //var isTourGuide  = false;
 
   @override
   void initState() {
     super.initState();
     getProfile();
+    // isTourGuide= storage.read("TourGuide") ;
   }
 
   void getProfile() async {
@@ -113,18 +115,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             .profile.profileImage!,
                                         placeholder: (context, url) =>
                                             Image.asset(
-                                              "assets/images/profile_image.png",
-                                              height: 65,
-                                              width: 65,
-                                              fit: BoxFit.cover,
-                                            ),
+                                          "assets/images/profile_image.png",
+                                          height: 65,
+                                          width: 65,
+                                          fit: BoxFit.cover,
+                                        ),
                                         errorWidget: (context, url, error) =>
                                             Image.asset(
-                                              "assets/images/profile_image.png",
-                                              height: 65,
-                                              width: 65,
-                                              fit: BoxFit.cover,
-                                            ))
+                                          "assets/images/profile_image.png",
+                                          height: 65,
+                                          width: 65,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      )
                                     : Image.asset(
                                         "assets/images/profile_image.png",
                                         height: 65,
@@ -165,7 +168,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 children: [
                                   CustomText(
                                     text: widget.fromAjwady
-                                        ? "${"local".tr}   | ${_profileController.isProfileLoading.value ? "" : _profileController.profile.rating}  "
+                                        ? "${"local".tr}   | ${_profileController.isProfileLoading.value ? "" : _profileController.profile.rating ?? ""}  "
                                         : "tourist".tr,
                                     color: colorDarkGrey,
                                     fontSize: width * 0.03,
@@ -200,11 +203,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ],
                       ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 10, right: 24, left: 24),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: width * .041),
                         child: Divider(
                           color: lightGrey,
-                          thickness: 2,
                         ),
                       ),
                       Column(
@@ -220,14 +222,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ));
                             },
                           ),
-                          if (storage.read("TourGuide") != null)
-                            if (widget.fromAjwady && storage.read("TourGuide"))
-                              CustomListTile(
-                                title: 'legalDoc'.tr,
-                                leading: "assets/icons/legal.svg",
-                                onTap: () =>
-                                    Get.to(() => const LegalDocument()),
-                              ),
+                          // if (_profileController.profile.accountType != null)
+                          //   if (widget.fromAjwady &&
+                          //       _profileController.profile.accountType ==
+                          //           'TOUR_GUID')
+                          CustomListTile(
+                            title: 'legalDoc'.tr,
+                            leading: "assets/icons/legal.svg",
+                            onTap: () => Get.to(() => const LegalDocument()),
+                          ),
                           if (!widget.fromAjwady)
                             CustomListTile(
                               title: "myTickets".tr,
@@ -249,11 +252,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           // ),
                         ],
                       ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 10, right: 24, left: 24),
-                        child: Divider(
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: width * .041),
+                        child: const Divider(
                           color: lightGrey,
-                          thickness: 2,
                         ),
                       ),
                       Expanded(
@@ -320,9 +322,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 if (isLogout) {
                                                   Get.offAll(() =>
                                                       const OnboardingScreen());
-                                                  print(storage.read(
-                                                          'accessToken') ??
-                                                      "empty 2x");
+                                                
                                                 }
                                               },
                                             ),

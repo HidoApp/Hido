@@ -102,6 +102,11 @@ class _LocalSignInState extends State<LocalSignIn> {
                                       phoneNumber: number,
                                       type: 'signIn',
                                       otp: '',
+                                      resendOtp: () async {
+                                        await _authController.createOtp(
+                                            context: context,
+                                            phoneNumber: number);
+                                      },
                                     ));
                               }
                             }

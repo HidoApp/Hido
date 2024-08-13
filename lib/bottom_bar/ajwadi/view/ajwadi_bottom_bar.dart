@@ -103,7 +103,13 @@ class _AjwadiBottomBarState extends State<AjwadiBottomBar>
                     padding: const EdgeInsets.only(bottom: 4.0),
                     child: SvgPicture.asset(
                       "assets/icons/my_experiences.svg",
-                      color: currentIndex == 2 ? colorGreen : colorDarkGrey,
+                      color: isTourGuide
+                          ? currentIndex == 2
+                              ? colorGreen
+                              : colorDarkGrey
+                          : currentIndex == 1
+                              ? colorGreen
+                              : colorDarkGrey,
                     ),
                   )),
               BottomNavigationBarItem(
@@ -112,7 +118,13 @@ class _AjwadiBottomBarState extends State<AjwadiBottomBar>
                     padding: const EdgeInsets.only(bottom: 4.0),
                     child: SvgPicture.asset(
                       "assets/icons/my_profile_green.svg",
-                      color: currentIndex == 3 ? colorGreen : colorDarkGrey,
+                      color: isTourGuide
+                          ? currentIndex == 3
+                              ? colorGreen
+                              : colorDarkGrey
+                          : currentIndex == 2
+                              ? colorGreen
+                              : colorDarkGrey,
                     ),
                   )),
             ],

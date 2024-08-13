@@ -25,7 +25,7 @@ class ContactInfo extends StatefulWidget {
 class _ContactInfoState extends State<ContactInfo> {
   final _formKey = GlobalKey<FormState>();
   final _authController = Get.put(AuthController());
-  final storage = GetStorage();
+  final _storage = GetStorage();
 
   @override
   Widget build(BuildContext context) {
@@ -112,8 +112,8 @@ class _ContactInfoState extends State<ContactInfo> {
                                   type: 'EXPERIENCES');
                           log(isSuccess.toString());
                           if (isSuccess) {
-                            storage.write('TourGuide', false);
                             Get.offAll(() => const AjwadiBottomBar());
+                            _storage.remove('localName');
                           }
                         },
                         title: 'signUp'.tr,

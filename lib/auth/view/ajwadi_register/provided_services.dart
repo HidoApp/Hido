@@ -13,6 +13,7 @@ import 'package:ajwad_v4/widgets/screen_padding.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class ProvidedServices extends StatefulWidget {
   const ProvidedServices({super.key});
@@ -22,6 +23,7 @@ class ProvidedServices extends StatefulWidget {
 }
 
 class _ProvidedServicesState extends State<ProvidedServices> {
+  final storage = GetStorage();
   var tourSelected = false;
   var experiencesSelected = false;
   @override
@@ -46,7 +48,7 @@ class _ProvidedServicesState extends State<ProvidedServices> {
               ),
               //Name
               CustomText(
-                text: 'Ammar',
+                text: storage.read('localName'),
                 color: colorGreen,
                 fontSize: width * 0.051,
                 fontWeight: FontWeight.w500,

@@ -164,15 +164,23 @@ class _TourStepperState extends State<TourStepper> {
   Widget nextVerfiy() {
     switch (_authController.activeBar.value) {
       case 2:
-        return const PhoneOTP(
+        return PhoneOTP(
           otp: '',
           type: 'stepper',
+          resendOtp: () async {
+            await _authController.drivingLinceseOTP(context: context);
+          },
         );
 
       case 3:
-        return const PhoneOTP(
+        return PhoneOTP(
           otp: '5555',
           type: 'stepper',
+          resendOtp: () async {
+            await _authController.vehicleOTP(
+                vehicleSerialNumber: _authController.vehicleLicense.toString(),
+                context: context);
+          },
         );
       default:
         return Container(); // Replace with your actual widget
