@@ -3,6 +3,7 @@ import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
+import 'package:ajwad_v4/widgets/image_cache_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ajwad_v4/services/model/days_info.dart';
@@ -45,7 +46,7 @@ class CustomAdventureItem extends StatefulWidget {
 
 class _CustomAdventureItemState extends State<CustomAdventureItem> {
   final _servicesController = Get.put(AdventureController());
-String address = '';
+  String address = '';
   Future<String> _getAddressFromLatLng(
       double position1, double position2) async {
     try {
@@ -114,11 +115,10 @@ String address = '';
                 children: [
                   ClipRRect(
                     borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    child: Image.network(
-                      widget.image,
+                    child: ImageCacheWidget(
+                      image: widget.image,
                       width: width * 0.23,
                       height: width * 0.23,
-                      fit: BoxFit.fill,
                     ),
                   ),
                   SizedBox(
@@ -150,9 +150,8 @@ String address = '';
                             width: width * 0.017,
                           ),
                           CustomText(
-                            text:address.isNotEmpty
-                                ?address
-                                : widget.location,
+                            text:
+                                address.isNotEmpty ? address : widget.location,
                             fontSize: 11,
                             fontFamily: AppUtil.rtlDirection2(context)
                                 ? 'SF Arabic'

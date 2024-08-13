@@ -35,14 +35,11 @@ class MyAccount extends StatefulWidget {
 }
 
 class _MyAccountState extends State<MyAccount> {
-  late bool isTourGuide;
-  final storage = GetStorage();
   late Profile profile;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    isTourGuide = storage.read("TourGuide") ?? true;
   }
 
   String getPhoneNumber() {
@@ -120,24 +117,36 @@ class _MyAccountState extends State<MyAccount> {
                   SizedBox(
                     height: width * 0.051,
                   ),
-                  if (!isTourGuide)
-                    AccountTile(
-                      title: 'providedServices'.tr,
-                      onTap: () =>
-                          Get.bottomSheet(const ProdvidedServicesSheet()),
-                    ),
-                  if (!isTourGuide)
-                    SizedBox(
-                      height: width * 0.051,
-                    ),
-                  if (!isTourGuide)
-                    const Divider(
-                      color: lightGrey,
-                    ),
-                  if (!isTourGuide)
-                    SizedBox(
-                      height: width * .061,
-                    ),
+                  if (widget.profileController.profile.accountType != null)
+                    if (widget.isLocal &&
+                        widget.profileController.profile.accountType ==
+                            'TOUR_GUID')
+                      AccountTile(
+                        title: 'providedServices'.tr,
+                        onTap: () =>
+                            Get.bottomSheet(const ProdvidedServicesSheet()),
+                      ),
+                  if (widget.profileController.profile.accountType != null)
+                    if (widget.isLocal &&
+                        widget.profileController.profile.accountType ==
+                            'TOUR_GUID')
+                      SizedBox(
+                        height: width * 0.051,
+                      ),
+                  if (widget.profileController.profile.accountType != null)
+                    if (widget.isLocal &&
+                        widget.profileController.profile.accountType ==
+                            'TOUR_GUID')
+                      const Divider(
+                        color: lightGrey,
+                      ),
+                  if (widget.profileController.profile.accountType != null)
+                    if (widget.isLocal &&
+                        widget.profileController.profile.accountType ==
+                            'TOUR_GUID')
+                      SizedBox(
+                        height: width * .061,
+                      ),
                 ],
               ),
             Align(

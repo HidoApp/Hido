@@ -1,11 +1,12 @@
-import 'dart:developer';
 import 'dart:io';
 
+import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/custom_textfield.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -19,6 +20,9 @@ class TourLicenseSheet extends StatefulWidget {
 }
 
 class _TourLicenseSheetState extends State<TourLicenseSheet> {
+  final _profileController = Get.put(ProfileController());
+
+  File? pdfFile;
   Future<File?> pickPdfFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
@@ -29,6 +33,13 @@ class _TourLicenseSheetState extends State<TourLicenseSheet> {
       return File(result.files.single.path!);
     }
     return null;
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _profileController.pdfName('');
+    super.dispose();
   }
 
   @override
@@ -47,45 +58,91 @@ class _TourLicenseSheetState extends State<TourLicenseSheet> {
           right: width * 0.0615,
           top: width * 0.041,
           bottom: width * 0.082),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const BottomSheetIndicator(),
-          SizedBox(
-            height: width * 0.051,
-          ),
-          CustomText(
-            text: 'tourLicense'.tr,
-            fontFamily: "SF Pro",
-            fontSize: width * 0.0435,
-            fontWeight: FontWeight.w500,
-          ),
-          SizedBox(
-            height: width * 0.020,
-          ),
-          GestureDetector(
-            onTap: () async {
-              final pdfFile = await pickPdfFile();
-            },
-            child: CustomTextField(
-              enable: false,
-              suffixIcon: SvgPicture.asset(
-                'assets/icons/upload.svg',
-                fit: BoxFit.none,
-              ),
-              hintText: "MyguideLicense.PDF",
-              onChanged: (val) {},
+      child: Obx(
+        () => Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const BottomSheetIndicator(),
+            SizedBox(
+              height: width * 0.051,
             ),
-          ),
-          SizedBox(
-            height: width * 0.0820,
-          ),
-          CustomButton(
-            title: 'save'.tr,
-            onPressed: () {},
-          )
-        ],
+            CustomText(
+              text: 'tourLicense'.tr,
+              fontFamily: "SF Pro",
+              fontSize: width * 0.0435,
+              fontWeight: FontWeight.w500,
+            ),
+            SizedBox(
+              height: width * 0.020,
+            ),
+            GestureDetector(
+              onTap: () async {
+                pdfFile = await pickPdfFile();
+                _profileController.pdfName.value =
+                    pdfFile!.path.split('/').last;
+                if (AppUtil.isImageValidate(await pdfFile!.length())) {
+                  _profileController.isPdfValidSize(true);
+                } else {
+                  _profileController.isPdfValidSize(false);
+                }
+              },
+              child: CustomTextField(
+                enable: false,
+                borderColor: _profileController.isPdfValidSize.value
+                    ? borderGrey
+                    : colorRed,
+                suffixIcon: SvgPicture.asset(
+                  'assets/icons/upload.svg',
+                  fit: BoxFit.none,
+                ),
+                hintText: _profileController.pdfName.value.isEmpty
+                    ? "File.pdf"
+                    : _profileController.pdfName.value,
+                onChanged: (val) {},
+              ),
+            ),
+
+            if (!_profileController.isPdfValidSize.value)
+              CustomText(
+                text: 'imageValidSize'.tr,
+                color: colorRed,
+                fontSize: width * 0.028,
+                fontFamily: AppUtil.SfFontType(context),
+              ),
+            //  if (!_profileController.isPdfValidNotEmpty.value)
+            // CustomText(
+            //   text: 'imageValidSize'.tr,
+            //   color: colorRed,
+            //   fontSize: width * 0.028,
+            //   fontFamily: AppUtil.SfFontType(context),
+            // ),
+            SizedBox(
+              height: width * 0.0820,
+            ),
+            Obx(
+              () => _profileController.isImagesLoading.value
+                  ? const Center(
+                      child: CircularProgressIndicator.adaptive(),
+                    )
+                  : CustomButton(
+                      title: 'save'.tr,
+                      onPressed: _profileController.isPdfValidSize.value ||
+                              pdfFile != null
+                          ? () async {
+                              final file =
+                                  await _profileController.uploadProfileImages(
+                                      file: pdfFile!,
+                                      uploadOrUpdate: "upload",
+                                      context: context);
+                              if (file != null) {
+                                Get.back();
+                              }
+                            }
+                          : null),
+            )
+          ],
+        ),
       ),
     );
   }

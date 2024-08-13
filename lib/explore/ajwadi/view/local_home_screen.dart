@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/constants/colors.dart';
@@ -47,15 +48,12 @@ class LocalHomeScreen extends StatefulWidget {
 }
 
 class _LocalHomeScreenState extends State<LocalHomeScreen> {
-  final _getStorage = GetStorage();
-  final _authController = Get.put(AuthController());
-
   final _profileController = Get.put(ProfileController());
   final _tripController = Get.put(TripController());
   NextActivity? nextTrip;
 
   void getNextActivity() async {
-   nextTrip = await _tripController.getNextActivity(context: context);
+    nextTrip = await _tripController.getNextActivity(context: context);
   }
 
   @override
@@ -73,7 +71,6 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
-    
 
     print("this trip controller");
     print(_tripController.isTripUpdated.value);
@@ -207,6 +204,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                                 icon: 'tour_category',
                                 color: Color(0xFFECF9F1),
                                 onPressed: () {
+                                  // log(_profileController.profile.accountType!);
                                   if (_profileController.profile.accountType ==
                                       'EXPERIENCES') {
                                     Get.to(() => MyAccount(
@@ -302,11 +300,11 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                             () => _tripController.isNextActivityLoading.value
                                 ? const Center(
                                     child: CircularProgressIndicator.adaptive())
-                                :! _tripController.isTripUpdated.value
-                                //! _tripController.isTripUpdated.value
+                                : !_tripController.isTripUpdated.value
+                                    //! _tripController.isTripUpdated.value
                                     ? Column(
-                                      children: [
-                                        Container(
+                                        children: [
+                                          Container(
                                             width: double.infinity,
                                             height: 135,
                                             decoration: ShapeDecoration(
@@ -325,21 +323,23 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                                                 style: TextStyle(
                                                   color: Color(0xFFDCDCE0),
                                                   fontSize: 16,
-                                                  fontFamily:AppUtil.rtlDirection2(context) ? "SF Arabic" : 'SF Pro',
+                                                  fontFamily:
+                                                      AppUtil.rtlDirection2(
+                                                              context)
+                                                          ? "SF Arabic"
+                                                          : 'SF Pro',
                                                   fontWeight: FontWeight.w400,
                                                 ),
                                               ),
-
                                             ),
                                           ),
                                           SizedBox(height: 20)
-                                      ],
-                                    )
+                                        ],
+                                      )
                                     : Column(
                                         children: [
                                           //  SizedBox(height: 11),
-                                          CustomLocalTicketCard(
-                                          ),
+                                          CustomLocalTicketCard(),
 
                                           SizedBox(height: 11),
                                         ],

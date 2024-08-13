@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
@@ -6,10 +7,12 @@ import 'package:ajwad_v4/services/view/widgets/custom_chips.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/custom_textfield.dart';
+import 'package:ajwad_v4/widgets/image_cache_widget.dart';
 import 'package:ajwad_v4/widgets/local_auth_mark.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:multi_dropdown/models/value_item.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
 
@@ -23,6 +26,11 @@ class LocalProfile extends StatefulWidget {
 class _LocalProfileState extends State<LocalProfile> {
   final _profileController = Get.put(ProfileController());
   final _controller = MultiSelectController();
+  var pickedFile;
+  late XFile xfilePick;
+  String? newProfileImage;
+  final picker = ImagePicker();
+
   List<String> languages = [];
 
   String descripttion = '';
@@ -30,6 +38,36 @@ class _LocalProfileState extends State<LocalProfile> {
   void generateSpokenLanguges() {
     languages = List.generate(_controller.selectedOptions.length,
         (index) => _controller.selectedOptions[index].value);
+  }
+
+  Future getImage(ImageSource media, BuildContext context) async {
+    // pickedFile = PickedFile('');
+    pickedFile = await picker.pickImage(
+      source: media,
+      imageQuality: 30,
+    );
+    if (pickedFile != null) {
+      if (AppUtil.isImageValidate(await pickedFile.length())) {
+        print(" is asdded");
+        setState(() {
+          xfilePick = pickedFile;
+        });
+
+        final image = await _profileController.uploadProfileImages(
+          file: File(xfilePick.path),
+          uploadOrUpdate: "upload",
+          context: context,
+        );
+
+        if (image != null) {
+          newProfileImage = image.filePath;
+          print(image.filePath);
+        }
+      } else {
+        AppUtil.errorToast(
+            context, 'Image is too large, you can only upload less than 2 MB');
+      }
+    }
   }
 
   @override
@@ -41,7 +79,9 @@ class _LocalProfileState extends State<LocalProfile> {
 
   void editProfile() async {
     generateSpokenLanguges();
-    if (descripttion.isNotEmpty || languages.isNotEmpty) {
+    if (descripttion.isNotEmpty ||
+        newProfileImage != null ||
+        languages.isNotEmpty) {
       if (_profileController.isEditing.value) {
         await _profileController.editProfile(
           context: context,
@@ -133,20 +173,46 @@ class _LocalProfileState extends State<LocalProfile> {
                             : _profileController.profile.profileImage != "" &&
                                     _profileController.profile.profileImage !=
                                         null
-                                ? Image.network(
-                                    _profileController.profile.profileImage!,
-                                    height: width * 0.256,
-                                    width: width * 0.256,
-                                    fit: BoxFit.cover,
+                                ? ImageCacheWidget(
+                                    image: _profileController
+                                        .profile.profileImage!,
+                                    height: 100,
+                                    width: 100,
+                                    placeholder:
+                                        "assets/images/profile_image.png",
                                   )
                                 : Image.asset(
                                     "assets/images/profile_image.png",
-                                    height: width * 0.256,
-                                    width: width * 0.256,
+                                    height: 100,
+                                    width: 100,
                                     fit: BoxFit.cover,
                                   ),
                       ),
                     ),
+                    if (_profileController.isEditing.value)
+                      GestureDetector(
+                        onTap: () => getImage(ImageSource.gallery, context),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.camera_alt_outlined,
+                              size: width * 0.046,
+                            ),
+                            SizedBox(
+                              width: width * 0.00512,
+                            ),
+                            CustomText(
+                              text: 'change'.tr,
+                              fontFamily: AppUtil.SfFontType(context),
+                              fontSize: width * .038,
+                              fontWeight: FontWeight.w500,
+                              textDecoration: TextDecoration.underline,
+                              color: Colors.black,
+                            ),
+                          ],
+                        ),
+                      ),
                     SizedBox(
                       height: width * 0.040,
                     ),
@@ -220,7 +286,7 @@ class _LocalProfileState extends State<LocalProfile> {
                             onOptionSelected: (options) {
                               debugPrint(options.toString());
                             },
-                            options:  <ValueItem>[
+                            options: <ValueItem>[
                               ValueItem(
                                 label: 'Arabic'.tr,
                                 value: 'Arabic',

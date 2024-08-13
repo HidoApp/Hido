@@ -3,6 +3,7 @@ import 'package:ajwad_v4/services/controller/event_controller.dart';
 import 'package:ajwad_v4/services/model/days_info.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
+import 'package:ajwad_v4/widgets/image_cache_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geocoding/geocoding.dart';
@@ -36,8 +37,8 @@ class EventCardItem extends StatefulWidget {
 }
 
 class _EventCardItemState extends State<EventCardItem> {
-final _eventController = Get.put(EventController());
-String  address ='';
+  final _eventController = Get.put(EventController());
+  String address = '';
   Future<String> _getAddressFromLatLng(
       double position1, double position2) async {
     try {
@@ -61,20 +62,20 @@ String  address ='';
       String result = await _getAddressFromLatLng(
           double.parse(position1), double.parse(position2));
       setState(() {
-      address = result;
+        address = result;
       });
     } catch (e) {
       // Handle error if necessary
       print('Error fetching address: $e');
     }
   }
+
   @override
   void initState() {
     super.initState();
 
-      _fetchAddress(widget.lang!, widget.long!);
+    _fetchAddress(widget.lang!, widget.long!);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -105,11 +106,10 @@ String  address ='';
                 children: [
                   ClipRRect(
                     borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    child: Image.network(
-                      widget.image,
+                    child: ImageCacheWidget(
+                      image: widget.image,
                       width: width * 0.23,
                       height: width * 0.23,
-                      fit: BoxFit.fill,
                     ),
                   ),
                   SizedBox(
@@ -141,9 +141,8 @@ String  address ='';
                             width: width * 0.017,
                           ),
                           CustomText(
-                            text: address.isNotEmpty
-                                ?  address
-                                : widget.location,
+                            text:
+                                address.isNotEmpty ? address : widget.location,
                             fontSize: 11,
                             fontFamily: AppUtil.rtlDirection2(context)
                                 ? 'SF Arabic'
