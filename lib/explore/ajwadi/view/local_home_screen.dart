@@ -48,15 +48,13 @@ class LocalHomeScreen extends StatefulWidget {
 }
 
 class _LocalHomeScreenState extends State<LocalHomeScreen> {
-  final _getStorage = GetStorage();
-  final _authController = Get.put(AuthController());
-
   final _profileController = Get.put(ProfileController());
   final _tripController = Get.put(TripController());
   NextActivity? nextTrip;
 
   void getNextActivity() async {
    await _tripController.getNextActivity(context: context);
+
   }
 
   @override
@@ -74,7 +72,6 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
-    
 
     log("this trip controller");
     log(_tripController.isTripUpdated.value.toString());
@@ -208,6 +205,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                                 icon: 'tour_category',
                                 color: Color(0xFFECF9F1),
                                 onPressed: () {
+                                  // log(_profileController.profile.accountType!);
                                   if (_profileController.profile.accountType ==
                                       'EXPERIENCES') {
                                     Get.to(() => MyAccount(
@@ -305,9 +303,10 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                                     child: CircularProgressIndicator.adaptive())
                                 :! _tripController.isTripUpdated.value || _tripController.nextTrip.value.id!.isEmpty
                                 //! _tripController.isTripUpdated.value
+
                                     ? Column(
-                                      children: [
-                                        Container(
+                                        children: [
+                                          Container(
                                             width: double.infinity,
                                             height: 135,
                                             decoration: ShapeDecoration(
@@ -326,21 +325,23 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                                                 style: TextStyle(
                                                   color: Color(0xFFDCDCE0),
                                                   fontSize: 16,
-                                                  fontFamily:AppUtil.rtlDirection2(context) ? "SF Arabic" : 'SF Pro',
+                                                  fontFamily:
+                                                      AppUtil.rtlDirection2(
+                                                              context)
+                                                          ? "SF Arabic"
+                                                          : 'SF Pro',
                                                   fontWeight: FontWeight.w400,
                                                 ),
                                               ),
-
                                             ),
                                           ),
                                           SizedBox(height: 20)
-                                      ],
-                                    )
+                                        ],
+                                      )
                                     : Column(
                                         children: [
                                           //  SizedBox(height: 11),
-                                          CustomLocalTicketCard(
-                                          ),
+                                          CustomLocalTicketCard(),
 
                                           SizedBox(height: 11),
                                         ],

@@ -187,7 +187,7 @@ class AuthService {
       accessToken = jsonDecode(response.body)['accessToken'];
       final String refreshToken;
       refreshToken = jsonDecode(response.body)['refreshToken'];
-
+      getStorage.write('localName', jsonDecode(response.body)['name']);
       getStorage.write('accessToken', accessToken);
       getStorage.write('refreshToken', refreshToken);
       return true;
@@ -711,16 +711,15 @@ class AuthService {
     }
   }
 
-
-  static Future<bool> logOut() async{
-   final getStorage = GetStorage();
+  static Future<bool> logOut() async {
+    final getStorage = GetStorage();
     await getStorage.remove('accessToken');
     await getStorage.remove('refreshToken');
     await getStorage.remove('rememberMe');
     await getStorage.remove('userRole');
     await getStorage.remove('userId');
 
-    await getStorage.write('onBoarding','yes');
+    await getStorage.write('onBoarding', 'yes');
 
     // Optionally, clear all data
     // await getStorage.erase();
@@ -753,12 +752,11 @@ class AuthService {
       Get.off(() => const SignInScreen());
       String errorMessage = jsonDecode(response.body)['message'];
       await getStorage.remove('accessToken');
-    await getStorage.remove('refreshToken');
-    await getStorage.remove('rememberMe');
-    await getStorage.remove('userRole');
-    await getStorage.remove('userId');
-  //  await getStorage.write('onBoarding','yes');
-
+      await getStorage.remove('refreshToken');
+      await getStorage.remove('rememberMe');
+      await getStorage.remove('userRole');
+      await getStorage.remove('userId');
+      //  await getStorage.write('onBoarding','yes');
 
       if (context.mounted) {
         AppUtil.errorToast(context, errorMessage);

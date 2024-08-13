@@ -135,6 +135,7 @@ class ProfileService {
     String? profileImage,
     String? descripttion,
     String? iban,
+    String? nationality,
     List<String>? spokenLanguage,
     required BuildContext context,
   }) async {
@@ -149,6 +150,7 @@ class ProfileService {
           'Authorization': 'Bearer $token',
         },
         body: json.encode({
+          if (nationality != null) "nationality": nationality,
           if (name != null) "name": name.trim(),
           if (profileImage != null) "image": profileImage,
           if (descripttion != null) "descriptionAboutMe": descripttion.trim(),

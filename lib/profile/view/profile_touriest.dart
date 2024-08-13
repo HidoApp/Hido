@@ -9,6 +9,7 @@ import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 
 import 'package:ajwad_v4/widgets/custom_textfield.dart';
+import 'package:ajwad_v4/widgets/image_cache_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -41,6 +42,7 @@ int startIndex = -1;
 bool isSendTapped = false;
 List<String> languages = [];
 List<ValueItem> nationalites = [];
+var nationality = '';
 
 class _ProfileDetailsState extends State<TouriestProfile> {
   @override
@@ -122,12 +124,14 @@ class _ProfileDetailsState extends State<TouriestProfile> {
               () => GestureDetector(
                 onTap: () async {
                   generateSpokenLanguges();
-                  if (_userName.text.isNotEmpty ||
-                      languages.isNotEmpty ||
-                      newProfileImage != null) {
+                  if (languages.isNotEmpty ||
+                      newProfileImage != null ||
+                      _userName.text.isNotEmpty ||
+                      nationality.isNotEmpty) {
                     _controller.clearAllSelection();
                     await widget.profileController.editProfile(
                         context: context,
+                        nationality: nationality.isEmpty ? null : nationality,
                         name: _userName.text.isEmpty
                             ? widget.profileController.profile.name
                             : _userName.text,
@@ -136,6 +140,9 @@ class _ProfileDetailsState extends State<TouriestProfile> {
                             : languages,
                         profileImage: newProfileImage ??
                             widget.profileController.profile.profileImage);
+
+                    // _controllerNationalies.clearAllSelection();
+
                     await widget.profileController.getProfile(
                       context: context,
                     );
@@ -147,8 +154,10 @@ class _ProfileDetailsState extends State<TouriestProfile> {
                   } else {
                     log("message");
                   }
+                  nationality = '';
                   widget.profileController.isEditing.value =
                       !widget.profileController.isEditing.value;
+                  _controllerNationalies.clearAllSelection();
                   _userName.clear();
                 },
                 child: Padding(
@@ -196,31 +205,31 @@ class _ProfileDetailsState extends State<TouriestProfile> {
                         Center(
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(50.0),
-                            child:
-                                widget.profileController.isImagesLoading.value
-                                    ? const CircularProgressIndicator(
-                                        color: colorGreen,
-                                      )
-                                    : widget.profileController.profile
-                                                    .profileImage !=
-                                                "" &&
-                                            widget.profileController.profile
-                                                    .profileImage !=
-                                                null
-                                        ? Image.network(
-                                            newProfileImage ??
-                                                widget.profileController.profile
-                                                    .profileImage!,
-                                            height: 100,
-                                            width: 100,
-                                            fit: BoxFit.cover,
-                                          )
-                                        : Image.asset(
+                            child: widget
+                                    .profileController.isImagesLoading.value
+                                ? const CircularProgressIndicator(
+                                    color: colorGreen,
+                                  )
+                                : widget.profileController.profile
+                                                .profileImage !=
+                                            "" &&
+                                        widget.profileController.profile
+                                                .profileImage !=
+                                            null
+                                    ? ImageCacheWidget(
+                                        image: widget.profileController.profile
+                                            .profileImage!,
+                                        height: 100,
+                                        width: 100,
+                                        placeholder:
                                             "assets/images/profile_image.png",
-                                            height: 100,
-                                            width: 100,
-                                            fit: BoxFit.cover,
-                                          ),
+                                      )
+                                    : Image.asset(
+                                        "assets/images/profile_image.png",
+                                        height: 100,
+                                        width: 100,
+                                        fit: BoxFit.cover,
+                                      ),
                           ),
                         ),
                         SizedBox(
@@ -323,17 +332,11 @@ class _ProfileDetailsState extends State<TouriestProfile> {
                                     color: black,
                                     fontWeight: FontWeight.w500),
 
-                                onOptionSelected: (options) {
-                                  // _selectedNationality =
-                                  //     options.first.value;
-                                  // if (_selectedNationality.isNotEmpty) {
-                                  //   setState(() {
-                                  //     isNatSelected = true;
-                                  //   });
-                                  // }
-                                },
+                                onOptionSelected: (options) =>
+                                    nationality = options.first.label,
                                 options: nationalites,
                                 selectionType: SelectionType.single,
+
                                 chipConfig:
                                     const ChipConfig(wrapType: WrapType.scroll),
                                 optionTextStyle: const TextStyle(

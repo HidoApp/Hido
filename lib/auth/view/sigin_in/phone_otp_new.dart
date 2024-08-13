@@ -1,12 +1,10 @@
 import 'dart:developer';
-
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/auth/view/ajwadi_register/provided_services.dart';
 import 'package:ajwad_v4/auth/view/ajwadi_register/tour_stepper.dart';
 import 'package:ajwad_v4/auth/widget/countdown_timer.dart';
 import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
-import 'package:ajwad_v4/new-onboarding/view/intro_screen.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
@@ -16,15 +14,18 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:pinput/pinput.dart';
-import 'package:timer_count_down/timer_controller.dart';
-import 'package:timer_count_down/timer_count_down.dart';
 
 class PhoneOTP extends StatefulWidget {
   const PhoneOTP(
-      {super.key, this.phoneNumber, required this.otp, this.type = 'stepper'});
+      {super.key,
+      this.phoneNumber,
+      required this.otp,
+      this.type = 'stepper',
+      required this.resendOtp});
   final String? phoneNumber;
   final String otp;
   final String? type;
+  final Function() resendOtp;
   @override
   State<PhoneOTP> createState() => _PhoneOTPState();
 }
@@ -51,9 +52,9 @@ class _PhoneOTPState extends State<PhoneOTP> {
       final isSuccess = await _authController.getAjwadiVehicleInf(
           otp: otpCode, context: context);
       if (isSuccess) {
-        storage.write('TourGuide', true);
         _authController.activeBar(1);
         Get.offAll(() => const AjwadiBottomBar());
+        storage.remove('localName');
       }
     }
   }
@@ -215,9 +216,7 @@ class _PhoneOTPState extends State<PhoneOTP> {
                         _authController.isSignInWithOtpLoading.value
                     ? const CircularProgressIndicator.adaptive()
                     : CountdownTimer(
-                        resendOtp: () {
-                          log('reSendddd');
-                        },
+                        resendOtp: widget.resendOtp,
                       ),
               ),
             ),

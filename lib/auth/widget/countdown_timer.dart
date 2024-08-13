@@ -10,7 +10,7 @@ import 'package:timer_count_down/timer_count_down.dart';
 
 class CountdownTimer extends StatefulWidget {
   const CountdownTimer({super.key, required this.resendOtp});
- final void Function() resendOtp;
+  final void Function() resendOtp;
   @override
   State<CountdownTimer> createState() => _CountdownTimerState();
 }
@@ -28,7 +28,6 @@ class _CountdownTimerState extends State<CountdownTimer> {
           if (time == 0) {
             widget.resendOtp();
             _controller.restart();
-
           }
         },
         child: CustomText(
