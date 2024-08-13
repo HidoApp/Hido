@@ -323,6 +323,7 @@ const localeEn = {
   "StartChat": "Start Chat!",
   'message': 'message',
   "EndRound": "End Round",
+    "cost":"Cost",
   "EndTrip": "Booking cancelled",
   "ContactTheHedoTeam": "Contact Hido Team",
   "km": "km",
@@ -640,6 +641,7 @@ const localeEn = {
   'DeleteDone':'The experience has been deleted',
   'notDelete':  'The experience not deleted',
   'saveChange':"Changes have been saved successfully!",
+  'EndTourTime': "The tour time hasn't ended yet",
 
 
 };

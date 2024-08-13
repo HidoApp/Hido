@@ -6,6 +6,7 @@ import 'package:ajwad_v4/profile/widget/event_ticket_data.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
 import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';
 import 'package:ajwad_v4/widgets/dotted_line_separator.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:ticket_widget/ticket_widget.dart';
@@ -41,7 +42,7 @@ class TicketDetailsScreen extends StatelessWidget {
       this.hospitality,
       this.adventure,
       this.event,
-      this.isTour=false
+      this.isTour = false
       // this.femaleGuestNum,
       // this.maleGuestNum
       })
@@ -82,7 +83,7 @@ class TicketDetailsScreen extends StatelessWidget {
                   alignment: Alignment.topCenter,
                   child: TicketWidget(
                     width: width * 0.92,
-                    height: height * 0.49,
+                    height: height * 0.53,
                     isCornerRounded: true,
                     padding: const EdgeInsets.symmetric(
                         horizontal: 24, vertical: 23),
@@ -92,51 +93,54 @@ class TicketDetailsScreen extends StatelessWidget {
                     //TicketData(booking: booking,icon: icon,bookTypeText: bookTypeText,),
                   ),
                 ),
-               // const Expanded(child: SizedBox()), // Takes up remaining space
-             
-          if(adventure == null && event==null && hospitality==null && !isTour!)...[
-          if(booking!.orderStatus=='ACCEPTED')...[
-           Spacer(),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 35),
-                    child: Column(
-                      children:[
-                    
-                      CustomButton(
-                        onPressed: () {
-                          showModalBottomSheet(
-                            context: context,
-                            isScrollControlled: true,
-                            builder: (BuildContext context) {
-                             
-                            return CancelSheet(bookId: booking!.id??'',type: booking!.bookingType??'');
-                            },
-                          );
-                        },
-                     
-                        // },
-                        title: 'CancelBooking'.tr,
-                        buttonColor:
-                            lightGreyBackground, // Set the button color to transparent white
-                        textColor:colorRed,
-                        borderColor: colorRed,
-                        // Set the text color to red
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-          ],
-           ],
+                // const Expanded(child: SizedBox()), // Takes up remaining space
+
+                if (adventure == null &&
+                    event == null &&
+                    hospitality == null &&
+                    !isTour!) ...[
+                  if (booking!.orderStatus == 'ACCEPTED') ...[
+                    Spacer(),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 35),
+                            child: Column(
+                              children: [
+                                CustomButton(
+                                  onPressed: () {
+                                    showModalBottomSheet(
+                                      context: context,
+                                      isScrollControlled: true,
+                                      builder: (BuildContext context) {
+                                        return CancelSheet(
+                                            bookId: booking!.id ?? '',
+                                            type: booking!.bookingType ?? '');
+                                      },
+                                    );
+                                  },
+
+                                  // },
+                                  title: 'CancelBooking'.tr,
+                                  buttonColor:
+                                      lightGreyBackground, // Set the button color to transparent white
+                                  textColor: colorRed,
+                                  borderColor: colorRed,
+                                  // Set the text color to red
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ],
               ],
             ),
           ),
@@ -197,432 +201,338 @@ class TicketData extends StatelessWidget {
     this.icon,
     this.bookTypeText,
   }) : super(key: key);
+  OverlayEntry? _overlayEntry;
+
+  void _showOverlay(BuildContext context) {
+    final overlay = Overlay.of(context)!;
+
+    _overlayEntry = OverlayEntry(
+      builder: (context) => Positioned(
+        top: 117,
+        left: AppUtil.rtlDirection2(context)
+            ? MediaQuery.of(context).size.width * 0.35
+            : null,
+        right: AppUtil.rtlDirection2(context)
+            ? null
+            : MediaQuery.of(context).size.width * 0.35,
+        child: Material(
+          color: Colors.transparent,
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+            decoration: BoxDecoration(
+              color: Colors.black,
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            child: Text(
+              AppUtil.rtlDirection2(context)
+                  ? "تم النسخ إلى الحافظة "
+                  : 'Copied tp clipboard',
+              style: TextStyle(
+                color: Colors.white,
+                fontFamily:
+                    AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+                fontSize: 11,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+
+    overlay.insert(_overlayEntry!);
+
+    Future.delayed(Duration(seconds: 2), () {
+      _overlayEntry?.remove();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 6),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text("BookingDetails".tr,
+        Row(
+          children: [
+            GestureDetector(
+                onTap: () {
+                  Clipboard.setData(
+                      ClipboardData(text: booking.id!.substring(0, 7)));
+                  _showOverlay(context);
+                },
+                child: SvgPicture.asset(
+                  'assets/icons/Summary.svg',
+                  width: 20,
+                  height: 20,
+                )),
+            const SizedBox(width: 8),
+            Text(
+              '#${booking.id!.substring(0, 7)}',
+              style: TextStyle(
+                color: Color(0xFFB9B8C1),
+                fontSize: 13,
+                fontFamily:
+                    AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: 12),
+
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text("BookingDetails".tr,
+                style: TextStyle(
+                  color: black,
+                  fontSize: width * 0.044,
+                  fontFamily: AppUtil.SfFontType(context),
+                  fontWeight: FontWeight.w500,
+                  height: 0,
+                )),
+            Row(
+              children: [
+                icon!,
+                Text(
+                  AppUtil.getBookingTypeText(context, bookTypeText!),
                   style: TextStyle(
-                    color: Color(0xFF070708),
-                    fontSize: 17,
-                    fontFamily: 'SF Pro',
-                    fontWeight: FontWeight.w600,
+                    color: black,
+                    fontSize: width * 0.038,
+                    fontFamily: AppUtil.SfFontType(context),
+                    fontWeight: FontWeight.w500,
                     height: 0,
-                  )),
-              Row(
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'date'.tr,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: starGreyColor,
+                fontSize: width * 0.035,
+                fontFamily: AppUtil.SfFontType(context),
+                fontWeight: FontWeight.w500,
+                height: 0,
+              ),
+            ),
+            const SizedBox(height: 5),
+            Text(
+              //'Fri 24 May 2024',
+              AppUtil.formatBookingDate(context, booking.date),
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: black,
+                fontSize: width * 0.038,
+                fontFamily: AppUtil.SfFontType(context),
+                fontWeight: FontWeight.w500,
+                height: 0,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'pickUp1'.tr,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Color(0xFF9392A0),
+                    fontSize: 14,
+                    fontFamily: AppUtil.SfFontType(context),
+                    fontWeight: FontWeight.w500,
+                    height: 0,
+                  ),
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  formatTimeWithLocale(context, booking.timeToGo),
+                  style: TextStyle(
+                    color: black,
+                    fontSize: width * 0.038,
+                    fontFamily: AppUtil.SfFontType(context),
+                    fontWeight: FontWeight.w500,
+                    height: 0,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(width: 40),
+            Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // SvgPicture.asset('assets/icons/Polygon_host.svg'),
-                  icon!,
-                  //Text(AppUtil.rtlDirection2(context)?"جولة":'Tour',
-                  Text(
-                    AppUtil.getBookingTypeText(context, bookTypeText!),
-                    style: TextStyle(
-                      color: Color(0xFF070708),
-                      fontSize: 13,
-                      fontFamily: 'SF Pro',
-                      fontWeight: FontWeight.w500,
-                      height: 0,
+                  SizedBox(
+                    width: double.infinity,
+                    child: Text(
+                      'dropOff1'.tr,
+                      style: TextStyle(
+                        color: starGreyColor,
+                        fontSize: width * 0.035,
+                        fontFamily: AppUtil.SfFontType(context),
+                        fontWeight: FontWeight.w500,
+                        height: 0,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    child: Text(
+                      //'3:30 PM',
+                      formatTimeWithLocale(context, booking.timeToReturn),
+                      style: TextStyle(
+                        color: black,
+                        fontSize: width * 0.038,
+                        fontFamily: AppUtil.SfFontType(context),
+                        fontWeight: FontWeight.w500,
+                        height: 0,
+                      ),
                     ),
                   ),
                 ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-        // Column(
-        //   crossAxisAlignment: CrossAxisAlignment.start,
-        //   children: [
-        //     Text('Date: '),
-        //     Text(date),
-
-        //     Row(
-        //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //           children: [
-        //             Text('Start Time: '),
-        //             Text('End Time: '),
-        //           ],
-        //         ),
-        //    Row(
-        //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //           children: [
-        //             Text(startTime),
-        //             Text(endTime),
-        //           ],
-        //         ),
-        //      Row(
-        //           mainAxisAlignment: MainAxisAlignment.start,
-        //           children: [
-        //             Text('Guests'),
-        //           ],
-        //         ),
-        //         Row(
-        //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //           children: [
-        //             Text(numberOfGuests),
-        //           ],
-        //         ),
-
-        //   ],
-        // ),
-        Container(
-          width: 294,
-          height: 180,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                width: 255,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            AppUtil.rtlDirection2(context) ? "التاريخ" : 'Date',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Color(0xFF9392A0),
-                              fontSize: 14,
-                              fontFamily: 'SF Pro',
-                              fontWeight: FontWeight.w500,
-                              height: 0,
-                            ),
-                          ),
-                          Text(
-                            //'Fri 24 May 2024',
-                            AppUtil.formatBookingDate(context, booking.date),
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Color(0xFF111113),
-                              fontSize: 15,
-                              fontFamily: 'SF Pro',
-                              fontWeight: FontWeight.w600,
-                              height: 0,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+        const SizedBox(height: 12),
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'numberOfPeople'.tr,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: starGreyColor,
+                fontSize: width * 0.035,
+                fontFamily: AppUtil.SfFontType(context),
+                fontWeight: FontWeight.w500,
+                height: 0,
               ),
-              const SizedBox(height: 12),
-              Container(
-                width: double.infinity,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            AppUtil.rtlDirection2(context)
-                                ? "وقت الذهاب"
-                                : 'Start Time',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Color(0xFF9392A0),
-                              fontSize: 14,
-                              fontFamily: 'SF Pro',
-                              fontWeight: FontWeight.w500,
-                              height: 0,
-                            ),
-                          ),
-                          Text(
-                            //'10:00 AM',
-                            // booking.timeToGo??'',
-                            formatTimeWithLocale(context, booking.timeToGo),
-                            style: TextStyle(
-                              color: Color(0xFF111113),
-                              fontSize: 15,
-                              fontFamily: 'SF Pro',
-                              fontWeight: FontWeight.w600,
-                              height: 0,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(width: 40),
-                    Expanded(
-                      child: Container(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              width: double.infinity,
-                              child: Text(
-                                AppUtil.rtlDirection2(context)
-                                    ? "وقت العودة"
-                                    : 'End Time',
-                                style: TextStyle(
-                                  color: Color(0xFF9392A0),
-                                  fontSize: 14,
-                                  fontFamily: 'SF Pro',
-                                  fontWeight: FontWeight.w500,
-                                  height: 0,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: double.infinity,
-                              child: Text(
-                                //'3:30 PM',
-                                formatTimeWithLocale(
-                                    context, booking.timeToReturn),
-                                style: TextStyle(
-                                  color: Color(0xFF111113),
-                                  fontSize: 15,
-                                  fontFamily: 'SF Pro',
-                                  fontWeight: FontWeight.w600,
-                                  height: 0,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
+            ),
+            const SizedBox(height: 5),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '${booking.guestNumber ?? 0} ${'guests'.tr}',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: black,
+                    fontSize: width * 0.038,
+                    fontFamily: AppUtil.SfFontType(context),
+                    fontWeight: FontWeight.w500,
+                    height: 0,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 12),
-              Container(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            AppUtil.rtlDirection2(context)
-                                ? "عدد الأشخاص"
-                                : 'Guests',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Color(0xFF9392A0),
-                              fontSize: 14,
-                              fontFamily: 'SF Pro',
-                              fontWeight: FontWeight.w500,
-                              height: 0,
-                            ),
-                          ),
-                          Container(
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '${booking.guestNumber ?? 0} ${'guests'.tr}',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Color(0xFF111113),
-                                    fontSize: 15,
-                                    fontFamily: 'SF Pro',
-                                    fontWeight: FontWeight.w600,
-                                    height: 0,
-                                  ),
-                                ),
-                                // const SizedBox(width: 4),
-                                // Text(
-                                //     'Per',
-                                //     textAlign: TextAlign.center,
-                                //     style: TextStyle(
-                                //         color: Color(0xFFB9B8C1),
-                                //         fontSize: 15,
-                                //         fontFamily: 'SF Pro',
-                                //         fontWeight: FontWeight.w500,
-                                //         height: 0,
-                                //     ),
-                                // ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              // Container(
-              //     width: double.infinity,
-              //     height: 33,
-              //     child: Column(
-              //         mainAxisSize: MainAxisSize.min,
-              //         mainAxisAlignment: MainAxisAlignment.center,
-              //         crossAxisAlignment: CrossAxisAlignment.end,
-              //         children: [
-              //             Container(
-              //                 child: Column(
-              //                     mainAxisSize: MainAxisSize.min,
-              //                     mainAxisAlignment: MainAxisAlignment.start,
-              //                     crossAxisAlignment: CrossAxisAlignment.start,
-              //                     children: [
-              //                         Text(
-              //                             'Cost',
-              //                             textAlign: TextAlign.center,
-              //                             style: TextStyle(
-              //                                 color: Color(0xFF9392A0),
-              //                                 fontSize: 12,
-              //                                 fontFamily: 'SF Pro',
-              //                                 fontWeight: FontWeight.w400,
-              //                                 height: 0,
-              //                             ),
-              //                         ),
-              //                         Container(
-              //                             child: Row(
-              //                                 mainAxisSize: MainAxisSize.min,
-              //                                 mainAxisAlignment: MainAxisAlignment.end,
-              //                                 crossAxisAlignment: CrossAxisAlignment.center,
-              //                                 children: [
-              //                                     Text(
-              //                                         '380.00',
-              //                                         textAlign: TextAlign.center,
-              //                                         style: TextStyle(
-              //                                             color: Color(0xFF111113),
-              //                                             fontSize: 16,
-              //                                             fontFamily: 'SF Pro',
-              //                                             fontWeight: FontWeight.w400,
-              //                                             height: 0,
-              //                                         ),
-              //                                     ),
-              //                                     const SizedBox(width: 4),
-              //                                     Text(
-              //                                         'SAR',
-              //                                         textAlign: TextAlign.center,
-              //                                         style: TextStyle(
-              //                                             color: Color(0xFFB9B8C1),
-              //                                             fontSize: 12,
-              //                                             fontFamily: 'SF Pro',
-              //                                             fontWeight: FontWeight.w400,
-              //                                             height: 0,
-              //                                         ),
-              //                                     ),
-              //                                 ],
-              //                             ),
-              //                         ),
-              //                     ],
-              //                 ),
-              //             ),
-              //         ],
-              //     ),
-              // ),
-            ],
-          ),
+                // const SizedBox(width: 4),
+                // Text(
+                //     'Per',
+                //     textAlign: TextAlign.center,
+                //     style: TextStyle(
+                //         color: Color(0xFFB9B8C1),
+                //         fontSize: 15,
+                //         fontFamily: 'SF Pro',
+                //         fontWeight: FontWeight.w500,
+                //         height: 0,
+                //     ),
+                // ),
+              ],
+            ),
+          ],
         ),
-        // SizedBox(height: 10),
-        // Divider(color: colorDarkGrey,height:5
-        // ),
+      
+        const SizedBox(height: 12),
 
-        DottedSeparator(
+        const DottedSeparator(
           color: almostGrey,
           height: 1,
         ),
-        // SizedBox(height: 30),
-        // Divider(),
-        SizedBox(height: 20),
-        // Row(
-        //   mainAxisAlignment: MainAxisAlignment.end,
-        //   children: [
-        //     Text('Cost: '),
-        //   ],
-        // ),
-        //  Row(
-        //   mainAxisAlignment: MainAxisAlignment.end,
-        //   children: [
-        //     Text(cost),
-        //   ],
-        // ),
-        Container(
+      
+        const SizedBox(height: 20),
+
+        SizedBox(
           width: double.infinity,
-          height: 50,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Container(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      AppUtil.rtlDirection2(context) ? "المبلغ" : 'Cost',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Color(0xFF9392A0),
-                        fontSize: 14,
-                        fontFamily: 'SF Pro',
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                      ),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'cost'.tr,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: starGreyColor,
+                      fontSize: width * 0.038,
+                      fontFamily: AppUtil.SfFontType(context),
+                      fontWeight: FontWeight.w500,
+                      height: 0,
                     ),
-                    Container(
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            // '380.00',
-                            booking.cost.toString(),
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        // '380.00',
+                        booking.cost.toString(),
 
-                            //booking.place!.price.toString(),
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Color(0xFF111113),
-                              fontSize: 17,
-                              fontFamily: 'SF Pro',
-                              fontWeight: FontWeight.w600,
-                              height: 0,
-                            ),
-                          ),
-                          const SizedBox(width: 4),
-                          Text(
-                            AppUtil.rtlDirection2(context) ? 'ريال' : 'SAR',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Color(0xFF111113),
-                              fontSize: 14,
-                              fontFamily: 'SF Pro',
-                              fontWeight: FontWeight.w500,
-                              height: 0,
-                            ),
-                          ),
-                        ],
+                        //booking.place!.price.toString(),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: black,
+                          fontSize: width * 0.044,
+                          fontFamily: AppUtil.SfFontType(context),
+                          fontWeight: FontWeight.w500,
+                          height: 0,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
+                      const SizedBox(width: 5),
+                      Text(
+                        AppUtil.rtlDirection2(context) ? 'ريال' : 'SAR',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: black,
+                          fontSize: width * 0.035,
+                          fontFamily: AppUtil.SfFontType(context),
+                          fontWeight: FontWeight.w500,
+                          height: 0,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ],
           ),

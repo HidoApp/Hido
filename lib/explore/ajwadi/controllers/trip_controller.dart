@@ -95,7 +95,7 @@ class TripController extends GetxController {
       isNextActivityLoading(true);
       var next= await TripService.getNextActivity(context: context);
  
-    if(nextTrip!=null ){
+    if(next!=null ){
      log('data not equal null');
    
     isTripUpdated(true);
@@ -105,7 +105,8 @@ class TripController extends GetxController {
         log('data equal null');
 
        isTripUpdated(false);
-      return  nextTrip(next);
+       return null;
+      // return  nextTrip(next);
     }
      
     } catch (e) {

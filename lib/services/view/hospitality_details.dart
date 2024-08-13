@@ -287,6 +287,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                               SizedBox(
                                 height: width * 0.01,
                               ),
+                              if( hospitalityObj!.daysInfo.isNotEmpty)
                               Row(
                                 children: [
                                   SvgPicture.asset(

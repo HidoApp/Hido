@@ -11,6 +11,7 @@ const localeAr = {
   "saudi_arabia": "المملكة العربية السعودية",
   "start_tour": "ابدأ",
   "ajwad": "أجواد",
+  "cost":"المبلغ",
   "noun": "جمع جَوَادُ (اسم)",
   "societyGenerosity":
       "الكرماء الأسخياء ، السَّريعو الجري ، الشّجعان ، والخيول النجيبة .",
@@ -420,6 +421,8 @@ const localeAr = {
   'paymentMethod': 'اختر طريقة الدفع',
   'pickUp': 'وقت الذهاب : ',
   'dropOff': 'وقت العودة : ',
+  'pickUp1': 'وقت الذهاب',
+  'dropOff1': 'وقت العودة',
   'online': ' متاح',
   'offline': 'غير متاح',
   'itinerary': 'مسار الجولة',
@@ -633,5 +636,6 @@ const localeAr = {
   'DeleteDone': "تم حذف التجربة بنجاح ",
   'notDelete':"لم يتم حذف التجربة",
    'saveChange': "تم حفظ التغييرات بنجاح ",
+   'EndTourTime': "الجولة ما انتهت لسا",
 
 };

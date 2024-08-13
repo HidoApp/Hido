@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/constants/colors.dart';
@@ -55,7 +56,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
   NextActivity? nextTrip;
 
   void getNextActivity() async {
-   nextTrip = await _tripController.getNextActivity(context: context);
+   await _tripController.getNextActivity(context: context);
   }
 
   @override
@@ -75,8 +76,8 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
     final double height = MediaQuery.of(context).size.height;
     
 
-    print("this trip controller");
-    print(_tripController.isTripUpdated.value);
+    log("this trip controller");
+    log(_tripController.isTripUpdated.value.toString());
 
     return Obx(
       () => _profileController.isProfileLoading.value
@@ -302,7 +303,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                             () => _tripController.isNextActivityLoading.value
                                 ? const Center(
                                     child: CircularProgressIndicator.adaptive())
-                                :! _tripController.isTripUpdated.value
+                                :! _tripController.isTripUpdated.value || _tripController.nextTrip.value.id!.isEmpty
                                 //! _tripController.isTripUpdated.value
                                     ? Column(
                                       children: [

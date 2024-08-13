@@ -294,6 +294,8 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                           SizedBox(
                             height: width * 0.01,
                           ),
+                        if(event!.daysInfo!.isNotEmpty)
+
                           Row(
                             children: [
                               SvgPicture.asset(
@@ -317,6 +319,7 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                           SizedBox(
                             height: width * 0.01,
                           ),
+                          if(event!.daysInfo!.isNotEmpty)
                           Row(
                             children: [
                               SvgPicture.asset(

@@ -53,12 +53,28 @@ class _EventExperienceCardState extends State<EventExperienceCard> {
     location = tz.getLocation(timeZoneName);
     DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
     DateTime parsedDate = DateTime.parse(date);
-   final parsedDateInRiyadh = tz.TZDateTime.from( parsedDate, location).subtract(Duration(hours: 3));
+    final parsedDateInRiyadh =
+        tz.TZDateTime.from(parsedDate, location).subtract(Duration(hours: 3));
 
     Duration difference = parsedDateInRiyadh.difference(currentDateInRiyadh);
     print('this deffrence');
     print(difference);
-    return difference.inHours <= 24 ;
+    print(parsedDateInRiyadh);
+    return difference.inHours <= 24 && difference.inHours > 0;
+  }
+
+  bool isDateOut(String date) {
+    final String timeZoneName = 'Asia/Riyadh';
+    late tz.Location location;
+
+    tz.initializeTimeZones();
+    location = tz.getLocation(timeZoneName);
+    DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
+    DateTime parsedDate = DateTime.parse(date);
+    final parsedDateInRiyadh =
+        tz.TZDateTime.from(parsedDate, location).subtract(Duration(hours: 3));
+
+    return parsedDateInRiyadh.isBefore(currentDateInRiyadh);
   }
 
   late ExpandedTileController _controller;
@@ -103,209 +119,216 @@ class _EventExperienceCardState extends State<EventExperienceCard> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 1),
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(6.57)),
-                  child: Image.network(
-                    widget.experience.image![0],
-                    height: height * 0.06,
-                    width: width * 0.132,
-                    fit: BoxFit.cover,
-                  ),
+          Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: 1),
+              child: ClipRRect(
+                borderRadius: const BorderRadius.all(Radius.circular(6.57)),
+                child: Image.network(
+                  widget.experience.image![0],
+                  height: height * 0.06,
+                  width: width * 0.132,
+                  fit: BoxFit.cover,
                 ),
               ),
-              SizedBox(
-                width: 8,
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 15),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CustomText(
-                            text: AppUtil.rtlDirection2(context)
-                                ? widget.experience.nameAr
-                                : widget.experience.nameEn,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            fontFamily: AppUtil.rtlDirection2(context)
-                                ? 'SF Pro'
-                                : 'SF Arabic',
+            ),
+            SizedBox(
+              width: 8,
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 15),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CustomText(
+                          text: AppUtil.rtlDirection2(context)
+                              ? widget.experience.nameAr
+                              : widget.experience.nameEn,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: AppUtil.rtlDirection2(context)
+                              ? 'SF Pro'
+                              : 'SF Arabic',
+                        ),
+                        if (widget.experience.status == 'DRAFT' ||
+                            widget.experience.status == 'CLOSED')
+                          Row(
+                            children: [
+                              CustomText(
+                                text: AppUtil.formatSelectedDaysInfo(
+                                    widget.experience.daysInfo!, context),
+                                fontSize: 12,
+                                fontFamily: AppUtil.rtlDirection2(context)
+                                    ? 'SF Arabic'
+                                    : 'SF Pro',
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFFB9B8C1),
+                              ),
+                            ],
                           ),
-                          if (widget.experience.status == 'DRAFT' || widget.experience.status == 'CLOSED')
-                            Row(
-                              children: [
-                                CustomText(
-                                  text: AppUtil.formatSelectedDaysInfo(
-                                        widget.experience.daysInfo!, context),
-                                  fontSize: 12,
-                                  fontFamily: AppUtil.rtlDirection2(context)
-                                      ? 'SF Arabic'
-                                      : 'SF Pro',
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xFFB9B8C1),
-                                ),
-                              ],
-                            ),
-                        ],
-                      ),
-                        if(widget.experience.status != 'DRAFT' && widget.experience.status != 'CLOSED')
+                      ],
+                    ),
+                    if (widget.experience.status != 'DRAFT' &&
+                        widget.experience.status != 'CLOSED')
                       Row(
                         children: [
-                       
-
                           CustomText(
-                            text: formatBookingDate(context, selectedDate!),
+                            text:isDateOut(selectedDate!)? AppUtil.formatSelectedDaysInfo(
+                                    widget.experience.daysInfo!, context): formatBookingDate(context, selectedDate!),
                             fontSize: 12,
                             fontFamily: AppUtil.rtlDirection2(context)
                                 ? 'SF Arabic'
                                 : 'SF Pro',
                             fontWeight: FontWeight.w600,
-                            color: colorGreen,
+                            color:isDateOut(selectedDate!)? Color(0xFFB9B8C1): colorGreen,
                           ),
                         ],
                       ),
-                    ],
-                  ),
+                  ],
                 ),
               ),
-              if (widget.experience.status != 'DRAFT' && widget.experience.status != 'CLOSED')...[
-                isDateBefore24Hours(selectedDate!)
-                    ? Padding(
-                        padding: const EdgeInsets.only(bottom: 14),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Get.to(EventSummaryScreen(
-                              eventId: widget.experience.id,
-                              date: selectedDate!,
-                            ));
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: colorGreen,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 8),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                            minimumSize: Size(100, 37), // Width and height
+            ),
+            if (widget.experience.status != 'DRAFT' &&
+                widget.experience.status != 'CLOSED') ...[
+              Padding(
+                padding: const EdgeInsets.only(bottom: 14),
+                child: isDateBefore24Hours(selectedDate!)
+                    ? ElevatedButton(
+                        onPressed: () {
+                          Get.to(EventSummaryScreen(
+                            eventId: widget.experience.id,
+                            date: selectedDate!,
+                          ));
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: colorGreen,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 8),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4),
                           ),
-                          child: Text(
-                            AppUtil.rtlDirection2(context) ? 'ملخص' : 'Summary',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 13,
-                              fontFamily: AppUtil.rtlDirection2(context)
-                                  ? 'SF Arabic'
-                                  : 'SF Pro',
-                              fontWeight: FontWeight.w600,
-                            ),
+                          minimumSize: Size(100, 37), // Width and height
+                        ),
+                        child: Text(
+                          AppUtil.rtlDirection2(context) ? 'ملخص' : 'Summary',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 13,
+                            fontFamily: AppUtil.rtlDirection2(context)
+                                ? 'SF Arabic'
+                                : 'SF Pro',
+                            fontWeight: FontWeight.w600,
                           ),
-                        ))
+                        ),
+                      )
                     : Container(),
+              )
             ],
-            ]
-          ),
-
+          ]),
           const Divider(
             color: lightGrey,
           ),
-        if (widget.experience.status != 'DELETED')...[
+          if (widget.experience.status != 'DELETED') ...[
+            ExpandedTile(
+              contentseparator: 12,
+              trailing: Icon(
+                Icons.keyboard_arrow_down_outlined,
+                size: width * 0.046,
+              ),
+              disableAnimation: true,
+              trailingRotation: 180,
+              onTap: () {
+                // print(widget.request.date);
+                setState(() {});
+              },
+              title: CustomText(
+                text: AppUtil.rtlDirection2(context)
+                    ? 'تغيير التاريخ'
+                    : 'Change Date',
+                color: black,
+                fontSize: 13,
+                fontFamily:
+                    AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+                fontWeight: FontWeight.w500,
+              ),
+              content: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: double.infinity,
+                    child: Wrap(
+                      spacing: 8.0,
+                      runSpacing: 8.0,
+                      children: sortedBookingDates!.map<Widget>((bookingDate) {
+                        final date = bookingDate
+                            .date; // Access the date property directly
+                        bool isSelected = date == selectedDate;
+                        bool isPastDate = isDateOut(date);
 
-          ExpandedTile(
-            contentseparator: 12,
-            trailing: Icon(
-              Icons.keyboard_arrow_down_outlined,
-              size: width * 0.046,
-            ),
-            disableAnimation: true,
-            trailingRotation: 180,
-            onTap: () {
-              // print(widget.request.date);
-              setState(() {});
-            },
-            title: CustomText(
-              text:
-                  AppUtil.rtlDirection2(context) ? 'تغيير التاريخ' : 'Change Date',
-              color: black,
-              fontSize: 13,
-              fontFamily:
-                  AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-              fontWeight: FontWeight.w500,
-            ),
-            content: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: double.infinity,
-                  child: Wrap(
-                    spacing: 8.0,
-                    runSpacing: 8.0,
-                    children: sortedBookingDates!.map<Widget>((bookingDate) {
-                      final date =
-                          bookingDate.date; // Access the date property directly
-                      bool isSelected = date == selectedDate;
-                      return GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            selectedDate = date;
-                          });
-                        },
-                        child: Container(
-                          width: 88,
-                          height: 24,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 4),
-                          decoration: BoxDecoration(
-                            color: isSelected
-                                ? Color(0xFFECF9F1)
-                                : Colors.transparent,
-                            borderRadius: BorderRadius.circular(48),
-                          ),
-                          child: Center(
-                            child: Text(
-                              formatBookingDateMonth(context, date),
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: isSelected
-                                    ? Color(0xFF37B268)
-                                    : Color(0xFF9392A0),
-                                fontSize: 12,
-                                fontFamily: AppUtil.rtlDirection2(context)
-                                    ? 'SF Arabic'
-                                    : 'SF Pro',
-                                fontWeight: FontWeight.w400,
+                        return GestureDetector(
+                          onTap: isPastDate
+                              ? null // Disable tap if date is in the past
+                              : () {
+                                  setState(() {
+                                    selectedDate = date;
+                                  });
+                                },
+                          child: Container(
+                            width: 88,
+                            height: 24,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 4),
+                            decoration: BoxDecoration(
+                              color:isPastDate
+                                      ?  Colors.transparent // Gray out past dates
+                                      :  isSelected
+                                  ? Color(0xFFECF9F1)
+                                  : Colors.transparent,
+                              borderRadius: BorderRadius.circular(48),
+                            ),
+                            child: Center(
+                              child: Text(
+                                formatBookingDateMonth(context, date),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: isPastDate
+                                      ? Color(0xFF9392A0) // Gray out past dates
+                                      : isSelected
+                                          ? Color(0xFF37B268)
+                                          : Color(0xFF9392A0),
+                                  fontSize: 12,
+                                  fontFamily: AppUtil.rtlDirection2(context)
+                                      ? 'SF Arabic'
+                                      : 'SF Pro',
+                                  fontWeight: FontWeight.w400,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      );
-                    }).toList(),
+                        );
+                      }).toList(),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
+              controller: _controller,
+              theme: const ExpandedTileThemeData(
+                leadingPadding: EdgeInsets.zero,
+                titlePadding: EdgeInsets.zero,
+                headerPadding: EdgeInsets.zero,
+                contentPadding: EdgeInsets.zero,
+                headerSplashColor: Colors.transparent,
+                headerColor: Colors.transparent,
+                contentBackgroundColor: Colors.transparent,
+              ),
             ),
-            controller: _controller,
-            theme: const ExpandedTileThemeData(
-              leadingPadding: EdgeInsets.zero,
-              titlePadding: EdgeInsets.zero,
-              headerPadding: EdgeInsets.zero,
-              contentPadding: EdgeInsets.zero,
-              headerSplashColor: Colors.transparent,
-              headerColor: Colors.transparent,
-              contentBackgroundColor: Colors.transparent,
-            ),
-          ),
-        ],
+          ],
         ],
       ),
     );

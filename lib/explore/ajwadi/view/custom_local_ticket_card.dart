@@ -72,10 +72,10 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
     DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
     DateTime currentDate = DateTime(currentDateInRiyadh.year,
         currentDateInRiyadh.month, currentDateInRiyadh.day);
+        
     String currentDateString =
         intel.DateFormat('yyyy-MM-dd').format(currentDate);
-    // String formattedTime = intel.DateFormat('HH:mm:ss').format(currentDateInRiyadh);
-    // Format current date and time
+
     DateTime currentTime = DateTime(
         currentDateInRiyadh.year,
         currentDateInRiyadh.month,
@@ -87,8 +87,7 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
         DateTime.parse(_tripController.nextTrip.value.booking!.date ?? '');
 
     if (_tripController.nextTrip.value.booking!.date == currentDateString ||
-        parsedBookingDate.isAtSameMomentAs(currentDate) ||
-        parsedBookingDate.isBefore(currentDate)) {
+        parsedBookingDate.isAtSameMomentAs(currentDate)) {
       setState(() {
         isTripStart.value = true;
       });
@@ -96,70 +95,89 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
 
       DateTime timeToGo = DateTime.parse('$currentDateString $timeToGoStr');
 
-//     if(widget.nextTrip!.booking!.timeToGo == formattedTime){
-//       setState(() {
-//         isTripStart.value = true;
-//       });
-//  }
-// Compare the times
 
-      print('rehablkjhgfdsfgbnm ');
+
+      print('check date to start');
       print(currentTime);
       print(parsedBookingDate);
       print(parsedBookingDate.isAfter(currentDate));
       print(currentTime.isAtSameMomentAs(timeToGo));
-      // if (currentTime.isAfter(timeToGo) || currentTime.isAtSameMomentAs(timeToGo)) {
-
-      // }
+     
     }
-//  _tripController.nextStep.value=='PENDING';
-// _tripController.progress.value==0.1;
+
   }
 
   bool checkEndTime(String timeToReturnStr) {
-    tz.initializeTimeZones();
-    location = tz.getLocation(timeZoneName);
-    DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
+  tz.initializeTimeZones();
+  location = tz.getLocation(timeZoneName);
+  DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
 
-    // Set current date without the time component
-    DateTime currentDate = DateTime(currentDateInRiyadh.year,
-        currentDateInRiyadh.month, currentDateInRiyadh.day);
+  // Parse the booking date and timeToReturn
+  DateTime bookingDate = DateTime.parse(
+    _tripController.nextTrip.value.booking!.date ?? ''
+  );
 
-    // Parse the time to return
-    List<String> timeParts = timeToReturnStr.split(':');
-    int returnHour = int.parse(timeParts[0]);
-    int returnMinute = int.parse(timeParts[1]);
+  // List<String> timeParts = timeToReturnStr.split(':');
+  // int returnHour = int.parse(timeParts[0]);
+  // int returnMinute = int.parse(timeParts[1]);
 
-    // Determine if the return time is on the next day
-    bool isReturnOnNextDay = returnHour < currentDateInRiyadh.hour;
+  // // If the return time is earlier in the day than the current time, assume it's the next day
+  // bool isReturnOnNextDay = returnHour < currentDateInRiyadh.hour;
+  
+  // DateTime timeToReturn = DateTime(
+  //   bookingDate.year,
+  //   bookingDate.month,
+  //   bookingDate.day + (isReturnOnNextDay ? 1 : 0),
+  //   returnHour,
+  //   returnMinute,
+  // );
 
-    // Adjust the return date accordingly
-    DateTime timeToReturn = DateTime(
-        currentDateInRiyadh.year,
-        currentDateInRiyadh.month,
-        currentDateInRiyadh.day + (isReturnOnNextDay ? 1 : 0),
-        returnHour,
-        returnMinute);
+   //String bookDateString = intel.DateFormat('yyyy-MM-dd').format(bookingDate);
+ //String timeToGoStr = _tripController.nextTrip.value.booking!.timeToReturn;
 
-    // Compare the current time with the return time
-    if (currentDateInRiyadh.isAfter(timeToReturn) ||
-        currentDateInRiyadh.isAtSameMomentAs(timeToReturn)) {
+   // DateTime timeToReturn = DateTime.parse('$bookDateString $timeToGoStr');
+
+ List<String> timeParts = timeToReturnStr.split(':');
+  int returnHour = int.parse(timeParts[0]);
+  int returnMinute = int.parse(timeParts[1]);
+
+  DateTime timeToReturn = DateTime(
+    bookingDate.year,
+    bookingDate.month,
+    bookingDate.day,
+    returnHour,
+    returnMinute,
+  );
+
+  if (returnHour < currentDateInRiyadh.hour || 
+     (returnHour == currentDateInRiyadh.hour && returnMinute <= currentDateInRiyadh.minute)) {
+    timeToReturn = timeToReturn.add(Duration(days: 1));
+  }
+  // Get the current time for comparison
+  DateTime currentTime = DateTime(
+    currentDateInRiyadh.year,
+    currentDateInRiyadh.month,
+    currentDateInRiyadh.day,
+    currentDateInRiyadh.hour,
+    currentDateInRiyadh.minute,
+    currentDateInRiyadh.second,
+  );
+
+    if(currentTime.isAfter(timeToReturn) || currentTime.isAtSameMomentAs(timeToReturn)) {
       _tripController.isTripFinallyEnd.value = true;
       _tripController.isTripEnd.value = false;
       print('inter1');
-      print(currentDateInRiyadh);
-      print(timeToReturn);
-      print(currentDateInRiyadh.isAfter(timeToReturn) ||
-          currentDateInRiyadh.isAtSameMomentAs(timeToReturn));
+      print(currentTime);
+       print(timeToReturn);
+      print(currentTime.isAfter(timeToReturn) || currentTime.isAtSameMomentAs(timeToReturn));
       return true;
     } else {
       _tripController.isTripFinallyEnd.value = false;
 
       print('inter2');
-      print(currentDateInRiyadh);
-      print(timeToReturn);
-      print(currentDateInRiyadh.isAfter(timeToReturn) ||
-          currentDateInRiyadh.isAtSameMomentAs(timeToReturn));
+          print(currentTime);
+       print(timeToReturn);
+      print(currentTime.isAfter(timeToReturn) || currentTime.isAtSameMomentAs(timeToReturn));
       return false;
     }
   }
@@ -372,25 +390,35 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                                                       .value
                                                       .activityProgress ??
                                                   '');
-                                                
+                                              log(" end trip before${_tripController.isTripEnd.value}");
                                               if (_tripController
                                                       .updatedActivity
                                                       .value
                                                       .activityProgress ==
                                                   'IN_PROGRESS') {
-                                                      log("this activity progress");
+                                                if (checkEndTime(_tripController
+                                                    .nextTrip
+                                                    .value
+                                                    .booking!
+                                                    .timeToReturn)) {
+                                                  log("this activity progress");
                                                   log(_tripController
                                                       .updatedActivity
                                                       .value
                                                       .activityProgress!);
-                                                _tripController
-                                                    .isTripEnd.value = true;
-                                                AppUtil.errorToast(
-                                                    context,
-                                                    "The tour time hasn't ended yet"
-                                                        .tr);
-                                                await Future.delayed(
-                                                    const Duration(seconds: 1));
+
+                                                  log("this end trip ${_tripController.isTripEnd.value}");
+                                                } else {
+                                                  _tripController
+                                                      .isTripEnd.value = true;
+                                                  log("this activity progress");
+                                                  log(_tripController
+                                                      .updatedActivity
+                                                      .value
+                                                      .activityProgress!);
+
+                                                  log("this end trip ${_tripController.isTripEnd.value}");
+                                                }
                                               }
 
                                               if (_tripController
@@ -398,13 +426,6 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                                                       .value
                                                       .activityProgress ==
                                                   'COMPLETED') {
-                                                // if (checkEndTime(_tripController
-                                                //     .updatedActivity
-                                                //     .value
-                                                //     .booking!
-                                                //     .timeToReturn)) {
-                                                //      log('enter 4 completed and true end time');
-
                                                 updateProgress((_tripController
                                                         .progress.value +
                                                     0.25));
@@ -414,6 +435,12 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                                                         .value
                                                         .activityProgress ??
                                                     '');
+                                                log("enter completed state");
+                                                log(_tripController
+                                                    .updatedActivity
+                                                    .value
+                                                    .activityProgress!);
+                                                log("this end trip ${_tripController.isTripEnd.value}");
                                                 log("End Trip Taped ${_tripController.nextTrip.value.id}");
 
                                                 bool requestEnd =
@@ -471,8 +498,7 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                                     : () async {
                                         AppUtil.errorToast(
                                             context,
-                                            "The tour time hasn't ended yet"
-                                                .tr);
+                                            "EndTourTime".tr);
                                         await Future.delayed(
                                             const Duration(seconds: 1));
                                       },
@@ -490,8 +516,7 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                                     RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(4),
                                       side: BorderSide(
-                                        color: isTripStart.value &&
-                                        !_tripController.isTripEnd.value
+                                        color: isTripStart.value
                                             ? colorGreen
                                             : lightGrey,
                                         width: 1,
