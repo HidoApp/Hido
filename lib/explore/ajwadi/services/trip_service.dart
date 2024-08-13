@@ -309,27 +309,30 @@ static Future<List<Experience>?> getAllExperiences(
       },
     );
 
-    print("response.statusCode Trip ");
-    print(response.statusCode);
-    print(response.body.isNotEmpty);
-    if (response.statusCode == 200 && response.body.isNotEmpty) {
-      
+    log("response.statusCode Trip ");
+    log('${response.statusCode}');
+    log('${response.body.isNotEmpty}');
+    if (response.statusCode == 200 ) {
+      if(response.body.isNotEmpty){
       var trip = jsonDecode(response.body);
       _tripController.isTripUpdated(true);
       log("condition");
-      log('${response.statusCode == 200 && response.body.isNotEmpty}');
-      log('${  _tripController.isTripUpdated.value}');
+    
+      // log('${  _tripController.isTripUpdated.value}');
+   
 
       return NextActivity.fromJson(trip);
-
-    } else {
+      }else{
       _tripController.isTripUpdated(false);
-      String errorMessage = jsonDecode(response.body)['message'];
+      return null;
+      }
+    } else {
+        String errorMessage = jsonDecode(response.body)['message'];
       if (context.mounted) {
         AppUtil.errorToast(context, errorMessage);
       }
-     _tripController.isTripUpdated(false);
-      return null;
+    
+      // return null;
     }
   }
   static Future<NextActivity?> updateActivity({
@@ -352,14 +355,14 @@ static Future<List<Experience>?> getAllExperiences(
 
     print(response.statusCode);
     print(response.body);
-    if (response.statusCode == 200  && response.body.isNotEmpty) {
+    if (response.statusCode == 200 ) {
       var trip = jsonDecode(response.body);
-     _tripController.isTripUpdated(true);
+    //  _tripController.isTripUpdated(true);
 
       return NextActivity.fromJson(trip);
 
     } else {
-     _tripController.isTripUpdated(false);
+    // _tripController.isTripUpdated(false);
 
       String errorMessage = jsonDecode(response.body)['message'];
       if (context.mounted) {

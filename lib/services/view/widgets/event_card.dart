@@ -155,11 +155,13 @@ class _EventCardItemState extends State<EventCardItem> {
                       SizedBox(
                         height: width * 0.01,
                       ),
+                      if(widget.daysInfo.isNotEmpty)
                       Row(
                         children: [
                           SizedBox(
                             width: width * 0.017,
                           ),
+
                           SvgPicture.asset('assets/icons/grey_calender.svg'),
                           SizedBox(
                             width: width * 0.02,
@@ -179,6 +181,8 @@ class _EventCardItemState extends State<EventCardItem> {
                       SizedBox(
                         height: width * 0.01,
                       ),
+                   if(widget.daysInfo.isNotEmpty)
+
                       Row(
                         children: [
                           SizedBox(

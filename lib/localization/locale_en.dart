@@ -323,6 +323,7 @@ const localeEn = {
   "StartChat": "Start Chat!",
   'message': 'message',
   "EndRound": "End Round",
+    "cost":"Cost",
   "EndTrip": "Booking cancelled",
   "ContactTheHedoTeam": "Contact Hido Team",
   "km": "km",
@@ -635,6 +636,10 @@ const localeEn = {
   'Chinese': 'Chinese',
   'Spanish': 'Spanish',
   'Russian': 'Russian',
+
+  'EndTourTime': "The tour time hasn't ended yet",
+
+
   'Alert': 'Alert!',
   'DeleteNote': 'You’re about to delete this experience',
   'DeleteDone': 'The experience has been deleted',

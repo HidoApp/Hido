@@ -288,27 +288,28 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                               SizedBox(
                                 height: width * 0.01,
                               ),
-                              if (hospitalityObj!.daysInfo.isNotEmpty)
-                                Row(
-                                  children: [
-                                    SvgPicture.asset(
-                                      "assets/icons/Clock.svg",
-                                    ),
-                                    SizedBox(
-                                      width: width * .012,
-                                    ),
-                                    CustomText(
-                                      text:
-                                          '${'From'.tr}  ${AppUtil.formatTimeWithLocale(context, hospitalityObj!.daysInfo[0].startTime, 'hh:mm a')} ${'To'.tr}  ${AppUtil.formatTimeWithLocale(context, hospitalityObj!.daysInfo[0].endTime, 'hh:mm a')}',
-                                      color: colorDarkGrey,
-                                      fontSize: width * 0.038,
-                                      fontWeight: FontWeight.w300,
-                                      fontFamily: AppUtil.rtlDirection2(context)
-                                          ? 'SF Arabic'
-                                          : 'SF Pro',
-                                    ),
-                                  ],
-                                ),
+                              if( hospitalityObj!.daysInfo.isNotEmpty)
+                              Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    "assets/icons/Clock.svg",
+                                  ),
+                                  SizedBox(
+                                    width: width * .012,
+                                  ),
+                                  CustomText(
+                                    text:
+                                        '${'From'.tr}  ${AppUtil.formatTimeWithLocale(context, hospitalityObj!.daysInfo[0].startTime, 'hh:mm a')} ${'To'.tr}  ${AppUtil.formatTimeWithLocale(context, hospitalityObj!.daysInfo[0].endTime, 'hh:mm a')}',
+                                    color: colorDarkGrey,
+                                    fontSize: width * 0.038,
+                                    fontWeight: FontWeight.w300,
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
+                                  ),
+                                ],
+                              ),
+
                               SizedBox(
                                 height: width * 0.01,
                               ),

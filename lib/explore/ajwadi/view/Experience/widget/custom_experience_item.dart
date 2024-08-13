@@ -184,7 +184,7 @@ class _ServicesCardState extends State<ServicesCard> {
                       height: width * 0.01,
                     ),
                     if (widget.experience.experiencesType == 'adventure' ||
-                        widget.experience.experiencesType == 'event')
+                       (widget.experience.experiencesType == 'event'&& widget.experience.daysInfo.isNotEmpty) )
                       Row(
                         children: [
                           SizedBox(
@@ -199,8 +199,9 @@ class _ServicesCardState extends State<ServicesCard> {
                           CustomText(
                             text:
                                 widget.experience.experiencesType == 'adventure'
+                                
                                     ? AppUtil.formatBookingDate(
-                                        context, widget.experience.date ?? '')
+                                        context, widget.experience.date)
                                     : AppUtil.formatSelectedDaysInfo(
                                         widget.experience.daysInfo, context),
                            color: colorDarkGrey,
@@ -213,6 +214,7 @@ class _ServicesCardState extends State<ServicesCard> {
                         ],
                       ),
                     if (widget.experience.experiencesType == 'hospitality')
+                    if(widget.experience.daysInfo.isNotEmpty)
                       Row(
                         children: [
                           SizedBox(
@@ -225,7 +227,7 @@ class _ServicesCardState extends State<ServicesCard> {
                             width: width * 0.01,
                           ),
                           CustomText(
-                            text:
+                            text: 
                                 '${AppUtil.formatBookingDate(context, widget.experience.daysInfo[0].startTime ?? '')} - ${AppUtil.formatTimeOnly(context, widget.experience.daysInfo[0].startTime)} ',
                           color: colorDarkGrey,
                             fontSize: 11,
@@ -240,7 +242,7 @@ class _ServicesCardState extends State<ServicesCard> {
                       height: width * 0.01,
                     ),
                     if (widget.experience.experiencesType == 'adventure' ||
-                        widget.experience.experiencesType == 'event')
+                       (widget.experience.experiencesType == 'event' && widget.experience.daysInfo.isNotEmpty))
                       Row(
                         children: [
                           SizedBox(

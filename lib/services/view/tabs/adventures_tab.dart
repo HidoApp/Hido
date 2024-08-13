@@ -202,13 +202,16 @@ class _AdventuresTabState extends State<AdventuresTab> {
                                   );
                                 },
                               )
-                            : Center(
-                                child: CustomEmptyWidget(
-                                  title: "noExperiences".tr,
-                              //    image: "",
-                                  subtitle: 'noExperiencesSubtitle'.tr,
+                            : Padding(
+                             padding: const EdgeInsets.only(top:40),
+                              child: Center(
+                                  child: CustomEmptyWidget(
+                                    title: "noExperiences".tr,
+                                //    image: "",
+                                    subtitle: 'noExperiencesSubtitle'.tr,
+                                  ),
                                 ),
-                              ),
+                            ),
                       ),
               ),
             ],
