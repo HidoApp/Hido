@@ -219,7 +219,9 @@ class AppUtil {
   // if (endTime.isBefore(startTime)) {
   //   endTime = endTime.add(Duration(days: 1));
   // }
-  
+  print(startTime);
+  print(endTime);
+  print(endTime.isBefore(startTime));
   return endTime.isBefore(startTime);
 }
 

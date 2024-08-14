@@ -374,7 +374,6 @@ class _EditEventState extends State<EditEvent> {
         !_servicesController.EmptyTimeErrorMessage.value &&
         !PriceEmpty &&
         !PriceDouble &&
-        !_servicesController.DateErrorMessage.value &&
         !_servicesController.TimeErrorMessage.value &&
         _servicesController.images.length >= 3 &&
         !_servicesController.DateErrorMessage.value) {
@@ -463,7 +462,7 @@ class _EditEventState extends State<EditEvent> {
       _servicesController.isEventDateSelcted.value = widget.eventObj.daysInfo!.isNotEmpty?true:false;
       _servicesController.isEventTimeSelcted.value = widget.eventObj.daysInfo!.isNotEmpty?true:false;
 
-      _servicesController.DateErrorMessage.value = true;
+      // _servicesController.DateErrorMessage.value = false;
       _servicesController.EmptyTimeErrorMessage.value=false;
       _servicesController.EmptyDateErrorMessage.value=false;
 
@@ -1410,7 +1409,7 @@ class _EditEventState extends State<EditEvent> {
                                             },
                                             child: CustomText(
                                               text:_servicesController
-                                                              .isEventTimeSelcted
+                                                              .isEventDateSelcted
                                                               .value?
                                               
                                                AppUtil.formatSelectedDates(
@@ -1969,12 +1968,11 @@ class _EditEventState extends State<EditEvent> {
                                                                   .TimeErrorMessage
                                                                   .value =
                                                               AppUtil.isEndTimeLessThanStartTime(
-                                                                  _servicesController
-                                                                      .selectedStartTime
-                                                                      .value,
-                                                                  _servicesController
-                                                                      .selectedEndTime
-                                                                      .value);
+                                                                     newTimeToGo,
+                                                                  newTimeToReturn);
+                                                                      log( _servicesController
+                                                                  .TimeErrorMessage
+                                                                  .value.toString());
                                                         });
                                                       }, onChanged: (newT) {
                                                         _servicesController
@@ -1992,12 +1990,11 @@ class _EditEventState extends State<EditEvent> {
                                                                   .TimeErrorMessage
                                                                   .value =
                                                               AppUtil.isEndTimeLessThanStartTime(
-                                                                  _servicesController
-                                                                      .selectedStartTime
-                                                                      .value,
-                                                                  _servicesController
-                                                                      .selectedEndTime
-                                                                      .value);
+                                                                   newTimeToGo,
+                                                                  newTimeToReturn);
+                                                                          log( _servicesController
+                                                                  .TimeErrorMessage
+                                                                  .value.toString());
                                                         });
                                                       });
                                                     },
@@ -2041,7 +2038,7 @@ class _EditEventState extends State<EditEvent> {
                                                     child: Text(
                                                       !_servicesController
                                                               .TimeErrorMessage
-                                                              .value|| _servicesController.EmptyTimeErrorMessage.value
+                                                              .value
                                                           ? AppUtil
                                                                   .rtlDirection2(
                                                                       context)
