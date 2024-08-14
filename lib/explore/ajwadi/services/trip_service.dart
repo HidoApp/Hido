@@ -313,9 +313,10 @@ static Future<List<Experience>?> getAllExperiences(
     log('${response.statusCode}');
     log('${response.body.isNotEmpty}');
     if (response.statusCode == 200 ) {
+
       if(response.body.isNotEmpty){
       var trip = jsonDecode(response.body);
-      _tripController.isTripUpdated(true);
+      //_tripController.isTripUpdated(true);
       log("condition");
     
       // log('${  _tripController.isTripUpdated.value}');
@@ -323,7 +324,7 @@ static Future<List<Experience>?> getAllExperiences(
 
       return NextActivity.fromJson(trip);
       }else{
-      _tripController.isTripUpdated(false);
+     // _tripController.isTripUpdated(false);
       return null;
       }
     } else {
@@ -363,7 +364,7 @@ static Future<List<Experience>?> getAllExperiences(
 
     } else {
     // _tripController.isTripUpdated(false);
-
+     
       String errorMessage = jsonDecode(response.body)['message'];
       if (context.mounted) {
         AppUtil.errorToast(context, errorMessage);

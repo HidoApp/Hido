@@ -33,10 +33,18 @@ class CustomExperienceCard extends StatelessWidget {
     tz.initializeTimeZones();
     location = tz.getLocation(timeZoneName);
     DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
-    DateTime parsedDate = type == 'hospitality' || type == 'event'
-        ? DateTime.parse(experience.daysInfo.first.startTime)
-        : DateTime.parse(experience.date);
-    final parsedDateInRiyadh = tz.TZDateTime.from( parsedDate, location).subtract(Duration(hours: 3));
+    DateTime parsedDate;
+    if (type == 'hospitality' || type == 'event') {
+      if (experience.daysInfo.isNotEmpty) {
+        parsedDate = DateTime.parse(experience.daysInfo.first.startTime);
+      } else {
+        return true;
+      }
+    } else {
+      parsedDate = DateTime.parse(experience.date);
+    }
+    final parsedDateInRiyadh =
+        tz.TZDateTime.from(parsedDate, location).subtract(Duration(hours: 3));
 
     Duration difference = parsedDateInRiyadh.difference(currentDateInRiyadh);
     print('this deffrence');
@@ -164,17 +172,19 @@ class CustomExperienceCard extends StatelessWidget {
                                         ? 'SF Pro'
                                         : 'SF Arabic',
                                   ),
-                                  if (experience.status == 'DRAFT'||experience.status == 'CLOSED')
+                                  if (experience.status == 'DRAFT' ||
+                                      experience.status == 'CLOSED')
                                     Row(
                                       children: [
                                         CustomText(
-                                          
                                           text: type == 'hospitality' ||
                                                   type == 'event'
-                                              ? formatBookingDate(
-                                                  context,
-                                                  experience
-                                                      .daysInfo.first.startTime)
+                                              ? experience.daysInfo.isNotEmpty
+                                                  ? formatBookingDate(
+                                                      context,
+                                                      experience.daysInfo.first
+                                                          .startTime)
+                                                  : ''
                                               : formatBookingDate(
                                                   context, experience.date),
                                           fontSize: 12,
@@ -194,13 +204,16 @@ class CustomExperienceCard extends StatelessWidget {
                                   //  if(hospitality.status!='DELETED')
 
                                   CustomText(
-                                    text: experience.status != 'DRAFT' && experience.status != 'CLOSED'
+                                    text: experience.status != 'DRAFT' &&
+                                            experience.status != 'CLOSED'
                                         ? type == 'hospitality' ||
                                                 type == 'event'
-                                            ? formatBookingDate(
-                                                context,
-                                                experience
-                                                    .daysInfo.first.startTime)
+                                            ? experience.daysInfo.isNotEmpty
+                                                ? formatBookingDate(
+                                                    context,
+                                                    experience.daysInfo.first
+                                                        .startTime)
+                                                : ''
                                             : formatBookingDate(
                                                 context, experience.date)
                                         : '',
@@ -217,7 +230,8 @@ class CustomExperienceCard extends StatelessWidget {
                           ),
                         ),
                       ),
-                      if (experience.status != 'DRAFT' && experience.status != 'CLOSED')
+                      if (experience.status != 'DRAFT' &&
+                          experience.status != 'CLOSED')
                         isDateBefore24Hours()
                             ? Padding(
                                 padding: const EdgeInsets.only(bottom: 14),

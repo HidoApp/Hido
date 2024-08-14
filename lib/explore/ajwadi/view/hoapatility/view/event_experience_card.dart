@@ -160,8 +160,8 @@ class _EventExperienceCardState extends State<EventExperienceCard> {
                           Row(
                             children: [
                               CustomText(
-                                text: AppUtil.formatSelectedDaysInfo(
-                                    widget.experience.daysInfo!, context),
+                                text: widget.experience.daysInfo!.isNotEmpty? AppUtil.formatSelectedDaysInfo(
+                                    widget.experience.daysInfo!, context):'',
                                 fontSize: 12,
                                 fontFamily: AppUtil.rtlDirection2(context)
                                     ? 'SF Arabic'
@@ -178,8 +178,8 @@ class _EventExperienceCardState extends State<EventExperienceCard> {
                       Row(
                         children: [
                           CustomText(
-                            text:isDateOut(selectedDate!)? AppUtil.formatSelectedDaysInfo(
-                                    widget.experience.daysInfo!, context): formatBookingDate(context, selectedDate!),
+                            text:isDateOut(selectedDate!)? widget.experience.daysInfo!.isNotEmpty? AppUtil.formatSelectedDaysInfo(
+                                    widget.experience.daysInfo!, context):'': formatBookingDate(context, selectedDate!),
                             fontSize: 12,
                             fontFamily: AppUtil.rtlDirection2(context)
                                 ? 'SF Arabic'

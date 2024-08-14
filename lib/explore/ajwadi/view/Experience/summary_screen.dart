@@ -222,6 +222,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
+                              if( _summary!.daysInfo.isNotEmpty)
                               Text(
                                 formatBookingDate(context,
                                     _summary?.daysInfo.first.startTime ?? ''),
@@ -243,6 +244,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                               if( _summary!.daysInfo.isNotEmpty)
                               Text(
                                 // AppUtil.formatTimeWithLocale(context, _summary?.daysInfo.first.startTime??'','hh:mm a'),
                                 '${AppUtil.formatTimeWithLocale(context, _summary?.daysInfo.first.startTime ?? '', 'hh:mm a')} - ${AppUtil.formatTimeWithLocale(context, _summary?.daysInfo.first.endTime ?? '', 'hh:mm a')}',

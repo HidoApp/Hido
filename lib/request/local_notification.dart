@@ -31,12 +31,12 @@ class LocalNotification {
   String descreption = '';
   int hour=0;
   int minute=0;
-  String day = "2 days";
+  String day = "1 days";
   String time = "2 hours";
   final String timeZoneName = 'Asia/Riyadh';
   late tz.Location location;
 
-  void checkBooking(String? bookdate) {
+  void checkBooking(String? bookdate,context) {
     //DateFormat dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss', 'en_US').add_Hms();
     tz.initializeTimeZones();
 
@@ -54,21 +54,31 @@ class LocalNotification {
         DateTime(twoDaysBefore.year, twoDaysBefore.month, twoDaysBefore.day);
     DateTime bookingDateWithoutTime =
         DateTime(bookingDate.year, bookingDate.month, bookingDate.day);
+   
+  int daysDifference =  twoDaysBefore.difference(currentDateInRiyadh).inDays;//new
 
     // If it's in the past, set it to the current date
     // twoDaysBefore = currentDate;
-    if (twoDaysBeforeWithoutTime.isBefore(currentDate)) {
-      if (bookingDateWithoutTime == currentDate) {
+    if (twoDaysBeforeWithoutTime.isAfter(currentDate)||bookingDateWithoutTime.isAtSameMomentAs(currentDate)||twoDaysBeforeWithoutTime.isBefore(currentDate)) {
+      if (bookingDateWithoutTime.isAtSameMomentAs(currentDate)) {
         twoDaysBefore = currentDate;
 
         day = "today";
         hour = currentDateInRiyadh.hour + 1;
         minute = currentDateInRiyadh.minute;
       } else {
-        twoDaysBefore = bookingDate.subtract(Duration(days: 1));
-        day = "1 day";
-        hour = currentDateInRiyadh.hour + 1;
-        minute = currentDateInRiyadh.minute + 3;
+        if(daysDifference==1){
+        // twoDaysBefore = bookingDate.subtract(Duration(days: 1));
+       day = AppUtil.rtlDirection2(context)?"يوم":"1 day";
+      // hour = currentDateInRiyadh.hour + 1;
+      // minute = currentDateInRiyadh.minute + 3;
+        }
+        else{
+        twoDaysBefore = bookingDate.add(Duration(days: 1));
+       day = AppUtil.rtlDirection2(context)?"يومان": "2 day";
+       hour = currentDateInRiyadh.hour + 1;
+       minute = currentDateInRiyadh.minute + 3;
+        }
       }
 
       print("datebe");
@@ -93,7 +103,7 @@ class LocalNotification {
 
   void showNotification(BuildContext context, String? id, String? timeToGo,
       String? Date, String? name, String? placeeEn, String? placeeAr) async {
-    checkBooking(Date);
+    checkBooking(Date,context);
 
 
     tz.TZDateTime notificationTime;
@@ -113,6 +123,7 @@ class LocalNotification {
     print(notificationTime);
     print(placeeAr);
     print(placeeEn);
+    print(name);
     print(id);
 
     int parsedId = int.tryParse(id ?? '') ?? 0;
@@ -145,7 +156,7 @@ class LocalNotification {
               day;
     } else {
       descreption = AppUtil.rtlDirection2(context)
-          ?'متبقي ' + 'يوم' + ' حتى تبدأ تجربتك لاستكشاف ' + placeName
+          ?'متبقي ' + day + ' حتى تبدأ تجربتك لاستكشاف ' + placeName
           : day +
               "  left and  your experience to discover " +
               placeName +
@@ -173,7 +184,7 @@ class LocalNotification {
       String? mealAr,
       String? titleEn,
       String? tiltleAr) async {
-    checkBooking(Date);
+    checkBooking(Date,context);
 
     tz.TZDateTime notificationTime;
     if (hour != 0 && minute != 0) {
@@ -215,6 +226,8 @@ class LocalNotification {
 
     print(tz.local);
     print(day);
+    print(FamilyName);
+    print(mealName);
     if (day == 'today') {
       descreption = AppUtil.rtlDirection2(context)
           ? "استضافتك على وجبة " + mealName + " في " + FamilyName + "تبدأ اليوم "
@@ -227,7 +240,7 @@ class LocalNotification {
               day;
     } else {
       descreption = AppUtil.rtlDirection2(context)
-          ? "متبقي " + "يوم" + " وستبدأ استضافتك في  " + FamilyName + " على " + mealName
+          ? "متبقي " + day + " وستبدأ استضافتك في  " + FamilyName + " على " + mealName
           : day +
               "  left and your hosting begins at " +
               FamilyName +
@@ -252,7 +265,7 @@ class LocalNotification {
       String? date,
       String? nameEn,
       String? nameAr) async {
-    checkBooking(date);
+    checkBooking(date,context);
 
     tz.TZDateTime notificationTime;
     if (hour != 0 && minute != 0) {
@@ -289,13 +302,14 @@ class LocalNotification {
 
     print(tz.local);
     print(day);
+     print(PlaceName);
     if (day == 'today') {
       descreption = AppUtil.rtlDirection2(context)
           ? day + " ستبدأ مغامرة " + PlaceName + " الخاصة بك"
           : " Your " + PlaceName + " adventure " + " will begin " + day;
     } else {
       descreption = AppUtil.rtlDirection2(context)
-          ? "متبقي " + "يوم" + " وستبدأ مغامرة " + PlaceName + " الخاصة بك"
+          ? "متبقي " + day + " وستبدأ مغامرة " + PlaceName + " الخاصة بك"
           : day + "  left and your " + PlaceName + " adventure begins ";
     }
     await flutterLocalNotificationsPlugin.zonedSchedule(
@@ -315,7 +329,7 @@ class LocalNotification {
       String? date,
       String? nameEn,
       String? nameAr) async {
-    checkBooking(date);
+    checkBooking(date,context);
 
     tz.TZDateTime notificationTime;
     if (hour != 0 && minute != 0) {
@@ -352,13 +366,14 @@ class LocalNotification {
 
     print(tz.local);
     print(day);
+     print(PlaceName);
     if (day == 'today') {
       descreption = AppUtil.rtlDirection2(context)
           ? day + " ستبدأ فعالية" + PlaceName + " الخاصة بك"
           : " Your " + PlaceName + " event " + " will begin " + day;
     } else {
       descreption = AppUtil.rtlDirection2(context)
-          ? "متبقي " + "يوم" + " وستبدأ فعالية " + PlaceName + " الخاصة بك"
+          ? "متبقي " + day + " وستبدأ فعالية " + PlaceName + " الخاصة بك"
           : day + "  left and your " + PlaceName + " event begins ";
     }
     await flutterLocalNotificationsPlugin.zonedSchedule(

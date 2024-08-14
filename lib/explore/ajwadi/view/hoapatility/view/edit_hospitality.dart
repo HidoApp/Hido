@@ -291,8 +291,12 @@ class _EditHospitalityState extends State<EditHospitality> {
 
       guestEmpty = guestNum == 0;
 
-      DateErrorMessage = !_servicesController.isHospatilityDateSelcted.value;
-      TimeErrorMessage = !_servicesController.isHospatilityTimeSelcted.value;
+      //  DateErrorMessage = !_servicesController.isHospatilityDateSelcted.value;
+      // TimeErrorMessage = !_servicesController.isHospatilityTimeSelcted.value;
+      _servicesController.EmptyDateErrorMessage.value =
+          !_servicesController.isHospatilityDateSelcted.value;
+      _servicesController.EmptyTimeErrorMessage.value =
+          !_servicesController.isHospatilityTimeSelcted.value;
       _servicesController.DateErrorMessage.value =
           AppUtil.isDateBefore24Hours(_servicesController.selectedDate.value);
 
@@ -317,8 +321,10 @@ class _EditHospitalityState extends State<EditHospitality> {
         !titleENEmpty &&
         !bioEnEmpty &&
         !guestEmpty &&
-        !DateErrorMessage! &&
-        !TimeErrorMessage! &&
+        // !DateErrorMessage! &&
+        // !TimeErrorMessage! &&
+        !_servicesController.EmptyDateErrorMessage.value &&
+        !_servicesController.EmptyTimeErrorMessage.value &&
         !PriceEmpty &&
         !PriceLarger &&
         !PriceDouble &&
@@ -368,24 +374,33 @@ class _EditHospitalityState extends State<EditHospitality> {
 
       mealTypeAr = widget.hospitalityObj.mealTypeAr;
       mealTypeEn = widget.hospitalityObj.mealTypeEn;
-      guestNum = widget.hospitalityObj.daysInfo.first.seats;
-      newTimeToGo =
-          DateTime.parse(widget.hospitalityObj.daysInfo.first.startTime);
-      newTimeToReturn =
-          DateTime.parse(widget.hospitalityObj.daysInfo.first.endTime);
+      guestNum = widget.hospitalityObj.daysInfo.isNotEmpty
+          ? widget.hospitalityObj.daysInfo.first.seats
+          : 0;
+      newTimeToGo = widget.hospitalityObj.daysInfo.isNotEmpty
+          ? DateTime.parse(widget.hospitalityObj.daysInfo.first.startTime)
+          : DateTime.now();
+      newTimeToReturn = widget.hospitalityObj.daysInfo.isNotEmpty
+          ? DateTime.parse(widget.hospitalityObj.daysInfo.first.endTime)
+          : DateTime.now();
       _servicesController.selectedDate.value =
-          widget.hospitalityObj.daysInfo.first.endTime;
+          widget.hospitalityObj.daysInfo.isNotEmpty
+              ? widget.hospitalityObj.daysInfo.first.endTime
+              : '';
       _priceController.text = widget.hospitalityObj.price.toString();
       _selectRadio(widget.hospitalityObj.mealTypeEn);
       _selectRadio(widget.hospitalityObj.touristsGender ?? '');
 
       _guestsController.text = widget.hospitalityObj.touristsGender ?? '';
 
-      _servicesController.isHospatilityDateSelcted.value = true;
-      _servicesController.isHospatilityTimeSelcted.value = true;
+      _servicesController.isHospatilityDateSelcted.value =
+          widget.hospitalityObj.daysInfo.isNotEmpty ? true : false;
+      _servicesController.isHospatilityTimeSelcted.value =
+          widget.hospitalityObj.daysInfo.isNotEmpty ? true : false;
 
       _servicesController.DateErrorMessage.value = true;
-
+      _servicesController.EmptyTimeErrorMessage.value=false;
+       _servicesController.EmptyDateErrorMessage.value=false;
       _servicesController.pickUpLocLatLang.value = LatLng(
           double.parse(widget.hospitalityObj.coordinate.latitude ?? ''),
           double.parse(widget.hospitalityObj.coordinate.longitude ?? ''));
@@ -476,8 +491,8 @@ class _EditHospitalityState extends State<EditHospitality> {
   DateTime newTimeToReturn = DateTime.now();
   bool isNew = false;
 //  late tz.Location location;
-  bool? DateErrorMessage;
-  bool? TimeErrorMessage;
+  // bool? DateErrorMessage;
+  // bool? TimeErrorMessage;
   bool? DurationErrorMessage;
   bool? DurationDateError;
 
@@ -1369,7 +1384,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                                               const EdgeInsets.only(top: 8.0),
                                           child: Text(
                                             AppUtil.rtlDirection2(context)
-                                                ? 'يجب ان تستقبل على الاقل 5 اشخاص'
+                                                ? 'يجب ان تستقبل شخص على الأقل'
                                                 : 'You need to add at least one Person',
                                             style: TextStyle(
                                               color: Color(0xFFDC362E),
@@ -1603,11 +1618,15 @@ class _EditHospitalityState extends State<EditHospitality> {
                                         shape: RoundedRectangleBorder(
                                           side: BorderSide(
                                               width: 1,
-                                              color: DateErrorMessage ??
-                                                      false ||
-                                                          !_servicesController
-                                                              .DateErrorMessage
-                                                              .value
+                                              color: _servicesController
+                                                          .EmptyDateErrorMessage
+                                                          .value
+                                                      // DateErrorMessage ??
+                                                      //         false
+                                                      ||
+                                                      !_servicesController
+                                                          .DateErrorMessage
+                                                          .value
                                                   ? colorRed
                                                   : Color(0xFFB9B8C1)),
                                           borderRadius:
@@ -1637,12 +1656,16 @@ class _EditHospitalityState extends State<EditHospitality> {
                                               //
                                             },
                                             child: CustomText(
-                                              text: AppUtil.formatBookingDate(
-                                                context,
-                                                _servicesController
-                                                    .selectedDate.value
-                                                    .substring(0, 10),
-                                              ),
+                                              text: _servicesController
+                                                      .isHospatilityDateSelcted
+                                                      .value
+                                                  ? AppUtil.formatBookingDate(
+                                                      context,
+                                                      _servicesController
+                                                          .selectedDate.value
+                                                          .substring(0, 10),
+                                                    )
+                                                  : 'DD/MM/YYYY'.tr,
                                               fontWeight: FontWeight.w400,
                                               color: Graytext,
                                               fontFamily:
@@ -1656,14 +1679,19 @@ class _EditHospitalityState extends State<EditHospitality> {
                                       ),
                                     ),
                                   ),
-                                  if (DateErrorMessage ??
-                                      false ||
-                                          !_servicesController
-                                              .DateErrorMessage.value)
+                                  if (_servicesController
+                                          .EmptyDateErrorMessage.value
+                                      // DateErrorMessage ??
+                                      //   false
+                                      ||
+                                      !_servicesController
+                                          .DateErrorMessage.value)
                                     Padding(
                                       padding: const EdgeInsets.only(top: 8),
                                       child: Text(
-                                        DateErrorMessage ?? false
+                                       // DateErrorMessage ?? false
+                                       _servicesController
+                                          .EmptyDateErrorMessage.value
                                             ? AppUtil.rtlDirection2(context)
                                                 ? "اختر التاريخ"
                                                 : "You need to choose a valid date"
@@ -1722,8 +1750,10 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                 shape: RoundedRectangleBorder(
                                                   side: BorderSide(
                                                       width: 1,
-                                                      color: TimeErrorMessage ??
-                                                              false
+                                                      color:_servicesController
+                                                        .EmptyTimeErrorMessage.value
+                                                      //  TimeErrorMessage ??
+                                                      //         false
                                                           ? colorRed
                                                           : DurationErrorMessage ??
                                                                   false
@@ -1755,6 +1785,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                             _servicesController
                                                                 .isHospatilityTimeSelcted(
                                                                     true);
+                                                               _servicesController.EmptyTimeErrorMessage.value=! _servicesController
+                                                                .isHospatilityTimeSelcted.value;
 
                                                             _servicesController
                                                                     .selectedStartTime
@@ -1775,6 +1807,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                             _servicesController
                                                                 .isHospatilityTimeSelcted(
                                                                     true);
+                                                            _servicesController.EmptyTimeErrorMessage.value=! _servicesController
+                                                                .isHospatilityTimeSelcted.value;
 
                                                             _servicesController
                                                                     .selectedStartTime
@@ -1915,13 +1949,16 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                       );
                                                     },
                                                     child: CustomText(
-                                                      text: AppUtil
-                                                          .formatStringTimeWithLocale(
+                                                      text: _servicesController
+                                                              .isHospatilityTimeSelcted
+                                                              .value
+                                                          ? AppUtil.formatStringTimeWithLocale(
                                                               context,
                                                               DateFormat(
                                                                       'HH:mm:ss')
                                                                   .format(
-                                                                      newTimeToGo)),
+                                                                      newTimeToGo))
+                                                          : "00:00",
                                                       fontWeight:
                                                           FontWeight.w400,
                                                       color: Graytext,
@@ -1937,8 +1974,10 @@ class _EditHospitalityState extends State<EditHospitality> {
                                               ),
                                             ),
                                           ),
-                                          if (TimeErrorMessage ??
-                                              false ||
+                                          if (_servicesController
+                                          .EmptyTimeErrorMessage.value||
+                                            // TimeErrorMessage ??
+                                            //   false ||
                                                   _servicesController
                                                       .TimeErrorMessage.value)
                                             Padding(
@@ -1946,7 +1985,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                   const EdgeInsets.only(top: 8),
                                               child: Text(
                                                 !_servicesController
-                                                        .TimeErrorMessage.value
+                                                        .TimeErrorMessage.value||_servicesController
+                                          .EmptyTimeErrorMessage.value
                                                     ? AppUtil.rtlDirection2(
                                                             context)
                                                         ? "يجب اختيار الوقت"
@@ -2005,8 +2045,10 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                 shape: RoundedRectangleBorder(
                                                   side: BorderSide(
                                                       width: 1,
-                                                      color: TimeErrorMessage ??
-                                                              false ||
+                                                      color: _servicesController
+                                          .EmptyTimeErrorMessage.value||
+                                                      // TimeErrorMessage ??
+                                                      //         false ||
                                                                   _servicesController
                                                                       .TimeErrorMessage
                                                                       .value
@@ -2160,6 +2202,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                           _servicesController
                                                               .isHospatilityTimeSelcted(
                                                                   true);
+                                                            _servicesController.EmptyTimeErrorMessage.value= !_servicesController
+                                                                .isHospatilityTimeSelcted.value;
 
                                                           print(DateFormat(
                                                                   'HH:mm:ss')
@@ -2189,6 +2233,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                           _servicesController
                                                               .isHospatilityTimeSelcted(
                                                                   true);
+                                                  _servicesController.EmptyTimeErrorMessage.value=! _servicesController
+                                                                .isHospatilityTimeSelcted.value;
 
                                                           print(DateFormat(
                                                                   'HH:mm:ss')
@@ -2217,13 +2263,16 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                       );
                                                     },
                                                     child: CustomText(
-                                                      text: AppUtil
-                                                          .formatStringTimeWithLocale(
+                                                      text: _servicesController
+                                                              .isHospatilityTimeSelcted
+                                                              .value
+                                                          ? AppUtil.formatStringTimeWithLocale(
                                                               context,
                                                               DateFormat(
                                                                       'HH:mm:ss')
                                                                   .format(
-                                                                      newTimeToReturn)),
+                                                                      newTimeToReturn))
+                                                          : "00:00",
                                                       fontWeight:
                                                           FontWeight.w400,
                                                       color: Graytext,
@@ -2239,8 +2288,10 @@ class _EditHospitalityState extends State<EditHospitality> {
                                               ),
                                             ),
                                           ),
-                                          if (TimeErrorMessage ??
-                                              false ||
+                                          if (_servicesController
+                                          .EmptyTimeErrorMessage.value||
+                                            // TimeErrorMessage ??
+                                            //   false ||
                                                   _servicesController
                                                       .TimeErrorMessage.value)
                                             Padding(
@@ -2248,7 +2299,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                   const EdgeInsets.only(top: 8),
                                               child: Text(
                                                 !_servicesController
-                                                        .TimeErrorMessage.value
+                                                        .TimeErrorMessage.value||_servicesController
+                                          .EmptyTimeErrorMessage.value
                                                     ? AppUtil.rtlDirection2(
                                                             context)
                                                         ? "يجب اختيار الوقت"
