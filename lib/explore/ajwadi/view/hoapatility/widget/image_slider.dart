@@ -1,9 +1,6 @@
-import 'dart:developer';
 import 'dart:io';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -23,12 +20,15 @@ class ImagesSliderWidget extends StatelessWidget {
             // image: NetworkImage(
             //   image,
             // ),
-            image: isNetworkImage
-                ? CachedNetworkImageProvider(
-                    errorListener: (p0) =>
-                        Image.asset('assets/images/Placeholder.png'),
-                    image)
-                : FileImage(File((image as XFile).path)) as ImageProvider,
+             image: isNetworkImage
+              ? NetworkImage(image) : FileImage(File(
+                                  (image as XFile).path))
+                              as ImageProvider,
+                // ? CachedNetworkImageProvider(
+                //     // errorListener: (p0) =>
+                //     //     Image.asset('assets/images/Placeholder.png'),
+                //    image)
+              //  : FileImage(File((image as XFile).path)) as ImageProvider,
             fit: BoxFit.cover,
           ),
           borderRadius: BorderRadius.circular(16),

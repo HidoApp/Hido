@@ -256,20 +256,33 @@ class _ViewImagesState extends State<ViewImages> {
                   height: 186,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: _ExperienceController.images == null ||
+                       image: _ExperienceController.images == null ||
                               _ExperienceController.images.isEmpty
                           ? const AssetImage('assets/images/Placeholder.png')
                           : _ExperienceController.images[0] is String &&
                                   Uri.parse(_ExperienceController.images[0])
                                       .isAbsolute
-                              ? CachedNetworkImageProvider(
-                                  errorListener: (p0) => Image.asset(
-                                      'assets/images/Placeholder.png'),
-                                  _ExperienceController.images[0])
+                              ? NetworkImage(_ExperienceController.images[0])
                               : FileImage(File(
                                   (_ExperienceController.images[0] as XFile)
                                       .path)) as ImageProvider,
+
                       fit: BoxFit.cover,
+                      //image: 
+                      // _ExperienceController.images == null ||
+                      //         _ExperienceController.images.isEmpty
+                      //     ? const AssetImage('assets/images/Placeholder.png')
+                      //     : _ExperienceController.images[0] is String &&
+                      //             Uri.parse(_ExperienceController.images[0])
+                      //                 .isAbsolute
+                      //         ? CachedNetworkImageProvider(
+                      //             errorListener: (p0) => Image.asset(
+                      //                 'assets/images/Placeholder.png'),
+                      //             _ExperienceController.images[0])
+                      //         : FileImage(File(
+                      //             (_ExperienceController.images[0] as XFile)
+                      //                 .path)) as ImageProvider,
+                      // fit: BoxFit.cover,
                     ),
                     borderRadius: BorderRadius.circular(16),
                   ),
@@ -331,14 +344,22 @@ class _ViewImagesState extends State<ViewImages> {
                           decoration: BoxDecoration(
                             image: DecorationImage(
                               image: isNetworkImage
-                                  ? CachedNetworkImageProvider(
-                                      errorListener: (p0) => Image.asset(
-                                          'assets/images/Placeholder.png'),
-                                      imageItem)
+                                  ? NetworkImage(imageItem)
                                   : FileImage(File((imageItem as XFile).path))
                                       as ImageProvider,
                               fit: BoxFit.cover,
                             ),
+                           // image:
+                            //  DecorationImage(
+                            //   image: isNetworkImage
+                            //       ? CachedNetworkImageProvider(
+                            //           errorListener: (p0) => Image.asset(
+                            //               'assets/images/Placeholder.png'),
+                            //           imageItem)
+                            //       : FileImage(File((imageItem as XFile).path))
+                            //           as ImageProvider,
+                            //   fit: BoxFit.cover,
+                            // ),
                             borderRadius: BorderRadius.circular(12),
                           ),
                         ),
