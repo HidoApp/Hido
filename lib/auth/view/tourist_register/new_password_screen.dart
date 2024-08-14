@@ -76,10 +76,11 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                   onChanged: (String newPassword) => password = newPassword,
                   suffixIcon: GestureDetector(
                     child: Icon(
-                        _authController.showResetPassword.value
-                            ? Icons.visibility_outlined
-                            : Icons.visibility_off_outlined,
-                        color: const Color(0xFF969696)),
+                      _authController.showResetPassword.value
+                          ? Icons.visibility_outlined
+                          : Icons.visibility_off_outlined,
+                      color: borderGrey,
+                    ),
                     onTap: () {
                       _authController.showResetPassword.value =
                           !_authController.showResetPassword.value;
@@ -118,10 +119,11 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                       confirmedPassword = newPassword,
                   suffixIcon: GestureDetector(
                     child: Icon(
-                        _authController.showResetConfirmedPassword.value
-                            ? Icons.visibility_outlined
-                            : Icons.visibility_off_outlined,
-                        color: const Color(0xFF969696)),
+                      _authController.showResetConfirmedPassword.value
+                          ? Icons.visibility_outlined
+                          : Icons.visibility_off_outlined,
+                      color: borderGrey,
+                    ),
                     onTap: () {
                       _authController.showResetConfirmedPassword.value =
                           !_authController.showResetConfirmedPassword.value;

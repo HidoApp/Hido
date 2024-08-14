@@ -101,10 +101,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 keyboardType: TextInputType.name,
                                 controller: _nameController,
                                 hintText: 'fullName'.tr,
-                                prefixIcon: const Icon(
-                                  Icons.person_outline,
-                                  color: colorDarkGrey,
-                                ),
+                                // prefixIcon: const Icon(
+                                //   Icons.person_outline,
+                                //   color: colorDarkGrey,
+                                // ),
                                 onChanged: (String value) {},
                               ),
                               const SizedBox(
@@ -118,10 +118,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 keyboardType: TextInputType.emailAddress,
                                 hintText: 'email'.tr,
                                 controller: _emailController,
-                                prefixIcon: const Icon(
-                                  Icons.email_outlined,
-                                  color: colorDarkGrey,
-                                ),
+                                // prefixIcon: const Icon(
+                                //   Icons.email_outlined,
+                                //   color: colorDarkGrey,
+                                // ),
                                 onChanged: (String value) {},
                               ),
                               const SizedBox(
@@ -137,17 +137,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 hintText: 'password'.tr,
                                 isPassword: true,
                                 controller: _passwordController,
-                                prefixIcon: const Icon(
-                                  Icons.lock_outline_rounded,
-                                  color: colorDarkGrey,
-                                ),
+                                // prefixIcon: const Icon(
+                                //   Icons.lock_outline_rounded,
+                                //   color: colorDarkGrey,
+                                // ),
                                 onChanged: (String value) {},
                                 suffixIcon: GestureDetector(
                                   child: Icon(
-                                      showPassword == true
-                                          ? Icons.visibility_outlined
-                                          : Icons.visibility_off_outlined,
-                                      color: const Color(0xFF969696)),
+                                    showConfirmPassword == true
+                                        ? Icons.visibility_outlined
+                                        : Icons.visibility_off_outlined,
+                                    color: borderGrey,
+                                  ),
                                   onTap: () {
                                     setState(() {
                                       showPassword = !showPassword;
@@ -168,17 +169,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 hintText: 'confirmPass'.tr,
                                 isPassword: true,
                                 controller: _confirmPasswoedController,
-                                prefixIcon: const Icon(
-                                  Icons.lock_outline_rounded,
-                                  color: colorDarkGrey,
-                                ),
+                                // prefixIcon: const Icon(
+                                //   Icons.lock_outline_rounded,
+                                //   color: colorDarkGrey,
+                                // ),
                                 onChanged: (String value) {},
                                 suffixIcon: GestureDetector(
                                   child: Icon(
                                       showConfirmPassword == true
                                           ? Icons.visibility_outlined
                                           : Icons.visibility_off_outlined,
-                                      color: const Color(0xFF969696)),
+                                      color: borderGrey),
                                   onTap: () {
                                     setState(() {
                                       showConfirmPassword =

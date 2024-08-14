@@ -294,54 +294,53 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                           SizedBox(
                             height: width * 0.01,
                           ),
-                        if(event!.daysInfo!.isNotEmpty)
-
-                          Row(
-                            children: [
-                              SvgPicture.asset(
-                                'assets/icons/calendar.svg',
-                              ),
-                              SizedBox(
-                                width: width * 0.012,
-                              ),
-                              CustomText(
-                                text: AppUtil.formatSelectedDaysInfo(
-                                    event!.daysInfo!, context),
-                                color: colorDarkGrey,
-                                fontSize: width * 0.038,
-                                fontWeight: FontWeight.w300,
-                                fontFamily: AppUtil.rtlDirection2(context)
-                                    ? 'SF Arabic'
-                                    : 'SF Pro',
-                              ),
-                            ],
-                          ),
+                          if (event!.daysInfo!.isNotEmpty)
+                            Row(
+                              children: [
+                                SvgPicture.asset(
+                                  'assets/icons/calendar.svg',
+                                ),
+                                SizedBox(
+                                  width: width * 0.012,
+                                ),
+                                CustomText(
+                                  text: AppUtil.formatSelectedDaysInfo(
+                                      event!.daysInfo!, context),
+                                  color: colorDarkGrey,
+                                  fontSize: width * 0.038,
+                                  fontWeight: FontWeight.w300,
+                                  fontFamily: AppUtil.rtlDirection2(context)
+                                      ? 'SF Arabic'
+                                      : 'SF Pro',
+                                ),
+                              ],
+                            ),
                           SizedBox(
                             height: width * 0.01,
                           ),
-                          if(event!.daysInfo!.isNotEmpty)
-                          Row(
-                            children: [
-                              SvgPicture.asset(
-                                "assets/icons/Clock.svg",
-                                color: colorDarkGrey,
-                              ),
-                              SizedBox(
-                                width: width * 0.012,
-                              ),
-                              //time
-                              CustomText(
-                                text:
-                                    '${AppUtil.formatTimeOnly(context, event!.daysInfo!.first.startTime)} -  ${AppUtil.formatTimeOnly(context, event!.daysInfo!.first.endTime)}',
-                                color: colorDarkGrey,
-                                fontSize: width * 0.038,
-                                fontWeight: FontWeight.w300,
-                                fontFamily: AppUtil.rtlDirection2(context)
-                                    ? 'SF Arabic'
-                                    : 'SF Pro',
-                              ),
-                            ],
-                          ),
+                          if (event!.daysInfo!.isNotEmpty)
+                            Row(
+                              children: [
+                                SvgPicture.asset(
+                                  "assets/icons/Clock.svg",
+                                  color: colorDarkGrey,
+                                ),
+                                SizedBox(
+                                  width: width * 0.012,
+                                ),
+                                //time
+                                CustomText(
+                                  text:
+                                      '${AppUtil.formatTimeOnly(context, event!.daysInfo!.first.startTime)} -  ${AppUtil.formatTimeOnly(context, event!.daysInfo!.first.endTime)}',
+                                  color: colorDarkGrey,
+                                  fontSize: width * 0.038,
+                                  fontWeight: FontWeight.w300,
+                                  fontFamily: AppUtil.rtlDirection2(context)
+                                      ? 'SF Arabic'
+                                      : 'SF Pro',
+                                ),
+                              ],
+                            ),
                           SizedBox(
                             height: width * 0.025,
                           ),
@@ -661,31 +660,31 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                 //indicator
                 Positioned(
                   top: height * 0.26,
-                  left: width * 0.4,
-                  right: width * 0.4,
+                  left: width * 0.3,
+                  right: width * 0.3,
                   // left: width * 0.36,
                   child: Align(
                     alignment: Alignment.center,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: event!.image!.map((imageUrl) {
-                              int index = event!.image!.indexOf(imageUrl);
-                              return Container(
-                                width: width * 0.025,
-                                height: width * 0.025,
-                                margin: EdgeInsets.symmetric(
-                                    vertical: width * 0.025,
-                                    horizontal: width * 0.005),
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: _currentIndex == index
-                                      ? event!.image!.length == 1
-                                          ? Colors.white.withOpacity(0.1)
-                                          : Colors.white
-                                      : Colors.white.withOpacity(0.8),
-                                ),
-                              );
-                            }).toList(),
+                        int index = event!.image!.indexOf(imageUrl);
+                        return Container(
+                          width: width * 0.025,
+                          height: width * 0.025,
+                          margin: EdgeInsets.symmetric(
+                              vertical: width * 0.025,
+                              horizontal: width * 0.005),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: _currentIndex == index
+                                ? event!.image!.length == 1
+                                    ? Colors.white.withOpacity(0.1)
+                                    : Colors.white
+                                : Colors.white.withOpacity(0.8),
+                          ),
+                        );
+                      }).toList(),
                     ),
                   ),
                 ),
