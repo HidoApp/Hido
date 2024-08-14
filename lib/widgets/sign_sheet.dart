@@ -123,7 +123,7 @@ class _SignInSheetState extends State<SignInSheet> {
                             _authController.hidePassword.value
                                 ? Icons.visibility_off_outlined
                                 : Icons.visibility_outlined,
-                            color: almostGrey,
+                            color: borderGrey,
                           ),
                         ),
                       ),
@@ -179,4 +179,3 @@ class _SignInSheetState extends State<SignInSheet> {
     );
   }
 }
-

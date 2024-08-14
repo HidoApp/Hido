@@ -1,7 +1,9 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -11,7 +13,7 @@ class ImagesSliderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isNetworkImage = image is String && Uri.parse(image).isAbsolute;
-  
+
     return Container(
       child: Container(
         width: double.infinity,
@@ -21,9 +23,12 @@ class ImagesSliderWidget extends StatelessWidget {
             // image: NetworkImage(
             //   image,
             // ),
-            image: isNetworkImage ? NetworkImage(image) : FileImage(File(
-                                  (image as XFile).path))
-                              as ImageProvider,
+            image: isNetworkImage
+                ? CachedNetworkImageProvider(
+                    errorListener: (p0) =>
+                        Image.asset('assets/images/Placeholder.png'),
+                    image)
+                : FileImage(File((image as XFile).path)) as ImageProvider,
             fit: BoxFit.cover,
           ),
           borderRadius: BorderRadius.circular(16),
@@ -47,8 +52,7 @@ class ImagesSliderWidget extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   decoration: ShapeDecoration(
-                    color:  Colors.white.withOpacity(0.20000000298023224),
-
+                    color: Colors.white.withOpacity(0.20000000298023224),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
                     ),

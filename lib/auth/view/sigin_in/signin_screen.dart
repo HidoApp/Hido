@@ -93,10 +93,10 @@ class _SignInScreenState extends State<SignInScreen> {
                                 keyboardType: TextInputType.emailAddress,
                                 hintText: 'yourEmail'.tr,
                                 controller: _emailController,
-                                prefixIcon: const Icon(
-                                  Icons.email_outlined,
-                                  color: colorDarkGrey,
-                                ),
+                                // prefixIcon: const Icon(
+                                //   Icons.email_outlined,
+                                //   color: colorDarkGrey,
+                                // ),
                                 onChanged: (String value) {},
                               ),
                               const SizedBox(
@@ -111,17 +111,18 @@ class _SignInScreenState extends State<SignInScreen> {
                                 obscureText: !showPassword,
                                 hintText: 'yourPassword'.tr,
                                 controller: _passwordController,
-                                prefixIcon: const Icon(
-                                  Icons.lock_outline_rounded,
-                                  color: colorDarkGrey,
-                                ),
+                                // prefixIcon: const Icon(
+                                //   Icons.lock_outline_rounded,
+                                //   color: colorDarkGrey,
+                                // ),
                                 onChanged: (String value) {},
                                 suffixIcon: GestureDetector(
                                   child: Icon(
-                                      showPassword == true
-                                          ? Icons.visibility_outlined
-                                          : Icons.visibility_off_outlined,
-                                      color: const Color(0xFF969696)),
+                                    showPassword == true
+                                        ? Icons.visibility_outlined
+                                        : Icons.visibility_off_outlined,
+                                    color: borderGrey,
+                                  ),
                                   onTap: () {
                                     setState(() {
                                       showPassword = !showPassword;
@@ -178,7 +179,6 @@ class _SignInScreenState extends State<SignInScreen> {
                                                     _passwordController.text,
                                                 rememberMe: true,
                                                 context: context);
-
 
                                         print('logged $user');
 

@@ -9,19 +9,19 @@ class ImagesServicesWidget extends StatelessWidget {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: ClipRRect(
-        borderRadius: BorderRadius.only(
-            bottomLeft:
-                Radius.circular(MediaQuery.of(context).size.width * 0.04),
-            bottomRight:
-                Radius.circular(MediaQuery.of(context).size.width * 0.04)),
-        child: CachedNetworkImage(
-                   imageUrl:  image,
-                   placeholder:(context, url) => Image.asset('assets/images/Placeholder.png') ,
-                 
-                    fit: BoxFit.fill,
-
-                 )
-      ),
+          borderRadius: BorderRadius.only(
+              bottomLeft:
+                  Radius.circular(MediaQuery.of(context).size.width * 0.04),
+              bottomRight:
+                  Radius.circular(MediaQuery.of(context).size.width * 0.04)),
+          child: CachedNetworkImage(
+            imageUrl: image,
+            placeholder: (context, url) => Image.asset(
+              'assets/images/Placeholder.png',
+              fit: BoxFit.cover,
+            ),
+            fit: BoxFit.fill,
+          )),
     );
   }
 }

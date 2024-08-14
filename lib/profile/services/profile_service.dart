@@ -161,7 +161,8 @@ class ProfileService {
         }));
 
     print("response.statusCode Update profile ");
-    print(response.statusCode);
+    log(response.statusCode.toString());
+    log(response.body.toString());
     if (response.statusCode == 200) {
       var profile = jsonDecode(response.body);
       print(profile);

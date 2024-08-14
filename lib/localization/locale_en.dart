@@ -75,7 +75,7 @@ const localeEn = {
   "resetPassword": "Reset Password",
   "passwordReset":
       "Please enter your email address to request a password reset",
-  'newPassword': "New password",
+  'newPassword': "New Password",
   'typeNewPassword': "Enter new password",
   'licenseInformation': "License information",
   'nationalId': "National ID",
@@ -323,7 +323,7 @@ const localeEn = {
   "StartChat": "Start Chat!",
   'message': 'message',
   "EndRound": "End Round",
-    "cost":"Cost",
+  "cost": "Cost",
   "EndTrip": "Booking cancelled",
   "ContactTheHedoTeam": "Contact Hido Team",
   "km": "km",
@@ -636,14 +636,12 @@ const localeEn = {
   'Chinese': 'Chinese',
   'Spanish': 'Spanish',
   'Russian': 'Russian',
-
   'EndTourTime': "The tour time hasn't ended yet",
-
-
   'Alert': 'Alert!',
   'DeleteNote': 'You’re about to delete this experience',
   'DeleteDone': 'The experience has been deleted',
   'notDelete': 'The experience not deleted',
   'saveChange': "Changes have been saved successfully!",
   'imageValidSize': 'Image is too large, you can only upload less than 2 MB',
+  're-enterPassword': 'Re-enter your password',
 };

@@ -278,7 +278,7 @@ class _PaymentTypeState extends State<PaymentType> {
       //   ),
       // )
       Get.bottomSheet(
-          //  isScrollControlled: true,
+          //isScrollControlled: true,5453010000095539
           WebViewSheet(
         url: invoice!.url!,
         title: 'payment'.tr,
@@ -396,10 +396,11 @@ class _PaymentTypeState extends State<PaymentType> {
           widget.thePlace?.nameAr);
 
       Get.to(() => TicketDetailsScreen(
-          booking: fetchedBooking,
-          icon: SvgPicture.asset('assets/icons/place.svg'),
-          bookTypeText: 'place',
-          isTour: true,));
+            booking: fetchedBooking,
+            icon: SvgPicture.asset('assets/icons/place.svg'),
+            bookTypeText: 'place',
+            isTour: true,
+          ));
     });
   }
 
@@ -531,7 +532,10 @@ class _PaymentTypeState extends State<PaymentType> {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Image.asset('assets/images/paymentSuccess.gif'),
+              Image.asset(
+                'assets/images/paymentSuccess.gif',
+                width: 38,
+              ),
               CustomText(
                 text: "paymentSuccess".tr,
                 fontSize: 15,

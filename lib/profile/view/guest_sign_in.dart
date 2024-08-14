@@ -105,9 +105,7 @@ class _GuestSignInScreenState extends State<GuestSignInScreen> {
                 // fromAjwady: widget.fromAjwady,
                 iconColor: colorGreen,
                 onTap: () {
-                  Get.to(() => TermsAndConditions(
-                        fromAjwady: false,
-                      ));
+                  Get.to(() => const TermsAndConditions(fromAjwady: false));
                 },
               ),
               SizedBox(

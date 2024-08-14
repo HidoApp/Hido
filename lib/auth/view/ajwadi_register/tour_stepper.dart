@@ -48,7 +48,8 @@ class _TourStepperState extends State<TourStepper> {
             ),
             Padding(
               padding: EdgeInsets.symmetric(
-                  vertical: width * 0.071, horizontal: width * 0.041),
+                vertical: width * 0.071,
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
