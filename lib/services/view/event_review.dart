@@ -62,11 +62,10 @@ class _EventReviewState extends State<EventReview> {
                 ),
                 ReviewDetailsTile(
                     title: _eventController.address.isNotEmpty
-                    ?_eventController.address.value
-                    
-                   : AppUtil.rtlDirection2(context)
-                        ? widget.event.regionAr ?? ""
-                        : widget.event.regionEn ?? "",
+                        ? _eventController.address.value
+                        : AppUtil.rtlDirection2(context)
+                            ? widget.event.regionAr ?? ""
+                            : widget.event.regionEn ?? "",
                     image: "assets/icons/map_pin.svg"),
                 SizedBox(
                   height: width * .010,
@@ -158,15 +157,6 @@ class _EventReviewState extends State<EventReview> {
                     ? const Center(child: CircularProgressIndicator())
                     : CustomButton(
                         onPressed: () async {
-                          if (widget.event.booking!.isNotEmpty) {
-                            AppUtil.errorToast(
-                                context,
-                                AppUtil.rtlDirection2(context)
-                                    ? "لقد قمت بالفعل بحجز هذه الفعالية"
-                                    : "You already booking this event");
-                            return;
-                          }
-                          log('to payment ');
                           Get.to(
                             () => PaymentType(
                               event: widget.event,

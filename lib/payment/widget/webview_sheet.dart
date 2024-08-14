@@ -1,4 +1,3 @@
-import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -23,6 +22,7 @@ class WebViewSheet extends StatelessWidget {
         child: WebViewWidget(
           controller: WebViewController()
             ..enableZoom(false)
+            ..setBackgroundColor(Colors.white)
             ..setJavaScriptMode(JavaScriptMode.unrestricted)
             ..setBackgroundColor(const Color.fromARGB(0, 255, 254, 254))
             ..setNavigationDelegate(
@@ -37,9 +37,7 @@ class WebViewSheet extends StatelessWidget {
                 onUrlChange: (change) {},
               ),
             )
-            ..loadRequest(
-              Uri.parse(url),
-            ),
+            ..loadRequest(Uri.parse(url)),
         ),
       ),
     );

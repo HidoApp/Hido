@@ -86,53 +86,51 @@ class _LocalSignInState extends State<LocalSignIn> {
             SizedBox(
               height: width * 0.102,
             ),
-            Obx(
-              () => _authController.isCreateOtpLoading.value
-                  ? const Center(child: CircularProgressIndicator.adaptive())
-                  : _authController.isResendOtp.value
-                      ? CustomButton(
-                          onPressed: () async {
-                            var isValid = _formKey.currentState!.validate();
-                            if (isValid) {
-                              final isSuccess = await _authController.createOtp(
-                                  context: context, phoneNumber: number);
-                              if (isSuccess) {
-                                _authController.isResendOtp(false);
-                                Get.to(() => PhoneOTP(
-                                      phoneNumber: number,
-                                      type: 'signIn',
-                                      otp: '',
-                                      resendOtp: () async {
-                                        await _authController.createOtp(
-                                            context: context,
-                                            phoneNumber: number);
-                                      },
-                                    ));
-                              }
+            Obx(() => _authController.isCreateOtpLoading.value
+                    ? const Center(child: CircularProgressIndicator.adaptive())
+                    : CustomButton(
+                        onPressed: () async {
+                          var isValid = _formKey.currentState!.validate();
+                          if (isValid) {
+                            final isSuccess = await _authController.createOtp(
+                                context: context, phoneNumber: number);
+                            if (isSuccess) {
+                              _authController.isResendOtp(false);
+                              Get.to(() => PhoneOTP(
+                                    phoneNumber: number,
+                                    type: 'signIn',
+                                    otp: '',
+                                    resendOtp: () async {
+                                      await _authController.createOtp(
+                                          context: context,
+                                          phoneNumber: number);
+                                    },
+                                  ));
                             }
-                          },
-                          title: 'signIn'.tr,
-                          icon: Icon(
-                            Icons.keyboard_arrow_right,
-                            size: width * 0.061,
-                          ),
-                        )
-                      : Center(
-                          child: Countdown(
-                            seconds: 180,
-                            controller: _controller,
-                            build: (BuildContext context, double time) =>
-                                CustomText(
-                              text: AppUtil.countdwonFormat(time),
-                              color: colorGreen,
-                            ),
-                            interval: const Duration(seconds: 1),
-                            onFinished: () {
-                              _authController.isResendOtp(true);
-                            },
-                          ),
+                          }
+                        },
+                        title: 'signIn'.tr,
+                        icon: Icon(
+                          Icons.keyboard_arrow_right,
+                          size: width * 0.061,
                         ),
-            ),
+                      )
+                // : Center(
+                //     child: Countdown(
+                //       seconds: 180,
+                //       controller: _controller,
+                //       build: (BuildContext context, double time) =>
+                //           CustomText(
+                //         text: AppUtil.countdwonFormat(time),
+                //         color: colorGreen,
+                //       ),
+                //       interval: const Duration(seconds: 1),
+                //       onFinished: () {
+                //         _authController.isResendOtp(true);
+                //       },
+                //     ),
+                //   ),
+                ),
             SizedBox(
               height: width * 0.030,
             ),

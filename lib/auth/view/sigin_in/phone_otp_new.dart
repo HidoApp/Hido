@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/auth/view/ajwadi_register/provided_services.dart';
 import 'package:ajwad_v4/auth/view/ajwadi_register/tour_stepper.dart';
+import 'package:ajwad_v4/auth/view/tourist_register/new_password_screen.dart';
 import 'package:ajwad_v4/auth/widget/countdown_timer.dart';
 import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
@@ -59,6 +60,12 @@ class _PhoneOTPState extends State<PhoneOTP> {
     }
   }
 
+  void resetPassword(otpCode) async {
+    if (otpCode == _authController.passwordOtp.value) {
+      Get.off(() => const NewPasswordScreen());
+    }
+  }
+
   void signUp(String otpCode) async {
     final isSuccess = await _authController.signUpWithRowad(
         context: context,
@@ -80,7 +87,6 @@ class _PhoneOTPState extends State<PhoneOTP> {
         if (local.accountType == 'TOUR_GUID' &&
             local.vehicle &&
             local.drivingLicense) {
-          storage.write('TourGuide', true);
           Get.offAll(() => const AjwadiBottomBar());
         } else if (local.accountType == 'TOUR_GUID' &&
             local.drivingLicense == false) {
@@ -89,8 +95,7 @@ class _PhoneOTPState extends State<PhoneOTP> {
         } else if (local.accountType == 'TOUR_GUID' && local.vehicle == false) {
           _authController.activeBar(3);
           Get.off(() => const TourStepper());
-        } else if (local.accountType == 'EXPERIENCE') {
-          storage.write('TourGuide', false);
+        } else if (local.accountType == 'EXPERIENCES') {
           Get.offAll(() => const AjwadiBottomBar());
         } else if (local.accountType.isEmpty) {
           Get.offAll(() => const AjwadiBottomBar());
@@ -99,7 +104,7 @@ class _PhoneOTPState extends State<PhoneOTP> {
           Get.off(() => const ProvidedServices());
         }
       } else {
-        AppUtil.errorToast(context, "error when getting info ");
+        // AppUtil.errorToast(context, "error when getting info ");
       }
     }
   }
@@ -148,6 +153,9 @@ class _PhoneOTPState extends State<PhoneOTP> {
                       break;
                     case 'signUp':
                       signUp(value);
+                      break;
+                    case 'password':
+                      resetPassword(value);
                       break;
                     default:
                   }

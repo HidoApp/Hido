@@ -447,6 +447,52 @@ class AuthService {
     }
   }
 
+  static Future<Map<dynamic, dynamic>?> sendPasswordOTP({
+    required String email,
+    required BuildContext context,
+  }) async {
+    // final getStorage = GetStorage();
+    // String token = getStorage.read('accessToken') ?? "";
+
+    // if (JwtDecoder.isExpired(token)) {
+    //   final _authController = Get.put(AuthController());
+
+    //   String refreshToken = getStorage.read('refreshToken');
+    //   var user = await _authController.refreshToken(
+    //       refreshToken: refreshToken, context: context);
+    //   token = getStorage.read('accessToken');
+    // }
+    log(email);
+
+    final response = await http.post(Uri.parse('$baseUrl/user/otp/password'),
+        headers: {
+          'Accept': 'application/json',
+          "Content-Type": "application/json",
+        },
+        body: json.encode({
+          "email": email.toLowerCase(),
+        }));
+    log(response.statusCode.toString());
+    log(response.body);
+    if (response.statusCode == 200) {
+      Map responsBody = {
+        'email': jsonDecode(response.body)['email'],
+        'otp': jsonDecode(response.body)['otp'],
+        'response': response.statusCode,
+      };
+
+      return responsBody;
+    } else {
+      String errorMessage = jsonDecode(response.body)['message'];
+      print(errorMessage);
+      if (context.mounted) {
+        AppUtil.errorToast(context, errorMessage);
+      }
+
+      return null;
+    }
+  }
+
 // 7 Reset Password
 
   static Future<bool> resetPassword({
@@ -454,17 +500,7 @@ class AuthService {
     required String email,
     required BuildContext context,
   }) async {
-    final getStorage = GetStorage();
-    String token = getStorage.read('accessToken') ?? "";
 
-    if (JwtDecoder.isExpired(token)) {
-      final _authController = Get.put(AuthController());
-
-      String refreshToken = getStorage.read('refreshToken');
-      var user = await _authController.refreshToken(
-          refreshToken: refreshToken, context: context);
-      token = getStorage.read('accessToken');
-    }
     final response = await http.put(Uri.parse('$baseUrl/user/rest/password'),
         headers: {
           'Accept': 'application/json',

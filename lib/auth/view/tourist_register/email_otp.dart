@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:ajwad_v4/auth/view/tourist_register/new_password.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
@@ -169,9 +168,9 @@ class _EmailOTPScreenState extends State<EmailOTPScreen>
 
                                 if (fullOTP == widget.responseBody['otp']) {
                                   print('Matches');
-                                  Get.to(() => NewPasswordScreen(
-                                        responseBody: widget.responseBody,
-                                      ));
+                                  // Get.to(() => NewPasswordScreen(
+                                  //       responseBody: widget.responseBody,
+                                  //     ));
                                   // _authController.resetPassword(newPassword: newPassword, email: email, context: context);
                                 } else {
                                   AppUtil.errorToast(
