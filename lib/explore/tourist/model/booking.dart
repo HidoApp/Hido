@@ -27,33 +27,36 @@ class Booking {
   final List<Offer>? offers;
   final Adventure? adventure;
   final Event? event;
+  final BookUser? user;
+
   // final Event? event;
 
   final String? profileId;
   final String? cost;
 
-  Booking(
-      {required this.id,
-      this.placeId,
-      this.chatId,
-      required this.date,
-      required this.timeToGo,
-      required this.timeToReturn,
-      this.guestNumber,
-      this.cost,
-      this.vehicleType,
-      this.coordinates,
-      this.orderStatus,
-      this.guestInfo,
-      this.bookingType,
-      this.place,
-      this.hospitality,
-      this.offers,
-      this.adventure,
-      this.profileId,
-      this.event
-      // this.event,
-      });
+  Booking({
+    required this.id,
+    this.placeId,
+    this.chatId,
+    required this.date,
+    required this.timeToGo,
+    required this.timeToReturn,
+    this.guestNumber,
+    this.cost,
+    this.vehicleType,
+    this.coordinates,
+    this.orderStatus,
+    this.guestInfo,
+    this.bookingType,
+    this.place,
+    this.hospitality,
+    this.offers,
+    this.adventure,
+    this.profileId,
+    this.event,
+    this.user,
+    // this.event,
+  });
 
   factory Booking.fromJson(Map<String, dynamic> json) {
     return Booking(
@@ -84,7 +87,7 @@ class Booking {
       adventure: json['adventure'] == null
           ? null
           : Adventure.fromJson(json['adventure']),
-
+      user: BookUser.fromJson(json['user'] ?? {}),
       //offers: json['offers'] == null ? null : (json['offers'] as List).map((offer) => Offer.fromJson(offer as Map<String, dynamic>)).toList(),
       offers: json['offers'] == null
           ? null
@@ -176,6 +179,19 @@ class Offer {
         'schedule': schedule!.map((v) => v.toJson()).toList(),
         //'user': user?.toJson(),
       };
+}
+
+class BookUser {
+  final HostProfile profile;
+
+  BookUser({required this.profile});
+
+  factory BookUser.fromJson(Map<String, dynamic> json) {
+    return BookUser(
+      // profile: json['profile'] != null ? Profile.fromJson(json['profile']) : null,
+      profile: HostProfile.fromJson(json['profile'] ?? {}),
+    );
+  }
 }
 
 // class Hospitality {

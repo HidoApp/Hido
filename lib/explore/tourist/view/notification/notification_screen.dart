@@ -78,7 +78,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
       final tz.Location location = tz.getLocation(timeZoneName);
 
       DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
-
+  
       //int daysDifference = bookingDate.difference(DateTime.now()).inDays;
       int daysDifference = bookingDate.difference(currentDateInRiyadh).inDays;
 

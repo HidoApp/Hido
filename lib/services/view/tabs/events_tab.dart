@@ -165,9 +165,9 @@ class _EventsTabState extends State<EventsTab> {
                                           : _eventController
                                                   .eventList[index].regionEn ??
                                               "",
-                                      seats: _eventController.eventList[index]
-                                          .daysInfo!.first.seats
-                                          .toString(),
+                                      // seats: _eventController.eventList[index]
+                                      //     .daysInfo?.first?.seats
+                                      //     .toString(),
                                       lang: _eventController.eventList[index]
                                               .coordinates!.latitude ??
                                           '',
@@ -176,7 +176,7 @@ class _EventsTabState extends State<EventsTab> {
                                           '',
                                       rate: "5",
                                       daysInfo: _eventController
-                                          .eventList[index].daysInfo!,
+                                          .eventList[index].daysInfo??[],
                                     );
                                   },
                                   separatorBuilder: (context, index) {

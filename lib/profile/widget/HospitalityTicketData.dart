@@ -181,7 +181,11 @@ class HostTicketData extends StatelessWidget {
                 ),
               ],
             ),
+            if( hospitality == null || (hospitality != null &&  hospitality!.daysInfo.isNotEmpty))
+
             const SizedBox(height: 12),
+           if( hospitality == null || (hospitality != null &&  hospitality!.daysInfo.isNotEmpty))
+
             Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,

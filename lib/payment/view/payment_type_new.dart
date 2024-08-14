@@ -364,6 +364,8 @@ class _PaymentTypeState extends State<PaymentType> {
     final book.Booking? fetchedBooking =
         await _RequestController.getBookingById(
             context: context, bookingId: widget.booking!.id!);
+
+      
     showDialog(
       context: context,
       builder: (ctx) {
@@ -388,13 +390,15 @@ class _PaymentTypeState extends State<PaymentType> {
       Get.delete<TimerController>(force: true);
       LocalNotification().showNotification(
           context,
-          widget.booking?.id,
-          widget.booking?.timeToGo,
-          widget.booking?.date,
-          widget.offerController!.offers.last.name,
-          widget.thePlace?.nameEn,
-          widget.thePlace?.nameAr);
-
+         fetchedBooking?.id,
+         fetchedBooking?.timeToGo,
+         fetchedBooking?.date,
+          fetchedBooking?.user?.profile.name,
+          fetchedBooking?.place?.nameEn,
+        fetchedBooking?.place?.nameAr,
+         );
+  //  log(   widget.offerController!.offerDetails.value.place?.nameAr??'');
+  //   log(  widget.offerController!.offerDetails.value.place?.nameEn??'');
       Get.to(() => TicketDetailsScreen(
           booking: fetchedBooking,
           icon: SvgPicture.asset('assets/icons/place.svg'),
@@ -454,12 +458,12 @@ class _PaymentTypeState extends State<PaymentType> {
     });
     LocalNotification().showHospitalityNotification(
         context,
-        updatedHospitality?.booking?.first.id,
+        updatedHospitality.booking?.first.id,
         widget.servicesController!.selectedDate.value,
-        widget.hospitality!.mealTypeEn,
-        widget.hospitality!.mealTypeAr,
-        widget.hospitality!.titleEn,
-        widget.hospitality!.titleAr);
+        updatedHospitality.mealTypeEn,
+        updatedHospitality.mealTypeAr,
+         updatedHospitality.titleEn,
+        updatedHospitality.titleAr);
   }
 
   void eventBooking(Invoice checkInvoice) async {
@@ -552,7 +556,7 @@ class _PaymentTypeState extends State<PaymentType> {
 
       LocalNotification().showAdventureNotification(
           context,
-          updatedAdventure!.booking?.last.id,
+          updatedAdventure.booking?.last.id,
           updatedAdventure.date,
           updatedAdventure.nameEn,
           updatedAdventure.nameAr);

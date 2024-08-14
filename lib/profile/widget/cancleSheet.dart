@@ -3,6 +3,7 @@ import 'dart:ffi';
 
 import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/new-onboarding/view/splash_screen.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/view/ticket_screen.dart';
 import 'package:ajwad_v4/profile/widget/otp_sheet.dart';
@@ -30,11 +31,14 @@ class CancelSheet extends StatefulWidget {
 
 class _CancelSheetState extends State<CancelSheet> {
   late TextEditingController textField2Controller;
+  String? bookID='';
 
   @override
   void initState() {
     super.initState();
     textField2Controller = TextEditingController();
+    bookID = widget.bookId;
+
   }
 
   @override
@@ -167,12 +171,13 @@ class _CancelSheetState extends State<CancelSheet> {
                                 reason: textField2Controller.text) ??
                             false;
                         if (bookingCancel) {
+                            int notificationId = int.tryParse(bookID!) ?? 0;
+                              await flutterLocalNotificationsPlugin.cancel(notificationId);
                           if (context.mounted) {
                             AppUtil.successToast(context, 'EndTrip'.tr);
                             await Future.delayed(const Duration(seconds: 1));
-                          }
-                           
-                          Get.to(const TouristBottomBar());
+                          }   
+                               Get.offAll(const TouristBottomBar());
                         }
                       },
                       title: 'Confirm'.tr,

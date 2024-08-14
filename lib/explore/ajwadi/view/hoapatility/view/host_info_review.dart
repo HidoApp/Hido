@@ -272,8 +272,9 @@ class _HostInfoReviewState extends State<HostInfoReview> {
           log(image.filePath);
         } else {
           log('not vaalid');
+     return false;
+
         }
-        return true;
       }
     }
     return true;

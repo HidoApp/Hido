@@ -156,6 +156,7 @@ class _EventTicketDataState extends State<EventTicketData> {
             ),
           ],
         ),
+        
         const SizedBox(height: 12),
         Column(
           mainAxisSize: MainAxisSize.min,
@@ -195,7 +196,10 @@ class _EventTicketDataState extends State<EventTicketData> {
                 ),
               ],
             ),
+               if(widget.event == null || (widget.event!= null && widget.event!.daysInfo!.isNotEmpty))
+
             const SizedBox(height: 12),
+              if(widget.event == null || (widget.event!= null && widget.event!.daysInfo!.isNotEmpty))
             Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,

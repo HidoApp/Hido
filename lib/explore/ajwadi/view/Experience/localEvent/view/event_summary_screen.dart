@@ -227,6 +227,7 @@ int totalguest = 0;
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  if(_summary!.daysInfo.isNotEmpty)
                   Text(
                    '${  AppUtil.formatTimeWithLocale(context, _summary?.daysInfo.first.startTime??'','hh:mm a')} - ${AppUtil.formatTimeWithLocale(context, _summary?.daysInfo .first.endTime??'','hh:mm a')}',
                     style: TextStyle(

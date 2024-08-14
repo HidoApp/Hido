@@ -343,8 +343,12 @@ class _EditEventState extends State<EditEvent> {
       guestEmpty = _textField1Controller.text.isEmpty ||
           _servicesController.seletedSeat.value.toString() == '0';
 
-      DateErrorMessage = !_servicesController.isEventDateSelcted.value;
-      TimeErrorMessage = !_servicesController.isEventTimeSelcted.value;
+      // DateErrorMessage = !_servicesController.isEventDateSelcted.value;
+      // TimeErrorMessage = !_servicesController.isEventTimeSelcted.value;
+        _servicesController.EmptyDateErrorMessage.value =
+ !_servicesController.isEventDateSelcted.value;
+       _servicesController.EmptyTimeErrorMessage.value =
+       !_servicesController.isEventTimeSelcted.value;
       _servicesController.DateErrorMessage.value =
           !AppUtil.areAllDatesAfter24Hours(_servicesController.selectedDates);
       // DateDurationError =
@@ -364,8 +368,10 @@ class _EditEventState extends State<EditEvent> {
         !titleENEmpty &&
         !bioEnEmpty &&
         !guestEmpty &&
-        !DateErrorMessage! &&
-        !TimeErrorMessage! &&
+        // !DateErrorMessage! &&
+        // !TimeErrorMessage! &&
+        !_servicesController.EmptyDateErrorMessage.value &&
+        !_servicesController.EmptyTimeErrorMessage.value &&
         !PriceEmpty &&
         !PriceDouble &&
         !_servicesController.DateErrorMessage.value &&
@@ -426,14 +432,22 @@ class _EditEventState extends State<EditEvent> {
       eventTitleControllerEn.text = widget.eventObj.nameEn!;
       eventBioControllerEn.text = widget.eventObj.descriptionEn!;
 
-      _textField1Controller.text =
-          widget.eventObj.daysInfo!.first.seats.toString();
-      _servicesController.seletedSeat.value =
-          widget.eventObj.daysInfo!.first.seats;
-      newTimeToGo = DateTime.parse(widget.eventObj.daysInfo!.first.startTime);
-      newTimeToReturn = DateTime.parse(widget.eventObj.daysInfo!.first.endTime);
+      _textField1Controller.text = widget.eventObj.daysInfo!.isNotEmpty?
+          widget.eventObj.daysInfo!.first.seats.toString():'0';
+      _servicesController.seletedSeat.value =widget.eventObj.daysInfo!.isNotEmpty?
+          widget.eventObj.daysInfo!.first.seats:0;
+
+      newTimeToGo =widget.eventObj.daysInfo!.isNotEmpty?
+       DateTime.parse(widget.eventObj.daysInfo!.first.startTime)
+       :DateTime.now();
+
+      newTimeToReturn =widget.eventObj.daysInfo!.isNotEmpty?
+       DateTime.parse(widget.eventObj.daysInfo!.first.endTime)
+       :DateTime.now();
+
       // _servicesController.selectedDates.value =
       //     widget.eventObj.daysInfo!;
+      if(widget.eventObj.daysInfo!.isNotEmpty){
       for (var info in widget.eventObj.daysInfo!) {
         DateTime startDateTime = DateTime.parse(info.startTime);
         // DateTime endDateTime = DateTime.parse(info.endTime);
@@ -442,10 +456,16 @@ class _EditEventState extends State<EditEvent> {
         // _servicesController.selectedDates.add(
         //     DateTime(endDateTime.year, endDateTime.month, endDateTime.day));
       }
-
+      }else{
+         _servicesController.selectedDates.add(DateTime.now());
+      }
       _priceController.text = widget.eventObj.price.toString();
-      _servicesController.isEventDateSelcted.value = true;
-      _servicesController.isEventTimeSelcted.value = true;
+      _servicesController.isEventDateSelcted.value = widget.eventObj.daysInfo!.isNotEmpty?true:false;
+      _servicesController.isEventTimeSelcted.value = widget.eventObj.daysInfo!.isNotEmpty?true:false;
+
+      _servicesController.DateErrorMessage.value = true;
+      _servicesController.EmptyTimeErrorMessage.value=false;
+      _servicesController.EmptyDateErrorMessage.value=false;
 
       _servicesController.pickUpLocLatLang.value = LatLng(
           double.parse(widget.eventObj.coordinates!.latitude ?? ''),
@@ -464,8 +484,8 @@ class _EditEventState extends State<EditEvent> {
   DateTime newTimeToReturn = DateTime.now();
   bool isNew = false;
 //  late tz.Location location;
-  bool? DateErrorMessage;
-  bool? TimeErrorMessage;
+  // bool? DateErrorMessage;
+  // bool? TimeErrorMessage;
   bool? DurationErrorMessage;
   bool? DateDurationError;
 
@@ -1297,7 +1317,7 @@ class _EditEventState extends State<EditEvent> {
                                               const EdgeInsets.only(top: 8.0),
                                           child: Text(
                                             AppUtil.rtlDirection2(context)
-                                                ? 'يجب ان تستقبل على الاقل 5 اشخاص'
+                                                ? 'يجب ان تستقبل شخص على الأقل '
                                                 : 'You need to add at least one Person',
                                             style: TextStyle(
                                               color: Color(0xFFDC362E),
@@ -1356,8 +1376,9 @@ class _EditEventState extends State<EditEvent> {
                                         shape: RoundedRectangleBorder(
                                           side: BorderSide(
                                               width: 1,
-                                              color: DateErrorMessage ??
-                                                      false ||
+                                              color: _servicesController.EmptyDateErrorMessage.value ||
+                                              //  DateErrorMessage ??
+                                              //         false ||
                                                           _servicesController
                                                               .DateErrorMessage
                                                               .value
@@ -1388,10 +1409,14 @@ class _EditEventState extends State<EditEvent> {
                                                   });
                                             },
                                             child: CustomText(
-                                              text: AppUtil.formatSelectedDates(
+                                              text:_servicesController
+                                                              .isEventTimeSelcted
+                                                              .value?
+                                              
+                                               AppUtil.formatSelectedDates(
                                                   _servicesController
                                                       .selectedDates,
-                                                  context),
+                                                  context):'DD/MM/YYYY'.tr,
                                               fontWeight: FontWeight.w400,
                                               color: Graytext,
                                               fontFamily:
@@ -1405,14 +1430,16 @@ class _EditEventState extends State<EditEvent> {
                                       ),
                                     ),
                                   ),
-                                  if (DateErrorMessage ??
-                                      false ||
+                                  if ( _servicesController.EmptyDateErrorMessage.value||
+                                    // DateErrorMessage ??
+                                    //   false ||
                                           _servicesController
                                               .DateErrorMessage.value)
                                     Padding(
                                       padding: const EdgeInsets.only(top: 8),
                                       child: Text(
-                                        DateErrorMessage ?? false
+                                        // DateErrorMessage ?? false
+                                         _servicesController.EmptyDateErrorMessage.value
                                             ? AppUtil.rtlDirection2(context)
                                                 ? "اختر التاريخ"
                                                 : "You need to choose a valid date"
@@ -1471,8 +1498,9 @@ class _EditEventState extends State<EditEvent> {
                                                 shape: RoundedRectangleBorder(
                                                   side: BorderSide(
                                                       width: 1,
-                                                      color: TimeErrorMessage ??
-                                                              false
+                                                      color:  _servicesController.EmptyTimeErrorMessage.value
+                                                      // TimeErrorMessage ??
+                                                      //         false
                                                           ?colorRed
                                                           : DurationErrorMessage ??
                                                                   false
@@ -1633,7 +1661,7 @@ class _EditEventState extends State<EditEvent> {
                                                         _servicesController
                                                             .isEventTimeSelcted(
                                                                 true);
-
+                                                     _servicesController.EmptyTimeErrorMessage.value=! _servicesController.isEventTimeSelcted.value;
                                                         setState(() {
                                                           time = newTimeToGo;
                                                           newTimeToGo = newT;
@@ -1652,6 +1680,7 @@ class _EditEventState extends State<EditEvent> {
                                                         _servicesController
                                                             .isEventTimeSelcted(
                                                                 true);
+                                                           _servicesController.EmptyTimeErrorMessage.value=! _servicesController.isEventTimeSelcted.value;
                                                         setState(() {
                                                           time = newTimeToGo;
 
@@ -1670,13 +1699,16 @@ class _EditEventState extends State<EditEvent> {
                                                       });
                                                     },
                                                     child: CustomText(
-                                                      text: AppUtil
+                                                      text: _servicesController
+                                                              .isEventTimeSelcted
+                                                              .value?
+                                                        AppUtil
                                                           .formatStringTimeWithLocale(
                                                               context,
                                                               DateFormat(
                                                                       'HH:mm:ss')
                                                                   .format(
-                                                                      newTimeToGo)),
+                                                                      newTimeToGo)):"00:00",
                                                       fontWeight:
                                                           FontWeight.w400,
                                                       color: Graytext,
@@ -1692,8 +1724,9 @@ class _EditEventState extends State<EditEvent> {
                                               ),
                                             ),
                                           ),
-                                          if (TimeErrorMessage ??
-                                              false ||
+                                          if (   _servicesController.EmptyTimeErrorMessage.value||
+                                            // TimeErrorMessage ??
+                                            //   false ||
                                                   _servicesController
                                                       .TimeErrorMessage.value)
                                             Padding(
@@ -1701,7 +1734,8 @@ class _EditEventState extends State<EditEvent> {
                                                   const EdgeInsets.only(top: 8),
                                               child: Text(
                                                 !_servicesController
-                                                        .TimeErrorMessage.value
+                                                        .TimeErrorMessage.value||_servicesController
+                                          .EmptyTimeErrorMessage.value
                                                     ? AppUtil.rtlDirection2(
                                                             context)
                                                         ? "يجب اختيار الوقت"
@@ -1760,8 +1794,9 @@ class _EditEventState extends State<EditEvent> {
                                                 shape: RoundedRectangleBorder(
                                                   side: BorderSide(
                                                       width: 1,
-                                                      color: TimeErrorMessage ??
-                                                              false ||
+                                                      color: _servicesController.EmptyTimeErrorMessage.value||
+                                                      // TimeErrorMessage ??
+                                                      //         false ||
                                                                   _servicesController
                                                                       .TimeErrorMessage
                                                                       .value
@@ -1920,7 +1955,7 @@ class _EditEventState extends State<EditEvent> {
                                                         _servicesController
                                                             .isEventTimeSelcted(
                                                                 true);
-
+                                                          _servicesController.EmptyTimeErrorMessage.value=! _servicesController.isEventTimeSelcted.value;
                                                         setState(() {
                                                           returnTime =
                                                               newTimeToReturn;
@@ -1945,6 +1980,7 @@ class _EditEventState extends State<EditEvent> {
                                                         _servicesController
                                                             .isEventTimeSelcted(
                                                                 true);
+                                                       _servicesController.EmptyTimeErrorMessage.value=! _servicesController.isEventTimeSelcted.value;
                                                         setState(() {
                                                           newTimeToReturn =
                                                               newT;
@@ -1966,13 +2002,16 @@ class _EditEventState extends State<EditEvent> {
                                                       });
                                                     },
                                                     child: CustomText(
-                                                      text: AppUtil
+                                                      text: _servicesController
+                                                              .isEventTimeSelcted
+                                                              .value?
+                                                              AppUtil
                                                           .formatStringTimeWithLocale(
                                                               context,
                                                               DateFormat(
                                                                       'HH:mm:ss')
                                                                   .format(
-                                                                      newTimeToReturn)),
+                                                                      newTimeToReturn)):"00:00",
                                                       fontWeight:
                                                           FontWeight.w400,
                                                       color: Graytext,
@@ -1989,8 +2028,9 @@ class _EditEventState extends State<EditEvent> {
                                             ),
                                           ),
                                           Obx(
-                                            () => TimeErrorMessage ??
-                                                    false ||
+                                            () =>  _servicesController.EmptyTimeErrorMessage.value||
+                                            // TimeErrorMessage ??
+                                            //         false ||
                                                         _servicesController
                                                             .TimeErrorMessage
                                                             .value
@@ -2001,7 +2041,7 @@ class _EditEventState extends State<EditEvent> {
                                                     child: Text(
                                                       !_servicesController
                                                               .TimeErrorMessage
-                                                              .value
+                                                              .value|| _servicesController.EmptyTimeErrorMessage.value
                                                           ? AppUtil
                                                                   .rtlDirection2(
                                                                       context)

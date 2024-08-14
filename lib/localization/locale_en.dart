@@ -639,7 +639,8 @@ const localeEn = {
 
   'EndTourTime': "The tour time hasn't ended yet",
 
-
+  'pickUp1': 'Start time',
+  'dropOff1': 'End time',
   'Alert': 'Alert!',
   'DeleteNote': 'You’re about to delete this experience',
   'DeleteDone': 'The experience has been deleted',

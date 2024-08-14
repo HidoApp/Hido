@@ -17,6 +17,8 @@ import '../model/summary.dart';
 class HospitalityController extends GetxController {
   var DateErrorMessage=false.obs;
   var TimeErrorMessage=false.obs;
+   var EmptyDateErrorMessage=false.obs;
+  var EmptyTimeErrorMessage=false.obs;
   var isHospitalityLoading = true.obs;
   var showErrorMaxGuest = false.obs;
   var selectedDate = ''.obs;

@@ -16,7 +16,7 @@ class EventCardItem extends StatefulWidget {
       required this.image,
       required this.title,
       required this.location,
-      required this.seats,
+     // required this.seats,
       required this.rate,
       required this.daysInfo,
       required this.onTap,
@@ -25,7 +25,7 @@ class EventCardItem extends StatefulWidget {
   final String image;
   final String title;
   final String location;
-  final String seats;
+  //final String seats;
   final String rate;
   final List<DayInfo> daysInfo;
   final VoidCallback onTap;

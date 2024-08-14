@@ -19,6 +19,10 @@ class OfferController extends GetxController {
   var offers = <Offer>[].obs;
   var offerDetails = OfferDetails().obs;
   var acceptedOffer = AcceptedOffer().obs;
+  var placeNameAr=''.obs;
+  var placeNameEn=''.obs;
+
+
   Future<List<Offer>?> getOffers({
     required BuildContext context,
     required String placeId,

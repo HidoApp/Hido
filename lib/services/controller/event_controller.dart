@@ -28,6 +28,8 @@ class EventController extends GetxController {
   var address = ''.obs;
   var DateErrorMessage = false.obs;
   var TimeErrorMessage = false.obs;
+   var EmptyDateErrorMessage=false.obs;
+  var EmptyTimeErrorMessage=false.obs;
   var selectedDate = ''.obs;
   var selectedDates = [].obs; //new
   var selectedTime = ''.obs;

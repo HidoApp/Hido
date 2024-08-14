@@ -136,7 +136,7 @@ class TripController extends GetxController {
     else{
      log('data equal null2');
 
-       isTripUpdated(false);
+      isTripUpdated(false);
        return updatedActivity(data);
     }
     
