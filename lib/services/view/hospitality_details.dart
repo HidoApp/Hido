@@ -215,10 +215,10 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                         // images widget on top of screen
                         GestureDetector(
                           onTap: () {
-                            Get.to(ViewTripImages(
-                              tripImageUrl: hospitalityObj!.images,
-                              fromNetwork: true,
-                            ));
+                            Get.to(() => ViewTripImages(
+                                  tripImageUrl: hospitalityObj!.images,
+                                  fromNetwork: true,
+                                ));
                           },
                           child: CarouselSlider.builder(
                             options: CarouselOptions(
@@ -288,28 +288,27 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                               SizedBox(
                                 height: width * 0.01,
                               ),
-                              if( hospitalityObj!.daysInfo.isNotEmpty)
-                              Row(
-                                children: [
-                                  SvgPicture.asset(
-                                    "assets/icons/Clock.svg",
-                                  ),
-                                  SizedBox(
-                                    width: width * .012,
-                                  ),
-                                  CustomText(
-                                    text:
-                                        '${'From'.tr}  ${AppUtil.formatTimeWithLocale(context, hospitalityObj!.daysInfo[0].startTime, 'hh:mm a')} ${'To'.tr}  ${AppUtil.formatTimeWithLocale(context, hospitalityObj!.daysInfo[0].endTime, 'hh:mm a')}',
-                                    color: colorDarkGrey,
-                                    fontSize: width * 0.038,
-                                    fontWeight: FontWeight.w300,
-                                    fontFamily: AppUtil.rtlDirection2(context)
-                                        ? 'SF Arabic'
-                                        : 'SF Pro',
-                                  ),
-                                ],
-                              ),
-
+                              if (hospitalityObj!.daysInfo.isNotEmpty)
+                                Row(
+                                  children: [
+                                    SvgPicture.asset(
+                                      "assets/icons/Clock.svg",
+                                    ),
+                                    SizedBox(
+                                      width: width * .012,
+                                    ),
+                                    CustomText(
+                                      text:
+                                          '${'From'.tr}  ${AppUtil.formatTimeWithLocale(context, hospitalityObj!.daysInfo[0].startTime, 'hh:mm a')} ${'To'.tr}  ${AppUtil.formatTimeWithLocale(context, hospitalityObj!.daysInfo[0].endTime, 'hh:mm a')}',
+                                      color: colorDarkGrey,
+                                      fontSize: width * 0.038,
+                                      fontWeight: FontWeight.w300,
+                                      fontFamily: AppUtil.rtlDirection2(context)
+                                          ? 'SF Arabic'
+                                          : 'SF Pro',
+                                    ),
+                                  ],
+                                ),
                               SizedBox(
                                 height: width * 0.01,
                               ),
@@ -698,32 +697,28 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                     //indicator
                     Positioned(
                       top: height * 0.22,
-                      left: width * 0.4,
-                      right: width * 0.4,
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: hospitalityObj!.images.map((imageUrl) {
-                            int index =
-                                hospitalityObj!.images.indexOf(imageUrl);
-                            return Container(
-                              width: width * 0.025,
-                              height: width * 0.025,
-                              margin: EdgeInsets.symmetric(
-                                  vertical: width * 0.025,
-                                  horizontal: width * 0.005),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: _currentIndex == index
-                                    ? hospitalityObj!.images.length == 1
-                                        ? Colors.white.withOpacity(0.1)
-                                        : Colors.white
-                                    : Colors.white.withOpacity(0.8),
-                              ),
-                            );
-                          }).toList(),
-                        ),
+                      left: width * 0.3,
+                      right: width * 0.3,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: hospitalityObj!.images.map((imageUrl) {
+                          int index = hospitalityObj!.images.indexOf(imageUrl);
+                          return Container(
+                            width: width * 0.025,
+                            height: width * 0.025,
+                            margin: EdgeInsets.symmetric(
+                                vertical: width * 0.025,
+                                horizontal: width * 0.005),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: _currentIndex == index
+                                  ? hospitalityObj!.images.length == 1
+                                      ? Colors.white.withOpacity(0.1)
+                                      : Colors.white
+                                  : Colors.white.withOpacity(0.8),
+                            ),
+                          );
+                        }).toList(),
                       ),
                     ),
                   ],

@@ -30,6 +30,7 @@ class AuthController extends GetxController {
   var isSignInWithOtpLoading = false.obs;
   var isCheckLocalLoading = false.obs;
   var isResendOtp = true.obs;
+  var isResetPasswordOtpLoading = false.obs;
   //valditon vars
   var hidePassword = true.obs;
   var isEmailValid = false.obs;
@@ -50,6 +51,10 @@ class AuthController extends GetxController {
   var updatedDriving = ''.obs;
   var updatedVehicle = ''.obs;
   var validUpdatedDriving = true.obs;
+  var passwordOtp = ''.obs;
+  var resetPasswordEmail = ''.obs;
+  var showResetPassword = false.obs;
+  var showResetConfirmedPassword = false.obs;
 
   // 1 GET COUNTRIES ..
   Future<List<String>?> getListOfCountries(BuildContext context) async {
@@ -260,6 +265,23 @@ class AuthController extends GetxController {
       return null;
     } finally {
       isOTPLoading(false);
+    }
+  }
+
+  Future<Map<dynamic, dynamic>?> sendPasswordOTP({
+    required String email,
+    required BuildContext context,
+  }) async {
+    try {
+      isResetPasswordOtpLoading(true);
+      final data =
+          await AuthService.sendPasswordOTP(email: email, context: context);
+      return data;
+    } catch (e) {
+      isResetPasswordOtpLoading(false);
+      return null;
+    } finally {
+      isResetPasswordOtpLoading(false);
     }
   }
 

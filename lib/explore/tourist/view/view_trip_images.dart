@@ -15,7 +15,6 @@ class ViewTripImages extends StatefulWidget {
   State<ViewTripImages> createState() => _ViewTripImagesState();
 }
 
-
 class _ViewTripImagesState extends State<ViewTripImages> {
   // final imageItems = widget.tripImageUrl.map((e) => null);
   @override
@@ -62,15 +61,13 @@ class _ViewTripImagesState extends State<ViewTripImages> {
             //   fit: BoxFit.fill,
             // )
             child: CachedNetworkImage(
-                   imageUrl:  url,
-                   placeholder:(context, url) => Image.asset('assets/images/Placeholder.png') ,
-                 
-                    fit: BoxFit.fill,
-
-                 )
-            )
-            
-            )
+              imageUrl: url,
+              placeholder: (context, url) => Image.asset(
+                'assets/images/Placeholder.png',
+                fit: BoxFit.fill,
+              ),
+              fit: BoxFit.fill,
+            )))
         .toList();
     return items;
   }

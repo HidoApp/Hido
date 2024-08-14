@@ -175,14 +175,7 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                     ? const Center(child: CircularProgressIndicator())
                     : CustomButton(
                         onPressed: () async {
-                          if (widget.adventure.booking!.isNotEmpty) {
-                            AppUtil.errorToast(
-                                context,
-                                AppUtil.rtlDirection2(context)
-                                    ? "لقد قمت بالفعل بحجز هذه المغامره"
-                                    : "You already booking this adventure");
-                            return;
-                          }
+                     
                           Get.to(
                             () => PaymentType(
                               adventure: widget.adventure,

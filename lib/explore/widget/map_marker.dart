@@ -9,14 +9,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MapMarker extends StatelessWidget {
-  const MapMarker(
-      {super.key,
-      required this.image,
-      required this.region,
-     });
+  const MapMarker({
+    super.key,
+    required this.image,
+    required this.region,
+  });
   final String image;
   final String region;
- // final void Function() onTap;
+  // final void Function() onTap;
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -37,7 +37,8 @@ class MapMarker extends StatelessWidget {
             image: DecorationImage(
               fit: BoxFit.cover,
               image: CachedNetworkImageProvider(
-                  errorListener: (p0) => const CircularProgressIndicator(),
+                  errorListener: (p0) =>
+                      Image.asset('assets/images/Placeholder.png'),
                   image),
             ),
             border: Border.all(color: Colors.white, width: width * 0.0025)),

@@ -48,7 +48,7 @@ class _ProvidedServicesState extends State<ProvidedServices> {
               ),
               //Name
               CustomText(
-                text: storage.read('localName'),
+                text: storage.read('localName') ?? "",
                 color: colorGreen,
                 fontSize: width * 0.051,
                 fontWeight: FontWeight.w500,

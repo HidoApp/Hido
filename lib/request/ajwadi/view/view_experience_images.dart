@@ -7,6 +7,7 @@ import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/services/model/hospitality.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -134,7 +135,6 @@ class _ViewImagesState extends State<ViewImages> {
       ),
       builder: (context) {
         return Container(
-
           padding: const EdgeInsets.only(
             top: 16,
             left: 24,
@@ -262,11 +262,13 @@ class _ViewImagesState extends State<ViewImages> {
                           : _ExperienceController.images[0] is String &&
                                   Uri.parse(_ExperienceController.images[0])
                                       .isAbsolute
-                              ? NetworkImage(_ExperienceController.images[0])
+                              ? CachedNetworkImageProvider(
+                                  errorListener: (p0) => Image.asset(
+                                      'assets/images/Placeholder.png'),
+                                  _ExperienceController.images[0])
                               : FileImage(File(
                                   (_ExperienceController.images[0] as XFile)
                                       .path)) as ImageProvider,
-
                       fit: BoxFit.cover,
                     ),
                     borderRadius: BorderRadius.circular(16),
@@ -329,7 +331,10 @@ class _ViewImagesState extends State<ViewImages> {
                           decoration: BoxDecoration(
                             image: DecorationImage(
                               image: isNetworkImage
-                                  ? NetworkImage(imageItem)
+                                  ? CachedNetworkImageProvider(
+                                      errorListener: (p0) => Image.asset(
+                                          'assets/images/Placeholder.png'),
+                                      imageItem)
                                   : FileImage(File((imageItem as XFile).path))
                                       as ImageProvider,
                               fit: BoxFit.cover,
