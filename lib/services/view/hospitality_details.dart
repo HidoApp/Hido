@@ -13,7 +13,6 @@ import 'package:ajwad_v4/services/view/widgets/images_services_widget.dart';
 import 'package:ajwad_v4/services/view/widgets/reservation_details_sheet.dart';
 import 'package:ajwad_v4/services/view/widgets/hospitality_booking_sheet.dart';
 import 'package:ajwad_v4/services/view/widgets/service_profile_card.dart';
-
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_aleart_widget.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';

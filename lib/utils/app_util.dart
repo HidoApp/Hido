@@ -215,15 +215,15 @@ class AppUtil {
   }
 
   static bool isEndTimeLessThanStartTime(DateTime startTime, DateTime endTime) {
-  // If the end time is before the start time, adjust end time by adding one day
-  // if (endTime.isBefore(startTime)) {
-  //   endTime = endTime.add(Duration(days: 1));
-  // }
-  print(startTime);
-  print(endTime);
-  print(endTime.isBefore(startTime));
-  return endTime.isBefore(startTime);
-}
+    // If the end time is before the start time, adjust end time by adding one day
+    // if (endTime.isBefore(startTime)) {
+    //   endTime = endTime.add(Duration(days: 1));
+    // }
+    print(startTime);
+    print(endTime);
+    print(endTime.isBefore(startTime));
+    return endTime.isBefore(startTime);
+  }
 
   static String formatSelectedDates(
       RxList<dynamic> dates, BuildContext context) {
@@ -413,6 +413,24 @@ class AppUtil {
   static String formatStringTimeWithLocale(
       BuildContext context, String dateTimeString) {
     DateTime time = DateFormat("HH:mm").parse(dateTimeString);
+    String formattedTime = DateFormat.jm().format(time);
+    if (AppUtil.rtlDirection2(context)) {
+      // Arabic locale
+      String suffix = time.hour < 12 ? 'صباحًا' : 'مساءً';
+      formattedTime = formattedTime
+          .replaceAll('AM', '')
+          .replaceAll('PM', '')
+          .trim(); // Remove AM/PM
+      return '$formattedTime $suffix';
+    } else {
+      // Default to English locale
+      return formattedTime;
+    }
+  }
+
+  static String formatStringTimeWithLocaleRequest(
+      BuildContext context, String dateTimeString) {
+    DateTime time = DateFormat("h:mma").parse(dateTimeString);
     String formattedTime = DateFormat.jm().format(time);
     if (AppUtil.rtlDirection2(context)) {
       // Arabic locale

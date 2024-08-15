@@ -178,7 +178,7 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                       CustomText(text: widget.schedule.scheduleName),
                       CustomText(
                         text:
-                            "${widget.schedule.scheduleTime!.from!}- ${widget.schedule.scheduleTime!.to!}",
+                            "${AppUtil.formatStringTimeWithLocaleRequest(context, widget.schedule.scheduleTime!.from!)}- ${AppUtil.formatStringTimeWithLocaleRequest(context, widget.schedule.scheduleTime!.to!)}",
                         color: almostGrey,
                         fontSize: width * .03,
                       ),
@@ -209,7 +209,7 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
             //     : width * 0.92,
             width: double.infinity,
             padding: EdgeInsets.only(
-                 left: width * 0.030,
+                left: width * 0.030,
                 top: width * 0.051,
                 bottom: width * 0.051,
                 right: width * 0.030),
@@ -356,8 +356,11 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                               child: Row(children: [
                                 CustomText(
                                   color: starGreyColor,
-                                  text: widget.schedule.scheduleTime!.from ??
-                                      ' 00:00'.tr,
+                                  text:
+                                      AppUtil.formatStringTimeWithLocaleRequest(
+                                          context,
+                                          widget.schedule.scheduleTime!.from ??
+                                              '00:00'.tr),
                                   fontSize: width * 0.033,
                                   fontFamily: AppUtil.rtlDirection2(context)
                                       ? 'SF Arabic'
@@ -433,8 +436,11 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                                       ? 'SF Arabic'
                                       : 'SF Pro',
                                   color: starGreyColor,
-                                  text: widget.schedule.scheduleTime!.to ??
-                                      ' 00:00'.tr,
+                                  text:
+                                      AppUtil.formatStringTimeWithLocaleRequest(
+                                          context,
+                                          widget.schedule.scheduleTime!.to ??
+                                              '00:00'.tr),
                                 )
                               ]),
                             ),

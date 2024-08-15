@@ -63,6 +63,8 @@ class _PhoneOTPState extends State<PhoneOTP> {
   void resetPassword(otpCode) async {
     if (otpCode == _authController.passwordOtp.value) {
       Get.off(() => const NewPasswordScreen());
+    }else{
+      AppUtil.errorToast(context, 'msg');
     }
   }
 

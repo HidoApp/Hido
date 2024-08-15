@@ -637,4 +637,5 @@ const localeAr = {
   'saveChange': "تم حفظ التغييرات بنجاح ",
   'imageValidSize': 'حجم الصورة لازم يكون اقل من ٢ ميجابايت',
   're-enterPassword': 'أعد إدخال الرمز السري',
+  'resetSucces': "تم تحديث الرمز السري "
 };
