@@ -646,7 +646,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                 Positioned(
                   top: height * 0.22,
                   left: width * 0.3,
-                  right: width * 0.3,
+                  right: width * 0.3, 
                   // left: width * 0.36,
                   child: Align(
                     alignment: Alignment.center,

@@ -237,7 +237,7 @@ class _ItineraryCardState extends State<ItineraryCard> {
                         fontFamily: AppUtil.rtlDirection2(context)
                             ? 'SF Arabic'
                             : 'SF Pro',
-                            color: black,
+                        color: black,
                       ),
                       GestureDetector(
                         onTap: () async {
@@ -289,7 +289,10 @@ class _ItineraryCardState extends State<ItineraryCard> {
                                 fontSize: width * 0.03,
                                 text: widget.requestController.startTime.isEmpty
                                     ? ' 00:00'.tr
-                                    : widget.requestController.startTime.value,
+                                    : AppUtil.formatStringTimeWithLocaleRequest(
+                                        context,
+                                        widget
+                                            .requestController.startTime.value),
                                 color: almostGrey,
                                 fontFamily: AppUtil.rtlDirection2(context)
                                     ? 'SF Arabic'
@@ -331,7 +334,7 @@ class _ItineraryCardState extends State<ItineraryCard> {
                         fontFamily: AppUtil.rtlDirection2(context)
                             ? 'SF Arabic'
                             : 'SF Pro',
-                            color: black,
+                        color: black,
                       ),
                       GestureDetector(
                         onTap: () async {
@@ -383,7 +386,9 @@ class _ItineraryCardState extends State<ItineraryCard> {
                                   : 'SF Pro',
                               text: widget.requestController.endtime.isEmpty
                                   ? ' 00:00'.tr
-                                  : widget.requestController.endtime.value,
+                                  : AppUtil.formatStringTimeWithLocaleRequest(
+                                      context,
+                                      widget.requestController.endtime.value),
                             ),
                           ]),
                         ),
@@ -397,7 +402,6 @@ class _ItineraryCardState extends State<ItineraryCard> {
                               ? 'SF Arabic'
                               : 'SF Pro',
                         ),
-                   
                       if (!widget.requestController.isEndTimeInRange.value)
                         CustomText(
                           text: 'timeErorrRange'.tr,
