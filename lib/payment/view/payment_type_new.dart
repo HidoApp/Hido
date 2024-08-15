@@ -365,7 +365,6 @@ class _PaymentTypeState extends State<PaymentType> {
         await _RequestController.getBookingById(
             context: context, bookingId: widget.booking!.id!);
 
-      
     showDialog(
       context: context,
       builder: (ctx) {
@@ -389,16 +388,16 @@ class _PaymentTypeState extends State<PaymentType> {
       Get.offAll(() => const TouristBottomBar());
       Get.delete<TimerController>(force: true);
       LocalNotification().showNotification(
-          context,
-         fetchedBooking?.id,
-         fetchedBooking?.timeToGo,
-         fetchedBooking?.date,
-          fetchedBooking?.user?.profile.name,
-          fetchedBooking?.place?.nameEn,
+        context,
+        fetchedBooking?.id,
+        fetchedBooking?.timeToGo,
+        fetchedBooking?.date,
+        fetchedBooking?.user?.profile.name,
+        fetchedBooking?.place?.nameEn,
         fetchedBooking?.place?.nameAr,
-         );
-  //  log(   widget.offerController!.offerDetails.value.place?.nameAr??'');
-  //   log(  widget.offerController!.offerDetails.value.place?.nameEn??'');
+      );
+      //  log(   widget.offerController!.offerDetails.value.place?.nameAr??'');
+      //   log(  widget.offerController!.offerDetails.value.place?.nameEn??'');
       Get.to(() => TicketDetailsScreen(
             booking: fetchedBooking,
             icon: SvgPicture.asset('assets/icons/place.svg'),
@@ -431,12 +430,16 @@ class _PaymentTypeState extends State<PaymentType> {
       context: context,
       builder: (ctx) {
         return AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           backgroundColor: Colors.white,
           surfaceTintColor: Colors.white,
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Image.asset('assets/images/paymentSuccess.gif'),
+              Image.asset(
+                'assets/images/paymentSuccess.gif',
+                width: 38,
+              ),
               CustomText(
                 text: "paymentSuccess".tr,
                 fontSize: 15,
@@ -463,7 +466,7 @@ class _PaymentTypeState extends State<PaymentType> {
         widget.servicesController!.selectedDate.value,
         updatedHospitality.mealTypeEn,
         updatedHospitality.mealTypeAr,
-         updatedHospitality.titleEn,
+        updatedHospitality.titleEn,
         updatedHospitality.titleAr);
   }
 
@@ -484,12 +487,16 @@ class _PaymentTypeState extends State<PaymentType> {
       context: context,
       builder: (ctx) {
         return AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           backgroundColor: Colors.white,
           surfaceTintColor: Colors.white,
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Image.asset('assets/images/paymentSuccess.gif'),
+              Image.asset(
+                'assets/images/paymentSuccess.gif',
+                width: 38,
+              ),
               CustomText(
                 text: "paymentSuccess".tr,
                 fontSize: 15,
@@ -531,6 +538,7 @@ class _PaymentTypeState extends State<PaymentType> {
       context: context,
       builder: (ctx) {
         return AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           backgroundColor: Colors.white,
           surfaceTintColor: Colors.white,
           content: Column(

@@ -115,11 +115,13 @@ class _ServicesCardState extends State<ServicesCard> {
               children: [
                 ClipRRect(
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  child: ImageCacheWidget(
-                    image: widget.image,
-                    width: width * 0.23,
-                    height: width * 0.23,
-                  ),
+                  child: widget.image.isNotEmpty
+                      ? ImageCacheWidget(
+                          image: widget.image,
+                          width: width * 0.23,
+                          height: width * 0.23,
+                        )
+                      : Image.asset('assets/images/Placeholder.png'),
                   // Image.network(
                   //   widget.image,
                   //   fit: BoxFit.fill,
@@ -173,8 +175,10 @@ class _ServicesCardState extends State<ServicesCard> {
                           SizedBox(
                             width: width * 0.01,
                           ),
-                          SvgPicture.asset(
-                            'assets/icons/timeGrey.svg',
+                          RepaintBoundary(
+                            child: SvgPicture.asset(
+                              'assets/icons/timeGrey.svg',
+                            ),
                           ),
                           SizedBox(
                             width: width * 0.01,
@@ -201,7 +205,9 @@ class _ServicesCardState extends State<ServicesCard> {
                         ),
                         Row(
                           children: [
-                            SvgPicture.asset('assets/icons/meal.svg'),
+                            RepaintBoundary(
+                                child:
+                                    SvgPicture.asset('assets/icons/meal.svg')),
                             SizedBox(
                               width: width * 0.01,
                             ),
@@ -241,7 +247,8 @@ class _ServicesCardState extends State<ServicesCard> {
                     SizedBox(
                       width: width * 0.01,
                     ),
-                  SvgPicture.asset('assets/icons/star.svg'),
+                  RepaintBoundary(
+                      child: SvgPicture.asset('assets/icons/star.svg')),
                   SizedBox(
                     width: width * 0.01,
                   ),

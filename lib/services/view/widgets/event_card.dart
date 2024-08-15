@@ -16,7 +16,7 @@ class EventCardItem extends StatefulWidget {
       required this.image,
       required this.title,
       required this.location,
-     // required this.seats,
+      // required this.seats,
       required this.rate,
       required this.daysInfo,
       required this.onTap,
@@ -106,11 +106,13 @@ class _EventCardItemState extends State<EventCardItem> {
                 children: [
                   ClipRRect(
                     borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    child: ImageCacheWidget(
-                      image: widget.image,
-                      width: width * 0.23,
-                      height: width * 0.23,
-                    ),
+                    child: widget.image.isNotEmpty
+                        ? ImageCacheWidget(
+                            image: widget.image,
+                            width: width * 0.23,
+                            height: width * 0.23,
+                          )
+                        : Image.asset('assets/images/Placeholder.png'),
                   ),
                   SizedBox(
                     width: width * 0.028,
@@ -155,55 +157,53 @@ class _EventCardItemState extends State<EventCardItem> {
                       SizedBox(
                         height: width * 0.01,
                       ),
-                      if(widget.daysInfo.isNotEmpty)
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: width * 0.017,
-                          ),
-
-                          SvgPicture.asset('assets/icons/grey_calender.svg'),
-                          SizedBox(
-                            width: width * 0.02,
-                          ),
-                          CustomText(
-                            text:
-                                '${'From'.tr}  ${AppUtil.formatTimeWithLocale(context, widget.daysInfo[0].startTime, 'hh:mm a')} ${'To'.tr}  ${AppUtil.formatTimeWithLocale(context, widget.daysInfo[0].endTime, 'hh:mm a')}',
-                            fontFamily: AppUtil.rtlDirection2(context)
-                                ? 'SF Arabic'
-                                : 'SF Pro',
-                            fontSize: 11,
-                            fontWeight: FontWeight.w400,
-                            color: starGreyColor,
-                          ),
-                        ],
-                      ),
+                      if (widget.daysInfo.isNotEmpty)
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: width * 0.017,
+                            ),
+                            SvgPicture.asset('assets/icons/grey_calender.svg'),
+                            SizedBox(
+                              width: width * 0.02,
+                            ),
+                            CustomText(
+                              text:
+                                  '${'From'.tr}  ${AppUtil.formatTimeWithLocale(context, widget.daysInfo[0].startTime, 'hh:mm a')} ${'To'.tr}  ${AppUtil.formatTimeWithLocale(context, widget.daysInfo[0].endTime, 'hh:mm a')}',
+                              fontFamily: AppUtil.rtlDirection2(context)
+                                  ? 'SF Arabic'
+                                  : 'SF Pro',
+                              fontSize: 11,
+                              fontWeight: FontWeight.w400,
+                              color: starGreyColor,
+                            ),
+                          ],
+                        ),
                       SizedBox(
                         height: width * 0.01,
                       ),
-                   if(widget.daysInfo.isNotEmpty)
-
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: width * 0.01,
-                          ),
-                          SvgPicture.asset('assets/icons/timeGrey.svg'),
-                          SizedBox(
-                            width: width * 0.02,
-                          ),
-                          CustomText(
-                            text:
-                                '${AppUtil.formatTimeOnly(context, widget.daysInfo[0].startTime)} -  ${AppUtil.formatTimeOnly(context, widget.daysInfo[0].endTime)}',
-                            fontSize: 11,
-                            fontWeight: FontWeight.w400,
-                            color: starGreyColor,
-                            fontFamily: AppUtil.rtlDirection2(context)
-                                ? 'SF Arabic'
-                                : 'SF Pro',
-                          ),
-                        ],
-                      ),
+                      if (widget.daysInfo.isNotEmpty)
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: width * 0.01,
+                            ),
+                            SvgPicture.asset('assets/icons/timeGrey.svg'),
+                            SizedBox(
+                              width: width * 0.02,
+                            ),
+                            CustomText(
+                              text:
+                                  '${AppUtil.formatTimeOnly(context, widget.daysInfo[0].startTime)} -  ${AppUtil.formatTimeOnly(context, widget.daysInfo[0].endTime)}',
+                              fontSize: 11,
+                              fontWeight: FontWeight.w400,
+                              color: starGreyColor,
+                              fontFamily: AppUtil.rtlDirection2(context)
+                                  ? 'SF Arabic'
+                                  : 'SF Pro',
+                            ),
+                          ],
+                        ),
                     ],
                   ),
                 ],

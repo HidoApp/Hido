@@ -637,7 +637,6 @@ const localeEn = {
   'Spanish': 'Spanish',
   'Russian': 'Russian',
   'EndTourTime': "The tour time hasn't ended yet",
-
   'pickUp1': 'Start time',
   'dropOff1': 'End time',
   'Alert': 'Alert!',
@@ -647,4 +646,5 @@ const localeEn = {
   'saveChange': "Changes have been saved successfully!",
   'imageValidSize': 'Image is too large, you can only upload less than 2 MB',
   're-enterPassword': 'Re-enter your password',
+  'resetSucces': "Resetting password completed"
 };
