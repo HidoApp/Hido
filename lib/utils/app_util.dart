@@ -227,6 +227,7 @@ class AppUtil {
 
 }
 
+
   static String formatSelectedDates(
       RxList<dynamic> dates, BuildContext context) {
     // Convert dynamic list to List<DateTime>
@@ -415,6 +416,24 @@ class AppUtil {
   static String formatStringTimeWithLocale(
       BuildContext context, String dateTimeString) {
     DateTime time = DateFormat("HH:mm").parse(dateTimeString);
+    String formattedTime = DateFormat.jm().format(time);
+    if (AppUtil.rtlDirection2(context)) {
+      // Arabic locale
+      String suffix = time.hour < 12 ? 'صباحًا' : 'مساءً';
+      formattedTime = formattedTime
+          .replaceAll('AM', '')
+          .replaceAll('PM', '')
+          .trim(); // Remove AM/PM
+      return '$formattedTime $suffix';
+    } else {
+      // Default to English locale
+      return formattedTime;
+    }
+  }
+
+  static String formatStringTimeWithLocaleRequest(
+      BuildContext context, String dateTimeString) {
+    DateTime time = DateFormat("h:mma").parse(dateTimeString);
     String formattedTime = DateFormat.jm().format(time);
     if (AppUtil.rtlDirection2(context)) {
       // Arabic locale

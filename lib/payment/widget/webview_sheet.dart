@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewSheet extends StatelessWidget {
@@ -29,8 +32,19 @@ class WebViewSheet extends StatelessWidget {
               NavigationDelegate(
                 onProgress: (int progress) {},
                 onPageStarted: (String url) {},
-                onPageFinished: (String url) {},
-                onWebResourceError: (WebResourceError error) {},
+                onPageFinished: (String url) {
+                  Uri uri = Uri.parse(url);
+                  var isValid = uri.path.contains('/callback');
+                  if (isValid) {
+                    log('will back');
+                    Future.delayed(
+                        const Duration(seconds: 1), () => Get.back());
+                  }
+                },
+                onWebResourceError: (WebResourceError error) {
+                  log('error');
+                  log(error.description);
+                },
                 onNavigationRequest: (NavigationRequest request) async {
                   return NavigationDecision.navigate;
                 },

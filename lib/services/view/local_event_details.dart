@@ -157,7 +157,7 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
               appBar: CustomAppBar(""),
               body: Center(child: CircularProgressIndicator.adaptive()),
             )
-          : Scaffold(
+          : Scaffold( 
               bottomNavigationBar: !widget.isLocal
                   ? SizedBox(
                       child: Padding(

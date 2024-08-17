@@ -115,11 +115,13 @@ class _CustomAdventureItemState extends State<CustomAdventureItem> {
                 children: [
                   ClipRRect(
                     borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    child: ImageCacheWidget(
-                      image: widget.image,
-                      width: width * 0.23,
-                      height: width * 0.23,
-                    ),
+                    child: widget.image.isNotEmpty
+                        ? ImageCacheWidget(
+                            image: widget.image,
+                            width: width * 0.23,
+                            height: width * 0.23,
+                          )
+                        : Image.asset('assets/images/Placeholder.png'),
                   ),
                   SizedBox(
                     width: width * 0.028,

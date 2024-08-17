@@ -639,6 +639,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                     )),
                 //indicator
                 Center(
+
                   child: Align(
                     alignment: Alignment.center,
                     child: Padding(

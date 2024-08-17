@@ -4,6 +4,7 @@ import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
+import 'package:ajwad_v4/widgets/image_cache_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ajwad_v4/profile/view/ticket_details_screen.dart';
@@ -176,8 +177,8 @@ class _CustomTicketCardState extends State<CustomTicketCard> {
                     padding: const EdgeInsets.only(bottom: 37),
                     child: ClipRRect(
                       borderRadius: const BorderRadius.all(Radius.circular(4)),
-                      child: Image.network(
-                        widget.booking.bookingType == "place"
+                      child: ImageCacheWidget(
+                        image: widget.booking.bookingType == "place"
                             ? widget.booking.place!.image![0]
                             : widget.booking.bookingType == "hospitality"
                                 ? widget.booking.hospitality!.images[0]
@@ -186,7 +187,7 @@ class _CustomTicketCardState extends State<CustomTicketCard> {
                                     : widget.booking.adventure!.image![0],
                         height: height * 0.076,
                         width: width * 0.16,
-                        fit: BoxFit.cover,
+                        // fit: BoxFit.cover,
                       ),
                     ),
                   ),

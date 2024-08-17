@@ -49,6 +49,7 @@ class _ProfileDetailsState extends State<TouriestProfile> {
   void dispose() {
     _userName.dispose();
     widget.profileController.isEditing(false);
+
     // TODO: implement dispose
     super.dispose();
   }
@@ -205,31 +206,31 @@ class _ProfileDetailsState extends State<TouriestProfile> {
                         Center(
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(50.0),
-                            child: widget
-                                    .profileController.isImagesLoading.value
-                                ? const CircularProgressIndicator(
-                                    color: colorGreen,
-                                  )
-                                : widget.profileController.profile
-                                                .profileImage !=
-                                            "" &&
-                                        widget.profileController.profile
-                                                .profileImage !=
-                                            null
-                                    ? ImageCacheWidget(
-                                        image: widget.profileController.profile
-                                            .profileImage!,
-                                        height: 100,
-                                        width: 100,
-                                        placeholder:
-                                            "assets/images/profile_image.png",
+                            child:
+                                widget.profileController.isImagesLoading.value
+                                    ? const CircularProgressIndicator(
+                                        color: colorGreen,
                                       )
-                                    : Image.asset(
-                                        "assets/images/profile_image.png",
-                                        height: 100,
-                                        width: 100,
-                                        fit: BoxFit.cover,
-                                      ),
+                                    : widget.profileController.profile
+                                                    .profileImage !=
+                                                "" &&
+                                            widget.profileController.profile
+                                                    .profileImage !=
+                                                null
+                                        ? ImageCacheWidget(
+                                            image: widget.profileController
+                                                .profile.profileImage!,
+                                            height: 100,
+                                            width: 100,
+                                            placeholder:
+                                                "assets/images/profile_image.png",
+                                          )
+                                        : Image.asset(
+                                            "assets/images/profile_image.png",
+                                            height: 100,
+                                            width: 100,
+                                            fit: BoxFit.cover,
+                                          ),
                           ),
                         ),
                         SizedBox(
@@ -332,8 +333,12 @@ class _ProfileDetailsState extends State<TouriestProfile> {
                                     color: black,
                                     fontWeight: FontWeight.w500),
 
-                                onOptionSelected: (options) =>
-                                    nationality = options.first.label,
+                                onOptionSelected: (options) {
+                                  if (options.isNotEmpty) {
+                                    nationality = options.first.label;
+                                  }
+                                },
+
                                 options: nationalites,
                                 selectionType: SelectionType.single,
 

@@ -87,7 +87,6 @@ class _SplashScreenState extends State<SplashScreen>
     Future.delayed(const Duration(seconds: 5), () async {
       //  onBoarding = await checkForBoarding() ?? 'no';
       _controller.dispose();
-      print('onBoarding onBoarding onBoarding $onBoarding');
       if (token != '' && userRole == 'local') {
         if (JwtDecoder.isExpired(token)) {
           final String refreshToken = getStorage.read('refreshToken');

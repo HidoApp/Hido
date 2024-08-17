@@ -155,8 +155,33 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                                         .resetPasswordEmail.value,
                                     context: context);
                             if (isSucces) {
-                              Get.offAll(() => const OnboardingScreen());
-                              Get.to(() => const SignInScreen());
+                              showDialog(
+                                context: context,
+                                builder: (ctx) {
+                                  return AlertDialog(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8)),
+                                    backgroundColor: Colors.white,
+                                    surfaceTintColor: Colors.white,
+                                    content: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Image.asset(
+                                          'assets/images/paymentSuccess.gif',
+                                          width: 38,
+                                        ),
+                                        CustomText(
+                                          text: "resetSucces".tr,
+                                          fontSize: 15,
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ).then((val) {
+                                Get.offAll(() => const OnboardingScreen());
+                                Get.to(() => const SignInScreen());
+                              });
                             }
                           }
                         },

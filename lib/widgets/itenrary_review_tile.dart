@@ -30,7 +30,7 @@ class ReviewItenraryTile extends StatelessWidget {
             children: [
               CustomText(
                 text: title,
-                color: Color(0xFF41404A),
+                color: const Color(0xFF41404A),
                 fontFamily:
                     !AppUtil.rtlDirection2(context) ? 'SF Pro' : 'SF Arabic',
                 fontSize:
@@ -42,7 +42,8 @@ class ReviewItenraryTile extends StatelessWidget {
               Row(
                 children: [
                   CustomText(
-                    text: "$timeFrom - $timeTo",
+                    text:
+                        "${AppUtil.formatStringTimeWithLocaleRequest(context, timeFrom)} - ${AppUtil.formatStringTimeWithLocaleRequest(context, timeTo)}",
                     color: starGreyColor,
                     fontWeight: FontWeight.w400,
                     fontFamily: !AppUtil.rtlDirection2(context)

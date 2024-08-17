@@ -45,7 +45,7 @@ class _EmailSheetState extends State<EmailSheet> {
                   _authController.logOut();
                   // Get.offAll(() =>  AccountTypeScreen());
                   Get.offAll(() => const OnboardingScreen());
-                  Get.to(() => const SignInScreen());
+                  // Get.to(() => const SignInScreen());
                 }
               }
             },
