@@ -87,21 +87,33 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
         DateTime.parse(_tripController.nextTrip.value.booking!.date ?? '');
 
     if (_tripController.nextTrip.value.booking!.date == currentDateString ||
-        parsedBookingDate.isAtSameMomentAs(currentDate)) {
+        parsedBookingDate.isAtSameMomentAs(currentDate)||  parsedBookingDate.isBefore(currentDate)) {
       setState(() {
         isTripStart.value = true;
       });
       String timeToGoStr = _tripController.nextTrip.value.booking!.timeToGo;
+       String? bookingDateStr = _tripController.nextTrip.value.booking!.date;
 
-      DateTime timeToGo = DateTime.parse('$currentDateString $timeToGoStr');
+   
+       DateTime timeToGo = DateTime.parse('$bookingDateStr $timeToGoStr');
 
+    Duration difference = timeToGo.difference(currentTime);
+
+    if (difference.inHours <= 4 && !difference.isNegative) {
+      setState(() {
+        isTripStart.value = true;
+      });
+    } else {
+      setState(() {
+        isTripStart.value = false;
+      });
+    }
 
 
       print('check date to start');
+      print(timeToGo);
       print(currentTime);
-      print(parsedBookingDate);
-      print(parsedBookingDate.isAfter(currentDate));
-      print(currentTime.isAtSameMomentAs(timeToGo));
+      print(difference);
      
     }
 

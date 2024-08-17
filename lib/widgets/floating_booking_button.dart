@@ -147,6 +147,15 @@ class BottomAdventureBooking extends StatefulWidget {
 class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
   final _adventureController = Get.put(AdventureController());
 
+  @override
+  void initState() {
+    super.initState();
+    print(";lkjhgfds");
+    _adventureController.address(widget.address);
+
+  }
+
+
   final String timeZoneName = 'Asia/Riyadh';
   late tz.Location location;
   int seat = 0;
@@ -277,6 +286,7 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
                                 top: width * 0.045,
                                 bottom: width * 0.0820,
                               ),
+
                               child: Obx(
                                 () => Column(
                                   mainAxisSize: MainAxisSize.min,
@@ -313,6 +323,7 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
                                               ? colorRed
                                               : borderGrey,
                                         ),
+
                                       ),
                                       child: Row(
                                         children: [
@@ -421,6 +432,7 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
                                     SizedBox(
                                       height: width * 0.06,
                                     ),
+
                                     CustomButton(
                                         onPressed: () {
                                           if (person == 0) {
@@ -434,7 +446,14 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
                                                       .value ==
                                                   true;
                                             });
-                                          } else {
+                                          } else if (!AppUtil.isDateTimeBefore24Hours('${widget.adventure.date ?? ''} ${widget.adventure.times!.first.startTime}')) {
+                                          AppUtil.errorToast(
+                                              context,
+                                              AppUtil.rtlDirection2(context)
+                                                  ? "يجب أن تحجز قبل 24 ساعة "
+                                                  : "You must booking before 24 hours");
+                                        } else {
+
                                             _adventureController
                                                 .showErrorMaxGuest(false);
 

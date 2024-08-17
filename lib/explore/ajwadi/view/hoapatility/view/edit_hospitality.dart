@@ -348,19 +348,21 @@ class _EditHospitalityState extends State<EditHospitality> {
           await Future.delayed(const Duration(seconds: 3));
         }
       }
-      if (_servicesController.TimeErrorMessage.value) {
+     else if (_servicesController.TimeErrorMessage.value) {
         if (context.mounted) {
           AppUtil.errorToast(context, 'TimeDuration'.tr);
           await Future.delayed(const Duration(seconds: 3));
         }
       }
-      if (_servicesController.images.length < 3) {
+      else if (_servicesController.images.length < 3) {
         if (context.mounted) {
           AppUtil.errorToast(context, 'imageError'.tr);
           await Future.delayed(const Duration(seconds: 3));
         }
       }
+      else{
       print("Please fill all required fields");
+      }
     }
   }
 
@@ -383,6 +385,11 @@ class _EditHospitalityState extends State<EditHospitality> {
       newTimeToReturn = widget.hospitalityObj.daysInfo.isNotEmpty
           ? DateTime.parse(widget.hospitalityObj.daysInfo.first.endTime)
           : DateTime.now();
+
+      
+      _servicesController.selectedStartTime.value = newTimeToGo; //new
+      _servicesController.selectedEndTime.value = newTimeToReturn;//new
+
       _servicesController.selectedDate.value =
           widget.hospitalityObj.daysInfo.isNotEmpty
               ? widget.hospitalityObj.daysInfo.first.endTime
@@ -892,7 +899,14 @@ class _EditHospitalityState extends State<EditHospitality> {
                                       Type: 'hospitality',
                                     ));
                               },
-                              child: CarouselSlider.builder(
+                              child: 
+                              _servicesController.images.isEmpty
+                                    ? Image.asset(
+                                        'assets/images/Placeholder.png',
+                                        height: height * 0.3,
+                                        fit: BoxFit.cover,
+                                      )
+                              :CarouselSlider.builder(
                                 carouselController: _carouselController,
                                 options: CarouselOptions(
                                     viewportFraction: 1,
@@ -1797,8 +1811,12 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                                     .TimeErrorMessage
                                                                     .value =
                                                                 AppUtil.isEndTimeLessThanStartTime(
-                                                                    newTimeToGo,
-                                                                    newTimeToReturn);
+                                                                     _servicesController
+                                                                        .selectedStartTime
+                                                                        .value,
+                                                                    _servicesController
+                                                                        .selectedEndTime
+                                                                        .value);
                                                           });
                                                         },
                                                         onChanged: (newT) {
@@ -1819,8 +1837,12 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                                     .TimeErrorMessage
                                                                     .value =
                                                                 AppUtil.isEndTimeLessThanStartTime(
-                                                                    newTimeToGo,
-                                                                    newTimeToReturn);
+                                                                     _servicesController
+                                                                        .selectedStartTime
+                                                                        .value,
+                                                                    _servicesController
+                                                                        .selectedEndTime
+                                                                        .value);
                                                           });
                                                         },
                                                         // showCupertinoModalPopup<
@@ -2711,39 +2733,42 @@ class _EditHospitalityState extends State<EditHospitality> {
                       ),
 
                       //indicator
-                      Positioned(
-                        top: height * 0.256,
-                        left: width * 0.2,
-                        right: width * 0.2,
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: _servicesController.images
-                                .asMap()
-                                .entries
-                                .map((entry) {
-                              return GestureDetector(
-                                onTap: () => _carouselController
-                                    .animateToPage(entry.key),
-                                child: Container(
-                                  width: 8,
-                                  height: 8,
-                                  margin: EdgeInsets.symmetric(
-                                      vertical: width * 0.025,
-                                      horizontal: width * 0.009),
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: _currentIndex == entry.key
-                                        ? _servicesController.images.length == 1
-                                            ? Colors.white.withOpacity(0.1)
-                                            : Colors.white
-                                        : Colors.white.withOpacity(0.4),
+                  
+                       Center(
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          top: height *
+                              0.24), // Set the top padding to control vertical position
+                      child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: _servicesController.images
+                                  .asMap()
+                                  .entries
+                                  .map((entry) {
+                                return GestureDetector(
+                                  onTap: () => _carouselController
+                                      .animateToPage(entry.key),
+                                  child: Container(
+                                    width: 8,
+                                    height: 8,
+                                    margin: EdgeInsets.symmetric(
+                                        vertical: width * 0.025,
+                                        horizontal: width * 0.009),
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: _currentIndex == entry.key
+                                          ? _servicesController.images.length == 1
+                                              ? Colors.white.withOpacity(0.1)
+                                              : Colors.white
+                                          : Colors.white.withOpacity(0.4),
+                                    ),
                                   ),
-                                ),
-                              );
-                            }).toList(),
+                                );
+                              }).toList(),
+                            ),
                           ),
                         ),
                       ),

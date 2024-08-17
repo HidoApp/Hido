@@ -51,8 +51,7 @@ class _CancelSheetState extends State<CancelSheet> {
       
   @override
   Widget build(BuildContext context) {
-    print(widget.bookId);
-    print(widget.type.toUpperCase());
+   
     return Padding(
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).viewInsets.bottom,

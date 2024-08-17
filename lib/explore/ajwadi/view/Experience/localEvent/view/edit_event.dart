@@ -277,7 +277,6 @@ class _EditEventState extends State<EditEvent> {
       if (image is String && Uri.parse(image).isAbsolute) {
         imageUrls.add(image);
       } else {
-      
         String fileExtension = image.path.split('.').last.toLowerCase();
 
         if (!allowedFormats.contains(fileExtension)) {
@@ -345,10 +344,10 @@ class _EditEventState extends State<EditEvent> {
 
       // DateErrorMessage = !_servicesController.isEventDateSelcted.value;
       // TimeErrorMessage = !_servicesController.isEventTimeSelcted.value;
-        _servicesController.EmptyDateErrorMessage.value =
- !_servicesController.isEventDateSelcted.value;
-       _servicesController.EmptyTimeErrorMessage.value =
-       !_servicesController.isEventTimeSelcted.value;
+      _servicesController.EmptyDateErrorMessage.value =
+          !_servicesController.isEventDateSelcted.value;
+      _servicesController.EmptyTimeErrorMessage.value =
+          !_servicesController.isEventTimeSelcted.value;
       _servicesController.DateErrorMessage.value =
           !AppUtil.areAllDatesAfter24Hours(_servicesController.selectedDates);
       // DateDurationError =
@@ -382,31 +381,34 @@ class _EditEventState extends State<EditEvent> {
 
         _updateEvent();
       } else {
-       if (context.mounted) {
-          AppUtil.errorToast(context,'uploadError'.tr);
+        if (context.mounted) {
+          AppUtil.errorToast(context, 'uploadError'.tr);
           await Future.delayed(const Duration(seconds: 3));
-        }      }
+        }
+      }
     } else {
-      if (_servicesController.DateErrorMessage.value) {
+       if (_servicesController.DateErrorMessage.value) {
         if (context.mounted) {
           AppUtil.errorToast(context, 'DateDuration'.tr);
           await Future.delayed(const Duration(seconds: 3));
         }
       }
-      if (_servicesController.TimeErrorMessage.value) {
+    else  if (_servicesController.TimeErrorMessage.value) {
         if (context.mounted) {
           AppUtil.errorToast(context, 'TimeDuration'.tr);
           await Future.delayed(const Duration(seconds: 3));
         }
       }
-      if (_servicesController.images.length < 3) {
+     else if (_servicesController.images.length < 3) {
         if (context.mounted) {
-          AppUtil.errorToast(
-              context,'imageError'.tr);
+          AppUtil.errorToast(context, 'imageError'.tr);
           await Future.delayed(const Duration(seconds: 3));
         }
       }
-      print("Please fill all required fields");
+      else{
+              print("Please fill all required fields");
+
+      }
     }
   }
 
@@ -431,10 +433,13 @@ class _EditEventState extends State<EditEvent> {
       eventTitleControllerEn.text = widget.eventObj.nameEn!;
       eventBioControllerEn.text = widget.eventObj.descriptionEn!;
 
-      _textField1Controller.text = widget.eventObj.daysInfo!.isNotEmpty?
-          widget.eventObj.daysInfo!.first.seats.toString():'0';
-      _servicesController.seletedSeat.value =widget.eventObj.daysInfo!.isNotEmpty?
-          widget.eventObj.daysInfo!.first.seats:0;
+      _textField1Controller.text = widget.eventObj.daysInfo!.isNotEmpty
+          ? widget.eventObj.daysInfo!.first.seats.toString()
+          : '0';
+      _servicesController.seletedSeat.value =
+          widget.eventObj.daysInfo!.isNotEmpty
+              ? widget.eventObj.daysInfo!.first.seats
+              : 0;
 
       newTimeToGo =widget.eventObj.daysInfo!.isNotEmpty?
        DateTime.parse(widget.eventObj.daysInfo!.first.startTime)
@@ -444,27 +449,34 @@ class _EditEventState extends State<EditEvent> {
        DateTime.parse(widget.eventObj.daysInfo!.first.endTime)
        :DateTime.now();
 
+     
+
+      _servicesController.selectedStartTime.value = newTimeToGo; //new
+      _servicesController.selectedEndTime.value = newTimeToReturn;//new
+
       // _servicesController.selectedDates.value =
       //     widget.eventObj.daysInfo!;
-      if(widget.eventObj.daysInfo!.isNotEmpty){
-      for (var info in widget.eventObj.daysInfo!) {
-        DateTime startDateTime = DateTime.parse(info.startTime);
-        // DateTime endDateTime = DateTime.parse(info.endTime);
-        _servicesController.selectedDates.add(DateTime(
-            startDateTime.year, startDateTime.month, startDateTime.day));
-        // _servicesController.selectedDates.add(
-        //     DateTime(endDateTime.year, endDateTime.month, endDateTime.day));
-      }
-      }else{
-         _servicesController.selectedDates.add(DateTime.now());
+      if (widget.eventObj.daysInfo!.isNotEmpty) {
+        for (var info in widget.eventObj.daysInfo!) {
+          DateTime startDateTime = DateTime.parse(info.startTime);
+          // DateTime endDateTime = DateTime.parse(info.endTime);
+          _servicesController.selectedDates.add(DateTime(
+              startDateTime.year, startDateTime.month, startDateTime.day));
+          // _servicesController.selectedDates.add(
+          //     DateTime(endDateTime.year, endDateTime.month, endDateTime.day));
+        }
+      } else {
+        _servicesController.selectedDates.add(DateTime.now());
       }
       _priceController.text = widget.eventObj.price.toString();
-      _servicesController.isEventDateSelcted.value = widget.eventObj.daysInfo!.isNotEmpty?true:false;
-      _servicesController.isEventTimeSelcted.value = widget.eventObj.daysInfo!.isNotEmpty?true:false;
+      _servicesController.isEventDateSelcted.value =
+          widget.eventObj.daysInfo!.isNotEmpty ? true : false;
+      _servicesController.isEventTimeSelcted.value =
+          widget.eventObj.daysInfo!.isNotEmpty ? true : false;
 
       // _servicesController.DateErrorMessage.value = false;
-      _servicesController.EmptyTimeErrorMessage.value=false;
-      _servicesController.EmptyDateErrorMessage.value=false;
+      _servicesController.EmptyTimeErrorMessage.value = false;
+      _servicesController.EmptyDateErrorMessage.value = false;
 
       _servicesController.pickUpLocLatLang.value = LatLng(
           double.parse(widget.eventObj.coordinates!.latitude ?? ''),
@@ -472,6 +484,8 @@ class _EditEventState extends State<EditEvent> {
 
       locationUrl = getLocationUrl(_servicesController.pickUpLocLatLang.value);
     });
+      log('go ${newTimeToGo}');
+        log('go ${newTimeToReturn}');
   }
 
   String getLocationUrl(LatLng location) {
@@ -551,7 +565,7 @@ class _EditEventState extends State<EditEvent> {
                     Image.asset('assets/images/paymentSuccess.gif', width: 38),
                     SizedBox(height: 16),
                     Text(
-                        'saveChange'.tr,
+                      'saveChange'.tr,
                       style: TextStyle(
                         fontSize: 14,
                         fontFamily: AppUtil.rtlDirection2(context)
@@ -588,7 +602,6 @@ class _EditEventState extends State<EditEvent> {
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
-  
 
     final TextEditingController textField1Controller =
         _selectedLanguageIndex == 0
@@ -641,7 +654,7 @@ class _EditEventState extends State<EditEvent> {
                                 fontSize: 15,
                                 fontFamily: 'SF Pro',
                                 fontWeight: FontWeight.w500,
-                                text:"Alert".tr,
+                                text: "Alert".tr,
                               ),
                               const SizedBox(
                                 height: 1,
@@ -651,105 +664,117 @@ class _EditEventState extends State<EditEvent> {
                                 fontSize: 15,
                                 fontWeight: FontWeight.w400,
                                 color: Color(0xFF41404A),
-                                text:'DeleteNote'.tr,
-                                fontFamily:  AppUtil.rtlDirection2(context)
+                                text: 'DeleteNote'.tr,
+                                fontFamily: AppUtil.rtlDirection2(context)
                                     ? 'SF Arabic'
                                     : 'SF Pro',
                               ),
                               const SizedBox(
                                 height: 10,
                               ),
-                             Obx(
-                                () => _servicesController.isEventDeleteLoading.value
+                              Obx(
+                                () => _servicesController
+                                        .isEventDeleteLoading.value
                                     ? Center(
                                         child: CircularProgressIndicator
                                             .adaptive())
                                     : GestureDetector(
-                                  onTap: () async {
-                                    log("End Trip Taped ${widget.eventObj.id}");
-                              
-                                    bool result =
-                                        await _servicesController.EventDelete(
-                                                context: context,
-                                                eventId: widget.eventObj.id) ??
-                                            false;
-                                    if (result) {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return Dialog(
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                            ),
-                                            child: Container(
-                                              width: 350,
-                                              height: 110, // Custom width
-                                              padding: EdgeInsets.all(16),
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Image.asset(
-                                                      'assets/images/paymentSuccess.gif',
-                                                      width: 38),
-                                                  SizedBox(height: 16),
-                                                  Text(
-                                                    'DeleteDone'.tr,
-                                                    style:
-                                                        TextStyle(fontSize: 15),
-                                                    textDirection:
-                                                        AppUtil.rtlDirection2(
-                                                                context)
-                                                            ? TextDirection.rtl
-                                                            : TextDirection.ltr,
+                                        onTap: () async {
+                                          log("End Trip Taped ${widget.eventObj.id}");
+
+                                          bool result =
+                                              await _servicesController
+                                                      .EventDelete(
+                                                          context: context,
+                                                          eventId: widget
+                                                              .eventObj.id) ??
+                                                  false;
+                                          if (result) {
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return Dialog(
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8),
                                                   ),
-                                                ],
-                                              ),
-                                            ),
-                                          );
+                                                  child: Container(
+                                                    width: 350,
+                                                    height: 110, // Custom width
+                                                    padding: EdgeInsets.all(16),
+                                                    child: Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Image.asset(
+                                                            'assets/images/paymentSuccess.gif',
+                                                            width: 38),
+                                                        SizedBox(height: 16),
+                                                        Text(
+                                                          'DeleteDone'.tr,
+                                                          style: TextStyle(
+                                                              fontSize: 15),
+                                                          textDirection: AppUtil
+                                                                  .rtlDirection2(
+                                                                      context)
+                                                              ? TextDirection
+                                                                  .rtl
+                                                              : TextDirection
+                                                                  .ltr,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                            ).then((_) {
+                                              Get.back();
+                                              Get.back();
+                                              Get.back();
+                                              final _experienceController =
+                                                  Get.put(
+                                                      AjwadiExploreController());
+                                              _experienceController
+                                                  .getAllExperiences(
+                                                      context: context);
+                                            });
+                                          } else {
+                                            if (context.mounted) {
+                                              AppUtil.errorToast(
+                                                  context, 'notDelete'.tr);
+                                              await Future.delayed(
+                                                  const Duration(seconds: 1));
+                                            }
+                                          }
                                         },
-                                      ).then((_) {
-                                        Get.back();
-                                        Get.back();
-                                        Get.back();
-                                        final _experienceController =
-                                            Get.put(AjwadiExploreController());
-                                        _experienceController.getAllExperiences(
-                                            context: context);
-                                      });
-                                    } else {
-                                      if (context.mounted) {
-                                        AppUtil.errorToast(context,
-                                          'notDelete'.tr);
-                                        await Future.delayed(
-                                            const Duration(seconds: 1));
-                                      }
-                                    }
-                                  },
-                                  child: Container(
-                                    height: 34,
-                                    width: 278,
-                                    padding:
-                                        const EdgeInsets.symmetric(vertical: 3),
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      color: Color(0xFFDC362E),
-                                      borderRadius: BorderRadius.circular(4),
-                                    ),
-                                    child: CustomText(
-                                      textAlign: TextAlign.center,
-                                      text:"Delete".tr,
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                      fontFamily: AppUtil.rtlDirection2(context)
-                                          ? 'SF Arabic'
-                                          : 'SF Pro',
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ),
+                                        child: Container(
+                                          height: 34,
+                                          width: 278,
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 3),
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                            color: Color(0xFFDC362E),
+                                            borderRadius:
+                                                BorderRadius.circular(4),
+                                          ),
+                                          child: CustomText(
+                                            textAlign: TextAlign.center,
+                                            text: "Delete".tr,
+                                            color: Colors.white,
+                                            fontSize: 15,
+                                            fontFamily:
+                                                AppUtil.rtlDirection2(context)
+                                                    ? 'SF Arabic'
+                                                    : 'SF Pro',
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ),
                               ),
                               const SizedBox(height: 10),
                               GestureDetector(
@@ -771,9 +796,10 @@ class _EditEventState extends State<EditEvent> {
                                     child: CustomText(
                                         textAlign: TextAlign.center,
                                         fontSize: 15,
-                                        fontFamily: AppUtil.rtlDirection2(context)
-                                        ? 'SF Arabic'
-                                        : 'SF Pro',
+                                        fontFamily:
+                                            AppUtil.rtlDirection2(context)
+                                                ? 'SF Arabic'
+                                                : 'SF Pro',
                                         fontWeight: FontWeight.w500,
                                         color: Color(0xFFDC362E),
                                         text: 'cancel'.tr)),
@@ -789,19 +815,20 @@ class _EditEventState extends State<EditEvent> {
 
               bottomNavigationBar: Padding(
                   padding: EdgeInsets.all(16.0),
-                  child:
-                   Obx(()=>
-                      _servicesController.isImagesLoading.value ||  _servicesController.isEditEventLoading.value
-                         ?  Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 160),
-                          child: CircularProgressIndicator.adaptive(),
-                        )
-                            : CustomButton(
-                        onPressed: () {
-                          validateAndSave();
-                        },
-                        title: 'SaveChanges'.tr),
-                   )),
+                  child: Obx(
+                    () => _servicesController.isImagesLoading.value ||
+                            _servicesController.isEditEventLoading.value
+                        ? Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 160),
+                            child: CircularProgressIndicator.adaptive(),
+                          )
+                        : CustomButton(
+                            onPressed: () {
+                              validateAndSave();
+                            },
+                            title: 'SaveChanges'.tr),
+                  )),
               body: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -831,12 +858,18 @@ class _EditEventState extends State<EditEvent> {
                             child: GestureDetector(
                               onTap: () {
                                 Get.to(() => ViewImages(
-                                      tripImageUrl: widget.eventObj.image!,
-                                      fromNetwork: true,
-                                      Type:'event'
-                                    ));
+                                    tripImageUrl: widget.eventObj.image!,
+                                    fromNetwork: true,
+                                    Type: 'event'));
                               },
-                              child: CarouselSlider.builder(
+                              child: _servicesController.images.isEmpty
+                                    ? Image.asset(
+                                        'assets/images/Placeholder.png',
+                                        height: height * 0.3,
+                                        fit: BoxFit.cover,
+                                      )
+                              
+                              : CarouselSlider.builder(
                                 carouselController: _carouselController,
                                 options: CarouselOptions(
                                     viewportFraction: 1,
@@ -845,17 +878,16 @@ class _EditEventState extends State<EditEvent> {
                                         _currentIndex = i;
                                       });
                                     }),
-                                itemCount:_servicesController.images.length,
+                                itemCount: _servicesController.images.length,
                                 itemBuilder: (context, index, realIndex) {
                                   return ImagesSliderWidget(
-                                    image:_servicesController.images[index],
+                                    image: _servicesController.images[index],
                                   );
                                 },
                               ),
                             ),
                           ),
 
-                        
                           SizedBox(
                             height: width * 0.055,
                           ),
@@ -989,7 +1021,7 @@ class _EditEventState extends State<EditEvent> {
                                                               : Color(
                                                                   0xFFB9B8C1)
                                                           : titleENEmpty
-                                                              ?colorRed
+                                                              ? colorRed
                                                               : Color(
                                                                   0xFFB9B8C1),
                                                 ),
@@ -1375,12 +1407,14 @@ class _EditEventState extends State<EditEvent> {
                                         shape: RoundedRectangleBorder(
                                           side: BorderSide(
                                               width: 1,
-                                              color: _servicesController.EmptyDateErrorMessage.value ||
-                                              //  DateErrorMessage ??
-                                              //         false ||
-                                                          _servicesController
-                                                              .DateErrorMessage
-                                                              .value
+                                              color: _servicesController
+                                                          .EmptyDateErrorMessage
+                                                          .value ||
+                                                      //  DateErrorMessage ??
+                                                      //         false ||
+                                                      _servicesController
+                                                          .DateErrorMessage
+                                                          .value
                                                   ? colorRed
                                                   : Color(0xFFB9B8C1)),
                                           borderRadius:
@@ -1408,14 +1442,13 @@ class _EditEventState extends State<EditEvent> {
                                                   });
                                             },
                                             child: CustomText(
-                                              text:_servicesController
-                                                              .isEventDateSelcted
-                                                              .value?
-                                              
-                                               AppUtil.formatSelectedDates(
-                                                  _servicesController
-                                                      .selectedDates,
-                                                  context):'DD/MM/YYYY'.tr,
+                                              text: _servicesController
+                                                      .isEventDateSelcted.value
+                                                  ? AppUtil.formatSelectedDates(
+                                                      _servicesController
+                                                          .selectedDates,
+                                                      context)
+                                                  : 'DD/MM/YYYY'.tr,
                                               fontWeight: FontWeight.w400,
                                               color: Graytext,
                                               fontFamily:
@@ -1429,16 +1462,18 @@ class _EditEventState extends State<EditEvent> {
                                       ),
                                     ),
                                   ),
-                                  if ( _servicesController.EmptyDateErrorMessage.value||
-                                    // DateErrorMessage ??
-                                    //   false ||
-                                          _servicesController
-                                              .DateErrorMessage.value)
+                                  if (_servicesController
+                                          .EmptyDateErrorMessage.value ||
+                                      // DateErrorMessage ??
+                                      //   false ||
+                                      _servicesController
+                                          .DateErrorMessage.value)
                                     Padding(
                                       padding: const EdgeInsets.only(top: 8),
                                       child: Text(
                                         // DateErrorMessage ?? false
-                                         _servicesController.EmptyDateErrorMessage.value
+                                        _servicesController
+                                                .EmptyDateErrorMessage.value
                                             ? AppUtil.rtlDirection2(context)
                                                 ? "اختر التاريخ"
                                                 : "You need to choose a valid date"
@@ -1446,7 +1481,7 @@ class _EditEventState extends State<EditEvent> {
                                                 ? "يجب اختيار تاريخ بعد 48 ساعة من الآن على الأقل"
                                                 : "*Please select a date at least 48 hours from now",
                                         style: TextStyle(
-                                          color:colorRed,
+                                          color: colorRed,
                                           fontSize: 11,
                                           fontFamily:
                                               AppUtil.rtlDirection2(context)
@@ -1497,10 +1532,12 @@ class _EditEventState extends State<EditEvent> {
                                                 shape: RoundedRectangleBorder(
                                                   side: BorderSide(
                                                       width: 1,
-                                                      color:  _servicesController.EmptyTimeErrorMessage.value
-                                                      // TimeErrorMessage ??
-                                                      //         false
-                                                          ?colorRed
+                                                      color: _servicesController
+                                                              .EmptyTimeErrorMessage
+                                                              .value
+                                                          // TimeErrorMessage ??
+                                                          //         false
+                                                          ? colorRed
                                                           : DurationErrorMessage ??
                                                                   false
                                                               ? colorRed
@@ -1660,7 +1697,12 @@ class _EditEventState extends State<EditEvent> {
                                                         _servicesController
                                                             .isEventTimeSelcted(
                                                                 true);
-                                                     _servicesController.EmptyTimeErrorMessage.value=! _servicesController.isEventTimeSelcted.value;
+                                                        _servicesController
+                                                                .EmptyTimeErrorMessage
+                                                                .value =
+                                                            !_servicesController
+                                                                .isEventTimeSelcted
+                                                                .value;
                                                         setState(() {
                                                           time = newTimeToGo;
                                                           newTimeToGo = newT;
@@ -1672,14 +1714,23 @@ class _EditEventState extends State<EditEvent> {
                                                                   .TimeErrorMessage
                                                                   .value =
                                                               AppUtil.isEndTimeLessThanStartTime(
-                                                                  newTimeToGo,
-                                                                  newTimeToReturn);
+                                                                  _servicesController
+                                                                      .selectedStartTime
+                                                                      .value,
+                                                                  _servicesController
+                                                                      .selectedEndTime
+                                                                      .value);
                                                         });
                                                       }, onChanged: (newT) {
                                                         _servicesController
                                                             .isEventTimeSelcted(
                                                                 true);
-                                                           _servicesController.EmptyTimeErrorMessage.value=! _servicesController.isEventTimeSelcted.value;
+                                                        _servicesController
+                                                                .EmptyTimeErrorMessage
+                                                                .value =
+                                                            !_servicesController
+                                                                .isEventTimeSelcted
+                                                                .value;
                                                         setState(() {
                                                           time = newTimeToGo;
 
@@ -1692,22 +1743,26 @@ class _EditEventState extends State<EditEvent> {
                                                                   .TimeErrorMessage
                                                                   .value =
                                                               AppUtil.isEndTimeLessThanStartTime(
-                                                                  newTimeToGo,
-                                                                  newTimeToReturn);
+                                                                 _servicesController
+                                                                      .selectedStartTime
+                                                                      .value,
+                                                                  _servicesController
+                                                                      .selectedEndTime
+                                                                      .value);
                                                         });
                                                       });
                                                     },
                                                     child: CustomText(
                                                       text: _servicesController
                                                               .isEventTimeSelcted
-                                                              .value?
-                                                        AppUtil
-                                                          .formatStringTimeWithLocale(
+                                                              .value
+                                                          ? AppUtil.formatStringTimeWithLocale(
                                                               context,
                                                               DateFormat(
                                                                       'HH:mm:ss')
                                                                   .format(
-                                                                      newTimeToGo)):"00:00",
+                                                                      newTimeToGo))
+                                                          : "00:00",
                                                       fontWeight:
                                                           FontWeight.w400,
                                                       color: Graytext,
@@ -1723,18 +1778,23 @@ class _EditEventState extends State<EditEvent> {
                                               ),
                                             ),
                                           ),
-                                          if (   _servicesController.EmptyTimeErrorMessage.value||
-                                            // TimeErrorMessage ??
-                                            //   false ||
-                                                  _servicesController
-                                                      .TimeErrorMessage.value)
+                                          if (_servicesController
+                                                  .EmptyTimeErrorMessage
+                                                  .value ||
+                                              // TimeErrorMessage ??
+                                              //   false ||
+                                              _servicesController
+                                                  .TimeErrorMessage.value)
                                             Padding(
                                               padding:
                                                   const EdgeInsets.only(top: 8),
                                               child: Text(
                                                 !_servicesController
-                                                        .TimeErrorMessage.value||_servicesController
-                                          .EmptyTimeErrorMessage.value
+                                                            .TimeErrorMessage
+                                                            .value ||
+                                                        _servicesController
+                                                            .EmptyTimeErrorMessage
+                                                            .value
                                                     ? AppUtil.rtlDirection2(
                                                             context)
                                                         ? "يجب اختيار الوقت"
@@ -1793,16 +1853,18 @@ class _EditEventState extends State<EditEvent> {
                                                 shape: RoundedRectangleBorder(
                                                   side: BorderSide(
                                                       width: 1,
-                                                      color: _servicesController.EmptyTimeErrorMessage.value||
-                                                      // TimeErrorMessage ??
-                                                      //         false ||
-                                                                  _servicesController
-                                                                      .TimeErrorMessage
-                                                                      .value
+                                                      color: _servicesController
+                                                                  .EmptyTimeErrorMessage
+                                                                  .value ||
+                                                              // TimeErrorMessage ??
+                                                              //         false ||
+                                                              _servicesController
+                                                                  .TimeErrorMessage
+                                                                  .value
                                                           ? colorRed
                                                           : DurationErrorMessage ??
                                                                   false
-                                                              ?colorRed
+                                                              ? colorRed
                                                               : Color(
                                                                   0xFFB9B8C1)),
                                                   borderRadius:
@@ -1954,7 +2016,12 @@ class _EditEventState extends State<EditEvent> {
                                                         _servicesController
                                                             .isEventTimeSelcted(
                                                                 true);
-                                                          _servicesController.EmptyTimeErrorMessage.value=! _servicesController.isEventTimeSelcted.value;
+                                                        _servicesController
+                                                                .EmptyTimeErrorMessage
+                                                                .value =
+                                                            !_servicesController
+                                                                .isEventTimeSelcted
+                                                                .value;
                                                         setState(() {
                                                           returnTime =
                                                               newTimeToReturn;
@@ -1968,17 +2035,27 @@ class _EditEventState extends State<EditEvent> {
                                                                   .TimeErrorMessage
                                                                   .value =
                                                               AppUtil.isEndTimeLessThanStartTime(
-                                                                     newTimeToGo,
-                                                                  newTimeToReturn);
-                                                                      log( _servicesController
-                                                                  .TimeErrorMessage
-                                                                  .value.toString());
+                                                                  _servicesController
+                                                                      .selectedStartTime
+                                                                      .value,
+                                                                  _servicesController
+                                                                      .selectedEndTime
+                                                                      .value);
+                                                          log(_servicesController
+                                                              .TimeErrorMessage
+                                                              .value
+                                                              .toString());
                                                         });
                                                       }, onChanged: (newT) {
                                                         _servicesController
                                                             .isEventTimeSelcted(
                                                                 true);
-                                                       _servicesController.EmptyTimeErrorMessage.value=! _servicesController.isEventTimeSelcted.value;
+                                                        _servicesController
+                                                                .EmptyTimeErrorMessage
+                                                                .value =
+                                                            !_servicesController
+                                                                .isEventTimeSelcted
+                                                                .value;
                                                         setState(() {
                                                           newTimeToReturn =
                                                               newT;
@@ -1990,25 +2067,30 @@ class _EditEventState extends State<EditEvent> {
                                                                   .TimeErrorMessage
                                                                   .value =
                                                               AppUtil.isEndTimeLessThanStartTime(
-                                                                   newTimeToGo,
-                                                                  newTimeToReturn);
-                                                                          log( _servicesController
-                                                                  .TimeErrorMessage
-                                                                  .value.toString());
+                                                                  _servicesController
+                                                                      .selectedStartTime
+                                                                      .value,
+                                                                  _servicesController
+                                                                      .selectedEndTime
+                                                                      .value);
+                                                          log(_servicesController
+                                                              .TimeErrorMessage
+                                                              .value
+                                                              .toString());
                                                         });
                                                       });
                                                     },
                                                     child: CustomText(
                                                       text: _servicesController
                                                               .isEventTimeSelcted
-                                                              .value?
-                                                              AppUtil
-                                                          .formatStringTimeWithLocale(
+                                                              .value
+                                                          ? AppUtil.formatStringTimeWithLocale(
                                                               context,
                                                               DateFormat(
                                                                       'HH:mm:ss')
                                                                   .format(
-                                                                      newTimeToReturn)):"00:00",
+                                                                      newTimeToReturn))
+                                                          : "00:00",
                                                       fontWeight:
                                                           FontWeight.w400,
                                                       color: Graytext,
@@ -2025,12 +2107,13 @@ class _EditEventState extends State<EditEvent> {
                                             ),
                                           ),
                                           Obx(
-                                            () =>  _servicesController.EmptyTimeErrorMessage.value||
-                                            // TimeErrorMessage ??
-                                            //         false ||
-                                                        _servicesController
-                                                            .TimeErrorMessage
-                                                            .value
+                                            () => _servicesController
+                                                        .EmptyTimeErrorMessage
+                                                        .value ||
+                                                    // TimeErrorMessage ??
+                                                    //         false ||
+                                                    _servicesController
+                                                        .TimeErrorMessage.value
                                                 ? Padding(
                                                     padding:
                                                         const EdgeInsets.only(
@@ -2285,39 +2368,41 @@ class _EditEventState extends State<EditEvent> {
 
                       //indicator
 
-                       Positioned(
-                        top: height * 0.256,
-                        left: width * 0.2,
-                        right: width * 0.2,
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children:  _servicesController.images
-                                .asMap()
-                                .entries
-                                .map((entry) {
-                              return GestureDetector(
-                                onTap: () =>
-                                    _carouselController.animateToPage(entry.key),
-                                child: Container(
-                                  width: 8,
-                                  height: 8,
-                                  margin: EdgeInsets.symmetric(
-                                      vertical: width * 0.025,
-                                      horizontal: width * 0.009),
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: _currentIndex == entry.key
-                                        ? _servicesController.images.length == 1
-                                            ? Colors.white.withOpacity(0.1)
-                                            : Colors.white
-                                        : Colors.white.withOpacity(0.4),
+                       Center(
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          top: height *
+                              0.25), // Set the top padding to control vertical position
+                      child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: _servicesController.images
+                                  .asMap()
+                                  .entries
+                                  .map((entry) {
+                                return GestureDetector(
+                                  onTap: () => _carouselController
+                                      .animateToPage(entry.key),
+                                  child: Container(
+                                    width: 8,
+                                    height: 8,
+                                    margin: EdgeInsets.symmetric(
+                                        vertical: width * 0.025,
+                                        horizontal: width * 0.009),
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: _currentIndex == entry.key
+                                          ? _servicesController.images.length == 1
+                                              ? Colors.white.withOpacity(0.1)
+                                              : Colors.white
+                                          : Colors.white.withOpacity(0.4),
+                                    ),
                                   ),
-                                ),
-                              );
-                            }).toList(),
+                                );
+                              }).toList(),
+                            ),
                           ),
                         ),
                       ),

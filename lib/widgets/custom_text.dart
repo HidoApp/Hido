@@ -54,6 +54,7 @@ class CustomText extends StatelessWidget {
           height: height,
           shadows: shadows,
           decorationColor: color,
+            overflow: TextOverflow.ellipsis,  // Add ellipsis if the text is too long
           decorationThickness: 0.3),
       textDirection: textDirection ??
           (AppUtil.rtlDirection2(context)

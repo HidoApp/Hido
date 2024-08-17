@@ -49,54 +49,52 @@ class _AddExperienceInfoState extends State<AddExperienceInfo> {
           Column(
             children: [
               Expanded(
-                child: Container(
-                  child: Obx(
-                    () => Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 40),
-                      child: _experienceController.isAllExperiencesLoading.value
-                          ? const Center(
-                              child: CircularProgressIndicator(
-                                color: colorGreen,
-                              ),
-                            )
-                          : RefreshIndicator.adaptive(
-                              onRefresh: () async {
-                                await _experienceController.getAllExperiences(
-                                    context: context);
-                              },
-                              child:
-                                  _experienceController.experienceList.isEmpty
-                                      ? Padding(
-                                          padding:
-                                              EdgeInsets.only(top: width * 0.3),
-                                          child: SizedBox(
-                                              //new
-                                              width: width,
-                                              child: CustomEmptyWidget(
-                                                title: 'noExperience'.tr,
-                                                image: 'noExperiences',
-                                                subtitle: 'noExperienceSub'.tr,
-                                              )),
-                                        )
-                                      : ListView.separated(
-                                          shrinkWrap: true,
-                                          itemCount: _experienceController
-                                              .experienceList.length,
-                                          separatorBuilder: (context, index) {
-                                            return const SizedBox(
-                                              height: 11,
-                                            );
-                                          },
-                                          itemBuilder: (context, index) {
-                                            return ServicesCard(
-                                              experience: _experienceController
-                                                  .experienceList[index],
-                                            );
-                                          },
-                                        ),
+                child: Obx(
+                  () => Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 40),
+                    child: _experienceController.isAllExperiencesLoading.value
+                        ? const Center(
+                            child: CircularProgressIndicator(
+                              color: colorGreen,
                             ),
-                    ),
+                          )
+                        : RefreshIndicator.adaptive(
+                            onRefresh: () async {
+                              await _experienceController.getAllExperiences(
+                                  context: context);
+                            },
+                            child:
+                                _experienceController.experienceList.isEmpty
+                                    ? Padding(
+                                        padding:
+                                            EdgeInsets.only(top: width * 0.3),
+                                        child: SizedBox(
+                                            //new
+                                            width: width,
+                                            child: CustomEmptyWidget(
+                                              title: 'noExperience'.tr,
+                                              image: 'noExperiences',
+                                              subtitle: 'noExperienceSub'.tr,
+                                            )),
+                                      )
+                                    : ListView.separated(
+                                        shrinkWrap: true,
+                                        itemCount: _experienceController
+                                            .experienceList.length,
+                                        separatorBuilder: (context, index) {
+                                          return const SizedBox(
+                                            height: 11,
+                                          );
+                                        },
+                                        itemBuilder: (context, index) {
+                                          return ServicesCard(
+                                            experience: _experienceController
+                                                .experienceList[index],
+                                          );
+                                        },
+                                      ),
+                          ),
                   ),
                 ),
               ),

@@ -194,13 +194,8 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                     // images widget on top of screen
                     GestureDetector(
                       onTap: () {
-                        adventure!.image!.isEmpty
-                            ? Get.snackbar(
-                                'No Images',
-                                'No images available for this trip.',
-                                snackPosition: SnackPosition.BOTTOM,
-                              )
-                            : Get.to(ViewTripImages(
+                     
+                            Get.to(ViewTripImages(
                                 tripImageUrl: adventure!.image!,
                                 fromNetwork: true,
                               ));
@@ -643,33 +638,35 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                       name: adventure!.user!.name ?? '',
                     )),
                 //indicator
-                Positioned(
-                  top: height * 0.22,
-                  left: width * 0.3,
-                  right: width * 0.3, 
-                  // left: width * 0.36,
+                Center(
+
                   child: Align(
                     alignment: Alignment.center,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: adventure!.image!.map((imageUrl) {
-                        int index = adventure!.image!.indexOf(imageUrl);
-                        return Container(
-                          width: width * 0.025,
-                          height: width * 0.025,
-                          margin: EdgeInsets.symmetric(
-                              vertical: width * 0.025,
-                              horizontal: width * 0.005),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: _currentIndex == index
-                                ? adventure!.image!.length == 1
-                                    ? Colors.white.withOpacity(0.1)
-                                    : Colors.white
-                                : Colors.white.withOpacity(0.8),
-                          ),
-                        );
-                      }).toList(),
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          top: height *
+                              0.23), // Set the top padding to control vertical position
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: adventure!.image!.map((imageUrl) {
+                          int index = adventure!.image!.indexOf(imageUrl);
+                          return Container(
+                            width: width * 0.025,
+                            height: width * 0.025,
+                            margin: EdgeInsets.symmetric(
+                                vertical: width * 0.025,
+                                horizontal: width * 0.005),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: _currentIndex == index
+                                  ? adventure!.image!.length == 1
+                                      ? Colors.white.withOpacity(0.1)
+                                      : Colors.white
+                                  : Colors.white.withOpacity(0.8),
+                            ),
+                          );
+                        }).toList(),
+                      ),
                     ),
                   ),
                 ),

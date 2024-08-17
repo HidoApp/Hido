@@ -19,8 +19,6 @@ class OfferController extends GetxController {
   var offers = <Offer>[].obs;
   var offerDetails = OfferDetails().obs;
   var acceptedOffer = AcceptedOffer().obs;
-  var placeNameAr=''.obs;
-  var placeNameEn=''.obs;
 
 
   Future<List<Offer>?> getOffers({
@@ -104,7 +102,7 @@ class OfferController extends GetxController {
     try {
       isBookingCancelLoading(true);
       final data = await OfferService.bookingCancel(
-          context: context, bookingId: bookingId,type: type,reason: reason);
+          context: context, bookingId: bookingId,type: type,reason: reason??'');
       isBookingCancel(data ?? false);
       return isBookingCancel.value;
     } catch (e) {

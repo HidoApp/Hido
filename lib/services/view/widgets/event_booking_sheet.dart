@@ -18,9 +18,10 @@ import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest_all.dart' as tz;
 
 class EventBookingSheet extends StatefulWidget {
-  const EventBookingSheet({super.key, this.event, this.avilableDate});
+  const EventBookingSheet({super.key, this.event, this.avilableDate,this.address});
   final Event? event;
   final List<DateTime>? avilableDate;
+  final String? address;
 
   @override
   State<EventBookingSheet> createState() => _EventBookingSheetState();
@@ -98,7 +99,15 @@ class _EventBookingSheetState extends State<EventBookingSheet> {
     }
     return false;
   }
+ 
+ @override
+  void initState(){
+   super.initState();
+_eventController.address(widget.address);
 
+ }
+
+ 
   @override
   void dispose() {
     // TODO: implement dispose

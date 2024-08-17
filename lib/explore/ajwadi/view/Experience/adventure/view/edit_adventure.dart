@@ -361,20 +361,19 @@ class _EditAdventureState extends State<EditAdventure> {
           AppUtil.errorToast(context, 'DateDuration'.tr);
           await Future.delayed(const Duration(seconds: 3));
         }
-      }
-      if (_servicesController.TimeErrorMessage.value) {
+      } else if (_servicesController.TimeErrorMessage.value) {
         if (context.mounted) {
           AppUtil.errorToast(context, 'TimeDuration'.tr);
           await Future.delayed(const Duration(seconds: 3));
         }
-      }
-      if (_servicesController.images.length < 3) {
+      } else if (_servicesController.images.length < 3) {
         if (context.mounted) {
           AppUtil.errorToast(context, 'imageError'.tr);
           await Future.delayed(const Duration(seconds: 3));
         }
+      } else {
+        print("Please fill all required fields");
       }
-      print("Please fill all required fields");
     }
   }
 
@@ -387,10 +386,19 @@ class _EditAdventureState extends State<EditAdventure> {
       adventureBioControllerEn.text = widget.adventureObj.descriptionEn!;
 
       guestNum = widget.adventureObj.seats;
-      newTimeToGo =
-          DateFormat.Hms().parse(widget.adventureObj.times!.first.startTime);
-      newTimeToReturn =
-          DateFormat.Hms().parse(widget.adventureObj.times!.first.endTime);
+      // newTimeToGo =
+      //     DateFormat.Hms().parse(widget.adventureObj.times!.first.startTime);
+      // newTimeToReturn =
+      //     DateFormat.Hms().parse(widget.adventureObj.times!.first.endTime);
+
+      newTimeToGo = DateFormat('yyyy-MM-dd HH:mm:ss').parse(
+          "${DateFormat('yyyy-MM-dd').format(DateTime.now())} ${widget.adventureObj.times!.first.startTime}");
+      newTimeToReturn = DateFormat('yyyy-MM-dd HH:mm:ss').parse(
+          "${DateFormat('yyyy-MM-dd').format(DateTime.now())} ${widget.adventureObj.times!.first.endTime}");
+
+      _servicesController.selectedStartTime.value = newTimeToGo; //new
+      _servicesController.selectedEndTime.value = newTimeToReturn;
+
       _servicesController.selectedDate.value = widget.adventureObj.date!;
       _priceController.text = widget.adventureObj.price.toString();
 
@@ -597,105 +605,117 @@ class _EditAdventureState extends State<EditAdventure> {
                               const SizedBox(
                                 height: 10,
                               ),
-                               Obx(
-                                () => _servicesController.isAdventureDeleteLoading.value
+                              Obx(
+                                () => _servicesController
+                                        .isAdventureDeleteLoading.value
                                     ? Center(
                                         child: CircularProgressIndicator
                                             .adaptive())
                                     : GestureDetector(
-                                  onTap: () async {
-                                    log("End Trip Taped ${widget.adventureObj.id}");
-                              
-                                    bool result =
-                                        await _servicesController.AdventureDelete(
-                                                context: context,
-                                                adventureId:
-                                                    widget.adventureObj.id) ??
-                                            false;
-                                    if (result) {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return Dialog(
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                            ),
-                                            child: Container(
-                                              width: 350,
-                                              height: 110, // Custom width
-                                              padding: EdgeInsets.all(16),
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Image.asset(
-                                                      'assets/images/paymentSuccess.gif',
-                                                      width: 38),
-                                                  SizedBox(height: 16),
-                                                  Text(
-                                                    'DeleteDone'.tr,
-                                                    style: TextStyle(
-                                                      fontSize: 14,
-                                                      fontFamily:
-                                                          AppUtil.rtlDirection2(
-                                                                  context)
-                                                              ? 'SF Arabic'
-                                                              : 'SF Pro',
-                                                    ),
-                                                    textDirection:
-                                                        AppUtil.rtlDirection2(
-                                                                context)
-                                                            ? TextDirection.rtl
-                                                            : TextDirection.ltr,
+                                        onTap: () async {
+                                          log("End Trip Taped ${widget.adventureObj.id}");
+
+                                          bool result =
+                                              await _servicesController
+                                                      .AdventureDelete(
+                                                          context: context,
+                                                          adventureId: widget
+                                                              .adventureObj
+                                                              .id) ??
+                                                  false;
+                                          if (result) {
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return Dialog(
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8),
                                                   ),
-                                                ],
-                                              ),
-                                            ),
-                                          );
+                                                  child: Container(
+                                                    width: 350,
+                                                    height: 110, // Custom width
+                                                    padding: EdgeInsets.all(16),
+                                                    child: Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Image.asset(
+                                                            'assets/images/paymentSuccess.gif',
+                                                            width: 38),
+                                                        SizedBox(height: 16),
+                                                        Text(
+                                                          'DeleteDone'.tr,
+                                                          style: TextStyle(
+                                                            fontSize: 14,
+                                                            fontFamily: AppUtil
+                                                                    .rtlDirection2(
+                                                                        context)
+                                                                ? 'SF Arabic'
+                                                                : 'SF Pro',
+                                                          ),
+                                                          textDirection: AppUtil
+                                                                  .rtlDirection2(
+                                                                      context)
+                                                              ? TextDirection
+                                                                  .rtl
+                                                              : TextDirection
+                                                                  .ltr,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                            ).then((_) {
+                                              Get.back();
+                                              Get.back();
+                                              Get.back();
+
+                                              final _experienceController =
+                                                  Get.put(
+                                                      AjwadiExploreController());
+                                              _experienceController
+                                                  .getAllExperiences(
+                                                      context: context);
+                                            });
+                                          } else {
+                                            if (context.mounted) {
+                                              AppUtil.errorToast(
+                                                  context, 'notDelete'.tr);
+                                              await Future.delayed(
+                                                  const Duration(seconds: 1));
+                                            }
+                                          }
                                         },
-                                      ).then((_) {
-                                        Get.back();
-                                        Get.back();
-                                        Get.back();
-                              
-                                        final _experienceController =
-                                            Get.put(AjwadiExploreController());
-                                        _experienceController.getAllExperiences(
-                                            context: context);
-                                      });
-                                    } else {
-                                      if (context.mounted) {
-                                        AppUtil.errorToast(
-                                            context, 'notDelete'.tr);
-                                        await Future.delayed(
-                                            const Duration(seconds: 1));
-                                      }
-                                    }
-                                  },
-                                  child: Container(
-                                    height: 34,
-                                    width: 278,
-                                    padding:
-                                        const EdgeInsets.symmetric(vertical: 3),
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      color: Color(0xFFDC362E),
-                                      borderRadius: BorderRadius.circular(4),
-                                    ),
-                                    child: CustomText(
-                                      textAlign: TextAlign.center,
-                                      text: "Delete".tr,
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                      fontFamily: AppUtil.rtlDirection2(context)
-                                          ? 'SF Arabic'
-                                          : 'SF Pro',
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ),
+                                        child: Container(
+                                          height: 34,
+                                          width: 278,
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 3),
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                            color: Color(0xFFDC362E),
+                                            borderRadius:
+                                                BorderRadius.circular(4),
+                                          ),
+                                          child: CustomText(
+                                            textAlign: TextAlign.center,
+                                            text: "Delete".tr,
+                                            color: Colors.white,
+                                            fontSize: 15,
+                                            fontFamily:
+                                                AppUtil.rtlDirection2(context)
+                                                    ? 'SF Arabic'
+                                                    : 'SF Pro',
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ),
                               ),
                               const SizedBox(height: 10),
                               GestureDetector(
@@ -737,7 +757,8 @@ class _EditAdventureState extends State<EditAdventure> {
               bottomNavigationBar: Padding(
                   padding: EdgeInsets.all(16.0),
                   child: Obx(
-                    () => _eventController.isImagesLoading.value||_servicesController.isEditAdveentureLoading.value
+                    () => _eventController.isImagesLoading.value ||
+                            _servicesController.isEditAdveentureLoading.value
                         ? Padding(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 160),
@@ -1637,8 +1658,12 @@ class _EditAdventureState extends State<EditAdventure> {
                                                                   .TimeErrorMessage
                                                                   .value =
                                                               AppUtil.isEndTimeLessThanStartTime(
-                                                                  newTimeToGo,
-                                                                  newTimeToReturn);
+                                                                  _servicesController
+                                                                      .selectedStartTime
+                                                                      .value,
+                                                                  _servicesController
+                                                                      .selectedEndTime
+                                                                      .value);
                                                         });
                                                       }, onChanged: (newT) {
                                                         _servicesController
@@ -1655,8 +1680,12 @@ class _EditAdventureState extends State<EditAdventure> {
                                                                   .TimeErrorMessage
                                                                   .value =
                                                               AppUtil.isEndTimeLessThanStartTime(
-                                                                  newTimeToGo,
-                                                                  newTimeToReturn);
+                                                                  _servicesController
+                                                                      .selectedStartTime
+                                                                      .value,
+                                                                  _servicesController
+                                                                      .selectedEndTime
+                                                                      .value);
                                                         });
                                                       });
                                                     },
@@ -2242,39 +2271,42 @@ class _EditAdventureState extends State<EditAdventure> {
                           ),
                         ],
                       ),
-                      Positioned(
-                        top: height * 0.256,
-                        left: width * 0.2,
-                        right: width * 0.2,
+                      Center(
                         child: Align(
                           alignment: Alignment.center,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: _servicesController.images
-                                .asMap()
-                                .entries
-                                .map((entry) {
-                              return GestureDetector(
-                                onTap: () => _carouselController
-                                    .animateToPage(entry.key),
-                                child: Container(
-                                  width: 8,
-                                  height: 8,
-                                  margin: EdgeInsets.symmetric(
-                                      vertical: width * 0.025,
-                                      horizontal: width * 0.009),
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: _currentIndex == entry.key
-                                        ? _servicesController.images.length == 1
-                                            ? Colors.white.withOpacity(0.1)
-                                            : Colors.white
-                                        : Colors.white.withOpacity(0.4),
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                top: height *
+                                    0.25), // Set the top padding to control vertical position
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: _servicesController.images
+                                  .asMap()
+                                  .entries
+                                  .map((entry) {
+                                return GestureDetector(
+                                  onTap: () => _carouselController
+                                      .animateToPage(entry.key),
+                                  child: Container(
+                                    width: 8,
+                                    height: 8,
+                                    margin: EdgeInsets.symmetric(
+                                        vertical: width * 0.025,
+                                        horizontal: width * 0.009),
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: _currentIndex == entry.key
+                                          ? _servicesController.images.length ==
+                                                  1
+                                              ? Colors.white.withOpacity(0.1)
+                                              : Colors.white
+                                          : Colors.white.withOpacity(0.4),
+                                    ),
                                   ),
-                                ),
-                              );
-                            }).toList(),
+                                );
+                              }).toList(),
+                            ),
                           ),
                         ),
                       ),
