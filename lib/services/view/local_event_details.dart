@@ -210,16 +210,10 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                     // images widget on top of screen
                     GestureDetector(
                       onTap: () {
-                        event!.image!.isEmpty
-                            ? Get.snackbar(
-                                'No Images',
-                                'No images available for this trip.',
-                                snackPosition: SnackPosition.BOTTOM,
-                              )
-                            : Get.to(ViewTripImages(
-                                tripImageUrl: event!.image!,
-                                fromNetwork: true,
-                              ));
+                        Get.to(ViewTripImages(
+                          tripImageUrl: event!.image!,
+                          fromNetwork: true,
+                        ));
                       },
                       child: event!.image!.isEmpty
                           ? Image.asset(
@@ -658,33 +652,34 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                 //       name: event!.user!.name ?? '',
                 //     )),
                 //indicator
-                Positioned(
-                  top: height * 0.26,
-                  left: width * 0.3,
-                  right: width * 0.3,
-                  // left: width * 0.36,
+                Center(
                   child: Align(
                     alignment: Alignment.center,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: event!.image!.map((imageUrl) {
-                        int index = event!.image!.indexOf(imageUrl);
-                        return Container(
-                          width: width * 0.025,
-                          height: width * 0.025,
-                          margin: EdgeInsets.symmetric(
-                              vertical: width * 0.025,
-                              horizontal: width * 0.005),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: _currentIndex == index
-                                ? event!.image!.length == 1
-                                    ? Colors.white.withOpacity(0.1)
-                                    : Colors.white
-                                : Colors.white.withOpacity(0.8),
-                          ),
-                        );
-                      }).toList(),
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          top: height *
+                              0.26), // Set the top padding to control vertical position
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: event!.image!.map((imageUrl) {
+                          int index = event!.image!.indexOf(imageUrl);
+                          return Container(
+                            width: width * 0.025,
+                            height: width * 0.025,
+                            margin: EdgeInsets.symmetric(
+                                vertical: width * 0.025,
+                                horizontal: width * 0.005),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: _currentIndex == index
+                                  ? event!.image!.length == 1
+                                      ? Colors.white.withOpacity(0.1)
+                                      : Colors.white
+                                  : Colors.white.withOpacity(0.8),
+                            ),
+                          );
+                        }).toList(),
+                      ),
                     ),
                   ),
                 ),

@@ -31,7 +31,7 @@ class LocalNotification {
   String descreption = '';
   int hour=0;
   int minute=0;
-  String day = "1 days";
+  String day = "";
   String time = "2 hours";
   final String timeZoneName = 'Asia/Riyadh';
   late tz.Location location;
@@ -56,17 +56,29 @@ class LocalNotification {
         DateTime(bookingDate.year, bookingDate.month, bookingDate.day);
    
   int daysDifference =  twoDaysBefore.difference(currentDateInRiyadh).inDays;//new
-
+  
+  print('two day before');
+  print(twoDaysBefore);
+  print('deference');
+  print(daysDifference);
     // If it's in the past, set it to the current date
     // twoDaysBefore = currentDate;
-    if (twoDaysBeforeWithoutTime.isAfter(currentDate)||bookingDateWithoutTime.isAtSameMomentAs(currentDate)||twoDaysBeforeWithoutTime.isBefore(currentDate)) {
+    if (twoDaysBeforeWithoutTime.isAfter(currentDate)||bookingDateWithoutTime.isAtSameMomentAs(currentDate)||twoDaysBeforeWithoutTime.isBefore(currentDate)||twoDaysBeforeWithoutTime.isAtSameMomentAs(currentDate)) {
       if (bookingDateWithoutTime.isAtSameMomentAs(currentDate)) {
-        twoDaysBefore = currentDate;
+        twoDaysBefore = currentDateInRiyadh;
 
         day = "today";
         hour = currentDateInRiyadh.hour + 1;
         minute = currentDateInRiyadh.minute;
-      } else {
+      } else if(daysDifference==0){
+         day = "today";
+         twoDaysBefore = twoDaysBefore.add(Duration(days: 1));
+
+      }
+      
+      
+      else {
+        print('inter1');
         if(daysDifference==1){
         // twoDaysBefore = bookingDate.subtract(Duration(days: 1));
        day = AppUtil.rtlDirection2(context)?"يوم":"1 day";
@@ -74,10 +86,11 @@ class LocalNotification {
       // minute = currentDateInRiyadh.minute + 3;
         }
         else{
-        twoDaysBefore = bookingDate.add(Duration(days: 1));
+          print('inter2');
+        twoDaysBefore = twoDaysBefore.subtract(Duration(days: 1));
        day = AppUtil.rtlDirection2(context)?"يومان": "2 day";
-       hour = currentDateInRiyadh.hour + 1;
-       minute = currentDateInRiyadh.minute + 3;
+      //  hour = currentDateInRiyadh.hour + 1;
+      //  minute = currentDateInRiyadh.minute + 3;
         }
       }
 
@@ -247,6 +260,8 @@ class LocalNotification {
               " for " +
               mealName;
     }
+          print(descreption);
+
     await flutterLocalNotificationsPlugin.zonedSchedule(
         parsedId,
         AppUtil.rtlDirection2(context)
@@ -305,13 +320,15 @@ class LocalNotification {
      print(PlaceName);
     if (day == 'today') {
       descreption = AppUtil.rtlDirection2(context)
-          ? day + " ستبدأ مغامرة " + PlaceName + " الخاصة بك"
-          : " Your " + PlaceName + " adventure " + " will begin " + day;
+          ? "اليوم ستبدأ مغامرة " + PlaceName + " الخاصة بك"
+          : "Your " + PlaceName + " adventure " + " will begin " + day;
     } else {
       descreption = AppUtil.rtlDirection2(context)
           ? "متبقي " + day + " وستبدأ مغامرة " + PlaceName + " الخاصة بك"
-          : day + "  left and your " + PlaceName + " adventure begins ";
+          : day + " left and your " + PlaceName + " adventure begins ";
     }
+              print(descreption);
+
     await flutterLocalNotificationsPlugin.zonedSchedule(
         parsedId,
         AppUtil.rtlDirection2(context)
@@ -369,13 +386,14 @@ class LocalNotification {
      print(PlaceName);
     if (day == 'today') {
       descreption = AppUtil.rtlDirection2(context)
-          ? day + " ستبدأ فعالية" + PlaceName + " الخاصة بك"
+          ? "اليوم ستبدأ فعالية " + PlaceName + " الخاصة بك"
           : " Your " + PlaceName + " event " + " will begin " + day;
     } else {
       descreption = AppUtil.rtlDirection2(context)
           ? "متبقي " + day + " وستبدأ فعالية " + PlaceName + " الخاصة بك"
-          : day + "  left and your " + PlaceName + " event begins ";
+          : day + " left and your " + PlaceName + " event begins ";
     }
+    print(descreption);
     await flutterLocalNotificationsPlugin.zonedSchedule(
         parsedId,
         AppUtil.rtlDirection2(context)

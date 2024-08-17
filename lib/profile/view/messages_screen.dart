@@ -63,8 +63,7 @@ OfferController offerController = Get.put(OfferController());
                             )
             
               
-               : Expanded(
-               child: SingleChildScrollView(
+               : SingleChildScrollView(
                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                    mainAxisSize: MainAxisSize.max,
@@ -102,7 +101,6 @@ OfferController offerController = Get.put(OfferController());
                           }),
                     ],
                   ),
-               ),
                ),
             ),
       ),

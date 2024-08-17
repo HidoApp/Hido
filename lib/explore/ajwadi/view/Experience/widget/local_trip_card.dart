@@ -11,6 +11,7 @@ import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_outlined_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
+import 'package:ajwad_v4/widgets/image_cache_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
 import 'package:flutter_svg/svg.dart';
@@ -41,7 +42,7 @@ class _LocalTripCardState extends State<LocalTripCard> {
     super.initState();
 
     _controller = ExpandedTileController(isExpanded: false);
-   
+
     String latitudeStr = widget.trip.booking?.coordinates?.latitude ?? '';
     String longitudeStr = widget.trip.booking?.coordinates?.longitude ?? '';
 
@@ -58,18 +59,20 @@ class _LocalTripCardState extends State<LocalTripCard> {
     }
   }
 
- 
-void getAddressFromCoordinates(double latitude, double longitude) async {
-  try {
-    List<Placemark> placemarks = await placemarkFromCoordinates(latitude, longitude);
-    if (placemarks.isNotEmpty) {
-      Placemark placemark = placemarks.first;
-       address = "${placemark.postalCode}, ${placemark.subLocality}, ${placemark.country}";
+  void getAddressFromCoordinates(double latitude, double longitude) async {
+    try {
+      List<Placemark> placemarks =
+          await placemarkFromCoordinates(latitude, longitude);
+      if (placemarks.isNotEmpty) {
+        Placemark placemark = placemarks.first;
+        address =
+            "${placemark.postalCode}, ${placemark.subLocality}, ${placemark.country}";
+      }
+    } catch (e) {
+      print("Error fetching address: $e");
     }
-  } catch (e) {
-    print("Error fetching address: $e");
   }
-}
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -80,16 +83,16 @@ void getAddressFromCoordinates(double latitude, double longitude) async {
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
         color: Colors.white,
-           borderRadius: BorderRadius.circular(12), // Adjust the radius as needed
+        borderRadius: BorderRadius.circular(12), // Adjust the radius as needed
 
-      boxShadow: [
-      BoxShadow(
-        color: shadowColor,
-        blurRadius: 13,
-offset: Offset(-5, 0),
-        spreadRadius: 0,
-      ),
-    ],
+        boxShadow: [
+          BoxShadow(
+            color: shadowColor,
+            blurRadius: 13,
+            offset: Offset(-5, 0),
+            spreadRadius: 0,
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -101,31 +104,25 @@ offset: Offset(-5, 0),
               style: TextStyle(
                 color: Color(0xFF9392A0),
                 fontSize: 12,
-                fontFamily:AppUtil.rtlDirection2(context)?'SF Arabic': 'SF Pro',
+                fontFamily:
+                    AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
                 fontWeight: FontWeight.w500,
                 height: 0,
               ),
             ),
           ),
           Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              widget.trip.place!.image != null
-                  ? Image.asset(
-                      'assets/images/Image.png',
-                      height: width * 0.12,
-                      width: width * 0.12,
-                    )
-                  : ClipRRect(
-                      borderRadius: BorderRadius.circular(5),
-                      child: Image.network(
-                        fit: BoxFit.cover,
-                        widget.trip.place!.image.first,
-                        height: width * 0.12,
-                        width: width * 0.12,
-                      ),
-                    ),
+              ClipRRect(
+                  borderRadius: BorderRadius.circular(5),
+                  child: ImageCacheWidget(
+                    image: widget.trip.place!.image.isNotEmpty
+                        ? widget.trip.place!.image.first
+                        : 'assets/images/Placeholder.png',
+                    height: width * 0.12,
+                    width: width * 0.12,
+                  )),
               SizedBox(width: width * 0.02),
               Padding(
                 padding: const EdgeInsets.only(bottom: 10.0),
@@ -156,35 +153,35 @@ offset: Offset(-5, 0),
                   ],
                 ),
               ),
-              if(widget.trip.booking!.orderStatus!="FINISHED")...[
-                             Spacer(),
-
-               Padding(
-                 padding: const EdgeInsets.only(bottom:8),
-                 child: ElevatedButton(
-                 onPressed: () {
-                    Get.to(ChatScreen(chatId: widget.trip.booking!.chatId));
-                 },
-                 style: ElevatedButton.styleFrom(
-                   backgroundColor:colorGreen, 
-                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                   shape: RoundedRectangleBorder(
-                     borderRadius: BorderRadius.circular(4),
-                   ),
-                   minimumSize: Size(81, 32), // Width and height
-                 ),
-                 child: Text(
-                   'chat'.tr,
-                   textAlign: TextAlign.center,
-                   style: TextStyle(
-                     color: Colors.white,
-                     fontSize: 13,
-                     fontFamily: 'SF Pro',
-                     fontWeight: FontWeight.w600,
-                   ),
-                 ),
-                 ),
-               ),
+              if (widget.trip.booking!.orderStatus != "FINISHED") ...[
+                Spacer(),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Get.to(ChatScreen(chatId: widget.trip.booking!.chatId));
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: colorGreen,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      minimumSize: Size(81, 32), // Width and height
+                    ),
+                    child: Text(
+                      'chat'.tr,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 13,
+                        fontFamily: 'SF Pro',
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
               ]
             ],
           ),
@@ -204,58 +201,60 @@ offset: Offset(-5, 0),
               // print(widget.request.date);
               setState(() {});
             },
-            title: !_controller.isExpanded? CustomText(
-              text: AppUtil.rtlDirection2(context) ? 'المزيد' : 'See more',
-              color: Color(0xFF36B268),
-              fontSize: 13,
-              fontFamily: AppUtil.rtlDirection2(context)
-                          ? 'SF Arabic'
-                          : 'SF Pro',
-              fontWeight: FontWeight.w500,
-            ):Text(''),
+            title: !_controller.isExpanded
+                ? CustomText(
+                    text:
+                        AppUtil.rtlDirection2(context) ? 'المزيد' : 'See more',
+                    color: Color(0xFF36B268),
+                    fontSize: 13,
+                    fontFamily:
+                        AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+                    fontWeight: FontWeight.w500,
+                  )
+                : Text(''),
             content: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ItineraryTile(
-                  title: ' ${AppUtil.formatStringTimeWithLocale(context, widget.trip.booking!.timeToGo??'')} -  ${AppUtil.formatStringTimeWithLocale(context, widget.trip.booking!.timeToReturn??'')}',
+                  title:
+                      ' ${AppUtil.formatStringTimeWithLocale(context, widget.trip.booking!.timeToGo ?? '')} -  ${AppUtil.formatStringTimeWithLocale(context, widget.trip.booking!.timeToReturn ?? '')}',
                   image: "assets/icons/timeGrey.svg",
                 ),
                 //SizedBox(height: width * 0.025),
 
-                if(address.isNotEmpty)...[
-              SizedBox(height: 8),
-
-                ItineraryTile(
-                   
-                  title: address,                    
-                  image: 'assets/icons/map_pin.svg',
-                  imageUrl: AppUtil.getLocationUrl(widget.trip.booking!.coordinates),
-                  line: true,
-                      
-                ),
+                if (address.isNotEmpty) ...[
+                  SizedBox(height: 8),
+                  ItineraryTile(
+                    title: address,
+                    image: 'assets/icons/map_pin.svg',
+                    imageUrl: AppUtil.getLocationUrl(
+                        widget.trip.booking!.coordinates),
+                    line: true,
+                  ),
                 ],
                 // SizedBox(height: width * 0.025),
                 SizedBox(height: 8),
 
                 ItineraryTile(
-                  title:
-                      "${widget.trip.booking!.guestNumber} ${"guests".tr}",
+                  title: "${widget.trip.booking!.guestNumber} ${"guests".tr}",
                   image: "assets/icons/guests.svg",
                 ),
 
-                
-             SizedBox(height: 11),
+                SizedBox(height: 11),
 
-             _controller.isExpanded? CustomText(
-              text: AppUtil.rtlDirection2(context) ? 'القليل' : 'See less',
-              color: Color(0xFF36B268),
-              fontSize: 13,
-              fontFamily: AppUtil.rtlDirection2(context)
-                          ? 'SF Arabic'
-                          : 'SF Pro',
-              fontWeight: FontWeight.w500,
-            ):Text(''),
-               
+                _controller.isExpanded
+                    ? CustomText(
+                        text: AppUtil.rtlDirection2(context)
+                            ? 'القليل'
+                            : 'See less',
+                        color: Color(0xFF36B268),
+                        fontSize: 13,
+                        fontFamily: AppUtil.rtlDirection2(context)
+                            ? 'SF Arabic'
+                            : 'SF Pro',
+                        fontWeight: FontWeight.w500,
+                      )
+                    : Text(''),
               ],
             ),
             controller: _controller,

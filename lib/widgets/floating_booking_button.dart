@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/services/view/review_adventure_screen.dart';
@@ -145,8 +147,12 @@ class BottomAdventureBooking extends StatefulWidget {
 class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
   final _adventureController = Get.put(AdventureController());
 
+  @override
   void initState() {
+    super.initState();
     print(";lkjhgfds");
+    _adventureController.address(widget.address);
+
   }
 
   final String timeZoneName = 'Asia/Riyadh';
@@ -302,7 +308,8 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
                                       borderRadius:
                                           BorderRadius.circular(width * 0.02),
                                       border: Border.all(
-                                        color: showErrorGuests
+                                        color: showErrorGuests||  _adventureController
+                                                    .showErrorMaxGuest.value
                                             ? colorRed
                                             : borderGrey,
                                       ),
@@ -320,22 +327,24 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
                                                   : 'SF Pro',
                                         ),
                                         const Spacer(),
-                                        GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              if (person > 0) {
-                                                person = person - 1;
-                                                _adventureController
-                                                    .showErrorMaxGuest
-                                                    .value = false;
-                                              }
-                                            });
-                                          },
-                                          child: const Icon(
-                                            Icons.horizontal_rule_outlined,
-                                            color: borderGrey,
+                                     
+                                          GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                if (person > 0) {
+                                                  person = person - 1;
+                                                  _adventureController
+                                                      .showErrorMaxGuest
+                                                      .value = false;
+                                                }
+                                              });
+                                            },
+                                            child: const Icon(
+                                              Icons.horizontal_rule_outlined,
+                                              color: borderGrey,
+                                            ),
                                           ),
-                                        ),
+                                        
                                         SizedBox(width: width * 0.038),
                                         CustomText(
                                           text: person.toString(),
@@ -348,23 +357,26 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
                                                   : 'SF Pro',
                                         ),
                                         SizedBox(width: width * 0.038),
-                                        GestureDetector(
-                                          onTap: () {
-                                            if (!getSeat()) {
-                                              setState(() {
-                                                person = person + 1;
-                                              });
-                                            } else {
-                                              _adventureController
-                                                  .showErrorMaxGuest
-                                                  .value = true;
-                                            }
-                                          },
-                                          child: const Icon(
-                                            Icons.add,
-                                            color: borderGrey,
+                                    GestureDetector(
+                                            onTap: () {
+                                              if (!getSeat()) {
+                                                setState(() {
+                                                  person = person + 1;
+                                              showErrorGuests = false;
+                                                });
+                                              } else {
+                                                log('lkjhgfgh');
+                                                _adventureController
+                                                    .showErrorMaxGuest
+                                                    .value = true;
+                                              }
+                                            },
+                                            child: const Icon(
+                                              Icons.add,
+                                              color: borderGrey,
+                                            ),
                                           ),
-                                        ),
+                                       
                                       ],
                                     ),
                                   ),
@@ -414,7 +426,15 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
                                           setState(() {
                                             showErrorGuests = true;
                                           });
-                                        } else if ((getSeat())) {
+                                        }  else if (!AppUtil.isDateTimeBefore24Hours('${widget.adventure.date ?? ''} ${widget.adventure.times!.first.startTime}')) {
+                                          AppUtil.errorToast(
+                                              context,
+                                              AppUtil.rtlDirection2(context)
+                                                  ? "يجب أن تحجز قبل 24 ساعة "
+                                                  : "You must booking before 24 hours");
+                                        }
+                                        
+                                        else if ((getSeat())) {
                                           setState(() {
                                             _adventureController
                                                     .showErrorMaxGuest.value ==

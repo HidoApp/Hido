@@ -9,6 +9,7 @@ import 'package:ajwad_v4/services/model/hospitality.dart';
 import 'package:ajwad_v4/services/view/hospitality_details.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
+import 'package:ajwad_v4/widgets/image_cache_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ajwad_v4/profile/view/ticket_details_screen.dart';
@@ -130,18 +131,18 @@ class CustomExperienceCard extends StatelessWidget {
                           borderRadius:
                               const BorderRadius.all(Radius.circular(6.57)),
                           child: type == 'hospitality'
-                              ? Image.network(
-                                  experience.images[0],
-                                  height: height * 0.06,
-                                  width: width * 0.144,
-                                  fit: BoxFit.cover,
-                                )
-                              : Image.network(
-                                  experience.image[0],
-                                  height: height * 0.06,
-                                  width: width * 0.144,
-                                  fit: BoxFit.cover,
-                                ),
+                              ?ImageCacheWidget(
+                                image:experience.images.isNotEmpty? experience.images[0]:'assets/images/Placeholder.png' ,
+                                height: height * 0.06,
+                                width: width * 0.144,
+                              )
+                              
+                              
+                              : ImageCacheWidget(
+                                image:experience.images.isNotEmpty? experience.image[0]:'assets/images/Placeholder.png',
+                                height: height * 0.06,
+                                width: width * 0.144,
+                              )
                         ),
                       ),
                       SizedBox(
@@ -172,7 +173,34 @@ class CustomExperienceCard extends StatelessWidget {
                                         ? 'SF Pro'
                                         : 'SF Arabic',
                                   ),
-                                  if (experience.status == 'DRAFT' ||
+                                  // if (experience.status == 'DRAFT' ||
+                                  //     experience.status == 'CLOSED')
+                                  //   Row(
+                                  //     children: [
+                                  //       CustomText(
+                                  //         text: type == 'hospitality' ||
+                                  //                 type == 'event'
+                                  //             ? experience.daysInfo.isNotEmpty
+                                  //                 ? formatBookingDate(
+                                  //                     context,
+                                  //                     experience.daysInfo.first
+                                  //                         .startTime)
+                                  //                 : ''
+                                  //             : formatBookingDate(
+                                  //                 context, experience.date),
+                                  //         fontSize: 12,
+                                  //         fontFamily:
+                                  //             AppUtil.rtlDirection2(context)
+                                  //                 ? 'SF Arabic'
+                                  //                 : 'SF Pro',
+                                  //         fontWeight: FontWeight.w600,
+                                  //         color: Color(0xFFB9B8C1),
+                                  //       ),
+                                  //     ],
+                                  //   ),
+                                ],
+                              ),
+                               if (experience.status == 'DRAFT' ||
                                       experience.status == 'CLOSED')
                                     Row(
                                       children: [
@@ -197,35 +225,32 @@ class CustomExperienceCard extends StatelessWidget {
                                         ),
                                       ],
                                     ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  //  if(hospitality.status!='DELETED')
+                              if (experience.status != 'DRAFT' &&
+                                  experience.status != 'CLOSED')
+                                Row(
+                                  children: [
+                                    //  if(hospitality.status!='DELETED')
 
-                                  CustomText(
-                                    text: experience.status != 'DRAFT' &&
-                                            experience.status != 'CLOSED'
-                                        ? type == 'hospitality' ||
-                                                type == 'event'
-                                            ? experience.daysInfo.isNotEmpty
-                                                ? formatBookingDate(
-                                                    context,
-                                                    experience.daysInfo.first
-                                                        .startTime)
-                                                : ''
-                                            : formatBookingDate(
-                                                context, experience.date)
-                                        : '',
-                                    fontSize: 12,
-                                    fontFamily: AppUtil.rtlDirection2(context)
-                                        ? 'SF Arabic'
-                                        : 'SF Pro',
-                                    fontWeight: FontWeight.w600,
-                                    color: colorGreen,
-                                  ),
-                                ],
-                              ),
+                                    CustomText(
+                                      text: type == 'hospitality' ||
+                                              type == 'event'
+                                          ? experience.daysInfo.isNotEmpty
+                                              ? formatBookingDate(
+                                                  context,
+                                                  experience
+                                                      .daysInfo.first.startTime)
+                                              : ''
+                                          : formatBookingDate(
+                                              context, experience.date),
+                                      fontSize: 12,
+                                      fontFamily: AppUtil.rtlDirection2(context)
+                                          ? 'SF Arabic'
+                                          : 'SF Pro',
+                                      fontWeight: FontWeight.w600,
+                                      color: colorGreen,
+                                    ),
+                                  ],
+                                ),
                             ],
                           ),
                         ),

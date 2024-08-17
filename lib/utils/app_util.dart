@@ -222,7 +222,9 @@ class AppUtil {
   print(startTime);
   print(endTime);
   print(endTime.isBefore(startTime));
-  return endTime.isBefore(startTime);
+  // return endTime.isBefore(startTime) ;
+    return endTime.isBefore(startTime) || endTime.isAtSameMomentAs(startTime);
+
 }
 
   static String formatSelectedDates(

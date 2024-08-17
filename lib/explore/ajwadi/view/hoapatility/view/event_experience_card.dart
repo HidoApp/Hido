@@ -11,6 +11,7 @@ import 'package:ajwad_v4/services/model/hospitality.dart';
 import 'package:ajwad_v4/services/view/hospitality_details.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
+import 'package:ajwad_v4/widgets/image_cache_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -124,12 +125,12 @@ class _EventExperienceCardState extends State<EventExperienceCard> {
               padding: const EdgeInsets.only(bottom: 1),
               child: ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(6.57)),
-                child: Image.network(
-                  widget.experience.image![0],
-                  height: height * 0.06,
+                child:ImageCacheWidget(
+                   image:widget.experience.image!.isNotEmpty?  widget.experience.image![0]:'assets/images/Placeholder.png',
+                     height: height * 0.06,
                   width: width * 0.132,
-                  fit: BoxFit.cover,
-                ),
+                )
+              
               ),
             ),
             SizedBox(

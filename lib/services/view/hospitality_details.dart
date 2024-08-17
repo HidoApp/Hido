@@ -220,7 +220,15 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                   fromNetwork: true,
                                 ));
                           },
-                          child: CarouselSlider.builder(
+                          child:
+                          hospitalityObj!.images.isEmpty
+                          ? Image.asset(
+                              'assets/images/Placeholder.png',
+                              height: height * 0.3,
+                              fit: BoxFit.cover,
+                            )
+                          
+                           :CarouselSlider.builder(
                             options: CarouselOptions(
                                 height: height * 0.3,
                                 viewportFraction: 1,
@@ -695,30 +703,35 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                           name: hospitalityObj!.user.profile.name,
                         )),
                     //indicator
-                    Positioned(
-                      top: height * 0.22,
-                      left: width * 0.3,
-                      right: width * 0.3,
+                    Center(
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          top: height *
+                              0.23), // Set the top padding to control vertical position
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: hospitalityObj!.images.map((imageUrl) {
-                          int index = hospitalityObj!.images.indexOf(imageUrl);
-                          return Container(
-                            width: width * 0.025,
-                            height: width * 0.025,
-                            margin: EdgeInsets.symmetric(
-                                vertical: width * 0.025,
-                                horizontal: width * 0.005),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: _currentIndex == index
-                                  ? hospitalityObj!.images.length == 1
-                                      ? Colors.white.withOpacity(0.1)
-                                      : Colors.white
-                                  : Colors.white.withOpacity(0.8),
-                            ),
-                          );
-                        }).toList(),
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: hospitalityObj!.images.map((imageUrl) {
+                              int index = hospitalityObj!.images.indexOf(imageUrl);
+                              return Container(
+                                width: width * 0.025,
+                                height: width * 0.025,
+                                margin: EdgeInsets.symmetric(
+                                    vertical: width * 0.025,
+                                    horizontal: width * 0.005),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: _currentIndex == index
+                                      ? hospitalityObj!.images.length == 1
+                                          ? Colors.white.withOpacity(0.1)
+                                          : Colors.white
+                                      : Colors.white.withOpacity(0.8),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ),
                       ),
                     ),
                   ],

@@ -53,8 +53,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
   NextActivity? nextTrip;
 
   void getNextActivity() async {
-   await _tripController.getNextActivity(context: context);
-
+    await _tripController.getNextActivity(context: context);
   }
 
   @override
@@ -83,108 +82,217 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                 child: CircularProgressIndicator.adaptive(),
               ),
             )
-          : Scaffold(
-              backgroundColor: Colors.white,
-              extendBodyBehindAppBar: true,
-              body: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 53, left: 16, right: 16),
-                  child: Column(
-                    children: [
-                      Container(
-                        width: 340.40,
-                        height: 60,
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          textDirection: TextDirection.rtl,
+          : RefreshIndicator.adaptive(
+              onRefresh: () async {
+                await _tripController.getNextActivity(context: context);
+              },
+              child: Scaffold(
+                backgroundColor: Colors.white,
+                extendBodyBehindAppBar: true,
+                body: SingleChildScrollView(
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.only(top: 53, left: 16, right: 16),
+                    child: Column(
+                      children: [
+                        Container(
+                          width: 340.40,
+                          height: 60,
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            textDirection: TextDirection.rtl,
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  ProfileController _profileController =
+                                      Get.put(ProfileController());
+                                  Get.to(() => MessagesScreen(
+                                      profileController: _profileController));
+                                },
+                                child: Container(
+                                  width: 36,
+                                  height: 24,
+                                  child: SvgPicture.asset(
+                                      'assets/icons/Communication_black.svg'),
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  Get.to(() => NotificationScreen());
+                                },
+                                child: Container(
+                                  width: 36,
+                                  height: 24,
+                                  alignment: Alignment.center,
+                                  child: SvgPicture.asset(
+                                      'assets/icons/Alerts_black.svg'),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 16),
+                        Row(
                           children: [
-                            InkWell(
-                              onTap: () {
-                                ProfileController _profileController =
-                                    Get.put(ProfileController());
-                                Get.to(() => MessagesScreen(
-                                    profileController: _profileController));
-                              },
-                              child: Container(
-                                width: 36,
-                                height: 24,
-                                child: SvgPicture.asset(
-                                    'assets/icons/Communication_black.svg'),
+                            RichText(
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: AppUtil.rtlDirection2(context)
+                                        ? "ياهلا"
+                                        : 'Welcome ',
+                                    style: TextStyle(
+                                      color: Color.fromRGBO(7, 7, 8, 1),
+                                      fontSize: 20,
+                                      fontFamily: 'HT Rakik',
+                                      fontWeight: FontWeight.w500,
+                                      height: 0.07,
+                                      letterSpacing: 0.80,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: _profileController
+                                            .isProfileLoading.value
+                                        ? ""
+                                        : ' ${_profileController.profile.name ?? ""}',
+                                    style: TextStyle(
+                                      color: Color(0xFF37B268),
+                                      fontSize: 20,
+                                      fontFamily: 'HT Rakik',
+                                      fontWeight: FontWeight.w500,
+                                      height: 0.07,
+                                      letterSpacing: 0.80,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                Get.to(() => NotificationScreen());
-                              },
-                              child: Container(
-                                width: 36,
-                                height: 24,
-                                alignment: Alignment.center,
-                                child: SvgPicture.asset(
-                                    'assets/icons/Alerts_black.svg'),
-                              ),
-                            ),
+                            )
                           ],
                         ),
-                      ),
-                      SizedBox(height: 16),
-                      Row(
-                        children: [
-                          RichText(
-                            text: TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: AppUtil.rtlDirection2(context)
-                                      ? "ياهلا"
-                                      : 'Welcome ',
-                                  style: TextStyle(
-                                    color: Color.fromRGBO(7, 7, 8, 1),
-                                    fontSize: 20,
-                                    fontFamily: 'HT Rakik',
-                                    fontWeight: FontWeight.w500,
-                                    height: 0.07,
-                                    letterSpacing: 0.80,
-                                  ),
+                        SizedBox(height: 1),
+                        Container(
+                          width: double.infinity,
+                          height: 168,
+                          // padding: const EdgeInsets.symmetric(
+                          //     horizontal: 0, vertical: 16),
+                          child: Center(
+                            child: CustomWalletCard(),
+                          ),
+                        ),
+                        SizedBox(height: 25),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              child: Text(
+                                AppUtil.rtlDirection2(context)
+                                    ? "الخدمات المقدمة"
+                                    : 'Your services',
+                                style: TextStyle(
+                                  color: Color(0xFF070708),
+                                  fontSize: 17,
+                                  fontFamily: 'HT Rakik',
+                                  fontWeight: FontWeight.w500,
+                                  height: 0.10,
                                 ),
-                                TextSpan(
-                                  text: _profileController
-                                          .isProfileLoading.value
-                                      ? ""
-                                      : ' ${_profileController.profile.name ?? ""}',
-                                  style: TextStyle(
-                                    color: Color(0xFF37B268),
-                                    fontSize: 20,
-                                    fontFamily: 'HT Rakik',
-                                    fontWeight: FontWeight.w500,
-                                    height: 0.07,
-                                    letterSpacing: 0.80,
-                                  ),
+                                textDirection: TextDirection.ltr,
+                              ),
+                            ),
+                            SizedBox(height: 25),
+                            Row(
+                              children: [
+                                CategoryCard(
+                                  title: AppUtil.rtlDirection2(context)
+                                      ? "جولات "
+                                      : 'Tours',
+                                  icon: 'tour_category',
+                                  color: Color(0xFFECF9F1),
+                                  onPressed: () {
+                                    // log(_profileController.profile.accountType!);
+                                    if (_profileController
+                                            .profile.accountType ==
+                                        'EXPERIENCES') {
+                                      Get.to(() => MyAccount(
+                                            isLocal: true,
+                                            profileController:
+                                                _profileController,
+                                          ));
+                                      Get.bottomSheet(
+                                          const ProdvidedServicesSheet());
+                                    } else {
+                                      Get.to(
+                                        () => LocalTicketScreen(
+                                          servicesController:
+                                              Get.put(TripController()),
+                                          type: 'tour',
+                                        ),
+                                      );
+                                    }
+                                  },
+                                ),
+                                SizedBox(width: 6),
+                                CategoryCard(
+                                  title: AppUtil.rtlDirection2(context)
+                                      ? "استضافة"
+                                      : 'Hospitality',
+                                  icon: 'host_category',
+                                  color: Color(0xFFF5F2F8),
+                                  onPressed: () {
+                                    Get.to(
+                                      () => LocalTicketScreen(
+                                        servicesController:
+                                            Get.put(HospitalityController()),
+                                        type: 'hospitality',
+                                      ),
+                                    );
+                                  },
                                 ),
                               ],
                             ),
-                          )
-                        ],
-                      ),
-                      SizedBox(height: 1),
-                      Container(
-                        width: double.infinity,
-                        height: 168,
-                        // padding: const EdgeInsets.symmetric(
-                        //     horizontal: 0, vertical: 16),
-                        child: Center(
-                          child: CustomWalletCard(),
-                        ),
-                      ),
-                      SizedBox(height: 25),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            child: Text(
+                            SizedBox(height: 6),
+                            Row(
+                              children: [
+                                CategoryCard(
+                                  title: AppUtil.rtlDirection2(context)
+                                      ? 'مغامرات'
+                                      : 'Adventure',
+                                  icon: 'adventure_category',
+                                  color: Color(0xFFF9F4EC),
+                                  onPressed: () {
+                                    Get.to(
+                                      () => LocalTicketScreen(
+                                        servicesController:
+                                            Get.put(AdventureController()),
+                                        type: 'adventure',
+                                      ),
+                                    );
+                                  },
+                                ),
+                                SizedBox(width: 6),
+                                CategoryCard(
+                                  title: AppUtil.rtlDirection2(context)
+                                      ? 'فعاليات محلية'
+                                      : 'Local Event',
+                                  icon: 'event_category',
+                                  color: Color(0xFFFEFDF1),
+                                  onPressed: () {
+                                    Get.to(
+                                      () => LocalTicketScreen(
+                                        servicesController:
+                                            Get.put(EventController()),
+                                        type: 'event',
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 40),
+                            Text(
                               AppUtil.rtlDirection2(context)
-                                  ? "الخدمات المقدمة"
-                                  : 'Your services',
+                                  ? "نشاطك القادم"
+                                  : 'Your next activity ',
                               style: TextStyle(
                                 color: Color(0xFF070708),
                                 fontSize: 17,
@@ -194,162 +302,64 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                               ),
                               textDirection: TextDirection.ltr,
                             ),
-                          ),
-                          SizedBox(height: 25),
-                          Row(
-                            children: [
-                              CategoryCard(
-                                title: AppUtil.rtlDirection2(context)
-                                    ? "جولات "
-                                    : 'Tours',
-                                icon: 'tour_category',
-                                color: Color(0xFFECF9F1),
-                                onPressed: () {
-                                  // log(_profileController.profile.accountType!);
-                                  if (_profileController.profile.accountType ==
-                                      'EXPERIENCES') {
-                                    Get.to(() => MyAccount(
-                                          isLocal: true,
-                                          profileController: _profileController,
-                                        ));
-                                    Get.bottomSheet(
-                                        const ProdvidedServicesSheet());
-                                  } else {
-                                    Get.to(
-                                      () => LocalTicketScreen(
-                                        servicesController:
-                                            Get.put(TripController()),
-                                        type: 'tour',
-                                      ),
-                                    );
-                                  }
-                                },
-                              ),
-                              SizedBox(width: 6),
-                              CategoryCard(
-                                title: AppUtil.rtlDirection2(context)
-                                    ? "استضافة"
-                                    : 'Hospitality',
-                                icon: 'host_category',
-                                color: Color(0xFFF5F2F8),
-                                onPressed: () {
-                                  Get.to(
-                                    () => LocalTicketScreen(
-                                      servicesController:
-                                          Get.put(HospitalityController()),
-                                      type: 'hospitality',
-                                    ),
-                                  );
-                                },
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 6),
-                          Row(
-                            children: [
-                              CategoryCard(
-                                title: AppUtil.rtlDirection2(context)
-                                    ? 'مغامرات'
-                                    : 'Adventure',
-                                icon: 'adventure_category',
-                                color: Color(0xFFF9F4EC),
-                                onPressed: () {
-                                  Get.to(
-                                    () => LocalTicketScreen(
-                                      servicesController:
-                                          Get.put(AdventureController()),
-                                      type: 'adventure',
-                                    ),
-                                  );
-                                },
-                              ),
-                              SizedBox(width: 6),
-                              CategoryCard(
-                                title: AppUtil.rtlDirection2(context)
-                                    ? 'فعاليات محلية'
-                                    : 'Local Event',
-                                icon: 'event_category',
-                                color: Color(0xFFFEFDF1),
-                                onPressed: () {
-                                  Get.to(
-                                    () => LocalTicketScreen(
-                                      servicesController:
-                                          Get.put(EventController()),
-                                      type: 'event',
-                                    ),
-                                  );
-                                },
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 40),
-                          Text(
-                            AppUtil.rtlDirection2(context)
-                                ? "نشاطك القادم"
-                                : 'Your next activity ',
-                            style: TextStyle(
-                              color: Color(0xFF070708),
-                              fontSize: 17,
-                              fontFamily: 'HT Rakik',
-                              fontWeight: FontWeight.w500,
-                              height: 0.10,
-                            ),
-                            textDirection: TextDirection.ltr,
-                          ),
-                          SizedBox(height: 27),
-                          Obx(
-                            () => _tripController.isNextActivityLoading.value
-                                ? const Center(
-                                    child: CircularProgressIndicator.adaptive())
-                                :! _tripController.isTripUpdated.value || _tripController.nextTrip.value.id!.isEmpty
-                                //! _tripController.isTripUpdated.value
+                            SizedBox(height: 27),
+                            Obx(
+                              () => _tripController.isNextActivityLoading.value
+                                  ? const Center(
+                                      child:
+                                          CircularProgressIndicator.adaptive())
+                                  : !_tripController.isTripUpdated.value ||
+                                          _tripController
+                                              .nextTrip.value.id!.isEmpty
+                                      //! _tripController.isTripUpdated.value
 
-                                    ? Column(
-                                        children: [
-                                          Container(
-                                            width: double.infinity,
-                                            height: 135,
-                                            decoration: ShapeDecoration(
-                                              shape: RoundedRectangleBorder(
-                                                side: BorderSide(
-                                                    width: 1.50,
-                                                    color: Color(0xFFECECEE)),
-                                                borderRadius:
-                                                    BorderRadius.circular(12),
+                                      ? Column(
+                                          children: [
+                                            Container(
+                                              width: double.infinity,
+                                              height: 135,
+                                              decoration: ShapeDecoration(
+                                                shape: RoundedRectangleBorder(
+                                                  side: BorderSide(
+                                                      width: 1.50,
+                                                      color: Color(0xFFECECEE)),
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
+                                                ),
                                               ),
-                                            ),
-                                            child: Center(
-                                              child: Text(
-                                                "noNextActivity".tr,
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  color: Color(0xFFDCDCE0),
-                                                  fontSize: 16,
-                                                  fontFamily:
-                                                      AppUtil.rtlDirection2(
-                                                              context)
-                                                          ? "SF Arabic"
-                                                          : 'SF Pro',
-                                                  fontWeight: FontWeight.w400,
+                                              child: Center(
+                                                child: Text(
+                                                  "noNextActivity".tr,
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    color: Color(0xFFDCDCE0),
+                                                    fontSize: 16,
+                                                    fontFamily:
+                                                        AppUtil.rtlDirection2(
+                                                                context)
+                                                            ? "SF Arabic"
+                                                            : 'SF Pro',
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                          SizedBox(height: 20)
-                                        ],
-                                      )
-                                    : Column(
-                                        children: [
-                                          //  SizedBox(height: 11),
-                                          CustomLocalTicketCard(),
+                                            SizedBox(height: 20)
+                                          ],
+                                        )
+                                      : Column(
+                                          children: [
+                                            //  SizedBox(height: 11),
+                                            CustomLocalTicketCard(),
 
-                                          SizedBox(height: 11),
-                                        ],
-                                      ),
-                          ),
-                        ],
-                      ),
-                    ],
+                                            SizedBox(height: 11),
+                                          ],
+                                        ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
