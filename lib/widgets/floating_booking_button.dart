@@ -435,16 +435,17 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
 
                                     CustomButton(
                                         onPressed: () {
-                                          if (person == 0) {
-                                            setState(() {
-                                              showErrorGuests = true;
-                                            });
-                                          } else if ((getSeat())) {
+                                          if ((getSeat())) {
                                             setState(() {
                                               _adventureController
                                                       .showErrorMaxGuest
                                                       .value ==
                                                   true;
+                                            });
+                                          }
+                                         else if (person == 0) {
+                                            setState(() {
+                                              showErrorGuests = true;
                                             });
                                           } else if (!AppUtil.isDateTimeBefore24Hours('${widget.adventure.date ?? ''} ${widget.adventure.times!.first.startTime}')) {
                                           AppUtil.errorToast(

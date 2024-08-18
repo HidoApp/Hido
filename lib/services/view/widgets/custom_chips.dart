@@ -18,27 +18,24 @@ class CustomChips extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-     final height = MediaQuery.of(context).size.height;
+    final height = MediaQuery.of(context).size.height;
 
     return Container(
-      padding: EdgeInsets.symmetric(
-         horizontal: 16.4, vertical: width * 0.01),
-         // horizontal: width * 0.030, vertical: width * 0.01),
+      padding: EdgeInsets.symmetric(horizontal: 16.4, vertical: width * 0.01),
+      // horizontal: width * 0.030, vertical: width * 0.01),
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: backgroundColor,
-        border: Border.all(width:  1.50, color: borderColor??Colors.transparent),
+        border:
+            Border.all(width: 1.50, color: borderColor ?? Colors.transparent),
         borderRadius: BorderRadius.all(Radius.circular(9999)),
-
       ),
       child: CustomText(
         text: title,
         fontSize: width * 0.038,
         fontWeight: FontWeight.w600,
         color: textColor,
-          fontFamily: !AppUtil.rtlDirection2(context)
-                                  ? 'SF Pro'
-                                  : 'SF Arabic',
+        fontFamily: !AppUtil.rtlDirection2(context) ? 'SF Pro' : 'SF Arabic',
         textAlign: TextAlign.center,
       ),
     );
