@@ -7,6 +7,7 @@ import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/adventure/view/edit_adventure.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
+import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -194,15 +195,16 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                                                   : _currentIndex == 2
                                                       ? width * 0.09
                                                       : width * 0.06),
-                                      child: Text(
-                                        tab.title.tr,
+                                      child: CustomText(
+                                        text: tab.title.tr,
                                         textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          color: Color(0xFF36B268),
-                                          fontSize: width * 0.055,
-                                          fontFamily: 'HT Rakik',
-                                          fontWeight: FontWeight.w500,
-                                        ),
+                                        color: Color(0xFF36B268),
+                                        fontSize: width * 0.055,
+                                        maxlines: 2,
+                                        fontFamily: 'HT Rakik',
+                                        //  maxLines: 2, // Limit to 2 lines
+
+                                        fontWeight: FontWeight.w500,
                                       ),
                                     ),
                             ),
@@ -227,26 +229,30 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                     ),
                   ),
 
-                  Padding(
-                    padding: _currentIndex == 0
-                        ? EdgeInsets.only(bottom: width * 0.1)
-                        : AppUtil.rtlDirection2(context)
-                            ? EdgeInsets.only(bottom: width * 0.093)
-                            : EdgeInsets.only(bottom: width * 0.1),
-                    //  ? EdgeInsets.only(bottom: 40)
-                    // : AppUtil.rtlDirection2(context)
-                    //     ? EdgeInsets.only(bottom: 37.0)
-                    //     : EdgeInsets.only(bottom: 40.0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        for (int index = 0; index < tabs.length; index++)
-                          _DotIndicator(
-                            isSelected: index == _currentIndex,
-                            currentIndex: _currentIndex,
-                            pageController: _pageController,
-                          ),
-                      ],
+                  MediaQuery(
+                    data: MediaQuery.of(context)
+                        .copyWith(textScaler: const TextScaler.linear(1.0)),
+                    child: Padding(
+                      padding: _currentIndex == 0
+                          ? EdgeInsets.only(bottom: width * 0.1)
+                          : AppUtil.rtlDirection2(context)
+                              ? EdgeInsets.only(bottom: width * 0.093)
+                              : EdgeInsets.only(bottom: width * 0.1),
+                      //  ? EdgeInsets.only(bottom: 40)
+                      // : AppUtil.rtlDirection2(context)
+                      //     ? EdgeInsets.only(bottom: 37.0)
+                      //     : EdgeInsets.only(bottom: 40.0),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          for (int index = 0; index < tabs.length; index++)
+                            _DotIndicator(
+                              isSelected: index == _currentIndex,
+                              currentIndex: _currentIndex,
+                              pageController: _pageController,
+                            ),
+                        ],
+                      ),
                     ),
                   ),
                   // const SizedBox(height: 75)
@@ -297,22 +303,20 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                             vertical: height * 0.039,
                             //vertical:32
                           ),
-                          child: Text(
-                            AppUtil.rtlDirection2(context)
+                          child: CustomText(
+                            text: AppUtil.rtlDirection2(context)
                                 ? 'الإستمرار كزائر'
                                 : 'Continue as a Guest',
                             textAlign: AppUtil.rtlDirection2(context)
                                 ? TextAlign.end
                                 : TextAlign.start,
-                            style: TextStyle(
-                              color: _currentIndex == 0
-                                  ? Color(0xFFDCDCE0)
-                                  : Color(0xFFB9B8C1),
-                              fontSize: 16,
-                              fontFamily: 'SF Pro',
-                              fontWeight: FontWeight.w500,
-                              height: 0,
-                            ),
+                            color: _currentIndex == 0
+                                ? Color(0xFFDCDCE0)
+                                : Color(0xFFB9B8C1),
+                            fontSize: 16,
+                            fontFamily: 'SF Pro',
+                            fontWeight: FontWeight.w500,
+                            height: 0,
                           ),
                         ),
                       ],
