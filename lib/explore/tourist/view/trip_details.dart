@@ -629,8 +629,8 @@ class _TripDetailsState extends State<TripDetails> {
                                     ))
                               : CustomButton(
                                   onPressed: () {
-                                    print(";lkjhgfdxzxcvbnm,");
-                                    print(isViewBooking.value);
+                                    // print(";lkjhgfdxzxcvbnm,");
+                                    // print(isViewBooking.value);
                                     AppUtil.isGuest()
                                         ? Get.to(
                                             () => const SignInScreen(),

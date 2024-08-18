@@ -141,14 +141,14 @@ final EventController _EventrController =
            _EventrController.DateErrorMessage.value && _EventrController.isEventDateSelcted.value?
                  Padding(
                     padding: const EdgeInsets.only(top: 10),
-                    child: Text(
+                    child:CustomText(
+                         text: 
                       AppUtil.rtlDirection2(context)
                           ?   "يجب اختيار تاريخ بعد 48 ساعة من الآن على الأقل"
                             : "*Please select a date at least 48 hours from now",
-                      style: TextStyle(
                         color: Colors.red,
                         fontSize: 12,
-                      ),
+                      
                     ),
                   ):Container(),
                 ),
@@ -522,14 +522,12 @@ final EventController _EventrController =
                          _EventrController.TimeErrorMessage.value?
                           Padding(
                             padding: const EdgeInsets.only(top: 10),
-                            child: Text(
+                            child: CustomText(
+                               text: 
                               AppUtil.rtlDirection2(context)
                                   ? "يجب أن لايسبق وقت بدء التجربة"
                                     : "*Can’t be before start time",
-                              style: TextStyle(
-                                color: Colors.red,
-                                fontSize: 12,
-                              ),
+                             
                             ),
                           ):Container(),
                         ),

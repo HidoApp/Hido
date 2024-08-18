@@ -288,16 +288,15 @@ class _AdventureAddProgressState extends State<AdventureAddProgress> {
                   borderRadius: BorderRadius.circular(8)),
             ),
             alignment: Alignment.center,
-            child: Text(
-              'Next'.tr,
+            child:CustomText(
+              text:'Next'.tr,
               textAlign: TextAlign.center,
-              style: TextStyle(
                 color: Colors.white,
                 fontSize: 17,
                 fontFamily: 'HT Rakik',
                 fontWeight: FontWeight.w500,
                 height: 0.10,
-              ),
+              
             ),
           ),
         ),
@@ -327,16 +326,15 @@ class _AdventureAddProgressState extends State<AdventureAddProgress> {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         ),
         alignment: Alignment.center,
-        child: Text(
-          'Next'.tr,
+        child:CustomText(
+          text:'Next'.tr,
           textAlign: TextAlign.center,
-          style: TextStyle(
             color: Colors.white,
             fontSize: 17,
             fontFamily: 'HT Rakik',
             fontWeight: FontWeight.w500,
             height: 0.10,
-          ),
+          
         ),
       ),
       ),
@@ -366,16 +364,14 @@ class _AdventureAddProgressState extends State<AdventureAddProgress> {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         ),
         alignment: Alignment.center,
-        child: Text(
-          'Back'.tr,
+        child:CustomText(
+          text:'Back'.tr,
           textAlign: TextAlign.center,
-          style: TextStyle(
             color: Color(0xFF070708),
             fontSize: 17,
             fontFamily: 'HT Rakik',
             fontWeight: FontWeight.w500,
             height: 0.10,
-          ),
         ),
       ),
     );

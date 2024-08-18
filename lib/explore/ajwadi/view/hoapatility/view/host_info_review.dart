@@ -11,6 +11,7 @@ import 'package:ajwad_v4/services/controller/event_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
+import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geocoding/geocoding.dart';
@@ -127,7 +128,10 @@ class _HostInfoReviewState extends State<HostInfoReview> {
         //  }
         // });
         print(placemarks.first);
-        return '${placemark.subLocality}';
+        return placemark.subLocality != null &&
+                placemark.subLocality!.isNotEmpty
+            ? '${placemark.subLocality}'
+            : '${placemark.locality}';
       }
     } catch (e) {
       print("Error retrieving address: $e");
@@ -371,18 +375,17 @@ class _HostInfoReviewState extends State<HostInfoReview> {
             child: Container(
               width: 350,
               height: 110, // Custom width
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset('assets/images/paymentSuccess.gif', width: 38),
-                  SizedBox(height: 16),
-                  Text(
-                    !AppUtil.rtlDirection2(context)
+                  const SizedBox(height: 16),
+                  CustomText(
+                   text: !AppUtil.rtlDirection2(context)
                         ? "Experience published successfully"
                         : "تم نشر تجربتك بنجاح ",
-                    style: TextStyle(fontSize: 15),
                     textDirection: AppUtil.rtlDirection2(context)
                         ? TextDirection.rtl
                         : TextDirection.ltr,
@@ -443,11 +446,10 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                 children: [
                   Image.asset('assets/images/paymentSuccess.gif', width: 38),
                   SizedBox(height: 16),
-                  Text(
-                    !AppUtil.rtlDirection2(context)
+                  CustomText(
+                   text: !AppUtil.rtlDirection2(context)
                         ? "Experience published successfully"
                         : "تم نشر تجربتك بنجاح ",
-                    style: TextStyle(fontSize: 15),
                     textDirection: AppUtil.rtlDirection2(context)
                         ? TextDirection.rtl
                         : TextDirection.ltr,
@@ -499,32 +501,28 @@ class _HostInfoReviewState extends State<HostInfoReview> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              widget.experienceType == 'hospitality'
+            CustomText(
+              text:widget.experienceType == 'hospitality'
                   ? 'Reviewexperience'.tr
                   : 'Reviewadventure'.tr,
-              style: TextStyle(
                 color: Color(0xFF070708),
                 fontSize: 17,
                 fontFamily:
                     AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
                 fontWeight: FontWeight.w500,
-              ),
             ),
             const SizedBox(height: 6),
             SizedBox(
               width: double.infinity,
-              child: Text(
-                widget.experienceType == 'hospitality'
+              child: CustomText(
+                text:widget.experienceType == 'hospitality'
                     ? 'explination'.tr
                     : 'explinationAdve'.tr,
-                style: TextStyle(
                   color: Color(0xFF9392A0),
                   fontSize: 15,
                   fontFamily:
                       AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
                   fontWeight: FontWeight.w400,
-                ),
               ),
             ),
             const SizedBox(height: 20),
@@ -573,34 +571,32 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              AppUtil.rtlDirection2(context)
+                            CustomText(
+                              text:AppUtil.rtlDirection2(context)
                                   ? widget.hospitalityTitleAr
                                   : widget.hospitalityTitleEn,
-                              style: TextStyle(
                                 color: Color(0xFF070708),
                                 fontSize: 16,
                                 fontFamily: AppUtil.rtlDirection2(context)
                                     ? 'SF Arabic'
                                     : 'SF Pro',
                                 fontWeight: FontWeight.w500,
-                              ),
+                              
                             ),
                             Row(
                               children: [
                                 Icon(Icons.star,
                                     color: Color(0xFF36B268), size: 14),
                                 const SizedBox(width: 4),
-                                Text(
-                                  '5.0',
-                                  style: TextStyle(
+                                CustomText(
+                                    text:'5.0',
                                     color: Color(0xFF36B268),
                                     fontSize: 12,
                                     fontFamily: AppUtil.rtlDirection2(context)
                                         ? 'SF Arabic'
                                         : 'SF Pro',
                                     fontWeight: FontWeight.w500,
-                                  ),
+                                  
                                 ),
                               ],
                             ),
@@ -620,20 +616,18 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                                     SizedBox(
                                       width: width * 0.01,
                                     ),
-                                    Text(
-                                      widget.experienceType == 'hospitality'
+                                     CustomText(
+                                     text:widget.experienceType == 'hospitality'
                                           ? AppUtil.rtlDirection2(context)
                                               ? '${widget.hospitalityController!.ragionAr.value}, ${address}'
                                               : '${widget.hospitalityController!.ragionEn.value}, ${address}'
                                           : AppUtil.rtlDirection2(context)
                                               ? '${widget.adventureController!.ragionAr.value}, ${address}'
                                               : '${widget.adventureController!.ragionEn.value}, ${address}',
-                                      style: TextStyle(
                                         color: Color(0xFF9392A0),
                                         fontSize: 11,
                                         fontFamily: AppUtil.SfFontType(context),
                                         fontWeight: FontWeight.w400,
-                                      ),
                                     ),
                                   ],
                                 ),
@@ -647,9 +641,8 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                                       SizedBox(
                                         width: width * 0.01,
                                       ),
-                                      Text(
-                                        '${AppUtil.formatBookingDate(context, widget.hospitalityController!.selectedDate.value)} - ${AppUtil.formatStringTimeWithLocale(context, intl.DateFormat('HH:mm:ss').format(widget.hospitalityController!.selectedStartTime.value))}',
-                                        style: TextStyle(
+                                      CustomText(
+                                     text:'${AppUtil.formatBookingDate(context, widget.hospitalityController!.selectedDate.value)} - ${AppUtil.formatStringTimeWithLocale(context, intl.DateFormat('HH:mm:ss').format(widget.hospitalityController!.selectedStartTime.value))}',
                                           color: Color(0xFF9392A0),
                                           fontSize: 11,
                                           fontFamily:
@@ -657,7 +650,6 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                                                   ? 'SF Arabic'
                                                   : 'SF Pro',
                                           fontWeight: FontWeight.w400,
-                                        ),
                                       ),
                                     ],
                                   ),
@@ -670,11 +662,10 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                                       SizedBox(
                                         width: width * 0.01,
                                       ),
-                                      Text(
                                         //'${AppUtil.formatSelectedDates(widget.adventureController!.selectedDates,context,)} ',
-
+                                        CustomText(
+                                     text:
                                         '${AppUtil.formatBookingDate(context, widget.adventureController!.selectedDate.value)} ',
-                                        style: TextStyle(
                                           color: Color(0xFF9392A0),
                                           fontSize: 11,
                                           fontFamily:
@@ -682,7 +673,6 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                                                   ? 'SF Arabic'
                                                   : 'SF Pro',
                                           fontWeight: FontWeight.w400,
-                                        ),
                                       ),
                                     ],
                                   ),
@@ -699,9 +689,8 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                                       SizedBox(
                                         width: width * 0.01,
                                       ),
-                                      Text(
-                                        '${AppUtil.formatStringTimeWithLocale(context, intl.DateFormat('HH:mm:ss').format(widget.adventureController!.selectedStartTime.value))} - ${AppUtil.formatStringTimeWithLocale(context, intl.DateFormat('HH:mm:ss').format(widget.adventureController!.selectedEndTime.value))}',
-                                        style: TextStyle(
+                                      CustomText(
+                                     text:'${AppUtil.formatStringTimeWithLocale(context, intl.DateFormat('HH:mm:ss').format(widget.adventureController!.selectedStartTime.value))} - ${AppUtil.formatStringTimeWithLocale(context, intl.DateFormat('HH:mm:ss').format(widget.adventureController!.selectedEndTime.value))}',
                                           color: Color(0xFF9392A0),
                                           fontSize: 11,
                                           fontFamily:
@@ -709,7 +698,6 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                                                   ? 'SF Arabic'
                                                   : 'SF Pro',
                                           fontWeight: FontWeight.w400,
-                                        ),
                                       ),
                                     ],
                                   ),
@@ -722,13 +710,13 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                                       SizedBox(
                                         width: width * 0.01,
                                       ),
-                                      Text(
+                                     CustomText(
+                                     text:
                                         AppUtil.rtlDirection2(context)
                                             ? widget.hospitalityController!
                                                 .selectedMealAr.value
                                             : widget.hospitalityController!
                                                 .selectedMealEn.value,
-                                        style: TextStyle(
                                           color: Color(0xFF9392A0),
                                           fontSize: 11,
                                           fontFamily:
@@ -736,7 +724,6 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                                                   ? 'SF Arabic'
                                                   : 'SF Pro',
                                           fontWeight: FontWeight.w400,
-                                        ),
                                       ),
 
                                       // SizedBox(

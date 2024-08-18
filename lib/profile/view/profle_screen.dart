@@ -286,6 +286,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           CustomText(
                                               textAlign: TextAlign.center,
                                               fontSize: 20,
+                                              maxlines: 2,
                                               fontWeight: FontWeight.w500,
                                               color: black,
                                               fontFamily:
@@ -323,7 +324,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               borderColor: colorRed,
                                               buttonColor: Colors.white,
                                               textColor: colorRed,
-                                              title: "cancel".tr.toUpperCase(),
+                                              title: "cancel".tr,
                                               onPressed: () {
                                                 Get.back();
                                               },

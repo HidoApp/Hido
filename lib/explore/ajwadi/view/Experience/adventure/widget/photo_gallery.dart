@@ -173,15 +173,14 @@ Future<void> _takePhoto() async {
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      child: Text(
-                        'makeCover'.tr,
+                      child:CustomText(
+                        text:'makeCover'.tr,
                         textAlign: TextAlign.center,
-                        style: TextStyle(
                           color: Colors.white,
                           fontSize: 17,
                           fontFamily: 'HT Rakik',
                           fontWeight: FontWeight.w500,
-                        ),
+                        
                       ),
                     ),
                   ),
@@ -206,16 +205,14 @@ Future<void> _takePhoto() async {
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      child: Text(
-                        'Delete'.tr,
+                      child:CustomText(
+                        text:'Delete'.tr,
                         textAlign: TextAlign.center,
-                        style: TextStyle(
                           color: Color(0xFFDC362E),
                           fontSize: 17,
                           fontFamily: 'HT Rakik',
                           fontWeight: FontWeight.w500,
                         ),
-                      ),
                     ),
                   ),
                 ],
@@ -325,16 +322,14 @@ Future<void> _takePhoto() async {
                                       borderRadius: BorderRadius.circular(16),
                                     ),
                                   ),
-                                  child: Text(
-                                    'Coverphoto'.tr,
-                                    style: TextStyle(
+                                  child: CustomText(
+                                   text: 'Coverphoto'.tr,
                                       color: Colors.white,
                                       fontSize: 13,
                                       fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
                                       : 'SF Pro',
                                       fontWeight: FontWeight.w500,
                                       height: 0,
-                                    ),
                                   ),
                                 ),
                               ),
@@ -387,16 +382,14 @@ Future<void> _takePhoto() async {
                                         color: Color(0xFFB9B8C1),
                                       ),
                                       SizedBox(height: 4),
-                                      Text(
-                                        'Addmore'.tr,
-                                        style: TextStyle(
+                                      CustomText(
+                                       text: 'Addmore'.tr,
                                           color: Color(0xFFB9B8C1),
                                           fontSize: 11,
                                           fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
                                           : 'SF Pro',
                                           fontWeight: FontWeight.w500,
                                           height: 0,
-                                        ),
                                       ),
                                     ],
                                   ),
@@ -519,13 +512,13 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Choosephotos'.tr,
-                    style: TextStyle(
+                CustomText(
+                  text:'Choosephotos'.tr,
                       color: Color(0xFF070708),
                       fontSize: 22,
                       fontFamily: 'HT Rakik',
                       fontWeight: FontWeight.w500,
-                    )),
+                  ),
                 IconButton(
                   icon: Icon(Icons.camera_alt_outlined),
                   onPressed: _takePhoto,

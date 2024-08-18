@@ -230,8 +230,10 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                   ),
 
                   MediaQuery(
-                    data: MediaQuery.of(context)
-                        .copyWith(textScaler: const TextScaler.linear(1.0)),
+                      data: MediaQuery.of(context)
+                        .copyWith(textScaleFactor: 1.0),
+                    // data: MediaQuery.of(context)
+                    //     .copyWith(textScaler: const TextScaler.linear(1.0)),
                     child: Padding(
                       padding: _currentIndex == 0
                           ? EdgeInsets.only(bottom: width * 0.1)

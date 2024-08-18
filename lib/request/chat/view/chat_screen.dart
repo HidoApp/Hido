@@ -214,7 +214,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                                                     FontWeight
                                                                         .w400,
                                                                 fontFamily:
-                                                                    'SF Pro',
+                                                                      AppUtil.SfFontType(context),
                                                               ),
                                                             ],
                                                           ),
@@ -246,7 +246,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                                                     FontWeight
                                                                         .w400,
                                                                 fontFamily:
-                                                                    'SF Pro',
+                                                                     AppUtil.SfFontType(context),
                                                               ),
                                                             ],
                                                           ),
@@ -272,7 +272,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                                                     FontWeight
                                                                         .w400,
                                                                 fontFamily:
-                                                                    'SF Pro',
+                                                                     AppUtil.SfFontType(context),
                                                               ),
                                                             ],
                                                           ),
@@ -312,7 +312,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                                                     FontWeight
                                                                         .w400,
                                                                 fontFamily:
-                                                                    'SF Pro',
+                                                                    AppUtil.SfFontType(context),
                                                               ),
                                                             ],
                                                           ),

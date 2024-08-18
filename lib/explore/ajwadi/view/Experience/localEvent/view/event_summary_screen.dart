@@ -94,13 +94,12 @@ int totalguest = 0;
               color: Colors.black,
               borderRadius: BorderRadius.circular(8.0),
             ),
-            child: Text(
-             AppUtil.rtlDirection2(context)?"تم النسخ إلى الحافظة ": 'Copied tp clipboard',
-              style: TextStyle(color: Colors.white,
+            child: CustomText(
+              text:'Copied'.tr,
                fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic': 'SF Pro',
                fontSize: 11,
                fontWeight: FontWeight.w400,
-                    ),
+                  
             ),
           ),
         ),
@@ -177,14 +176,13 @@ int totalguest = 0;
                       height: 20,
                     )),
                     const SizedBox(width: 8),
-                    Text(
-                      '#${_summary?.id.substring(0, 7)}',
-                      style: TextStyle(
+                    CustomText(
+                      text:'#${_summary?.id.substring(0, 7)}',
                         color: Color(0xFFB9B8C1),
                         fontSize: 13,
                     fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic': 'SF Pro',
                         fontWeight: FontWeight.w500,
-                      ),
+                      
                     ),
                   ],
                 ),
@@ -196,27 +194,25 @@ int totalguest = 0;
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    AppUtil.rtlDirection2(context)?
+                  CustomText(
+                    text:AppUtil.rtlDirection2(context)?
                     _summary?.nameAr??''
                     :_summary?.nameEn??'',
-                    style: TextStyle(
                       color: Color(0xFF070708),
                       fontSize: 16,
                     fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic': 'SF Pro',
                       fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  Text(
                     
-                     formatBookingDate(context,
+                  ),
+                  CustomText(
+                    
+                  text:formatBookingDate(context,
                                         widget.date),
-                    style: TextStyle(
                       color: Color(0xFF070708),
                       fontSize: 15,
                     fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic': 'SF Pro',
                       fontWeight: FontWeight.w500,
-                    ),
+                    
                   ),
                 ],
               ),
@@ -228,26 +224,24 @@ int totalguest = 0;
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   if(_summary!.daysInfo.isNotEmpty)
-                  Text(
-                   '${  AppUtil.formatTimeWithLocale(context, _summary?.daysInfo.first.startTime??'','hh:mm a')} - ${AppUtil.formatTimeWithLocale(context, _summary?.daysInfo .first.endTime??'','hh:mm a')}',
-                    style: TextStyle(
+                  CustomText(
+                   text:'${  AppUtil.formatTimeWithLocale(context, _summary?.daysInfo.first.startTime??'','hh:mm a')} - ${AppUtil.formatTimeWithLocale(context, _summary?.daysInfo .first.endTime??'','hh:mm a')}',
                       color: Color(0xFF070708),
                       fontSize: 12,
                     fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic': 'SF Pro',
                       fontWeight: FontWeight.w400,
-                    ),
+                    
                   ),
                   SizedBox(height: 8),
                   Row(
                     children: [
-                      Text(
-                        '$totalguest ${'Pepole'.tr}',
-                        style: TextStyle(
+                      CustomText(
+                       text: '$totalguest ${'Pepole'.tr}',
                           color: Color(0xFF070708),
                           fontSize: 12,
                     fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic': 'SF Pro',
                           fontWeight: FontWeight.w400,
-                        ),
+                      
                       ),
                     
                     ],
@@ -255,24 +249,22 @@ int totalguest = 0;
                   SizedBox(height: 8),
                   Row(
                     children: [
-                      Text(
-                        '${_summary?.cost}',
-                        style: TextStyle(
+                      CustomText(
+                        text:'${_summary?.cost}',
                           color: Color(0xFF070708),
                           fontSize: 12,
                     fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic': 'SF Pro',
                           fontWeight: FontWeight.w400,
-                        ),
+                      
                       ),
                       SizedBox(width: 4),
-                      Text(
-                        'sar'.tr,
-                        style: TextStyle(
+                      CustomText(
+                        text:'sar'.tr,
                           color: Color(0xFF070708),
                           fontSize: 12,
                     fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic': 'SF Pro',
                           fontWeight: FontWeight.w400,
-                        ),
+                        
                       ),
                     ],
                   ),
@@ -282,14 +274,13 @@ int totalguest = 0;
               Divider(color: Color(0xFFDCDCE0), thickness: 1),
               SizedBox(height: 12),
               // Fourth Row: Guest List
-              Text(
-               AppUtil.rtlDirection2(context)?'لائحة الضيوف' :'Tourist list',
-                style: TextStyle(
+              CustomText(
+               text:AppUtil.rtlDirection2(context)?'لائحة الضيوف' :'Tourist list',
                   color: Color(0xFF070708),
                   fontSize: 16,
                     fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic': 'SF Pro',
                   fontWeight: FontWeight.w600,
-                ),
+                
               ),
               SizedBox(height: 12),
               Expanded(

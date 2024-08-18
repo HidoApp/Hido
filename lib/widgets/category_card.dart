@@ -26,7 +26,7 @@ class CategoryCard extends StatelessWidget {
         height: height * 0.122,
         padding: EdgeInsets.all(width * 0.0051),
         decoration: BoxDecoration(
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
               color: Color(0x3FC7C7C7),
               blurRadius: 15,
@@ -60,15 +60,13 @@ class CategoryCard extends StatelessWidget {
               const SizedBox(height: 12),
               // padding: const EdgeInsets.only(left: 4),
 
-              Text(
-                title!,
-                style: TextStyle(
-                  color: Color(0xFF070708),
-                  fontSize: 13,
-                  fontFamily:
-                      AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-                  fontWeight: FontWeight.w500,
-                ),
+              CustomText(
+                text: title!,
+                color: Color(0xFF070708),
+                fontSize: 13,
+                fontFamily:
+                    AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+                fontWeight: FontWeight.w500,
               ),
             ],
           ),

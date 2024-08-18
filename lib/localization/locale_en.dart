@@ -646,5 +646,18 @@ const localeEn = {
   'saveChange': "Changes have been saved successfully!",
   'imageValidSize': 'Image is too large, you can only upload less than 2 MB',
   're-enterPassword': 'Re-enter your password',
-  'resetSucces': "Resetting password completed"
+  'resetSucces': "Resetting password completed",
+  'nextActivity':'Your next activity ',
+  'chat2': 'Chat',
+  'seeMore':'See more',
+   'Yourservices':'Your services',
+  'summary' : 'Summary',
+  'Copied':'Copied tp clipboard',
+  'Experiencetitle':'Experience title',
+   'regionChoose':'Choose your Region',
+                                      
+
+
+
+
 };

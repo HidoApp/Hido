@@ -1,5 +1,6 @@
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/adventure/view/edit_adventure.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
+import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -245,39 +246,37 @@ class _CustomCheckWidget extends StatelessWidget {
                       if (schedule?.scheduleTime != null)
                         Row(
                           children: [
-                            Text(
-                              AppUtil.formatStringTimeWithLocale(
+                          CustomText(
+                              text:AppUtil.formatStringTimeWithLocale(
                                   context, schedule?.scheduleTime!['from']),
-                              style: TextStyle(
                                 color: !isReview
                                     ? Color(0xFF676767)
                                     :  Color(0xFFB9B8C1),
                                 fontSize: 13,
                                 fontFamily: AppUtil.SfFontType(context),
                                 fontWeight: FontWeight.w500,
-                              ),
+                            
                             ),
-                            Text(
-                              " - ",
-                              style: TextStyle(
+                             CustomText(
+                             text: " - ",
                                 color: !isReview
                                     ? Color(0xFF676767)
                                     : Color(0xFFB9B8C1),
                                 fontSize: 13,
                                 fontFamily: AppUtil.SfFontType(context),
                                 fontWeight: FontWeight.w500,
-                              ),
+                            
                             ),
-                            Text(
-                              "${AppUtil.formatStringTimeWithLocale(context, schedule?.scheduleTime!['to'])} ",
-                              style: TextStyle(
+                             CustomText(
+                             text: "${AppUtil.formatStringTimeWithLocale(context, schedule?.scheduleTime!['to'])} ",
+                          
                                 color: !isReview
                                     ? Color(0xFF676767)
                                     :Color(0xFFB9B8C1),
                                  fontSize: 13,
                                  fontFamily: AppUtil.SfFontType(context),
                                  fontWeight: FontWeight.w500,
-                              ),
+                           
                             ),
                           ],
                         )
@@ -288,31 +287,35 @@ class _CustomCheckWidget extends StatelessWidget {
                     //     mainAxisAlignment: MainAxisAlignment.end,
                     // crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text.rich(
-                        TextSpan(
-                          children: [
-                            TextSpan(
-                              text: AppUtil.rtlDirection2(context)
-                                  ? '${schedule?.price ?? 0} ريال '
-                                  : '${schedule?.price ?? 0} SAR ',
-                              style: !isReview
-                                  ? isBold
-                                      ? priceBold
-                                      : priceStyle
-                                  : priceReview,
-                            ),
-                            // const TextSpan(
-                            //   text: 'للشخص',
-                            //   style: TextStyle(
-                            //     color: colorDarkGrey,
-                            //     fontSize: 8,
-                            //     fontFamily: 'HT Rakik',
-                            //     fontWeight: FontWeight.w500,
-                            //   ),
-                            // ),
-                          ],
+                      MediaQuery(
+                              data: MediaQuery.of(context)
+                                  .copyWith(textScaleFactor: 1.0),
+                              child: Text.rich(
+                          TextSpan(
+                            children: [
+                              TextSpan(
+                                text: AppUtil.rtlDirection2(context)
+                                    ? '${schedule?.price ?? 0} ريال '
+                                    : '${schedule?.price ?? 0} SAR ',
+                                style: !isReview
+                                    ? isBold
+                                        ? priceBold
+                                        : priceStyle
+                                    : priceReview,
+                              ),
+                              // const TextSpan(
+                              //   text: 'للشخص',
+                              //   style: TextStyle(
+                              //     color: colorDarkGrey,
+                              //     fontSize: 8,
+                              //     fontFamily: 'HT Rakik',
+                              //     fontWeight: FontWeight.w500,
+                              //   ),
+                              // ),
+                            ],
+                          ),
+                          textAlign: TextAlign.right,
                         ),
-                        textAlign: TextAlign.right,
                       ),
                     ],
                   ),

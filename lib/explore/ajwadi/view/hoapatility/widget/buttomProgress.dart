@@ -209,8 +209,7 @@ class _ButtomProgressState extends State<ButtomProgress> {
           _hospitalityController.ragionEn.isNotEmpty;
     }
     if (activeIndex == 2) {
-      return
-     _hospitalityController.selectedImages.length >= 3;
+      return _hospitalityController.selectedImages.length >= 3;
     }
     if (activeIndex == 3) {
       return _hospitalityController.seletedSeat.value != 0 &&
@@ -277,17 +276,17 @@ class _ButtomProgressState extends State<ButtomProgress> {
                   });
                 } else if (activeIndex == totalIndex - 1) {
                   print(hospitalityPrice.text);
-                  Get.to(()=>HostInfoReview(
-                    hospitalityTitleEn: hospitalityTitleControllerEn.text,
-                    hospitalityBioEn: hospitalityBioControllerEn.text,
-                    hospitalityTitleAr: hospitalityTitleControllerAr.text,
-                    hospitalityBioAr: hospitalityBioControllerAr.text,
-                    hospitalityPrice: int.parse(hospitalityPrice.text),
-                    hospitalityImages: _hospitalityImages,
-                    hospitalityController: _hospitalityController,
-                    hospitalityLocation: hospitalityLocation.text,
-                    experienceType: 'hospitality',
-                  ));
+                  Get.to(() => HostInfoReview(
+                        hospitalityTitleEn: hospitalityTitleControllerEn.text,
+                        hospitalityBioEn: hospitalityBioControllerEn.text,
+                        hospitalityTitleAr: hospitalityTitleControllerAr.text,
+                        hospitalityBioAr: hospitalityBioControllerAr.text,
+                        hospitalityPrice: int.parse(hospitalityPrice.text),
+                        hospitalityImages: _hospitalityImages,
+                        hospitalityController: _hospitalityController,
+                        hospitalityLocation: hospitalityLocation.text,
+                        experienceType: 'hospitality',
+                      ));
                 }
               },
               child: Container(
@@ -302,16 +301,15 @@ class _ButtomProgressState extends State<ButtomProgress> {
                       borderRadius: BorderRadius.circular(8)),
                 ),
                 alignment: Alignment.center,
-                child: Text(
-                  'Next'.tr,
+                child:CustomText(
+                  text:'Next'.tr,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
                     color: Colors.white,
                     fontSize: 17,
                     fontFamily: 'HT Rakik',
                     fontWeight: FontWeight.w500,
                     height: 0.10,
-                  ),
+                  
                 ),
               ),
             ),
@@ -340,16 +338,15 @@ class _ButtomProgressState extends State<ButtomProgress> {
                     borderRadius: BorderRadius.circular(8)),
               ),
               alignment: Alignment.center,
-              child: Text(
-                'Next'.tr,
+              child:CustomText(
+                text:'Next'.tr,
                 textAlign: TextAlign.center,
-                style: TextStyle(
                   color: Colors.white,
                   fontSize: 17,
                   fontFamily: 'HT Rakik',
                   fontWeight: FontWeight.w500,
                   height: 0.10,
-                ),
+                
               ),
             ),
           ),
@@ -379,16 +376,15 @@ class _ButtomProgressState extends State<ButtomProgress> {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         ),
         alignment: Alignment.center,
-        child: Text(
-          'Back'.tr,
+        child:CustomText(
+          text:'Back'.tr,
           textAlign: TextAlign.center,
-          style: TextStyle(
             color: Color(0xFF070708),
             fontSize: 17,
             fontFamily: 'HT Rakik',
             fontWeight: FontWeight.w500,
             height: 0.10,
-          ),
+          
         ),
       ),
     );
@@ -512,168 +508,160 @@ class _AddHospitalityInfoState extends State<AddHospitalityInfo> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      _selectedLanguageIndex == 0
+                    CustomText(
+                      text: _selectedLanguageIndex == 0
                           ? 'عنوان التجربة'
                           : 'Experience title',
+                      color: Color(0xFF070708),
+                      fontSize: 17,
+                      fontFamily:
+                          _selectedLanguageIndex == 0 ? 'SF Arabic' : 'SF Pro',
+                      fontWeight: _selectedLanguageIndex == 0
+                          ? FontWeight.w600
+                          : FontWeight.w500,
+                      height: 0,
+                    ),
+                    SizedBox(height: _selectedLanguageIndex == 0 ? 8 : 9),
+                    TextField(
+                      maxLength: 20,
+                      controller: textField1Controller,
                       style: TextStyle(
-                        color: Color(0xFF070708),
-                        fontSize: 17,
+                        color: Colors.black,
+                        fontSize: 15,
                         fontFamily: _selectedLanguageIndex == 0
                             ? 'SF Arabic'
                             : 'SF Pro',
-                        fontWeight: _selectedLanguageIndex == 0
-                            ? FontWeight.w600
-                            : FontWeight.w500,
-                        height: 0,
+                        fontWeight: FontWeight.w400,
                       ),
-                    ),
-                    SizedBox(height: _selectedLanguageIndex == 0 ? 8 : 9),
-                    Container(
-                      width: double.infinity,
-                      height: 54,
-                      decoration: ShapeDecoration(
-                        color: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(width: 1, color: Color(0xFFB9B8C1)),
-                          borderRadius: BorderRadius.circular(8),
+                      decoration: InputDecoration(
+                        hintText: _selectedLanguageIndex == 0
+                            ? 'مثال: منزل دانا'
+                            : 'example: Dana’s house',
+                        hintStyle: TextStyle(
+                          color: Color(0xFFB9B8C1),
+                          fontSize: 15,
+                          fontFamily: _selectedLanguageIndex == 0
+                              ? 'SF Arabic'
+                              : 'SF Pro',
+                          fontWeight: FontWeight.w400,
                         ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 4, vertical: 0),
-                        child: TextField(
-                          controller: textField1Controller,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 15,
-                            fontFamily: _selectedLanguageIndex == 0
-                                ? 'SF Arabic'
-                                : 'SF Pro',
-                            fontWeight: FontWeight.w400,
-                          ),
-                          decoration: InputDecoration(
-                            hintText: _selectedLanguageIndex == 0
-                                ? 'مثال: منزل دانا'
-                                : 'example: Dana’s house',
-                            hintStyle: TextStyle(
-                              color: Color(0xFFB9B8C1),
-                              fontSize: 15,
-                              fontFamily: _selectedLanguageIndex == 0
-                                  ? 'SF Arabic'
-                                  : 'SF Pro',
-                              fontWeight: FontWeight.w400,
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide.none,
-                            ),
-                          ),
+                        filled: true,
+                        fillColor: Colors.white,
+                        contentPadding: EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 0), // Adjust vertical padding for height
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide:
+                              BorderSide(width: 1, color: Color(0xFFB9B8C1)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(
+                              width: 1,
+                              color: Color(
+                                  0xFFB9B8C1)), // Same color to remove focus color
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide.none,
                         ),
                       ),
                     ),
                   ],
                 ),
               ),
-              Container(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      _selectedLanguageIndex == 0 ? 'الوصف' : 'Description',
-                      style: TextStyle(
-                        color: Color(0xFF070708),
-                        fontSize: 17,
-                        fontFamily: _selectedLanguageIndex == 0
-                            ? 'SF Arabic'
-                            : 'SF Pro',
-                        fontWeight: _selectedLanguageIndex == 0
-                            ? FontWeight.w600
-                            : FontWeight.w500,
-                        height: 0,
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CustomText(
+                    text: _selectedLanguageIndex == 0 ? 'الوصف' : 'Description',
+                    color: Color(0xFF070708),
+                    fontSize: 17,
+                    fontFamily:
+                        _selectedLanguageIndex == 0 ? 'SF Arabic' : 'SF Pro',
+                    fontWeight: _selectedLanguageIndex == 0
+                        ? FontWeight.w600
+                        : FontWeight.w500,
+                    height: 0,
+                  ),
+                  SizedBox(height: _selectedLanguageIndex == 0 ? 8 : 9),
+                  Container(
+                    width: double.infinity,
+                    height: 133,
+                    decoration: ShapeDecoration(
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(width: 1, color: Color(0xFFB9B8C1)),
+                        borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    SizedBox(height: _selectedLanguageIndex == 0 ? 8 : 9),
-                    Container(
-                      width: double.infinity,
-                      height: 133,
-                      decoration: ShapeDecoration(
-                        color: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(width: 1, color: Color(0xFFB9B8C1)),
-                          borderRadius: BorderRadius.circular(8),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 0, vertical: 0),
+                      child: TextField(
+                        maxLines: 8,
+                        // minLines: 1,
+                        controller: textField2Controller,
+                        focusNode: _focusNode,
+                        inputFormatters: [
+                          TextInputFormatter.withFunction(
+                            (oldValue, newValue) {
+                              if (newValue.text
+                                      .split(RegExp(r'\s+'))
+                                      .where((word) => word.isNotEmpty)
+                                      .length >
+                                  150) {
+                                return oldValue;
+                              }
+                              return newValue;
+                            },
+                          ),
+                        ],
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 15,
+                          fontFamily: _selectedLanguageIndex == 0
+                              ? 'SF Arabic'
+                              : 'SF Pro',
+                          fontWeight: FontWeight.w400,
                         ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 0, vertical: 0),
-                        child: TextField(
-                          maxLines: 8,
-                          // minLines: 1,
-                          controller: textField2Controller,
-                          focusNode: _focusNode,
-                          inputFormatters: [
-                            TextInputFormatter.withFunction(
-                              (oldValue, newValue) {
-                                if (newValue.text
-                                        .split(RegExp(r'\s+'))
-                                        .where((word) => word.isNotEmpty)
-                                        .length >
-                                    150) {
-                                  return oldValue;
-                                }
-                                return newValue;
-                              },
-                            ),
-                          ],
-                          style: TextStyle(
-                            color: Colors.black,
+                        decoration: InputDecoration(
+                          hintText: _selectedLanguageIndex == 0
+                              ? 'أذكر أبرز ما يميزها ولماذا يجب على السياح زيارتها'
+                              : 'highlight what makes it unique and why tourists should visit',
+                          hintStyle: TextStyle(
+                            color: Color(0xFFB9B8C1),
                             fontSize: 15,
                             fontFamily: _selectedLanguageIndex == 0
                                 ? 'SF Arabic'
                                 : 'SF Pro',
                             fontWeight: FontWeight.w400,
                           ),
-                          decoration: InputDecoration(
-                            hintText: _selectedLanguageIndex == 0
-                                ? 'أذكر أبرز ما يميزها ولماذا يجب على السياح زيارتها'
-                                : 'highlight what makes it unique and why tourists should visit',
-                            hintStyle: TextStyle(
-                              color: Color(0xFFB9B8C1),
-                              fontSize: 15,
-                              fontFamily: _selectedLanguageIndex == 0
-                                  ? 'SF Arabic'
-                                  : 'SF Pro',
-                              fontWeight: FontWeight.w400,
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide.none,
-                            ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide.none,
                           ),
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 1.0, left: 8.0),
-                      child: Text(
-                        _selectedLanguageIndex == 0
-                            ? '*يجب ألا يتجاوز الوصف 150 كلمة'
-                            : '*the description must not exceed 150 words',
-                        style: TextStyle(
-                          color: Color(0xFFB9B8C1),
-                          fontSize: 11,
-                          fontFamily: _selectedLanguageIndex == 0
-                              ? 'SF Arabic'
-                              : 'SF Pro',
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 1.0, left: 8.0),
+                    child: CustomText(
+                      text: _selectedLanguageIndex == 0
+                          ? '*يجب ألا يتجاوز الوصف 150 كلمة'
+                          : '*the description must not exceed 150 words',
+                      color: Color(0xFFB9B8C1),
+                      fontSize: 11,
+                      fontFamily:
+                          _selectedLanguageIndex == 0 ? 'SF Arabic' : 'SF Pro',
+                      fontWeight: FontWeight.w400,
+                    ),
+                  )
+                ],
               ),
             ],
           ),
@@ -851,15 +839,13 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Text(
-              'locationCheck'.tr,
-              style: TextStyle(
-                color: black,
-                fontSize: 17,
-                fontFamily:
-                    AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-                fontWeight: FontWeight.w500,
-              ),
+            CustomText(
+              text: 'locationCheck'.tr,
+              color: black,
+              fontSize: 17,
+              fontFamily:
+                  AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+              fontWeight: FontWeight.w500,
             ),
           ],
         ),
@@ -876,17 +862,15 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'locationMSG'.tr,
-                      style: TextStyle(
-                        color: starGreyColor,
-                        fontSize: 15,
-                        fontFamily: AppUtil.rtlDirection2(context)
-                            ? 'SF Arabic'
-                            : 'SF Pro',
-                        fontWeight: FontWeight.w400,
-                        height: 0,
-                      ),
+                    CustomText(
+                      text: 'locationMSG'.tr,
+                      color: starGreyColor,
+                      fontSize: 15,
+                      fontFamily: AppUtil.rtlDirection2(context)
+                          ? 'SF Arabic'
+                          : 'SF Pro',
+                      fontWeight: FontWeight.w400,
+                      height: 0,
                     ),
                   ],
                 ),
@@ -982,18 +966,15 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
                             Center(
                               child: _isLoading
                                   ? CircularProgressIndicator()
-                                  : Text(
-                                      address,
-                                      style: TextStyle(
-                                        color: Color(0xFF9392A0),
-                                        fontSize: 13,
-                                        fontFamily:
-                                            AppUtil.rtlDirection2(context)
-                                                ? 'SF Arabic'
-                                                : 'SF Pro',
-                                        fontWeight: FontWeight.w400,
-                                        height: 0,
-                                      ),
+                                  : CustomText(
+                                      text: address,
+                                      color: Color(0xFF9392A0),
+                                      fontSize: 13,
+                                      fontFamily: AppUtil.rtlDirection2(context)
+                                          ? 'SF Arabic'
+                                          : 'SF Pro',
+                                      fontWeight: FontWeight.w400,
+                                      height: 0,
                                     ),
                             ),
                           ],
@@ -1020,7 +1001,6 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
                           : 'SF Pro',
                     ),
                     SizedBox(height: width * 0.02),
-
                     DropdownButtonHideUnderline(
                       child: DropdownButtonFormField2<String>(
                         isExpanded: true,
@@ -1045,26 +1025,29 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
                             borderRadius: BorderRadius.circular(8),
                           ),
                         ),
-                        hint: Text(
-                          AppUtil.rtlDirection2(context)
-                              ? "اختر المنطقة"
-                              : 'Choose your Region',
-                          style: TextStyle(
-                            color: Graytext,
-                            fontSize: 14,
-                            fontFamily: AppUtil.rtlDirection2(context)
-                                ? 'SF Arabic'
-                                : 'SF Pro',
-                            fontWeight: FontWeight.w400,
+                        hint: MediaQuery(
+                          // data: MediaQuery.of(context)
+                          //     .copyWith(textScaler: const TextScaler.linear(1.0)),
+                          data: MediaQuery.of(context)
+                              .copyWith(textScaleFactor: 1.0),
+                          child: Text(
+                            'regionChoose'.tr,
+                            style: TextStyle(
+                              color: Graytext,
+                              fontSize: 14,
+                              fontFamily: AppUtil.rtlDirection2(context)
+                                  ? 'SF Arabic'
+                                  : 'SF Pro',
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
                         ),
                         items: AppUtil.rtlDirection2(context)
                             ? regionListAr
                                 .map((item) => DropdownMenuItem<String>(
                                       value: item,
-                                      child: Text(
-                                        item,
-                                        style: TextStyle(
+                                      child: CustomText(
+                                        text:item,
                                           color: black,
                                           fontSize: 15,
                                           fontFamily:
@@ -1073,15 +1056,14 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
                                                   : 'SF Pro',
                                           fontWeight: FontWeight.w400,
                                         ),
-                                      ),
+                                    
                                     ))
                                 .toList()
                             : regionListEn
                                 .map((item) => DropdownMenuItem<String>(
                                       value: item,
-                                      child: Text(
-                                        item,
-                                        style: TextStyle(
+                                      child:CustomText(
+                                       text: item,
                                           color: black,
                                           fontSize: 15,
                                           fontFamily:
@@ -1089,13 +1071,12 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
                                                   ? 'SF Arabic'
                                                   : 'SF Pro',
                                           fontWeight: FontWeight.w400,
-                                        ),
                                       ),
                                     ))
                                 .toList(),
                         validator: (value) {
                           if (value == null) {
-                            return 'Please select gender.';
+                            return 'Please select regaion.';
                           }
                           return null;
                         },
@@ -1149,8 +1130,10 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
                           print(widget.hospitalityController.ragionAr.value);
                           print(widget.hospitalityController.ragionEn.value);
                         },
-                        buttonStyleData:  ButtonStyleData(
-                          padding:AppUtil.rtlDirection2(context) ?EdgeInsets.only(left: 9):EdgeInsets.only(right: 9),
+                        buttonStyleData: ButtonStyleData(
+                          padding: AppUtil.rtlDirection2(context)
+                              ? EdgeInsets.only(left: 9)
+                              : EdgeInsets.only(right: 9),
                         ),
                         iconStyleData: const IconStyleData(
                           icon: Icon(
@@ -1203,7 +1186,7 @@ class PhotoGalleryPage extends StatefulWidget {
 
 class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
   List<XFile> _selectedImages = [];
- final ImagePicker _picker = ImagePicker();
+  final ImagePicker _picker = ImagePicker();
 
   final HospitalityController _hospitalityController =
       Get.put(HospitalityController());
@@ -1225,7 +1208,6 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
           onImagesSelected: (images) {
             setState(() {
               _hospitalityController.selectedImages.addAll(images);
-
             });
           },
         );
@@ -1233,22 +1215,19 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
     );
   }
 
-  
   Future<void> _pickImage(ImageSource source) async {
     try {
       final List<XFile>? pickedImages = await _picker.pickMultiImage();
       if (pickedImages != null) {
         if (AppUtil.isImageValidate(await pickedImages.length)) {
-        print(" is asdded");
-        setState(() {
-         _hospitalityController.selectedImages.addAll(pickedImages);
-        });
-        }   else {
-        AppUtil.errorToast(
-            context, 'Image is too large, you can only upload less than 2 MB');
-      }
-    
-      
+          print(" is asdded");
+          setState(() {
+            _hospitalityController.selectedImages.addAll(pickedImages);
+          });
+        } else {
+          AppUtil.errorToast(context,
+              'Image is too large, you can only upload less than 2 MB');
+        }
       }
     } catch (e) {
       print('Error picking images: $e');
@@ -1257,27 +1236,25 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
 
   Future<void> _takePhoto() async {
     try {
-      final XFile? photo = await _picker.pickImage(source: ImageSource.camera, imageQuality: 30);
+      final XFile? photo =
+          await _picker.pickImage(source: ImageSource.camera, imageQuality: 30);
       if (photo != null) {
-        
-          if (AppUtil.isImageValidate(await photo.length())) {
-        print(" is asdded");
-       setState(() {
-          // _selectedImages =
-          //     _selectedImages != null ? [..._selectedImages!, photo] : [photo];
-               _hospitalityController.selectedImages.add(photo);
-
-        });
-        }   else {
-        AppUtil.errorToast(
-            context, 'Image is too large, you can only upload less than 2 MB');
-      }
+        if (AppUtil.isImageValidate(await photo.length())) {
+          print(" is asdded");
+          setState(() {
+            // _selectedImages =
+            //     _selectedImages != null ? [..._selectedImages!, photo] : [photo];
+            _hospitalityController.selectedImages.add(photo);
+          });
+        } else {
+          AppUtil.errorToast(context,
+              'Image is too large, you can only upload less than 2 MB');
+        }
       }
     } catch (e) {
       print('Error taking photo: $e');
     }
   }
-
 
   Future<void> _showImageOptions(BuildContext context, int index) async {
     showModalBottomSheet(
@@ -1290,7 +1267,6 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
       ),
       builder: (context) {
         return Container(
-       
           padding: const EdgeInsets.only(
             top: 16,
             left: 24,
@@ -1329,11 +1305,12 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                     onTap: () {
                       setState(() {
                         // Move the selected image to the first position to set it as cover image
-                       
 
-                       final selectedImagePath =
-                            _hospitalityController.selectedImages.removeAt(index);
-                       _hospitalityController.selectedImages.insert(0, selectedImagePath);
+                        final selectedImagePath = _hospitalityController
+                            .selectedImages
+                            .removeAt(index);
+                        _hospitalityController.selectedImages
+                            .insert(0, selectedImagePath);
                       });
                       Get.back();
                     },
@@ -1348,16 +1325,14 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      child: Text(
-                        'makeCover'.tr,
+                      child:CustomText(
+                        text:'makeCover'.tr,
                         textAlign: TextAlign.center,
-                        style: TextStyle(
                           color: Colors.white,
                           fontSize: 17,
                           fontFamily: 'HT Rakik',
                           fontWeight: FontWeight.w500,
-                        ),
-                      ),
+                       ),
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -1380,15 +1355,13 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      child: Text(
-                        'Delete'.tr,
+                      child:CustomText(
+                        text:'Delete'.tr,
                         textAlign: TextAlign.center,
-                        style: TextStyle(
                           color: Color(0xFFDC362E),
                           fontSize: 17,
                           fontFamily: 'HT Rakik',
                           fontWeight: FontWeight.w500,
-                        ),
                       ),
                     ),
                   ),
@@ -1406,7 +1379,7 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-     _hospitalityController.selectedImages.isEmpty
+        _hospitalityController.selectedImages.isEmpty
             ? Center(
                 child: DottedBorder(
                   strokeWidth: 1,
@@ -1475,7 +1448,8 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                       height: 186,
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: FileImage(File(_hospitalityController.selectedImages[0].path)),
+                          image: FileImage(File(
+                              _hospitalityController.selectedImages[0].path)),
                           fit: BoxFit.cover,
                         ),
                         borderRadius: BorderRadius.circular(16),
@@ -1507,9 +1481,8 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                                     borderRadius: BorderRadius.circular(16),
                                   ),
                                 ),
-                                child: Text(
-                                  'Coverphoto'.tr,
-                                  style: TextStyle(
+                                child:CustomText(
+                                  text:'Coverphoto'.tr,
                                     color: Colors.white,
                                     fontSize: 13,
                                     fontFamily: AppUtil.rtlDirection2(context)
@@ -1517,7 +1490,6 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                                         : 'SF Pro',
                                     fontWeight: FontWeight.w500,
                                     height: 0,
-                                  ),
                                 ),
                               ),
                             ),
@@ -1535,23 +1507,27 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                         crossAxisSpacing: 15,
                         mainAxisSpacing: 15,
                       ),
-                      itemCount: (_hospitalityController.selectedImages.length - 1) + 3,
+                      itemCount:
+                          (_hospitalityController.selectedImages.length - 1) +
+                              3,
                       itemBuilder: (context, index) {
-                        if (index < _hospitalityController.selectedImages.length - 1) {
+                        if (index <
+                            _hospitalityController.selectedImages.length - 1) {
                           return GestureDetector(
                             onTap: () => _showImageOptions(context, index + 1),
                             child: Container(
                               decoration: BoxDecoration(
                                 image: DecorationImage(
-                                  image: FileImage(
-                                      File(_hospitalityController.selectedImages[index + 1].path)),
+                                  image: FileImage(File(_hospitalityController
+                                      .selectedImages[index + 1].path)),
                                   fit: BoxFit.cover,
                                 ),
                                 borderRadius: BorderRadius.circular(12),
                               ),
                             ),
                           );
-                        } else if (index == _hospitalityController.selectedImages.length - 1) {
+                        } else if (index ==
+                            _hospitalityController.selectedImages.length - 1) {
                           return GestureDetector(
                             onTap: () => _pickImage(ImageSource.gallery),
                             child: DottedBorder(
@@ -1570,9 +1546,8 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                                       color: Color(0xFFB9B8C1),
                                     ),
                                     SizedBox(height: 4),
-                                    Text(
-                                      'Addmore'.tr,
-                                      style: TextStyle(
+                                    CustomText(
+                                      text:'Addmore'.tr,
                                         color: Color(0xFFB9B8C1),
                                         fontSize: 11,
                                         fontFamily:
@@ -1581,14 +1556,14 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                                                 : 'SF Pro',
                                         fontWeight: FontWeight.w500,
                                         height: 0,
-                                      ),
                                     ),
                                   ],
                                 ),
                               ),
                             ),
                           );
-                        } else if (index == _hospitalityController.selectedImages.length) {
+                        } else if (index ==
+                            _hospitalityController.selectedImages.length) {
                           return GestureDetector(
                             onTap: () => _takePhoto(),
                             child: DottedBorder(
@@ -1632,20 +1607,19 @@ class ImagePickerBottomSheet extends StatefulWidget {
 class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> {
   final ImagePicker _picker = ImagePicker();
   List<XFile>? _selectedImages;
- Future<void> _pickImages() async {
+  Future<void> _pickImages() async {
     try {
       final List<XFile>? pickedImages = await _picker.pickMultiImage();
       if (pickedImages != null) {
         if (AppUtil.isImageValidate(await pickedImages.length)) {
-        print(" is asdded");
-        setState(() {
-          _selectedImages = pickedImages;
-        });
-        }   else {
-        AppUtil.errorToast(
-            context, 'Image is too large, you can only upload less than 2 MB');
-      }
-        
+          print(" is asdded");
+          setState(() {
+            _selectedImages = pickedImages;
+          });
+        } else {
+          AppUtil.errorToast(context,
+              'Image is too large, you can only upload less than 2 MB');
+        }
       }
     } catch (e) {
       print('Error picking images: $e');
@@ -1654,19 +1628,20 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> {
 
   Future<void> _takePhoto() async {
     try {
-      final XFile? photo = await _picker.pickImage(source: ImageSource.camera, imageQuality: 30);
+      final XFile? photo =
+          await _picker.pickImage(source: ImageSource.camera, imageQuality: 30);
       if (photo != null) {
-        
-          if (AppUtil.isImageValidate(await photo.length())) {
-        print(" is asdded");
-       setState(() {
-          _selectedImages =
-              _selectedImages != null ? [..._selectedImages!, photo] : [photo];
-        });
-        }   else {
-        AppUtil.errorToast(
-            context, 'Image is too large, you can only upload less than 2 MB');
-      }
+        if (AppUtil.isImageValidate(await photo.length())) {
+          print(" is asdded");
+          setState(() {
+            _selectedImages = _selectedImages != null
+                ? [..._selectedImages!, photo]
+                : [photo];
+          });
+        } else {
+          AppUtil.errorToast(context,
+              'Image is too large, you can only upload less than 2 MB');
+        }
       }
     } catch (e) {
       print('Error taking photo: $e');
@@ -1678,7 +1653,6 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> {
     super.initState();
     _pickImages();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -1703,13 +1677,13 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Choosephotos'.tr,
-                    style: TextStyle(
+                CustomText(
+                  text:'Choosephotos'.tr,
                       color: Color(0xFF070708),
                       fontSize: 22,
                       fontFamily: 'HT Rakik',
                       fontWeight: FontWeight.w500,
-                    )),
+                    ),
                 IconButton(
                   icon: Icon(Icons.camera_alt_outlined),
                   onPressed: _takePhoto,
@@ -1926,9 +1900,8 @@ class _AddGuestsState extends State<AddGuests> {
                           }),
                         ),
                         const SizedBox(width: 4),
-                        Text(
-                          "female".tr,
-                          style: TextStyle(
+                       CustomText(
+                          text:"female".tr,
                             color: Color(0xFF41404A),
                             fontSize: 13,
                             fontFamily: AppUtil.rtlDirection2(context)
@@ -1936,7 +1909,6 @@ class _AddGuestsState extends State<AddGuests> {
                                 : 'SF Pro',
                             fontWeight: FontWeight.w500,
                             height: 0,
-                          ),
                         ),
                       ],
                     ),
@@ -1965,9 +1937,8 @@ class _AddGuestsState extends State<AddGuests> {
                           }),
                         ),
                         const SizedBox(width: 4),
-                        Text(
-                          'male'.tr,
-                          style: TextStyle(
+                        CustomText(
+                          text:'male'.tr,
                             color: Color(0xFF41404A),
                             fontSize: 13,
                             fontFamily: AppUtil.rtlDirection2(context)
@@ -1975,49 +1946,44 @@ class _AddGuestsState extends State<AddGuests> {
                                 : 'SF Pro',
                             fontWeight: FontWeight.w500,
                             height: 0,
-                          ),
                         ),
                       ],
                     ),
                   ),
                   const SizedBox(width: 12),
-                  Container(
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Radio<int>(
-                          value: 3,
-                          groupValue: _selectedRadio,
-                          onChanged: _updateGender,
-                          materialTapTargetSize:
-                              MaterialTapTargetSize.shrinkWrap,
-                          visualDensity:
-                              VisualDensity(horizontal: -4, vertical: -4),
-                          fillColor: MaterialStateProperty.resolveWith<Color>(
-                              (Set<MaterialState> states) {
-                            if (states.contains(MaterialState.selected)) {
-                              return colorGreen;
-                            }
-                            return dotGreyColor;
-                          }),
-                        ),
-                        const SizedBox(width: 4),
-                        Text(
-                          'both'.tr,
-                          style: TextStyle(
-                            color: Color(0xFF41404A),
-                            fontSize: 13,
-                            fontFamily: AppUtil.rtlDirection2(context)
-                                ? 'SF Arabic'
-                                : 'SF Pro',
-                            fontWeight: FontWeight.w500,
-                            height: 0,
-                          ),
-                        ),
-                      ],
-                    ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Radio<int>(
+                        value: 3,
+                        groupValue: _selectedRadio,
+                        onChanged: _updateGender,
+                        materialTapTargetSize:
+                            MaterialTapTargetSize.shrinkWrap,
+                        visualDensity:
+                            VisualDensity(horizontal: -4, vertical: -4),
+                        fillColor: MaterialStateProperty.resolveWith<Color>(
+                            (Set<MaterialState> states) {
+                          if (states.contains(MaterialState.selected)) {
+                            return colorGreen;
+                          }
+                          return dotGreyColor;
+                        }),
+                      ),
+                      const SizedBox(width: 4),
+                      CustomText(
+                        text:'both'.tr,
+                          color: Color(0xFF41404A),
+                          fontSize: 13,
+                          fontFamily: AppUtil.rtlDirection2(context)
+                              ? 'SF Arabic'
+                              : 'SF Pro',
+                          fontWeight: FontWeight.w500,
+                          height: 0,
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -2186,14 +2152,13 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                         !widget.hospitalityController.DateErrorMessage.value
                     ? Padding(
                         padding: const EdgeInsets.only(top: 10),
-                        child: Text(
-                          AppUtil.rtlDirection2(context)
+                        child: CustomText(
+                          text:AppUtil.rtlDirection2(context)
                               ? "يجب اختيار تاريخ بعد 48 ساعة من الآن على الأقل"
                               : "*Please select a date at least 48 hours from now",
-                          style: TextStyle(
                             color: Colors.red,
                             fontSize: 12,
-                          ),
+                        
                         ),
                       )
                     : Container(),
@@ -2610,18 +2575,16 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                             widget.hospitalityController.TimeErrorMessage.value
                                 ? Padding(
                                     padding: const EdgeInsets.only(top: 10),
-                                    child: Text(
-                                      AppUtil.rtlDirection2(context)
+                                    child:CustomText(
+                                     text: AppUtil.rtlDirection2(context)
                                           ? "وقت الإنتهاء اقل من وقت البداية"
                                           : "End time is less than start time",
-                                      style: TextStyle(
                                         color: Colors.red,
                                         fontSize: 12,
                                         fontFamily:
                                             AppUtil.rtlDirection2(context)
                                                 ? 'SF Arabic'
                                                 : 'SF Pro',
-                                      ),
                                     ),
                                   )
                                 : Container(),
@@ -2649,121 +2612,109 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Radio<int>(
-                          value: 1,
-                          groupValue: _selectedRadio,
-                          onChanged: _updateMeal,
-                          materialTapTargetSize:
-                              MaterialTapTargetSize.shrinkWrap,
-                          visualDensity:
-                              VisualDensity(horizontal: -4, vertical: -4),
-                          fillColor: MaterialStateProperty.resolveWith<Color>(
-                              (Set<MaterialState> states) {
-                            if (states.contains(MaterialState.selected)) {
-                              return colorGreen;
-                            }
-                            return dotGreyColor;
-                          }),
-                        ),
-                        const SizedBox(width: 4),
-                        Text(
-                          'Breakfast'.tr,
-                          style: TextStyle(
-                            color: Color(0xFF41404A),
-                            fontSize: 13,
-                            fontFamily: AppUtil.rtlDirection2(context)
-                                ? 'SF Arabic'
-                                : 'SF Pro',
-                            fontWeight: FontWeight.w500,
-                            height: 0,
-                          ),
-                        ),
-                      ],
-                    ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Radio<int>(
+                        value: 1,
+                        groupValue: _selectedRadio,
+                        onChanged: _updateMeal,
+                        materialTapTargetSize:
+                            MaterialTapTargetSize.shrinkWrap,
+                        visualDensity:
+                            VisualDensity(horizontal: -4, vertical: -4),
+                        fillColor: MaterialStateProperty.resolveWith<Color>(
+                            (Set<MaterialState> states) {
+                          if (states.contains(MaterialState.selected)) {
+                            return colorGreen;
+                          }
+                          return dotGreyColor;
+                        }),
+                      ),
+                      const SizedBox(width: 4),
+                      CustomText(
+                        text:'Breakfast'.tr,
+                          color: Color(0xFF41404A),
+                          fontSize: 13,
+                          fontFamily: AppUtil.rtlDirection2(context)
+                              ? 'SF Arabic'
+                              : 'SF Pro',
+                          fontWeight: FontWeight.w500,
+                          height: 0,
+                      ),
+                    ],
                   ),
                   const SizedBox(width: 12),
-                  Container(
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Radio<int>(
-                          value: 2,
-                          groupValue: _selectedRadio,
-                          onChanged: _updateMeal,
-                          materialTapTargetSize:
-                              MaterialTapTargetSize.shrinkWrap,
-                          visualDensity:
-                              VisualDensity(horizontal: -4, vertical: -4),
-                          fillColor: MaterialStateProperty.resolveWith<Color>(
-                              (Set<MaterialState> states) {
-                            if (states.contains(MaterialState.selected)) {
-                              return colorGreen;
-                            }
-                            return dotGreyColor;
-                          }),
-                        ),
-                        const SizedBox(width: 4),
-                        Text(
-                          'Lunch'.tr,
-                          style: TextStyle(
-                            color: Color(0xFF41404A),
-                            fontSize: 13,
-                            fontFamily: AppUtil.rtlDirection2(context)
-                                ? 'SF Arabic'
-                                : 'SF Pro',
-                            fontWeight: FontWeight.w500,
-                            height: 0,
-                          ),
-                        ),
-                      ],
-                    ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Radio<int>(
+                        value: 2,
+                        groupValue: _selectedRadio,
+                        onChanged: _updateMeal,
+                        materialTapTargetSize:
+                            MaterialTapTargetSize.shrinkWrap,
+                        visualDensity:
+                            VisualDensity(horizontal: -4, vertical: -4),
+                        fillColor: MaterialStateProperty.resolveWith<Color>(
+                            (Set<MaterialState> states) {
+                          if (states.contains(MaterialState.selected)) {
+                            return colorGreen;
+                          }
+                          return dotGreyColor;
+                        }),
+                      ),
+                      const SizedBox(width: 4),
+                      CustomText(
+                        text:'Lunch'.tr,
+                          color: Color(0xFF41404A),
+                          fontSize: 13,
+                          fontFamily: AppUtil.rtlDirection2(context)
+                              ? 'SF Arabic'
+                              : 'SF Pro',
+                          fontWeight: FontWeight.w500,
+                          height: 0,
+                      ),
+                    ],
                   ),
                   const SizedBox(width: 12),
-                  Container(
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Radio<int>(
-                          value: 3,
-                          groupValue: _selectedRadio,
-                          onChanged: _updateMeal,
-                          materialTapTargetSize:
-                              MaterialTapTargetSize.shrinkWrap,
-                          visualDensity:
-                              VisualDensity(horizontal: -4, vertical: -4),
-                          fillColor: MaterialStateProperty.resolveWith<Color>(
-                              (Set<MaterialState> states) {
-                            if (states.contains(MaterialState.selected)) {
-                              return colorGreen;
-                            }
-                            return dotGreyColor;
-                          }),
-                        ),
-                        const SizedBox(width: 4),
-                        Text(
-                          'Dinner'.tr,
-                          style: TextStyle(
-                            color: Color(0xFF41404A),
-                            fontSize: 13,
-                            fontFamily: AppUtil.rtlDirection2(context)
-                                ? 'SF Arabic'
-                                : 'SF Pro',
-                            fontWeight: FontWeight.w500,
-                            height: 0,
-                          ),
-                        ),
-                      ],
-                    ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Radio<int>(
+                        value: 3,
+                        groupValue: _selectedRadio,
+                        onChanged: _updateMeal,
+                        materialTapTargetSize:
+                            MaterialTapTargetSize.shrinkWrap,
+                        visualDensity:
+                            VisualDensity(horizontal: -4, vertical: -4),
+                        fillColor: MaterialStateProperty.resolveWith<Color>(
+                            (Set<MaterialState> states) {
+                          if (states.contains(MaterialState.selected)) {
+                            return colorGreen;
+                          }
+                          return dotGreyColor;
+                        }),
+                      ),
+                      const SizedBox(width: 4),
+                      CustomText(
+                        text:'Dinner'.tr,
+                          color: Color(0xFF41404A),
+                          fontSize: 13,
+                          fontFamily: AppUtil.rtlDirection2(context)
+                              ? 'SF Arabic'
+                              : 'SF Pro',
+                          fontWeight: FontWeight.w500,
+                          height: 0,
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -2870,14 +2821,12 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
           fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
         ),
         const SizedBox(height: 2),
-        Text(
-          'changePrice'.tr,
-          style: TextStyle(
+        CustomText(
+         text: 'changePrice'.tr,
             color: starGreyColor,
             fontSize: 15,
             fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
             fontWeight: FontWeight.w500,
-          ),
         ),
         const SizedBox(height: 20),
         Container(
@@ -2958,29 +2907,24 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                         ),
                       )
                     else
-                      Text(
-                        widget.priceController.text,
-                        style: TextStyle(
+                      CustomText(
+                        text:widget.priceController.text,
                           color: Color(0xFF070708),
                           fontSize: 34,
                           fontFamily: 'HT Rakik',
                           fontWeight: FontWeight.w500,
-                        ),
                       ),
                     const SizedBox(width: 4),
-                    Text(
-                      'sar'.tr,
-                      style: TextStyle(
+                     CustomText(
+                      text:'sar'.tr,
                         color: Color(0xFF070708),
                         fontSize: 34,
                         fontFamily: 'HT Rakik',
                         fontWeight: FontWeight.w500,
-                      ),
                     ),
                     const SizedBox(width: 4),
-                    Text(
-                      'Perperson'.tr,
-                      style: TextStyle(
+                    CustomText(
+                      text:'Perperson'.tr,
                           color: Graytext,
                           fontSize: 12,
                           fontFamily: AppUtil.rtlDirection2(context)
@@ -2988,7 +2932,6 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                               : 'SF Pro',
                           fontWeight: FontWeight.w500,
                           height: 3),
-                    )
                   ],
                 ),
               ),
@@ -2998,15 +2941,13 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
         if (errorMessage.isNotEmpty && price != 150.0)
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
-            child: Text(
-              errorMessage,
-              style: TextStyle(
+            child:  CustomText(
+                      text:errorMessage,
                 color: Colors.red,
                 fontSize: 14,
                 fontFamily:
                     AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
                 fontWeight: FontWeight.w400,
-              ),
             ),
           ),
         const SizedBox(height: 50),
@@ -3031,28 +2972,24 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Baseprice'.tr,
-                      style: TextStyle(
+                    CustomText(
+                      text:'Baseprice'.tr,
                         color: graySmallText,
                         fontSize: 15,
                         fontFamily: AppUtil.rtlDirection2(context)
                             ? 'SF Arabic'
                             : 'SF Pro',
                         fontWeight: FontWeight.w500,
-                      ),
                     ),
                     const SizedBox(width: 8),
-                    Text(
-                      ' ${widget.priceController.text} ${'sar'.tr}',
-                      style: TextStyle(
+                    CustomText(
+                      text:' ${widget.priceController.text} ${'sar'.tr}',
                         color: graySmallText,
                         fontSize: 15,
                         fontFamily: AppUtil.rtlDirection2(context)
                             ? 'SF Arabic'
                             : 'SF Pro',
                         fontWeight: FontWeight.w500,
-                      ),
                     ),
                   ],
                 ),
@@ -3067,28 +3004,24 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Hidofee'.tr,
-                      style: TextStyle(
+                    CustomText(
+                      text:'Hidofee'.tr,
                         color: graySmallText,
                         fontSize: 15,
                         fontFamily: AppUtil.rtlDirection2(context)
                             ? 'SF Arabic'
                             : 'SF Pro',
                         fontWeight: FontWeight.w500,
-                      ),
                     ),
                     const SizedBox(width: 8),
-                    Text(
-                      ' ${hidoFee.toStringAsFixed(2)} ${'sar'.tr}',
-                      style: TextStyle(
+                    CustomText(
+                      text:' ${hidoFee.toStringAsFixed(2)} ${'sar'.tr}',
                         color: graySmallText,
                         fontSize: 15,
                         fontFamily: AppUtil.rtlDirection2(context)
                             ? 'SF Arabic'
                             : 'SF Pro',
                         fontWeight: FontWeight.w500,
-                      ),
                     ),
                   ],
                 ),
@@ -3110,27 +3043,24 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
-                      'Yourearn'.tr,
-                      style: TextStyle(
+                   CustomText(
+                      text:'Yourearn'.tr,
                         color: Color(0xFF070708),
                         fontSize: 17,
                         fontFamily: AppUtil.rtlDirection2(context)
                             ? 'SF Arabic'
                             : 'SF Pro',
                         fontWeight: FontWeight.w500,
-                      ),
+                      
                     ),
                     const SizedBox(width: 8),
-                    Text(
-                      ' ${earn.toStringAsFixed(2)} ${'sar'.tr}',
+                    CustomText(
+                      text:' ${earn.toStringAsFixed(2)} ${'sar'.tr}',
                       textAlign: TextAlign.right,
-                      style: TextStyle(
                         color: Color(0xFF36B268),
                         fontSize: 17,
                         fontFamily: 'HT Rakik',
                         fontWeight: FontWeight.w500,
-                      ),
                     ),
                   ],
                 ),

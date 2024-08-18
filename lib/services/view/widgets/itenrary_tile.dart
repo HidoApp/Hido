@@ -47,17 +47,16 @@ class ItineraryTile extends StatelessWidget {
                   }
                 }
               : () {},
-          child: Text(
-            title,
-            style: TextStyle(
-              color: color,
+          child:CustomText(
+           text: title,
+              color: color??borderGrey,
               fontSize: width * 0.03,
               fontFamily:
                   AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
               fontWeight: FontWeight.w400,
-              decoration: line?TextDecoration.underline:TextDecoration.none,
+            textDecoration: line?TextDecoration.underline:TextDecoration.none,
             ),
-          ),
+          
         ),
         if (line)
           SvgPicture.asset(

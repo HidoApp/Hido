@@ -207,15 +207,13 @@ class _AddEventLocationState extends State<AddEventLocation> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Text(
-              'locationCheckEvent'.tr,
-              style: TextStyle(
+            CustomText(
+              text:'locationCheckEvent'.tr,
                 color: black,
                 fontSize: 17,
                 fontFamily:
                     AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
                 fontWeight: FontWeight.w500,
-              ),
             ),
           ],
         ),
@@ -351,9 +349,8 @@ class _AddEventLocationState extends State<AddEventLocation> {
                             Center(
                               child: _isLoading
                                   ? CircularProgressIndicator()
-                                  : Text(
-                                      address,
-                                      style: TextStyle(
+                                  : CustomText(
+                                    text:address,
                                         color: Color(0xFF9392A0),
                                         fontSize: 13,
                                         fontFamily:
@@ -362,8 +359,7 @@ class _AddEventLocationState extends State<AddEventLocation> {
                                                 : 'SF Pro',
                                         fontWeight: FontWeight.w400,
                                         height: 0,
-                                      ),
-                                    ),
+                                  ),
                             ),
                           ],
                         ),
@@ -413,26 +409,29 @@ class _AddEventLocationState extends State<AddEventLocation> {
                             borderRadius: BorderRadius.circular(8),
                           ),
                         ),
-                        hint: Text(
-                          AppUtil.rtlDirection2(context)
-                              ? "اختر المنطقة"
-                              : 'Choose your Region',
-                          style: TextStyle(
-                            color: Graytext,
-                            fontSize: 14,
-                            fontFamily: AppUtil.rtlDirection2(context)
-                                ? 'SF Arabic'
-                                : 'SF Pro',
-                            fontWeight: FontWeight.w400,
+                        hint:MediaQuery(
+                          // data: MediaQuery.of(context)
+                          //     .copyWith(textScaler: const TextScaler.linear(1.0)),
+                          data: MediaQuery.of(context)
+                              .copyWith(textScaleFactor: 1.0),
+                          child: Text(
+                            'regionChoose'.tr,
+                            style: TextStyle(
+                              color: Graytext,
+                              fontSize: 14,
+                              fontFamily: AppUtil.rtlDirection2(context)
+                                  ? 'SF Arabic'
+                                  : 'SF Pro',
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
                         ),
                         items: AppUtil.rtlDirection2(context)
                             ? regionListAr
                                 .map((item) => DropdownMenuItem<String>(
                                       value: item,
-                                      child: Text(
-                                        item,
-                                        style: TextStyle(
+                                      child: CustomText(
+                                        text:item,
                                           color: black,
                                           fontSize: 15,
                                           fontFamily:
@@ -440,16 +439,15 @@ class _AddEventLocationState extends State<AddEventLocation> {
                                                   ? 'SF Arabic'
                                                   : 'SF Pro',
                                           fontWeight: FontWeight.w400,
-                                        ),
+                                        
                                       ),
                                     ))
                                 .toList()
                             : regionListEn
                                 .map((item) => DropdownMenuItem<String>(
                                       value: item,
-                                      child: Text(
-                                        item,
-                                        style: TextStyle(
+                                      child: CustomText(
+                                       text: item,
                                           color: black,
                                           fontSize: 15,
                                           fontFamily:
@@ -457,13 +455,12 @@ class _AddEventLocationState extends State<AddEventLocation> {
                                                   ? 'SF Arabic'
                                                   : 'SF Pro',
                                           fontWeight: FontWeight.w400,
-                                        ),
                                       ),
                                     ))
                                 .toList(),
                         validator: (value) {
                           if (value == null) {
-                            return 'Please select gender.';
+                            return 'Please select Region.';
                           }
                           return null;
                         },
