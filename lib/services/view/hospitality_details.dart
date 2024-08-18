@@ -148,7 +148,6 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
-
     return Obx(
       () => _servicesController.isHospitalityByIdLoading.value
           ? const Scaffold(

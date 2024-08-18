@@ -48,7 +48,6 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
   Invoice? invoice;
   bool isCheckingForPayment = false;
   int finalCost = 0;
-  final _servicesController = Get.put(HospitalityController());
 
   @override
   void initState() {
@@ -93,8 +92,8 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                   height: width * 0.0205,
                 ),
                 ReviewDetailsTile(
-                    title: _servicesController.address.value.isNotEmpty
-                    ?_servicesController.address.value
+                    title: widget.servicesController.address.value.isNotEmpty
+                    ?widget.servicesController.address.value
                     : AppUtil.rtlDirection2(context)
                         ? widget.hospitality  .regionAr ?? ""
                         : widget.hospitality .regionEn ?? "",

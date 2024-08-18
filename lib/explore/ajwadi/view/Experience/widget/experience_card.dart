@@ -1,4 +1,5 @@
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -72,15 +73,14 @@ class ExperienceCard extends StatelessWidget {
                             height: 22,
                             child: Padding(
                               padding: const EdgeInsets.only(top: 10),
-                              child: Text(
-                                title,
-                                style: TextStyle(
+                              child: CustomText(
+                                text:title,
                                   color: black,
                                   fontSize: 17,
                                   fontFamily: 'HT Rakik',
                                   fontWeight: FontWeight.w500,
                                   height: 0.10, // Adjust line height as needed
-                                ),
+                                
                               ),
                             ),
                           ),

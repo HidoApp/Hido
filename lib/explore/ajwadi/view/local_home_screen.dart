@@ -110,7 +110,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                                   Get.to(() => MessagesScreen(
                                       profileController: _profileController));
                                 },
-                                child: Container(
+                                child: SizedBox(
                                   width: 36,
                                   height: 24,
                                   child: SvgPicture.asset(
@@ -118,9 +118,9 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                                 ),
                               ),
                               InkWell(
-                                onTap: () {
-                                  Get.to(() => NotificationScreen());
-                                },
+                                // onTap: () {
+                                //   Get.to(() => NotificationScreen());
+                                // },
                                 child: Container(
                                   width: 36,
                                   height: 24,
@@ -135,37 +135,41 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                         SizedBox(height: 16),
                         Row(
                           children: [
-                            RichText(
-                              text: TextSpan(
-                                children: [
-                                  TextSpan(
-                                    text: AppUtil.rtlDirection2(context)
-                                        ? "ياهلا"
-                                        : 'Welcome ',
-                                    style: TextStyle(
-                                      color: Color.fromRGBO(7, 7, 8, 1),
-                                      fontSize: 20,
-                                      fontFamily: 'HT Rakik',
-                                      fontWeight: FontWeight.w500,
-                                      height: 0.07,
-                                      letterSpacing: 0.80,
+                            MediaQuery(
+                              data: MediaQuery.of(context)
+                                  .copyWith(textScaleFactor: 1.0),
+                              child: RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: AppUtil.rtlDirection2(context)
+                                          ? "ياهلا"
+                                          : 'Welcome ',
+                                      style: TextStyle(
+                                        color: Color.fromRGBO(7, 7, 8, 1),
+                                        fontSize: 20,
+                                        fontFamily: 'HT Rakik',
+                                        fontWeight: FontWeight.w500,
+                                        height: 0.07,
+                                        letterSpacing: 0.80,
+                                      ),
                                     ),
-                                  ),
-                                  TextSpan(
-                                    text: _profileController
-                                            .isProfileLoading.value
-                                        ? ""
-                                        : ' ${_profileController.profile.name ?? ""}',
-                                    style: TextStyle(
-                                      color: Color(0xFF37B268),
-                                      fontSize: 20,
-                                      fontFamily: 'HT Rakik',
-                                      fontWeight: FontWeight.w500,
-                                      height: 0.07,
-                                      letterSpacing: 0.80,
+                                    TextSpan(
+                                      text: _profileController
+                                              .isProfileLoading.value
+                                          ? ""
+                                          : ' ${_profileController.profile.name ?? ""}',
+                                      style: TextStyle(
+                                        color: Color(0xFF37B268),
+                                        fontSize: 20,
+                                        fontFamily: 'HT Rakik',
+                                        fontWeight: FontWeight.w500,
+                                        height: 0.07,
+                                        letterSpacing: 0.80,
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             )
                           ],
@@ -184,22 +188,16 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
-                              child: Text(
-                                AppUtil.rtlDirection2(context)
-                                    ? "الخدمات المقدمة"
-                                    : 'Your services',
-                                style: TextStyle(
-                                  color: Color(0xFF070708),
-                                  fontSize: 17,
-                                  fontFamily: 'HT Rakik',
-                                  fontWeight: FontWeight.w500,
-                                  height: 0.10,
-                                ),
-                                textDirection: TextDirection.ltr,
-                              ),
+                            CustomText(
+                              text:'Yourservices'.tr,
+                              color: Color(0xFF070708),
+                              fontSize: 17,
+                              fontFamily: 'HT Rakik',
+                              fontWeight: FontWeight.w500,
+                              height: 0.10,
+                              textDirection: TextDirection.ltr,
                             ),
-                            SizedBox(height: 25),
+                            const SizedBox(height: 25),
                             Row(
                               children: [
                                 CategoryCard(
@@ -231,11 +229,9 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                                     }
                                   },
                                 ),
-                                SizedBox(width: 6),
+                                const SizedBox(width: 6),
                                 CategoryCard(
-                                  title: AppUtil.rtlDirection2(context)
-                                      ? "استضافة"
-                                      : 'Hospitality',
+                                  title: 'hospitality'.tr,
                                   icon: 'host_category',
                                   color: Color(0xFFF5F2F8),
                                   onPressed: () {
@@ -250,13 +246,11 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                                 ),
                               ],
                             ),
-                            SizedBox(height: 6),
+                            const SizedBox(height: 6),
                             Row(
                               children: [
                                 CategoryCard(
-                                  title: AppUtil.rtlDirection2(context)
-                                      ? 'مغامرات'
-                                      : 'Adventure',
+                                  title: 'adventure'.tr,
                                   icon: 'adventure_category',
                                   color: Color(0xFFF9F4EC),
                                   onPressed: () {
@@ -269,11 +263,9 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                                     );
                                   },
                                 ),
-                                SizedBox(width: 6),
+                                const SizedBox(width: 6),
                                 CategoryCard(
-                                  title: AppUtil.rtlDirection2(context)
-                                      ? 'فعاليات محلية'
-                                      : 'Local Event',
+                                  title: 'LocalEvent'.tr,
                                   icon: 'event_category',
                                   color: Color(0xFFFEFDF1),
                                   onPressed: () {
@@ -288,21 +280,17 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                                 ),
                               ],
                             ),
-                            SizedBox(height: 40),
-                            Text(
-                              AppUtil.rtlDirection2(context)
-                                  ? "نشاطك القادم"
-                                  : 'Your next activity ',
-                              style: TextStyle(
-                                color: Color(0xFF070708),
-                                fontSize: 17,
-                                fontFamily: 'HT Rakik',
-                                fontWeight: FontWeight.w500,
-                                height: 0.10,
-                              ),
+                            const SizedBox(height: 40),
+                            CustomText(
+                              text: 'nextActivity'.tr,
+                              color: Color(0xFF070708),
+                              fontSize: 17,
+                              fontFamily: 'HT Rakik',
+                              fontWeight: FontWeight.w500,
+                              height: 0.10,
                               textDirection: TextDirection.ltr,
                             ),
-                            SizedBox(height: 27),
+                            const SizedBox(height: 27),
                             Obx(
                               () => _tripController.isNextActivityLoading.value
                                   ? const Center(
@@ -328,23 +316,21 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                                                 ),
                                               ),
                                               child: Center(
-                                                child: Text(
-                                                  "noNextActivity".tr,
+                                                child: CustomText(
+                                                  text: "noNextActivity".tr,
                                                   textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    color: Color(0xFFDCDCE0),
-                                                    fontSize: 16,
-                                                    fontFamily:
-                                                        AppUtil.rtlDirection2(
-                                                                context)
-                                                            ? "SF Arabic"
-                                                            : 'SF Pro',
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
+                                                  color: Color(0xFFDCDCE0),
+                                                  fontSize: 16,
+                                                  fontFamily:
+                                                      AppUtil.rtlDirection2(
+                                                              context)
+                                                          ? "SF Arabic"
+                                                          : 'SF Pro',
+                                                  fontWeight: FontWeight.w400,
                                                 ),
                                               ),
                                             ),
-                                            SizedBox(height: 20)
+                                          const  SizedBox(height: 20)
                                           ],
                                         )
                                       : Column(
@@ -352,7 +338,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                                             //  SizedBox(height: 11),
                                             CustomLocalTicketCard(),
 
-                                            SizedBox(height: 11),
+                                           const SizedBox(height: 11),
                                           ],
                                         ),
                             ),

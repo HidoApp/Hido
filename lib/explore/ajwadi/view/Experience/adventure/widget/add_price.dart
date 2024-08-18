@@ -120,15 +120,13 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
           fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic': 'SF Pro',
         ),
         const SizedBox(height: 2),
-        Text(
-          'changePrice'.tr,
-          style: TextStyle(
+        CustomText(
+          text:'changePrice'.tr,
             color: starGreyColor,
             fontSize: 15,
              fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
                           : 'SF Pro',
             fontWeight: FontWeight.w500,
-          ),
         ),
        
         const SizedBox(height: 20),
@@ -210,36 +208,32 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                         ),
                       )
                     else
-                      Text(
-                        widget.priceController.text,
-                        style: TextStyle(
+                      CustomText(
+                       text: widget.priceController.text,
                           color: Color(0xFF070708),
                           fontSize: 34,
                           fontFamily: 'HT Rakik',
                           fontWeight: FontWeight.w500,
-                        ),
+                        
                       ),
                     const SizedBox(width: 4),
-                    Text(
-                      'sar'.tr,
-                      style: TextStyle(
+                   CustomText(
+                      text:'sar'.tr,
                         color: Color(0xFF070708),
                         fontSize: 34,
                         fontFamily: 'HT Rakik',
                         fontWeight: FontWeight.w500,
-                      ),
                     ),
                     const SizedBox(width: 4),
-                    Text(
-                      'Perperson'.tr,
-                      style: TextStyle(
+                    CustomText(
+                     text: 'Perperson'.tr,
                           color: Graytext,
                           fontSize: 12,
                            fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
                           : 'SF Pro',
                           fontWeight: FontWeight.w500,
                           height: 3),
-                    )
+                    
                   ],
                 ),
               ),
@@ -249,15 +243,14 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
         if (errorMessage.isNotEmpty && price != 150.0)
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
-            child: Text(
-              errorMessage,
-              style: TextStyle(
+            child:CustomText(
+              text:errorMessage,
                 color: Colors.red,
                 fontSize: 14,
                  fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
                           : 'SF Pro',
                 fontWeight: FontWeight.w400,
-              ),
+              
             ),
           ),
         const SizedBox(height: 50),
@@ -282,26 +275,23 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Baseprice'.tr,
-                      style: TextStyle(
+                    CustomText(
+                      text:'Baseprice'.tr,
                         color: graySmallText,
                         fontSize: 15,
                         fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
                           : 'SF Pro',
                         fontWeight: FontWeight.w500,
-                      ),
+                      
                     ),
                     const SizedBox(width: 8),
-                    Text(
-                      ' ${widget.priceController.text} ${'sar'.tr}',
-                      style: TextStyle(
+                    CustomText(
+                      text:' ${widget.priceController.text} ${'sar'.tr}',
                         color: graySmallText,
                         fontSize: 15,
                         fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
                           : 'SF Pro',
                         fontWeight: FontWeight.w500,
-                      ),
                     ),
                   ],
                 ),
@@ -316,26 +306,24 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Hidofee'.tr,
-                      style: TextStyle(
+                    CustomText(
+                     text: 'Hidofee'.tr,
                         color: graySmallText,
                         fontSize: 15,
                         fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
                           : 'SF Pro',
                         fontWeight: FontWeight.w500,
-                      ),
+                      
                     ),
                     const SizedBox(width: 8),
-                    Text(
-                      ' ${hidoFee.toStringAsFixed(2)} ${'sar'.tr}',
-                      style: TextStyle(
+                    CustomText(
+                      text:' ${hidoFee.toStringAsFixed(2)} ${'sar'.tr}',
                         color: graySmallText,
                         fontSize: 15,
                          fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
                           : 'SF Pro',
                         fontWeight: FontWeight.w500,
-                      ),
+                      
                     ),
                   ],
                 ),
@@ -358,25 +346,22 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
-                      'Yourearn'.tr,
-                      style: TextStyle(
+                    CustomText(
+                      text:'Yourearn'.tr,
                         color: Color(0xFF070708),
                         fontSize: 17,
           fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic': 'SF Pro',
                         fontWeight: FontWeight.w500,
                       ),
-                    ),
                     const SizedBox(width: 8),
-                    Text(
-                      ' ${earn.toStringAsFixed(2)} ${'sar'.tr}',
+                    CustomText(
+                      text:' ${earn.toStringAsFixed(2)} ${'sar'.tr}',
                       textAlign: TextAlign.right,
-                      style: TextStyle(
                         color: Color(0xFF36B268),
                         fontSize: 17,
                         fontFamily: 'HT Rakik',
                         fontWeight: FontWeight.w500,
-                      ),
+                      
                     ),
                   ],
                 ),

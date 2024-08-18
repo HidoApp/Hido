@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/calender_dialog.dart';
 import 'package:ajwad_v4/payment/controller/payment_controller.dart';
@@ -32,6 +34,8 @@ class HospitalityBookingSheet extends StatefulWidget {
       required this.color,
       required this.serviceController,
       this.hospitality,
+      this.address = '',
+
       this.avilableDate});
 
   final Color color;
@@ -39,6 +43,7 @@ class HospitalityBookingSheet extends StatefulWidget {
   final HospitalityController serviceController;
   final Hospitality? hospitality;
   final List<DateTime>? avilableDate;
+  final String address;
 
   @override
   State<HospitalityBookingSheet> createState() =>
@@ -122,7 +127,11 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
     }
     return false;
   }
-
+ @override
+  void initState() {
+    super.initState();
+    widget.serviceController.address.value=widget.address;
+  }
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;

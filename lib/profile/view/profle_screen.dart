@@ -283,20 +283,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           const SizedBox(
                                             height: 10,
                                           ),
-                                          FittedBox(
-                                            child: CustomText(
-                                                textAlign: TextAlign.center,
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.w500,
-                                                color: black,
-                                                maxlines: 2,
-                                                fontFamily:
-                                                    AppUtil.rtlDirection2(
-                                                            context)
-                                                        ? "SF Arabic"
-                                                        : 'SF Pro',
-                                                text: "youWantSiginOut".tr),
-                                          ),
+                                          CustomText(
+                                              textAlign: TextAlign.center,
+                                              fontSize: 20,
+                                              maxlines: 2,
+                                              fontWeight: FontWeight.w500,
+                                              color: black,
+                                              fontFamily:
+                                                  AppUtil.rtlDirection2(context)
+                                                      ? "SF Arabic"
+                                                      : 'SF Pro',
+                                              text: "youWantSiginOut".tr),
+
                                           const SizedBox(
                                             height: 20,
                                           ),
@@ -327,7 +325,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               borderColor: colorRed,
                                               buttonColor: Colors.white,
                                               textColor: colorRed,
-                                              title: "cancel".tr.toUpperCase(),
+                                              title: "cancel".tr,
                                               onPressed: () {
                                                 Get.back();
                                               },

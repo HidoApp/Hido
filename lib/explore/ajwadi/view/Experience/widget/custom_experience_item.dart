@@ -48,7 +48,11 @@ class _ServicesCardState extends State<ServicesCard> {
       if (placemarks.isNotEmpty) {
         Placemark placemark = placemarks.first;
         print(placemarks.first);
-        return '${placemark.subLocality}';
+        
+        return placemark.subLocality != null &&
+                placemark.subLocality!.isNotEmpty
+            ? '${placemark.subLocality}'
+            : '${placemark.locality}';
       }
     } catch (e) {
       print("Error retrieving address: $e");
@@ -114,25 +118,24 @@ class _ServicesCardState extends State<ServicesCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  child: widget.experience.image.isEmpty?
-                  Image.asset('assets/images/Placeholder.png')
-                  
-                 : CachedNetworkImage(
-                   imageUrl:  widget.experience.image.first,
-                   placeholder:(context, url) => Image.asset('assets/images/Placeholder.png') ,
-                    width: width * 0.23,
-                    height: width * 0.23,
-                    fit: BoxFit.fill,
-
-                 )
-                //  Image.network(
-                //     widget.experience.image.first,
-                //     width: width * 0.23,
-                //     height: width * 0.23,
-                //     fit: BoxFit.fill,
-                //   ),
-                ),
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    child: widget.experience.image.isEmpty
+                        ? Image.asset('assets/images/Placeholder.png')
+                        : CachedNetworkImage(
+                            imageUrl: widget.experience.image.first,
+                            placeholder: (context, url) =>
+                                Image.asset('assets/images/Placeholder.png'),
+                            width: width * 0.23,
+                            height: width * 0.23,
+                            fit: BoxFit.fill,
+                          )
+                    //  Image.network(
+                    //     widget.experience.image.first,
+                    //     width: width * 0.23,
+                    //     height: width * 0.23,
+                    //     fit: BoxFit.fill,
+                    //   ),
+                    ),
                 SizedBox(
                   width: width * 0.028,
                 ),
@@ -176,7 +179,7 @@ class _ServicesCardState extends State<ServicesCard> {
                           fontFamily: AppUtil.rtlDirection2(context)
                               ? 'SF Arabic'
                               : 'SF Pro',
-                         color: colorDarkGrey,
+                          color: colorDarkGrey,
                         ),
                       ],
                     ),
@@ -184,7 +187,8 @@ class _ServicesCardState extends State<ServicesCard> {
                       height: width * 0.01,
                     ),
                     if (widget.experience.experiencesType == 'adventure' ||
-                       (widget.experience.experiencesType == 'event'&& widget.experience.daysInfo.isNotEmpty) )
+                        (widget.experience.experiencesType == 'event' &&
+                            widget.experience.daysInfo.isNotEmpty))
                       Row(
                         children: [
                           SizedBox(
@@ -199,12 +203,11 @@ class _ServicesCardState extends State<ServicesCard> {
                           CustomText(
                             text:
                                 widget.experience.experiencesType == 'adventure'
-                                
                                     ? AppUtil.formatBookingDate(
                                         context, widget.experience.date)
                                     : AppUtil.formatSelectedDaysInfo(
                                         widget.experience.daysInfo, context),
-                           color: colorDarkGrey,
+                            color: colorDarkGrey,
                             fontSize: 11,
                             fontFamily: AppUtil.rtlDirection2(context)
                                 ? 'SF Arabic'
@@ -214,35 +217,36 @@ class _ServicesCardState extends State<ServicesCard> {
                         ],
                       ),
                     if (widget.experience.experiencesType == 'hospitality')
-                    if(widget.experience.daysInfo.isNotEmpty)
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: width * 0.01,
-                          ),
-                          SvgPicture.asset(
-                            'assets/icons/Clock.svg',
-                          ),
-                          SizedBox(
-                            width: width * 0.01,
-                          ),
-                          CustomText(
-                            text: 
-                                '${AppUtil.formatBookingDate(context, widget.experience.daysInfo[0].startTime ?? '')} - ${AppUtil.formatTimeOnly(context, widget.experience.daysInfo[0].startTime)} ',
-                          color: colorDarkGrey,
-                            fontSize: 11,
-                            fontFamily: AppUtil.rtlDirection2(context)
-                                ? 'SF Arabic'
-                                : 'SF Pro',
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ],
-                      ),
+                      if (widget.experience.daysInfo.isNotEmpty)
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: width * 0.01,
+                            ),
+                            SvgPicture.asset(
+                              'assets/icons/Clock.svg',
+                            ),
+                            SizedBox(
+                              width: width * 0.01,
+                            ),
+                            CustomText(
+                              text:
+                                  '${AppUtil.formatBookingDate(context, widget.experience.daysInfo[0].startTime ?? '')} - ${AppUtil.formatTimeOnly(context, widget.experience.daysInfo[0].startTime)} ',
+                              color: colorDarkGrey,
+                              fontSize: 11,
+                              fontFamily: AppUtil.rtlDirection2(context)
+                                  ? 'SF Arabic'
+                                  : 'SF Pro',
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ],
+                        ),
                     SizedBox(
                       height: width * 0.01,
                     ),
                     if (widget.experience.experiencesType == 'adventure' ||
-                       (widget.experience.experiencesType == 'event' && widget.experience.daysInfo.isNotEmpty))
+                        (widget.experience.experiencesType == 'event' &&
+                            widget.experience.daysInfo.isNotEmpty))
                       Row(
                         children: [
                           SizedBox(
@@ -259,7 +263,7 @@ class _ServicesCardState extends State<ServicesCard> {
                                     'adventure'
                                 ? '${AppUtil.formatStringTimeWithLocale(context, widget.experience.times.first.startTime)} -  ${AppUtil.formatStringTimeWithLocale(context, widget.experience.times.first.endTime)}'
                                 : '${AppUtil.formatTimeOnly(context, widget.experience.daysInfo.first.startTime)} -  ${AppUtil.formatTimeOnly(context, widget.experience.daysInfo.first.endTime)}',
-                             color: colorDarkGrey,
+                            color: colorDarkGrey,
                             fontSize: 11,
                             fontFamily: AppUtil.rtlDirection2(context)
                                 ? 'SF Arabic'
@@ -276,7 +280,6 @@ class _ServicesCardState extends State<ServicesCard> {
                         if (widget.experience.experiencesType == 'hospitality')
                           Row(
                             children: [
-                               
                               SvgPicture.asset('assets/icons/meal.svg'),
                               SizedBox(
                                 width: width * 0.01,

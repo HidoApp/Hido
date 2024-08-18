@@ -39,9 +39,7 @@ class BottomHospitalityBooking extends StatefulWidget {
 }
 
 class _BottomHospitalityBookingState extends State<BottomHospitalityBooking> {
-  void initState() {
-    widget.servicesController.address(widget.address);
-  }
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +106,9 @@ class _BottomHospitalityBookingState extends State<BottomHospitalityBooking> {
                               color: Colors.green,
                               hospitality: widget.hospitalityObj,
                               avilableDate: widget.avilableDate,
-                              serviceController: widget.servicesController),
+                              serviceController: widget.servicesController,
+                              address: widget.address,
+                              ),
                           backgroundColor: Colors.white,
                           elevation: 0,
                           shape: RoundedRectangleBorder(

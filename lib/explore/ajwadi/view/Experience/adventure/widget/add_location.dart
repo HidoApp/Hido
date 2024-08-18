@@ -196,14 +196,12 @@ final List<String> genderItems = [
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Text(
-              'locationCheckAdve'.tr,
-              style: TextStyle(
+           CustomText(
+              text:'locationCheckAdve'.tr,
                 color: black,
                 fontSize: 17,
                 fontFamily:  AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
                 fontWeight: FontWeight.w500,
-              ),
             ),
           ],
         ),
@@ -307,15 +305,14 @@ final List<String> genderItems = [
                             Center(
                               child: _isLoading
                                   ? CircularProgressIndicator.adaptive()
-                                  : Text(
-                                      address,
-                                      style: TextStyle(
+                                  : CustomText(
+                                     text: address,
                                         color: Color(0xFF9392A0),
                                         fontSize: 13,
                                         fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
                                         fontWeight: FontWeight.w400,
                                         height: 0,
-                                      ),
+                                    
                                     ),
                             ),
                           ],
@@ -364,26 +361,29 @@ final List<String> genderItems = [
                             borderRadius: BorderRadius.circular(8),
                           ),
                         ),
-                        hint: Text(
-                          AppUtil.rtlDirection2(context)
-                              ? "اختر المنطقة"
-                              : 'Choose your Region',
-                          style: TextStyle(
-                            color: Graytext,
-                            fontSize: 14,
-                            fontFamily: AppUtil.rtlDirection2(context)
-                                ? 'SF Arabic'
-                                : 'SF Pro',
-                            fontWeight: FontWeight.w400,
+                        hint:MediaQuery(
+                          // data: MediaQuery.of(context)
+                          //     .copyWith(textScaler: const TextScaler.linear(1.0)),
+                          data: MediaQuery.of(context)
+                              .copyWith(textScaleFactor: 1.0),
+                          child: Text(
+                            'regionChoose'.tr,
+                            style: TextStyle(
+                              color: Graytext,
+                              fontSize: 14,
+                              fontFamily: AppUtil.rtlDirection2(context)
+                                  ? 'SF Arabic'
+                                  : 'SF Pro',
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
                         ),
                         items: AppUtil.rtlDirection2(context)
                             ? regionListAr
                                 .map((item) => DropdownMenuItem<String>(
                                       value: item,
-                                      child: Text(
-                                        item,
-                                        style: TextStyle(
+                                      child: CustomText(
+                                       text: item,
                                           color: black,
                                           fontSize: 15,
                                           fontFamily:
@@ -391,16 +391,15 @@ final List<String> genderItems = [
                                                   ? 'SF Arabic'
                                                   : 'SF Pro',
                                           fontWeight: FontWeight.w400,
-                                        ),
+                                      
                                       ),
                                     ))
                                 .toList()
                             : regionListEn
                                 .map((item) => DropdownMenuItem<String>(
                                       value: item,
-                                      child: Text(
-                                        item,
-                                        style: TextStyle(
+                                      child:CustomText(
+                                       text: item,
                                           color: black,
                                           fontSize: 15,
                                           fontFamily:
@@ -409,12 +408,12 @@ final List<String> genderItems = [
                                                   : 'SF Pro',
                                           fontWeight: FontWeight.w400,
                                         ),
-                                      ),
+                                      
                                     ))
                                 .toList(),
                         validator: (value) {
                           if (value == null) {
-                            return 'Please select gender.';
+                            return 'Please select region.';
                           }
                           return null;
                         },

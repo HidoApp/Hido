@@ -11,6 +11,7 @@ import 'package:ajwad_v4/services/controller/event_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
+import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geocoding/geocoding.dart';
@@ -115,7 +116,10 @@ class _EventInfoReviewState extends State<EventInfoReview> {
         //  }
         // });
         print(placemarks.first);
-        return '${placemark.subLocality}';
+        return  placemark.subLocality != null &&
+                placemark.subLocality!.isNotEmpty
+            ? '${placemark.subLocality}'
+            : '${placemark.locality}';
       }
     } catch (e) {
       print("Error retrieving address: $e");
@@ -305,26 +309,23 @@ class _EventInfoReviewState extends State<EventInfoReview> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+             CustomText(
+             text: 
                 'Reviewevent'.tr,
-                style: TextStyle(
                   color: Color(0xFF070708),
                   fontSize: 17,
                   fontFamily:
                       AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
                   fontWeight: FontWeight.w500,
-                ),
               ),
               const SizedBox(height: 6),
-              Text(
-                'explinationEvent'.tr,
-                style: TextStyle(
+                CustomText(
+                text: 'explinationEvent'.tr,
                   color: Color(0xFF9392A0),
                   fontSize: 15,
                   fontFamily:
                       AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
                   fontWeight: FontWeight.w400,
-                ),
               ),
               const SizedBox(height: 20),
               Container(
@@ -371,34 +372,33 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
+                            CustomText(
+                         text: 
                                 AppUtil.rtlDirection2(context)
                                     ? widget.hospitalityTitleAr
                                     : widget.hospitalityTitleEn,
-                                style: TextStyle(
+                               
                                   color: Color(0xFF070708),
                                   fontSize: 16,
                                   fontFamily: AppUtil.rtlDirection2(context)
                                       ? 'SF Arabic'
                                       : 'SF Pro',
                                   fontWeight: FontWeight.w500,
-                                ),
                               ),
                               Row(
                                 children: [
                                   Icon(Icons.star,
                                       color: Color(0xFF36B268), size: 14),
                                   const SizedBox(width: 4),
-                                  Text(
+                                CustomText(
+                                    text: 
                                     '5.0',
-                                    style: TextStyle(
                                       color: Color(0xFF36B268),
                                       fontSize: 12,
                                       fontFamily: AppUtil.rtlDirection2(context)
                                           ? 'SF Arabic'
                                           : 'SF Pro',
                                       fontWeight: FontWeight.w500,
-                                    ),
                                   ),
                                 ],
                               ),
@@ -416,11 +416,11 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                                       SvgPicture.asset(
                                           'assets/icons/map_pin.svg'),
                                       const SizedBox(width: 4),
-                                      Text(
+                                    CustomText(
+                                          text: 
                                         AppUtil.rtlDirection2(context)
                                             ? '${_EventController.ragionAr.value}, ${address}'
                                             : '${_EventController.ragionEn.value}, ${address}',
-                                        style: TextStyle(
                                           color: Color(0xFF9392A0),
                                           fontSize: 11,
                                           fontFamily:
@@ -428,7 +428,6 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                                                   ? 'SF Arabic'
                                                   : 'SF Pro',
                                           fontWeight: FontWeight.w400,
-                                        ),
                                       ),
                                     ],
                                   ),
@@ -439,11 +438,11 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                                         'assets/icons/calendar.svg',
                                       ),
                                       const SizedBox(width: 6),
-                                      Text(
+                                      CustomText(
+                                           text: 
                                         AppUtil.formatSelectedDates(
                                             _EventController.selectedDates,
                                             context),
-                                        style: TextStyle(
                                           color: Color(0xFF9392A0),
                                           fontSize: 11,
                                           fontFamily:
@@ -451,7 +450,6 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                                                   ? 'SF Arabic'
                                                   : 'SF Pro',
                                           fontWeight: FontWeight.w400,
-                                        ),
                                       ),
                                     ],
                                   ),
@@ -467,9 +465,8 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                                         ),
                                       ),
                                       const SizedBox(width: 4),
-                                      Text(
-                                        '${AppUtil.formatStringTimeWithLocale(context, intl.DateFormat('HH:mm:ss').format(_EventController.selectedStartTime.value))} - ${AppUtil.formatStringTimeWithLocale(context, intl.DateFormat('HH:mm:ss').format(_EventController.selectedEndTime.value))}',
-                                        style: TextStyle(
+                                     CustomText(
+                         text: '${AppUtil.formatStringTimeWithLocale(context, intl.DateFormat('HH:mm:ss').format(_EventController.selectedStartTime.value))} - ${AppUtil.formatStringTimeWithLocale(context, intl.DateFormat('HH:mm:ss').format(_EventController.selectedEndTime.value))}',
                                           color: Color(0xFF9392A0),
                                           fontSize: 11,
                                           fontFamily:
@@ -477,7 +474,6 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                                                   ? 'SF Arabic'
                                                   : 'SF Pro',
                                           fontWeight: FontWeight.w400,
-                                        ),
                                       ),
                                     ],
                                   ),
@@ -569,18 +565,17 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                                                             'assets/images/paymentSuccess.gif',
                                                             width: 38),
                                                         SizedBox(height: 16),
-                                                        Text(
+                                                       CustomText(
+                                                  text: 
                                                           !AppUtil.rtlDirection2(
                                                                   context)
                                                               ? "Experience published successfully"
                                                               : "تم نشر تجربتك بنجاح ",
-                                                          style: TextStyle(
                                                               fontSize: 15),
                                                           //textDirection:
                                                           //AppUtil.rtlDirection2(context)
                                                           //? TextDirection.rtl
                                                           //: TextDirection.ltr,
-                                                        ),
                                                       ],
                                                     ),
                                                   ),

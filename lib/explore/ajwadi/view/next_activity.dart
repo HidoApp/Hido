@@ -165,15 +165,15 @@ class _NextActivityState extends State<LastActivity> {
                 height: 20,
                 width: 20),
           ),
-          Text(
-            text,
-            style: TextStyle(
+          CustomText(
+           text:text,
+           
               color: isActive ? Color(0xFF36B268) : Color(0xFFDCDCE0),
               fontSize: 11,
               fontFamily:
                   AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
               fontWeight: FontWeight.w500,
-            ),
+            
           ),
         ],
       ),

@@ -63,12 +63,12 @@ class CustomExperienceCard extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     return InkWell(
       onTap: () {},
-      child: Container(
+      child: SizedBox(
         width: 334,
         height: 120,
         child: Container(
-          decoration: BoxDecoration(
-            color: const Color.fromARGB(255, 255, 255, 255),
+          decoration: const BoxDecoration(
+            color: Color.fromARGB(255, 255, 255, 255),
             borderRadius: BorderRadius.all(Radius.circular(7.36)),
             boxShadow: [
               BoxShadow(
@@ -105,9 +105,8 @@ class CustomExperienceCard extends StatelessWidget {
                         height: 20,
                       ),
                       const SizedBox(width: 8),
-                      Text(
-                        '#${experience.id.substring(0, 7)}',
-                        style: TextStyle(
+                     CustomText(
+                       text:'#${experience.id.substring(0, 7)}',
                           color: borderGrey,
                           fontSize: 15,
                           fontFamily: AppUtil.rtlDirection2(context)
@@ -115,7 +114,7 @@ class CustomExperienceCard extends StatelessWidget {
                               : 'SF Pro',
                           fontWeight: FontWeight.w500,
                           height: 0,
-                        ),
+                        
                       ),
                     ],
                   ),
@@ -139,7 +138,7 @@ class CustomExperienceCard extends StatelessWidget {
                               
                               
                               : ImageCacheWidget(
-                                image:experience.images.isNotEmpty? experience.image[0]:'assets/images/Placeholder.png',
+                                image:experience.image.isNotEmpty? experience.image[0]:'assets/images/Placeholder.png',
                                 height: height * 0.06,
                                 width: width * 0.144,
                               )
@@ -282,12 +281,9 @@ class CustomExperienceCard extends StatelessWidget {
                                     minimumSize:
                                         Size(100, 37), // Width and height
                                   ),
-                                  child: Text(
-                                    AppUtil.rtlDirection2(context)
-                                        ? 'ملخص'
-                                        : 'Summary',
+                                  child:CustomText(
+                                   text:'summary'.tr,
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 13,
                                       fontFamily: AppUtil.rtlDirection2(context)
@@ -295,7 +291,6 @@ class CustomExperienceCard extends StatelessWidget {
                                           : 'SF Pro',
                                       fontWeight: FontWeight.w600,
                                     ),
-                                  ),
                                 ))
                             : Container(),
                     ],

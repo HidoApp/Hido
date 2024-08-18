@@ -140,14 +140,12 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                 widget.adventureController.isAdventureDateSelcted.value&&!widget.adventureController.DateErrorMessage.value?
                    Padding(
                     padding: const EdgeInsets.only(top: 10),
-                    child: Text(
-                      AppUtil.rtlDirection2(context)
+                    child: CustomText(
+                      text:AppUtil.rtlDirection2(context)
                           ? "يجب اختيار تاريخ بعد 48 ساعة من الآن على الأقل"
                           : "*Please select a date at least 48 hours from now",
-                      style: TextStyle(
                         color: Colors.red,
                         fontSize: 12,
-                      ),
                     ),
                   ):Container(),
                 ),
@@ -518,14 +516,14 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                            widget.adventureController.TimeErrorMessage.value?
                            Padding(
                             padding: const EdgeInsets.only(top: 10),
-                            child: Text(
-                              AppUtil.rtlDirection2(context)
+                            child:  CustomText(
+                      text:AppUtil.rtlDirection2(context)
                                   ? "يجب أن لايسبق وقت بدء التجربة"
                                   : "*Can’t be before start time",
-                              style: TextStyle(
+                             
                                 color: Colors.red,
                                 fontSize: 12,
-                              ),
+                              
                             ),
                           ):Container(),
                         ),

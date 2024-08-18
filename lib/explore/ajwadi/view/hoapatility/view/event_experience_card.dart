@@ -103,7 +103,7 @@ class _EventExperienceCardState extends State<EventExperienceCard> {
           : width * 0.35,
       width: double.infinity,
       padding: const EdgeInsets.all(12),
-      decoration: ShapeDecoration(
+      decoration: const ShapeDecoration(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(12)),
         ),
@@ -133,7 +133,7 @@ class _EventExperienceCardState extends State<EventExperienceCard> {
               
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 8,
             ),
             Expanded(
@@ -215,17 +215,16 @@ class _EventExperienceCardState extends State<EventExperienceCard> {
                           ),
                           minimumSize: Size(100, 37), // Width and height
                         ),
-                        child: Text(
-                          AppUtil.rtlDirection2(context) ? 'ملخص' : 'Summary',
+                        child: CustomText(
+                          text:'summary'.tr,
                           textAlign: TextAlign.center,
-                          style: TextStyle(
                             color: Colors.white,
                             fontSize: 13,
                             fontFamily: AppUtil.rtlDirection2(context)
                                 ? 'SF Arabic'
                                 : 'SF Pro',
                             fontWeight: FontWeight.w600,
-                          ),
+                          
                         ),
                       )
                     : Container(),
@@ -294,10 +293,9 @@ class _EventExperienceCardState extends State<EventExperienceCard> {
                               borderRadius: BorderRadius.circular(48),
                             ),
                             child: Center(
-                              child: Text(
-                                formatBookingDateMonth(context, date),
+                              child: CustomText(
+                                text:formatBookingDateMonth(context, date),
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
                                   color: isPastDate
                                       ? Color(0xFF9392A0) // Gray out past dates
                                       : isSelected
@@ -308,7 +306,7 @@ class _EventExperienceCardState extends State<EventExperienceCard> {
                                       ? 'SF Arabic'
                                       : 'SF Pro',
                                   fontWeight: FontWeight.w400,
-                                ),
+                                
                               ),
                             ),
                           ),

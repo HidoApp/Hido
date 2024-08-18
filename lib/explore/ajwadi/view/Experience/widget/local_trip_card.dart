@@ -99,9 +99,8 @@ class _LocalTripCardState extends State<LocalTripCard> {
         children: [
           Padding(
             padding: const EdgeInsets.only(bottom: 4),
-            child: Text(
-              AppUtil.formatBookingDate(context, widget.trip.booking!.date!),
-              style: TextStyle(
+            child: CustomText(
+             text: AppUtil.formatBookingDate(context, widget.trip.booking!.date!),
                 color: Color(0xFF9392A0),
                 fontSize: 12,
                 fontFamily:
@@ -109,7 +108,7 @@ class _LocalTripCardState extends State<LocalTripCard> {
                 fontWeight: FontWeight.w500,
                 height: 0,
               ),
-            ),
+          
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
@@ -170,15 +169,14 @@ class _LocalTripCardState extends State<LocalTripCard> {
                       ),
                       minimumSize: Size(81, 32), // Width and height
                     ),
-                    child: Text(
-                      'chat'.tr,
+                    child: CustomText(
+                      text:'chat'.tr,
                       textAlign: TextAlign.center,
-                      style: TextStyle(
                         color: Colors.white,
                         fontSize: 13,
-                        fontFamily: 'SF Pro',
+                        fontFamily: AppUtil.SfFontType(context),
                         fontWeight: FontWeight.w600,
-                      ),
+                      
                     ),
                   ),
                 ),
@@ -204,7 +202,7 @@ class _LocalTripCardState extends State<LocalTripCard> {
             title: !_controller.isExpanded
                 ? CustomText(
                     text:
-                        AppUtil.rtlDirection2(context) ? 'المزيد' : 'See more',
+                      'seeMore'.tr,
                     color: Color(0xFF36B268),
                     fontSize: 13,
                     fontFamily:

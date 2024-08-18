@@ -264,8 +264,8 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
     return InkWell(
       child: Column(
         children: [
-          LastActivity(),
-          SizedBox(height: 11),
+         const LastActivity(),
+         const SizedBox(height: 11),
           Container(
             width: double.infinity,
             height: _controller.isExpanded ? width * 0.65 : width * 0.30,
@@ -274,7 +274,7 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
-              shadows: [
+              shadows:const [
                 BoxShadow(
                   color: Color(0x3FC7C7C7),
                   blurRadius: 15,
@@ -325,7 +325,7 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                           ],
                         ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Padding(
                         padding: const EdgeInsets.only(top: 12),
                         child: Row(
@@ -364,9 +364,9 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                                   ),
                                 ),
                               ),
-                              child: Text(AppUtil.rtlDirection2(context)
-                                  ? "محادثة"
-                                  : 'Chat'),
+                              child:CustomText (
+                                text:'chat2'.tr,
+                                  color:colorGreen,),
                             ),
                             const SizedBox(width: 8),
                             Obx(
@@ -536,10 +536,9 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                                     ),
                                   ),
                                 ),
-                                child: Text(
-                                  getActivityProgressText(
+                                child: CustomText(
+                                text:  getActivityProgressText(
                                       _tripController.nextStep.value, context),
-                                  style: TextStyle(
                                     color: Color.fromARGB(255, 255, 255, 255),
                                     fontSize: 13,
                                     fontFamily: AppUtil.rtlDirection2(context)
@@ -547,7 +546,7 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                                         : 'SF Pro',
                                     fontWeight: FontWeight.w500,
                                     height: 0,
-                                  ),
+                                
                                 ),
                               ),
                             ),
@@ -576,9 +575,7 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                     },
                     title: !_controller.isExpanded
                         ? CustomText(
-                            text: AppUtil.rtlDirection2(context)
-                                ? 'المزيد'
-                                : 'See more',
+                            text:'seeMore'.tr,
                             color: Color(0xFF36B268),
                             fontSize: 13,
                             fontFamily: AppUtil.rtlDirection2(context)

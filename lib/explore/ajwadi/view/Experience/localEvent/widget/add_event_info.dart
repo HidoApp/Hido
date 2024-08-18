@@ -1,5 +1,6 @@
 import 'package:ajwad_v4/services/controller/event_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
+import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -133,70 +134,72 @@ class _AddInfoState extends State<AddInfo> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      _selectedLanguageIndex == 0
+                    CustomText(
+                     text: _selectedLanguageIndex == 0
                           ? 'عنوان الفعالية'
                           : 'Event title',
-                      style: TextStyle(
                         color: Color(0xFF070708),
                         fontSize: 17,
                         fontFamily: _selectedLanguageIndex == 0
                             ? 'SF Arabic'
                             : 'SF Pro',
                         fontWeight: FontWeight.w500,
-                      ),
+                    
                     ),
                     SizedBox(height: _selectedLanguageIndex == 0 ? 8 : 9),
-                    Container(
-                      width: double.infinity,
-                      height: 54,
-                      decoration: ShapeDecoration(
-                        color: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(width: 1, color: Color(0xFFB9B8C1)),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
+                    TextField(
+                      maxLength: 20,
+                      controller: textField1Controller,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 15,
+                        fontFamily: _selectedLanguageIndex == 0
+                        ? 'SF Arabic'
+                        : 'SF Pro',
+                        fontWeight: FontWeight.w400,
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 4, vertical: 0),
-                        child: TextField(
-                          controller: textField1Controller,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 15,
-                            fontFamily: _selectedLanguageIndex == 0
-                            ? 'SF Arabic'
-                            : 'SF Pro',
-                            fontWeight: FontWeight.w400,
-                          ),
-                          decoration: InputDecoration(
-                            hintText: _selectedLanguageIndex == 0
-                                ? 'مثال: منزل دانا'
-                                : 'example: Dana’s house',
-                            hintStyle: TextStyle(
-                              color: Color(0xFFB9B8C1),
-                              fontSize: 15,
-                              fontFamily: _selectedLanguageIndex == 0
-                            ? 'SF Arabic'
-                            : 'SF Pro',
-                              fontWeight: FontWeight.w400,
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide.none,
-                            ),
-                          ),
-                          onChanged: (value) {
-                            _selectedLanguageIndex == 0
+                      decoration: InputDecoration(
+                        hintText: _selectedLanguageIndex == 0
+                            ? 'مثال: منزل دانا'
+                            : 'example: Dana’s house',
+                        hintStyle: TextStyle(
+                          color: Color(0xFFB9B8C1),
+                          fontSize: 15,
+                          fontFamily: _selectedLanguageIndex == 0
+                        ? 'SF Arabic'
+                        : 'SF Pro',
+                          fontWeight: FontWeight.w400,
+                        ),
+                        filled: true,
+                    fillColor: Colors.white,
+                    contentPadding: EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 0), // Adjust vertical padding for height
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide:
+                          BorderSide(width: 1, color: Color(0xFFB9B8C1)),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                          width: 1,
+                          color: Color(
+                              0xFFB9B8C1)), // Same color to remove focus color
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide.none,
+                    ),
+                    ),
+                      onChanged: (value) {
+                        _selectedLanguageIndex == 0
                 ? _EventController.titleAr.value = textField1Controller.text
                     
                 : _EventController.titleEn.value= textField1Controller.text;
                 
               
-                          },
-                        ),
-                      ),
+                      },
                     ),
                   ],
                 ),
@@ -207,9 +210,8 @@ class _AddInfoState extends State<AddInfo> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      _selectedLanguageIndex == 0 ? 'الوصف' : 'Description',
-                      style: TextStyle(
+                      CustomText(
+                     text:_selectedLanguageIndex == 0 ? 'الوصف' : 'Description',
                         color: Color(0xFF070708),
                         fontSize: 17,
                         fontFamily: _selectedLanguageIndex == 0
@@ -217,7 +219,6 @@ class _AddInfoState extends State<AddInfo> {
                             : 'SF Pro',
                         fontWeight: 
                              FontWeight.w500,
-                      ),
                     ),
                     SizedBox(height: _selectedLanguageIndex == 0 ? 8 : 9),
                     Container(
@@ -284,18 +285,16 @@ class _AddInfoState extends State<AddInfo> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 1.0, left: 8.0),
-                      child: Text(
-                        _selectedLanguageIndex == 0
+                      child:   CustomText(
+                     text:_selectedLanguageIndex == 0
                             ? '*يجب ألا يتجاوز الوصف 150 كلمة'
                             : '*the description must not exceed 150 words',
-                        style: TextStyle(
                           color: Color(0xFFB9B8C1),
                           fontSize: 11,
                             fontFamily: _selectedLanguageIndex == 0
                           ? 'SF Arabic'
                           : 'SF Pro',
                           fontWeight: FontWeight.w400,
-                        ),
                       ),
                     )
                   ],
