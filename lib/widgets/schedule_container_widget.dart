@@ -1,5 +1,6 @@
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/adventure/view/edit_adventure.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
+import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -30,7 +31,7 @@ class _ScheduleContainerWidgetState extends State<ScheduleContainerWidget> {
 
   @override
   Widget build(BuildContext context) {
-        final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.of(context).size.width;
 
     return Container(
         padding: !widget.isReview
@@ -132,19 +133,19 @@ class _CustomCheckWidget extends StatelessWidget {
   TextStyle titleStyle = TextStyle(
     color: Color(0xFF070708),
     fontSize: 15,
-    fontFamily:  "SF Pro",
+    fontFamily: "SF Pro",
     fontWeight: FontWeight.w500,
   );
-  TextStyle titleBold =  TextStyle(
+  TextStyle titleBold = TextStyle(
     color: Color(0xFF070708),
     fontSize: 15,
-    fontFamily:  "SF Pro",
+    fontFamily: "SF Pro",
     fontWeight: FontWeight.w500,
   );
   TextStyle titleReview = TextStyle(
     color: starGreyColor,
     fontSize: 15,
-    fontFamily:  "SF Pro",
+    fontFamily: "SF Pro",
     fontWeight: FontWeight.w500,
   );
   TextStyle priceBold = TextStyle(
@@ -231,13 +232,17 @@ class _CustomCheckWidget extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        schedule?.scheduleName ?? '',
-                        style: !isReview
-                            ? isBold
-                                ? titleBold
-                                : titleStyle
-                            : titleReview,
+                      MediaQuery(
+                        data: MediaQuery.of(context)
+                            .copyWith(textScaler: const TextScaler.linear(1.0)),
+                        child: Text(
+                          schedule?.scheduleName ?? '',
+                          style: !isReview
+                              ? isBold
+                                  ? titleBold
+                                  : titleStyle
+                              : titleReview,
+                        ),
                       ),
                       const SizedBox(
                         height: 1,
@@ -245,39 +250,34 @@ class _CustomCheckWidget extends StatelessWidget {
                       if (schedule?.scheduleTime != null)
                         Row(
                           children: [
-                            Text(
-                              AppUtil.formatStringTimeWithLocale(
+                            CustomText(
+                              text: AppUtil.formatStringTimeWithLocale(
                                   context, schedule?.scheduleTime!['from']),
-                              style: TextStyle(
-                                color: !isReview
-                                    ? Color(0xFF676767)
-                                    :  Color(0xFFB9B8C1),
-                                fontSize: 13,
-                                fontFamily: AppUtil.SfFontType(context),
-                                fontWeight: FontWeight.w500,
-                              ),
+                              color: !isReview
+                                  ? Color(0xFF676767)
+                                  : Color(0xFFB9B8C1),
+                              fontSize: 13,
+                              fontFamily: AppUtil.SfFontType(context),
+                              fontWeight: FontWeight.w500,
                             ),
-                            Text(
-                              " - ",
-                              style: TextStyle(
-                                color: !isReview
-                                    ? Color(0xFF676767)
-                                    : Color(0xFFB9B8C1),
-                                fontSize: 13,
-                                fontFamily: AppUtil.SfFontType(context),
-                                fontWeight: FontWeight.w500,
-                              ),
+                            CustomText(
+                              text: " - ",
+                              color: !isReview
+                                  ? Color(0xFF676767)
+                                  : Color(0xFFB9B8C1),
+                              fontSize: 13,
+                              fontFamily: AppUtil.SfFontType(context),
+                              fontWeight: FontWeight.w500,
                             ),
-                            Text(
-                              "${AppUtil.formatStringTimeWithLocale(context, schedule?.scheduleTime!['to'])} ",
-                              style: TextStyle(
-                                color: !isReview
-                                    ? Color(0xFF676767)
-                                    :Color(0xFFB9B8C1),
-                                 fontSize: 13,
-                                 fontFamily: AppUtil.SfFontType(context),
-                                 fontWeight: FontWeight.w500,
-                              ),
+                            CustomText(
+                              text:
+                                  "${AppUtil.formatStringTimeWithLocale(context, schedule?.scheduleTime!['to'])} ",
+                              color: !isReview
+                                  ? Color(0xFF676767)
+                                  : Color(0xFFB9B8C1),
+                              fontSize: 13,
+                              fontFamily: AppUtil.SfFontType(context),
+                              fontWeight: FontWeight.w500,
                             ),
                           ],
                         )

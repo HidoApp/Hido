@@ -1,4 +1,5 @@
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
+import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -25,13 +26,12 @@ class _CheckContainerWidgetState extends State<CheckContainerWidget> {
     super.initState();
     scheduleList = widget.offerController?.offerDetails.value.schedule;
     widget.offerController?.getCheckedList(null, true);
-       widget.offerController?.scheduleState.value = false;
-      
+    widget.offerController?.scheduleState.value = false;
   }
 
   @override
   Widget build(BuildContext context) {
-        final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.of(context).size.width;
 
     return Container(
         padding: const EdgeInsets.only(
@@ -69,29 +69,25 @@ class _CheckContainerWidgetState extends State<CheckContainerWidget> {
                 const SizedBox(
                   width: 8,
                 ),
-                Text(
-                  widget.offerController?.offerDetails.value.name ?? "",
-                  style: TextStyle(
-                    color: black,
+                CustomText(
+                  text: widget.offerController?.offerDetails.value.name ?? "",
+                  color: black,
                   fontSize: width * 0.038,
                   fontFamily: AppUtil.SfFontType(context),
                   fontWeight: FontWeight.w500,
-                  ),
                 )
               ],
             ),
             const SizedBox(
               height: 8,
             ),
-            Text(
-              'checkText'.tr,
+            CustomText(
+              text: 'checkText'.tr,
               textAlign: TextAlign.start,
-              style: const TextStyle(
-                color: colorDarkGrey,
-                fontSize: 12,
-                fontFamily: 'HT Rakik',
-                fontWeight: FontWeight.w300,
-              ),
+              color: colorDarkGrey,
+              fontSize: 12,
+              fontFamily: 'HT Rakik',
+              fontWeight: FontWeight.w300,
             ),
             const SizedBox(
               height: 10,
@@ -200,7 +196,7 @@ class _CustomCheckWidget extends StatelessWidget {
       children: [
         Stack(children: [
           InkWell(
-            onTap:onTap,
+            onTap: onTap,
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -213,7 +209,7 @@ class _CustomCheckWidget extends StatelessWidget {
                         borderRadius:
                             isCircle ? null : BorderRadius.circular(3),
                         border: Border.all(color: colorGreen, width: 1.5),
-                        color: isChecked ?  colorGreen : Colors.white,
+                        color: isChecked ? colorGreen : Colors.white,
                       ),
                       child: const Icon(Icons.check,
                           size: 12, color: Colors.white)),
@@ -246,9 +242,13 @@ class _CustomCheckWidget extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        schedule?.scheduleName ?? '',
-                        style: isBold ? titleBold : titleStyle,
+                      MediaQuery(
+                        data: MediaQuery.of(context)
+                            .copyWith(textScaler: const TextScaler.linear(1.0)),
+                        child: Text(
+                          schedule?.scheduleName ?? '',
+                          style: isBold ? titleBold : titleStyle,
+                        ),
                       ),
                       const SizedBox(
                         height: 1,
@@ -256,39 +256,34 @@ class _CustomCheckWidget extends StatelessWidget {
                       if (schedule?.scheduleTime != null)
                         Row(
                           children: [
-                            Text(
-                              AppUtil.formatStringTimeWithLocale(
+                            CustomText(
+                              text: AppUtil.formatStringTimeWithLocale(
                                   context, schedule?.scheduleTime!['from']),
-                              style: const TextStyle(
-                                color: Color(0xFF676767),
-                                fontSize: 13,
-                                fontFamily: 'SF Pro',
-                                fontWeight: FontWeight.w400,
-                              ),
+                              color: const Color(0xFF676767),
+                              fontSize: 13,
+                              fontFamily: 'SF Pro',
+                              fontWeight: FontWeight.w400,
                             ),
-                            const Text(
-                              " - ",
-                              style: TextStyle(
-                                color: Color(0xFF676767),
-                                fontSize: 13,
-                                fontFamily: 'SF Pro',
-                                fontWeight: FontWeight.w400,
-                              ),
+                            const CustomText(
+                              text: " - ",
+                              color: Color(0xFF676767),
+                              fontSize: 13,
+                              fontFamily: 'SF Pro',
+                              fontWeight: FontWeight.w400,
                             ),
-                            Text(
-                              "${AppUtil.formatStringTimeWithLocale(context, schedule?.scheduleTime!['to'])} ",
-                              style: const TextStyle(
-                                color: Color(0xFF676767),
-                                fontSize: 13,
-                                fontFamily: 'SF Pro',
-                                fontWeight: FontWeight.w400,
-                              ),
+                            CustomText(
+                              text:
+                                  "${AppUtil.formatStringTimeWithLocale(context, schedule?.scheduleTime!['to'])} ",
+                              color: Color(0xFF676767),
+                              fontSize: 13,
+                              fontFamily: 'SF Pro',
+                              fontWeight: FontWeight.w400,
                             ),
                           ],
                         )
                     ],
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Row(
                     //     mainAxisAlignment: MainAxisAlignment.end,
                     // crossAxisAlignment: CrossAxisAlignment.end,

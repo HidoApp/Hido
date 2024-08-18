@@ -327,9 +327,9 @@ class _ProfileDetailsState extends State<TouriestProfile> {
                                 searchLabel: 'search'.tr,
                                 suffixIcon: const Icon(Icons.keyboard_arrow_up),
                                 clearIcon: null,
-                                singleSelectItemStyle: const TextStyle(
-                                    fontSize: 15,
-                                    fontFamily: "SF Pro",
+                                singleSelectItemStyle: TextStyle(
+                                    fontSize: width * 0.038,
+                                    fontFamily: AppUtil.SfFontType(context),
                                     color: black,
                                     fontWeight: FontWeight.w500),
 
@@ -412,7 +412,8 @@ class _ProfileDetailsState extends State<TouriestProfile> {
                                 chipConfig:
                                     const ChipConfig(wrapType: WrapType.scroll),
                                 dropdownHeight: 300,
-                                optionTextStyle: const TextStyle(fontSize: 16),
+                                optionTextStyle:
+                                    TextStyle(fontSize: width * 0.041),
 
                                 // selectedOptionIcon:
                                 //     const Icon(Icons.check_circle),
@@ -444,7 +445,7 @@ class _ProfileDetailsState extends State<TouriestProfile> {
                               ),
                         if (widget.profileController.isEditing.value)
                           SizedBox(
-                            height: 8,
+                            height: width * .020,
                           ),
                         const Divider(
                           color: lightGrey,

@@ -242,9 +242,11 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                                       ),
                                       Row(
                                         children: [
-                                          SvgPicture.asset(
-                                            'assets/icons/unselected_${widget.booking?.vehicleType!}_icon.svg',
-                                            width: 20,
+                                          RepaintBoundary(
+                                            child: SvgPicture.asset(
+                                              'assets/icons/unselected_${widget.booking?.vehicleType!}_icon.svg',
+                                              width: 20,
+                                            ),
                                           ),
                                           const SizedBox(
                                             width: 10,
@@ -311,15 +313,13 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                                   SizedBox(height: 10),
                                   SizedBox(
                                     width: 358,
-                                    child: Text(
-                                      'notePrice'.tr,
-                                      style: TextStyle(
-                                        color: starGreyColor,
-                                        fontSize: width * 0.029,
-                                        fontFamily: AppUtil.SfFontType(context),
-                                        fontWeight: FontWeight.w400,
-                                        height: 0,
-                                      ),
+                                    child: CustomText(
+                                      text: 'notePrice'.tr,
+                                      color: starGreyColor,
+                                      fontSize: width * 0.029,
+                                      fontFamily: AppUtil.SfFontType(context),
+                                      fontWeight: FontWeight.w400,
+                                      height: 0,
                                     ),
                                   ),
                                   Container(
@@ -368,10 +368,13 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                                           .offerController!.scheduleState.value,
                                       child: CustomButton(
                                         onPressed: () {
-                                          if ( widget.offerController!.updateScheduleList !=
+                                          if (widget.offerController!
+                                                  .updateScheduleList !=
                                               null) {
-                                            for (var item in  widget.offerController!.updateScheduleList) {
-                                                  print("this sedule");
+                                            for (var item in widget
+                                                .offerController!
+                                                .updateScheduleList) {
+                                              print("this sedule");
                                               print(item.scheduleName);
                                             }
                                           } else {

@@ -2,6 +2,7 @@ import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
 import 'package:ajwad_v4/request/tourist/models/schedule.dart';
+import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -32,7 +33,7 @@ class _TotalWidgetState extends State<TotalWidget> {
 
   @override
   Widget build(BuildContext context) {
-  final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.of(context).size.width;
 
 //     print('Price per night: ${widget.place.price!}');
     // print(
@@ -53,17 +54,14 @@ class _TotalWidgetState extends State<TotalWidget> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'total'.tr,
+                CustomText(
+                  text: 'total'.tr,
                   textAlign: TextAlign.right,
-                  style:  TextStyle(
-                    color: black,
-                    fontSize: width*0.05,
-                    fontFamily: 'HT Rakik',
-                    fontWeight: FontWeight.w500,
-                  ),
+                  color: black,
+                  fontSize: width * 0.05,
+                  fontFamily: 'HT Rakik',
+                  fontWeight: FontWeight.w500,
                 ),
-               
               ],
             ),
           ),
@@ -84,10 +82,10 @@ class _TotalWidgetState extends State<TotalWidget> {
                               // ' ${(widget.place.price! * widget.offerController!.offerDetails.value.booking!.guestNumber!) + (widget.offerController!.totalPrice.value * widget.offerController!.offerDetails.value.booking!.guestNumber!)} ',
                               // '${(widget.place?.price ?? 0) * (widget.offerController?.offerDetails.value?.booking?.guestNumber ?? 0) + (widget.offerController?.totalPrice.value ?? 0) * (widget.offerController?.offerDetails.value?.booking?.guestNumber ?? 0)}',
                               '${(widget.offerController?.totalPrice.value ?? 0) * (widget.offerController?.offerDetails.value.booking?.guestNumber ?? 0)}',
-                          style:  TextStyle(
+                          style: TextStyle(
                             color: black,
-                             fontSize: width*0.05,
-                          fontFamily: 'HT Rakik',
+                            fontSize: width * 0.05,
+                            fontFamily: 'HT Rakik',
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -96,9 +94,9 @@ class _TotalWidgetState extends State<TotalWidget> {
                           text: 'sar'.tr,
                           style: TextStyle(
                             color: black,
-                             fontSize: width*0.05,
-                              fontFamily: 'HT Rakik',
-                               fontWeight: FontWeight.w500,
+                            fontSize: width * 0.05,
+                            fontFamily: 'HT Rakik',
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                       ],

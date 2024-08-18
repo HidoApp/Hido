@@ -76,7 +76,8 @@ class CustomAjwadiCard extends StatelessWidget {
                       color: starGreyColor,
                     ),
 
-                    SvgPicture.asset("assets/icons/star.svg"),
+                    RepaintBoundary(
+                        child: SvgPicture.asset("assets/icons/star.svg")),
                     CustomText(
                       text: "  $rating  ",
                       fontSize: width * 0.028,

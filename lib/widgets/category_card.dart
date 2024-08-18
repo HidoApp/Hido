@@ -54,21 +54,20 @@ class CategoryCard extends StatelessWidget {
                   color: color,
                 ),
                 alignment: Alignment.center,
-                child: SvgPicture.asset('assets/icons/${icon}.svg'),
+                child: RepaintBoundary(
+                    child: SvgPicture.asset('assets/icons/${icon}.svg')),
               ),
 
               const SizedBox(height: 12),
               // padding: const EdgeInsets.only(left: 4),
 
-              Text(
-                title!,
-                style: TextStyle(
-                  color: Color(0xFF070708),
-                  fontSize: 13,
-                  fontFamily:
-                      AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-                  fontWeight: FontWeight.w500,
-                ),
+              CustomText(
+                text: title!,
+                color: Color(0xFF070708),
+                fontSize: 13,
+                fontFamily:
+                    AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+                fontWeight: FontWeight.w500,
               ),
             ],
           ),

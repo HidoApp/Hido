@@ -31,7 +31,7 @@ class CustomWalletCard extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     return InkWell(
       onTap: () {
-       // Get.to(() => LocalWalletScreen());
+        // Get.to(() => LocalWalletScreen());
       },
       child: Container(
         width: double.infinity,
@@ -41,9 +41,8 @@ class CustomWalletCard extends StatelessWidget {
         decoration: ShapeDecoration(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(12)),
-              ),
-        color: Colors.white,
-
+          ),
+          color: Colors.white,
           shadows: [
             BoxShadow(
               color: Color(0x3FC7C7C7),
@@ -71,43 +70,45 @@ class CustomWalletCard extends StatelessWidget {
                   child: SvgPicture.asset('assets/icons/Finance_icon.svg'),
                 ),
               ),
-              Text(
-                AppUtil.rtlDirection2(context)
+              CustomText(
+                text: AppUtil.rtlDirection2(context)
                     ? "إجمالي المحفظة"
                     : 'Total balance',
-                style: TextStyle(
-                  color: Color(0xFFB9B8C1),
-                  fontSize: 13,
-                  fontFamily:
-                      AppUtil.rtlDirection2(context) ? "SF Arabic" : 'SF Pro',
-                  fontWeight: FontWeight.w500,
-                  height: 0,
-                ),
+                color: Color(0xFFB9B8C1),
+                fontSize: 13,
+                fontFamily:
+                    AppUtil.rtlDirection2(context) ? "SF Arabic" : 'SF Pro',
+                fontWeight: FontWeight.w500,
+                height: 0,
               ),
               SizedBox(
                 width: 4,
               ),
-              Text.rich(TextSpan(children: [
-                TextSpan(
-                  text: AppUtil.rtlDirection2(context) ? "00.00 " : '00.00 ',
-                  style: TextStyle(
-                    color: Color(0xFF070708),
-                    fontSize: AppUtil.rtlDirection(context) ? 28 : 28,
-                    fontFamily: 'HT Rakik',
-                    fontWeight: FontWeight.w500,
+              MediaQuery(
+                data: MediaQuery.of(context)
+                    .copyWith(textScaler: const TextScaler.linear(1.0)),
+                child: Text.rich(TextSpan(children: [
+                  TextSpan(
+                    text: AppUtil.rtlDirection2(context) ? "00.00 " : '00.00 ',
+                    style: TextStyle(
+                      color: Color(0xFF070708),
+                      fontSize: AppUtil.rtlDirection(context) ? 28 : 28,
+                      fontFamily: 'HT Rakik',
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                ),
-                TextSpan(
-                  text: AppUtil.rtlDirection2(context) ? "ر.س" : 'SAR',
-                  style: TextStyle(
-                    color: Color(0xFFB9B8C1),
-                    fontSize: 20,
-                    fontFamily: 'HT Rakik',
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 0.80,
-                  ),
-                )
-              ]))
+                  TextSpan(
+                    text: AppUtil.rtlDirection2(context) ? "ر.س" : 'SAR',
+                    style: TextStyle(
+                      color: Color(0xFFB9B8C1),
+                      fontSize: 20,
+                      fontFamily: 'HT Rakik',
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: 0.80,
+                    ),
+                  )
+                ])),
+              )
               //   SizedBox(
               //     width: 8,
               //   ),

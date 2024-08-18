@@ -223,17 +223,15 @@ class TicketData extends StatelessWidget {
               color: Colors.black,
               borderRadius: BorderRadius.circular(8.0),
             ),
-            child: Text(
-              AppUtil.rtlDirection2(context)
+            child: CustomText(
+              text: AppUtil.rtlDirection2(context)
                   ? "تم النسخ إلى الحافظة "
                   : 'Copied tp clipboard',
-              style: TextStyle(
-                color: Colors.white,
-                fontFamily:
-                    AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-                fontSize: 11,
-                fontWeight: FontWeight.w400,
-              ),
+              color: Colors.white,
+              fontFamily:
+                  AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+              fontSize: 11,
+              fontWeight: FontWeight.w400,
             ),
           ),
         ),
@@ -268,43 +266,40 @@ class TicketData extends StatelessWidget {
                   height: 20,
                 )),
             const SizedBox(width: 8),
-            Text(
-              '#${booking.id!.substring(0, 7)}',
-              style: TextStyle(
-                color: Color(0xFFB9B8C1),
-                fontSize: 13,
-                fontFamily:
-                    AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-                fontWeight: FontWeight.w500,
-              ),
+            CustomText(
+              text: '#${booking.id!.substring(0, 7)}',
+              color: Color(0xFFB9B8C1),
+              fontSize: 13,
+              fontFamily:
+                  AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+              fontWeight: FontWeight.w500,
             ),
           ],
         ),
         SizedBox(height: 12),
-
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("BookingDetails".tr,
-                style: TextStyle(
+            CustomText(
+              text: "BookingDetails".tr,
+              color: black,
+              fontSize: width * 0.044,
+              fontFamily: AppUtil.SfFontType(context),
+              fontWeight: FontWeight.w500,
+              height: 0,
+            ),
+            Row(
+              children: [
+                RepaintBoundary(
+                  child: icon!,
+                ),
+                CustomText(
+                  text: AppUtil.getBookingTypeText(context, bookTypeText!),
                   color: black,
-                  fontSize: width * 0.044,
+                  fontSize: width * 0.038,
                   fontFamily: AppUtil.SfFontType(context),
                   fontWeight: FontWeight.w500,
                   height: 0,
-                )),
-            Row(
-              children: [
-                icon!,
-                Text(
-                  AppUtil.getBookingTypeText(context, bookTypeText!),
-                  style: TextStyle(
-                    color: black,
-                    fontSize: width * 0.038,
-                    fontFamily: AppUtil.SfFontType(context),
-                    fontWeight: FontWeight.w500,
-                    height: 0,
-                  ),
                 ),
               ],
             ),
@@ -316,29 +311,25 @@ class TicketData extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'date'.tr,
+            CustomText(
+              text: 'date'.tr,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                color: starGreyColor,
-                fontSize: width * 0.035,
-                fontFamily: AppUtil.SfFontType(context),
-                fontWeight: FontWeight.w500,
-                height: 0,
-              ),
+              color: starGreyColor,
+              fontSize: width * 0.035,
+              fontFamily: AppUtil.SfFontType(context),
+              fontWeight: FontWeight.w500,
+              height: 0,
             ),
             const SizedBox(height: 5),
-            Text(
+            CustomText(
               //'Fri 24 May 2024',
-              AppUtil.formatBookingDate(context, booking.date),
+              text: AppUtil.formatBookingDate(context, booking.date),
               textAlign: TextAlign.center,
-              style: TextStyle(
-                color: black,
-                fontSize: width * 0.038,
-                fontFamily: AppUtil.SfFontType(context),
-                fontWeight: FontWeight.w500,
-                height: 0,
-              ),
+              color: black,
+              fontSize: width * 0.038,
+              fontFamily: AppUtil.SfFontType(context),
+              fontWeight: FontWeight.w500,
+              height: 0,
             ),
           ],
         ),
@@ -353,27 +344,23 @@ class TicketData extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'pickUp1'.tr,
+                CustomText(
+                  text: 'pickUp1'.tr,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Color(0xFF9392A0),
-                    fontSize: 14,
-                    fontFamily: AppUtil.SfFontType(context),
-                    fontWeight: FontWeight.w500,
-                    height: 0,
-                  ),
+                  color: Color(0xFF9392A0),
+                  fontSize: 14,
+                  fontFamily: AppUtil.SfFontType(context),
+                  fontWeight: FontWeight.w500,
+                  height: 0,
                 ),
                 const SizedBox(height: 5),
-                Text(
-                  formatTimeWithLocale(context, booking.timeToGo),
-                  style: TextStyle(
-                    color: black,
-                    fontSize: width * 0.038,
-                    fontFamily: AppUtil.SfFontType(context),
-                    fontWeight: FontWeight.w500,
-                    height: 0,
-                  ),
+                CustomText(
+                  text: formatTimeWithLocale(context, booking.timeToGo),
+                  color: black,
+                  fontSize: width * 0.038,
+                  fontFamily: AppUtil.SfFontType(context),
+                  fontWeight: FontWeight.w500,
+                  height: 0,
                 ),
               ],
             ),
@@ -386,29 +373,25 @@ class TicketData extends StatelessWidget {
                 children: [
                   SizedBox(
                     width: double.infinity,
-                    child: Text(
-                      'dropOff1'.tr,
-                      style: TextStyle(
-                        color: starGreyColor,
-                        fontSize: width * 0.035,
-                        fontFamily: AppUtil.SfFontType(context),
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                      ),
+                    child: CustomText(
+                      text: 'dropOff1'.tr,
+                      color: starGreyColor,
+                      fontSize: width * 0.035,
+                      fontFamily: AppUtil.SfFontType(context),
+                      fontWeight: FontWeight.w500,
+                      height: 0,
                     ),
                   ),
                   SizedBox(
                     width: double.infinity,
-                    child: Text(
+                    child: CustomText(
                       //'3:30 PM',
-                      formatTimeWithLocale(context, booking.timeToReturn),
-                      style: TextStyle(
-                        color: black,
-                        fontSize: width * 0.038,
-                        fontFamily: AppUtil.SfFontType(context),
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                      ),
+                      text: formatTimeWithLocale(context, booking.timeToReturn),
+                      color: black,
+                      fontSize: width * 0.038,
+                      fontFamily: AppUtil.SfFontType(context),
+                      fontWeight: FontWeight.w500,
+                      height: 0,
                     ),
                   ),
                 ],
@@ -422,16 +405,14 @@ class TicketData extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'numberOfPeople'.tr,
+            CustomText(
+              text: 'numberOfPeople'.tr,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                color: starGreyColor,
-                fontSize: width * 0.035,
-                fontFamily: AppUtil.SfFontType(context),
-                fontWeight: FontWeight.w500,
-                height: 0,
-              ),
+              color: starGreyColor,
+              fontSize: width * 0.035,
+              fontFamily: AppUtil.SfFontType(context),
+              fontWeight: FontWeight.w500,
+              height: 0,
             ),
             const SizedBox(height: 5),
             Row(
@@ -439,16 +420,14 @@ class TicketData extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  '${booking.guestNumber ?? 0} ${'guests'.tr}',
+                CustomText(
+                  text: '${booking.guestNumber ?? 0} ${'guests'.tr}',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: black,
-                    fontSize: width * 0.038,
-                    fontFamily: AppUtil.SfFontType(context),
-                    fontWeight: FontWeight.w500,
-                    height: 0,
-                  ),
+                  color: black,
+                  fontSize: width * 0.038,
+                  fontFamily: AppUtil.SfFontType(context),
+                  fontWeight: FontWeight.w500,
+                  height: 0,
                 ),
                 // const SizedBox(width: 4),
                 // Text(
@@ -466,16 +445,12 @@ class TicketData extends StatelessWidget {
             ),
           ],
         ),
-      
         const SizedBox(height: 12),
-
         const DottedSeparator(
           color: almostGrey,
           height: 1,
         ),
-      
         const SizedBox(height: 20),
-
         SizedBox(
           width: double.infinity,
           child: Column(
@@ -488,47 +463,40 @@ class TicketData extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'cost'.tr,
+                  CustomText(
+                    text: 'cost'.tr,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: starGreyColor,
-                      fontSize: width * 0.038,
-                      fontFamily: AppUtil.SfFontType(context),
-                      fontWeight: FontWeight.w500,
-                      height: 0,
-                    ),
+                    color: starGreyColor,
+                    fontSize: width * 0.038,
+                    fontFamily: AppUtil.SfFontType(context),
+                    fontWeight: FontWeight.w500,
+                    height: 0,
                   ),
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
+                      CustomText(
                         // '380.00',
-                        booking.cost.toString(),
-
+                        text: booking.cost.toString(),
                         //booking.place!.price.toString(),
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: black,
-                          fontSize: width * 0.044,
-                          fontFamily: AppUtil.SfFontType(context),
-                          fontWeight: FontWeight.w500,
-                          height: 0,
-                        ),
+                        color: black,
+                        fontSize: width * 0.044,
+                        fontFamily: AppUtil.SfFontType(context),
+                        fontWeight: FontWeight.w500,
+                        height: 0,
                       ),
                       const SizedBox(width: 5),
-                      Text(
-                        AppUtil.rtlDirection2(context) ? 'ريال' : 'SAR',
+                      CustomText(
+                        text: AppUtil.rtlDirection2(context) ? 'ريال' : 'SAR',
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: black,
-                          fontSize: width * 0.035,
-                          fontFamily: AppUtil.SfFontType(context),
-                          fontWeight: FontWeight.w500,
-                          height: 0,
-                        ),
+                        color: black,
+                        fontSize: width * 0.035,
+                        fontFamily: AppUtil.SfFontType(context),
+                        fontWeight: FontWeight.w500,
+                        height: 0,
                       ),
                     ],
                   ),

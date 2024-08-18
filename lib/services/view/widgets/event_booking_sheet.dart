@@ -18,7 +18,8 @@ import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest_all.dart' as tz;
 
 class EventBookingSheet extends StatefulWidget {
-  const EventBookingSheet({super.key, this.event, this.avilableDate,this.address});
+  const EventBookingSheet(
+      {super.key, this.event, this.avilableDate, this.address});
   final Event? event;
   final List<DateTime>? avilableDate;
   final String? address;
@@ -99,15 +100,13 @@ class _EventBookingSheetState extends State<EventBookingSheet> {
     }
     return false;
   }
- 
- @override
-  void initState(){
-   super.initState();
-_eventController.address(widget.address);
 
- }
+  @override
+  void initState() {
+    super.initState();
+    _eventController.address(widget.address);
+  }
 
- 
   @override
   void dispose() {
     // TODO: implement dispose
@@ -198,31 +197,27 @@ _eventController.address(widget.address);
             if (_eventController.DateErrorMessage.value)
               Padding(
                 padding: EdgeInsets.only(left: width * 0.01),
-                child: Text(
-                  AppUtil.rtlDirection2(context)
+                child: CustomText(
+                  text: AppUtil.rtlDirection2(context)
                       ? "مطلوب ادخال التاريخ "
                       : '*the date is required',
-                  style: TextStyle(
-                    color: colorRed,
-                    fontSize: width * 0.028,
-                    fontFamily:
-                        AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-                  ),
+                  color: colorRed,
+                  fontSize: width * 0.028,
+                  fontFamily:
+                      AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
                 ),
               ),
             if (showErrorSeat)
               Padding(
                 padding: EdgeInsets.only(left: width * 0.01),
-                child: Text(
-                  AppUtil.rtlDirection2(context)
+                child: CustomText(
+                  text: AppUtil.rtlDirection2(context)
                       ? "لم تعد هناك مقاعد متاحة في هذا اليوم"
                       : 'No avaliable seat in this date ',
-                  style: TextStyle(
-                    color: colorRed,
-                    fontSize: width * 0.028,
-                    fontFamily:
-                        AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-                  ),
+                  color: colorRed,
+                  fontSize: width * 0.028,
+                  fontFamily:
+                      AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
                 ),
               ),
             SizedBox(
@@ -318,31 +313,27 @@ _eventController.address(widget.address);
             if (_eventController.showErrorMaxGuest.value)
               Padding(
                 padding: EdgeInsets.only(left: width * 0.01),
-                child: Text(
-                  AppUtil.rtlDirection2(context)
+                child: CustomText(
+                  text: AppUtil.rtlDirection2(context)
                       ? "ليس هناك مقاعد متاحة أكثر من العدد الحالي"
                       : '*There are no more seats available than the current number',
-                  style: TextStyle(
-                    color: colorRed,
-                    fontSize: width * 0.028,
-                    fontFamily:
-                        AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-                  ),
+                  color: colorRed,
+                  fontSize: width * 0.028,
+                  fontFamily:
+                      AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
                 ),
               ),
             if (showErrorGuests)
               Padding(
                 padding: EdgeInsets.only(left: width * 0.01),
-                child: Text(
-                  AppUtil.rtlDirection2(context)
+                child: CustomText(
+                  text: AppUtil.rtlDirection2(context)
                       ? "يجب أن تختار شخص على الأقل"
                       : '*You need to add at least one guest',
-                  style: TextStyle(
-                    color: colorRed,
-                    fontSize: width * 0.028,
-                    fontFamily:
-                        AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-                  ),
+                  color: colorRed,
+                  fontSize: width * 0.028,
+                  fontFamily:
+                      AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
                 ),
               ),
             SizedBox(
@@ -367,8 +358,7 @@ _eventController.address(widget.address);
                     showErrorSeat = true;
                   });
                   // return;
-
-                } 
+                }
                 // else if (isSameDay()) {
                 //   AppUtil.errorToast(
                 //       context,
@@ -383,7 +373,7 @@ _eventController.address(widget.address);
                 //           ? "غير متاح"
                 //           : "not avalible ");
                 // }
-                 else {
+                else {
                   _eventController.showErrorMaxGuest.value = false;
 
                   setState(() {

@@ -1,4 +1,5 @@
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
@@ -25,8 +26,8 @@ class AccountTile extends StatelessWidget {
           children: [
             CustomText(
               text: title,
-              fontSize: 17,
-              fontFamily: "SF Pro",
+              fontSize: MediaQuery.of(context).size.width * .0435,
+              fontFamily: AppUtil.SfFontType(context),
               fontWeight: FontWeight.w500,
             ),
             SizedBox(
@@ -37,20 +38,20 @@ class AccountTile extends StatelessWidget {
                 constraints: BoxConstraints(maxWidth: 350),
                 child: CustomText(
                   text: titleHint,
-                  fontSize: 13,
-                  fontFamily: "SF Pro",
+                  fontSize: MediaQuery.of(context).size.width * 0.033,
+                  fontFamily: AppUtil.SfFontType(context),
                   color: almostGrey,
                   fontWeight: FontWeight.w400,
                 ),
               ),
             if (title == "Phone number")
-              const SizedBox(
-                height: 12,
+              SizedBox(
+                height: MediaQuery.of(context).size.width * 0.030,
               ),
             if (subtitle != null)
               CustomText(
                 text: subtitle,
-                fontSize: 15,
+                fontSize: MediaQuery.of(context).size.width * 0.038,
                 fontFamily: "SF Pro",
                 color: almostGrey,
                 fontWeight: FontWeight.w400,
@@ -62,9 +63,10 @@ class AccountTile extends StatelessWidget {
           onTap: onTap,
           child: CustomText(
             text: "edit".tr,
-            fontSize: 14,
+            fontSize: MediaQuery.of(context).size.width * 0.033,
             textDecoration: TextDecoration.underline,
             color: almostGrey,
+            fontFamily: AppUtil.SfFontType(context),
             fontWeight: FontWeight.w500,
           ),
         )
