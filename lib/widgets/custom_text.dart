@@ -37,29 +37,32 @@ class CustomText extends StatelessWidget {
   final List<Shadow>? shadows;
   @override
   Widget build(BuildContext context) {
-    return Text(
-      text!,
-      textAlign: textAlign ??
-          (AppUtil.rtlDirection2(context) ? TextAlign.right : TextAlign.left),
-      maxLines: maxlines,
-      overflow: textOverflow,
-      style: TextStyle(
-          fontFamily: fontFamily ?? 'HT Rakik',
-          color: color,
-          fontSize: fontSize,
-          fontStyle: fontStyle,
-          fontWeight: fontWeight,
-          decoration: textDecoration,
-          decorationStyle: textDecorationStyle,
-          height: height,
-          shadows: shadows,
-          decorationColor: color,
-            overflow: TextOverflow.ellipsis,  // Add ellipsis if the text is too long
-          decorationThickness: 0.3),
-      textDirection: textDirection ??
-          (AppUtil.rtlDirection2(context)
-              ? TextDirection.rtl
-              : TextDirection.ltr),
+    return MediaQuery(
+      data:MediaQuery.of(context).copyWith( textScaleFactor:1.0),
+      child: Text(
+        text!,
+        textAlign: textAlign ??
+            (AppUtil.rtlDirection2(context) ? TextAlign.right : TextAlign.left),
+        maxLines: maxlines,
+        overflow: textOverflow,
+        style: TextStyle(
+            fontFamily: fontFamily ?? 'HT Rakik',
+            color: color,
+            fontSize: fontSize,
+            fontStyle: fontStyle,
+            fontWeight: fontWeight,
+            decoration: textDecoration,
+            decorationStyle: textDecorationStyle,
+            height: height,
+            shadows: shadows,
+            decorationColor: color,
+              overflow: TextOverflow.ellipsis,  // Add ellipsis if the text is too long
+            decorationThickness: 0.3),
+        textDirection: textDirection ??
+            (AppUtil.rtlDirection2(context)
+                ? TextDirection.rtl
+                : TextDirection.ltr),
+      ),
     );
   }
 }
