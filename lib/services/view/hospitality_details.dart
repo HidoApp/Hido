@@ -218,30 +218,28 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                   fromNetwork: true,
                                 ));
                           },
-                          child:
-                          hospitalityObj!.images.isEmpty
-                          ? Image.asset(
-                              'assets/images/Placeholder.png',
-                              height: height * 0.3,
-                              fit: BoxFit.cover,
-                            )
-                          
-                           :CarouselSlider.builder(
-                            options: CarouselOptions(
-                                height: height * 0.3,
-                                viewportFraction: 1,
-                                onPageChanged: (i, reason) {
-                                  setState(() {
-                                    _currentIndex = i;
-                                  });
-                                }),
-                            itemCount: hospitalityObj!.images.length,
-                            itemBuilder: (context, index, realIndex) {
-                              return ImagesServicesWidget(
-                                image: hospitalityObj!.images[index],
-                              );
-                            },
-                          ),
+                          child: hospitalityObj!.images.isEmpty
+                              ? Image.asset(
+                                  'assets/images/Placeholder.png',
+                                  height: height * 0.3,
+                                  fit: BoxFit.cover,
+                                )
+                              : CarouselSlider.builder(
+                                  options: CarouselOptions(
+                                      height: height * 0.3,
+                                      viewportFraction: 1,
+                                      onPageChanged: (i, reason) {
+                                        setState(() {
+                                          _currentIndex = i;
+                                        });
+                                      }),
+                                  itemCount: hospitalityObj!.images.length,
+                                  itemBuilder: (context, index, realIndex) {
+                                    return ImagesServicesWidget(
+                                      image: hospitalityObj!.images[index],
+                                    );
+                                  },
+                                ),
                         ),
                         SizedBox(
                           height: width * 0.10,
@@ -549,11 +547,8 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                   height: width * 0.051,
                                 ),
                                 InkWell(
-                                  onTap: () {
-                                    Get.bottomSheet(
-                                      const CustomPloicySheet(),
-                                    );
-                                  },
+                                  onTap: () => Get.bottomSheet(
+                                      const CustomPloicySheet()),
                                   child: Align(
                                       alignment: !AppUtil.rtlDirection(context)
                                           ? Alignment.centerRight
@@ -702,16 +697,17 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                         )),
                     //indicator
                     Center(
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                          top: height *
-                              0.23), // Set the top padding to control vertical position
-                      child: Row(
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              top: height *
+                                  0.23), // Set the top padding to control vertical position
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: hospitalityObj!.images.map((imageUrl) {
-                              int index = hospitalityObj!.images.indexOf(imageUrl);
+                              int index =
+                                  hospitalityObj!.images.indexOf(imageUrl);
                               return Container(
                                 width: width * 0.025,
                                 height: width * 0.025,

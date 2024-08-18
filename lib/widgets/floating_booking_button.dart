@@ -152,9 +152,7 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
     super.initState();
     print(";lkjhgfds");
     _adventureController.address(widget.address);
-
   }
-
 
   final String timeZoneName = 'Asia/Riyadh';
   late tz.Location location;
@@ -323,7 +321,6 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
                                               ? colorRed
                                               : borderGrey,
                                         ),
-
                                       ),
                                       child: Row(
                                         children: [
@@ -397,42 +394,37 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
                                       Padding(
                                         padding:
                                             EdgeInsets.only(left: width * 0.01),
-                                        child: Text(
-                                          AppUtil.rtlDirection2(context)
+                                        child: CustomText(
+                                          text: AppUtil.rtlDirection2(context)
                                               ? "ليس هناك مقاعد متاحة أكثر من العدد الحالي"
                                               : '*There are no more seats available than the current number',
-                                          style: TextStyle(
-                                            color: colorRed,
-                                            fontSize: width * 0.028,
-                                            fontFamily:
-                                                AppUtil.rtlDirection2(context)
-                                                    ? 'SF Arabic'
-                                                    : 'SF Pro',
-                                          ),
+                                          color: colorRed,
+                                          fontSize: width * 0.028,
+                                          fontFamily:
+                                              AppUtil.rtlDirection2(context)
+                                                  ? 'SF Arabic'
+                                                  : 'SF Pro',
                                         ),
                                       ),
                                     if (showErrorGuests)
                                       Padding(
                                         padding:
                                             EdgeInsets.only(left: width * 0.01),
-                                        child: Text(
-                                          AppUtil.rtlDirection2(context)
+                                        child: CustomText(
+                                          text: AppUtil.rtlDirection2(context)
                                               ? "يجب أن تختار شخص على الأقل"
                                               : '*You need to add at least one guest',
-                                          style: TextStyle(
-                                            color: colorRed,
-                                            fontSize: width * 0.028,
-                                            fontFamily:
-                                                AppUtil.rtlDirection2(context)
-                                                    ? 'SF Arabic'
-                                                    : 'SF Pro',
-                                          ),
+                                          color: colorRed,
+                                          fontSize: width * 0.028,
+                                          fontFamily:
+                                              AppUtil.rtlDirection2(context)
+                                                  ? 'SF Arabic'
+                                                  : 'SF Pro',
                                         ),
                                       ),
                                     SizedBox(
                                       height: width * 0.06,
                                     ),
-
                                     CustomButton(
                                         onPressed: () {
                                           if ((getSeat())) {
@@ -442,19 +434,19 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
                                                       .value ==
                                                   true;
                                             });
-                                          }
-                                         else if (person == 0) {
+                                          } else if (person == 0) {
                                             setState(() {
                                               showErrorGuests = true;
                                             });
-                                          } else if (!AppUtil.isDateTimeBefore24Hours('${widget.adventure.date ?? ''} ${widget.adventure.times!.first.startTime}')) {
-                                          AppUtil.errorToast(
-                                              context,
-                                              AppUtil.rtlDirection2(context)
-                                                  ? "يجب أن تحجز قبل 24 ساعة "
-                                                  : "You must booking before 24 hours");
-                                        } else {
-
+                                          } else if (!AppUtil
+                                              .isDateTimeBefore24Hours(
+                                                  '${widget.adventure.date ?? ''} ${widget.adventure.times!.first.startTime}')) {
+                                            AppUtil.errorToast(
+                                                context,
+                                                AppUtil.rtlDirection2(context)
+                                                    ? "يجب أن تحجز قبل 24 ساعة "
+                                                    : "You must booking before 24 hours");
+                                          } else {
                                             _adventureController
                                                 .showErrorMaxGuest(false);
 

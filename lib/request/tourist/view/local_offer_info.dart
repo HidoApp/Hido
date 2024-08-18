@@ -91,8 +91,9 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
       length: widget.fromService ? 2 : 3,
       child: FloatingDraggableADVN(
         floatingWidget:
-            _offerController.acceptedOffer.value.orderStatus == 'ACCEPTED' || widget.booking?.orderStatus == 'ACCEPTED'&&
-                    widget.place.booking != null
+            _offerController.acceptedOffer.value.orderStatus == 'ACCEPTED' ||
+                    widget.booking?.orderStatus == 'ACCEPTED' &&
+                        widget.place.booking != null
                 ? const SizedBox.shrink()
                 : const FloatingTimer(),
         child: Scaffold(
@@ -122,7 +123,7 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
                   ),
                   CustomText(
                     text: widget.name,
-                    fontSize: width*0.044,
+                    fontSize: width * 0.044,
                     fontFamily: 'HT Rakik',
                   ),
                   const SizedBox(
@@ -143,7 +144,7 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
                       const SizedBox(
                         height: 44,
                         child: VerticalDivider(
-                          color:graySubSmallText,
+                          color: graySubSmallText,
                           thickness: 1,
                           indent: 10,
                           width: 0,
@@ -169,10 +170,11 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
                   if (!widget.fromService)
                     Obx(() {
                       if (_offerController.acceptedOffer.value.orderStatus ==
-                              'ACCEPTED' || widget.booking?.orderStatus == 'ACCEPTED'&&
-                          widget.place.booking != null) {
+                              'ACCEPTED' ||
+                          widget.booking?.orderStatus == 'ACCEPTED' &&
+                              widget.place.booking != null) {
                         return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal:4),
+                          padding: const EdgeInsets.symmetric(horizontal: 4),
                           child: CustomAcceptButton(
                             onPressed: () async {
                               Get.to(() => ChatScreen(
@@ -191,7 +193,9 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
                       }
 
                       if (_offerController.acceptedOffer.value.orderStatus ==
-                              'ACCEPTED' || widget.booking?.orderStatus == 'ACCEPTED'&& widget.place.booking != null) {
+                              'ACCEPTED' ||
+                          widget.booking?.orderStatus == 'ACCEPTED' &&
+                              widget.place.booking != null) {
                         return Center(
                           child: SizedBox(
                             width: width * 0.5,
@@ -200,8 +204,9 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
                                     child: CircularProgressIndicator(
                                         color: Colors.green[700]))
                                 : Padding(
-                          padding: const EdgeInsets.symmetric(horizontal:4),
-                                  child: CustomAcceptButton(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 4),
+                                    child: CustomAcceptButton(
                                       onPressed: () async {
                                         OfferDetails? offerDetails =
                                             await _offerController.getOfferById(
@@ -209,7 +214,7 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
                                                 offerId: _offerController
                                                     .offerDetails.value.id!);
                                         // offerDetails
-                                
+
                                         if (offerDetails != null) {
                                           // String userId = getStorage.read('userId');
                                           // log("chatId ${offerDetails.booking!.chatId!}");
@@ -220,10 +225,11 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
                                           //     ));
                                           Get.to(() => ChatScreenLive(
                                                 isAjwadi: false,
-                                                offerController: _offerController,
+                                                offerController:
+                                                    _offerController,
                                                 booking: offerDetails.booking!,
-                                                chatId:
-                                                    offerDetails.booking!.chatId!,
+                                                chatId: offerDetails
+                                                    .booking!.chatId!,
                                                 place: widget.place,
                                               ));
                                         }
@@ -231,7 +237,7 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
                                       title: 'chat'.tr,
                                       icon: 'chat',
                                     ),
-                                ),
+                                  ),
                           ),
                         );
                       }
@@ -303,11 +309,12 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
                 ],
               ),
               bottom: TabBar(
-              indicatorSize: TabBarIndicatorSize.tab,
-              labelColor: colorGreen,
-              unselectedLabelColor: colorDarkGrey,
-              dividerColor: Color(0xFFB9B8C1),
-              overlayColor:MaterialStatePropertyAll( const Color.fromARGB(255, 255, 255, 255)),
+                indicatorSize: TabBarIndicatorSize.tab,
+                labelColor: colorGreen,
+                unselectedLabelColor: colorDarkGrey,
+                dividerColor: Color(0xFFB9B8C1),
+                overlayColor: MaterialStatePropertyAll(
+                    const Color.fromARGB(255, 255, 255, 255)),
                 indicatorPadding: EdgeInsets.only(top: 12),
                 tabs: [
                   Tab(

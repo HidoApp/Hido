@@ -18,7 +18,7 @@ class ReviewGuestsTile extends StatelessWidget {
           color: almostGrey,
           fontSize: width * 0.038,
           fontWeight: FontWeight.w400,
-      fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+          fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
         ),
         const Spacer(),
         CustomText(
@@ -26,7 +26,7 @@ class ReviewGuestsTile extends StatelessWidget {
           color: almostGrey,
           fontSize: width * 0.038,
           fontWeight: FontWeight.w400,
-           fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+          fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
         ),
       ],
     );

@@ -194,11 +194,10 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                     // images widget on top of screen
                     GestureDetector(
                       onTap: () {
-                     
-                            Get.to(ViewTripImages(
-                                tripImageUrl: adventure!.image!,
-                                fromNetwork: true,
-                              ));
+                        Get.to(ViewTripImages(
+                          tripImageUrl: adventure!.image!,
+                          fromNetwork: true,
+                        ));
                       },
                       child: adventure!.image!.isEmpty
                           ? Image.asset(
@@ -249,8 +248,10 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                           ),
                           Row(
                             children: [
-                              SvgPicture.asset(
-                                "assets/icons/map_pin.svg",
+                              RepaintBoundary(
+                                child: SvgPicture.asset(
+                                  "assets/icons/map_pin.svg",
+                                ),
                               ),
                               SizedBox(
                                 width: width * 0.012,
@@ -275,8 +276,10 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                           ),
                           Row(
                             children: [
-                              SvgPicture.asset(
-                                'assets/icons/calendar.svg',
+                              RepaintBoundary(
+                                child: SvgPicture.asset(
+                                  'assets/icons/calendar.svg',
+                                ),
                               ),
                               SizedBox(
                                 width: width * 0.012,
@@ -639,7 +642,6 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                     )),
                 //indicator
                 Center(
-
                   child: Align(
                     alignment: Alignment.center,
                     child: Padding(

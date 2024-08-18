@@ -251,17 +251,15 @@ class _BookingSheetState extends State<BookingSheet> {
                   if (DateErrorMessage ?? false)
                     Padding(
                       padding: const EdgeInsets.only(top: 10),
-                      child: Text(
-                        AppUtil.rtlDirection2(context)
+                      child: CustomText(
+                        text: AppUtil.rtlDirection2(context)
                             ? '*لابد من اختيار تاريخ للجولة '
                             : "Select Date",
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontSize: width * 0.028,
-                          fontFamily: AppUtil.rtlDirection2(context)
-                              ? 'SF Arabic'
-                              : 'SF Pro',
-                        ),
+                        color: Colors.red,
+                        fontSize: width * 0.028,
+                        fontFamily: AppUtil.rtlDirection2(context)
+                            ? 'SF Arabic'
+                            : 'SF Pro',
                       ),
                     ),
 
@@ -424,23 +422,21 @@ class _BookingSheetState extends State<BookingSheet> {
                           if (TimeErrorMessage ?? false)
                             Padding(
                               padding: const EdgeInsets.only(top: 10),
-                              child: Text(
-                                AppUtil.rtlDirection2(context)
+                              child: CustomText(
+                                text: AppUtil.rtlDirection2(context)
                                     ? "*لابد من إدخال وقت الذهاب"
                                     : "Select Time",
-                                style: TextStyle(
-                                  color: Colors.red,
-                                  fontSize: width * 0.028,
-                                  fontFamily: AppUtil.rtlDirection2(context)
-                                      ? 'SF Arabic'
-                                      : 'SF Pro',
-                                ),
+                                color: Colors.red,
+                                fontSize: width * 0.028,
+                                fontFamily: AppUtil.rtlDirection2(context)
+                                    ? 'SF Arabic'
+                                    : 'SF Pro',
                               ),
                             ),
                         ],
                       ),
-                      const SizedBox(
-                        width: 20,
+                      SizedBox(
+                        width: width * 0.05,
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -571,17 +567,15 @@ class _BookingSheetState extends State<BookingSheet> {
                           if (TimeErrorMessage ?? false)
                             Padding(
                               padding: const EdgeInsets.only(top: 10),
-                              child: Text(
-                                AppUtil.rtlDirection2(context)
+                              child: CustomText(
+                                text: AppUtil.rtlDirection2(context)
                                     ? "*لابد من إدخال وقت العودة"
                                     : "Select Time",
-                                style: TextStyle(
-                                  color: Colors.red,
-                                  fontFamily: AppUtil.rtlDirection2(context)
-                                      ? 'SF Arabic'
-                                      : 'SF Pro',
-                                  fontSize: width * width * 0.028,
-                                ),
+                                color: Colors.red,
+                                fontFamily: AppUtil.rtlDirection2(context)
+                                    ? 'SF Arabic'
+                                    : 'SF Pro',
+                                fontSize: width * width * 0.028,
                               ),
                             ),
                         ],
@@ -773,18 +767,16 @@ class _BookingSheetState extends State<BookingSheet> {
                   pickupRide(),
                   if (vehicleErrorMessage ?? false)
                     Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: Text(
-                        AppUtil.rtlDirection2(context)
+                      padding: EdgeInsets.only(top: width * 0.025),
+                      child: CustomText(
+                        text: AppUtil.rtlDirection2(context)
                             ? "اختر نوع السيارة"
                             : "Select vehicle type",
-                        style: TextStyle(
-                          fontFamily: AppUtil.rtlDirection2(context)
-                              ? 'SF Arabic'
-                              : 'SF Pro',
-                          color: Colors.red,
-                          fontSize: width * 0.028,
-                        ),
+                        fontFamily: AppUtil.rtlDirection2(context)
+                            ? 'SF Arabic'
+                            : 'SF Pro',
+                        color: Colors.red,
+                        fontSize: width * 0.028,
                       ),
                     ),
                   SizedBox(
@@ -967,14 +959,16 @@ class _BookingSheetState extends State<BookingSheet> {
                 ),
                 child: Column(
                   children: [
-                    Spacer(),
-                    SvgPicture.asset(
-                      selectedRide == key ? values[0] : values[1],
-                      color: (key == 'van' && guestNum <= 7)
-                          ? tileGreyColor
-                          : null,
+                    const Spacer(),
+                    RepaintBoundary(
+                      child: SvgPicture.asset(
+                        selectedRide == key ? values[0] : values[1],
+                        color: (key == 'van' && guestNum <= 7)
+                            ? tileGreyColor
+                            : null,
+                      ),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     CustomText(
                       text: "$key".tr,
                       color: (key == 'van' && guestNum <= 7)

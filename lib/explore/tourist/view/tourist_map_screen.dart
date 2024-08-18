@@ -469,10 +469,12 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                         hintText: 'search'.tr,
                         prefixIcon: Padding(
                           padding: EdgeInsets.all(8),
-                          child: SvgPicture.asset(
-                            'assets/icons/General.svg',
-                            width: 10,
-                            height: 1,
+                          child: RepaintBoundary(
+                            child: SvgPicture.asset(
+                              'assets/icons/General.svg',
+                              width: 10,
+                              height: 1,
+                            ),
                           ),
                         ),
                         focusNode: focusNode,
