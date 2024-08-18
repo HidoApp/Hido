@@ -234,7 +234,7 @@ class _CustomCheckWidget extends StatelessWidget {
                     children: [
                       MediaQuery(
                         data: MediaQuery.of(context)
-                            .copyWith(textScaler: const TextScaler.linear(1.0)),
+                            .copyWith(textScaleFactor:1.0),
                         child: Text(
                           schedule?.scheduleName ?? '',
                           style: !isReview

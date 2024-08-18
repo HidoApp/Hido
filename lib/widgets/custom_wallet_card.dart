@@ -86,7 +86,7 @@ class CustomWalletCard extends StatelessWidget {
               ),
               MediaQuery(
                 data: MediaQuery.of(context)
-                    .copyWith(textScaler: const TextScaler.linear(1.0)),
+                    .copyWith(textScaleFactor:1.0),
                 child: Text.rich(TextSpan(children: [
                   TextSpan(
                     text: AppUtil.rtlDirection2(context) ? "00.00 " : '00.00 ',
