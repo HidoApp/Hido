@@ -23,7 +23,7 @@ class HomeIconButton extends StatelessWidget {
           shape: BoxShape.circle,
         ),
         alignment: Alignment.center,
-        child: SvgPicture.asset(icon),
+        child: RepaintBoundary(child: SvgPicture.asset(icon)),
       ),
     );
   }

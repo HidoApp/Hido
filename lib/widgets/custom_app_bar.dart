@@ -81,7 +81,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                         ),
                     if (isDeleteIcon!)
                       Padding(
-                        padding: AppUtil.rtlDirection2(context)?EdgeInsets.only(left:15,top:4) :EdgeInsets.only(right:15,top:4),
+                        padding: AppUtil.rtlDirection2(context)
+                            ? EdgeInsets.only(left: 15, top: 4)
+                            : EdgeInsets.only(right: 15, top: 4),
                         child: IconButton(
                           icon: Icon(
                             Icons.delete_outline,
@@ -116,7 +118,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                             onPressed: () => Get.back(),
                           ),
                         )
-                      : Text(''),
+                      : const CustomText(text: ''),
                 ))));
   }
 }

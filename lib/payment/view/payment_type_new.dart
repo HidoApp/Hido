@@ -791,10 +791,12 @@ class _PaymentTypeState extends State<PaymentType> {
                       ),
                       // Text('pay'),
 
-                      SvgPicture.asset(
-                        "assets/icons/applePay_icon.svg",
-                        color: const Color.fromARGB(255, 0, 0, 0),
-                        height: width * 0.051,
+                      RepaintBoundary(
+                        child: SvgPicture.asset(
+                          "assets/icons/applePay_icon.svg",
+                          color: const Color.fromARGB(255, 0, 0, 0),
+                          height: width * 0.051,
+                        ),
                       ),
                     ],
                   ),
@@ -809,11 +811,14 @@ class _PaymentTypeState extends State<PaymentType> {
                         });
                       },
                     ),
-                    SvgPicture.asset('assets/icons/logos_mastercard.svg'),
+                    RepaintBoundary(
+                        child: SvgPicture.asset(
+                            'assets/icons/logos_mastercard.svg')),
                     SizedBox(
                       width: width * 0.005,
                     ),
-                    SvgPicture.asset('assets/icons/logos_visa.svg'),
+                    RepaintBoundary(
+                        child: SvgPicture.asset('assets/icons/logos_visa.svg')),
                     SizedBox(
                       width: width * 0.015,
                     ),
@@ -853,7 +858,7 @@ class _PaymentTypeState extends State<PaymentType> {
         MaterialPageRoute(
           builder: (context) => PaymentWebView(
             url: url,
-            title: 'Payment',
+            title: 'payment'.tr,
           ),
         ),
       );

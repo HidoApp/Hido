@@ -45,7 +45,6 @@ class HospitalityBookingSheet extends StatefulWidget {
       _HospitalityBookingSheetState();
 }
 
-
 class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
   final _formKey = GlobalKey<FormState>();
 
@@ -64,17 +63,17 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
   late tz.Location location;
 
   bool isDateBeforeToday() {
-  
-     DateTime parsedDate =  DateTime.parse(widget.serviceController.selectedDate.value);
-     final parsedDateInRiyadh = tz.TZDateTime.from(parsedDate, location).subtract(Duration(hours: 3));
-
+    DateTime parsedDate =
+        DateTime.parse(widget.serviceController.selectedDate.value);
+    final parsedDateInRiyadh =
+        tz.TZDateTime.from(parsedDate, location).subtract(Duration(hours: 3));
 
     tz.initializeTimeZones();
     location = tz.getLocation(timeZoneName);
 
     DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
-    
-   Duration difference =  parsedDateInRiyadh.difference(currentDateInRiyadh);
+
+    Duration difference = parsedDateInRiyadh.difference(currentDateInRiyadh);
     print(difference);
     return difference.inHours > 24;
   }
@@ -205,44 +204,39 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
                                       .serviceController.DateErrorMessage.value
                                   ? colorRed
                                   : borderGrey,
-                              
-                      prefixIcon:Container(),
-                      suffixIcon: SvgPicture.asset(
-                        "assets/icons/green_calendar.svg",
-                      ),
+                              prefixIcon: Container(),
+                              suffixIcon: SvgPicture.asset(
+                                "assets/icons/green_calendar.svg",
+                              ),
                               textColor: borderGrey,
                             ),
                           ),
                           if (showErrorDate)
                             Padding(
                               padding: EdgeInsets.only(left: width * 0.01),
-                              child: Text(
-                                AppUtil.rtlDirection2(context)
+                              child: CustomText(
+                                text: AppUtil.rtlDirection2(context)
                                     ? "لم تعد هناك مقاعد متاحة في هذا اليوم"
                                     : 'No avaliable seat in this date ',
-                                style: TextStyle(
-                                  color: colorRed,
-                                  fontSize: width * 0.028,
-                                  fontFamily: AppUtil.rtlDirection2(context)
-                                      ? 'SF Arabic'
-                                      : 'SF Pro',
-                                ),
+                                color: colorRed,
+                                fontSize: width * 0.028,
+                                fontFamily: AppUtil.rtlDirection2(context)
+                                    ? 'SF Arabic'
+                                    : 'SF Pro',
                               ),
                             ),
                           if (widget.serviceController.DateErrorMessage.value)
                             Padding(
                               padding: EdgeInsets.only(left: width * 0.01),
-                              child: Text(
-                                 AppUtil.rtlDirection2(context)
-                                ? "مطلوب ادخال التاريخ "
-                                 : '*the date is required',
-                                style: TextStyle(
-                                  color: colorRed,
-                                  fontSize: width * 0.028,
-                                  fontFamily: AppUtil.rtlDirection2(context)
-                                      ? 'SF Arabic'
-                                      : 'SF Pro',
-                                ),
+                              child: CustomText(
+                                text: AppUtil.rtlDirection2(context)
+                                    ? "مطلوب ادخال التاريخ "
+                                    : '*the date is required',
+                                color: colorRed,
+                                fontSize: width * 0.028,
+                                fontFamily: AppUtil.rtlDirection2(context)
+                                    ? 'SF Arabic'
+                                    : 'SF Pro',
                               ),
                             ),
                           SizedBox(
@@ -365,36 +359,32 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
                             if (widget
                                 .serviceController.showErrorMaxGuest.value)
                               Padding(
-                              padding: EdgeInsets.only(left: width * 0.01),
-                                child: Text(
-                                  AppUtil.rtlDirection2(context)
+                                padding: EdgeInsets.only(left: width * 0.01),
+                                child: CustomText(
+                                  text: AppUtil.rtlDirection2(context)
                                       ? "ليس هناك مقاعد متاحة أكثر من العدد الحالي"
                                       : '*There are no more seats available than the current number',
-                                  style: TextStyle(
-                                    color: colorRed,
-                                    fontSize: width * 0.028,
-                                    fontFamily: AppUtil.rtlDirection2(context)
-                                        ? 'SF Arabic'
-                                        : 'SF Pro',
-                                  ),
+                                  color: colorRed,
+                                  fontSize: width * 0.028,
+                                  fontFamily: AppUtil.rtlDirection2(context)
+                                      ? 'SF Arabic'
+                                      : 'SF Pro',
                                 ),
                               ),
                           if (widget.hospitality!.touristsGender == 'BOTH' ||
                               widget.hospitality!.touristsGender == 'MALE')
                             if (showErrorGuests)
                               Padding(
-                              padding: EdgeInsets.only(left: width * 0.01),
-                                child: Text(
-                                  AppUtil.rtlDirection2(context)
+                                padding: EdgeInsets.only(left: width * 0.01),
+                                child: CustomText(
+                                  text: AppUtil.rtlDirection2(context)
                                       ? "يجب أن تختار شخص على الأقل"
                                       : '*You need to add at least one guest',
-                                  style: TextStyle(
-                                    color: colorRed,
-                                    fontSize: width * 0.028,
-                                    fontFamily: AppUtil.rtlDirection2(context)
-                                        ? 'SF Arabic'
-                                        : 'SF Pro',
-                                  ),
+                                  color: colorRed,
+                                  fontSize: width * 0.028,
+                                  fontFamily: AppUtil.rtlDirection2(context)
+                                      ? 'SF Arabic'
+                                      : 'SF Pro',
                                 ),
                               ),
                           if (widget.hospitality!.touristsGender == 'BOTH' ||
@@ -509,36 +499,32 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
                                     .value &&
                                 !showErrorGuests)
                               Padding(
-                              padding: EdgeInsets.only(left: width * 0.01),
-                                child: Text(
-                                  AppUtil.rtlDirection2(context)
+                                padding: EdgeInsets.only(left: width * 0.01),
+                                child: CustomText(
+                                  text: AppUtil.rtlDirection2(context)
                                       ? "ليس هناك مقاعد متاحة أكثر من العدد الحالي"
                                       : '*There are no more seats available than the current number',
-                                  style: TextStyle(
-                                    color: colorRed,
-                                    fontSize: width * 0.028,
-                                    fontFamily: AppUtil.rtlDirection2(context)
-                                        ? 'SF Arabic'
-                                        : 'SF Pro',
-                                  ),
+                                  color: colorRed,
+                                  fontSize: width * 0.028,
+                                  fontFamily: AppUtil.rtlDirection2(context)
+                                      ? 'SF Arabic'
+                                      : 'SF Pro',
                                 ),
                               ),
                           if (widget.hospitality!.touristsGender == 'BOTH' ||
                               widget.hospitality!.touristsGender == 'FEMALE')
                             if (showErrorGuests)
                               Padding(
-                                 padding: EdgeInsets.only(left: width * 0.01),
-                                child: Text(
-                                  AppUtil.rtlDirection2(context)
+                                padding: EdgeInsets.only(left: width * 0.01),
+                                child: CustomText(
+                                  text: AppUtil.rtlDirection2(context)
                                       ? "يجب أن تختار شخص على الأقل"
                                       : '*You need to add at least one guest',
-                                  style: TextStyle(
-                                    color: colorRed,
-                                    fontSize: width * 0.028,
-                                    fontFamily: AppUtil.rtlDirection2(context)
-                                        ? 'SF Arabic'
-                                        : 'SF Pro',
-                                  ),
+                                  color: colorRed,
+                                  fontSize: width * 0.028,
+                                  fontFamily: AppUtil.rtlDirection2(context)
+                                      ? 'SF Arabic'
+                                      : 'SF Pro',
                                 ),
                               ),
                         ],
@@ -571,7 +557,7 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
                         //       AppUtil.rtlDirection2(context)
                         //           ? "يجب أن تحجز قبل 24 ساعة "
                         //           : "You must booking before 24 hours");
-                        // } 
+                        // }
                         // else if (!isDateBeforeToday()) {
                         //   print("ynter");
                         //   AppUtil.errorToast(
@@ -580,7 +566,7 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
                         //           ? "غير متاح"
                         //           : "not avalible ");
                         // }
-                         else {
+                        else {
                           widget.serviceController.showErrorMaxGuest.value =
                               false;
                           Get.to(() => ReviewHospitalty(
@@ -908,12 +894,11 @@ class _ReservaationDetailsAdventureWidgetState
                                 if (showErrorGuests)
                                   Padding(
                                     padding: const EdgeInsets.only(left: 15),
-                                    child: Text(
-                                      'You need to add at least one guest',
-                                      style: TextStyle(
-                                        color: Colors.red,
-                                        fontSize: 12,
-                                      ),
+                                    child: CustomText(
+                                      text:
+                                          'You need to add at least one guest',
+                                      color: Colors.red,
+                                      fontSize: 12,
                                     ),
                                   ),
                                 // Container(

@@ -69,8 +69,8 @@ class _EventsTabState extends State<EventsTab> {
                   children: [
                     CustomText(
                       text: 'saudiEvent'.tr,
-                      color: Color(0xFF070708),
-                      fontSize: 17,
+                      color: const Color(0xFF070708),
+                      fontSize: width * 0.043,
                       fontFamily: 'HT Rakik',
                       fontWeight: FontWeight.w500,
                     ),
@@ -176,7 +176,8 @@ class _EventsTabState extends State<EventsTab> {
                                           '',
                                       rate: "5",
                                       daysInfo: _eventController
-                                          .eventList[index].daysInfo??[],
+                                              .eventList[index].daysInfo ??
+                                          [],
                                     );
                                   },
                                   separatorBuilder: (context, index) {
@@ -186,15 +187,15 @@ class _EventsTabState extends State<EventsTab> {
                                   },
                                 )
                               : Padding(
-                           padding: const EdgeInsets.only(top:40),
-                                child: Center(
+                                  padding: const EdgeInsets.only(top: 40),
+                                  child: Center(
                                     child: CustomEmptyWidget(
                                       title: "noExperiences".tr,
                                       //    image: "",
                                       subtitle: 'noExperiencesSubtitle'.tr,
                                     ),
                                   ),
-                              ),
+                                ),
                         ),
                 ),
               ],

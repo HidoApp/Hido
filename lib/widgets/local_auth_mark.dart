@@ -12,7 +12,9 @@ class LocalAuthMark extends StatelessWidget {
       width: MediaQuery.of(context).size.width * 0.051,
       decoration:
           const BoxDecoration(color: colorGreen, shape: BoxShape.circle),
-      child: SvgPicture.asset('assets/icons/local_auth.svg'),
+      child: RepaintBoundary(
+        child: SvgPicture.asset('assets/icons/local_auth.svg'),
+      ),
     );
   }
 }

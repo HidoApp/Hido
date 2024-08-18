@@ -172,7 +172,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           const Spacer(),
                           //button
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 24),
+                            padding:
+                                EdgeInsets.symmetric(horizontal: width * 0.061),
                             child: GestureDetector(
                               onTap: () {
                                 Get.to(() => widget.fromAjwady
@@ -254,7 +255,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               title: "terms".tr,
                               leading: "assets/icons/help_icon.svg",
                               // fromAjwady: widget.fromAjwady,
-
                               onTap: () {
                                 Get.to(() => const TermsAndConditions(
                                       fromAjwady: false,
@@ -283,16 +283,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           const SizedBox(
                                             height: 10,
                                           ),
-                                          CustomText(
-                                              textAlign: TextAlign.center,
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.w500,
-                                              color: black,
-                                              fontFamily:
-                                                  AppUtil.rtlDirection2(context)
-                                                      ? "SF Arabic"
-                                                      : 'SF Pro',
-                                              text: "youWantSiginOut".tr),
+                                          FittedBox(
+                                            child: CustomText(
+                                                textAlign: TextAlign.center,
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.w500,
+                                                color: black,
+                                                maxlines: 2,
+                                                fontFamily:
+                                                    AppUtil.rtlDirection2(
+                                                            context)
+                                                        ? "SF Arabic"
+                                                        : 'SF Pro',
+                                                text: "youWantSiginOut".tr),
+                                          ),
                                           const SizedBox(
                                             height: 20,
                                           ),

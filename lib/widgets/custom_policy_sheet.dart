@@ -29,60 +29,58 @@ class CustomPloicySheet extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-          BottomSheetIndicator(),
-
+            const BottomSheetIndicator(),
             SizedBox(
               height: width * 0.06,
             ),
             CustomText(
               text: 'cancellationPolicy'.tr,
               fontSize: width * 0.046,
-             fontFamily: 'HT Rakik',
-
+              fontFamily: 'HT Rakik',
             ),
             SizedBox(
               height: width * 0.06,
             ),
-          CustomText(
+            CustomText(
               text: 'cancellationPolicyBreif'.tr,
               fontSize: width * 0.038,
               color: starGreyColor,
               fontWeight: FontWeight.w400,
-             fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
-
+              fontFamily:
+                  AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
             ),
             SizedBox(
               height: width * 0.038,
             ),
             CustomText(
               text: 'cancellationPolicyBreifAdventure'.tr,
-               color: starGreyColor,
+              color: starGreyColor,
               fontSize: width * 0.038,
               fontWeight: FontWeight.w400,
-             fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
-
+              fontFamily:
+                  AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
             ),
             SizedBox(
               height: width * 0.038,
             ),
             CustomText(
               text: 'cancellationPolicyNote'.tr,
-               color: starGreyColor,
+              color: starGreyColor,
               fontSize: width * 0.038,
               fontWeight: FontWeight.w400,
-              fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
-
+              fontFamily:
+                  AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
             ),
-              SizedBox(
+            SizedBox(
               height: width * 0.038,
             ),
             CustomText(
               text: 'cancellationPolicySubNote'.tr,
-               color: starGreyColor,
+              color: starGreyColor,
               fontSize: width * 0.038,
               fontWeight: FontWeight.w400,
-              fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
-
+              fontFamily:
+                  AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
             ),
           ],
         ),

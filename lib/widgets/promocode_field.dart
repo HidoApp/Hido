@@ -46,7 +46,8 @@ class _PromocodeFieldState extends State<PromocodeField> {
                   SizedBox(
                     width: width * .02,
                   ),
-                  SvgPicture.asset('assets/icons/promocode.svg')
+                  RepaintBoundary(
+                      child: SvgPicture.asset('assets/icons/promocode.svg'))
                 ]
               : [],
         ),
