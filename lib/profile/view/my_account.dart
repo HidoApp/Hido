@@ -65,17 +65,7 @@ class _MyAccountState extends State<MyAccount> {
                   : AccountTile(
                       title: 'email'.tr,
                       subtitle: widget.profileController.profile.email!,
-                      onTap: () {
-                        Get.bottomSheet(const EmailSheet());
-                        // showModalBottomSheet(
-                        //   isScrollControlled: true,
-                        //   enableDrag: true,
-                        //   context: context,
-                        //   builder: (context) => AccountEditSheet(
-                        //     profileController: widget.profileController,
-                        //   ),
-                        // );
-                      },
+                      onTap: () => Get.bottomSheet(const EmailSheet()),
                     ),
             ),
             const Divider(
@@ -169,12 +159,14 @@ class _MyAccountState extends State<MyAccount> {
                             SizedBox(
                               height: width * 0.025,
                             ),
-                            CustomText(
-                                textAlign: TextAlign.center,
-                                fontSize: width * 0.046,
-                                fontWeight: FontWeight.w300,
-                                color: dividerColor,
-                                text: "youWantDeleteYourAccount".tr),
+                            FittedBox(
+                              child: CustomText(
+                                  textAlign: TextAlign.center,
+                                  fontSize: width * 0.046,
+                                  fontWeight: FontWeight.w300,
+                                  color: dividerColor,
+                                  text: "youWantDeleteYourAccount".tr),
+                            ),
                             SizedBox(
                               height: width * 0.051,
                             ),

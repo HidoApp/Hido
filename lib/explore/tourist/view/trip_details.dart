@@ -218,11 +218,11 @@ class _TripDetailsState extends State<TripDetails> {
                   },
                 ),
               ),
-              const SizedBox(
-                height: 24,
+              SizedBox(
+                height: width * .061,
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
+                padding: EdgeInsets.symmetric(horizontal: width * 0.051),
                 child: SizedBox(
                   //here i fix the overflow
 
@@ -244,12 +244,14 @@ class _TripDetailsState extends State<TripDetails> {
                             fontFamily: 'HT Rakik',
                             fontWeight: FontWeight.w500,
                           )),
-                      const SizedBox(
-                        height: 6,
+                      SizedBox(
+                        height: width * 0.015,
                       ),
                       Row(
                         children: [
-                          SvgPicture.asset("assets/icons/map_pin.svg"),
+                          RepaintBoundary(
+                              child:
+                                  SvgPicture.asset("assets/icons/map_pin.svg")),
                           SizedBox(
                             width: width * 0.015,
                           ),
@@ -268,12 +270,14 @@ class _TripDetailsState extends State<TripDetails> {
                             fontWeight: FontWeight.w400,
                             height: 0,
                           ),
-                          const SizedBox(
-                            width: 28,
+                          SizedBox(
+                            width: width * 0.071,
                           ),
-                          SvgPicture.asset("assets/icons/Rating.svg"),
-                          const SizedBox(
-                            width: 4,
+                          RepaintBoundary(
+                              child:
+                                  SvgPicture.asset("assets/icons/Rating.svg")),
+                          SizedBox(
+                            width: width * .0102,
                           ),
                           CustomText(
                             text: widget.place != null
@@ -289,8 +293,8 @@ class _TripDetailsState extends State<TripDetails> {
                         ],
                       ),
 
-                      const SizedBox(
-                        height: 18,
+                      SizedBox(
+                        height: width * 0.046,
                       ),
                       Align(
                           alignment: !AppUtil.rtlDirection(context)
@@ -336,8 +340,8 @@ class _TripDetailsState extends State<TripDetails> {
                                       : widget.place!.descriptionEn!),
                         ),
                       ),
-                      const SizedBox(
-                        height: 1,
+                      SizedBox(
+                        height: width * 0.0025,
                       ),
                       isExpanded
                           ? Align(
@@ -356,7 +360,7 @@ class _TripDetailsState extends State<TripDetails> {
                                       ? "القليل"
                                       : "Show less",
                                   color: blue,
-                                  fontSize: 15,
+                                  fontSize: width * 0.038,
                                   fontFamily: AppUtil.rtlDirection2(context)
                                       ? 'SF Arabic'
                                       : 'SF Pro',
@@ -376,7 +380,7 @@ class _TripDetailsState extends State<TripDetails> {
                                       : TextDirection.ltr,
                                   text: "readMore".tr,
                                   color: blue,
-                                  fontSize: 15,
+                                  fontSize: width * 0.038,
                                   fontFamily: AppUtil.rtlDirection2(context)
                                       ? 'SF Arabic'
                                       : 'SF Pro',
@@ -409,8 +413,8 @@ class _TripDetailsState extends State<TripDetails> {
                           fontFamily: 'HT Rakik',
                         ),
                       ),
-                      const SizedBox(
-                        height: 9,
+                      SizedBox(
+                        height: width * 0.0230,
                       ),
                       Container(
                         decoration: BoxDecoration(
@@ -481,8 +485,8 @@ class _TripDetailsState extends State<TripDetails> {
                                       fontFamily: 'HT Rakik',
                                       fontWeight: FontWeight.w500,
                                     ),
-                                    const SizedBox(
-                                      height: 6,
+                                    SizedBox(
+                                      height: width * .015,
                                     ),
                                     SizedBox(
                                       width: width * 0.8,
@@ -509,16 +513,16 @@ class _TripDetailsState extends State<TripDetails> {
                               ],
                             )),
                       ),
-                      const SizedBox(
-                        height: 11,
+                      SizedBox(
+                        height: width * 0.028,
                       ),
                       const Divider(
                         color: lightGrey,
                         thickness: 1,
                       ),
 
-                      const SizedBox(
-                        height: 25,
+                      SizedBox(
+                        height: width * 0.064,
                       ),
                       // Row(
                       //   children: [

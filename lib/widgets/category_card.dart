@@ -54,7 +54,8 @@ class CategoryCard extends StatelessWidget {
                   color: color,
                 ),
                 alignment: Alignment.center,
-                child: SvgPicture.asset('assets/icons/${icon}.svg'),
+                child: RepaintBoundary(
+                    child: SvgPicture.asset('assets/icons/${icon}.svg')),
               ),
 
               const SizedBox(height: 12),

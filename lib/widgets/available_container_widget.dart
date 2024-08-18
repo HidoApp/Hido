@@ -1,4 +1,5 @@
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -28,24 +29,20 @@ class AvailableContainerWidget extends StatelessWidget {
             height: 19,
           ),
           const SizedBox(width: 16),
-          Text(
-            'available'.tr,
-            style: const TextStyle(
-              color: colorGreen,
-              fontSize: 14,
-              fontFamily: 'HT Rakik',
-              fontWeight: FontWeight.w300,
-            ),
+          CustomText(
+            text: 'available'.tr,
+            color: colorGreen,
+            fontSize: 14,
+            fontFamily: 'HT Rakik',
+            fontWeight: FontWeight.w300,
           ),
           const Spacer(),
-          const Text(
-            'Aj20',
-            style: TextStyle(
-              color: black,
-              fontSize: 14,
-              fontFamily: 'HT Rakik',
-              fontWeight: FontWeight.w300,
-            ),
+          const CustomText(
+            text: 'Aj20',
+            color: black,
+            fontSize: 14,
+            fontFamily: 'HT Rakik',
+            fontWeight: FontWeight.w300,
           ),
         ],
       ),

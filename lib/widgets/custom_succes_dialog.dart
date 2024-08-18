@@ -1,12 +1,11 @@
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/adventure/view/edit_adventure.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
+import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 
 class CustomSuccessDialog extends StatelessWidget {
-
-   CustomSuccessDialog({
+  CustomSuccessDialog({
     Key? key,
-   
   }) : super(key: key);
 
   @override
@@ -24,15 +23,14 @@ class CustomSuccessDialog extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-             'assets/images/paymentSuccess.gif',width: 38,
-           
+              'assets/images/paymentSuccess.gif',
+              width: 38,
             ),
             SizedBox(height: 16),
-            Text(
-               !AppUtil.rtlDirection2(context)
-                          ? "Changes have been saved successfully!"
-                          : "تم حفظ التغييرات بنجاح ",
-              style: TextStyle(fontSize: 14),
+            CustomText(
+              text: !AppUtil.rtlDirection2(context)
+                  ? "Changes have been saved successfully!"
+                  : "تم حفظ التغييرات بنجاح ",
               textDirection: AppUtil.rtlDirection2(context)
                   ? TextDirection.rtl
                   : TextDirection.ltr,

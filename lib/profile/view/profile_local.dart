@@ -83,7 +83,7 @@ class _LocalProfileState extends State<LocalProfile> {
         newProfileImage != null ||
         languages.isNotEmpty) {
       if (_profileController.isEditing.value) {
-        await _profileController.editProfile(
+        var profile = await _profileController.editProfile(
           context: context,
           descripttion: descripttion.isEmpty
               ? _profileController.profile.descriptionAboutMe
@@ -92,12 +92,14 @@ class _LocalProfileState extends State<LocalProfile> {
               ? _profileController.profile.spokenLanguage
               : languages,
         );
-        await _profileController.getProfile(context: context);
-        _controller.clearAllSelection();
-        descripttion = '';
-      }
-      if (context.mounted) {
-        AppUtil.successToast(context, "accountUpadted".tr);
+        if (profile != null) {
+          if (context.mounted) {
+            AppUtil.successToast(context, "accountUpadted".tr);
+          }
+          await _profileController.getProfile(context: context);
+          _controller.clearAllSelection();
+          descripttion = '';
+        }
       }
     } else {
       log("error");

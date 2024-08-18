@@ -31,7 +31,7 @@ class _ScheduleContainerWidgetState extends State<ScheduleContainerWidget> {
 
   @override
   Widget build(BuildContext context) {
-        final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.of(context).size.width;
 
     return Container(
         padding: !widget.isReview
@@ -133,19 +133,19 @@ class _CustomCheckWidget extends StatelessWidget {
   TextStyle titleStyle = TextStyle(
     color: Color(0xFF070708),
     fontSize: 15,
-    fontFamily:  "SF Pro",
+    fontFamily: "SF Pro",
     fontWeight: FontWeight.w500,
   );
-  TextStyle titleBold =  TextStyle(
+  TextStyle titleBold = TextStyle(
     color: Color(0xFF070708),
     fontSize: 15,
-    fontFamily:  "SF Pro",
+    fontFamily: "SF Pro",
     fontWeight: FontWeight.w500,
   );
   TextStyle titleReview = TextStyle(
     color: starGreyColor,
     fontSize: 15,
-    fontFamily:  "SF Pro",
+    fontFamily: "SF Pro",
     fontWeight: FontWeight.w500,
   );
   TextStyle priceBold = TextStyle(
@@ -232,13 +232,17 @@ class _CustomCheckWidget extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        schedule?.scheduleName ?? '',
-                        style: !isReview
-                            ? isBold
-                                ? titleBold
-                                : titleStyle
-                            : titleReview,
+                      MediaQuery(
+                        data: MediaQuery.of(context)
+                            .copyWith(textScaler: const TextScaler.linear(1.0)),
+                        child: Text(
+                          schedule?.scheduleName ?? '',
+                          style: !isReview
+                              ? isBold
+                                  ? titleBold
+                                  : titleStyle
+                              : titleReview,
+                        ),
                       ),
                       const SizedBox(
                         height: 1,
@@ -277,6 +281,7 @@ class _CustomCheckWidget extends StatelessWidget {
                                  fontFamily: AppUtil.SfFontType(context),
                                  fontWeight: FontWeight.w500,
                            
+
                             ),
                           ],
                         )

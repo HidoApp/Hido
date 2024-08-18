@@ -30,13 +30,15 @@ class CustomListTile extends StatelessWidget {
           fontSize: width * 0.0410,
           fontWeight: FontWeight.w400,
         ),
-        leading: SvgPicture.asset(
-          leading,
-          color: iconColor ?? null,
+        leading: RepaintBoundary(
+          child: SvgPicture.asset(
+            leading,
+            color: iconColor ?? null,
+          ),
         ),
         trailing: Icon(
           Icons.arrow_forward_ios_rounded,
-          color:const Color(0xff070708),
+          color: const Color(0xff070708),
           size: width * 0.046,
         ),
       ),

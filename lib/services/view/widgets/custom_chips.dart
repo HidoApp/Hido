@@ -1,4 +1,3 @@
-import 'package:ajwad_v4/services/view/event_details.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,24 +17,23 @@ class CustomChips extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
-
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.4, vertical: width * 0.01),
+      padding: EdgeInsets.symmetric(
+          horizontal: width * 0.04205, vertical: width * 0.01),
       // horizontal: width * 0.030, vertical: width * 0.01),
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: backgroundColor,
         border:
             Border.all(width: 1.50, color: borderColor ?? Colors.transparent),
-        borderRadius: BorderRadius.all(Radius.circular(9999)),
+        borderRadius: const BorderRadius.all(Radius.circular(40)),
       ),
       child: CustomText(
         text: title,
         fontSize: width * 0.038,
         fontWeight: FontWeight.w600,
         color: textColor,
-        fontFamily: !AppUtil.rtlDirection2(context) ? 'SF Pro' : 'SF Arabic',
+        fontFamily: AppUtil.SfFontType(context),
         textAlign: TextAlign.center,
       ),
     );
