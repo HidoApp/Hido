@@ -655,5 +655,7 @@ const localeEn = {
   'Copied': 'Copied tp clipboard',
   'Experiencetitle': 'Experience title',
   'regionChoose': 'Choose your Region',
-  'pendingProgress': "Your tour is going to start soon "
+  'pendingProgress': "Your tour is going to start soon ",
+  'peopleNumber':'Pepole Number',
+
 };
