@@ -146,8 +146,8 @@ class AuthService {
         }));
 
     print("response.statusCode");
-    print(response.statusCode);
-    print(response.body);
+    log(response.statusCode.toString());
+    log(response.body);
 
     print("isSuccess SERVICE ${response.statusCode}");
 
@@ -155,7 +155,7 @@ class AuthService {
       return true;
     } else {
       var jsonBody = jsonDecode(response.body);
-      String errorMessage = jsonBody['message'];
+      String errorMessage = jsonBody['error']['errorMessage'];
       AppUtil.errorToast(context, errorMessage);
       return false;
     }
@@ -500,7 +500,6 @@ class AuthService {
     required String email,
     required BuildContext context,
   }) async {
-
     final response = await http.put(Uri.parse('$baseUrl/user/rest/password'),
         headers: {
           'Accept': 'application/json',
@@ -612,7 +611,7 @@ class AuthService {
       return true;
     } else {
       var jsonBody = jsonDecode(response.body);
-      String errorMessage = jsonBody['message'];
+      String errorMessage = jsonBody['error']['errorMessage'];
       AppUtil.errorToast(context, errorMessage);
       return false;
     }
@@ -645,8 +644,8 @@ class AuthService {
     );
 
     print("response.statusCode");
-    print(response.statusCode);
-    print(response.body);
+    log(response.statusCode.toString());
+    log(response.body);
 
     print("isSuccess SERVICE ${response.statusCode}");
 
@@ -654,7 +653,8 @@ class AuthService {
       return true;
     } else {
       var jsonBody = jsonDecode(response.body);
-      String errorMessage = jsonBody['error'];
+      String errorMessage = jsonBody['error']['errorMessage'];
+      //log(errorMessage.isEmpty.toString());
       AppUtil.errorToast(context, errorMessage);
       return false;
     }

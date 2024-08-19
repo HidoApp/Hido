@@ -116,7 +116,7 @@ class _EventInfoReviewState extends State<EventInfoReview> {
         //  }
         // });
         print(placemarks.first);
-        return  placemark.subLocality != null &&
+        return placemark.subLocality != null &&
                 placemark.subLocality!.isNotEmpty
             ? '${placemark.subLocality}'
             : '${placemark.locality}';
@@ -277,7 +277,6 @@ class _EventInfoReviewState extends State<EventInfoReview> {
         } else {
           log('not vaalid');
           return false;
-
         }
       }
     }
@@ -309,23 +308,24 @@ class _EventInfoReviewState extends State<EventInfoReview> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-             CustomText(
-             text: 
-                'Reviewevent'.tr,
-                  color: Color(0xFF070708),
-                  fontSize: 17,
-                  fontFamily:
-                      AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-                  fontWeight: FontWeight.w500,
+              CustomText(
+                text: 'Reviewevent'.tr,
+                color: Color(0xFF070708),
+                fontSize: 17,
+                fontFamily:
+                    AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+                fontWeight: FontWeight.w500,
               ),
               const SizedBox(height: 6),
-                CustomText(
-                text: 'explinationEvent'.tr,
+              FittedBox(
+                child: CustomText(
+                  text: 'explinationEvent'.tr,
                   color: Color(0xFF9392A0),
                   fontSize: 15,
                   fontFamily:
                       AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
                   fontWeight: FontWeight.w400,
+                ),
               ),
               const SizedBox(height: 20),
               Container(
@@ -372,33 +372,30 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                            CustomText(
-                         text: 
-                                AppUtil.rtlDirection2(context)
+                              CustomText(
+                                text: AppUtil.rtlDirection2(context)
                                     ? widget.hospitalityTitleAr
                                     : widget.hospitalityTitleEn,
-                               
-                                  color: Color(0xFF070708),
-                                  fontSize: 16,
-                                  fontFamily: AppUtil.rtlDirection2(context)
-                                      ? 'SF Arabic'
-                                      : 'SF Pro',
-                                  fontWeight: FontWeight.w500,
+                                color: Color(0xFF070708),
+                                fontSize: 16,
+                                fontFamily: AppUtil.rtlDirection2(context)
+                                    ? 'SF Arabic'
+                                    : 'SF Pro',
+                                fontWeight: FontWeight.w500,
                               ),
                               Row(
                                 children: [
                                   Icon(Icons.star,
                                       color: Color(0xFF36B268), size: 14),
                                   const SizedBox(width: 4),
-                                CustomText(
-                                    text: 
-                                    '5.0',
-                                      color: Color(0xFF36B268),
-                                      fontSize: 12,
-                                      fontFamily: AppUtil.rtlDirection2(context)
-                                          ? 'SF Arabic'
-                                          : 'SF Pro',
-                                      fontWeight: FontWeight.w500,
+                                  CustomText(
+                                    text: '5.0',
+                                    color: Color(0xFF36B268),
+                                    fontSize: 12,
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
+                                    fontWeight: FontWeight.w500,
                                   ),
                                 ],
                               ),
@@ -416,18 +413,17 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                                       SvgPicture.asset(
                                           'assets/icons/map_pin.svg'),
                                       const SizedBox(width: 4),
-                                    CustomText(
-                                          text: 
-                                        AppUtil.rtlDirection2(context)
+                                      CustomText(
+                                        text: AppUtil.rtlDirection2(context)
                                             ? '${_EventController.ragionAr.value}, ${address}'
                                             : '${_EventController.ragionEn.value}, ${address}',
-                                          color: Color(0xFF9392A0),
-                                          fontSize: 11,
-                                          fontFamily:
-                                              AppUtil.rtlDirection2(context)
-                                                  ? 'SF Arabic'
-                                                  : 'SF Pro',
-                                          fontWeight: FontWeight.w400,
+                                        color: Color(0xFF9392A0),
+                                        fontSize: 11,
+                                        fontFamily:
+                                            AppUtil.rtlDirection2(context)
+                                                ? 'SF Arabic'
+                                                : 'SF Pro',
+                                        fontWeight: FontWeight.w400,
                                       ),
                                     ],
                                   ),
@@ -439,17 +435,16 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                                       ),
                                       const SizedBox(width: 6),
                                       CustomText(
-                                           text: 
-                                        AppUtil.formatSelectedDates(
+                                        text: AppUtil.formatSelectedDates(
                                             _EventController.selectedDates,
                                             context),
-                                          color: Color(0xFF9392A0),
-                                          fontSize: 11,
-                                          fontFamily:
-                                              AppUtil.rtlDirection2(context)
-                                                  ? 'SF Arabic'
-                                                  : 'SF Pro',
-                                          fontWeight: FontWeight.w400,
+                                        color: Color(0xFF9392A0),
+                                        fontSize: 11,
+                                        fontFamily:
+                                            AppUtil.rtlDirection2(context)
+                                                ? 'SF Arabic'
+                                                : 'SF Pro',
+                                        fontWeight: FontWeight.w400,
                                       ),
                                     ],
                                   ),
@@ -465,15 +460,16 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                                         ),
                                       ),
                                       const SizedBox(width: 4),
-                                     CustomText(
-                         text: '${AppUtil.formatStringTimeWithLocale(context, intl.DateFormat('HH:mm:ss').format(_EventController.selectedStartTime.value))} - ${AppUtil.formatStringTimeWithLocale(context, intl.DateFormat('HH:mm:ss').format(_EventController.selectedEndTime.value))}',
-                                          color: Color(0xFF9392A0),
-                                          fontSize: 11,
-                                          fontFamily:
-                                              AppUtil.rtlDirection2(context)
-                                                  ? 'SF Arabic'
-                                                  : 'SF Pro',
-                                          fontWeight: FontWeight.w400,
+                                      CustomText(
+                                        text:
+                                            '${AppUtil.formatStringTimeWithLocale(context, intl.DateFormat('HH:mm:ss').format(_EventController.selectedStartTime.value))} - ${AppUtil.formatStringTimeWithLocale(context, intl.DateFormat('HH:mm:ss').format(_EventController.selectedEndTime.value))}',
+                                        color: Color(0xFF9392A0),
+                                        fontSize: 11,
+                                        fontFamily:
+                                            AppUtil.rtlDirection2(context)
+                                                ? 'SF Arabic'
+                                                : 'SF Pro',
+                                        fontWeight: FontWeight.w400,
                                       ),
                                     ],
                                   ),
@@ -500,7 +496,7 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                       child: Column(
                         children: [
                           Obx(
-                            () =>  _EventController.isImagesLoading.value
+                            () => _EventController.isImagesLoading.value
                                 ? const Center(
                                     child: CircularProgressIndicator.adaptive(),
                                   )
@@ -565,17 +561,17 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                                                             'assets/images/paymentSuccess.gif',
                                                             width: 38),
                                                         SizedBox(height: 16),
-                                                       CustomText(
-                                                  text: 
-                                                          !AppUtil.rtlDirection2(
-                                                                  context)
-                                                              ? "Experience published successfully"
-                                                              : "تم نشر تجربتك بنجاح ",
-                                                              fontSize: 15),
-                                                          //textDirection:
-                                                          //AppUtil.rtlDirection2(context)
-                                                          //? TextDirection.rtl
-                                                          //: TextDirection.ltr,
+                                                        CustomText(
+                                                            text: !AppUtil
+                                                                    .rtlDirection2(
+                                                                        context)
+                                                                ? "Experience published successfully"
+                                                                : "تم نشر تجربتك بنجاح ",
+                                                            fontSize: 15),
+                                                        //textDirection:
+                                                        //AppUtil.rtlDirection2(context)
+                                                        //? TextDirection.rtl
+                                                        //: TextDirection.ltr,
                                                       ],
                                                     ),
                                                   ),

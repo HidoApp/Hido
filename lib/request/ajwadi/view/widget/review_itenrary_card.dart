@@ -252,6 +252,7 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                   ),
                   CustomTextField(
                     keyboardType: TextInputType.text,
+                    textInputAction: TextInputAction.done,
                     onChanged: (value) => activityName = value,
                     validator: false,
                     controller: _activityConroller,
@@ -275,6 +276,8 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                   CustomTextField(
                     validator: false,
                     controller: _priceContorller,
+                    textInputAction: TextInputAction.done,
+                    
                     inputFormatters: [
                       FilteringTextInputFormatter.digitsOnly,
                     ],

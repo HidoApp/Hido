@@ -215,18 +215,16 @@ class AppUtil {
   }
 
   static bool isEndTimeLessThanStartTime(DateTime startTime, DateTime endTime) {
-  // If the end time is before the start time, adjust end time by adding one day
-  // if (endTime.isBefore(startTime)) {
-  //   endTime = endTime.add(Duration(days: 1));
-  // }
-  print(startTime);
-  print(endTime);
-  print(endTime.isBefore(startTime));
-  // return endTime.isBefore(startTime) ;
+    // If the end time is before the start time, adjust end time by adding one day
+    // if (endTime.isBefore(startTime)) {
+    //   endTime = endTime.add(Duration(days: 1));
+    // }
+    print(startTime);
+    print(endTime);
+    print(endTime.isBefore(startTime));
+    // return endTime.isBefore(startTime) ;
     return endTime.isBefore(startTime) || endTime.isAtSameMomentAs(startTime);
-
-}
-
+  }
 
   static String formatSelectedDates(
       RxList<dynamic> dates, BuildContext context) {
@@ -540,6 +538,7 @@ class AppUtil {
                   child: CustomText(
                     text: msg,
                     color: Colors.white,
+                    maxlines: 4,
                     fontSize: 14,
                     fontWeight: FontWeight.w400,
                   ),

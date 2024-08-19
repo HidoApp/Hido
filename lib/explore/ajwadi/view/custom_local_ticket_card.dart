@@ -74,7 +74,7 @@ print(newProgress);
     DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
     DateTime currentDate = DateTime(currentDateInRiyadh.year,
         currentDateInRiyadh.month, currentDateInRiyadh.day);
-        
+
     String currentDateString =
         intel.DateFormat('yyyy-MM-dd').format(currentDate);
 
@@ -89,15 +89,16 @@ print(newProgress);
         DateTime.parse(_tripController.nextTrip.value.booking!.date ?? '');
 
     if (_tripController.nextTrip.value.booking!.date == currentDateString ||
+
         parsedBookingDate.isAtSameMomentAs(currentDate)||  parsedBookingDate.isBefore(currentDate)) {
       // setState(() {
       //   isTripStart.value = true;
       // });
       String timeToGoStr = _tripController.nextTrip.value.booking!.timeToGo;
-       String? bookingDateStr = _tripController.nextTrip.value.booking!.date;
+      String? bookingDateStr = _tripController.nextTrip.value.booking!.date;
 
-   
-       DateTime timeToGo = DateTime.parse('$bookingDateStr $timeToGoStr');
+      DateTime timeToGo = DateTime.parse('$bookingDateStr $timeToGoStr');
+
 
     Duration difference = timeToGo.difference(currentTime);
 
@@ -111,91 +112,103 @@ print(newProgress);
       });
     }
 
+      if (difference.inHours <= 4 && !difference.isNegative) {
+        setState(() {
+          isTripStart.value = true;
+        });
+      } else {
+        setState(() {
+          isTripStart.value = false;
+        });
+      }
 
       print('check date to start');
       print(timeToGo);
       print(currentTime);
       print(difference);
+
       print(parsedBookingDate);
       print(currentDate);
       print(difference.inHours <= 4 && !difference.isNegative);
       print(parsedBookingDate.isBefore(currentDate));
      
     }
-
   }
 
   bool checkEndTime(String timeToReturnStr) {
-  tz.initializeTimeZones();
-  location = tz.getLocation(timeZoneName);
-  DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
+    tz.initializeTimeZones();
+    location = tz.getLocation(timeZoneName);
+    DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
 
-  // Parse the booking date and timeToReturn
-  DateTime bookingDate = DateTime.parse(
-    _tripController.nextTrip.value.booking!.date ?? ''
-  );
+    // Parse the booking date and timeToReturn
+    DateTime bookingDate =
+        DateTime.parse(_tripController.nextTrip.value.booking!.date ?? '');
 
-  // List<String> timeParts = timeToReturnStr.split(':');
-  // int returnHour = int.parse(timeParts[0]);
-  // int returnMinute = int.parse(timeParts[1]);
+    // List<String> timeParts = timeToReturnStr.split(':');
+    // int returnHour = int.parse(timeParts[0]);
+    // int returnMinute = int.parse(timeParts[1]);
 
-  // // If the return time is earlier in the day than the current time, assume it's the next day
-  // bool isReturnOnNextDay = returnHour < currentDateInRiyadh.hour;
-  
-  // DateTime timeToReturn = DateTime(
-  //   bookingDate.year,
-  //   bookingDate.month,
-  //   bookingDate.day + (isReturnOnNextDay ? 1 : 0),
-  //   returnHour,
-  //   returnMinute,
-  // );
+    // // If the return time is earlier in the day than the current time, assume it's the next day
+    // bool isReturnOnNextDay = returnHour < currentDateInRiyadh.hour;
 
-   //String bookDateString = intel.DateFormat('yyyy-MM-dd').format(bookingDate);
- //String timeToGoStr = _tripController.nextTrip.value.booking!.timeToReturn;
+    // DateTime timeToReturn = DateTime(
+    //   bookingDate.year,
+    //   bookingDate.month,
+    //   bookingDate.day + (isReturnOnNextDay ? 1 : 0),
+    //   returnHour,
+    //   returnMinute,
+    // );
 
-   // DateTime timeToReturn = DateTime.parse('$bookDateString $timeToGoStr');
+    //String bookDateString = intel.DateFormat('yyyy-MM-dd').format(bookingDate);
+    //String timeToGoStr = _tripController.nextTrip.value.booking!.timeToReturn;
 
- List<String> timeParts = timeToReturnStr.split(':');
-  int returnHour = int.parse(timeParts[0]);
-  int returnMinute = int.parse(timeParts[1]);
+    // DateTime timeToReturn = DateTime.parse('$bookDateString $timeToGoStr');
 
-  DateTime timeToReturn = DateTime(
-    bookingDate.year,
-    bookingDate.month,
-    bookingDate.day,
-    returnHour,
-    returnMinute,
-  );
+    List<String> timeParts = timeToReturnStr.split(':');
+    int returnHour = int.parse(timeParts[0]);
+    int returnMinute = int.parse(timeParts[1]);
 
-  if (returnHour < currentDateInRiyadh.hour || 
-     (returnHour == currentDateInRiyadh.hour && returnMinute <= currentDateInRiyadh.minute)) {
-    timeToReturn = timeToReturn.add(Duration(days: 1));
-  }
-  // Get the current time for comparison
-  DateTime currentTime = DateTime(
-    currentDateInRiyadh.year,
-    currentDateInRiyadh.month,
-    currentDateInRiyadh.day,
-    currentDateInRiyadh.hour,
-    currentDateInRiyadh.minute,
-    currentDateInRiyadh.second,
-  );
+    DateTime timeToReturn = DateTime(
+      bookingDate.year,
+      bookingDate.month,
+      bookingDate.day,
+      returnHour,
+      returnMinute,
+    );
 
-    if(currentTime.isAfter(timeToReturn) || currentTime.isAtSameMomentAs(timeToReturn)) {
+    if (returnHour < currentDateInRiyadh.hour ||
+        (returnHour == currentDateInRiyadh.hour &&
+            returnMinute <= currentDateInRiyadh.minute)) {
+      timeToReturn = timeToReturn.add(Duration(days: 1));
+    }
+    // Get the current time for comparison
+    DateTime currentTime = DateTime(
+      currentDateInRiyadh.year,
+      currentDateInRiyadh.month,
+      currentDateInRiyadh.day,
+      currentDateInRiyadh.hour,
+      currentDateInRiyadh.minute,
+      currentDateInRiyadh.second,
+    );
+
+    if (currentTime.isAfter(timeToReturn) ||
+        currentTime.isAtSameMomentAs(timeToReturn)) {
       _tripController.isTripFinallyEnd.value = true;
       _tripController.isTripEnd.value = false;
       print('inter1');
       print(currentTime);
-       print(timeToReturn);
-      print(currentTime.isAfter(timeToReturn) || currentTime.isAtSameMomentAs(timeToReturn));
+      print(timeToReturn);
+      print(currentTime.isAfter(timeToReturn) ||
+          currentTime.isAtSameMomentAs(timeToReturn));
       return true;
     } else {
       _tripController.isTripFinallyEnd.value = false;
 
       print('inter2');
-          print(currentTime);
-       print(timeToReturn);
-      print(currentTime.isAfter(timeToReturn) || currentTime.isAtSameMomentAs(timeToReturn));
+      print(currentTime);
+      print(timeToReturn);
+      print(currentTime.isAfter(timeToReturn) ||
+          currentTime.isAtSameMomentAs(timeToReturn));
       return false;
     }
   }
@@ -270,8 +283,8 @@ print(newProgress);
     return InkWell(
       child: Column(
         children: [
-         const LastActivity(),
-         const SizedBox(height: 11),
+          const LastActivity(),
+          const SizedBox(height: 11),
           Container(
             width: double.infinity,
             height: _controller.isExpanded ? width * 0.65 : width * 0.30,
@@ -280,7 +293,7 @@ print(newProgress);
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
-              shadows:const [
+              shadows: const [
                 BoxShadow(
                   color: Color(0x3FC7C7C7),
                   blurRadius: 15,
@@ -336,6 +349,7 @@ print(newProgress);
                         padding: const EdgeInsets.only(top: 12),
                         child: Row(
                           children: [
+
                             ElevatedButton(
                               onPressed: () {
                                 Get.to(ChatScreen(
@@ -356,93 +370,67 @@ print(newProgress);
                                     fontFamily: AppUtil.SfFontType(context),
                                     fontWeight: FontWeight.w500,
                                   ),
-                                ),
-                                fixedSize:
-                                    MaterialStateProperty.all(Size(73, 40)),
-                                shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(4),
-                                    side: BorderSide(
+                                  surfaceTintColor:
+                                      MaterialStateProperty.all(Colors.white),
+                                  textStyle: MaterialStateProperty.all(
+                                    TextStyle(
                                       color: Color(0xFF37B268),
-                                      width: 1,
+                                      fontSize: 13,
+                                      fontFamily: AppUtil.SfFontType(context),
+                                      fontWeight: FontWeight.w500,
+                                      height: 0,
+                                    ),
+                                  ),
+                                  fixedSize:
+                                      MaterialStateProperty.all(Size(80, 40)),
+                                  shape: MaterialStateProperty.all(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(4),
+                                      side: BorderSide(
+                                        color: Color(0xFF37B268),
+                                        width: 1,
+                                      ),
                                     ),
                                   ),
                                 ),
+                                child: FittedBox(
+                                  child: CustomText(
+                                    text: 'chat2'.tr,
+                                    color: colorGreen,
+                                  ),
+                                ),
                               ),
-                              child:CustomText (
-                                text:'chat2'.tr,
-                                  color:colorGreen,),
                             ),
                             const SizedBox(width: 8),
                             Obx(
-                              () => ElevatedButton(
-                                onPressed: isTripStart.value &&
-                                        !_tripController.isTripEnd.value
-                                    ? () async {
-                                        await _tripController
-                                            .updateActivity(
-                                          id: _tripController
-                                                  .nextTrip.value.id ??
-                                              '',
-                                          context: context,
-                                        )
-                                            .then((updatedValue) async {
-                                          if (!_tripController
-                                              .isActivityProgressLoading
-                                              .value) {
-                                            if (_tripController
-                                                    .updatedActivity.value.id ==
-                                                null) {
-                                              print("this is widget book");
-                                              log('enter 1');
-                                            } else {
-                                              print('this the value');
-
-                                              updateProgress((_tripController
-                                                      .progress.value +
-                                                  0.25));
-
-                                              updateStepss(_tripController
-                                                      .updatedActivity
-                                                      .value
-                                                      .activityProgress ??
-                                                  '');
-                                              log(" end trip before${_tripController.isTripEnd.value}");
+                              () => MediaQuery(
+                                data: MediaQuery.of(context)
+                                    .copyWith(textScaleFactor: 1.0),
+                                child: ElevatedButton(
+                                  onPressed: isTripStart.value &&
+                                          !_tripController.isTripEnd.value
+                                      ? () async {
+                                          await _tripController
+                                              .updateActivity(
+                                            id: _tripController
+                                                    .nextTrip.value.id ??
+                                                '',
+                                            context: context,
+                                          )
+                                              .then((updatedValue) async {
+                                            if (!_tripController
+                                                .isActivityProgressLoading
+                                                .value) {
                                               if (_tripController
                                                       .updatedActivity
                                                       .value
-                                                      .activityProgress ==
-                                                  'IN_PROGRESS') {
-                                                if (checkEndTime(_tripController
-                                                    .nextTrip
-                                                    .value
-                                                    .booking!
-                                                    .timeToReturn)) {
-                                                  log("this activity progress");
-                                                  log(_tripController
-                                                      .updatedActivity
-                                                      .value
-                                                      .activityProgress!);
+                                                      .id ==
+                                                  null) {
+                                                print("this is widget book");
+                                                log('enter 1');
+                                              } else {
+                                                print('this the value');
 
-                                                  log("this end trip ${_tripController.isTripEnd.value}");
-                                                } else {
-                                                  _tripController
-                                                      .isTripEnd.value = true;
-                                                  log("this activity progress");
-                                                  log(_tripController
-                                                      .updatedActivity
-                                                      .value
-                                                      .activityProgress!);
-
-                                                  log("this end trip ${_tripController.isTripEnd.value}");
-                                                }
-                                              }
-
-                                              if (_tripController
-                                                      .updatedActivity
-                                                      .value
-                                                      .activityProgress ==
-                                                  'COMPLETED') {
                                                 updateProgress((_tripController
                                                         .progress.value +
                                                     0.25));
@@ -452,98 +440,146 @@ print(newProgress);
                                                         .value
                                                         .activityProgress ??
                                                     '');
-                                                log("enter completed state");
-                                                log(_tripController
-                                                    .updatedActivity
-                                                    .value
-                                                    .activityProgress!);
-                                                log("this end trip ${_tripController.isTripEnd.value}");
-                                                log("End Trip Taped ${_tripController.nextTrip.value.id}");
+                                                log(" end trip before${_tripController.isTripEnd.value}");
+                                                if (_tripController
+                                                        .updatedActivity
+                                                        .value
+                                                        .activityProgress ==
+                                                    'IN_PROGRESS') {
+                                                  if (checkEndTime(
+                                                      _tripController
+                                                          .nextTrip
+                                                          .value
+                                                          .booking!
+                                                          .timeToReturn)) {
+                                                    log("this activity progress");
+                                                    log(_tripController
+                                                        .updatedActivity
+                                                        .value
+                                                        .activityProgress!);
 
-                                                bool requestEnd =
-                                                    await _requestController
-                                                            .requestEnd(
-                                                                context:
-                                                                    context,
-                                                                id: _tripController
-                                                                        .nextTrip
-                                                                        .value
-                                                                        .id ??
-                                                                    '') ??
-                                                        false;
-                                                if (requestEnd) {
-                                                  returnProgress(_tripController
-                                                          .progress.value -
-                                                      1.0);
-                                                  await _tripController
-                                                      .getNextActivity(
-                                                    context: context,
-                                                  )
-                                                      .then((value) {
-                                                    if (!_tripController
-                                                        .isNextActivityLoading
-                                                        .value) {
-                                                      _tripController.nextStep
-                                                          .value = 'PENDING';
-                                                    } else {
-                                                      print(
-                                                          "this is widget book2");
-                                                    }
-                                                  });
-                                                } else {
-                                                  AppUtil.errorToast(
-                                                      context, 'EndTrip'.tr);
-                                                  await Future.delayed(
-                                                      const Duration(
-                                                          seconds: 1));
+                                                    log("this end trip ${_tripController.isTripEnd.value}");
+                                                  } else {
+                                                    _tripController
+                                                        .isTripEnd.value = true;
+                                                    log("this activity progress");
+                                                    log(_tripController
+                                                        .updatedActivity
+                                                        .value
+                                                        .activityProgress!);
+
+                                                    log("this end trip ${_tripController.isTripEnd.value}");
+                                                  }
                                                 }
-                                                // } else {
 
-                                                //   AppUtil.errorToast(
-                                                //       context,
-                                                //       "The tour time hasn't ended yet"
-                                                //           .tr);
-                                                //   await Future.delayed(
-                                                //       const Duration(
-                                                //           seconds: 1));
-                                                // }
+                                                if (_tripController
+                                                        .updatedActivity
+                                                        .value
+                                                        .activityProgress ==
+                                                    'COMPLETED') {
+                                                  updateProgress(
+                                                      (_tripController
+                                                              .progress.value +
+                                                          0.25));
+
+                                                  updateStepss(_tripController
+                                                          .updatedActivity
+                                                          .value
+                                                          .activityProgress ??
+                                                      '');
+                                                  log("enter completed state");
+                                                  log(_tripController
+                                                      .updatedActivity
+                                                      .value
+                                                      .activityProgress!);
+                                                  log("this end trip ${_tripController.isTripEnd.value}");
+                                                  log("End Trip Taped ${_tripController.nextTrip.value.id}");
+
+                                                  bool requestEnd =
+                                                      await _requestController
+                                                              .requestEnd(
+                                                                  context:
+                                                                      context,
+                                                                  id: _tripController
+                                                                          .nextTrip
+                                                                          .value
+                                                                          .id ??
+                                                                      '') ??
+                                                          false;
+                                                  if (requestEnd) {
+                                                    returnProgress(
+                                                        _tripController.progress
+                                                                .value -
+                                                            1.0);
+                                                    await _tripController
+                                                        .getNextActivity(
+                                                      context: context,
+                                                    )
+                                                        .then((value) {
+                                                      if (!_tripController
+                                                          .isNextActivityLoading
+                                                          .value) {
+                                                        _tripController.nextStep
+                                                            .value = 'PENDING';
+                                                      } else {
+                                                        print(
+                                                            "this is widget book2");
+                                                      }
+                                                    });
+                                                  } else {
+                                                    AppUtil.errorToast(
+                                                        context, 'EndTrip'.tr);
+                                                    await Future.delayed(
+                                                        const Duration(
+                                                            seconds: 1));
+                                                  }
+                                                  // } else {
+
+                                                  //   AppUtil.errorToast(
+                                                  //       context,
+                                                  //       "The tour time hasn't ended yet"
+                                                  //           .tr);
+                                                  //   await Future.delayed(
+                                                  //       const Duration(
+                                                  //           seconds: 1));
+                                                  // }
+                                                }
                                               }
                                             }
-                                          }
-                                        });
-                                      }
-                                    : () async {
-                                        AppUtil.errorToast(
-                                            context,
-                                            "EndTourTime".tr);
-                                        await Future.delayed(
-                                            const Duration(seconds: 1));
-                                      },
-                                style: ButtonStyle(
-                                  padding: MaterialStateProperty.all(
-                                    EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 8),
-                                  ),
-                                  backgroundColor: isTripStart.value
-                                      ? MaterialStateProperty.all(colorGreen)
-                                      : MaterialStateProperty.all(lightGrey),
-                                  fixedSize:
-                                      MaterialStateProperty.all(Size(89, 40)),
-                                  shape: MaterialStateProperty.all(
-                                    RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(4),
-                                      side: BorderSide(
-                                        color: isTripStart.value
-                                            ? colorGreen
-                                            : lightGrey,
-                                        width: 1,
+                                          });
+                                        }
+                                      : () async {
+                                          AppUtil.errorToast(
+                                              context, "EndTourTime".tr);
+                                          await Future.delayed(
+                                              const Duration(seconds: 1));
+                                        },
+                                  style: ButtonStyle(
+                                    padding: MaterialStateProperty.all(
+                                      EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 8),
+                                    ),
+                                    backgroundColor: isTripStart.value
+                                        ? MaterialStateProperty.all(colorGreen)
+                                        : MaterialStateProperty.all(lightGrey),
+                                    fixedSize:
+                                        MaterialStateProperty.all(Size(89, 40)),
+                                    shape: MaterialStateProperty.all(
+                                      RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(4),
+                                        side: BorderSide(
+                                          color: isTripStart.value
+                                              ? colorGreen
+                                              : lightGrey,
+                                          width: 1,
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                child: CustomText(
-                                text:  getActivityProgressText(
-                                      _tripController.nextStep.value, context),
+                                  child: CustomText(
+                                    text: getActivityProgressText(
+                                        _tripController.nextStep.value,
+                                        context),
                                     color: Color.fromARGB(255, 255, 255, 255),
                                     fontSize: 13,
                                     fontFamily: AppUtil.rtlDirection2(context)
@@ -551,7 +587,7 @@ print(newProgress);
                                         : 'SF Pro',
                                     fontWeight: FontWeight.w500,
                                     height: 0,
-                                
+                                  ),
                                 ),
                               ),
                             ),
@@ -566,6 +602,7 @@ print(newProgress);
                     color: lightGrey,
                   ),
                   // SizedBox(height: width * 0.03),
+
                   ExpandedTile(
                     contentseparator: 12,
                     trailing: Icon(

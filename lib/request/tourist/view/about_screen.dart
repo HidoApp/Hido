@@ -44,7 +44,8 @@ class AboutScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                           CustomText(
-                            maxlines: 8,
+                            textAlign: TextAlign.center,
+                            maxlines: 20,
                             text: (profileController.profile.descriptionAboutMe
                                         ?.isNotEmpty ??
                                     false)
