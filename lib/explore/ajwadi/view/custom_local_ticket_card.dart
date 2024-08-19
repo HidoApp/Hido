@@ -50,6 +50,8 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
   final _requestController = Get.put(RequestController());
   void updateProgress(double newProgress) {
     setState(() {
+          print('3');
+print(newProgress);
       _tripController.progress.value = newProgress.clamp(0.0, 1.0);
     });
   }
@@ -88,9 +90,9 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
 
     if (_tripController.nextTrip.value.booking!.date == currentDateString ||
         parsedBookingDate.isAtSameMomentAs(currentDate)||  parsedBookingDate.isBefore(currentDate)) {
-      setState(() {
-        isTripStart.value = true;
-      });
+      // setState(() {
+      //   isTripStart.value = true;
+      // });
       String timeToGoStr = _tripController.nextTrip.value.booking!.timeToGo;
        String? bookingDateStr = _tripController.nextTrip.value.booking!.date;
 
@@ -99,7 +101,7 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
 
     Duration difference = timeToGo.difference(currentTime);
 
-    if (difference.inHours <= 4 && !difference.isNegative) {
+    if (difference.inHours <= 4 ) {
       setState(() {
         isTripStart.value = true;
       });
@@ -114,6 +116,10 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
       print(timeToGo);
       print(currentTime);
       print(difference);
+      print(parsedBookingDate);
+      print(currentDate);
+      print(difference.inHours <= 4 && !difference.isNegative);
+      print(parsedBookingDate.isBefore(currentDate));
      
     }
 
@@ -339,7 +345,7 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                               style: ButtonStyle(
                                 padding: MaterialStateProperty.all(
                                   EdgeInsets.symmetric(
-                                      horizontal: 16, vertical: 8),
+                                      horizontal: 16, vertical: 6),
                                 ),
                                 surfaceTintColor:
                                     MaterialStateProperty.all(Colors.white),
@@ -349,7 +355,6 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                                     fontSize: 13,
                                     fontFamily: AppUtil.SfFontType(context),
                                     fontWeight: FontWeight.w500,
-                                    height: 0,
                                   ),
                                 ),
                                 fixedSize:
@@ -583,7 +588,7 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                                 : 'SF Pro',
                             fontWeight: FontWeight.w500,
                           )
-                        : Text(''),
+                        : CustomText(text:''),
                     content: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -596,7 +601,7 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
 
                         ItineraryTile(
                           title:
-                              ' ${AppUtil.formatStringTimeWithLocale(context, _tripController.nextTrip.value.booking!.timeToGo)} -  ${AppUtil.formatStringTimeWithLocale(context, _tripController.nextTrip.value.booking!.timeToReturn)}',
+                              ' ${AppUtil.formatStringTimeWithLocale(context, _tripController.nextTrip.value.booking!.timeToGo)} - ${AppUtil.formatStringTimeWithLocale(context, _tripController.nextTrip.value.booking!.timeToReturn)}',
                           image: "assets/icons/timeGrey.svg",
                         ),
                         //SizedBox(height: width * 0.025),

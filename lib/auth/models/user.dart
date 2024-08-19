@@ -47,5 +47,70 @@ class HostProfile {
   }
 }
 
+class BookProfile {
+  final String id;
+  final String name;
+  final String? image; // Optional to handle null or unknown types
+  final int tourNumber;
+  final int eventNumber;
+  final int hostNumber;
+  final int adventureNumber;
+  final int tourRating;
+  final int eventRating;
+  final int hostRating;
+  final int adventureRating;
+
+  BookProfile({
+    required this.id,
+    required this.name,
+    this.image,
+    required this.tourNumber,
+    required this.eventNumber,
+    required this.hostNumber,
+    required this.adventureNumber,
+    required this.tourRating,
+    required this.eventRating,
+    required this.hostRating,
+    required this.adventureRating,
+  });
+
+  factory BookProfile.fromJson(Map<String, dynamic> json) {
+    return BookProfile(
+      id: json['id'] ?? '',
+      name: json['name'] ?? '',
+      image: json['image'] is String ? json['image'] : null,
+      tourNumber: json['tourNumber'] ?? 0,
+      eventNumber: json['eventNumber'] ?? 0,
+      hostNumber: json['hostNumber'] ?? 0,
+      adventureNumber: json['adventureNumber'] ?? 0,
+      tourRating: json['tourRating'] ?? 0,
+      eventRating: json['eventRating'] ?? 0,
+      hostRating: json['hostRating'] ?? 0,
+      adventureRating: json['adventureRating'] ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'image': image,
+      'tourNumber': tourNumber,
+      'eventNumber': eventNumber,
+      'hostNumber': hostNumber,
+      'adventureNumber': adventureNumber,
+      'tourRating': tourRating,
+      'eventRating': eventRating,
+      'hostRating': hostRating,
+      'adventureRating': adventureRating,
+    };
+  }
+}
+
+
+
+
+
+
 
 

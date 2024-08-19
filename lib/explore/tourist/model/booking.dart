@@ -18,6 +18,7 @@ class Booking {
   final String timeToReturn;
   final int? guestNumber;
   final GuestInfo? guestInfo;
+   final RequestName? requestName;
   final String? vehicleType;
   final String? orderStatus;
   final Coordinate? coordinates;
@@ -55,6 +56,7 @@ class Booking {
     this.profileId,
     this.event,
     this.user,
+    this.requestName
     // this.event,
   });
 
@@ -72,6 +74,9 @@ class Booking {
           ? null
           : GuestInfo.fromJson(json["guestInfo"]),
       //guestInfo: GuestInfo.fromJson(json['guestInfo'] ?? {}),
+      requestName: json["requestName"] == null
+          ? null
+          : RequestName.fromJson(json["requestName"]),
       profileId: json['profileId'] ?? '',
       cost: json['cost'] ?? '',
       vehicleType: json['vehicleType'] ?? '',
@@ -87,7 +92,10 @@ class Booking {
       adventure: json['adventure'] == null
           ? null
           : Adventure.fromJson(json['adventure']),
-      user: BookUser.fromJson(json['user'] ?? {}),
+   
+       user: json[" user"] == null
+          ? null
+          :BookUser.fromJson(json['user']),
       //offers: json['offers'] == null ? null : (json['offers'] as List).map((offer) => Offer.fromJson(offer as Map<String, dynamic>)).toList(),
       offers: json['offers'] == null
           ? null
@@ -140,6 +148,30 @@ class GuestInfo {
     return {'female': female, 'male': male, 'dayId': dayId};
   }
 }
+class RequestName {
+  final String nameAr;
+  final String nameEn;
+
+
+RequestName(
+      {
+        required this.nameAr,
+      required this.nameEn,
+   
+      });
+
+  factory RequestName.fromJson(Map<String, dynamic> json) {
+    return RequestName(
+     nameEn: json['nameEn'] ?? '',
+      nameAr: json['nameAr'] ?? '',
+   
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {'nameAr': nameAr, 'nameEn': nameEn};
+  }
+}
 
 class Offer {
   final String id;
@@ -182,14 +214,13 @@ class Offer {
 }
 
 class BookUser {
-  final HostProfile profile;
+  final BookProfile profile;
 
   BookUser({required this.profile});
 
   factory BookUser.fromJson(Map<String, dynamic> json) {
     return BookUser(
-      // profile: json['profile'] != null ? Profile.fromJson(json['profile']) : null,
-      profile: HostProfile.fromJson(json['profile'] ?? {}),
+      profile: BookProfile.fromJson(json['profile'] ?? {}),
     );
   }
 }

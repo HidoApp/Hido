@@ -36,6 +36,8 @@ class _NextActivityState extends State<LastActivity> {
 
   @override
   Widget build(BuildContext context) {
+        print('2');
+
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
@@ -68,15 +70,17 @@ class _NextActivityState extends State<LastActivity> {
                 Positioned(
                   left: 40,
                   top: 27,
-                  child: Container(
-                    width: 279,
-                    height: 1.50,
-                    child: LinearProgressIndicator(
-                      value: _tripController.progress.value,
-                      backgroundColor: Color(0xFFDCDCE0),
-                      valueColor: _tripController.progress.value == 0.1
-                          ? AlwaysStoppedAnimation<Color>(Color(0xFFDCDCE0))
-                          : AlwaysStoppedAnimation<Color>(Color(0xFF36B268)),
+                  child: Obx(()=>
+                    Container(
+                      width: 279,
+                      height: 1.50,
+                      child: LinearProgressIndicator(
+                        value: _tripController.progress.value,
+                        backgroundColor: Color(0xFFDCDCE0),
+                        valueColor: _tripController.progress.value == 0.1
+                            ? AlwaysStoppedAnimation<Color>(Color(0xFFDCDCE0))
+                            : AlwaysStoppedAnimation<Color>(Color(0xFF36B268)),
+                      ),
                     ),
                   ),
                 ),
@@ -85,32 +89,34 @@ class _NextActivityState extends State<LastActivity> {
                   top: AppUtil.rtlDirection2(context) ? 16 : 14,
                   child: Container(
                     width: 334,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: AppUtil.rtlDirection2(context)
-                          ? MainAxisAlignment.spaceBetween
-                          : MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: AppUtil.rtlDirection2(context)
-                          ? CrossAxisAlignment.start
-                          : CrossAxisAlignment.center,
-                      children: [
-                        buildStep(
-                          text: 'Ontheway'.tr,
-                          isActive: _tripController.progress.value >= 0.25,
-                        ),
-                        buildStep(
-                          text: 'Arrived'.tr,
-                          isActive: _tripController.progress.value >= 0.5,
-                        ),
-                        buildStep(
-                          text: 'Tourtime'.tr,
-                          isActive: _tripController.progress.value >= 0.75,
-                        ),
-                        buildStep(
-                          text: 'Completed'.tr,
-                          isActive: _tripController.progress.value == 1.0,
-                        ),
-                      ],
+                    child: Obx(()=>
+                       Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: AppUtil.rtlDirection2(context)
+                            ? MainAxisAlignment.spaceBetween
+                            : MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: AppUtil.rtlDirection2(context)
+                            ? CrossAxisAlignment.start
+                            : CrossAxisAlignment.center,
+                        children: [
+                          buildStep(
+                            text: 'Ontheway'.tr,
+                            isActive: _tripController.progress.value >= 0.25,
+                          ),
+                          buildStep(
+                            text: 'Arrived'.tr,
+                            isActive: _tripController.progress.value >= 0.5,
+                          ),
+                          buildStep(
+                            text: 'Tourtime'.tr,
+                            isActive: _tripController.progress.value >= 0.75,
+                          ),
+                          buildStep(
+                            text: 'Completed'.tr,
+                            isActive: _tripController.progress.value == 1.0,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -151,6 +157,7 @@ class _NextActivityState extends State<LastActivity> {
   }
 
   Widget buildStep({required String text, required bool isActive}) {
+    print('1');
     return Container(
       width: 64,
       child: Column(
@@ -166,14 +173,13 @@ class _NextActivityState extends State<LastActivity> {
                 width: 20),
           ),
           CustomText(
-           text:text,
-           
+          text:text,
               color: isActive ? Color(0xFF36B268) : Color(0xFFDCDCE0),
               fontSize: 11,
               fontFamily:
                   AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
               fontWeight: FontWeight.w500,
-            
+           
           ),
         ],
       ),

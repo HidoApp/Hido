@@ -84,22 +84,27 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
 print("day deference");
       print(daysDifference);
-     
-      if (daysDifference == 2) {
-        _upcomingBookings.add(booking);
-        print(_upcomingBookings.length);
-        notificationMessages.add(AppUtil.rtlDirection2(context)
-            ? days = " بعد يومين , عند الساعة " +AppUtil.formatStringTimeWithLocale(context, booking.timeToGo)
-            : days = " is after two day at " + AppUtil.formatStringTimeWithLocale(context,booking.timeToGo));
+     print(bookingDate);
+      // if (daysDifference == 2) {
+      //   _upcomingBookings.add(booking);
+      //   print(_upcomingBookings.length);
+      //   notificationMessages.add(AppUtil.rtlDirection2(context)
+      //       ? days = " بعد يومين , عند الساعة " +AppUtil.formatStringTimeWithLocale(context, booking.timeToGo)
+      //       : days = " is after two day at " + AppUtil.formatStringTimeWithLocale(context,booking.timeToGo));
        
-      } else if (daysDifference == 1) {
+      // } else
+       if (daysDifference == 1) {
         
         print('inter1');
         _upcomingBookings.add(booking);
         print(_upcomingBookings.length);
-         notificationMessages.add( AppUtil.rtlDirection2(context)
-           ? days = " بعد يوم , عند الساعة " +AppUtil.formatStringTimeWithLocale(context, booking.timeToGo)
-           : days = " is after a day at " +AppUtil.formatStringTimeWithLocale(context, booking.timeToGo));
+          notificationMessages.add(AppUtil.rtlDirection2(context)
+            ? days = " بعد يومين , عند الساعة " +AppUtil.formatStringTimeWithLocale(context, booking.timeToGo)
+            : days = " is after two day at " + AppUtil.formatStringTimeWithLocale(context,booking.timeToGo));
+       
+        //  notificationMessages.add( AppUtil.rtlDirection2(context)
+        //    ? days = " بعد يوم , عند الساعة " +AppUtil.formatStringTimeWithLocale(context, booking.timeToGo)
+        //    : days = " is after a day at " +AppUtil.formatStringTimeWithLocale(context, booking.timeToGo));
           
       // } else if (daysDifference == 1){
       //   _upcomingBookings.add(booking);
