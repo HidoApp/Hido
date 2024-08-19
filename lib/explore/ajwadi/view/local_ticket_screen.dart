@@ -15,15 +15,11 @@ import 'package:get/get.dart';
 import 'hoapatility/view/custom_experience_card.dart';
 
 class LocalTicketScreen extends StatefulWidget {
- // final ProfileController profileController;
+  // final ProfileController profileController;
   final servicesController;
- final String?type;
+  final String? type;
 
-   const LocalTicketScreen({
-    super.key,
-  this.servicesController,
-  this.type
-  });
+  const LocalTicketScreen({super.key, this.servicesController, this.type});
 
   @override
   State<LocalTicketScreen> createState() => _LocalTicketScreenState();
@@ -33,7 +29,7 @@ class _LocalTicketScreenState extends State<LocalTicketScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   int tabIndex = 0;
-    // final _servicesController = Get.put(HospitalityController());
+  // final _servicesController = Get.put(HospitalityController());
 
   //List<String> status = ['canceled', 'waiting', 'confirmed'];
 
@@ -41,25 +37,27 @@ class _LocalTicketScreenState extends State<LocalTicketScreen>
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
-   widget.servicesController.getPastTicket(context: context);
-   widget.servicesController.getUpcommingTicket(context: context);
+    widget.servicesController.getPastTicket(context: context);
+    widget.servicesController.getUpcommingTicket(context: context);
   }
- String _appBarText() {
-    if (widget.type== 'tour') {
+
+  String _appBarText() {
+    if (widget.type == 'tour') {
       return "Tour".tr;
     }
-    if (widget.type== 'hospitality') {
+    if (widget.type == 'hospitality') {
       return "Hospitality".tr;
     }
-    if (widget.type== 'adventure') {
+    if (widget.type == 'adventure') {
       return "Adventure".tr;
     }
-    if (widget.type== 'event') {
+    if (widget.type == 'event') {
       return "Event".tr;
     }
-    
+
     return ""; // Add validation for other steps if needed
   }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -79,18 +77,21 @@ class _LocalTicketScreenState extends State<LocalTicketScreen>
         ),
         child: Column(
           children: [
-            TabBar(
-              controller: _tabController,
-              indicatorSize: TabBarIndicatorSize.tab,
-              labelColor: colorGreen,
+            MediaQuery(
+              data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+              child: TabBar(
+                controller: _tabController,
+                indicatorSize: TabBarIndicatorSize.tab,
+                labelColor: colorGreen,
 
-              unselectedLabelColor: colorDarkGrey,
-              dividerColor: Color(0xFFB9B8C1),
-              // indicatorPadding: EdgeInsets.symmetric(horizontal: 1),
-              tabs: [
-                Tab(text: "upcomingTrips".tr),
-                Tab(text: "pastTrips".tr),
-              ],
+                unselectedLabelColor: colorDarkGrey,
+                dividerColor: Color(0xFFB9B8C1),
+                // indicatorPadding: EdgeInsets.symmetric(horizontal: 1),
+                tabs: [
+                  Tab(text: "upcomingTrips".tr),
+                  Tab(text: "pastTrips".tr),
+                ],
+              ),
             ),
             // const SizedBox(
             //   height: 24,
@@ -106,25 +107,24 @@ class _LocalTicketScreenState extends State<LocalTicketScreen>
                       controller: _tabController,
                       children: [
                         // Tab 1 content (upcomingTrips)
-                         widget. servicesController.isUpcommingTicketLoading.value
+                        widget.servicesController.isUpcommingTicketLoading.value
                             ? const Center(
                                 child: CircularProgressIndicator(
                                   color: colorGreen,
                                 ),
                               )
-                            :  widget.servicesController.upcommingTicket.isEmpty
-                                ? widget.type == 'tour'?
-                                CustomEmptyWidget(
-                                    title: 'noRequest'.tr,
-                                    image: 'NoTicket',
-                                    subtitle: 'noRequestSub'.tr,
-                                  )
-                                
-                                :CustomEmptyWidget(
-                                    title: 'noBooking'.tr,
-                                    image: 'NoTicket',
-                                    subtitle: 'noBookingSub'.tr,
-                                  )
+                            : widget.servicesController.upcommingTicket.isEmpty
+                                ? widget.type == 'tour'
+                                    ? CustomEmptyWidget(
+                                        title: 'noRequest'.tr,
+                                        image: 'NoTicket',
+                                        subtitle: 'noRequestSub'.tr,
+                                      )
+                                    : CustomEmptyWidget(
+                                        title: 'noBooking'.tr,
+                                        image: 'NoTicket',
+                                        subtitle: 'noBookingSub'.tr,
+                                      )
                                 // ? Column(
                                 //     children: [
                                 //       Text('true'),
@@ -132,7 +132,7 @@ class _LocalTicketScreenState extends State<LocalTicketScreen>
                                 //   )
                                 : ListView.separated(
                                     shrinkWrap: true,
-                                    itemCount:   widget.servicesController
+                                    itemCount: widget.servicesController
                                         .upcommingTicket.length,
                                     separatorBuilder: (context, index) {
                                       return const SizedBox(
@@ -140,28 +140,27 @@ class _LocalTicketScreenState extends State<LocalTicketScreen>
                                       );
                                     },
                                     itemBuilder: (context, index) {
-                                      return widget.type == 'tour'?
-
-                                      LocalTripCard(
-                                        trip: widget.servicesController
-                                            .upcommingTicket[index],
-                                      ):widget.type == 'event'?
-                                      
-                                      EventExperienceCard(
-                                        experience: widget.servicesController
-                                            .upcommingTicket[index],
-                                            type:widget.type
-                                      )
-                                      : CustomExperienceCard(
-                                        experience: widget.servicesController
-                                            .upcommingTicket[index],
-                                            type:widget.type
-                                      );
+                                      return widget.type == 'tour'
+                                          ? LocalTripCard(
+                                              trip: widget.servicesController
+                                                  .upcommingTicket[index],
+                                            )
+                                          : widget.type == 'event'
+                                              ? EventExperienceCard(
+                                                  experience: widget
+                                                      .servicesController
+                                                      .upcommingTicket[index],
+                                                  type: widget.type)
+                                              : CustomExperienceCard(
+                                                  experience: widget
+                                                      .servicesController
+                                                      .upcommingTicket[index],
+                                                  type: widget.type);
                                     },
                                   ),
 
                         // Tab 2 content (pastTrips)
-                     widget.servicesController.isPastTicketLoading.value
+                        widget.servicesController.isPastTicketLoading.value
                             ? const Center(
                                 child: SizedBox(
                                   height: 40,
@@ -171,48 +170,44 @@ class _LocalTicketScreenState extends State<LocalTicketScreen>
                                   ),
                                 ),
                               )
-                             :  widget.servicesController.pastTicket.isEmpty
-                                ? widget.type == 'tour'?
-                                CustomEmptyWidget(
-                                    title: 'noRequest'.tr,
-                                    image: 'NoTicket',
-                                    subtitle: 'noRequestSub'.tr,
-                                  )
-                                
-                                :CustomEmptyWidget(
-                                    title: 'noBooking'.tr,
-                                    image: 'NoTicket',
-                                    subtitle: 'noBookingSub'.tr,
-                                  )
-                               
+                            : widget.servicesController.pastTicket.isEmpty
+                                ? widget.type == 'tour'
+                                    ? CustomEmptyWidget(
+                                        title: 'noRequest'.tr,
+                                        image: 'NoTicket',
+                                        subtitle: 'noRequestSub'.tr,
+                                      )
+                                    : CustomEmptyWidget(
+                                        title: 'noBooking'.tr,
+                                        image: 'NoTicket',
+                                        subtitle: 'noBookingSub'.tr,
+                                      )
                                 : ListView.separated(
                                     shrinkWrap: true,
-                                    itemCount: 
-                                    widget.servicesController.pastTicket.length,
+                                    itemCount: widget
+                                        .servicesController.pastTicket.length,
                                     separatorBuilder: (context, index) {
                                       return const SizedBox(
                                         height: 11,
                                       );
                                     },
                                     itemBuilder: (context, index) {
-                                     return widget.type == 'tour'?
-
-                                      LocalTripCard(
-                                        trip: widget.servicesController
-                                            .pastTicket[index],
-                                      ):widget.type == 'event'?
-                                      
-                                      EventExperienceCard(
-                                        experience: widget.servicesController
-                                            .pastTicket[index],
-                                            type:widget.type
-                                      )
-                                      
-                                      : CustomExperienceCard(
-                                        experience:  widget.servicesController
-                                           .pastTicket[index],
-                                        type:widget.type
-                                      );
+                                      return widget.type == 'tour'
+                                          ? LocalTripCard(
+                                              trip: widget.servicesController
+                                                  .pastTicket[index],
+                                            )
+                                          : widget.type == 'event'
+                                              ? EventExperienceCard(
+                                                  experience: widget
+                                                      .servicesController
+                                                      .pastTicket[index],
+                                                  type: widget.type)
+                                              : CustomExperienceCard(
+                                                  experience: widget
+                                                      .servicesController
+                                                      .pastTicket[index],
+                                                  type: widget.type);
                                     },
                                   ),
                       ],
@@ -227,4 +222,3 @@ class _LocalTicketScreenState extends State<LocalTicketScreen>
     );
   }
 }
-         

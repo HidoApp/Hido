@@ -647,17 +647,13 @@ const localeEn = {
   'imageValidSize': 'Image is too large, you can only upload less than 2 MB',
   're-enterPassword': 'Re-enter your password',
   'resetSucces': "Resetting password completed",
-  'nextActivity':'Your next activity ',
+  'nextActivity': 'Your next activity ',
   'chat2': 'Chat',
-  'seeMore':'See more',
-   'Yourservices':'Your services',
-  'summary' : 'Summary',
-  'Copied':'Copied tp clipboard',
-  'Experiencetitle':'Experience title',
-   'regionChoose':'Choose your Region',
-                                      
-
-
-
-
+  'seeMore': 'See more',
+  'Yourservices': 'Your services',
+  'summary': 'Summary',
+  'Copied': 'Copied tp clipboard',
+  'Experiencetitle': 'Experience title',
+  'regionChoose': 'Choose your Region',
+  'pendingProgress': "Your tour is going to start soon "
 };

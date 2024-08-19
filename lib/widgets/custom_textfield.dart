@@ -29,6 +29,7 @@ class CustomTextField extends StatelessWidget {
       this.readOnly = false,
       this.validatorHandle,
       this.expand = false,
+      this.textInputAction = TextInputAction.search,
       this.focusNode,
       this.raduis});
 
@@ -54,6 +55,7 @@ class CustomTextField extends StatelessWidget {
   final FocusNode? focusNode;
   final double? raduis;
   final bool expand;
+  final TextInputAction? textInputAction;
 
   @override
   Widget build(BuildContext context) {
@@ -61,81 +63,85 @@ class CustomTextField extends StatelessWidget {
       alignment: Alignment.center,
       // padding: const EdgeInsets.symmetric(horizontal: 16),
       height: height,
-      child: TextFormField(
-        focusNode: focusNode,
-        expands: expand,
-        initialValue: initialValue,
-        inputFormatters: inputFormatters ?? [],
-        maxLength: maxLength,
-        maxLines: maxLines,
-        minLines: minLines,
-        readOnly: readOnly,
-        controller: controller,
-        obscureText: obscureText,
-        keyboardType: keyboardType,
-        cursorColor: const Color(0xFF969696),
-        textInputAction: TextInputAction.search,
-        enabled: enable,
-        validator: validator
-            ? (v) {
-                if (v!.isEmpty) {
-                  return 'fieldRequired'.tr;
+      child: MediaQuery(
+        data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+        child: TextFormField(
+          focusNode: focusNode,
+          expands: expand,
+          initialValue: initialValue,
+          inputFormatters: inputFormatters ?? [],
+          maxLength: maxLength,
+          maxLines: maxLines,
+          minLines: minLines,
+          readOnly: readOnly,
+          controller: controller,
+          obscureText: obscureText,
+          keyboardType: keyboardType,
+          cursorColor: const Color(0xFF969696),
+          textInputAction: textInputAction,
+          enabled: enable,
+          validator: validator
+              ? (v) {
+                  if (v!.isEmpty) {
+                    return 'fieldRequired'.tr;
+                  }
+                  if (v.trim().length < 8 && isPassword) {
+                    return "you must enter at least 8 characters";
+                  }
+                  return null;
                 }
-                if (v.trim().length < 8 && isPassword) {
-                  return "you must enter at least 8 characters";
-                }
-                return null;
-              }
-            : validatorHandle,
-        style: TextStyle(
-          color: textColor,
-          fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-        ),
-        decoration: InputDecoration(
-          focusedErrorBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              borderSide: BorderSide(color: colorRed, width: 1)),
-          errorBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              borderSide: BorderSide(color: colorRed, width: 1)),
-          errorStyle: TextStyle(
-            color: colorRed,
-            fontSize: 11,
-            fontWeight: FontWeight.w400,
+              : validatorHandle,
+          style: TextStyle(
+            color: textColor,
             fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
           ),
-          contentPadding:
-              const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-          counterStyle: const TextStyle(fontSize: 0, height: 100),
-          counterText: '',
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(raduis ?? 8)),
-              borderSide: const BorderSide(color: borderGrey, width: 1)),
-          enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(raduis ?? 8)),
-              borderSide:
-                  BorderSide(color: borderColor ?? borderGrey, width: 1)),
-          disabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(raduis ?? 8)),
-              borderSide:
-                  BorderSide(color: borderColor ?? borderGrey, width: 1)),
-          focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(raduis ?? 8)),
-              borderSide:
-                  BorderSide(color: borderColor ?? borderGrey, width: 1)),
-          prefixIcon: prefixIcon,
-          suffixIcon: suffixIcon,
-          // prefixIconConstraints: BoxConstraints(maxWidth: 24, maxHeight: 24),
-          hintText: hintText,
-
-          hintStyle: TextStyle(
-              fontSize: 13,
+          decoration: InputDecoration(
+            focusedErrorBorder: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                borderSide: BorderSide(color: colorRed, width: 1)),
+            errorBorder: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                borderSide: BorderSide(color: colorRed, width: 1)),
+            errorStyle: TextStyle(
+              color: colorRed,
+              fontSize: 11,
+              fontWeight: FontWeight.w400,
               fontFamily:
                   AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-              color: almostGrey,
-              fontWeight: FontWeight.w400),
+            ),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+            counterStyle: const TextStyle(fontSize: 0, height: 100),
+            counterText: '',
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(raduis ?? 8)),
+                borderSide: const BorderSide(color: borderGrey, width: 1)),
+            enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(raduis ?? 8)),
+                borderSide:
+                    BorderSide(color: borderColor ?? borderGrey, width: 1)),
+            disabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(raduis ?? 8)),
+                borderSide:
+                    BorderSide(color: borderColor ?? borderGrey, width: 1)),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(raduis ?? 8)),
+                borderSide:
+                    BorderSide(color: borderColor ?? borderGrey, width: 1)),
+            prefixIcon: prefixIcon,
+            suffixIcon: suffixIcon,
+            // prefixIconConstraints: BoxConstraints(maxWidth: 24, maxHeight: 24),
+            hintText: hintText,
+
+            hintStyle: TextStyle(
+                fontSize: 13,
+                fontFamily:
+                    AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+                color: almostGrey,
+                fontWeight: FontWeight.w400),
+          ),
+          onChanged: onChanged,
         ),
-        onChanged: onChanged,
       ),
     );
   }

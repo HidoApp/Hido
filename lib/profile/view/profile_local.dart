@@ -260,6 +260,7 @@ class _LocalProfileState extends State<LocalProfile> {
                             fontFamily: AppUtil.SfFontType(context),
                             fontWeight: FontWeight.w400,
                             color: starGreyColor,
+                            maxlines: 20,
                           ),
                     SizedBox(
                       height: width * 0.05,

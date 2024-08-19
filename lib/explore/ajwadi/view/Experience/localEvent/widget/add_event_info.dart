@@ -7,8 +7,8 @@ import 'package:get/get.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 class AddInfo extends StatefulWidget {
- AddInfo({
-  Key? key,
+  AddInfo({
+    Key? key,
     required this.textField1ControllerEN,
     required this.textField2ControllerEN,
     required this.textField1ControllerAR,
@@ -37,8 +37,8 @@ class _AddInfoState extends State<AddInfo> {
 
   int _selectedLanguageIndex = 1; // 0 for AR, 1 for EN
   FocusNode _focusNode = FocusNode();
-    final EventController _EventController = Get.put(EventController());
-    
+  final EventController _EventController = Get.put(EventController());
+
   @override
   void dispose() {
     _focusNode.dispose();
@@ -48,27 +48,24 @@ class _AddInfoState extends State<AddInfo> {
   @override
   void initState() {
     super.initState();
- setState(() {
-           _selectedLanguageIndex = AppUtil.rtlDirection2(context)?0:1;
-
+    setState(() {
+      _selectedLanguageIndex = AppUtil.rtlDirection2(context) ? 0 : 1;
     });
-    
-    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
- final TextEditingController textField1Controller =
+    final TextEditingController textField1Controller =
         _selectedLanguageIndex == 0
-            ?widget.textField1ControllerAR
-            :widget.textField1ControllerEN;
+            ? widget.textField1ControllerAR
+            : widget.textField1ControllerEN;
     final TextEditingController textField2Controller =
         _selectedLanguageIndex == 0
             ? widget.textField2ControllerAR
             : widget.textField2ControllerEN;
 
-   
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
@@ -76,49 +73,50 @@ class _AddInfoState extends State<AddInfo> {
             crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              ToggleSwitch(
-                minWidth: 55,
-                cornerRadius: 12,
-                activeBgColors: [
-                  [Colors.white],
-                  [Colors.white]
-                ],
-                activeBorders: [
-                  Border.all(color: Color(0xFFF5F5F5), width: 2.0),
-                  Border.all(color: Color(0xFFF5F5F5), width: 2.0),
-                ],
-                activeFgColor: Color(0xFF070708),
-                inactiveBgColor: Color(0xFFF5F5F5),
-                inactiveFgColor: Color(0xFF9392A0),
-                initialLabelIndex: _selectedLanguageIndex,
-                totalSwitches: 2,
-                labels: _selectedLanguageIndex == 0
-                    ? ['عربي', 'إنجليزي']
-                    : ['AR', 'EN'],
-                radiusStyle: true,
-                customTextStyles: [
-                  TextStyle(
-                    fontSize: _selectedLanguageIndex == 0?11: 13,
-                    fontFamily: _selectedLanguageIndex == 0?'SF Arabic': 'SF Pro',
-                    fontWeight:
-                      
-                         FontWeight.w500,
-                  ),
-                  TextStyle(
-                    fontSize: _selectedLanguageIndex == 0?11: 13,
-                    fontFamily: _selectedLanguageIndex == 0?'SF Arabic': 'SF Pro',
-                    fontWeight: 
-                        FontWeight.w500,
-                  ),
-                ],
-                customHeights: [90, 90],
-                onToggle: (index) {
-                  setState(() {
-                    _selectedLanguageIndex = index!;
-             
-                });
-                  print('switched to: $index');
-                },
+              MediaQuery(
+                data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                child: ToggleSwitch(
+                  minWidth: 55,
+                  cornerRadius: 12,
+                  activeBgColors: [
+                    [Colors.white],
+                    [Colors.white]
+                  ],
+                  activeBorders: [
+                    Border.all(color: Color(0xFFF5F5F5), width: 2.0),
+                    Border.all(color: Color(0xFFF5F5F5), width: 2.0),
+                  ],
+                  activeFgColor: Color(0xFF070708),
+                  inactiveBgColor: Color(0xFFF5F5F5),
+                  inactiveFgColor: Color(0xFF9392A0),
+                  initialLabelIndex: _selectedLanguageIndex,
+                  totalSwitches: 2,
+                  labels: _selectedLanguageIndex == 0
+                      ? ['عربي', 'إنجليزي']
+                      : ['AR', 'EN'],
+                  radiusStyle: true,
+                  customTextStyles: [
+                    TextStyle(
+                      fontSize: _selectedLanguageIndex == 0 ? 11 : 13,
+                      fontFamily:
+                          _selectedLanguageIndex == 0 ? 'SF Arabic' : 'SF Pro',
+                      fontWeight: FontWeight.w500,
+                    ),
+                    TextStyle(
+                      fontSize: _selectedLanguageIndex == 0 ? 10 : 13,
+                      fontFamily:
+                          _selectedLanguageIndex == 0 ? 'SF Arabic' : 'SF Pro',
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ],
+                  customHeights: [90, 90],
+                  onToggle: (index) {
+                    setState(() {
+                      _selectedLanguageIndex = index!;
+                    });
+                    print('switched to: $index');
+                  },
+                ),
               ),
             ]),
         Directionality(
@@ -135,71 +133,73 @@ class _AddInfoState extends State<AddInfo> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustomText(
-                     text: _selectedLanguageIndex == 0
+                      text: _selectedLanguageIndex == 0
                           ? 'عنوان الفعالية'
                           : 'Event title',
-                        color: Color(0xFF070708),
-                        fontSize: 17,
-                        fontFamily: _selectedLanguageIndex == 0
-                            ? 'SF Arabic'
-                            : 'SF Pro',
-                        fontWeight: FontWeight.w500,
-                    
+                      color: Color(0xFF070708),
+                      fontSize: 17,
+                      fontFamily:
+                          _selectedLanguageIndex == 0 ? 'SF Arabic' : 'SF Pro',
+                      fontWeight: FontWeight.w500,
                     ),
                     SizedBox(height: _selectedLanguageIndex == 0 ? 8 : 9),
-                    TextField(
-                      maxLength: 20,
-                      controller: textField1Controller,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 15,
-                        fontFamily: _selectedLanguageIndex == 0
-                        ? 'SF Arabic'
-                        : 'SF Pro',
-                        fontWeight: FontWeight.w400,
-                      ),
-                      decoration: InputDecoration(
-                        hintText: _selectedLanguageIndex == 0
-                            ? 'مثال: منزل دانا'
-                            : 'example: Dana’s house',
-                        hintStyle: TextStyle(
-                          color: Color(0xFFB9B8C1),
+                    MediaQuery(
+                      data:
+                          MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                      child: TextField(
+                        maxLength: 20,
+                        controller: textField1Controller,
+                        style: TextStyle(
+                          color: Colors.black,
                           fontSize: 15,
                           fontFamily: _selectedLanguageIndex == 0
-                        ? 'SF Arabic'
-                        : 'SF Pro',
+                              ? 'SF Arabic'
+                              : 'SF Pro',
                           fontWeight: FontWeight.w400,
                         ),
-                        filled: true,
-                    fillColor: Colors.white,
-                    contentPadding: EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 0), // Adjust vertical padding for height
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide:
-                          BorderSide(width: 1, color: Color(0xFFB9B8C1)),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(
-                          width: 1,
-                          color: Color(
-                              0xFFB9B8C1)), // Same color to remove focus color
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide.none,
-                    ),
-                    ),
-                      onChanged: (value) {
-                        _selectedLanguageIndex == 0
-                ? _EventController.titleAr.value = textField1Controller.text
-                    
-                : _EventController.titleEn.value= textField1Controller.text;
-                
-              
-                      },
+                        decoration: InputDecoration(
+                          hintText: _selectedLanguageIndex == 0
+                              ? 'مثال: منزل دانا'
+                              : 'example: Dana’s house',
+                          hintStyle: TextStyle(
+                            color: Color(0xFFB9B8C1),
+                            fontSize: 15,
+                            fontFamily: _selectedLanguageIndex == 0
+                                ? 'SF Arabic'
+                                : 'SF Pro',
+                            fontWeight: FontWeight.w400,
+                          ),
+                          filled: true,
+                          fillColor: Colors.white,
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical:
+                                  0), // Adjust vertical padding for height
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide:
+                                BorderSide(width: 1, color: Color(0xFFB9B8C1)),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(
+                                width: 1,
+                                color: Color(
+                                    0xFFB9B8C1)), // Same color to remove focus color
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                        onChanged: (value) {
+                          _selectedLanguageIndex == 0
+                              ? _EventController.titleAr.value =
+                                  textField1Controller.text
+                              : _EventController.titleEn.value =
+                                  textField1Controller.text;
+                        },
+                      ),
                     ),
                   ],
                 ),
@@ -210,15 +210,14 @@ class _AddInfoState extends State<AddInfo> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                      CustomText(
-                     text:_selectedLanguageIndex == 0 ? 'الوصف' : 'Description',
-                        color: Color(0xFF070708),
-                        fontSize: 17,
-                        fontFamily: _selectedLanguageIndex == 0
-                            ? 'SF Arabic'
-                            : 'SF Pro',
-                        fontWeight: 
-                             FontWeight.w500,
+                    CustomText(
+                      text:
+                          _selectedLanguageIndex == 0 ? 'الوصف' : 'Description',
+                      color: Color(0xFF070708),
+                      fontSize: 17,
+                      fontFamily:
+                          _selectedLanguageIndex == 0 ? 'SF Arabic' : 'SF Pro',
+                      fontWeight: FontWeight.w500,
                     ),
                     SizedBox(height: _selectedLanguageIndex == 0 ? 8 : 9),
                     Container(
@@ -231,70 +230,75 @@ class _AddInfoState extends State<AddInfo> {
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      child: TextField(
-                      maxLines: 8,
-                      // minLines: 1,
-                        controller: textField2Controller,
-                       focusNode: _focusNode,
-                        inputFormatters: [
-                          TextInputFormatter.withFunction(
-                            (oldValue, newValue) {
-                              if (newValue.text
-                                      .split(RegExp(r'\s+'))
-                                      .where((word) => word.isNotEmpty)
-                                      .length >
-                                  150) {
-                                return oldValue;
-                              }
-                              return newValue;
-                            },
-                          ),
-                        
-                        ],
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 15,
-                          fontFamily: _selectedLanguageIndex == 0
-                          ? 'SF Arabic'
-                          : 'SF Pro',
-                          fontWeight: FontWeight.w400,
-                        ),
-                        decoration: InputDecoration(
-                          hintText: _selectedLanguageIndex == 0
-                              ? 'سلط الضوء على ما يجعل تجربتك  فريدة من نوعها ولماذا يجب على السياح زيارتها'
-                              : 'highlight what makes it unique and why tourists should visit',
-                          hintStyle: TextStyle(
-                            color: Color(0xFFB9B8C1),
+                      child: MediaQuery(
+                        data: MediaQuery.of(context)
+                            .copyWith(textScaleFactor: 1.0),
+                        child: TextField(
+                          maxLines: 8,
+                          // minLines: 1,
+                          controller: textField2Controller,
+                          focusNode: _focusNode,
+                          inputFormatters: [
+                            TextInputFormatter.withFunction(
+                              (oldValue, newValue) {
+                                if (newValue.text
+                                        .split(RegExp(r'\s+'))
+                                        .where((word) => word.isNotEmpty)
+                                        .length >
+                                    150) {
+                                  return oldValue;
+                                }
+                                return newValue;
+                              },
+                            ),
+                          ],
+                          style: TextStyle(
+                            color: Colors.black,
                             fontSize: 15,
                             fontFamily: _selectedLanguageIndex == 0
-                          ? 'SF Arabic'
-                          : 'SF Pro',
+                                ? 'SF Arabic'
+                                : 'SF Pro',
                             fontWeight: FontWeight.w400,
                           ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide.none,
+                          decoration: InputDecoration(
+                            hintText: _selectedLanguageIndex == 0
+                                ? 'سلط الضوء على ما يجعل تجربتك  فريدة من نوعها ولماذا يجب على السياح زيارتها'
+                                : 'highlight what makes it unique and why tourists should visit',
+                            hintStyle: TextStyle(
+                              color: Color(0xFFB9B8C1),
+                              fontSize: 15,
+                              fontFamily: _selectedLanguageIndex == 0
+                                  ? 'SF Arabic'
+                                  : 'SF Pro',
+                              fontWeight: FontWeight.w400,
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide.none,
+                            ),
                           ),
+                          onChanged: (value) {
+                            _selectedLanguageIndex == 0
+                                ? _EventController.bioAr.value =
+                                    textField2Controller.text
+                                : _EventController.bioEn.value =
+                                    textField2Controller.text;
+                          },
                         ),
-                        onChanged: (value) {
-                          _selectedLanguageIndex==0
-                          ?  _EventController.bioAr.value=textField2Controller.text
-                         :_EventController.bioEn.value=textField2Controller.text;
-                        },
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 1.0, left: 8.0),
-                      child:   CustomText(
-                     text:_selectedLanguageIndex == 0
+                      child: CustomText(
+                        text: _selectedLanguageIndex == 0
                             ? '*يجب ألا يتجاوز الوصف 150 كلمة'
                             : '*the description must not exceed 150 words',
-                          color: Color(0xFFB9B8C1),
-                          fontSize: 11,
-                            fontFamily: _selectedLanguageIndex == 0
-                          ? 'SF Arabic'
-                          : 'SF Pro',
-                          fontWeight: FontWeight.w400,
+                        color: Color(0xFFB9B8C1),
+                        fontSize: 11,
+                        fontFamily: _selectedLanguageIndex == 0
+                            ? 'SF Arabic'
+                            : 'SF Pro',
+                        fontWeight: FontWeight.w400,
                       ),
                     )
                   ],

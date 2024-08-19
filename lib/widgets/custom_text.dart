@@ -11,7 +11,7 @@ class CustomText extends StatelessWidget {
       this.fontWeight = FontWeight.w500,
       this.color = black,
       this.textDecoration,
-      this.maxlines,
+      this.maxlines = 2,
       this.textOverflow,
       this.textDirection,
       this.height,
@@ -40,14 +40,12 @@ class CustomText extends StatelessWidget {
     return MediaQuery(
       // data: MediaQuery.of(context)
       //     .copyWith(textScaler: const TextScaler.linear(1.0)),
-       data: MediaQuery.of(context)
-          .copyWith(textScaleFactor: 1.0),
+      data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
       child: Text(
         text!,
         textAlign: textAlign ??
             (AppUtil.rtlDirection2(context) ? TextAlign.right : TextAlign.left),
         maxLines: maxlines,
-        
         overflow: textOverflow,
         style: TextStyle(
             fontFamily: fontFamily ?? 'HT Rakik',
@@ -60,7 +58,6 @@ class CustomText extends StatelessWidget {
             height: height,
             shadows: shadows,
             decorationColor: color,
-            
             overflow:
                 TextOverflow.ellipsis, // Add ellipsis if the text is too long
             decorationThickness: 0.3),

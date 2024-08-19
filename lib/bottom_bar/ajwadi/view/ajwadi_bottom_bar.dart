@@ -25,7 +25,8 @@ class AjwadiBottomBar extends StatefulWidget {
 
 final ProfileController _profileController = ProfileController();
 final storage = GetStorage();
-final isTourGuide = storage.read("TourGuide") ?? true;
+// final isTourGuide = storage.read("TourGuide") ?? true;
+final isTourGuide = true;
 int currentIndex = 0;
 List bottomScreens = [
   LocalHomeScreen(fromAjwady: true, profileController: _profileController),

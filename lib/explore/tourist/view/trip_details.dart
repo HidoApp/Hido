@@ -19,6 +19,7 @@ import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_policy_sheet.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/home_icons_button.dart';
+import 'package:ajwad_v4/widgets/image_cache_widget.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -209,9 +210,9 @@ class _TripDetailsState extends State<TripDetails> {
                               borderRadius: const BorderRadius.only(
                                   bottomLeft: Radius.circular(16),
                                   bottomRight: Radius.circular(16)),
-                              child: Image.network(
-                                widget.place!.image![index],
-                                fit: BoxFit.cover,
+                              child: ImageCacheWidget(
+                                image: widget.place!.image![index],
+                                //   fit: BoxFit.cover,
                               ),
                             ),
                     );

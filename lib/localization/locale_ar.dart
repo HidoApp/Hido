@@ -638,16 +638,13 @@ const localeAr = {
   'imageValidSize': 'حجم الصورة لازم يكون اقل من ٢ ميجابايت',
   're-enterPassword': 'أعد إدخال الرمز السري',
   'resetSucces': "تم تحديث الرمز السري ",
-  'nextActivity':"نشاطك القادم",
+  'nextActivity': "نشاطك القادم",
   'chat2': 'محادثة',
-  'seeMore':'المزيد',
+  'seeMore': 'المزيد',
   'Yourservices': "الخدمات المقدمة",
-  'summary' : 'ملخص',
+  'summary': 'ملخص',
   'Copied': "تم النسخ إلى الحافظة ",
-   'Experiencetitle':'عنوان التجربة',
-  'regionChoose':"اختر المنطقة",
-                    
-                                      
-
-                          
+  'Experiencetitle': 'عنوان التجربة',
+  'regionChoose': "اختر المنطقة",
+  'pendingProgress': "جولتك بتبدأ قريبا"
 };

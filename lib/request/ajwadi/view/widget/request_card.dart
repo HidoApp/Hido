@@ -8,6 +8,7 @@ import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_outlined_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
+import 'package:ajwad_v4/widgets/image_cache_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
 import 'package:flutter_svg/svg.dart';
@@ -117,9 +118,8 @@ class _RequestCardState extends State<RequestCard> {
                     )
                   : ClipRRect(
                       borderRadius: BorderRadius.circular(7),
-                      child: Image.network(
-                        fit: BoxFit.cover,
-                        widget.request.placeImage!.first,
+                      child: ImageCacheWidget(
+                        image: widget.request.placeImage!.first,
                         height: width * 0.15,
                         width: width * 0.15,
                       ),

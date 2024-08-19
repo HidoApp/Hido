@@ -27,12 +27,12 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
   }
 
   bool isEditing = false;
-   TextEditingController _priceController = TextEditingController();
+  TextEditingController _priceController = TextEditingController();
   double hidoFee = 0.00;
   double earn = 0.00;
   String errorMessage = '';
 
-   @override
+  @override
   void initState() {
     super.initState();
     widget.priceController.text = '0'; // Assuming price is initially 0
@@ -48,7 +48,8 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
   void _validatePrice() {
     if (!mounted) return; // Check if the widget is still mounted
     String priceText = widget.priceController.text;
-    RegExp doubleRegex = RegExp(r'^[0-9]*\.[0-9]+$'); // Regular expression to match doubles
+    RegExp doubleRegex =
+        RegExp(r'^[0-9]*\.[0-9]+$'); // Regular expression to match doubles
 
     // Ensure state changes happen after the build phase
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -76,6 +77,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
       earn = price - hidoFee;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     // double hidoFee = price * 0.25;
@@ -91,15 +93,15 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
           color: black,
           fontSize: 17,
           fontWeight: FontWeight.w500,
-          fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+          fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
         ),
         const SizedBox(height: 2),
         CustomText(
-      text: 'changePrice'.tr,
-            color: starGreyColor,
-            fontSize: 15,
-            fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
-            fontWeight: FontWeight.w500,
+          text: 'changePrice'.tr,
+          color: starGreyColor,
+          fontSize: 15,
+          fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+          fontWeight: FontWeight.w500,
         ),
         // width: 390,
         // height: 436,
@@ -113,7 +115,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
             color: Colors.white,
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: errorMessage.isNotEmpty ? Colors.red :Colors.white,
+              color: errorMessage.isNotEmpty ? Colors.red : Colors.white,
             ),
             boxShadow: [
               BoxShadow(
@@ -155,60 +157,63 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                   children: [
                     if (isEditing)
                       Expanded(
-                        child: TextField(
-                          controller: widget.priceController,
-                          keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            focusedBorder: InputBorder.none,
-                            enabledBorder: InputBorder.none,
-                            errorBorder: InputBorder.none,
-                            disabledBorder: InputBorder.none,
-                            contentPadding:
-                                EdgeInsets.all(0), // Optional: Remove padding
-                          ),
-                          style: TextStyle(
-                            color: Color(0xFF070708),
-                            fontSize: 34,
-                            fontFamily: 'HT Rakik',
-                            fontWeight: FontWeight.w500,
-                          ),
-                          onSubmitted: (newValue) {
-                            _updateFees();
+                        child: MediaQuery(
+                          data: MediaQuery.of(context)
+                              .copyWith(textScaleFactor: 1.0),
+                          child: TextField(
+                            controller: widget.priceController,
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                              enabledBorder: InputBorder.none,
+                              errorBorder: InputBorder.none,
+                              disabledBorder: InputBorder.none,
+                              contentPadding:
+                                  EdgeInsets.all(0), // Optional: Remove padding
+                            ),
+                            style: TextStyle(
+                              color: Color(0xFF070708),
+                              fontSize: 34,
+                              fontFamily: 'HT Rakik',
+                              fontWeight: FontWeight.w500,
+                            ),
+                            onSubmitted: (newValue) {
+                              _updateFees();
 
-                            setState(() {
-                              isEditing = false;
-                            });
-                          },
+                              setState(() {
+                                isEditing = false;
+                              });
+                            },
+                          ),
                         ),
                       )
                     else
                       CustomText(
-                         text: 
-                        widget.priceController.text,
-                          color: Color(0xFF070708),
-                          fontSize: 34,
-                          fontFamily: 'HT Rakik',
-                          fontWeight: FontWeight.w500,
-                      ),
-                    const SizedBox(width: 4),
-                   CustomText(
-                         text: 
-                      'sar'.tr,
+                        text: widget.priceController.text,
                         color: Color(0xFF070708),
                         fontSize: 34,
                         fontFamily: 'HT Rakik',
                         fontWeight: FontWeight.w500,
+                      ),
+                    const SizedBox(width: 4),
+                    CustomText(
+                      text: 'sar'.tr,
+                      color: Color(0xFF070708),
+                      fontSize: 34,
+                      fontFamily: 'HT Rakik',
+                      fontWeight: FontWeight.w500,
                     ),
                     const SizedBox(width: 4),
                     CustomText(
-                         text: 
-                      'Perperson'.tr,
-                          color: Graytext,
-                          fontSize: 12,
-                          fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
-                          fontWeight: FontWeight.w500,
-                          height: 3),
+                        text: 'Perperson'.tr,
+                        color: Graytext,
+                        fontSize: 12,
+                        fontFamily: AppUtil.rtlDirection2(context)
+                            ? 'SF Arabic'
+                            : 'SF Pro',
+                        fontWeight: FontWeight.w500,
+                        height: 3),
                   ],
                 ),
               ),
@@ -218,13 +223,13 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
         if (errorMessage.isNotEmpty)
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
-            child:CustomText(
-           text: errorMessage,
-                color: Colors.red,
-                fontSize: 14,
-                fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
-                fontWeight: FontWeight.w400,
-              
+            child: CustomText(
+              text: errorMessage,
+              color: Colors.red,
+              fontSize: 14,
+              fontFamily:
+                  AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+              fontWeight: FontWeight.w400,
             ),
           ),
         const SizedBox(height: 50),
@@ -249,20 +254,24 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                  CustomText(
-                         text: 'Baseprice'.tr,
-                        color: graySmallText,
-                        fontSize: 15,
-                        fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
-                        fontWeight: FontWeight.w500,
+                    CustomText(
+                      text: 'Baseprice'.tr,
+                      color: graySmallText,
+                      fontSize: 15,
+                      fontFamily: AppUtil.rtlDirection2(context)
+                          ? 'SF Arabic'
+                          : 'SF Pro',
+                      fontWeight: FontWeight.w500,
                     ),
                     const SizedBox(width: 8),
-                   CustomText(
-                         text: ' ${widget.priceController.text} ${'sar'.tr}',
-                        color: graySmallText,
-                        fontSize: 15,
-                        fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
-                        fontWeight: FontWeight.w500,
+                    CustomText(
+                      text: ' ${widget.priceController.text} ${'sar'.tr}',
+                      color: graySmallText,
+                      fontSize: 15,
+                      fontFamily: AppUtil.rtlDirection2(context)
+                          ? 'SF Arabic'
+                          : 'SF Pro',
+                      fontWeight: FontWeight.w500,
                     ),
                   ],
                 ),
@@ -277,20 +286,24 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                  CustomText(
-                         text: 'Hidofee'.tr,
-                        color: graySmallText,
-                        fontSize: 15,
-                        fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
-                        fontWeight: FontWeight.w500,
+                    CustomText(
+                      text: 'Hidofee'.tr,
+                      color: graySmallText,
+                      fontSize: 15,
+                      fontFamily: AppUtil.rtlDirection2(context)
+                          ? 'SF Arabic'
+                          : 'SF Pro',
+                      fontWeight: FontWeight.w500,
                     ),
                     const SizedBox(width: 8),
-                 CustomText(
-                         text: ' ${hidoFee.toStringAsFixed(2)} ${'sar'.tr}',
-                        color: graySmallText,
-                        fontSize: 15,
-                        fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
-                        fontWeight: FontWeight.w500,
+                    CustomText(
+                      text: ' ${hidoFee.toStringAsFixed(2)} ${'sar'.tr}',
+                      color: graySmallText,
+                      fontSize: 15,
+                      fontFamily: AppUtil.rtlDirection2(context)
+                          ? 'SF Arabic'
+                          : 'SF Pro',
+                      fontWeight: FontWeight.w500,
                     ),
                   ],
                 ),
@@ -325,21 +338,21 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                   CustomText(
-                         text: 'Yourearn'.tr,
-                        color: Color(0xFF070708),
-                        fontSize: 17,
-                        fontFamily: 'HT Rakik',
-                        fontWeight: FontWeight.w500,
+                    CustomText(
+                      text: 'Yourearn'.tr,
+                      color: Color(0xFF070708),
+                      fontSize: 17,
+                      fontFamily: 'HT Rakik',
+                      fontWeight: FontWeight.w500,
                     ),
                     const SizedBox(width: 8),
                     CustomText(
-                         text: ' ${earn.toStringAsFixed(2)} ${'sar'.tr}',
+                      text: ' ${earn.toStringAsFixed(2)} ${'sar'.tr}',
                       textAlign: TextAlign.right,
-                        color: Color(0xFF36B268),
-                        fontSize: 17,
-                        fontFamily: 'HT Rakik',
-                        fontWeight: FontWeight.w500,
+                      color: Color(0xFF36B268),
+                      fontSize: 17,
+                      fontFamily: 'HT Rakik',
+                      fontWeight: FontWeight.w500,
                     ),
                   ],
                 ),

@@ -21,49 +21,56 @@ class ExperienceType extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Flexible(
-                  // Use Flexible to allow wrapping
-                  child: CustomText(
-                   text: 'kindofexperience'.tr,
+        child: MediaQuery(
+          data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Flexible(
+                    // Use Flexible to allow wrapping
+                    child: CustomText(
+                      text: 'kindofexperience'.tr,
                       color: Color(0xFF070708),
                       fontSize: 17,
-                      fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
+                      fontFamily: AppUtil.rtlDirection2(context)
+                          ? 'SF Arabic'
+                          : 'SF Pro',
                       fontWeight: FontWeight.w500,
                       height: 1.1, // Adjust line height as needed
-                    
+                    ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            ExperienceCard(
-              title: 'hostType'.tr,
-              iconPath: 'HostType',
-              subtitle:'hostSub'.tr,
-               onTap: () { Get.to(()=>const ButtomProgress());},
-              
-
-            ),
-            const SizedBox(height: 16),
-            ExperienceCard(
-              title: 'adventureType'.tr,
-              iconPath: 'AdventureType',
-              subtitle:'adveSub'.tr,
-               onTap: () { Get.to(()=>const AdventureAddProgress());},
-            ),
-            const SizedBox(height: 16),
-            ExperienceCard(
-              title: 'LocalEvent'.tr,
-              iconPath: 'EventType',
-              subtitle:'eventSub'.tr,
-              onTap: () { Get.to(()=> EventAddProgress());},
-
-            ),
-          ],
+                ],
+              ),
+              const SizedBox(height: 20),
+              ExperienceCard(
+                title: 'hostType'.tr,
+                iconPath: 'HostType',
+                subtitle: 'hostSub'.tr,
+                onTap: () {
+                  Get.to(() => const ButtomProgress());
+                },
+              ),
+              const SizedBox(height: 16),
+              ExperienceCard(
+                title: 'adventureType'.tr,
+                iconPath: 'AdventureType',
+                subtitle: 'adveSub'.tr,
+                onTap: () {
+                  Get.to(() => const AdventureAddProgress());
+                },
+              ),
+              const SizedBox(height: 16),
+              ExperienceCard(
+                title: 'LocalEvent'.tr,
+                iconPath: 'EventType',
+                subtitle: 'eventSub'.tr,
+                onTap: () {
+                  Get.to(() => EventAddProgress());
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

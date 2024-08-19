@@ -15,7 +15,8 @@ class ViewTripImages extends StatefulWidget {
   @override
   State<ViewTripImages> createState() => _ViewTripImagesState();
 }
-final List<String> defultImage=[ 'assets/images/Placeholder.png'];
+
+final List<String> defultImage = ['assets/images/Placeholder.png'];
 
 class _ViewTripImagesState extends State<ViewTripImages> {
   // final imageItems = widget.tripImageUrl.map((e) => null);
@@ -52,17 +53,18 @@ class _ViewTripImagesState extends State<ViewTripImages> {
   }
 
   List<Widget> imagesFromNetWork() {
-  var items = (widget.tripImageUrl.isNotEmpty ? widget.tripImageUrl : defultImage)
-    .map((url) => Container(
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(20)),
-          ),
-          padding: const EdgeInsets.all(6),
-          child: ImageCacheWidget(
-            image: url,
-          ),
-        ))
-        .toList();
+    var items =
+        (widget.tripImageUrl.isNotEmpty ? widget.tripImageUrl : defultImage)
+            .map((url) => Container(
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                  ),
+                  padding: const EdgeInsets.all(6),
+                  child: ImageCacheWidget(
+                    image: url,
+                  ),
+                ))
+            .toList();
     return items;
   }
 }

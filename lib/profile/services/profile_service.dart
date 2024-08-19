@@ -7,6 +7,7 @@ import 'package:ajwad_v4/auth/models/image.dart';
 import 'package:ajwad_v4/auth/models/token.dart';
 import 'package:ajwad_v4/auth/services/auth_service.dart';
 import 'package:ajwad_v4/constants/base_url.dart';
+import 'package:ajwad_v4/explore/tourist/model/activity_progress.dart';
 
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 import 'package:ajwad_v4/profile/models/profile.dart';
@@ -320,6 +321,20 @@ class ProfileService {
         AppUtil.errorToast(context, errorMessage);
       }
       return null;
+    }
+  }
+
+  static Future<List<ActivityProgress>?> getAllActions(
+      {required BuildContext context}) async {
+    final getStorage = GetStorage();
+    String token = getStorage.read('accessToken') ?? "";
+    if (token != '' && JwtDecoder.isExpired(token)) {
+      final authController = Get.put(AuthController());
+
+      String refreshToken = getStorage.read('refreshToken');
+      var user = await authController.refreshToken(
+          refreshToken: refreshToken, context: context);
+      token = getStorage.read('accessToken');
     }
   }
 }

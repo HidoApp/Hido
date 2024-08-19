@@ -250,7 +250,7 @@ class _BookingSheetState extends State<BookingSheet> {
                   ),
                   if (DateErrorMessage ?? false)
                     Padding(
-                      padding: const EdgeInsets.only(top: 10),
+                      padding: const EdgeInsets.only(bottom: 4),
                       child: CustomText(
                         text: AppUtil.rtlDirection2(context)
                             ? '*لابد من اختيار تاريخ للجولة '
@@ -421,7 +421,7 @@ class _BookingSheetState extends State<BookingSheet> {
                           ),
                           if (TimeErrorMessage ?? false)
                             Padding(
-                              padding: const EdgeInsets.only(top: 10),
+                              padding: const EdgeInsets.only(bottom: 4),
                               child: CustomText(
                                 text: AppUtil.rtlDirection2(context)
                                     ? "*لابد من إدخال وقت الذهاب"
@@ -566,7 +566,7 @@ class _BookingSheetState extends State<BookingSheet> {
                           ),
                           if (TimeErrorMessage ?? false)
                             Padding(
-                              padding: const EdgeInsets.only(top: 10),
+                              padding: const EdgeInsets.only(bottom: 4),
                               child: CustomText(
                                 text: AppUtil.rtlDirection2(context)
                                     ? "*لابد من إدخال وقت العودة"
@@ -575,7 +575,7 @@ class _BookingSheetState extends State<BookingSheet> {
                                 fontFamily: AppUtil.rtlDirection2(context)
                                     ? 'SF Arabic'
                                     : 'SF Pro',
-                                fontSize: width * width * 0.028,
+                                fontSize: width * 0.028,
                               ),
                             ),
                         ],

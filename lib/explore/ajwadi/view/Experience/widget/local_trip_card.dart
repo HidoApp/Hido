@@ -100,15 +100,15 @@ class _LocalTripCardState extends State<LocalTripCard> {
           Padding(
             padding: const EdgeInsets.only(bottom: 4),
             child: CustomText(
-             text: AppUtil.formatBookingDate(context, widget.trip.booking!.date!),
-                color: Color(0xFF9392A0),
-                fontSize: 12,
-                fontFamily:
-                    AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-                fontWeight: FontWeight.w500,
-                height: 0,
-              ),
-          
+              text: AppUtil.formatBookingDate(
+                  context, widget.trip.booking!.date!),
+              color: Color(0xFF9392A0),
+              fontSize: 12,
+              fontFamily:
+                  AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+              fontWeight: FontWeight.w500,
+              height: 0,
+            ),
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
@@ -170,13 +170,12 @@ class _LocalTripCardState extends State<LocalTripCard> {
                       minimumSize: Size(81, 32), // Width and height
                     ),
                     child: CustomText(
-                      text:'chat'.tr,
+                      text: 'chat'.tr,
                       textAlign: TextAlign.center,
-                        color: Colors.white,
-                        fontSize: 13,
-                        fontFamily: AppUtil.SfFontType(context),
-                        fontWeight: FontWeight.w600,
-                      
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontFamily: AppUtil.SfFontType(context),
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
@@ -187,83 +186,86 @@ class _LocalTripCardState extends State<LocalTripCard> {
             color: lightGrey,
           ),
           //                              // SizedBox(height: width * 0.03),
-          ExpandedTile(
-            contentseparator: 12,
-            trailing: Icon(
-              Icons.keyboard_arrow_down_outlined,
-              size: width * 0.046,
-            ),
-            disableAnimation: true,
-            trailingRotation: 180,
-            onTap: () {
-              // print(widget.request.date);
-              setState(() {});
-            },
-            title: !_controller.isExpanded
-                ? CustomText(
-                    text:
-                      'seeMore'.tr,
-                    color: Color(0xFF36B268),
-                    fontSize: 13,
-                    fontFamily:
-                        AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-                    fontWeight: FontWeight.w500,
-                  )
-                : Text(''),
-            content: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ItineraryTile(
-                  title:
-                      ' ${AppUtil.formatStringTimeWithLocale(context, widget.trip.booking!.timeToGo ?? '')} -  ${AppUtil.formatStringTimeWithLocale(context, widget.trip.booking!.timeToReturn ?? '')}',
-                  image: "assets/icons/timeGrey.svg",
-                ),
-                //SizedBox(height: width * 0.025),
-
-                if (address.isNotEmpty) ...[
-                  SizedBox(height: 8),
+          MediaQuery(
+            data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+            child: ExpandedTile(
+              contentseparator: 12,
+              trailing: Icon(
+                Icons.keyboard_arrow_down_outlined,
+                size: width * 0.046,
+              ),
+              disableAnimation: true,
+              trailingRotation: 180,
+              onTap: () {
+                // print(widget.request.date);
+                setState(() {});
+              },
+              title: !_controller.isExpanded
+                  ? CustomText(
+                      text: 'seeMore'.tr,
+                      color: Color(0xFF36B268),
+                      fontSize: 13,
+                      fontFamily: AppUtil.rtlDirection2(context)
+                          ? 'SF Arabic'
+                          : 'SF Pro',
+                      fontWeight: FontWeight.w500,
+                    )
+                  : Text(''),
+              content: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                   ItineraryTile(
-                    title: address,
-                    image: 'assets/icons/map_pin.svg',
-                    imageUrl: AppUtil.getLocationUrl(
-                        widget.trip.booking!.coordinates),
-                    line: true,
+                    title:
+                        ' ${AppUtil.formatStringTimeWithLocale(context, widget.trip.booking!.timeToGo ?? '')} -  ${AppUtil.formatStringTimeWithLocale(context, widget.trip.booking!.timeToReturn ?? '')}',
+                    image: "assets/icons/timeGrey.svg",
                   ),
+                  //SizedBox(height: width * 0.025),
+
+                  if (address.isNotEmpty) ...[
+                    SizedBox(height: 8),
+                    ItineraryTile(
+                      title: address,
+                      image: 'assets/icons/map_pin.svg',
+                      imageUrl: AppUtil.getLocationUrl(
+                          widget.trip.booking!.coordinates),
+                      line: true,
+                    ),
+                  ],
+                  // SizedBox(height: width * 0.025),
+                  SizedBox(height: 8),
+
+                  ItineraryTile(
+                    title: "${widget.trip.booking!.guestNumber} ${"guests".tr}",
+                    image: "assets/icons/guests.svg",
+                  ),
+
+                  SizedBox(height: 11),
+
+                  _controller.isExpanded
+                      ? CustomText(
+                          text: AppUtil.rtlDirection2(context)
+                              ? 'القليل'
+                              : 'See less',
+                          color: Color(0xFF36B268),
+                          fontSize: 13,
+                          fontFamily: AppUtil.rtlDirection2(context)
+                              ? 'SF Arabic'
+                              : 'SF Pro',
+                          fontWeight: FontWeight.w500,
+                        )
+                      : Text(''),
                 ],
-                // SizedBox(height: width * 0.025),
-                SizedBox(height: 8),
-
-                ItineraryTile(
-                  title: "${widget.trip.booking!.guestNumber} ${"guests".tr}",
-                  image: "assets/icons/guests.svg",
-                ),
-
-                SizedBox(height: 11),
-
-                _controller.isExpanded
-                    ? CustomText(
-                        text: AppUtil.rtlDirection2(context)
-                            ? 'القليل'
-                            : 'See less',
-                        color: Color(0xFF36B268),
-                        fontSize: 13,
-                        fontFamily: AppUtil.rtlDirection2(context)
-                            ? 'SF Arabic'
-                            : 'SF Pro',
-                        fontWeight: FontWeight.w500,
-                      )
-                    : Text(''),
-              ],
-            ),
-            controller: _controller,
-            theme: const ExpandedTileThemeData(
-              leadingPadding: EdgeInsets.zero,
-              titlePadding: EdgeInsets.zero,
-              headerPadding: EdgeInsets.zero,
-              contentPadding: EdgeInsets.zero,
-              headerSplashColor: Colors.transparent,
-              headerColor: Colors.transparent,
-              contentBackgroundColor: Colors.transparent,
+              ),
+              controller: _controller,
+              theme: const ExpandedTileThemeData(
+                leadingPadding: EdgeInsets.zero,
+                titlePadding: EdgeInsets.zero,
+                headerPadding: EdgeInsets.zero,
+                contentPadding: EdgeInsets.zero,
+                headerSplashColor: Colors.transparent,
+                headerColor: Colors.transparent,
+                contentBackgroundColor: Colors.transparent,
+              ),
             ),
           ),
           // const Spacer(),

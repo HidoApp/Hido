@@ -179,6 +179,7 @@ class _ItineraryCardState extends State<ItineraryCard> {
               ),
               CustomTextField(
                 keyboardType: TextInputType.text,
+                textInputAction: TextInputAction.done,
                 onChanged: (value) => activity = value,
                 validator: false,
                 validatorHandle: (activity) {
@@ -205,6 +206,7 @@ class _ItineraryCardState extends State<ItineraryCard> {
                 inputFormatters: [
                   FilteringTextInputFormatter.digitsOnly,
                 ],
+                textInputAction: TextInputAction.done,
                 keyboardType: TextInputType.number,
                 hintText: '00.00 ${'sar'.tr}',
                 validatorHandle: (price) {

@@ -68,54 +68,57 @@ class _OtpSheetState extends State<OtpSheet> {
             height: 20,
           ),
           Center(
-            child: Pinput(
-              length: 6,
-              onCompleted: (otpCode) async {
-                widget.onCompleted(otpCode);
-              },
-              inputFormatters: [
-                FilteringTextInputFormatter.digitsOnly,
-              ],
-              autofocus: true,
-              pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
-              keyboardType: TextInputType.number,
-              separatorBuilder: (index) => SizedBox(
-                width: width * 0.030,
-              ),
-              followingPinTheme: PinTheme(
-                width: width * 0.1282,
-                height: width * 0.1282,
-                textStyle: TextStyle(
-                    fontSize: width * 0.038,
-                    fontWeight: FontWeight.w400,
-                    color: colorGreen),
-                decoration: BoxDecoration(
-                  border: Border.all(color: borderGrey),
-                  borderRadius: BorderRadius.circular(8),
+            child: MediaQuery(
+              data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+              child: Pinput(
+                length: 6,
+                onCompleted: (otpCode) async {
+                  widget.onCompleted(otpCode);
+                },
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
+                autofocus: true,
+                pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
+                keyboardType: TextInputType.number,
+                separatorBuilder: (index) => SizedBox(
+                  width: width * 0.030,
                 ),
-              ),
-              defaultPinTheme: PinTheme(
-                width: width * 0.1282,
-                height: width * 0.1282,
-                textStyle: TextStyle(
-                    fontSize: width * 0.038,
-                    fontWeight: FontWeight.w400,
-                    color: colorGreen),
-                decoration: BoxDecoration(
-                  border: Border.all(color: colorGreen),
-                  borderRadius: BorderRadius.circular(8),
+                followingPinTheme: PinTheme(
+                  width: width * 0.1282,
+                  height: width * 0.1282,
+                  textStyle: TextStyle(
+                      fontSize: width * 0.038,
+                      fontWeight: FontWeight.w400,
+                      color: colorGreen),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: borderGrey),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
                 ),
-              ),
-              errorPinTheme: PinTheme(
-                width: width * 0.1282,
-                height: width * 0.1282,
-                textStyle: TextStyle(
-                    fontSize: width * 0.038,
-                    fontWeight: FontWeight.w400,
-                    color: colorRed),
-                decoration: BoxDecoration(
-                  border: Border.all(color: colorRed),
-                  borderRadius: BorderRadius.circular(8),
+                defaultPinTheme: PinTheme(
+                  width: width * 0.1282,
+                  height: width * 0.1282,
+                  textStyle: TextStyle(
+                      fontSize: width * 0.038,
+                      fontWeight: FontWeight.w400,
+                      color: colorGreen),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: colorGreen),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                errorPinTheme: PinTheme(
+                  width: width * 0.1282,
+                  height: width * 0.1282,
+                  textStyle: TextStyle(
+                      fontSize: width * 0.038,
+                      fontWeight: FontWeight.w400,
+                      color: colorRed),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: colorRed),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
                 ),
               ),
             ),

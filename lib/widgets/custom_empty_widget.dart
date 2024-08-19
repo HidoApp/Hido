@@ -7,7 +7,7 @@ class CustomEmptyWidget extends StatelessWidget {
   const CustomEmptyWidget({
     super.key,
     required this.title,
-     this.image,
+    this.image,
     this.subtitle = '',
   });
 
@@ -44,6 +44,7 @@ class CustomEmptyWidget extends StatelessWidget {
             CustomText(
               text: subtitle!,
               color: Color(0xFFB9B8C1),
+              maxlines: 3,
               fontSize: 16,
               fontFamily:
                   AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',

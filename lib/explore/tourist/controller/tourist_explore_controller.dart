@@ -192,6 +192,7 @@ class TouristExploreController extends GetxController {
       }
       return data;
     } catch (e) {
+      showActivityProgress(false);
       isActivityProgressLoading(false);
       return null;
     } finally {

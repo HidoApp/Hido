@@ -96,7 +96,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   final ProfileController _profileController = Get.put(ProfileController());
   final _sheetController = SolidController();
 
-  List<Booking> _EndTicket = [];
+  // List<Booking> _EndTicket = [];
   List<Booking> _upcomingBookings = [];
   late String days;
   bool isStarChecked = false;
@@ -106,20 +106,20 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   bool isNew = true;
 
   void getActivityProgress() async {
-    await _touristExploreController.getActivityProgress(context: context);
+    await _touristExploreController
+        .getActivityProgress(context: context)
+        .then((onValue) {
+      setProgressStep();
+    });
     _touristExploreController.showActivityProgress(true);
   }
 
   void getBooking() async {
-    List<Booking>? bookings =
-        await _profileController.getUpcommingTicket(context: context);
-    if (bookings != null) {
-      setState(() {
-        _EndTicket = bookings;
-        // getEndBookings();
-      });
-      print(_EndTicket.length);
-    } else {}
+    List<Booking>? bookings = await _profileController
+        .getUpcommingTicket(context: context)
+        .then((value) {
+      checkForProgress();
+    });
   }
 
   Future<void> _animateCamera(
@@ -188,10 +188,6 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
     getPlaces();
     addCustomIcon();
     getLocation();
-    if (!AppUtil.isGuest()) {
-      getBooking();
-      // getActivityProgress();
-    }
   }
 
   @override
@@ -209,7 +205,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
     isNew = true;
     genreateMarkers();
     if (!AppUtil.isGuest()) {
-      checkForProgress();
+      getBooking();
     }
   }
 
@@ -252,31 +248,36 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
         currentDateInRiyadh.month, currentDateInRiyadh.day);
     String currentDateString =
         intel.DateFormat('yyyy-MM-dd').format(currentDate);
-    int length = _touristExploreController.touristModel.value!.places!.length;
+
+    print('profile booking');
+    print(_profileController.upcommingTicket.length);
+    final filterdBooking = _profileController.upcommingTicket
+        .where((book) => book.bookingType == 'place')
+        .toList();
+    print("filterdBooking.length");
+    print(filterdBooking.length);
+    int length = filterdBooking.length;
     for (var i = 0; i < length; i++) {
-      if (_touristExploreController
-              .touristModel.value!.places![i].booking!.isNotEmpty &&
-          currentDateString ==
-              _touristExploreController
-                  .touristModel.value!.places![i].booking!.first.date) {
-        if (_touristExploreController
-                .touristModel.value!.places![i].booking!.first.orderStatus ==
-            'PENDING') {
+      if (filterdBooking.isNotEmpty &&
+          currentDateString == filterdBooking[i].date.substring(0, 10)) {
+        if (filterdBooking[i].orderStatus == 'PENDING') {
           return;
         }
-        print("EQUALLL");
-        print(currentDateString);
-        print(_touristExploreController
-            .touristModel.value!.places![i].booking!.first.date);
+// Your tour is going to start at
+
+// جولتك بتبدأ الساعة
         getActivityProgress();
-        setProgressStep();
 
         return;
       }
     }
+    print(currentDateString);
+    print(filterdBooking[0].date.substring(0, 10));
   }
 
   void setProgressStep() {
+    print("activityProgress");
+    print(_touristExploreController.activityProgres.value!.activityProgress!);
     switch (
         _touristExploreController.activityProgres.value!.activityProgress!) {
       case 'ON_WAY':

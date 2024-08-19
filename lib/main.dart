@@ -53,23 +53,26 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      translations: LocaleString(),
-      locale: local != "en" && local != "ar"
-          ? const Locale('en', "US")
-          : Locale(local, local),
-      fallbackLocale: Locale(local),
-      theme: ThemeData(
-          fontFamily: 'HT Rakik',
-          primaryColor: colorGreen,
-          highlightColor: Colors.transparent,
-          splashColor: Colors.transparent,
-          colorScheme: const ColorScheme.light(primary: colorGreen),
-          useMaterial3: true),
-      title: 'Ajwad',
-      debugShowCheckedModeBanner: false,
-      home: const SplashScreen(),
-      //  home: const CheckOutScreen(),
+    return MediaQuery(
+      data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+      child: GetMaterialApp(
+        translations: LocaleString(),
+        locale: local != "en" && local != "ar"
+            ? const Locale('en', "US")
+            : Locale(local, local),
+        fallbackLocale: Locale(local),
+        theme: ThemeData(
+            fontFamily: 'HT Rakik',
+            primaryColor: colorGreen,
+            highlightColor: Colors.transparent,
+            splashColor: Colors.transparent,
+            colorScheme: const ColorScheme.light(primary: colorGreen),
+            useMaterial3: true),
+        title: 'Ajwad',
+        debugShowCheckedModeBanner: false,
+        home: const SplashScreen(),
+        //  home: const CheckOutScreen(),
+      ),
     );
   }
 }

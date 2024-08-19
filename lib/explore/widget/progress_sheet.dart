@@ -22,14 +22,19 @@ class _ProgressSheetState extends State<ProgressSheet> {
   String getTitle() {
     switch (_touristExploreController.activeStepProgres.value) {
       case -1:
-        return 'localOnway'.tr;
+        if (_touristExploreController.activityProgres.value!.activityProgress ==
+            'PENDING') {
+          return 'pendingProgress'.tr;
+        } else {
+          return 'localOnway'.tr;
+        }
+
       case 0:
         return 'localArrived'.tr;
+
       case 1:
-        return 'pickUpTitle'.tr;
-      case 2:
         return 'tourStarted'.tr;
-      case 3:
+      case 2:
         return 'tourCompleted'.tr;
       default:
         return '';
@@ -39,14 +44,18 @@ class _ProgressSheetState extends State<ProgressSheet> {
   String getSubTitle() {
     switch (_touristExploreController.activeStepProgres.value) {
       case -1:
-        return 'localOnwaySubtitle'.tr;
+        if (_touristExploreController.activityProgres.value!.activityProgress ==
+            'PENDING') {
+          return '';
+        } else {
+          return 'localOnwaySubtitle'.tr;
+        }
       case 0:
         return 'localArrivedSubtitle'.tr;
+
       case 1:
-        return 'pickUpSubtitle'.tr;
-      case 2:
         return 'tourStartedSubtitle'.tr;
-      case 3:
+      case 2:
         return 'tourCompletedSubtitle'.tr;
       default:
         return '';

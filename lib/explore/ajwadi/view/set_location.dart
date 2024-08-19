@@ -30,8 +30,7 @@ class SetLocationScreen extends StatefulWidget {
 class _SetLocationScreenState extends State<SetLocationScreen> {
   late List<Placemark> placemarks;
   String address = "";
-  String subLocality ='';
-
+  String subLocality = '';
 
   BitmapDescriptor markerIcon = BitmapDescriptor.defaultMarker;
   final Completer<GoogleMapController> _controller = Completer();
@@ -40,15 +39,14 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
   late final GoogleMapController _googleMapController;
   String? _darkMapStyle;
 
-  Future<void> getPlaceAddress(double lat , double lng)async {
-     placemarks = await placemarkFromCoordinates(lat , lng);
-     setState(() {
+  Future<void> getPlaceAddress(double lat, double lng) async {
+    placemarks = await placemarkFromCoordinates(lat, lng);
+    setState(() {
       subLocality = '${placemarks.first.subLocality}';
-       address = '${placemarks.first.country} - ${placemarks.first.locality} - ${placemarks.first.name} - ${placemarks.first.street}';
-     });
-     print(placemarks.first.country);
-
-
+      address =
+          '${placemarks.first.country} - ${placemarks.first.locality} - ${placemarks.first.name} - ${placemarks.first.street}';
+    });
+    print(placemarks.first.country);
   }
 
   // Future<Position> _getCurrentUserLocation() async {
@@ -103,7 +101,8 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
   // }
 
   Future<void> _loadMapStyles() async {
-    _darkMapStyle = await rootBundle.loadString('assets/map_styles/map_style.json');
+    _darkMapStyle =
+        await rootBundle.loadString('assets/map_styles/map_style.json');
     final controller = await _controller.future;
     await controller.setMapStyle(_darkMapStyle);
   }
@@ -111,15 +110,16 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
   @override
   void initState() {
     super.initState();
-  //  _getCurrentUserLocation();  
-    
-    getPlaceAddress(widget.touristExploreController!.pickUpLocLatLang.value.latitude,widget.touristExploreController!.pickUpLocLatLang.value.longitude);
+    //  _getCurrentUserLocation();
+
+    getPlaceAddress(
+        widget.touristExploreController!.pickUpLocLatLang.value.latitude,
+        widget.touristExploreController!.pickUpLocLatLang.value.longitude);
     if (widget.fromAjwady) {
       _loadMapStyles();
     }
     Future.delayed(Duration.zero, () {
-     addMaker();
-    
+      addMaker();
     });
   }
 
@@ -141,19 +141,17 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
           position: widget.touristExploreController!.pickUpLocLatLang.value,
           draggable: true,
           onDragEnd: (position) async {
-              print(position.latitude);
+            print(position.latitude);
 
-              getPlaceAddress(position.latitude, position.longitude);
+            getPlaceAddress(position.latitude, position.longitude);
 
-            
-              setState(() {
-                 widget.touristExploreController!.pickUpLocLatLang(position);
-             
+            setState(() {
+              widget.touristExploreController!.pickUpLocLatLang(position);
+
               widget.mapController!
                   .animateCamera(CameraUpdate.newLatLngZoom(position, 18));
-
-              });
-            },
+            });
+          },
           icon: markerIcon,
         ),
       );
@@ -170,7 +168,6 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
           GoogleMap(
             zoomControlsEnabled: false,
             myLocationButtonEnabled: false,
-          
             initialCameraPosition: CameraPosition(
               target: widget.touristExploreController != null
                   ? widget.touristExploreController!.pickUpLocLatLang.value
@@ -196,26 +193,24 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
                     markerId: const MarkerId("marker1"),
                     position: position,
                     draggable: true,
-                     onDragEnd: (position) async {
-                   print(position.latitude);
+                    onDragEnd: (position) async {
+                      print(position.latitude);
 
-                 getPlaceAddress(position.latitude, position.longitude);
+                      getPlaceAddress(position.latitude, position.longitude);
 
-            
-              setState(() {
-                 widget.touristExploreController!.pickUpLocLatLang(position);
-             
-              widget.mapController!
-                  .animateCamera(CameraUpdate.newLatLngZoom(position, 18));
+                      setState(() {
+                        widget.touristExploreController!
+                            .pickUpLocLatLang(position);
 
-              });
-            },
+                        widget.mapController!.animateCamera(
+                            CameraUpdate.newLatLngZoom(position, 18));
+                      });
+                    },
                     icon: markerIcon,
                   ),
                 );
               });
             },
-            
             onMapCreated: (controller) {
               _controller.complete(controller);
               _loadMapStyles();
@@ -253,10 +248,10 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
                         ),
                         CustomText(
                           text: subLocality,
-                         color: black,
-                      fontFamily: 'HT Rakik',
-                      fontWeight: FontWeight.w400,
-                      fontSize: width*0.044,
+                          color: black,
+                          fontFamily: 'HT Rakik',
+                          fontWeight: FontWeight.w400,
+                          fontSize: width * 0.044,
                         ),
                         // Spacer(),
                         // CustomText(text: "change".tr, color: Colors.black),
@@ -267,12 +262,12 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
                     ),
                     CustomText(
                       text: address,
-                      color:starGreyColor,
+                      color: starGreyColor,
                       fontFamily: 'HT Rakik',
                       fontWeight: FontWeight.w400,
                       textAlign: TextAlign.center,
-                      fontSize: width*0.035,
-
+                      maxlines: 4,
+                      fontSize: width * 0.035,
                     ),
                     Spacer(),
                     Padding(
@@ -283,8 +278,14 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
                         },
                         title: "confirmLocation".tr,
                         icon: !AppUtil.rtlDirection(context)
-                            ? Icon(Icons.arrow_back_ios,size: 20,)
-                            : Icon(Icons.arrow_forward_ios,size: 20,),
+                            ? Icon(
+                                Icons.arrow_back_ios,
+                                size: 20,
+                              )
+                            : Icon(
+                                Icons.arrow_forward_ios,
+                                size: 20,
+                              ),
                       ),
                     )
                   ],

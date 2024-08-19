@@ -42,7 +42,6 @@ import 'package:toggle_switch/toggle_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-
 class EventAddProgress extends StatefulWidget {
   // int activeIndex;
 
@@ -60,82 +59,72 @@ class _EventAddProgressState extends State<EventAddProgress> {
   final int totalIndex = 6;
   int activeIndex = 0;
 
-  final TextEditingController EventTitleControllerEn =
-      TextEditingController();
-  final TextEditingController EventBioControllerEn =
-      TextEditingController();
+  final TextEditingController EventTitleControllerEn = TextEditingController();
+  final TextEditingController EventBioControllerEn = TextEditingController();
 
-  final TextEditingController EventTitleControllerAr =
-      TextEditingController();
-  final TextEditingController EventBioControllerAr =
-      TextEditingController();
+  final TextEditingController EventTitleControllerAr = TextEditingController();
+  final TextEditingController EventBioControllerAr = TextEditingController();
 
   final TextEditingController EventLocation = TextEditingController();
   final TextEditingController EventPrice = TextEditingController();
 
   final EventController _EventController = Get.put(EventController());
 
-  
-
-  
-
   @override
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.of(context).size.height;
     var keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: CustomAppBar(
-        _appBarText(),
-        isAjwadi: true,
-        isBack: true,
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16),
-
-            child: nextStep(),
-            ),
-            
-          ],
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: CustomAppBar(
+          _appBarText(),
+          isAjwadi: true,
+          isBack: true,
         ),
-      ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(bottom: 20),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            StepProgressIndicator(
-              totalSteps: 6,
-              currentStep: activeIndex + 1,
-              
-              selectedColor: Color(0xFF36B268),
-              unselectedColor: Color(0xFFDCDCE0),
-              
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 16, right: 16, bottom: 14, top: 30),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  previousButton(),
-                  nextButton(),
-                ],
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: nextStep(),
               ),
-            ),
-          ],
+            ],
+          ),
+        ),
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.only(bottom: 20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              StepProgressIndicator(
+                totalSteps: 6,
+                currentStep: activeIndex + 1,
+                selectedColor: Color(0xFF36B268),
+                unselectedColor: Color(0xFFDCDCE0),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 16, right: 16, bottom: 14, top: 30),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    previousButton(),
+                    nextButton(),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
- Widget nextStep() {
+  Widget nextStep() {
     switch (activeIndex) {
       case 0:
         print("0");
@@ -154,25 +143,23 @@ class _EventAddProgressState extends State<EventAddProgress> {
           textField1Controller: EventLocation,
         );
       case 2:
-       print(_EventController.pickUpLocLatLang.value.toString());
+        print(_EventController.pickUpLocLatLang.value.toString());
         print('2');
 
-      return PhotoGalleryPage();
+        return PhotoGalleryPage();
       case 3:
         print(_EventController.selectedImages.length);
         print('length image');
-       return AddGuests();
+        return AddGuests();
       case 4:
-       print(_EventController.seletedSeat.value);
+        print(_EventController.seletedSeat.value);
         print("4");
 
         return SelectDateTime();
       case 5:
-      
-      print(_EventController.selectedEndTime.value);
+        print(_EventController.selectedEndTime.value);
 
-        print(
-         'Selected Start Time: ${_EventController.selectedDates.value}');
+        print('Selected Start Time: ${_EventController.selectedDates.value}');
 
         print("5");
 
@@ -180,46 +167,48 @@ class _EventAddProgressState extends State<EventAddProgress> {
 
       default:
         print("2");
-        return PhotoGalleryPage(); 
+        return PhotoGalleryPage();
     }
   }
 
   bool _validateFields() {
     if (activeIndex == 0) {
-      return
-       _EventController.titleAr.isNotEmpty&&
-        _EventController.bioAr.isNotEmpty &&
-        _EventController.bioEn.isNotEmpty &&
-        _EventController.titleEn.isNotEmpty;
+      return _EventController.titleAr.isNotEmpty &&
+          _EventController.bioAr.isNotEmpty &&
+          _EventController.bioEn.isNotEmpty &&
+          _EventController.titleEn.isNotEmpty;
       // EventTitleControllerEn.text.isNotEmpty &&
       //     EventBioControllerEn.text.isNotEmpty &&
       //     EventTitleControllerAr.text.isNotEmpty &&
       //    EventBioControllerAr.text.isNotEmpty;
     }
     if (activeIndex == 1) {
-      return
-     _EventController.pickUpLocLatLang.value !=
-          const LatLng(0.0, 0.0) &&  _EventController.ragionAr.isNotEmpty && _EventController.ragionEn.isNotEmpty;
+      return _EventController.pickUpLocLatLang.value !=
+              const LatLng(0.0, 0.0) &&
+          _EventController.ragionAr.isNotEmpty &&
+          _EventController.ragionEn.isNotEmpty;
     }
     if (activeIndex == 2) {
-      return   _EventController.selectedImages.length >= 3;
+      return _EventController.selectedImages.length >= 3;
     }
-     if (activeIndex == 3) {
-      return   _EventController.seletedSeat.value != 0 ;
+    if (activeIndex == 3) {
+      return _EventController.seletedSeat.value != 0;
     }
-     if (activeIndex == 4) {
-
-     return  _EventController.selectedDates.isNotEmpty && _EventController.isEventTimeSelcted .value && !_EventController.TimeErrorMessage.value && !_EventController.DateErrorMessage.value ; 
+    if (activeIndex == 4) {
+      return _EventController.selectedDates.isNotEmpty &&
+          _EventController.isEventTimeSelcted.value &&
+          !_EventController.TimeErrorMessage.value &&
+          !_EventController.DateErrorMessage.value;
     }
-     if (activeIndex == 5) {
-    if (EventPrice.text.isNotEmpty) {
-      int? price = int.tryParse(EventPrice.text);
-      if (price != null && price > 0) {
-        return true;
+    if (activeIndex == 5) {
+      if (EventPrice.text.isNotEmpty) {
+        int? price = int.tryParse(EventPrice.text);
+        if (price != null && price > 0) {
+          return true;
+        }
       }
+      return false;
     }
-    return false;
-  }
     return true; // Add validation for other steps if needed
   }
 
@@ -228,7 +217,7 @@ class _EventAddProgressState extends State<EventAddProgress> {
       return "GeneralInformation".tr;
     }
     if (activeIndex == 1) {
-      return AppUtil.rtlDirection2(context)?'موقع الفعالية':"Location";
+      return AppUtil.rtlDirection2(context) ? 'موقع الفعالية' : "Location";
     }
     if (activeIndex == 2) {
       return "PhotoGallery".tr;
@@ -242,12 +231,12 @@ class _EventAddProgressState extends State<EventAddProgress> {
     if (activeIndex == 5) {
       return "Price".tr;
     }
-    return ""; 
+    return "";
   }
 
   Widget nextButton() {
-    return Obx(()=>
-       IgnorePointer(
+    return Obx(
+      () => IgnorePointer(
         ignoring: !_validateFields(),
         child: Opacity(
           opacity: _validateFields() ? 1.0 : 0.5,
@@ -261,14 +250,14 @@ class _EventAddProgressState extends State<EventAddProgress> {
                   print(activeIndex);
                 });
               } else if (activeIndex == totalIndex - 1) {
-                Get.to(()=>EventInfoReview(
-                  hospitalityTitleEn: _EventController.titleEn.value,
-                  hospitalityBioEn: _EventController.bioEn.value,
-                  hospitalityTitleAr: _EventController.titleAr.value,
-                  hospitalityBioAr: _EventController.bioAr.value,
-                  adventurePrice: double.parse(EventPrice.text),
-                 hospitalityLocation: EventLocation.text,
-                ));
+                Get.to(() => EventInfoReview(
+                      hospitalityTitleEn: _EventController.titleEn.value,
+                      hospitalityBioEn: _EventController.bioEn.value,
+                      hospitalityTitleAr: _EventController.titleAr.value,
+                      hospitalityBioAr: _EventController.bioAr.value,
+                      adventurePrice: double.parse(EventPrice.text),
+                      hospitalityLocation: EventLocation.text,
+                    ));
               }
             },
             child: Container(
@@ -283,13 +272,13 @@ class _EventAddProgressState extends State<EventAddProgress> {
               ),
               alignment: Alignment.center,
               child: CustomText(
-                text:'Next'.tr,
+                text: 'Next'.tr,
                 textAlign: TextAlign.center,
-                  color: Colors.white,
-                  fontSize: 17,
-                  fontFamily: 'HT Rakik',
-                  fontWeight: FontWeight.w500,
-                  height: 0.10,
+                color: Colors.white,
+                fontSize: 17,
+                fontFamily: 'HT Rakik',
+                fontWeight: FontWeight.w500,
+                height: 0.10,
               ),
             ),
           ),
@@ -319,14 +308,14 @@ class _EventAddProgressState extends State<EventAddProgress> {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         ),
         alignment: Alignment.center,
-        child:CustomText(
-          text:'Back'.tr,
+        child: CustomText(
+          text: 'Back'.tr,
           textAlign: TextAlign.center,
-            color: Color(0xFF070708),
-            fontSize: 17,
-            fontFamily: 'HT Rakik',
-            fontWeight: FontWeight.w500,
-            height: 0.10,
+          color: Color(0xFF070708),
+          fontSize: 17,
+          fontFamily: 'HT Rakik',
+          fontWeight: FontWeight.w500,
+          height: 0.10,
         ),
       ),
     );
