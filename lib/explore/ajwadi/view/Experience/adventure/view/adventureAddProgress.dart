@@ -242,7 +242,7 @@ class _AdventureAddProgressState extends State<AdventureAddProgress> {
       return "PhotoGallery".tr;
     }
     if (activeIndex == 3) {
-      return AppUtil.rtlDirection2(context)?'عدد الأشخاص':'Pepole Number';
+      'peopleNumber'.tr;
     }
     if (activeIndex == 4) {
       return "Date&Time".tr;

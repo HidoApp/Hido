@@ -217,13 +217,13 @@ class _EventAddProgressState extends State<EventAddProgress> {
       return "GeneralInformation".tr;
     }
     if (activeIndex == 1) {
-      return AppUtil.rtlDirection2(context) ? 'موقع الفعالية' : "Location";
+      return "eventLoc".tr;
     }
     if (activeIndex == 2) {
       return "PhotoGallery".tr;
     }
     if (activeIndex == 3) {
-      return "PeopleNumber".tr;
+      return "peopleNumber".tr;
     }
     if (activeIndex == 4) {
       return "Date&Time".tr;

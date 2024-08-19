@@ -646,5 +646,7 @@ const localeAr = {
   'Copied': "تم النسخ إلى الحافظة ",
   'Experiencetitle': 'عنوان التجربة',
   'regionChoose': "اختر المنطقة",
-  'pendingProgress': "جولتك بتبدأ قريبا"
+  'pendingProgress': "جولتك بتبدأ قريبا",
+  'peopleNumber':'عدد الأشخاص',
+
 };
