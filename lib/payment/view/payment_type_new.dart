@@ -181,12 +181,14 @@ class _PaymentTypeState extends State<PaymentType> {
               context: context,
               builder: (ctx) {
                 return AlertDialog(
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                   backgroundColor: Colors.white,
                   surfaceTintColor: Colors.white,
                   content: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Image.asset('assets/images/paymentFaild.gif'),
+                      Image.asset('assets/images/paymentFaild.gif',
+                       width: 38),
                       CustomText(
                         text: "paymentFaild".tr,
                         fontSize: 15,
@@ -225,12 +227,15 @@ class _PaymentTypeState extends State<PaymentType> {
               context: context,
               builder: (ctx) {
                 return AlertDialog(
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+
                   backgroundColor: Colors.white,
                   surfaceTintColor: Colors.white,
                   content: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Image.asset('assets/images/paymentFaild.gif'),
+                     Image.asset('assets/images/paymentFaild.gif',
+                       width: 38),
                       CustomText(
                         text: "paymentFaild".tr,
                         fontSize: 15,
@@ -249,15 +254,18 @@ class _PaymentTypeState extends State<PaymentType> {
         context: context,
         builder: (ctx) {
           return AlertDialog(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+
             backgroundColor: Colors.white,
             surfaceTintColor: Colors.white,
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Image.asset('assets/images/paymentFaild.gif'),
-                CustomText(
-                  text: "paymentFaild".tr,
-                  fontSize: 15,
+              Image.asset('assets/images/paymentFaild.gif',
+                       width: 38),
+                      CustomText(
+                        text: "paymentFaild".tr,
+                        fontSize: 15,
                 ),
               ],
             ),
@@ -310,12 +318,14 @@ class _PaymentTypeState extends State<PaymentType> {
               context: context,
               builder: (ctx) {
                 return AlertDialog(
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                   backgroundColor: Colors.white,
                   surfaceTintColor: Colors.white,
                   content: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Image.asset('assets/images/paymentFaild.gif'),
+                       Image.asset('assets/images/paymentFaild.gif',
+                       width: 38),
                       CustomText(
                         text: "paymentFaild".tr,
                         fontSize: 15,
@@ -334,15 +344,18 @@ class _PaymentTypeState extends State<PaymentType> {
         context: context,
         builder: (ctx) {
           return AlertDialog(
+             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+
             backgroundColor: Colors.white,
             surfaceTintColor: Colors.white,
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Image.asset('assets/images/paymentFaild.gif'),
-                CustomText(
-                  text: "paymentFaild".tr,
-                  fontSize: 15,
+                 Image.asset('assets/images/paymentFaild.gif',
+                       width: 38),
+                      CustomText(
+                        text: "paymentFaild".tr,
+                        fontSize: 15,
                 ),
               ],
             ),
@@ -369,12 +382,16 @@ class _PaymentTypeState extends State<PaymentType> {
       context: context,
       builder: (ctx) {
         return AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           backgroundColor: Colors.white,
           surfaceTintColor: Colors.white,
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Image.asset('assets/images/paymentSuccess.gif'),
+             Image.asset(
+                'assets/images/paymentSuccess.gif',
+                width: 38,
+              ),
               CustomText(
                 text: "paymentSuccess".tr,
                 fontSize: 15,
@@ -393,11 +410,13 @@ class _PaymentTypeState extends State<PaymentType> {
         fetchedBooking?.timeToGo,
         fetchedBooking?.date,
         fetchedBooking?.user?.profile.name,
-        fetchedBooking?.place?.nameEn,
-        fetchedBooking?.place?.nameAr,
+        fetchedBooking?.requestName?.nameEn,
+        fetchedBooking?.requestName?.nameAr,
       );
-      //  log(   widget.offerController!.offerDetails.value.place?.nameAr??'');
-      //   log(  widget.offerController!.offerDetails.value.place?.nameEn??'');
+       log( fetchedBooking?.requestName?.nameEn??'');
+       log(  fetchedBooking?.requestName?.nameAr??'');
+      //  log( fetchedBooking?.user?.profile.name??'');
+
       Get.to(() => TicketDetailsScreen(
             booking: fetchedBooking,
             icon: SvgPicture.asset('assets/icons/place.svg'),

@@ -135,49 +135,54 @@ class _AddInfoState extends State<AddInfo> {
                         fontWeight: FontWeight.w500,
                     ),
                     SizedBox(height: _selectedLanguageIndex == 0 ? 8 : 9),
-                    TextField(
-                      maxLength: 20,
-                      controller: textField1Controller,
-                       style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 15,
-                        fontFamily: _selectedLanguageIndex == 0
-                        ? 'SF Arabic'
-                        : 'SF Pro',
-                        fontWeight: FontWeight.w400,
-                      ),
-                      decoration: InputDecoration(
-                        hintText: _selectedLanguageIndex == 0
-                            ? 'مثال: منزل دانا'
-                            : 'example: Dana’s house',
-                        hintStyle: TextStyle(
-                          color: Color(0xFFB9B8C1),
+                  MediaQuery(
+      
+                      data: MediaQuery.of(context)
+                          .copyWith(textScaleFactor: 1.0),
+                      child: TextField(
+                        maxLength: 20,
+                        controller: textField1Controller,
+                         style: TextStyle(
+                          color: Colors.black,
                           fontSize: 15,
                           fontFamily: _selectedLanguageIndex == 0
-                        ? 'SF Arabic'
-                        : 'SF Pro',
+                          ? 'SF Arabic'
+                          : 'SF Pro',
                           fontWeight: FontWeight.w400,
                         ),
-                      filled: true,
-                        fillColor: Colors.white,
-                        contentPadding: EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 0), // Adjust vertical padding for height
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide:
-                              BorderSide(width: 1, color: Color(0xFFB9B8C1)),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
-                              width: 1,
-                              color: Color(
-                                  0xFFB9B8C1)), // Same color to remove focus color
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide.none,
+                        decoration: InputDecoration(
+                          hintText: _selectedLanguageIndex == 0
+                              ? 'مثال: منزل دانا'
+                              : 'example: Dana’s house',
+                          hintStyle: TextStyle(
+                            color: Color(0xFFB9B8C1),
+                            fontSize: 15,
+                            fontFamily: _selectedLanguageIndex == 0
+                          ? 'SF Arabic'
+                          : 'SF Pro',
+                            fontWeight: FontWeight.w400,
+                          ),
+                        filled: true,
+                          fillColor: Colors.white,
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 0), // Adjust vertical padding for height
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide:
+                                BorderSide(width: 1, color: Color(0xFFB9B8C1)),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(
+                                width: 1,
+                                color: Color(
+                                    0xFFB9B8C1)), // Same color to remove focus color
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide.none,
+                          ),
                         ),
                       ),
                     ),

@@ -50,6 +50,8 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
   final _requestController = Get.put(RequestController());
   void updateProgress(double newProgress) {
     setState(() {
+          print('3');
+print(newProgress);
       _tripController.progress.value = newProgress.clamp(0.0, 1.0);
     });
   }
@@ -87,17 +89,28 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
         DateTime.parse(_tripController.nextTrip.value.booking!.date ?? '');
 
     if (_tripController.nextTrip.value.booking!.date == currentDateString ||
-        parsedBookingDate.isAtSameMomentAs(currentDate) ||
-        parsedBookingDate.isBefore(currentDate)) {
-      setState(() {
-        isTripStart.value = true;
-      });
+
+        parsedBookingDate.isAtSameMomentAs(currentDate)||  parsedBookingDate.isBefore(currentDate)) {
+      // setState(() {
+      //   isTripStart.value = true;
+      // });
       String timeToGoStr = _tripController.nextTrip.value.booking!.timeToGo;
       String? bookingDateStr = _tripController.nextTrip.value.booking!.date;
 
       DateTime timeToGo = DateTime.parse('$bookingDateStr $timeToGoStr');
 
-      Duration difference = timeToGo.difference(currentTime);
+
+    Duration difference = timeToGo.difference(currentTime);
+
+    if (difference.inHours <= 4 ) {
+      setState(() {
+        isTripStart.value = true;
+      });
+    } else {
+      setState(() {
+        isTripStart.value = false;
+      });
+    }
 
       if (difference.inHours <= 4 && !difference.isNegative) {
         setState(() {
@@ -113,6 +126,12 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
       print(timeToGo);
       print(currentTime);
       print(difference);
+
+      print(parsedBookingDate);
+      print(currentDate);
+      print(difference.inHours <= 4 && !difference.isNegative);
+      print(parsedBookingDate.isBefore(currentDate));
+     
     }
   }
 
@@ -330,19 +349,26 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                         padding: const EdgeInsets.only(top: 12),
                         child: Row(
                           children: [
-                            MediaQuery(
-                              data: MediaQuery.of(context)
-                                  .copyWith(textScaleFactor: 1.0),
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  Get.to(ChatScreen(
-                                      chatId: _tripController
-                                          .nextTrip.value.booking!.chatId));
-                                },
-                                style: ButtonStyle(
-                                  padding: MaterialStateProperty.all(
-                                    EdgeInsets.symmetric(
-                                        horizontal: 16, vertical: 8),
+
+                            ElevatedButton(
+                              onPressed: () {
+                                Get.to(ChatScreen(
+                                    chatId: _tripController
+                                        .nextTrip.value.booking!.chatId));
+                              },
+                              style: ButtonStyle(
+                                padding: MaterialStateProperty.all(
+                                  EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 6),
+                                ),
+                                surfaceTintColor:
+                                    MaterialStateProperty.all(Colors.white),
+                                textStyle: MaterialStateProperty.all(
+                                  TextStyle(
+                                    color: Color(0xFF37B268),
+                                    fontSize: 13,
+                                    fontFamily: AppUtil.SfFontType(context),
+                                    fontWeight: FontWeight.w500,
                                   ),
                                   surfaceTintColor:
                                       MaterialStateProperty.all(Colors.white),
@@ -576,92 +602,90 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                     color: lightGrey,
                   ),
                   // SizedBox(height: width * 0.03),
-                  MediaQuery(
-                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
-                    child: ExpandedTile(
-                      contentseparator: 12,
-                      trailing: Icon(
-                        Icons.keyboard_arrow_down_outlined,
-                        size: width * 0.046,
-                      ),
-                      disableAnimation: true,
-                      trailingRotation: 180,
-                      onTap: () {
-                        // print(widget.request.date);
-                        setState(() {});
-                      },
-                      title: !_controller.isExpanded
-                          ? CustomText(
-                              text: 'seeMore'.tr,
-                              color: Color(0xFF36B268),
-                              fontSize: 13,
-                              fontFamily: AppUtil.rtlDirection2(context)
-                                  ? 'SF Arabic'
-                                  : 'SF Pro',
-                              fontWeight: FontWeight.w500,
-                            )
-                          : Text(''),
-                      content: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ItineraryTile(
-                            title:
-                                ' ${AppUtil.formatBookingDate(context, _tripController.nextTrip.value.booking!.date!)}',
-                            image: "assets/icons/date.svg",
-                          ),
-                          SizedBox(height: 8),
 
-                          ItineraryTile(
-                            title:
-                                ' ${AppUtil.formatStringTimeWithLocale(context, _tripController.nextTrip.value.booking!.timeToGo)} -  ${AppUtil.formatStringTimeWithLocale(context, _tripController.nextTrip.value.booking!.timeToReturn)}',
-                            image: "assets/icons/timeGrey.svg",
-                          ),
-                          //SizedBox(height: width * 0.025),
+                  ExpandedTile(
+                    contentseparator: 12,
+                    trailing: Icon(
+                      Icons.keyboard_arrow_down_outlined,
+                      size: width * 0.046,
+                    ),
+                    disableAnimation: true,
+                    trailingRotation: 180,
+                    onTap: () {
+                      // print(widget.request.date);
+                      setState(() {});
+                    },
+                    title: !_controller.isExpanded
+                        ? CustomText(
+                            text:'seeMore'.tr,
+                            color: Color(0xFF36B268),
+                            fontSize: 13,
+                            fontFamily: AppUtil.rtlDirection2(context)
+                                ? 'SF Arabic'
+                                : 'SF Pro',
+                            fontWeight: FontWeight.w500,
+                          )
+                        : CustomText(text:''),
+                    content: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ItineraryTile(
+                          title:
+                              ' ${AppUtil.formatBookingDate(context, _tripController.nextTrip.value.booking!.date!)}',
+                          image: "assets/icons/date.svg",
+                        ),
+                        SizedBox(height: 8),
 
-                          SizedBox(height: 8),
-                          ItineraryTile(
-                            title: address,
-                            image: 'assets/icons/map_pin.svg',
-                            imageUrl: AppUtil.getLocationUrl(_tripController
-                                .nextTrip.value.booking!.coordinates),
-                            line: true,
-                          ),
+                        ItineraryTile(
+                          title:
+                              ' ${AppUtil.formatStringTimeWithLocale(context, _tripController.nextTrip.value.booking!.timeToGo)} - ${AppUtil.formatStringTimeWithLocale(context, _tripController.nextTrip.value.booking!.timeToReturn)}',
+                          image: "assets/icons/timeGrey.svg",
+                        ),
+                        //SizedBox(height: width * 0.025),
 
-                          SizedBox(height: 8),
+                        SizedBox(height: 8),
+                        ItineraryTile(
+                          title: address,
+                          image: 'assets/icons/map_pin.svg',
+                          imageUrl: AppUtil.getLocationUrl(_tripController
+                              .nextTrip.value.booking!.coordinates),
+                          line: true,
+                        ),
 
-                          ItineraryTile(
-                            title:
-                                "${_tripController.nextTrip.value.booking!.guestNumber} ${"guests".tr}",
-                            image: "assets/icons/guests.svg",
-                          ),
+                        SizedBox(height: 8),
 
-                          SizedBox(height: 11),
+                        ItineraryTile(
+                          title:
+                              "${_tripController.nextTrip.value.booking!.guestNumber} ${"guests".tr}",
+                          image: "assets/icons/guests.svg",
+                        ),
 
-                          _controller.isExpanded
-                              ? CustomText(
-                                  text: AppUtil.rtlDirection2(context)
-                                      ? 'القليل'
-                                      : 'See less',
-                                  color: Color(0xFF36B268),
-                                  fontSize: 13,
-                                  fontFamily: AppUtil.rtlDirection2(context)
-                                      ? 'SF Arabic'
-                                      : 'SF Pro',
-                                  fontWeight: FontWeight.w500,
-                                )
-                              : Text(''),
-                        ],
-                      ),
-                      controller: _controller,
-                      theme: const ExpandedTileThemeData(
-                        leadingPadding: EdgeInsets.zero,
-                        titlePadding: EdgeInsets.zero,
-                        headerPadding: EdgeInsets.zero,
-                        contentPadding: EdgeInsets.zero,
-                        headerSplashColor: Colors.transparent,
-                        headerColor: Colors.transparent,
-                        contentBackgroundColor: Colors.transparent,
-                      ),
+                        SizedBox(height: 11),
+
+                        _controller.isExpanded
+                            ? CustomText(
+                                text: AppUtil.rtlDirection2(context)
+                                    ? 'القليل'
+                                    : 'See less',
+                                color: Color(0xFF36B268),
+                                fontSize: 13,
+                                fontFamily: AppUtil.rtlDirection2(context)
+                                    ? 'SF Arabic'
+                                    : 'SF Pro',
+                                fontWeight: FontWeight.w500,
+                              )
+                            : Text(''),
+                      ],
+                    ),
+                    controller: _controller,
+                    theme: const ExpandedTileThemeData(
+                      leadingPadding: EdgeInsets.zero,
+                      titlePadding: EdgeInsets.zero,
+                      headerPadding: EdgeInsets.zero,
+                      contentPadding: EdgeInsets.zero,
+                      headerSplashColor: Colors.transparent,
+                      headerColor: Colors.transparent,
+                      contentBackgroundColor: Colors.transparent,
                     ),
                   ),
                 ],

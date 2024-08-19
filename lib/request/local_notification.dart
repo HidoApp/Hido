@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/intl.dart';
@@ -31,6 +33,8 @@ class LocalNotification {
   String descreption = '';
   int hour=0;
   int minute=0;
+   int hour2=0;
+  int minute2=0;
   String day = "";
   String time = "2 hours";
   final String timeZoneName = 'Asia/Riyadh';
@@ -79,11 +83,11 @@ class LocalNotification {
       
       else {
         print('inter1');
-        if(daysDifference==1){
+        if(daysDifference==1||daysDifference==-1){
         // twoDaysBefore = bookingDate.subtract(Duration(days: 1));
        day = AppUtil.rtlDirection2(context)?"يوم":"1 day";
-      // hour = currentDateInRiyadh.hour + 1;
-      // minute = currentDateInRiyadh.minute + 3;
+       hour2 = currentDateInRiyadh.hour + 4;
+      minute2 = currentDateInRiyadh.minute + 4;
         }
         else{
           print('inter2');
@@ -121,23 +125,27 @@ class LocalNotification {
 
     tz.TZDateTime notificationTime;
     if (hour != 0 && minute != 0) {
+     
       notificationTime = tz.TZDateTime(location, twoDaysBefore.year,
           twoDaysBefore.month, twoDaysBefore.day, hour!, minute!, 3);
+      
     } else {
+       if(day=="يوم"||day =="1 day"){
+        day='tomorrow';
+       twoDaysBefore =  twoDaysBefore.add(Duration(days: 1));
+
+         notificationTime = tz.TZDateTime(location, twoDaysBefore.year,
+          twoDaysBefore.month, twoDaysBefore.day, hour2, minute2, 3);
+      }
+      else{
       notificationTime = tz.TZDateTime(location, twoDaysBefore.year,
           twoDaysBefore.month, twoDaysBefore.day, 24, 00, 3);
 
     }
-
+    }
 
     print("Notification Time:");
    
-    print('note info');
-    print(notificationTime);
-    print(placeeAr);
-    print(placeeEn);
-    print(name);
-    print(id);
 
     int parsedId = int.tryParse(id ?? '') ?? 0;
     String ids = id ?? "0 ";
@@ -155,28 +163,46 @@ class LocalNotification {
     NotificationDetails details = NotificationDetails(android: android);
     tz.initializeTimeZones();
 
+    
+    
+    print('note info');
     print(tz.local);
     print(day);
+    print(notificationTime);
+    print(placeeAr);
+    print(placeeEn);
+    print(name);
+    print(id);
 
     if (day == 'today') {
       descreption = AppUtil.rtlDirection2(context)
           ? 'اليوم تبدأ تجربتك لاستكشاف ' + placeName 
           : " your experience to discover " +
               placeName +
-              " with " +
-              name! +
-              " start" +
+              // " with " +
+              // name! +
+              " start " +
               day;
-    } else {
+    } else if(day == 'tomorrow'){
       descreption = AppUtil.rtlDirection2(context)
+          ?'غدا '+ 'تبدأ تجربتك لاستكشاف ' + placeName
+          : day +
+              "  your experience to discover " +
+              placeName +
+              // " with " +
+              // name! +
+              " begins";
+    }else{
+        descreption = AppUtil.rtlDirection2(context)
           ?'متبقي ' + day + ' حتى تبدأ تجربتك لاستكشاف ' + placeName
           : day +
-              "  left and  your experience to discover " +
+              " left and your experience to discover " +
               placeName +
-              " with " +
-              name! +
+              // " with " +
+              // name! +
               " begins";
     }
+    log(descreption);
     await flutterLocalNotificationsPlugin.zonedSchedule(
         parsedId,
         AppUtil.rtlDirection2(context) ?"أهلا سائحنا, تذكير" :"Hi our tourist, Reminder",

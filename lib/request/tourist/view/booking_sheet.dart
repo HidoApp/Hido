@@ -263,9 +263,9 @@ class _BookingSheetState extends State<BookingSheet> {
                       ),
                     ),
 
-                  const SizedBox(
-                    height: 12,
-                  ),
+                  // const SizedBox(
+                  //   height: 12,
+                  // ),
                   //TODO:this Row need refactoring
                   Row(
                     children: [

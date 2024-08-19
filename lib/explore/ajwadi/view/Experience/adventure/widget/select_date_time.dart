@@ -322,15 +322,15 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                       if (widget.adventureController.TimeErrorMessage.value)
                         Padding(
                           padding: const EdgeInsets.only(top: 10),
-                          child: Text(
-                            '',
+                          child:CustomText(
+                            text:'',
                             // AppUtil.rtlDirection2(context)
                             //     ? "اختر الوقت"
                             //     : "Select Time",
-                            style: TextStyle(
+                         
                               color: Colors.red,
                               fontSize: 12,
-                            ),
+                            
                           ),
                         ),
                     ],
