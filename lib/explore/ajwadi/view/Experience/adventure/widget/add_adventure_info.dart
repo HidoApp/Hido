@@ -95,7 +95,7 @@ class _AddInfoState extends State<AddInfo> {
                     fontWeight: FontWeight.w500,
                   ),
                   TextStyle(
-                    fontSize: _selectedLanguageIndex == 0 ? 11 : 13,
+                    fontSize: _selectedLanguageIndex == 0 ? 10 : 13,
                     fontFamily:
                         _selectedLanguageIndex == 0 ? 'SF Arabic' : 'SF Pro',
                     fontWeight: FontWeight.w500,
