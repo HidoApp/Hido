@@ -84,52 +84,55 @@ class _AdventureAddProgressState extends State<AdventureAddProgress> {
     var screenHeight = MediaQuery.of(context).size.height;
     var keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: CustomAppBar(
-        _appBarText(),
-        isAjwadi: true,
-        isBack: true,
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16),
-
-              child: nextStep(),
-            ),
-            
-          ],
+     return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child:  Scaffold(
+        backgroundColor: Colors.white,
+        appBar: CustomAppBar(
+          _appBarText(),
+          isAjwadi: true,
+          isBack: true,
         ),
-      ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(bottom: 20),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            StepProgressIndicator(
-              totalSteps: 6,
-              currentStep: activeIndex + 1,
-              
-              selectedColor: Color(0xFF36B268),
-              unselectedColor: Color(0xFFDCDCE0),
-              
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 16, right: 16, bottom: 14, top: 30),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  previousButton(),
-                  nextButton(),
-                ],
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16),
+    
+                child: nextStep(),
               ),
-            ),
-          ],
+              
+            ],
+          ),
+        ),
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.only(bottom: 20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              StepProgressIndicator(
+                totalSteps: 6,
+                currentStep: activeIndex + 1,
+                
+                selectedColor: Color(0xFF36B268),
+                unselectedColor: Color(0xFFDCDCE0),
+                
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 16, right: 16, bottom: 14, top: 30),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    previousButton(),
+                    nextButton(),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
