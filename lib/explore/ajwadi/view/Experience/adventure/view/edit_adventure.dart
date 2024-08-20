@@ -33,6 +33,8 @@ import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/floating_booking_button.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_datetime_picker_bdaya/flutter_datetime_picker_bdaya.dart';
@@ -2125,6 +2127,11 @@ class _EditAdventureState extends State<EditAdventure> {
                                             child: GoogleMap(
                                               scrollGesturesEnabled: true,
                                               zoomControlsEnabled: false,
+                                                gestureRecognizers: {
+                                                Factory<OneSequenceGestureRecognizer>(
+                                                    () =>
+                                                        EagerGestureRecognizer())
+                                              },
                                               initialCameraPosition:
                                                   CameraPosition(
                                                 target: _currentPosition,

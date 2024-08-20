@@ -29,6 +29,8 @@ import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/floating_booking_button.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_datetime_picker_bdaya/flutter_datetime_picker_bdaya.dart';
@@ -347,21 +349,18 @@ class _EditHospitalityState extends State<EditHospitality> {
           AppUtil.errorToast(context, 'DateDuration'.tr);
           await Future.delayed(const Duration(seconds: 3));
         }
-      }
-     else if (_servicesController.TimeErrorMessage.value) {
+      } else if (_servicesController.TimeErrorMessage.value) {
         if (context.mounted) {
           AppUtil.errorToast(context, 'TimeDuration'.tr);
           await Future.delayed(const Duration(seconds: 3));
         }
-      }
-      else if (_servicesController.images.length < 3) {
+      } else if (_servicesController.images.length < 3) {
         if (context.mounted) {
           AppUtil.errorToast(context, 'imageError'.tr);
           await Future.delayed(const Duration(seconds: 3));
         }
-      }
-      else{
-      print("Please fill all required fields");
+      } else {
+        print("Please fill all required fields");
       }
     }
   }
@@ -386,9 +385,8 @@ class _EditHospitalityState extends State<EditHospitality> {
           ? DateTime.parse(widget.hospitalityObj.daysInfo.first.endTime)
           : DateTime.now();
 
-      
       _servicesController.selectedStartTime.value = newTimeToGo; //new
-      _servicesController.selectedEndTime.value = newTimeToReturn;//new
+      _servicesController.selectedEndTime.value = newTimeToReturn; //new
 
       _servicesController.selectedDate.value =
           widget.hospitalityObj.daysInfo.isNotEmpty
@@ -406,8 +404,8 @@ class _EditHospitalityState extends State<EditHospitality> {
           widget.hospitalityObj.daysInfo.isNotEmpty ? true : false;
 
       _servicesController.DateErrorMessage.value = true;
-      _servicesController.EmptyTimeErrorMessage.value=false;
-       _servicesController.EmptyDateErrorMessage.value=false;
+      _servicesController.EmptyTimeErrorMessage.value = false;
+      _servicesController.EmptyDateErrorMessage.value = false;
       _servicesController.pickUpLocLatLang.value = LatLng(
           double.parse(widget.hospitalityObj.coordinate.latitude ?? ''),
           double.parse(widget.hospitalityObj.coordinate.longitude ?? ''));
@@ -647,9 +645,9 @@ class _EditHospitalityState extends State<EditHospitality> {
                 child: Center(child: CircularProgressIndicator.adaptive()),
               ),
             )
-          :  GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: Scaffold(
+          : GestureDetector(
+              onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+              child: Scaffold(
                 backgroundColor: Colors.white,
                 // extendBodyBehindAppBar: true,
                 appBar: CustomAppBar(
@@ -664,7 +662,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                           backgroundColor: Colors.white,
                           surfaceTintColor: Colors.white,
                           shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(8.0)),
                           ),
                           content: Container(
                             width: 500,
@@ -711,7 +710,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                                       : GestureDetector(
                                           onTap: () async {
                                             log("End Trip Taped ${widget.hospitalityObj.id}");
-          
+
                                             bool result =
                                                 await _servicesController
                                                         .hospitalityDelete(
@@ -723,17 +722,21 @@ class _EditHospitalityState extends State<EditHospitality> {
                                             if (result) {
                                               showDialog(
                                                 context: context,
-                                                builder: (BuildContext context) {
+                                                builder:
+                                                    (BuildContext context) {
                                                   return Dialog(
-                                                    shape: RoundedRectangleBorder(
+                                                    shape:
+                                                        RoundedRectangleBorder(
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               8),
                                                     ),
                                                     child: Container(
                                                       width: 350,
-                                                      height: 110, // Custom width
-                                                      padding: EdgeInsets.all(16),
+                                                      height:
+                                                          110, // Custom width
+                                                      padding:
+                                                          EdgeInsets.all(16),
                                                       child: Column(
                                                         mainAxisSize:
                                                             MainAxisSize.min,
@@ -821,8 +824,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                   child: Container(
                                       width: 278,
                                       height: 34,
-                                      padding:
-                                          const EdgeInsets.symmetric(vertical: 2),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 2),
                                       decoration: BoxDecoration(
                                         border: Border.all(
                                           color: colorRed,
@@ -849,7 +852,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                     );
                   },
                 ),
-          
+
                 bottomNavigationBar: Padding(
                     padding: EdgeInsets.all(16.0),
                     child: Obx(
@@ -901,32 +904,34 @@ class _EditHospitalityState extends State<EditHospitality> {
                                         Type: 'hospitality',
                                       ));
                                 },
-                                child: 
-                                _servicesController.images.isEmpty
-                                      ? Image.asset(
-                                          'assets/images/Placeholder.png',
-                                          height: height * 0.3,
-                                          fit: BoxFit.cover,
-                                        )
-                                :CarouselSlider.builder(
-                                  carouselController: _carouselController,
-                                  options: CarouselOptions(
-                                      viewportFraction: 1,
-                                      onPageChanged: (i, reason) {
-                                        setState(() {
-                                          _currentIndex = i;
-                                        });
-                                      }),
-                                  itemCount: _servicesController.images.length,
-                                  itemBuilder: (context, index, realIndex) {
-                                    return ImagesSliderWidget(
-                                      image: _servicesController.images[index],
-                                    );
-                                  },
-                                ),
+                                child: _servicesController.images.isEmpty
+                                    ? Image.asset(
+                                        'assets/images/Placeholder.png',
+                                        height: height * 0.3,
+                                        fit: BoxFit.cover,
+                                      )
+                                    : CarouselSlider.builder(
+                                        carouselController: _carouselController,
+                                        options: CarouselOptions(
+                                            viewportFraction: 1,
+                                            onPageChanged: (i, reason) {
+                                              setState(() {
+                                                _currentIndex = i;
+                                              });
+                                            }),
+                                        itemCount:
+                                            _servicesController.images.length,
+                                        itemBuilder:
+                                            (context, index, realIndex) {
+                                          return ImagesSliderWidget(
+                                            image: _servicesController
+                                                .images[index],
+                                          );
+                                        },
+                                      ),
                               ),
                             ),
-          
+
                             SizedBox(
                               height: width * 0.055,
                             ),
@@ -936,7 +941,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                             SizedBox(
                               height: 14,
                             ),
-          
+
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
@@ -962,7 +967,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                         activeFgColor: Color(0xFF070708),
                                         inactiveBgColor: Color(0xFFF5F5F5),
                                         inactiveFgColor: Color(0xFF9392A0),
-                                        initialLabelIndex: _selectedLanguageIndex,
+                                        initialLabelIndex:
+                                            _selectedLanguageIndex,
                                         totalSwitches: 2,
                                         labels: _selectedLanguageIndex == 0
                                             ? ['عربي', 'إنجليزي']
@@ -970,9 +976,10 @@ class _EditHospitalityState extends State<EditHospitality> {
                                         radiusStyle: true,
                                         customTextStyles: [
                                           TextStyle(
-                                            fontSize: _selectedLanguageIndex == 0
-                                                ? 11
-                                                : 13,
+                                            fontSize:
+                                                _selectedLanguageIndex == 0
+                                                    ? 11
+                                                    : 13,
                                             fontFamily:
                                                 _selectedLanguageIndex == 0
                                                     ? 'SF Arabic'
@@ -983,9 +990,10 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                     : FontWeight.w500,
                                           ),
                                           TextStyle(
-                                            fontSize: _selectedLanguageIndex == 0
-                                                ? 10
-                                                : 13,
+                                            fontSize:
+                                                _selectedLanguageIndex == 0
+                                                    ? 10
+                                                    : 13,
                                             fontFamily:
                                                 _selectedLanguageIndex == 0
                                                     ? 'SF Arabic'
@@ -1090,13 +1098,15 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                                   0
                                                               ? 'SF Arabic'
                                                               : 'SF Pro',
-                                                      fontWeight: FontWeight.w400,
+                                                      fontWeight:
+                                                          FontWeight.w400,
                                                     ),
                                                     border: OutlineInputBorder(
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               8),
-                                                      borderSide: BorderSide.none,
+                                                      borderSide:
+                                                          BorderSide.none,
                                                     ),
                                                   ),
                                                 ),
@@ -1174,17 +1184,16 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                 shape: RoundedRectangleBorder(
                                                   side: BorderSide(
                                                       width: 1,
-                                                      color:
-                                                          _selectedLanguageIndex ==
-                                                                  0
-                                                              ? bioArEmpty
-                                                                  ? colorRed
-                                                                  : Color(
-                                                                      0xFFB9B8C1)
-                                                              : bioEnEmpty
-                                                                  ? colorRed
-                                                                  : Color(
-                                                                      0xFFB9B8C1)),
+                                                      color: _selectedLanguageIndex ==
+                                                              0
+                                                          ? bioArEmpty
+                                                              ? colorRed
+                                                              : Color(
+                                                                  0xFFB9B8C1)
+                                                          : bioEnEmpty
+                                                              ? colorRed
+                                                              : Color(
+                                                                  0xFFB9B8C1)),
                                                   borderRadius:
                                                       BorderRadius.circular(8),
                                                 ),
@@ -1229,13 +1238,15 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                                   0
                                                               ? 'SF Arabic'
                                                               : 'SF Pro',
-                                                      fontWeight: FontWeight.w400,
+                                                      fontWeight:
+                                                          FontWeight.w400,
                                                     ),
                                                     border: OutlineInputBorder(
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               8),
-                                                      borderSide: BorderSide.none,
+                                                      borderSide:
+                                                          BorderSide.none,
                                                     ),
                                                   ),
                                                 ),
@@ -1282,7 +1293,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                   color: Color(0xFFB9B8C1),
                                                   fontSize: 11,
                                                   fontFamily:
-                                                      _selectedLanguageIndex == 0
+                                                      _selectedLanguageIndex ==
+                                                              0
                                                           ? 'SF Arabic'
                                                           : 'SF Pro',
                                                   fontWeight: FontWeight.w400,
@@ -1352,7 +1364,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                 fontWeight: FontWeight.w400,
                                                 color: Graytext,
                                                 fontFamily:
-                                                    AppUtil.rtlDirection2(context)
+                                                    AppUtil.rtlDirection2(
+                                                            context)
                                                         ? 'SF Arabic'
                                                         : 'SF Pro',
                                                 fontSize: 15,
@@ -1390,7 +1403,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                     });
                                                   },
                                                   child: const Icon(Icons.add,
-                                                      color: Graytext, size: 24)),
+                                                      color: Graytext,
+                                                      size: 24)),
                                             ],
                                           ),
                                         ),
@@ -1406,7 +1420,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                 color: Color(0xFFDC362E),
                                                 fontSize: 11,
                                                 fontFamily:
-                                                    AppUtil.rtlDirection2(context)
+                                                    AppUtil.rtlDirection2(
+                                                            context)
                                                         ? 'SF Arabic'
                                                         : 'SF Pro',
                                                 fontWeight: FontWeight.w400,
@@ -1451,9 +1466,10 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                     materialTapTargetSize:
                                                         MaterialTapTargetSize
                                                             .shrinkWrap,
-                                                    visualDensity: VisualDensity(
-                                                        horizontal: -4,
-                                                        vertical: -4),
+                                                    visualDensity:
+                                                        VisualDensity(
+                                                            horizontal: -4,
+                                                            vertical: -4),
                                                     fillColor:
                                                         MaterialStateProperty
                                                             .resolveWith<
@@ -1479,7 +1495,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                                   context)
                                                               ? 'SF Arabic'
                                                               : 'SF Pro',
-                                                      fontWeight: FontWeight.w500,
+                                                      fontWeight:
+                                                          FontWeight.w500,
                                                       height: 0,
                                                     ),
                                                   ),
@@ -1502,9 +1519,10 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                     materialTapTargetSize:
                                                         MaterialTapTargetSize
                                                             .shrinkWrap,
-                                                    visualDensity: VisualDensity(
-                                                        horizontal: -4,
-                                                        vertical: -4),
+                                                    visualDensity:
+                                                        VisualDensity(
+                                                            horizontal: -4,
+                                                            vertical: -4),
                                                     fillColor:
                                                         MaterialStateProperty
                                                             .resolveWith<
@@ -1530,7 +1548,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                                   context)
                                                               ? 'SF Arabic'
                                                               : 'SF Pro',
-                                                      fontWeight: FontWeight.w500,
+                                                      fontWeight:
+                                                          FontWeight.w500,
                                                       height: 0,
                                                     ),
                                                   ),
@@ -1553,9 +1572,10 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                     materialTapTargetSize:
                                                         MaterialTapTargetSize
                                                             .shrinkWrap,
-                                                    visualDensity: VisualDensity(
-                                                        horizontal: -4,
-                                                        vertical: -4),
+                                                    visualDensity:
+                                                        VisualDensity(
+                                                            horizontal: -4,
+                                                            vertical: -4),
                                                     fillColor:
                                                         MaterialStateProperty
                                                             .resolveWith<
@@ -1581,7 +1601,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                                   context)
                                                               ? 'SF Arabic'
                                                               : 'SF Pro',
-                                                      fontWeight: FontWeight.w500,
+                                                      fontWeight:
+                                                          FontWeight.w500,
                                                       height: 0,
                                                     ),
                                                   ),
@@ -1657,7 +1678,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                 setState(() {
                                                   selectedChoice = 3;
                                                 });
-          
+
                                                 showDialog(
                                                     context: context,
                                                     builder:
@@ -1668,7 +1689,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                             _servicesController,
                                                       );
                                                     });
-          
+
                                                 //
                                               },
                                               child: CustomText(
@@ -1685,7 +1706,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                 fontWeight: FontWeight.w400,
                                                 color: Graytext,
                                                 fontFamily:
-                                                    AppUtil.rtlDirection2(context)
+                                                    AppUtil.rtlDirection2(
+                                                            context)
                                                         ? 'SF Arabic'
                                                         : 'SF Pro',
                                                 fontSize: 15,
@@ -1705,9 +1727,9 @@ class _EditHospitalityState extends State<EditHospitality> {
                                       Padding(
                                         padding: const EdgeInsets.only(top: 8),
                                         child: Text(
-                                         // DateErrorMessage ?? false
-                                         _servicesController
-                                            .EmptyDateErrorMessage.value
+                                          // DateErrorMessage ?? false
+                                          _servicesController
+                                                  .EmptyDateErrorMessage.value
                                               ? AppUtil.rtlDirection2(context)
                                                   ? "اختر التاريخ"
                                                   : "You need to choose a valid date"
@@ -1735,9 +1757,10 @@ class _EditHospitalityState extends State<EditHospitality> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             CustomText(
-                                              text: AppUtil.rtlDirection2(context)
-                                                  ? "وقت الاستضافة من"
-                                                  : "Start Time",
+                                              text:
+                                                  AppUtil.rtlDirection2(context)
+                                                      ? "وقت الاستضافة من"
+                                                      : "Start Time",
                                               color: black,
                                               fontSize: 17,
                                               fontWeight: FontWeight.w500,
@@ -1766,10 +1789,11 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                   shape: RoundedRectangleBorder(
                                                     side: BorderSide(
                                                         width: 1,
-                                                        color:_servicesController
-                                                          .EmptyTimeErrorMessage.value
-                                                        //  TimeErrorMessage ??
-                                                        //         false
+                                                        color: _servicesController
+                                                                .EmptyTimeErrorMessage
+                                                                .value
+                                                            //  TimeErrorMessage ??
+                                                            //         false
                                                             ? colorRed
                                                             : DurationErrorMessage ??
                                                                     false
@@ -1777,7 +1801,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                                 : Color(
                                                                     0xFFB9B8C1)),
                                                     borderRadius:
-                                                        BorderRadius.circular(8),
+                                                        BorderRadius.circular(
+                                                            8),
                                                   ),
                                                 ),
                                                 child: Row(
@@ -1792,28 +1817,34 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                                       context)
                                                               ? LocaleType.ar
                                                               : LocaleType.en,
-                                                          showTitleActions: true,
+                                                          showTitleActions:
+                                                              true,
                                                           currentTime:
                                                               newTimeToGo,
                                                           onConfirm: (newT) {
                                                             setState(() {
-                                                              newTimeToGo = newT;
+                                                              newTimeToGo =
+                                                                  newT;
                                                               _servicesController
                                                                   .isHospatilityTimeSelcted(
                                                                       true);
-                                                                 _servicesController.EmptyTimeErrorMessage.value=! _servicesController
-                                                                  .isHospatilityTimeSelcted.value;
-          
+                                                              _servicesController
+                                                                      .EmptyTimeErrorMessage
+                                                                      .value =
+                                                                  !_servicesController
+                                                                      .isHospatilityTimeSelcted
+                                                                      .value;
+
                                                               _servicesController
                                                                       .selectedStartTime
                                                                       .value =
                                                                   newTimeToGo;
-          
+
                                                               _servicesController
                                                                       .TimeErrorMessage
                                                                       .value =
                                                                   AppUtil.isEndTimeLessThanStartTime(
-                                                                       _servicesController
+                                                                      _servicesController
                                                                           .selectedStartTime
                                                                           .value,
                                                                       _servicesController
@@ -1823,23 +1854,28 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                           },
                                                           onChanged: (newT) {
                                                             setState(() {
-                                                              newTimeToGo = newT;
+                                                              newTimeToGo =
+                                                                  newT;
                                                               _servicesController
                                                                   .isHospatilityTimeSelcted(
                                                                       true);
-                                                              _servicesController.EmptyTimeErrorMessage.value=! _servicesController
-                                                                  .isHospatilityTimeSelcted.value;
-          
+                                                              _servicesController
+                                                                      .EmptyTimeErrorMessage
+                                                                      .value =
+                                                                  !_servicesController
+                                                                      .isHospatilityTimeSelcted
+                                                                      .value;
+
                                                               _servicesController
                                                                       .selectedStartTime
                                                                       .value =
                                                                   newTimeToGo;
-          
+
                                                               _servicesController
                                                                       .TimeErrorMessage
                                                                       .value =
                                                                   AppUtil.isEndTimeLessThanStartTime(
-                                                                       _servicesController
+                                                                      _servicesController
                                                                           .selectedStartTime
                                                                           .value,
                                                                       _servicesController
@@ -1890,7 +1926,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                           //                           newTimeToGo;
                                                           //                       _servicesController.selectedStartTime.value =
                                                           //                           newTimeToGo;
-          
+
                                                           //                       _servicesController.TimeErrorMessage.value =
                                                           //                           AppUtil.isEndTimeLessThanStartTime( newTimeToGo,newTimeToReturn);
                                                           //                     });
@@ -1938,7 +1974,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                           //               color: Colors
                                                           //                   .white,
                                                           //               child:
-          
+
                                                           //                   CupertinoDatePicker(
                                                           //                 backgroundColor:
                                                           //                     Colors
@@ -1959,7 +1995,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                           //                     _servicesController
                                                           //                         .selectedStartTime
                                                           //                         .value = newTimeToGo;
-          
+
                                                           //                     _servicesController.TimeErrorMessage.value = AppUtil.isEndTimeLessThanStartTime(
                                                           //                         newTimeToGo,newTimeToReturn);
                                                           //                   });
@@ -1986,11 +2022,11 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                         fontWeight:
                                                             FontWeight.w400,
                                                         color: Graytext,
-                                                        fontFamily:
-                                                            AppUtil.rtlDirection2(
+                                                        fontFamily: AppUtil
+                                                                .rtlDirection2(
                                                                     context)
-                                                                ? 'SF Arabic'
-                                                                : 'SF Pro',
+                                                            ? 'SF Arabic'
+                                                            : 'SF Pro',
                                                         fontSize: 15,
                                                       ),
                                                     ),
@@ -1999,32 +2035,35 @@ class _EditHospitalityState extends State<EditHospitality> {
                                               ),
                                             ),
                                             if (_servicesController
-                                            .EmptyTimeErrorMessage.value||
-                                              // TimeErrorMessage ??
-                                              //   false ||
-                                                    _servicesController
-                                                        .TimeErrorMessage.value)
+                                                    .EmptyTimeErrorMessage
+                                                    .value ||
+                                                // TimeErrorMessage ??
+                                                //   false ||
+                                                _servicesController
+                                                    .TimeErrorMessage.value)
                                               Padding(
-                                                padding:
-                                                    const EdgeInsets.only(top: 8),
+                                                padding: const EdgeInsets.only(
+                                                    top: 8),
                                                 child: CustomText(
-                                                 text: !_servicesController
-                                                          .TimeErrorMessage.value||_servicesController
-                                            .EmptyTimeErrorMessage.value
+                                                  text: !_servicesController
+                                                              .TimeErrorMessage
+                                                              .value ||
+                                                          _servicesController
+                                                              .EmptyTimeErrorMessage
+                                                              .value
                                                       ? AppUtil.rtlDirection2(
                                                               context)
                                                           ? "يجب اختيار الوقت"
                                                           : "Select The Time"
                                                       : '',
-                                                    color: colorRed,
-                                                    fontSize: 11,
-                                                    fontFamily:
-                                                        AppUtil.rtlDirection2(
-                                                                context)
-                                                            ? 'SF Arabic'
-                                                            : 'SF Pro',
-                                                    fontWeight: FontWeight.w400,
-                                                  
+                                                  color: colorRed,
+                                                  fontSize: 11,
+                                                  fontFamily:
+                                                      AppUtil.rtlDirection2(
+                                                              context)
+                                                          ? 'SF Arabic'
+                                                          : 'SF Pro',
+                                                  fontWeight: FontWeight.w400,
                                                 ),
                                               ),
                                           ],
@@ -2037,9 +2076,10 @@ class _EditHospitalityState extends State<EditHospitality> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             CustomText(
-                                              text: AppUtil.rtlDirection2(context)
-                                                  ? "إلى"
-                                                  : "End Time",
+                                              text:
+                                                  AppUtil.rtlDirection2(context)
+                                                      ? "إلى"
+                                                      : "End Time",
                                               color: black,
                                               fontSize: 17,
                                               fontWeight: FontWeight.w500,
@@ -2069,12 +2109,13 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                     side: BorderSide(
                                                         width: 1,
                                                         color: _servicesController
-                                            .EmptyTimeErrorMessage.value||
-                                                        // TimeErrorMessage ??
-                                                        //         false ||
-                                                                    _servicesController
-                                                                        .TimeErrorMessage
-                                                                        .value
+                                                                    .EmptyTimeErrorMessage
+                                                                    .value ||
+                                                                // TimeErrorMessage ??
+                                                                //         false ||
+                                                                _servicesController
+                                                                    .TimeErrorMessage
+                                                                    .value
                                                             ? colorRed
                                                             : DurationErrorMessage ??
                                                                     false
@@ -2082,7 +2123,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                                 : Color(
                                                                     0xFFB9B8C1)),
                                                     borderRadius:
-                                                        BorderRadius.circular(8),
+                                                        BorderRadius.circular(
+                                                            8),
                                                   ),
                                                 ),
                                                 child: Row(
@@ -2125,7 +2167,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                       //                       () {
                                                       //                     _servicesController
                                                       //                         .isHospatilityTimeSelcted(true);
-          
+
                                                       //                     setState(
                                                       //                         () {
                                                       //                       Get.back();
@@ -2133,7 +2175,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                       //                           newTimeToReturn;
                                                       //                       _servicesController.selectedEndTime.value =
                                                       //                           newTimeToReturn;
-          
+
                                                       //                       _servicesController.TimeErrorMessage.value =
                                                       //                           AppUtil.isEndTimeLessThanStartTime(_servicesController.selectedStartTime.value, _servicesController.selectedEndTime.value);
                                                       //                     });
@@ -2196,7 +2238,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                       //                     _servicesController
                                                       //                         .selectedEndTime
                                                       //                         .value = newTimeToReturn;
-          
+
                                                       //                     _servicesController.TimeErrorMessage.value = AppUtil.isEndTimeLessThanStartTime(
                                                       //                         _servicesController.selectedStartTime.value,
                                                       //                         _servicesController.selectedEndTime.value);
@@ -2218,16 +2260,21 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                                       context)
                                                               ? LocaleType.ar
                                                               : LocaleType.en,
-                                                          showTitleActions: true,
+                                                          showTitleActions:
+                                                              true,
                                                           currentTime:
                                                               newTimeToReturn,
                                                           onConfirm: (newT) {
                                                             _servicesController
                                                                 .isHospatilityTimeSelcted(
                                                                     true);
-                                                              _servicesController.EmptyTimeErrorMessage.value= !_servicesController
-                                                                  .isHospatilityTimeSelcted.value;
-          
+                                                            _servicesController
+                                                                    .EmptyTimeErrorMessage
+                                                                    .value =
+                                                                !_servicesController
+                                                                    .isHospatilityTimeSelcted
+                                                                    .value;
+
                                                             print(DateFormat(
                                                                     'HH:mm:ss')
                                                                 .format(
@@ -2239,7 +2286,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                                       .selectedEndTime
                                                                       .value =
                                                                   newTimeToReturn;
-          
+
                                                               _servicesController
                                                                       .TimeErrorMessage
                                                                       .value =
@@ -2256,9 +2303,13 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                             _servicesController
                                                                 .isHospatilityTimeSelcted(
                                                                     true);
-                                                    _servicesController.EmptyTimeErrorMessage.value=! _servicesController
-                                                                  .isHospatilityTimeSelcted.value;
-          
+                                                            _servicesController
+                                                                    .EmptyTimeErrorMessage
+                                                                    .value =
+                                                                !_servicesController
+                                                                    .isHospatilityTimeSelcted
+                                                                    .value;
+
                                                             print(DateFormat(
                                                                     'HH:mm:ss')
                                                                 .format(
@@ -2270,7 +2321,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                                       .selectedEndTime
                                                                       .value =
                                                                   newTimeToReturn;
-          
+
                                                               _servicesController
                                                                       .TimeErrorMessage
                                                                       .value =
@@ -2299,11 +2350,11 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                         fontWeight:
                                                             FontWeight.w400,
                                                         color: Graytext,
-                                                        fontFamily:
-                                                            AppUtil.rtlDirection2(
+                                                        fontFamily: AppUtil
+                                                                .rtlDirection2(
                                                                     context)
-                                                                ? 'SF Arabic'
-                                                                : 'SF Pro',
+                                                            ? 'SF Arabic'
+                                                            : 'SF Pro',
                                                         fontSize: 15,
                                                       ),
                                                     ),
@@ -2312,18 +2363,22 @@ class _EditHospitalityState extends State<EditHospitality> {
                                               ),
                                             ),
                                             if (_servicesController
-                                            .EmptyTimeErrorMessage.value||
-                                              // TimeErrorMessage ??
-                                              //   false ||
-                                                    _servicesController
-                                                        .TimeErrorMessage.value)
+                                                    .EmptyTimeErrorMessage
+                                                    .value ||
+                                                // TimeErrorMessage ??
+                                                //   false ||
+                                                _servicesController
+                                                    .TimeErrorMessage.value)
                                               Padding(
-                                                padding:
-                                                    const EdgeInsets.only(top: 8),
+                                                padding: const EdgeInsets.only(
+                                                    top: 8),
                                                 child: Text(
                                                   !_servicesController
-                                                          .TimeErrorMessage.value||_servicesController
-                                            .EmptyTimeErrorMessage.value
+                                                              .TimeErrorMessage
+                                                              .value ||
+                                                          _servicesController
+                                                              .EmptyTimeErrorMessage
+                                                              .value
                                                       ? AppUtil.rtlDirection2(
                                                               context)
                                                           ? "يجب اختيار الوقت"
@@ -2365,7 +2420,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                     ),
                                     Row(
                                       mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
@@ -2385,7 +2441,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                     MaterialTapTargetSize
                                                         .shrinkWrap,
                                                 visualDensity: VisualDensity(
-                                                    horizontal: -4, vertical: -4),
+                                                    horizontal: -4,
+                                                    vertical: -4),
                                                 fillColor: MaterialStateProperty
                                                     .resolveWith<Color>(
                                                         (Set<MaterialState>
@@ -2432,7 +2489,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                     MaterialTapTargetSize
                                                         .shrinkWrap,
                                                 visualDensity: VisualDensity(
-                                                    horizontal: -4, vertical: -4),
+                                                    horizontal: -4,
+                                                    vertical: -4),
                                                 fillColor: MaterialStateProperty
                                                     .resolveWith<Color>(
                                                         (Set<MaterialState>
@@ -2479,7 +2537,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                     MaterialTapTargetSize
                                                         .shrinkWrap,
                                                 visualDensity: VisualDensity(
-                                                    horizontal: -4, vertical: -4),
+                                                    horizontal: -4,
+                                                    vertical: -4),
                                                 fillColor: MaterialStateProperty
                                                     .resolveWith<Color>(
                                                         (Set<MaterialState>
@@ -2546,7 +2605,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                               Radius.circular(12)),
                                           child: Container(
                                             decoration: BoxDecoration(
-                                              color: almostGrey.withOpacity(0.2),
+                                              color:
+                                                  almostGrey.withOpacity(0.2),
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(12)),
                                             ),
@@ -2555,6 +2615,11 @@ class _EditHospitalityState extends State<EditHospitality> {
                                             child: GoogleMap(
                                               scrollGesturesEnabled: true,
                                               zoomControlsEnabled: false,
+                                              gestureRecognizers: {
+                                                Factory<OneSequenceGestureRecognizer>(
+                                                    () =>
+                                                        EagerGestureRecognizer())
+                                              },
                                               initialCameraPosition:
                                                   CameraPosition(
                                                 target: _currentPosition,
@@ -2573,7 +2638,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                           .value = newPosition;
                                                       _currentPosition =
                                                           newPosition;
-          
+
                                                       _isLoading = true;
                                                     });
                                                     _fetchAddress();
@@ -2594,7 +2659,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                             decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius: BorderRadius.only(
-                                                  bottomLeft: Radius.circular(12),
+                                                  bottomLeft:
+                                                      Radius.circular(12),
                                                   bottomRight:
                                                       Radius.circular(12)),
                                               border: Border.all(
@@ -2605,8 +2671,9 @@ class _EditHospitalityState extends State<EditHospitality> {
                                               ),
                                             ),
                                             child: Padding(
-                                              padding: const EdgeInsets.symmetric(
-                                                  horizontal: 8),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 8),
                                               child: Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.start,
@@ -2628,7 +2695,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                                   ? 'SF Arabic'
                                                                   : 'SF Pro',
                                                               fontWeight:
-                                                                  FontWeight.w400,
+                                                                  FontWeight
+                                                                      .w400,
                                                               height: 0,
                                                             ),
                                                           ),
@@ -2682,7 +2750,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                           fontWeight: FontWeight.w400,
                                         ),
                                         border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(8),
+                                          borderRadius:
+                                              BorderRadius.circular(8),
                                         ),
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
@@ -2693,16 +2762,20 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                 ? Color(0xFFDC362E)
                                                 : Color(0xFFB9B8C1),
                                           ),
-                                          borderRadius: BorderRadius.circular(8),
+                                          borderRadius:
+                                              BorderRadius.circular(8),
                                         ),
-                                        contentPadding:
-                                            EdgeInsets.symmetric(horizontal: 15),
+                                        contentPadding: EdgeInsets.symmetric(
+                                            horizontal: 15),
                                       ),
                                       keyboardType: TextInputType.number,
                                     ),
-                                    if (PriceEmpty || PriceLarger || PriceDouble)
+                                    if (PriceEmpty ||
+                                        PriceLarger ||
+                                        PriceDouble)
                                       Padding(
-                                        padding: const EdgeInsets.only(top: 8.0),
+                                        padding:
+                                            const EdgeInsets.only(top: 8.0),
                                         child: Text(
                                           AppUtil.rtlDirection2(context)
                                               ? PriceEmpty
@@ -2732,17 +2805,17 @@ class _EditHospitalityState extends State<EditHospitality> {
                             ),
                           ],
                         ),
-          
+
                         //indicator
-                    
-                         Center(
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                            top: height *
-                                0.24), // Set the top padding to control vertical position
-                        child: Row(
+
+                        Center(
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  top: height *
+                                      0.24), // Set the top padding to control vertical position
+                              child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: _servicesController.images
@@ -2761,7 +2834,9 @@ class _EditHospitalityState extends State<EditHospitality> {
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
                                         color: _currentIndex == entry.key
-                                            ? _servicesController.images.length == 1
+                                            ? _servicesController
+                                                        .images.length ==
+                                                    1
                                                 ? Colors.white.withOpacity(0.1)
                                                 : Colors.white
                                             : Colors.white.withOpacity(0.4),
@@ -2778,7 +2853,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                   ),
                 ),
               ),
-          ),
+            ),
     );
   }
 }
