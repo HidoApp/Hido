@@ -60,11 +60,11 @@ class _ServiceScreenState extends State<ServiceScreen>
               toolbarHeight: width * 0.36,
               forceMaterialTransparency: true,
 
-              pinned: true,
+              pinned: false,
               centerTitle: false,
 
               leading: Padding(
-                padding: EdgeInsets.only(left: 16,right:16,bottom: 18),
+                padding: EdgeInsets.only(left: 16, right: 16, bottom: 18),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -161,9 +161,9 @@ class _ServiceScreenState extends State<ServiceScreen>
                     bottomLeft: Radius.circular(width * 0.05),
                     bottomRight: Radius.circular(width * 0.05)),
                 child: Image.asset(
-                  'assets/images/${_tabIndex == 0 ? 'service_hospitality_cover' : _tabIndex == 2 ? 'service_adventures_cover' : _tabIndex == 1 ? 'service_events_cover' : 'service_restaurants_cover'}.png',
-                  width: width,
-                  fit: BoxFit.fill,
+                  'assets/images/${_tabIndex == 0 ? 'service_hospitality_cover.jpg' : _tabIndex == 2 ? 'service_adventures_cover.png' : _tabIndex == 1 ? 'service_events_cover.png' : 'service_restaurants_cover.png'}',
+                  //  width: width,
+                  fit: BoxFit.cover,
                 ),
               ),
               bottom: TabBar(

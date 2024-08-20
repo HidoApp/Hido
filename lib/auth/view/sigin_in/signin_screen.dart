@@ -41,6 +41,13 @@ class _SignInScreenState extends State<SignInScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _authController = Get.put(AuthController());
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,10 +100,16 @@ class _SignInScreenState extends State<SignInScreen> {
                                 keyboardType: TextInputType.emailAddress,
                                 hintText: 'yourEmail'.tr,
                                 controller: _emailController,
-                                // prefixIcon: const Icon(
-                                //   Icons.email_outlined,
-                                //   color: colorDarkGrey,
-                                // ),
+                                validator: false,
+                                validatorHandle: (email) {
+                                  if (email == null || email.isEmpty) {
+                                    return 'fieldRequired'.tr;
+                                  }
+                                  if (!AppUtil.isEmailValidate(email)) {
+                                    return 'invalidEmail'.tr;
+                                  }
+                                  return null;
+                                },
                                 onChanged: (String value) {},
                               ),
                               const SizedBox(

@@ -254,13 +254,19 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
     final filterdBooking = _profileController.upcommingTicket
         .where((book) => book.bookingType == 'place')
         .toList();
+    if (filterdBooking.isEmpty) {
+      return;
+    }
     print("filterdBooking.length");
     print(filterdBooking.length);
     int length = filterdBooking.length;
+
     for (var i = 0; i < length; i++) {
       if (filterdBooking.isNotEmpty &&
           currentDateString == filterdBooking[i].date.substring(0, 10)) {
         if (filterdBooking[i].orderStatus == 'PENDING') {
+          _touristExploreController.showActivityProgress(false);
+
           return;
         }
 // Your tour is going to start at
@@ -269,6 +275,8 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
         getActivityProgress();
 
         return;
+      } else {
+        _touristExploreController.showActivityProgress(false);
       }
     }
     print(currentDateString);
@@ -280,9 +288,13 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
     print(_touristExploreController.activityProgres.value!.activityProgress!);
     switch (
         _touristExploreController.activityProgres.value!.activityProgress!) {
+      case 'PENDING':
+        _touristExploreController.activeStepProgres(-1);
+        break;
       case 'ON_WAY':
         _touristExploreController.activeStepProgres(-1);
         break;
+
       case 'ARRIVED':
         _touristExploreController.activeStepProgres(0);
         break;
@@ -292,10 +304,10 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
       case 'COMPLETED':
         _touristExploreController.activeStepProgres(2);
         _touristExploreController.showActivityProgress(false);
-        Get.bottomSheet(
-          const RatingSheet(),
-          isScrollControlled: true,
-        );
+        // Get.bottomSheet(
+        //    RatingSheet(),
+        //   isScrollControlled: true,
+        // );
 
         break;
       default:
@@ -341,7 +353,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                     child: SolidBottomSheet(
                       showOnAppear: showSheet,
                       toggleVisibilityOnTap: true,
-                      maxHeight: 209,
+                      maxHeight: width * 0.45,
                       controller: _sheetController,
                       onHide: () {
                         setState(() {

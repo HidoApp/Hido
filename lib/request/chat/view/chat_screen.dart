@@ -92,7 +92,6 @@ class _ChatScreenState extends State<ChatScreen> {
               appBar: CustomAppBar(
                 "chat".tr,
               ),
-             
               body: SafeArea(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -213,8 +212,9 @@ class _ChatScreenState extends State<ChatScreen> {
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w400,
-                                                                fontFamily:
-                                                                      AppUtil.SfFontType(context),
+                                                                fontFamily: AppUtil
+                                                                    .SfFontType(
+                                                                        context),
                                                               ),
                                                             ],
                                                           ),
@@ -245,8 +245,9 @@ class _ChatScreenState extends State<ChatScreen> {
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w400,
-                                                                fontFamily:
-                                                                     AppUtil.SfFontType(context),
+                                                                fontFamily: AppUtil
+                                                                    .SfFontType(
+                                                                        context),
                                                               ),
                                                             ],
                                                           ),
@@ -271,8 +272,9 @@ class _ChatScreenState extends State<ChatScreen> {
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w400,
-                                                                fontFamily:
-                                                                     AppUtil.SfFontType(context),
+                                                                fontFamily: AppUtil
+                                                                    .SfFontType(
+                                                                        context),
                                                               ),
                                                             ],
                                                           ),
@@ -311,8 +313,9 @@ class _ChatScreenState extends State<ChatScreen> {
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w400,
-                                                                fontFamily:
-                                                                    AppUtil.SfFontType(context),
+                                                                fontFamily: AppUtil
+                                                                    .SfFontType(
+                                                                        context),
                                                               ),
                                                             ],
                                                           ),
@@ -564,15 +567,25 @@ class _ChatScreenState extends State<ChatScreen> {
                         ),
                       ),
                     ),
-
                     // Send Button
+
+                    const SizedBox(height: 4)
+                  ],
+                ),
+              ),
+              bottomNavigationBar: Padding(
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
                     Container(
-                     width: double.infinity,
+                      width: double.infinity,
                       padding: const EdgeInsets.only(
                         top: 14,
                         left: 16,
                         right: 16,
-                        bottom: 14,
+                        bottom: 30,
                       ),
                       decoration: BoxDecoration(color: Colors.white),
                       child: Row(
@@ -693,7 +706,6 @@ class _ChatScreenState extends State<ChatScreen> {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 4)
                   ],
                 ),
               ),

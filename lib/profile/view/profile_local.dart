@@ -249,9 +249,9 @@ class _LocalProfileState extends State<LocalProfile> {
                     _profileController.isEditing.value
                         ? CustomTextField(
                             height: width * 0.35,
-                            maxLines: 10,
                             hintText: 'tellUsMore'.tr,
                             onChanged: (desc) => descripttion = desc,
+                            maxLines: 10,
                             keyboardType: TextInputType.multiline,
                           )
                         : CustomText(

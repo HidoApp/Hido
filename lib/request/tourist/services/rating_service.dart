@@ -104,7 +104,7 @@ class RatingService {
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
       if (context.mounted) {
-        AppUtil.errorToast(context, "errorMessage");
+        AppUtil.errorToast(context, errorMessage);
       }
       return false;
     }

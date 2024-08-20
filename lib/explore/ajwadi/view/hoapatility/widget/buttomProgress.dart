@@ -19,6 +19,8 @@ import 'package:ajwad_v4/widgets/custom_request_item.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -93,9 +95,9 @@ class _ButtomProgressState extends State<ButtomProgress> {
     var screenHeight = MediaQuery.of(context).size.height;
     var keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
 
-      return GestureDetector(
+    return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child:  Scaffold(
+      child: Scaffold(
         backgroundColor: Colors.white,
         appBar: CustomAppBar(
           _appBarText(),
@@ -108,7 +110,7 @@ class _ButtomProgressState extends State<ButtomProgress> {
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-    
+
                 // Your main content here
                 child: nextStep(),
               ),
@@ -304,15 +306,14 @@ class _ButtomProgressState extends State<ButtomProgress> {
                       borderRadius: BorderRadius.circular(8)),
                 ),
                 alignment: Alignment.center,
-                child:CustomText(
-                  text:'Next'.tr,
+                child: CustomText(
+                  text: 'Next'.tr,
                   textAlign: TextAlign.center,
-                    color: Colors.white,
-                    fontSize: 17,
-                    fontFamily: 'HT Rakik',
-                    fontWeight: FontWeight.w500,
-                    height: 0.10,
-                  
+                  color: Colors.white,
+                  fontSize: 17,
+                  fontFamily: 'HT Rakik',
+                  fontWeight: FontWeight.w500,
+                  height: 0.10,
                 ),
               ),
             ),
@@ -341,15 +342,14 @@ class _ButtomProgressState extends State<ButtomProgress> {
                     borderRadius: BorderRadius.circular(8)),
               ),
               alignment: Alignment.center,
-              child:CustomText(
-                text:'Next'.tr,
+              child: CustomText(
+                text: 'Next'.tr,
                 textAlign: TextAlign.center,
-                  color: Colors.white,
-                  fontSize: 17,
-                  fontFamily: 'HT Rakik',
-                  fontWeight: FontWeight.w500,
-                  height: 0.10,
-                
+                color: Colors.white,
+                fontSize: 17,
+                fontFamily: 'HT Rakik',
+                fontWeight: FontWeight.w500,
+                height: 0.10,
               ),
             ),
           ),
@@ -379,15 +379,14 @@ class _ButtomProgressState extends State<ButtomProgress> {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         ),
         alignment: Alignment.center,
-        child:CustomText(
-          text:'Back'.tr,
+        child: CustomText(
+          text: 'Back'.tr,
           textAlign: TextAlign.center,
-            color: Color(0xFF070708),
-            fontSize: 17,
-            fontFamily: 'HT Rakik',
-            fontWeight: FontWeight.w500,
-            height: 0.10,
-          
+          color: Color(0xFF070708),
+          fontSize: 17,
+          fontFamily: 'HT Rakik',
+          fontWeight: FontWeight.w500,
+          height: 0.10,
         ),
       ),
     );
@@ -897,6 +896,10 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
                           : GoogleMap(
                               scrollGesturesEnabled: true,
                               zoomControlsEnabled: false,
+                              gestureRecognizers: {
+                                Factory<OneSequenceGestureRecognizer>(
+                                    () => EagerGestureRecognizer())
+                              },
                               initialCameraPosition: CameraPosition(
                                 target: _currentPosition!,
                                 zoom: 15,
@@ -1050,30 +1053,29 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
                                 .map((item) => DropdownMenuItem<String>(
                                       value: item,
                                       child: CustomText(
-                                        text:item,
-                                          color: black,
-                                          fontSize: 15,
-                                          fontFamily:
-                                              AppUtil.rtlDirection2(context)
-                                                  ? 'SF Arabic'
-                                                  : 'SF Pro',
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                    
+                                        text: item,
+                                        color: black,
+                                        fontSize: 15,
+                                        fontFamily:
+                                            AppUtil.rtlDirection2(context)
+                                                ? 'SF Arabic'
+                                                : 'SF Pro',
+                                        fontWeight: FontWeight.w400,
+                                      ),
                                     ))
                                 .toList()
                             : regionListEn
                                 .map((item) => DropdownMenuItem<String>(
                                       value: item,
-                                      child:CustomText(
-                                       text: item,
-                                          color: black,
-                                          fontSize: 15,
-                                          fontFamily:
-                                              AppUtil.rtlDirection2(context)
-                                                  ? 'SF Arabic'
-                                                  : 'SF Pro',
-                                          fontWeight: FontWeight.w400,
+                                      child: CustomText(
+                                        text: item,
+                                        color: black,
+                                        fontSize: 15,
+                                        fontFamily:
+                                            AppUtil.rtlDirection2(context)
+                                                ? 'SF Arabic'
+                                                : 'SF Pro',
+                                        fontWeight: FontWeight.w400,
                                       ),
                                     ))
                                 .toList(),
@@ -1328,14 +1330,14 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      child:CustomText(
-                        text:'makeCover'.tr,
+                      child: CustomText(
+                        text: 'makeCover'.tr,
                         textAlign: TextAlign.center,
-                          color: Colors.white,
-                          fontSize: 17,
-                          fontFamily: 'HT Rakik',
-                          fontWeight: FontWeight.w500,
-                       ),
+                        color: Colors.white,
+                        fontSize: 17,
+                        fontFamily: 'HT Rakik',
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -1358,13 +1360,13 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      child:CustomText(
-                        text:'Delete'.tr,
+                      child: CustomText(
+                        text: 'Delete'.tr,
                         textAlign: TextAlign.center,
-                          color: Color(0xFFDC362E),
-                          fontSize: 17,
-                          fontFamily: 'HT Rakik',
-                          fontWeight: FontWeight.w500,
+                        color: Color(0xFFDC362E),
+                        fontSize: 17,
+                        fontFamily: 'HT Rakik',
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
@@ -1484,15 +1486,15 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                                     borderRadius: BorderRadius.circular(16),
                                   ),
                                 ),
-                                child:CustomText(
-                                  text:'Coverphoto'.tr,
-                                    color: Colors.white,
-                                    fontSize: 13,
-                                    fontFamily: AppUtil.rtlDirection2(context)
-                                        ? 'SF Arabic'
-                                        : 'SF Pro',
-                                    fontWeight: FontWeight.w500,
-                                    height: 0,
+                                child: CustomText(
+                                  text: 'Coverphoto'.tr,
+                                  color: Colors.white,
+                                  fontSize: 13,
+                                  fontFamily: AppUtil.rtlDirection2(context)
+                                      ? 'SF Arabic'
+                                      : 'SF Pro',
+                                  fontWeight: FontWeight.w500,
+                                  height: 0,
                                 ),
                               ),
                             ),
@@ -1550,15 +1552,14 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                                     ),
                                     SizedBox(height: 4),
                                     CustomText(
-                                      text:'Addmore'.tr,
-                                        color: Color(0xFFB9B8C1),
-                                        fontSize: 11,
-                                        fontFamily:
-                                            AppUtil.rtlDirection2(context)
-                                                ? 'SF Arabic'
-                                                : 'SF Pro',
-                                        fontWeight: FontWeight.w500,
-                                        height: 0,
+                                      text: 'Addmore'.tr,
+                                      color: Color(0xFFB9B8C1),
+                                      fontSize: 11,
+                                      fontFamily: AppUtil.rtlDirection2(context)
+                                          ? 'SF Arabic'
+                                          : 'SF Pro',
+                                      fontWeight: FontWeight.w500,
+                                      height: 0,
                                     ),
                                   ],
                                 ),
@@ -1681,12 +1682,12 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CustomText(
-                  text:'Choosephotos'.tr,
-                      color: Color(0xFF070708),
-                      fontSize: 22,
-                      fontFamily: 'HT Rakik',
-                      fontWeight: FontWeight.w500,
-                    ),
+                  text: 'Choosephotos'.tr,
+                  color: Color(0xFF070708),
+                  fontSize: 22,
+                  fontFamily: 'HT Rakik',
+                  fontWeight: FontWeight.w500,
+                ),
                 IconButton(
                   icon: Icon(Icons.camera_alt_outlined),
                   onPressed: _takePhoto,
@@ -1903,15 +1904,15 @@ class _AddGuestsState extends State<AddGuests> {
                           }),
                         ),
                         const SizedBox(width: 4),
-                       CustomText(
-                          text:"female".tr,
-                            color: Color(0xFF41404A),
-                            fontSize: 13,
-                            fontFamily: AppUtil.rtlDirection2(context)
-                                ? 'SF Arabic'
-                                : 'SF Pro',
-                            fontWeight: FontWeight.w500,
-                            height: 0,
+                        CustomText(
+                          text: "female".tr,
+                          color: Color(0xFF41404A),
+                          fontSize: 13,
+                          fontFamily: AppUtil.rtlDirection2(context)
+                              ? 'SF Arabic'
+                              : 'SF Pro',
+                          fontWeight: FontWeight.w500,
+                          height: 0,
                         ),
                       ],
                     ),
@@ -1941,14 +1942,14 @@ class _AddGuestsState extends State<AddGuests> {
                         ),
                         const SizedBox(width: 4),
                         CustomText(
-                          text:'male'.tr,
-                            color: Color(0xFF41404A),
-                            fontSize: 13,
-                            fontFamily: AppUtil.rtlDirection2(context)
-                                ? 'SF Arabic'
-                                : 'SF Pro',
-                            fontWeight: FontWeight.w500,
-                            height: 0,
+                          text: 'male'.tr,
+                          color: Color(0xFF41404A),
+                          fontSize: 13,
+                          fontFamily: AppUtil.rtlDirection2(context)
+                              ? 'SF Arabic'
+                              : 'SF Pro',
+                          fontWeight: FontWeight.w500,
+                          height: 0,
                         ),
                       ],
                     ),
@@ -1963,8 +1964,7 @@ class _AddGuestsState extends State<AddGuests> {
                         value: 3,
                         groupValue: _selectedRadio,
                         onChanged: _updateGender,
-                        materialTapTargetSize:
-                            MaterialTapTargetSize.shrinkWrap,
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         visualDensity:
                             VisualDensity(horizontal: -4, vertical: -4),
                         fillColor: MaterialStateProperty.resolveWith<Color>(
@@ -1977,14 +1977,14 @@ class _AddGuestsState extends State<AddGuests> {
                       ),
                       const SizedBox(width: 4),
                       CustomText(
-                        text:'both'.tr,
-                          color: Color(0xFF41404A),
-                          fontSize: 13,
-                          fontFamily: AppUtil.rtlDirection2(context)
-                              ? 'SF Arabic'
-                              : 'SF Pro',
-                          fontWeight: FontWeight.w500,
-                          height: 0,
+                        text: 'both'.tr,
+                        color: Color(0xFF41404A),
+                        fontSize: 13,
+                        fontFamily: AppUtil.rtlDirection2(context)
+                            ? 'SF Arabic'
+                            : 'SF Pro',
+                        fontWeight: FontWeight.w500,
+                        height: 0,
                       ),
                     ],
                   ),
@@ -2156,12 +2156,11 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                     ? Padding(
                         padding: const EdgeInsets.only(top: 10),
                         child: CustomText(
-                          text:AppUtil.rtlDirection2(context)
+                          text: AppUtil.rtlDirection2(context)
                               ? "يجب اختيار تاريخ بعد 48 ساعة من الآن على الأقل"
                               : "*Please select a date at least 48 hours from now",
-                            color: Colors.red,
-                            fontSize: 12,
-                        
+                          color: Colors.red,
+                          fontSize: 12,
                         ),
                       )
                     : Container(),
@@ -2361,14 +2360,13 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                       if (widget.hospitalityController.TimeErrorMessage.value)
                         Padding(
                           padding: const EdgeInsets.only(top: 10),
-                          child:CustomText(
-                            text:'',
+                          child: CustomText(
+                            text: '',
                             // AppUtil.rtlDirection2(context)
                             //     ? "اختر الوقت"
                             //     : "Select Time",
-                              color: Colors.red,
-                              fontSize: 12,
-                            
+                            color: Colors.red,
+                            fontSize: 12,
                           ),
                         ),
                     ],
@@ -2577,16 +2575,15 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                             widget.hospitalityController.TimeErrorMessage.value
                                 ? Padding(
                                     padding: const EdgeInsets.only(top: 10),
-                                    child:CustomText(
-                                     text: AppUtil.rtlDirection2(context)
+                                    child: CustomText(
+                                      text: AppUtil.rtlDirection2(context)
                                           ? "وقت الإنتهاء اقل من وقت البداية"
                                           : "End time is less than start time",
-                                        color: Colors.red,
-                                        fontSize: 12,
-                                        fontFamily:
-                                            AppUtil.rtlDirection2(context)
-                                                ? 'SF Arabic'
-                                                : 'SF Pro',
+                                      color: Colors.red,
+                                      fontSize: 12,
+                                      fontFamily: AppUtil.rtlDirection2(context)
+                                          ? 'SF Arabic'
+                                          : 'SF Pro',
                                     ),
                                   )
                                 : Container(),
@@ -2623,8 +2620,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                         value: 1,
                         groupValue: _selectedRadio,
                         onChanged: _updateMeal,
-                        materialTapTargetSize:
-                            MaterialTapTargetSize.shrinkWrap,
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         visualDensity:
                             VisualDensity(horizontal: -4, vertical: -4),
                         fillColor: MaterialStateProperty.resolveWith<Color>(
@@ -2637,14 +2633,14 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                       ),
                       const SizedBox(width: 4),
                       CustomText(
-                        text:'Breakfast'.tr,
-                          color: Color(0xFF41404A),
-                          fontSize: 13,
-                          fontFamily: AppUtil.rtlDirection2(context)
-                              ? 'SF Arabic'
-                              : 'SF Pro',
-                          fontWeight: FontWeight.w500,
-                          height: 0,
+                        text: 'Breakfast'.tr,
+                        color: Color(0xFF41404A),
+                        fontSize: 13,
+                        fontFamily: AppUtil.rtlDirection2(context)
+                            ? 'SF Arabic'
+                            : 'SF Pro',
+                        fontWeight: FontWeight.w500,
+                        height: 0,
                       ),
                     ],
                   ),
@@ -2658,8 +2654,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                         value: 2,
                         groupValue: _selectedRadio,
                         onChanged: _updateMeal,
-                        materialTapTargetSize:
-                            MaterialTapTargetSize.shrinkWrap,
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         visualDensity:
                             VisualDensity(horizontal: -4, vertical: -4),
                         fillColor: MaterialStateProperty.resolveWith<Color>(
@@ -2672,14 +2667,14 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                       ),
                       const SizedBox(width: 4),
                       CustomText(
-                        text:'Lunch'.tr,
-                          color: Color(0xFF41404A),
-                          fontSize: 13,
-                          fontFamily: AppUtil.rtlDirection2(context)
-                              ? 'SF Arabic'
-                              : 'SF Pro',
-                          fontWeight: FontWeight.w500,
-                          height: 0,
+                        text: 'Lunch'.tr,
+                        color: Color(0xFF41404A),
+                        fontSize: 13,
+                        fontFamily: AppUtil.rtlDirection2(context)
+                            ? 'SF Arabic'
+                            : 'SF Pro',
+                        fontWeight: FontWeight.w500,
+                        height: 0,
                       ),
                     ],
                   ),
@@ -2693,8 +2688,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                         value: 3,
                         groupValue: _selectedRadio,
                         onChanged: _updateMeal,
-                        materialTapTargetSize:
-                            MaterialTapTargetSize.shrinkWrap,
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         visualDensity:
                             VisualDensity(horizontal: -4, vertical: -4),
                         fillColor: MaterialStateProperty.resolveWith<Color>(
@@ -2707,14 +2701,14 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                       ),
                       const SizedBox(width: 4),
                       CustomText(
-                        text:'Dinner'.tr,
-                          color: Color(0xFF41404A),
-                          fontSize: 13,
-                          fontFamily: AppUtil.rtlDirection2(context)
-                              ? 'SF Arabic'
-                              : 'SF Pro',
-                          fontWeight: FontWeight.w500,
-                          height: 0,
+                        text: 'Dinner'.tr,
+                        color: Color(0xFF41404A),
+                        fontSize: 13,
+                        fontFamily: AppUtil.rtlDirection2(context)
+                            ? 'SF Arabic'
+                            : 'SF Pro',
+                        fontWeight: FontWeight.w500,
+                        height: 0,
                       ),
                     ],
                   ),
@@ -2824,11 +2818,11 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
         ),
         const SizedBox(height: 2),
         CustomText(
-         text: 'changePrice'.tr,
-            color: starGreyColor,
-            fontSize: 15,
-            fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-            fontWeight: FontWeight.w500,
+          text: 'changePrice'.tr,
+          color: starGreyColor,
+          fontSize: 15,
+          fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+          fontWeight: FontWeight.w500,
         ),
         const SizedBox(height: 20),
         Container(
@@ -2910,30 +2904,30 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                       )
                     else
                       CustomText(
-                        text:widget.priceController.text,
-                          color: Color(0xFF070708),
-                          fontSize: 34,
-                          fontFamily: 'HT Rakik',
-                          fontWeight: FontWeight.w500,
-                      ),
-                    const SizedBox(width: 4),
-                     CustomText(
-                      text:'sar'.tr,
+                        text: widget.priceController.text,
                         color: Color(0xFF070708),
                         fontSize: 34,
                         fontFamily: 'HT Rakik',
                         fontWeight: FontWeight.w500,
+                      ),
+                    const SizedBox(width: 4),
+                    CustomText(
+                      text: 'sar'.tr,
+                      color: Color(0xFF070708),
+                      fontSize: 34,
+                      fontFamily: 'HT Rakik',
+                      fontWeight: FontWeight.w500,
                     ),
                     const SizedBox(width: 4),
                     CustomText(
-                      text:'Perperson'.tr,
-                          color: Graytext,
-                          fontSize: 12,
-                          fontFamily: AppUtil.rtlDirection2(context)
-                              ? 'SF Arabic'
-                              : 'SF Pro',
-                          fontWeight: FontWeight.w500,
-                          height: 3),
+                        text: 'Perperson'.tr,
+                        color: Graytext,
+                        fontSize: 12,
+                        fontFamily: AppUtil.rtlDirection2(context)
+                            ? 'SF Arabic'
+                            : 'SF Pro',
+                        fontWeight: FontWeight.w500,
+                        height: 3),
                   ],
                 ),
               ),
@@ -2943,13 +2937,13 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
         if (errorMessage.isNotEmpty && price != 150.0)
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
-            child:  CustomText(
-                      text:errorMessage,
-                color: Colors.red,
-                fontSize: 14,
-                fontFamily:
-                    AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-                fontWeight: FontWeight.w400,
+            child: CustomText(
+              text: errorMessage,
+              color: Colors.red,
+              fontSize: 14,
+              fontFamily:
+                  AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+              fontWeight: FontWeight.w400,
             ),
           ),
         const SizedBox(height: 50),
@@ -2975,23 +2969,23 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustomText(
-                      text:'Baseprice'.tr,
-                        color: graySmallText,
-                        fontSize: 15,
-                        fontFamily: AppUtil.rtlDirection2(context)
-                            ? 'SF Arabic'
-                            : 'SF Pro',
-                        fontWeight: FontWeight.w500,
+                      text: 'Baseprice'.tr,
+                      color: graySmallText,
+                      fontSize: 15,
+                      fontFamily: AppUtil.rtlDirection2(context)
+                          ? 'SF Arabic'
+                          : 'SF Pro',
+                      fontWeight: FontWeight.w500,
                     ),
                     const SizedBox(width: 8),
                     CustomText(
-                      text:' ${widget.priceController.text} ${'sar'.tr}',
-                        color: graySmallText,
-                        fontSize: 15,
-                        fontFamily: AppUtil.rtlDirection2(context)
-                            ? 'SF Arabic'
-                            : 'SF Pro',
-                        fontWeight: FontWeight.w500,
+                      text: ' ${widget.priceController.text} ${'sar'.tr}',
+                      color: graySmallText,
+                      fontSize: 15,
+                      fontFamily: AppUtil.rtlDirection2(context)
+                          ? 'SF Arabic'
+                          : 'SF Pro',
+                      fontWeight: FontWeight.w500,
                     ),
                   ],
                 ),
@@ -3007,23 +3001,23 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustomText(
-                      text:'Hidofee'.tr,
-                        color: graySmallText,
-                        fontSize: 15,
-                        fontFamily: AppUtil.rtlDirection2(context)
-                            ? 'SF Arabic'
-                            : 'SF Pro',
-                        fontWeight: FontWeight.w500,
+                      text: 'Hidofee'.tr,
+                      color: graySmallText,
+                      fontSize: 15,
+                      fontFamily: AppUtil.rtlDirection2(context)
+                          ? 'SF Arabic'
+                          : 'SF Pro',
+                      fontWeight: FontWeight.w500,
                     ),
                     const SizedBox(width: 8),
                     CustomText(
-                      text:' ${hidoFee.toStringAsFixed(2)} ${'sar'.tr}',
-                        color: graySmallText,
-                        fontSize: 15,
-                        fontFamily: AppUtil.rtlDirection2(context)
-                            ? 'SF Arabic'
-                            : 'SF Pro',
-                        fontWeight: FontWeight.w500,
+                      text: ' ${hidoFee.toStringAsFixed(2)} ${'sar'.tr}',
+                      color: graySmallText,
+                      fontSize: 15,
+                      fontFamily: AppUtil.rtlDirection2(context)
+                          ? 'SF Arabic'
+                          : 'SF Pro',
+                      fontWeight: FontWeight.w500,
                     ),
                   ],
                 ),
@@ -3045,24 +3039,23 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                   CustomText(
-                      text:'Yourearn'.tr,
-                        color: Color(0xFF070708),
-                        fontSize: 17,
-                        fontFamily: AppUtil.rtlDirection2(context)
-                            ? 'SF Arabic'
-                            : 'SF Pro',
-                        fontWeight: FontWeight.w500,
-                      
+                    CustomText(
+                      text: 'Yourearn'.tr,
+                      color: Color(0xFF070708),
+                      fontSize: 17,
+                      fontFamily: AppUtil.rtlDirection2(context)
+                          ? 'SF Arabic'
+                          : 'SF Pro',
+                      fontWeight: FontWeight.w500,
                     ),
                     const SizedBox(width: 8),
                     CustomText(
-                      text:' ${earn.toStringAsFixed(2)} ${'sar'.tr}',
+                      text: ' ${earn.toStringAsFixed(2)} ${'sar'.tr}',
                       textAlign: TextAlign.right,
-                        color: Color(0xFF36B268),
-                        fontSize: 17,
-                        fontFamily: 'HT Rakik',
-                        fontWeight: FontWeight.w500,
+                      color: Color(0xFF36B268),
+                      fontSize: 17,
+                      fontFamily: 'HT Rakik',
+                      fontWeight: FontWeight.w500,
                     ),
                   ],
                 ),

@@ -60,7 +60,7 @@ class _ServicesLocalInfoState extends State<ServicesLocalInfo> {
                     toolbarHeight: width * 0.76,
                     title: Column(
                       children: [
-                        profile!.profileImage != null
+                        profile!.profileImage != ""
                             ? CircleAvatar(
                                 backgroundImage: CachedNetworkImageProvider(
                                     profile!.profileImage!),
