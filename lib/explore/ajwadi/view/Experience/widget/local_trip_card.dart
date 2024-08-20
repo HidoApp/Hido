@@ -25,9 +25,12 @@ class LocalTripCard extends StatefulWidget {
   const LocalTripCard({
     Key? key,
     required this.trip,
+    this.isPast=false
   }) : super(key: key);
 
   final LocalTrip trip;
+  final bool isPast;
+
 
   @override
   State<LocalTripCard> createState() => _LocalTripCardState();
@@ -77,7 +80,7 @@ class _LocalTripCardState extends State<LocalTripCard> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return Container(
-      //height: _controller.isExpanded ? width * 0.65 : width * 0.381,
+
       width: double.infinity,
       padding: const EdgeInsets.all(12),
       clipBehavior: Clip.antiAlias,
@@ -152,7 +155,7 @@ class _LocalTripCardState extends State<LocalTripCard> {
                   ],
                 ),
               ),
-              if (widget.trip.booking!.orderStatus != "FINISHED") ...[
+              if (widget.trip.booking!.orderStatus != "FINISHED"|| !widget.isPast) ...[
                 Spacer(),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8),

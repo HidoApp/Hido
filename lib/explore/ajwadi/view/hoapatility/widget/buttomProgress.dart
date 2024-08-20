@@ -900,6 +900,7 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
                                 Factory<OneSequenceGestureRecognizer>(
                                     () => EagerGestureRecognizer())
                               },
+
                               initialCameraPosition: CameraPosition(
                                 target: _currentPosition!,
                                 zoom: 15,
