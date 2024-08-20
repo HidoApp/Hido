@@ -196,18 +196,21 @@ class _LocalTicketScreenState extends State<LocalTicketScreen>
                                           ? LocalTripCard(
                                               trip: widget.servicesController
                                                   .pastTicket[index],
+                                              isPast:true
                                             )
                                           : widget.type == 'event'
                                               ? EventExperienceCard(
                                                   experience: widget
                                                       .servicesController
                                                       .pastTicket[index],
-                                                  type: widget.type)
+                                                  type: widget.type,
+                                                  isPast:true)
                                               : CustomExperienceCard(
                                                   experience: widget
                                                       .servicesController
                                                       .pastTicket[index],
-                                                  type: widget.type);
+                                                  type: widget.type,
+                                                  isPast:true);
                                     },
                                   ),
                       ],

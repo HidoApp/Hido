@@ -25,11 +25,12 @@ import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest_all.dart' as tz;
 
 class EventExperienceCard extends StatefulWidget {
-  const EventExperienceCard({Key? key, required this.experience, this.type})
+  const EventExperienceCard({Key? key, required this.experience, this.type,this.isPast=false})
       : super(key: key);
 
   final Event experience;
   final String? type;
+  final bool isPast;
 
   @override
   State<EventExperienceCard> createState() => _EventExperienceCardState();
@@ -156,8 +157,7 @@ class _EventExperienceCardState extends State<EventExperienceCard> {
                               ? 'SF Pro'
                               : 'SF Arabic',
                         ),
-                        if (widget.experience.status == 'DRAFT' ||
-                            widget.experience.status == 'CLOSED')
+                          if(widget.isPast)
                           Row(
                             children: [
                               CustomText(
@@ -174,8 +174,7 @@ class _EventExperienceCardState extends State<EventExperienceCard> {
                           ),
                       ],
                     ),
-                    if (widget.experience.status != 'DRAFT' &&
-                        widget.experience.status != 'CLOSED')
+                      if(!widget.isPast)
                       Row(
                         children: [
                           CustomText(
@@ -194,8 +193,7 @@ class _EventExperienceCardState extends State<EventExperienceCard> {
                 ),
               ),
             ),
-            if (widget.experience.status != 'DRAFT' &&
-                widget.experience.status != 'CLOSED') ...[
+              if(!widget.isPast) ...[
               Padding(
                 padding: const EdgeInsets.only(bottom: 14),
                 child: isDateBefore24Hours(selectedDate!)
