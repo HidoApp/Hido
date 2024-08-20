@@ -2,6 +2,7 @@ import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/view/tourist_map_screen.dart';
+import 'package:ajwad_v4/explore/widget/rating_sheet.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/models/profile.dart';
 import 'package:ajwad_v4/profile/view/guest_sign_in.dart';
@@ -36,11 +37,22 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
 
     if (!AppUtil.isGuest()) {
       getProfile();
+      getUserActions();
     }
   }
 
   void getProfile() async {
     await _profileController.getProfile(context: context);
+  }
+
+  void getUserActions() async {
+    await _profileController.getAllActions(context: context);
+    if (_profileController.actionsList.isNotEmpty) {
+      Get.bottomSheet(RatingSheet(
+        activityProgress: _profileController.actionsList.first,
+      )).then((value) => _profileController.updateUserAction(
+          context: context, id: _profileController.actionsList.first.id ?? ""));
+    }
   }
 
   @override
@@ -63,24 +75,24 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
         ],
       ),
       bottomNavigationBar: Padding(
-          padding: const EdgeInsets.only(bottom: 20),
+        padding: const EdgeInsets.only(bottom: 20),
         child: BottomNavigationBar(
           elevation: 0,
           enableFeedback: false,
           backgroundColor: Colors.white,
           currentIndex: _currentIndex,
           type: BottomNavigationBarType.fixed,
-          unselectedItemColor:  Color(0xFFB9B8C1),
+          unselectedItemColor: Color(0xFFB9B8C1),
           selectedItemColor: colorGreen,
-          unselectedLabelStyle:  TextStyle(
+          unselectedLabelStyle: TextStyle(
             fontSize: 11,
             fontWeight: FontWeight.w600,
-           fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'  :'SF Pro',
+            fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
           ),
-          selectedLabelStyle:  TextStyle(
+          selectedLabelStyle: TextStyle(
             fontSize: 11,
             fontWeight: FontWeight.w600,
-               fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'  :'SF Pro',
+            fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
             color: darkBlack,
           ),
           onTap: (index) {
@@ -100,18 +112,18 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
                       )
                     : const BoxDecoration(),
                 child: Padding(
-                  padding: const EdgeInsets.only(bottom:4.0),
+                  padding: const EdgeInsets.only(bottom: 4.0),
                   child: SvgPicture.asset(
                     'assets/icons/map_icon.svg',
-                    color: _currentIndex == 0 ? colorGreen :  Color(0xFFB9B8C1),
+                    color: _currentIndex == 0 ? colorGreen : Color(0xFFB9B8C1),
                   ),
                 ),
               ),
               label: 'explore'.tr,
             ),
             BottomNavigationBarItem(
-              icon:  Padding(
-                  padding: const EdgeInsets.only(bottom:3.0),
+              icon: Padding(
+                padding: const EdgeInsets.only(bottom: 3.0),
                 child: SvgPicture.asset(
                   'assets/icons/request_icon.svg',
                 ),
@@ -120,8 +132,8 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child:  Padding(
-                  padding: const EdgeInsets.only(bottom:3.0),
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 3.0),
                   child: SvgPicture.asset(
                     'assets/icons/select_request_icon.svg',
                     color: _currentIndex == 1 ? colorGreen : Color(0xFFB9B8C1),
@@ -170,12 +182,11 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
                         ],
                       )
                     : const BoxDecoration(),
-                child:  Padding(
-                  padding: const EdgeInsets.only(bottom:4.0),
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 4.0),
                   child: SvgPicture.asset(
                     'assets/icons/my_profile.svg',
-                    
-                    color: _currentIndex == 2 ? colorGreen :  Color(0xFFB9B8C1),
+                    color: _currentIndex == 2 ? colorGreen : Color(0xFFB9B8C1),
                   ),
                 ),
               ),

@@ -129,10 +129,10 @@ class _PaymentTypeState extends State<PaymentType> {
         log(check.toString());
         if (widget.type == 'hospitality') {
           if (check) {
-            paymentWebView();
+            paymentWebViewStcPay();
           }
         } else {
-          paymentWebView();
+          paymentWebViewStcPay();
         }
         log('after success');
 
@@ -181,14 +181,14 @@ class _PaymentTypeState extends State<PaymentType> {
               context: context,
               builder: (ctx) {
                 return AlertDialog(
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8)),
                   backgroundColor: Colors.white,
                   surfaceTintColor: Colors.white,
                   content: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Image.asset('assets/images/paymentFaild.gif',
-                       width: 38),
+                      Image.asset('assets/images/paymentFaild.gif', width: 38),
                       CustomText(
                         text: "paymentFaild".tr,
                         fontSize: 15,
@@ -227,15 +227,14 @@ class _PaymentTypeState extends State<PaymentType> {
               context: context,
               builder: (ctx) {
                 return AlertDialog(
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8)),
                   backgroundColor: Colors.white,
                   surfaceTintColor: Colors.white,
                   content: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                     Image.asset('assets/images/paymentFaild.gif',
-                       width: 38),
+                      Image.asset('assets/images/paymentFaild.gif', width: 38),
                       CustomText(
                         text: "paymentFaild".tr,
                         fontSize: 15,
@@ -254,18 +253,17 @@ class _PaymentTypeState extends State<PaymentType> {
         context: context,
         builder: (ctx) {
           return AlertDialog(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             backgroundColor: Colors.white,
             surfaceTintColor: Colors.white,
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-              Image.asset('assets/images/paymentFaild.gif',
-                       width: 38),
-                      CustomText(
-                        text: "paymentFaild".tr,
-                        fontSize: 15,
+                Image.asset('assets/images/paymentFaild.gif', width: 38),
+                CustomText(
+                  text: "paymentFaild".tr,
+                  fontSize: 15,
                 ),
               ],
             ),
@@ -318,14 +316,14 @@ class _PaymentTypeState extends State<PaymentType> {
               context: context,
               builder: (ctx) {
                 return AlertDialog(
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8)),
                   backgroundColor: Colors.white,
                   surfaceTintColor: Colors.white,
                   content: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                       Image.asset('assets/images/paymentFaild.gif',
-                       width: 38),
+                      Image.asset('assets/images/paymentFaild.gif', width: 38),
                       CustomText(
                         text: "paymentFaild".tr,
                         fontSize: 15,
@@ -344,18 +342,100 @@ class _PaymentTypeState extends State<PaymentType> {
         context: context,
         builder: (ctx) {
           return AlertDialog(
-             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             backgroundColor: Colors.white,
             surfaceTintColor: Colors.white,
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                 Image.asset('assets/images/paymentFaild.gif',
-                       width: 38),
+                Image.asset('assets/images/paymentFaild.gif', width: 38),
+                CustomText(
+                  text: "paymentFaild".tr,
+                  fontSize: 15,
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    }
+  }
+
+  void paymentWebViewStcPay() async {
+    // webview for Stc pay
+    if (invoice != null) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              PaymentWebView(url: invoice!.url!, title: 'payment'.tr),
+        ),
+      ).then((value) async {
+        Invoice? checkInvoice;
+        checkInvoice = await _paymentController.getPaymentId(
+            context: context, id: invoice!.payId!);
+        if (checkInvoice != null) {
+          //if the invoice paid then will booking depend on the type of booking
+          switch (widget.type) {
+            case 'adventure':
+              adventureBooking(checkInvoice);
+              break;
+            case 'tour':
+              tourBooking(checkInvoice);
+              break;
+            case 'hospitality':
+              hospitalityBooking(checkInvoice);
+              break;
+            case 'event':
+              eventBooking(checkInvoice);
+              break;
+            default:
+          }
+        } else {
+          log('No');
+
+          showDialog(
+              context: context,
+              builder: (ctx) {
+                return AlertDialog(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                  backgroundColor: Colors.white,
+                  surfaceTintColor: Colors.white,
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Image.asset('assets/images/paymentFaild.gif', width: 38),
                       CustomText(
                         text: "paymentFaild".tr,
                         fontSize: 15,
+                      ),
+                    ],
+                  ),
+                );
+              }).then((value) async {
+            await navigateToPayment(context, invoice!.url!, 'else');
+          });
+        }
+      });
+    } else {
+      log('No');
+      showDialog(
+        context: context,
+        builder: (ctx) {
+          return AlertDialog(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            backgroundColor: Colors.white,
+            surfaceTintColor: Colors.white,
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Image.asset('assets/images/paymentFaild.gif', width: 38),
+                CustomText(
+                  text: "paymentFaild".tr,
+                  fontSize: 15,
                 ),
               ],
             ),
@@ -388,7 +468,7 @@ class _PaymentTypeState extends State<PaymentType> {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-             Image.asset(
+              Image.asset(
                 'assets/images/paymentSuccess.gif',
                 width: 38,
               ),
@@ -413,8 +493,8 @@ class _PaymentTypeState extends State<PaymentType> {
         fetchedBooking?.requestName?.nameEn,
         fetchedBooking?.requestName?.nameAr,
       );
-       log( fetchedBooking?.requestName?.nameEn??'');
-       log(  fetchedBooking?.requestName?.nameAr??'');
+      log(fetchedBooking?.requestName?.nameEn ?? '');
+      log(fetchedBooking?.requestName?.nameAr ?? '');
       //  log( fetchedBooking?.user?.profile.name??'');
 
       Get.to(() => TicketDetailsScreen(

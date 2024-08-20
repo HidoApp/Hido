@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:ajwad_v4/auth/models/image.dart';
+import 'package:ajwad_v4/explore/tourist/model/activity_progress.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 import 'package:ajwad_v4/profile/models/profile.dart';
 import 'package:ajwad_v4/profile/services/profile_service.dart';
@@ -18,11 +19,12 @@ class ProfileController extends GetxController {
   var isChatLoading = false.obs;
   var isMobileOtpLoading = false.obs;
   var isUpdatingMobileLoading = false.obs;
-
+  var isActionsListLoading = false.obs;
+  var isUpdatingActionLoading = false.obs;
   var upcommingTicket = <Booking>[].obs;
   var pastTicket = <Booking>[].obs;
   var chatList = <ChatModel>[].obs;
-
+  var actionsList = <ActivityProgress>[].obs;
   var profile = Profile();
   var isEmailOtp = false.obs;
   var isEditing = false.obs;
@@ -247,8 +249,41 @@ class ProfileController extends GetxController {
     } catch (e) {
       isUpdatingMobileLoading(false);
       log(e.toString());
+      return null;
     } finally {
       isUpdatingMobileLoading(false);
+    }
+  }
+
+  Future<List<ActivityProgress>?> getAllActions(
+      {required BuildContext context}) async {
+    try {
+      isActionsListLoading(true);
+      final data = await ProfileService.getAllActions(context: context);
+      if (data != null) {
+        actionsList(data);
+      }
+      return actionsList;
+    } catch (e) {
+      isActionsListLoading(false);
+      return null;
+    } finally {
+      isActionsListLoading(false);
+    }
+  }
+
+  Future<bool> updateUserAction(
+      {required BuildContext context, required String id}) async {
+    try {
+      isUpdatingActionLoading(true);
+      final isSucces =
+          await ProfileService.updateUserAction(context: context, id: id);
+      return isSucces;
+    } catch (e) {
+      isUpdatingActionLoading(false);
+      return false;
+    } finally {
+      isUpdatingActionLoading(false);
     }
   }
 }

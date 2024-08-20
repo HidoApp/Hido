@@ -8,6 +8,8 @@ import 'package:ajwad_v4/services/model/adventure.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geocoding/geocoding.dart';
@@ -15,7 +17,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class AddLocation extends StatefulWidget {
- AddLocation({
+  AddLocation({
     Key? key,
     required this.textField1Controller,
   }) : super(key: key);
@@ -30,19 +32,19 @@ class _AddLocationState extends State<AddLocation> {
   BitmapDescriptor markerIcon = BitmapDescriptor.defaultMarker;
   final AdventureController _AdventureController =
       Get.put(AdventureController());
-  
+
   final Completer<GoogleMapController> _controller = Completer();
   bool _isLoading = true;
 
   late GoogleMapController mapController;
   LatLng? _currentPosition;
   String address = '';
-   UserLocation? userLocation;
-    Set<Marker> _userMarkers = {};
+  UserLocation? userLocation;
+  Set<Marker> _userMarkers = {};
   Set<Marker> _markers = {};
   LatLng _currentLocation = const LatLng(24.7136, 46.6753);
 
-final List<String> genderItems = [
+  final List<String> genderItems = [
     'Male',
     'Female',
   ];
@@ -89,37 +91,32 @@ final List<String> genderItems = [
       },
     );
   }
-  
 
-    
   void getLocation() async {
     userLocation = await LocationService().getUserLocation();
     print('this location');
 
     if (userLocation != null) {
       setState(() {
-      if (mounted) {
-         _currentPosition = LatLng(userLocation!.latitude, userLocation!.longitude);
+        if (mounted) {
+          _currentPosition =
+              LatLng(userLocation!.latitude, userLocation!.longitude);
 
-         _AdventureController.pickUpLocLatLang.value = _currentPosition!;
-                                    
-       
-      }
-    });
-        _fetchAddress();
-
-  
+          _AdventureController.pickUpLocLatLang.value = _currentPosition!;
+        }
+      });
+      _fetchAddress();
     } else {
-       setState(() {
-      if (mounted) {
-       _currentPosition = LatLng( _currentLocation.latitude, _currentLocation.longitude);
-       
-      }
-    });
-   _fetchAddress();
-
+      setState(() {
+        if (mounted) {
+          _currentPosition =
+              LatLng(_currentLocation.latitude, _currentLocation.longitude);
+        }
+      });
+      _fetchAddress();
     }
   }
+
   Future<void> _getAddressFromCoordinates(double lat, double lng) async {
     try {
       List<Placemark> placemarks = await placemarkFromCoordinates(lat, lng);
@@ -143,12 +140,10 @@ final List<String> genderItems = [
     // TODO: implement initState
     super.initState();
 
-
-   // 
-   // 
-   // addCustomIcon();
-          getLocation();
-
+    //
+    //
+    // addCustomIcon();
+    getLocation();
   }
 
   Future<String> _getAddressFromLatLng(
@@ -187,7 +182,7 @@ final List<String> genderItems = [
 
     print(address);
     print('this location');
-    print( _AdventureController.pickUpLocLatLang.toString());
+    print(_AdventureController.pickUpLocLatLang.toString());
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -196,12 +191,13 @@ final List<String> genderItems = [
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-           CustomText(
-              text:'locationCheckAdve'.tr,
-                color: black,
-                fontSize: 17,
-                fontFamily:  AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
-                fontWeight: FontWeight.w500,
+            CustomText(
+              text: 'locationCheckAdve'.tr,
+              color: black,
+              fontSize: 17,
+              fontFamily:
+                  AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+              fontWeight: FontWeight.w500,
             ),
           ],
         ),
@@ -211,7 +207,6 @@ final List<String> genderItems = [
               : TextDirection.ltr,
           child: Column(
             children: [
-              
               SizedBox(height: 20),
               Stack(
                 children: [
@@ -222,39 +217,42 @@ final List<String> genderItems = [
                         color: almostGrey.withOpacity(0.2),
                         borderRadius: BorderRadius.all(Radius.circular(12)),
                       ),
-                       height: AppUtil.rtlDirection2(context)? height*0.51:height*0.51,
+                      height: AppUtil.rtlDirection2(context)
+                          ? height * 0.51
+                          : height * 0.51,
                       width: double.infinity,
                       child: _currentPosition == null
-                    ? Center(child: CircularProgressIndicator.adaptive())
-                     :  GoogleMap(
-                        scrollGesturesEnabled: true,
-                        zoomControlsEnabled: false,
-                        initialCameraPosition: CameraPosition(
-                          target:
-                              
-                              _currentPosition!,
-                          zoom: 15,
-                        ),
-                        markers: {
-                          Marker(
-                            markerId: MarkerId("marker1"),
-                            position: _currentPosition!,
-                           
-                            draggable: true,
-                            onDragEnd: (LatLng newPosition) {
-                              setState(() {
-                                _AdventureController.pickUpLocLatLang
-                                    .value = newPosition;
-                                _currentPosition = newPosition;
+                          ? Center(child: CircularProgressIndicator.adaptive())
+                          : GoogleMap(
+                              scrollGesturesEnabled: true,
+                              zoomControlsEnabled: false,
+                              gestureRecognizers: {
+                                Factory<OneSequenceGestureRecognizer>(
+                                    () => EagerGestureRecognizer())
+                              },
+                              initialCameraPosition: CameraPosition(
+                                target: _currentPosition!,
+                                zoom: 15,
+                              ),
+                              markers: {
+                                Marker(
+                                  markerId: MarkerId("marker1"),
+                                  position: _currentPosition!,
+                                  draggable: true,
+                                  onDragEnd: (LatLng newPosition) {
+                                    setState(() {
+                                      _AdventureController
+                                          .pickUpLocLatLang.value = newPosition;
+                                      _currentPosition = newPosition;
 
-                                _isLoading = true;
-                              });
-                              _fetchAddress();
-                            },
-                            icon: markerIcon,
-                          ),
-                        },
-                             onTap: (position) async {
+                                      _isLoading = true;
+                                    });
+                                    _fetchAddress();
+                                  },
+                                  icon: markerIcon,
+                                ),
+                              },
+                              onTap: (position) async {
                                 setState(() {
                                   _AdventureController.pickUpLocLatLang.value =
                                       position;
@@ -269,13 +267,12 @@ final List<String> genderItems = [
                               onCameraMove: (position) {
                                 setState(() {
                                   _currentLocation = position.target;
-                                 _AdventureController.pickUpLocLatLang.value =
+                                  _AdventureController.pickUpLocLatLang.value =
                                       position.target;
                                 });
                                 _fetchAddress();
                               },
-                            
-                      ),
+                            ),
                     ),
                   ),
                   Positioned(
@@ -306,13 +303,14 @@ final List<String> genderItems = [
                               child: _isLoading
                                   ? CircularProgressIndicator.adaptive()
                                   : CustomText(
-                                     text: address,
-                                        color: Color(0xFF9392A0),
-                                        fontSize: 13,
-                                        fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
-                                        fontWeight: FontWeight.w400,
-                                        height: 0,
-                                    
+                                      text: address,
+                                      color: Color(0xFF9392A0),
+                                      fontSize: 13,
+                                      fontFamily: AppUtil.rtlDirection2(context)
+                                          ? 'SF Arabic'
+                                          : 'SF Pro',
+                                      fontWeight: FontWeight.w400,
+                                      height: 0,
                                     ),
                             ),
                           ],
@@ -330,17 +328,18 @@ final List<String> genderItems = [
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustomText(
-          text: "Region".tr,
-          color: black,
-          fontSize: width*0.044,
-          fontWeight: FontWeight.w500,
-          fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-        ),
-        SizedBox(height: width * 0.02),
-                     MediaQuery(
-      
-                      data: MediaQuery.of(context)
-                          .copyWith(textScaleFactor: 1.0),
+                      text: "Region".tr,
+                      color: black,
+                      fontSize: width * 0.044,
+                      fontWeight: FontWeight.w500,
+                      fontFamily: AppUtil.rtlDirection2(context)
+                          ? 'SF Arabic'
+                          : 'SF Pro',
+                    ),
+                    SizedBox(height: width * 0.02),
+                    MediaQuery(
+                      data:
+                          MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
                       child: DropdownButtonHideUnderline(
                         child: DropdownButtonFormField2<String>(
                           isExpanded: true,
@@ -348,8 +347,8 @@ final List<String> genderItems = [
                                   _AdventureController.ragionEn.isEmpty
                               ? null
                               : AppUtil.rtlDirection2(context)
-                                  ?  _AdventureController.ragionAr.value
-                                  :_AdventureController.ragionEn.value,
+                                  ? _AdventureController.ragionAr.value
+                                  : _AdventureController.ragionEn.value,
                           decoration: InputDecoration(
                             focusedBorder: const OutlineInputBorder(
                                 borderSide:
@@ -365,7 +364,7 @@ final List<String> genderItems = [
                               borderRadius: BorderRadius.circular(8),
                             ),
                           ),
-                          hint:MediaQuery(
+                          hint: MediaQuery(
                             // data: MediaQuery.of(context)
                             //     .copyWith(textScaler: const TextScaler.linear(1.0)),
                             data: MediaQuery.of(context)
@@ -387,32 +386,30 @@ final List<String> genderItems = [
                                   .map((item) => DropdownMenuItem<String>(
                                         value: item,
                                         child: CustomText(
-                                         text: item,
-                                            color: black,
-                                            fontSize: 15,
-                                            fontFamily:
-                                                AppUtil.rtlDirection2(context)
-                                                    ? 'SF Arabic'
-                                                    : 'SF Pro',
-                                            fontWeight: FontWeight.w400,
-                                        
+                                          text: item,
+                                          color: black,
+                                          fontSize: 15,
+                                          fontFamily:
+                                              AppUtil.rtlDirection2(context)
+                                                  ? 'SF Arabic'
+                                                  : 'SF Pro',
+                                          fontWeight: FontWeight.w400,
                                         ),
                                       ))
                                   .toList()
                               : regionListEn
                                   .map((item) => DropdownMenuItem<String>(
                                         value: item,
-                                        child:CustomText(
-                                         text: item,
-                                            color: black,
-                                            fontSize: 15,
-                                            fontFamily:
-                                                AppUtil.rtlDirection2(context)
-                                                    ? 'SF Arabic'
-                                                    : 'SF Pro',
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        
+                                        child: CustomText(
+                                          text: item,
+                                          color: black,
+                                          fontSize: 15,
+                                          fontFamily:
+                                              AppUtil.rtlDirection2(context)
+                                                  ? 'SF Arabic'
+                                                  : 'SF Pro',
+                                          fontWeight: FontWeight.w400,
+                                        ),
                                       ))
                                   .toList(),
                           validator: (value) {
@@ -423,21 +420,25 @@ final List<String> genderItems = [
                           },
                           onChanged: (value) {
                             if (AppUtil.rtlDirection2(context)) {
-                           _AdventureController.ragionAr.value = value.toString();
-                    
-                              int index = regionListAr.indexOf(value.toString());
-                    
+                              _AdventureController.ragionAr.value =
+                                  value.toString();
+
+                              int index =
+                                  regionListAr.indexOf(value.toString());
+
                               if (index != -1 && index < regionListEn.length) {
-                               _AdventureController.ragionEn.value =
+                                _AdventureController.ragionEn.value =
                                     regionListEn[index];
                               }
                             } else {
-                            _AdventureController.ragionEn.value = value.toString();
-                    
-                              int index = regionListEn.indexOf(value.toString());
-                    
+                              _AdventureController.ragionEn.value =
+                                  value.toString();
+
+                              int index =
+                                  regionListEn.indexOf(value.toString());
+
                               if (index != -1 && index < regionListAr.length) {
-                             _AdventureController.ragionAr.value =
+                                _AdventureController.ragionAr.value =
                                     regionListAr[index];
                               }
                             }
@@ -446,21 +447,25 @@ final List<String> genderItems = [
                           },
                           onSaved: (value) {
                             if (AppUtil.rtlDirection2(context)) {
-                             _AdventureController.ragionAr.value = value.toString();
-                    
-                              int index = regionListAr.indexOf(value.toString());
-                    
+                              _AdventureController.ragionAr.value =
+                                  value.toString();
+
+                              int index =
+                                  regionListAr.indexOf(value.toString());
+
                               if (index != -1 && index < regionListEn.length) {
-                               _AdventureController.ragionEn.value =
+                                _AdventureController.ragionEn.value =
                                     regionListEn[index];
                               }
                             } else {
-                             _AdventureController.ragionEn.value = value.toString();
-                    
-                              int index = regionListEn.indexOf(value.toString());
-                    
+                              _AdventureController.ragionEn.value =
+                                  value.toString();
+
+                              int index =
+                                  regionListEn.indexOf(value.toString());
+
                               if (index != -1 && index < regionListAr.length) {
-                             _AdventureController.ragionAr.value =
+                                _AdventureController.ragionAr.value =
                                     regionListAr[index];
                               }
                             }
@@ -468,8 +473,9 @@ final List<String> genderItems = [
                             print(_AdventureController.ragionEn.value);
                           },
                           buttonStyleData: ButtonStyleData(
-                           padding:AppUtil.rtlDirection2(context) ?EdgeInsets.only(left: 9):EdgeInsets.only(right: 9),
-                    
+                            padding: AppUtil.rtlDirection2(context)
+                                ? EdgeInsets.only(left: 9)
+                                : EdgeInsets.only(right: 9),
                           ),
                           iconStyleData: const IconStyleData(
                             icon: Icon(

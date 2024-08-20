@@ -336,5 +336,58 @@ class ProfileService {
           refreshToken: refreshToken, context: context);
       token = getStorage.read('accessToken');
     }
+    final response = await http.get(
+      Uri.parse('$baseUrl/user/actions'),
+      headers: {
+        'Accept': 'application/json',
+        "Content-Type": "application/json",
+        'Authorization': 'Bearer $token',
+      },
+    );
+    log('actions');
+    log(response.statusCode.toString());
+    log(response.body);
+    if (response.statusCode == 200) {
+      List<dynamic> data = jsonDecode(response.body);
+      final actionsList =
+          data.map((action) => ActivityProgress.fromJson(action)).toList();
+      return actionsList;
+    } else {
+      String errorMessage = jsonDecode(response.body)['message'];
+      log(errorMessage);
+      return null;
+    }
+  }
+
+  static Future<bool> updateUserAction(
+      {required BuildContext context, required String id}) async {
+    final getStorage = GetStorage();
+    String token = getStorage.read('accessToken') ?? "";
+    if (token != '' && JwtDecoder.isExpired(token)) {
+      final authController = Get.put(AuthController());
+
+      String refreshToken = getStorage.read('refreshToken');
+      var user = await authController.refreshToken(
+          refreshToken: refreshToken, context: context);
+      token = getStorage.read('accessToken');
+    }
+    final response = await http.put(
+      Uri.parse('$baseUrl/user/action/$id'),
+      headers: {
+        'Accept': 'application/json',
+        // "Content-Type": "application/json",
+        'Authorization': 'Bearer $token',
+      },
+    );
+    log('actions update');
+    log(response.statusCode.toString());
+    log(response.body);
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      String errorMessage = jsonDecode(response.body)['message'];
+      log(errorMessage);
+      return false;
+    }
   }
 }

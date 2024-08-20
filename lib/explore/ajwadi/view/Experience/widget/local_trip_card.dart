@@ -80,7 +80,7 @@ class _LocalTripCardState extends State<LocalTripCard> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return Container(
-      // height: _controller.isExpanded ? width * 0.65 : width * 0.381,
+
       width: double.infinity,
       padding: const EdgeInsets.all(12),
       clipBehavior: Clip.antiAlias,
