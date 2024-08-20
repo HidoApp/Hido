@@ -22,10 +22,11 @@ import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest_all.dart' as tz;
 
 class CustomExperienceCard extends StatelessWidget {
-  const CustomExperienceCard({super.key, required this.experience, this.type});
+  const CustomExperienceCard({super.key, required this.experience, this.type,this.isPast=false});
 
   final experience;
   final String? type;
+  final bool isPast;
 
   bool isDateBefore24Hours() {
     final String timeZoneName = 'Asia/Riyadh';
@@ -199,8 +200,8 @@ class CustomExperienceCard extends StatelessWidget {
                                   //   ),
                                 ],
                               ),
-                               if (experience.status == 'DRAFT' ||
-                                      experience.status == 'CLOSED')
+                          
+                                 if(isPast)
                                     Row(
                                       children: [
                                         CustomText(
@@ -224,11 +225,11 @@ class CustomExperienceCard extends StatelessWidget {
                                         ),
                                       ],
                                     ),
-                              if (experience.status != 'DRAFT' &&
-                                  experience.status != 'CLOSED')
+                           
+                           
+                              if(!isPast)
                                 Row(
                                   children: [
-                                    //  if(hospitality.status!='DELETED')
 
                                     CustomText(
                                       text: type == 'hospitality' ||
@@ -254,8 +255,8 @@ class CustomExperienceCard extends StatelessWidget {
                           ),
                         ),
                       ),
-                      if (experience.status != 'DRAFT' &&
-                          experience.status != 'CLOSED')
+                     
+                        if(!isPast)
                         isDateBefore24Hours()
                             ? Padding(
                                 padding: const EdgeInsets.only(bottom: 14),

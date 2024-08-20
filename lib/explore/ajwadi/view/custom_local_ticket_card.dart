@@ -192,11 +192,15 @@ print(newProgress);
       return true;
     } else {
       _tripController.isTripFinallyEnd.value = false;
-
+      if( _tripController.nextTrip.value.activityProgress=='IN_PROGRESS'){
+      _tripController.isTripEnd.value = true;
+      }
+      
       print('inter2');
           print(currentTime);
        print(timeToReturn);
       print(currentTime.isAfter(timeToReturn) || currentTime.isAtSameMomentAs(timeToReturn));
+      print(_tripController.isTripEnd.value);
       return false;
     }
   }

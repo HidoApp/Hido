@@ -897,6 +897,7 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
                           : GoogleMap(
                               scrollGesturesEnabled: true,
                               zoomControlsEnabled: false,
+                              
                               initialCameraPosition: CameraPosition(
                                 target: _currentPosition!,
                                 zoom: 15,

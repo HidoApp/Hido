@@ -53,7 +53,13 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
   NextActivity? nextTrip;
 
   void getNextActivity() async {
-    await _tripController.getNextActivity(context: context);
+    await _tripController.getNextActivity(context: context).then((value) {
+     _tripController.nextStep.value= _tripController.nextTrip.value.activityProgress??'';
+      if(_tripController.nextTrip.value.activityProgress != 'PENDING')
+     _tripController.progress.value = getActivityProgressText(_tripController.nextTrip.value.activityProgress??'' ,context).clamp(0.0, 1.0);
+     
+  });
+   
   }
 
   @override
@@ -353,3 +359,18 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
     );
   }
 }
+
+double getActivityProgressText(
+      String activityProgress, BuildContext context) {
+
+      switch (activityProgress) {
+        case 'ON_WAY':
+          return  0.25;
+        case 'ARRIVED':
+          return 0.50;
+        case 'IN_PROGRESS':
+          return 0.75;
+        default:
+          return 0.25; // Handle any other possible values
+      }
+ }
