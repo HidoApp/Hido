@@ -615,7 +615,7 @@ const localeEn = {
   '*TheMinimumPrice': '*The minimum price for an activity is 30 SAR ',
   'timeErorrRange': "The time selected out of range",
   'eventDetailsSub': "Get to join the locals in their cultural events",
-  "saudiEvent": 'saudi Event',
+  "saudiEvent": 'Saudi Event',
   "uploadError":
       "Invalid image extension detected. Only 'jpg', 'jpeg', and 'png' are allowed",
   "imageError": 'Select at least three photos',
