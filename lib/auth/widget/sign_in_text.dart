@@ -1,6 +1,7 @@
 import 'package:ajwad_v4/auth/view/sigin_in/local_sign_in.dart';
 import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -14,7 +15,9 @@ class SignInText extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         CustomText(
-          text: "haveAnAccount?".tr,
+          fontFamily: AppUtil.SfFontType(context),
+          fontWeight: FontWeight.w400,
+          text: "alreadyHaveAccount".tr,
           fontSize: MediaQuery.of(context).size.width * 0.038,
         ),
         SizedBox(
@@ -24,6 +27,8 @@ class SignInText extends StatelessWidget {
             child: CustomText(
               text: 'signIn'.tr,
               color: colorGreen,
+              fontFamily: AppUtil.SfFontType(context),
+              fontWeight: FontWeight.w500,
               fontSize: MediaQuery.of(context).size.width * 0.038,
             ),
             onTap: () {

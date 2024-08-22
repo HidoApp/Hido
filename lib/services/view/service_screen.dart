@@ -161,7 +161,7 @@ class _ServiceScreenState extends State<ServiceScreen>
                     bottomLeft: Radius.circular(width * 0.05),
                     bottomRight: Radius.circular(width * 0.05)),
                 child: Image.asset(
-                  'assets/images/${_tabIndex == 0 ? 'service_hospitality_cover.jpg' : _tabIndex == 2 ? 'service_adventures_cover.png' : _tabIndex == 1 ? 'service_events_cover.png' : 'service_restaurants_cover.png'}',
+                  'assets/images/${_tabIndex == 0 ? 'service_hospitality_cover.jpg' : _tabIndex == 1 ? 'service_adventures_cover.png' : _tabIndex == 2 ? 'service_events_cover.png' : 'service_restaurants_cover.png'}',
                   //  width: width,
                   fit: BoxFit.cover,
                 ),

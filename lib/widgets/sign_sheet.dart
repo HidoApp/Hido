@@ -42,7 +42,7 @@ class _SignInSheetState extends State<SignInSheet> {
       padding:
           EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: Container(
-        height: 471,
+        // height: 471,
         width: double.infinity,
         decoration: const BoxDecoration(
             color: Colors.white,
@@ -52,7 +52,7 @@ class _SignInSheetState extends State<SignInSheet> {
             left: width * 0.0615,
             right: width * 0.0615,
             top: width * 0.041,
-            bottom: width * 0.082),
+            bottom: width * 0.15),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,10 +63,10 @@ class _SignInSheetState extends State<SignInSheet> {
               ),
               CustomText(
                 text: "signAsTourist".tr,
-                fontSize: 22,
+                fontSize: width * 0.056,
               ),
               SizedBox(
-                height: 12,
+                height: width * 0.03,
               ),
               Form(
                 key: _formKey,
@@ -75,13 +75,15 @@ class _SignInSheetState extends State<SignInSheet> {
                   children: [
                     CustomText(
                       text: 'email'.tr,
-                      fontSize: 17,
+                      fontSize: width * 0.043,
+                      fontFamily: AppUtil.SfFontType(context),
+                      fontWeight: FontWeight.w500,
                     ),
                     SizedBox(
-                      height: 8,
+                      height: width * 0.0205,
                     ),
                     CustomTextField(
-                      height: 48,
+                      // height: 48,
                       keyboardType: TextInputType.emailAddress,
                       hintText: 'yourEmail'.tr,
                       validator: false,
@@ -97,18 +99,20 @@ class _SignInSheetState extends State<SignInSheet> {
                       onChanged: (value) => _email = value,
                     ),
                     SizedBox(
-                      height: 24,
+                      height: width * 0.061,
                     ),
                     CustomText(
                       text: 'password'.tr,
-                      fontSize: 17,
+                      fontSize: width * 0.043,
+                      fontFamily: AppUtil.SfFontType(context),
+                      fontWeight: FontWeight.w500,
                     ),
                     SizedBox(
-                      height: 8,
+                      height: width * 0.0205,
                     ),
                     Obx(
                       () => CustomTextField(
-                        height: 48,
+                        // height: 48,
                         isPassword: true,
                         hintText: 'yourPassword'.tr,
                         obscureText: _authController.hidePassword.value,
@@ -129,7 +133,7 @@ class _SignInSheetState extends State<SignInSheet> {
                       ),
                     ),
                     SizedBox(
-                      height: 26,
+                      height: width * .06,
                     ),
                     Align(
                       alignment: AppUtil.rtlDirection2(context)
@@ -139,12 +143,13 @@ class _SignInSheetState extends State<SignInSheet> {
                         onTap: () => Get.to(() => const ResetPasswordScreen()),
                         child: CustomText(
                           text: 'forgotPassword'.tr,
-                          fontSize: 15,
+                          fontSize: width * 0.038,
+                          fontFamily: AppUtil.SfFontType(context),
                         ),
                       ),
                     ),
                     SizedBox(
-                      height: 26,
+                      height: width * .06,
                     ),
                     Obx(
                       () => _authController.isLoginLoading.value
@@ -152,19 +157,21 @@ class _SignInSheetState extends State<SignInSheet> {
                               child: CircularProgressIndicator.adaptive())
                           : CustomButton(
                               onPressed: () async {
-                                final user = await _authController.login(
-                                    email: _email,
-                                    password: _password,
-                                    rememberMe: true,
-                                    context: context);
-                                if (user != null) {
-                                  Get.back();
+                                if (_formKey.currentState!.validate()) {
+                                  final user = await _authController.login(
+                                      email: _email,
+                                      password: _password,
+                                      rememberMe: true,
+                                      context: context);
+                                  if (user != null) {
+                                    Get.back();
+                                  }
                                 }
                               },
                               title: "signIn".tr),
                     ),
                     SizedBox(
-                      height: 12,
+                      height: width * 0.03,
                     ),
                     const SignUpText(
                       isLocal: false,

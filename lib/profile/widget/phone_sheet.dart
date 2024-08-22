@@ -65,6 +65,9 @@ class _PhoneSheetState extends State<PhoneSheet> {
             fontFamily: AppUtil.SfFontType(context),
             fontWeight: FontWeight.w500,
           ),
+          SizedBox(
+            height: width * .0205,
+          ),
           Form(
             key: _formKey,
             child: CustomTextField(

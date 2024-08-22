@@ -48,7 +48,7 @@ class _ServicesCardState extends State<ServicesCard> {
       if (placemarks.isNotEmpty) {
         Placemark placemark = placemarks.first;
         print(placemarks.first);
-        
+
         return placemark.subLocality != null &&
                 placemark.subLocality!.isNotEmpty
             ? '${placemark.subLocality}'

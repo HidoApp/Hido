@@ -1,6 +1,7 @@
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/auth/view/tourist_register/register/last_step.dart';
+import 'package:ajwad_v4/auth/widget/sign_in_text.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
@@ -110,13 +111,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               const SizedBox(
                                 height: 20,
                               ),
-                              CustomText(text: 'yourEmail'.tr),
+                              CustomText(text: 'email'.tr),
                               const SizedBox(
                                 height: 5,
                               ),
                               CustomTextField(
                                 keyboardType: TextInputType.emailAddress,
-                                hintText: 'email'.tr,
+                                hintText: 'yourEmail'.tr,
                                 controller: _emailController,
                                 // prefixIcon: const Icon(
                                 //   Icons.email_outlined,
@@ -192,7 +193,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                         ),
                         SizedBox(
-                          height: width * 0.22,
+                          height: width * 0.2,
                         ),
                         Obx(
                           () => Padding(
@@ -256,26 +257,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     }),
                           ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            CustomText(
-                              text: "alreadyHaveAccount".tr,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w300,
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                Get.off(() => const SignInScreen());
-                              },
-                              child: CustomText(
-                                text: "signIn".tr,
-                                color: colorGreen,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            )
-                          ],
+                        SizedBox(
+                          height: width * 0.03,
+                        ),
+                        const SignInText(
+                          isLocal: false,
                         )
                       ],
                     ),

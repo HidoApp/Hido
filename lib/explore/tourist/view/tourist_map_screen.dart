@@ -451,6 +451,16 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                     ),
                     child: child,
                   ),
+                  emptyBuilder: (context) => Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CustomText(
+                      text: 'place not found',
+                      color: starGreyColor,
+                      fontFamily: AppUtil.SfFontType(context),
+                      fontSize: width * 0.038,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
                   itemSeparatorBuilder: (context, index) => const Divider(
                     color: lightGrey,
                   ),

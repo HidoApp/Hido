@@ -900,7 +900,6 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
                                 Factory<OneSequenceGestureRecognizer>(
                                     () => EagerGestureRecognizer())
                               },
-
                               initialCameraPosition: CameraPosition(
                                 target: _currentPosition!,
                                 zoom: 15,
@@ -2581,7 +2580,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                           ? "وقت الإنتهاء اقل من وقت البداية"
                                           : "End time is less than start time",
                                       color: Colors.red,
-                                      fontSize: 12,
+                                      fontSize: width * 0.029,
                                       fontFamily: AppUtil.rtlDirection2(context)
                                           ? 'SF Arabic'
                                           : 'SF Pro',

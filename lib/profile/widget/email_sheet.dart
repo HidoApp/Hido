@@ -86,6 +86,9 @@ class _EmailSheetState extends State<EmailSheet> {
             fontSize: width * 0.056,
             fontWeight: FontWeight.w500,
           ),
+          SizedBox(
+            height: width * .0205,
+          ),
           CustomText(
             text: "emailEditSubtitle".tr,
             fontFamily: AppUtil.SfFontType(context),
@@ -101,6 +104,9 @@ class _EmailSheetState extends State<EmailSheet> {
             fontSize: width * 0.043,
             fontFamily: AppUtil.SfFontType(context),
             fontWeight: FontWeight.w500,
+          ),
+          SizedBox(
+            height: width * .0205,
           ),
           Form(
             key: _formKey,

@@ -51,7 +51,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   late double width, height;
 //
   final _profileController = Get.put(ProfileController());
-  final storage = GetStorage();
+  // final storage = GetStorage();
   //var isTourGuide  = false;
 
   @override
@@ -65,30 +65,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
     await _profileController.getProfile(context: context);
   }
 
-double calculateOverallRating() {
-  // Access profile properties with null-aware operators
-  int tourNumber = _profileController.profile.tourNumber ?? 0;
-  int eventNumber = _profileController.profile.eventNumber ?? 0;
-  int hostNumber = _profileController.profile.hostNumber ?? 0;
-  int adventureNumber = _profileController.profile.adventureNumber ?? 0;
+  double calculateOverallRating() {
+    // Access profile properties with null-aware operators
+    int tourNumber = _profileController.profile.tourNumber ?? 0;
+    int eventNumber = _profileController.profile.eventNumber ?? 0;
+    int hostNumber = _profileController.profile.hostNumber ?? 0;
+    int adventureNumber = _profileController.profile.adventureNumber ?? 0;
 
-  int tourRating = _profileController.profile.tourRating ?? 0;
-  int eventRating = _profileController.profile.eventRating ?? 0;
-  int hostRating = _profileController.profile.hostRating ?? 0;
-  int adventureRating = _profileController.profile.adventureRating ?? 0;
+    int tourRating = _profileController.profile.tourRating ?? 0;
+    int eventRating = _profileController.profile.eventRating ?? 0;
+    int hostRating = _profileController.profile.hostRating ?? 0;
+    int adventureRating = _profileController.profile.adventureRating ?? 0;
 
-  // Calculate the total number of instances
-  int totalInstances = tourNumber + eventNumber + hostNumber + adventureNumber;
+    // Calculate the total number of instances
+    int totalInstances =
+        tourNumber + eventNumber + hostNumber + adventureNumber;
 
-  // Calculate the weighted sum of ratings
-  double totalWeightedSum = ((tourNumber * tourRating) +
-                            (eventNumber * eventRating) +
-                            (hostNumber * hostRating) +
-                            (adventureNumber * adventureRating)).toDouble();
+    // Calculate the weighted sum of ratings
+    double totalWeightedSum = ((tourNumber * tourRating) +
+            (eventNumber * eventRating) +
+            (hostNumber * hostRating) +
+            (adventureNumber * adventureRating))
+        .toDouble();
 
-  // Return the overall rating, ensuring no division by zero
-  return totalInstances > 0 ? totalWeightedSum / totalInstances : 0;
-}
+    // Return the overall rating, ensuring no division by zero
+    return totalInstances > 0 ? totalWeightedSum / totalInstances : 0;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -172,8 +174,11 @@ double calculateOverallRating() {
                                     width: width * 0.0205,
                                   ),
                                   if (_profileController
-                                      .profile.tourGuideLicense!.isNotEmpty)
-                                    const LocalAuthMark()
+                                          .profile.tourGuideLicense !=
+                                      null)
+                                    if (_profileController
+                                        .profile.tourGuideLicense!.isNotEmpty)
+                                      const LocalAuthMark()
                                 ],
                               ),
                               Row(
@@ -319,7 +324,6 @@ double calculateOverallRating() {
                                                       ? "SF Arabic"
                                                       : 'SF Pro',
                                               text: "youWantSiginOut".tr),
-
                                           const SizedBox(
                                             height: 20,
                                           ),
