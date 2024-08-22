@@ -50,6 +50,9 @@ class _IbanSheetState extends State<IbanSheet> {
             fontWeight: FontWeight.w500,
             fontSize: width * 0.0435,
           ),
+          SizedBox(
+            height: width * 0.0205,
+          ),
           Form(
             key: _formKey,
             child: CustomTextField(

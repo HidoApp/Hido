@@ -367,6 +367,8 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                       : BoxConstraints(
                                           maxHeight: width * 0.097),
                                   child: CustomText(
+                                      maxlines: 50,
+
                                       //   textAlign: AppUtil.rtlDirection(context) ? TextAlign.end : TextAlign.start ,
                                       textDirection:
                                           AppUtil.rtlDirection(context)

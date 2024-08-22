@@ -101,6 +101,9 @@ class _LastStepScreenState extends State<LastStepScreen> {
                 fontFamily: "SF Pro",
                 fontWeight: FontWeight.w500,
               ),
+              SizedBox(
+                height: width * .0205,
+              ),
               Form(
                 key: _formKey,
                 child: CustomTextField(
@@ -131,6 +134,9 @@ class _LastStepScreenState extends State<LastStepScreen> {
                 fontSize: 17,
                 fontFamily: "SF Pro",
                 fontWeight: FontWeight.w500,
+              ),
+              SizedBox(
+                height: width * .0205,
               ),
               MultiSelectDropDown(
                 controller: _controller,
@@ -225,6 +231,9 @@ class _LastStepScreenState extends State<LastStepScreen> {
                           }
                         },
                       ),
+              ),
+              SizedBox(
+                height: width * 0.03,
               ),
               const SignInText(
                 isLocal: false,

@@ -69,12 +69,12 @@ class _TourLicenseSheetState extends State<TourLicenseSheet> {
             ),
             CustomText(
               text: 'tourLicense'.tr,
-              fontFamily: "SF Pro",
+              fontFamily: AppUtil.SfFontType(context),
               fontSize: width * 0.0435,
               fontWeight: FontWeight.w500,
             ),
             SizedBox(
-              height: width * 0.020,
+              height: width * 0.0205,
             ),
             GestureDetector(
               onTap: () async {

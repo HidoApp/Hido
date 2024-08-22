@@ -91,7 +91,7 @@ class _EventCardItemState extends State<EventCardItem> {
           ),
           decoration: BoxDecoration(
             boxShadow: [
-              BoxShadow(blurRadius: width * 0.04, color: shadowColor),
+              BoxShadow(blurRadius: width * 0.04, color: Colors.black12)
             ],
             color: Colors.white,
             borderRadius: BorderRadius.all(

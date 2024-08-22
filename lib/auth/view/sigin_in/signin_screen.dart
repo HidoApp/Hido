@@ -115,7 +115,9 @@ class _SignInScreenState extends State<SignInScreen> {
                               const SizedBox(
                                 height: 20,
                               ),
-                              CustomText(text: 'password'.tr),
+                              CustomText(
+                                text: 'password'.tr,
+                              ),
                               const SizedBox(
                                 height: 5,
                               ),
@@ -159,9 +161,10 @@ class _SignInScreenState extends State<SignInScreen> {
                                         const ResetPasswordScreen()));
                               },
                               child: CustomText(
-                                text: "forgotPassword".tr,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
+                                text: 'forgotPassword'.tr,
+                                fontSize: width * 0.038,
+                                fontFamily: AppUtil.SfFontType(context),
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
                           ],

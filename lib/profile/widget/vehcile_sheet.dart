@@ -54,6 +54,9 @@ class _VehcileSheetState extends State<VehcileSheet> {
             fontSize: width * 0.043,
             fontFamily: "SF Pro",
           ),
+          SizedBox(
+            height: width * 0.0205,
+          ),
           Form(
             key: _formKey,
             child: CustomTextField(

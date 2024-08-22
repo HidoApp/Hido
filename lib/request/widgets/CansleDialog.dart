@@ -100,18 +100,16 @@ class CancelBookingDialog extends StatelessWidget {
             const SizedBox(height: 10),
             Obx(() => offerController.isBookingCancelLoading.value
                 ? const Center(
-                    child: CircularProgressIndicator(color: Colors.black),
+                    child: CircularProgressIndicator(color: colorRed),
                   )
                 : GestureDetector(
                     onTap: () async {
                       log("End Trip Taped ${booking!.id}");
 
-                      bool bookingCancel =
-                          await offerController.bookingCancel(
+                      bool bookingCancel = await offerController.bookingCancel(
                               context: context,
                               bookingId: booking!.id!,
                               type: 'PLACE') ??
-
                           false;
                       if (bookingCancel) {
                         if (context.mounted) {

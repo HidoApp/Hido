@@ -328,6 +328,7 @@ class _TripDetailsState extends State<TripDetails> {
                               textOverflow: isExpanded
                                   ? TextOverflow.visible
                                   : TextOverflow.clip,
+                              maxlines: 50,
                               fontSize: width * 0.038,
                               color: starGreyColor,
                               fontFamily: AppUtil.rtlDirection2(context)
