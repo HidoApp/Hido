@@ -79,6 +79,9 @@ class _DrivingSheetState extends State<DrivingSheet> {
             fontSize: width * 0.043,
             fontWeight: FontWeight.w500,
           ),
+          SizedBox(
+            height: width * 0.0205,
+          ),
           GestureDetector(
             onTap: () async {
               await openDialog(context);
