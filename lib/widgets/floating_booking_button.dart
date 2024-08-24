@@ -86,42 +86,47 @@ class _BottomHospitalityBookingState extends State<BottomHospitalityBooking> {
                   left: width * 0.0025,
                   bottom: width * 0.08),
 
-              child: CustomButton(
-                onPressed: () {
-                  AppUtil.isGuest()
-                      ? showModalBottomSheet(
-                          context: context,
-                          builder: (context) => const SignInSheet(),
-                          isScrollControlled: true,
-                          enableDrag: true,
-                          backgroundColor: Colors.white,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(width * 0.06),
-                                topRight: Radius.circular(width * 0.06)),
-                          ))
-                      : Get.bottomSheet(
-                          HospitalityBookingSheet(
-                              color: Colors.green,
-                              hospitality: widget.hospitalityObj,
-                              avilableDate: widget.avilableDate,
-                              serviceController: widget.servicesController,
-                              address: widget.address,
-                              ),
-                          backgroundColor: Colors.white,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(width * 0.06),
-                                topRight: Radius.circular(width * 0.06)),
-                          ));
-                },
-                iconColor: darkPurple,
-                title: "book".tr,
-                icon: AppUtil.rtlDirection2(context)
-                    ? const Icon(Icons.arrow_back_ios)
-                    : const Icon(Icons.arrow_forward_ios),
+               child: IgnorePointer(
+                 ignoring: widget.hospitalityObj.daysInfo.isEmpty,
+                child: CustomButton(
+                  onPressed: () {
+                    AppUtil.isGuest()
+                        ? showModalBottomSheet(
+                            context: context,
+                            builder: (context) => const SignInSheet(),
+                            isScrollControlled: true,
+                            enableDrag: true,
+                            backgroundColor: Colors.white,
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(width * 0.06),
+                                  topRight: Radius.circular(width * 0.06)),
+                            ))
+                        : Get.bottomSheet(
+                            HospitalityBookingSheet(
+                                color: Colors.green,
+                                hospitality: widget.hospitalityObj,
+                                avilableDate: widget.avilableDate,
+                                serviceController: widget.servicesController,
+                                address: widget.address,
+                                ),
+                            backgroundColor: Colors.white,
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(width * 0.06),
+                                  topRight: Radius.circular(width * 0.06)),
+                            ));
+                  },
+                  iconColor: darkPurple,
+                  title:widget.hospitalityObj.daysInfo.isEmpty?'fullyBooked'.tr: "book".tr,
+                  buttonColor: widget.hospitalityObj.daysInfo.isEmpty? colorlightGreen:colorGreen,
+                  borderColor: widget.hospitalityObj.daysInfo.isEmpty?colorlightGreen:colorGreen ,
+                  icon: AppUtil.rtlDirection2(context)
+                      ? const Icon(Icons.arrow_back_ios)
+                      : const Icon(Icons.arrow_forward_ios),
+                ),
               ),
             ),
           ),
@@ -258,239 +263,247 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
                   left: width * 0.0025,
                   bottom: width * 0.08),
 
-              child: CustomButton(
-                onPressed: () {
-                  AppUtil.isGuest()
-                      ? showModalBottomSheet(
-                          context: context,
-                          builder: (context) => const SignInSheet(),
-                          isScrollControlled: true,
-                          enableDrag: true,
-                          backgroundColor: Colors.white,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(width * 0.06),
-                                topRight: Radius.circular(width * 0.06)),
-                          ))
-                      : Get.bottomSheet(
-                          StatefulBuilder(
-                            builder: (context, setState) => Container(
-                              // height: width * 0.58,
-                              // width: double.infinity,
-                              padding: EdgeInsets.only(
-                                left: width * 0.0615,
-                                right: width * 0.0615,
-                                top: width * 0.045,
-                                bottom: width * 0.0820,
-                              ),
-
-                              child: Obx(
-                                () => Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const BottomSheetIndicator(),
-                                    SizedBox(
-                                      height: width * 0.065,
-                                    ),
-                                    CustomText(
-                                      text: 'numberofpeorson'.tr,
-                                      color: Colors.black,
-                                      fontSize: width * 0.044,
-                                      fontFamily: AppUtil.rtlDirection2(context)
-                                          ? 'SF Arabic'
-                                          : 'SF Pro',
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                    SizedBox(
-                                      height: height * 0.01,
-                                    ),
-                                    Container(
-                                      height: height * 0.06,
-                                      width: double.infinity,
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: width * 0.038),
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(width * 0.02),
-                                        border: Border.all(
-                                          color: showErrorGuests ||
-                                                  _adventureController
-                                                      .showErrorMaxGuest.value
-                                              ? colorRed
-                                              : borderGrey,
-                                        ),
+             
+              child: IgnorePointer(
+                 ignoring: widget.adventure.seats== 0,
+                child: CustomButton(
+                  onPressed: () {
+                    AppUtil.isGuest()
+                        ? showModalBottomSheet(
+                            context: context,
+                            builder: (context) => const SignInSheet(),
+                            isScrollControlled: true,
+                            enableDrag: true,
+                            backgroundColor: Colors.white,
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(width * 0.06),
+                                  topRight: Radius.circular(width * 0.06)),
+                            ))
+                        : Get.bottomSheet(
+                            StatefulBuilder(
+                              builder: (context, setState) => Container(
+                                // height: width * 0.58,
+                                // width: double.infinity,
+                                padding: EdgeInsets.only(
+                                  left: width * 0.0615,
+                                  right: width * 0.0615,
+                                  top: width * 0.045,
+                                  bottom: width * 0.0820,
+                                ),
+              
+                                child: Obx(
+                                  () => Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      const BottomSheetIndicator(),
+                                      SizedBox(
+                                        height: width * 0.065,
                                       ),
-                                      child: Row(
-                                        children: [
-                                          CustomText(
-                                            text: "person".tr,
-                                            fontWeight: FontWeight.w400,
-                                            color: borderGrey,
-                                            fontSize: width * 0.035,
-                                            fontFamily:
-                                                AppUtil.rtlDirection2(context)
-                                                    ? 'SF Arabic'
-                                                    : 'SF Pro',
+                                      CustomText(
+                                        text: 'numberofpeorson'.tr,
+                                        color: Colors.black,
+                                        fontSize: width * 0.044,
+                                        fontFamily: AppUtil.rtlDirection2(context)
+                                            ? 'SF Arabic'
+                                            : 'SF Pro',
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                      SizedBox(
+                                        height: height * 0.01,
+                                      ),
+                                      Container(
+                                        height: height * 0.06,
+                                        width: double.infinity,
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: width * 0.038),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(width * 0.02),
+                                          border: Border.all(
+                                            color: showErrorGuests ||
+                                                    _adventureController
+                                                        .showErrorMaxGuest.value
+                                                ? colorRed
+                                                : borderGrey,
                                           ),
-                                          const Spacer(),
-                                          GestureDetector(
-                                            onTap: () {
-                                              setState(() {
-                                                if (person > 0) {
-                                                  person = person - 1;
-                                                  _adventureController
-                                                      .showErrorMaxGuest
-                                                      .value = false;
-                                                }
-                                              });
-                                            },
-                                            child: const Icon(
-                                              Icons.horizontal_rule_outlined,
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            CustomText(
+                                              text: "person".tr,
+                                              fontWeight: FontWeight.w400,
                                               color: borderGrey,
+                                              fontSize: width * 0.035,
+                                              fontFamily:
+                                                  AppUtil.rtlDirection2(context)
+                                                      ? 'SF Arabic'
+                                                      : 'SF Pro',
                                             ),
-                                          ),
-                                          SizedBox(width: width * 0.038),
-                                          CustomText(
-                                            text: person.toString(),
-                                            fontWeight: FontWeight.w400,
-                                            color: borderGrey,
-                                            fontSize: width * 0.035,
-                                            fontFamily:
-                                                AppUtil.rtlDirection2(context)
-                                                    ? 'SF Arabic'
-                                                    : 'SF Pro',
-                                          ),
-                                          SizedBox(width: width * 0.038),
-                                          GestureDetector(
-                                            onTap: () {
-                                              if (getSeat()) {
-                                                _adventureController
-                                                    .showErrorMaxGuest
-                                                    .value = true;
-                                              } else {
-                                                if (widget.adventure.seats >
-                                                    person) {
-                                                  setState(() {
-                                                    person = person + 1;
-                                                  });
-                                                } else {
-                                                  _adventureController
-                                                      .showErrorMaxGuest(true);
-                                                }
-                                              }
-                                            },
-                                            child: const Icon(
-                                              Icons.add,
-                                              color: borderGrey,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    if (_adventureController
-                                        .showErrorMaxGuest.value)
-                                      Padding(
-                                        padding:
-                                            EdgeInsets.only(left: width * 0.01),
-                                        child: CustomText(
-                                          text: AppUtil.rtlDirection2(context)
-                                              ? "ليس هناك مقاعد متاحة أكثر من العدد الحالي"
-                                              : '*There are no more seats available than the current number',
-                                          color: colorRed,
-                                          fontSize: width * 0.028,
-                                          fontFamily:
-                                              AppUtil.rtlDirection2(context)
-                                                  ? 'SF Arabic'
-                                                  : 'SF Pro',
-                                        ),
-                                      ),
-                                    if (showErrorGuests)
-                                      Padding(
-                                        padding:
-                                            EdgeInsets.only(left: width * 0.01),
-                                        child: CustomText(
-                                          text: AppUtil.rtlDirection2(context)
-                                              ? "يجب أن تختار شخص على الأقل"
-                                              : '*You need to add at least one guest',
-                                          color: colorRed,
-                                          fontSize: width * 0.028,
-                                          fontFamily:
-                                              AppUtil.rtlDirection2(context)
-                                                  ? 'SF Arabic'
-                                                  : 'SF Pro',
-                                        ),
-                                      ),
-                                    SizedBox(
-                                      height: width * 0.06,
-                                    ),
-                                    CustomButton(
-                                        onPressed: () {
-                                          if ((getSeat())) {
-                                            setState(() {
-                                              _adventureController
-                                                      .showErrorMaxGuest
-                                                      .value ==
-                                                  true;
-                                            });
-                                          } else if (person == 0) {
-                                            setState(() {
-                                              showErrorGuests = true;
-                                            });
-                                          } else if (!AppUtil
-                                              .isDateTimeBefore24Hours(
-                                                  '${widget.adventure.date ?? ''} ${widget.adventure.times!.first.startTime}')) {
-                                            AppUtil.errorToast(
-                                                context,
-                                                AppUtil.rtlDirection2(context)
-                                                    ? "يجب أن تحجز قبل 24 ساعة "
-                                                    : "You must booking before 24 hours");
-                                          } else {
-                                            _adventureController
-                                                .showErrorMaxGuest(false);
-
-                                            setState(() {
-                                              showErrorGuests = false;
-                                            });
-                                            Get.to(() => ReviewAdventure(
-                                                      adventure:
-                                                          widget.adventure,
-                                                      person: person,
-                                                    ))!
-                                                .then(
-                                              (value) {
-                                                // person = 0;
-                                                // print(value);
-                                                // Get.back();
+                                            const Spacer(),
+                                            GestureDetector(
+                                              onTap: () {
+                                                setState(() {
+                                                  if (person > 0) {
+                                                    person = person - 1;
+                                                    _adventureController
+                                                        .showErrorMaxGuest
+                                                        .value = false;
+                                                  }
+                                                });
                                               },
-                                            );
-                                          }
-                                        },
-                                        title: 'confirm'.tr)
-                                  ],
+                                              child: const Icon(
+                                                Icons.horizontal_rule_outlined,
+                                                color: borderGrey,
+                                              ),
+                                            ),
+                                            SizedBox(width: width * 0.038),
+                                            CustomText(
+                                              text: person.toString(),
+                                              fontWeight: FontWeight.w400,
+                                              color: borderGrey,
+                                              fontSize: width * 0.035,
+                                              fontFamily:
+                                                  AppUtil.rtlDirection2(context)
+                                                      ? 'SF Arabic'
+                                                      : 'SF Pro',
+                                            ),
+                                            SizedBox(width: width * 0.038),
+                                            GestureDetector(
+                                              onTap: () {
+                                                if (getSeat()) {
+                                                  _adventureController
+                                                      .showErrorMaxGuest
+                                                      .value = true;
+                                                } else {
+                                                  if (widget.adventure.seats >
+                                                      person) {
+                                                    setState(() {
+                                                      person = person + 1;
+                                                    });
+                                                  } else {
+                                                    _adventureController
+                                                        .showErrorMaxGuest(true);
+                                                  }
+                                                }
+                                              },
+                                              child: const Icon(
+                                                Icons.add,
+                                                color: borderGrey,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      if (_adventureController
+                                          .showErrorMaxGuest.value)
+                                        Padding(
+                                          padding:
+                                              EdgeInsets.only(left: width * 0.01),
+                                          child: CustomText(
+                                            text: AppUtil.rtlDirection2(context)
+                                                ? "ليس هناك مقاعد متاحة أكثر من العدد الحالي"
+                                                : '*There are no more seats available than the current number',
+                                            color: colorRed,
+                                            fontSize: width * 0.028,
+                                            fontFamily:
+                                                AppUtil.rtlDirection2(context)
+                                                    ? 'SF Arabic'
+                                                    : 'SF Pro',
+                                          ),
+                                        ),
+                                      if (showErrorGuests)
+                                        Padding(
+                                          padding:
+                                              EdgeInsets.only(left: width * 0.01),
+                                          child: CustomText(
+                                            text: AppUtil.rtlDirection2(context)
+                                                ? "يجب أن تختار شخص على الأقل"
+                                                : '*You need to add at least one guest',
+                                            color: colorRed,
+                                            fontSize: width * 0.028,
+                                            fontFamily:
+                                                AppUtil.rtlDirection2(context)
+                                                    ? 'SF Arabic'
+                                                    : 'SF Pro',
+                                          ),
+                                        ),
+                                      SizedBox(
+                                        height: width * 0.06,
+                                      ),
+                                      CustomButton(
+                                          onPressed: () {
+                                            if ((getSeat())) {
+                                              setState(() {
+                                                _adventureController
+                                                        .showErrorMaxGuest
+                                                        .value ==
+                                                    true;
+                                              });
+                                            } else if (person == 0) {
+                                              setState(() {
+                                                showErrorGuests = true;
+                                              });
+                                            } else if (!AppUtil
+                                                .isDateTimeBefore24Hours(
+                                                    '${widget.adventure.date ?? ''} ${widget.adventure.times!.first.startTime}')) {
+                                              AppUtil.errorToast(
+                                                  context,
+                                                  AppUtil.rtlDirection2(context)
+                                                      ? "يجب أن تحجز قبل 24 ساعة "
+                                                      : "You must booking before 24 hours");
+                                            } else {
+                                              _adventureController
+                                                  .showErrorMaxGuest(false);
+              
+                                              setState(() {
+                                                showErrorGuests = false;
+                                              });
+                                              Get.to(() => ReviewAdventure(
+                                                        adventure:
+                                                            widget.adventure,
+                                                        person: person,
+                                                      ))!
+                                                  .then(
+                                                (value) {
+                                                  // person = 0;
+                                                  // print(value);
+                                                  // Get.back();
+                                                },
+                                              );
+                                            }
+                                          },
+                                          title: 'confirm'.tr)
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          backgroundColor: Colors.white,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(width * 0.06),
-                                topRight: Radius.circular(width * 0.06)),
-                          ),
-                        ).then((value) {
-                          person = 0;
-                          showErrorGuests = false;
-                          _adventureController.showErrorMaxGuest(false);
-                        });
-                },
-                iconColor: darkPurple,
-                title: "book".tr,
-                icon: AppUtil.rtlDirection2(context)
-                    ? const Icon(Icons.arrow_back_ios)
-                    : const Icon(Icons.arrow_forward_ios),
+                            backgroundColor: Colors.white,
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(width * 0.06),
+                                  topRight: Radius.circular(width * 0.06)),
+                            ),
+                          ).then((value) {
+                            person = 0;
+                            showErrorGuests = false;
+                            _adventureController.showErrorMaxGuest(false);
+                          });
+                  },
+                  iconColor: darkPurple,
+                  title:widget.adventure.seats== 0?'fullyBooked'.tr: "book".tr,
+                  icon: AppUtil.rtlDirection2(context)
+                      ? const Icon(Icons.arrow_back_ios)
+                      : const Icon(Icons.arrow_forward_ios),
+                  buttonColor: widget.adventure.seats== 0? colorlightGreen:colorGreen,
+                  borderColor:widget.adventure.seats== 0? colorlightGreen:colorGreen ,
+                 
+                      
+                ),
               ),
             ),
           ),

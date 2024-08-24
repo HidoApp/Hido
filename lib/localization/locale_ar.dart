@@ -613,7 +613,7 @@ const localeAr = {
 
   'eventDetailsSub': 'فرصة لمشاركة الشعب فعالياتهم المحلية ',
   "saudiEvent": "الفعاليات المحلية",
-  "Region": 'المنطقه',
+  "Region": 'المنطقة',
   'tellUsMore': 'أخبرنا أكثر عن نفسك  ',
   'noExperiences': 'لا توجد تجارب بعد',
   'noExperiencesSubtitle':
@@ -648,5 +648,6 @@ const localeAr = {
   'regionChoose': "اختر المنطقة",
   'pendingProgress': "جولتك بتبدأ قريبا",
   'peopleNumber':'عدد الأشخاص',
+  'fullyBooked':"محجوزه بالكامل",
 
 };

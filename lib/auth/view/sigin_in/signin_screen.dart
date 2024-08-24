@@ -254,6 +254,7 @@ class _SignInScreenState extends State<SignInScreen> {
                               text: "haveAnAccount?".tr,
                               fontSize: 15,
                               fontWeight: FontWeight.w300,
+                              fontFamily: AppUtil.SfFontType(context),
                             ),
                             TextButton(
                               onPressed: ()
