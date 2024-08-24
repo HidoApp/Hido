@@ -62,243 +62,233 @@ class CustomExperienceCard extends StatelessWidget {
 
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    return InkWell(
-      onTap: () {},
+    return Padding(
+     padding: EdgeInsets.symmetric(horizontal: width * 0.041),
       child: SizedBox(
         width: 334,
         height: 120,
         child: Container(
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             color: Color.fromARGB(255, 255, 255, 255),
             borderRadius: BorderRadius.all(Radius.circular(7.36)),
             boxShadow: [
               BoxShadow(
-                color: Color(0x3FC7C7C7),
-                blurRadius: 10,
-                offset: Offset(1, 2),
+                color: shadowColor,
+               blurRadius: width * 0.04,
                 spreadRadius: 0,
               ),
             ],
           ),
-          child: Card(
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(7.36)),
-            ),
-            color: const Color.fromARGB(255, 255, 255, 255),
-            surfaceTintColor: const Color.fromARGB(255, 255, 255, 255),
-            //elevation: 0, // Set elevation to 0 to prevent default shadow
-
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 12, right: 12),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset(
-                        'assets/icons/Summary.svg',
-                        width: 20,
-                        height: 20,
-                      ),
-                      const SizedBox(width: 8),
-                     CustomText(
-                       text:'#${experience.id.substring(0, 7)}',
-                          color: borderGrey,
-                          fontSize: 15,
-                          fontFamily: AppUtil.rtlDirection2(context)
-                              ? 'SF Arabic'
-                              : 'SF Pro',
-                          fontWeight: FontWeight.w500,
-                          height: 0,
-                        
-                      ),
-                    ],
-                  ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 12, right: 12),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(
+                      'assets/icons/Summary.svg',
+                      width: 20,
+                      height: 20,
+                    ),
+                    const SizedBox(width: 8),
+                   CustomText(
+                     text:'#${experience.id.substring(0, 7)}',
+                        color: borderGrey,
+                        fontSize: 15,
+                        fontFamily: AppUtil.rtlDirection2(context)
+                            ? 'SF Arabic'
+                            : 'SF Pro',
+                        fontWeight: FontWeight.w500,
+                        height: 0,
+                      
+                    ),
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 12, right: 12),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 2, top: 14),
-                        child: ClipRRect(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(6.57)),
-                          child: type == 'hospitality'
-                              ?ImageCacheWidget(
-                                image:experience.images.isNotEmpty? experience.images[0]:'assets/images/Placeholder.png' ,
-                                height: height * 0.06,
-                                width: width * 0.144,
-                              )
-                              
-                              
-                              : ImageCacheWidget(
-                                image:experience.image.isNotEmpty? experience.image[0]:'assets/images/Placeholder.png',
-                                height: height * 0.06,
-                                width: width * 0.144,
-                              )
-                        ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 12, right: 12),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 2, top: 14),
+                      child: ClipRRect(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(6.57)),
+                        child: type == 'hospitality'
+                            ?ImageCacheWidget(
+                              image:experience.images.isNotEmpty? experience.images[0]:'assets/images/Placeholder.png' ,
+                              height: height * 0.06,
+                              width: width * 0.144,
+                            )
+                            
+                            
+                            : ImageCacheWidget(
+                              image:experience.image.isNotEmpty? experience.image[0]:'assets/images/Placeholder.png',
+                              height: height * 0.06,
+                              width: width * 0.144,
+                            )
                       ),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 15),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  CustomText(
-                                    text: AppUtil.rtlDirection2(context)
-                                        ? type == 'hospitality'
-                                            ? experience.titleAr
-                                            : experience.nameAr
-                                        : type == 'hospitality'
-                                            ? experience.titleEn
-                                            : experience.nameEn,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: AppUtil.rtlDirection2(context)
-                                        ? 'SF Pro'
-                                        : 'SF Arabic',
+                    ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 15),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                              children: [
+                                CustomText(
+                                  text: AppUtil.rtlDirection2(context)
+                                      ? type == 'hospitality'
+                                          ? experience.titleAr
+                                          : experience.nameAr
+                                      : type == 'hospitality'
+                                          ? experience.titleEn
+                                          : experience.nameEn,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: AppUtil.rtlDirection2(context)
+                                      ? 'SF Pro'
+                                      : 'SF Arabic',
+                                ),
+                                // if (experience.status == 'DRAFT' ||
+                                //     experience.status == 'CLOSED')
+                                //   Row(
+                                //     children: [
+                                //       CustomText(
+                                //         text: type == 'hospitality' ||
+                                //                 type == 'event'
+                                //             ? experience.daysInfo.isNotEmpty
+                                //                 ? formatBookingDate(
+                                //                     context,
+                                //                     experience.daysInfo.first
+                                //                         .startTime)
+                                //                 : ''
+                                //             : formatBookingDate(
+                                //                 context, experience.date),
+                                //         fontSize: 12,
+                                //         fontFamily:
+                                //             AppUtil.rtlDirection2(context)
+                                //                 ? 'SF Arabic'
+                                //                 : 'SF Pro',
+                                //         fontWeight: FontWeight.w600,
+                                //         color: Color(0xFFB9B8C1),
+                                //       ),
+                                //     ],
+                                //   ),
+                              ],
+                            ),
+                        
+                               if(isPast)
+                                  Row(
+                                    children: [
+                                      CustomText(
+                                        text: type == 'hospitality' ||
+                                                type == 'event'
+                                            ? experience.daysInfo.isNotEmpty
+                                                ? formatBookingDate(
+                                                    context,
+                                                    experience.daysInfo.first
+                                                        .startTime)
+                                                : ''
+                                            : formatBookingDate(
+                                                context, experience.date),
+                                        fontSize: 12,
+                                        fontFamily:
+                                            AppUtil.rtlDirection2(context)
+                                                ? 'SF Arabic'
+                                                : 'SF Pro',
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(0xFFB9B8C1),
+                                      ),
+                                    ],
                                   ),
-                                  // if (experience.status == 'DRAFT' ||
-                                  //     experience.status == 'CLOSED')
-                                  //   Row(
-                                  //     children: [
-                                  //       CustomText(
-                                  //         text: type == 'hospitality' ||
-                                  //                 type == 'event'
-                                  //             ? experience.daysInfo.isNotEmpty
-                                  //                 ? formatBookingDate(
-                                  //                     context,
-                                  //                     experience.daysInfo.first
-                                  //                         .startTime)
-                                  //                 : ''
-                                  //             : formatBookingDate(
-                                  //                 context, experience.date),
-                                  //         fontSize: 12,
-                                  //         fontFamily:
-                                  //             AppUtil.rtlDirection2(context)
-                                  //                 ? 'SF Arabic'
-                                  //                 : 'SF Pro',
-                                  //         fontWeight: FontWeight.w600,
-                                  //         color: Color(0xFFB9B8C1),
-                                  //       ),
-                                  //     ],
-                                  //   ),
+                         
+                         
+                            if(!isPast)
+                              Row(
+                                children: [
+    
+                                  CustomText(
+                                    text: type == 'hospitality' ||
+                                            type == 'event'
+                                        ? experience.daysInfo.isNotEmpty
+                                            ? formatBookingDate(
+                                                context,
+                                                experience
+                                                    .daysInfo.first.startTime)
+                                            : ''
+                                        : formatBookingDate(
+                                            context, experience.date),
+                                    fontSize: 12,
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
+                                    fontWeight: FontWeight.w600,
+                                    color: colorGreen,
+                                  ),
                                 ],
                               ),
-                          
-                                 if(isPast)
-                                    Row(
-                                      children: [
-                                        CustomText(
-                                          text: type == 'hospitality' ||
-                                                  type == 'event'
-                                              ? experience.daysInfo.isNotEmpty
-                                                  ? formatBookingDate(
-                                                      context,
-                                                      experience.daysInfo.first
-                                                          .startTime)
-                                                  : ''
-                                              : formatBookingDate(
-                                                  context, experience.date),
-                                          fontSize: 12,
-                                          fontFamily:
-                                              AppUtil.rtlDirection2(context)
-                                                  ? 'SF Arabic'
-                                                  : 'SF Pro',
-                                          fontWeight: FontWeight.w600,
-                                          color: Color(0xFFB9B8C1),
-                                        ),
-                                      ],
-                                    ),
-                           
-                           
-                              if(!isPast)
-                                Row(
-                                  children: [
-
-                                    CustomText(
-                                      text: type == 'hospitality' ||
-                                              type == 'event'
-                                          ? experience.daysInfo.isNotEmpty
-                                              ? formatBookingDate(
-                                                  context,
-                                                  experience
-                                                      .daysInfo.first.startTime)
-                                              : ''
-                                          : formatBookingDate(
-                                              context, experience.date),
-                                      fontSize: 12,
-                                      fontFamily: AppUtil.rtlDirection2(context)
-                                          ? 'SF Arabic'
-                                          : 'SF Pro',
-                                      fontWeight: FontWeight.w600,
-                                      color: colorGreen,
-                                    ),
-                                  ],
-                                ),
-                            ],
-                          ),
+                          ],
                         ),
                       ),
-                     
-                        if(!isPast)
-                        isDateBefore24Hours()
-                            ? Padding(
-                                padding: const EdgeInsets.only(bottom: 14),
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    if (type == 'hospitality') {
-                                      Get.to(SummaryScreen(
-                                          hospitalityId: experience.id));
-                                    } else if (type == 'adventure') {
-                                      Get.to(AdventureSummaryScreen(
-                                          adventureId: experience.id));
-                                    } else {
-                                      // Get.to(EventSummaryScreen(eventId:experience.id));
-                                    }
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: colorGreen,
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16, vertical: 8),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(4),
-                                    ),
-                                    minimumSize:
-                                        Size(100, 37), // Width and height
+                    ),
+                   
+                      if(!isPast)
+                      isDateBefore24Hours()
+                          ? Padding(
+                              padding: const EdgeInsets.only(bottom: 14),
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  if (type == 'hospitality') {
+                                    Get.to(SummaryScreen(
+                                        hospitalityId: experience.id));
+                                  } else if (type == 'adventure') {
+                                    Get.to(AdventureSummaryScreen(
+                                        adventureId: experience.id));
+                                  } else {
+                                    // Get.to(EventSummaryScreen(eventId:experience.id));
+                                  }
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: colorGreen,
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 8),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(4),
                                   ),
-                                  child:CustomText(
-                                   text:'summary'.tr,
-                                    textAlign: TextAlign.center,
-                                      color: Colors.white,
-                                      fontSize: 13,
-                                      fontFamily: AppUtil.rtlDirection2(context)
-                                          ? 'SF Arabic'
-                                          : 'SF Pro',
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                ))
-                            : Container(),
-                    ],
-                  ),
+                                  minimumSize:
+                                      Size(100, 37), // Width and height
+                                ),
+                                child:CustomText(
+                                 text:'summary'.tr,
+                                  textAlign: TextAlign.center,
+                                    color: Colors.white,
+                                    fontSize: 13,
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                              ))
+                          : Container(),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

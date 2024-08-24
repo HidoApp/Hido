@@ -51,8 +51,8 @@ class _AddExperienceInfoState extends State<AddExperienceInfo> {
               Expanded(
                 child: Obx(
                   () => Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 40),
+                    padding:
+                        EdgeInsets.only(left: 0, right: 0, top: width * 0.1),
                     child: _experienceController.isAllExperiencesLoading.value
                         ? const Center(
                             child: CircularProgressIndicator(

@@ -102,7 +102,7 @@ class _LocalTicketScreenState extends State<LocalTicketScreen>
                 child: Obx(
                   () => Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 24),
+                        horizontal: 0, vertical: 24),
                     child: TabBarView(
                       controller: _tabController,
                       children: [

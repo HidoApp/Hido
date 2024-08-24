@@ -18,7 +18,7 @@ class BottomEventBooking extends StatefulWidget {
     super.key,
     required this.event,
     required this.avilableDate,
-    this.address='',
+    this.address = '',
   });
   final Event event;
   final List<DateTime> avilableDate;
@@ -33,12 +33,11 @@ class _BottomEventBookingState extends State<BottomEventBooking> {
   late tz.Location location;
   final _eventController = Get.put(EventController());
 
- @override
-  void initState(){
-   super.initState();
-_eventController.address(widget.address);
-
- }
+  @override
+  void initState() {
+    super.initState();
+    _eventController.address(widget.address);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,42 +86,48 @@ _eventController.address(widget.address);
                   left: width * 0.0025,
                   bottom: width * 0.08),
 
-              child: CustomButton(
-                onPressed: () {
-                       _eventController.DateErrorMessage.value = false;
-
-                  AppUtil.isGuest()
-                      ? showModalBottomSheet(
-                          context: context,
-                          builder: (context) => const SignInSheet(),
-                          isScrollControlled: true,
-                          enableDrag: true,
-                          backgroundColor: Colors.white,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(width * 0.06),
-                                topRight: Radius.circular(width * 0.06)),
-                          ))
-                      : Get.bottomSheet(
-                          EventBookingSheet(
-                            event: widget.event,
-                            avilableDate: widget.avilableDate,
-                            address: widget.address,
-                          ),
-                          backgroundColor: Colors.white,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(width * 0.06),
-                                topRight: Radius.circular(width * 0.06)),
-                          ));
-                },
-                iconColor: darkPurple,
-                title: "book".tr,
-                icon: AppUtil.rtlDirection2(context)
-                    ? const Icon(Icons.arrow_back_ios)
-                    : const Icon(Icons.arrow_forward_ios),
+              child: IgnorePointer(
+                 ignoring: widget.event.daysInfo!.isEmpty,
+                child: CustomButton(
+                  onPressed:
+                      () {
+                          _eventController.DateErrorMessage.value = false;
+              
+                          AppUtil.isGuest()
+                              ? showModalBottomSheet(
+                                  context: context,
+                                  builder: (context) => const SignInSheet(),
+                                  isScrollControlled: true,
+                                  enableDrag: true,
+                                  backgroundColor: Colors.white,
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(width * 0.06),
+                                        topRight: Radius.circular(width * 0.06)),
+                                  ))
+                              : Get.bottomSheet(
+                                  EventBookingSheet(
+                                    event: widget.event,
+                                    avilableDate: widget.avilableDate,
+                                    address: widget.address,
+                                  ),
+                                  backgroundColor: Colors.white,
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(width * 0.06),
+                                        topRight: Radius.circular(width * 0.06)),
+                                  ));
+                        },
+                  iconColor: darkPurple,
+                  title:widget.event.daysInfo!.isEmpty?'fullyBooked'.tr: "book".tr,
+                  icon: AppUtil.rtlDirection2(context)
+                      ? const Icon(Icons.arrow_back_ios)
+                      : const Icon(Icons.arrow_forward_ios),
+                  buttonColor: widget.event.daysInfo!.isEmpty? colorlightGreen:colorGreen,
+                  borderColor: widget.event.daysInfo!.isEmpty?colorlightGreen:colorGreen ,
+                ),
               ),
             ),
           ),
