@@ -363,7 +363,7 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                             child: ConstrainedBox(
                               constraints: isExpanded
                                   ? const BoxConstraints()
-                                  : BoxConstraints(maxHeight: width * 0.09),
+                                  : BoxConstraints(maxHeight: width * 0.1),
                               child: CustomText(
                                 textDirection: AppUtil.rtlDirection(context)
                                     ? TextDirection.ltr
@@ -374,6 +374,8 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                                 fontFamily: AppUtil.rtlDirection2(context)
                                     ? 'SF Arabic'
                                     : 'SF Pro',
+                            fontWeight: FontWeight.w400,
+                            maxlines: 200,
                                 color: Color(0xFF9392A0),
                                 fontSize: width * 0.035,
                                 text: AppUtil.rtlDirection2(context)
@@ -394,14 +396,17 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                                     onTap: () {
                                       setState(() => isExpanded = false);
                                     },
-                                    child: CustomText(
-                                      text: AppUtil.rtlDirection2(context)
-                                          ? "القليل"
-                                          : "Show less",
-                                      color: blue,
-                                      fontFamily: AppUtil.rtlDirection2(context)
-                                          ? 'SF Arabic'
-                                          : 'SF Pro',
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(top:8.0),
+                                      child: CustomText(
+                                        text: AppUtil.rtlDirection2(context)
+                                            ? "القليل"
+                                            : "Show less",
+                                        color: blue,
+                                        fontFamily: AppUtil.rtlDirection2(context)
+                                            ? 'SF Arabic'
+                                            : 'SF Pro',
+                                      ),
                                     ),
                                   ),
                                 )
@@ -412,12 +417,15 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                                   child: GestureDetector(
                                     onTap: () =>
                                         setState(() => isExpanded = true),
-                                    child: CustomText(
-                                      text: "readMore".tr,
-                                      color: blue,
-                                      fontFamily: AppUtil.rtlDirection2(context)
-                                          ? 'SF Arabic'
-                                          : 'SF Pro',
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(top:8.0),
+                                      child: CustomText(
+                                        text: "readMore".tr,
+                                        color: blue,
+                                        fontFamily: AppUtil.rtlDirection2(context)
+                                            ? 'SF Arabic'
+                                            : 'SF Pro',
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -542,14 +550,15 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                                               text:
                                                   "cancellationPolicyBreifAdventure"
                                                       .tr,
-                                              fontSize: width * 0.03,
-                                              fontWeight: FontWeight.w400,
-                                              maxlines: 2,
-                                              color: tileGreyColor,
-                                              fontFamily:
-                                                  AppUtil.rtlDirection2(context)
-                                                      ? 'SF Arabic'
-                                                      : 'SF Pro',
+                                              fontSize: width * 0.038,
+                                                  fontWeight: FontWeight.w400,
+                                                  fontFamily:
+                                                      AppUtil.rtlDirection2(
+                                                              context)
+                                                          ? 'SF Arabic'
+                                                          : 'SF Pro',
+                                                  color: starGreyColor,
+                                                  maxlines: 1,
                                             ),
                                           ),
                                         ],

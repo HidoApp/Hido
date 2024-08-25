@@ -320,7 +320,7 @@ class _TripDetailsState extends State<TripDetails> {
                         child: ConstrainedBox(
                           constraints: isExpanded
                               ? const BoxConstraints()
-                              : BoxConstraints(maxHeight: width * 0.2),
+                              : BoxConstraints(maxHeight: width * 0.1),
                           child: CustomText(
                               textDirection: AppUtil.rtlDirection(context)
                                   ? TextDirection.ltr
@@ -328,7 +328,8 @@ class _TripDetailsState extends State<TripDetails> {
                               textOverflow: isExpanded
                                   ? TextOverflow.visible
                                   : TextOverflow.clip,
-                              maxlines: 50,
+                              maxlines: 200,
+                              
                               fontSize: width * 0.038,
                               color: starGreyColor,
                               fontFamily: AppUtil.rtlDirection2(context)
@@ -354,19 +355,22 @@ class _TripDetailsState extends State<TripDetails> {
                                 onTap: () {
                                   setState(() => isExpanded = false);
                                 },
-                                child: CustomText(
-                                  textDirection: AppUtil.rtlDirection2(context)
-                                      ? TextDirection.rtl
-                                      : TextDirection.ltr,
-                                  text: AppUtil.rtlDirection2(context)
-                                      ? "القليل"
-                                      : "Show less",
-                                  color: blue,
-                                  fontSize: width * 0.038,
-                                  fontFamily: AppUtil.rtlDirection2(context)
-                                      ? 'SF Arabic'
-                                      : 'SF Pro',
-                                  fontWeight: FontWeight.w400,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top:8.0),
+                                  child: CustomText(
+                                    textDirection: AppUtil.rtlDirection2(context)
+                                        ? TextDirection.rtl
+                                        : TextDirection.ltr,
+                                    text: AppUtil.rtlDirection2(context)
+                                        ? "القليل"
+                                        : "Show less",
+                                    color: blue,
+                                    fontSize: width * 0.038,
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
                               ),
                             )
@@ -376,17 +380,20 @@ class _TripDetailsState extends State<TripDetails> {
                                   : Alignment.bottomLeft,
                               child: GestureDetector(
                                 onTap: () => setState(() => isExpanded = true),
-                                child: CustomText(
-                                  textDirection: AppUtil.rtlDirection2(context)
-                                      ? TextDirection.rtl
-                                      : TextDirection.ltr,
-                                  text: "readMore".tr,
-                                  color: blue,
-                                  fontSize: width * 0.038,
-                                  fontFamily: AppUtil.rtlDirection2(context)
-                                      ? 'SF Arabic'
-                                      : 'SF Pro',
-                                  fontWeight: FontWeight.w400,
+                                child: Padding(
+                                 padding: const EdgeInsets.only(top:8.0),
+                                  child: CustomText(
+                                    textDirection: AppUtil.rtlDirection2(context)
+                                        ? TextDirection.rtl
+                                        : TextDirection.ltr,
+                                    text: "readMore".tr,
+                                    color: blue,
+                                    fontSize: width * 0.038,
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
                               ),
                             ),

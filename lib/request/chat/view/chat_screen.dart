@@ -478,13 +478,18 @@ class _ChatScreenState extends State<ChatScreen> {
                                                   [] ||
                                               chatController
                                                   .chat.messages!.isEmpty)
-                                          ? Center(
+                                          ? Padding(
+                                            padding: const EdgeInsets.symmetric(vertical:16.0),
+                                            child: Center(
                                               child: CustomText(
                                                 text: 'StartChat'.tr,
-                                                fontSize: 24,
-                                                color: Colors.black87,
+                                                fontSize: width*0.03,
+                                                fontWeight:FontWeight.w500,
+                                                fontFamily: AppUtil.SfFontType(context),
+                                                color: Graytext,
                                               ),
-                                            )
+                                            ),
+                                          )
                                           : RefreshIndicator(
                                               color: Colors.green,
                                               onRefresh: () async {
@@ -601,7 +606,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                     child: CustomTextField(
                                       controller: messageController,
                                       hintText: 'HintMessage'.tr,
-
+                                      
                                       suffixIcon: IconButton(
                                         icon: SvgPicture.asset(
                                           'assets/icons/ChatSend.svg',
@@ -696,8 +701,8 @@ class _ChatScreenState extends State<ChatScreen> {
                                       //   ): null,
                                       height:
                                           MediaQuery.of(context).size.height *
-                                              0.07,
-                                      maxLines: 3,
+                                              0.06,
+                                      maxLines: 100,
                                       minLines: 2,
                                       onChanged: (String value) {},
                                     ),

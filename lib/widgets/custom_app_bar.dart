@@ -82,8 +82,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     if (isDeleteIcon!)
                       Padding(
                         padding: AppUtil.rtlDirection2(context)
-                            ? EdgeInsets.only(left: 15, top: 4)
-                            : EdgeInsets.only(right: 15, top: 4),
+                            ? EdgeInsets.only(left: 18, top: 4)
+                            : EdgeInsets.only(right: 18,bottom: 4),
                         child: IconButton(
                           icon: Icon(
                             Icons.delete_outline,

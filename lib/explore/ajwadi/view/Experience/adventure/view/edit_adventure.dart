@@ -488,15 +488,14 @@ class _EditAdventureState extends State<EditAdventure> {
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Container(
-                width: 350,
-                height: 110, // Custom width
+                width: double.infinity,
                 padding: EdgeInsets.all(16),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset('assets/images/paymentSuccess.gif', width: 38),
-                    SizedBox(height: 16),
+                   SizedBox(height: width*0.04),
                     Text(
                       'saveChange'.tr,
                       style: TextStyle(
@@ -575,8 +574,7 @@ class _EditAdventureState extends State<EditAdventure> {
                                 BorderRadius.all(Radius.circular(8.0)),
                           ),
                           content: Container(
-                            width: 500,
-                            height: AppUtil.rtlDirection2(context) ? 138 : 138,
+                            width: double.infinity,
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -641,9 +639,8 @@ class _EditAdventureState extends State<EditAdventure> {
                                                               8),
                                                     ),
                                                     child: Container(
-                                                      width: 350,
-                                                      height:
-                                                          110, // Custom width
+                                                      width: double.infinity,
+                                                   
                                                       padding:
                                                           EdgeInsets.all(16),
                                                       child: Column(
@@ -656,7 +653,8 @@ class _EditAdventureState extends State<EditAdventure> {
                                                           Image.asset(
                                                               'assets/images/paymentSuccess.gif',
                                                               width: 38),
-                                                          SizedBox(height: 16),
+                                                       SizedBox(height: width*0.04),
+
                                                           Text(
                                                             'DeleteDone'.tr,
                                                             style: TextStyle(
@@ -703,7 +701,7 @@ class _EditAdventureState extends State<EditAdventure> {
                                           },
                                           child: Container(
                                             height: 34,
-                                            width: 278,
+                                            width:double.infinity,
                                             padding: const EdgeInsets.symmetric(
                                                 vertical: 3),
                                             alignment: Alignment.center,
@@ -732,10 +730,10 @@ class _EditAdventureState extends State<EditAdventure> {
                                     Get.back();
                                   },
                                   child: Container(
-                                      width: 278,
+                                      width: double.infinity,
                                       height: 34,
                                       padding: const EdgeInsets.symmetric(
-                                          vertical: 2),
+                                          vertical: 3),
                                       decoration: BoxDecoration(
                                         border: Border.all(
                                           color: Color(0xFFDC362E),
@@ -764,7 +762,7 @@ class _EditAdventureState extends State<EditAdventure> {
                 ),
 
                 bottomNavigationBar: Padding(
-                    padding: EdgeInsets.all(16.0),
+                    padding: EdgeInsets.only(left:16.0,right:16.0,bottom:24.0,top:16),
                     child: Obx(
                       () => _eventController.isImagesLoading.value ||
                               _servicesController.isEditAdveentureLoading.value
@@ -1459,7 +1457,7 @@ class _EditAdventureState extends State<EditAdventure> {
                                                   : "*Please select a date at least 48 hours from now",
                                           style: TextStyle(
                                             color: Color(0xFFDC362E),
-                                            fontSize: 11,
+                                            fontSize: width * 0.028,
                                             fontFamily:
                                                 AppUtil.rtlDirection2(context)
                                                     ? 'SF Arabic'
@@ -1755,7 +1753,7 @@ class _EditAdventureState extends State<EditAdventure> {
                                                       : '',
                                                   style: TextStyle(
                                                     color: Color(0xFFDC362E),
-                                                    fontSize: 11,
+                                                    fontSize: width * 0.028,
                                                     fontFamily:
                                                         AppUtil.rtlDirection2(
                                                                 context)
@@ -2068,7 +2066,7 @@ class _EditAdventureState extends State<EditAdventure> {
                                                           : "*Can’t be before start time",
                                                   style: TextStyle(
                                                     color: Color(0xFFDC362E),
-                                                    fontSize: 11,
+                                                    fontSize: width * 0.028,
                                                     fontFamily:
                                                         AppUtil.rtlDirection2(
                                                                 context)
@@ -2275,6 +2273,13 @@ class _EditAdventureState extends State<EditAdventure> {
                                           borderRadius:
                                               BorderRadius.circular(8),
                                         ),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            width: 1,
+                                            color:
+                                                Graytext, 
+                                          ),
+                                        ),
                                         contentPadding: EdgeInsets.symmetric(
                                             horizontal: 15),
                                       ),
@@ -2300,7 +2305,7 @@ class _EditAdventureState extends State<EditAdventure> {
                                                       : 'You need to add a valid price, >= 150',
                                           style: TextStyle(
                                             color: Color(0xFFDC362E),
-                                            fontSize: 11,
+                                            fontSize: width * 0.028,
                                             fontFamily:
                                                 AppUtil.rtlDirection2(context)
                                                     ? 'SF Arabic'

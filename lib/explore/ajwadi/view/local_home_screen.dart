@@ -123,18 +123,18 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                                       'assets/icons/Communication_black.svg'),
                                 ),
                               ),
-                              InkWell(
-                                // onTap: () {
-                                //   Get.to(() => NotificationScreen());
-                                // },
-                                child: Container(
-                                  width: 36,
-                                  height: 24,
-                                  alignment: Alignment.center,
-                                  child: SvgPicture.asset(
-                                      'assets/icons/Alerts_black.svg'),
-                                ),
-                              ),
+                              // InkWell(
+                              //   // onTap: () {
+                              //   //   Get.to(() => NotificationScreen());
+                              //   // },
+                              //   child: Container(
+                              //     width: 36,
+                              //     height: 24,
+                              //     alignment: Alignment.center,
+                              //     child: SvgPicture.asset(
+                              //         'assets/icons/Alerts_black.svg'),
+                              //   ),
+                              // ),
                             ],
                           ),
                         ),

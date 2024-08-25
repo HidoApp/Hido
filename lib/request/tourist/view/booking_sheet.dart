@@ -272,6 +272,9 @@ class _BookingSheetState extends State<BookingSheet> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          const SizedBox(
+                            height: 12,
+                          ),
                           CustomText(
                             text: AppUtil.rtlDirection2(context)
                                 ? "وقت الذهاب"
@@ -323,9 +326,10 @@ class _BookingSheetState extends State<BookingSheet> {
                                                         .touristExploreController
                                                         .isBookingTimeSelected(
                                                             true);
+                                                         Get.back();
                                                     setState(() {
-                                                      Get.back();
                                                       time = newTimeToGo;
+                                                      if(_touristExploreController.isBookingDateSelected.value){
                                                       DateTime Date =
                                                           DateTime.parse(
                                                               _touristExploreController
@@ -345,6 +349,21 @@ class _BookingSheetState extends State<BookingSheet> {
                                                                   .minute,
                                                               newTimeToGo
                                                                   .second);
+                                                      }else{
+                                                        DateTime Date = DateTime.now(),
+                                                         
+                                                      newTimeToGoInRiyadh =
+                                                          tz.TZDateTime(
+                                                              location,
+                                                              Date.year,
+                                                              Date.month,
+                                                              Date.day,
+                                                              newTimeToGo.hour,
+                                                              newTimeToGo
+                                                                  .minute,
+                                                              newTimeToGo
+                                                                  .second);
+                                                      }
                                                       _validateTime(); // Validate time after selection
                                                     });
                                                   },
@@ -406,7 +425,7 @@ class _BookingSheetState extends State<BookingSheet> {
                               title: !_touristExploreController
                                       .isBookingTimeSelected.value
                                   ? "00:00"
-                                  : DateFormat('hh:mm a').format(newTimeToGo),
+                                  : AppUtil.formatStringTimeWithLocale(context,DateFormat('HH:mm:ss').format(newTimeToGo)),
                               //  test,
                               borderColor: TimeErrorMessage ?? false
                                   ? Colors.red
@@ -441,6 +460,9 @@ class _BookingSheetState extends State<BookingSheet> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          const SizedBox(
+                            height: 12,
+                          ),
                           CustomText(
                             text: AppUtil.rtlDirection2(context)
                                 ? "وقت العودة"
@@ -491,8 +513,8 @@ class _BookingSheetState extends State<BookingSheet> {
                                                         .touristExploreController
                                                         .isBookingTimeSelected(
                                                             true);
+                                                    Get.back();
                                                     setState(() {
-                                                      Get.back();
                                                       returnTime =
                                                           newTimeToReturn;
                                                       _validateTime(); // Validate time after selection
@@ -550,8 +572,8 @@ class _BookingSheetState extends State<BookingSheet> {
                               title: !_touristExploreController
                                       .isBookingTimeSelected.value
                                   ? "00:00"
-                                  : DateFormat('hh:mm a')
-                                      .format(newTimeToReturn),
+                                  : AppUtil.formatStringTimeWithLocale(context, DateFormat('HH:mm:ss')
+                                      .format(newTimeToReturn)),
                               //  test,
                               borderColor: TimeErrorMessage ?? false
                                   ? Colors.red

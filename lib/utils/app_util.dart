@@ -4,6 +4,7 @@ import 'package:ajwad_v4/services/model/days_info.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:another_flushbar/flushbar.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -471,39 +472,86 @@ class AppUtil {
   }
 
   static successToast(context, msg) {
-    Flushbar(
-      onTap: (flushbar) {},
-      messageText: Row(
+    var width = MediaQuery.of(context).size.width;
+     Flushbar(
+    messageText: Container(
+      width: double.infinity,
+     padding: EdgeInsets.symmetric(horizontal: width*0.041, vertical: width*0.029),
+      clipBehavior: Clip.none, // No clipping to avoid any implicit border
+       decoration: ShapeDecoration(
+        color: Color(0xFFEEFBDF), // Light pink background color for the message
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8), // Reduced border radius for less rounded corners
+        ),
+        ),
+              child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.7,
+         
+          SvgPicture.asset(
+                      "assets/icons/sucss_toast.svg"
+                    ),
+
+       SizedBox(width: width *0.029),
+          Expanded(
             child: CustomText(
-              text: msg,
-              color: Colors.white,
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
+              text: msg, // Dynamic message text
+                color:  Color(0xFF3F6E0D), // Text color
+                fontSize:  width *0.038,
+                maxlines: 200,
+                fontFamily: SfFontType(context),
+                fontWeight: FontWeight.w500,
+              
             ),
-          ),
-          const Spacer(),
-          const Icon(
-            Icons.check,
-            color: Colors.white,
           ),
         ],
       ),
-      messageColor: Colors.white,
-      messageSize: 18,
-      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
-      isDismissible: true,
-      duration: const Duration(seconds: 3),
-      flushbarPosition: FlushbarPosition.TOP,
-      barBlur: .1,
-      backgroundColor: colorGreen,
-      borderColor: colorGreen,
-      margin: const EdgeInsets.all(8),
-      //  borderRadius: BorderRadius.circular(10),
-      //  borderRadius:BorderRadius?.all(Radius.circular(12))
-    ).show(context);
+    ),
+    messageColor: Colors.white,
+    padding:  EdgeInsets.symmetric(horizontal: width*0.029, vertical: 4),
+    isDismissible: true,
+    duration: const Duration(seconds: 5),
+    flushbarPosition: FlushbarPosition.TOP,
+    backgroundColor: Colors.transparent, // Transparent to prevent any additional color
+    // margin: const EdgeInsets.all(3),
+    borderRadius: const BorderRadius.all(Radius.circular(8)), // Match the reduced border radius
+  ).show(context);
+
+    // Flushbar(
+    //   onTap: (flushbar) {},
+    //   messageText: Row(
+    //     children: [
+    //       SizedBox(
+    //         width: MediaQuery.of(context).size.width * 0.7,
+    //         child: CustomText(
+    //           text: msg,
+    //           color: Colors.white,
+    //           fontSize: 14,
+    //           fontWeight: FontWeight.w400,
+    //         ),
+    //       ),
+    //       const Spacer(),
+    //       const Icon(
+    //         Icons.check,
+    //         color: Colors.white,
+    //       ),
+    //     ],
+    //   ),
+    //   messageColor: Colors.white,
+    //   messageSize: 18,
+    //   padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+    //   isDismissible: true,
+    //   duration: const Duration(seconds: 3),
+    //   flushbarPosition: FlushbarPosition.TOP,
+    //   barBlur: .1,
+    //   backgroundColor: colorGreen,
+    //   borderColor: colorGreen,
+    //   margin: const EdgeInsets.all(8),
+    //   //  borderRadius: BorderRadius.circular(10),
+    //   //  borderRadius:BorderRadius?.all(Radius.circular(12))
+    // ).show(context);
   }
 
   static String getBookingTypeText(BuildContext context, String bookingType) {
@@ -528,38 +576,88 @@ class AppUtil {
       }
     }
   }
+static errorToast(BuildContext context, String msg) {
+  var width = MediaQuery.of(context).size.width;
 
-  static errorToast(context, msg) {
-    Flushbar(
-            messageText: Row(
-              children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.7,
-                  child: CustomText(
-                    text: msg,
-                    color: Colors.white,
-                    maxlines: 4,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ],
+  Flushbar(
+    messageText: Container(
+      width: double.infinity,
+     padding: EdgeInsets.symmetric(horizontal: width*0.041, vertical: width*0.029),
+      clipBehavior: Clip.none, // No clipping to avoid any implicit border
+       decoration: ShapeDecoration(
+        color: Color(0xFFFBEAE9), // Light pink background color for the message
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8), // Reduced border radius for less rounded corners
+        ),
+        ),
+              child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+         
+          SvgPicture.asset(
+                      "assets/icons/error_toast.svg"
+                    ),
+
+           SizedBox(width: width *0.029),
+          Expanded(
+            child: CustomText(
+              text: msg, // Dynamic message text
+                color: Color(0xFFDC362E), // Text color
+                fontSize:width *0.038,
+                maxlines: 200,
+                fontFamily: SfFontType(context),
+                fontWeight: FontWeight.w500,
+              
             ),
-            messageColor: Colors.white,
-            padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 2),
-            isDismissible: true,
-            duration: const Duration(seconds: 2),
-            flushbarPosition: FlushbarPosition.TOP,
-            // barBlur: .1,
-            backgroundColor: colorDarkRed,
-            borderColor: colorDarkRed,
-            margin: const EdgeInsets.all(3),
-            borderRadius: const BorderRadius.all(Radius.circular(8))
+          ),
+        ],
+      ),
+    ),
+    messageColor: Colors.white,
+    padding: EdgeInsets.symmetric(horizontal: width*0.029, vertical: 4),
+    isDismissible: true,
+    duration: const Duration(seconds: 5),
+    flushbarPosition: FlushbarPosition.TOP,
+    backgroundColor: Colors.transparent, // Transparent to prevent any additional color
+    // margin: const EdgeInsets.all(3),
+    borderRadius: const BorderRadius.all(Radius.circular(8)), // Match the reduced border radius
+  ).show(context);
+}
 
-            //BorderRadius.circular(12),
-            )
-        .show(context);
-  }
+
+  // static errorToast(context, msg) {
+  //   Flushbar(
+  //           messageText: Row(
+  //             children: [
+  //               SizedBox(
+  //                 width: MediaQuery.of(context).size.width * 0.7,
+  //                 child: CustomText(
+  //                   text: msg,
+  //                   color: Colors.white,
+  //                   maxlines: 4,
+  //                   fontSize: 14,
+  //                   fontWeight: FontWeight.w400,
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //           messageColor: Colors.white,
+  //           padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 2),
+  //           isDismissible: true,
+  //           duration: const Duration(seconds: 2),
+  //           flushbarPosition: FlushbarPosition.TOP,
+  //           // barBlur: .1,
+  //           backgroundColor: colorDarkRed,
+  //           borderColor: colorDarkRed,
+  //           margin: const EdgeInsets.all(3),
+  //           borderRadius: const BorderRadius.all(Radius.circular(8))
+
+  //           //BorderRadius.circular(12),
+  //           )
+  //       .show(context);
+  // }
 
   static String countdwonFormat(double seconds) {
     Duration duration = Duration(seconds: seconds.toInt());

@@ -126,13 +126,16 @@ class _ReviewIenraryScreenState extends State<ReviewIenraryScreen> {
                               context: context,
                               builder: (ctx) {
                                 return AlertDialog(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8)),
                                   backgroundColor: Colors.white,
                                   surfaceTintColor: Colors.white,
                                   content: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Image.asset(
-                                          'assets/images/paymentSuccess.gif'),
+                                          'assets/images/paymentSuccess.gif',
+                                          width: 38),
                                       CustomText(
                                         text: "offerSent".tr,
                                         fontSize: width * 0.038,

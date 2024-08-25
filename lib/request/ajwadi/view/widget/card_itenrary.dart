@@ -245,6 +245,9 @@ class _ItineraryCardState extends State<ItineraryCard> {
                         onTap: () async {
                           await DatePickerBdaya.showTime12hPicker(
                             context,
+                             locale: AppUtil.rtlDirection2(context)
+                                    ? LocaleType.ar
+                                    : LocaleType.en,
                             showTitleActions: true,
                             currentTime: _dateTimeFrom,
                             onConfirm: (time) {
@@ -342,6 +345,9 @@ class _ItineraryCardState extends State<ItineraryCard> {
                         onTap: () async {
                           await DatePickerBdaya.showTime12hPicker(
                             context,
+                             locale: AppUtil.rtlDirection2(context)
+                                    ? LocaleType.ar
+                                    : LocaleType.en,
                             showTitleActions: true,
                             currentTime: _dateTimeTo,
                             onConfirm: (time) {

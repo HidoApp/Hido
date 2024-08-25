@@ -373,12 +373,14 @@ print(newProgress);
                                     ),
                                   ),
                                 ),
+                                  elevation: MaterialStateProperty.all(0), 
                               ),
                               child:FittedBox(
                                 child: CustomText (
                                   text:'chat2'.tr,
                                     color:colorGreen,),
                               ),
+                              
                             ),
                             const SizedBox(width: 8),
                             Obx(
@@ -499,10 +501,10 @@ print(newProgress);
                                                   });
                                                 } else {
                                                   AppUtil.errorToast(
-                                                      context, 'EndTrip'.tr);
+                                                      context, 'EndTrip1'.tr);
                                                   await Future.delayed(
                                                       const Duration(
-                                                          seconds: 1));
+                                                          seconds: 3));
                                                 }
                                                 // } else {
 
@@ -546,19 +548,24 @@ print(newProgress);
                                         width: 1,
                                       ),
                                     ),
+                                    
                                   ),
+                                  elevation: MaterialStateProperty.all(0), 
+
                                 ),
-                                child: CustomText(
-                                text:  getActivityProgressText(
-                                      _tripController.nextStep.value, context),
-                                    color: Color.fromARGB(255, 255, 255, 255),
-                                    fontSize: 13,
-                                    fontFamily: AppUtil.rtlDirection2(context)
-                                        ? 'SF Arabic'
-                                        : 'SF Pro',
-                                    fontWeight: FontWeight.w500,
-                                    height: 0,
-                                
+                                child: FittedBox(
+                                  child: CustomText(
+                                  text:  getActivityProgressText(
+                                        _tripController.nextStep.value, context),
+                                      color: Color.fromARGB(255, 255, 255, 255),
+                                      fontSize: width*0.03,
+                                      fontFamily: AppUtil.rtlDirection2(context)
+                                          ? 'SF Arabic'
+                                          : 'SF Pro',
+                                      fontWeight: FontWeight.w500,
+                                      height: 0,
+                                  
+                                  ),
                                 ),
                               ),
                             ),
@@ -577,27 +584,43 @@ print(newProgress);
             data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
                 child: ExpandedTile(
                       contentseparator: 12,
-                      trailing: Icon(
-                        Icons.keyboard_arrow_down_outlined,
-                        size: width * 0.046,
+                      trailing: Directionality(
+                        textDirection: AppUtil.rtlDirection2(context)?TextDirection.rtl:TextDirection.ltr,
+                        child: _controller.isExpanded
+                            ? CustomText(
+                                text: AppUtil.rtlDirection2(context) ? 'القليل' : 'See less',
+                                color: Color(0xFF36B268),
+                                fontSize: 13,
+                                fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+                                fontWeight: FontWeight.w500,
+                              )
+                            : CustomText(
+                                text: 'seeMore'.tr,
+                                color: Color(0xFF36B268),
+                                fontSize: 13,
+                                fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+                                fontWeight: FontWeight.w500,
+                              ),
                       ),
                       disableAnimation: true,
-                      trailingRotation: 180,
+                      trailingRotation: 0,
                       onTap: () {
                         // print(widget.request.date);
                         setState(() {});
                       },
-                      title: !_controller.isExpanded
-                          ? CustomText(
-                              text:'seeMore'.tr,
-                              color: Color(0xFF36B268),
-                              fontSize: 13,
-                              fontFamily: AppUtil.rtlDirection2(context)
-                                  ? 'SF Arabic'
-                                  : 'SF Pro',
-                              fontWeight: FontWeight.w500,
-                            )
-                          : CustomText(text:''),
+                       title: 
+                       //!_controller.isExpanded
+                      //     ? CustomText(
+                      //         text:'seeMore'.tr,
+                      //         color: Color(0xFF36B268),
+                      //         fontSize: 13,
+                      //         fontFamily: AppUtil.rtlDirection2(context)
+                      //             ? 'SF Arabic'
+                      //             : 'SF Pro',
+                      //         fontWeight: FontWeight.w500,
+                      //       )
+                      //     :
+                       Text(''),
                       content: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -634,19 +657,19 @@ print(newProgress);
                   
                           SizedBox(height: 11),
                   
-                          _controller.isExpanded
-                              ? CustomText(
-                                  text: AppUtil.rtlDirection2(context)
-                                      ? 'القليل'
-                                      : 'See less',
-                                  color: Color(0xFF36B268),
-                                  fontSize: 13,
-                                  fontFamily: AppUtil.rtlDirection2(context)
-                                      ? 'SF Arabic'
-                                      : 'SF Pro',
-                                  fontWeight: FontWeight.w500,
-                                )
-                              :CustomText(text:''),
+                          // _controller.isExpanded
+                          //     ? CustomText(
+                          //         text: AppUtil.rtlDirection2(context)
+                          //             ? 'القليل'
+                          //             : 'See less',
+                          //         color: Color(0xFF36B268),
+                          //         fontSize: 13,
+                          //         fontFamily: AppUtil.rtlDirection2(context)
+                          //             ? 'SF Arabic'
+                          //             : 'SF Pro',
+                          //         fontWeight: FontWeight.w500,
+                          //       )
+                          //     :CustomText(text:''),
                         ],
                       ),
                       controller: _controller,

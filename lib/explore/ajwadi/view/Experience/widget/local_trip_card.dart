@@ -195,27 +195,28 @@ class _LocalTripCardState extends State<LocalTripCard> {
               data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
               child: ExpandedTile(
                 contentseparator: 12,
-                trailing: Icon(
-                  Icons.keyboard_arrow_down_outlined,
-                  size: width * 0.046,
-                ),
+                trailing:  _controller.isExpanded
+                            ? CustomText(
+                                text: AppUtil.rtlDirection2(context) ? 'القليل' : 'See less',
+                                color: Color(0xFF36B268),
+                                fontSize: 13,
+                                fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+                                fontWeight: FontWeight.w500,
+                              )
+                            : CustomText(
+                                text: 'seeMore'.tr,
+                                color: Color(0xFF36B268),
+                                fontSize: 13,
+                                fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+                                fontWeight: FontWeight.w500,
+                              ),
                 disableAnimation: true,
-                trailingRotation: 180,
+                trailingRotation: 0,
                 onTap: () {
                   // print(widget.request.date);
                   setState(() {});
                 },
-                title: !_controller.isExpanded
-                    ? CustomText(
-                        text: 'seeMore'.tr,
-                        color: Color(0xFF36B268),
-                        fontSize: 13,
-                        fontFamily: AppUtil.rtlDirection2(context)
-                            ? 'SF Arabic'
-                            : 'SF Pro',
-                        fontWeight: FontWeight.w500,
-                      )
-                    : Text(''),
+                title:Text(''),
                 content: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -246,19 +247,7 @@ class _LocalTripCardState extends State<LocalTripCard> {
     
                     SizedBox(height: 11),
     
-                    _controller.isExpanded
-                        ? CustomText(
-                            text: AppUtil.rtlDirection2(context)
-                                ? 'القليل'
-                                : 'See less',
-                            color: Color(0xFF36B268),
-                            fontSize: 13,
-                            fontFamily: AppUtil.rtlDirection2(context)
-                                ? 'SF Arabic'
-                                : 'SF Pro',
-                            fontWeight: FontWeight.w500,
-                          )
-                        : Text(''),
+                   
                   ],
                 ),
                 controller: _controller,

@@ -365,9 +365,9 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                   constraints: isExpanded
                                       ? const BoxConstraints()
                                       : BoxConstraints(
-                                          maxHeight: width * 0.097),
+                                          maxHeight: width * 0.1),
                                   child: CustomText(
-                                      maxlines: 50,
+                                      maxlines: 200,
 
                                       //   textAlign: AppUtil.rtlDirection(context) ? TextAlign.end : TextAlign.start ,
                                       textDirection:
@@ -380,6 +380,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                       fontFamily: AppUtil.rtlDirection2(context)
                                           ? 'SF Arabic'
                                           : 'SF Pro',
+                                    fontWeight: FontWeight.w400,
                                       fontSize: width * 0.038,
                                       color: starGreyColor,
                                       text: !AppUtil.rtlDirection(context)
@@ -399,19 +400,22 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                         onTap: () {
                                           setState(() => isExpanded = false);
                                         },
-                                        child: CustomText(
-                                          textDirection:
-                                              AppUtil.rtlDirection2(context)
-                                                  ? TextDirection.rtl
-                                                  : TextDirection.ltr,
-                                          text: AppUtil.rtlDirection2(context)
-                                              ? "القليل"
-                                              : "Show less",
-                                          fontFamily:
-                                              AppUtil.rtlDirection2(context)
-                                                  ? 'SF Arabic'
-                                                  : 'SF Pro',
-                                          color: blue,
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(top:8.0),
+                                          child: CustomText(
+                                            textDirection:
+                                                AppUtil.rtlDirection2(context)
+                                                    ? TextDirection.rtl
+                                                    : TextDirection.ltr,
+                                            text: AppUtil.rtlDirection2(context)
+                                                ? "القليل"
+                                                : "Show less",
+                                            fontFamily:
+                                                AppUtil.rtlDirection2(context)
+                                                    ? 'SF Arabic'
+                                                    : 'SF Pro',
+                                            color: blue,
+                                          ),
                                         ),
                                       ),
                                     )
@@ -422,17 +426,20 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                       child: GestureDetector(
                                         onTap: () =>
                                             setState(() => isExpanded = true),
-                                        child: CustomText(
-                                          textDirection:
-                                              AppUtil.rtlDirection2(context)
-                                                  ? TextDirection.rtl
-                                                  : TextDirection.ltr,
-                                          text: "readMore".tr,
-                                          fontFamily:
-                                              AppUtil.rtlDirection2(context)
-                                                  ? 'SF Arabic'
-                                                  : 'SF Pro',
-                                          color: blue,
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(top:8.0),
+                                          child: CustomText(
+                                            textDirection:
+                                                AppUtil.rtlDirection2(context)
+                                                    ? TextDirection.rtl
+                                                    : TextDirection.ltr,
+                                            text: "readMore".tr,
+                                            fontFamily:
+                                                AppUtil.rtlDirection2(context)
+                                                    ? 'SF Arabic'
+                                                    : 'SF Pro',
+                                            color: blue,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -576,15 +583,15 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                                   text:
                                                       "cancellationPolicyBreifAdventure"
                                                           .tr,
-                                                  fontSize: width * 0.03,
+                                                  fontSize: width * 0.038,
                                                   fontWeight: FontWeight.w400,
-                                                  maxlines: 2,
-                                                  color: tileGreyColor,
                                                   fontFamily:
                                                       AppUtil.rtlDirection2(
                                                               context)
                                                           ? 'SF Arabic'
                                                           : 'SF Pro',
+                                                  color: starGreyColor,
+                                                  maxlines: 1,
                                                 ),
                                               ),
                                             ],

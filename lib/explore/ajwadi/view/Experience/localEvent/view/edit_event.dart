@@ -551,15 +551,14 @@ class _EditEventState extends State<EditEvent> {
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Container(
-                width: 350,
-                height: 110, // Custom width
+                width: double.infinity,
                 padding: EdgeInsets.all(16),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset('assets/images/paymentSuccess.gif', width: 38),
-                    SizedBox(height: 16),
+                   SizedBox(height: width*0.04),
                     Text(
                       'saveChange'.tr,
                       style: TextStyle(
@@ -638,8 +637,7 @@ class _EditEventState extends State<EditEvent> {
                                 BorderRadius.all(Radius.circular(8.0)),
                           ),
                           content: Container(
-                            width: 500,
-                            height: AppUtil.rtlDirection2(context) ? 138 : 138,
+                            width: double.infinity,
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -650,8 +648,8 @@ class _EditEventState extends State<EditEvent> {
                                 CustomText(
                                   textAlign: TextAlign.center,
                                   color: Color(0xFFDC362E),
-                                  fontSize: 15,
-                                  fontFamily: 'SF Pro',
+                                  fontSize: width*0.038,
+                                  fontFamily: AppUtil.SfFontType(context),
                                   fontWeight: FontWeight.w500,
                                   text: "Alert".tr,
                                 ),
@@ -660,7 +658,7 @@ class _EditEventState extends State<EditEvent> {
                                 ),
                                 CustomText(
                                   textAlign: TextAlign.center,
-                                  fontSize: 15,
+                                  fontSize: width*0.038,
                                   fontWeight: FontWeight.w400,
                                   color: Color(0xFF41404A),
                                   text: 'DeleteNote'.tr,
@@ -701,9 +699,8 @@ class _EditEventState extends State<EditEvent> {
                                                               8),
                                                     ),
                                                     child: Container(
-                                                      width: 350,
-                                                      height:
-                                                          110, // Custom width
+                                                      width: double.infinity,
+                                                  
                                                       padding:
                                                           EdgeInsets.all(16),
                                                       child: Column(
@@ -716,7 +713,7 @@ class _EditEventState extends State<EditEvent> {
                                                           Image.asset(
                                                               'assets/images/paymentSuccess.gif',
                                                               width: 38),
-                                                          SizedBox(height: 16),
+                                                        SizedBox(height: width*0.04),
                                                           Text(
                                                             'DeleteDone'.tr,
                                                             style: TextStyle(
@@ -756,7 +753,7 @@ class _EditEventState extends State<EditEvent> {
                                           },
                                           child: Container(
                                             height: 34,
-                                            width: 278,
+                                            width: double.infinity,
                                             padding: const EdgeInsets.symmetric(
                                                 vertical: 3),
                                             alignment: Alignment.center,
@@ -785,10 +782,10 @@ class _EditEventState extends State<EditEvent> {
                                     Get.back();
                                   },
                                   child: Container(
-                                      width: 278,
+                                      width: double.infinity,
                                       height: 34,
                                       padding: const EdgeInsets.symmetric(
-                                          vertical: 2),
+                                          vertical: 3),
                                       decoration: BoxDecoration(
                                         border: Border.all(
                                           color: Color(0xFFDC362E),
@@ -817,7 +814,7 @@ class _EditEventState extends State<EditEvent> {
                 ),
 
                 bottomNavigationBar: Padding(
-                    padding: EdgeInsets.all(16.0),
+                    padding: EdgeInsets.only(left:16.0,right:16.0,bottom:24.0,top:16),
                     child: Obx(
                       () => _servicesController.isImagesLoading.value ||
                               _servicesController.isEditEventLoading.value
@@ -1496,7 +1493,7 @@ class _EditEventState extends State<EditEvent> {
                                                   : "*Please select a date at least 48 hours from now",
                                           style: TextStyle(
                                             color: colorRed,
-                                            fontSize: 11,
+                                            fontSize: width * 0.028,
                                             fontFamily:
                                                 AppUtil.rtlDirection2(context)
                                                     ? 'SF Arabic'
@@ -1818,7 +1815,7 @@ class _EditEventState extends State<EditEvent> {
                                                       : '',
                                                   style: TextStyle(
                                                     color: Color(0xFFDC362E),
-                                                    fontSize: 11,
+                                                    fontSize: width * 0.028,
                                                     fontFamily:
                                                         AppUtil.rtlDirection2(
                                                                 context)
@@ -2154,7 +2151,8 @@ class _EditEventState extends State<EditEvent> {
                                                         style: TextStyle(
                                                           color:
                                                               Color(0xFFDC362E),
-                                                          fontSize: 11,
+                                                          fontSize:
+                                                              width * 0.028,
                                                           fontFamily: AppUtil
                                                                   .rtlDirection2(
                                                                       context)
@@ -2216,7 +2214,7 @@ class _EditEventState extends State<EditEvent> {
                                             child: GoogleMap(
                                               scrollGesturesEnabled: true,
                                               zoomControlsEnabled: false,
-                                                gestureRecognizers: {
+                                              gestureRecognizers: {
                                                 Factory<OneSequenceGestureRecognizer>(
                                                     () =>
                                                         EagerGestureRecognizer())
@@ -2352,6 +2350,13 @@ class _EditEventState extends State<EditEvent> {
                                           borderRadius:
                                               BorderRadius.circular(8),
                                         ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            width: 1,
+                                            color:
+                                                Graytext, 
+                                          ),
+                                        ),
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
                                             width: 1,
@@ -2381,7 +2386,7 @@ class _EditEventState extends State<EditEvent> {
                                                   : '*The price must be an integer value only',
                                           style: TextStyle(
                                             color: Color(0xFFDC362E),
-                                            fontSize: 11,
+                                            fontSize: width * 0.028,
                                             fontFamily:
                                                 AppUtil.rtlDirection2(context)
                                                     ? 'SF Arabic'

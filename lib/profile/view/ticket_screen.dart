@@ -70,9 +70,9 @@ class _TicketScreenState extends State<TicketScreen>
               child: Container(
                 color: Colors.white,
                 child: Obx(
-                  () => Padding(
+                  () =>  Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 24),
+                        horizontal: 0, vertical: 24),
                     child: TabBarView(
                       controller: _tabController,
                       children: [

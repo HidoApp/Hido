@@ -105,9 +105,10 @@ class ChatBubble extends StatelessWidget {
       child:CustomText(
                 text:  message.created!,
                 textAlign: TextAlign.center,
+                fontFamily: AppUtil.SfFontType(context),
                 // textDirection: AppUtil.rtlDirection2(context)? TextDirection.rtl:TextDirection.ltr,
                 fontSize: 10,
-                color: isSender ? Colors.black :Colors.black),
+                color: isSender ? Color(0xFF676767) : Color(0xFF676767)),
       ),
         
   ],), 
