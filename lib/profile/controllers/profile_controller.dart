@@ -21,6 +21,7 @@ class ProfileController extends GetxController {
   var isUpdatingMobileLoading = false.obs;
   var isActionsListLoading = false.obs;
   var isUpdatingActionLoading = false.obs;
+  var isUserOpenTheApp = false.obs;
   var upcommingTicket = <Booking>[].obs;
   var pastTicket = <Booking>[].obs;
   var chatList = <ChatModel>[].obs;
@@ -32,6 +33,7 @@ class ProfileController extends GetxController {
   var isNumberNotValid = false.obs;
   var isOTPMode = false.obs;
   var enableSignOut = true.obs;
+
   //update var
   var updatedMobile = '';
   var pdfName = ''.obs;

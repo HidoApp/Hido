@@ -681,10 +681,10 @@ packages:
     dependency: transitive
     description:
       name: google_maps_flutter_android
-      sha256: "3fa9a96b89bac3aecd06788b13247a2f059e282b4d1eb7fe5fbddff4d939889f"
+      sha256: "60a005bf1ba8d178144e442f6e2d734b0ffc2cc800a05415388472f934ad6d6a"
       url: "https://pub.dev"
     source: hosted
-    version: "2.14.1"
+    version: "2.14.4"
   google_maps_flutter_ios:
     dependency: transitive
     description:
@@ -1142,7 +1142,7 @@ packages:
     source: hosted
     version: "2.1.0"
   shared_preferences:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: shared_preferences
       sha256: "746e5369a43170c25816cc472ee016d3a66bc13fcf430c0bc41ad7b4b2922051"
@@ -1486,10 +1486,10 @@ packages:
     dependency: transitive
     description:
       name: video_player_android
-      sha256: "4de50df9ee786f5891d3281e1e633d7b142ef1acf47392592eb91cba5d355849"
+      sha256: "28b1d818f2beeb108a1ed7c58a40becae86735922a98c81c7052cb278b89ea65"
       url: "https://pub.dev"
     source: hosted
-    version: "2.6.0"
+    version: "2.7.0"
   video_player_avfoundation:
     dependency: transitive
     description:
@@ -1542,10 +1542,10 @@ packages:
     dependency: transitive
     description:
       name: webview_flutter_android
-      sha256: c66651fba15f9d7ddd31daec42da8d6bce46c85610a7127e3ebcb39a4395c3c9
+      sha256: "6e64fcb1c19d92024da8f33503aaeeda35825d77142c01d0ea2aa32edc79fdc8"
       url: "https://pub.dev"
     source: hosted
-    version: "3.16.6"
+    version: "3.16.7"
   webview_flutter_platform_interface:
     dependency: transitive
     description:

@@ -7,11 +7,15 @@ import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/view/messages_screen.dart';
 import 'package:ajwad_v4/request/chat/view/chat_screen.dart';
 import 'package:ajwad_v4/request/tourist/view/tourist_chat_screen.dart';
+import 'package:ajwad_v4/services/controller/adventure_controller.dart';
+import 'package:ajwad_v4/services/controller/event_controller.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
+import 'package:ajwad_v4/services/controller/regions_controller.dart';
 import 'package:ajwad_v4/services/service/regions_service.dart';
 import 'package:ajwad_v4/services/view/tabs/adventures_tab.dart';
 import 'package:ajwad_v4/services/view/tabs/events_tab.dart';
 import 'package:ajwad_v4/services/view/tabs/restaurants_tab.dart';
+import 'package:ajwad_v4/services/view/widgets/custom_chips.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/home_icons_button.dart';
@@ -37,12 +41,94 @@ class _ServiceScreenState extends State<ServiceScreen>
   int _tabIndex = 0;
 
   final _srvicesController = Get.put(HospitalityController());
+  final _regionsController = Get.put(RegionsController());
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
     // getReg();
+  }
+
+  void getExperiencesByRegion(int index) async {
+    switch (_tabIndex) {
+      case 0:
+        _regionsController.selectedHospitaltyIndex(index);
+        await _srvicesController.getAllHospitality(
+            context: context,
+            region: index != 0 ? AppUtil.regionListEn[index] : null);
+        break;
+      case 1:
+        final adventureController = Get.put(AdventureController());
+        _regionsController.selectedAdventureIndex(index);
+        await adventureController.getAdvdentureList(
+            context: context,
+            region: index != 0 ? AppUtil.regionListEn[index] : null);
+        break;
+      case 2:
+        final eventController = Get.put(EventController());
+        _regionsController.selectedEventIndex(index);
+
+        await eventController.getEventList(
+            context: context,
+            region: index != 0 ? AppUtil.regionListEn[index] : null);
+        break;
+      default:
+    }
+  }
+
+  Widget _buildRegionChips(int index) {
+    switch (_tabIndex) {
+      case 0:
+        return CustomChips(
+          borderColor: _regionsController.selectedHospitaltyIndex.value == index
+              ? colorGreen
+              : almostGrey,
+          backgroundColor:
+              _regionsController.selectedHospitaltyIndex.value == index
+                  ? colorGreen
+                  : Colors.transparent,
+          textColor: _regionsController.selectedHospitaltyIndex.value == index
+              ? Colors.white
+              : almostGrey,
+          title: AppUtil.rtlDirection2(context)
+              ? AppUtil.regionListAr[index]
+              : AppUtil.regionListEn[index],
+        );
+      case 1:
+        return CustomChips(
+          borderColor: _regionsController.selectedAdventureIndex.value == index
+              ? colorGreen
+              : almostGrey,
+          backgroundColor:
+              _regionsController.selectedAdventureIndex.value == index
+                  ? colorGreen
+                  : Colors.transparent,
+          textColor: _regionsController.selectedAdventureIndex.value == index
+              ? Colors.white
+              : almostGrey,
+          title: AppUtil.rtlDirection2(context)
+              ? AppUtil.regionListAr[index]
+              : AppUtil.regionListEn[index],
+        );
+      case 2:
+        return CustomChips(
+          borderColor: _regionsController.selectedEventIndex.value == index
+              ? colorGreen
+              : almostGrey,
+          backgroundColor: _regionsController.selectedEventIndex.value == index
+              ? colorGreen
+              : Colors.transparent,
+          textColor: _regionsController.selectedEventIndex.value == index
+              ? Colors.white
+              : almostGrey,
+          title: AppUtil.rtlDirection2(context)
+              ? AppUtil.regionListAr[index]
+              : AppUtil.regionListEn[index],
+        );
+      default:
+        return Container();
+    }
   }
 
   @override
@@ -52,17 +138,19 @@ class _ServiceScreenState extends State<ServiceScreen>
     return Scaffold(
         backgroundColor: Colors.white,
         body: NestedScrollView(
+          floatHeaderSlivers: true,
+          // scrollBehavior: CupertinoScrollBehavior(),
           controller: ScrollController(),
           headerSliverBuilder: (context, isScrolled) => [
             SliverAppBar(
               automaticallyImplyLeading: false,
-              //  expandedHeight: width * 0.48,
+              //    expandedHeight: width * 0.48,
+
               toolbarHeight: width * 0.36,
               forceMaterialTransparency: true,
-
               pinned: false,
-              centerTitle: false,
 
+              centerTitle: false,
               leading: Padding(
                 padding: EdgeInsets.only(left: 16, right: 16, bottom: 18),
                 child: Column(
@@ -72,6 +160,12 @@ class _ServiceScreenState extends State<ServiceScreen>
                     CustomText(
                       text: "serviceTitle".tr,
                       color: Colors.white,
+                      // shadows: const [
+                      //   Shadow(
+                      //     blurRadius: 15.0, // Soften the shadow
+                      //     color: Colors.black, // Set shadow color
+                      //   ),
+                      // ],
                       maxlines: 2,
                       fontSize: 20,
                       fontFamily: AppUtil.rtlDirection2(context)
@@ -83,6 +177,12 @@ class _ServiceScreenState extends State<ServiceScreen>
                       height: 4,
                     ),
                     CustomText(
+                      // shadows: const [
+                      //   Shadow(
+                      //     blurRadius: 15.0, // Soften the shadow
+                      //     color: Colors.black, // Set shadow color
+                      //   ),
+                      // ],
                       text: _tabIndex == 0
                           ? "hospitalityDetails".tr
                           : _tabIndex == 1
@@ -99,8 +199,7 @@ class _ServiceScreenState extends State<ServiceScreen>
                   ],
                 ),
               ),
-              leadingWidth: 400,
-
+              leadingWidth: double.infinity,
               actions: [
                 Padding(
                     // padding: EdgeInsets.only(right: width * 0.06,),
@@ -161,7 +260,7 @@ class _ServiceScreenState extends State<ServiceScreen>
                     bottomLeft: Radius.circular(width * 0.05),
                     bottomRight: Radius.circular(width * 0.05)),
                 child: Image.asset(
-                  'assets/images/${_tabIndex == 0 ? 'service_hospitality_cover.jpg' : _tabIndex == 1 ? 'service_adventures_cover.png' : _tabIndex == 2 ? 'service_events_cover.png' : 'service_restaurants_cover.png'}',
+                  'assets/images/${_tabIndex == 0 ? 'service_hospitality_cover.png' : _tabIndex == 1 ? 'service_adventures_cover.png' : _tabIndex == 2 ? 'service_events_cover.png' : 'service_restaurants_cover.png'}',
                   //  width: width,
                   fit: BoxFit.cover,
                 ),
@@ -282,6 +381,56 @@ class _ServiceScreenState extends State<ServiceScreen>
                 ],
               ),
             ),
+            SliverAppBar(
+              leadingWidth: double.infinity,
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.white,
+              surfaceTintColor: Colors.white,
+              automaticallyImplyLeading: false,
+              expandedHeight: 0,
+              toolbarHeight: width * 0.22,
+              pinned: true,
+              stretch: true,
+              //  pinned: true,
+              leading: Padding(
+                padding: AppUtil.rtlDirection2(context)
+                    ? EdgeInsets.only(right: width * 0.041)
+                    : EdgeInsets.only(left: width * 0.041),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomText(
+                      text: _tabIndex == 0
+                          ? 'saudiHospitality'.tr
+                          : _tabIndex == 1
+                              ? 'saudiAdventure'.tr
+                              : 'saudiEvent'.tr,
+                      color: Color(0xFF070708),
+                      fontSize: width * 0.043,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    SizedBox(
+                      height: width * 0.041,
+                    ),
+                    SizedBox(
+                        height: width * 0.080,
+                        child: ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          shrinkWrap: true,
+                          itemCount: AppUtil.regionListEn.length,
+                          separatorBuilder: (context, index) => SizedBox(
+                            width: width * 0.025,
+                          ),
+                          itemBuilder: (context, index) => Obx(
+                            () => GestureDetector(
+                                onTap: () => getExperiencesByRegion(index),
+                                child: _buildRegionChips(index)),
+                          ),
+                        )),
+                  ],
+                ),
+              ),
+            )
           ],
           body: TabBarView(
             controller: _tabController,

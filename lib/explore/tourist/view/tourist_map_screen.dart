@@ -304,13 +304,26 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
       case 'COMPLETED':
         _touristExploreController.activeStepProgres(2);
         _touristExploreController.showActivityProgress(false);
-        // Get.bottomSheet(
-        //    RatingSheet(),
-        //   isScrollControlled: true,
-        // );
+        if (!_profileController.isUserOpenTheApp.value) {
+          getUserActions();
+        }
 
         break;
       default:
+    }
+  }
+
+  void getUserActions() async {
+    await _profileController.getAllActions(context: context);
+    if (_profileController.actionsList.isNotEmpty) {
+      Get.bottomSheet(
+              isScrollControlled: true,
+              RatingSheet(
+                activityProgress: _profileController.actionsList.first,
+              ))
+          .then((value) => _profileController.updateUserAction(
+              context: context,
+              id: _profileController.actionsList.first.id ?? ""));
     }
   }
 
@@ -386,10 +399,11 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
               customMarkers: customMarkers,
               builder: (context, markers) {
                 if (markers == null) {
+                  print(storage.read<List<Marker>>('markers')!.length);
                   return GoogleMap(
                     zoomControlsEnabled: false,
                     myLocationButtonEnabled: false,
-                    markers: storage.read('markers'),
+                    markers: storage.read<List<Marker>>('markers')!.toSet(),
                     initialCameraPosition: CameraPosition(
                       target: _currentLocation,
                       zoom: 10,
@@ -407,10 +421,13 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                   );
                 }
                 if (isNew) {
-                  storage.write('markers', markers);
-                  isNew = false;
+                  print('NEWW');
+                  storage.write('markers', markers.toList()).then((val) {
+                    setState(() {
+                      isNew = false;
+                    });
+                  });
                 }
-
                 return GoogleMap(
                   zoomControlsEnabled: false,
                   myLocationButtonEnabled: false,

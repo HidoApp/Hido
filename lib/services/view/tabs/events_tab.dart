@@ -64,76 +64,6 @@ class _EventsTabState extends State<EventsTab> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16),
-                      child: CustomText(
-                        text: 'saudiEvent'.tr,
-                        color: const Color(0xFF070708),
-                        fontSize: width * 0.043,
-                        fontFamily: 'HT Rakik',
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: width * 0.05,
-                ),
-                //cities list view
-                Padding(
-                padding: AppUtil.rtlDirection2(context)
-                      ? EdgeInsets.only(right: width * 0.041)
-                      : EdgeInsets.only(left: width * 0.041),                
-                  child: SizedBox(
-                      height: width * 0.080,
-                      child: ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        shrinkWrap: true,
-                        itemCount: AppUtil.regionListEn.length,
-                        separatorBuilder: (context, index) => SizedBox(
-                          width: width * 0.025,
-                        ),
-                        itemBuilder: (context, index) => Obx(
-                          () => GestureDetector(
-                            onTap: () async {
-                              _regionsController.selectedEventIndex(index);
-                              await _eventController.getEventList(
-                                  context: context,
-                                  region: index != 0
-                                      ? AppUtil.regionListEn[index]
-                                      : null);
-                            },
-                            child: CustomChips(
-                              borderColor:
-                                  _regionsController.selectedEventIndex.value ==
-                                          index
-                                      ? colorGreen
-                                      : almostGrey,
-                              backgroundColor:
-                                  _regionsController.selectedEventIndex.value ==
-                                          index
-                                      ? colorGreen
-                                      : Colors.transparent,
-                              textColor:
-                                  _regionsController.selectedEventIndex.value ==
-                                          index
-                                      ? Colors.white
-                                      : almostGrey,
-                              title: AppUtil.rtlDirection2(context)
-                                  ? AppUtil.regionListAr[index]
-                                  : AppUtil.regionListEn[index],
-                            ),
-                          ),
-                        ),
-                      )),
-                ),
-                SizedBox(
-                  height: width * 0.06,
-                ),
-
                 Obx(
                   () => _eventController.isEventListLoading.value
                       ? //if list is loading
@@ -144,14 +74,16 @@ class _EventsTabState extends State<EventsTab> {
                               child: CircularProgressIndicator.adaptive()))
                       //List of hospitalities
                       : Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16),
-                        child: Obx(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          child: Obx(
                             () => _eventController.eventList.isNotEmpty
                                 ? ListView.separated(
                                     padding: EdgeInsets.zero,
                                     shrinkWrap: true,
-                                    physics: const NeverScrollableScrollPhysics(),
-                                    itemCount: _eventController.eventList.length,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemCount:
+                                        _eventController.eventList.length,
                                     itemBuilder: (context, index) {
                                       return EventCardItem(
                                         onTap: () {
@@ -169,11 +101,11 @@ class _EventsTabState extends State<EventsTab> {
                                                     .eventList[index].nameEn ??
                                                 "",
                                         location: AppUtil.rtlDirection2(context)
-                                            ? _eventController
-                                                    .eventList[index].regionAr ??
+                                            ? _eventController.eventList[index]
+                                                    .regionAr ??
                                                 ""
-                                            : _eventController
-                                                    .eventList[index].regionEn ??
+                                            : _eventController.eventList[index]
+                                                    .regionEn ??
                                                 "",
                                         // seats: _eventController.eventList[index]
                                         //     .daysInfo?.first?.seats
@@ -207,7 +139,7 @@ class _EventsTabState extends State<EventsTab> {
                                     ),
                                   ),
                           ),
-                      ),
+                        ),
                 ),
               ],
             )
