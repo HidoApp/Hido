@@ -77,6 +77,7 @@ class CustomTextField extends StatelessWidget {
           controller: controller,
           obscureText: obscureText,
           keyboardType: keyboardType,
+          
           cursorColor: const Color(0xFF969696),
           textInputAction: textInputAction,
           enabled: enable,
@@ -110,7 +111,8 @@ class CustomTextField extends StatelessWidget {
                   AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
             ),
             contentPadding:
-                const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+            const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                // const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
             counterStyle: const TextStyle(fontSize: 0, height: 100),
             counterText: '',
             border: OutlineInputBorder(
@@ -141,6 +143,7 @@ class CustomTextField extends StatelessWidget {
                 fontWeight: FontWeight.w400),
           ),
           onChanged: onChanged,
+          
         ),
       ),
     );

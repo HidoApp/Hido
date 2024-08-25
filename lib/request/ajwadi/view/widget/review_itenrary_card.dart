@@ -277,7 +277,6 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                     validator: false,
                     controller: _priceContorller,
                     textInputAction: TextInputAction.done,
-                    
                     inputFormatters: [
                       FilteringTextInputFormatter.digitsOnly,
                     ],
@@ -319,6 +318,9 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                             onTap: () async {
                               await DatePickerBdaya.showTime12hPicker(
                                 context,
+                                locale: AppUtil.rtlDirection2(context)
+                                    ? LocaleType.ar
+                                    : LocaleType.en,
                                 currentTime: _dateTimeFrom,
                                 onConfirm: (time) {
                                   _dateTimeFrom = time;
@@ -398,6 +400,9 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                             onTap: () async {
                               await DatePickerBdaya.showTime12hPicker(
                                 context,
+                                 locale: AppUtil.rtlDirection2(context)
+                                    ? LocaleType.ar
+                                    : LocaleType.en,
                                 showTitleActions: true,
                                 currentTime: _dateTimeTo,
                                 onConfirm: (time) {

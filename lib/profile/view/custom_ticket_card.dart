@@ -102,7 +102,7 @@ class _CustomTicketCardState extends State<CustomTicketCard> {
     final TouristExploreController _touristExploreController =
         Get.put(TouristExploreController());
     Place? thePlace;
-    log(widget.booking.cost!);
+    // log(widget.booking.cost!);
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return InkWell(
@@ -143,9 +143,8 @@ class _CustomTicketCardState extends State<CustomTicketCard> {
                   // Get.to(() => TicketDetailsScreen(booking: booking));
                 }
               : () {},
-      child: Container(
-        width: 334,
-        height: 130,
+      child: Padding(
+      padding: EdgeInsets.symmetric(horizontal: width * 0.041),
         child: Container(
           decoration: BoxDecoration(
             color: const Color.fromARGB(255, 255, 255, 255),
@@ -159,198 +158,189 @@ class _CustomTicketCardState extends State<CustomTicketCard> {
               ),
             ],
           ),
-          child: Card(
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(7.36)),
-            ),
-            color: const Color.fromARGB(255, 255, 255, 255),
-            surfaceTintColor: const Color.fromARGB(255, 255, 255, 255),
-            //elevation: 0, // Set elevation to 0 to prevent default shadow
-
-            child: Padding(
-              padding: const EdgeInsets.only(
-                  bottom: 12, left: 12, right: 8, top: 12),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 37),
-                    child: ClipRRect(
-                      borderRadius: const BorderRadius.all(Radius.circular(4)),
-                      child: ImageCacheWidget(
-                        image: widget.booking.bookingType == "place"
-                            ? widget.booking.place!.image![0]
-                            : widget.booking.bookingType == "hospitality"
-                                ? widget.booking.hospitality!.images[0]
-                                : widget.booking.bookingType == 'event'
-                                    ? widget.booking.event!.images[0]
-                                    : widget.booking.adventure!.image![0],
-                        height: height * 0.076,
-                        width: width * 0.16,
-                        // fit: BoxFit.cover,
+          child: Padding(
+            padding: const EdgeInsets.only(
+                bottom: 12, left: 12, right: 12, top: 12),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ClipRRect(
+                  borderRadius: const BorderRadius.all(Radius.circular(4)),
+                  child: ImageCacheWidget(
+                    image: widget.booking.bookingType == "place"
+                        ? widget.booking.place!.image![0]
+                        : widget.booking.bookingType == "hospitality"
+                            ? widget.booking.hospitality!.images[0]
+                            : widget.booking.bookingType == 'event'
+                                ? widget.booking.event!.images[0]
+                                : widget.booking.adventure!.image![0],
+                    height: height * 0.076,
+                    width: width * 0.16,
+                    // fit: BoxFit.cover,
+                  ),
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 1),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            CustomText(
+                              text: AppUtil.rtlDirection(context)
+                                  ? widget.booking.bookingType == "place"
+                                      ? widget.booking.place!.nameEn!
+                                      : widget.booking.bookingType ==
+                                              "hospitality"
+                                          ? widget
+                                              .booking.hospitality!.titleEn
+                                          : widget.booking.bookingType ==
+                                                  'event'
+                                              ? widget.booking.event!
+                                                      .nameEn ??
+                                                  ""
+                                              : widget.booking.adventure!
+                                                      .nameEn ??
+                                                  ''
+                                  : widget.booking.bookingType == "place"
+                                      ? widget.booking.place!.nameAr!
+                                      : widget.booking.bookingType ==
+                                              "hospitality"
+                                          ? widget
+                                              .booking.hospitality!.titleAr
+                                          : widget.booking.bookingType ==
+                                                  'event'
+                                              ? widget.booking.event!.nameAr!
+                                              : widget.booking.adventure!
+                                                      .nameAr ??
+                                                  '',
+                              fontSize: 19,
+                              fontWeight: FontWeight.w700,
+                              fontFamily: AppUtil.rtlDirection(context)
+                                  ? 'SF Pro'
+                                  : 'SF Arabic',
+                            ),
+                            Row(
+                              textDirection: AppUtil.rtlDirection2(context)
+                                  ? TextDirection.rtl
+                                  : TextDirection.ltr,
+                              children: [
+                                SvgPicture.asset(
+                                  'assets/icons/${widget.booking.bookingType! == 'place' ? 'place.svg' : widget.booking.bookingType! == 'hospitality' ? 'hospitality.svg' : widget.booking.bookingType == 'event' ? 'event.svg' : 'adventure.svg'}',
+                                ),
+                                const SizedBox(
+                                  width: 4,
+                                ),
+                                CustomText(
+                                  text: getBookingTypeText(
+                                      context, widget.booking.bookingType!),
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500,
+                                  color: black,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 8,
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 1),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              CustomText(
-                                text: AppUtil.rtlDirection(context)
-                                    ? widget.booking.bookingType == "place"
-                                        ? widget.booking.place!.nameEn!
-                                        : widget.booking.bookingType ==
-                                                "hospitality"
-                                            ? widget
-                                                .booking.hospitality!.titleEn
-                                            : widget.booking.bookingType ==
-                                                    'event'
-                                                ? widget.booking.event!
-                                                        .nameEn ??
-                                                    ""
-                                                : widget.booking.adventure!
-                                                        .nameEn ??
-                                                    ''
-                                    : widget.booking.bookingType == "place"
-                                        ? widget.booking.place!.nameAr!
-                                        : widget.booking.bookingType ==
-                                                "hospitality"
-                                            ? widget
-                                                .booking.hospitality!.titleAr
-                                            : widget.booking.bookingType ==
-                                                    'event'
-                                                ? widget.booking.event!.nameAr!
-                                                : widget.booking.adventure!
-                                                        .nameAr ??
-                                                    '',
-                                fontSize: 19,
-                                fontWeight: FontWeight.w700,
-                                fontFamily: AppUtil.rtlDirection(context)
-                                    ? 'SF Pro'
-                                    : 'SF Arabic',
-                              ),
-                              Row(
-                                textDirection: AppUtil.rtlDirection2(context)
-                                    ? TextDirection.rtl
-                                    : TextDirection.ltr,
-                                children: [
-                                  SvgPicture.asset(
-                                    'assets/icons/${widget.booking.bookingType! == 'place' ? 'place.svg' : widget.booking.bookingType! == 'hospitality' ? 'hospitality.svg' : widget.booking.bookingType == 'event' ? 'event.svg' : 'adventure.svg'}',
-                                  ),
-                                  const SizedBox(
-                                    width: 4,
-                                  ),
-                                  CustomText(
-                                    text: getBookingTypeText(
-                                        context, widget.booking.bookingType!),
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w500,
-                                    color: black,
-                                  ),
-                                ],
-                              ),
-                            ],
+                      const SizedBox(
+                        height: 2,
+                      ),
+                      Row(
+                        children: [
+                          SvgPicture.asset('assets/icons/map_pin.svg'),
+                           SizedBox(
+                              width: width * 0.01,
+                            ),
+                          CustomText(
+                            text: address,
+      
+                            //  AppUtil.rtlDirection2(context)
+                            //     ? widget.booking.bookingType == "place"
+                            //         ? widget.booking.place!.regionAr!
+                            //         : widget.booking.bookingType! == 'hospitality'
+                            //             ? widget.booking.hospitality!.regionAr!
+                            //             : widget.booking.bookingType == 'event'
+                            //                 ?widget.booking.event!.regionAr ?? ""
+                            //                 : widget.booking.adventure!.regionAr ??
+                            //                     ''
+                            //     : widget.booking.bookingType == "place"
+                            //         ? widget.booking.place!.regionEn!
+                            //         : widget.booking.bookingType! == 'hospitality'
+                            //             ? widget.booking.hospitality!.regionEn
+                            //             : widget.booking.bookingType == 'event'
+                            //                 ? widget.booking.event!.regionEn ?? ""
+                            //                 : widget.booking.adventure!.regionEn ??
+                            //                     '',
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: textGreyColor,
                           ),
-                        ),
-                        const SizedBox(
-                          height: 2,
-                        ),
-                        Row(
-                          children: [
-                            SvgPicture.asset('assets/icons/map_pin.svg'),
-                            const SizedBox(
-                              width: 4,
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 2,
+                      ),
+                      Row(
+                        children: [
+                             SizedBox(
+                              width: width * 0.005,
                             ),
-                            CustomText(
-                              text: address,
-
-                              //  AppUtil.rtlDirection2(context)
-                              //     ? widget.booking.bookingType == "place"
-                              //         ? widget.booking.place!.regionAr!
-                              //         : widget.booking.bookingType! == 'hospitality'
-                              //             ? widget.booking.hospitality!.regionAr!
-                              //             : widget.booking.bookingType == 'event'
-                              //                 ?widget.booking.event!.regionAr ?? ""
-                              //                 : widget.booking.adventure!.regionAr ??
-                              //                     ''
-                              //     : widget.booking.bookingType == "place"
-                              //         ? widget.booking.place!.regionEn!
-                              //         : widget.booking.bookingType! == 'hospitality'
-                              //             ? widget.booking.hospitality!.regionEn
-                              //             : widget.booking.bookingType == 'event'
-                              //                 ? widget.booking.event!.regionEn ?? ""
-                              //                 : widget.booking.adventure!.regionEn ??
-                              //                     '',
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              color: textGreyColor,
+                          SvgPicture.asset(
+                            'assets/icons/calendar.svg',
+                          ),
+                           SizedBox(
+                              width: width * 0.013,
                             ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 2,
-                        ),
-                        Row(
-                          children: [
-                            SvgPicture.asset(
-                              'assets/icons/grey_calender.svg',
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            CustomText(
-                              // text:intel.DateFormat.yMMMMd().format(DateTime.parse(booking.date!)),
-                              text: formatBookingDate(
-                                  context, widget.booking.date),
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              color: textGreyColor,
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            SvgPicture.asset(
-                              'assets/icons/${widget.booking.orderStatus! == 'ACCEPTED' || widget.booking.orderStatus! == 'Finished' ? 'confirmed.svg' : widget.booking.orderStatus! == 'CANCELED' ? 'canceled.svg' : 'waiting.svg'}',
-                            ),
-                            const SizedBox(
-                              width: 4,
-                            ),
-                            CustomText(
-                              text: getOrderStatusText(
-                                  context, widget.booking.orderStatus!),
-                              //text:booking.orderStatus!,
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
-                              color: widget.booking.orderStatus! ==
-                                          'ACCEPTED' ||
-                                      widget.booking.orderStatus! == 'Finished'
-                                  ? colorGreen
-                                  : widget.booking.orderStatus! == 'CANCELED'
-                                      ? Color(0xFFDC362E)
-                                      : colorDarkGrey,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                          CustomText(
+                            // text:intel.DateFormat.yMMMMd().format(DateTime.parse(booking.date!)),
+                            text: formatBookingDate(
+                                context, widget.booking.date),
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: textGreyColor,
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          SvgPicture.asset(
+                            'assets/icons/${widget.booking.orderStatus! == 'ACCEPTED' || widget.booking.orderStatus! == 'FINISHED' ? 'confirmed.svg' : widget.booking.orderStatus! == 'CANCELED' ? 'canceled.svg' : 'waiting.svg'}',
+                          ),
+                          const SizedBox(
+                            width: 4,
+                          ),
+                          CustomText(
+                            text: getOrderStatusText(
+                                context, widget.booking.orderStatus!).capitalizeFirst,
+                            //text:booking.orderStatus!,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                            color: widget.booking.orderStatus! ==
+                                        'ACCEPTED' ||
+                                    widget.booking.orderStatus! == 'FINISHED'
+                                ? colorGreen
+                                : widget.booking.orderStatus! == 'CANCELED'
+                                    ? Color(0xFFDC362E)
+                                    : colorDarkGrey,
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

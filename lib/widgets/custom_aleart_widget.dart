@@ -46,8 +46,8 @@ class CustomAlertDialog extends StatelessWidget {
             CustomText(
               textAlign: TextAlign.center,
               color: black,
-              fontSize: 15,
-              fontFamily: 'SF Pro',
+              fontSize: width*0.038,
+              fontFamily: AppUtil.SfFontType(context),
               fontWeight: FontWeight.w500,
               text: AppUtil.rtlDirection2(context)
                   ? "توجد حجوزات لهذه التجربة "
@@ -56,13 +56,14 @@ class CustomAlertDialog extends StatelessWidget {
             const SizedBox(height: 2),
             CustomText(
               textAlign: TextAlign.center,
-              fontSize: 15,
+              fontSize: width*0.038,
               fontWeight: FontWeight.w400,
+              maxlines: 100,
               color: black,
               text: AppUtil.rtlDirection2(context)
                   ? "'سياحنا متحمسين للتجربة وحجزوا مقاعد فيها، لذلك تم إقاف خاصية التعديل على التجربة',"
                   : "Our tourists are excited for this experience and they booked it, so the edit option is disabled",
-              fontFamily: 'SF Pro',
+              fontFamily: AppUtil.SfFontType(context),
             ),
           ],
         ),

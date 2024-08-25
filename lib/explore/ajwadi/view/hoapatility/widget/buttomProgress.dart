@@ -2102,7 +2102,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                       .isHospatilityDateSelcted.value &&
                                   !widget.hospitalityController.DateErrorMessage
                                       .value
-                              ? Colors.red
+                              ?colorRed
                               : Color(0xFFB9B8C1)),
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -2154,13 +2154,13 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                             .value &&
                         !widget.hospitalityController.DateErrorMessage.value
                     ? Padding(
-                        padding: const EdgeInsets.only(top: 10),
+                        padding: const EdgeInsets.only(bottom: 4),
                         child: CustomText(
                           text: AppUtil.rtlDirection2(context)
                               ? "يجب اختيار تاريخ بعد 48 ساعة من الآن على الأقل"
                               : "*Please select a date at least 48 hours from now",
-                          color: Colors.red,
-                          fontSize: 12,
+                          color: colorRed,
+                          fontSize: width * 0.028,
                         ),
                       )
                     : Container(),
@@ -2204,7 +2204,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                               side: BorderSide(
                                   width: 1,
                                   color: DurationErrorMessage ?? false
-                                      ? Colors.red
+                                      ? colorRed
                                       : Color(0xFFB9B8C1)),
                               borderRadius: BorderRadius.circular(8),
                             ),
@@ -2359,14 +2359,14 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                       ),
                       if (widget.hospitalityController.TimeErrorMessage.value)
                         Padding(
-                          padding: const EdgeInsets.only(top: 10),
+                          padding: const EdgeInsets.only(bottom: 4),
                           child: CustomText(
                             text: '',
                             // AppUtil.rtlDirection2(context)
                             //     ? "اختر الوقت"
                             //     : "Select Time",
-                            color: Colors.red,
-                            fontSize: 12,
+                            color:colorRed,
+                            fontSize: width * 0.028,
                           ),
                         ),
                     ],
@@ -2409,9 +2409,9 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                   color: widget.hospitalityController
                                               .TimeErrorMessage.value ??
                                           false
-                                      ? Colors.red
+                                      ?colorRed
                                       : DurationErrorMessage ?? false
-                                          ? Colors.red
+                                          ? colorRed
                                           : Color(0xFFB9B8C1)),
                               borderRadius: BorderRadius.circular(8),
                             ),
@@ -2574,13 +2574,13 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                         () =>
                             widget.hospitalityController.TimeErrorMessage.value
                                 ? Padding(
-                                    padding: const EdgeInsets.only(top: 10),
+                                    padding: const EdgeInsets.only(bottom: 4),
                                     child: CustomText(
                                       text: AppUtil.rtlDirection2(context)
                                           ? "وقت الإنتهاء اقل من وقت البداية"
                                           : "End time is less than start time",
-                                      color: Colors.red,
-                                      fontSize: width * 0.029,
+                                      color: colorRed,
+                                      fontSize: width * 0.028,
                                       fontFamily: AppUtil.rtlDirection2(context)
                                           ? 'SF Arabic'
                                           : 'SF Pro',

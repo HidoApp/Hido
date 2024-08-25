@@ -348,7 +348,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                             child: ConstrainedBox(
                               constraints: isExpanded
                                   ? const BoxConstraints()
-                                  : BoxConstraints(maxHeight: width * 0.097),
+                                  : BoxConstraints(maxHeight: width * 0.1),
                               child: CustomText(
                                 textDirection: AppUtil.rtlDirection(context)
                                     ? TextDirection.ltr
@@ -359,8 +359,10 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                 fontFamily: AppUtil.rtlDirection2(context)
                                     ? 'SF Arabic'
                                     : 'SF Pro',
+                                maxlines: 200,
                                 color: starGreyColor,
                                 fontSize: width * 0.038,
+                               fontWeight: FontWeight.w400,
                                 text: AppUtil.rtlDirection2(context)
                                     ? adventure!.descriptionAr ?? ''
                                     : adventure!.descriptionEn ?? '',
@@ -379,14 +381,17 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                     onTap: () {
                                       setState(() => isExpanded = false);
                                     },
-                                    child: CustomText(
-                                      text: AppUtil.rtlDirection2(context)
-                                          ? "القليل"
-                                          : "Show less",
-                                      color: blue,
-                                      fontFamily: AppUtil.rtlDirection2(context)
-                                          ? 'SF Arabic'
-                                          : 'SF Pro',
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(top:8.0),
+                                      child: CustomText(
+                                        text: AppUtil.rtlDirection2(context)
+                                            ? "القليل"
+                                            : "Show less",
+                                        color: blue,
+                                        fontFamily: AppUtil.rtlDirection2(context)
+                                            ? 'SF Arabic'
+                                            : 'SF Pro',
+                                      ),
                                     ),
                                   ),
                                 )
@@ -397,12 +402,15 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                   child: GestureDetector(
                                     onTap: () =>
                                         setState(() => isExpanded = true),
-                                    child: CustomText(
-                                      text: "readMore".tr,
-                                      color: blue,
-                                      fontFamily: AppUtil.rtlDirection2(context)
-                                          ? 'SF Arabic'
-                                          : 'SF Pro',
+                                    child: Padding(
+                                     padding: const EdgeInsets.only(top:8.0),
+                                      child: CustomText(
+                                        text: "readMore".tr,
+                                        color: blue,
+                                        fontFamily: AppUtil.rtlDirection2(context)
+                                            ? 'SF Arabic'
+                                            : 'SF Pro',
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -527,14 +535,15 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                               text:
                                                   "cancellationPolicyBreifAdventure"
                                                       .tr,
-                                              fontSize: width * 0.03,
-                                              fontWeight: FontWeight.w400,
-                                              maxlines: 2,
-                                              color: tileGreyColor,
-                                              fontFamily:
-                                                  AppUtil.rtlDirection2(context)
-                                                      ? 'SF Arabic'
-                                                      : 'SF Pro',
+                                              fontSize: width * 0.038,
+                                                  fontWeight: FontWeight.w400,
+                                                  fontFamily:
+                                                      AppUtil.rtlDirection2(
+                                                              context)
+                                                          ? 'SF Arabic'
+                                                          : 'SF Pro',
+                                                  color: starGreyColor,
+                                                  maxlines: 1,
                                             ),
                                           ),
                                         ],

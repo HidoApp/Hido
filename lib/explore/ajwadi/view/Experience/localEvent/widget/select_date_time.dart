@@ -92,7 +92,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                           width: 1,
                           color: _EventrController.DateErrorMessage.value &&
                                   _EventrController.isEventDateSelcted.value
-                              ? Colors.red
+                              ? colorRed
                               : Color(0xFFB9B8C1)),
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -144,13 +144,13 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                 () => _EventrController.DateErrorMessage.value &&
                         _EventrController.isEventDateSelcted.value
                     ? Padding(
-                        padding: const EdgeInsets.only(top: 10),
+                        padding: const EdgeInsets.only(bottom: 4),
                         child: CustomText(
                           text: AppUtil.rtlDirection2(context)
                               ? "يجب اختيار تاريخ بعد 48 ساعة من الآن على الأقل"
                               : "*Please select a date at least 48 hours from now",
-                          color: Colors.red,
-                          fontSize: 12,
+                          color: colorRed,
+                          fontSize: width * 0.028,
                         ),
                       )
                     : Container(),
@@ -194,7 +194,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                               side: BorderSide(
                                   width: 1,
                                   color: DurationErrorMessage ?? false
-                                      ? Colors.red
+                                      ? colorRed
                                       : Color(0xFFB9B8C1)),
                               borderRadius: BorderRadius.circular(8),
                             ),
@@ -343,14 +343,14 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                       Obx(
                         () => _EventrController.TimeErrorMessage.value
                             ? Padding(
-                                padding: const EdgeInsets.only(top: 10),
-                                child: const CustomText(
+                                padding: const EdgeInsets.only(bottom: 4),
+                                child:  CustomText(
                                   text: '',
                                   // AppUtil.rtlDirection2(context)
                                   //     ? "اختر الوقت"
                                   //     : "Select Time",
-                                  color: Colors.red,
-                                  fontSize: 12,
+                                  color: colorRed,
+                                  fontSize: width * 0.028,
                                 ),
                               )
                             : Container(),
@@ -395,9 +395,9 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                   width: 1,
                                   color:
                                       _EventrController.TimeErrorMessage.value
-                                          ? Colors.red
+                                          ?colorRed
                                           : DurationErrorMessage ?? false
-                                              ? Colors.red
+                                              ? colorRed
                                               : Color(0xFFB9B8C1)),
                               borderRadius: BorderRadius.circular(8),
                             ),
@@ -544,7 +544,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                       Obx(
                         () => _EventrController.TimeErrorMessage.value
                             ? Padding(
-                                padding: const EdgeInsets.only(top: 10),
+                                padding: const EdgeInsets.only(bottom: 4),
                                 child: CustomText(
                                   text: AppUtil.rtlDirection2(context)
                                       ? "يجب أن لايسبق وقت بدء التجربة"
