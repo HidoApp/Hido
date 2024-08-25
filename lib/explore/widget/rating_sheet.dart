@@ -33,7 +33,7 @@ class _RatingSheetState extends State<RatingSheet> {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Container(
-        width: double.infinity,
+        //   width: double.infinity,
         padding: EdgeInsets.only(
           left: width * 0.061,
           right: width * 0.061,
@@ -44,130 +44,131 @@ class _RatingSheetState extends State<RatingSheet> {
             color: Colors.white,
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(24), topRight: Radius.circular(24))),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const BottomSheetIndicator(),
-              SizedBox(
-                height: width * 0.051,
-              ),
-              CustomText(
-                text:
-                    '${"howYourTour".tr} ${AppUtil.rtlDirection2(context) ? widget.activityProgress.requestName!.nameAr : widget.activityProgress.requestName!.nameEn} ',
-                fontSize: width * 0.0435,
-                fontWeight: FontWeight.w500,
-              ),
-              RatingBar.builder(
-                glow: false,
-                initialRating: 5,
-                unratedColor: lightGrey,
-                minRating: 1,
-                direction: Axis.horizontal,
-                itemCount: 5,
-                itemPadding: const EdgeInsets.symmetric(horizontal: 2.0),
-                itemBuilder: (context, _) => RepaintBoundary(
-                  child: SvgPicture.asset(
-                    'assets/icons/rating_star.svg',
-                    color: Colors.amber,
-                  ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const BottomSheetIndicator(),
+            SizedBox(
+              height: width * 0.051,
+            ),
+            CustomText(
+              text:
+                  '${"howYourTour".tr} ${AppUtil.rtlDirection2(context) ? widget.activityProgress.requestName!.nameAr : widget.activityProgress.requestName!.nameEn} ',
+              fontSize: width * 0.0435,
+              fontWeight: FontWeight.w500,
+            ),
+            RatingBar.builder(
+              glow: false,
+              initialRating: 5,
+              unratedColor: lightGrey,
+              minRating: 1,
+              direction: Axis.horizontal,
+              itemCount: 5,
+              itemSize: 30,
+              itemPadding:
+                  const EdgeInsets.symmetric(horizontal: 2.0, vertical: 8),
+              itemBuilder: (context, _) => RepaintBoundary(
+                child: SvgPicture.asset(
+                  'assets/icons/rating_star.svg',
+                  color: Colors.amber,
                 ),
-                onRatingUpdate: (ratingPlace) =>
-                    placeRating = ratingPlace.toInt(),
               ),
-              SizedBox(
-                height: width * 0.041,
-              ),
-              //place review
-              CustomTextField(
-                height: width * 0.205,
-                maxLines: 10,
-                keyboardType: TextInputType.multiline,
-                textInputAction: TextInputAction.newline,
-                // minLines: null,
-                //  expand: true,
-                onChanged: (review) => placeReview = review,
-                hintText: 'writeHere'.tr,
-              ),
-              SizedBox(
-                height: width * 0.051,
-              ),
-              CustomText(
-                text:
-                    '${"howYourGudie".tr}  ${AppUtil.rtlDirection2(context) ? widget.activityProgress.localNameAr! : widget.activityProgress.localNameEn!}',
-                fontSize: width * .043,
-                fontWeight: FontWeight.w500,
-              ),
-              RatingBar.builder(
-                glow: false,
-                initialRating: 5,
-                unratedColor: lightGrey,
-                minRating: 1,
-                direction: Axis.horizontal,
-                itemCount: 5,
-                itemPadding: const EdgeInsets.symmetric(horizontal: 2.0),
-                itemBuilder: (context, _) => RepaintBoundary(
-                  child: SvgPicture.asset(
-                    'assets/icons/rating_star.svg',
-                    color: Colors.amber,
-                  ),
+              onRatingUpdate: (ratingPlace) =>
+                  placeRating = ratingPlace.toInt(),
+            ),
+            SizedBox(
+              height: width * 0.041,
+            ),
+            //place review
+            CustomTextField(
+              height: width * 0.205,
+              maxLines: 10,
+              keyboardType: TextInputType.multiline,
+              textInputAction: TextInputAction.newline,
+              // minLines: null,
+              //  expand: true,
+              onChanged: (review) => placeReview = review,
+              hintText: 'writeHere'.tr,
+            ),
+            SizedBox(
+              height: width * 0.051,
+            ),
+            CustomText(
+              text:
+                  '${"howYourGudie".tr}  ${AppUtil.rtlDirection2(context) ? widget.activityProgress.localNameAr! : widget.activityProgress.localNameEn!}',
+              fontSize: width * .043,
+              fontWeight: FontWeight.w500,
+            ),
+            RatingBar.builder(
+              glow: false,
+              initialRating: 5,
+              unratedColor: lightGrey,
+              minRating: 1,
+              direction: Axis.horizontal,
+              itemSize: 30,
+              itemCount: 5,
+              itemPadding:
+                  const EdgeInsets.symmetric(horizontal: 2.0, vertical: 8),
+              itemBuilder: (context, _) => RepaintBoundary(
+                child: SvgPicture.asset(
+                  'assets/icons/rating_star.svg',
+                  color: Colors.amber,
                 ),
-                onRatingUpdate: (ratingLocal) =>
-                    localRating = ratingLocal.toInt(),
               ),
-              SizedBox(
-                height: width * 0.041,
-              ),
-              //place review
-              CustomTextField(
-                height: width * 0.205,
-                maxLines: 10,
-                keyboardType: TextInputType.multiline,
-                textInputAction: TextInputAction.newline,
-                onChanged: (review) => localReview = review,
-                hintText: 'writeHere'.tr,
-              ),
-              SizedBox(
-                height: width * 0.0615,
-              ),
-              Obx(
-                () => _ratingConroller.isSendRatingsLoading.value
-                    ? const Center(
-                        child: CircularProgressIndicator.adaptive(),
-                      )
-                    : CustomButton(
-                        title: 'submit'.tr,
-                        onPressed: () async {
-                          if (localReview.isEmpty &&
-                              placeReview.isEmpty &&
-                              localRating == 0 &&
-                              placeRating == 0) {
-                            Get.back();
-                            return;
-                          }
-                          log(placeReview);
-                          log(placeRating.toString());
-                          log(localReview);
-                          log(localRating.toString());
-                          final isSucces = await _ratingConroller.postRating(
-                            context: context,
-                            localId: widget.activityProgress.localId!,
-                            bookingId: widget.activityProgress.bookingId!,
-                            localRate: localRating,
-                            localReview:
-                                localReview.isEmpty ? null : localReview,
-                            placeRate: placeRating,
-                            placeReview:
-                                placeReview.isEmpty ? null : placeReview,
-                          );
-                          if (isSucces) {
-                            Get.back();
-                          }
-                        },
-                      ),
-              )
-            ],
-          ),
+              onRatingUpdate: (ratingLocal) =>
+                  localRating = ratingLocal.toInt(),
+            ),
+            SizedBox(
+              height: width * 0.041,
+            ),
+            //place review
+            CustomTextField(
+              height: width * 0.205,
+              maxLines: 10,
+              keyboardType: TextInputType.multiline,
+              textInputAction: TextInputAction.newline,
+              onChanged: (review) => localReview = review,
+              hintText: 'writeHere'.tr,
+            ),
+            SizedBox(
+              height: width * 0.0615,
+            ),
+            Obx(
+              () => _ratingConroller.isSendRatingsLoading.value
+                  ? const Center(
+                      child: CircularProgressIndicator.adaptive(),
+                    )
+                  : CustomButton(
+                      title: 'submit'.tr,
+                      onPressed: () async {
+                        if (localReview.isEmpty &&
+                            placeReview.isEmpty &&
+                            localRating == 0 &&
+                            placeRating == 0) {
+                          Get.back();
+                          return;
+                        }
+                        log(placeReview);
+                        log(placeRating.toString());
+                        log(localReview);
+                        log(localRating.toString());
+                        final isSucces = await _ratingConroller.postRating(
+                          context: context,
+                          localId: widget.activityProgress.localId!,
+                          bookingId: widget.activityProgress.bookingId!,
+                          localRate: localRating,
+                          localReview: localReview.isEmpty ? null : localReview,
+                          placeRate: placeRating,
+                          placeReview: placeReview.isEmpty ? null : placeReview,
+                        );
+                        if (isSucces) {
+                          Get.back();
+                        }
+                      },
+                    ),
+            )
+          ],
         ),
       ),
     );

@@ -316,10 +316,14 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   void getUserActions() async {
     await _profileController.getAllActions(context: context);
     if (_profileController.actionsList.isNotEmpty) {
-      Get.bottomSheet(RatingSheet(
-        activityProgress: _profileController.actionsList.first,
-      )).then((value) => _profileController.updateUserAction(
-          context: context, id: _profileController.actionsList.first.id ?? ""));
+      Get.bottomSheet(
+              isScrollControlled: true,
+              RatingSheet(
+                activityProgress: _profileController.actionsList.first,
+              ))
+          .then((value) => _profileController.updateUserAction(
+              context: context,
+              id: _profileController.actionsList.first.id ?? ""));
     }
   }
 
@@ -395,11 +399,11 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
               customMarkers: customMarkers,
               builder: (context, markers) {
                 if (markers == null) {
-                  List<Marker> markList = storage.read('markers');
+                  print(storage.read<List<Marker>>('markers')!.length);
                   return GoogleMap(
                     zoomControlsEnabled: false,
                     myLocationButtonEnabled: false,
-                    markers: markList.toSet(),
+                    markers: storage.read<List<Marker>>('markers')!.toSet(),
                     initialCameraPosition: CameraPosition(
                       target: _currentLocation,
                       zoom: 10,
@@ -417,8 +421,12 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                   );
                 }
                 if (isNew) {
-                  storage.write('markers', markers.toList());
-                  isNew = false;
+                  print('NEWW');
+                  storage.write('markers', markers.toList()).then((val) {
+                    setState(() {
+                      isNew = false;
+                    });
+                  });
                 }
                 return GoogleMap(
                   zoomControlsEnabled: false,

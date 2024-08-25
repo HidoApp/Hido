@@ -49,10 +49,14 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
   void getUserActions() async {
     await _profileController.getAllActions(context: context);
     if (_profileController.actionsList.isNotEmpty) {
-      Get.bottomSheet(RatingSheet(
-        activityProgress: _profileController.actionsList.first,
-      )).then((value) => _profileController.updateUserAction(
-          context: context, id: _profileController.actionsList.first.id ?? ""));
+      Get.bottomSheet(
+              isScrollControlled: true,
+              RatingSheet(
+                activityProgress: _profileController.actionsList.first,
+              ))
+          .then((value) => _profileController.updateUserAction(
+              context: context,
+              id: _profileController.actionsList.first.id ?? ""));
     }
   }
 
