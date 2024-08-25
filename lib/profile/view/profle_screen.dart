@@ -241,15 +241,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ));
                             },
                           ),
-                          // if (_profileController.profile.accountType != null)
-                          //   if (widget.fromAjwady &&
-                          //       _profileController.profile.accountType ==
-                          //           'TOUR_GUID')
-                          CustomListTile(
-                            title: 'legalDoc'.tr,
-                            leading: "assets/icons/legal.svg",
-                            onTap: () => Get.to(() => const LegalDocument()),
-                          ),
+                          if (_profileController.profile.accountType != null)
+                            if (widget.fromAjwady &&
+                                _profileController.profile.accountType ==
+                                    'TOUR_GUID')
+                              CustomListTile(
+                                title: 'legalDoc'.tr,
+                                leading: "assets/icons/legal.svg",
+                                onTap: () =>
+                                    Get.to(() => const LegalDocument()),
+                              ),
                           if (!widget.fromAjwady)
                             CustomListTile(
                               title: "myTickets".tr,
@@ -262,13 +263,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 );
                               },
                             ),
-                          // CustomListTile(
-                          //   title: "bookmark".tr,
-                          //   leading: "assets/icons/bookmark_icon.svg",
-                          //   onTap: () async {
-                          //     Get.to(() => const BookmarkScreen());
-                          //   },
-                          // ),
+                          CustomListTile(
+                            title: "bookmark".tr,
+                            leading: "assets/icons/bookmark_icon.svg",
+                            onTap: () async {
+                              Get.to(() => const BookmarkScreen());
+                            },
+                          ),
                         ],
                       ),
                       Padding(

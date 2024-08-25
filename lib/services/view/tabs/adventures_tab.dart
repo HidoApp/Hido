@@ -77,76 +77,6 @@ class _AdventuresTabState extends State<AdventuresTab> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16),
-                    child: CustomText(
-                      text: 'saudiAdventure'.tr,
-                      color: const Color(0xFF070708),
-                      fontSize: 17,
-                      fontFamily: 'HT Rakik',
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: width * 0.05,
-              ),
-              //cities list view
-              Padding(
-                     padding: AppUtil.rtlDirection2(context)
-                      ? EdgeInsets.only(right: width * 0.041)
-                      : EdgeInsets.only(left: width * 0.041),
-                child: SizedBox(
-                    height: width * 0.080,
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      itemCount: AppUtil.regionListEn.length,
-                      separatorBuilder: (context, index) => SizedBox(
-                        width: width * 0.025,
-                      ),
-                      itemBuilder: (context, index) => Obx(
-                        () => GestureDetector(
-                          onTap: () async {
-                            _regionsController.selectedAdventureIndex(index);
-                            await _adventureController.getAdvdentureList(
-                                context: context,
-                                region: index != 0
-                                    ? AppUtil.regionListEn[index]
-                                    : null);
-                          },
-                          child: CustomChips(
-                            borderColor:
-                                _regionsController.selectedAdventureIndex.value ==
-                                        index
-                                    ? colorGreen
-                                    : almostGrey,
-                            backgroundColor:
-                                _regionsController.selectedAdventureIndex.value ==
-                                        index
-                                    ? colorGreen
-                                    : Colors.transparent,
-                            textColor:
-                                _regionsController.selectedAdventureIndex.value ==
-                                        index
-                                    ? Colors.white
-                                    : almostGrey,
-                            title: AppUtil.rtlDirection2(context)
-                                ? AppUtil.regionListAr[index]
-                                : AppUtil.regionListEn[index],
-                          ),
-                        ),
-                      ),
-                    )),
-              ),
-
-              SizedBox(
-                height: width * 0.06,
-              ),
               Obx(
                 () => _adventureController.isAdventureListLoading.value
                     ? //if list is loading
@@ -159,8 +89,8 @@ class _AdventuresTabState extends State<AdventuresTab> {
                       )
                     //List of hospitalities
                     : Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16),
-                      child: Obx(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: Obx(
                           () => _adventureController.adventureList.isNotEmpty
                               ? ListView.separated(
                                   padding: EdgeInsets.zero,
@@ -213,17 +143,17 @@ class _AdventuresTabState extends State<AdventuresTab> {
                                   },
                                 )
                               : Padding(
-                               padding: const EdgeInsets.only(top:40),
-                                child: Center(
+                                  padding: const EdgeInsets.only(top: 40),
+                                  child: Center(
                                     child: CustomEmptyWidget(
                                       title: "noExperiences".tr,
-                                  //    image: "",
+                                      //    image: "",
                                       subtitle: 'noExperiencesSubtitle'.tr,
                                     ),
                                   ),
-                              ),
+                                ),
                         ),
-                    ),
+                      ),
               ),
             ],
           )
