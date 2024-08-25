@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/explore/tourist/model/activity_progress.dart';
 import 'package:ajwad_v4/explore/widget/floating_timer.dart';
 import 'package:ajwad_v4/explore/widget/progress_sheet.dart';
 import 'package:ajwad_v4/explore/widget/rating_sheet.dart';
@@ -46,12 +47,14 @@ class _BookmarkScreenState extends State<BookmarkScreen>
       floatingActionButton: FloatingActionButton.extended(
         label: Icon(Icons.add),
         onPressed: () {
-          Get.bottomSheet(
-              isScrollControlled: true,
-              WebViewSheet(
-                  height: 700,
-                  url: 'https://docs.myfatoorah.com/docs/test-cards',
-                  title: "title"));
+          // Get.bottomSheet(
+          //     isScrollControlled: true,
+          //     RatingSheet(
+          //         activityProgress: ActivityProgress(
+          //             localNameAr: '',
+          //             localNameEn: '',
+          //             requestName:
+          //                 RequestName(nameEn: 'nameEn', nameAr: 'nameAr'))));
         },
       ),
       appBar: CustomAppBar(

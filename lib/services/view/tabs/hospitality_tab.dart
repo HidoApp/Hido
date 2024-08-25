@@ -52,7 +52,7 @@ class _HospitalityTabState extends State<HospitalityTab> {
       child: Padding(
         // padding: EdgeInsets.symmetric(
         //     horizontal: width * 0.04, vertical: width * 0.035),
-        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 32),
+        padding: EdgeInsets.symmetric(horizontal: 0, vertical: width * 0.041),
         child: Column(
           children: [
             //Ad cards
@@ -63,77 +63,8 @@ class _HospitalityTabState extends State<HospitalityTab> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16),
-                      child: CustomText(
-                        text: 'saudiHospitality'.tr,
-                        color: Color(0xFF070708),
-                        fontSize: 17,
-                        fontFamily: 'HT Rakik',
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: width * 0.05,
-                ),
-                //cities list view
                 Padding(
-                  padding: AppUtil.rtlDirection2(context)
-                      ? EdgeInsets.only(right: width * 0.041)
-                      : EdgeInsets.only(left: width * 0.041),
-                  child: SizedBox(
-                      height: width * 0.080,
-                      child: ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        shrinkWrap: true,
-                        itemCount: AppUtil.regionListEn.length,
-                        separatorBuilder: (context, index) => SizedBox(
-                          width: width * 0.025,
-                        ),
-                        itemBuilder: (context, index) => Obx(
-                          () => GestureDetector(
-                            onTap: () async {
-                              _regionsController.selectedHospitaltyIndex(index);
-                              await _srvicesController.getAllHospitality(
-                                  context: context,
-                                  region: index != 0
-                                      ? AppUtil.regionListEn[index]
-                                      : null);
-                            },
-                            child: CustomChips(
-                              borderColor: _regionsController
-                                          .selectedHospitaltyIndex.value ==
-                                      index
-                                  ? colorGreen
-                                  : almostGrey,
-                              backgroundColor: _regionsController
-                                          .selectedHospitaltyIndex.value ==
-                                      index
-                                  ? colorGreen
-                                  : Colors.transparent,
-                              textColor: _regionsController
-                                          .selectedHospitaltyIndex.value ==
-                                      index
-                                  ? Colors.white
-                                  : almostGrey,
-                              title: AppUtil.rtlDirection2(context)
-                                  ? AppUtil.regionListAr[index]
-                                  : AppUtil.regionListEn[index],
-                            ),
-                          ),
-                        ),
-                      )),
-                ),
-                SizedBox(
-                  height: width * 0.06,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  padding: EdgeInsets.symmetric(horizontal: width * 0.041),
                   child: Obx(
                     () => _srvicesController.isHospitalityLoading.value
                         ? //if list is loading

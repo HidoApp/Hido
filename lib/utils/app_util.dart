@@ -700,7 +700,8 @@ static errorToast(BuildContext context, String msg) {
   }
 
   static String formattedHijriDate(JHijri hijriDate) {
-    return "${hijriDate.year}-${hijriDate.month.toString().padLeft(2, '0')}-${hijriDate.day.toString().padLeft(2, '0')}";
+    return "${hijriDate.year}-${hijriDate.month.toString().padLeft(2, '0')}";
+    // return "${hijriDate.year}-${hijriDate.month.toString().padLeft(2, '0')}-${hijriDate.day.toString().padLeft(2, '0')}";
   }
 
   static String SfFontType(BuildContext context) {

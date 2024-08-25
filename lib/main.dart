@@ -13,6 +13,7 @@ import 'localization/locale_string.dart';
 import 'package:ajwad_v4/request/local_notification.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
+// Initialize shared preferences
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
