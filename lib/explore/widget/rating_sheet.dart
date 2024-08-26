@@ -65,7 +65,7 @@ class _RatingSheetState extends State<RatingSheet> {
               minRating: 1,
               direction: Axis.horizontal,
               itemCount: 5,
-              itemSize: 30,
+              itemSize: 24,
               itemPadding:
                   const EdgeInsets.symmetric(horizontal: 2.0, vertical: 8),
               itemBuilder: (context, _) => RepaintBoundary(
@@ -106,7 +106,7 @@ class _RatingSheetState extends State<RatingSheet> {
               unratedColor: lightGrey,
               minRating: 1,
               direction: Axis.horizontal,
-              itemSize: 30,
+              itemSize: 24,
               itemCount: 5,
               itemPadding:
                   const EdgeInsets.symmetric(horizontal: 2.0, vertical: 8),
