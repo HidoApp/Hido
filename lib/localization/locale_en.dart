@@ -657,8 +657,7 @@ const localeEn = {
   'Experiencetitle': 'Experience title',
   'regionChoose': 'Choose your Region',
   'pendingProgress': "Your tour is going to start soon ",
-  'peopleNumber':'Pepole Number',
-  'fullyBooked':"fully Booked",
-
-
+  'peopleNumber': 'Pepole Number',
+  'fullyBooked': "fully Booked",
+  'ok': 'Ok'
 };

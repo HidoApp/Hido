@@ -318,22 +318,24 @@ class _RegisterNationalIdSecondState extends State<RegisterNationalIdSecond> {
                                                     birthDate: widget.birthDate,
                                                     context: context);
                                             print('isSuccess UI $isSuccess');
-                                            if (isSuccess) {
+                                            if (isSuccess != null) {
                                               Get.to(() => PhoneOTPScreen(
-                                                  authController:
-                                                      widget.authController,
-                                                  name: _nameController.text,
-                                                  password:
-                                                      _passwordController.text,
-                                                  nationalID: widget.nationalId,
-                                                  email: _emailController.text,
-                                                  nationality:
-                                                      _selectedNationality,
-                                                  phone:
-                                                      _phoneController.text,
-                                                      isAjwadi: false,
-                                                      
-                                                      ));
+                                                    authController:
+                                                        widget.authController,
+                                                    name: _nameController.text,
+                                                    password:
+                                                        _passwordController
+                                                            .text,
+                                                    nationalID:
+                                                        widget.nationalId,
+                                                    email:
+                                                        _emailController.text,
+                                                    nationality:
+                                                        _selectedNationality,
+                                                    phone:
+                                                        _phoneController.text,
+                                                    isAjwadi: false,
+                                                  ));
                                             }
                                           }
                                         }),

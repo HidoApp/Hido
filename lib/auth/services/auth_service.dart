@@ -126,24 +126,21 @@ class AuthService {
   }
 
   // 3 GET OTP by id and birth date ..
-  static Future<bool> personInfoOTP({
+  static Future<Map<dynamic, dynamic>?> personInfoOTP({
     required String nationalID,
     required String birthDate,
     required BuildContext context,
   }) async {
     final response = await http.post(
-        Uri.parse('$baseUrl/rowad/otp/person-info').replace(queryParameters: {
-          'birthDate': birthDate.trim(),
-          'personId': nationalID.trim(),
-        }),
-        headers: {
-          'Accept': 'application/json',
-          "Content-Type": "application/json"
-        },
-        body: json.encode({
-          'birthDate': birthDate.trim(),
-          'personId': nationalID.trim(),
-        }));
+      Uri.parse('$baseUrl/rowad/otp/person-info').replace(queryParameters: {
+        'dateString': birthDate.trim(),
+        'nin': nationalID.trim(),
+      }),
+      headers: {
+        'Accept': 'application/json',
+        // "Content-Type": "application/json"
+      },
+    );
 
     print("response.statusCode");
     log(response.statusCode.toString());
@@ -152,12 +149,15 @@ class AuthService {
     print("isSuccess SERVICE ${response.statusCode}");
 
     if (response.statusCode == 200) {
-      return true;
+      Map responsBody = {
+        'transactionId': jsonDecode(response.body)['transactionId'],
+      };
+      return responsBody;
     } else {
       var jsonBody = jsonDecode(response.body);
       String errorMessage = jsonBody['error']['errorMessage'];
       AppUtil.errorToast(context, errorMessage);
-      return false;
+      return null;
     }
   }
 
@@ -166,10 +166,12 @@ class AuthService {
       required String nationalId,
       required String otp,
       required String number,
+      required String transactionId,
       required String birthDate}) async {
     final response = await http.post(
-        Uri.parse('$baseUrl/user/sign-up-with-rowad/$otp').replace(
-          queryParameters: {'otp': otp},
+        Uri.parse('$baseUrl/user/sign-up-with-rowad/$otp/$transactionId')
+            .replace(
+          queryParameters: {'otp': otp, 'transactionId': transactionId},
         ),
         headers: {
           'Accept': 'application/json',
@@ -579,9 +581,8 @@ class AuthService {
 
 // 8 Send OTP to phone for driving linces
 
-  static Future<bool> drivingLinceseOTP({
-    required BuildContext context,
-  }) async {
+  static Future<Map<dynamic, dynamic>?> drivingLinceseOTP(
+      {required BuildContext context, required String expiryDate}) async {
     final getStorage = GetStorage();
     String token = getStorage.read('accessToken') ?? "";
 
@@ -594,31 +595,34 @@ class AuthService {
       token = getStorage.read('accessToken');
     }
     final response = await http.post(
-      Uri.parse('$baseUrl/rowad/otp/driving-license'),
+      Uri.parse('$baseUrl/rowad/otp/driving-license')
+          .replace(queryParameters: {'expiryDate': expiryDate}),
       headers: {
         'Accept': 'application/json',
         'Authorization': 'Bearer $token',
+        "Content-Type": "application/json",
       },
     );
 
-    print("response.statusCode");
-    print(response.statusCode);
-    print(response.body);
-
-    print("isSuccess SERVICE ${response.statusCode}");
+    log("response.statusCode");
+    log(response.statusCode.toString());
+    log(response.body);
 
     if (response.statusCode == 200) {
-      return true;
+      Map responsBody = {
+        'transactionId': jsonDecode(response.body)['transactionId'],
+      };
+      return responsBody;
     } else {
       var jsonBody = jsonDecode(response.body);
       String errorMessage = jsonBody['error']['errorMessage'];
       AppUtil.errorToast(context, errorMessage);
-      return false;
+      return null;
     }
   }
 
 // 9 Send OTP to phone for Vichele
-  static Future<bool> vehicleOTP({
+  static Future<Map<dynamic, dynamic>?> vehicleOTP({
     required String vehicleSerialNumber,
     required BuildContext context,
   }) async {
@@ -650,13 +654,16 @@ class AuthService {
     print("isSuccess SERVICE ${response.statusCode}");
 
     if (response.statusCode == 200) {
-      return true;
+      Map responsBody = {
+        'transactionId': jsonDecode(response.body)['transactionId'],
+      };
+      return responsBody;
     } else {
       var jsonBody = jsonDecode(response.body);
       String errorMessage = jsonBody['error']['errorMessage'];
       //log(errorMessage.isEmpty.toString());
       AppUtil.errorToast(context, errorMessage);
-      return false;
+      return null;
     }
   }
 
@@ -664,6 +671,7 @@ class AuthService {
   static Future<bool> getAjwadiLinceseInfo({
     required String expiryDate,
     required String otp,
+    required String transactionId,
     required BuildContext context,
   }) async {
     final getStorage = GetStorage();
@@ -677,10 +685,10 @@ class AuthService {
       token = getStorage.read('accessToken');
     }
     final response = await http.get(
-      Uri.parse('$baseUrl/local/driving-license/$otp/$expiryDate')
+      Uri.parse('$baseUrl/local/driving-license/$otp/$transactionId')
           .replace(queryParameters: {
         'otp': otp,
-        'expiryDate': expiryDate,
+        'transactionId': transactionId,
       }),
       headers: {
         'Accept': 'application/json',
@@ -708,6 +716,7 @@ class AuthService {
   // 11 get lincese info for ajwadi
   static Future<bool> getAjwadiVehicleInfo({
     required String otp,
+    required String transactionId,
     required BuildContext context,
   }) async {
     final getStorage = GetStorage();
@@ -721,8 +730,10 @@ class AuthService {
       token = getStorage.read('accessToken');
     }
     final response = await http.get(
-      Uri.parse('$baseUrl/local/vehicle/$otp').replace(queryParameters: {
+      Uri.parse('$baseUrl/local/vehicle/$otp/$transactionId')
+          .replace(queryParameters: {
         'otp': otp.trim(),
+        'transactionId': transactionId,
       }),
       headers: {
         'Accept': 'application/json',

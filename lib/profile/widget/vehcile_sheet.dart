@@ -86,7 +86,7 @@ class _VehcileSheetState extends State<VehcileSheet> {
                             vehicleSerialNumber:
                                 _authController.updatedVehicle.value,
                             context: context);
-                        if (isSuccess) {
+                        if (isSuccess != null) {
                           Get.bottomSheet(OtpSheet(
                             title: 'otp'.tr,
                             subtitle: 'otpPhone'.tr,
@@ -99,7 +99,10 @@ class _VehcileSheetState extends State<VehcileSheet> {
                             onCompleted: (otpCode) async {
                               final isDone =
                                   await _authController.getAjwadiVehicleInf(
-                                      otp: otpCode, context: context);
+                                      transactionId: _authController
+                                          .transactionIdVehicle.value,
+                                      otp: otpCode,
+                                      context: context);
                               if (isDone) {
                                 await _profileController.getProfile(
                                     context: context);

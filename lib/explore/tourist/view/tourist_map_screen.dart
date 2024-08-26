@@ -359,7 +359,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
       bottomSheet: Obx(
         () => _touristExploreController.isActivityProgressLoading.value ||
                 _touristExploreController.isTouristMapLoading.value
-            ? const CircularProgressIndicator.adaptive()
+            ? const SizedBox.shrink()
             : _touristExploreController.showActivityProgress.value
                 ? Container(
                     color: Colors.white,

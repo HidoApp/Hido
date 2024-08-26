@@ -38,7 +38,7 @@ class SignInText extends StatelessWidget {
                   () => const LocalSignIn(),
                 );
               } else {
-                Get.to(
+                Get.off(
                   // () =>  AccountTypeScreen(),
                   () => const SignInScreen(),
                 );

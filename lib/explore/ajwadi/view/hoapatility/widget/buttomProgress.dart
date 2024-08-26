@@ -896,6 +896,7 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
                           : GoogleMap(
                               scrollGesturesEnabled: true,
                               zoomControlsEnabled: false,
+                              padding: EdgeInsets.only(bottom: width * 0.102),
                               gestureRecognizers: {
                                 Factory<OneSequenceGestureRecognizer>(
                                     () => EagerGestureRecognizer())
@@ -2102,7 +2103,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                       .isHospatilityDateSelcted.value &&
                                   !widget.hospitalityController.DateErrorMessage
                                       .value
-                              ?colorRed
+                              ? colorRed
                               : Color(0xFFB9B8C1)),
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -2365,7 +2366,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                             // AppUtil.rtlDirection2(context)
                             //     ? "اختر الوقت"
                             //     : "Select Time",
-                            color:colorRed,
+                            color: colorRed,
                             fontSize: width * 0.028,
                           ),
                         ),
@@ -2409,7 +2410,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                   color: widget.hospitalityController
                                               .TimeErrorMessage.value ??
                                           false
-                                      ?colorRed
+                                      ? colorRed
                                       : DurationErrorMessage ?? false
                                           ? colorRed
                                           : Color(0xFFB9B8C1)),

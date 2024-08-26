@@ -41,7 +41,7 @@ class SignUpText extends StatelessWidget {
                   () => const LocalSignUpScreen(),
                 );
               } else {
-                Get.to(() => const SignInScreen());
+                Get.off(() => const SignInScreen());
               }
             })
       ],

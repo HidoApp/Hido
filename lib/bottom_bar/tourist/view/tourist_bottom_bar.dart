@@ -118,9 +118,12 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
                     : const BoxDecoration(),
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 4.0),
-                  child: SvgPicture.asset(
-                    'assets/icons/map_icon.svg',
-                    color: _currentIndex == 0 ? colorGreen : Color(0xFFB9B8C1),
+                  child: RepaintBoundary(
+                    child: SvgPicture.asset(
+                      'assets/icons/map_icon.svg',
+                      color:
+                          _currentIndex == 0 ? colorGreen : Color(0xFFB9B8C1),
+                    ),
                   ),
                 ),
               ),
@@ -129,8 +132,10 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
             BottomNavigationBarItem(
               icon: Padding(
                 padding: const EdgeInsets.only(bottom: 3.0),
-                child: SvgPicture.asset(
-                  'assets/icons/request_icon.svg',
+                child: RepaintBoundary(
+                  child: SvgPicture.asset(
+                    'assets/icons/request_icon.svg',
+                  ),
                 ),
               ),
               activeIcon: Container(
@@ -139,9 +144,12 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 3.0),
-                  child: SvgPicture.asset(
-                    'assets/icons/select_request_icon.svg',
-                    color: _currentIndex == 1 ? colorGreen : Color(0xFFB9B8C1),
+                  child: RepaintBoundary(
+                    child: SvgPicture.asset(
+                      'assets/icons/select_request_icon.svg',
+                      color:
+                          _currentIndex == 1 ? colorGreen : Color(0xFFB9B8C1),
+                    ),
                   ),
                 ),
               ),
@@ -189,9 +197,12 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
                     : const BoxDecoration(),
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 4.0),
-                  child: SvgPicture.asset(
-                    'assets/icons/my_profile.svg',
-                    color: _currentIndex == 2 ? colorGreen : Color(0xFFB9B8C1),
+                  child: RepaintBoundary(
+                    child: SvgPicture.asset(
+                      'assets/icons/my_profile.svg',
+                      color:
+                          _currentIndex == 2 ? colorGreen : Color(0xFFB9B8C1),
+                    ),
                   ),
                 ),
               ),

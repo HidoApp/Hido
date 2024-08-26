@@ -53,6 +53,9 @@ class AuthController extends GetxController {
   var validUpdatedDriving = true.obs;
   var passwordOtp = ''.obs;
   var resetPasswordEmail = ''.obs;
+  var transactionIdInfo = ''.obs;
+  var transactionIdDriving = ''.obs;
+  var transactionIdVehicle = ''.obs;
   var showResetPassword = false.obs;
   var showResetConfirmedPassword = false.obs;
 
@@ -108,24 +111,27 @@ class AuthController extends GetxController {
   }
 
   // 3 GET OTP by id and birth date ..
-  Future<bool> personInfoOTP({
+  Future<Map<dynamic, dynamic>?> personInfoOTP({
     required String nationalID,
     required String birthDate,
     required BuildContext context,
   }) async {
     try {
       isPersonInfoLoading(true);
-      final isSuccess = await AuthService.personInfoOTP(
+      final responseBody = await AuthService.personInfoOTP(
         nationalID: nationalID,
         birthDate: birthDate,
         context: context,
       );
-      print("isSuccess CONTROLLER $isSuccess");
-      return isSuccess;
+      if (responseBody != null) {
+        transactionIdInfo.value = responseBody['transactionId'];
+      }
+      return responseBody;
+      //return isSuccess;
     } catch (e) {
       print("isSuccess CONTROLLER FALSE");
       print(e);
-      return false;
+      return null;
     } finally {
       isPersonInfoLoading(false);
     }
@@ -156,12 +162,14 @@ class AuthController extends GetxController {
       required String nationalId,
       required String otp,
       required String number,
+      required String transactionId,
       required String birthDate}) async {
     try {
       isSignUpRowad(true);
       final data = await AuthService.signUpWithRowad(
           context: context,
           nationalId: nationalId,
+          transactionId: transactionId,
           otp: otp,
           number: number,
           birthDate: birthDate);
@@ -328,24 +336,26 @@ class AuthController extends GetxController {
   }
 
   // 8 Send OTP to phone for driving linces
-  Future<bool> drivingLinceseOTP({
-    required BuildContext context,
-  }) async {
+  Future<Map<dynamic, dynamic>?> drivingLinceseOTP(
+      {required BuildContext context, required String expiryDate}) async {
     try {
       isLienceseOTPLoading(true);
-      final isSuccess = await AuthService.drivingLinceseOTP(
+      final isSuccess = await AuthService.drivingLinceseOTP(expiryDate: expiryDate,
         context: context,
       );
+      if (isSuccess != null) {
+        transactionIdDriving(isSuccess['transactionId']);
+      }
       return isSuccess;
     } catch (e) {
-      return false;
+      return null;
     } finally {
       isLienceseOTPLoading(false);
     }
   }
 
 // 9 Send OTP to phone for Vichele
-  Future<bool> vehicleOTP({
+  Future<Map<dynamic, dynamic>?> vehicleOTP({
     required String vehicleSerialNumber,
     required BuildContext context,
   }) async {
@@ -355,9 +365,12 @@ class AuthController extends GetxController {
         vehicleSerialNumber: vehicleSerialNumber,
         context: context,
       );
+      if (isSuccess != null) {
+        transactionIdVehicle(isSuccess['transactionId']);
+      }
       return isSuccess;
     } catch (e) {
-      return false;
+      return null;
     } finally {
       isVicheleOTPLoading(false);
     }
@@ -367,6 +380,7 @@ class AuthController extends GetxController {
   Future<bool> getAjwadiLinceseInfo({
     required String expiryDate,
     required String otp,
+    required String transactionId,
     required BuildContext context,
   }) async {
     try {
@@ -374,6 +388,7 @@ class AuthController extends GetxController {
       print('expiryDate Controller : $expiryDate');
       final isSuccess = await AuthService.getAjwadiLinceseInfo(
         expiryDate: expiryDate,
+        transactionId: transactionId,
         otp: otp,
         context: context,
       );
@@ -388,12 +403,14 @@ class AuthController extends GetxController {
   // 11 get lincese info for ajwadi
   Future<bool> getAjwadiVehicleInf({
     required String otp,
+    required String transactionId,
     required BuildContext context,
   }) async {
     try {
       isVicheleLoading(true);
       final isSuccess = await AuthService.getAjwadiVehicleInfo(
         otp: otp,
+        transactionId: transactionId,
         context: context,
       );
       return isSuccess;

@@ -495,7 +495,7 @@ class _EditAdventureState extends State<EditAdventure> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset('assets/images/paymentSuccess.gif', width: 38),
-                   SizedBox(height: width*0.04),
+                    SizedBox(height: width * 0.04),
                     Text(
                       'saveChange'.tr,
                       style: TextStyle(
@@ -640,7 +640,6 @@ class _EditAdventureState extends State<EditAdventure> {
                                                     ),
                                                     child: Container(
                                                       width: double.infinity,
-                                                   
                                                       padding:
                                                           EdgeInsets.all(16),
                                                       child: Column(
@@ -653,8 +652,9 @@ class _EditAdventureState extends State<EditAdventure> {
                                                           Image.asset(
                                                               'assets/images/paymentSuccess.gif',
                                                               width: 38),
-                                                       SizedBox(height: width*0.04),
-
+                                                          SizedBox(
+                                                              height:
+                                                                  width * 0.04),
                                                           Text(
                                                             'DeleteDone'.tr,
                                                             style: TextStyle(
@@ -701,7 +701,7 @@ class _EditAdventureState extends State<EditAdventure> {
                                           },
                                           child: Container(
                                             height: 34,
-                                            width:double.infinity,
+                                            width: double.infinity,
                                             padding: const EdgeInsets.symmetric(
                                                 vertical: 3),
                                             alignment: Alignment.center,
@@ -762,7 +762,8 @@ class _EditAdventureState extends State<EditAdventure> {
                 ),
 
                 bottomNavigationBar: Padding(
-                    padding: EdgeInsets.only(left:16.0,right:16.0,bottom:24.0,top:16),
+                    padding: EdgeInsets.only(
+                        left: 16.0, right: 16.0, bottom: 24.0, top: 16),
                     child: Obx(
                       () => _eventController.isImagesLoading.value ||
                               _servicesController.isEditAdveentureLoading.value
@@ -2125,7 +2126,9 @@ class _EditAdventureState extends State<EditAdventure> {
                                             child: GoogleMap(
                                               scrollGesturesEnabled: true,
                                               zoomControlsEnabled: false,
-                                                gestureRecognizers: {
+                                              padding: EdgeInsets.only(
+                                                  bottom: width * 0.102),
+                                              gestureRecognizers: {
                                                 Factory<OneSequenceGestureRecognizer>(
                                                     () =>
                                                         EagerGestureRecognizer())
@@ -2273,11 +2276,10 @@ class _EditAdventureState extends State<EditAdventure> {
                                           borderRadius:
                                               BorderRadius.circular(8),
                                         ),
-                                      focusedBorder: OutlineInputBorder(
+                                        focusedBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
                                             width: 1,
-                                            color:
-                                                Graytext, 
+                                            color: Graytext,
                                           ),
                                         ),
                                         contentPadding: EdgeInsets.symmetric(
