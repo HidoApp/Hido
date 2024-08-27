@@ -154,14 +154,19 @@ class _DrivingSheetState extends State<DrivingSheet> {
                         _authController.validUpdatedDriving(false);
                       } else {
                         log(_authController.updatedDriving.value);
-                        final isSuccess = await _authController
-                            .drivingLinceseOTP(context: context);
-                        if (isSuccess) {
+                        final isSuccess =
+                            await _authController.drivingLinceseOTP(
+                                context: context,
+                                expiryDate:
+                                    _authController.updatedDriving.value);
+                        if (isSuccess != null) {
                           Get.bottomSheet(OtpSheet(
                             title: 'otp'.tr,
                             subtitle: 'otpPhone'.tr,
                             resendOtp: () async {
                               await _authController.drivingLinceseOTP(
+                                  expiryDate:
+                                      _authController.updatedDriving.value,
                                   context: context);
                             },
                             onCompleted: (otpCode) async {
@@ -169,6 +174,7 @@ class _DrivingSheetState extends State<DrivingSheet> {
                                   await _authController.getAjwadiLinceseInfo(
                                       expiryDate:
                                           _authController.updatedDriving.value,
+                                          transactionId: _authController.transactionIdDriving.value,
                                       otp: otpCode,
                                       context: context);
                               if (isSuccess) {

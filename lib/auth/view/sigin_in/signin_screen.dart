@@ -263,7 +263,7 @@ class _SignInScreenState extends State<SignInScreen> {
                               onPressed: ()
                                   // async
                                   {
-                                Get.to(
+                                Get.off(
                                   () => RegisterScreen(
                                     authController: _authController,
                                     //  countries: countries,

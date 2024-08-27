@@ -150,14 +150,15 @@ class _AjwadiVehicleInfoState extends State<AjwadiVehicleInfo> {
                                             return;
                                           }
 
-                                          bool isSuccess =
+                                        var   isSuccess =
                                               await authController.vehicleOTP(
+                                                
                                                   vehicleSerialNumber:
                                                       _vehicleNumberController
                                                           .text,
                                                   context: context);
                                           print(isSuccess);
-                                          if (isSuccess) {
+                                          if (isSuccess!=null) {
                                             String accessToken =
                                                 getStorage.read('accessToken');
 

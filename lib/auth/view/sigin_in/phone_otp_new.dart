@@ -43,6 +43,7 @@ class _PhoneOTPState extends State<PhoneOTP> {
       log('Succes');
       final isSuccess = await _authController.getAjwadiLinceseInfo(
           expiryDate: _authController.drivingDate.value,
+          transactionId: _authController.transactionIdDriving.value,
           otp: otpCode,
           context: context);
       if (isSuccess) {
@@ -51,7 +52,9 @@ class _PhoneOTPState extends State<PhoneOTP> {
       }
     } else {
       final isSuccess = await _authController.getAjwadiVehicleInf(
-          otp: otpCode, context: context);
+          transactionId: _authController.transactionIdVehicle.value,
+          otp: otpCode,
+          context: context);
       if (isSuccess) {
         _authController.activeBar(1);
         Get.offAll(() => const AjwadiBottomBar());
@@ -63,7 +66,7 @@ class _PhoneOTPState extends State<PhoneOTP> {
   void resetPassword(otpCode) async {
     if (otpCode == _authController.passwordOtp.value) {
       Get.off(() => const NewPasswordScreen());
-    }else{
+    } else {
       AppUtil.errorToast(context, 'msg');
     }
   }
@@ -71,6 +74,7 @@ class _PhoneOTPState extends State<PhoneOTP> {
   void signUp(String otpCode) async {
     final isSuccess = await _authController.signUpWithRowad(
         context: context,
+        transactionId: _authController.transactionIdInfo.value,
         nationalId: _authController.localID.toString(),
         number: _authController.phoneNumber.value,
         otp: otpCode,
@@ -143,7 +147,7 @@ class _PhoneOTPState extends State<PhoneOTP> {
             ),
             Center(
               child: Pinput(
-                length: 6,
+                length: 4,
 
                 onCompleted: (value) {
                   switch (widget.type) {
@@ -174,14 +178,15 @@ class _PhoneOTPState extends State<PhoneOTP> {
 
                 keyboardType: TextInputType.number,
                 separatorBuilder: (index) => SizedBox(
-                  width: width * 0.030,
+                  width: width * .097,
                 ),
                 followingPinTheme: PinTheme(
-                  width: width * 0.1282,
-                  height: width * 0.1282,
+                  width: width * 0.143,
+                  height: width * 0.143,
                   textStyle: TextStyle(
                       fontSize: width * 0.038,
                       fontWeight: FontWeight.w400,
+                      fontFamily: AppUtil.SfFontType(context),
                       color: colorGreen),
                   decoration: BoxDecoration(
                     border: Border.all(color: borderGrey),
@@ -189,11 +194,12 @@ class _PhoneOTPState extends State<PhoneOTP> {
                   ),
                 ),
                 defaultPinTheme: PinTheme(
-                  width: width * 0.1282,
-                  height: width * 0.1282,
+                  width: width * 0.143,
+                  height: width * 0.143,
                   textStyle: TextStyle(
                       fontSize: width * 0.038,
                       fontWeight: FontWeight.w400,
+                      fontFamily: AppUtil.SfFontType(context),
                       color: colorGreen),
                   decoration: BoxDecoration(
                     border: Border.all(color: colorGreen),
@@ -201,11 +207,12 @@ class _PhoneOTPState extends State<PhoneOTP> {
                   ),
                 ),
                 errorPinTheme: PinTheme(
-                  width: width * 0.1282,
-                  height: width * 0.1282,
+                  width: width * 0.143,
+                  height: width * 0.143,
                   textStyle: TextStyle(
                       fontSize: width * 0.038,
                       fontWeight: FontWeight.w400,
+                      fontFamily: AppUtil.SfFontType(context),
                       color: colorRed),
                   decoration: BoxDecoration(
                     border: Border.all(color: colorRed),

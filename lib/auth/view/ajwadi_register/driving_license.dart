@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:jhijri/_src/_jHijri.dart';
+import 'package:jhijri_picker/_src/_jWidgets.dart';
 
 class DrivingLicense extends StatefulWidget {
   const DrivingLicense({super.key});
@@ -26,6 +27,23 @@ class _DrivingLicenseState extends State<DrivingLicense> {
   String? drivingDate;
   DateTime? date;
   late JHijri hijriDate;
+  Future<JPickerValue?> openDialog(BuildContext context) async {
+    return await showGlobalDatePicker(
+        context: context,
+        startDate: JDateModel(dateTime: DateTime.parse("1960-12-24")),
+        selectedDate: JDateModel(dateTime: DateTime.now()),
+        endDate: JDateModel(dateTime: DateTime.parse("2030-09-20")),
+        pickerMode: DatePickerMode.day,
+        // selectedDate: JDateModel(jhijri: JHijri.now()),
+        pickerType: PickerType.JHijri,
+        okButtonText: 'ok'.tr,
+        cancelButtonText: "cancel".tr,
+        onChange: (datetime) {
+          _authController.drivingDate.value =
+              AppUtil.formattedHijriDate(datetime.jhijri);
+        },
+        primaryColor: Colors.green);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,52 +71,54 @@ class _DrivingLicenseState extends State<DrivingLicense> {
             Obx(
               () => GestureDetector(
                 onTap: () async {
-                  await showCupertinoModalPopup<void>(
-                    context: context,
-                    builder: (_) {
-                      final size = MediaQuery.of(context).size;
-                      return Container(
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(12),
-                            topRight: Radius.circular(12),
-                          ),
-                        ),
-                        height: size.height * 0.27,
-                        child: CupertinoDatePicker(
-                          mode: CupertinoDatePickerMode.date,
-                          onDateTimeChanged: (value) {
-                            date = value;
-                            //  log(date.toString());
-                            setState(() {
-                              String theMonth =
-                                  date!.month.toString().length == 1
-                                      ? '0${date!.month}'
-                                      : date!.month.toString();
-                              String theDay = date!.day.toString().length == 1
-                                  ? '0${date!.day}'
-                                  : date!.day.toString();
-                              drivingDate = '${date!.year}-$theMonth-$theDay';
-                            });
+                  openDialog(context);
 
-                            if (drivingDate != null) {
-                              DateTime gregorianDate =
-                                  DateTime.parse(drivingDate!);
-                              hijriDate = JHijri(fDate: gregorianDate);
-                              String formattedHijriDate =
-                                  "${hijriDate.year}-${hijriDate.month.toString().padLeft(2, '0')}-${hijriDate.day.toString().padLeft(2, '0')}";
+                  // await showCupertinoModalPopup<void>(
+                  //   context: context,
+                  //   builder: (_) {
+                  //     final size = MediaQuery.of(context).size;
+                  //     return Container(
+                  //       decoration: const BoxDecoration(
+                  //         color: Colors.white,
+                  //         borderRadius: BorderRadius.only(
+                  //           topLeft: Radius.circular(12),
+                  //           topRight: Radius.circular(12),
+                  //         ),
+                  //       ),
+                  //       height: size.height * 0.27,
+                  //       child: CupertinoDatePicker(
+                  //         mode: CupertinoDatePickerMode.date,
+                  //         onDateTimeChanged: (value) {
+                  //           date = value;
+                  //           // //  log(date.toString());
+                  //           // setState(() {
+                  //           //   String theMonth =
+                  //           //       date!.month.toString().length == 1
+                  //           //           ? '0${date!.month}'
+                  //           //           : date!.month.toString();
+                  //           //   String theDay = date!.day.toString().length == 1
+                  //           //       ? '0${date!.day}'
+                  //           //       : date!.day.toString();
+                  //           //   drivingDate = '${date!.year}-$theMonth-$theDay';
+                  //           // });
 
-                              log(formattedHijriDate.toString());
-                              _authController
-                                  .drivingDate(formattedHijriDate.toString());
-                              // log(_authController.drivingDate.value);
-                            }
-                          },
-                        ),
-                      );
-                    },
-                  );
+                  //           // if (drivingDate != null) {
+                  //           //   DateTime gregorianDate =
+                  //           //       DateTime.parse(drivingDate!);
+                  //           //   hijriDate = JHijri(fDate: gregorianDate);
+                  //           //   String formattedHijriDate =
+                  //           //       "${hijriDate.year}-${hijriDate.month.toString().padLeft(2, '0')}-${hijriDate.day.toString().padLeft(2, '0')}";
+
+                  //           //   log(formattedHijriDate.toString());
+                  //           //   _authController
+                  //           //       .drivingDate(formattedHijriDate.toString());
+                  //           //   // log(_authController.drivingDate.value);
+                  //           // }
+                  //         },
+                  //       ),
+                  //     );
+                  //   },
+                  // );
                 },
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),

@@ -584,7 +584,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset('assets/images/paymentSuccess.gif', width: 38),
-                   SizedBox(height: width*0.04),
+                    SizedBox(height: width * 0.04),
                     Text(
                       'saveChange'.tr,
                       style: TextStyle(
@@ -665,7 +665,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                                 BorderRadius.all(Radius.circular(8.0)),
                           ),
                           content: Container(
-                           width: double.infinity,
+                            width: double.infinity,
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -731,9 +731,9 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                     ),
                                                     child: Container(
                                                       width: double.infinity,
-                                                     
                                                       padding:
-                                                          const EdgeInsets.all(16),
+                                                          const EdgeInsets.all(
+                                                              16),
                                                       child: Column(
                                                         mainAxisSize:
                                                             MainAxisSize.min,
@@ -744,7 +744,9 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                           Image.asset(
                                                               'assets/images/paymentSuccess.gif',
                                                               width: 38),
-                                                          SizedBox(height: width*0.04),
+                                                          SizedBox(
+                                                              height:
+                                                                  width * 0.04),
                                                           Text(
                                                             'DeleteDone'.tr,
                                                             style: TextStyle(
@@ -851,13 +853,13 @@ class _EditHospitalityState extends State<EditHospitality> {
                 ),
 
                 bottomNavigationBar: Padding(
-                    padding: EdgeInsets.only(left:16.0,right:16.0,bottom:24.0,top:16),
+                    padding: EdgeInsets.only(
+                        left: 16.0, right: 16.0, bottom: 24.0, top: 16),
                     child: Obx(
                       () => _eventController.isImagesLoading.value ||
                               _servicesController.isEditHospitalityLoading.value
                           ? const Padding(
-                              padding:
-                                  EdgeInsets.symmetric(horizontal: 160),
+                              padding: EdgeInsets.symmetric(horizontal: 160),
                               child: CircularProgressIndicator.adaptive(),
                             )
                           : CustomButton(
@@ -962,8 +964,10 @@ class _EditHospitalityState extends State<EditHospitality> {
                                               width: 2.0),
                                         ],
                                         activeFgColor: const Color(0xFF070708),
-                                        inactiveBgColor: const Color(0xFFF5F5F5),
-                                        inactiveFgColor: const Color(0xFF9392A0),
+                                        inactiveBgColor:
+                                            const Color(0xFFF5F5F5),
+                                        inactiveFgColor:
+                                            const Color(0xFF9392A0),
                                         initialLabelIndex:
                                             _selectedLanguageIndex,
                                         totalSwitches: 2,
@@ -1088,7 +1092,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                             ? 'مثال: منزل دانا'
                                                             : 'example: Dana’s house',
                                                     hintStyle: TextStyle(
-                                                      color: const Color(0xFFB9B8C1),
+                                                      color: const Color(
+                                                          0xFFB9B8C1),
                                                       fontSize: 15,
                                                       fontFamily:
                                                           _selectedLanguageIndex ==
@@ -1112,8 +1117,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                             if (titleArEmpty &&
                                                 _selectedLanguageIndex == 0)
                                               const Padding(
-                                                padding: EdgeInsets.only(
-                                                    top: 8.0),
+                                                padding:
+                                                    EdgeInsets.only(top: 8.0),
                                                 child: Text(
                                                   'يجب إضافة عنوان للتجربة ',
                                                   style: TextStyle(
@@ -1127,8 +1132,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                             if (_selectedLanguageIndex == 1 &&
                                                 titleENEmpty)
                                               const Padding(
-                                                padding: EdgeInsets.only(
-                                                    top: 8.0),
+                                                padding:
+                                                    EdgeInsets.only(top: 8.0),
                                                 child: Text(
                                                   'You need to add a title ',
                                                   style: TextStyle(
@@ -1228,7 +1233,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                         ? 'أذكر أبرز ما يميزها ولماذا يجب على السياح زيارتها'
                                                         : 'highlight what makes it unique and why tourists should visit',
                                                     hintStyle: TextStyle(
-                                                      color: const Color(0xFFB9B8C1),
+                                                      color: const Color(
+                                                          0xFFB9B8C1),
                                                       fontSize: 15,
                                                       fontFamily:
                                                           _selectedLanguageIndex ==
@@ -1252,8 +1258,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                             if (bioEnEmpty &&
                                                 _selectedLanguageIndex == 1)
                                               const Padding(
-                                                padding: EdgeInsets.only(
-                                                    top: 8.0),
+                                                padding:
+                                                    EdgeInsets.only(top: 8.0),
                                                 child: Text(
                                                   'You need to add a discription for the experience',
                                                   style: TextStyle(
@@ -1267,8 +1273,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                             if (bioArEmpty &&
                                                 _selectedLanguageIndex == 0)
                                               const Padding(
-                                                padding: EdgeInsets.only(
-                                                    top: 8.0),
+                                                padding:
+                                                    EdgeInsets.only(top: 8.0),
                                                 child: Text(
                                                   "يجب إضافة وصف للتجربة ",
                                                   style: TextStyle(
@@ -1287,7 +1293,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                     ? '*يجب ألا يتجاوز الوصف 150 كلمة'
                                                     : '*the description must not exceed 150 words',
                                                 style: TextStyle(
-                                                  color: const Color(0xFFB9B8C1),
+                                                  color:
+                                                      const Color(0xFFB9B8C1),
                                                   fontSize: 11,
                                                   fontFamily:
                                                       _selectedLanguageIndex ==
@@ -1349,7 +1356,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                   width: 1,
                                                   color: guestEmpty
                                                       ? colorRed
-                                                      : const Color(0xFFB9B8C1)),
+                                                      : const Color(
+                                                          0xFFB9B8C1)),
                                               borderRadius:
                                                   BorderRadius.circular(8),
                                             ),
@@ -1485,7 +1493,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                   Text(
                                                     "female".tr,
                                                     style: TextStyle(
-                                                      color: const Color(0xFF41404A),
+                                                      color: const Color(
+                                                          0xFF41404A),
                                                       fontSize: 13,
                                                       fontFamily:
                                                           AppUtil.rtlDirection2(
@@ -1538,7 +1547,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                   Text(
                                                     'male'.tr,
                                                     style: TextStyle(
-                                                      color: const Color(0xFF41404A),
+                                                      color: const Color(
+                                                          0xFF41404A),
                                                       fontSize: 13,
                                                       fontFamily:
                                                           AppUtil.rtlDirection2(
@@ -1591,7 +1601,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                   Text(
                                                     'both'.tr,
                                                     style: TextStyle(
-                                                      color: const Color(0xFF41404A),
+                                                      color: const Color(
+                                                          0xFF41404A),
                                                       fontSize: 13,
                                                       fontFamily:
                                                           AppUtil.rtlDirection2(
@@ -2385,7 +2396,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                           ? "يجب أن لايسبق وقت بدء التجربة"
                                                           : "*Can’t be before start time",
                                                   style: TextStyle(
-                                                    color: const Color(0xFFDC362E),
+                                                    color:
+                                                        const Color(0xFFDC362E),
                                                     fontSize: width * 0.028,
                                                     fontFamily:
                                                         AppUtil.rtlDirection2(
@@ -2437,9 +2449,10 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                 materialTapTargetSize:
                                                     MaterialTapTargetSize
                                                         .shrinkWrap,
-                                                visualDensity: const VisualDensity(
-                                                    horizontal: -4,
-                                                    vertical: -4),
+                                                visualDensity:
+                                                    const VisualDensity(
+                                                        horizontal: -4,
+                                                        vertical: -4),
                                                 fillColor: MaterialStateProperty
                                                     .resolveWith<Color>(
                                                         (Set<MaterialState>
@@ -2455,7 +2468,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                               Text(
                                                 'Breakfast'.tr,
                                                 style: TextStyle(
-                                                  color: const Color(0xFF41404A),
+                                                  color:
+                                                      const Color(0xFF41404A),
                                                   fontSize: 13,
                                                   fontFamily:
                                                       AppUtil.rtlDirection2(
@@ -2485,9 +2499,10 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                 materialTapTargetSize:
                                                     MaterialTapTargetSize
                                                         .shrinkWrap,
-                                                visualDensity: const VisualDensity(
-                                                    horizontal: -4,
-                                                    vertical: -4),
+                                                visualDensity:
+                                                    const VisualDensity(
+                                                        horizontal: -4,
+                                                        vertical: -4),
                                                 fillColor: MaterialStateProperty
                                                     .resolveWith<Color>(
                                                         (Set<MaterialState>
@@ -2503,7 +2518,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                               Text(
                                                 'Lunch'.tr,
                                                 style: TextStyle(
-                                                  color: const Color(0xFF41404A),
+                                                  color:
+                                                      const Color(0xFF41404A),
                                                   fontSize: 13,
                                                   fontFamily:
                                                       AppUtil.rtlDirection2(
@@ -2533,9 +2549,10 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                 materialTapTargetSize:
                                                     MaterialTapTargetSize
                                                         .shrinkWrap,
-                                                visualDensity: const VisualDensity(
-                                                    horizontal: -4,
-                                                    vertical: -4),
+                                                visualDensity:
+                                                    const VisualDensity(
+                                                        horizontal: -4,
+                                                        vertical: -4),
                                                 fillColor: MaterialStateProperty
                                                     .resolveWith<Color>(
                                                         (Set<MaterialState>
@@ -2551,7 +2568,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                               Text(
                                                 'Dinner'.tr,
                                                 style: TextStyle(
-                                                  color: const Color(0xFF41404A),
+                                                  color:
+                                                      const Color(0xFF41404A),
                                                   fontSize: 13,
                                                   fontFamily:
                                                       AppUtil.rtlDirection2(
@@ -2604,14 +2622,17 @@ class _EditHospitalityState extends State<EditHospitality> {
                                             decoration: BoxDecoration(
                                               color:
                                                   almostGrey.withOpacity(0.2),
-                                              borderRadius: const BorderRadius.all(
-                                                  Radius.circular(12)),
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(12)),
                                             ),
                                             height: 246,
                                             width: 358,
                                             child: GoogleMap(
                                               scrollGesturesEnabled: true,
                                               zoomControlsEnabled: false,
+                                              padding: EdgeInsets.only(
+                                                  bottom: width * 0.102),
                                               gestureRecognizers: {
                                                 Factory<OneSequenceGestureRecognizer>(
                                                     () =>
@@ -2624,7 +2645,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                               ),
                                               markers: {
                                                 Marker(
-                                                  markerId: const MarkerId("marker1"),
+                                                  markerId:
+                                                      const MarkerId("marker1"),
                                                   position: _currentPosition,
                                                   draggable: true,
                                                   onDragEnd:
@@ -2655,11 +2677,12 @@ class _EditHospitalityState extends State<EditHospitality> {
                                             height: 45,
                                             decoration: BoxDecoration(
                                               color: Colors.white,
-                                              borderRadius: const BorderRadius.only(
-                                                  bottomLeft:
-                                                      Radius.circular(12),
-                                                  bottomRight:
-                                                      Radius.circular(12)),
+                                              borderRadius:
+                                                  const BorderRadius.only(
+                                                      bottomLeft:
+                                                          Radius.circular(12),
+                                                      bottomRight:
+                                                          Radius.circular(12)),
                                               border: Border.all(
                                                 color: const Color(
                                                     0xFFE2E2E2), // Change this to your desired border color
@@ -2765,12 +2788,12 @@ class _EditHospitalityState extends State<EditHospitality> {
                                         focusedBorder: const OutlineInputBorder(
                                           borderSide: BorderSide(
                                             width: 1,
-                                            color:
-                                                Graytext, 
+                                            color: Graytext,
                                           ),
                                         ),
-                                        contentPadding: const EdgeInsets.symmetric(
-                                            horizontal: 15),
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                                horizontal: 15),
                                       ),
                                       keyboardType: TextInputType.number,
                                     ),

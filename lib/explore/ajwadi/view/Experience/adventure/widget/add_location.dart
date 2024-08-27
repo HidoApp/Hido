@@ -226,6 +226,7 @@ class _AddLocationState extends State<AddLocation> {
                           : GoogleMap(
                               scrollGesturesEnabled: true,
                               zoomControlsEnabled: false,
+                              padding: EdgeInsets.only(bottom: width * 0.102),
                               gestureRecognizers: {
                                 Factory<OneSequenceGestureRecognizer>(
                                     () => EagerGestureRecognizer())

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/auth/view/ajwadi_register/provided_services.dart';
 import 'package:ajwad_v4/auth/view/sigin_in/phone_otp_new.dart';
@@ -13,6 +15,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:jhijri/_src/_jHijri.dart';
+import 'package:jhijri_picker/_src/_jWidgets.dart';
 
 class LocalSignUpScreen extends StatefulWidget {
   const LocalSignUpScreen({super.key});
@@ -32,6 +36,24 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
     // TODO: implement dispose
     super.dispose();
     _authController.birthDate('');
+  }
+
+  Future<JPickerValue?> openDialog(BuildContext context) async {
+    return await showGlobalDatePicker(
+        context: context,
+        startDate: JDateModel(dateTime: DateTime.parse("1960-12-24")),
+        selectedDate: JDateModel(dateTime: DateTime.now()),
+        endDate: JDateModel(dateTime: DateTime.parse("2030-09-20")),
+        pickerMode: DatePickerMode.day,
+        // selectedDate: JDateModel(jhijri: JHijri.now()),
+        pickerType: PickerType.JHijri,
+        okButtonText: 'ok'.tr,
+        cancelButtonText: "cancel".tr,
+        onChange: (datetime) {
+          _authController.birthDate.value =
+              AppUtil.formattedHijriDate(datetime.jhijri);
+        },
+        primaryColor: Colors.green);
   }
 
   @override
@@ -140,38 +162,39 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                     ),
                     GestureDetector(
                       onTap: () async {
-                        await showCupertinoModalPopup<void>(
-                          context: context,
-                          builder: (_) {
-                            final size = MediaQuery.of(context).size;
-                            return Container(
-                              decoration: const BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(12),
-                                  topRight: Radius.circular(12),
-                                ),
-                              ),
-                              height: size.height * 0.27,
-                              child: CupertinoDatePicker(
-                                mode: CupertinoDatePickerMode.date,
-                                onDateTimeChanged: (value) {
-                                  date = value;
-                                  String theMonth =
-                                      date!.month.toString().length == 1
-                                          ? '0${date!.month}'
-                                          : date!.month.toString();
-                                  String theDay =
-                                      date!.day.toString().length == 1
-                                          ? '0${date!.day}'
-                                          : date!.day.toString();
-                                  birthDate = '${date!.year}-$theMonth-$theDay';
-                                  _authController.birthDate(birthDate);
-                                },
-                              ),
-                            );
-                          },
-                        );
+                        await openDialog(context);
+                        // await showCupertinoModalPopup<void>(
+                        //   context: context,
+                        //   builder: (_) {
+                        //     final size = MediaQuery.of(context).size;
+                        //     return Container(
+                        //       decoration: const BoxDecoration(
+                        //         color: Colors.white,
+                        //         borderRadius: BorderRadius.only(
+                        //           topLeft: Radius.circular(12),
+                        //           topRight: Radius.circular(12),
+                        //         ),
+                        //       ),
+                        //       height: size.height * 0.27,
+                        //       child: CupertinoDatePicker(
+                        //         mode: CupertinoDatePickerMode.date,
+                        //         onDateTimeChanged: (value) {
+                        //           date = value;
+                        //           String theMonth =
+                        //               date!.month.toString().length == 1
+                        //                   ? '0${date!.month}'
+                        //                   : date!.month.toString();
+                        //           String theDay =
+                        //               date!.day.toString().length == 1
+                        //                   ? '0${date!.day}'
+                        //                   : date!.day.toString();
+                        //           birthDate = '${date!.year}-$theMonth-$theDay';
+                        //           _authController.birthDate(birthDate);
+                        //         },
+                        //       ),
+                        //     );
+                        //   },
+                        // );
                       },
                       child: Obx(
                         () => Container(
@@ -234,6 +257,7 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                     ? const Center(child: CircularProgressIndicator.adaptive())
                     : CustomButton(
                         onPressed: () async {
+                          log(_authController.birthDate.value);
                           var isValid = _formKey.currentState!.validate();
                           _authController.validBirthDay(
                               _authController.birthDate.isNotEmpty);
@@ -244,7 +268,7 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                                     birthDate: _authController.birthDate.value,
                                     context: context);
                             print('isSuccess UI $isSuccess');
-                            if (isSuccess) {
+                            if (isSuccess!=null) {
                               _authController.localID(nationalId);
                               Get.to(() => PhoneOTP(
                                     otp: '',

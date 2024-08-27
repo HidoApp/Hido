@@ -66,7 +66,7 @@ class ExperienceType extends StatelessWidget {
                 iconPath: 'EventType',
                 subtitle: 'eventSub'.tr,
                 onTap: () {
-                  Get.to(() => EventAddProgress());
+                  Get.to(() => const EventAddProgress());
                 },
               ),
             ],
