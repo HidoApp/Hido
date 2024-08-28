@@ -19,6 +19,7 @@ import 'package:dropdown_search/dropdown_search.dart';
 
 import 'package:get/get.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
+import 'package:searchfield/searchfield.dart';
 
 class LastStepScreen extends StatefulWidget {
   const LastStepScreen(
@@ -65,6 +66,23 @@ class _LastStepScreenState extends State<LastStepScreen> {
         widget.countries.length,
         (index) => ValueItem(
             label: widget.countries[index], value: widget.countries[index]));
+  }
+
+  // Callback when a suggestion is tapped
+  // Callback when a suggestion is tapped
+  void onSuggestionTap(SearchFieldListItem<ValueItem<dynamic>> tappedItem) {
+    setState(() {
+      _selectedNationality = tappedItem.item?.value!;
+    });
+    if (_selectedNationality.isNotEmpty) {
+      setState(() {
+        isNatSelected = true;
+      });
+    } else {
+      setState(() {
+        isNatSelected = false;
+      });
+    }
   }
 
   @override
@@ -138,57 +156,183 @@ class _LastStepScreenState extends State<LastStepScreen> {
               SizedBox(
                 height: width * .0205,
               ),
-              MultiSelectDropDown(
-                controller: _controller,
-                dropdownHeight: 250,
-                inputDecoration: BoxDecoration(
-                    border: Border.all(
-                        color: isNatSelected ? borderGrey : colorRed),
-                    borderRadius: BorderRadius.circular(11)),
-                hint: 'chooseNationality'.tr,
-                borderRadius: 8,
-                hintPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                searchEnabled: true,
-                searchLabel: 'search'.tr,
-                suffixIcon: const Icon(Icons.keyboard_arrow_up),
-                clearIcon: null,
-                singleSelectItemStyle: const TextStyle(
-                    fontSize: 15,
-                    fontFamily: "SF Pro",
-                    color: black,
-                    fontWeight: FontWeight.w500),
-
-                onOptionSelected: (options) {
-                  _selectedNationality = options.first.value;
-                  if (_selectedNationality.isNotEmpty) {
-                    setState(() {
-                      isNatSelected = true;
-                    });
-                  }
-                },
-                options: countries,
-                // searchEnabled: true,
-                selectionType: SelectionType.single,
-                chipConfig: const ChipConfig(wrapType: WrapType.scroll),
-                // dropdownHeight: 300,
-                optionTextStyle: const TextStyle(
-                    fontSize: 15,
-                    fontFamily: "SF Pro",
-                    color: starGreyColor,
-                    fontWeight: FontWeight.w500),
-
-                // selectedOptionIcon:
-                //     const Icon(Icons.check_circle),
+             SingleChildScrollView(
+  child: Column(
+    mainAxisSize: MainAxisSize.min,
+    crossAxisAlignment: CrossAxisAlignment.start,
+    mainAxisAlignment: MainAxisAlignment.start,
+    children: [
+      Container(
+        width: double.infinity,
+        height: width * 0.12,
+        child: SearchField<ValueItem>(
+          hint: 'chooseNationality'.tr,
+          searchStyle: TextStyle(
+            color: black,
+            fontSize: 15,
+            fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+            fontWeight: FontWeight.w400,
+          ),
+          onSaved: (options) {
+            _selectedNationality = options!;
+            setState(() {
+              isNatSelected = _selectedNationality.isNotEmpty;
+            });
+            log('selected $_selectedNationality');
+          },
+          onSuggestionTap: (tappedItem) {
+            onSuggestionTap(tappedItem);
+            FocusScope.of(context).unfocus(); // Close the dropdown
+            log('selected $_selectedNationality');
+          },
+          onSubmit: (options) {
+            _selectedNationality = options;
+            setState(() {
+              isNatSelected = _selectedNationality.isNotEmpty;
+            });
+            log('selected $_selectedNationality');
+          },
+          suggestionStyle: TextStyle(
+            color: black,
+            fontSize: 15,
+            fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+            fontWeight: FontWeight.w400,
+          ),
+          suggestionItemDecoration: SuggestionDecoration(
+            border: null,
+          ),
+          searchInputDecoration: InputDecoration(
+            labelStyle: TextStyle(
+              color: black,
+              fontSize: 15,
+              fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+              fontWeight: FontWeight.w400,
+            ),
+            hintStyle: TextStyle(
+              color: borderGrey,
+              fontSize: 14,
+              fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+              fontWeight: FontWeight.w400,
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(
+                color: isNatSelected ? borderGrey : colorRed,
+                width: 1,
               ),
-              isNatSelected
-                  ? Container()
-                  : CustomText(
-                      text: 'fieldRequired'.tr,
-                      color: colorRed,
-                      fontSize: 11,
-                      fontFamily: "SF Pro",
-                      fontWeight: FontWeight.w400,
-                    ),
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: const BorderSide(color: borderGrey, width: 1),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: const BorderSide(color: borderGrey, width: 1),
+            ),
+          ),
+         
+          suggestions: countries
+              .map((e) => SearchFieldListItem<ValueItem>(
+                    e.label,
+                    item: e,
+                  ))
+              .toList(),
+        ),
+      ),
+      isNatSelected
+          ? Container()
+          : Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: CustomText(
+                text: 'fieldRequired'.tr,
+                color: colorRed,
+                fontSize: 11,
+                fontFamily: "SF Pro",
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+    ],
+  ),
+),
+
+                      // child: SearchField(
+                      //   hint: 'jjkkk',
+                      //   searchInputDecoration: InputDecoration(
+                      //     enabledBorder: OutlineInputBorder(
+                      //       borderSide: BorderSide(
+                      //         color:Colors.black45,
+                      //       )
+                      //     )
+                      //   ),
+                      //   itemHeight: 50,
+                      //   maxSuggestionsInViewPort: 6,
+              
+                      //   suggestions: [
+                      //     'list1',
+                      //     'list2',
+                      //   ],
+              
+                      //   ),
+                    
+                 
+                // MultiSelectDropDown(
+                //   controller: _controller,
+                //   dropdownHeight: 250,
+                //   inputDecoration: BoxDecoration(
+                //       border: Border.all(
+                //           color: isNatSelected ? borderGrey : colorRed),
+                //       borderRadius: BorderRadius.circular(11)),
+                //   hint: 'chooseNationality'.tr,
+                //   borderRadius: 8,
+                //   hintPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                //   searchEnabled: true,
+                //   searchLabel: 'search'.tr,
+                //   suffixIcon: const Icon(Icons.keyboard_arrow_up),
+                //   clearIcon: null,
+                //   singleSelectItemStyle: const TextStyle(
+                //       fontSize: 15,
+                //       fontFamily: "SF Pro",
+                //       color: black,
+                //       fontWeight: FontWeight.w500),
+              
+                //   onOptionSelected: (options) {
+                //     _selectedNationality = options.first.value;
+                //     if (_selectedNationality.isNotEmpty) {
+                //       setState(() {
+                //         isNatSelected = true;
+                //       });
+                //     }
+                //   },
+                //   options: countries,
+                //   // searchEnabled: true,
+                //   selectionType: SelectionType.single,
+                //   chipConfig: const ChipConfig(wrapType: WrapType.scroll),
+                //   // dropdownHeight: 300,
+                //   optionTextStyle: const TextStyle(
+                //       fontSize: 15,
+                //       fontFamily: "SF Pro",
+                //       color: starGreyColor,
+                //       fontWeight: FontWeight.w500),
+              
+                //   // selectedOptionIcon:
+                //   //     const Icon(Icons.check_circle),
+                // ),
+                
+                // isNatSelected
+                //     ? Container()
+                //     : Padding(
+                //       padding: const EdgeInsets.all(8.0),
+                //       child: CustomText(
+                //           text: 'fieldRequired'.tr,
+                //           color: colorRed,
+                //           fontSize: 11,
+                //           fontFamily: "SF Pro",
+                //           fontWeight: FontWeight.w400,
+                //         ),
+                //     ),
+                //      ],
+                // ),
+            //  ),
               // const SizedBox(
               //   height: 30,
               // ),

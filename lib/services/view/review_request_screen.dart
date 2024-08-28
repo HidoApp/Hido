@@ -126,150 +126,159 @@ class _ReviewRequestState extends State<ReviewRequest> {
                       right: width * 0.043),
                   child: SizedBox(
                     height: MediaQuery.sizeOf(context).height,
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          CustomText(
-                            text: 'RequestedTourDetails'.tr,
-                            fontSize: width * 0.044,
-                            fontFamily: 'HT Rakik',
-                            fontWeight: FontWeight.w500,
-                          ),
-                          SizedBox(
-                            height: width * 0.04,
-                          ),
-                          ReviewDetailsTile(
-                              title:
-                                  '${AppUtil.formatBookingDate(context, widget.booking!.date!)}',
-                              image:'assets/icons/date.svg'
-                              
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: SingleChildScrollView(
+                            child: Column(
+                             crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CustomText(
+                                  text: 'RequestedTourDetails'.tr,
+                                  fontSize: width * 0.044,
+                                  fontFamily: 'HT Rakik',
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                SizedBox(
+                                  height: width * 0.04,
+                                ),
+                                ReviewDetailsTile(
+                                    title:
+                                        '${AppUtil.formatBookingDate(context, widget.booking!.date!)}',
+                                    image:'assets/icons/date.svg'
+                                    
+                                    ),
+                                SizedBox(
+                                  height: width * .010,
+                                ),
+                                // Details
+                                ReviewDetailsTile(
+                                    title: AppUtil.rtlDirection2(context)
+                                        ? 'من ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)} إلى ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)} '
+                                        : 'Pick up: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)}, Drop off: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)}',
+                                    image: 'assets/icons/time3.svg'),
+                                SizedBox(
+                                  height: width * .010,
+                                ),
+                                ReviewDetailsTile(
+                                    title:
+                                        '${widget.booking?.guestNumber} ${'guests'.tr}',
+                                    image: 'assets/icons/guests.svg'),
+                                SizedBox(
+                                  height: width * .010,
+                                ),
+                                ReviewDetailsTile(
+                                  title: widget.booking!.vehicleType!,
+                                  image:
+                                      'assets/icons/unselected_${widget.booking?.vehicleType!}_icon.svg',
+                                  widthh: 20,
+                                ),
+                                SizedBox(
+                                  height: width * 0.041,
+                                ),
+                                const Divider(
+                                  color: lightGrey,
+                                ),
+                                SizedBox(
+                                  height: width * 0.05,
+                                ),
+                                CustomText(
+                                  text: "ItineraryDetails".tr,
+                                  fontSize: width * 0.044,
+                                  fontFamily: 'HT Rakik',
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                ScheduleContainerWidget(
+                                    scheduleList: widget.scheduleList,
+                                    offerController: widget.offerController,
+                                    isReview: true),
+                        
+                                const Divider(
+                                  color: lightGrey,
+                                ),
+                                SizedBox(
+                                  height: width * 0.06,
+                                ),
+                        
+                             
+                               // discount widget
+                                const PromocodeField(),
+                                SizedBox(
+                                  height: width * 0.071,
+                                ),
+                                 DottedSeparator(
+                                color: almostGrey,
+                                height: width * 0.002,
                               ),
-                          SizedBox(
-                            height: width * .010,
+                              // SizedBox(
+                              //   height: width * 0.09,
+                              // ),
+                                SizedBox(
+                                height: width * 0.07,
+                              ),
+                                 ],
+                            ),
                           ),
-                          // Details
-                          ReviewDetailsTile(
-                              title: AppUtil.rtlDirection2(context)
-                                  ? 'من ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)} إلى ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)} '
-                                  : 'Pick up: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)}, Drop off: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)}',
-                              image: 'assets/icons/time3.svg'),
-                          SizedBox(
-                            height: width * .010,
-                          ),
-                          ReviewDetailsTile(
-                              title:
-                                  '${widget.booking?.guestNumber} ${'guests'.tr}',
-                              image: 'assets/icons/guests.svg'),
-                          SizedBox(
-                            height: width * .010,
-                          ),
-                          ReviewDetailsTile(
-                            title: widget.booking!.vehicleType!,
-                            image:
-                                'assets/icons/unselected_${widget.booking?.vehicleType!}_icon.svg',
-                            widthh: 20,
-                          ),
-                          SizedBox(
-                            height: width * 0.041,
-                          ),
-                          const Divider(
-                            color: lightGrey,
-                          ),
-                          SizedBox(
-                            height: width * 0.05,
-                          ),
-                          CustomText(
-                            text: "ItineraryDetails".tr,
-                            fontSize: width * 0.044,
-                            fontFamily: 'HT Rakik',
-                            fontWeight: FontWeight.w500,
-                          ),
-                          ScheduleContainerWidget(
-                              scheduleList: widget.scheduleList,
-                              offerController: widget.offerController,
-                              isReview: true),
+                        ),
+                             
+                              TotalWidget(
+                                offerController: widget.offerController,
+                                place: widget.place!,
+                              ),
 
-                          const Divider(
-                            color: lightGrey,
-                          ),
-                          SizedBox(
-                            height: width * 0.06,
-                          ),
+                              SizedBox(
+                                height: width * 0.02,
+                              ),
+                              paymentController.isPaymenInvoiceLoading.value
+                                  ? const CircularProgressIndicator(
+                                      color: colorGreen,
+                                    )
+                                  : CustomButton(
+                                      title: 'checkout'.tr,
+                                      icon: const Icon(Icons.keyboard_arrow_right,
+                                          color: Colors.white),
+                                      onPressed: () async {
+                                         if ( widget.offerController!.updateScheduleList !=
+                                                  null) {
+                                                for (var item in  widget.offerController!.updateScheduleList) {
+                                                      print("this sedule");
+                                                  print(item.scheduleName);
+                                                }
+                                              } else {
+                                                print(
+                                                    'The schedule list is null or does not exist.');
+                                              }
+                                        Get.to(
+                                          () => PaymentType(
+                                            price: (widget.offerController!
+                                                    .totalPrice.value *
+                                                widget.offerController!.offerDetails
+                                                    .value.booking!.guestNumber!),
+                                            type: 'tour',
+                                            offerController: widget.offerController,
+                                            booking: widget.booking,
+                                          ),
+                                        );
+                                      }),
 
-                       
-                         // discount widget
-                          const PromocodeField(),
-                          SizedBox(
-                            height: width * 0.071,
-                          ),
-                          DottedSeparator(
-                            color: almostGrey,
-                            height: width * 0.002,
-                          ),
-                          // SizedBox(
-                          //   height: width * 0.09,
-                          // ),
-                            SizedBox(
-                            height: width * 0.07,
-                          ),
-                          TotalWidget(
-                            offerController: widget.offerController,
-                            place: widget.place!,
-                          ),
+                                      SizedBox(height: 10),
 
-                          SizedBox(
-                            height: width * 0.02,
-                          ),
-                          paymentController.isPaymenInvoiceLoading.value
-                              ? const CircularProgressIndicator(
-                                  color: colorGreen,
-                                )
-                              : CustomButton(
-                                  title: 'checkout'.tr,
-                                  icon: const Icon(Icons.keyboard_arrow_right,
-                                      color: Colors.white),
-                                  onPressed: () async {
-                                     if ( widget.offerController!.updateScheduleList !=
-                                              null) {
-                                            for (var item in  widget.offerController!.updateScheduleList) {
-                                                  print("this sedule");
-                                              print(item.scheduleName);
-                                            }
-                                          } else {
-                                            print(
-                                                'The schedule list is null or does not exist.');
-                                          }
-                                    Get.to(
-                                      () => PaymentType(
-                                        price: (widget.offerController!
-                                                .totalPrice.value *
-                                            widget.offerController!.offerDetails
-                                                .value.booking!.guestNumber!),
-                                        type: 'tour',
-                                        offerController: widget.offerController,
-                                        booking: widget.booking,
-                                      ),
-                                    );
-                                  }),
+                                      CustomButton(
+                                          onPressed: () {
+                                            Get.until((route) =>
+                                                Get.currentRoute == '/FindAjwady');
+                                          },
+                                          title: AppUtil.rtlDirection2(context)
+                                              ? 'عودة للعروض'
+                                              : 'Return to Offers'.tr,
+                                          buttonColor:
+                                              Colors.white.withOpacity(0.3),
+                                          borderColor: Colors.white.withOpacity(0.3) ,
+                                          textColor:black),
 
-                                  SizedBox(height: 10),
-
-                                  CustomButton(
-                                      onPressed: () {
-                                        Get.until((route) =>
-                                            Get.currentRoute == '/FindAjwady');
-                                      },
-                                      title: AppUtil.rtlDirection2(context)
-                                          ? 'عودة للعروض'
-                                          : 'Return to Offers'.tr,
-                                      buttonColor:
-                                          Colors.white.withOpacity(0.3),
-                                      borderColor: Colors.white.withOpacity(0.3) ,
-                                      textColor:black),
-
-                        ],
-                      ),
+                           
+                      ],
                     ),
                   ),
                 ),

@@ -101,43 +101,34 @@ class TicketDetailsScreen extends StatelessWidget {
                     !isTour!) ...[
                   if (booking!.orderStatus == 'ACCEPTED') ...[
                     Spacer(),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 35),
-                            child: Column(
-                              children: [
-                                CustomButton(
-                                  onPressed: () {
-                                    showModalBottomSheet(
-                                      context: context,
-                                      isScrollControlled: true,
-                                      builder: (BuildContext context) {
-                                        return CancelSheet(
-                                            bookId: booking!.id ?? '',
-                                            type: booking!.bookingType ?? '');
-                                      },
-                                    );
-                                  },
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 35),
+                      child: Column(
+                        children: [
+                          CustomButton(
+                            onPressed: () {
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                builder: (BuildContext context) {
+                                  return CancelSheet(
+                                      bookId: booking!.id ?? '',
+                                      type: booking!.bookingType ?? '');
+                                },
+                              );
+                            },
 
-                                  // },
-                                  title: 'CancelBooking'.tr,
-                                  buttonColor:
-                                      lightGreyBackground, // Set the button color to transparent white
-                                  textColor: colorRed,
-                                  borderColor: colorRed,
-                                  // Set the text color to red
-                                ),
-                              ],
-                            ),
+                            // },
+                            title: 'CancelBooking'.tr,
+                            buttonColor:
+                                lightGreyBackground, // Set the button color to transparent white
+                            textColor: colorRed,
+                            borderColor: colorRed,
+                            // Set the text color to red
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ],
                 ],

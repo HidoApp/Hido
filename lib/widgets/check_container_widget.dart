@@ -78,19 +78,19 @@ class _CheckContainerWidgetState extends State<CheckContainerWidget> {
                 )
               ],
             ),
+            // const SizedBox(
+            //   height: 8,
+            // ),
+            // CustomText(
+            //   text: 'checkText'.tr,
+            //   textAlign: TextAlign.start,
+            //   color: colorDarkGrey,
+            //   fontSize: 12,
+            //   fontFamily: 'HT Rakik',
+            //   fontWeight: FontWeight.w300,
+            // ),
             const SizedBox(
-              height: 8,
-            ),
-            CustomText(
-              text: 'checkText'.tr,
-              textAlign: TextAlign.start,
-              color: colorDarkGrey,
-              fontSize: 12,
-              fontFamily: 'HT Rakik',
-              fontWeight: FontWeight.w300,
-            ),
-            const SizedBox(
-              height: 10,
+              height: 24,
             ),
             Container(
               width: 318,

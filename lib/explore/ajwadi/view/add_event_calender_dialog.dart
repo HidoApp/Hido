@@ -34,7 +34,7 @@ class EventCalenderDialog extends StatefulWidget {
 
   final TouristExploreController? touristExploreController;
   final List<DateTime>? avilableDate;
-    final List<dynamic>? avilableDate2;
+  final List<dynamic>? avilableDate2;
 
   final Hospitality? hospitality;
 
@@ -61,9 +61,7 @@ class _EventCalenderDialogState extends State<EventCalenderDialog> {
         print(date);
       }
     }
-    
   }
-
 
   bool defineSelectable(DateTime val) {
     if (widget.avilableDate!.contains(val)) {
@@ -73,7 +71,25 @@ class _EventCalenderDialogState extends State<EventCalenderDialog> {
     }
   }
 
-  
+  List<PickerDateRange> _getInitialSelectedRanges() {
+    if (widget.eventController != null &&
+        widget.eventController!.isEventDateSelcted.value) {
+      List<PickerDateRange> ranges = [];
+      final selectedDates = widget.eventController!.selectedDates;
+
+      for (int i = 0; i < selectedDates.length; i += 1) {
+        DateTime startDate = selectedDates[i];
+        DateTime endDate = (i < selectedDates.length)
+            ? selectedDates[i ]
+            : startDate; // Use the same date for start and end if there's no end date
+
+        ranges.add(PickerDateRange(startDate, endDate));
+      }
+
+      return ranges;
+    }
+    return [];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,108 +118,130 @@ class _EventCalenderDialogState extends State<EventCalenderDialog> {
                           borderRadius: BorderRadius.circular(8))),
                   alignment: Alignment.bottomRight,
                   child: SfDateRangePicker(
-                    backgroundColor: Colors.white,
+                      backgroundColor: Colors.white,
+                      minDate: DateTime.now(),
+                    initialSelectedRanges: _getInitialSelectedRanges(),
 
-                    minDate: DateTime.now(),
-                 initialSelectedRange: widget.eventController != null && widget.eventController!.isEventDateSelcted.value
-    ? PickerDateRange(
-        widget.eventController!.selectedDates.first,
-        widget.eventController!.selectedDates.last,
-      )
-    : null,
-
-           
-                    enablePastDates: false,
-                    selectableDayPredicate:
-                        widget.avilableDate != null ? defineSelectable :null,
-                    selectionMode: widget.type == 'event'
-                        ? DateRangePickerSelectionMode.range
-                        : DateRangePickerSelectionMode.single,
-                    selectionColor: colorGreen,
-                    
-                    selectionTextStyle: TextStyle(),
-                    
-                    selectionShape: DateRangePickerSelectionShape.circle,
-                    todayHighlightColor: colorGreen,
-                    
-                    startRangeSelectionColor: colorGreen,
-                    endRangeSelectionColor: colorGreen,
-                    rangeSelectionColor: colorGreen.withOpacity(0.1),
-                    monthCellStyle: const DateRangePickerMonthCellStyle(
-                      textStyle: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        color:colorPurple,
-                      ),
-                      todayTextStyle: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.red,
-                      ),
-                      //  weekendTextStyle: TextStyle(
-                      //    fontSize: 12,
-                      //  fontWeight: FontWeight.w500,
-                      //      color: Colors.blue,
-                      //      ),
-                    ),
-                    monthViewSettings: const DateRangePickerMonthViewSettings(
-                      dayFormat:
-                          'EEE', // Short format for day names (e.g., Mon, Tue)
-
-                      viewHeaderStyle: DateRangePickerViewHeaderStyle(
-                        backgroundColor: Colors.white,
+                      // initialSelectedRange: widget.eventController != null &&
+                      //         widget.eventController!.isEventDateSelcted.value
+                      //     ? PickerDateRange(
+                      //         widget.eventController!.selectedDates.first,
+                      //         widget.eventController!.selectedDates.last,
+                      //       )
+                      //     : null,
+                      enablePastDates: false,
+                      selectableDayPredicate:
+                          widget.avilableDate != null ? defineSelectable : null,
+                      selectionMode: widget.type == 'event'
+                          ? DateRangePickerSelectionMode.multiRange
+                          : DateRangePickerSelectionMode.single,
+                      selectionColor: colorGreen,
+                      selectionTextStyle: TextStyle(),
+                      selectionShape: DateRangePickerSelectionShape.circle,
+                      todayHighlightColor: colorGreen,
+                      startRangeSelectionColor: colorGreen,
+                      endRangeSelectionColor: colorGreen,
+                      rangeSelectionColor: colorGreen.withOpacity(0.1),
+                      monthCellStyle: const DateRangePickerMonthCellStyle(
                         textStyle: TextStyle(
-                          color: Color(0xFF070708),
                           fontSize: 12,
-                          fontFamily: 'SF Pro',
-                          fontWeight: FontWeight.w600,
-                          height: 0,
+                          fontWeight: FontWeight.w500,
+                          color: colorPurple,
+                        ),
+                        todayTextStyle: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.red,
+                        ),
+                        //  weekendTextStyle: TextStyle(
+                        //    fontSize: 12,
+                        //  fontWeight: FontWeight.w500,
+                        //      color: Colors.blue,
+                        //      ),
+                      ),
+                      monthViewSettings: const DateRangePickerMonthViewSettings(
+                        dayFormat:
+                            'EEE', // Short format for day names (e.g., Mon, Tue)
+
+                        viewHeaderStyle: DateRangePickerViewHeaderStyle(
+                          backgroundColor: Colors.white,
+                          textStyle: TextStyle(
+                            color: Color(0xFF070708),
+                            fontSize: 12,
+                            fontFamily: 'SF Pro',
+                            fontWeight: FontWeight.w600,
+                            height: 0,
+                          ),
                         ),
                       ),
-                    ),
-                    //  showNavigationArrow: true,
+                      //  showNavigationArrow: true,
 
-                    headerStyle: const DateRangePickerHeaderStyle(
-                        backgroundColor: Colors.white,
-                        textAlign: TextAlign.left,
-                        textStyle: TextStyle(
-                          color: Color(0xFF37B268),
-                        )),
-                    showNavigationArrow: true,
-                   
-                    onSelectionChanged: (selected) {
-                      if (selected.value is PickerDateRange) {
-                        DateTime? startDate = selected.value.startDate;
-                        DateTime? endDate = selected.value.endDate;
+                      headerStyle: const DateRangePickerHeaderStyle(
+                          backgroundColor: Colors.white,
+                          textAlign: TextAlign.left,
+                          textStyle: TextStyle(
+                            color: Color(0xFF37B268),
+                          )),
+                      showNavigationArrow: true,
+                      onSelectionChanged: (selected) {
+                        setState(() {
+                          if (selected.value is List<PickerDateRange>) {
+                            // Handle multiple ranges
+                            List<PickerDateRange> ranges =
+                                selected.value as List<PickerDateRange>;
+                            selectedDates = [];
+                            for (var range in ranges) {
+                              DateTime? startDate = range.startDate;
+                              DateTime? endDate = range.endDate;
 
-                        // Ensure both startDate and endDate are not null
-                        if (startDate != null && endDate != null) {
-                          selectedDates = [];
-                          for (DateTime date = startDate;
-                              date.isBefore(endDate) ||
-                                  date.isAtSameMomentAs(endDate);
-                              date = date.add(Duration(days: 1))) {
-                            selectedDates.add(DateTime(date.year, date.month, date.day));
+                              if (startDate != null && endDate != null) {
+                                for (DateTime date = startDate;
+                                    date.isBefore(endDate) ||
+                                        date.isAtSameMomentAs(endDate);
+                                    date = date.add(Duration(days: 1))) {
+                                  selectedDates!.add(DateTime(
+                                      date.year, date.month, date.day));
+                                }
+                              }
+                            }
+                            selectedDate = selectedDates!
+                                .map((date) => date.toString())
+                                .join(', ');
+                          } else if (selected.value is PickerDateRange) {
+                            // Handle single range selection
+                            PickerDateRange range =
+                                selected.value as PickerDateRange;
+                            DateTime? startDate = range.startDate;
+                            DateTime? endDate = range.endDate;
+
+                            if (startDate != null && endDate != null) {
+                              selectedDates = [];
+                              for (DateTime date = startDate;
+                                  date.isBefore(endDate) ||
+                                      date.isAtSameMomentAs(endDate);
+                                  date = date.add(Duration(days: 1))) {
+                                selectedDates!.add(
+                                    DateTime(date.year, date.month, date.day));
+                              }
+                              selectedDate =
+                                  '${DateTime(startDate.year, startDate.month, startDate.day).toString()}';
+                            }
+                          } else if (selected.value is DateTime) {
+                            // Handle single date selection
+                            DateTime singleDate = selected.value as DateTime;
+                            selectedDates = [
+                              DateTime(singleDate.year, singleDate.month,
+                                  singleDate.day)
+                            ];
+                            selectedDate = DateTime(singleDate.year,
+                                    singleDate.month, singleDate.day)
+                                .toString();
                           }
-                          selectedDate =
-                          '${DateTime(startDate.year, startDate.month, startDate.day).toString()}';
+                        });
 
-                        } else {
-                        DateTime startDate = selected.value.startDate;
-
-                           selectedDates = [DateTime(startDate.year, startDate.month, startDate.day)];
-                      selectedDate = DateTime(startDate.year, startDate.month, startDate.day).toString();
-                        }
-                      } else {
-                        DateTime singleDate = selected.value;
-                      selectedDates = [DateTime(singleDate.year, singleDate.month, singleDate.day)];
-                      selectedDate = DateTime(singleDate.year, singleDate.month, singleDate.day).toString();
-                      }
-                      print("thi");
-                      print(selectedDates);
-                      print(selectedDate);
-                    },
-                  ),
+                        print("Selected Dates: $selectedDates");
+                        print("Selected Date: $selectedDate");
+                      }),
                 ),
               ),
             ),
@@ -227,7 +265,7 @@ class _EventCalenderDialogState extends State<EventCalenderDialog> {
                       widget.eventController!.selectedDate(selectedDate);
                       widget.eventController!.selectedDates(selectedDates);
                       print("this selected dates");
-                      print( widget.eventController!.selectedDates.length);
+                      print(widget.eventController!.selectedDates.length);
                       widget.eventController!.DateErrorMessage.value =
                           !AppUtil.areAllDatesAfter24Hours(
                               widget.eventController!.selectedDates);

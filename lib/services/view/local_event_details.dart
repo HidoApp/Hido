@@ -572,6 +572,9 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                                     ],
                                   )),
                             ),
+                            SizedBox(
+                              height: width * 0.025,
+                            ),
                             const Divider(
                               color: lightGrey,
                             ),

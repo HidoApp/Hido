@@ -605,9 +605,12 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                         ],
                                       )),
                                 ),
-                                const Divider(
-                                  color: lightGrey,
-                                ),
+                                SizedBox(
+                              height: width * 0.025,
+                            ),
+                            const Divider(
+                              color: lightGrey,
+                            ),
                               ],
                             ],
                           ),

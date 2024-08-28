@@ -52,7 +52,7 @@ class _HospitalityTabState extends State<HospitalityTab> {
       child: Padding(
         // padding: EdgeInsets.symmetric(
         //     horizontal: width * 0.04, vertical: width * 0.035),
-        padding: EdgeInsets.symmetric(horizontal: 0, vertical: width * 0.041),
+        padding: EdgeInsets.symmetric(horizontal: 0, vertical:32),
         child: Column(
           children: [
             //Ad cards
