@@ -71,7 +71,7 @@ class _OtpSheetState extends State<OtpSheet> {
             child: MediaQuery(
               data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
               child: Pinput(
-                length: 6,
+                length: 4,
                 onCompleted: (otpCode) async {
                   widget.onCompleted(otpCode);
                 },
@@ -82,14 +82,15 @@ class _OtpSheetState extends State<OtpSheet> {
                 pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
                 keyboardType: TextInputType.number,
                 separatorBuilder: (index) => SizedBox(
-                  width: width * 0.030,
+                  width: width * .097,
                 ),
                 followingPinTheme: PinTheme(
-                  width: width * 0.1282,
-                  height: width * 0.1282,
+                  width: width * 0.143,
+                  height: width * 0.143,
                   textStyle: TextStyle(
                       fontSize: width * 0.038,
                       fontWeight: FontWeight.w400,
+                      fontFamily: AppUtil.SfFontType(context),
                       color: colorGreen),
                   decoration: BoxDecoration(
                     border: Border.all(color: borderGrey),
@@ -97,11 +98,12 @@ class _OtpSheetState extends State<OtpSheet> {
                   ),
                 ),
                 defaultPinTheme: PinTheme(
-                  width: width * 0.1282,
-                  height: width * 0.1282,
+                  width: width * 0.143,
+                  height: width * 0.143,
                   textStyle: TextStyle(
                       fontSize: width * 0.038,
                       fontWeight: FontWeight.w400,
+                      fontFamily: AppUtil.SfFontType(context),
                       color: colorGreen),
                   decoration: BoxDecoration(
                     border: Border.all(color: colorGreen),
@@ -109,11 +111,12 @@ class _OtpSheetState extends State<OtpSheet> {
                   ),
                 ),
                 errorPinTheme: PinTheme(
-                  width: width * 0.1282,
-                  height: width * 0.1282,
+                  width: width * 0.143,
+                  height: width * 0.143,
                   textStyle: TextStyle(
                       fontSize: width * 0.038,
                       fontWeight: FontWeight.w400,
+                      fontFamily: AppUtil.SfFontType(context),
                       color: colorRed),
                   decoration: BoxDecoration(
                     border: Border.all(color: colorRed),

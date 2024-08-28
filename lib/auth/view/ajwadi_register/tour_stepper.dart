@@ -109,8 +109,10 @@ class _TourStepperState extends State<TourStepper> {
                                       case 2:
                                         final isSuccess = await _authController
                                             .drivingLinceseOTP(
+                                                expiryDate: _authController
+                                                    .drivingDate.value,
                                                 context: context);
-                                        if (isSuccess) {
+                                        if (isSuccess != null) {
                                           Get.to(() => nextVerfiy());
                                         }
                                         break;
@@ -119,10 +121,10 @@ class _TourStepperState extends State<TourStepper> {
                                             await _authController.vehicleOTP(
                                                 vehicleSerialNumber:
                                                     _authController
-                                                        .vehicleLicense
-                                                        .toString(),
+                                                        .vehicleLicense.value
+                                                        ,
                                                 context: context);
-                                        if (isSuccess) {
+                                        if (isSuccess != null) {
                                           Get.to(() => nextVerfiy());
                                         }
                                         break;
@@ -169,7 +171,10 @@ class _TourStepperState extends State<TourStepper> {
           otp: '',
           type: 'stepper',
           resendOtp: () async {
-            await _authController.drivingLinceseOTP(context: context);
+            await _authController.drivingLinceseOTP(
+              context: context,
+              expiryDate: _authController.drivingDate.value,
+            );
           },
         );
 

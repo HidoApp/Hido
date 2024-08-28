@@ -558,7 +558,7 @@ class _EditEventState extends State<EditEvent> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset('assets/images/paymentSuccess.gif', width: 38),
-                   SizedBox(height: width*0.04),
+                    SizedBox(height: width * 0.04),
                     Text(
                       'saveChange'.tr,
                       style: TextStyle(
@@ -648,7 +648,7 @@ class _EditEventState extends State<EditEvent> {
                                 CustomText(
                                   textAlign: TextAlign.center,
                                   color: Color(0xFFDC362E),
-                                  fontSize: width*0.038,
+                                  fontSize: width * 0.038,
                                   fontFamily: AppUtil.SfFontType(context),
                                   fontWeight: FontWeight.w500,
                                   text: "Alert".tr,
@@ -658,7 +658,7 @@ class _EditEventState extends State<EditEvent> {
                                 ),
                                 CustomText(
                                   textAlign: TextAlign.center,
-                                  fontSize: width*0.038,
+                                  fontSize: width * 0.038,
                                   fontWeight: FontWeight.w400,
                                   color: Color(0xFF41404A),
                                   text: 'DeleteNote'.tr,
@@ -700,7 +700,6 @@ class _EditEventState extends State<EditEvent> {
                                                     ),
                                                     child: Container(
                                                       width: double.infinity,
-                                                  
                                                       padding:
                                                           EdgeInsets.all(16),
                                                       child: Column(
@@ -713,7 +712,9 @@ class _EditEventState extends State<EditEvent> {
                                                           Image.asset(
                                                               'assets/images/paymentSuccess.gif',
                                                               width: 38),
-                                                        SizedBox(height: width*0.04),
+                                                          SizedBox(
+                                                              height:
+                                                                  width * 0.04),
                                                           Text(
                                                             'DeleteDone'.tr,
                                                             style: TextStyle(
@@ -814,7 +815,8 @@ class _EditEventState extends State<EditEvent> {
                 ),
 
                 bottomNavigationBar: Padding(
-                    padding: EdgeInsets.only(left:16.0,right:16.0,bottom:24.0,top:16),
+                    padding: EdgeInsets.only(
+                        left: 16.0, right: 16.0, bottom: 24.0, top: 16),
                     child: Obx(
                       () => _servicesController.isImagesLoading.value ||
                               _servicesController.isEditEventLoading.value
@@ -2212,6 +2214,8 @@ class _EditEventState extends State<EditEvent> {
                                             height: 246,
                                             width: 358,
                                             child: GoogleMap(
+                                              padding: EdgeInsets.only(
+                                                  bottom: width * 0.102),
                                               scrollGesturesEnabled: true,
                                               zoomControlsEnabled: false,
                                               gestureRecognizers: {
@@ -2353,8 +2357,7 @@ class _EditEventState extends State<EditEvent> {
                                         focusedBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
                                             width: 1,
-                                            color:
-                                                Graytext, 
+                                            color: Graytext,
                                           ),
                                         ),
                                         enabledBorder: OutlineInputBorder(

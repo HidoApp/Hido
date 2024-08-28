@@ -31,12 +31,13 @@ class MapMarker extends StatelessWidget {
             boxShadow: [
               BoxShadow(
                 color: colorGreen,
-                blurRadius: width * 0.035,
+                blurRadius: width * 0.03,
               )
             ],
             image: DecorationImage(
               fit: BoxFit.cover,
               image: CachedNetworkImageProvider(
+                
                   errorListener: (p0) =>
                       Image.asset('assets/images/Placeholder.png'),
                   image),

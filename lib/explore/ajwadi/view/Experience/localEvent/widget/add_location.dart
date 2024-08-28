@@ -242,18 +242,36 @@ class _AddEventLocationState extends State<AddEventLocation> {
                       width: double.infinity,
                       child: _currentPosition == null
                           ? Center(child: CircularProgressIndicator.adaptive())
-                          : GoogleMap(
-                              scrollGesturesEnabled: true,
-                              zoomControlsEnabled: false,
-                              gestureRecognizers: {
-                                Factory<OneSequenceGestureRecognizer>(
-                                    () => EagerGestureRecognizer())
-                              },
-                              initialCameraPosition: CameraPosition(
-                                target:
-                                    // // _servicesController == null
-                                    // //     ? locLatLang
-                                    // // :
+                          : SizedBox(
+                              child: GoogleMap(
+                                padding: EdgeInsets.only(bottom: width * 0.102),
+                                scrollGesturesEnabled: true,
+                                zoomControlsEnabled: false,
+                                gestureRecognizers: {
+                                  Factory<OneSequenceGestureRecognizer>(
+                                      () => EagerGestureRecognizer())
+                                },
+                                initialCameraPosition: CameraPosition(
+                                  target:
+                                      // // _servicesController == null
+                                      // //     ? locLatLang
+                                      // // :
+                                      // LatLng(
+                                      //     _servicesController
+                                      //         .pickUpLocLatLang
+                                      //         .value
+                                      //         .latitude,
+                                      //     _servicesController
+                                      //         .pickUpLocLatLang
+                                      //         .value
+                                      //         .longitude!)
+                                      _currentPosition!,
+                                  zoom: 15,
+                                ),
+                                markers: {
+                                  Marker(
+                                    markerId: MarkerId("marker1"),
+                                    position: _currentPosition!,
                                     // LatLng(
                                     //     _servicesController
                                     //         .pickUpLocLatLang
@@ -262,69 +280,55 @@ class _AddEventLocationState extends State<AddEventLocation> {
                                     //     _servicesController
                                     //         .pickUpLocLatLang
                                     //         .value
-                                    //         .longitude!)
-                                    _currentPosition!,
-                                zoom: 15,
+                                    //         .longitude),
+                                    draggable: true,
+                                    onDragEnd: (LatLng newPosition) {
+                                      setState(() {
+                                        _EventrController.pickUpLocLatLang
+                                            .value = newPosition;
+                                        _currentPosition = newPosition;
+
+                                        _isLoading = true;
+                                      });
+
+                                      //  mapController.animateCamera(
+                                      //   CameraUpdate.newCameraPosition(
+                                      //     CameraPosition(
+                                      //       target: newPosition,
+                                      //       zoom: 15,
+                                      //     ),
+                                      //   ),
+                                      // );
+                                      _fetchAddress();
+                                    },
+                                    //              onTap: () {
+                                    //         _onTap(_currentPosition!);
+                                    // },
+                                    icon: markerIcon,
+                                  ),
+                                },
+                                onTap: (position) async {
+                                  setState(() {
+                                    _EventrController.pickUpLocLatLang.value =
+                                        position;
+                                    _currentPosition = position;
+                                    _isLoading = true;
+
+                                    mapController.animateCamera(
+                                        CameraUpdate.newLatLngZoom(
+                                            position, 18));
+                                  });
+                                  _fetchAddress();
+                                },
+                                onCameraMove: (position) {
+                                  setState(() {
+                                    _currentLocation = position.target;
+                                    _EventrController.pickUpLocLatLang.value =
+                                        position.target;
+                                  });
+                                  _fetchAddress();
+                                },
                               ),
-                              markers: {
-                                Marker(
-                                  markerId: MarkerId("marker1"),
-                                  position: _currentPosition!,
-                                  // LatLng(
-                                  //     _servicesController
-                                  //         .pickUpLocLatLang
-                                  //         .value
-                                  //         .latitude,
-                                  //     _servicesController
-                                  //         .pickUpLocLatLang
-                                  //         .value
-                                  //         .longitude),
-                                  draggable: true,
-                                  onDragEnd: (LatLng newPosition) {
-                                    setState(() {
-                                      _EventrController.pickUpLocLatLang.value =
-                                          newPosition;
-                                      _currentPosition = newPosition;
-
-                                      _isLoading = true;
-                                    });
-
-                                    //  mapController.animateCamera(
-                                    //   CameraUpdate.newCameraPosition(
-                                    //     CameraPosition(
-                                    //       target: newPosition,
-                                    //       zoom: 15,
-                                    //     ),
-                                    //   ),
-                                    // );
-                                    _fetchAddress();
-                                  },
-                                  //              onTap: () {
-                                  //         _onTap(_currentPosition!);
-                                  // },
-                                  icon: markerIcon,
-                                ),
-                              },
-                              onTap: (position) async {
-                                setState(() {
-                                  _EventrController.pickUpLocLatLang.value =
-                                      position;
-                                  _currentPosition = position;
-                                  _isLoading = true;
-
-                                  mapController.animateCamera(
-                                      CameraUpdate.newLatLngZoom(position, 18));
-                                });
-                                _fetchAddress();
-                              },
-                              onCameraMove: (position) {
-                                setState(() {
-                                  _currentLocation = position.target;
-                                  _EventrController.pickUpLocLatLang.value =
-                                      position.target;
-                                });
-                                _fetchAddress();
-                              },
                             ),
                     ),
                   ),

@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:ajwad_v4/auth/view/sigin_in/phone_otp_new.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/model/activity_progress.dart';
 import 'package:ajwad_v4/explore/widget/floating_timer.dart';
@@ -47,6 +48,11 @@ class _BookmarkScreenState extends State<BookmarkScreen>
       floatingActionButton: FloatingActionButton.extended(
         label: Icon(Icons.add),
         onPressed: () {
+          Get.to(() => PhoneOTP(
+                otp: '1111',
+                resendOtp: () {},
+                type: '',
+              ));
           // Get.bottomSheet(
           //     isScrollControlled: true,
           //     RatingSheet(

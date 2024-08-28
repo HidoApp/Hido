@@ -247,11 +247,11 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen>
                                                   //             widget.accessToken!,
                                                   //         context: context);
                                                 } else {
-                                                  isSuccess = await widget
-                                                      .authController
-                                                      .getAjwadiVehicleInf(
-                                                          otp: fullOTP,
-                                                          context: context);
+                                                  // isSuccess = await widget
+                                                  //     .authController
+                                                  //     .getAjwadiVehicleInf(
+                                                  //         otp: fullOTP,
+                                                  //         context: context);
                                                 }
                                                 if (true) {
                                                   // print(isSuccess);

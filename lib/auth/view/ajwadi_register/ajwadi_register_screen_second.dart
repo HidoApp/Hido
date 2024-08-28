@@ -272,7 +272,7 @@ class _AjwadiRegisterSecondScreenState extends State<AjwadiRegisterSecondScreen>
                                         print('isSuccess UI $isSuccess');
             
             
-                                           if (isSuccess) {
+                                           if (isSuccess!=null) {
                                           Get.to(() => PhoneOTPScreen(
                                               authController: 
                                                   widget.authController,

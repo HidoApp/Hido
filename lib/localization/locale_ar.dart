@@ -648,7 +648,7 @@ const localeAr = {
   'Experiencetitle': 'عنوان التجربة',
   'regionChoose': "اختر المنطقة",
   'pendingProgress': "جولتك بتبدأ قريبا",
-  'peopleNumber':'عدد الأشخاص',
-  'fullyBooked':"محجوزه بالكامل",
-
+  'peopleNumber': 'عدد الأشخاص',
+  'fullyBooked': "محجوزه بالكامل",
+  'ok': 'تأكيد'
 };
