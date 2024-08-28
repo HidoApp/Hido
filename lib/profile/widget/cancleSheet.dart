@@ -22,8 +22,8 @@ class CancelSheet extends StatefulWidget {
   final String bookId;
   final String type;
 
-
-  CancelSheet({Key? key, required this.bookId,required this.type}) : super(key: key);
+  CancelSheet({Key? key, required this.bookId, required this.type})
+      : super(key: key);
 
   @override
   _CancelSheetState createState() => _CancelSheetState();
@@ -31,14 +31,13 @@ class CancelSheet extends StatefulWidget {
 
 class _CancelSheetState extends State<CancelSheet> {
   late TextEditingController textField2Controller;
-  String? bookID='';
+  String? bookID = '';
 
   @override
   void initState() {
     super.initState();
     textField2Controller = TextEditingController();
     bookID = widget.bookId;
-
   }
 
   @override
@@ -46,25 +45,19 @@ class _CancelSheetState extends State<CancelSheet> {
     textField2Controller.dispose();
     super.dispose();
   }
-   OfferController offerController =
-      Get.put(OfferController());
-      
+
+  OfferController offerController = Get.put(OfferController());
+
   @override
   Widget build(BuildContext context) {
-   
     return Padding(
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).viewInsets.bottom,
       ),
       child: Container(
-        width: double.infinity,
-        height: 400,
-        padding: const EdgeInsets.only(
-          top: 16,
-          left: 24,
-          right: 24,
-          bottom: 32,
-        ),
+        // width: double.infinity,
+        // height: 400,
+
         clipBehavior: Clip.antiAlias,
         decoration: ShapeDecoration(
           color: Colors.white,
@@ -75,120 +68,132 @@ class _CancelSheetState extends State<CancelSheet> {
             ),
           ),
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            BottomSheetIndicator(),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Container(
-                    width: 48,
-                    height: 48,
-                    padding: const EdgeInsets.all(8),
-                    decoration: ShapeDecoration(
-                      color: Color(0xFFFBEAE9),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(9999),
-                      ),
-                    ),
-                    child: SvgPicture.asset(
-                      'assets/icons/warning.svg',
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    AppUtil.rtlDirection2(context) ? "إلغاء الحجز" : "Canceling",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w500,
-                      fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-                    ),
-                  ),
-                  SizedBox(height: 4),
-                  Text(
-                    'CancelBookingConfirm'.tr,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Color(0xFF9392A0),
-                      fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                  Container(
-                    width: double.infinity,
-                    height: 108,
-                    decoration: ShapeDecoration(
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        side: BorderSide(width: 1, color: Color(0xFFB9B8C1)),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    child: TextField(
-                                               
-                       controller: textField2Controller,
+        child: Padding(
+          padding: const EdgeInsets.only(
+            top: 16,
+            left: 24,
+            right: 24,
+            bottom: 32,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            // mainAxisAlignment: MainAxisAlignment.start,
+            // crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              BottomSheetIndicator(),
 
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 15,
-                        fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-                        fontWeight: FontWeight.w400,
-                      ),
-                      maxLines: 10,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: AppUtil.rtlDirection2(context) ? 'اكتب هنا' : 'Write here',
-                        hintStyle: TextStyle(
-                          color: Color(0xFFB9B8C1),
-                          fontSize: 15,
-                          fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-                          fontWeight: FontWeight.w400,
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                      ),
-                    ),
+               SizedBox(height: MediaQuery.of(context).size.width *0.04),
+
+              Container(
+                width: 48,
+                height: 48,
+                padding: const EdgeInsets.all(8),
+                decoration: ShapeDecoration(
+                  color: Color(0xFFFBEAE9),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(9999),
                   ),
-                  const SizedBox(height: 28),
-                  Obx(()=> offerController.isBookingCancelLoading.value
-                  ?Center(child: CircularProgressIndicator.adaptive())
-                  : CustomButton(
-                      onPressed: () async {
-                        log("End Trip Taped ${widget.bookId}");
-                        
-                        bool bookingCancel =
-                            await offerController.bookingCancel(
-                                context: context,
-                                bookingId: widget.bookId,
-                                type: widget.type.toUpperCase(),
-                                reason: textField2Controller.text) ??
-                            false;
-                        if (bookingCancel) {
-                            int notificationId = int.tryParse(bookID!) ?? 0;
-                              await flutterLocalNotificationsPlugin.cancel(notificationId);
-                          if (context.mounted) {
-                            AppUtil.successToast(context, 'EndTrip'.tr);
-                            await Future.delayed(const Duration(seconds: 1));
-                          }   
-                               Get.offAll(const TouristBottomBar());
-                        }
-                      },
-                      title: 'Confirm'.tr,
-                      buttonColor: Color(0xFFDC362E),
-                      textColor: Colors.white,
-                      borderColor: Color(0xFFDC362E),
-                    ),
-                  ),
-                ],
+                ),
+                child: SvgPicture.asset(
+                  'assets/icons/warning.svg',
+                ),
               ),
-            ),
-          ],
+              SizedBox(height: 10),
+              Text(
+                AppUtil.rtlDirection2(context) ? "إلغاء الحجز" : "Canceling",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.w500,
+                  fontFamily:
+                      AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+                ),
+              ),
+              SizedBox(height: 4),
+              Text(
+                'CancelBookingConfirm'.tr,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Color(0xFF9392A0),
+                  fontFamily:
+                      AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const SizedBox(height: 24),
+              Container(
+                width: double.infinity,
+                height: 108,
+                decoration: ShapeDecoration(
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(width: 1, color: Color(0xFFB9B8C1)),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                child: TextField(
+                  controller: textField2Controller,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 15,
+                    fontFamily:
+                        AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+                    fontWeight: FontWeight.w400,
+                  ),
+                  maxLines: 10,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: AppUtil.rtlDirection2(context)
+                        ? 'اكتب هنا'
+                        : 'Write here',
+                    hintStyle: TextStyle(
+                      color: Color(0xFFB9B8C1),
+                      fontSize: 15,
+                      fontFamily: AppUtil.rtlDirection2(context)
+                          ? 'SF Arabic'
+                          : 'SF Pro',
+                      fontWeight: FontWeight.w400,
+                    ),
+                    contentPadding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 28),
+              Obx(
+                () => offerController.isBookingCancelLoading.value
+                    ? Center(child: CircularProgressIndicator.adaptive())
+                    : CustomButton(
+                        onPressed: () async {
+                          log("End Trip Taped ${widget.bookId}");
+
+                          bool bookingCancel =
+                              await offerController.bookingCancel(
+                                      context: context,
+                                      bookingId: widget.bookId,
+                                      type: widget.type.toUpperCase(),
+                                      reason: textField2Controller.text) ??
+                                  false;
+                          if (bookingCancel) {
+                            int notificationId = int.tryParse(bookID!) ?? 0;
+                            await flutterLocalNotificationsPlugin
+                                .cancel(notificationId);
+                            if (context.mounted) {
+                              AppUtil.successToast(context, 'EndTrip'.tr);
+                              await Future.delayed(const Duration(seconds: 1));
+                            }
+                            Get.offAll(const TouristBottomBar());
+                          }
+                        },
+                        title: 'Confirm'.tr,
+                        buttonColor: Color(0xFFDC362E),
+                        textColor: Colors.white,
+                        borderColor: Color(0xFFDC362E),
+                      ),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -165,7 +165,7 @@ class _BookingSheetState extends State<BookingSheet> {
         return false;
       }
     }
-
+    DateTime Date=DateTime.now();
     DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
     //DateTime currentDate = DateTime(currentDateInRiyadh.year, currentDateInRiyadh.month, currentDateInRiyadh.day,currentDateInRiyadh.hour+2,currentDateInRiyadh.minute);
 
@@ -330,13 +330,14 @@ class _BookingSheetState extends State<BookingSheet> {
                                                     setState(() {
                                                       time = newTimeToGo;
                                                       if(_touristExploreController.isBookingDateSelected.value){
-                                                      DateTime Date =
+                                                      Date =
                                                           DateTime.parse(
                                                               _touristExploreController
                                                                   .selectedDate
                                                                   .value
                                                                   .substring(
                                                                       0, 10));
+
 
                                                       newTimeToGoInRiyadh =
                                                           tz.TZDateTime(
@@ -350,7 +351,7 @@ class _BookingSheetState extends State<BookingSheet> {
                                                               newTimeToGo
                                                                   .second);
                                                       }else{
-                                                        DateTime Date = DateTime.now(),
+                                                       Date = DateTime.now();
                                                          
                                                       newTimeToGoInRiyadh =
                                                           tz.TZDateTime(
@@ -363,6 +364,7 @@ class _BookingSheetState extends State<BookingSheet> {
                                                                   .minute,
                                                               newTimeToGo
                                                                   .second);
+                                                      
                                                       }
                                                       _validateTime(); // Validate time after selection
                                                     });
@@ -851,6 +853,26 @@ class _BookingSheetState extends State<BookingSheet> {
                                 selectedRide != "") {
                               if (_validateTime()) {
                                 print(_validateTime());
+                                  Date =
+                                                          DateTime.parse(
+                                                              _touristExploreController
+                                                                  .selectedDate
+                                                                  .value
+                                                                  .substring(
+                                                                      0, 10));
+
+
+                                                      newTimeToGoInRiyadh =
+                                                          tz.TZDateTime(
+                                                              location,
+                                                              Date.year,
+                                                              Date.month,
+                                                              Date.day,
+                                                              newTimeToGo.hour,
+                                                              newTimeToGo
+                                                                  .minute,
+                                                              newTimeToGo
+                                                                  .second);
                                 if (newTimeToGoInRiyadh
                                     .isAfter(nowPlusTwoHours)) {
                                   _touristExploreController.isBookedMade(true);

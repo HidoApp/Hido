@@ -48,12 +48,12 @@ dependencies:
   cached_network_image: ^3.3.0
   flutter_switch: ^0.3.2
   get: ^4.6.5
-  # syncfusion_flutter_datepicker: ^22.2.7
-  syncfusion_flutter_datepicker: ^26.1.40
+  syncfusion_flutter_datepicker: ^22.2.7
+  # syncfusion_flutter_datepicker: ^26.1.40
   flutter_image_slideshow: ^0.1.5
   flutter_staggered_grid_view: ^0.6.2
-  # intl: ^0.18.1
-  intl: ^0.19.0
+  intl: ^0.18.1
+  # intl: ^0.19.0
   get_storage: ^2.1.1
   http:
   #flutter_flushbar:
@@ -99,6 +99,8 @@ dependencies:
   solid_bottom_sheet: ^0.1.10
   easy_stepper: ^0.8.3
   flutter_typeahead: ^5.2.0
+  searchfield: ^0.9.8
+  shimmer: ^3.0.0
   hijri_picker: ^3.0.0
   hijri: ^3.0.0
 

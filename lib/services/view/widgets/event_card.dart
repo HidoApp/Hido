@@ -169,7 +169,9 @@ class _EventCardItemState extends State<EventCardItem> {
                             ),
                             CustomText(
                               text:
-                                  '${'From'.tr}  ${AppUtil.formatTimeWithLocale(context, widget.daysInfo[0].startTime, 'hh:mm a')} ${'To'.tr}  ${AppUtil.formatTimeWithLocale(context, widget.daysInfo[0].endTime, 'hh:mm a')}',
+                              
+                               AppUtil.formatSelectedDaysInfo(
+                                      widget.daysInfo, context),
                               fontFamily: AppUtil.rtlDirection2(context)
                                   ? 'SF Arabic'
                                   : 'SF Pro',

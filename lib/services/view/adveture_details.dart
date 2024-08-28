@@ -557,6 +557,9 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                     ],
                                   )),
                             ),
+                            SizedBox(
+                              height: width * 0.025,
+                            ),
                             const Divider(
                               color: lightGrey,
                             ),

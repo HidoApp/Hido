@@ -52,27 +52,30 @@ class _BottomHospitalityBookingState extends State<BottomHospitalityBooking> {
       height: width * 0.38,
       child: Column(
         children: [
-          Row(
-            children: [
-              CustomText(
-                text: "pricePerPerson".tr,
-                fontSize: width * 0.038,
-                color: colorDarkGrey,
-                fontWeight: FontWeight.w400,
-              ),
-              CustomText(
-                text: " /  ",
-                fontWeight: FontWeight.w900,
-                fontSize: width * 0.043,
-                color: Colors.black,
-              ),
-              CustomText(
-                text: '${widget.hospitalityObj.price} ${'sar'.tr}',
-                fontWeight: FontWeight.w900,
-                fontSize: width * 0.043,
-                fontFamily: 'HT Rakik',
-              ),
-            ],
+          Padding(
+            padding:  EdgeInsets.symmetric(horizontal:width*0.01),
+            child: Row(
+              children: [
+                CustomText(
+                  text: "pricePerPerson".tr,
+                  fontSize: width * 0.038,
+                  color: colorDarkGrey,
+                  fontWeight: FontWeight.w400,
+                ),
+                CustomText(
+                  text: " /  ",
+                  fontWeight: FontWeight.w900,
+                  fontSize: width * 0.043,
+                  color: Colors.black,
+                ),
+                CustomText(
+                  text: '${widget.hospitalityObj.price} ${'sar'.tr}',
+                  fontWeight: FontWeight.w900,
+                  fontSize: width * 0.043,
+                  fontFamily: 'HT Rakik',
+                ),
+              ],
+            ),
           ),
           SizedBox(
             height: height * 0.03,
@@ -228,28 +231,31 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Row(
-            children: [
-              CustomText(
-                text: "pricePerPerson".tr,
-                fontSize: width * 0.038,
-                color: colorDarkGrey,
-                fontWeight: FontWeight.w400,
-              ),
-              CustomText(
-                text: " /  ",
-                fontWeight: FontWeight.w900,
-                fontSize: width * 0.043,
-                color: Colors.black,
-              ),
-              CustomText(
-                //text: '400 ${'sar'.tr}',
-                text: '${widget.adventure.price} ${'sar'.tr}',
-                fontWeight: FontWeight.w900,
-                fontSize: width * 0.043,
-                fontFamily: 'HT Rakik',
-              ),
-            ],
+          Padding(
+            padding:  EdgeInsets.symmetric(horizontal:width*0.01),
+            child: Row(
+              children: [
+                CustomText(
+                  text: "pricePerPerson".tr,
+                  fontSize: width * 0.038,
+                  color: colorDarkGrey,
+                  fontWeight: FontWeight.w400,
+                ),
+                CustomText(
+                  text: " /  ",
+                  fontWeight: FontWeight.w900,
+                  fontSize: width * 0.043,
+                  color: Colors.black,
+                ),
+                CustomText(
+                  //text: '400 ${'sar'.tr}',
+                  text: '${widget.adventure.price} ${'sar'.tr}',
+                  fontWeight: FontWeight.w900,
+                  fontSize: width * 0.043,
+                  fontFamily: 'HT Rakik',
+                ),
+              ],
+            ),
           ),
           SizedBox(
             height: height * 0.03,
