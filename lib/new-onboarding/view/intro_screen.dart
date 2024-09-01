@@ -252,6 +252,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                               isSelected: index == _currentIndex,
                               currentIndex: _currentIndex,
                               pageController: _pageController,
+                              index: index,
                             ),
                         ],
                       ),
@@ -316,7 +317,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                                 ? Color(0xFFDCDCE0)
                                 : Color(0xFFB9B8C1),
                             fontSize: 16,
-                            fontFamily: 'SF Pro',
+                            fontFamily: AppUtil.SfFontType(context),
                             fontWeight: FontWeight.w500,
                             height: 0,
                           ),
@@ -375,12 +376,15 @@ class _DotIndicator extends StatefulWidget {
   final bool isSelected;
   final PageController pageController;
   final int currentIndex;
+  final int index;
 
   const _DotIndicator({
     Key? key,
     required this.isSelected,
     required this.pageController,
     required this.currentIndex,
+    required this.index,
+
   }) : super(key: key);
 
   @override
@@ -424,6 +428,19 @@ class _DotIndicatorState extends State<_DotIndicator>
 
   @override
   Widget build(BuildContext context) {
+     Color dotColor;
+    if (widget.index == widget.currentIndex) {
+      dotColor =  colorGreen; // Current index color
+    } else  if (
+        widget.index == widget.currentIndex - 1 ||
+        widget.index == widget.currentIndex - 2
+        ||  widget.index == widget.currentIndex - 3
+        || widget.index == widget.currentIndex - 4) { 
+      dotColor = colorGreen; // Previous index color
+    } else {
+      dotColor = Color(0xFFDCDCE0); // Other indexes color
+    }
+
     return GestureDetector(
       onTap: () {
         if (widget.currentIndex == 4) {
@@ -459,7 +476,8 @@ class _DotIndicatorState extends State<_DotIndicator>
                 margin: EdgeInsets.symmetric(vertical: 15.0, horizontal: 2.0),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Color(0xFFDCDCE0),
+                  color:dotColor,
+                  // Color(0xFFDCDCE0),
                 ),
               ),
       ),

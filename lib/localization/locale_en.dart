@@ -660,5 +660,6 @@ const localeEn = {
   'pendingProgress': "Your tour is going to start soon ",
   'peopleNumber': 'Pepole Number',
   'fullyBooked': "fully Booked",
-  'ok': 'Ok'
+  'ok': 'Ok',
+  'EndTimeLess': "*Please select a date at least 48 hours from now",
 };
