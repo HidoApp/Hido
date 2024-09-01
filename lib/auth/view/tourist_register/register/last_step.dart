@@ -91,6 +91,7 @@ class _LastStepScreenState extends State<LastStepScreen> {
     height = MediaQuery.of(context).size.height;
     return Scaffold(
         backgroundColor: Colors.white,
+        resizeToAvoidBottomInset: true,
         appBar: const CustomAppBar(""),
         body: ScreenPadding(
           child: Column(

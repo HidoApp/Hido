@@ -68,6 +68,7 @@ class _BookingSheetState extends State<BookingSheet> {
     super.initState();
     //addCustomIcon();
 
+    _touristExploreController.TimeErrorMessage(false);
     _touristExploreController.isBookingDateSelected(false);
     _touristExploreController.isBookingTimeSelected(false);
 
@@ -76,9 +77,8 @@ class _BookingSheetState extends State<BookingSheet> {
         widget.userLocation!.latitude,
         widget.userLocation!.longitude,
       ));
-    }
-    else{
-       _touristExploreController.isNotGetUserLocation.value=true;
+    } else {
+      _touristExploreController.isNotGetUserLocation.value = true;
     }
   }
 
@@ -274,346 +274,424 @@ class _BookingSheetState extends State<BookingSheet> {
                   //TODO:this Row need refactoring
                   Row(
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(
-                            height: 12,
-                          ),
-                          CustomText(
-                            text: AppUtil.rtlDirection2(context)
-                                ? "وقت الذهاب"
-                                : "Pick up time",
-                            color: Colors.black,
-                            fontSize: width * 0.044,
-                            fontFamily: AppUtil.rtlDirection2(context)
-                                ? 'SF Arabic'
-                                : 'SF Pro',
-                            fontWeight: FontWeight.w500,
-                          ),
-                          SizedBox(
-                            height: height * 0.01,
-                          ),
-                          Align(
-                            alignment: AppUtil.rtlDirection(context)
-                                ? Alignment.centerLeft
-                                : Alignment.centerRight,
-                            child: CustomTextWithIconButton(
-                              onTap: () {
-                                showCupertinoModalPopup<void>(
-                                    context: context,
-                                    // barrierColor: Colors.white,
-                                    barrierDismissible: false,
-                                    builder: (BuildContext context) {
-                                      return Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          Container(
-                                            decoration: BoxDecoration(
-                                              color: Color(0xffffffff),
-                                              border: Border(
-                                                bottom: BorderSide(
-                                                  //  color: Color(0xff999999),
+                      Obx(
+                        () => Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              height: 12,
+                            ),
+                            CustomText(
+                              text: AppUtil.rtlDirection2(context)
+                                  ? "وقت الذهاب"
+                                  : "Pick up time",
+                              color: Colors.black,
+                              fontSize: width * 0.044,
+                              fontFamily: AppUtil.rtlDirection2(context)
+                                  ? 'SF Arabic'
+                                  : 'SF Pro',
+                              fontWeight: FontWeight.w500,
+                            ),
+                            SizedBox(
+                              height: height * 0.01,
+                            ),
+                            Align(
+                              alignment: AppUtil.rtlDirection(context)
+                                  ? Alignment.centerLeft
+                                  : Alignment.centerRight,
+                              child: CustomTextWithIconButton(
+                                onTap: () {
+                                  showCupertinoModalPopup<void>(
+                                      context: context,
+                                      // barrierColor: Colors.white,
+                                      barrierDismissible: false,
+                                      builder: (BuildContext context) {
+                                        return Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                color: Color(0xffffffff),
+                                                border: Border(
+                                                  bottom: BorderSide(
+                                                    //  color: Color(0xff999999),
 
-                                                  width: 0.0,
+                                                    width: 0.0,
+                                                  ),
+                                                ),
+                                              ),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: <Widget>[
+                                                  CupertinoButton(
+                                                    onPressed: () {
+                                                      widget
+                                                          .touristExploreController
+                                                          .isBookingTimeSelected(
+                                                              true);
+                                                      Get.back();
+                                                      setState(() {
+                                                        time = newTimeToGo;
+                                                        if (_touristExploreController
+                                                            .isBookingDateSelected
+                                                            .value) {
+                                                          Date = DateTime.parse(
+                                                              _touristExploreController
+                                                                  .selectedDate
+                                                                  .value
+                                                                  .substring(
+                                                                      0, 10));
+
+                                                          newTimeToGoInRiyadh =
+                                                              tz.TZDateTime(
+                                                                  location,
+                                                                  Date.year,
+                                                                  Date.month,
+                                                                  Date.day,
+                                                                  newTimeToGo
+                                                                      .hour,
+                                                                  newTimeToGo
+                                                                      .minute,
+                                                                  newTimeToGo
+                                                                      .second);
+                                                        } else {
+                                                          Date = DateTime.now();
+
+                                                          newTimeToGoInRiyadh =
+                                                              tz.TZDateTime(
+                                                                  location,
+                                                                  Date.year,
+                                                                  Date.month,
+                                                                  Date.day,
+                                                                  newTimeToGo
+                                                                      .hour,
+                                                                  newTimeToGo
+                                                                      .minute,
+                                                                  newTimeToGo
+                                                                      .second);
+                                                        }
+
+                                                        _touristExploreController
+                                                            .selectedStartTime
+                                                            .value = newTimeToGo;
+
+                                                        _touristExploreController
+                                                                .TimeErrorMessage
+                                                                .value =
+                                                            AppUtil.isEndTimeLessThanStartTime(
+                                                                _touristExploreController
+                                                                    .selectedStartTime
+                                                                    .value,
+                                                                _touristExploreController
+                                                                    .selectedEndTime
+                                                                    .value);
+                                                        _validateTime(); // Validate time after selection
+                                                      });
+                                                    },
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                      horizontal: 16.0,
+                                                      vertical: 5.0,
+                                                    ),
+                                                    child: CustomText(
+                                                      text: "confirm".tr,
+                                                      color: colorGreen,
+                                                      fontSize: width * 0.038,
+                                                      fontFamily:
+                                                          AppUtil.rtlDirection2(
+                                                                  context)
+                                                              ? 'SF Arabic'
+                                                              : 'SF Pro',
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                            Container(
+                                              height: 220,
+                                              width: width,
+                                              margin: EdgeInsets.only(
+                                                bottom: MediaQuery.of(context)
+                                                    .viewInsets
+                                                    .bottom,
+                                              ),
+                                              child: Container(
+                                                width: width,
+                                                color: Colors.white,
+                                                child: CupertinoDatePicker(
+                                                  backgroundColor: Colors.white,
+                                                  initialDateTime: newTimeToGo,
+                                                  mode: CupertinoDatePickerMode
+                                                      .time,
+                                                  use24hFormat: false,
+                                                  onDateTimeChanged:
+                                                      (DateTime newT) {
+                                                    print(DateFormat('HH:mm:ss')
+                                                        .format(newTimeToGo));
+                                                    setState(() {
+                                                      newTimeToGo = newT;
+                                                      //   print(newTime);
+                                                    });
+                                                      _touristExploreController
+                                                            .selectedStartTime
+                                                            .value = newTimeToGo;
+
+                                                        _touristExploreController
+                                                                .TimeErrorMessage
+                                                                .value =
+                                                            AppUtil.isEndTimeLessThanStartTime(
+                                                                _touristExploreController
+                                                                    .selectedStartTime
+                                                                    .value,
+                                                                _touristExploreController
+                                                                    .selectedEndTime
+                                                                    .value);
+                                                  },
                                                 ),
                                               ),
                                             ),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: <Widget>[
-                                                CupertinoButton(
-                                                  onPressed: () {
-                                                    widget
-                                                        .touristExploreController
-                                                        .isBookingTimeSelected(
-                                                            true);
-                                                    Get.back();
-                                                    setState(() {
-                                                      time = newTimeToGo;
-                                                      if (_touristExploreController
-                                                          .isBookingDateSelected
-                                                          .value) {
-                                                        Date = DateTime.parse(
-                                                            _touristExploreController
-                                                                .selectedDate
-                                                                .value
-                                                                .substring(
-                                                                    0, 10));
+                                          ],
+                                        );
+                                      });
+                                },
+                                height: height * 0.06,
+                                width: width * 0.41,
+                                title: !_touristExploreController
+                                        .isBookingTimeSelected.value
+                                    ? "00:00"
+                                    : AppUtil.formatStringTimeWithLocale(
+                                        context,
+                                        DateFormat('HH:mm:ss')
+                                            .format(newTimeToGo)),
+                                //  test,
+                                borderColor: TimeErrorMessage ?? false
+                                    ? Colors.red
+                                    : DurationErrorMessage ?? false
+                                        ? Colors.red
+                                        : borderGrey,
 
-                                                        newTimeToGoInRiyadh =
-                                                            tz.TZDateTime(
-                                                                location,
-                                                                Date.year,
-                                                                Date.month,
-                                                                Date.day,
-                                                                newTimeToGo
-                                                                    .hour,
-                                                                newTimeToGo
-                                                                    .minute,
-                                                                newTimeToGo
-                                                                    .second);
-                                                      } else {
-                                                        Date = DateTime.now();
-
-                                                        newTimeToGoInRiyadh =
-                                                            tz.TZDateTime(
-                                                                location,
-                                                                Date.year,
-                                                                Date.month,
-                                                                Date.day,
-                                                                newTimeToGo
-                                                                    .hour,
-                                                                newTimeToGo
-                                                                    .minute,
-                                                                newTimeToGo
-                                                                    .second);
-                                                      }
-                                                      _validateTime(); // Validate time after selection
-                                                    });
-                                                  },
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                    horizontal: 16.0,
-                                                    vertical: 5.0,
-                                                  ),
-                                                  child: CustomText(
-                                                    text: "confirm".tr,
-                                                    color: colorGreen,
-                                                    fontSize: width * 0.038,
-                                                    fontFamily:
-                                                        AppUtil.rtlDirection2(
-                                                                context)
-                                                            ? 'SF Arabic'
-                                                            : 'SF Pro',
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                          Container(
-                                            height: 220,
-                                            width: width,
-                                            margin: EdgeInsets.only(
-                                              bottom: MediaQuery.of(context)
-                                                  .viewInsets
-                                                  .bottom,
-                                            ),
-                                            child: Container(
-                                              width: width,
-                                              color: Colors.white,
-                                              child: CupertinoDatePicker(
-                                                backgroundColor: Colors.white,
-                                                initialDateTime: newTimeToGo,
-                                                mode: CupertinoDatePickerMode
-                                                    .time,
-                                                use24hFormat: false,
-                                                onDateTimeChanged:
-                                                    (DateTime newT) {
-                                                  print(DateFormat('HH:mm:ss')
-                                                      .format(newTimeToGo));
-                                                  setState(() {
-                                                    newTimeToGo = newT;
-                                                    //   print(newTime);
-                                                  });
-                                                },
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      );
-                                    });
-                              },
-                              height: height * 0.06,
-                              width: width * 0.41,
-                              title: !_touristExploreController
-                                      .isBookingTimeSelected.value
-                                  ? "00:00"
-                                  : AppUtil.formatStringTimeWithLocale(
-                                      context,
-                                      DateFormat('HH:mm:ss')
-                                          .format(newTimeToGo)),
-                              //  test,
-                              borderColor: TimeErrorMessage ?? false
-                                  ? Colors.red
-                                  : DurationErrorMessage ?? false
-                                      ? Colors.red
-                                      : borderGrey,
-
-                              prefixIcon: Container(),
-                              suffixIcon: Container(),
-                              textColor: borderGrey,
-                            ),
-                          ),
-                          if (TimeErrorMessage ?? false)
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 4),
-                              child: CustomText(
-                                text: AppUtil.rtlDirection2(context)
-                                    ? "*لابد من إدخال وقت الذهاب"
-                                    : "Select Time",
-                                color: Colors.red,
-                                fontSize: width * 0.028,
-                                fontFamily: AppUtil.rtlDirection2(context)
-                                    ? 'SF Arabic'
-                                    : 'SF Pro',
+                                prefixIcon: Container(),
+                                suffixIcon: Container(),
+                                textColor: borderGrey,
                               ),
                             ),
-                        ],
+                            if (TimeErrorMessage ! ||
+                                    _touristExploreController
+                                        .TimeErrorMessage.value)
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 4),
+                                child: CustomText(
+                                  text: TimeErrorMessage ?? false
+                                      ? AppUtil.rtlDirection2(context)
+                                          ? "*لابد من إدخال وقت الذهاب"
+                                          : "Select Time"
+                                      : '',
+                                  color: Colors.red,
+                                  fontSize: width * 0.028,
+                                  fontFamily: AppUtil.rtlDirection2(context)
+                                      ? 'SF Arabic'
+                                      : 'SF Pro',
+                                ),
+                              ),
+                          ],
+                        ),
                       ),
                       SizedBox(
                         width: width * 0.05,
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(
-                            height: 12,
-                          ),
-                          CustomText(
-                            text: AppUtil.rtlDirection2(context)
-                                ? "وقت العودة"
-                                : "Drop off time",
-                            color: Colors.black,
-                            fontSize: width * 0.044,
-                            fontWeight: FontWeight.w500,
-                            fontFamily: AppUtil.rtlDirection2(context)
-                                ? 'SF Arabic'
-                                : 'SF Pro',
-                          ),
-                          SizedBox(
-                            height: height * 0.01,
-                          ),
-                          Align(
-                            alignment: AppUtil.rtlDirection(context)
-                                ? Alignment.centerLeft
-                                : Alignment.centerRight,
-                            child: CustomTextWithIconButton(
-                              onTap: () {
-                                showCupertinoModalPopup<void>(
-                                    context: context,
-                                    // barrierColor: Colors.white,
-                                    barrierDismissible: false,
-                                    builder: (BuildContext context) {
-                                      return Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          Container(
-                                            decoration: BoxDecoration(
-                                              color: Color(0xffffffff),
-                                              border: Border(
-                                                bottom: BorderSide(
-                                                  //  color: Color(0xff999999),
-                                                  width: 0.0,
+                      Obx(
+                        () => Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              height: 12,
+                            ),
+                            CustomText(
+                              text: AppUtil.rtlDirection2(context)
+                                  ? "وقت العودة"
+                                  : "Drop off time",
+                              color: Colors.black,
+                              fontSize: width * 0.044,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: AppUtil.rtlDirection2(context)
+                                  ? 'SF Arabic'
+                                  : 'SF Pro',
+                            ),
+                            SizedBox(
+                              height: height * 0.01,
+                            ),
+                            Align(
+                              alignment: AppUtil.rtlDirection(context)
+                                  ? Alignment.centerLeft
+                                  : Alignment.centerRight,
+                              child: CustomTextWithIconButton(
+                                onTap: () {
+                                  showCupertinoModalPopup<void>(
+                                      context: context,
+                                      // barrierColor: Colors.white,
+                                      barrierDismissible: false,
+                                      builder: (BuildContext context) {
+                                        return Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                color: Color(0xffffffff),
+                                                border: Border(
+                                                  bottom: BorderSide(
+                                                    //  color: Color(0xff999999),
+                                                    width: 0.0,
+                                                  ),
+                                                ),
+                                              ),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: <Widget>[
+                                                  CupertinoButton(
+                                                    onPressed: () {
+                                                      widget
+                                                          .touristExploreController
+                                                          .isBookingTimeSelected(
+                                                              true);
+                                                      Get.back();
+                                                      setState(() {
+                                                        returnTime =
+                                                            newTimeToReturn;
+
+                                                        _touristExploreController
+                                                                .selectedEndTime
+                                                                .value =
+                                                            newTimeToReturn;
+
+                                                        _touristExploreController
+                                                                .TimeErrorMessage
+                                                                .value =
+                                                            AppUtil.isEndTimeLessThanStartTime(
+                                                                _touristExploreController
+                                                                    .selectedStartTime
+                                                                    .value,
+                                                                _touristExploreController
+                                                                    .selectedEndTime
+                                                                    .value);
+
+                                                        _validateTime(); // Validate time after selection
+                                                      });
+                                                    },
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                      horizontal: 16.0,
+                                                      vertical: 5.0,
+                                                    ),
+                                                    child: CustomText(
+                                                      text: "confirm".tr,
+                                                      color: colorGreen,
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                            Container(
+                                              height: 220,
+                                              width: width,
+                                              margin: EdgeInsets.only(
+                                                bottom: MediaQuery.of(context)
+                                                    .viewInsets
+                                                    .bottom,
+                                              ),
+                                              child: Container(
+                                                width: width,
+                                                color: Colors.white,
+                                                child: CupertinoDatePicker(
+                                                  backgroundColor: Colors.white,
+                                                  initialDateTime:
+                                                      newTimeToReturn,
+                                                  mode: CupertinoDatePickerMode
+                                                      .time,
+                                                  use24hFormat: false,
+                                                  onDateTimeChanged:
+                                                      (DateTime newT) {
+                                                    print(DateFormat('HH:mm:ss')
+                                                        .format(
+                                                            newTimeToReturn));
+                                                    setState(() {
+                                                      newTimeToReturn = newT;
+                                                      //   print(newTime);
+                                                    });
+                                                    
+                                                        _touristExploreController
+                                                                .selectedEndTime
+                                                                .value =
+                                                            newTimeToReturn;
+
+                                                        _touristExploreController
+                                                                .TimeErrorMessage
+                                                                .value =
+                                                            AppUtil.isEndTimeLessThanStartTime(
+                                                                _touristExploreController
+                                                                    .selectedStartTime
+                                                                    .value,
+                                                                _touristExploreController
+                                                                    .selectedEndTime
+                                                                    .value);
+                                                  },
                                                 ),
                                               ),
                                             ),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: <Widget>[
-                                                CupertinoButton(
-                                                  onPressed: () {
-                                                    widget
-                                                        .touristExploreController
-                                                        .isBookingTimeSelected(
-                                                            true);
-                                                    Get.back();
-                                                    setState(() {
-                                                      returnTime =
-                                                          newTimeToReturn;
-                                                      _validateTime(); // Validate time after selection
-                                                    });
-                                                  },
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                    horizontal: 16.0,
-                                                    vertical: 5.0,
-                                                  ),
-                                                  child: CustomText(
-                                                    text: "confirm".tr,
-                                                    color: colorGreen,
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                          Container(
-                                            height: 220,
-                                            width: width,
-                                            margin: EdgeInsets.only(
-                                              bottom: MediaQuery.of(context)
-                                                  .viewInsets
-                                                  .bottom,
-                                            ),
-                                            child: Container(
-                                              width: width,
-                                              color: Colors.white,
-                                              child: CupertinoDatePicker(
-                                                backgroundColor: Colors.white,
-                                                initialDateTime:
-                                                    newTimeToReturn,
-                                                mode: CupertinoDatePickerMode
-                                                    .time,
-                                                use24hFormat: false,
-                                                onDateTimeChanged:
-                                                    (DateTime newT) {
-                                                  print(DateFormat('HH:mm:ss')
-                                                      .format(newTimeToReturn));
-                                                  setState(() {
-                                                    newTimeToReturn = newT;
-                                                    //   print(newTime);
-                                                  });
-                                                },
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      );
-                                    });
-                              },
-                              height: height * 0.06,
-                              width: width * 0.41,
-                              title: !_touristExploreController
-                                      .isBookingTimeSelected.value
-                                  ? "00:00"
-                                  : AppUtil.formatStringTimeWithLocale(
-                                      context,
-                                      DateFormat('HH:mm:ss')
-                                          .format(newTimeToReturn)),
-                              //  test,
-                              borderColor: TimeErrorMessage ?? false
-                                  ? Colors.red
-                                  : DurationErrorMessage ?? false
-                                      ? Colors.red
-                                      : borderGrey,
+                                          ],
+                                        );
+                                      });
+                                },
+                                height: height * 0.06,
+                                width: width * 0.41,
+                                title: !_touristExploreController
+                                        .isBookingTimeSelected.value
+                                    ? "00:00"
+                                    : AppUtil.formatStringTimeWithLocale(
+                                        context,
+                                        DateFormat('HH:mm:ss')
+                                            .format(newTimeToReturn)),
+                                //  test,
+                                borderColor: TimeErrorMessage! ||
+                                            _touristExploreController
+                                                .TimeErrorMessage.value
+                                    ? Colors.red
+                                    : DurationErrorMessage ?? false
+                                        ? Colors.red
+                                        : borderGrey,
 
-                              prefixIcon: Container(),
-                              suffixIcon: Container(),
-                              textColor: borderGrey,
-                            ),
-                          ),
-                          if (TimeErrorMessage ?? false)
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 4),
-                              child: CustomText(
-                                text: AppUtil.rtlDirection2(context)
-                                    ? "*لابد من إدخال وقت العودة"
-                                    : "Select Time",
-                                color: Colors.red,
-                                fontFamily: AppUtil.rtlDirection2(context)
-                                    ? 'SF Arabic'
-                                    : 'SF Pro',
-                                fontSize: width * 0.028,
+                                prefixIcon: Container(),
+                                suffixIcon: Container(),
+                                textColor: borderGrey,
                               ),
                             ),
-                        ],
+                            if (TimeErrorMessage! ||
+                                    _touristExploreController
+                                        .TimeErrorMessage.value)
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 4),
+                                child: CustomText(
+                                  text: TimeErrorMessage ?? false
+                                      ? AppUtil.rtlDirection2(context)
+                                          ? "*لابد من إدخال وقت العودة"
+                                          : "Select Time"
+                                      : 'EndTimeLess'.tr,
+                                  color: Colors.red,
+                                  fontFamily: AppUtil.rtlDirection2(context)
+                                      ? 'SF Arabic'
+                                      : 'SF Pro',
+                                  fontSize: width * 0.028,
+                                ),
+                              ),
+                          ],
+                        ),
                       )
                     ],
                   ),
@@ -735,9 +813,11 @@ class _BookingSheetState extends State<BookingSheet> {
                         height: height * 0.15,
                         width: width * 0.9,
                         decoration: BoxDecoration(
-                          borderRadius:locationErrorMessage ?BorderRadius.circular(0) :BorderRadius.circular(15),
+                          borderRadius: locationErrorMessage
+                              ? BorderRadius.circular(0)
+                              : BorderRadius.circular(15),
                           color: lightGrey,
-                          border:locationErrorMessage 
+                          border: locationErrorMessage
                               ? Border.all(
                                   color: Colors.red,
                                   width:
@@ -835,43 +915,49 @@ class _BookingSheetState extends State<BookingSheet> {
                           title: "findLocal".tr,
                           onPressed: () async {
                             if (!_touristExploreController
-                                .isBookingDateSelected.value){
+                                .isBookingDateSelected.value) {
                               setState(() {
                                 DateErrorMessage = true;
                               });
-                            }else {
-                              setState(() {
-                                DateErrorMessage = false;
-                              });
                             }
+                            setState(() {
+                              DateErrorMessage = !_touristExploreController
+                                  .isBookingDateSelected.value;
+                            });
+
+                            // Check if booking time is selected
                             if (!_touristExploreController
-                                .isBookingTimeSelected.value){
+                                .isBookingTimeSelected.value) {
                               setState(() {
                                 TimeErrorMessage = true;
                               });
-                                }else{
-                                   setState(() {
-                                TimeErrorMessage = false;
-                              });
-                                }
-                            if ( _touristExploreController.isNotGetUserLocation.value){
+                            }
+                            setState(() {
+                              TimeErrorMessage = !_touristExploreController
+                                  .isBookingTimeSelected.value;
+                            });
+
+                            // Check if user location is set
+                            if (_touristExploreController
+                                .isNotGetUserLocation.value) {
                               setState(() {
                                 locationErrorMessage = true;
                               });
-                           } else{
-                               setState(() {
-                                locationErrorMessage = false;
-                              });
                             }
-                            if (selectedRide == ""){
+                            setState(() {
+                              locationErrorMessage = _touristExploreController
+                                  .isNotGetUserLocation.value;
+                            });
+
+                            // Check if a vehicle is selected
+                            if (selectedRide == "") {
                               setState(() {
                                 vehicleErrorMessage = true;
                               });
-                           } else {
-                              setState(() {
-                                vehicleErrorMessage = false;
-                              });
                             }
+                            setState(() {
+                              vehicleErrorMessage = selectedRide == "";
+                            });
 
                             print(newTimeToGoInRiyadh.isAfter(nowPlusTwoHours));
                             print(newTimeToGoInRiyadh);
@@ -880,7 +966,9 @@ class _BookingSheetState extends State<BookingSheet> {
                             if (_touristExploreController.isBookingDateSelected.value &&
                                 _touristExploreController
                                     .isBookingTimeSelected.value &&
-                                selectedRide != "" &&  !_touristExploreController.isNotGetUserLocation.value) {
+                                !_touristExploreController
+                                    .isNotGetUserLocation.value &&
+                                selectedRide != "") {
                               if (_validateTime()) {
                                 print(_validateTime());
 
@@ -898,63 +986,71 @@ class _BookingSheetState extends State<BookingSheet> {
                                     newTimeToGo.second);
                                 if (newTimeToGoInRiyadh
                                     .isAfter(nowPlusTwoHours)) {
-                                  _touristExploreController.isBookedMade(true);
-                                  DateErrorMessage = false;
+                                  if (!_touristExploreController
+                                      .TimeErrorMessage.value) {
+                                    _touristExploreController
+                                        .isBookedMade(true);
+                                    DateErrorMessage = false;
 
-                                  // AppUtil.successToast(
-                                  //     context, 'TIME AND DATE IS SELECTED');
+                                    // AppUtil.successToast(
+                                    //     context, 'TIME AND DATE IS SELECTED');
 
-                                  //  Navigator.pop(context);
-                                  if (widget.place != null) {
-                                    final isSuccess =
-                                        await _touristExploreController
-                                            .bookPlace(
-                                                placeId: widget.place!.id!,
-                                                timeToGo: DateFormat('HH:mm:ss')
-                                                    .format(newTimeToGo),
-                                                timeToReturn:
-                                                    DateFormat(
-                                                            'HH:mm:ss')
-                                                        .format(
-                                                            newTimeToReturn),
-                                                date: _touristExploreController
-                                                    .selectedDate.value
-                                                    .substring(0, 10),
-                                                guestNumber: guestNum,
-                                                cost: guestNum *
-                                                    widget.place!.price!,
-                                                lng: _touristExploreController
-                                                    .pickUpLocLatLang
-                                                    .value
-                                                    .longitude
-                                                    .toString(),
-                                                lat: _touristExploreController
-                                                    .pickUpLocLatLang
-                                                    .value
-                                                    .latitude
-                                                    .toString(),
-                                                vehicle: selectedRide,
-                                                context: context);
-                                    print('is sucssssss');
-                                    print(isSuccess);
-                                    if (isSuccess) {
-                                      Place? thePlace =
+                                    //  Navigator.pop(context);
+                                    if (widget.place != null) {
+                                      final isSuccess =
                                           await _touristExploreController
-                                              .getPlaceById(
-                                                  id: widget.place!.id!,
+                                              .bookPlace(
+                                                  placeId: widget.place!.id!,
+                                                  timeToGo: DateFormat(
+                                                          'HH:mm:ss')
+                                                      .format(newTimeToGo),
+                                                  timeToReturn: DateFormat(
+                                                          'HH:mm:ss')
+                                                      .format(newTimeToReturn),
+                                                  date: _touristExploreController
+                                                      .selectedDate.value
+                                                      .substring(0, 10),
+                                                  guestNumber: guestNum,
+                                                  cost: guestNum *
+                                                      widget.place!.price!,
+                                                  lng: _touristExploreController
+                                                      .pickUpLocLatLang
+                                                      .value
+                                                      .longitude
+                                                      .toString(),
+                                                  lat: _touristExploreController
+                                                      .pickUpLocLatLang
+                                                      .value
+                                                      .latitude
+                                                      .toString(),
+                                                  vehicle: selectedRide,
                                                   context: context);
-                                      Get.back();
-                                      Get.to(
-                                        () => FindAjwady(
-                                          place: thePlace!,
-                                          booking: thePlace.booking![0],
-                                          placeId: thePlace.id!,
-                                        ),
-                                      );
-                                    } else {
-                                      AppUtil.errorToast(
-                                          context, 'somthingWentWrong'.tr);
+                                      print('is sucssssss');
+                                      print(isSuccess);
+                                      if (isSuccess) {
+                                        Place? thePlace =
+                                            await _touristExploreController
+                                                .getPlaceById(
+                                                    id: widget.place!.id!,
+                                                    context: context);
+                                        Get.back();
+                                        Get.to(
+                                          () => FindAjwady(
+                                            place: thePlace!,
+                                            booking: thePlace.booking![0],
+                                            placeId: thePlace.id!,
+                                          ),
+                                        );
+                                      } else {
+                                        AppUtil.errorToast(
+                                            context, 'somthingWentWrong'.tr);
+                                      }
                                     }
+                                  } else {
+                                    AppUtil.errorToast(
+                                        context, 'TimeDuration'.tr);
+                                    await Future.delayed(
+                                        const Duration(seconds: 3));
                                   }
                                 } else {
                                   AppUtil.errorToast(
