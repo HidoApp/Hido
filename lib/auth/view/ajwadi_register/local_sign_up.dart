@@ -4,6 +4,7 @@ import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/auth/view/ajwadi_register/provided_services.dart';
 import 'package:ajwad_v4/auth/view/sigin_in/phone_otp_new.dart';
 import 'package:ajwad_v4/auth/widget/sign_in_text.dart';
+import 'package:ajwad_v4/auth/widget/terms_text.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
@@ -52,11 +53,11 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
         onChange: (datetime) {
           _authController.birthDate.value =
               AppUtil.formattedHijriDate(datetime.jhijri);
-           _authController.birthDateDay.value =
+          _authController.birthDateDay.value =
               AppUtil.formattedHijriDateDay(datetime.jhijri);
-             // _authController.birthDateDay.value =
-             // AppUtil.convertHijriDateStringToGregorian( _authController.birthDateDay.value);
-              log( _authController.birthDateDay.value);
+          // _authController.birthDateDay.value =
+          // AppUtil.convertHijriDateStringToGregorian( _authController.birthDateDay.value);
+          log(_authController.birthDateDay.value);
         },
         primaryColor: Colors.green);
   }
@@ -227,7 +228,7 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                               Obx(
                                 () => CustomText(
                                   text: _authController.birthDate.isNotEmpty
-                                      ? _authController.birthDate.value
+                                      ? _authController.birthDateDay.value
                                       : 'mm/dd/yyy'.tr,
                                   color: starGreyColor,
                                   fontWeight: FontWeight.w400,
@@ -255,7 +256,11 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                 ),
               ),
               SizedBox(
-                height: 40,
+                height: width * 0.061,
+              ),
+              const TermsAndConditionsText(),
+              SizedBox(
+                height: width * 0.102,
               ),
               Obx(
                 () => _authController.isPersonInfoLoading.value
@@ -273,9 +278,9 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                                     birthDate: _authController.birthDate.value,
                                     context: context);
                             print('isSuccess UI $isSuccess');
-                            if (isSuccess!=null) {
+                            if (isSuccess != null) {
                               _authController.localID(nationalId);
-                              log( _authController.birthDateDay.value);
+                              log(_authController.birthDateDay.value);
                               log("enter to signup");
 
                               Get.to(() => PhoneOTP(
@@ -285,7 +290,7 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                                       await _authController.personInfoOTP(
                                           nationalID: nationalId,
                                           birthDate:
-                                               _authController.birthDate.value,
+                                              _authController.birthDate.value,
                                           context: context);
                                     },
                                   ));
@@ -302,7 +307,7 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                       ),
               ),
               SizedBox(
-               height: width * 0.075,
+                height: width * 0.075,
               ),
               const SignInText()
             ],

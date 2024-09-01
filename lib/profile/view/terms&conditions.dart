@@ -68,10 +68,10 @@ class _helpAndFAQsScreenState extends State<TermsAndConditions> {
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
     return Scaffold(
-        backgroundColor: widget.fromAjwady ? lightBlack : Colors.white,
+        backgroundColor: Colors.white,
         appBar: CustomAppBar(
           "terms".tr,
-          color: widget.fromAjwady ? Colors.white : black,
+          color: black,
         ),
         body: WebViewWidget(
           controller: WebViewController()

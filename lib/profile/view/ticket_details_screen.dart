@@ -67,75 +67,99 @@ class TicketDetailsScreen extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: CustomAppBar('myTickets'.tr),
-      body: Stack(
-        children: [
-          Container(
-            color: lightGreyBackground, // Background color for the Container
-
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(height: 20),
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: TicketWidget(
-                    width: width * 0.92,
-                    height: height * 0.53,
-                    isCornerRounded: true,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 24, vertical: 23),
-                    color: Color.fromRGBO(255, 255, 255, 1),
-                    child: getBookingTypeWidget(context, bookTypeText!),
-
-                    //TicketData(booking: booking,icon: icon,bookTypeText: bookTypeText,),
-                  ),
-                ),
-                // const Expanded(child: SizedBox()), // Takes up remaining space
-
-                if (adventure == null &&
-                    event == null &&
-                    hospitality == null &&
-                    !isTour!) ...[
-                  if (booking!.orderStatus == 'ACCEPTED') ...[
-                    Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 35),
-                      child: Column(
-                        children: [
-                          CustomButton(
-                            onPressed: () {
-                              showModalBottomSheet(
-                                context: context,
-                                isScrollControlled: true,
-                                builder: (BuildContext context) {
-                                  return CancelSheet(
-                                      bookId: booking!.id ?? '',
-                                      type: booking!.bookingType ?? '');
-                                },
-                              );
-                            },
-
-                            // },
-                            title: 'CancelBooking'.tr,
-                            buttonColor:
-                                lightGreyBackground, // Set the button color to transparent white
-                            textColor: colorRed,
-                            borderColor: colorRed,
-                            // Set the text color to red
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ],
-              ],
+      resizeToAvoidBottomInset: true,
+      backgroundColor: lightGreyBackground,
+      appBar: AppBar(
+        leading: Padding(
+          padding: AppUtil.rtlDirection2(context)
+              ? EdgeInsets.only(bottom: 6, right: 30)
+              : EdgeInsets.only(bottom: 6, left: 30, top: 2),
+          child: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              size: width * 0.0487,
+              color: Colors.black,
             ),
+            onPressed: () => Get.back(),
           ),
-        ],
+        ),
+        title: CustomText(
+          text: 'myTickets'.tr,
+          fontWeight: FontWeight.w500,
+          fontSize: width * 0.04,
+          fontFamily: 'HT Rakik',
+        ),
+      ),
+      //CustomAppBar('myTickets'.tr),
+      body: SingleChildScrollView(
+        child: Container(
+          color: lightGreyBackground, // Background color for the Container
+
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(height: 20),
+              Align(
+                alignment: Alignment.topCenter,
+                child: TicketWidget(
+                  width: width * 0.92,
+                  height: height * 0.53,
+                  isCornerRounded: true,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 23),
+                  color: Color.fromRGBO(255, 255, 255, 1),
+                  child: getBookingTypeWidget(context, bookTypeText!),
+
+                  //TicketData(booking: booking,icon: icon,bookTypeText: bookTypeText,),
+                ),
+              ),
+              // const Expanded(child: SizedBox()), // Takes up remaining space
+            ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: Container(
+        color: lightGreyBackground,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 35),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (adventure == null &&
+                  event == null &&
+                  hospitality == null &&
+                  !isTour!) ...[
+                if (booking!.orderStatus == 'ACCEPTED') ...[
+                  CustomButton(
+                    onPressed: () {
+                      // showModalBottomSheet(
+                      //   context: context,
+                      //   isScrollControlled: true,
+                      //   builder: (BuildContext context) {
+                      //     return ;
+                      //   },
+                      // );
+                      Get.bottomSheet(
+                          isScrollControlled: true,
+                          CancelSheet(
+                              bookId: booking!.id ?? '',
+                              type: booking!.bookingType ?? ''));
+                    },
+
+                    // },
+                    title: 'CancelBooking'.tr,
+                    buttonColor:
+                        lightGreyBackground, // Set the button color to transparent white
+                    textColor: colorRed,
+                    borderColor: colorRed,
+                    // Set the text color to red
+                  ),
+                ]
+              ],
+            ],
+          ),
+        ),
       ),
     );
   }

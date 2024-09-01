@@ -105,10 +105,12 @@ class _EventTicketDataState extends State<EventTicketData> {
                           : widget.event!.booking!.first.id!.substring(0, 7)));
                   _showOverlay(context);
                 },
-                child: SvgPicture.asset(
-                  'assets/icons/Summary.svg',
-                  width: 20,
-                  height: 20,
+                child: RepaintBoundary(
+                  child: SvgPicture.asset(
+                    'assets/icons/Summary.svg',
+                    width: 20,
+                    height: 20,
+                  ),
                 )),
             const SizedBox(width: 8),
             Text(
@@ -124,7 +126,6 @@ class _EventTicketDataState extends State<EventTicketData> {
           ],
         ),
         SizedBox(height: 12),
-
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -140,7 +141,7 @@ class _EventTicketDataState extends State<EventTicketData> {
             ),
             Row(
               children: [
-                widget.icon ?? SizedBox.shrink(),
+                widget.icon ?? const SizedBox.shrink(),
                 Text(
                   AppUtil.getBookingTypeText(
                       context, widget.bookTypeText ?? ''),
@@ -156,7 +157,6 @@ class _EventTicketDataState extends State<EventTicketData> {
             ),
           ],
         ),
-        
         const SizedBox(height: 12),
         Column(
           mainAxisSize: MainAxisSize.min,
@@ -196,91 +196,92 @@ class _EventTicketDataState extends State<EventTicketData> {
                 ),
               ],
             ),
-               if(widget.event == null || (widget.event!= null && widget.event!.daysInfo!.isNotEmpty))
-
-            const SizedBox(height: 12),
-              if(widget.event == null || (widget.event!= null && widget.event!.daysInfo!.isNotEmpty))
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'pickUp1'.tr,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: starGreyColor,
-                        fontSize: width * 0.035,
-                        fontFamily: AppUtil.SfFontType(context),
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                      ),
-                    ),
-                    const SizedBox(height: 5),
-                    Text(
-                      widget.event == null
-                          ? formatTimeWithLocale(
-                              context, widget.booking!.timeToGo)
-                          : AppUtil.formatTimeOnly(
-                              context, widget.event!.daysInfo!.first.startTime),
-                      style: TextStyle(
-                        color: black,
-                        fontSize: width * 0.038,
-                        fontFamily: AppUtil.SfFontType(context),
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(width: 40),
-                Expanded(
-                  child: Column(
+            if (widget.event == null ||
+                (widget.event != null && widget.event!.daysInfo!.isNotEmpty))
+              const SizedBox(height: 12),
+            if (widget.event == null ||
+                (widget.event != null && widget.event!.daysInfo!.isNotEmpty))
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Column(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
-                        width: double.infinity,
-                        child: Text(
-                          'dropOff1'.tr,
-                          style: TextStyle(
-                            color: starGreyColor,
-                            fontSize: width * 0.035,
-                            fontFamily: AppUtil.SfFontType(context),
-                            fontWeight: FontWeight.w500,
-                            height: 0,
-                          ),
+                      Text(
+                        'pickUp1'.tr,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: starGreyColor,
+                          fontSize: width * 0.035,
+                          fontFamily: AppUtil.SfFontType(context),
+                          fontWeight: FontWeight.w500,
+                          height: 0,
                         ),
                       ),
                       const SizedBox(height: 5),
-                      SizedBox(
-                        width: double.infinity,
-                        child: Text(
-                          widget.event == null
-                              ? formatTimeWithLocale(
-                                  context, widget.booking!.timeToReturn)
-                              : AppUtil.formatTimeOnly(context,
-                                  widget.event!.daysInfo!.first.endTime),
-                          style: TextStyle(
-                            color: black,
-                            fontSize: width * 0.038,
-                            fontFamily: AppUtil.SfFontType(context),
-                            fontWeight: FontWeight.w500,
-                            height: 0,
-                          ),
+                      Text(
+                        widget.event == null
+                            ? formatTimeWithLocale(
+                                context, widget.booking!.timeToGo)
+                            : AppUtil.formatTimeOnly(context,
+                                widget.event!.daysInfo!.first.startTime),
+                        style: TextStyle(
+                          color: black,
+                          fontSize: width * 0.038,
+                          fontFamily: AppUtil.SfFontType(context),
+                          fontWeight: FontWeight.w500,
+                          height: 0,
                         ),
                       ),
                     ],
                   ),
-                ),
-              ],
-            ),
+                  const SizedBox(width: 40),
+                  Expanded(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: double.infinity,
+                          child: Text(
+                            'dropOff1'.tr,
+                            style: TextStyle(
+                              color: starGreyColor,
+                              fontSize: width * 0.035,
+                              fontFamily: AppUtil.SfFontType(context),
+                              fontWeight: FontWeight.w500,
+                              height: 0,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 5),
+                        SizedBox(
+                          width: double.infinity,
+                          child: Text(
+                            widget.event == null
+                                ? formatTimeWithLocale(
+                                    context, widget.booking!.timeToReturn)
+                                : AppUtil.formatTimeOnly(context,
+                                    widget.event!.daysInfo!.first.endTime),
+                            style: TextStyle(
+                              color: black,
+                              fontSize: width * 0.038,
+                              fontFamily: AppUtil.SfFontType(context),
+                              fontWeight: FontWeight.w500,
+                              height: 0,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             const SizedBox(height: 12),
             Text(
               'numberOfPeople'.tr,
@@ -307,7 +308,6 @@ class _EventTicketDataState extends State<EventTicketData> {
                 height: 0,
               ),
             ),
-
             const SizedBox(height: 12),
             SizedBox(
               width: double.infinity,
@@ -332,56 +332,54 @@ class _EventTicketDataState extends State<EventTicketData> {
                           height: 0,
                         ),
                       ),
-                    
-            Row(
-                mainAxisSize: MainAxisSize.min,
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.end,
                         crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  // booking.place!.price.toString(),
-                  widget.event == null
-                      ? widget.booking!.cost!.toString()
-                      : widget.event!.booking!.last.cost.toString(),
+                        children: [
+                          Text(
+                            // booking.place!.price.toString(),
+                            widget.event == null
+                                ? widget.booking!.cost!.toString()
+                                : widget.event!.booking!.last.cost.toString(),
 
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: black,
-                    fontSize: width * 0.044,
-                    fontFamily: AppUtil.SfFontType(context),
-                    fontWeight: FontWeight.w500,
-                    height: 0,
-                  ),
-                ),
-                const SizedBox(width: 5),
-                Text(
-                  AppUtil.rtlDirection2(context) ? 'ريال' : 'SAR',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: black,
-                    fontSize: width * 0.035,
-                    fontFamily: AppUtil.SfFontType(context),
-                    fontWeight: FontWeight.w500,
-                    height: 0,
-                  ),
-                ),
-              ],
-            ),
-           ],
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: black,
+                              fontSize: width * 0.044,
+                              fontFamily: AppUtil.SfFontType(context),
+                              fontWeight: FontWeight.w500,
+                              height: 0,
+                            ),
+                          ),
+                          const SizedBox(width: 5),
+                          Text(
+                            AppUtil.rtlDirection2(context) ? 'ريال' : 'SAR',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: black,
+                              fontSize: width * 0.035,
+                              fontFamily: AppUtil.SfFontType(context),
+                              fontWeight: FontWeight.w500,
+                              height: 0,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
           ],
         ),
-      const  SizedBox(
+        const SizedBox(
           height: 8,
         ),
-       const DottedSeparator(
+        const DottedSeparator(
           color: almostGrey,
           height: 1,
         ),
-      
         const SizedBox(height: 25),
         SizedBox(
           width: double.infinity,
@@ -395,7 +393,6 @@ class _EventTicketDataState extends State<EventTicketData> {
               } else {
                 throw 'Could not launch $url';
               }
-             
             },
             child: Text(
               'Location'.tr,

@@ -29,6 +29,7 @@ import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../../profile/models/profile.dart';
 import '../../../request/ajwadi/controllers/request_controller.dart';
 import '../../../request/tourist/view/booking_sheet.dart';
@@ -60,22 +61,6 @@ class _TripDetailsState extends State<TripDetails> {
   final RequestController _RequestController = Get.put(RequestController());
 
   final _profileController = Get.put(ProfileController());
-
-  final List<String> _tripUrlImages = [
-    'assets/images/twaik_image.png',
-    'assets/images/twaik_image2.png',
-    'assets/images/twaik_image3.png',
-    'assets/images/twaik_image4.png',
-    'assets/images/twaik_image5.png'
-  ];
-
-  final List<String> _ajwadiUrlImages = [
-    'assets/images/ajwadi1.png',
-    'assets/images/ajwadi2.png',
-    'assets/images/ajwadi3.png',
-    'assets/images/ajwadi4.png',
-    'assets/images/ajwadi5.png',
-  ];
 
   int _currentIndex = 0;
   var locLatLang = const LatLng(24.9470921, 45.9903698);
@@ -172,13 +157,13 @@ class _TripDetailsState extends State<TripDetails> {
           padding: EdgeInsets.only(right: 17, left: 17, bottom: width * 0.085),
           child: Obx(() => _RequestController.isBookingLoading.value
               ? Padding(
-                padding: EdgeInsets.symmetric(horizontal: 160),
-                child: const CircularProgressIndicator.adaptive(),
-              )
+                  padding: EdgeInsets.symmetric(horizontal: 160),
+                  child: const CircularProgressIndicator.adaptive(),
+                )
               : !AppUtil.isGuest() && isViewBooking.value
                   ? (isHasOffers.value
                       ? _RequestController.isRequestAcceptLoading.value
-                          ?CircularProgressIndicator.adaptive()
+                          ? CircularProgressIndicator.adaptive()
                           : CustomButton(
                               onPressed: () async {
                                 theBooking =
@@ -298,14 +283,13 @@ class _TripDetailsState extends State<TripDetails> {
               GestureDetector(
                 onTap: () {
                   Get.to(() => ViewTripImages(
-                        tripImageUrl: widget.place == null
-                            ? _tripUrlImages
-                            : widget.place!.image!,
+                        tripImageUrl: widget.place!.image!,
                         fromNetwork: widget.place == null ? false : true,
                       ));
                 },
                 child: CarouselSlider.builder(
                   options: CarouselOptions(
+                      // enableInfiniteScroll: false,
                       height: height * 0.3,
                       viewportFraction: 1,
                       onPageChanged: (i, reason) {
@@ -313,31 +297,19 @@ class _TripDetailsState extends State<TripDetails> {
                           _currentIndex = i;
                         });
                       }),
-                  itemCount: widget.place == null
-                      ? _tripUrlImages.length
-                      : widget.place!.image!.length,
+                  itemCount: widget.place!.image!.length,
                   itemBuilder: (context, index, realIndex) {
                     return Container(
                       width: MediaQuery.of(context).size.width,
-                      child: widget.place == null
-                          ? ClipRRect(
-                              borderRadius: const BorderRadius.only(
-                                  bottomLeft: Radius.circular(16),
-                                  bottomRight: Radius.circular(16)),
-                              child: Image.asset(
-                                _tripUrlImages[0],
-                                fit: BoxFit.fill,
-                              ),
-                            )
-                          : ClipRRect(
-                              borderRadius: const BorderRadius.only(
-                                  bottomLeft: Radius.circular(16),
-                                  bottomRight: Radius.circular(16)),
-                              child: ImageCacheWidget(
-                                image: widget.place!.image![index],
-                                //   fit: BoxFit.cover,
-                              ),
-                            ),
+                      child: ClipRRect(
+                        borderRadius: const BorderRadius.only(
+                            bottomLeft: Radius.circular(16),
+                            bottomRight: Radius.circular(16)),
+                        child: ImageCacheWidget(
+                          image: widget.place!.image![index],
+                          //   fit: BoxFit.cover,
+                        ),
+                      ),
                     );
                   },
                 ),
@@ -894,48 +866,27 @@ class _TripDetailsState extends State<TripDetails> {
           //         ],
           //       ),
           //     )),
-
-          Positioned(
-            top: height * 0.25,
-            left: width * 0.42,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: _tripUrlImages.map((imageUrl) {
-                int index = _tripUrlImages.indexOf(imageUrl);
-                return Container(
-                  width: 10.0,
-                  height: 10.0,
-                  margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: _currentIndex == index
-                        ? Colors.white
-                        : Colors.white.withOpacity(0.4),
-                    boxShadow: _currentIndex == index
-                        ? [
-                            const BoxShadow(
-                                color: Colors.white,
-                                blurRadius: 5,
-                                spreadRadius: 1)
-                          ]
-                        : [],
-                  ),
-                );
-              }).toList(),
+          Center(
+            child: Align(
+              alignment: Alignment.center,
+              child: Padding(
+                padding: EdgeInsets.only(
+                  top: height * 0.26,
+                ), // Set the top padding to control vertical position
+                child: AnimatedSmoothIndicator(
+                    effect: WormEffect(
+                      // dotColor: starGreyColor,
+                      dotWidth: width * 0.030,
+                      dotHeight: width * 0.030,
+                      activeDotColor: Colors.white,
+                    ),
+                    activeIndex: _currentIndex,
+                    count: widget.place!.image!.length),
+              ),
             ),
           ),
+       
         ])));
-  }
-
-  Widget ajwadiImages() {
-    // var items = _ajwadiUrlImages.map((url) => buildImage(url)).toList();
-    var items = _ajwadiUrlImages.map((url) => buildImage(url)).toList();
-    final emptyUrl = " ";
-    items = items + [buildImage(emptyUrl)];
-    return StackWidgets(
-      items: items,
-      size: 30,
-    );
   }
 
   buildImage(String url) {

@@ -15,6 +15,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class NewRequestScreen extends StatefulWidget {
   const NewRequestScreen({super.key});
@@ -37,52 +38,52 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    return Scaffold(
-        backgroundColor: lightGreyBackground,
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          forceMaterialTransparency: true,
-          actions: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: width * 0.04),
-              child: Row(
-                children: [
-                  CustomText(
-                    text: isSwitched ? "online".tr : "offline".tr,
-                    color: isSwitched ? colorGreen : colorDarkGrey,
+    return Obx(
+      () => Skeletonizer(
+        enabled: _requestController.isRequestListLoading.value,
+        child: Scaffold(
+            backgroundColor: lightGreyBackground,
+            appBar: AppBar(
+              automaticallyImplyLeading: false,
+              forceMaterialTransparency: true,
+              actions: [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: width * 0.04),
+                  child: Row(
+                    children: [
+                      CustomText(
+                        text: isSwitched ? "online".tr : "offline".tr,
+                        color: isSwitched ? colorGreen : colorDarkGrey,
+                      ),
+                      SizedBox(width: width * 0.03),
+                      FlutterSwitch(
+                        height: width * 0.08,
+                        width: width * 0.15,
+                        activeColor: colorGreen,
+                        value: isSwitched,
+                        onToggle: (value) {
+                          setState(() {
+                            isSwitched = value;
+                          });
+                        },
+                      ),
+                    ],
                   ),
-                  SizedBox(width: width * 0.03),
-                  FlutterSwitch(
-                    height: width * 0.08,
-                    width: width * 0.15,
-                    activeColor: colorGreen,
-                    value: isSwitched,
-                    onToggle: (value) {
-                      setState(() {
-                        isSwitched = value;
-                      });
-                    },
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
-        body: RefreshIndicator(
-          onRefresh: () async {
-            await _requestController.getRequestList(context: context);
-          },
-          child: isSwitched
-              ? Obx(
-                  () => Padding(
-                    padding: EdgeInsets.only(
-                        left: width * 0.04,
-                        right: width * 0.04,
-                        top: width * 0.03),
-                    child: _requestController.isRequestListLoading.value
-                        ? const Center(
-                            child: CircularProgressIndicator.adaptive())
-                        : _requestController.requestList.isNotEmpty
+                )
+              ],
+            ),
+            body: RefreshIndicator(
+              onRefresh: () async {
+                await _requestController.getRequestList(context: context);
+              },
+              child: isSwitched
+                  ? Obx(
+                      () => Padding(
+                        padding: EdgeInsets.only(
+                            left: width * 0.04,
+                            right: width * 0.04,
+                            top: width * 0.03),
+                        child: _requestController.requestList.isNotEmpty
                             ? ListView.separated(
                                 separatorBuilder: (context, index) => SizedBox(
                                   height: width * 0.03,
@@ -123,24 +124,26 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
                                 ]),
                               ),
 
-                    // : const EmptyRequest(),
-                  ),
-                )
-              : Padding(
-                  padding: EdgeInsets.only(
-                      left: width * 0.04,
-                      right: width * 0.04,
-                      top: width * 0.03),
-                  child: Center(
-                    child: CustomEmptyWidget(
-                      title: "offline".tr,
-                      image: "offline",
-                      subtitle: 'offlineText'.tr,
+                        // : const EmptyRequest(),
+                      ),
+                    )
+                  : Padding(
+                      padding: EdgeInsets.only(
+                          left: width * 0.04,
+                          right: width * 0.04,
+                          top: width * 0.03),
+                      child: Center(
+                        child: CustomEmptyWidget(
+                          title: "offline".tr,
+                          image: "offline",
+                          subtitle: 'offlineText'.tr,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-        )
-        //const OfflineRequest(),
-        );
+            )
+            //const OfflineRequest(),
+            ),
+      ),
+    );
   }
 }
