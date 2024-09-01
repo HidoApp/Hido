@@ -521,10 +521,17 @@ print(newProgress);
                                           }
                                         });
                                       }
-                                    : () async {
+                                    : isTripStart.value || _tripController.isTripEnd.value
+                                    ?() async {
                                         AppUtil.errorToast(
                                             context,
                                             "EndTourTime".tr);
+                                        await Future.delayed(
+                                            const Duration(seconds: 1));
+                                      }:() async {
+                                        AppUtil.errorToast(
+                                            context,
+                                            "StartTourTime".tr);
                                         await Future.delayed(
                                             const Duration(seconds: 1));
                                       },

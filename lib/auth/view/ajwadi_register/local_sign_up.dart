@@ -52,6 +52,11 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
         onChange: (datetime) {
           _authController.birthDate.value =
               AppUtil.formattedHijriDate(datetime.jhijri);
+           _authController.birthDateDay.value =
+              AppUtil.formattedHijriDateDay(datetime.jhijri);
+             // _authController.birthDateDay.value =
+             // AppUtil.convertHijriDateStringToGregorian( _authController.birthDateDay.value);
+              log( _authController.birthDateDay.value);
         },
         primaryColor: Colors.green);
   }
@@ -270,6 +275,9 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                             print('isSuccess UI $isSuccess');
                             if (isSuccess!=null) {
                               _authController.localID(nationalId);
+                              log( _authController.birthDateDay.value);
+                              log("enter to signup");
+
                               Get.to(() => PhoneOTP(
                                     otp: '',
                                     type: 'signUp',
@@ -277,7 +285,7 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                                       await _authController.personInfoOTP(
                                           nationalID: nationalId,
                                           birthDate:
-                                              _authController.birthDate.value,
+                                               _authController.birthDate.value,
                                           context: context);
                                     },
                                   ));
@@ -294,7 +302,7 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                       ),
               ),
               SizedBox(
-                height: 12,
+               height: width * 0.075,
               ),
               const SignInText()
             ],

@@ -144,6 +144,7 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
             print(position.latitude);
 
             getPlaceAddress(position.latitude, position.longitude);
+        widget.touristExploreController!.isNotGetUserLocation.value=false;
 
             setState(() {
               widget.touristExploreController!.pickUpLocLatLang(position);
@@ -182,6 +183,8 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
               getPlaceAddress(position.latitude, position.longitude);
 
               widget.touristExploreController!.pickUpLocLatLang(position);
+              widget.touristExploreController!.isNotGetUserLocation.value=false;
+
               // var addresses = await Geolocator.local
               //     .findAddressesFromCoordinates(coordinates);
               widget.mapController!
@@ -195,6 +198,7 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
                     draggable: true,
                     onDragEnd: (position) async {
                       print(position.latitude);
+                    widget.touristExploreController!.isNotGetUserLocation.value=false;
 
                       getPlaceAddress(position.latitude, position.longitude);
 

@@ -15,6 +15,7 @@ import 'package:ajwad_v4/widgets/custom_empty_widget.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class EventsTab extends StatefulWidget {
   const EventsTab({super.key, e});
@@ -64,71 +65,65 @@ class _EventsTabState extends State<EventsTab> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Obx(
-                  () => _eventController.isEventListLoading.value
-                      ? //if list is loading
-                      SizedBox(
-                          height: width * 0.4,
-                          width: width,
-                          child: const Center(
-                              child: CircularProgressIndicator.adaptive()))
+               
                       //List of hospitalities
-                      : Padding(
+                      Padding(
                           padding: EdgeInsets.symmetric(horizontal: 16),
                           child: Obx(
-                            () => _eventController.eventList.isNotEmpty
-                                ? ListView.separated(
-                                    padding: EdgeInsets.zero,
-                                    shrinkWrap: true,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    itemCount:
-                                        _eventController.eventList.length,
-                                    itemBuilder: (context, index) {
-                                      return EventCardItem(
-                                        onTap: () {
-                                          Get.to(() => LocalEventDetails(
-                                              eventId: _eventController
-                                                  .eventList[index].id));
-                                        },
-                                        image: _eventController
-                                            .eventList[index].images.first,
-                                        title: AppUtil.rtlDirection2(context)
-                                            ? _eventController
-                                                    .eventList[index].nameAr ??
-                                                ""
-                                            : _eventController
-                                                    .eventList[index].nameEn ??
-                                                "",
-                                        location: AppUtil.rtlDirection2(context)
-                                            ? _eventController.eventList[index]
-                                                    .regionAr ??
-                                                ""
-                                            : _eventController.eventList[index]
-                                                    .regionEn ??
-                                                "",
-                                        // seats: _eventController.eventList[index]
-                                        //     .daysInfo?.first?.seats
-                                        //     .toString(),
-                                        lang: _eventController.eventList[index]
-                                                .coordinates!.latitude ??
-                                            '',
-                                        long: _eventController.eventList[index]
-                                                .coordinates!.longitude ??
-                                            '',
-                                        rate: "5",
-                                        daysInfo: _eventController
-                                                .eventList[index].daysInfo ??
-                                            [],
-                                      );
-                                    },
-                                    separatorBuilder: (context, index) {
-                                      return SizedBox(
-                                        height: width * 0.041,
-                                      );
-                                    },
-                                  )
-                                : Padding(
+                            () =>  Skeletonizer(
+                                   enabled: _eventController.isEventListLoading.value,
+                                     child:_eventController.eventList.isNotEmpty? ListView.separated(
+                                      padding: EdgeInsets.zero,
+                                      shrinkWrap: true,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      itemCount:
+                                          _eventController.eventList.length,
+                                      itemBuilder: (context, index) {
+                                        return EventCardItem(
+                                          onTap: () {
+                                            Get.to(() => LocalEventDetails(
+                                                eventId: _eventController
+                                                    .eventList[index].id));
+                                          },
+                                          image: _eventController
+                                              .eventList[index].images.first,
+                                          title: AppUtil.rtlDirection2(context)
+                                              ? _eventController
+                                                      .eventList[index].nameAr ??
+                                                  ""
+                                              : _eventController
+                                                      .eventList[index].nameEn ??
+                                                  "",
+                                          location: AppUtil.rtlDirection2(context)
+                                              ? _eventController.eventList[index]
+                                                      .regionAr ??
+                                                  ""
+                                              : _eventController.eventList[index]
+                                                      .regionEn ??
+                                                  "",
+                                          // seats: _eventController.eventList[index]
+                                          //     .daysInfo?.first?.seats
+                                          //     .toString(),
+                                          lang: _eventController.eventList[index]
+                                                  .coordinates!.latitude ??
+                                              '',
+                                          long: _eventController.eventList[index]
+                                                  .coordinates!.longitude ??
+                                              '',
+                                          rate: "5",
+                                          daysInfo: _eventController
+                                                  .eventList[index].daysInfo ??
+                                              [],
+                                        );
+                                      },
+                                      separatorBuilder: (context, index) {
+                                        return SizedBox(
+                                          height: width * 0.041,
+                                        );
+                                      },
+                                    )
+                                    :Padding(
                                     padding: const EdgeInsets.only(top: 40),
                                     child: Center(
                                       child: CustomEmptyWidget(
@@ -138,9 +133,11 @@ class _EventsTabState extends State<EventsTab> {
                                       ),
                                     ),
                                   ),
+                                )
+                                
                           ),
                         ),
-                ),
+              
               ],
             )
           ],

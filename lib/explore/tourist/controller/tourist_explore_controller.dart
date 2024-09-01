@@ -12,6 +12,7 @@ class TouristExploreController extends GetxController {
   var selectedDate = ''.obs;
   var selectedTime = ''.obs;
   var isAllPlacesIsLoading = false.obs;
+  var isNotGetUserLocation = false.obs;
   var isPlaceIsLoading = false.obs;
   var isBookingDateSelected = false.obs;
   var isBookingTimeSelected = false.obs;

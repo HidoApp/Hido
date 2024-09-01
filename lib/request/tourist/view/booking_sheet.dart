@@ -77,6 +77,9 @@ class _BookingSheetState extends State<BookingSheet> {
         widget.userLocation!.longitude,
       ));
     }
+    else{
+       _touristExploreController.isNotGetUserLocation.value=true;
+    }
   }
 
   final Map _pickupRide = {
@@ -110,6 +113,7 @@ class _BookingSheetState extends State<BookingSheet> {
 
   bool? GuestErrorMessage;
   bool? vehicleErrorMessage;
+  bool locationErrorMessage = false;
 
   //var locLatLang = const LatLng(24.9470921, 45.9903698);
   late DateTime newTimeToGoInRiyadh;
@@ -165,7 +169,8 @@ class _BookingSheetState extends State<BookingSheet> {
         return false;
       }
     }
-    DateTime Date=DateTime.now();
+
+    DateTime Date = DateTime.now();
     DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
     //DateTime currentDate = DateTime(currentDateInRiyadh.year, currentDateInRiyadh.month, currentDateInRiyadh.day,currentDateInRiyadh.hour+2,currentDateInRiyadh.minute);
 
@@ -326,45 +331,46 @@ class _BookingSheetState extends State<BookingSheet> {
                                                         .touristExploreController
                                                         .isBookingTimeSelected(
                                                             true);
-                                                         Get.back();
+                                                    Get.back();
                                                     setState(() {
                                                       time = newTimeToGo;
-                                                      if(_touristExploreController.isBookingDateSelected.value){
-                                                      Date =
-                                                          DateTime.parse(
-                                                              _touristExploreController
-                                                                  .selectedDate
-                                                                  .value
-                                                                  .substring(
-                                                                      0, 10));
+                                                      if (_touristExploreController
+                                                          .isBookingDateSelected
+                                                          .value) {
+                                                        Date = DateTime.parse(
+                                                            _touristExploreController
+                                                                .selectedDate
+                                                                .value
+                                                                .substring(
+                                                                    0, 10));
 
+                                                        newTimeToGoInRiyadh =
+                                                            tz.TZDateTime(
+                                                                location,
+                                                                Date.year,
+                                                                Date.month,
+                                                                Date.day,
+                                                                newTimeToGo
+                                                                    .hour,
+                                                                newTimeToGo
+                                                                    .minute,
+                                                                newTimeToGo
+                                                                    .second);
+                                                      } else {
+                                                        Date = DateTime.now();
 
-                                                      newTimeToGoInRiyadh =
-                                                          tz.TZDateTime(
-                                                              location,
-                                                              Date.year,
-                                                              Date.month,
-                                                              Date.day,
-                                                              newTimeToGo.hour,
-                                                              newTimeToGo
-                                                                  .minute,
-                                                              newTimeToGo
-                                                                  .second);
-                                                      }else{
-                                                       Date = DateTime.now();
-                                                         
-                                                      newTimeToGoInRiyadh =
-                                                          tz.TZDateTime(
-                                                              location,
-                                                              Date.year,
-                                                              Date.month,
-                                                              Date.day,
-                                                              newTimeToGo.hour,
-                                                              newTimeToGo
-                                                                  .minute,
-                                                              newTimeToGo
-                                                                  .second);
-                                                      
+                                                        newTimeToGoInRiyadh =
+                                                            tz.TZDateTime(
+                                                                location,
+                                                                Date.year,
+                                                                Date.month,
+                                                                Date.day,
+                                                                newTimeToGo
+                                                                    .hour,
+                                                                newTimeToGo
+                                                                    .minute,
+                                                                newTimeToGo
+                                                                    .second);
                                                       }
                                                       _validateTime(); // Validate time after selection
                                                     });
@@ -427,7 +433,10 @@ class _BookingSheetState extends State<BookingSheet> {
                               title: !_touristExploreController
                                       .isBookingTimeSelected.value
                                   ? "00:00"
-                                  : AppUtil.formatStringTimeWithLocale(context,DateFormat('HH:mm:ss').format(newTimeToGo)),
+                                  : AppUtil.formatStringTimeWithLocale(
+                                      context,
+                                      DateFormat('HH:mm:ss')
+                                          .format(newTimeToGo)),
                               //  test,
                               borderColor: TimeErrorMessage ?? false
                                   ? Colors.red
@@ -574,8 +583,10 @@ class _BookingSheetState extends State<BookingSheet> {
                               title: !_touristExploreController
                                       .isBookingTimeSelected.value
                                   ? "00:00"
-                                  : AppUtil.formatStringTimeWithLocale(context, DateFormat('HH:mm:ss')
-                                      .format(newTimeToReturn)),
+                                  : AppUtil.formatStringTimeWithLocale(
+                                      context,
+                                      DateFormat('HH:mm:ss')
+                                          .format(newTimeToReturn)),
                               //  test,
                               borderColor: TimeErrorMessage ?? false
                                   ? Colors.red
@@ -724,8 +735,14 @@ class _BookingSheetState extends State<BookingSheet> {
                         height: height * 0.15,
                         width: width * 0.9,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
+                          borderRadius:locationErrorMessage ?BorderRadius.circular(0) :BorderRadius.circular(15),
                           color: lightGrey,
+                          border:locationErrorMessage 
+                              ? Border.all(
+                                  color: Colors.red,
+                                  width:
+                                      2) // Red border if userLocation is null
+                              : null, // No border if userLocation is not null
                         ),
                         child: GoogleMap(
                           onMapCreated: (controller) {
@@ -818,26 +835,39 @@ class _BookingSheetState extends State<BookingSheet> {
                           title: "findLocal".tr,
                           onPressed: () async {
                             if (!_touristExploreController
-                                .isBookingDateSelected.value)
+                                .isBookingDateSelected.value){
                               setState(() {
                                 DateErrorMessage = true;
                               });
-                            else {
+                            }else {
                               setState(() {
                                 DateErrorMessage = false;
                               });
                             }
                             if (!_touristExploreController
-                                .isBookingTimeSelected.value)
+                                .isBookingTimeSelected.value){
                               setState(() {
                                 TimeErrorMessage = true;
                               });
-
-                            if (selectedRide == "")
+                                }else{
+                                   setState(() {
+                                TimeErrorMessage = false;
+                              });
+                                }
+                            if ( _touristExploreController.isNotGetUserLocation.value){
+                              setState(() {
+                                locationErrorMessage = true;
+                              });
+                           } else{
+                               setState(() {
+                                locationErrorMessage = false;
+                              });
+                            }
+                            if (selectedRide == ""){
                               setState(() {
                                 vehicleErrorMessage = true;
                               });
-                            else {
+                           } else {
                               setState(() {
                                 vehicleErrorMessage = false;
                               });
@@ -850,32 +880,26 @@ class _BookingSheetState extends State<BookingSheet> {
                             if (_touristExploreController.isBookingDateSelected.value &&
                                 _touristExploreController
                                     .isBookingTimeSelected.value &&
-                                selectedRide != "") {
+                                selectedRide != "" &&  !_touristExploreController.isNotGetUserLocation.value) {
                               if (_validateTime()) {
                                 print(_validateTime());
-                                  Date =
-                                                          DateTime.parse(
-                                                              _touristExploreController
-                                                                  .selectedDate
-                                                                  .value
-                                                                  .substring(
-                                                                      0, 10));
 
+                                Date = DateTime.parse(_touristExploreController
+                                    .selectedDate.value
+                                    .substring(0, 10));
 
-                                                      newTimeToGoInRiyadh =
-                                                          tz.TZDateTime(
-                                                              location,
-                                                              Date.year,
-                                                              Date.month,
-                                                              Date.day,
-                                                              newTimeToGo.hour,
-                                                              newTimeToGo
-                                                                  .minute,
-                                                              newTimeToGo
-                                                                  .second);
+                                newTimeToGoInRiyadh = tz.TZDateTime(
+                                    location,
+                                    Date.year,
+                                    Date.month,
+                                    Date.day,
+                                    newTimeToGo.hour,
+                                    newTimeToGo.minute,
+                                    newTimeToGo.second);
                                 if (newTimeToGoInRiyadh
                                     .isAfter(nowPlusTwoHours)) {
                                   _touristExploreController.isBookedMade(true);
+                                  DateErrorMessage = false;
 
                                   // AppUtil.successToast(
                                   //     context, 'TIME AND DATE IS SELECTED');

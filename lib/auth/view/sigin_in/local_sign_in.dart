@@ -135,7 +135,7 @@ class _LocalSignInState extends State<LocalSignIn> {
                 //   ),
                 ),
             SizedBox(
-              height: width * 0.040,
+              height: width * 0.075,
             ),
             const SignUpText()
           ],

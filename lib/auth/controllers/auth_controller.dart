@@ -24,6 +24,8 @@ class AuthController extends GetxController {
   var isEmailUpadting = false.obs;
   var nationalId = ''.obs;
   var birthDate = ''.obs;
+  var birthDateDay = ''.obs;
+
   var isSignUpRowad = false.obs;
   var isCreateAccountLoading = false.obs;
   var isCreateOtpLoading = false.obs;

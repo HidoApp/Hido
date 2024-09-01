@@ -5,6 +5,7 @@ import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_empty_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class TicketScreen extends StatefulWidget {
   final ProfileController profileController;
@@ -76,74 +77,64 @@ class _TicketScreenState extends State<TicketScreen>
                     child: TabBarView(
                       controller: _tabController,
                       children: [
-                        // Tab 1 content (upcomingTrips)
-                        widget.profileController.isUpcommingTicketLoading.value
-                            ? const Center(
-                                child: CircularProgressIndicator(
-                                  color: colorGreen,
+                      
+                                Skeletonizer(
+                                   enabled: widget.profileController.isUpcommingTicketLoading.value,
+                                  child:widget.profileController.upcommingTicket.isEmpty?
+                                   Padding(
+                                     padding: const EdgeInsets.symmetric(
+                                       horizontal: 16),
+                                     child: CustomEmptyWidget(
+                                      title: 'noTicket'.tr,
+                                      image: 'NoTicket',
+                                      subtitle: 'noTicketSub'.tr,
+                                                                     ),
+                                   )
+                                  
+                                  : ListView.separated(
+                                      shrinkWrap: true,
+                                      itemCount: widget.profileController
+                                          .upcommingTicket.length,
+                                      separatorBuilder: (context, index) {
+                                        return const SizedBox(
+                                          height: 11,
+                                        );
+                                      },
+                                      itemBuilder: (context, index) {
+                                        return CustomTicketCard(
+                                          booking: widget.profileController
+                                              .upcommingTicket[index],
+                                        );
+                                      },
+                                    ),
                                 ),
-                              )
-                            : widget.profileController.upcommingTicket.isEmpty
-                                ? CustomEmptyWidget(
-                                    title: 'noTicket'.tr,
-                                    image: 'NoTicket',
-                                    subtitle: 'noTicketSub'.tr,
-                                  )
-                                // ? Column(
-                                //     children: [
-                                //       Text('true'),
-                                //     ],
-                                //   )
-                                : ListView.separated(
-                                    shrinkWrap: true,
-                                    itemCount: widget.profileController
-                                        .upcommingTicket.length,
-                                    separatorBuilder: (context, index) {
-                                      return const SizedBox(
-                                        height: 11,
-                                      );
-                                    },
-                                    itemBuilder: (context, index) {
-                                      return CustomTicketCard(
-                                        booking: widget.profileController
-                                            .upcommingTicket[index],
-                                      );
-                                    },
-                                  ),
 
                         // Tab 2 content (pastTrips)
-                        widget.profileController.isPastTicketLoading.value
-                            ? const Center(
-                                child: SizedBox(
-                                  height: 40,
-                                  width: 40,
-                                  child: CircularProgressIndicator(
-                                    color: colorGreen,
-                                  ),
-                                ),
-                              )
-                            : widget.profileController.pastTicket.isEmpty
+                       Skeletonizer(
+                                  enabled: widget.profileController.isPastTicketLoading.value,
+                                  child:widget.profileController.pastTicket.isEmpty
                                 ? CustomEmptyWidget(
                                     title: 'noTicket'.tr,
                                     image: 'no_tickets',
                                     subtitle: 'noTicketSub'.tr,
                                   )
-                                : ListView.separated(
-                                    shrinkWrap: true,
-                                    itemCount: widget
-                                        .profileController.pastTicket.length,
-                                    separatorBuilder: (context, index) {
-                                      return const SizedBox(
-                                        height: 11,
-                                      );
-                                    },
-                                    itemBuilder: (context, index) {
-                                      return CustomTicketCard(
-                                        booking: widget.profileController
-                                            .pastTicket[index],
-                                      );
-                                    },
-                                  ),
+                                  : ListView.separated(
+                                      shrinkWrap: true,
+                                      itemCount: widget
+                                          .profileController.pastTicket.length,
+                                      separatorBuilder: (context, index) {
+                                        return const SizedBox(
+                                          height: 11,
+                                        );
+                                      },
+                                      itemBuilder: (context, index) {
+                                        return CustomTicketCard(
+                                          booking: widget.profileController
+                                              .pastTicket[index],
+                                        );
+                                      },
+                                    ),
+                                ),
                       ],
                     ),
                   ),

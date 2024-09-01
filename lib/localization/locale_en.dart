@@ -638,6 +638,7 @@ const localeEn = {
   'Spanish': 'Spanish',
   'Russian': 'Russian',
   'EndTourTime': "The tour time hasn't ended yet",
+  'StartTourTime': "The tour time hasn't started yet, you can start the tour 4 hours at max before its start time ",
   'pickUp1': 'Start time',
   'dropOff1': 'End time',
   'Alert': 'Alert!',
