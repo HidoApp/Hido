@@ -102,7 +102,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   bool isStarChecked = false;
   int startIndex = -1;
   bool isSendTapped = false;
-  bool showSheet = false;
+  bool showSheet = true;
   bool isNew = true;
 
   void getActivityProgress() async {
@@ -195,6 +195,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
     // TODO: implement dispose
     _sheetController.dispose();
     isNew = true;
+    _touristExploreController.showActivityProgress(false);
 
     super.dispose();
   }
@@ -357,8 +358,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
 
     return Scaffold(
       bottomSheet: Obx(
-        () => _touristExploreController.isActivityProgressLoading.value ||
-                _touristExploreController.isTouristMapLoading.value
+        () => _touristExploreController.isActivityProgressLoading.value
             ? const SizedBox.shrink()
             : _touristExploreController.showActivityProgress.value
                 ? Container(

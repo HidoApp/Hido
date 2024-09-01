@@ -77,6 +77,8 @@ class EventService {
         if (token != '') 'Authorization': 'Bearer $token',
       },
     );
+    log(response.statusCode.toString());
+    log(response.body.toString());
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
 
@@ -391,8 +393,7 @@ class EventService {
     print("TRUE $id");
     final response = await http.get(
       Uri.parse('$baseUrl/event/$id/summary')
-          .replace(queryParameters: ({'date':date,'id': id})),
-         
+          .replace(queryParameters: ({'date': date, 'id': id})),
       headers: {
         'Accept': 'application/json',
         if (token != '') 'Authorization': 'Bearer $token',
@@ -465,7 +466,7 @@ class EventService {
     }
   }
 
-   static Future<UploadImage?> uploadImages(
+  static Future<UploadImage?> uploadImages(
       {required File file,
       required String fileType,
       required BuildContext context}) async {
@@ -484,9 +485,10 @@ class EventService {
     };
 
     var request = http.MultipartRequest(
-        'POST',  Uri.parse('$baseUrl/asset/upload/$fileType').replace(queryParameters: {
-           'fileType': fileType,
-  }));
+        'POST',
+        Uri.parse('$baseUrl/asset/upload/$fileType').replace(queryParameters: {
+          'fileType': fileType,
+        }));
     request.headers.addAll(headers);
     request.files.add(await http.MultipartFile.fromPath('image', file.path));
 
@@ -519,5 +521,4 @@ class EventService {
     }
     return null;
   }
-
 }

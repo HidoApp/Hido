@@ -638,7 +638,8 @@ const localeEn = {
   'Spanish': 'Spanish',
   'Russian': 'Russian',
   'EndTourTime': "The tour time hasn't ended yet",
-  'StartTourTime': "The tour time hasn't started yet, you can start the tour 4 hours at max before its start time ",
+  'StartTourTime':
+      "The tour time hasn't started yet, you can start the tour 4 hours at max before its start time ",
   'pickUp1': 'Start time',
   'dropOff1': 'End time',
   'Alert': 'Alert!',
@@ -660,5 +661,7 @@ const localeEn = {
   'pendingProgress': "Your tour is going to start soon ",
   'peopleNumber': 'Pepole Number',
   'fullyBooked': "fully Booked",
-  'ok': 'Ok'
+  'ok': 'Ok',
+  'termsOfService': 'Terms of Service',
+  'termsText': "By selecting Sign in, I agree to Hido's "
 };

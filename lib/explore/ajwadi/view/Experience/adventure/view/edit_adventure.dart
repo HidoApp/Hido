@@ -43,6 +43,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart' hide TextDirection;
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:intl/intl.dart' as intl;
 
@@ -2327,38 +2328,17 @@ class _EditAdventureState extends State<EditAdventure> {
                             alignment: Alignment.center,
                             child: Padding(
                               padding: EdgeInsets.only(
-                                  top: height *
-                                      0.25), // Set the top padding to control vertical position
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: _servicesController.images
-                                    .asMap()
-                                    .entries
-                                    .map((entry) {
-                                  return GestureDetector(
-                                    onTap: () => _carouselController
-                                        .animateToPage(entry.key),
-                                    child: Container(
-                                      width: 8,
-                                      height: 8,
-                                      margin: EdgeInsets.symmetric(
-                                          vertical: width * 0.025,
-                                          horizontal: width * 0.009),
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: _currentIndex == entry.key
-                                            ? _servicesController
-                                                        .images.length ==
-                                                    1
-                                                ? Colors.white.withOpacity(0.1)
-                                                : Colors.white
-                                            : Colors.white.withOpacity(0.4),
-                                      ),
-                                    ),
-                                  );
-                                }).toList(),
-                              ),
+                                top: height * 0.26,
+                              ), // Set the top padding to control vertical position
+                              child: AnimatedSmoothIndicator(
+                                  effect: WormEffect(
+                                    // dotColor: starGreyColor,
+                                    dotWidth: width * 0.030,
+                                    dotHeight: width * 0.030,
+                                    activeDotColor: Colors.white,
+                                  ),
+                                  activeIndex: _currentIndex,
+                                  count: _servicesController.images!.length),
                             ),
                           ),
                         ),

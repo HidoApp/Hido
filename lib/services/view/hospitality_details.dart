@@ -28,6 +28,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart' hide TextDirection;
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import 'review_hospitalty_screen.dart';
 
@@ -364,8 +365,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                 child: ConstrainedBox(
                                   constraints: isExpanded
                                       ? const BoxConstraints()
-                                      : BoxConstraints(
-                                          maxHeight: width * 0.1),
+                                      : BoxConstraints(maxHeight: width * 0.1),
                                   child: CustomText(
                                       maxlines: 200,
 
@@ -380,7 +380,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                       fontFamily: AppUtil.rtlDirection2(context)
                                           ? 'SF Arabic'
                                           : 'SF Pro',
-                                    fontWeight: FontWeight.w400,
+                                      fontWeight: FontWeight.w400,
                                       fontSize: width * 0.038,
                                       color: starGreyColor,
                                       text: !AppUtil.rtlDirection(context)
@@ -401,7 +401,8 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                           setState(() => isExpanded = false);
                                         },
                                         child: Padding(
-                                          padding: const EdgeInsets.only(top:8.0),
+                                          padding:
+                                              const EdgeInsets.only(top: 8.0),
                                           child: CustomText(
                                             textDirection:
                                                 AppUtil.rtlDirection2(context)
@@ -427,7 +428,8 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                         onTap: () =>
                                             setState(() => isExpanded = true),
                                         child: Padding(
-                                          padding: const EdgeInsets.only(top:8.0),
+                                          padding:
+                                              const EdgeInsets.only(top: 8.0),
                                           child: CustomText(
                                             textDirection:
                                                 AppUtil.rtlDirection2(context)
@@ -606,11 +608,11 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                       )),
                                 ),
                                 SizedBox(
-                              height: width * 0.025,
-                            ),
-                            const Divider(
-                              color: lightGrey,
-                            ),
+                                  height: width * 0.025,
+                                ),
+                                const Divider(
+                                  color: lightGrey,
+                                ),
                               ],
                             ],
                           ),
@@ -713,30 +715,17 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                         alignment: Alignment.center,
                         child: Padding(
                           padding: EdgeInsets.only(
-                              top: height *
-                                  0.23), // Set the top padding to control vertical position
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: hospitalityObj!.images.map((imageUrl) {
-                              int index =
-                                  hospitalityObj!.images.indexOf(imageUrl);
-                              return Container(
-                                width: width * 0.025,
-                                height: width * 0.025,
-                                margin: EdgeInsets.symmetric(
-                                    vertical: width * 0.025,
-                                    horizontal: width * 0.005),
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: _currentIndex == index
-                                      ? hospitalityObj!.images.length == 1
-                                          ? Colors.white.withOpacity(0.1)
-                                          : Colors.white
-                                      : Colors.white.withOpacity(0.8),
-                                ),
-                              );
-                            }).toList(),
-                          ),
+                            top: height * 0.24,
+                          ), // Set the top padding to control vertical position
+                          child: AnimatedSmoothIndicator(
+                              effect: WormEffect(
+                                // dotColor: starGreyColor,
+                                dotWidth: width * 0.030,
+                                dotHeight: width * 0.030,
+                                activeDotColor: Colors.white,
+                              ),
+                              activeIndex: _currentIndex,
+                              count: hospitalityObj!.images!.length),
                         ),
                       ),
                     ),

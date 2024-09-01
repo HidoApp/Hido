@@ -22,7 +22,7 @@ class CancelSheet extends StatefulWidget {
   final String bookId;
   final String type;
 
-  CancelSheet({Key? key, required this.bookId, required this.type})
+  const CancelSheet({Key? key, required this.bookId, required this.type})
       : super(key: key);
 
   @override
@@ -50,15 +50,13 @@ class _CancelSheetState extends State<CancelSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).viewInsets.bottom,
-      ),
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Container(
         // width: double.infinity,
         // height: 400,
 
-        clipBehavior: Clip.antiAlias,
+        //  clipBehavior: Clip.antiAlias,
         decoration: ShapeDecoration(
           color: Colors.white,
           shape: RoundedRectangleBorder(
@@ -81,9 +79,7 @@ class _CancelSheetState extends State<CancelSheet> {
             // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               BottomSheetIndicator(),
-
-               SizedBox(height: MediaQuery.of(context).size.width *0.04),
-
+              SizedBox(height: MediaQuery.of(context).size.width * 0.04),
               Container(
                 width: 48,
                 height: 48,

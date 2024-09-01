@@ -197,7 +197,7 @@ class _PaymentTypeState extends State<PaymentType> {
                   ),
                 );
               }).then((value) async {
-            await navigateToPayment(context, invoice!.url!, 'apple');
+            //   await navigateToPayment(context, invoice!.url!, 'apple');
           });
         }
         if (checkInvoice == null) {
@@ -243,7 +243,7 @@ class _PaymentTypeState extends State<PaymentType> {
                   ),
                 );
               }).then((value) async {
-            await navigateToPayment(context, invoice!.url!, 'apple');
+            //  await navigateToPayment(context, invoice!.url!, 'apple');
           });
         }
       });
@@ -276,13 +276,6 @@ class _PaymentTypeState extends State<PaymentType> {
   void paymentWebView() async {
     // webview for Stc pay
     if (invoice != null) {
-      // Navigator.push(
-      //   context,
-      //   MaterialPageRoute(
-      //     builder: (context) =>
-      //         PaymentWebView(url: invoice!.url!, title: 'payment'.tr),
-      //   ),
-      // )
       Get.bottomSheet(
           //isScrollControlled: true,5453010000095539
           WebViewSheet(
@@ -292,8 +285,9 @@ class _PaymentTypeState extends State<PaymentType> {
         Invoice? checkInvoice;
         checkInvoice = await _paymentController.getPaymentId(
             context: context, id: invoice!.payId!);
-        if (checkInvoice != null) {
+        if (checkInvoice != null && checkInvoice.payStatus == 'Paid') {
           //if the invoice paid then will booking depend on the type of booking
+
           switch (widget.type) {
             case 'adventure':
               adventureBooking(checkInvoice);
@@ -332,7 +326,7 @@ class _PaymentTypeState extends State<PaymentType> {
                   ),
                 );
               }).then((value) async {
-            await navigateToPayment(context, invoice!.url!, 'credit');
+            //  await navigateToPayment(context, invoice!.url!, 'credit');
           });
         }
       });
@@ -375,7 +369,7 @@ class _PaymentTypeState extends State<PaymentType> {
         Invoice? checkInvoice;
         checkInvoice = await _paymentController.getPaymentId(
             context: context, id: invoice!.payId!);
-        if (checkInvoice != null) {
+        if (checkInvoice != null && checkInvoice.payStatus == 'Paid') {
           //if the invoice paid then will booking depend on the type of booking
           switch (widget.type) {
             case 'adventure':
@@ -415,7 +409,7 @@ class _PaymentTypeState extends State<PaymentType> {
                   ),
                 );
               }).then((value) async {
-            await navigateToPayment(context, invoice!.url!, 'else');
+            // await navigateToPayment(context, invoice!.url!, 'else');
           });
         }
       });
@@ -938,29 +932,29 @@ class _PaymentTypeState extends State<PaymentType> {
     );
   }
 
-  Future<void> navigateToPayment(
-      BuildContext context, String url, String type) async {
-    if (type == 'apple') {
-      await Get.bottomSheet(WebViewSheet(
-        url: url,
-        title: "",
-        height: 115,
-      ));
-    } else if (type == 'credit') {
-      await Get.bottomSheet(WebViewSheet(
-        url: url,
-        title: "",
-      ));
-    } else {
-      await Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => PaymentWebView(
-            url: url,
-            title: 'payment'.tr,
-          ),
-        ),
-      );
-    }
-  }
+  // Future<void> navigateToPayment(
+  //     BuildContext context, String url, String type) async {
+  //   if (type == 'apple') {
+  //     await Get.bottomSheet(WebViewSheet(
+  //       url: url,
+  //       title: "",
+  //       height: 115,
+  //     ));
+  //   } else if (type == 'credit') {
+  //     await Get.bottomSheet(WebViewSheet(
+  //       url: url,
+  //       title: "",
+  //     ));
+  //   } else {
+  //     await Navigator.push(
+  //       context,
+  //       MaterialPageRoute(
+  //         builder: (context) => PaymentWebView(
+  //           url: url,
+  //           title: 'payment'.tr,
+  //         ),
+  //       ),
+  //     );
+  //   }
+  // }
 }
