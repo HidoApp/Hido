@@ -93,7 +93,7 @@ class _LastStepScreenState extends State<LastStepScreen> {
     return Scaffold(
         resizeToAvoidBottomInset: true,
         backgroundColor: Colors.white,
-        resizeToAvoidBottomInset: true,
+      //  resizeToAvoidBottomInset: true,
         appBar: const CustomAppBar(""),
         body: ScreenPadding(
           child: SingleChildScrollView(

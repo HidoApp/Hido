@@ -663,6 +663,6 @@ const localeEn = {
   'fullyBooked': "fully Booked",
   'ok': 'Ok',
   'termsOfService': 'Terms of Service',
-  'termsText': "By selecting Sign in, I agree to Hido's "
+  'termsText': "By selecting Sign in, I agree to Hido's ",
   'EndTimeLess': "*Please select a date at least 48 hours from now",
 };
