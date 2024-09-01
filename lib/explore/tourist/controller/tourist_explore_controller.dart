@@ -11,6 +11,9 @@ import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 class TouristExploreController extends GetxController {
   var selectedDate = ''.obs;
   var selectedTime = ''.obs;
+    var selectedStartTime = DateTime.now().obs;
+  var selectedEndTime = DateTime.now().obs;
+  var TimeErrorMessage = false.obs;
   var isAllPlacesIsLoading = false.obs;
   var isNotGetUserLocation = false.obs;
   var isPlaceIsLoading = false.obs;

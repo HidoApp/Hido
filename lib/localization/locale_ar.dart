@@ -38,7 +38,7 @@ const localeAr = {
   "ajwady": "مرشد",
   "tourist": "سائح",
   "local": "مواطن محلي",
-  "localGuide": "مقدم الخدمة",
+  "localGuide":"مقدم خدمة محلي",
   "xplore": 'Explore',
   "licensedTour": "إذا كنت سائحًا تبحث عن دليل ذي خبرة لتظهر لك ما حولك",
   "alreadyHaveAccount": " لديك حساب ؟",
@@ -652,6 +652,9 @@ const localeAr = {
   'pendingProgress': "جولتك بتبدأ قريبا",
   'peopleNumber': 'عدد الأشخاص',
   'fullyBooked': "محجوزه بالكامل",
-  'ok': 'تأكيد', 'termsOfService': 'الشروط والاحكام',
-  'termsText': 'من خلال النقر على إنشاء حساب فأنا اوافق على'
+
+  'termsOfService': 'الشروط والاحكام',
+  'termsText': 'من خلال النقر على إنشاء حساب فأنا اوافق على',
+  'ok': 'تأكيد',
+  'EndTimeLess':'يجب اختيار تاريخ بعد 48 ساعة من الآن على الأقل'
 };

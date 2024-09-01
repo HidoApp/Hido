@@ -664,4 +664,5 @@ const localeEn = {
   'ok': 'Ok',
   'termsOfService': 'Terms of Service',
   'termsText': "By selecting Sign in, I agree to Hido's "
+  'EndTimeLess': "*Please select a date at least 48 hours from now",
 };
