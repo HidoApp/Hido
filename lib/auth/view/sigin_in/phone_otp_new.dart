@@ -72,13 +72,14 @@ class _PhoneOTPState extends State<PhoneOTP> {
   }
 
   void signUp(String otpCode) async {
+    log("enter signup");
     final isSuccess = await _authController.signUpWithRowad(
         context: context,
         transactionId: _authController.transactionIdInfo.value,
         nationalId: _authController.localID.toString(),
         number: _authController.phoneNumber.value,
         otp: otpCode,
-        birthDate: _authController.birthDate.value);
+        birthDate: _authController.birthDateDay.value);
     if (isSuccess) {
       Get.to(() => const ProvidedServices());
     }
@@ -150,6 +151,7 @@ class _PhoneOTPState extends State<PhoneOTP> {
                 length: 4,
 
                 onCompleted: (value) {
+                      log("enter oncompleted");
                   switch (widget.type) {
                     case 'stepper':
                       stepper(value);

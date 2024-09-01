@@ -148,7 +148,9 @@ class AuthService {
 
     print("isSuccess SERVICE ${response.statusCode}");
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201||response.statusCode == 200 ) {
+     print("200 enter here ${response.body}");
+
       Map responsBody = {
         'transactionId': jsonDecode(response.body)['transactionId'],
       };
@@ -182,7 +184,11 @@ class AuthService {
           'nationalityId': nationalId,
           'phoneNumber': number.substring(1)
         }));
+     log("StatusCode");
+    log(response.statusCode.toString());
+  
     if (response.statusCode == 200) {
+        log("enter after 200");
       final getStorage = GetStorage();
 
       final String accessToken;

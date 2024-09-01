@@ -20,8 +20,9 @@ class SignUpText extends StatelessWidget {
         CustomText(
           text: "haveAnAccount?".tr,
           fontFamily: AppUtil.SfFontType(context),
-          fontWeight: FontWeight.w400,
+          fontWeight: FontWeight.w300,
           fontSize: MediaQuery.of(context).size.width * 0.038,
+          
         ),
         SizedBox(
           width: MediaQuery.of(context).size.width * 0.0128,

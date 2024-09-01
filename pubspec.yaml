@@ -103,6 +103,7 @@ dependencies:
   shimmer: ^3.0.0
   hijri_picker: ^3.0.0
   hijri: ^3.0.0
+  skeletonizer: ^1.0.0
 
 dev_dependencies:
   flutter_test:

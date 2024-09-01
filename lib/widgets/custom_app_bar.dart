@@ -70,20 +70,25 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   actions: <Widget>[
                     if (!isDeleteIcon!)
                       if (action)
-                        IconButton(
-                          icon: Icon(
-                            Icons.more_vert,
-                            size: 29,
-                            color: color ?? Colors.black,
+                        Padding(
+                          padding: AppUtil.rtlDirection2(context)
+                              ? EdgeInsets.only(left: 18, top: 4)
+                              : EdgeInsets.only(right: 18, bottom: 4),
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.more_vert,
+                              size: 29,
+                              color: color ?? Colors.black,
+                            ),
+                            tooltip: "more",
+                            onPressed: onPressedAction,
                           ),
-                          tooltip: "more",
-                          onPressed: onPressedAction,
                         ),
                     if (isDeleteIcon!)
                       Padding(
                         padding: AppUtil.rtlDirection2(context)
                             ? EdgeInsets.only(left: 18, top: 4)
-                            : EdgeInsets.only(right: 18,bottom: 4),
+                            : EdgeInsets.only(right: 18, bottom: 4),
                         child: IconButton(
                           icon: Icon(
                             Icons.delete_outline,

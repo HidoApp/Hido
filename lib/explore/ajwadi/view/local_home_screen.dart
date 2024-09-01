@@ -27,6 +27,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../auth/view/sigin_in/signin_screen.dart';
 import '../../../profile/controllers/profile_controller.dart';
@@ -54,12 +55,18 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
 
   void getNextActivity() async {
     await _tripController.getNextActivity(context: context).then((value) {
-     _tripController.nextStep.value= _tripController.nextTrip.value.activityProgress??'';
-      if(_tripController.nextTrip.value.activityProgress != 'PENDING')
-     _tripController.progress.value = getActivityProgressText(_tripController.nextTrip.value.activityProgress??'' ,context).clamp(0.0, 1.0);
-     
-  });
-   
+      _tripController.nextStep.value =
+          _tripController.nextTrip.value.activityProgress ?? '';
+
+      if (_tripController.nextTrip.value.activityProgress != 'PENDING') {
+        _tripController.progress.value = getActivityProgressText(
+                _tripController.nextTrip.value.activityProgress ?? '', context)
+            .clamp(0.0, 1.0);
+      } else {
+        _tripController.progress.value =
+            (_tripController.progress.value - 1.0).clamp(0.0, 1.0);
+      }
+    });
   }
 
   @override
@@ -82,295 +89,285 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
     log(_tripController.isTripUpdated.value.toString());
 
     return Obx(
-      () => _profileController.isProfileLoading.value
-          ? const Scaffold(
-              body: Center(
-                child: CircularProgressIndicator.adaptive(),
-              ),
-            )
-          : RefreshIndicator.adaptive(
-              onRefresh: () async {
-                await _tripController.getNextActivity(context: context);
-              },
-              child: Scaffold(
-                backgroundColor: Colors.white,
-                extendBodyBehindAppBar: true,
-                body: SingleChildScrollView(
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.only(top: 53, left: 16, right: 16),
-                    child: Column(
-                      children: [
-                        Container(
-                          width: 340.40,
-                          height: 60,
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            textDirection: TextDirection.rtl,
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  ProfileController _profileController =
-                                      Get.put(ProfileController());
-                                  Get.to(() => MessagesScreen(
-                                      profileController: _profileController));
-                                },
-                                child: SizedBox(
-                                  width: 36,
-                                  height: 24,
-                                  child: SvgPicture.asset(
-                                      'assets/icons/Communication_black.svg'),
-                                ),
-                              ),
-                              // InkWell(
-                              //   // onTap: () {
-                              //   //   Get.to(() => NotificationScreen());
-                              //   // },
-                              //   child: Container(
-                              //     width: 36,
-                              //     height: 24,
-                              //     alignment: Alignment.center,
-                              //     child: SvgPicture.asset(
-                              //         'assets/icons/Alerts_black.svg'),
-                              //   ),
-                              // ),
-                            ],
+      () => Skeletonizer(
+        enabled: _profileController.isProfileLoading.value,
+        child: RefreshIndicator.adaptive(
+          onRefresh: () async {
+            await _tripController.getNextActivity(context: context);
+          },
+          child: Scaffold(
+            backgroundColor: Colors.white,
+            extendBodyBehindAppBar: true,
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 53, left: 16, right: 16),
+                child: Column(
+                  children: [
+                    Container(
+                      width: 340.40,
+                      height: 60,
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        textDirection: TextDirection.rtl,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              ProfileController _profileController =
+                                  Get.put(ProfileController());
+                              Get.to(() => MessagesScreen(
+                                  profileController: _profileController));
+                            },
+                            child: SizedBox(
+                              width: 36,
+                              height: 24,
+                              child: SvgPicture.asset(
+                                  'assets/icons/Communication_black.svg'),
+                            ),
                           ),
+                          // InkWell(
+                          //   // onTap: () {
+                          //   //   Get.to(() => NotificationScreen());
+                          //   // },
+                          //   child: Container(
+                          //     width: 36,
+                          //     height: 24,
+                          //     alignment: Alignment.center,
+                          //     child: SvgPicture.asset(
+                          //         'assets/icons/Alerts_black.svg'),
+                          //   ),
+                          // ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 16),
+                    Row(
+                      children: [
+                        MediaQuery(
+                          data: MediaQuery.of(context)
+                              .copyWith(textScaleFactor: 1.0),
+                          child: RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: AppUtil.rtlDirection2(context)
+                                      ? "ياهلا"
+                                      : 'Welcome ',
+                                  style: TextStyle(
+                                    color: Color.fromRGBO(7, 7, 8, 1),
+                                    fontSize: 20,
+                                    fontFamily: 'HT Rakik',
+                                    fontWeight: FontWeight.w500,
+                                    height: 0.07,
+                                    letterSpacing: 0.80,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: _profileController
+                                          .isProfileLoading.value
+                                      ? ""
+                                      : ' ${_profileController.profile.name ?? ""}',
+                                  style: TextStyle(
+                                    color: Color(0xFF37B268),
+                                    fontSize: 20,
+                                    fontFamily: 'HT Rakik',
+                                    fontWeight: FontWeight.w500,
+                                    height: 0.07,
+                                    letterSpacing: 0.80,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(height: 1),
+                    Container(
+                      width: double.infinity,
+                      height: 168,
+                      // padding: const EdgeInsets.symmetric(
+                      //     horizontal: 0, vertical: 16),
+                      child: Center(
+                        child: CustomWalletCard(),
+                      ),
+                    ),
+                    SizedBox(height: 25),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CustomText(
+                          text: 'Yourservices'.tr,
+                          color: Color(0xFF070708),
+                          fontSize: 17,
+                          fontFamily: 'HT Rakik',
+                          fontWeight: FontWeight.w500,
+                          height: 0.10,
+                          textDirection: TextDirection.ltr,
                         ),
-                        SizedBox(height: 16),
+                        const SizedBox(height: 25),
                         Row(
                           children: [
-                            MediaQuery(
-                              data: MediaQuery.of(context)
-                                  .copyWith(textScaleFactor: 1.0),
-                              child: RichText(
-                                text: TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: AppUtil.rtlDirection2(context)
-                                          ? "ياهلا"
-                                          : 'Welcome ',
-                                      style: TextStyle(
-                                        color: Color.fromRGBO(7, 7, 8, 1),
-                                        fontSize: 20,
-                                        fontFamily: 'HT Rakik',
-                                        fontWeight: FontWeight.w500,
-                                        height: 0.07,
-                                        letterSpacing: 0.80,
-                                      ),
+                            CategoryCard(
+                              title: AppUtil.rtlDirection2(context)
+                                  ? "جولات "
+                                  : 'Tours',
+                              icon: 'tour_category',
+                              color: Color(0xFFECF9F1),
+                              onPressed: () {
+                                // log(_profileController.profile.accountType!);
+                                if (_profileController.profile.accountType ==
+                                    'EXPERIENCES') {
+                                  Get.to(() => MyAccount(
+                                        isLocal: true,
+                                        profileController: _profileController,
+                                      ));
+                                  Get.bottomSheet(
+                                      const ProdvidedServicesSheet());
+                                } else {
+                                  Get.to(
+                                    () => LocalTicketScreen(
+                                      servicesController:
+                                          Get.put(TripController()),
+                                      type: 'tour',
                                     ),
-                                    TextSpan(
-                                      text: _profileController
-                                              .isProfileLoading.value
-                                          ? ""
-                                          : ' ${_profileController.profile.name ?? ""}',
-                                      style: TextStyle(
-                                        color: Color(0xFF37B268),
-                                        fontSize: 20,
-                                        fontFamily: 'HT Rakik',
-                                        fontWeight: FontWeight.w500,
-                                        height: 0.07,
-                                        letterSpacing: 0.80,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )
+                                  );
+                                }
+                              },
+                            ),
+                            const SizedBox(width: 6),
+                            CategoryCard(
+                              title: 'hospitality'.tr,
+                              icon: 'host_category',
+                              color: Color(0xFFF5F2F8),
+                              onPressed: () {
+                                Get.to(
+                                  () => LocalTicketScreen(
+                                    servicesController:
+                                        Get.put(HospitalityController()),
+                                    type: 'hospitality',
+                                  ),
+                                );
+                              },
+                            ),
                           ],
                         ),
-                        SizedBox(height: 1),
-                        Container(
-                          width: double.infinity,
-                          height: 168,
-                          // padding: const EdgeInsets.symmetric(
-                          //     horizontal: 0, vertical: 16),
-                          child: Center(
-                            child: CustomWalletCard(),
-                          ),
-                        ),
-                        SizedBox(height: 25),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        const SizedBox(height: 6),
+                        Row(
                           children: [
-                            CustomText(
-                              text:'Yourservices'.tr,
-                              color: Color(0xFF070708),
-                              fontSize: 17,
-                              fontFamily: 'HT Rakik',
-                              fontWeight: FontWeight.w500,
-                              height: 0.10,
-                              textDirection: TextDirection.ltr,
+                            CategoryCard(
+                              title: 'adventure'.tr,
+                              icon: 'adventure_category',
+                              color: Color(0xFFF9F4EC),
+                              onPressed: () {
+                                Get.to(
+                                  () => LocalTicketScreen(
+                                    servicesController:
+                                        Get.put(AdventureController()),
+                                    type: 'adventure',
+                                  ),
+                                );
+                              },
                             ),
-                            const SizedBox(height: 25),
-                            Row(
-                              children: [
-                                CategoryCard(
-                                  title: AppUtil.rtlDirection2(context)
-                                      ? "جولات "
-                                      : 'Tours',
-                                  icon: 'tour_category',
-                                  color: Color(0xFFECF9F1),
-                                  onPressed: () {
-                                    // log(_profileController.profile.accountType!);
-                                    if (_profileController
-                                            .profile.accountType ==
-                                        'EXPERIENCES') {
-                                      Get.to(() => MyAccount(
-                                            isLocal: true,
-                                            profileController:
-                                                _profileController,
-                                          ));
-                                      Get.bottomSheet(
-                                          const ProdvidedServicesSheet());
-                                    } else {
-                                      Get.to(
-                                        () => LocalTicketScreen(
-                                          servicesController:
-                                              Get.put(TripController()),
-                                          type: 'tour',
-                                        ),
-                                      );
-                                    }
-                                  },
-                                ),
-                                const SizedBox(width: 6),
-                                CategoryCard(
-                                  title: 'hospitality'.tr,
-                                  icon: 'host_category',
-                                  color: Color(0xFFF5F2F8),
-                                  onPressed: () {
-                                    Get.to(
-                                      () => LocalTicketScreen(
-                                        servicesController:
-                                            Get.put(HospitalityController()),
-                                        type: 'hospitality',
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 6),
-                            Row(
-                              children: [
-                                CategoryCard(
-                                  title: 'adventure'.tr,
-                                  icon: 'adventure_category',
-                                  color: Color(0xFFF9F4EC),
-                                  onPressed: () {
-                                    Get.to(
-                                      () => LocalTicketScreen(
-                                        servicesController:
-                                            Get.put(AdventureController()),
-                                        type: 'adventure',
-                                      ),
-                                    );
-                                  },
-                                ),
-                                const SizedBox(width: 6),
-                                CategoryCard(
-                                  title: 'LocalEvent'.tr,
-                                  icon: 'event_category',
-                                  color: Color(0xFFFEFDF1),
-                                  onPressed: () {
-                                    Get.to(
-                                      () => LocalTicketScreen(
-                                        servicesController:
-                                            Get.put(EventController()),
-                                        type: 'event',
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 40),
-                            CustomText(
-                              text: 'nextActivity'.tr,
-                              color: Color(0xFF070708),
-                              fontSize: 17,
-                              fontFamily: 'HT Rakik',
-                              fontWeight: FontWeight.w500,
-                              height: 0.10,
-                              textDirection: TextDirection.ltr,
-                            ),
-                            const SizedBox(height: 27),
-                            Obx(
-                              () => _tripController.isNextActivityLoading.value
-                                  ? const Center(
-                                      child:
-                                          CircularProgressIndicator.adaptive())
-                                  : !_tripController.isTripUpdated.value ||
-                                          _tripController
-                                              .nextTrip.value.id!.isEmpty
-                                      //! _tripController.isTripUpdated.value
-
-                                      ? Column(
-                                          children: [
-                                            Container(
-                                              width: double.infinity,
-                                              height: 135,
-                                              decoration: ShapeDecoration(
-                                                shape: RoundedRectangleBorder(
-                                                  side: BorderSide(
-                                                      width: 1.50,
-                                                      color: Color(0xFFECECEE)),
-                                                  borderRadius:
-                                                      BorderRadius.circular(12),
-                                                ),
-                                              ),
-                                              child: Center(
-                                                child: CustomText(
-                                                  text: "noNextActivity".tr,
-                                                  textAlign: TextAlign.center,
-                                                  color: Color(0xFFDCDCE0),
-                                                  fontSize: 16,
-                                                  fontFamily:
-                                                      AppUtil.rtlDirection2(
-                                                              context)
-                                                          ? "SF Arabic"
-                                                          : 'SF Pro',
-                                                  fontWeight: FontWeight.w400,
-                                                ),
-                                              ),
-                                            ),
-                                          const  SizedBox(height: 20)
-                                          ],
-                                        )
-                                      : Column(
-                                          children: [
-                                            //  SizedBox(height: 11),
-                                            CustomLocalTicketCard(),
-
-                                           const SizedBox(height: 11),
-                                          ],
-                                        ),
+                            const SizedBox(width: 6),
+                            CategoryCard(
+                              title: 'LocalEvent'.tr,
+                              icon: 'event_category',
+                              color: Color(0xFFFEFDF1),
+                              onPressed: () {
+                                Get.to(
+                                  () => LocalTicketScreen(
+                                    servicesController:
+                                        Get.put(EventController()),
+                                    type: 'event',
+                                  ),
+                                );
+                              },
                             ),
                           ],
+                        ),
+                        const SizedBox(height: 40),
+                        CustomText(
+                          text: 'nextActivity'.tr,
+                          color: Color(0xFF070708),
+                          fontSize: 17,
+                          fontFamily: 'HT Rakik',
+                          fontWeight: FontWeight.w500,
+                          height: 0.10,
+                          textDirection: TextDirection.ltr,
+                        ),
+                        const SizedBox(height: 27),
+                        Obx(
+                          () => Skeletonizer(
+                            enabled:
+                                _tripController.isNextActivityLoading.value,
+                            child: !_tripController.isTripUpdated.value ||
+                                    _tripController.nextTrip.value.id!.isEmpty
+                                //! _tripController.isTripUpdated.value
+
+                                ? Column(
+                                    children: [
+                                      Container(
+                                        width: double.infinity,
+                                        height: 135,
+                                        decoration: ShapeDecoration(
+                                          shape: RoundedRectangleBorder(
+                                            side: BorderSide(
+                                                width: 1.50,
+                                                color: Color(0xFFECECEE)),
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: CustomText(
+                                            text: "noNextActivity".tr,
+                                            textAlign: TextAlign.center,
+                                            color: Color(0xFFDCDCE0),
+                                            fontSize: 16,
+                                            fontFamily:
+                                                AppUtil.rtlDirection2(context)
+                                                    ? "SF Arabic"
+                                                    : 'SF Pro',
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 20)
+                                    ],
+                                  )
+                                : Column(
+                                    children: [
+                                      //  SizedBox(height: 11),
+                                      CustomLocalTicketCard(),
+
+                                      const SizedBox(height: 11),
+                                    ],
+                                  ),
+                          ),
                         ),
                       ],
                     ),
-                  ),
+                  ],
                 ),
               ),
             ),
+          ),
+        ),
+      ),
     );
   }
 }
 
-double getActivityProgressText(
-      String activityProgress, BuildContext context) {
-
-      switch (activityProgress) {
-        case 'ON_WAY':
-          return  0.25;
-        case 'ARRIVED':
-          return 0.50;
-        case 'IN_PROGRESS':
-          return 0.75;
-        default:
-          return 0.25; // Handle any other possible values
-      }
- }
+double getActivityProgressText(String activityProgress, BuildContext context) {
+  switch (activityProgress) {
+    case 'ON_WAY':
+      return 0.25;
+    case 'ARRIVED':
+      return 0.50;
+    case 'IN_PROGRESS':
+      return 0.75;
+    default:
+      return 0.25; // Handle any other possible values
+  }
+}

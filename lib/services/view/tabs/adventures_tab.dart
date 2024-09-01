@@ -22,6 +22,7 @@ import 'package:ajwad_v4/services/view/widgets/ad_cards.dart';
 import 'package:ajwad_v4/services/view/widgets/custom_chips.dart';
 import 'package:ajwad_v4/services/view/widgets/custom_hospitality_item.dart';
 import 'package:ajwad_v4/services/view/widgets/custom_adventure_item.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class AdventuresTab extends StatefulWidget {
   const AdventuresTab({
@@ -77,83 +78,73 @@ class _AdventuresTabState extends State<AdventuresTab> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Obx(
-                () => _adventureController.isAdventureListLoading.value
-                    ? //if list is loading
-                    SizedBox(
-                        height: height * 0.4,
-                        width: width,
-                        child: const Center(
-                          child: CircularProgressIndicator.adaptive(),
-                        ),
-                      )
-                    //List of hospitalities
-                    : Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16),
-                        child: Obx(
-                          () => _adventureController.adventureList.isNotEmpty
-                              ? ListView.separated(
-                                  padding: EdgeInsets.zero,
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemCount:
-                                      _adventureController.adventureList.length,
-                                  itemBuilder: (context, index) {
-                                    return CustomAdventureItem(
-                                      onTap: () {
-                                        Get.to(() => AdventureDetails(
-                                              adventureId: _adventureController
-                                                  .adventureList[index].id,
-                                            ));
-                                      },
-                                      image: _adventureController
-                                          .adventureList[index].image![0],
-                                      date: _adventureController
-                                          .adventureList[index].date!,
-                                      title: !AppUtil.rtlDirection(context)
-                                          ? _adventureController
-                                              .adventureList[index].nameAr!
-                                          : _adventureController
-                                              .adventureList[index].nameEn!,
-                                      location: AppUtil.rtlDirection2(context)
-                                          ? _adventureController
-                                              .adventureList[index].regionAr!
-                                          : _adventureController
-                                              .adventureList[index].regionEn!,
-                                      seats: _adventureController
-                                          .adventureList[index].seats
-                                          .toString(),
-                                      times: _adventureController
-                                          .adventureList[index].times,
-                                      rate: '4.7',
-                                      lang: _adventureController
-                                          .adventureList[index]
-                                          .coordinates
-                                          ?.latitude,
-                                      long: _adventureController
-                                          .adventureList[index]
-                                          .coordinates
-                                          ?.longitude,
-                                    );
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: Obx(() => Skeletonizer(
+                      enabled:
+                          _adventureController.isAdventureListLoading.value,
+                      child: _adventureController.adventureList.isNotEmpty
+                          ? ListView.separated(
+                              padding: EdgeInsets.zero,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount:
+                                  _adventureController.adventureList.length,
+                              itemBuilder: (context, index) {
+                                return CustomAdventureItem(
+                                  onTap: () {
+                                    Get.to(() => AdventureDetails(
+                                          adventureId: _adventureController
+                                              .adventureList[index].id,
+                                        ));
                                   },
-                                  separatorBuilder: (context, index) {
-                                    return SizedBox(
-                                      height: width * 0.041,
-                                    );
-                                  },
-                                )
-                              : Padding(
-                                  padding: const EdgeInsets.only(top: 40),
-                                  child: Center(
-                                    child: CustomEmptyWidget(
-                                      title: "noExperiences".tr,
-                                      //    image: "",
-                                      subtitle: 'noExperiencesSubtitle'.tr,
-                                    ),
-                                  ),
+                                  image: _adventureController
+                                      .adventureList[index].image![0],
+                                  date: _adventureController
+                                      .adventureList[index].date!,
+                                  title: !AppUtil.rtlDirection(context)
+                                      ? _adventureController
+                                          .adventureList[index].nameAr!
+                                      : _adventureController
+                                          .adventureList[index].nameEn!,
+                                  location: AppUtil.rtlDirection2(context)
+                                      ? _adventureController
+                                          .adventureList[index].regionAr!
+                                      : _adventureController
+                                          .adventureList[index].regionEn!,
+                                  seats: _adventureController
+                                      .adventureList[index].seats
+                                      .toString(),
+                                  times: _adventureController
+                                      .adventureList[index].times,
+                                  rate: '4.7',
+                                  lang: _adventureController
+                                      .adventureList[index]
+                                      .coordinates
+                                      ?.latitude,
+                                  long: _adventureController
+                                      .adventureList[index]
+                                      .coordinates
+                                      ?.longitude,
+                                );
+                              },
+                              separatorBuilder: (context, index) {
+                                return SizedBox(
+                                  height: width * 0.041,
+                                );
+                              },
+                            )
+                          : Padding(
+                              padding: const EdgeInsets.only(top: 40),
+                              child: Center(
+                                child: CustomEmptyWidget(
+                                  title: "noExperiences".tr,
+                                  //    image: "",
+                                  subtitle: 'noExperiencesSubtitle'.tr,
                                 ),
-                        ),
-                      ),
+                              ),
+                            ),
+                    )),
               ),
             ],
           )

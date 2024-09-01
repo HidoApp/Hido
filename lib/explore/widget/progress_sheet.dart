@@ -119,7 +119,7 @@ class _ProgressSheetState extends State<ProgressSheet> {
                         steps: [
                           EasyStep(
                               customStep: SvgPicture.asset(
-                                'assets/icons/slider_touriest.svg',
+                                'assets/icons/slider.svg',
                                 color: _touristExploreController
                                             .activeStepProgres.value >=
                                         0
@@ -136,7 +136,7 @@ class _ProgressSheetState extends State<ProgressSheet> {
                           // ),
                           EasyStep(
                             customStep: SvgPicture.asset(
-                              'assets/icons/slider_touriest.svg',
+                             'assets/icons/slider.svg',
                               color: _touristExploreController
                                           .activeStepProgres.value >=
                                       1
@@ -147,7 +147,7 @@ class _ProgressSheetState extends State<ProgressSheet> {
                           ),
                           EasyStep(
                             customStep: SvgPicture.asset(
-                              'assets/icons/slider_touriest.svg',
+                            'assets/icons/slider.svg',
                               color: _touristExploreController
                                           .activeStepProgres.value >=
                                       2

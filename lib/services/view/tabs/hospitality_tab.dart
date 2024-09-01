@@ -16,6 +16,7 @@ import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class HospitalityTab extends StatefulWidget {
   const HospitalityTab({
@@ -66,79 +67,72 @@ class _HospitalityTabState extends State<HospitalityTab> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: width * 0.041),
                   child: Obx(
-                    () => _srvicesController.isHospitalityLoading.value
-                        ? //if list is loading
-                        SizedBox(
-                            height: height * 0.4,
-                            width: width,
-                            child: const Center(
-                                child: CircularProgressIndicator.adaptive()))
-                        //List of hospitalities
-                        : _srvicesController.hospitalityList.isNotEmpty
-                            ? ListView.separated(
-                                padding: EdgeInsets.zero,
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount:
-                                    _srvicesController.hospitalityList.length,
-                                itemBuilder: (context, index) {
-                                  return ServicesCard(
-                                      onTap: () {
-                                        Get.to(() => HospitalityDetails(
-                                              hospitalityId: _srvicesController
-                                                  .hospitalityList[index].id,
-                                            ));
-                                      },
-                                      image: _srvicesController
-                                          .hospitalityList[index].images.first,
-                                      personImage: _srvicesController
-                                          .hospitalityList[index]
-                                          .user
-                                          .profile
-                                          .image,
-                                      title: !AppUtil.rtlDirection(context)
-                                          ? _srvicesController
-                                              .hospitalityList[index].titleAr
-                                          : _srvicesController
-                                              .hospitalityList[index].titleEn,
-                                      location: AppUtil.rtlDirection2(context)
-                                          ? _srvicesController.hospitalityList[index].regionAr ??
-                                              ""
-                                          : _srvicesController
-                                              .hospitalityList[index].regionEn,
-                                      meal: !AppUtil.rtlDirection(context)
-                                          ? _srvicesController
-                                              .hospitalityList[index].mealTypeAr
-                                          : AppUtil.capitalizeFirstLetter(_srvicesController
-                                              .hospitalityList[index]
-                                              .mealTypeEn),
-                                      category: AppUtil.rtlDirection(context)
-                                          ? _srvicesController
-                                              .hospitalityList[index].categoryAr
-                                          : _srvicesController
-                                              .hospitalityList[index]
-                                              .categoryEn,
-                                      rate: '4.7',
-                                      dayInfo: _srvicesController
-                                          .hospitalityList[index].daysInfo,
-                                      lang: _srvicesController
-                                              .hospitalityList[index]
-                                              .coordinate
-                                              .latitude ??
-                                          '',
-                                      long: _srvicesController
-                                              .hospitalityList[index]
-                                              .coordinate
-                                              .longitude ??
-                                          '');
-                                },
-                                separatorBuilder: (context, index) {
-                                  return SizedBox(
-                                    height: width * 0.041,
-                                  );
-                                },
-                              )
-                            : Padding(
+                    () =>  Skeletonizer(
+                              enabled: _srvicesController.isHospitalityLoading.value ,
+                              child:_srvicesController.hospitalityList.isNotEmpty? ListView.separated(
+                                  padding: EdgeInsets.zero,
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount:
+                                      _srvicesController.hospitalityList.length,
+                                  itemBuilder: (context, index) {
+                                    return ServicesCard(
+                                        onTap: () {
+                                          Get.to(() => HospitalityDetails(
+                                                hospitalityId: _srvicesController
+                                                    .hospitalityList[index].id,
+                                              ));
+                                        },
+                                        image: _srvicesController
+                                            .hospitalityList[index].images.first,
+                                        personImage: _srvicesController
+                                            .hospitalityList[index]
+                                            .user
+                                            .profile
+                                            .image,
+                                        title: !AppUtil.rtlDirection(context)
+                                            ? _srvicesController
+                                                .hospitalityList[index].titleAr
+                                            : _srvicesController
+                                                .hospitalityList[index].titleEn,
+                                        location: AppUtil.rtlDirection2(context)
+                                            ? _srvicesController.hospitalityList[index].regionAr ??
+                                                ""
+                                            : _srvicesController
+                                                .hospitalityList[index].regionEn,
+                                        meal: !AppUtil.rtlDirection(context)
+                                            ? _srvicesController
+                                                .hospitalityList[index].mealTypeAr
+                                            : AppUtil.capitalizeFirstLetter(_srvicesController
+                                                .hospitalityList[index]
+                                                .mealTypeEn),
+                                        category: AppUtil.rtlDirection(context)
+                                            ? _srvicesController
+                                                .hospitalityList[index].categoryAr
+                                            : _srvicesController
+                                                .hospitalityList[index]
+                                                .categoryEn,
+                                        rate: '4.7',
+                                        dayInfo: _srvicesController
+                                            .hospitalityList[index].daysInfo,
+                                        lang: _srvicesController
+                                                .hospitalityList[index]
+                                                .coordinate
+                                                .latitude ??
+                                            '',
+                                        long: _srvicesController
+                                                .hospitalityList[index]
+                                                .coordinate
+                                                .longitude ??
+                                            '');
+                                  },
+                                  separatorBuilder: (context, index) {
+                                    return SizedBox(
+                                      height: width * 0.041,
+                                    );
+                                  },
+                                ) 
+                                : Padding(
                                 padding: const EdgeInsets.only(top: 40),
                                 child: Center(
                                   child: CustomEmptyWidget(
@@ -148,6 +142,8 @@ class _HospitalityTabState extends State<HospitalityTab> {
                                   ),
                                 ),
                               ),
+                            )
+                           
                   ),
                 ),
               ],

@@ -7,6 +7,7 @@ import 'package:ajwad_v4/widgets/custom_chat_card.dart';
 import 'package:ajwad_v4/widgets/custom_empty_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class MessagesScreen extends StatefulWidget {
   final ProfileController profileController;
@@ -22,11 +23,9 @@ class _MessagesScreenState extends State<MessagesScreen> {
     // TODO: implement initState
     super.initState();
     widget.profileController.getUserChats(context: context);
-    
   }
 
- 
-OfferController offerController = Get.put(OfferController());
+  OfferController offerController = Get.put(OfferController());
 
   @override
   Widget build(BuildContext context) {
@@ -38,72 +37,62 @@ OfferController offerController = Get.put(OfferController());
         "massages".tr,
         color: black,
       ),
-      body:SafeArea(
-      
-      child: Obx(
-        () => widget.profileController.isChatLoading.value
-            ? SizedBox(
-                height: height,
-                width: width,
-                child: const Center(
-                  child: CircularProgressIndicator(
-                    color: colorGreen,
+      body: SafeArea(
+        child: Obx(
+          () => SizedBox(
+            height: height,
+            width: width,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  const SizedBox(
+                    height: 20,
                   ),
-                ))
-                
-            :SizedBox(
-                height: height,
-                width: width,
-              child: widget.profileController.chatList.isEmpty?
-                  CustomEmptyWidget(
-                              title: 'noMessages'.tr,
-                              image: 'noCommunication',
-                              subtitle: 'noMessagesSub'.tr,
-
-                            )
-            
-              
-               : SingleChildScrollView(
-                 child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                   mainAxisSize: MainAxisSize.max,
-                    children: [
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      ListView.separated(
-                          shrinkWrap: true,
-                          itemCount: widget.profileController.chatList.length,
-                          separatorBuilder: (context, index) {
-                            return const Column(
-                              children: [
-                                 SizedBox(
-                                  height: 10,
-                                ),
-                              
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 10.0),
-                                  child: Divider(color: lightGrey,),
-                                ),
-                              
-                                 SizedBox(
-                                  height: 10,
-                                ),
-                              ],
-                            );
-                          },
-                          itemBuilder: (context, index) {
-                            // print(widget.profileController.chatList[index].messages?.last.message);
-                           return CustomChatCard(
-                            chatModel:  widget.profileController.chatList[index],
-                          
-                           );
-                          }),
-                    ],
+                  Skeletonizer(
+                    enabled: widget.profileController.isChatLoading.value,
+                    child: widget.profileController.chatList.isNotEmpty
+                        ?  ListView.separated(
+                            shrinkWrap: true,
+                            itemCount: widget.profileController.chatList.length,
+                            separatorBuilder: (context, index) {
+                              return const Column(
+                                children: [
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 10.0),
+                                    child: Divider(
+                                      color: lightGrey,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                ],
+                              );
+                            },
+                            itemBuilder: (context, index) {
+                              // print(widget.profileController.chatList[index].messages?.last.message);
+                              return CustomChatCard(
+                                chatModel:
+                                    widget.profileController.chatList[index],
+                              );
+                            }):CustomEmptyWidget(
+                            title: 'noMessages'.tr,
+                            image: 'noCommunication',
+                            subtitle: 'noMessagesSub'.tr,
+                          )
+                        
                   ),
-               ),
+                ],
+              ),
             ),
-      ),
+          ),
+        ),
       ),
     );
   }
