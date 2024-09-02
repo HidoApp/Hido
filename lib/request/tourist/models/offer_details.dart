@@ -7,6 +7,7 @@ import 'package:ajwad_v4/services/model/hospitality.dart';
 
 class OfferDetails {
   String? id;
+  String? userId;
   String? orderStatus;
   String? name;
   String? image;
@@ -26,12 +27,14 @@ class OfferDetails {
     this.requestId,
     this.schedule,
     this.booking,
+    this.userId,
     this.payment,
     this.place,
   });
 
   OfferDetails.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    userId = json['userId'];
     orderStatus = json['orderStatus'];
     name = json['name'];
     image = json['image'];
@@ -64,7 +67,7 @@ class OfferDetails {
       data['booking'] = booking!.toJson();
     }
     data['payment'] = payment;
-    
+
     return data;
   }
 }
@@ -140,7 +143,7 @@ class Booking {
   String? created;
   PlaceInChat? place;
   //  String? bookingType;
- Hospitality? hospitality;
+  Hospitality? hospitality;
 // Adventure? adventure;
   // Event? event;
 
@@ -179,10 +182,13 @@ class Booking {
     status = json['status'];
     orderStatus = json['orderStatus'];
     created = json['created'];
-  //  bookingType:json['bookingType'];
+    //  bookingType:json['bookingType'];
 
     place = json['place'] == null ? null : PlaceInChat.fromJson(json['place']);
-    hospitality: json['hospitality'] == null? null :Hospitality.fromJson(json['hospitality']);
+    hospitality:
+    json['hospitality'] == null
+        ? null
+        : Hospitality.fromJson(json['hospitality']);
     // adventure: json['adventure'] == null? null :Adventure.fromJson(json['adventure']);
   }
 

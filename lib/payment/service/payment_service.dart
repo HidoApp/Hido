@@ -254,7 +254,6 @@ class PaymentService {
       }),
     );
     log(response.statusCode.toString());
-    log(response.body.toString());
     if (response.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(response.body);
 

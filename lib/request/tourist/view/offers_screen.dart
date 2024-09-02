@@ -71,7 +71,7 @@ class _OfferScreenState extends State<OfferScreen> {
                       : const EdgeInsets.only(top: 16, left: 16),
                   child: CustomText(
                     text: "selectLocal".tr,
-                    fontSize: width*0.044,
+                    fontSize: width * 0.044,
                     fontWeight: FontWeight.w500,
                     fontFamily: AppUtil.SfFontType(context),
                   ),
@@ -91,8 +91,8 @@ class _OfferScreenState extends State<OfferScreen> {
                   },
                   itemBuilder: (context, index) {
                     return GestureDetector(
-                      onTap: () {
-                        _offerController.getOfferById(
+                      onTap: () async {
+                         _offerController.getOfferById(
                           context: context,
                           offerId: _offerController.offers[index].offerId!,
                         );
@@ -106,12 +106,15 @@ class _OfferScreenState extends State<OfferScreen> {
                             place: widget.place,
                             image: _offerController.offers[index].image ?? '',
                             name: _offerController.offers[index].name!,
-                            profileId: _offerController.offers[index].profileId!,
+                            profileId:
+                                _offerController.offers[index].profileId!,
+                               userId: _offerController.offers[index].userId!,
                             rating:
                                 _offerController.offers[index].tourRating ?? 0,
                             price: _offerController.offers[index].price!,
                             tripNumber:
-                                _offerController.offers[index].tourNumber ?? 0));
+                                _offerController.offers[index].tourNumber ??
+                                    0));
                       },
                       child: CustomAjwadiCard(
                         image: _offerController.offers[index].image ?? '',

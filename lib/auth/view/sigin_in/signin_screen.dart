@@ -264,10 +264,9 @@ class _SignInScreenState extends State<SignInScreen> {
                                   // async
                                   {
                                 Get.off(
-                                  () => RegisterScreen(
-                                    authController: _authController,
-                                    //  countries: countries,
-                                  ),
+                                  () => const RegisterScreen(
+                                      //  countries: countries,
+                                      ),
                                 );
                               },
                               child: CustomText(

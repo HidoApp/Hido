@@ -1,5 +1,7 @@
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
+import 'package:ajwad_v4/widgets/image_cache_widget.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -30,13 +32,19 @@ class ReviewCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CircleAvatar(
-              backgroundColor: almostGrey,
-              child: SvgPicture.asset(
-                "assets/images/$image",
-                width: 49,
-                height: 49,
-              ),
-            ),
+                backgroundColor: almostGrey,
+                child: image == "profile_image.png"
+                    ? SvgPicture.asset(
+                        "assets/images/$image",
+                        width: 49,
+                        height: 49,
+                      )
+                    : ClipRRect(
+                        borderRadius: BorderRadius.circular(30),
+                        child: ImageCacheWidget(
+                          image: image,
+                        ),
+                      )),
             const SizedBox(
               width: 8,
             ),

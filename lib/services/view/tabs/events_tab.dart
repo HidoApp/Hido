@@ -65,79 +65,73 @@ class _EventsTabState extends State<EventsTab> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-               
-                      //List of hospitalities
-                      Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 16),
-                          child: Obx(
-                            () =>  Skeletonizer(
-                                   enabled: _eventController.isEventListLoading.value,
-                                     child:_eventController.eventList.isNotEmpty? ListView.separated(
-                                      padding: EdgeInsets.zero,
-                                      shrinkWrap: true,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      itemCount:
-                                          _eventController.eventList.length,
-                                      itemBuilder: (context, index) {
-                                        return EventCardItem(
-                                          onTap: () {
-                                            Get.to(() => LocalEventDetails(
-                                                eventId: _eventController
-                                                    .eventList[index].id));
-                                          },
-                                          image: _eventController
-                                              .eventList[index].images.first,
-                                          title: AppUtil.rtlDirection2(context)
-                                              ? _eventController
-                                                      .eventList[index].nameAr ??
-                                                  ""
-                                              : _eventController
-                                                      .eventList[index].nameEn ??
-                                                  "",
-                                          location: AppUtil.rtlDirection2(context)
-                                              ? _eventController.eventList[index]
-                                                      .regionAr ??
-                                                  ""
-                                              : _eventController.eventList[index]
-                                                      .regionEn ??
-                                                  "",
-                                          // seats: _eventController.eventList[index]
-                                          //     .daysInfo?.first?.seats
-                                          //     .toString(),
-                                          lang: _eventController.eventList[index]
-                                                  .coordinates!.latitude ??
-                                              '',
-                                          long: _eventController.eventList[index]
-                                                  .coordinates!.longitude ??
-                                              '',
-                                          rate: "5",
-                                          daysInfo: _eventController
-                                                  .eventList[index].daysInfo ??
-                                              [],
-                                        );
-                                      },
-                                      separatorBuilder: (context, index) {
-                                        return SizedBox(
-                                          height: width * 0.041,
-                                        );
-                                      },
-                                    )
-                                    :Padding(
-                                    padding: const EdgeInsets.only(top: 40),
-                                    child: Center(
-                                      child: CustomEmptyWidget(
-                                        title: "noExperiences".tr,
-                                        //    image: "",
-                                        subtitle: 'noExperiencesSubtitle'.tr,
-                                      ),
-                                    ),
+                //List of hospitalities
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: Obx(() => Skeletonizer(
+                        enabled: _eventController.isEventListLoading.value,
+                        child: _eventController.eventList.isNotEmpty
+                            ? ListView.separated(
+                                padding: EdgeInsets.zero,
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: _eventController.eventList.length,
+                                itemBuilder: (context, index) {
+                                  return EventCardItem(
+                                    onTap: () {
+                                      Get.to(() => LocalEventDetails(
+                                          eventId: _eventController
+                                              .eventList[index].id));
+                                    },
+                                    image: _eventController
+                                        .eventList[index].images.first,
+                                    title: AppUtil.rtlDirection2(context)
+                                        ? _eventController
+                                                .eventList[index].nameAr ??
+                                            ""
+                                        : _eventController
+                                                .eventList[index].nameEn ??
+                                            "",
+                                    location: AppUtil.rtlDirection2(context)
+                                        ? _eventController
+                                                .eventList[index].regionAr ??
+                                            ""
+                                        : _eventController
+                                                .eventList[index].regionEn ??
+                                            "",
+                                    // seats: _eventController.eventList[index]
+                                    //     .daysInfo?.first?.seats
+                                    //     .toString(),
+                                    lang: _eventController.eventList[index]
+                                            .coordinates!.latitude ??
+                                        '',
+                                    long: _eventController.eventList[index]
+                                            .coordinates!.longitude ??
+                                        '',
+                                    rate: "5",
+                                    daysInfo: _eventController
+                                            .eventList[index].daysInfo ??
+                                        [],
+                                  );
+                                },
+                                separatorBuilder: (context, index) {
+                                  return SizedBox(
+                                    height: width * 0.041,
+                                  );
+                                },
+                              )
+                            : Padding(
+                                padding: const EdgeInsets.only(top: 40),
+                                child: Center(
+                                  child: CustomEmptyWidget(
+                                    title: "noExperiences".tr,
+                                    //    image: "",
+                                    subtitle: 'noExperiencesSubtitle'.tr,
                                   ),
-                                )
-                                
-                          ),
-                        ),
-              
+                                ),
+                              ),
+                      )),
+                ),
               ],
             )
           ],
