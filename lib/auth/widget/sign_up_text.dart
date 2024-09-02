@@ -43,6 +43,7 @@ class SignUpText extends StatelessWidget {
                 );
               } else {
                 Get.off(() => const SignInScreen());
+                
               }
             })
       ],

@@ -107,12 +107,12 @@ class _BookingSheetState extends State<BookingSheet> {
   bool isNew = false;
   final String timeZoneName = 'Asia/Riyadh';
   late tz.Location location;
-  bool? DateErrorMessage;
-  bool? TimeErrorMessage;
-  bool? DurationErrorMessage;
+  bool DateErrorMessage = false;
+  bool TimeErrorMessage = false;
+  bool DurationErrorMessage = false;
 
-  bool? GuestErrorMessage;
-  bool? vehicleErrorMessage;
+  bool GuestErrorMessage= false;
+  bool vehicleErrorMessage= false;
   bool locationErrorMessage = false;
 
   //var locLatLang = const LatLng(24.9470921, 45.9903698);
@@ -682,8 +682,9 @@ class _BookingSheetState extends State<BookingSheet> {
                                       ? AppUtil.rtlDirection2(context)
                                           ? "*لابد من إدخال وقت العودة"
                                           : "Select Time"
-                                      : 'EndTimeLess'.tr,
+                                      : 'TimeDuration'.tr,
                                   color: Colors.red,
+                                  maxlines: 2,
                                   fontFamily: AppUtil.rtlDirection2(context)
                                       ? 'SF Arabic'
                                       : 'SF Pro',
