@@ -56,7 +56,7 @@ const localeAr = {
   "LoginGoogle": "تسجيل عبر Google",
   "LoginTwitter": "تسجيل عبر Twitter",
   "LoginApple": "تسجيل عبر Apple ID",
-  "haveAnAccount?": "ليس لديك حساب?",
+  "haveAnAccount?": "ليس لديك حساب؟",
   "letsSignUp": "إنشاء حساب جديد",
   "fullName": "الاسم كامل",
   "email": "البريد الإلكتروني",
