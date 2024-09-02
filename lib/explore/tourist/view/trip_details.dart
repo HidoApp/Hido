@@ -20,6 +20,7 @@ import 'package:ajwad_v4/widgets/custom_policy_sheet.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/home_icons_button.dart';
 import 'package:ajwad_v4/widgets/image_cache_widget.dart';
+import 'package:ajwad_v4/widgets/sign_sheet.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -179,6 +180,7 @@ class _TripDetailsState extends State<TripDetails> {
                                     image: theProfile?.profileImage ?? '',
                                     name: theProfile?.name ?? '',
                                     profileId: theProfile?.id ?? '',
+                                    userId: theProfile!.id ?? "",
                                     rating: theProfile?.tourRating ?? 0,
                                     price: 0,
                                     tripNumber: theProfile?.tourNumber ?? 0,
@@ -235,8 +237,8 @@ class _TripDetailsState extends State<TripDetails> {
                         // print(";lkjhgfdxzxcvbnm,");
                         // print(isViewBooking.value);
                         AppUtil.isGuest()
-                            ? Get.to(
-                                () => const SignInScreen(),
+                            ? Get.bottomSheet(
+                                const SignInSheet(),
                               )
                             : showModalBottomSheet(
                                 useRootNavigator: true,
@@ -885,7 +887,6 @@ class _TripDetailsState extends State<TripDetails> {
               ),
             ),
           ),
-       
         ])));
   }
 

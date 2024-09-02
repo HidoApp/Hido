@@ -1,6 +1,7 @@
 class Offer {
   final String? offerId;
   final String? profileId;
+  final String? userId;
   final String? image;
   final int? tourRating;
   final String? name;
@@ -10,6 +11,7 @@ class Offer {
 
   Offer({
     this.offerId,
+    this.userId,
     this.profileId,
     this.image,
     //this.rating,
@@ -25,8 +27,9 @@ class Offer {
       offerId: json['offerId'],
       profileId: json['profileId'],
       image: json['image'],
+      userId: json['userId'],
       //rating: json['rating'],
-      tourRating:json['tourRating'],
+      tourRating: json['tourRating'],
       name: json['name'],
       tourNumber: json['tourNumber'],
       price: json['price'],
@@ -40,7 +43,7 @@ class Offer {
       'profileId': profileId,
       'image': image,
       //'rating': rating,
-      'tourRating':tourRating,
+      'tourRating': tourRating,
       'name': name,
       'tourNumber': tourNumber,
       'price': price,

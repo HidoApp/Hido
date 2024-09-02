@@ -107,8 +107,8 @@ class _BookingSheetState extends State<BookingSheet> {
   bool isNew = false;
   final String timeZoneName = 'Asia/Riyadh';
   late tz.Location location;
-  bool? DateErrorMessage;
-  bool? TimeErrorMessage;
+  bool DateErrorMessage = false;
+  bool TimeErrorMessage = false;
   bool? DurationErrorMessage;
 
   bool? GuestErrorMessage;
@@ -437,20 +437,20 @@ class _BookingSheetState extends State<BookingSheet> {
                                                       newTimeToGo = newT;
                                                       //   print(newTime);
                                                     });
-                                                      _touristExploreController
-                                                            .selectedStartTime
-                                                            .value = newTimeToGo;
+                                                    _touristExploreController
+                                                        .selectedStartTime
+                                                        .value = newTimeToGo;
 
-                                                        _touristExploreController
-                                                                .TimeErrorMessage
-                                                                .value =
-                                                            AppUtil.isEndTimeLessThanStartTime(
-                                                                _touristExploreController
-                                                                    .selectedStartTime
-                                                                    .value,
-                                                                _touristExploreController
-                                                                    .selectedEndTime
-                                                                    .value);
+                                                    _touristExploreController
+                                                            .TimeErrorMessage
+                                                            .value =
+                                                        AppUtil.isEndTimeLessThanStartTime(
+                                                            _touristExploreController
+                                                                .selectedStartTime
+                                                                .value,
+                                                            _touristExploreController
+                                                                .selectedEndTime
+                                                                .value);
                                                   },
                                                 ),
                                               ),
@@ -480,9 +480,9 @@ class _BookingSheetState extends State<BookingSheet> {
                                 textColor: borderGrey,
                               ),
                             ),
-                            if (TimeErrorMessage ! ||
-                                    _touristExploreController
-                                        .TimeErrorMessage.value)
+                            if (TimeErrorMessage! ||
+                                _touristExploreController
+                                    .TimeErrorMessage.value)
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 4),
                                 child: CustomText(
@@ -625,22 +625,22 @@ class _BookingSheetState extends State<BookingSheet> {
                                                       newTimeToReturn = newT;
                                                       //   print(newTime);
                                                     });
-                                                    
-                                                        _touristExploreController
-                                                                .selectedEndTime
-                                                                .value =
-                                                            newTimeToReturn;
 
-                                                        _touristExploreController
-                                                                .TimeErrorMessage
-                                                                .value =
-                                                            AppUtil.isEndTimeLessThanStartTime(
-                                                                _touristExploreController
-                                                                    .selectedStartTime
-                                                                    .value,
-                                                                _touristExploreController
-                                                                    .selectedEndTime
-                                                                    .value);
+                                                    _touristExploreController
+                                                            .selectedEndTime
+                                                            .value =
+                                                        newTimeToReturn;
+
+                                                    _touristExploreController
+                                                            .TimeErrorMessage
+                                                            .value =
+                                                        AppUtil.isEndTimeLessThanStartTime(
+                                                            _touristExploreController
+                                                                .selectedStartTime
+                                                                .value,
+                                                            _touristExploreController
+                                                                .selectedEndTime
+                                                                .value);
                                                   },
                                                 ),
                                               ),
@@ -660,8 +660,8 @@ class _BookingSheetState extends State<BookingSheet> {
                                             .format(newTimeToReturn)),
                                 //  test,
                                 borderColor: TimeErrorMessage! ||
-                                            _touristExploreController
-                                                .TimeErrorMessage.value
+                                        _touristExploreController
+                                            .TimeErrorMessage.value
                                     ? Colors.red
                                     : DurationErrorMessage ?? false
                                         ? Colors.red
@@ -673,8 +673,8 @@ class _BookingSheetState extends State<BookingSheet> {
                               ),
                             ),
                             if (TimeErrorMessage! ||
-                                    _touristExploreController
-                                        .TimeErrorMessage.value)
+                                _touristExploreController
+                                    .TimeErrorMessage.value)
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 4),
                                 child: CustomText(

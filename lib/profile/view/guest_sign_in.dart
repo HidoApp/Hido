@@ -57,8 +57,7 @@ class _GuestSignInScreenState extends State<GuestSignInScreen> {
                       // Get.offAll(() => AccountTypeScreen());
                       Get.offAll(() => OnboardingScreen());
 
-                      Get.to(() =>
-                          RegisterScreen(authController: _authController));
+                      Get.to(() => const RegisterScreen());
                     },
                     title: "signUpTourist".tr,
                     customWidth: width * 0.91,

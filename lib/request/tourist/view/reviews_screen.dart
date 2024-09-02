@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class ReviewsScreen extends StatefulWidget {
   const ReviewsScreen({
@@ -42,36 +43,38 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
     log(widget.profileId);
     final width = MediaQuery.of(context).size.width;
 
-    return _rattingController.ratings.isEmpty
-        ? Center(
-            child: Text(
-            "NoReview".tr,
-            style: TextStyle(
-              fontSize: width * 0.04,
-              fontFamily:
-                  !AppUtil.rtlDirection2(context) ? 'SF Pro' : 'SF Arabic',
-              fontWeight: FontWeight.w400,
-              color: starGreyColor,
-            ),
-          ))
-        : ListView.builder(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-            itemCount: _rattingController.ratings.length,
-            itemBuilder: (context, index) =>
-                _rattingController.isRatingsLoading.value
-                    ? const CircularProgressIndicator()
-                    : ReviewCard(
-                        name: _rattingController.ratings[index].name ?? "USER",
-                        rating: _rattingController.ratings[index].rating ?? 1,
-                        description:
-                            _rattingController.ratings[index].description ??
-                                "Empty",
-                        image: _rattingController.ratings[index].image ??
-                            "profile_image.png",
-                        created: _rattingController.ratings[index].created ??
-                            "no date",
-                        status: _rattingController.ratings[index].status!,
-                      ),
-          );
+    return Obx(
+      () => Skeletonizer(
+        enabled: _rattingController.isRatingsLoading.value,
+        child: _rattingController.ratings.isEmpty
+            ? Center(
+                child: Text(
+                "NoReview".tr,
+                style: TextStyle(
+                  fontSize: width * 0.04,
+                  fontFamily:
+                      !AppUtil.rtlDirection2(context) ? 'SF Pro' : 'SF Arabic',
+                  fontWeight: FontWeight.w400,
+                  color: starGreyColor,
+                ),
+              ))
+            : ListView.builder(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+                itemCount: _rattingController.ratings.length,
+                itemBuilder: (context, index) => ReviewCard(
+                  name: _rattingController.ratings[index].name ?? "",
+                  rating: _rattingController.ratings[index].rating ?? 1,
+                  description:
+                      _rattingController.ratings[index].description ?? "",
+                  image: _rattingController.ratings[index].image ??
+                      "profile_image.png",
+                  created:
+                      _rattingController.ratings[index].created ?? "no date",
+                  status: _rattingController.ratings[index].status!,
+                ),
+              ),
+      ),
+    );
   }
 }

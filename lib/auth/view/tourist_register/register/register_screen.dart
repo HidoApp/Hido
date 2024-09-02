@@ -17,10 +17,8 @@ import 'package:get/get.dart';
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({
     Key? key,
-    required this.authController,
     //  this.countries,
   }) : super(key: key);
-  final AuthController authController;
   // final countries;
 
   @override
@@ -39,7 +37,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _passwordController = TextEditingController();
   final _confirmPasswoedController = TextEditingController();
 
-  // final _authController = Get.put(AuthController());
+   final _authController = Get.put(AuthController());
 
   @override
   void initState() {
@@ -199,7 +197,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           () => Padding(
                             padding:
                                 EdgeInsets.symmetric(vertical: width * .030),
-                            child: widget.authController.isCountryLoading ==
+                            child: _authController.isCountryLoading ==
                                     true
                                 ? const Center(
                                     child: CircularProgressIndicator(
@@ -232,7 +230,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           return;
                                         }
                                         var countries;
-                                        var data = await widget.authController
+                                        var data = await _authController
                                             .getListOfCountries(context);
 
                                         if (data != null) {
@@ -247,7 +245,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                 password:
                                                     _passwordController.text,
                                                 authController:
-                                                    widget.authController,
+                                                    _authController,
                                                 countries: countries,
                                               ));
                                         }
