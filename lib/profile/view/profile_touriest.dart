@@ -94,7 +94,7 @@ class _ProfileDetailsState extends State<TouriestProfile> {
         }
       } else {
         AppUtil.errorToast(
-            context, 'Image is too large, you can only upload less than 2 MB');
+            context, 'imageValidSize'.tr);
       }
     }
   }
@@ -389,28 +389,36 @@ class _ProfileDetailsState extends State<TouriestProfile> {
                                 onOptionSelected: (options) {
                                   debugPrint(options.toString());
                                 },
-                                options: const <ValueItem>[
-                                  ValueItem(
-                                    label: 'Arabic',
-                                    value: 'Arabic',
-                                  ),
-                                  ValueItem(label: 'English', value: 'English'),
-                                  ValueItem(
-                                    label: 'French',
-                                    value: 'French',
-                                  ),
-                                  ValueItem(
-                                    label: 'German',
-                                    value: 'German',
-                                  ),
-                                  ValueItem(label: 'Chinese', value: 'Chinese'),
-                                  ValueItem(label: 'Spanish', value: 'Spanish'),
-                                  ValueItem(label: 'Russian', value: 'Russian'),
+                                options:  <ValueItem>[
+                                ValueItem(
+                                label: 'Arabic'.tr,
+                                value: 'Arabic',
+                              ),
+                              ValueItem(label: 'English'.tr, value: 'English'),
+                              ValueItem(
+                                label: 'French'.tr,
+                                value: 'French',
+                              ),
+                              ValueItem(
+                                label: 'German'.tr,
+                                value: 'German',
+                              ),
+                              ValueItem(label: 'Chinese'.tr, value: 'Chinese'),
+                              ValueItem(label: 'Spanish'.tr, value: 'Spanish'),
+                              ValueItem(label: 'Russian'.tr, value: 'Russian'),
                                 ],
 
                                 selectionType: SelectionType.multi,
                                 chipConfig:
-                                    const ChipConfig(wrapType: WrapType.scroll),
+                                    ChipConfig(
+                                      wrapType: WrapType.scroll,backgroundColor:graySubSmallText, 
+                                      labelColor: black,
+
+                                    labelPadding: EdgeInsets.symmetric(horizontal: width*0.02),
+                                    deleteIconColor: black
+                                    
+                                    
+                                    ),
                                 dropdownHeight: 300,
                                 optionTextStyle:
                                     TextStyle(fontSize: width * 0.041),

@@ -157,7 +157,7 @@ class _PaymentTypeState extends State<PaymentType> {
         log('after success');
         break;
       default:
-        AppUtil.errorToast(context, 'Must pick methoed');
+        AppUtil.errorToast(context, 'PickMethod'.tr);
     }
   }
 

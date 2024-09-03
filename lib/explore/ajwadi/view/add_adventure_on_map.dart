@@ -81,7 +81,7 @@ class _AddAdventureOnMapState extends State<AddAdventureOnMap> {
           xfilePickList.add(pickedFile[i]);
         } else {
           AppUtil.errorToast(context,
-              'Image is too large, you can only upload less than 2 MB');
+              'imageValidSize'.tr);
         }
       }
 

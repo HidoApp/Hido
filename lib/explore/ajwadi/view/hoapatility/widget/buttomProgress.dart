@@ -1232,7 +1232,7 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
           });
         } else {
           AppUtil.errorToast(context,
-              'Image is too large, you can only upload less than 2 MB');
+              'imageValidSize'.tr);
         }
       }
     } catch (e) {
@@ -1254,7 +1254,7 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
           });
         } else {
           AppUtil.errorToast(context,
-              'Image is too large, you can only upload less than 2 MB');
+              'imageValidSize'.tr);
         }
       }
     } catch (e) {
@@ -1623,7 +1623,7 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> {
           });
         } else {
           AppUtil.errorToast(context,
-              'Image is too large, you can only upload less than 2 MB');
+              'imageValidSize'.tr);
         }
       }
     } catch (e) {
@@ -1645,7 +1645,7 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> {
           });
         } else {
           AppUtil.errorToast(context,
-              'Image is too large, you can only upload less than 2 MB');
+              'imageValidSize'.tr);
         }
       }
     } catch (e) {

@@ -460,11 +460,14 @@ class AuthService {
       return responsBody;
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
+        if (errorMessage == "replace the email you used with a different one.") {
+        AppUtil.errorToast(context, 'ReplaceEmail'.tr);
+      } else {
       print(errorMessage);
       if (context.mounted) {
         AppUtil.errorToast(context, errorMessage);
       }
-
+      }
       return null;
     }
   }

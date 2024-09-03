@@ -638,7 +638,7 @@ const localeAr = {
       "الجولة مابدأت لسا, تقدر تبدأها كحدأقصى قبل 4 ساعات من موعدها",
   'notDelete': "لم يتم حذف التجربة",
   'saveChange': "تم حفظ التغييرات بنجاح ",
-  'imageValidSize': 'حجم الصورة لازم يكون اقل من ٢ ميجابايت',
+  'imageValidSize': 'يجب أن يكون حجم الصورةأقل من ٢ ميجابايت',
   're-enterPassword': 'أعد إدخال الرمز السري',
   'resetSucces': "تم تحديث الرمز السري ",
   'nextActivity': "نشاطك القادم",
@@ -656,5 +656,10 @@ const localeAr = {
   'termsOfService': 'الشروط والاحكام',
   'termsText': 'من خلال النقر على إنشاء حساب فأنا اوافق على',
   'ok': 'تأكيد',
-  'EndTimeLess':'يجب اختيار تاريخ بعد 48 ساعة من الآن على الأقل'
+  'EndTimeLess':'يجب اختيار تاريخ بعد 48 ساعة من الآن على الأقل',
+  'PickMethod':'يجب اختيار طريقة الدفع',
+  'ReplaceError':'يجب إدخال رقم جوال مختلف',
+  'ReplaceEmail':"replace the email you used with a different one"
+
+
 };

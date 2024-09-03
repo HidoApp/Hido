@@ -49,6 +49,9 @@ class _PhoneSheetState extends State<PhoneSheet> {
             fontSize: width * 0.056,
             fontWeight: FontWeight.w500,
           ),
+          SizedBox(
+            height: width * .0205,
+          ),
           CustomText(
             text: "phoneEditSubtitle".tr,
             fontFamily: AppUtil.SfFontType(context),
