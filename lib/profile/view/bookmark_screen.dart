@@ -1,42 +1,32 @@
 import 'dart:developer';
-
 import 'package:ajwad_v4/auth/view/sigin_in/phone_otp_new.dart';
 import 'package:ajwad_v4/constants/colors.dart';
-import 'package:ajwad_v4/explore/tourist/model/activity_progress.dart';
-import 'package:ajwad_v4/explore/widget/floating_timer.dart';
-import 'package:ajwad_v4/explore/widget/progress_sheet.dart';
-import 'package:ajwad_v4/explore/widget/rating_sheet.dart';
-import 'package:ajwad_v4/payment/widget/webview_sheet.dart';
-import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';
+import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
+import 'package:ajwad_v4/profile/models/bookmark.dart';
+import 'package:ajwad_v4/profile/services/bookmark_services.dart';
+import 'package:ajwad_v4/profile/widget/bookmark_card.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_bookmark_card.dart';
-import 'package:ajwad_v4/widgets/custom_button.dart';
-import 'package:ajwad_v4/widgets/custom_text.dart';
-import 'package:floating_draggable_advn/floating_draggable_advn_bk.dart';
+import 'package:ajwad_v4/widgets/custom_empty_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:solid_bottom_sheet/solid_bottom_sheet.dart';
 
 class BookmarkScreen extends StatefulWidget {
-  const BookmarkScreen({super.key, this.hasTickets = true});
-
-  final bool hasTickets;
+  const BookmarkScreen({
+    super.key,
+  });
 
   @override
   State<BookmarkScreen> createState() => _BookmarkScreenState();
 }
 
-class _BookmarkScreenState extends State<BookmarkScreen>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-  int tabIndex = 0;
-  List<String> status = ['canceled', 'waiting', 'confirmed'];
+class _BookmarkScreenState extends State<BookmarkScreen> {
+  final _profileController = Get.put(ProfileController());
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
+    _profileController.bookmarkList(BookmarkService.getBookmarks());
   }
 
   @override
@@ -44,57 +34,36 @@ class _BookmarkScreenState extends State<BookmarkScreen>
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: lightGreyBackground,
-      floatingActionButton: FloatingActionButton.extended(
-        label: Icon(Icons.add),
-        onPressed: () {
-          Get.to(() => PhoneOTP(
-                otp: '1111',
-                resendOtp: () {},
-                type: '',
-              ));
-          // Get.bottomSheet(
-          //     isScrollControlled: true,
-          //     RatingSheet(
-          //         activityProgress: ActivityProgress(
-          //             localNameAr: '',
-          //             localNameEn: '',
-          //             requestName:
-          //                 RequestName(nameEn: 'nameEn', nameAr: 'nameAr'))));
-        },
-      ),
+      //  backgroundColor: lightGreyBackground,
+      backgroundColor: lightGreen,
       appBar: CustomAppBar(
         'bookmark'.tr,
       ),
-      body: RefreshIndicator.adaptive(
-        onRefresh: () async {
-          log('loading');
-        },
-        child: Container(
-          height: height * 0.9,
-          width: width,
-          padding: const EdgeInsets.only(
-            top: 10,
-            right: 24,
-            left: 24,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Expanded(
-                child: ListView.separated(
-                    itemBuilder: (builder, index) {
-                      return CustomBookmarkCard();
-                    },
-                    separatorBuilder: (builder, index) {
-                      return SizedBox(
-                        height: 20,
-                      );
-                    },
-                    itemCount: 3),
-              ),
-            ],
-          ),
+      body: Padding(
+        padding: EdgeInsets.only(
+          left: width * 0.041,
+          right: width * 0.041,
+          top: width * 0.030,
+        ),
+        child: Obx(
+          () => _profileController.bookmarkList.isEmpty
+              ? Center(
+                  child: CustomEmptyWidget(title: 'No book marks'),
+                )
+              : GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 16,
+                    crossAxisSpacing: 18,
+                  ),
+                  itemCount: _profileController.bookmarkList.length,
+                  itemBuilder: (context, index) => BookmarkCard(
+                    title: _profileController.bookmarkList[index].titleEn,
+                    image: _profileController.bookmarkList[index].image,
+                    type: _profileController.bookmarkList[index].type,
+                    index: index,
+                  ),
+                ),
         ),
       ),
     );
