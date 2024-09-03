@@ -64,8 +64,7 @@ class _LocalProfileState extends State<LocalProfile> {
           print(image.filePath);
         }
       } else {
-        AppUtil.errorToast(
-            context, 'Image is too large, you can only upload less than 2 MB');
+        AppUtil.errorToast(context, 'imageValidSize'.tr);
       }
     }
   }
@@ -309,8 +308,13 @@ class _LocalProfileState extends State<LocalProfile> {
                             ],
 
                             selectionType: SelectionType.multi,
-                            chipConfig:
-                                const ChipConfig(wrapType: WrapType.scroll),
+                            chipConfig: ChipConfig(
+                                wrapType: WrapType.scroll,
+                                backgroundColor: graySubSmallText,
+                                labelColor: black,
+                                labelPadding: EdgeInsets.symmetric(
+                                    horizontal: width * 0.02),
+                                deleteIconColor: black),
                             dropdownHeight: width * 0.51,
                             optionTextStyle: const TextStyle(fontSize: 16),
 

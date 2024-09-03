@@ -205,6 +205,8 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
                       setState(() {
                         widget.touristExploreController!
                             .pickUpLocLatLang(position);
+                            
+                     widget.touristExploreController!.isNotGetUserLocation.value=false;
 
                         widget.mapController!.animateCamera(
                             CameraUpdate.newLatLngZoom(position, 18));

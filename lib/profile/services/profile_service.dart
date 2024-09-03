@@ -153,7 +153,7 @@ class ProfileService {
         body: json.encode({
           if (nationality != null) "nationality": nationality,
           if (name != null) "name": name.trim(),
-          if (profileImage != null) "image": profileImage,
+          if (profileImage != null && profileImage.isNotEmpty) "image": profileImage,
           if (descripttion != null) "descriptionAboutMe": descripttion.trim(),
           "userInterest": ["string"],
           if (spokenLanguage != null) "spokenLanguage": spokenLanguage,
@@ -275,7 +275,14 @@ class ProfileService {
     } else {
       var jsonBody = jsonDecode(response.body);
       String errorMessage = jsonBody['message'];
+      if(errorMessage=="Replace the used number with another one."){
+        
+           AppUtil.errorToast(context,'ReplaceError'.tr);
+        
+      }
+      else{
       AppUtil.errorToast(context, errorMessage);
+      }
       return false;
     }
   }

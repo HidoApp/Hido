@@ -61,7 +61,7 @@ class CustomAlertDialog extends StatelessWidget {
               maxlines: 100,
               color: black,
               text: AppUtil.rtlDirection2(context)
-                  ? "'سياحنا متحمسين للتجربة وحجزوا مقاعد فيها، لذلك تم إقاف خاصية التعديل على التجربة',"
+                  ? "سياحنا متحمسين للتجربة وحجزوا مقاعد فيها، لذلك تم إيقاف خاصيةالتعديل على التجربة"
                   : "Our tourists are excited for this experience and they booked it, so the edit option is disabled",
               fontFamily: AppUtil.SfFontType(context),
             ),

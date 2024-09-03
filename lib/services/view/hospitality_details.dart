@@ -693,6 +693,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                         color: Colors.white,
                       ),
                     ),
+                    if(!widget.isLocal)
                     Positioned(
                         top: height * 0.265,
                         right: width * 0.1,
@@ -715,7 +716,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                         alignment: Alignment.center,
                         child: Padding(
                           padding: EdgeInsets.only(
-                            top: height * 0.24,
+                            top:!widget.isLocal? height * 0.24:height * 0.26,
                           ), // Set the top padding to control vertical position
                           child: AnimatedSmoothIndicator(
                               effect: WormEffect(

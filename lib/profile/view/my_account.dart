@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/new-onboarding/view/account_type_screen.dart';
@@ -45,9 +47,24 @@ class _MyAccountState extends State<MyAccount> {
   String getPhoneNumber() {
     //to secure phone number
     final String number = widget.profileController.profile.phoneNumber!;
-    return number.substring(0, 2) +
-        '*' * (number.length - 4) +
-        number.substring(number.length - 2);
+      String firstDigit = number.substring(0, 2);
+
+    // Last two digits
+  String lastTwoDigits = number.substring(number.length - 2);
+
+  // Number of asterisks needed between the first digit and last two digits
+  String maskedSection = '*' * (number.length - 3);
+
+  // Combine the sections
+  log(firstDigit + maskedSection + lastTwoDigits);
+   if (AppUtil.rtlDirection2(context)) {
+return  '\u202A' +(firstDigit + maskedSection + lastTwoDigits) + '\u202C';
+  //  return String.fromCharCodes((firstDigit + maskedSection + lastTwoDigits).runes.toList().reversed);
+
+    
+  } else {
+      return firstDigit + maskedSection + lastTwoDigits;
+  }
   }
 
   @override

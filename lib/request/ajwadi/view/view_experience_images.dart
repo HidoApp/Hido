@@ -65,7 +65,7 @@ class _ViewImagesState extends State<ViewImages> {
           print(_ExperienceController.images.last.path);
         } else {
           AppUtil.errorToast(context,
-              'Image is too large, you can only upload less than 2 MB');
+              'imageValidSize'.tr);
         }
       }
     } catch (e) {
@@ -88,7 +88,7 @@ class _ViewImagesState extends State<ViewImages> {
           });
         } else {
           AppUtil.errorToast(context,
-              'Image is too large, you can only upload less than 2 MB');
+              'imageValidSize'.tr);
         }
       }
     } catch (e) {
