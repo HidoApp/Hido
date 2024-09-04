@@ -39,6 +39,7 @@ class ProfileController extends GetxController {
   var isAdventureBookmarked = false.obs;
   var isEventBookmarked = false.obs;
   var isHospitaltyBookmarked = false.obs;
+  var isTourBookmarked = false.obs;
   var bookmarkList = <Bookmark>[].obs;
 
   //update var
