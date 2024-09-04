@@ -250,7 +250,7 @@ const localeAr = {
   "offers": "عروض",
   "contactAjwadAppTeam": "تواصل مع فريق اجواد",
   "contactHidoTeam": "تواصل مع فريق هيدو",
-  "cancelTrip": "إلغاء الرحلة ",
+  "cancelTrip": "إلغاء الجولة ",
   "trips2": "رحلة",
   "review": "التقييم",
   "acceptOffer": "أقبل العرض",
@@ -659,7 +659,9 @@ const localeAr = {
   'EndTimeLess':'يجب اختيار تاريخ بعد 48 ساعة من الآن على الأقل',
   'PickMethod':'يجب اختيار طريقة الدفع',
   'ReplaceError':'يجب إدخال رقم جوال مختلف',
-  'ReplaceEmail':"replace the email you used with a different one"
+  'ReplaceEmail':'يجب ادخال بريد إلكتروني مختلف',
+
+   'noPlace':'لاتوجد أماكن'
 
 
 };

@@ -70,10 +70,10 @@ class _AddItineraryState extends State<AddItinerary> {
           child: Obx(
             () => CustomButton(
               buttonColor: requestController.reviewItenrary.length < 3
-                  ? colorGreen.withOpacity(0.5)
+                  ?  colorlightGreen
                   : null,
               borderColor: requestController.reviewItenrary.length < 3
-                  ? colorGreen.withOpacity(0.5)
+                  ?  colorlightGreen
                   : null,
               onPressed: () {
                 if (requestController.reviewItenrary.length < 3) {

@@ -3,7 +3,7 @@ class Offer {
   final String? profileId;
   final String? userId;
   final String? image;
-  final int? tourRating;
+  final double? tourRating;
   final String? name;
   final int? tourNumber;
   final int? price;

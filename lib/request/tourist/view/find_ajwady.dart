@@ -120,7 +120,7 @@ class _FindAjwadyState extends State<FindAjwady> {
               context: context,
               builder: (BuildContext context) {
                 return CancelBookingDialog(
-                  dialogWidth: 256,
+                  dialogWidth: 250,
                   buttonWidth: 268,
                   booking: widget.booking,
                   offerController: _offerController,

@@ -29,8 +29,9 @@ class ContactDialog extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(8.0)),
         ),
         content: Container(
-          width: dialogWidth,
-           height:  AppUtil.rtlDirection2(context)?170: 155,
+          width: double.infinity,
+
+         //  height:  AppUtil.rtlDirection2(context)?170: 155,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -40,7 +41,7 @@ class ContactDialog extends StatelessWidget {
                       textAlign: TextAlign.center,
                       color: Color(0xFF070708),
                       fontSize: 15,
-                      fontFamily: 'SF Pro',
+                      fontFamily: AppUtil.SfFontType(context),
                      fontWeight: FontWeight.w500,
                       text: AppUtil.rtlDirection2(context)?"نعتذر عن أي مشكلة واجهتك ":"Contact our support team via email or call for assistance. We're here to help!",
                      ),
@@ -58,10 +59,10 @@ class ContactDialog extends StatelessWidget {
                   }
                 },
                  child: Container(
-                height:34,
-                width: buttonWidth,
+              //  height:34,
+                width: double.infinity,
                 
-              padding: const EdgeInsets.symmetric(vertical: 3),
+              padding: const EdgeInsets.symmetric(vertical: 4),
                 alignment: Alignment.center,
                  decoration: BoxDecoration(
                     color: colorGreen,
@@ -72,7 +73,7 @@ class ContactDialog extends StatelessWidget {
                           text: "mail".tr,
                           color: Colors.white,
                             fontSize: 15,
-                           fontFamily: 'SF Pro',
+                           fontFamily: AppUtil.SfFontType(context),
                           fontWeight: FontWeight.w500,
                         ),
               ),
@@ -89,9 +90,9 @@ class ContactDialog extends StatelessWidget {
                 },
                 
                child: Container(
-                       width: buttonWidth,
-                        height: 34,
-                        padding: const EdgeInsets.symmetric(vertical: 2),
+                       width: double.infinity,
+                        // height: 34,
+                        padding: const EdgeInsets.symmetric(vertical: 4),
                          decoration: BoxDecoration(
                             border: Border.all(
                         color:  Color(0xFF37B268) ,                          
@@ -102,7 +103,7 @@ class ContactDialog extends StatelessWidget {
                           child:CustomText(
                               textAlign: TextAlign.center,
                               fontSize: 15,
-                           fontFamily: 'SF Pro',
+                           fontFamily: AppUtil.SfFontType(context),
                           fontWeight: FontWeight.w500,
                          color: Color(0xFF37B268),
                               text:AppUtil.rtlDirection2(context)?'اتصل' :'Call')),

@@ -471,7 +471,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                   emptyBuilder: (context) => Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: CustomText(
-                      text: 'place not found',
+                      text:'noPlace'.tr,
                       color: starGreyColor,
                       fontFamily: AppUtil.SfFontType(context),
                       fontSize: width * 0.038,
