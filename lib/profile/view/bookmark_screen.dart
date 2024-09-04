@@ -10,6 +10,7 @@ import 'package:ajwad_v4/widgets/custom_bookmark_card.dart';
 import 'package:ajwad_v4/widgets/custom_empty_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class BookmarkScreen extends StatefulWidget {
   const BookmarkScreen({
@@ -33,9 +34,10 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+    log(_profileController.bookmarkList.length.toString());
+    log(GetStorage().read('user_id') ?? "NULL");
     return Scaffold(
-      //  backgroundColor: lightGreyBackground,
-      backgroundColor: lightGreen,
+      backgroundColor: Colors.white,
       appBar: CustomAppBar(
         'bookmark'.tr,
       ),
@@ -48,21 +50,42 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
         child: Obx(
           () => _profileController.bookmarkList.isEmpty
               ? Center(
-                  child: CustomEmptyWidget(title: 'No book marks'),
+                  child: CustomEmptyWidget(
+                    title: 'noBookmarks'.tr,
+                    subtitle: 'emptyBookmarkText'.tr,
+                    image: 'bookmark_icon',
+                  ),
                 )
               : GridView.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    mainAxisSpacing: 16,
-                    crossAxisSpacing: 18,
+                    mainAxisSpacing: width * 0.041,
+                    crossAxisSpacing: width * 0.046,
                   ),
                   itemCount: _profileController.bookmarkList.length,
                   itemBuilder: (context, index) => BookmarkCard(
-                    title: _profileController.bookmarkList[index].titleEn,
-                    image: _profileController.bookmarkList[index].image,
-                    type: _profileController.bookmarkList[index].type,
-                    index: index,
-                  ),
+                      onTap: () {
+                        final bookmark = _profileController.bookmarkList[index];
+                        _profileController.isbookMarked(
+                            !_profileController.isbookMarked.value);
+                        if (_profileController
+                            .bookmarkList[index].isBookMarked) {
+                          BookmarkService.removeBookmark(
+                              _profileController.bookmarkList[index].id);
+                        } else {
+                          BookmarkService.addBookmark(bookmark);
+                        }
+                        _profileController
+                            .bookmarkList(BookmarkService.getBookmarks());
+                        setState(() {});
+                      },
+                      isBookMarked:
+                          _profileController.bookmarkList[index].isBookMarked,
+                      title: _profileController.bookmarkList[index].titleEn,
+                      image: _profileController.bookmarkList[index].image,
+                      type: _profileController.bookmarkList[index].type,
+                      index: index,
+                      id: _profileController.bookmarkList[index].id),
                 ),
         ),
       ),

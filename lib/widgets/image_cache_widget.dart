@@ -7,18 +7,20 @@ class ImageCacheWidget extends StatelessWidget {
       required this.image,
       this.height,
       this.width,
+      this.fit = BoxFit.cover,
       this.placeholder = 'assets/images/Placeholder.png'});
   final String image;
   final String? placeholder;
   final double? height;
   final double? width;
-  
+  final BoxFit fit;
+
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
       height: height,
       width: width,
-      fit: BoxFit.cover,
+      fit: fit,
       imageUrl: image,
       placeholder: (context, url) => Image.asset(
         placeholder!,

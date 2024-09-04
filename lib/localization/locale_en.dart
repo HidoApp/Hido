@@ -665,9 +665,9 @@ const localeEn = {
   'termsOfService': 'Terms of Service',
   'termsText': "By selecting Sign in, I agree to Hido's ",
   'EndTimeLess': "*Please select a date at least 48 hours from now",
-  'PickMethod':'You have to pick payment method',
-  'ReplaceError':'Replace the used number with another one',
-  'ReplaceEmail':'يجب ادخال بريد إلكتروني مختلف',
-  
-
+  'PickMethod': 'You have to pick payment method',
+  'ReplaceError': 'Replace the used number with another one',
+  'ReplaceEmail': 'يجب ادخال بريد إلكتروني مختلف',
+  'noBookmarks': 'No Bookmarks',
+  'emptyBookmarkText': 'All your bookmarks appear here'
 };

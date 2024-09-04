@@ -90,14 +90,15 @@ class _AdventureDetailsState extends State<AdventureDetails> {
     //  initializeDateFormatting(); //very important
     getAdventureById();
     addCustomIcon();
-    _profileController.bookmarkList(BookmarkService.getBookmarks());
-    _profileController.isAdventureBookmarked(_profileController.bookmarkList
-        .contains((bookmark) => bookmark.id == adventure!.id));
   }
 
   void getAdventureById() async {
     adventure = (await _adventureController.getAdvdentureById(
         context: context, id: widget.adventureId));
+    _profileController.bookmarkList(BookmarkService.getBookmarks());
+
+    _profileController.isAdventureBookmarked(_profileController.bookmarkList
+        .any((bookmark) => bookmark.id == adventure!.id));
 
     if (!widget.isLocal) {
       _fetchAddress(adventure!.coordinates!.latitude ?? '',
@@ -202,10 +203,10 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                         // images widget on top of screen
                         GestureDetector(
                           onTap: () {
-                            Get.to(ViewTripImages(
-                              tripImageUrl: adventure!.image!,
-                              fromNetwork: true,
-                            ));
+                            Get.to(() => ViewTripImages(
+                                  tripImageUrl: adventure!.image!,
+                                  fromNetwork: true,
+                                ));
                           },
                           child: adventure!.image!.isEmpty
                               ? Image.asset(
@@ -605,6 +606,8 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                     image: adventure!.image!.first,
                                     type: 'adventure');
                                 BookmarkService.addBookmark(bookmark);
+                              } else {
+                                BookmarkService.removeBookmark(adventure!.id);
                               }
                             },
                             child: Container(

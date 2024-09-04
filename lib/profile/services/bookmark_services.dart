@@ -3,25 +3,28 @@ import 'package:get_storage/get_storage.dart';
 
 class BookmarkService {
   static final GetStorage _storage = GetStorage('bookmark');
-  static const String _key = 'bookmarks';
 
   // Add a bookmark
   static Future<void> addBookmark(Bookmark bookmark) async {
-    final List<Bookmark> bookmarkList = _storage.read(_key) ?? [];
+    final List<dynamic> bookmarkList =
+        _storage.read(GetStorage().read('user_id')) ?? [];
 
-    bookmarkList.add(bookmark);
-    await _storage.write('bookmarks', bookmarkList);
+    bookmarkList.add(bookmark.toJson());
+    await _storage.write(GetStorage().read('user_id'), bookmarkList);
   }
 
   // Remove a bookmark
   static Future<void> removeBookmark(String id) async {
-    final List<Bookmark> bookmarkList = _storage.read(_key) ?? [];
-    bookmarkList.removeWhere((item) => item.id == id);
-    await _storage.write(_key, bookmarkList);
+    final List<dynamic> bookmarkList =
+        _storage.read(GetStorage().read('user_id')) ?? [];
+    bookmarkList.removeWhere((item) => Bookmark.fromJson(item).id == id);
+    await _storage.write(GetStorage().read('user_id'), bookmarkList);
   }
 
   // Get all bookmarks
   static List<Bookmark> getBookmarks() {
-    return _storage.read<List<Bookmark>>(_key) ?? [];
+    final List<dynamic> bookmarkList =
+        _storage.read(GetStorage().read('user_id')) ?? [];
+    return bookmarkList.map((item) => Bookmark.fromJson(item)).toList();
   }
 }

@@ -8,6 +8,7 @@ import 'package:ajwad_v4/new-onboarding/view/account_type_screen.dart';
 import 'package:ajwad_v4/new-onboarding/view/intro_screen.dart';
 import 'package:ajwad_v4/payment/view/payment_type_new.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
+import 'package:ajwad_v4/profile/services/bookmark_services.dart';
 import 'package:ajwad_v4/profile/view/booking_screen.dart';
 import 'package:ajwad_v4/profile/view/bookmark_screen.dart';
 import 'package:ajwad_v4/profile/view/legal_doc_screen.dart';
