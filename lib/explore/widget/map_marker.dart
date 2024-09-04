@@ -28,21 +28,20 @@ class MapMarker extends StatelessWidget {
         margin: EdgeInsets.all(width * 0.025),
         decoration: BoxDecoration(
             shape: BoxShape.circle,
-            boxShadow: [
-              BoxShadow(
-                color: colorGreen,
-                blurRadius: width * 0.03,
-              )
-            ],
+            // boxShadow: [
+            //   BoxShadow(
+            //     color: colorGreen,
+            //     blurRadius: width * 0.03,
+            //   )
+            // ],
             image: DecorationImage(
               fit: BoxFit.cover,
               image: CachedNetworkImageProvider(
-                
                   errorListener: (p0) =>
                       Image.asset('assets/images/Placeholder.png'),
                   image),
             ),
-            border: Border.all(color: Colors.white, width: width * 0.0025)),
+            border: Border.all(color: Colors.white, width: 2)),
       ),
       CustomText(
         text: region,
