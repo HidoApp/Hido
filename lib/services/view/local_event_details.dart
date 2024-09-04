@@ -7,6 +7,9 @@ import 'package:ajwad_v4/explore/ajwadi/view/Experience/localEvent/view/edit_eve
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/explore/tourist/view/share_sheet.dart';
 import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
+import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
+import 'package:ajwad_v4/profile/models/bookmark.dart';
+import 'package:ajwad_v4/profile/services/bookmark_services.dart';
 import 'package:ajwad_v4/request/tourist/view/local_offer_info.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/services/controller/event_controller.dart';
@@ -64,6 +67,8 @@ late double width, height;
 
 class _LocalEventDetailsState extends State<LocalEventDetails> {
   final _eventController = Get.put(EventController());
+  final _profileController = Get.put(ProfileController());
+
   int _currentIndex = 0;
   bool isExpanded = false;
   bool isAviailable = false;
@@ -99,7 +104,10 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
   void getEventById() async {
     event = (await _eventController.getEventById(
         context: context, id: widget.eventId));
+    _profileController.bookmarkList(BookmarkService.getBookmarks());
 
+    _profileController.isEventBookmarked(_profileController.bookmarkList
+        .any((bookmark) => bookmark.id == event!.id));
     for (var day in event!.daysInfo!) {
       print(day.startTime);
 
@@ -598,19 +606,41 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                         right: AppUtil.rtlDirection2(context)
                             ? width * 0.82
                             : width * 0.072,
-                        child: Container(
-                            width: 35,
-                            height: 36,
-                            decoration: BoxDecoration(
-                              color:
-                                  Colors.white.withOpacity(0.20000000298023224),
-                              shape: BoxShape.circle,
-                            ),
-                            alignment: Alignment.center,
-                            child: SvgPicture.asset(
-                              "assets/icons/white_bookmark.svg",
-                              height: 28,
-                            )),
+                        child: Obx(
+                          () => GestureDetector(
+                            onTap: () {
+                              _profileController.isEventBookmarked(
+                                  !_profileController.isEventBookmarked.value);
+                              if (_profileController.isEventBookmarked.value) {
+                                final bookmark = Bookmark(
+                                    isBookMarked: true,
+                                    id: event!.id,
+                                    titleEn: event!.nameEn ?? "",
+                                    titleAr: event!.nameAr ?? "",
+                                    image: event!.image!.first,
+                                    type: 'event');
+                                BookmarkService.addBookmark(bookmark);
+                              } else {
+                                BookmarkService.removeBookmark(event!.id);
+                              }
+                            },
+                            child: Container(
+                                width: 35,
+                                height: 36,
+                                decoration: BoxDecoration(
+                                  color: Colors.white
+                                      .withOpacity(0.20000000298023224),
+                                  shape: BoxShape.circle,
+                                ),
+                                alignment: Alignment.center,
+                                child: SvgPicture.asset(
+                                  _profileController.isEventBookmarked.value
+                                      ? "assets/icons/bookmark_fill.svg"
+                                      : "assets/icons/bookmark_icon.svg",
+                                  height: 28,
+                                )),
+                          ),
+                        ),
                       ),
                     Positioned(
                       top: height * 0.06,

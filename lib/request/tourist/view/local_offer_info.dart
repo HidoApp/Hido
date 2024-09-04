@@ -8,13 +8,11 @@ import 'package:ajwad_v4/profile/models/profile.dart';
 import 'package:ajwad_v4/request/ajwadi/controllers/request_controller.dart';
 import 'package:ajwad_v4/request/chat/view/chat_screen_live.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
-import 'package:ajwad_v4/request/tourist/controllers/rating_controller.dart';
 import 'package:ajwad_v4/request/tourist/models/offer_details.dart';
 import 'package:floating_draggable_advn/floating_draggable_advn_bk.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../../explore/tourist/model/booking.dart' as book;
 
-import 'package:ajwad_v4/request/tourist/services/rating_service.dart';
 import 'package:ajwad_v4/request/tourist/view/about_screen.dart';
 import 'package:ajwad_v4/request/tourist/view/expert_screen.dart';
 import 'package:ajwad_v4/request/tourist/view/reviews_screen.dart';

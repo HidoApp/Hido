@@ -8,6 +8,7 @@ import 'package:ajwad_v4/new-onboarding/view/account_type_screen.dart';
 import 'package:ajwad_v4/new-onboarding/view/intro_screen.dart';
 import 'package:ajwad_v4/payment/view/payment_type_new.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
+import 'package:ajwad_v4/profile/services/bookmark_services.dart';
 import 'package:ajwad_v4/profile/view/booking_screen.dart';
 import 'package:ajwad_v4/profile/view/bookmark_screen.dart';
 import 'package:ajwad_v4/profile/view/legal_doc_screen.dart';
@@ -254,13 +255,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               );
                             },
                           ),
-                        // CustomListTile(
-                        //   title: "bookmark".tr,
-                        //   leading: "assets/icons/bookmark_icon.svg",
-                        //   onTap: () async {
-                        //     Get.to(() => const BookmarkScreen());
-                        //   },
-                        // ),
+                        CustomListTile(
+                          title: "bookmark".tr,
+                          leading: "assets/icons/bookmark_icon_profile.svg",
+                          iconColor: black,
+                          onTap: () async {
+                            Get.to(() => const BookmarkScreen());
+                          },
+                        ),
                       ],
                     ),
                     Padding(

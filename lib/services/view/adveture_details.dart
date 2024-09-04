@@ -3,6 +3,9 @@ import 'package:ajwad_v4/explore/ajwadi/view/Experience/adventure/view/edit_adve
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/explore/tourist/view/share_sheet.dart';
 import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
+import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
+import 'package:ajwad_v4/profile/models/bookmark.dart';
+import 'package:ajwad_v4/profile/services/bookmark_services.dart';
 import 'package:ajwad_v4/request/tourist/view/local_offer_info.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
@@ -57,6 +60,7 @@ late double width, height;
 
 class _AdventureDetailsState extends State<AdventureDetails> {
   final _adventureController = Get.put(AdventureController());
+  final _profileController = Get.put(ProfileController());
   int _currentIndex = 0;
   bool isExpanded = false;
   bool isAviailable = false;
@@ -84,14 +88,17 @@ class _AdventureDetailsState extends State<AdventureDetails> {
     // TODO: implement initState
     super.initState();
     //  initializeDateFormatting(); //very important
-
-    addCustomIcon();
     getAdventureById();
+    addCustomIcon();
   }
 
   void getAdventureById() async {
     adventure = (await _adventureController.getAdvdentureById(
         context: context, id: widget.adventureId));
+    _profileController.bookmarkList(BookmarkService.getBookmarks());
+
+    _profileController.isAdventureBookmarked(_profileController.bookmarkList
+        .any((bookmark) => bookmark.id == adventure!.id));
 
     if (!widget.isLocal) {
       _fetchAddress(adventure!.coordinates!.latitude ?? '',
@@ -196,10 +203,10 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                         // images widget on top of screen
                         GestureDetector(
                           onTap: () {
-                            Get.to(ViewTripImages(
-                              tripImageUrl: adventure!.image!,
-                              fromNetwork: true,
-                            ));
+                            Get.to(() => ViewTripImages(
+                                  tripImageUrl: adventure!.image!,
+                                  fromNetwork: true,
+                                ));
                           },
                           child: adventure!.image!.isEmpty
                               ? Image.asset(
@@ -583,19 +590,43 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                         right: AppUtil.rtlDirection2(context)
                             ? width * 0.82
                             : width * 0.072,
-                        child: Container(
-                            width: 35,
-                            height: 36,
-                            decoration: BoxDecoration(
-                              color:
-                                  Colors.white.withOpacity(0.20000000298023224),
-                              shape: BoxShape.circle,
-                            ),
-                            alignment: Alignment.center,
-                            child: SvgPicture.asset(
-                              "assets/icons/white_bookmark.svg",
-                              height: 28,
-                            )),
+                        child: Obx(
+                          () => GestureDetector(
+                            onTap: () {
+                              _profileController.isAdventureBookmarked(
+                                  !_profileController
+                                      .isAdventureBookmarked.value);
+                              if (_profileController
+                                  .isAdventureBookmarked.value) {
+                                final bookmark = Bookmark(
+                                    isBookMarked: true,
+                                    id: adventure!.id,
+                                    titleEn: adventure!.nameEn ?? "",
+                                    titleAr: adventure!.nameAr ?? "",
+                                    image: adventure!.image!.first,
+                                    type: 'adventure');
+                                BookmarkService.addBookmark(bookmark);
+                              } else {
+                                BookmarkService.removeBookmark(adventure!.id);
+                              }
+                            },
+                            child: Container(
+                                width: 35,
+                                height: 36,
+                                decoration: BoxDecoration(
+                                  color: Colors.white
+                                      .withOpacity(0.20000000298023224),
+                                  shape: BoxShape.circle,
+                                ),
+                                alignment: Alignment.center,
+                                child: SvgPicture.asset(
+                                  _profileController.isAdventureBookmarked.value
+                                      ? "assets/icons/bookmark_fill.svg"
+                                      : "assets/icons/bookmark_icon.svg",
+                                  height: 28,
+                                )),
+                          ),
+                        ),
                       ),
                     Positioned(
                       top: height * 0.06,
@@ -649,28 +680,28 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                 ),
                               ))),
 
-                if(!widget.isLocal)
-
-                    Positioned(
-                        top: height * 0.265,
-                        right: width * 0.1,
-                        left: width * 0.1,
-                        // local profile
-                        child: ServicesProfileCard(
-                          onTap: () {
-                            Get.to(() => ServicesLocalInfo(
-                                profileId: adventure!.userId));
-                          },
-                          image: adventure!.user!.profileImage ?? '',
-                          name: adventure!.user!.name ?? '',
-                        )),
+                    if (!widget.isLocal)
+                      Positioned(
+                          top: height * 0.265,
+                          right: width * 0.1,
+                          left: width * 0.1,
+                          // local profile
+                          child: ServicesProfileCard(
+                            onTap: () {
+                              Get.to(() => ServicesLocalInfo(
+                                  profileId: adventure!.userId));
+                            },
+                            image: adventure!.user!.profileImage ?? '',
+                            name: adventure!.user!.name ?? '',
+                          )),
                     //indicator
                     Center(
                       child: Align(
                         alignment: Alignment.center,
                         child: Padding(
                           padding: EdgeInsets.only(
-                            top:!widget.isLocal? height * 0.24:height * 0.26,
+                            top:
+                                !widget.isLocal ? height * 0.24 : height * 0.26,
                           ), // Set the top padding to control vertical position
                           child: AnimatedSmoothIndicator(
                               effect: WormEffect(

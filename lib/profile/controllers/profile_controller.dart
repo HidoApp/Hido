@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:ajwad_v4/auth/models/image.dart';
 import 'package:ajwad_v4/explore/tourist/model/activity_progress.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
+import 'package:ajwad_v4/profile/models/bookmark.dart';
 import 'package:ajwad_v4/profile/models/profile.dart';
 import 'package:ajwad_v4/profile/services/profile_service.dart';
 import 'package:ajwad_v4/request/chat/model/chat_model.dart';
@@ -33,6 +34,12 @@ class ProfileController extends GetxController {
   var isNumberNotValid = false.obs;
   var isOTPMode = false.obs;
   var enableSignOut = true.obs;
+  //bokmark
+  var isbookMarked = true.obs;
+  var isAdventureBookmarked = false.obs;
+  var isEventBookmarked = false.obs;
+  var isHospitaltyBookmarked = false.obs;
+  var bookmarkList = <Bookmark>[].obs;
 
   //update var
   var updatedMobile = '';
