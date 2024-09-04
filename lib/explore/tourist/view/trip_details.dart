@@ -181,7 +181,7 @@ class _TripDetailsState extends State<TripDetails> {
                                     name: theProfile?.name ?? '',
                                     profileId: theProfile?.id ?? '',
                                     userId: theProfile!.id ?? "",
-                                    rating: theProfile?.tourRating ?? 0,
+                                    rating: theProfile?.tourRating ?? 0.0,
                                     price: 0,
                                     tripNumber: theProfile?.tourNumber ?? 0,
                                     booking: theBooking,
@@ -237,9 +237,20 @@ class _TripDetailsState extends State<TripDetails> {
                         // print(";lkjhgfdxzxcvbnm,");
                         // print(isViewBooking.value);
                         AppUtil.isGuest()
-                            ? Get.bottomSheet(
-                                const SignInSheet(),
-                              )
+                            ? showModalBottomSheet(
+                            context: context,
+                            builder: (context) =>  const SignInSheet(),
+                            isScrollControlled: true,
+                            enableDrag: true,
+                            backgroundColor: Colors.white,
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(width * 0.06),
+                                  topRight: Radius.circular(width * 0.06)),
+                            ))
+                            
+                          
                             : showModalBottomSheet(
                                 useRootNavigator: true,
                                 isScrollControlled: true,

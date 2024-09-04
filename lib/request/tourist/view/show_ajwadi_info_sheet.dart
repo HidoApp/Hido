@@ -33,7 +33,8 @@ class ShowAjwadiInfoSheet extends StatefulWidget {
   }) : super(key: key);
   final String image;
   final String name;
-  final int price, rating, tripNumber;
+  final price,  tripNumber;
+  final double rating;
   // final Booking booking;
   final Place place;
 

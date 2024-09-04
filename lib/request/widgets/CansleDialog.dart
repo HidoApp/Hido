@@ -34,8 +34,8 @@ class CancelBookingDialog extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(8.0)),
       ),
       content: Container(
-        width: dialogWidth,
-        height: AppUtil.rtlDirection2(context) ? 170 : 138,
+        width: double.infinity,
+        // height: AppUtil.rtlDirection2(context) ? 140 : 138,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -47,7 +47,7 @@ class CancelBookingDialog extends StatelessWidget {
               textAlign: TextAlign.center,
               color: Color(0xFF070708),
               fontSize: 15,
-              fontFamily: 'SF Pro',
+              fontFamily: AppUtil.SfFontType(context),
               fontWeight: FontWeight.w500,
               text: AppUtil.rtlDirection2(context)
                   ? "نعتذر عن أي مشكلة واجهتك "
@@ -63,7 +63,7 @@ class CancelBookingDialog extends StatelessWidget {
               color: Color(0xFF41404A),
               text: 'noteDo'.tr,
               // text:!AppUtil.rtlDirection2(context)?"Here is what you can do":"لم نتمكن من العثور على أي مرشدين محليين متاحين في التاريخ والموقع الذي اخترته",
-              fontFamily: 'SF Pro',
+              fontFamily: AppUtil.SfFontType(context),
             ),
             const SizedBox(
               height: 10,
@@ -79,9 +79,9 @@ class CancelBookingDialog extends StatelessWidget {
                 );
               },
               child: Container(
-                height: 34,
-                width: buttonWidth,
-                padding: const EdgeInsets.symmetric(vertical: 3),
+               // height: 34,
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(vertical: 4),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: colorGreen,
@@ -92,7 +92,7 @@ class CancelBookingDialog extends StatelessWidget {
                   text: "contact".tr,
                   color: Colors.white,
                   fontSize: 15,
-                  fontFamily: 'SF Pro',
+                  fontFamily: AppUtil.SfFontType(context),
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -121,9 +121,9 @@ class CancelBookingDialog extends StatelessWidget {
                       }
                     },
                     child: Container(
-                        width: buttonWidth,
-                        height: 34,
-                        padding: const EdgeInsets.symmetric(vertical: 2),
+                        width:double.infinity,
+                       // height: 34,
+                        padding: const EdgeInsets.symmetric(vertical: 4),
                         decoration: BoxDecoration(
                           border: Border.all(
                             color: Color(0xFFDC362E),
@@ -134,12 +134,10 @@ class CancelBookingDialog extends StatelessWidget {
                         child: CustomText(
                             textAlign: TextAlign.center,
                             fontSize: 15,
-                            fontFamily: 'SF Pro',
+                            fontFamily: AppUtil.SfFontType(context),
                             fontWeight: FontWeight.w500,
                             color: Color(0xFFDC362E),
-                            text: AppUtil.rtlDirection2(context)
-                                ? 'الغاءالجولة'
-                                : 'Cancel Tour')),
+                            text: 'cancelTrip'.tr)),
                   )),
           ],
         ),

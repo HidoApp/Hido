@@ -667,7 +667,8 @@ const localeEn = {
   'EndTimeLess': "*Please select a date at least 48 hours from now",
   'PickMethod':'You have to pick payment method',
   'ReplaceError':'Replace the used number with another one',
-  'ReplaceEmail':'يجب ادخال بريد إلكتروني مختلف',
+  'ReplaceEmail':"replace the email you used with a different one",
+  'noPlace':'place not found',
   
 
 };

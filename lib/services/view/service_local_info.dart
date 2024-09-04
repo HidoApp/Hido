@@ -115,7 +115,7 @@ class _ServicesLocalInfoState extends State<ServicesLocalInfo> {
                             ),
                             //review tile
                             LocalTile(
-                              tripNumber: widget.isHospitality
+                              tripRate: widget.isHospitality
                                   ? profile!.hostRating!
                                   : profile!.adventureRating!,
                               isRating: true,

@@ -50,7 +50,8 @@ class LocalOfferInfo extends StatefulWidget {
   final String name;
   final String profileId;
   final String userId;
-  final int price, rating, tripNumber;
+  final int price,  tripNumber;
+  final double rating;
   final bool fromService;
   final book.Booking? booking;
 
@@ -164,7 +165,8 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
                           ),
                           //review tile
                           LocalTile(
-                            tripNumber: widget.rating,
+                            // tripNumber: widget.rating,
+                           tripRate: widget.rating,
                             isRating: true,
                             subtitle: 'review'.tr,
                           ),
