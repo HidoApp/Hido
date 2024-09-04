@@ -14,7 +14,7 @@ class Place {
   final String? locationUrl;
   final int? visitors;
   final Coordinate? coordinates;
-  final int? rating;
+  final double? rating;
   final int? price;
   final List<Booking>? booking;
 
@@ -49,7 +49,9 @@ class Place {
       price: json['price'] ?? 0,
       locationUrl: json['locationUrl'],
       visitors: json['visitors'] ?? 0,
-      rating: json['rating'] ?? 0,
+      // rating: json['rating'] ?? 0,
+      rating: json['rating'] != null ? (json['rating'] as num).toDouble() : 0.0,
+
       coordinates: Coordinate.fromJson(json['coordinates']),
       booking: json['booking'] == null
           ? null

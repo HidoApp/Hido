@@ -7,10 +7,12 @@ import 'package:flutter_svg/svg.dart';
 class LocalTile extends StatelessWidget {
   const LocalTile(
       {super.key,
-      required this.tripNumber,
+     this.tripNumber,
       required this.subtitle,
+      this.tripRate,
       this.isRating = false});
-  final int tripNumber;
+  final int? tripNumber;
+  final double? tripRate;
   final String subtitle;
   final bool isRating;
   @override
@@ -24,7 +26,7 @@ class LocalTile extends StatelessWidget {
             CustomText(
               fontSize:width*0.038,
               fontWeight: FontWeight.w500,
-              text: tripNumber.toString(),
+              text:tripNumber==null?tripRate.toString():tripNumber.toString(),
               color: black,
               fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
 

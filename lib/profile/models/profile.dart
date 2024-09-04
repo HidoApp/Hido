@@ -5,7 +5,7 @@ class Profile {
   final String? id;
   String? name;
   final String? email;
-  final int? rating;
+  final double? rating;
   //final String? image;
 
   String? profileImage;
@@ -14,10 +14,10 @@ class Profile {
   final int? eventNumber;
   final int? hostNumber;
   final int? adventureNumber;
-  final int? tourRating;
-  final int? eventRating;
-  final int? hostRating;
-  final int? adventureRating;
+  final double? tourRating;
+  final double? eventRating;
+  final double? hostRating;
+  final double? adventureRating;
   final ExperienceLevel? experienceLevel;
   final String? descriptionAboutMe;
   final List<String>? userInterests;
@@ -68,15 +68,15 @@ class Profile {
       id: json['id'] ?? '',
       name: json['name'] ?? '',
       // image: json['image']??'',
-      rating: json['rating'] ?? 0,
-      tourNumber: json['tourNumber'] ?? 0,
-      tourRating: json['tourRating'] ?? 0,
+      rating: json['rating'] ?? 0.0,
+      tourNumber: json['tourNumber'] ??0,
+      tourRating: json['tourRating'] ?? 0.0,
       hostNumber: json['hostNumber'] ?? 0,
-      hostRating: json['hostRating'] ?? 0,
+      hostRating: json['hostRating'] ?? 0.0,
       adventureNumber: json['adventureNumber'] ?? 0,
-      adventureRating: json['adventureRating'] ?? 0,
+      adventureRating: json['adventureRating'] ?? 0.0,
       eventNumber: json['eventNumber'] ?? 0,
-      eventRating: json['eventRating'] ?? 0,
+      eventRating: json['eventRating'] ?? 0.0,
       //tripNumber: json['tripNumber'],
       tourGuideLicense: json['tourGuideLicense'] ?? "",
       profileImage: json['image'] ?? '',

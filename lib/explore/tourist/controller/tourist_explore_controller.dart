@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/explore/tourist/model/activity_progress.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
@@ -173,11 +175,12 @@ class TouristExploreController extends GetxController {
       TouristMapModel? data = await TouristExploreService.touristMap(
           context: context, tourType: "PLACE");
       touristModel(data);
-
+    
       return data;
     } catch (e) {
       isTouristMapLoading(false);
       print("e");
+      log("this error");
       print(e);
       return null;
     } finally {
