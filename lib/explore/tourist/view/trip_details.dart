@@ -8,6 +8,8 @@ import 'package:ajwad_v4/explore/ajwadi/model/userLocation.dart';
 import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
 import 'package:ajwad_v4/explore/tourist/view/view_trip_images.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
+import 'package:ajwad_v4/profile/models/bookmark.dart';
+import 'package:ajwad_v4/profile/services/bookmark_services.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
 // import 'package:ajwad_v4/request/tourist/models/offer.dart';
 import 'package:ajwad_v4/request/tourist/view/find_ajwady.dart';
@@ -95,7 +97,10 @@ class _TripDetailsState extends State<TripDetails> {
     super.initState();
     addCustomIcon();
     getOfferinfo();
+    _profileController.bookmarkList(BookmarkService.getBookmarks());
 
+    _profileController.isTourBookmarked(_profileController.bookmarkList
+        .any((bookmark) => bookmark.id == widget.place!.id));
     // getPlaceBooking();
     _touristExploreController.isBookedMade(true);
   }
@@ -238,19 +243,17 @@ class _TripDetailsState extends State<TripDetails> {
                         // print(isViewBooking.value);
                         AppUtil.isGuest()
                             ? showModalBottomSheet(
-                            context: context,
-                            builder: (context) =>  const SignInSheet(),
-                            isScrollControlled: true,
-                            enableDrag: true,
-                            backgroundColor: Colors.white,
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(width * 0.06),
-                                  topRight: Radius.circular(width * 0.06)),
-                            ))
-                            
-                          
+                                context: context,
+                                builder: (context) => const SignInSheet(),
+                                isScrollControlled: true,
+                                enableDrag: true,
+                                backgroundColor: Colors.white,
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(width * 0.06),
+                                      topRight: Radius.circular(width * 0.06)),
+                                ))
                             : showModalBottomSheet(
                                 useRootNavigator: true,
                                 isScrollControlled: true,
@@ -807,12 +810,43 @@ class _TripDetailsState extends State<TripDetails> {
           ),
 
           Positioned(
-            top: height * 0.06,
+            top: height * 0.066,
             right: !AppUtil.rtlDirection(context) ? width * 0.85 : width * 0.09,
-            child: HomeIconButton(
-              icon: "assets/icons/white_bookmark.svg",
-            ),
             height: 40,
+            child: Obx(
+              () => GestureDetector(
+                onTap: () {
+                  _profileController.isTourBookmarked(
+                      !_profileController.isTourBookmarked.value);
+                  if (_profileController.isTourBookmarked.value) {
+                    final bookmark = Bookmark(
+                        isBookMarked: true,
+                        id: widget.place!.id!,
+                        titleEn: widget.place!.nameEn ?? "",
+                        titleAr: widget.place!.nameAr ?? "",
+                        image: widget.place!.image!.first,
+                        type: 'adventure');
+                    BookmarkService.addBookmark(bookmark);
+                  } else {
+                    BookmarkService.removeBookmark(widget.place!.id!);
+                  }
+                },
+                child: Container(
+                    width: 35,
+                    height: 36,
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.20000000298023224),
+                      shape: BoxShape.circle,
+                    ),
+                    alignment: Alignment.center,
+                    child: SvgPicture.asset(
+                      _profileController.isTourBookmarked.value
+                          ? "assets/icons/bookmark_fill.svg"
+                          : "assets/icons/bookmark_icon.svg",
+                      height: 28,
+                    )),
+              ),
+            ),
           ),
           // Positioned(
           //     top: height * 0.265,
