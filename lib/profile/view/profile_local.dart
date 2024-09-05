@@ -124,7 +124,7 @@ class _LocalProfileState extends State<LocalProfile> {
               child: Padding(
                 padding: AppUtil.rtlDirection2(context)
                     ? EdgeInsets.only(left: 30, bottom: 4)
-                    : EdgeInsets.only(right: 18, bottom: 4),
+                    : EdgeInsets.only(right: 30, bottom: 4),
                 child: CustomText(
                   text: _profileController.isEditing.value
                       ? 'save'.tr
