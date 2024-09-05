@@ -68,27 +68,11 @@ class TicketDetailsScreen extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      backgroundColor: lightGreyBackground,
-      appBar: AppBar(
-        leading: Padding(
-          padding: AppUtil.rtlDirection2(context)
-              ? EdgeInsets.only(bottom: 6, right: 30)
-              : EdgeInsets.only(bottom: 6, left: 30, top: 2),
-          child: IconButton(
-            icon: Icon(
-              Icons.arrow_back_ios,
-              size: width * 0.0487,
-              color: Colors.black,
-            ),
-            onPressed: () => Get.back(),
-          ),
-        ),
-        title: CustomText(
-          text: 'myTickets'.tr,
-          fontWeight: FontWeight.w500,
-          fontSize: width * 0.04,
-          fontFamily: 'HT Rakik',
-        ),
+      backgroundColor:  Colors.white,
+      appBar: CustomAppBar(
+        'myTickets'.tr,
+        backgroundColor: Colors.white,
+        
       ),
       //CustomAppBar('myTickets'.tr),
       body: SingleChildScrollView(

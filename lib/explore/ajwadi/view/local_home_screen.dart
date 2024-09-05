@@ -105,42 +105,44 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                   children: [
                     Container(
                       width: 340.40,
-                      height: 60,
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        textDirection: TextDirection.rtl,
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              ProfileController _profileController =
-                                  Get.put(ProfileController());
-                              Get.to(() => MessagesScreen(
-                                  profileController: _profileController));
-                            },
-                            child: SizedBox(
-                              width: 36,
-                              height: 24,
-                              child: SvgPicture.asset(
-                                  'assets/icons/Communication_black.svg'),
-                            ),
-                          ),
-                          // InkWell(
-                          //   // onTap: () {
-                          //   //   Get.to(() => NotificationScreen());
-                          //   // },
-                          //   child: Container(
-                          //     width: 36,
-                          //     height: 24,
-                          //     alignment: Alignment.center,
-                          //     child: SvgPicture.asset(
-                          //         'assets/icons/Alerts_black.svg'),
-                          //   ),
-                          // ),
-                        ],
-                      ),
+                      //height: 60,
+                        height: 40,
+
+                     // padding: const EdgeInsets.symmetric(vertical: 12),
+                      // child: Row(
+                      //   crossAxisAlignment: CrossAxisAlignment.start,
+                      //   textDirection: TextDirection.rtl,
+                      //   children: [
+                      //     // InkWell(
+                      //     //   onTap: () {
+                      //     //     ProfileController _profileController =
+                      //     //         Get.put(ProfileController());
+                      //     //     Get.to(() => MessagesScreen(
+                      //     //         profileController: _profileController));
+                      //     //   },
+                      //     //   child: SizedBox(
+                      //     //     width: 36,
+                      //     //     height: 24,
+                      //     //     child: SvgPicture.asset(
+                      //     //         'assets/icons/Communication_black.svg'),
+                      //     //   ),
+                      //     // ),
+                      //     // InkWell(
+                      //     //   // onTap: () {
+                      //     //   //   Get.to(() => NotificationScreen());
+                      //     //   // },
+                      //     //   child: Container(
+                      //     //     width: 36,
+                      //     //     height: 24,
+                      //     //     alignment: Alignment.center,
+                      //     //     child: SvgPicture.asset(
+                      //     //         'assets/icons/Alerts_black.svg'),
+                      //     //   ),
+                      //     // ),
+                      //   ],
+                      // ),
                     ),
-                    SizedBox(height: 16),
+                   // SizedBox(height: 16),
                     Row(
                       children: [
                         MediaQuery(
@@ -179,7 +181,22 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                               ],
                             ),
                           ),
-                        )
+                        ),
+                        Spacer(),
+                         InkWell(
+                            onTap: () {
+                              ProfileController _profileController =
+                                  Get.put(ProfileController());
+                              Get.to(() => MessagesScreen(
+                                  profileController: _profileController));
+                            },
+                            child: SizedBox(
+                              width: 36,
+                              height: 24,
+                              child: SvgPicture.asset(
+                                  'assets/icons/Communication_black.svg'),
+                            ),
+                          ),
                       ],
                     ),
                     SizedBox(height: 1),

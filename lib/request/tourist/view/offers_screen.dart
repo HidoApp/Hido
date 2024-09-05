@@ -119,7 +119,7 @@ class _OfferScreenState extends State<OfferScreen> {
                       child: CustomAjwadiCard(
                         image: _offerController.offers[index].image ?? '',
                         name: _offerController.offers[index].name ?? '',
-                        rating: _offerController.offers[index].tourRating ?? 0.0,
+                        rating: _offerController.offers[index].tourRating ?? 0,
                         price: _offerController.offers[index].price ?? 0,
                         tripNumber:
                             _offerController.offers[index].tourNumber ?? 0,
