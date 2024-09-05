@@ -181,7 +181,7 @@ class _TripDetailsState extends State<TripDetails> {
                                     name: theProfile?.name ?? '',
                                     profileId: theProfile?.id ?? '',
                                     userId: theProfile!.id ?? "",
-                                    rating: theProfile?.tourRating ?? 0.0,
+                                    rating: theProfile?.tourRating ?? 0,
                                     price: 0,
                                     tripNumber: theProfile?.tourNumber ?? 0,
                                     booking: theBooking,

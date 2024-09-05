@@ -97,7 +97,7 @@ class _ServicesLocalInfoState extends State<ServicesLocalInfo> {
                                   : 'adventure'.tr,
                             ),
                             SizedBox(
-                              width: width * 0.035,
+                              width: width * 0.033,
                             ),
                             SizedBox(
                               height: width * 0.1128,
@@ -119,7 +119,7 @@ class _ServicesLocalInfoState extends State<ServicesLocalInfo> {
                                   ? profile!.hostRating!
                                   : profile!.adventureRating!,
                               isRating: true,
-                              subtitle: 'rating '.tr,
+                              subtitle:'review'.tr,
                             ),
                           ],
                         ),

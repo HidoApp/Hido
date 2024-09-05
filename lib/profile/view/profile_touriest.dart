@@ -162,7 +162,10 @@ class _ProfileDetailsState extends State<TouriestProfile> {
                   _userName.clear();
                 },
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: width * 0.041),
+                     padding: AppUtil.rtlDirection2(context)
+                    ? EdgeInsets.only(left: 30, bottom: 4)
+                    : EdgeInsets.only(right: 18, bottom: 4),
+                  //padding: EdgeInsets.symmetric(horizontal: width * 0.041),
                   child: CustomText(
                     text: widget.profileController.isEditing.value
                         ? 'save'.tr
@@ -177,18 +180,20 @@ class _ProfileDetailsState extends State<TouriestProfile> {
               ),
             )
           ],
-          leading: GestureDetector(
-            onTap: () => Get.back(),
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: width * 0.041),
-              child: GestureDetector(
-                child: const Icon(
-                  Icons.arrow_back_ios,
-                  color: black,
-                ),
-              ),
+          leading: Padding(
+          padding: AppUtil.rtlDirection2(context)
+              ? EdgeInsets.only(bottom: 4, right: 30, top: 4)
+              // : EdgeInsets.only(top: 9, right: 30)
+              : EdgeInsets.only(bottom: 4, left: 30, top: 4),
+          child: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              size: 19,
+              color: Colors.black,
             ),
+            onPressed: () => Get.back(),
           ),
+        ),
         ),
         body: Obx(
           () => widget.profileController.isProfileLoading.value ||
@@ -344,9 +349,9 @@ class _ProfileDetailsState extends State<TouriestProfile> {
 
                                 chipConfig:
                                     const ChipConfig(wrapType: WrapType.scroll),
-                                optionTextStyle: const TextStyle(
+                                optionTextStyle: TextStyle(
                                     fontSize: 15,
-                                    fontFamily: "SF Pro",
+                                    fontFamily: AppUtil.SfFontType(context),
                                     color: starGreyColor,
                                     fontWeight: FontWeight.w500),
 
@@ -444,7 +449,7 @@ class _ProfileDetailsState extends State<TouriestProfile> {
                                             .adaptive()
                                         : CustomChips(
                                             title: widget.profileController
-                                                .profile.spokenLanguage![index],
+                                                .profile.spokenLanguage![index].tr,
                                             backgroundColor: Colors.transparent,
                                             borderColor: almostGrey,
                                             textColor: almostGrey),

@@ -83,14 +83,15 @@ class _LocalProfileState extends State<LocalProfile> {
         languages.isNotEmpty) {
       if (_profileController.isEditing.value) {
         var profile = await _profileController.editProfile(
-          context: context,
-          descripttion: descripttion.isEmpty
-              ? _profileController.profile.descriptionAboutMe
-              : descripttion,
-          spokenLanguage: languages.isEmpty
-              ? _profileController.profile.spokenLanguage
-              : languages,
-        );
+            context: context,
+            descripttion: descripttion.isEmpty
+                ? _profileController.profile.descriptionAboutMe
+                : descripttion,
+            spokenLanguage: languages.isEmpty
+                ? _profileController.profile.spokenLanguage
+                : languages,
+            profileImage:
+                newProfileImage ?? _profileController.profile.profileImage);
         if (profile != null) {
           if (context.mounted) {
             AppUtil.successToast(context, "accountUpadted".tr);
@@ -121,7 +122,9 @@ class _LocalProfileState extends State<LocalProfile> {
                     !_profileController.isEditing.value;
               },
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: width * 0.041),
+                padding: AppUtil.rtlDirection2(context)
+                    ? EdgeInsets.only(left: 30, bottom: 4)
+                    : EdgeInsets.only(right: 18, bottom: 4),
                 child: CustomText(
                   text: _profileController.isEditing.value
                       ? 'save'.tr
@@ -136,16 +139,18 @@ class _LocalProfileState extends State<LocalProfile> {
             ),
           )
         ],
-        leading: GestureDetector(
-          onTap: () => Get.back(),
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: width * 0.041),
-            child: GestureDetector(
-              child: const Icon(
-                Icons.arrow_back_ios,
-                color: black,
-              ),
+        leading: Padding(
+          padding: AppUtil.rtlDirection2(context)
+              ? EdgeInsets.only(bottom: 4, right: 30, top: 4)
+              // : EdgeInsets.only(top: 9, right: 30)
+              : EdgeInsets.only(bottom: 4, left: 30, top: 4),
+          child: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              size: 19,
+              color: Colors.black,
             ),
+            onPressed: () => Get.back(),
           ),
         ),
       ),
@@ -337,7 +342,7 @@ class _LocalProfileState extends State<LocalProfile> {
                                     ? const CircularProgressIndicator.adaptive()
                                     : CustomChips(
                                         title: _profileController
-                                            .profile.spokenLanguage![index],
+                                            .profile.spokenLanguage![index].tr,
                                         backgroundColor: Colors.transparent,
                                         borderColor: almostGrey,
                                         textColor: almostGrey),
