@@ -5,16 +5,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomEmptyWidget extends StatelessWidget {
-  const CustomEmptyWidget({
-    super.key,
-    required this.title,
-    this.image,
-    this.subtitle = '',
-  });
+  const CustomEmptyWidget(
+      {super.key,
+      required this.title,
+      this.image,
+      this.subtitle = '',
+      this.height,
+      this.width});
 
   final String title;
   final String? subtitle;
   final String? image;
+  final double? width;
+  final double? height;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +32,8 @@ class CustomEmptyWidget extends StatelessWidget {
             SvgPicture.asset(
               'assets/icons/$image.svg',
               color: const Color(0xFFB9B8C1),
+              width: width,
+              height: height,
             ),
           SizedBox(
             height: 22, // Set a meaningful height for spacing

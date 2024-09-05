@@ -825,7 +825,7 @@ class _TripDetailsState extends State<TripDetails> {
                         titleEn: widget.place!.nameEn ?? "",
                         titleAr: widget.place!.nameAr ?? "",
                         image: widget.place!.image!.first,
-                        type: 'adventure');
+                        type: 'tour');
                     BookmarkService.addBookmark(bookmark);
                   } else {
                     BookmarkService.removeBookmark(widget.place!.id!);

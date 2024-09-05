@@ -102,6 +102,7 @@ class _SplashScreenState extends State<SplashScreen>
       } else if (token != '' && userRole == 'tourist') {
         if (JwtDecoder.isExpired(token)) {
           final String refreshToken = getStorage.read('refreshToken');
+          // print('HEeree');
           var user = await _authController.refreshToken(
               refreshToken: refreshToken, context: context);
           if (user != null) {
