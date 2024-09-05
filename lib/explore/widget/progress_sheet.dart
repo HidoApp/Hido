@@ -22,20 +22,16 @@ class _ProgressSheetState extends State<ProgressSheet> {
   String getTitle() {
     switch (_touristExploreController.activeStepProgres.value) {
       case -1:
-        if (_touristExploreController.activityProgres.value!.activityProgress ==
-            'PENDING') {
-          return 'pendingProgress'.tr;
-        } else {
-          return 'localOnway'.tr;
-        }
+        return 'pendingProgress'.tr;
 
       case 0:
-        return 'localArrived'.tr;
+        return 'localOnway'.tr;
 
       case 1:
-        return 'tourStarted'.tr;
+        return 'localArrived'.tr;
+
       case 2:
-        return 'tourCompleted'.tr;
+        return 'tourStarted'.tr;
       default:
         return '';
     }
@@ -51,11 +47,13 @@ class _ProgressSheetState extends State<ProgressSheet> {
           return 'localOnwaySubtitle'.tr;
         }
       case 0:
-        return 'localArrivedSubtitle'.tr;
+        return 'localOnwaySubtitle'.tr;
 
       case 1:
-        return 'tourStartedSubtitle'.tr;
+        return 'localArrivedSubtitle'.tr;
       case 2:
+        return 'tourStartedSubtitle'.tr;
+
         return 'tourCompletedSubtitle'.tr;
       default:
         return '';
@@ -106,7 +104,8 @@ class _ProgressSheetState extends State<ProgressSheet> {
                         unreachedStepTextColor: lightGrey,
                         internalPadding: 0,
                         showLoadingAnimation: false,
-                        stepRadius: 10,
+                        stepRadius: 20,
+                        padding: EdgeInsets.zero,
                         showStepBorder: false,
                         lineStyle: const LineStyle(
                             lineType: LineType.normal,
@@ -115,7 +114,7 @@ class _ProgressSheetState extends State<ProgressSheet> {
                             activeLineColor: colorGreen,
                             lineWidth: 10,
                             lineSpace: 29,
-                            lineLength: 120),
+                            lineLength: 100),
                         steps: [
                           EasyStep(
                               customStep: SvgPicture.asset(
@@ -125,6 +124,8 @@ class _ProgressSheetState extends State<ProgressSheet> {
                                         0
                                     ? colorGreen
                                     : lightGrey,
+                                height: 24,
+                                width: 24,
                               ),
                               title: 'Arrived'.tr),
                           // EasyStep(
@@ -136,23 +137,27 @@ class _ProgressSheetState extends State<ProgressSheet> {
                           // ),
                           EasyStep(
                             customStep: SvgPicture.asset(
-                             'assets/icons/slider.svg',
+                              'assets/icons/slider.svg',
                               color: _touristExploreController
                                           .activeStepProgres.value >=
                                       1
                                   ? colorGreen
                                   : lightGrey,
+                              height: 24,
+                              width: 24,
                             ),
                             title: 'tourTime'.tr,
                           ),
                           EasyStep(
                             customStep: SvgPicture.asset(
-                            'assets/icons/slider.svg',
+                              'assets/icons/slider.svg',
                               color: _touristExploreController
                                           .activeStepProgres.value >=
                                       2
                                   ? colorGreen
                                   : lightGrey,
+                              height: 24,
+                              width: 24,
                             ),
                             title: 'completeTour'.tr,
                           ),

@@ -119,7 +119,13 @@ class AuthService {
       String errorMessage = jsonDecode(response.body)['message'];
       print(errorMessage);
       if (context.mounted) {
-        AppUtil.errorToast(context, errorMessage);
+        if (errorMessage == 'Email already exists') {
+          AppUtil.errorToast(context, "emailExists".tr);
+        } else if (errorMessage == 'Mobile number already exists') {
+          AppUtil.errorToast(context, "mobileExists".tr);
+        } else {
+          AppUtil.errorToast(context, errorMessage);
+        }
       }
       return false;
     }
@@ -366,21 +372,21 @@ class AuthService {
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
 
-      if(errorMessage=='email or password is incorrect'){
-      if(AppUtil.rtlDirection2(context)){
-       if (context.mounted) {
-        AppUtil.errorToast(context,'الإيميل أو كلمة السر غير صحيحة' );
-      }
-      } else{
-         if (context.mounted) {
-        AppUtil.errorToast(context, errorMessage);
-      }
-      }
-      }else{
-      if (context.mounted) {
-        AppUtil.errorToast(context, errorMessage);
-      }
-      return null;
+      if (errorMessage == 'email or password is incorrect') {
+        if (AppUtil.rtlDirection2(context)) {
+          if (context.mounted) {
+            AppUtil.errorToast(context, 'الإيميل أو كلمة السر غير صحيحة');
+          }
+        } else {
+          if (context.mounted) {
+            AppUtil.errorToast(context, errorMessage);
+          }
+        }
+      } else {
+        if (context.mounted) {
+          AppUtil.errorToast(context, errorMessage);
+        }
+        return null;
       }
     }
   }
@@ -460,13 +466,13 @@ class AuthService {
       return responsBody;
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
-        if (errorMessage == "replace the email you used with a different one.") {
+      if (errorMessage == "replace the email you used with a different one.") {
         AppUtil.errorToast(context, 'ReplaceEmail'.tr);
       } else {
-      print(errorMessage);
-      if (context.mounted) {
-        AppUtil.errorToast(context, errorMessage);
-      }
+        print(errorMessage);
+        if (context.mounted) {
+          AppUtil.errorToast(context, errorMessage);
+        }
       }
       return null;
     }

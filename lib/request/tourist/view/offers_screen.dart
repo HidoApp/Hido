@@ -92,7 +92,7 @@ class _OfferScreenState extends State<OfferScreen> {
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () async {
-                         _offerController.getOfferById(
+                        _offerController.getOfferById(
                           context: context,
                           offerId: _offerController.offers[index].offerId!,
                         );
@@ -108,9 +108,9 @@ class _OfferScreenState extends State<OfferScreen> {
                             name: _offerController.offers[index].name!,
                             profileId:
                                 _offerController.offers[index].profileId!,
-                               userId: _offerController.offers[index].userId!,
-                            rating:
-                                _offerController.offers[index].tourRating ?? 0.0,
+                            userId: _offerController.offers[index].userId!,
+                            rating: _offerController.offers[index].tourRating ??
+                                0.0,
                             price: _offerController.offers[index].price!,
                             tripNumber:
                                 _offerController.offers[index].tourNumber ??

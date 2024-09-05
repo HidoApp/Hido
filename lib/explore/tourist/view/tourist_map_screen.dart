@@ -185,7 +185,10 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   void initState() {
     super.initState();
     isNew = true;
+    getUserActions();
+
     getPlaces();
+
     addCustomIcon();
     getLocation();
   }
@@ -293,21 +296,18 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
         _touristExploreController.activeStepProgres(-1);
         break;
       case 'ON_WAY':
-        _touristExploreController.activeStepProgres(-1);
+        _touristExploreController.activeStepProgres(0);
         break;
 
       case 'ARRIVED':
-        _touristExploreController.activeStepProgres(0);
+        _touristExploreController.activeStepProgres(1);
         break;
       case 'IN_PROGRESS':
-        _touristExploreController.activeStepProgres(1);
+        _touristExploreController.activeStepProgres(2);
+        _touristExploreController.showActivityProgress(false);
         break;
       case 'COMPLETED':
         _touristExploreController.activeStepProgres(2);
-        _touristExploreController.showActivityProgress(false);
-        if (!_profileController.isUserOpenTheApp.value) {
-          getUserActions();
-        }
 
         break;
       default:
@@ -362,8 +362,13 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
             ? const SizedBox.shrink()
             : _touristExploreController.showActivityProgress.value
                 ? Container(
-                    color: Colors.white,
+                    decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(24),
+                            topLeft: Radius.circular(24))),
                     child: SolidBottomSheet(
+                      //   elevation: 10,
                       showOnAppear: showSheet,
                       toggleVisibilityOnTap: true,
                       maxHeight: width * 0.45,
@@ -471,7 +476,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                   emptyBuilder: (context) => Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: CustomText(
-                      text:'noPlace'.tr,
+                      text: 'noPlace'.tr,
                       color: starGreyColor,
                       fontFamily: AppUtil.SfFontType(context),
                       fontSize: width * 0.038,

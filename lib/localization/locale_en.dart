@@ -667,10 +667,10 @@ const localeEn = {
   'EndTimeLess': "*Please select a date at least 48 hours from now",
   'noBookmarks': 'No Bookmarks',
   'emptyBookmarkText': 'All your bookmarks appear here',
-  'PickMethod':'You have to pick payment method',
-  'ReplaceError':'Replace the used number with another one',
-  'ReplaceEmail':"replace the email you used with a different one",
-  'noPlace':'place not found',
-  
-
+  'PickMethod': 'You have to pick payment method',
+  'ReplaceError': 'Replace the used number with another one',
+  'ReplaceEmail': "replace the email you used with a different one",
+  'noPlace': 'place not found',
+  'emailExists': 'Email already exists',
+  'mobileExists': 'Mobile number already exists'
 };

@@ -29,7 +29,9 @@ class Offer {
       image: json['image'],
       userId: json['userId'],
       //rating: json['rating'],
-      tourRating:json['tourRating'] != null ? (json['tourRating'] as num).toDouble() : 0.0,
+      tourRating: json['tourRating'] != null
+          ? double.parse((json['tourRating'] as num).toStringAsFixed(1))
+          : 0.0,
 
       name: json['name'],
       tourNumber: json['tourNumber'],

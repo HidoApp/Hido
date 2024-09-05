@@ -95,6 +95,7 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                 color: starGreyColor,
                 fontSize: width * 0.043,
                 fontWeight: FontWeight.w500,
+                maxlines: 10,
               ),
               SizedBox(
                 height: width * 0.061,
