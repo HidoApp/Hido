@@ -8,6 +8,7 @@ import 'package:ajwad_v4/new-onboarding/view/account_type_screen.dart';
 import 'package:ajwad_v4/new-onboarding/view/intro_screen.dart';
 import 'package:ajwad_v4/payment/view/payment_type_new.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
+import 'package:ajwad_v4/profile/services/bookmark_services.dart';
 import 'package:ajwad_v4/profile/view/booking_screen.dart';
 import 'package:ajwad_v4/profile/view/bookmark_screen.dart';
 import 'package:ajwad_v4/profile/view/legal_doc_screen.dart';
@@ -281,59 +282,111 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ));
                           },
                         ),
+
+                        if (_profileController.profile.accountType != null)
+                          if (widget.fromAjwady &&
+                              _profileController.profile.accountType ==
+                                  'TOUR_GUID')
+                            CustomListTile(
+                              title: 'legalDoc'.tr,
+                              leading: "assets/icons/legal.svg",
+                              onTap: () => Get.to(() => const LegalDocument()),
+                            ),
+                        if (!widget.fromAjwady)
+                          CustomListTile(
+                            title: "myTickets".tr,
+                            leading: "assets/icons/trips_icon.svg",
+                            onTap: () {
+                              Get.to(
+                                () => TicketScreen(
+                                  profileController: widget.profileController,
+                                ),
+                              );
+                            },
+                          ),
                         CustomListTile(
-                          title: "signOut".tr,
-                          leading: "assets/icons/signout_icon.svg",
-                          // fromAjwady: widget.fromAjwady,
-                          onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  backgroundColor: Colors.white,
-                                  surfaceTintColor: Colors.white,
-                                  shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(8.0))),
-                                  content: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      CustomText(
-                                          textAlign: TextAlign.center,
-                                          fontSize: 20,
-                                          maxlines: 2,
-                                          fontWeight: FontWeight.w500,
-                                          color: black,
-                                          fontFamily:
-                                              AppUtil.rtlDirection2(context)
-                                                  ? "SF Arabic"
-                                                  : 'SF Pro',
-                                          text: "youWantSiginOut".tr),
-                                      const SizedBox(
-                                        height: 20,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 4),
-                                        child: CustomButton(
-                                          height: 25,
-                                          title: "signOut".tr,
-                                          onPressed: () async {
-                                            // log(storage
-                                            //         .read('accessToken') ??
-                                            //     "EMPTY 1");
-                                            var isLogout =
-                                                await AuthService.logOut();
-                                            if (isLogout) {
-                                              Get.offAll(() =>
-                                                  const OnboardingScreen());
-                                            }
-                                          },
+                          title: "bookmark".tr,
+                          leading: "assets/icons/bookmark_icon_profile.svg",
+                          iconColor: black,
+                          onTap: () async {
+                            Get.to(() => const BookmarkScreen());
+                          },
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: width * .041),
+                      child: const Divider(
+                        color: lightGrey,
+                      ),
+                    ),
+                    Expanded(
+                      child: Column(
+                        children: [
+                          CustomListTile(
+                            title: "terms".tr,
+                            leading: "assets/icons/help_icon.svg",
+                            // fromAjwady: widget.fromAjwady,
+                            onTap: () {
+                              Get.to(() => const TermsAndConditions(
+                                    fromAjwady: false,
+                                  ));
+                            },
+                          ),
+                          CustomListTile(
+                            title: "signOut".tr,
+                            leading: "assets/icons/signout_icon.svg",
+                            // fromAjwady: widget.fromAjwady,
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    backgroundColor: Colors.white,
+                                    surfaceTintColor: Colors.white,
+                                    shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(8.0))),
+                                    content: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        CustomText(
+                                            textAlign: TextAlign.center,
+                                            fontSize: 20,
+                                            maxlines: 2,
+                                            fontWeight: FontWeight.w500,
+                                            color: black,
+                                            fontFamily:
+                                                AppUtil.rtlDirection2(context)
+                                                    ? "SF Arabic"
+                                                    : 'SF Pro',
+                                            text: "youWantSiginOut".tr),
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 4),
+                                          child: CustomButton(
+                                            height: 25,
+                                            title: "signOut".tr,
+                                            onPressed: () async {
+                                              // log(storage
+                                              //         .read('accessToken') ??
+                                              //     "EMPTY 1");
+                                              var isLogout =
+                                                  await AuthService.logOut();
+                                              if (isLogout) {
+                                                Get.offAll(() =>
+                                                    const OnboardingScreen());
+                                              }
+                                            },
+                                          ),
                                         ),
                                       ),
                                       Padding(

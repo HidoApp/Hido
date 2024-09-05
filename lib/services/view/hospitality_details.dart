@@ -5,6 +5,9 @@ import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/hoapatility/view/edit_hospitality.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/explore/tourist/view/view_trip_images.dart';
+import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
+import 'package:ajwad_v4/profile/models/bookmark.dart';
+import 'package:ajwad_v4/profile/services/bookmark_services.dart';
 import 'package:ajwad_v4/request/tourist/view/local_offer_info.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/services/model/hospitality.dart';
@@ -56,6 +59,8 @@ late double width, height;
 
 class _HospitalityDetailsState extends State<HospitalityDetails> {
   final _servicesController = Get.put(HospitalityController());
+  final _profileController = Get.put(ProfileController());
+
   int _currentIndex = 0;
   bool isExpanded = false;
   bool isAviailable = false;
@@ -94,7 +99,10 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
   void getHospitalityById() async {
     hospitalityObj = (await _servicesController.getHospitalityById(
         context: context, id: widget.hospitalityId));
+    _profileController.bookmarkList(BookmarkService.getBookmarks());
 
+    _profileController.isHospitaltyBookmarked(_profileController.bookmarkList
+        .any((bookmark) => bookmark.id == hospitalityObj!.id));
     if (hospitalityObj!.booking != null) {
       hideLocation = hospitalityObj!.booking!.isEmpty;
     }
@@ -625,19 +633,45 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                         right: AppUtil.rtlDirection2(context)
                             ? width * 0.82
                             : width * 0.072,
-                        child: Container(
-                            width: 35,
-                            height: 36,
-                            decoration: BoxDecoration(
-                              color:
-                                  Colors.white.withOpacity(0.20000000298023224),
-                              shape: BoxShape.circle,
-                            ),
-                            alignment: Alignment.center,
-                            child: SvgPicture.asset(
-                              "assets/icons/white_bookmark.svg",
-                              height: 28,
-                            )),
+                        child: Obx(
+                          () => GestureDetector(
+                            onTap: () {
+                              _profileController.isHospitaltyBookmarked(
+                                  !_profileController
+                                      .isHospitaltyBookmarked.value);
+                              if (_profileController
+                                  .isHospitaltyBookmarked.value) {
+                                final bookmark = Bookmark(
+                                    isBookMarked: true,
+                                    id: hospitalityObj!.id,
+                                    titleEn: hospitalityObj!.titleEn ?? "",
+                                    titleAr: hospitalityObj!.titleAr ?? "",
+                                    image: hospitalityObj!.images!.first,
+                                    type: 'hospitality');
+                                BookmarkService.addBookmark(bookmark);
+                              } else {
+                                BookmarkService.removeBookmark(
+                                    hospitalityObj!.id);
+                              }
+                            },
+                            child: Container(
+                                width: 35,
+                                height: 36,
+                                decoration: BoxDecoration(
+                                  color: Colors.white
+                                      .withOpacity(0.20000000298023224),
+                                  shape: BoxShape.circle,
+                                ),
+                                alignment: Alignment.center,
+                                child: SvgPicture.asset(
+                                  _profileController
+                                          .isHospitaltyBookmarked.value
+                                      ? "assets/icons/bookmark_fill.svg"
+                                      : "assets/icons/bookmark_icon.svg",
+                                  height: 28,
+                                )),
+                          ),
+                        ),
                       ),
                     if (widget.isLocal)
                       Positioned(
@@ -693,30 +727,31 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                         color: Colors.white,
                       ),
                     ),
-                    if(!widget.isLocal)
-                    Positioned(
-                        top: height * 0.265,
-                        right: width * 0.1,
-                        left: width * 0.1,
-                        // local profile
-                        child: ServicesProfileCard(
-                          onTap: () {
-                            Get.to(
-                              () => ServicesLocalInfo(
-                                  isHospitality: true,
-                                  profileId: hospitalityObj!.userId),
-                            );
-                          },
-                          image: hospitalityObj!.user.profile.image,
-                          name: hospitalityObj!.user.profile.name,
-                        )),
+                    if (!widget.isLocal)
+                      Positioned(
+                          top: height * 0.265,
+                          right: width * 0.1,
+                          left: width * 0.1,
+                          // local profile
+                          child: ServicesProfileCard(
+                            onTap: () {
+                              Get.to(
+                                () => ServicesLocalInfo(
+                                    isHospitality: true,
+                                    profileId: hospitalityObj!.userId),
+                              );
+                            },
+                            image: hospitalityObj!.user.profile.image,
+                            name: hospitalityObj!.user.profile.name,
+                          )),
                     //indicator
                     Center(
                       child: Align(
                         alignment: Alignment.center,
                         child: Padding(
                           padding: EdgeInsets.only(
-                            top:!widget.isLocal? height * 0.24:height * 0.26,
+                            top:
+                                !widget.isLocal ? height * 0.24 : height * 0.26,
                           ), // Set the top padding to control vertical position
                           child: AnimatedSmoothIndicator(
                               effect: WormEffect(

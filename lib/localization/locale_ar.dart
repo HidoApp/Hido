@@ -38,7 +38,7 @@ const localeAr = {
   "ajwady": "مرشد",
   "tourist": "سائح",
   "local": "مواطن محلي",
-  "localGuide":"مقدم خدمة محلي",
+  "localGuide": "مقدم خدمة محلي",
   "xplore": 'Explore',
   "licensedTour": "إذا كنت سائحًا تبحث عن دليل ذي خبرة لتظهر لك ما حولك",
   "alreadyHaveAccount": " لديك حساب ؟",
@@ -656,12 +656,13 @@ const localeAr = {
   'termsOfService': 'الشروط والاحكام',
   'termsText': 'من خلال النقر على إنشاء حساب فأنا اوافق على',
   'ok': 'تأكيد',
-  'EndTimeLess':'يجب اختيار تاريخ بعد 48 ساعة من الآن على الأقل',
-  'PickMethod':'يجب اختيار طريقة الدفع',
-  'ReplaceError':'يجب إدخال رقم جوال مختلف',
-  'ReplaceEmail':'يجب ادخال بريد إلكتروني مختلف',
 
-   'noPlace':'لاتوجد أماكن'
+  'EndTimeLess': 'يجب اختيار تاريخ بعد 48 ساعة من الآن على الأقل',
+  'PickMethod': 'يجب اختيار طريقة الدفع',
+  'ReplaceError': 'يجب إدخال رقم جوال مختلف',
+  'ReplaceEmail': 'يجب ادخال بريد إلكتروني مختلف',
+  'noPlace': 'لاتوجد أماكن',
 
-
+  'noBookmarks': 'لا توجد محفوظات بعد ',
+  'emptyBookmarkText': 'جميع المحفوظات ستظهر هنا'
 };

@@ -18,6 +18,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
   await GetStorage.init('map_markers');
+  await GetStorage.init('bookmark');
 
   await initializeDateFormatting('ar');
   await LocalNotification.init();

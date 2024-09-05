@@ -36,12 +36,12 @@ class ReviewCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CircleAvatar(
-                backgroundColor: almostGrey,
+                //radius: 20,
+                backgroundColor: Colors.transparent,
                 child: image == "profile_image.png"
                     ? SvgPicture.asset(
                         "assets/images/$image",
-                        width: 49,
-                        height: 49,
+                        fit: BoxFit.cover,
                       )
                     : ClipRRect(
                         borderRadius: BorderRadius.circular(30),
