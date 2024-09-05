@@ -1,4 +1,5 @@
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -26,7 +27,7 @@ class CustomListTile extends StatelessWidget {
           textAlign: TextAlign.start,
           text: title,
           color: black,
-          fontFamily: "SF Pro",
+          fontFamily: AppUtil.SfFontType(context),
           fontSize: width * 0.0410,
           fontWeight: FontWeight.w400,
         ),

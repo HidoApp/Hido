@@ -164,7 +164,7 @@ class _ProfileDetailsState extends State<TouriestProfile> {
                 child: Padding(
                      padding: AppUtil.rtlDirection2(context)
                     ? EdgeInsets.only(left: 30, bottom: 4)
-                    : EdgeInsets.only(right: 18, bottom: 4),
+                    : EdgeInsets.only(right: 30, bottom: 4),
                   //padding: EdgeInsets.symmetric(horizontal: width * 0.041),
                   child: CustomText(
                     text: widget.profileController.isEditing.value
