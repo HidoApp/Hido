@@ -214,75 +214,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ],
                   ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: width * .041),
-                    child: Divider(
-                      color: lightGrey,
-                    ),
-                  ),
-                  Column(
-                    children: [
-                      CustomListTile(
-                        title: "myProfile".tr,
-                        leading: "assets/icons/profile_icon.svg",
-                        //   fromAjwady: false,
-                        onTap: () {
-                          Get.to(() => MyAccount(
-                                isLocal: widget.fromAjwady,
-                                profileController: _profileController,
-                              ));
-                        },
+                   Padding(
+                      padding: EdgeInsets.symmetric(horizontal: width * .041),
+                      child: Divider(
+                        color: lightGrey,
                       ),
-                      if (_profileController.profile.accountType != null)
-                        if (widget.fromAjwady &&
-                            _profileController.profile.accountType ==
-                                'TOUR_GUID')
-                          CustomListTile(
-                            title: 'legalDoc'.tr,
-                            leading: "assets/icons/legal.svg",
-                            onTap: () => Get.to(() => const LegalDocument()),
-                          ),
-                      if (!widget.fromAjwady)
-                        CustomListTile(
-                          title: "myTickets".tr,
-                          leading: "assets/icons/trips_icon.svg",
-                          onTap: () {
-                            Get.to(
-                              () => TicketScreen(
-                                profileController: widget.profileController,
-                              ),
-                            );
-                          },
-                        ),
-                      // CustomListTile(
-                      //   title: "bookmark".tr,
-                      //   leading: "assets/icons/bookmark_icon.svg",
-                      //   onTap: () async {
-                      //     Get.to(() => const BookmarkScreen());
-                      //   },
-                      // ),
-                    ],
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: width * .041),
-                    child: const Divider(
-                      color: lightGrey,
                     ),
-                  ),
-                  Expanded(
-                    child: Column(
+                    Column(
                       children: [
                         CustomListTile(
-                          title: "terms".tr,
-                          leading: "assets/icons/help_icon.svg",
-                          // fromAjwady: widget.fromAjwady,
+                          title: "myProfile".tr,
+                          leading: "assets/icons/profile_icon.svg",
+                          //   fromAjwady: false,
                           onTap: () {
-                            Get.to(() => const TermsAndConditions(
-                                  fromAjwady: false,
+                            Get.to(() => MyAccount(
+                                  isLocal: widget.fromAjwady,
+                                  profileController: _profileController,
                                 ));
                           },
                         ),
-
                         if (_profileController.profile.accountType != null)
                           if (widget.fromAjwady &&
                               _profileController.profile.accountType ==
@@ -388,84 +338,84 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             },
                                           ),
                                         ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 4),
-                                        child: CustomButton(
-                                          height: 25,
-                                          borderColor: colorRed,
-                                          buttonColor: Colors.white,
-                                          textColor: colorRed,
-                                          title: "cancel".tr,
-                                          onPressed: () {
-                                            Get.back();
-                                          },
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 4),
+                                          child: CustomButton(
+                                            height: 25,
+                                            borderColor: colorRed,
+                                            buttonColor: Colors.white,
+                                            textColor: colorRed,
+                                            title: "cancel".tr,
+                                            onPressed: () {
+                                              Get.back();
+                                            },
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-                            );
-                            // } else {
-                            //   // can't sign out while looking for an offer
-                            //   Get.dialog(Dialog(
-                            //     backgroundColor: Colors.white,
-                            //     surfaceTintColor: Colors.white,
-                            //     shape: const RoundedRectangleBorder(
-                            //         borderRadius: BorderRadius.all(
-                            //             Radius.circular(8.0))),
-                            //     child: Padding(
-                            //       padding: EdgeInsets.symmetric(
-                            //           vertical: width * 0.051,
-                            //           horizontal: width * 0.061),
-                            //       child: SizedBox(
-                            //         width: width * 0.948,
-                            //         child: Column(
-                            //           mainAxisSize: MainAxisSize.min,
-                            //           children: [
-                            //             Container(
-                            //                 padding: EdgeInsets.all(
-                            //                     width * 0.0205),
-                            //                 alignment: Alignment.center,
-                            //                 decoration: const BoxDecoration(
-                            //                     shape: BoxShape.circle,
-                            //                     color: Color.fromRGBO(
-                            //                         251, 234, 233, 1)),
-                            //                 child: SvgPicture.asset(
-                            //                     'assets/icons/Alerts_signOut.svg')),
-                            //             SizedBox(
-                            //               height: width * 0.0205,
-                            //             ),
-                            //             CustomText(
-                            //               text: "signOutDialog".tr,
-                            //               fontSize: width * 0.0384,
-                            //               fontFamily: "SF Pro",
-                            //               fontWeight: FontWeight.w500,
-                            //             ),
-                            //             CustomText(
-                            //               textAlign: TextAlign.center,
-                            //               text: 'signOutDialogContent'.tr,
-                            //               fontSize: width * 0.0384,
-                            //               fontFamily: "SF Pro",
-                            //               fontWeight: FontWeight.w400,
-                            //             ),
-                            //           ],
-                            //         ),
-                            //       ),
-                            //     ),
-                            //   ));
-                            //   }
-                          },
-                        ),
-                      ],
-                    ),
-                  )
-                ],
+                                      ],
+                                    ),
+                                  );
+                                },
+                              );
+                              // } else {
+                              //   // can't sign out while looking for an offer
+                              //   Get.dialog(Dialog(
+                              //     backgroundColor: Colors.white,
+                              //     surfaceTintColor: Colors.white,
+                              //     shape: const RoundedRectangleBorder(
+                              //         borderRadius: BorderRadius.all(
+                              //             Radius.circular(8.0))),
+                              //     child: Padding(
+                              //       padding: EdgeInsets.symmetric(
+                              //           vertical: width * 0.051,
+                              //           horizontal: width * 0.061),
+                              //       child: SizedBox(
+                              //         width: width * 0.948,
+                              //         child: Column(
+                              //           mainAxisSize: MainAxisSize.min,
+                              //           children: [
+                              //             Container(
+                              //                 padding: EdgeInsets.all(
+                              //                     width * 0.0205),
+                              //                 alignment: Alignment.center,
+                              //                 decoration: const BoxDecoration(
+                              //                     shape: BoxShape.circle,
+                              //                     color: Color.fromRGBO(
+                              //                         251, 234, 233, 1)),
+                              //                 child: SvgPicture.asset(
+                              //                     'assets/icons/Alerts_signOut.svg')),
+                              //             SizedBox(
+                              //               height: width * 0.0205,
+                              //             ),
+                              //             CustomText(
+                              //               text: "signOutDialog".tr,
+                              //               fontSize: width * 0.0384,
+                              //               fontFamily: "SF Pro",
+                              //               fontWeight: FontWeight.w500,
+                              //             ),
+                              //             CustomText(
+                              //               textAlign: TextAlign.center,
+                              //               text: 'signOutDialogContent'.tr,
+                              //               fontSize: width * 0.0384,
+                              //               fontFamily: "SF Pro",
+                              //               fontWeight: FontWeight.w400,
+                              //             ),
+                              //           ],
+                              //         ),
+                              //       ),
+                              //     ),
+                              //   ));
+                              //   }
+                            },
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
             )),
-      ),
-    );
+      );
+    
   }
 }
