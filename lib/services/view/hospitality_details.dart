@@ -375,7 +375,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                       ? const BoxConstraints()
                                       : BoxConstraints(maxHeight: width * 0.1),
                                   child: CustomText(
-                                      maxlines: 200,
+                                      maxlines: 600,
 
                                       //   textAlign: AppUtil.rtlDirection(context) ? TextAlign.end : TextAlign.start ,
                                       textDirection:
@@ -669,6 +669,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                       ? "assets/icons/bookmark_fill.svg"
                                       : "assets/icons/bookmark_icon.svg",
                                   height: 28,
+                                  color: Colors.white,
                                 )),
                           ),
                         ),

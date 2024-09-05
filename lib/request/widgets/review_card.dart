@@ -103,6 +103,7 @@ class ReviewCard extends StatelessWidget {
           fontFamily: AppUtil.SfFontType(context),
           fontSize: width*0.044,
           fontWeight: FontWeight.w400,
+          maxlines: 500,
           color: graySmallText,
         
         

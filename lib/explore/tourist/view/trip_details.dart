@@ -844,6 +844,7 @@ class _TripDetailsState extends State<TripDetails> {
                           ? "assets/icons/bookmark_fill.svg"
                           : "assets/icons/bookmark_icon.svg",
                       height: 28,
+                       color: Colors.white,
                     )),
               ),
             ),

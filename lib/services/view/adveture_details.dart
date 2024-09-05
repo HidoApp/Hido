@@ -369,7 +369,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                     fontFamily: AppUtil.rtlDirection2(context)
                                         ? 'SF Arabic'
                                         : 'SF Pro',
-                                    maxlines: 200,
+                                    maxlines: 600,
                                     color: starGreyColor,
                                     fontSize: width * 0.038,
                                     fontWeight: FontWeight.w400,
@@ -624,6 +624,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                       ? "assets/icons/bookmark_fill.svg"
                                       : "assets/icons/bookmark_icon.svg",
                                   height: 28,
+                                   color: Colors.white,
                                 )),
                           ),
                         ),

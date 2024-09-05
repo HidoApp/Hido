@@ -168,7 +168,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                                   text: _profileController
                                           .isProfileLoading.value
                                       ? ""
-                                      : ' ${_profileController.profile.name ?? ""}',
+                                      : ' ${_profileController.profile.name ?? "".split(' ').take(1).join(' ')}',
                                   style: TextStyle(
                                     color: Color(0xFF37B268),
                                     fontSize: 20,
@@ -183,20 +183,23 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                           ),
                         ),
                         Spacer(),
-                         InkWell(
-                            onTap: () {
-                              ProfileController _profileController =
-                                  Get.put(ProfileController());
-                              Get.to(() => MessagesScreen(
-                                  profileController: _profileController));
-                            },
-                            child: SizedBox(
-                              width: 36,
-                              height: 24,
-                              child: SvgPicture.asset(
-                                  'assets/icons/Communication_black.svg'),
+                         Padding(
+                       padding: const EdgeInsets.only(bottom:6.0),
+                           child: InkWell(
+                              onTap: () {
+                                ProfileController _profileController =
+                                    Get.put(ProfileController());
+                                Get.to(() => MessagesScreen(
+                                    profileController: _profileController));
+                              },
+                              child: SizedBox(
+                                width: 36,
+                                height: 24,
+                                child: SvgPicture.asset(
+                                    'assets/icons/Communication_black.svg'),
+                              ),
                             ),
-                          ),
+                         ),
                       ],
                     ),
                     SizedBox(height: 1),

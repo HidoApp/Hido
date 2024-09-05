@@ -386,7 +386,7 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                                         ? 'SF Arabic'
                                         : 'SF Pro',
                                     fontWeight: FontWeight.w400,
-                                    maxlines: 200,
+                                    maxlines: 600,
                                     color: Color(0xFF9392A0),
                                     fontSize: width * 0.035,
                                     text: AppUtil.rtlDirection2(context)
@@ -638,6 +638,7 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                                       ? "assets/icons/bookmark_fill.svg"
                                       : "assets/icons/bookmark_icon.svg",
                                   height: 28,
+                                   color: Colors.white,
                                 )),
                           ),
                         ),
