@@ -53,7 +53,9 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
                   child: CustomEmptyWidget(
                     title: 'noBookmarks'.tr,
                     subtitle: 'emptyBookmarkText'.tr,
-                    image: 'bookmark_icon',
+                    height: 38,
+                    width: 38,
+                    image: 'bookmark_empty',
                   ),
                 )
               : GridView.builder(
