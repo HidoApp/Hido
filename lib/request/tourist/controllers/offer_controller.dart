@@ -103,6 +103,8 @@ class OfferController extends GetxController {
       isBookingCancelLoading(true);
       final data = await OfferService.bookingCancel(
           context: context, bookingId: bookingId,type: type,reason: reason??'');
+
+          log(reason!);
       isBookingCancel(data ?? false);
       return isBookingCancel.value;
     } catch (e) {

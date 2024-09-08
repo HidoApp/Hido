@@ -574,6 +574,8 @@ class _EditHospitalityState extends State<EditHospitality> {
           context: context,
           builder: (BuildContext context) {
             return Dialog(
+                backgroundColor: Colors.white,
+              surfaceTintColor:Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
@@ -724,6 +726,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                 builder:
                                                     (BuildContext context) {
                                                   return Dialog(
+                                                      backgroundColor: Colors.white,
+                                                       surfaceTintColor:Colors.white,
                                                     shape:
                                                         RoundedRectangleBorder(
                                                       borderRadius:

@@ -316,7 +316,7 @@ class _CustomTicketCardState extends State<CustomTicketCard> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           SvgPicture.asset(
-                            'assets/icons/${widget.booking.orderStatus! == 'ACCEPTED' || widget.booking.orderStatus! == 'FINISHED' ? 'confirmed.svg' : widget.booking.orderStatus! == 'CANCELED' ? 'canceled.svg' : 'waiting.svg'}',
+                            'assets/icons/${widget.booking.orderStatus! == 'ACCEPTED' || widget.booking.orderStatus! == 'FINISHED' ? 'confirmed.svg' : widget.booking.orderStatus! == 'CANCELED' ? 'canceled.svg' : 'pending.svg'}',
                           ),
                           const SizedBox(
                             width: 4,

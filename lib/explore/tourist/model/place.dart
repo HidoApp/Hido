@@ -50,7 +50,9 @@ class Place {
       locationUrl: json['locationUrl'],
       visitors: json['visitors'] ?? 0,
       // rating: json['rating'] ?? 0,
-      rating: json['rating'] != null ? (json['rating'] as num).toDouble() : 0.0,
+      rating: json['rating'] != null ?  double.parse((json['rating'] as num).toStringAsFixed(1))
+          : 0.0,
+     
 
       coordinates: Coordinate.fromJson(json['coordinates']),
       booking: json['booking'] == null

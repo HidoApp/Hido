@@ -541,6 +541,8 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                                               context: context,
                                               builder: (BuildContext context) {
                                                 return Dialog(
+                                                    backgroundColor: Colors.white,
+                                                    surfaceTintColor:Colors.white,
                                                   shape: RoundedRectangleBorder(
                                                     borderRadius:
                                                         BorderRadius.circular(

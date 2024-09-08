@@ -818,7 +818,7 @@ class _PaymentTypeState extends State<PaymentType> {
                             if (_selectedPaymentMethod != null) {
                               await selectPaymentType(_selectedPaymentMethod!);
                             } else {
-                              AppUtil.errorToast(context, "Must pick methoed");
+                              AppUtil.errorToast(context, AppUtil.rtlDirection2(context)? "يجب إختيار طريقة الدفع":"You need to pick payment methoed");
                             }
                           },
                           title: 'pay'.tr,

@@ -21,26 +21,29 @@ class LocalTile extends StatelessWidget {
 
     return Column(
       children: [
-        Row(
-          children: [
-            CustomText(
-              fontSize:width*0.038,
-              fontWeight: FontWeight.w500,
-              text:(tripNumber?.toString() ?? tripRate.toString()),
-              color: black,
-              fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
-
-            ),
-            if (isRating)
-              const SizedBox(
-                width: 4,
+        Directionality(
+          textDirection:AppUtil.rtlDirection2(context)? TextDirection.ltr:TextDirection.rtl,
+          child: Row(
+            children: [
+              CustomText(
+                fontSize:width*0.038,
+                fontWeight: FontWeight.w500,
+                text:(tripNumber?.toString() ?? tripRate.toString()),
+                color: black,
+                fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
+        
               ),
-            if (isRating)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 5),
-                child: SvgPicture.asset("assets/icons/star.svg"),
-              )
-          ],
+              if (isRating)
+                const SizedBox(
+                  width: 4,
+                ),
+              if (isRating)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 5),
+                  child: SvgPicture.asset("assets/icons/star.svg"),
+                )
+            ],
+          ),
         ),
         CustomText(
           text: subtitle,

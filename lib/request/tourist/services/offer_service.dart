@@ -204,10 +204,14 @@ class OfferService {
         token = jwtToken.id;
       }
     }
-
+          log(reason);
+          log(type);
  Map<String, dynamic> body = {
       "reason": reason
     };
+              log(reason);
+                        log(type);
+
     // print(body);
     final response = await http.post(
       Uri.parse('$baseUrl/booking/cancel/$bookingId').replace(queryParameters: {

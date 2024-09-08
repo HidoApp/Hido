@@ -51,6 +51,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   late double width, height;
+  double totalRating=0.0;
 //
   final _profileController = Get.put(ProfileController());
   // final storage = GetStorage();
@@ -64,35 +65,43 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   void getProfile() async {
-    await _profileController.getProfile(context: context);
+    await _profileController.getProfile(context: context).then((value) => totalRating= calculateOverallRating() );
   }
 
-  // double calculateOverallRating() {
-  //   // Access profile properties with null-aware operators
-  //   int tourNumber = _profileController.profile.tourNumber ?? 0;
-  //   int eventNumber = _profileController.profile.eventNumber ?? 0;
-  //   int hostNumber = _profileController.profile.hostNumber ?? 0;
-  //   int adventureNumber = _profileController.profile.adventureNumber ?? 0;
+  double calculateOverallRating() {
+    // Access profile properties with null-aware operators
+    int tourNumber = _profileController.profile.tourNumber ?? 0;
+    int eventNumber = _profileController.profile.eventNumber ?? 0;
+    int hostNumber = _profileController.profile.hostNumber ?? 0;
+    int adventureNumber = _profileController.profile.adventureNumber ?? 0;
 
-  //   int tourRating = _profileController.profile.tourRating ?? 0;
-  //   int eventRating = _profileController.profile.eventRating ?? 0;
-  //   int hostRating = _profileController.profile.hostRating ?? 0;
-  //   int adventureRating = _profileController.profile.adventureRating ?? 0;
+    double tourRating = _profileController.profile.tourRating ?? 0.0;
+    double  eventRating = _profileController.profile.eventRating ?? 0.0;
+    double hostRating = _profileController.profile.hostRating ?? 0.0;
+    double adventureRating = _profileController.profile.adventureRating ?? 0.0;
 
-  //   // Calculate the total number of instances
-  //   int totalInstances =
-  //       tourNumber + eventNumber + hostNumber + adventureNumber;
+    // Calculate the total number of instances
+    int totalInstances =
+        tourNumber + eventNumber + hostNumber + adventureNumber;
 
-  //   // Calculate the weighted sum of ratings
-  //   double totalWeightedSum = ((tourNumber * tourRating) +
-  //           (eventNumber * eventRating) +
-  //           (hostNumber * hostRating) +
-  //           (adventureNumber * adventureRating))
-  //       .toDouble();
+    // Calculate the weighted sum of ratings
+    double totalWeightedSum = ((tourNumber * tourRating) +
+            (eventNumber * eventRating) +
+            (hostNumber * hostRating) +
+            (adventureNumber * adventureRating))
+        .toDouble();
 
-  //   // Return the overall rating, ensuring no division by zero
-  //   return totalInstances > 0 ? totalWeightedSum / totalInstances : 0;
-  // }
+    // Return the overall rating, ensuring no division by zero
+    return totalInstances > 0 ? double.parse((totalWeightedSum / totalInstances).toStringAsFixed(1)):0.0;
+
+
+  //double averageRating = (tourRating + eventRating + hostRating + adventureRating) / 4;
+  
+  // // Return the average rating formatted to one decimal place
+  // return double.parse(averageRating.toStringAsFixed(1));
+    
+    
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -174,21 +183,45 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           Row(
                             //type and rate
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               CustomText(
                                 text: widget.fromAjwady
-                                    ? "${"local".tr}   |  ${_profileController.isProfileLoading.value ? "" : _profileController.profile.tourRating ?? ""} "
+                                    ? "${"local".tr} "
                                     : "tourist".tr,
                                 color: colorDarkGrey,
                                 fontSize: width * 0.03,
                                 fontWeight: FontWeight.w500,
                               ),
+                                if (widget.fromAjwady)
+                             CustomText(
+                                text:" |",
+                                color: colorDarkGrey,
+                                fontSize: width * 0.03,
+                                fontWeight: FontWeight.w500,
+                              ),
+                           if (widget.fromAjwady)
+                              SizedBox(
+                                width: width * 0.015,
+                              ),
                               if (widget.fromAjwady)
-                                SvgPicture.asset(
-                                  "assets/icons/star.svg",
-                                  width: 12,
-                                  height: 12,
-                                )
+                                Padding(
+                                  padding: const EdgeInsets.only(top:2.0),
+                                  child: SvgPicture.asset(
+                                    "assets/icons/star.svg",
+                                    width: 12,
+                                    height: 12,
+                                  ),
+                                ),
+                              if (widget.fromAjwady)
+                                CustomText(
+                                  text:" ${totalRating}",
+                                  //    "  ${_profileController.isProfileLoading.value ? "" : _profileController.profile.tourRating ?? ""} ",
+                                  color: colorDarkGrey,
+                                  fontSize: width * 0.03,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              
                             ],
                           )
                         ],

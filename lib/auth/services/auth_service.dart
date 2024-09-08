@@ -369,7 +369,7 @@ class AuthService {
       if(errorMessage=='email or password is incorrect'){
       if(AppUtil.rtlDirection2(context)){
        if (context.mounted) {
-        AppUtil.errorToast(context,'الإيميل أو كلمة السر غير صحيحة' );
+        AppUtil.errorToast(context,'البريد الإلكتروني أو كلمة المرور غير صحيحة' );
       }
       } else{
          if (context.mounted) {

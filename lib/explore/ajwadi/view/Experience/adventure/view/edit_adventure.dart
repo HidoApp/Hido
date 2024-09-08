@@ -485,6 +485,8 @@ class _EditAdventureState extends State<EditAdventure> {
           context: context,
           builder: (BuildContext context) {
             return Dialog(
+              backgroundColor: Colors.white,
+              surfaceTintColor:Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
@@ -633,6 +635,8 @@ class _EditAdventureState extends State<EditAdventure> {
                                                 builder:
                                                     (BuildContext context) {
                                                   return Dialog(
+                                                      backgroundColor: Colors.white,
+                                                     surfaceTintColor:Colors.white,
                                                     shape:
                                                         RoundedRectangleBorder(
                                                       borderRadius:

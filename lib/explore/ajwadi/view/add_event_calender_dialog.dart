@@ -80,7 +80,7 @@ class _EventCalenderDialogState extends State<EventCalenderDialog> {
       for (int i = 0; i < selectedDates.length; i += 1) {
         DateTime startDate = selectedDates[i];
         DateTime endDate = (i < selectedDates.length)
-            ? selectedDates[i ]
+            ? selectedDates[i]
             : startDate; // Use the same date for start and end if there's no end date
 
         ranges.add(PickerDateRange(startDate, endDate));
@@ -120,7 +120,7 @@ class _EventCalenderDialogState extends State<EventCalenderDialog> {
                   child: SfDateRangePicker(
                       backgroundColor: Colors.white,
                       minDate: DateTime.now(),
-                    initialSelectedRanges: _getInitialSelectedRanges(),
+                      initialSelectedRanges: _getInitialSelectedRanges(),
 
                       // initialSelectedRange: widget.eventController != null &&
                       //         widget.eventController!.isEventDateSelcted.value
@@ -183,65 +183,66 @@ class _EventCalenderDialogState extends State<EventCalenderDialog> {
                             color: Color(0xFF37B268),
                           )),
                       showNavigationArrow: true,
-                      onSelectionChanged: (selected) {
-                        setState(() {
-                          if (selected.value is List<PickerDateRange>) {
-                            // Handle multiple ranges
-                            List<PickerDateRange> ranges =
-                                selected.value as List<PickerDateRange>;
-                            selectedDates = [];
-                            for (var range in ranges) {
-                              DateTime? startDate = range.startDate;
-                              DateTime? endDate = range.endDate;
+                     onSelectionChanged: (selected) {
+  setState(() {
+    // Clear previously selected dates
+    selectedDates = [];
 
-                              if (startDate != null && endDate != null) {
-                                for (DateTime date = startDate;
-                                    date.isBefore(endDate) ||
-                                        date.isAtSameMomentAs(endDate);
-                                    date = date.add(Duration(days: 1))) {
-                                  selectedDates!.add(DateTime(
-                                      date.year, date.month, date.day));
-                                }
-                              }
-                            }
-                            selectedDate = selectedDates!
-                                .map((date) => date.toString())
-                                .join(', ');
-                          } else if (selected.value is PickerDateRange) {
-                            // Handle single range selection
-                            PickerDateRange range =
-                                selected.value as PickerDateRange;
-                            DateTime? startDate = range.startDate;
-                            DateTime? endDate = range.endDate;
+    // Handle multiple date ranges (if supported)
+    if (selected.value is List<PickerDateRange>) {
+      List<PickerDateRange> ranges = selected.value as List<PickerDateRange>;
 
-                            if (startDate != null && endDate != null) {
-                              selectedDates = [];
-                              for (DateTime date = startDate;
-                                  date.isBefore(endDate) ||
-                                      date.isAtSameMomentAs(endDate);
-                                  date = date.add(Duration(days: 1))) {
-                                selectedDates!.add(
-                                    DateTime(date.year, date.month, date.day));
-                              }
-                              selectedDate =
-                                  '${DateTime(startDate.year, startDate.month, startDate.day).toString()}';
-                            }
-                          } else if (selected.value is DateTime) {
-                            // Handle single date selection
-                            DateTime singleDate = selected.value as DateTime;
-                            selectedDates = [
-                              DateTime(singleDate.year, singleDate.month,
-                                  singleDate.day)
-                            ];
-                            selectedDate = DateTime(singleDate.year,
-                                    singleDate.month, singleDate.day)
-                                .toString();
-                          }
-                        });
+      for (var range in ranges) {
+        DateTime? startDate = range.startDate;
+        DateTime? endDate = range.endDate ?? startDate; // If endDate is null, assume it's a single date range
 
-                        print("Selected Dates: $selectedDates");
-                        print("Selected Date: $selectedDate");
-                      }),
+        if (startDate != null) {
+          for (DateTime date = startDate;
+              date.isBefore(endDate!) || date.isAtSameMomentAs(endDate);
+              date = date.add(Duration(days: 1))) {
+            selectedDates!.add(DateTime(date.year, date.month, date.day));
+          }
+        }
+      }
+
+      // Join the selected dates as a string
+      selectedDate = selectedDates!
+          .map((date) => date.toString())
+          .join(', ');
+
+    // Handle a single date range (start and end date)
+    } else if (selected.value is PickerDateRange) {
+      PickerDateRange range = selected.value as PickerDateRange;
+      DateTime? startDate = range.startDate;
+      DateTime? endDate = range.endDate ?? startDate; // If endDate is null, assume it's the same as startDate
+
+      if (startDate != null) {
+        for (DateTime date = startDate;
+            date.isBefore(endDate!) || date.isAtSameMomentAs(endDate);
+            date = date.add(Duration(days: 1))) {
+          selectedDates!.add(DateTime(date.year, date.month, date.day));
+        }
+
+        selectedDate = selectedDates!
+            .map((date) => date.toString())
+            .join(', ');
+      }
+
+    // Handle a single date selection
+    } else if (selected.value is DateTime) {
+      DateTime singleDate = selected.value as DateTime;
+      selectedDates = [DateTime(singleDate.year, singleDate.month, singleDate.day)];
+      
+      // Format single date to string
+      selectedDate = selectedDates![0].toString();
+    }
+  });
+
+  // Debug prints for selected dates
+  print("Selected Dates: $selectedDates");
+  print("Selected Date: $selectedDate");
+}),
+
                 ),
               ),
             ),

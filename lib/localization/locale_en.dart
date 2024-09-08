@@ -670,7 +670,7 @@ const localeEn = {
   'PickMethod':'You have to pick payment method',
   'ReplaceError':'Replace the used number with another one',
   'ReplaceEmail':"replace the email you used with a different one",
-  'noPlace':'place not found',
+  'noEndTrip': "Booking not canceled",
   
 
 };

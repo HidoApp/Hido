@@ -97,6 +97,7 @@ class ReviewCard extends StatelessWidget {
           ),
         ),
         //description
+        if(description.isNotEmpty||description!="")...[
         CustomText(
           text: description,
           textAlign:AppUtil.rtlDirection2(context)?TextAlign.right:TextAlign.left,
@@ -108,7 +109,10 @@ class ReviewCard extends StatelessWidget {
         
         
         
-        ), //comment sperated
+        ),
+        SizedBox(height: 10) ,//comment sperated
+
+      ],
         const Divider(
           color: lightGrey,
         )
