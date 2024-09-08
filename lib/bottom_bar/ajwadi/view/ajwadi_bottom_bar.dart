@@ -57,84 +57,79 @@ class _AjwadiBottomBarState extends State<AjwadiBottomBar>
           color: lightBlack,
           child: bottomScreens[currentIndex],
         ),
-        bottomNavigationBar: Padding(
-          padding: const EdgeInsets.only(bottom: 28),
-          child: BottomNavigationBar(
-            elevation: 0,
-            enableFeedback: false,
-            backgroundColor: Colors.white,
-            currentIndex: currentIndex,
-            type: BottomNavigationBarType.fixed,
-            unselectedItemColor: colorDarkGrey,
-            selectedItemColor: colorGreen,
-            unselectedLabelStyle: TextStyle(
-              fontSize: 11,
-              fontWeight: FontWeight.w600,
-              fontFamily:
-                  AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-              color: colorDarkGrey,
-            ),
-            selectedLabelStyle: TextStyle(
-              fontSize: 11,
-              fontWeight: FontWeight.w600,
-              fontFamily:
-                  AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-              color: colorGreen,
-            ),
-            items: [
-              BottomNavigationBarItem(
-                  label: "home".tr,
-                  icon: SvgPicture.asset(
-                    "assets/icons/request_icon.svg",
-                    color: currentIndex == 0 ? colorGreen : colorDarkGrey,
-                  )),
-              if (isTourGuide)
-                BottomNavigationBarItem(
-                    label: "request".tr,
-                    icon: Padding(
-                      padding: const EdgeInsets.only(bottom: 4.0),
-                      child: SvgPicture.asset(
-                        "assets/icons/my_request_green.svg",
-                        color: currentIndex == 1 ? colorGreen : colorDarkGrey,
-                      ),
-                    )),
-              BottomNavigationBarItem(
-                  label: "MyExperiences".tr,
-                  icon: Padding(
-                    padding: const EdgeInsets.only(bottom: 4.0),
-                    child: SvgPicture.asset(
-                      "assets/icons/my_experiences.svg",
-                      color: isTourGuide
-                          ? currentIndex == 2
-                              ? colorGreen
-                              : colorDarkGrey
-                          : currentIndex == 1
-                              ? colorGreen
-                              : colorDarkGrey,
-                    ),
-                  )),
-              BottomNavigationBarItem(
-                  label: "profile".tr,
-                  icon: Padding(
-                    padding: const EdgeInsets.only(bottom: 4.0),
-                    child: SvgPicture.asset(
-                      "assets/icons/my_profile_green.svg",
-                      color: isTourGuide
-                          ? currentIndex == 3
-                              ? colorGreen
-                              : colorDarkGrey
-                          : currentIndex == 2
-                              ? colorGreen
-                              : colorDarkGrey,
-                    ),
-                  )),
-            ],
-            onTap: (int newIndex) {
-              setState(() {
-                currentIndex = newIndex;
-              });
-            },
+        bottomNavigationBar: BottomNavigationBar(
+          elevation: 0,
+          enableFeedback: false,
+          backgroundColor: Colors.white,
+          currentIndex: currentIndex,
+          type: BottomNavigationBarType.fixed,
+          unselectedItemColor: colorDarkGrey,
+          selectedItemColor: colorGreen,
+          unselectedLabelStyle: TextStyle(
+            fontSize: 11,
+            fontWeight: FontWeight.w600,
+            fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+            color: colorDarkGrey,
           ),
+          selectedLabelStyle: TextStyle(
+            fontSize: 11,
+            fontWeight: FontWeight.w600,
+            fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+            color: colorGreen,
+          ),
+          items: [
+            BottomNavigationBarItem(
+                label: "home".tr,
+                icon: SvgPicture.asset(
+                  "assets/icons/request_icon.svg",
+                  color: currentIndex == 0 ? colorGreen : colorDarkGrey,
+                )),
+            if (isTourGuide)
+              BottomNavigationBarItem(
+                  label: "request".tr,
+                  icon: Padding(
+                    padding: const EdgeInsets.only(bottom: 4.0),
+                    child: SvgPicture.asset(
+                      "assets/icons/my_request_green.svg",
+                      color: currentIndex == 1 ? colorGreen : colorDarkGrey,
+                    ),
+                  )),
+            BottomNavigationBarItem(
+                label: "MyExperiences".tr,
+                icon: Padding(
+                  padding: const EdgeInsets.only(bottom: 4.0),
+                  child: SvgPicture.asset(
+                    "assets/icons/my_experiences.svg",
+                    color: isTourGuide
+                        ? currentIndex == 2
+                            ? colorGreen
+                            : colorDarkGrey
+                        : currentIndex == 1
+                            ? colorGreen
+                            : colorDarkGrey,
+                  ),
+                )),
+            BottomNavigationBarItem(
+                label: "profile".tr,
+                icon: Padding(
+                  padding: const EdgeInsets.only(bottom: 4.0),
+                  child: SvgPicture.asset(
+                    "assets/icons/my_profile_green.svg",
+                    color: isTourGuide
+                        ? currentIndex == 3
+                            ? colorGreen
+                            : colorDarkGrey
+                        : currentIndex == 2
+                            ? colorGreen
+                            : colorDarkGrey,
+                  ),
+                )),
+          ],
+          onTap: (int newIndex) {
+            setState(() {
+              currentIndex = newIndex;
+            });
+          },
         ));
   }
 }

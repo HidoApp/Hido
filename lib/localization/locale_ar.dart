@@ -162,7 +162,7 @@ const localeAr = {
   "myOrders": "طلباتي",
   "delivered": "تم التوصيل",
   "onGoing": "قيد التنفيذ",
-  "bookmark": "مرجعي",
+  "bookmark": "المحفوظات",
   "trips": "رحلاتي",
   "paymentMethods": "عمليات الدفع",
   "contactUs": "اتصل بنا",
@@ -404,7 +404,7 @@ const localeAr = {
   'welcomeHido': "اهلا بك في هايدو!",
   "signUpTourist": "إنشاء حساب كسائح",
   "signUpLocal":
-      "سجل معنا كـ (Local) يعني : شخص محلي من أهل البلد ويبغى يقدم تجارب سياحية في منطقته سواء إرشاد أو استضافة أو مغامرة ;)",
+      "سجل معنا كـ محلي من أهل البلد ويبغى يقدم تجارب سياحية في منطقته ;)",
   "guestSubtitle": "انضم إلينا واحصل على تجربة فريدة",
   "languages": "اللغات",
   "loclaInfo": "صفحة المرشد المحلي",
@@ -535,7 +535,7 @@ const localeAr = {
 
   // 'adventuredetails': 'تفاصيل المغامرة',
   // 'localProfile': 'صفحة المرشد المحلي',
-  'signInLocal': 'سجل دخولك كـ (Local) ',
+  'signInLocal': 'سجل دخولك كـ محلي ',
   'otp': 'تم إرسال رمز التحقق',
   'otpPhone': " أرسلنا رمز التحقق إلى رقمك ",
   'phoneHint': 'ادخل رقم جوالك',
@@ -589,7 +589,7 @@ const localeAr = {
   'pickUpTitle': 'التقيت بمرشدك المحلي  ',
   'pickUpSubtitle':
       "ممتاز! طالع لنا إنك التقيت بمرشدك المحلي. وبكذا جولتك بدأت :)",
-  'tourStarted': 'وقت الجولة بدأ!',
+  'tourStarted': 'وقت الجولة بدأ',
   'tourStartedSubtitle': 'نتمنى لك وقت ممتع ، وذكريات وتجارب مميزة لا تنسى',
   'tourCompleted': 'اكتملت جولتك!',
   'tourCompletedSubtitle': 'لا تنسى تحكينا عن تجربتك ;) ',
@@ -654,7 +654,7 @@ const localeAr = {
   'fullyBooked': "محجوزه بالكامل",
 
   'termsOfService': 'الشروط والاحكام',
-  'termsText': 'من خلال النقر على إنشاء حساب فأنا اوافق على',
+  'termsText': " اوافق على",
   'ok': 'تأكيد',
 
   'EndTimeLess': 'يجب اختيار تاريخ بعد 48 ساعة من الآن على الأقل',
@@ -664,5 +664,7 @@ const localeAr = {
   'noPlace': 'لاتوجد أماكن',
 
   'noBookmarks': 'لا توجد محفوظات بعد ',
-  'emptyBookmarkText': 'جميع المحفوظات ستظهر هنا'
+  'emptyBookmarkText': 'جميع المحفوظات ستظهر هنا',
+  'emailExists': 'يوجد حساب بهذا البريد الالكتروني',
+  'mobileExists': 'يوجد حساب بهذا الرقم', 'onTheWay': 'في الطريق '
 };

@@ -37,8 +37,8 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
 
     if (!AppUtil.isGuest()) {
       getProfile();
-      getUserActions();
-      _profileController.isUserOpenTheApp(true);
+      // getUserActions();
+      // _profileController.isUserOpenTheApp(true);
     }
   }
 
@@ -63,6 +63,7 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: PageView(
         physics: const NeverScrollableScrollPhysics(),
@@ -80,8 +81,13 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
                 ),
         ],
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(bottom: 20),
+      bottomNavigationBar: Container(
+        decoration: const BoxDecoration(boxShadow: [
+          BoxShadow(
+              blurRadius: 40,
+              color: Color.fromRGBO(33, 33, 33, 0.05),
+              offset: Offset(10, 0))
+        ]),
         child: BottomNavigationBar(
           elevation: 0,
           enableFeedback: false,
@@ -131,23 +137,18 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
               label: 'explore'.tr,
             ),
             BottomNavigationBarItem(
-              icon: Padding(
-                padding: const EdgeInsets.only(bottom: 3.0),
-                child: RepaintBoundary(
-                  child: SvgPicture.asset(
-                    'assets/icons/request_icon.svg',
-                  ),
-                ),
-              ),
-              activeIcon: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                ),
+              icon: Container(
+                decoration: _currentIndex == 1
+                    ? BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [],
+                      )
+                    : const BoxDecoration(),
                 child: Padding(
-                  padding: const EdgeInsets.only(bottom: 3.0),
+                  padding: const EdgeInsets.only(bottom: 4.0),
                   child: RepaintBoundary(
                     child: SvgPicture.asset(
-                      'assets/icons/select_request_icon.svg',
+                      'assets/icons/request_icon.svg',
                       color:
                           _currentIndex == 1 ? colorGreen : Color(0xFFB9B8C1),
                     ),
@@ -156,44 +157,12 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
               ),
               label: 'services'.tr,
             ),
-            // BottomNavigationBarItem(
-            //   icon: Padding(
-            //     padding: const EdgeInsets.all(8.0),
-            //     child: Container(
-            //       decoration: _currentIndex == 2
-            //           ? BoxDecoration(
-            //               borderRadius: BorderRadius.circular(20),
-            //               boxShadow: [
-            //                 BoxShadow(
-            //                   color: blue.withOpacity(0.2),
-            //                   blurRadius: 5,
-            //                   spreadRadius: 3,
-            //                   offset: const Offset(0, 0), // Shadow position
-            //                 ),
-            //               ],
-            //             )
-            //           : const BoxDecoration(),
-            //       child: SvgPicture.asset(
-            //         'assets/icons/bag.svg',
-            //         color: _currentIndex == 2 ? blue : colorDarkGrey,
-            //       ),
-            //     ),
-            //   ),
-            //   label: 'shop'.tr,
-            // ),
             BottomNavigationBarItem(
               icon: Container(
-                decoration: _currentIndex == 3
+                decoration: _currentIndex == 2
                     ? BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: colorGreen.withOpacity(0.2),
-                            blurRadius: 5,
-                            spreadRadius: 3,
-                            offset: const Offset(0, 0), // Shadow position
-                          ),
-                        ],
+                        boxShadow: [],
                       )
                     : const BoxDecoration(),
                 child: Padding(

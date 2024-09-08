@@ -5,6 +5,7 @@ import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/models/bookmark.dart';
 import 'package:ajwad_v4/profile/services/bookmark_services.dart';
 import 'package:ajwad_v4/profile/widget/bookmark_card.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_bookmark_card.dart';
 import 'package:ajwad_v4/widgets/custom_empty_widget.dart';
@@ -45,6 +46,7 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
         padding: EdgeInsets.only(
           left: width * 0.041,
           right: width * 0.041,
+          bottom: width * 0.030,
           top: width * 0.030,
         ),
         child: Obx(
@@ -83,7 +85,9 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
                       },
                       isBookMarked:
                           _profileController.bookmarkList[index].isBookMarked,
-                      title: _profileController.bookmarkList[index].titleEn,
+                      title: AppUtil.rtlDirection2(context)
+                          ? _profileController.bookmarkList[index].titleAr
+                          : _profileController.bookmarkList[index].titleEn,
                       image: _profileController.bookmarkList[index].image,
                       type: _profileController.bookmarkList[index].type,
                       index: index,

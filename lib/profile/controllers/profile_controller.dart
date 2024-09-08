@@ -268,6 +268,7 @@ class ProfileController extends GetxController {
   Future<List<ActivityProgress>?> getAllActions(
       {required BuildContext context}) async {
     try {
+      log('Here Actions');
       isActionsListLoading(true);
       final data = await ProfileService.getAllActions(context: context);
       if (data != null) {

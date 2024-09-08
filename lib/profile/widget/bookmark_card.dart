@@ -62,12 +62,14 @@ class _BookmarkCardState extends State<BookmarkCard> {
     final width = MediaQuery.of(context).size.width;
     return Container(
         decoration: BoxDecoration(
-            boxShadow: const [BoxShadow(blurRadius: 15, color: Colors.black26)],
+            boxShadow: const [BoxShadow(blurRadius: 8, color: Colors.black26)],
             borderRadius: BorderRadius.circular(8),
             color: black),
         child: GridTile(
           header: Align(
-            alignment: Alignment.centerRight,
+            alignment: AppUtil.rtlDirection2(context)
+                ? Alignment.centerLeft
+                : Alignment.centerRight,
             child: Padding(
               padding: const EdgeInsets.all(4.0),
               child: GestureDetector(
@@ -81,8 +83,8 @@ class _BookmarkCardState extends State<BookmarkCard> {
                     widget.isBookMarked
                         ? 'assets/icons/bookmark_fill.svg'
                         : "assets/icons/bookmark_icon.svg",
-                    width: width * 0.035,
-                    height: width * 0.035,
+                    width: width * 0.06,
+                    height: width * 0.06,
                   ),
                 ),
               ),
