@@ -235,30 +235,30 @@ class _ServicesCardState extends State<ServicesCard> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  if (AppUtil.rtlDirection2(context))
-                    CustomText(
-                      text: widget.rate,
-                      fontSize: width * 0.025,
-                      fontWeight: FontWeight.w700,
-                      color: colorDarkGreen,
-                      fontFamily: 'Kufam',
-                    ),
-                  if (AppUtil.rtlDirection2(context))
-                    SizedBox(
-                      width: width * 0.01,
-                    ),
+                  // if (AppUtil.rtlDirection2(context))
+                  //   CustomText(
+                  //     text: widget.rate,
+                  //     fontSize: width * 0.025,
+                  //     fontWeight: FontWeight.w700,
+                  //     color: colorDarkGreen,
+                  //     fontFamily: AppUtil.SfFontType(context),
+                  //   ),
+                  // if (AppUtil.rtlDirection2(context))
+                  //   SizedBox(
+                  //     width: width * 0.01,
+                  //   ),
                   RepaintBoundary(
                       child: SvgPicture.asset('assets/icons/star.svg')),
                   SizedBox(
                     width: width * 0.01,
                   ),
-                  if (!AppUtil.rtlDirection2(context))
+                  // if (!AppUtil.rtlDirection2(context))
                     CustomText(
                       text: widget.rate,
                       fontSize: width * 0.025,
                       fontWeight: FontWeight.w700,
                       color: colorDarkGreen,
-                      fontFamily: 'Kufam',
+                      fontFamily: AppUtil.SfFontType(context),
                     ),
                 ],
               ),

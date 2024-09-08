@@ -548,6 +548,8 @@ class _EditEventState extends State<EditEvent> {
           context: context,
           builder: (BuildContext context) {
             return Dialog(
+                backgroundColor: Colors.white,
+              surfaceTintColor:Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
@@ -693,6 +695,8 @@ class _EditEventState extends State<EditEvent> {
                                                 builder:
                                                     (BuildContext context) {
                                                   return Dialog(
+                                                      backgroundColor: Colors.white,
+                                                      surfaceTintColor:Colors.white,
                                                     shape:
                                                         RoundedRectangleBorder(
                                                       borderRadius:

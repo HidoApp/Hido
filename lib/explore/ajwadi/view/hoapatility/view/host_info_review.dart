@@ -369,6 +369,8 @@ class _HostInfoReviewState extends State<HostInfoReview> {
         context: context,
         builder: (BuildContext context) {
           return Dialog(
+              backgroundColor: Colors.white,
+              surfaceTintColor:Colors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
             ),

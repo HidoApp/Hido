@@ -58,11 +58,20 @@ class _EventExperienceCardState extends State<EventExperienceCard> {
     final parsedDateInRiyadh =
         tz.TZDateTime.from(parsedDate, location).subtract(Duration(hours: 3));
 
+ // Compare only year, month, and day
+  // bool isSameDay = currentDateInRiyadh.year == parsedDateInRiyadh.year &&
+  //                   currentDateInRiyadh.month == parsedDateInRiyadh.month &&
+  //                   currentDateInRiyadh.day == parsedDateInRiyadh.day;
+
+  // if (isSameDay) {
+  //   return true;
+  // }
     Duration difference = parsedDateInRiyadh.difference(currentDateInRiyadh);
     print('this deffrence');
     print(difference);
     print(parsedDateInRiyadh);
-    return difference.inHours <= 24 && difference.inHours > 0;
+   return difference.inHours <= 24 ;
+    // return difference.inHours <= 24 && difference.inHours > 0;
   }
 
   bool isDateOut(String date) {
@@ -75,8 +84,19 @@ class _EventExperienceCardState extends State<EventExperienceCard> {
     DateTime parsedDate = DateTime.parse(date);
     final parsedDateInRiyadh =
         tz.TZDateTime.from(parsedDate, location).subtract(Duration(hours: 3));
+        log(parsedDate.toString());
+   log(parsedDateInRiyadh.toString());
+   log(currentDateInRiyadh.toString());
 
-    return parsedDateInRiyadh.isBefore(currentDateInRiyadh);
+   if (parsedDateInRiyadh.year == currentDateInRiyadh.year &&
+      parsedDateInRiyadh.month == currentDateInRiyadh.month &&
+      parsedDateInRiyadh.day == currentDateInRiyadh.day) {
+    return false;  // Return false if it's the same day
+  }
+
+  return parsedDateInRiyadh.isBefore(currentDateInRiyadh);
+
+    // return parsedDateInRiyadh.isBefore(currentDateInRiyadh);
   }
 
   late ExpandedTileController _controller;
@@ -246,8 +266,8 @@ class _EventExperienceCardState extends State<EventExperienceCard> {
                 },
                 title: CustomText(
                   text: AppUtil.rtlDirection2(context)
-                      ? 'تغيير التاريخ'
-                      : 'Change Date',
+                      ? (!widget.isPast)? 'تغيير التاريخ':'التواريخ المحجوزة'
+                      : (!widget.isPast)?'Change Date':"Booked Dates",
                   color: black,
                   fontSize: 13,
                   fontFamily:

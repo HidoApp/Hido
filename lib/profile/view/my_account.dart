@@ -47,24 +47,22 @@ class _MyAccountState extends State<MyAccount> {
   String getPhoneNumber() {
     //to secure phone number
     final String number = widget.profileController.profile.phoneNumber!;
-      String firstDigit = number.substring(0, 2);
+    String firstDigit = number.substring(0, 2);
 
     // Last two digits
-  String lastTwoDigits = number.substring(number.length - 2);
+    String lastTwoDigits = number.substring(number.length - 2);
 
-  // Number of asterisks needed between the first digit and last two digits
-  String maskedSection = '*' * (number.length - 3);
+    // Number of asterisks needed between the first digit and last two digits
+    String maskedSection = '*' * (number.length - 3);
 
-  // Combine the sections
-  log(firstDigit + maskedSection + lastTwoDigits);
-   if (AppUtil.rtlDirection2(context)) {
-return  '\u202A' +(firstDigit + maskedSection + lastTwoDigits) + '\u202C';
-  //  return String.fromCharCodes((firstDigit + maskedSection + lastTwoDigits).runes.toList().reversed);
-
-    
-  } else {
+    // Combine the sections
+    log(firstDigit + maskedSection + lastTwoDigits);
+    if (AppUtil.rtlDirection2(context)) {
+      return '\u202A' + (firstDigit + maskedSection + lastTwoDigits) + '\u202C';
+      //  return String.fromCharCodes((firstDigit + maskedSection + lastTwoDigits).runes.toList().reversed);
+    } else {
       return firstDigit + maskedSection + lastTwoDigits;
-  }
+    }
   }
 
   @override
@@ -163,88 +161,89 @@ return  '\u202A' +(firstDigit + maskedSection + lastTwoDigits) + '\u202C';
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
-                      return AlertDialog(
+                      return Dialog(
                         backgroundColor: Colors.white,
                         surfaceTintColor: Colors.white,
                         shape: const RoundedRectangleBorder(
                             borderRadius:
-                                BorderRadius.all(Radius.circular(32.0))),
-                        content: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            SizedBox(
-                              height: width * 0.025,
-                            ),
-                            FittedBox(
-                              child: CustomText(
-                                  textAlign: TextAlign.center,
-                                  fontSize: width * 0.046,
-                                  fontWeight: FontWeight.w300,
-                                  color: dividerColor,
-                                  text: "youWantDeleteYourAccount".tr),
-                            ),
-                            SizedBox(
-                              height: width * 0.051,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: width * 0.051,
+                                BorderRadius.all(Radius.circular(8.0))),
+                        child: Container(
+                          width: double.infinity,
+                           padding: const EdgeInsets.all(12.0),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              const SizedBox(
+                                height: 10,
                               ),
-                              child: GestureDetector(
-                                onTap: () async {
-                                  final authController =
-                                      Get.put(AuthController());
-                                  final isSuccess = await authController
-                                      .deleteAccount(context: context);
-
-                                  if (isSuccess) {
-                                    Get.offAll(() => const OnboardingScreen());
-                                  }
-                                },
-                                child: Container(
-                                  height: width * 0.102,
-                                  width: width * 0.915,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(8),
-                                      border: Border.all(
-                                          color: Colors.red, strokeAlign: 1)),
-                                  child: CustomText(
-                                    text: "deleteAccount".tr,
-                                    color: Colors.red,
-                                    fontSize: width * .041,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: width * 0.051,
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                Get.back();
-                              },
-                              child: CustomText(
+                              CustomText(
                                   textAlign: TextAlign.center,
-                                  fontSize: width * .041,
+                                  fontSize: 20,
+                                  maxlines: 2,
                                   fontWeight: FontWeight.w500,
                                   color: black,
-                                  text: "cancel".tr.toUpperCase()),
-                            ),
-                          ],
+                                  fontFamily: AppUtil.rtlDirection2(context)
+                                      ? "SF Arabic"
+                                      : 'SF Pro',
+                                  text: "youWantDeleteYourAccount".tr),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 4),
+                                child: CustomButton(
+                                  height: 25,
+                                  buttonColor: colorRed,
+                                  borderColor: colorRed,
+                                  title: "deleteAccount".tr.tr,
+                                  onPressed: () async {
+                                    final authController =
+                                        Get.put(AuthController());
+                                    final isSuccess = await authController
+                                        .deleteAccount(context: context);
+
+                                    if (isSuccess) {
+                                      Get.offAll(
+                                          () => const OnboardingScreen());
+                                    }
+                                  },
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 4),
+                                child: CustomButton(
+                                  height: 25,
+                                  borderColor: colorRed,
+                                  buttonColor: Colors.white,
+                                  textColor: colorRed,
+                                  title: "cancel".tr,
+                                  onPressed: () {
+                                    Get.back();
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       );
                     },
                   );
                 },
-                child: CustomText(
-                  text: "delAccount".tr,
-                  color: Colors.red,
-                  fontSize: width * .0435,
-                  fontFamily: 'SF Pro',
-                  fontWeight: FontWeight.w500,
-                  textDecoration: TextDecoration.underline,
+                child: Align(
+                  alignment: AppUtil.rtlDirection2(context)
+                      ? Alignment.centerRight
+                      : Alignment.centerLeft,
+                  child: CustomText(
+                    text: "delAccount".tr,
+                    color: colorRed,
+                    fontSize: width * .0435,
+                    fontFamily: AppUtil.SfFontType(context),
+                    fontWeight: FontWeight.w500,
+                    textDecoration: TextDecoration.underline,
+                  ),
                 ),
               ),
             ),

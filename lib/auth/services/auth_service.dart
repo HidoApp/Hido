@@ -372,21 +372,22 @@ class AuthService {
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
 
-      if (errorMessage == 'email or password is incorrect') {
-        if (AppUtil.rtlDirection2(context)) {
-          if (context.mounted) {
-            AppUtil.errorToast(context, 'الإيميل أو كلمة السر غير صحيحة');
-          }
-        } else {
-          if (context.mounted) {
-            AppUtil.errorToast(context, errorMessage);
-          }
-        }
-      } else {
-        if (context.mounted) {
-          AppUtil.errorToast(context, errorMessage);
-        }
-        return null;
+      if(errorMessage=='email or password is incorrect'){
+      if(AppUtil.rtlDirection2(context)){
+       if (context.mounted) {
+        AppUtil.errorToast(context,'البريد الإلكتروني أو كلمة المرور غير صحيحة' );
+      }
+      } else{
+         if (context.mounted) {
+        AppUtil.errorToast(context, errorMessage);
+      }
+      }
+      }else{
+      if (context.mounted) {
+        AppUtil.errorToast(context, errorMessage);
+      }
+      return null;
+
       }
     }
   }
