@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/auth/models/token.dart';
 import 'package:ajwad_v4/auth/services/auth_service.dart';
@@ -203,8 +205,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                               JwtDecoder.isExpired(
                                                   user.accessToken);
 
-                                          print(
-                                              'isTokenExpired : $isTokenExpired');
+                                          log('isTokenExpired : $isTokenExpired');
 
                                           final Token jwtToken =
                                               AuthService.jwtForToken(

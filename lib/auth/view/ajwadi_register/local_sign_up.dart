@@ -33,10 +33,19 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
   final _authController = Get.put(AuthController());
   var nationalId = '';
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _authController.agreeForTerms(false);
+  }
+
+  @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
     _authController.birthDate('');
+    _authController.validBirthDay(true);
+    _authController.isAgreeForTerms(true);
   }
 
   Future<JPickerValue?> openDialog(BuildContext context) async {
@@ -95,6 +104,7 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                 color: starGreyColor,
                 fontSize: width * 0.043,
                 fontWeight: FontWeight.w500,
+                maxlines: 10,
               ),
               SizedBox(
                 height: width * 0.061,
@@ -169,38 +179,6 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                     GestureDetector(
                       onTap: () async {
                         await openDialog(context);
-                        // await showCupertinoModalPopup<void>(
-                        //   context: context,
-                        //   builder: (_) {
-                        //     final size = MediaQuery.of(context).size;
-                        //     return Container(
-                        //       decoration: const BoxDecoration(
-                        //         color: Colors.white,
-                        //         borderRadius: BorderRadius.only(
-                        //           topLeft: Radius.circular(12),
-                        //           topRight: Radius.circular(12),
-                        //         ),
-                        //       ),
-                        //       height: size.height * 0.27,
-                        //       child: CupertinoDatePicker(
-                        //         mode: CupertinoDatePickerMode.date,
-                        //         onDateTimeChanged: (value) {
-                        //           date = value;
-                        //           String theMonth =
-                        //               date!.month.toString().length == 1
-                        //                   ? '0${date!.month}'
-                        //                   : date!.month.toString();
-                        //           String theDay =
-                        //               date!.day.toString().length == 1
-                        //                   ? '0${date!.day}'
-                        //                   : date!.day.toString();
-                        //           birthDate = '${date!.year}-$theMonth-$theDay';
-                        //           _authController.birthDate(birthDate);
-                        //         },
-                        //       ),
-                        //     );
-                        //   },
-                        // );
                       },
                       child: Obx(
                         () => Container(
@@ -267,6 +245,12 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                     ? const Center(child: CircularProgressIndicator.adaptive())
                     : CustomButton(
                         onPressed: () async {
+                          if (!_authController.agreeForTerms.value) {
+                            _authController.isAgreeForTerms(false);
+                            return;
+                          } else {
+                            _authController.isAgreeForTerms(true);
+                          }
                           log(_authController.birthDate.value);
                           var isValid = _formKey.currentState!.validate();
                           _authController.validBirthDay(

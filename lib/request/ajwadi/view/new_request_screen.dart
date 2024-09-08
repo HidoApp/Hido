@@ -40,6 +40,7 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
     final width = MediaQuery.of(context).size.width;
     return Obx(
       () => Skeletonizer(
+        ignorePointers: true,
         enabled: _requestController.isRequestListLoading.value,
         child: Scaffold(
             backgroundColor: lightGreyBackground,

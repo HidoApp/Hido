@@ -18,93 +18,95 @@ class AboutScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     print(profileController.profile.descriptionAboutMe);
     final width = MediaQuery.of(context).size.width;
-    return Obx(
-      () => Skeletonizer(
-             enabled: profileController.isProfileLoading.value,
-            child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: width * 0.084,
-                  vertical: width * 0.035,
-                ),
-                child: profileController.profile.descriptionAboutMe!.isEmpty &&
-                        !profileController.profile.spokenLanguage!.isEmpty
-                    ? Center(
-                        child: FittedBox(
-                          child: CustomText(
-                            text: "noAbout".tr,
-                            fontSize: width * 0.04,
-                            fontFamily: !AppUtil.rtlDirection2(context)
-                                ? 'SF Pro'
-                                : 'SF Arabic',
-                            fontWeight: FontWeight.w400,
-                            color: starGreyColor,
-                          ),
+    return SingleChildScrollView(
+      child: Obx(
+        () => Skeletonizer(
+          enabled: profileController.isProfileLoading.value,
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: width * 0.084,
+              vertical: width * 0.035,
+            ),
+            child: profileController.profile.descriptionAboutMe!.isEmpty &&
+                    !profileController.profile.spokenLanguage!.isEmpty
+                ? Center(
+                    child: FittedBox(
+                      child: CustomText(
+                        text: "noAbout".tr,
+                        fontSize: width * 0.04,
+                        fontFamily: !AppUtil.rtlDirection2(context)
+                            ? 'SF Pro'
+                            : 'SF Arabic',
+                        fontWeight: FontWeight.w400,
+                        color: starGreyColor,
+                      ),
+                    ),
+                  )
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                        CustomText(
+                          textAlign: TextAlign.center,
+                          maxlines: 50,
+                          text: (profileController
+                                      .profile.descriptionAboutMe?.isNotEmpty ??
+                                  false)
+                              ? profileController.profile.descriptionAboutMe!
+                              : '',
+                          color: const Color(0xFF41404A),
+                          textOverflow: TextOverflow.ellipsis,
+                          fontSize: width * 0.038,
+                          fontFamily: !AppUtil.rtlDirection2(context)
+                              ? 'SF Pro'
+                              : 'SF Arabic',
+                          fontWeight: FontWeight.w400,
                         ),
-                      )
-                    : Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                            CustomText(
-                              textAlign: TextAlign.center,
-                              maxlines: 20,
-                              text: (profileController.profile.descriptionAboutMe
-                                          ?.isNotEmpty ??
-                                      false)
-                                  ? profileController.profile.descriptionAboutMe!
-                                  : '',
-                              color: const Color(0xFF41404A),
-                              textOverflow: TextOverflow.ellipsis,
-                              fontSize: width * 0.038,
-                              fontFamily: !AppUtil.rtlDirection2(context)
-                                  ? 'SF Pro'
-                                  : 'SF Arabic',
-                              fontWeight: FontWeight.w400,
+                        if (profileController
+                            .profile.descriptionAboutMe!.isNotEmpty)
+                          SizedBox(
+                            height: width * 0.038,
+                          ),
+                        CustomText(
+                          text: 'languages'.tr,
+                          fontSize: width * 0.044,
+                          fontFamily: !AppUtil.rtlDirection2(context)
+                              ? 'SF Pro'
+                              : 'SF Arabic',
+                          fontWeight: FontWeight.w500,
+                          color: black,
+                        ),
+                        SizedBox(
+                          height: width * 0.030,
+                        ),
+                        SizedBox(
+                          height: width * 0.087,
+                          child: ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: profileController
+                                    .profile.spokenLanguage!.isEmpty
+                                ? 1
+                                : profileController
+                                    .profile.spokenLanguage!.length,
+                            shrinkWrap: true,
+                            separatorBuilder: (context, index) =>
+                                const SizedBox(
+                              width: 5,
                             ),
-                            if (profileController
-                                .profile.descriptionAboutMe!.isNotEmpty)
-                              SizedBox(
-                                height: width * 0.038,
-                              ),
-                            CustomText(
-                              text: 'languages'.tr,
-                              fontSize: width * 0.044,
-                              fontFamily: !AppUtil.rtlDirection2(context)
-                                  ? 'SF Pro'
-                                  : 'SF Arabic',
-                              fontWeight: FontWeight.w500,
-                              color: black,
-                            ),
-                            SizedBox(
-                              height: width * 0.030,
-                            ),
-                            SizedBox(
-                              height: width * 0.087,
-                              child: ListView.separated(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: profileController
+                            itemBuilder: (context, index) => CustomChips(
+                                title: profileController
                                         .profile.spokenLanguage!.isEmpty
-                                    ? 1
+                                    ? "Arabic"
                                     : profileController
-                                        .profile.spokenLanguage!.length,
-                                shrinkWrap: true,
-                                separatorBuilder: (context, index) =>
-                                    const SizedBox(
-                                  width: 5,
-                                ),
-                                itemBuilder: (context, index) => CustomChips(
-                                    title: profileController
-                                            .profile.spokenLanguage!.isEmpty
-                                        ? "Arabic"
-                                        : profileController
-                                            .profile.spokenLanguage![index],
-                                    backgroundColor: Colors.transparent,
-                                    borderColor: Graytext,
-                                    textColor: Graytext),
-                              ),
-                            )
-                          ]),
-              ),
+                                        .profile.spokenLanguage![index],
+                                backgroundColor: Colors.transparent,
+                                borderColor: Graytext,
+                                textColor: Graytext),
+                          ),
+                        )
+                      ]),
           ),
+        ),
+      ),
     );
   }
 }

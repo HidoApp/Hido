@@ -649,9 +649,13 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                     image: hospitalityObj!.images!.first,
                                     type: 'hospitality');
                                 BookmarkService.addBookmark(bookmark);
+                                // AppUtil.successToast(
+                                //     context, 'Added to bookmarks');
                               } else {
                                 BookmarkService.removeBookmark(
                                     hospitalityObj!.id);
+                                // AppUtil.successToast(
+                                //     context, 'Removed from bookmarks');
                               }
                             },
                             child: Container(

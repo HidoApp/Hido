@@ -144,7 +144,7 @@ class _CustomTicketCardState extends State<CustomTicketCard> {
                 }
               : () {},
       child: Padding(
-      padding: EdgeInsets.symmetric(horizontal: width * 0.041),
+        padding: EdgeInsets.symmetric(horizontal: width * 0.041),
         child: Container(
           decoration: BoxDecoration(
             color: const Color.fromARGB(255, 255, 255, 255),
@@ -159,8 +159,8 @@ class _CustomTicketCardState extends State<CustomTicketCard> {
             ],
           ),
           child: Padding(
-            padding: const EdgeInsets.only(
-                bottom: 12, left: 12, right: 12, top: 12),
+            padding:
+                const EdgeInsets.only(bottom: 12, left: 12, right: 12, top: 12),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -198,12 +198,10 @@ class _CustomTicketCardState extends State<CustomTicketCard> {
                                       ? widget.booking.place!.nameEn!
                                       : widget.booking.bookingType ==
                                               "hospitality"
-                                          ? widget
-                                              .booking.hospitality!.titleEn
+                                          ? widget.booking.hospitality!.titleEn
                                           : widget.booking.bookingType ==
                                                   'event'
-                                              ? widget.booking.event!
-                                                      .nameEn ??
+                                              ? widget.booking.event!.nameEn ??
                                                   ""
                                               : widget.booking.adventure!
                                                       .nameEn ??
@@ -212,16 +210,15 @@ class _CustomTicketCardState extends State<CustomTicketCard> {
                                       ? widget.booking.place!.nameAr!
                                       : widget.booking.bookingType ==
                                               "hospitality"
-                                          ? widget
-                                              .booking.hospitality!.titleAr
+                                          ? widget.booking.hospitality!.titleAr
                                           : widget.booking.bookingType ==
                                                   'event'
                                               ? widget.booking.event!.nameAr!
                                               : widget.booking.adventure!
                                                       .nameAr ??
                                                   '',
-                              fontSize: 19,
-                              fontWeight: FontWeight.w700,
+                              fontSize: width * 0.041,
+                              fontWeight: FontWeight.w500,
                               fontFamily: AppUtil.rtlDirection(context)
                                   ? 'SF Pro'
                                   : 'SF Arabic',
@@ -240,7 +237,7 @@ class _CustomTicketCardState extends State<CustomTicketCard> {
                                 CustomText(
                                   text: getBookingTypeText(
                                       context, widget.booking.bookingType!),
-                                  fontSize: 13,
+                                  fontSize: width * 0.03,
                                   fontWeight: FontWeight.w500,
                                   color: black,
                                 ),
@@ -255,12 +252,12 @@ class _CustomTicketCardState extends State<CustomTicketCard> {
                       Row(
                         children: [
                           SvgPicture.asset('assets/icons/map_pin.svg'),
-                           SizedBox(
-                              width: width * 0.01,
-                            ),
+                          SizedBox(
+                            width: width * 0.01,
+                          ),
                           CustomText(
                             text: address,
-      
+
                             //  AppUtil.rtlDirection2(context)
                             //     ? widget.booking.bookingType == "place"
                             //         ? widget.booking.place!.regionAr!
@@ -289,19 +286,19 @@ class _CustomTicketCardState extends State<CustomTicketCard> {
                       ),
                       Row(
                         children: [
-                             SizedBox(
-                              width: width * 0.005,
-                            ),
+                          SizedBox(
+                            width: width * 0.005,
+                          ),
                           SvgPicture.asset(
                             'assets/icons/calendar.svg',
                           ),
-                           SizedBox(
-                              width: width * 0.013,
-                            ),
+                          SizedBox(
+                            width: width * 0.013,
+                          ),
                           CustomText(
                             // text:intel.DateFormat.yMMMMd().format(DateTime.parse(booking.date!)),
-                            text: formatBookingDate(
-                                context, widget.booking.date),
+                            text:
+                                formatBookingDate(context, widget.booking.date),
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
                             color: textGreyColor,
@@ -323,12 +320,12 @@ class _CustomTicketCardState extends State<CustomTicketCard> {
                           ),
                           CustomText(
                             text: getOrderStatusText(
-                                context, widget.booking.orderStatus!).capitalizeFirst,
+                                    context, widget.booking.orderStatus!)
+                                .capitalizeFirst,
                             //text:booking.orderStatus!,
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
-                            color: widget.booking.orderStatus! ==
-                                        'ACCEPTED' ||
+                            color: widget.booking.orderStatus! == 'ACCEPTED' ||
                                     widget.booking.orderStatus! == 'FINISHED'
                                 ? colorGreen
                                 : widget.booking.orderStatus! == 'CANCELED'

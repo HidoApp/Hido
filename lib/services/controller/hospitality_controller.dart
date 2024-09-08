@@ -15,10 +15,10 @@ import 'package:image_picker/image_picker.dart';
 import '../model/summary.dart';
 
 class HospitalityController extends GetxController {
-  var DateErrorMessage=false.obs;
-  var TimeErrorMessage=false.obs;
-   var EmptyDateErrorMessage=false.obs;
-  var EmptyTimeErrorMessage=false.obs;
+  var DateErrorMessage = false.obs;
+  var TimeErrorMessage = false.obs;
+  var EmptyDateErrorMessage = false.obs;
+  var EmptyTimeErrorMessage = false.obs;
   var isHospitalityLoading = true.obs;
   var showErrorMaxGuest = false.obs;
   var selectedDate = ''.obs;
@@ -34,12 +34,12 @@ class HospitalityController extends GetxController {
   var seletedSeat = (0).obs;
   var selectedGender = ''.obs;
   var selectedMealAr = ''.obs;
-  var selectedMealEn= ''.obs;
+  var selectedMealEn = ''.obs;
   var selectedDateIndex = (-1).obs;
   var selectedDateId = "".obs;
   var isHospitalityByIdLoading = false.obs;
   var selectedImages = <XFile>[].obs;
-   var  images = <dynamic>[].obs;
+  var images = <dynamic>[].obs;
 
   var isCheckAndBookLoading = false.obs;
   var isCheckHospitalitPaymentLoading = false.obs;
@@ -50,10 +50,11 @@ class HospitalityController extends GetxController {
   var isHospatilityTimeSelcted = false.obs;
   var address = ''.obs;
   var isAdventureTimeSelcted = false.obs;
-    var ragionAr="".obs;
-  var ragionEn="".obs;
+  var ragionAr = "".obs;
+  var ragionEn = "".obs;
+  var tabIndex = 0.obs;
   // Rx<LatLng> pickUpLocLatLang = const LatLng(24.9470921, 45.9903698).obs;
-   Rx<LatLng> pickUpLocLatLang = const LatLng(24.6264,46.544731).obs; 
+  Rx<LatLng> pickUpLocLatLang = const LatLng(24.6264, 46.544731).obs;
 
   Future<RxList<Hospitality>?> getAllHospitality(
       {required BuildContext context, String? region}) async {
@@ -261,7 +262,8 @@ class HospitalityController extends GetxController {
       isSaudiHospitalityLoading(false);
     }
   }
-    var isImagesLoading = false.obs;
+
+  var isImagesLoading = false.obs;
 
   Future<UploadImage?> uploadProfileImages(
       {required File file,
@@ -281,9 +283,8 @@ class HospitalityController extends GetxController {
       isImagesLoading(false);
     }
   }
-  
 
-  var  isEditHospitalityLoading = false.obs;
+  var isEditHospitalityLoading = false.obs;
   Future<Hospitality?> editHospatility({
     required String id,
     required String titleAr,
@@ -310,8 +311,8 @@ class HospitalityController extends GetxController {
       isEditHospitalityLoading(true);
 
       final hospitality = await HospitalityService.editHospitality(
-        id: id,
-        titleAr: titleAr,
+          id: id,
+          titleAr: titleAr,
           titleEn: titleEn,
           bioAr: bioAr,
           bioEn: bioEn,
@@ -329,8 +330,7 @@ class HospitalityController extends GetxController {
           start: start,
           end: end,
           seat: seat,
-          context: context
-      );
+          context: context);
       if (hospitality != null) {
         return hospitality;
       } else {
@@ -340,12 +340,11 @@ class HospitalityController extends GetxController {
       print(e);
       return null;
     } finally {
-       isEditHospitalityLoading(false);
+      isEditHospitalityLoading(false);
     }
   }
 
-
-   Future<List<Hospitality>?> getUpcommingTicket({
+  Future<List<Hospitality>?> getUpcommingTicket({
     required BuildContext context,
   }) async {
     try {
@@ -357,8 +356,8 @@ class HospitalityController extends GetxController {
       );
       if (data != null) {
         upcommingTicket(data);
-         print("object controller");
-       print(data.length);
+        print("object controller");
+        print(data.length);
         //print(upcommingTicket.first.place?.nameAr);
         return upcommingTicket;
       } else {
@@ -373,14 +372,14 @@ class HospitalityController extends GetxController {
     }
   }
 
-   Future<List<Hospitality>?> getPastTicket({
+  Future<List<Hospitality>?> getPastTicket({
     required BuildContext context,
   }) async {
     try {
       isPastTicketLoading(true);
 
       final data = await HospitalityService.getUserTicket(
-         hostType:'PAST',
+        hostType: 'PAST',
         context: context,
       );
       print("this pas 1ticket");
@@ -401,7 +400,6 @@ class HospitalityController extends GetxController {
     }
   }
 
-
   Future<Summary?> getHospitalitySummaryById({
     required BuildContext context,
     required String id,
@@ -409,8 +407,8 @@ class HospitalityController extends GetxController {
     try {
       print("TRUE");
       isHospitalityByIdLoading(true);
-      final data =
-          await HospitalityService.getHospitalitySummaryById(context: context, id: id);
+      final data = await HospitalityService.getHospitalitySummaryById(
+          context: context, id: id);
       return data;
     } catch (e) {
       isHospitalityByIdLoading(false);
@@ -419,15 +417,15 @@ class HospitalityController extends GetxController {
       isHospitalityByIdLoading(false);
     }
   }
-  
+
   var isHospitalityDeleteLoading = false.obs;
   Future<bool?> hospitalityDelete(
       {required BuildContext context, required String hospitalityId}) async {
     try {
       isHospitalityDeleteLoading(true);
       final data = await HospitalityService.hospitalityDelete(
-          context: context,hospitalityId: hospitalityId);
-     isHospitalityDeleteLoading(data ?? false);
+          context: context, hospitalityId: hospitalityId);
+      isHospitalityDeleteLoading(data ?? false);
       return isHospitalityDeleteLoading.value;
     } catch (e) {
       log("-< HospitalityDeleteLoading >- $e");
@@ -436,6 +434,4 @@ class HospitalityController extends GetxController {
       isHospitalityDeleteLoading(false);
     }
   }
-
-
 }
