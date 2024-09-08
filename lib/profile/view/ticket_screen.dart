@@ -42,9 +42,6 @@ class _TicketScreenState extends State<TicketScreen>
         'myTickets'.tr,
       ),
       body:
-          // Obx(
-          //   () =>
-
           Padding(
         padding: const EdgeInsets.only(
           top: 3,

@@ -654,7 +654,7 @@ const localeAr = {
   'fullyBooked': "محجوزه بالكامل",
 
   'termsOfService': 'الشروط والاحكام',
-  'termsText': 'من خلال النقر على إنشاء حساب فأنا اوافق على',
+  'termsText': " اوافق على",
   'ok': 'تأكيد',
 
   'EndTimeLess': 'يجب اختيار تاريخ بعد 48 ساعة من الآن على الأقل',
@@ -666,5 +666,5 @@ const localeAr = {
   'noBookmarks': 'لا توجد محفوظات بعد ',
   'emptyBookmarkText': 'جميع المحفوظات ستظهر هنا',
   'emailExists': 'يوجد حساب بهذا البريد الالكتروني',
-  'mobileExists': 'يوجد حساب بهذا الرقم'
+  'mobileExists': 'يوجد حساب بهذا الرقم', 'onTheWay': 'في الطريق '
 };

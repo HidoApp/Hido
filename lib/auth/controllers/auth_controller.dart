@@ -25,6 +25,8 @@ class AuthController extends GetxController {
   var nationalId = ''.obs;
   var birthDate = ''.obs;
   var birthDateDay = ''.obs;
+  var agreeForTerms = false.obs;
+  var isAgreeForTerms = true.obs;
 
   var isSignUpRowad = false.obs;
   var isCreateAccountLoading = false.obs;
@@ -342,7 +344,8 @@ class AuthController extends GetxController {
       {required BuildContext context, required String expiryDate}) async {
     try {
       isLienceseOTPLoading(true);
-      final isSuccess = await AuthService.drivingLinceseOTP(expiryDate: expiryDate,
+      final isSuccess = await AuthService.drivingLinceseOTP(
+        expiryDate: expiryDate,
         context: context,
       );
       if (isSuccess != null) {

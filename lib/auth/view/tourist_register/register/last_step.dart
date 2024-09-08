@@ -58,7 +58,15 @@ class _LastStepScreenState extends State<LastStepScreen> {
     print(widget.email);
     print(widget.password);
     print(widget.name);
+    widget.authController.agreeForTerms(false);
+
     generateCountries();
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    widget.authController.isAgreeForTerms(true);
   }
 
   final _controller = MultiSelectController();
@@ -93,7 +101,7 @@ class _LastStepScreenState extends State<LastStepScreen> {
     return Scaffold(
         resizeToAvoidBottomInset: true,
         backgroundColor: Colors.white,
-      //  resizeToAvoidBottomInset: true,
+        //  resizeToAvoidBottomInset: true,
         appBar: const CustomAppBar(""),
         body: ScreenPadding(
           child: SingleChildScrollView(
@@ -285,6 +293,12 @@ class _LastStepScreenState extends State<LastStepScreen> {
                       : CustomButton(
                           title: 'signUp'.tr,
                           onPressed: () async {
+                            if (!widget.authController.agreeForTerms.value) {
+                              widget.authController.isAgreeForTerms(false);
+                              return;
+                            } else {
+                              widget.authController.isAgreeForTerms(true);
+                            }
                             final numberValid =
                                 _formKey.currentState!.validate();
 

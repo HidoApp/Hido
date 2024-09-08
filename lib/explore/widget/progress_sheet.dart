@@ -127,7 +127,7 @@ class _ProgressSheetState extends State<ProgressSheet> {
                                 height: 24,
                                 width: 24,
                               ),
-                              title: 'Arrived'.tr),
+                              title: 'onTheWay'.tr),
                           // EasyStep(
                           //   customStep: SvgPicture.asset(
                           //     'assets/icons/slider_touriest.svg',
@@ -146,7 +146,7 @@ class _ProgressSheetState extends State<ProgressSheet> {
                               height: 24,
                               width: 24,
                             ),
-                            title: 'tourTime'.tr,
+                            title: 'Arrived'.tr,
                           ),
                           EasyStep(
                             customStep: SvgPicture.asset(
@@ -159,7 +159,7 @@ class _ProgressSheetState extends State<ProgressSheet> {
                               height: 24,
                               width: 24,
                             ),
-                            title: 'completeTour'.tr,
+                            title: 'tourTime'.tr,
                           ),
                         ],
                         onStepReached: (index) {},

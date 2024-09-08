@@ -663,7 +663,7 @@ const localeEn = {
   'fullyBooked': "fully Booked",
   'ok': 'Ok',
   'termsOfService': 'Terms of Service',
-  'termsText': "By selecting Sign in, I agree to Hido's ",
+  'termsText': "I agree to Hido's ",
   'EndTimeLess': "*Please select a date at least 48 hours from now",
   'noBookmarks': 'No Bookmarks',
   'emptyBookmarkText': 'All your bookmarks appear here',
@@ -672,5 +672,6 @@ const localeEn = {
   'ReplaceEmail': "replace the email you used with a different one",
   'noPlace': 'place not found',
   'emailExists': 'Email already exists',
-  'mobileExists': 'Mobile number already exists'
+  'mobileExists': 'Mobile number already exists',
+  'onTheWay':'On the way'
 };
