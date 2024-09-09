@@ -124,34 +124,23 @@ class _MyAccountState extends State<MyAccount> {
                   ),
                   if (widget.profileController.profile.accountType != null)
                     if (widget.isLocal &&
-                        widget.profileController.profile.accountType ==
-                            'TOUR_GUID')
+                        widget.profileController.profile.accountType !=
+                            'TOUR_GUID') ...{
                       AccountTile(
                         title: 'providedServices'.tr,
                         onTap: () =>
                             Get.bottomSheet(const ProdvidedServicesSheet()),
                       ),
-                  if (widget.profileController.profile.accountType != null)
-                    if (widget.isLocal &&
-                        widget.profileController.profile.accountType ==
-                            'TOUR_GUID')
                       SizedBox(
                         height: width * 0.051,
                       ),
-                  if (widget.profileController.profile.accountType != null)
-                    if (widget.isLocal &&
-                        widget.profileController.profile.accountType ==
-                            'TOUR_GUID')
                       const Divider(
                         color: lightGrey,
                       ),
-                  if (widget.profileController.profile.accountType != null)
-                    if (widget.isLocal &&
-                        widget.profileController.profile.accountType ==
-                            'TOUR_GUID')
-                      SizedBox(
-                        height: width * .061,
-                      ),
+                    },
+                  SizedBox(
+                    height: width * .061,
+                  ),
                 ],
               ),
             Align(
@@ -169,7 +158,7 @@ class _MyAccountState extends State<MyAccount> {
                                 BorderRadius.all(Radius.circular(8.0))),
                         child: Container(
                           width: double.infinity,
-                           padding: const EdgeInsets.all(12.0),
+                          padding: const EdgeInsets.all(12.0),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.center,

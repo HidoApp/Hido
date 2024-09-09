@@ -121,8 +121,7 @@ class _TourStepperState extends State<TourStepper> {
                                             await _authController.vehicleOTP(
                                                 vehicleSerialNumber:
                                                     _authController
-                                                        .vehicleLicense.value
-                                                        ,
+                                                        .vehicleLicense.value,
                                                 context: context);
                                         if (isSuccess != null) {
                                           Get.to(() => nextVerfiy());
@@ -135,9 +134,9 @@ class _TourStepperState extends State<TourStepper> {
                                 title: _authController.activeBar.value != 1
                                     ? 'verfiy'.tr
                                     : 'next'.tr,
-                                icon: const Icon(
-                                  Icons.keyboard_arrow_right,
-                                ),
+                                // icon: const Icon(
+                                //   Icons.keyboard_arrow_right,
+                                // ),
                               ),
                       ),
                     ),

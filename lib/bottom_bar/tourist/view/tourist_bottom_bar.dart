@@ -42,6 +42,13 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
     }
   }
 
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _pageController.dispose();
+  }
+
   void getProfile() async {
     await _profileController.getProfile(context: context);
     GetStorage().write('user_id', _profileController.profile.id);

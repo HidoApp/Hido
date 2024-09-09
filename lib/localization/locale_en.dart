@@ -46,7 +46,7 @@ const localeEn = {
   "incorrectPhoneNum": "Incorrect phone number. Please try again.",
   "rememberMe": "Remember Me",
   "forgotPassword": "Forgot Password?",
-  "alreadyHaveAccount": "Already have an account ?",
+  "alreadyHaveAccount": "Already have an account?",
   "signIn": "Sign in",
   "login": "Login",
   'idIqama': 'ID',
@@ -667,15 +667,13 @@ const localeEn = {
   'EndTimeLess': "*Please select a date at least 48 hours from now",
   'noBookmarks': 'No Bookmarks',
   'emptyBookmarkText': 'All your bookmarks appear here',
-  'PickMethod':'You have to pick payment method',
-  'ReplaceError':'Replace the used number with another one',
-  'ReplaceEmail':"replace the email you used with a different one",
+  'PickMethod': 'You have to pick payment method',
+  'ReplaceError': 'Replace the used number with another one',
+  'ReplaceEmail': "replace the email you used with a different one",
   'noEndTrip': "Booking not canceled",
-  
-
-
   'noPlace': 'place not found',
   'emailExists': 'Email already exists',
   'mobileExists': 'Mobile number already exists',
-  'onTheWay':'On the way'
+  'onTheWay': 'On the way',
+  'passwordError': "you must enter at least 8 characters",
 };

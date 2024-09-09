@@ -104,11 +104,12 @@ class AuthService {
       final String refreshToken;
       refreshToken = jsonDecode(response.body)['refreshToken'];
       var token = AuthService.jwtForToken(accessToken)!;
+      getStorage.write('userRole', token.userRole);
 
       if (rememberMe) {
         getStorage.write('accessToken', accessToken);
         getStorage.write('refreshToken', refreshToken);
-        getStorage.write('rememberMe', rememberMe);
+        // getStorage.write('rememberMe', rememberMe);
         getStorage.write('userRole', token.userRole);
       } else {
         getStorage.remove('token');
@@ -317,6 +318,7 @@ class AuthService {
       accessToken = jsonDecode(response.body)['accessToken'];
       final String refreshToken;
       refreshToken = jsonDecode(response.body)['refreshToken'];
+      var token = AuthService.jwtForToken(accessToken)!;
 
       getStorage.write('accessToken', accessToken);
       getStorage.write('refreshToken', refreshToken);
@@ -372,22 +374,22 @@ class AuthService {
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
 
-      if(errorMessage=='email or password is incorrect'){
-      if(AppUtil.rtlDirection2(context)){
-       if (context.mounted) {
-        AppUtil.errorToast(context,'البريد الإلكتروني أو كلمة المرور غير صحيحة' );
-      }
-      } else{
-         if (context.mounted) {
-        AppUtil.errorToast(context, errorMessage);
-      }
-      }
-      }else{
-      if (context.mounted) {
-        AppUtil.errorToast(context, errorMessage);
-      }
-      return null;
-
+      if (errorMessage == 'email or password is incorrect') {
+        if (AppUtil.rtlDirection2(context)) {
+          if (context.mounted) {
+            AppUtil.errorToast(
+                context, 'البريد الإلكتروني أو كلمة المرور غير صحيحة');
+          }
+        } else {
+          if (context.mounted) {
+            AppUtil.errorToast(context, errorMessage);
+          }
+        }
+      } else {
+        if (context.mounted) {
+          AppUtil.errorToast(context, errorMessage);
+        }
+        return null;
       }
     }
   }
@@ -630,7 +632,7 @@ class AuthService {
       headers: {
         'Accept': 'application/json',
         'Authorization': 'Bearer $token',
-        "Content-Type": "application/json",
+        // "Content-Type": "application/json",
       },
     );
 
