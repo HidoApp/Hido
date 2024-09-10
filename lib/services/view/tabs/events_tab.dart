@@ -42,7 +42,7 @@ class _EventsTabState extends State<EventsTab> {
 
   @override
   void dispose() {
-    _regionsController.selectedEventIndex(0);
+  //  _regionsController.selectedEventIndex(0);
     // TODO: implement dispose
     super.dispose();
   }

@@ -16,7 +16,7 @@ class SignInText extends StatelessWidget {
       children: [
         CustomText(
           fontFamily: AppUtil.SfFontType(context),
-          fontWeight: FontWeight.w300,
+          fontWeight: FontWeight.w500,
           text: "alreadyHaveAccount".tr,
           fontSize: MediaQuery.of(context).size.width * 0.038,
         ),

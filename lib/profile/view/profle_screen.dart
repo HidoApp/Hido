@@ -51,7 +51,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   late double width, height;
-  double totalRating=0.0;
+  double totalRating = 0.0;
 //
   final _profileController = Get.put(ProfileController());
   // final storage = GetStorage();
@@ -60,12 +60,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    getProfile();
+    if (!widget.fromAjwady) {
+      getProfile();
+    }
     // isTourGuide= storage.read("TourGuide") ;
   }
 
   void getProfile() async {
-    await _profileController.getProfile(context: context).then((value) => totalRating= calculateOverallRating() );
+    await _profileController
+        .getProfile(context: context)
+        .then((value) => totalRating = calculateOverallRating());
   }
 
   double calculateOverallRating() {
@@ -76,7 +80,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     int adventureNumber = _profileController.profile.adventureNumber ?? 0;
 
     double tourRating = _profileController.profile.tourRating ?? 0.0;
-    double  eventRating = _profileController.profile.eventRating ?? 0.0;
+    double eventRating = _profileController.profile.eventRating ?? 0.0;
     double hostRating = _profileController.profile.hostRating ?? 0.0;
     double adventureRating = _profileController.profile.adventureRating ?? 0.0;
 
@@ -92,15 +96,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
         .toDouble();
 
     // Return the overall rating, ensuring no division by zero
-    return totalInstances > 0 ? double.parse((totalWeightedSum / totalInstances).toStringAsFixed(1)):0.0;
+    return totalInstances > 0
+        ? double.parse((totalWeightedSum / totalInstances).toStringAsFixed(1))
+        : 0.0;
 
+    //double averageRating = (tourRating + eventRating + hostRating + adventureRating) / 4;
 
-  //double averageRating = (tourRating + eventRating + hostRating + adventureRating) / 4;
-  
-  // // Return the average rating formatted to one decimal place
-  // return double.parse(averageRating.toStringAsFixed(1));
-    
-    
+    // // Return the average rating formatted to one decimal place
+    // return double.parse(averageRating.toStringAsFixed(1));
   }
 
   @override
@@ -193,20 +196,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 fontSize: width * 0.03,
                                 fontWeight: FontWeight.w500,
                               ),
-                                if (widget.fromAjwady)
-                             CustomText(
-                                text:" |",
-                                color: colorDarkGrey,
-                                fontSize: width * 0.03,
-                                fontWeight: FontWeight.w500,
-                              ),
-                           if (widget.fromAjwady)
-                              SizedBox(
-                                width: width * 0.015,
-                              ),
+                              if (widget.fromAjwady)
+                                CustomText(
+                                  text: " |",
+                                  color: colorDarkGrey,
+                                  fontSize: width * 0.03,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              if (widget.fromAjwady)
+                                SizedBox(
+                                  width: width * 0.015,
+                                ),
                               if (widget.fromAjwady)
                                 Padding(
-                                  padding: const EdgeInsets.only(top:2.0),
+                                  padding: const EdgeInsets.only(top: 2.0),
                                   child: SvgPicture.asset(
                                     "assets/icons/star.svg",
                                     width: 12,
@@ -215,13 +218,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                               if (widget.fromAjwady)
                                 CustomText(
-                                  text:" ${totalRating}",
+                                  text: " ${totalRating}",
                                   //    "  ${_profileController.isProfileLoading.value ? "" : _profileController.profile.tourRating ?? ""} ",
                                   color: colorDarkGrey,
                                   fontSize: width * 0.03,
                                   fontWeight: FontWeight.w500,
                                 ),
-                              
                             ],
                           )
                         ],
@@ -252,7 +254,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: width * .041),
-                    child: Divider(
+                    child: const Divider(
                       color: lightGrey,
                     ),
                   ),

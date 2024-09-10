@@ -280,7 +280,11 @@ class _ServiceScreenState extends State<ServiceScreen>
                   ),
                   color: Colors.white,
                 ),
-                labelPadding: EdgeInsets.all(width * 0.026),
+                labelPadding: EdgeInsets.only(
+                  top: width * 0.026,
+                  right: width * 0.026,
+                  left: width * 0.026,
+                ),
                 padding: EdgeInsets.symmetric(horizontal: width * 0.02),
                 onTap: (index) {
                   setState(() {
@@ -290,29 +294,43 @@ class _ServiceScreenState extends State<ServiceScreen>
                   print("_tabController");
                 },
                 tabs: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal:
-                            // !AppUtil.rtlDirection(context) ? 15 : 5),
-                            AppUtil.rtlDirection2(context)
-                                ? width * 0.038
-                                : width * 0.012),
-                    child: Container(
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(width * 0.03),
-                              topRight: Radius.circular(width * 0.03))),
-                      child: CustomText(
-                        text: "hospitality".tr,
-                        color: _tabIndex == 0 ? black : Colors.white,
-                        fontWeight:
-                            _tabIndex == 0 ? FontWeight.w500 : FontWeight.w400,
-                        fontSize:
-                            _tabIndex == 0 ? width * 0.033 : width * 0.033,
-                        fontFamily: AppUtil.rtlDirection2(context)
-                            ? 'SF Arabic'
-                            : 'SF Pro',
+                  Container(
+                    // decoration: BoxDecoration(
+                    //   borderRadius: BorderRadius.only(
+                    //       topLeft: Radius.circular(width * 0.03),
+                    //       topRight: Radius.circular(width * 0.03)),
+                    //   gradient: LinearGradient(
+                    //     colors: [
+                    //       Colors.white.withOpacity(0.4),
+                    //       Colors.white.withOpacity(0.1)
+                    //     ],
+                    //   ),
+                    // ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal:
+                              // !AppUtil.rtlDirection(context) ? 15 : 5),
+                              AppUtil.rtlDirection2(context)
+                                  ? width * 0.038
+                                  : width * 0.012),
+                      child: Container(
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(width * 0.03),
+                                topRight: Radius.circular(width * 0.03))),
+                        child: CustomText(
+                          text: "hospitality".tr,
+                          color: _tabIndex == 0 ? black : Colors.white,
+                          fontWeight: _tabIndex == 0
+                              ? FontWeight.w500
+                              : FontWeight.w400,
+                          fontSize:
+                              _tabIndex == 0 ? width * 0.033 : width * 0.033,
+                          fontFamily: AppUtil.rtlDirection2(context)
+                              ? 'SF Arabic'
+                              : 'SF Pro',
+                        ),
                       ),
                     ),
                   ),

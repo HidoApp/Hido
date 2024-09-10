@@ -44,9 +44,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
           padding: EdgeInsets.only(
               top: width * 0.030, right: width * 0.041, left: width * 0.041),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            //mainAxisSize: MainAxisSize.max,
-            // mainAxisAlignment: MainAxisAlignment.center,
             children: [
               CustomText(
                 text: "resetPassword".tr,

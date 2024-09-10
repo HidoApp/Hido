@@ -128,6 +128,8 @@ class _SignInScreenState extends State<SignInScreen> {
                                 obscureText: !showPassword,
                                 hintText: 'yourPassword'.tr,
                                 controller: _passwordController,
+                                isPassword: true,
+
                                 // prefixIcon: const Icon(
                                 //   Icons.lock_outline_rounded,
                                 //   color: colorDarkGrey,
@@ -250,33 +252,28 @@ class _SignInScreenState extends State<SignInScreen> {
                                   ),
                           ),
                         ),
-
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             CustomText(
                               text: "haveAnAccount?".tr,
                               fontSize: 15,
-                              fontWeight: FontWeight.w300,
+                              fontWeight: FontWeight.w500,
                               fontFamily: AppUtil.SfFontType(context),
                             ),
-                            TextButton(
-                              onPressed: ()
-                                  // async
-                                  {
-                                Get.off(
-                                  () => const RegisterScreen(
-                                      //  countries: countries,
-                                      ),
-                                );
-                              },
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.0128,
+                            ),
+                            GestureDetector(
+                              onTap: () =>
+                                  Get.off(() => const RegisterScreen()),
                               child: CustomText(
                                 text: 'signUp'.tr,
                                 color: colorGreen,
                                 fontSize: 15,
                                 fontWeight: FontWeight.w400,
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ],

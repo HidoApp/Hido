@@ -16,7 +16,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:dropdown_search/dropdown_search.dart';
 
 import 'package:get/get.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';

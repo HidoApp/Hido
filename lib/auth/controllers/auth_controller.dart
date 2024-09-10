@@ -45,6 +45,7 @@ class AuthController extends GetxController {
   final vehicleKey = GlobalKey<FormState>();
   var localID = ''.obs;
   var drivingDate = ''.obs;
+  var drivingDateDay = ''.obs;
   var email = ''.obs;
   var phoneNumber = ''.obs;
   var iban = ''.obs;

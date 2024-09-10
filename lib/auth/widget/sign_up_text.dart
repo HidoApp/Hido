@@ -21,7 +21,7 @@ class SignUpText extends StatelessWidget {
         CustomText(
           text: "haveAnAccount?".tr,
           fontFamily: AppUtil.SfFontType(context),
-          fontWeight: FontWeight.w300,
+          fontWeight: FontWeight.w500,
           fontSize: MediaQuery.of(context).size.width * 0.038,
         ),
         SizedBox(
@@ -43,7 +43,6 @@ class SignUpText extends StatelessWidget {
                 );
               } else {
                 Get.off(() => const RegisterScreen());
-
               }
             })
       ],
