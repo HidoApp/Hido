@@ -24,7 +24,8 @@ class _TermsAndConditionsTextState extends State<TermsAndConditionsText> {
         Obx(() => Checkbox(
             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
             side: const BorderSide(color: colorGreen, width: 2),
-            overlayColor: WidgetStateColor.transparent,
+            // overlayColor: WidgetStateColor.transparent,
+           overlayColor: MaterialStateProperty.all(Colors.transparent), // Updated line
             value: _authController.agreeForTerms.value,
             onChanged: (value) => _authController.agreeForTerms(value))),
         CustomText(

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "931845849079",
+    "project_id": "hido-app-notifications",
+    "storage_bucket": "hido-app-notifications.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:931845849079:android:001db650389140c05538f2",
+        "android_client_info": {
+          "package_name": "com.hido.hidoapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqgOcirWy-rzgjnpKZKIbOsfwmVV79txc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

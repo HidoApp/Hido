@@ -2,8 +2,16 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/firebase_api.dart';
+import 'package:ajwad_v4/firebase_options.dart';
 import 'package:ajwad_v4/new-onboarding/view/splash_screen.dart';
+import 'package:ajwad_v4/services/view/service_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_app_installations/firebase_app_installations.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_in_app_messaging/firebase_in_app_messaging.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,9 +21,17 @@ import 'localization/locale_string.dart';
 import 'package:ajwad_v4/request/local_notification.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
+
+ final navigatorKey = GlobalKey<NavigatorState>();
+
 // Initialize shared preferences
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+ 
+  
+
+  //await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);//new 
+
   await GetStorage.init();
   await GetStorage.init('map_markers');
   await GetStorage.init('bookmark');
@@ -23,10 +39,41 @@ void main() async {
   await initializeDateFormatting('ar');
   await LocalNotification.init();
   timeago.setLocaleMessages('ar', timeago.ArMessages());
-  runApp(const MyApp());
+
+try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    // FirebaseMessaging messaging = FirebaseMessaging.instance;
+    // await messaging.requestPermission(
+    //  alert: true,
+    //  announcement: false,
+    //  badge: true,
+    //  carPlay: false,
+    //  criticalAlert: false,
+    //  provisional: false,
+    //  sound: true,
+
+
+    // );
+    //await Firebase.initializeApp();  // Firebase initialization
+
+    await FirebaseApi().initNotifications();
+    runApp(const MyApp());
+  } catch (error) {
+    print("Firebase initialization error: $error");
+  }
+
+  //runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
+  static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  static FirebaseInAppMessaging fiam = FirebaseInAppMessaging.instance;
+   
+
+
+
   const MyApp({super.key});
 
   @override
@@ -73,6 +120,10 @@ class _MyAppState extends State<MyApp> {
         title: 'Ajwad',
         debugShowCheckedModeBanner: false,
         home: const SplashScreen(),
+        navigatorKey: navigatorKey,
+        routes: {
+          '/service_screen':(context)=> const ServiceScreen(),
+        },
         //  home: const CheckOutScreen(),
       ),
     );

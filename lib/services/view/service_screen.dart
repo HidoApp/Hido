@@ -42,12 +42,20 @@ class _ServiceScreenState extends State<ServiceScreen>
 
   final _srvicesController = Get.put(HospitalityController());
   final _regionsController = Get.put(RegionsController());
+  final ProfileController _profileController = Get.put(ProfileController());
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
     // getReg();
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+  
+    super.dispose();
   }
 
   void getExperiencesByRegion(int index) async {
@@ -216,8 +224,8 @@ class _ServiceScreenState extends State<ServiceScreen>
                               children: [
                                 HomeIconButton(
                                     onTap: () {
-                                      ProfileController _profileController =
-                                          Get.put(ProfileController());
+                                      // ProfileController _profileController =
+                                      //     Get.put(ProfileController());
                                       Get.to(() => AppUtil.isGuest()
                                           ? const SignInScreen()
                                           : TicketScreen(
@@ -230,8 +238,8 @@ class _ServiceScreenState extends State<ServiceScreen>
                                 ),
                                 HomeIconButton(
                                     onTap: () {
-                                      ProfileController _profileController =
-                                          Get.put(ProfileController());
+                                      // ProfileController _profileController =
+                                      //     Get.put(ProfileController());
                                       Get.to(() => AppUtil.isGuest()
                                           ? const SignInScreen()
                                           : MessagesScreen(
