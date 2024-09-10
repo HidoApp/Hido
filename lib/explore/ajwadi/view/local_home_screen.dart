@@ -4,7 +4,6 @@ import 'dart:developer';
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/model/last_activity.dart';
-import 'package:ajwad_v4/explore/ajwadi/view/add_on_map.dart';
 import 'package:ajwad_v4/explore/ajwadi/model/userLocation.dart';
 import 'package:ajwad_v4/explore/ajwadi/services/location_service.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/custom_local_ticket_card.dart';
@@ -72,12 +71,9 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
   @override
   void initState() {
     super.initState();
-    getProfile();
-    getNextActivity();
-  }
-
-  void getProfile() async {
-    await _profileController.getProfile(context: context);
+    if (_profileController.profile.accountType != 'EXPERIENCES') {
+      getNextActivity();
+    }
   }
 
   @override
@@ -85,15 +81,18 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
 
-    log("this trip controller");
-    log(_tripController.isTripUpdated.value.toString());
+    // log("this trip controller");
+    // log(_tripController.isTripUpdated.value.toString());
 
     return Obx(
       () => Skeletonizer(
         enabled: _profileController.isProfileLoading.value,
         child: RefreshIndicator.adaptive(
           onRefresh: () async {
-            await _tripController.getNextActivity(context: context);
+            if (_profileController.profile.accountType != 'EXPERIENCES') {
+              await _tripController.getNextActivity(context: context);
+              //  getNextActivity();
+            }
           },
           child: Scaffold(
             backgroundColor: Colors.white,
@@ -106,9 +105,9 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                     Container(
                       width: 340.40,
                       //height: 60,
-                        height: 40,
+                      height: 40,
 
-                     // padding: const EdgeInsets.symmetric(vertical: 12),
+                      // padding: const EdgeInsets.symmetric(vertical: 12),
                       // child: Row(
                       //   crossAxisAlignment: CrossAxisAlignment.start,
                       //   textDirection: TextDirection.rtl,
@@ -142,7 +141,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                       //   ],
                       // ),
                     ),
-                   // SizedBox(height: 16),
+                    // SizedBox(height: 16),
                     Row(
                       children: [
                         MediaQuery(
@@ -183,23 +182,23 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                           ),
                         ),
                         Spacer(),
-                         Padding(
-                       padding: const EdgeInsets.only(bottom:6.0),
-                           child: InkWell(
-                              onTap: () {
-                                ProfileController _profileController =
-                                    Get.put(ProfileController());
-                                Get.to(() => MessagesScreen(
-                                    profileController: _profileController));
-                              },
-                              child: SizedBox(
-                                width: 36,
-                                height: 24,
-                                child: SvgPicture.asset(
-                                    'assets/icons/Communication_black.svg'),
-                              ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 6.0),
+                          child: InkWell(
+                            onTap: () {
+                              ProfileController _profileController =
+                                  Get.put(ProfileController());
+                              Get.to(() => MessagesScreen(
+                                  profileController: _profileController));
+                            },
+                            child: SizedBox(
+                              width: 36,
+                              height: 24,
+                              child: SvgPicture.asset(
+                                  'assets/icons/Communication_black.svg'),
                             ),
-                         ),
+                          ),
+                        ),
                       ],
                     ),
                     SizedBox(height: 1),
@@ -307,65 +306,68 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                           ],
                         ),
                         const SizedBox(height: 40),
-                        CustomText(
-                          text: 'nextActivity'.tr,
-                          color: Color(0xFF070708),
-                          fontSize: 17,
-                          fontFamily: 'HT Rakik',
-                          fontWeight: FontWeight.w500,
-                          height: 0.10,
-                          textDirection: TextDirection.ltr,
-                        ),
-                        const SizedBox(height: 27),
-                        Obx(
-                          () => Skeletonizer(
-                            enabled:
-                                _tripController.isNextActivityLoading.value,
-                            child: !_tripController.isTripUpdated.value ||
-                                    _tripController.nextTrip.value.id!.isEmpty
-                                //! _tripController.isTripUpdated.value
-
-                                ? Column(
-                                    children: [
-                                      Container(
-                                        width: double.infinity,
-                                        height: 135,
-                                        decoration: ShapeDecoration(
-                                          shape: RoundedRectangleBorder(
-                                            side: BorderSide(
-                                                width: 1.50,
-                                                color: Color(0xFFECECEE)),
-                                            borderRadius:
-                                                BorderRadius.circular(12),
-                                          ),
-                                        ),
-                                        child: Center(
-                                          child: CustomText(
-                                            text: "noNextActivity".tr,
-                                            textAlign: TextAlign.center,
-                                            color: Color(0xFFDCDCE0),
-                                            fontSize: 16,
-                                            fontFamily:
-                                                AppUtil.rtlDirection2(context)
-                                                    ? "SF Arabic"
-                                                    : 'SF Pro',
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(height: 20)
-                                    ],
-                                  )
-                                : Column(
-                                    children: [
-                                      //  SizedBox(height: 11),
-                                      CustomLocalTicketCard(),
-
-                                      const SizedBox(height: 11),
-                                    ],
-                                  ),
+                        if (_profileController.profile.accountType !=
+                            'EXPERIENCES') ...{
+                          CustomText(
+                            text: 'nextActivity'.tr,
+                            color: Color(0xFF070708),
+                            fontSize: 17,
+                            fontFamily: 'HT Rakik',
+                            fontWeight: FontWeight.w500,
+                            height: 0.10,
+                            textDirection: TextDirection.ltr,
                           ),
-                        ),
+                          const SizedBox(height: 27),
+                          Obx(
+                            () => Skeletonizer(
+                              enabled:
+                                  _tripController.isNextActivityLoading.value,
+                              child: !_tripController.isTripUpdated.value ||
+                                      _tripController.nextTrip.value.id!.isEmpty
+                                  //! _tripController.isTripUpdated.value
+
+                                  ? Column(
+                                      children: [
+                                        Container(
+                                          width: double.infinity,
+                                          height: 135,
+                                          decoration: ShapeDecoration(
+                                            shape: RoundedRectangleBorder(
+                                              side: BorderSide(
+                                                  width: 1.50,
+                                                  color: Color(0xFFECECEE)),
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                            ),
+                                          ),
+                                          child: Center(
+                                            child: CustomText(
+                                              text: "noNextActivity".tr,
+                                              textAlign: TextAlign.center,
+                                              color: Color(0xFFDCDCE0),
+                                              fontSize: 16,
+                                              fontFamily:
+                                                  AppUtil.rtlDirection2(context)
+                                                      ? "SF Arabic"
+                                                      : 'SF Pro',
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(height: 20)
+                                      ],
+                                    )
+                                  : Column(
+                                      children: [
+                                        //  SizedBox(height: 11),
+                                        CustomLocalTicketCard(),
+
+                                        const SizedBox(height: 11),
+                                      ],
+                                    ),
+                            ),
+                          ),
+                        }
                       ],
                     ),
                   ],

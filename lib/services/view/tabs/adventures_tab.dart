@@ -55,7 +55,7 @@ class _AdventuresTabState extends State<AdventuresTab> {
 
   @override
   void dispose() {
-    _regionsController.selectedAdventureIndex(0);
+    // _regionsController.selectedAdventureIndex(0);
     // TODO: implement dispose
     super.dispose();
   }

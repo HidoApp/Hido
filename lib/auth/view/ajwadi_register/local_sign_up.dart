@@ -15,6 +15,7 @@ import 'package:ajwad_v4/widgets/screen_padding.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:jhijri/_src/_jHijri.dart';
 import 'package:jhijri_picker/_src/_jWidgets.dart';
@@ -117,8 +118,11 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                     CustomText(
                       text: 'idIqama'.tr,
                       fontSize: width * 0.043,
-                      fontFamily: 'SF Pro',
+                      fontFamily: AppUtil.SfFontType(context),
                       fontWeight: FontWeight.w500,
+                    ),
+                    SizedBox(
+                      height: width * 0.0205,
                     ),
                     CustomTextField(
                       keyboardType: TextInputType.number,
@@ -143,10 +147,14 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                       height: width * 0.061,
                     ),
                     CustomText(
-                        text: 'phoneNum'.tr,
-                        fontSize: width * 0.0435,
-                        fontWeight: FontWeight.w500,
-                        fontFamily: 'SF Pro'),
+                      text: 'phoneNum'.tr,
+                      fontSize: width * 0.0435,
+                      fontWeight: FontWeight.w500,
+                      fontFamily: AppUtil.SfFontType(context),
+                    ),
+                    SizedBox(
+                      height: width * 0.0205,
+                    ),
                     CustomTextField(
                       hintText: 'phoneHint'.tr,
                       inputFormatters: [
@@ -173,8 +181,11 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                     CustomText(
                       text: 'birthDate'.tr,
                       fontSize: width * 0.043,
-                      fontFamily: 'SF Pro',
+                      fontFamily: AppUtil.SfFontType(context),
                       fontWeight: FontWeight.w500,
+                    ),
+                    SizedBox(
+                      height: width * 0.0205,
                     ),
                     GestureDetector(
                       onTap: () async {
@@ -183,7 +194,10 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                       child: Obx(
                         () => Container(
                           padding: EdgeInsets.symmetric(
-                              horizontal: width * .03, vertical: width * .020),
+                            horizontal: width * .03,
+                            vertical: width * .020,
+                            //  bottom: width * .020,
+                          ),
                           height: width * 0.123,
                           decoration: BoxDecoration(
                               borderRadius: const BorderRadius.all(
@@ -196,24 +210,22 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                               )),
                           child: Row(
                             children: [
-                              const Icon(
-                                Icons.date_range,
-                                color: Colors.grey,
-                              ),
-                              SizedBox(
-                                width: width * 0.05,
-                              ),
+                              // SizedBox(
+                              //   width: width * 0.00,
+                              // ),
                               Obx(
                                 () => CustomText(
                                   text: _authController.birthDate.isNotEmpty
                                       ? _authController.birthDateDay.value
                                       : 'mm/dd/yyy'.tr,
-                                  color: starGreyColor,
+                                  color: Graytext,
                                   fontWeight: FontWeight.w400,
                                   fontSize: width * .038,
-                                  fontFamily: 'SF Pro',
+                                  fontFamily: AppUtil.SfFontType(context),
                                 ),
                               ),
+                              const Spacer(),
+                              SvgPicture.asset('assets/icons/calendar.svg'),
                             ],
                           ),
                         ),
@@ -227,7 +239,7 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                               color: colorRed,
                               fontSize: 11,
                               fontWeight: FontWeight.w400,
-                              fontFamily: 'SF Pro',
+                              fontFamily: AppUtil.SfFontType(context),
                             ),
                     ),
                   ],
@@ -291,7 +303,7 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                       ),
               ),
               SizedBox(
-                height: width * 0.075,
+                height: width * 0.041,
               ),
               const SignInText()
             ],

@@ -40,9 +40,10 @@ class _TermsAndConditionsTextState extends State<TermsAndConditionsText> {
         GestureDetector(
           child: CustomText(
             text: 'termsOfService'.tr,
-            color: blue,
+            color: const Color(0xFF0078E0),
             fontFamily: AppUtil.SfFontType(context),
             fontWeight: FontWeight.w400,
+            textDecoration: TextDecoration.underline,
             fontSize: MediaQuery.of(context).size.width * 0.033,
           ),
           onTap: () {

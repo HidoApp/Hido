@@ -25,7 +25,7 @@ class TouristBottomBar extends StatefulWidget {
 
 class _TouristBottomBarState extends State<TouristBottomBar> {
   final _pageController = PageController();
-  int _currentIndex = 0;
+  // int _currentIndex = 0;
   final ProfileController _profileController = ProfileController();
   final getStorage = GetStorage();
   late Profile profile;
@@ -36,10 +36,17 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
     super.initState();
 
     if (!AppUtil.isGuest()) {
-      getProfile();
+      // getProfile();
       // getUserActions();
       // _profileController.isUserOpenTheApp(true);
     }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _pageController.dispose();
   }
 
   void getProfile() async {
@@ -92,97 +99,102 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
               color: Color.fromRGBO(33, 33, 33, 0.05),
               offset: Offset(10, 0))
         ]),
-        child: BottomNavigationBar(
-          elevation: 0,
-          enableFeedback: false,
-          backgroundColor: Colors.white,
-          currentIndex: _currentIndex,
-          type: BottomNavigationBarType.fixed,
-          unselectedItemColor: Color(0xFFB9B8C1),
-          selectedItemColor: colorGreen,
-          unselectedLabelStyle: TextStyle(
-            fontSize: 11,
-            fontWeight: FontWeight.w600,
-            fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+        child: Obx(
+          () => BottomNavigationBar(
+            elevation: 0,
+            enableFeedback: false,
+            backgroundColor: Colors.white,
+            currentIndex: _profileController.touriestBar.value,
+            type: BottomNavigationBarType.fixed,
+            unselectedItemColor: Color(0xFFB9B8C1),
+            selectedItemColor: colorGreen,
+            unselectedLabelStyle: TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.w600,
+              fontFamily:
+                  AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+            ),
+            selectedLabelStyle: TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.w600,
+              fontFamily:
+                  AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+              color: darkBlack,
+            ),
+            onTap: (index) {
+              //   print(getStorage.read('accessToken'));
+              _profileController.touriestBar.value = index;
+              _pageController.jumpToPage(_profileController.touriestBar.value);
+            },
+            items: [
+              BottomNavigationBarItem(
+                icon: Container(
+                  decoration: _profileController.touriestBar.value == 0
+                      ? BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [],
+                        )
+                      : const BoxDecoration(),
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 4.0),
+                    child: RepaintBoundary(
+                      child: SvgPicture.asset(
+                        'assets/icons/map_icon.svg',
+                        color: _profileController.touriestBar.value == 0
+                            ? colorGreen
+                            : Color(0xFFB9B8C1),
+                      ),
+                    ),
+                  ),
+                ),
+                label: 'explore'.tr,
+              ),
+              BottomNavigationBarItem(
+                icon: Container(
+                  decoration: _profileController.touriestBar.value == 1
+                      ? BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [],
+                        )
+                      : const BoxDecoration(),
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 4.0),
+                    child: RepaintBoundary(
+                      child: SvgPicture.asset(
+                        'assets/icons/request_icon.svg',
+                        color: _profileController.touriestBar.value == 1
+                            ? colorGreen
+                            : Color(0xFFB9B8C1),
+                      ),
+                    ),
+                  ),
+                ),
+                label: 'services'.tr,
+              ),
+              BottomNavigationBarItem(
+                icon: Container(
+                  decoration: _profileController.touriestBar.value == 2
+                      ? BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [],
+                        )
+                      : const BoxDecoration(),
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 4.0),
+                    child: RepaintBoundary(
+                      child: SvgPicture.asset(
+                        'assets/icons/my_profile.svg',
+                        color: _profileController.touriestBar.value == 2
+                            ? colorGreen
+                            : Color(0xFFB9B8C1),
+                      ),
+                    ),
+                  ),
+                ),
+                label: 'profile'.tr,
+              ),
+            ],
           ),
-          selectedLabelStyle: TextStyle(
-            fontSize: 11,
-            fontWeight: FontWeight.w600,
-            fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-            color: darkBlack,
-          ),
-          onTap: (index) {
-            //   print(getStorage.read('accessToken'));
-            setState(() {
-              _currentIndex = index;
-            });
-            _pageController.jumpToPage(_currentIndex);
-          },
-          items: [
-            BottomNavigationBarItem(
-              icon: Container(
-                decoration: _currentIndex == 0
-                    ? BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [],
-                      )
-                    : const BoxDecoration(),
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 4.0),
-                  child: RepaintBoundary(
-                    child: SvgPicture.asset(
-                      'assets/icons/map_icon.svg',
-                      color:
-                          _currentIndex == 0 ? colorGreen : Color(0xFFB9B8C1),
-                    ),
-                  ),
-                ),
-              ),
-              label: 'explore'.tr,
-            ),
-            BottomNavigationBarItem(
-              icon: Container(
-                decoration: _currentIndex == 1
-                    ? BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [],
-                      )
-                    : const BoxDecoration(),
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 4.0),
-                  child: RepaintBoundary(
-                    child: SvgPicture.asset(
-                      'assets/icons/request_icon.svg',
-                      color:
-                          _currentIndex == 1 ? colorGreen : Color(0xFFB9B8C1),
-                    ),
-                  ),
-                ),
-              ),
-              label: 'services'.tr,
-            ),
-            BottomNavigationBarItem(
-              icon: Container(
-                decoration: _currentIndex == 2
-                    ? BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [],
-                      )
-                    : const BoxDecoration(),
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 4.0),
-                  child: RepaintBoundary(
-                    child: SvgPicture.asset(
-                      'assets/icons/my_profile.svg',
-                      color:
-                          _currentIndex == 2 ? colorGreen : Color(0xFFB9B8C1),
-                    ),
-                  ),
-                ),
-              ),
-              label: 'profile'.tr,
-            ),
-          ],
         ),
       ),
     );
