@@ -22,10 +22,10 @@ class FirebaseApi {
     final fCMToken = await messaging.getToken();
     //final installationId = await FirebaseInstallations.instance.getId();
 
-//final installationId= await FirebaseInstallations.instance.getId();
-//   log('installationId:$id');
+    final installationId = await FirebaseInstallations.instance.getId();
+    // log('installationId:$id');
     log('Api-token:$fCMToken');
-  //  log('installationId:$installationId');
+    log('installationId:$installationId');
 
     initPushNotification();
   }
@@ -58,6 +58,5 @@ class FirebaseApi {
 
 //when app open and recieve message
     FirebaseMessaging.onMessage.listen(handleMessage);
-
   }
 }

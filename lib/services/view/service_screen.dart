@@ -54,7 +54,7 @@ class _ServiceScreenState extends State<ServiceScreen>
   @override
   void dispose() {
     _tabController.dispose();
-  
+
     super.dispose();
   }
 

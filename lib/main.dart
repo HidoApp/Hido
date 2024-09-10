@@ -21,16 +21,13 @@ import 'localization/locale_string.dart';
 import 'package:ajwad_v4/request/local_notification.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-
- final navigatorKey = GlobalKey<NavigatorState>();
+final navigatorKey = GlobalKey<NavigatorState>();
 
 // Initialize shared preferences
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
- 
-  
 
-  //await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);//new 
+  //await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);//new
 
   await GetStorage.init();
   await GetStorage.init('map_markers');
@@ -40,7 +37,7 @@ void main() async {
   await LocalNotification.init();
   timeago.setLocaleMessages('ar', timeago.ArMessages());
 
-try {
+  try {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
@@ -53,7 +50,6 @@ try {
     //  criticalAlert: false,
     //  provisional: false,
     //  sound: true,
-
 
     // );
     //await Firebase.initializeApp();  // Firebase initialization
@@ -70,9 +66,6 @@ try {
 class MyApp extends StatefulWidget {
   static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   static FirebaseInAppMessaging fiam = FirebaseInAppMessaging.instance;
-   
-
-
 
   const MyApp({super.key});
 
@@ -122,7 +115,7 @@ class _MyAppState extends State<MyApp> {
         home: const SplashScreen(),
         navigatorKey: navigatorKey,
         routes: {
-          '/service_screen':(context)=> const ServiceScreen(),
+          '/service_screen': (context) => const ServiceScreen(),
         },
         //  home: const CheckOutScreen(),
       ),
