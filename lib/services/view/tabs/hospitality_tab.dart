@@ -39,7 +39,7 @@ class _HospitalityTabState extends State<HospitalityTab> {
 
   @override
   void dispose() {
-    _regionsController.selectedHospitaltyIndex(0);
+   // _regionsController.selectedHospitaltyIndex(0);
     // TODO: implement dispose
     super.dispose();
   }

@@ -1,4 +1,3 @@
-import 'package:ajwad_v4/explore/ajwadi/view/ajwadi_map_screen.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/request/ajwadi/view/new_request_screen.dart';
 import 'package:ajwad_v4/request/ajwadi/view/request_screen.dart';

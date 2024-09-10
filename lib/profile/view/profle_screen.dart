@@ -60,16 +60,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    // getProfile();
-    calculateOverallRating();
+    if (!widget.fromAjwady) {
+      getProfile();
+    }
     // isTourGuide= storage.read("TourGuide") ;
   }
 
-  // void getProfile() async {
-  //   await _profileController
-  //       .getProfile(context: context)
-  //       .then((value) => totalRating = );
-  // }
+  void getProfile() async {
+    await _profileController
+        .getProfile(context: context)
+        .then((value) => totalRating = calculateOverallRating());
+  }
 
   double calculateOverallRating() {
     // Access profile properties with null-aware operators

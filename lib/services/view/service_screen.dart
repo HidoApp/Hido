@@ -295,9 +295,17 @@ class _ServiceScreenState extends State<ServiceScreen>
                 },
                 tabs: [
                   Container(
-                    color: _tabIndex != 0
-                        ? Colors.white.withOpacity(0.5)
-                        : Colors.transparent,
+                    // decoration: BoxDecoration(
+                    //   borderRadius: BorderRadius.only(
+                    //       topLeft: Radius.circular(width * 0.03),
+                    //       topRight: Radius.circular(width * 0.03)),
+                    //   gradient: LinearGradient(
+                    //     colors: [
+                    //       Colors.white.withOpacity(0.4),
+                    //       Colors.white.withOpacity(0.1)
+                    //     ],
+                    //   ),
+                    // ),
                     child: Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal:

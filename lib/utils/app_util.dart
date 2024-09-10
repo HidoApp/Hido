@@ -9,7 +9,6 @@ import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:hijri/hijri_calendar.dart';
 import 'package:intl/intl.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:timezone/timezone.dart' as tz;
@@ -474,51 +473,51 @@ class AppUtil {
 
   static successToast(context, msg) {
     var width = MediaQuery.of(context).size.width;
-     Flushbar(
-    messageText: Container(
-      width: double.infinity,
-     padding: EdgeInsets.symmetric(horizontal: width*0.041, vertical: width*0.029),
-      clipBehavior: Clip.none, // No clipping to avoid any implicit border
-       decoration: ShapeDecoration(
-        color: Color(0xFFEEFBDF), // Light pink background color for the message
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8), // Reduced border radius for less rounded corners
+    Flushbar(
+      messageText: Container(
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(
+            horizontal: width * 0.041, vertical: width * 0.029),
+        clipBehavior: Clip.none, // No clipping to avoid any implicit border
+        decoration: ShapeDecoration(
+          color:
+              Color(0xFFEEFBDF), // Light pink background color for the message
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(
+                8), // Reduced border radius for less rounded corners
+          ),
         ),
-        ),
-              child: Row(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-         
-          SvgPicture.asset(
-                      "assets/icons/sucss_toast.svg"
-                    ),
-
-       SizedBox(width: width *0.029),
-          Expanded(
-            child: CustomText(
-              text: msg, // Dynamic message text
-                color:  Color(0xFF3F6E0D), // Text color
-                fontSize:  width *0.038,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SvgPicture.asset("assets/icons/sucss_toast.svg"),
+            SizedBox(width: width * 0.029),
+            Expanded(
+              child: CustomText(
+                text: msg, // Dynamic message text
+                color: Color(0xFF3F6E0D), // Text color
+                fontSize: width * 0.038,
                 maxlines: 200,
                 fontFamily: SfFontType(context),
                 fontWeight: FontWeight.w500,
-              
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
-    ),
-    messageColor: Colors.white,
-    padding:  EdgeInsets.symmetric(horizontal: width*0.029, vertical: 4),
-    isDismissible: true,
-    duration: const Duration(seconds: 5),
-    flushbarPosition: FlushbarPosition.TOP,
-    backgroundColor: Colors.transparent, // Transparent to prevent any additional color
-    // margin: const EdgeInsets.all(3),
-    borderRadius: const BorderRadius.all(Radius.circular(8)), // Match the reduced border radius
-  ).show(context);
+      messageColor: Colors.white,
+      padding: EdgeInsets.symmetric(horizontal: width * 0.029, vertical: 4),
+      isDismissible: true,
+      duration: const Duration(seconds: 5),
+      flushbarPosition: FlushbarPosition.TOP,
+      backgroundColor:
+          Colors.transparent, // Transparent to prevent any additional color
+      // margin: const EdgeInsets.all(3),
+      borderRadius: const BorderRadius.all(
+          Radius.circular(8)), // Match the reduced border radius
+    ).show(context);
 
     // Flushbar(
     //   onTap: (flushbar) {},
@@ -577,56 +576,56 @@ class AppUtil {
       }
     }
   }
-static errorToast(BuildContext context, String msg) {
-  var width = MediaQuery.of(context).size.width;
 
-  Flushbar(
-    messageText: Container(
-      width: double.infinity,
-     padding: EdgeInsets.symmetric(horizontal: width*0.041, vertical: width*0.029),
-      clipBehavior: Clip.none, // No clipping to avoid any implicit border
-       decoration: ShapeDecoration(
-        color: Color(0xFFFBEAE9), // Light pink background color for the message
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8), // Reduced border radius for less rounded corners
-        ),
-        ),
-              child: Row(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-         
-          SvgPicture.asset(
-                      "assets/icons/error_toast.svg"
-                    ),
+  static errorToast(BuildContext context, String msg) {
+    var width = MediaQuery.of(context).size.width;
 
-           SizedBox(width: width *0.029),
-          Expanded(
-            child: CustomText(
-              text: msg, // Dynamic message text
+    Flushbar(
+      messageText: Container(
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(
+            horizontal: width * 0.041, vertical: width * 0.029),
+        clipBehavior: Clip.none, // No clipping to avoid any implicit border
+        decoration: ShapeDecoration(
+          color:
+              Color(0xFFFBEAE9), // Light pink background color for the message
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(
+                8), // Reduced border radius for less rounded corners
+          ),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SvgPicture.asset("assets/icons/error_toast.svg"),
+            SizedBox(width: width * 0.029),
+            Expanded(
+              child: CustomText(
+                text: msg, // Dynamic message text
                 color: Color(0xFFDC362E), // Text color
-                fontSize:width *0.038,
+                fontSize: width * 0.038,
                 maxlines: 200,
                 fontFamily: SfFontType(context),
                 fontWeight: FontWeight.w500,
-              
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
-    ),
-    messageColor: Colors.white,
-    padding: EdgeInsets.symmetric(horizontal: width*0.029, vertical: 4),
-    isDismissible: true,
-    duration: const Duration(seconds: 5),
-    flushbarPosition: FlushbarPosition.TOP,
-    backgroundColor: Colors.transparent, // Transparent to prevent any additional color
-    // margin: const EdgeInsets.all(3),
-    borderRadius: const BorderRadius.all(Radius.circular(8)), // Match the reduced border radius
-  ).show(context);
-}
-
+      messageColor: Colors.white,
+      padding: EdgeInsets.symmetric(horizontal: width * 0.029, vertical: 4),
+      isDismissible: true,
+      duration: const Duration(seconds: 5),
+      flushbarPosition: FlushbarPosition.TOP,
+      backgroundColor:
+          Colors.transparent, // Transparent to prevent any additional color
+      // margin: const EdgeInsets.all(3),
+      borderRadius: const BorderRadius.all(
+          Radius.circular(8)), // Match the reduced border radius
+    ).show(context);
+  }
 
   // static errorToast(context, msg) {
   //   Flushbar(
@@ -704,34 +703,34 @@ static errorToast(BuildContext context, String msg) {
     return "${hijriDate.year}-${hijriDate.month.toString().padLeft(2, '0')}";
     // return "${hijriDate.year}-${hijriDate.month.toString().padLeft(2, '0')}-${hijriDate.day.toString().padLeft(2, '0')}";
   }
+
   static String formattedHijriDateDay(JHijri hijriDate) {
     return "${hijriDate.year}-${hijriDate.month.toString().padLeft(2, '0')}-${hijriDate.day.toString().padLeft(2, '0')}";
   }
-  static String convertHijriDateStringToGregorian(String hijriDateString) {
-  try {
-    // Parse the Hijri date string
-    List<String> parts = hijriDateString.split('-');
-    int hijriYear = int.parse(parts[0]);
-    int hijriMonth = int.parse(parts[1]);
-    int hijriDay = int.parse(parts[2]);
+//   static String convertHijriDateStringToGregorian(String hijriDateString) {
+//   try {
+//     // Parse the Hijri date string
+//     List<String> parts = hijriDateString.split('-');
+//     int hijriYear = int.parse(parts[0]);
+//     int hijriMonth = int.parse(parts[1]);
+//     int hijriDay = int.parse(parts[2]);
 
-    // Create a HijriCalendar instance
-    HijriCalendar hijriCalendar = HijriCalendar();
+//     // Create a HijriCalendar instance
+//     HijriCalendar hijriCalendar = HijriCalendar();
 
-    // Convert Hijri date to Gregorian date
-    DateTime gregorianDate = hijriCalendar.hijriToGregorian(hijriYear, hijriMonth, hijriDay);
+//     // Convert Hijri date to Gregorian date
+//     DateTime gregorianDate = hijriCalendar.hijriToGregorian(hijriYear, hijriMonth, hijriDay);
 
-    // Format the Gregorian date to 'YYYY-MM-DD'
-    String formattedDate = DateFormat('yyyy-MM-dd').format(gregorianDate);
+//     // Format the Gregorian date to 'YYYY-MM-DD'
+//     String formattedDate = DateFormat('yyyy-MM-dd').format(gregorianDate);
 
-    return formattedDate;
-  } catch (e) {
-    // Handle any errors during conversion
-    print('Error converting Hijri date to Gregorian: $e');
-    return '';
-  }
-}
-
+//     return formattedDate;
+//   } catch (e) {
+//     // Handle any errors during conversion
+//     print('Error converting Hijri date to Gregorian: $e');
+//     return '';
+//   }
+// }
 
   static String SfFontType(BuildContext context) {
     return AppUtil.rtlDirection2(context) ? 'SF Arabic' : "SF Pro";
