@@ -89,7 +89,11 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
         ],
       ),
       bottomNavigationBar: Container(
-        decoration: const BoxDecoration(boxShadow: [
+        padding: EdgeInsets.only(bottom: 8),
+        decoration: const BoxDecoration(
+         color: Colors.white,
+          
+          boxShadow: [
           BoxShadow(
               blurRadius: 40,
               color: Color.fromRGBO(33, 33, 33, 0.05),

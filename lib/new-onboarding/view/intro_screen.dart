@@ -8,6 +8,7 @@ import 'package:ajwad_v4/explore/ajwadi/view/Experience/adventure/view/edit_adve
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -33,7 +34,39 @@ class _OnboardingScreenState extends State<OnboardingScreen>
 
   @override
   void initState() {
+    // FirebaseMessaging.onMessage.listen((event) {
+      
+    //   if(event.notification==null) return;
+    //   showDialog(context: context,
+    //    builder: ((context) {
+    //      return Material(
+    //       child: Column(
+    //         mainAxisAlignment: MainAxisAlignment.center,
+    //         crossAxisAlignment: CrossAxisAlignment.center,
+    //         children: [
+    //          Container(
+    //           width: 200,
+    //           height: 200,
+    //           color: Colors.white,
+    //           child: Column(
+    //             children: [
+    //               Text(event.notification?.title??''),
+    //               SizedBox(height: 8,),
+    //               Text(event.notification?.body??'')
+    //             ],
+    //           ),
+    //          )
+    //         ],
+    //       ),
+
+    //      );
+    //    })
+       
+    //    );
+
+    // });
     super.initState();
+    
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 1), // Set the desired duration here
