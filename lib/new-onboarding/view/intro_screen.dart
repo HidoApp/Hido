@@ -10,10 +10,12 @@ import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../bottom_bar/tourist/view/tourist_bottom_bar.dart';
@@ -35,7 +37,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   @override
   void initState() {
     // FirebaseMessaging.onMessage.listen((event) {
-      
+
     //   if(event.notification==null) return;
     //   showDialog(context: context,
     //    builder: ((context) {
@@ -61,12 +63,12 @@ class _OnboardingScreenState extends State<OnboardingScreen>
 
     //      );
     //    })
-       
+
     //    );
 
     // });
     super.initState();
-    
+
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 1), // Set the desired duration here
@@ -263,8 +265,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                   ),
 
                   MediaQuery(
-                      data: MediaQuery.of(context)
-                        .copyWith(textScaleFactor: 1.0),
+                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
                     // data: MediaQuery.of(context)
                     //     .copyWith(textScaler: const TextScaler.linear(1.0)),
                     child: Padding(
@@ -302,7 +303,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                     child: CustomButton(
                       title: 'tourist'.tr,
                       textColor: _currentIndex == 0 ? black : null,
-                      onPressed: () {
+                      onPressed: () async {
                         Get.to(() => const SignInScreen());
                         // Get.off(() => AjwadiBottomBar());
                       },
@@ -417,7 +418,6 @@ class _DotIndicator extends StatefulWidget {
     required this.pageController,
     required this.currentIndex,
     required this.index,
-
   }) : super(key: key);
 
   @override
@@ -461,14 +461,13 @@ class _DotIndicatorState extends State<_DotIndicator>
 
   @override
   Widget build(BuildContext context) {
-     Color dotColor;
+    Color dotColor;
     if (widget.index == widget.currentIndex) {
-      dotColor =  colorGreen; // Current index color
-    } else  if (
-        widget.index == widget.currentIndex - 1 ||
-        widget.index == widget.currentIndex - 2
-        ||  widget.index == widget.currentIndex - 3
-        || widget.index == widget.currentIndex - 4) { 
+      dotColor = colorGreen; // Current index color
+    } else if (widget.index == widget.currentIndex - 1 ||
+        widget.index == widget.currentIndex - 2 ||
+        widget.index == widget.currentIndex - 3 ||
+        widget.index == widget.currentIndex - 4) {
       dotColor = colorGreen; // Previous index color
     } else {
       dotColor = Color(0xFFDCDCE0); // Other indexes color
@@ -509,7 +508,7 @@ class _DotIndicatorState extends State<_DotIndicator>
                 margin: EdgeInsets.symmetric(vertical: 15.0, horizontal: 2.0),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color:dotColor,
+                  color: dotColor,
                   // Color(0xFFDCDCE0),
                 ),
               ),

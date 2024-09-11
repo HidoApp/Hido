@@ -97,7 +97,6 @@ class _TripDetailsState extends State<TripDetails> {
     super.initState();
     addCustomIcon();
     getOfferinfo();
-    _profileController.bookmarkList(BookmarkService.getBookmarks());
 
     _profileController.isTourBookmarked(_profileController.bookmarkList
         .any((bookmark) => bookmark.id == widget.place!.id));
@@ -148,6 +147,9 @@ class _TripDetailsState extends State<TripDetails> {
 
   @override
   Widget build(BuildContext context) {
+    _profileController.bookmarkList(BookmarkService.getBookmarks());
+
+    log(_profileController.bookmarkList.length.toString());
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
 
@@ -809,46 +811,48 @@ class _TripDetailsState extends State<TripDetails> {
             ],
           ),
 
-          Positioned(
-            top: height * 0.066,
-            right: !AppUtil.rtlDirection(context) ? width * 0.85 : width * 0.09,
-            height: 40,
-            child: Obx(
-              () => GestureDetector(
-                onTap: () {
-                  _profileController.isTourBookmarked(
-                      !_profileController.isTourBookmarked.value);
-                  if (_profileController.isTourBookmarked.value) {
-                    final bookmark = Bookmark(
-                        isBookMarked: true,
-                        id: widget.place!.id!,
-                        titleEn: widget.place!.nameEn ?? "",
-                        titleAr: widget.place!.nameAr ?? "",
-                        image: widget.place!.image!.first,
-                        type: 'tour');
-                    BookmarkService.addBookmark(bookmark);
-                  } else {
-                    BookmarkService.removeBookmark(widget.place!.id!);
-                  }
-                },
-                child: Container(
-                    width: 35,
-                    height: 36,
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.20000000298023224),
-                      shape: BoxShape.circle,
-                    ),
-                    alignment: Alignment.center,
-                    child: SvgPicture.asset(
-                      _profileController.isTourBookmarked.value
-                          ? "assets/icons/bookmark_fill.svg"
-                          : "assets/icons/bookmark_icon.svg",
-                      height: 28,
-                       color: Colors.white,
-                    )),
+          if (!AppUtil.isGuest())
+            Positioned(
+              top: height * 0.066,
+              right:
+                  !AppUtil.rtlDirection(context) ? width * 0.85 : width * 0.09,
+              height: 40,
+              child: Obx(
+                () => GestureDetector(
+                  onTap: () {
+                    _profileController.isTourBookmarked(
+                        !_profileController.isTourBookmarked.value);
+                    if (_profileController.isTourBookmarked.value) {
+                      final bookmark = Bookmark(
+                          isBookMarked: true,
+                          id: widget.place!.id!,
+                          titleEn: widget.place!.nameEn ?? "",
+                          titleAr: widget.place!.nameAr ?? "",
+                          image: widget.place!.image!.first,
+                          type: 'tour');
+                      BookmarkService.addBookmark(bookmark);
+                    } else {
+                      BookmarkService.removeBookmark(widget.place!.id!);
+                    }
+                  },
+                  child: Container(
+                      width: 35,
+                      height: 36,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.20000000298023224),
+                        shape: BoxShape.circle,
+                      ),
+                      alignment: Alignment.center,
+                      child: SvgPicture.asset(
+                        _profileController.isTourBookmarked.value
+                            ? "assets/icons/bookmark_fill.svg"
+                            : "assets/icons/bookmark_icon.svg",
+                        height: 28,
+                        color: Colors.white,
+                      )),
+                ),
               ),
             ),
-          ),
           // Positioned(
           //     top: height * 0.265,
           //     right: width * 0.1,

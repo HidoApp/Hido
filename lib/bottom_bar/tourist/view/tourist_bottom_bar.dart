@@ -36,7 +36,7 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
     super.initState();
 
     if (!AppUtil.isGuest()) {
-      // getProfile();
+      getProfile();
       // getUserActions();
       // _profileController.isUserOpenTheApp(true);
     }
@@ -90,10 +90,7 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
       ),
       bottomNavigationBar: Container(
         padding: EdgeInsets.only(bottom: 8),
-        decoration: const BoxDecoration(
-         color: Colors.white,
-          
-          boxShadow: [
+        decoration: const BoxDecoration(color: Colors.white, boxShadow: [
           BoxShadow(
               blurRadius: 40,
               color: Color.fromRGBO(33, 33, 33, 0.05),
