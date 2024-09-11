@@ -185,7 +185,9 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   void initState() {
     super.initState();
     isNew = true;
-    getUserActions();
+    if (!AppUtil.isGuest()) {
+      getUserActions();
+    }
 
     getPlaces();
 
@@ -197,7 +199,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   void dispose() {
     // TODO: implement dispose
     _sheetController.dispose();
-    isNew = true;
+    // isNew = true;
     _touristExploreController.showActivityProgress(false);
 
     super.dispose();

@@ -584,7 +584,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                         )
                       ],
                     ),
-                    if (!widget.isLocal)
+                    if (!widget.isLocal && !AppUtil.isGuest())
                       Positioned(
                         top: height * 0.066,
                         right: AppUtil.rtlDirection2(context)
@@ -624,7 +624,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                       ? "assets/icons/bookmark_fill.svg"
                                       : "assets/icons/bookmark_icon.svg",
                                   height: 28,
-                                   color: Colors.white,
+                                  color: Colors.white,
                                 )),
                           ),
                         ),

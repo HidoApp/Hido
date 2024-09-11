@@ -12,11 +12,13 @@ import 'package:firebase_app_installations/firebase_app_installations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_in_app_messaging/firebase_in_app_messaging.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'localization/locale_string.dart';
 import 'package:ajwad_v4/request/local_notification.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -41,21 +43,23 @@ void main() async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-    // FirebaseMessaging messaging = FirebaseMessaging.instance;
-    // await messaging.requestPermission(
-    //  alert: true,
-    //  announcement: false,
-    //  badge: true,
-    //  carPlay: false,
-    //  criticalAlert: false,
-    //  provisional: false,
-    //  sound: true,
-
-    // );
-    //await Firebase.initializeApp();  // Firebase initialization
 
     await FirebaseApi().initNotifications();
-    runApp(const MyApp());
+    if (kReleaseMode) {
+      await SentryFlutter.init(
+        (options) {
+          options.dsn =
+              'https://f97b8c800c487e29da91161257eda1b3@o4507932979560448.ingest.us.sentry.io/4507932982312960';
+
+          // Set tracesSampleRate to 1.0 to capture 100% of transactions for tracing.
+          // We recommend adjusting this value in production.
+          options.tracesSampleRate = 0.01;
+        },
+        appRunner: () => runApp(const MyApp()),
+      );
+    } else {
+      runApp(const MyApp());
+    }
   } catch (error) {
     print("Firebase initialization error: $error");
   }

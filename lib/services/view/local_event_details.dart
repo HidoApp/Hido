@@ -600,7 +600,7 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                         )
                       ],
                     ),
-                    if (!widget.isLocal)
+                    if (!widget.isLocal && !AppUtil.isGuest())
                       Positioned(
                         top: height * 0.066,
                         right: AppUtil.rtlDirection2(context)
@@ -638,7 +638,7 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                                       ? "assets/icons/bookmark_fill.svg"
                                       : "assets/icons/bookmark_icon.svg",
                                   height: 28,
-                                   color: Colors.white,
+                                  color: Colors.white,
                                 )),
                           ),
                         ),

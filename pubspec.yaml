@@ -110,6 +110,8 @@ dependencies:
   firebase_in_app_messaging: 
   firebase_analytics: 
   firebase_app_installations: 
+  sentry_flutter: ^8.9.0
+
   
 dev_dependencies:
   flutter_test:

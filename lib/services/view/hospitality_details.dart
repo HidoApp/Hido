@@ -627,7 +627,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                         )
                       ],
                     ),
-                    if (!widget.isLocal)
+                    if (!widget.isLocal && !AppUtil.isGuest())
                       Positioned(
                         top: height * 0.066,
                         right: AppUtil.rtlDirection2(context)
