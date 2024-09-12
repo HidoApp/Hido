@@ -8,6 +8,7 @@ import 'package:ajwad_v4/explore/ajwadi/view/Experience/adventure/view/edit_adve
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
+import 'package:amplitude_flutter/amplitude.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -33,6 +34,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   final PageController _pageController = PageController();
   AnimationController? _controller;
   VideoPlayerController? _videoController;
+  final Amplitude amplitude = Amplitude.getInstance();
 
   @override
   void initState() {
@@ -87,6 +89,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
         _videoController?.setVolume(0.0); // (silent)
         _videoController?.play();
       });
+    amplitude.init("feb049885887051bb097ac7f73572f6c");
   }
 
   @override
@@ -252,6 +255,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                         // _controller.forward();
                         setState(() {
                           _currentIndex = value;
+
                           if (_currentIndex == 0) {
                             _videoController?.play();
                           } else {
@@ -260,6 +264,12 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                             _controller?.forward();
                           }
                         });
+
+                        amplitude.logEvent('Onboarding Page Viewed',
+                            eventProperties: {
+                              'page_index': _currentIndex,
+                              'page_title': tabs[_currentIndex].title
+                            });
                       },
                     ),
                   ),
@@ -303,8 +313,11 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                     child: CustomButton(
                       title: 'tourist'.tr,
                       textColor: _currentIndex == 0 ? black : null,
-                      onPressed: () async {
-                        Get.to(() => const SignInScreen());
+                      
+                      onPressed: () async{
+                        amplitude.logEvent('Onboarding Sign In Button Clicked');
+                        
+                      Get.to(() => const SignInScreen());
                         // Get.off(() => AjwadiBottomBar());
                       },
                       raduis: 8,
@@ -318,6 +331,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                     child: CustomButton(
                       title: 'localGuide'.tr,
                       onPressed: () {
+                        amplitude.logEvent('Onboarding Local Guide Button Clicked');
                         Get.to(() => const LocalSignIn());
                       },
                       buttonColor: _currentIndex == 0
@@ -330,6 +344,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
 
                   GestureDetector(
                     onTap: () {
+                     amplitude.logEvent('Onboarding Continue as Guest Clicked');
                       Get.to(() => const TouristBottomBar());
                     },
                     child: Row(
@@ -437,9 +452,16 @@ class _DotIndicatorState extends State<_DotIndicator>
     );
 
     if (widget.isSelected && !_animationController.isAnimating) {
+      // _animationController.forward().then((_) {
+      //   _animationController.stop();
+      // });
+       if (mounted) {
       _animationController.forward().then((_) {
-        _animationController.stop();
+        if (mounted) {
+          _animationController.stop();
+        }
       });
+    }
     }
   }
 
@@ -447,9 +469,16 @@ class _DotIndicatorState extends State<_DotIndicator>
   void didUpdateWidget(covariant _DotIndicator oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.isSelected && !_animationController.isAnimating) {
+      // _animationController.forward().then((_) {
+      //   _animationController.stop();
+      // });
+       if (mounted) {
       _animationController.forward().then((_) {
-        _animationController.stop();
+        if (mounted) {
+          _animationController.stop();
+        }
       });
+    }
     }
   }
 

@@ -227,14 +227,16 @@ class OfferService {
     );
     print("response.statusCode");
     print(response.statusCode);
+  
     if (response.statusCode == 200) {
+      log('inter 200');
       return true;
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
       if (context.mounted) {
         AppUtil.errorToast(context, errorMessage);
       }
-      return null;
+      return false;
     }
   }
 }
