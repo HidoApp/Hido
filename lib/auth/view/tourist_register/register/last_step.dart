@@ -12,6 +12,7 @@ import 'package:ajwad_v4/widgets/custom_elevated_button_with_arrow.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/custom_textfield.dart';
 import 'package:ajwad_v4/widgets/screen_padding.dart';
+import 'package:amplitude_flutter/amplitude.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_switch/flutter_switch.dart';
@@ -322,6 +323,15 @@ class _LastStepScreenState extends State<LastStepScreen> {
                               print(isSuccess);
                               if (isSuccess) {
                                 Get.offAll(() => const TouristBottomBar());
+                              Amplitude.getInstance().logEvent('tourist complete sign up ', eventProperties: {
+                                   'name':widget.name,
+                                  'email':widget.email,
+                                        });
+
+                              }
+                              else{
+                              Amplitude.getInstance().logEvent('tourist sign up Failed');
+
                               }
                             }
                           },

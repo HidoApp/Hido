@@ -6,6 +6,7 @@ import 'package:ajwad_v4/firebase_api.dart';
 import 'package:ajwad_v4/firebase_options.dart';
 import 'package:ajwad_v4/new-onboarding/view/splash_screen.dart';
 import 'package:ajwad_v4/services/view/service_screen.dart';
+import 'package:amplitude_flutter/amplitude.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_app_installations/firebase_app_installations.dart';
@@ -38,26 +39,19 @@ void main() async {
 
   await initializeDateFormatting('ar');
   await LocalNotification.init();
+  
+  //final Amplitude amplitude = Amplitude.getInstance(); 
+
+  //amplitude.init("feb049885887051bb097ac7f73572f6c");
   timeago.setLocaleMessages('ar', timeago.ArMessages());
+
+
 
 try {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-    // FirebaseMessaging messaging = FirebaseMessaging.instance;
-    // await messaging.requestPermission(
-    //  alert: true,
-    //  announcement: false,
-    //  badge: true,
-    //  carPlay: false,
-    //  criticalAlert: false,
-    //  provisional: false,
-    //  sound: true,
-
-
-    // );
-    //await Firebase.initializeApp();  // Firebase initialization
-
+    
     await FirebaseApi().initNotifications();
     runApp(const MyApp());
   } catch (error) {

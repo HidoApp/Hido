@@ -8,6 +8,7 @@ import 'package:ajwad_v4/explore/ajwadi/view/Experience/adventure/view/edit_adve
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
+import 'package:amplitude_flutter/amplitude.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -31,11 +32,12 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   final PageController _pageController = PageController();
   AnimationController? _controller;
   VideoPlayerController? _videoController;
+  final Amplitude amplitude = Amplitude.getInstance();
 
   @override
   void initState() {
     // FirebaseMessaging.onMessage.listen((event) {
-      
+
     //   if(event.notification==null) return;
     //   showDialog(context: context,
     //    builder: ((context) {
@@ -61,12 +63,12 @@ class _OnboardingScreenState extends State<OnboardingScreen>
 
     //      );
     //    })
-       
+
     //    );
 
     // });
     super.initState();
-    
+
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 1), // Set the desired duration here
@@ -85,6 +87,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
         _videoController?.setVolume(0.0); // (silent)
         _videoController?.play();
       });
+    amplitude.init("feb049885887051bb097ac7f73572f6c");
   }
 
   @override
@@ -250,6 +253,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                         // _controller.forward();
                         setState(() {
                           _currentIndex = value;
+
                           if (_currentIndex == 0) {
                             _videoController?.play();
                           } else {
@@ -258,13 +262,18 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                             _controller?.forward();
                           }
                         });
+
+                        amplitude.logEvent('Onboarding Page Viewed',
+                            eventProperties: {
+                              'page_index': _currentIndex,
+                              'page_title': tabs[_currentIndex].title
+                            });
                       },
                     ),
                   ),
 
                   MediaQuery(
-                      data: MediaQuery.of(context)
-                        .copyWith(textScaleFactor: 1.0),
+                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
                     // data: MediaQuery.of(context)
                     //     .copyWith(textScaler: const TextScaler.linear(1.0)),
                     child: Padding(
@@ -303,6 +312,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                       title: 'tourist'.tr,
                       textColor: _currentIndex == 0 ? black : null,
                       onPressed: () {
+                        amplitude.logEvent('Onboarding Sign In Button Clicked');
                         Get.to(() => const SignInScreen());
                         // Get.off(() => AjwadiBottomBar());
                       },
@@ -317,6 +327,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                     child: CustomButton(
                       title: 'localGuide'.tr,
                       onPressed: () {
+                        amplitude.logEvent('Onboarding Local Guide Button Clicked');
                         Get.to(() => const LocalSignIn());
                       },
                       buttonColor: _currentIndex == 0
@@ -329,6 +340,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
 
                   GestureDetector(
                     onTap: () {
+                     amplitude.logEvent('Onboarding Continue as Guest Clicked');
                       Get.to(() => const TouristBottomBar());
                     },
                     child: Row(
@@ -417,7 +429,6 @@ class _DotIndicator extends StatefulWidget {
     required this.pageController,
     required this.currentIndex,
     required this.index,
-
   }) : super(key: key);
 
   @override
@@ -437,9 +448,16 @@ class _DotIndicatorState extends State<_DotIndicator>
     );
 
     if (widget.isSelected && !_animationController.isAnimating) {
+      // _animationController.forward().then((_) {
+      //   _animationController.stop();
+      // });
+       if (mounted) {
       _animationController.forward().then((_) {
-        _animationController.stop();
+        if (mounted) {
+          _animationController.stop();
+        }
       });
+    }
     }
   }
 
@@ -447,9 +465,16 @@ class _DotIndicatorState extends State<_DotIndicator>
   void didUpdateWidget(covariant _DotIndicator oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.isSelected && !_animationController.isAnimating) {
+      // _animationController.forward().then((_) {
+      //   _animationController.stop();
+      // });
+       if (mounted) {
       _animationController.forward().then((_) {
-        _animationController.stop();
+        if (mounted) {
+          _animationController.stop();
+        }
       });
+    }
     }
   }
 
@@ -461,14 +486,13 @@ class _DotIndicatorState extends State<_DotIndicator>
 
   @override
   Widget build(BuildContext context) {
-     Color dotColor;
+    Color dotColor;
     if (widget.index == widget.currentIndex) {
-      dotColor =  colorGreen; // Current index color
-    } else  if (
-        widget.index == widget.currentIndex - 1 ||
-        widget.index == widget.currentIndex - 2
-        ||  widget.index == widget.currentIndex - 3
-        || widget.index == widget.currentIndex - 4) { 
+      dotColor = colorGreen; // Current index color
+    } else if (widget.index == widget.currentIndex - 1 ||
+        widget.index == widget.currentIndex - 2 ||
+        widget.index == widget.currentIndex - 3 ||
+        widget.index == widget.currentIndex - 4) {
       dotColor = colorGreen; // Previous index color
     } else {
       dotColor = Color(0xFFDCDCE0); // Other indexes color
@@ -509,7 +533,7 @@ class _DotIndicatorState extends State<_DotIndicator>
                 margin: EdgeInsets.symmetric(vertical: 15.0, horizontal: 2.0),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color:dotColor,
+                  color: dotColor,
                   // Color(0xFFDCDCE0),
                 ),
               ),

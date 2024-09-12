@@ -108,7 +108,8 @@ dependencies:
   firebase_in_app_messaging: ^0.7.4+8 
   firebase_analytics: ^10.8.0
   firebase_app_installations: ^0.2.4+4
-  
+  amplitude_flutter: ^3.16.4
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

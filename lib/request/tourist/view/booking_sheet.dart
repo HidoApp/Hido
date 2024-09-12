@@ -12,6 +12,8 @@ import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/custom_text_with_icon_button.dart';
+import 'package:amplitude_flutter/amplitude.dart';
+import 'package:amplitude_flutter/identify.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -80,6 +82,7 @@ class _BookingSheetState extends State<BookingSheet> {
     } else {
       _touristExploreController.isNotGetUserLocation.value = true;
     }
+      amplitude.init(  "feb049885887051bb097ac7f73572f6c");
   }
 
   final Map _pickupRide = {
@@ -112,10 +115,12 @@ class _BookingSheetState extends State<BookingSheet> {
 
   bool DurationErrorMessage = false;
 
-  bool GuestErrorMessage= false;
-  bool vehicleErrorMessage= false;
+  bool GuestErrorMessage = false;
+  bool vehicleErrorMessage = false;
   bool locationErrorMessage = false;
+    final Amplitude amplitude =Amplitude.getInstance();
 
+                                      
   //var locLatLang = const LatLng(24.9470921, 45.9903698);
   late DateTime newTimeToGoInRiyadh;
   void addCustomIcon() {
@@ -1035,7 +1040,30 @@ class _BookingSheetState extends State<BookingSheet> {
                                                 .getPlaceById(
                                                     id: widget.place!.id!,
                                                     context: context);
+                                                 
+
+                                        // final Identify identify1 = Identify();
+                                        // identify1.setOnce(
+                                        //     'sign_up_date', '2015-08-24');
+                                        // Amplitude.getInstance()
+                                        //     .identify(identify1);
+
+                                        // amplitude.logEvent('MyApp startup',
+                                        //     eventProperties: {
+                                        //       'friend_num': 10,
+                                        //       'is_heavy_user': true
+                                        //     });
+
+            // Log event to Amplitude when the form is completed
+            amplitude.logEvent('tour_booked', eventProperties: {
+              'selected_date': _touristExploreController.selectedDate.value,
+              'selected_time': newTimeToGo.toString(),
+              'location_set': true,
+              'vehicle_selected': selectedRide,
+            });
+
                                         Get.back();
+                                       
                                         Get.to(
                                           () => FindAjwady(
                                             place: thePlace!,

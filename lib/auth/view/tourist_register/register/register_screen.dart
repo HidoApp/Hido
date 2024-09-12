@@ -10,6 +10,7 @@ import 'package:ajwad_v4/widgets/custom_elevated_button_with_arrow.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/custom_textfield.dart';
 import 'package:ajwad_v4/widgets/screen_padding.dart';
+import 'package:amplitude_flutter/amplitude.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -239,6 +240,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           print('DONEEE');
                                         }
                                         if (countries != null) {
+                                    Amplitude.getInstance().logEvent('complete fist sign up step', eventProperties: {
+                                   'name': _nameController.text,
+                                  'email': _emailController.text,
+                                        });
                                           Get.to(() => LastStepScreen(
                                                 name: _nameController.text,
                                                 email: _emailController.text,
@@ -248,6 +253,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                     _authController,
                                                 countries: countries,
                                               ));
+                                              Amplitude.getInstance().logEvent('Next step of tourist sign up');
+
                                         }
 
                                         // }
