@@ -1,4 +1,5 @@
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -32,8 +33,8 @@ class ProvidedServicesCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: double.infinity,
-        height: height ?? width * 0.282,
+        // width: double.infinity,
+        // height: height ?? width * 0.282,
         padding: const EdgeInsets.all(12),
         clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(
@@ -45,7 +46,7 @@ class ProvidedServicesCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
+            SizedBox(
               width: double.infinity,
               child: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -84,19 +85,15 @@ class ProvidedServicesCard extends StatelessWidget {
                             ),
                           ),
                         ),
-                        SizedBox(height: width * 0.010),
-                        SizedBox(
-                          width: width * 0.753,
-                          child: Text(
-                            subtitle,
-                            style: TextStyle(
-                              color: textColor == black
-                                  ? starGreyColor
-                                  : textColor,
-                              fontSize: width * 0.030,
-                              fontFamily: 'SF Pro',
-                              fontWeight: FontWeight.w400,
-                            ),
+                        // SizedBox(height: width * 0.010),
+                        Text(
+                          subtitle,
+                          style: TextStyle(
+                            color:
+                                textColor == black ? starGreyColor : textColor,
+                            fontSize: width * 0.030,
+                            fontFamily: AppUtil.SfFontType(context),
+                            fontWeight: FontWeight.w400,
                           ),
                         ),
                       ],

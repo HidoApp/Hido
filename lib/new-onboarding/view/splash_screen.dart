@@ -8,14 +8,12 @@ import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/new-onboarding/view/intro_screen.dart';
 import 'package:ajwad_v4/new-onboarding/view/onboarding_try.dart';
 import 'package:ajwad_v4/new-onboarding/view/account_type_screen.dart';
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:lottie/lottie.dart';
-import 'package:rainbow_color/rainbow_color.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 //import 'package:workmanager/workmanager.dart';
 
@@ -60,18 +58,7 @@ class _SplashScreenState extends State<SplashScreen>
   late dynamic userRole;
   late dynamic token;
 
-  // Future<String?> checkForBoarding() async {
-  //   dynamic onBoarding = await _getStorage.read('onBoarding') ?? '';
-  //   print('onBoarding  onBoarding $onBoarding');
 
-  //   token = _getStorage.read('accessToken') ?? '';
-
-  //   if (onBoarding == 'yes') {
-  //     return onBoarding;
-  //   } else {
-  //     return null;
-  //   }
-  // }
 
   @override
   void initState() {

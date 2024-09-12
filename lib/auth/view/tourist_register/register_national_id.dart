@@ -1,5 +1,4 @@
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
-import 'package:ajwad_v4/auth/view/tourist_register/register_national_id_second.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
@@ -267,13 +266,7 @@ class _RegisterNationalIdState extends State<RegisterNationalId> {
                                           }
 
                                           if (countries != null) {
-                                            Get.to(
-                                                () => RegisterNationalIdSecond(
-                                                      countries: countries,
-                                                      authController: widget.authController,
-                                                      nationalId: _nationalIdController.text,
-                                                      birthDate:birthDate! ,
-                                                    ));
+                                          
                                           }
 
                                           // }

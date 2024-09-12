@@ -67,7 +67,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                       return 'fieldRequired'.tr;
                     }
                     if (newPassword.length < 8) {
-                      return "you must enter at least 8 characters";
+                      return "passwordError".tr;
                     }
                     if (password != confirmedPassword) {
                       return 'ivalidPassAndConfirm'.tr;

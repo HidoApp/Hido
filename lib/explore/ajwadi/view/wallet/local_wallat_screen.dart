@@ -4,7 +4,6 @@ import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/controllers/trip_controller.dart';
 import 'package:ajwad_v4/explore/ajwadi/model/last_activity.dart';
-import 'package:ajwad_v4/explore/ajwadi/view/add_on_map.dart';
 import 'package:ajwad_v4/explore/ajwadi/model/userLocation.dart';
 import 'package:ajwad_v4/explore/ajwadi/services/location_service.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/custom_local_ticket_card.dart';

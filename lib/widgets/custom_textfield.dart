@@ -77,7 +77,6 @@ class CustomTextField extends StatelessWidget {
           controller: controller,
           obscureText: obscureText,
           keyboardType: keyboardType,
-          
           cursorColor: const Color(0xFF969696),
           textInputAction: textInputAction,
           enabled: enable,
@@ -87,7 +86,7 @@ class CustomTextField extends StatelessWidget {
                     return 'fieldRequired'.tr;
                   }
                   if (v.trim().length < 8 && isPassword) {
-                    return "you must enter at least 8 characters";
+                    return "passwordError".tr;
                   }
                   return null;
                 }
@@ -111,8 +110,8 @@ class CustomTextField extends StatelessWidget {
                   AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
             ),
             contentPadding:
-            const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-                // const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+            // const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
             counterStyle: const TextStyle(fontSize: 0, height: 100),
             counterText: '',
             border: OutlineInputBorder(
@@ -136,14 +135,13 @@ class CustomTextField extends StatelessWidget {
             hintText: hintText,
 
             hintStyle: TextStyle(
-                fontSize: 13,
+                fontSize: MediaQuery.of(context).size.width * 0.038,
                 fontFamily:
                     AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-                color: almostGrey,
+                color: Graytext,
                 fontWeight: FontWeight.w400),
           ),
           onChanged: onChanged,
-          
         ),
       ),
     );

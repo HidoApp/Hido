@@ -46,13 +46,18 @@
 	<string>For reliable tours, Hido collects location data throughout your tour, from opening the app until the guided portion ends, to ensure smooth pickups, offer real-time support, and more </string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>For reliable tours, Hido collects location data throughout your tour, from opening the app until the guided portion ends, to ensure smooth pickups, offer real-time support, and more </string>
+	<key>NSMotionUsageDescription</key>
+	<string>Motion usage description</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>NSPhotoLibraryAddUsageDescription</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Need to accses Album to add trip images</string>
+	<string>Privacy - Photo Library Usage Description</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
+		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
@@ -71,13 +76,6 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-  <key>NSPhotoLibraryUsageDescription</key>
-    <string>Privacy - Photo Library Usage Description</string>
-    <key>NSMotionUsageDescription</key>
-    <string>Motion usage description</string>
-    <key>NSPhotoLibraryAddUsageDescription</key>
-    <string>NSPhotoLibraryAddUsageDescription</string>
-	
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 </dict>

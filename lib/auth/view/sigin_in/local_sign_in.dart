@@ -61,7 +61,7 @@ class _LocalSignInState extends State<LocalSignIn> {
               fontSize: width * 0.043,
               fontWeight: FontWeight.w500,
             ),
-             SizedBox(
+            SizedBox(
               height: width * .01,
             ),
             Form(
@@ -135,7 +135,7 @@ class _LocalSignInState extends State<LocalSignIn> {
                 //   ),
                 ),
             SizedBox(
-              height: width * 0.075,
+              height: width * 0.041,
             ),
             const SignUpText()
           ],

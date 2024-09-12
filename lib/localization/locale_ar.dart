@@ -662,9 +662,10 @@ const localeAr = {
   'ReplaceError': 'يجب إدخال رقم جوال مختلف',
   'ReplaceEmail': 'يجب ادخال بريد إلكتروني مختلف',
   'noPlace': 'لاتوجد أماكن',
-  'noEndTrip':'لم يتم إلغاء الحجز',
+  'noEndTrip': 'لم يتم إلغاء الحجز',
   'noBookmarks': 'لا توجد محفوظات بعد ',
   'emptyBookmarkText': 'جميع المحفوظات ستظهر هنا',
   'emailExists': 'يوجد حساب بهذا البريد الالكتروني',
-  'mobileExists': 'يوجد حساب بهذا الرقم', 'onTheWay': 'في الطريق '
+  'mobileExists': 'يوجد حساب بهذا الرقم', 'onTheWay': 'في الطريق ',
+  'passwordError': "يجب عليك إدخال 8 أحرف على الأقل",
 };

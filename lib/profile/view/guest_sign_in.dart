@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/auth/view/ajwadi_register/ajwadi_register_screen.dart';
 import 'package:ajwad_v4/auth/view/ajwadi_register/local_sign_up.dart';

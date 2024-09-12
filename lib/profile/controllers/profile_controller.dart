@@ -48,6 +48,9 @@ class ProfileController extends GetxController {
   var isPdfValidSize = true.obs;
   var isPdfValidNotEmpty = true.obs;
 
+  var localBar = 0.obs;
+  var touriestBar = 0.obs;
+
   //------
   Future<Profile?> getProfile(
       {required BuildContext context, String profileId = ""}) async {

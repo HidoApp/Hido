@@ -38,7 +38,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _passwordController = TextEditingController();
   final _confirmPasswoedController = TextEditingController();
 
-   final _authController = Get.put(AuthController());
+  final _authController = Get.put(AuthController());
 
   @override
   void initState() {
@@ -198,8 +198,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           () => Padding(
                             padding:
                                 EdgeInsets.symmetric(vertical: width * .030),
-                            child: _authController.isCountryLoading ==
-                                    true
+                            child: _authController.isCountryLoading == true
                                 ? const Center(
                                     child: CircularProgressIndicator(
                                         color: colorGreen),
@@ -249,8 +248,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                 email: _emailController.text,
                                                 password:
                                                     _passwordController.text,
-                                                authController:
-                                                    _authController,
+                                                authController: _authController,
                                                 countries: countries,
                                               ));
                                               Amplitude.getInstance().logEvent('Next step of tourist sign up');
@@ -263,7 +261,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                         ),
                         SizedBox(
-                          height: width * 0.03,
+                          height: width * 0.041,
                         ),
                         const SignInText(
                           isLocal: false,

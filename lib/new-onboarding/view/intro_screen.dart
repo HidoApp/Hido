@@ -11,10 +11,12 @@ import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:amplitude_flutter/amplitude.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../bottom_bar/tourist/view/tourist_bottom_bar.dart';
@@ -311,9 +313,11 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                     child: CustomButton(
                       title: 'tourist'.tr,
                       textColor: _currentIndex == 0 ? black : null,
-                      onPressed: () {
+                      
+                      onPressed: () async{
                         amplitude.logEvent('Onboarding Sign In Button Clicked');
-                        Get.to(() => const SignInScreen());
+                        
+                      Get.to(() => const SignInScreen());
                         // Get.off(() => AjwadiBottomBar());
                       },
                       raduis: 8,
