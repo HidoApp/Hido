@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/get_rx.dart';
 import 'package:intl/intl.dart';
 
 class EventCardItem extends StatefulWidget {
@@ -38,7 +39,7 @@ class EventCardItem extends StatefulWidget {
 
 class _EventCardItemState extends State<EventCardItem> {
   final _eventController = Get.put(EventController());
-  String address = '';
+  RxString address = ''.obs;
   Future<String> _getAddressFromLatLng(
       double position1, double position2) async {
     try {
@@ -61,9 +62,8 @@ class _EventCardItemState extends State<EventCardItem> {
     try {
       String result = await _getAddressFromLatLng(
           double.parse(position1), double.parse(position2));
-      setState(() {
-        address = result;
-      });
+
+      address.value = result;
     } catch (e) {
       // Handle error if necessary
       print('Error fetching address: $e');
@@ -142,15 +142,18 @@ class _EventCardItemState extends State<EventCardItem> {
                           SizedBox(
                             width: width * 0.017,
                           ),
-                          CustomText(
-                            text:
-                                address.isNotEmpty ? address : widget.location,
-                            fontSize: 11,
-                            fontFamily: AppUtil.rtlDirection2(context)
-                                ? 'SF Arabic'
-                                : 'SF Pro',
-                            fontWeight: FontWeight.w400,
-                            color: starGreyColor,
+                          Obx(
+                            () => CustomText(
+                              text: address.value.isNotEmpty
+                                  ? address.value
+                                  : widget.location,
+                              fontSize: 11,
+                              fontFamily: AppUtil.rtlDirection2(context)
+                                  ? 'SF Arabic'
+                                  : 'SF Pro',
+                              fontWeight: FontWeight.w400,
+                              color: starGreyColor,
+                            ),
                           ),
                         ],
                       ),
@@ -168,10 +171,8 @@ class _EventCardItemState extends State<EventCardItem> {
                               width: width * 0.02,
                             ),
                             CustomText(
-                              text:
-                              
-                               AppUtil.formatSelectedDaysInfo(
-                                      widget.daysInfo, context),
+                              text: AppUtil.formatSelectedDaysInfo(
+                                  widget.daysInfo, context),
                               fontFamily: AppUtil.rtlDirection2(context)
                                   ? 'SF Arabic'
                                   : 'SF Pro',
@@ -232,14 +233,14 @@ class _EventCardItemState extends State<EventCardItem> {
                     SizedBox(
                       width: width * 0.01,
                     ),
-                  //  if (!AppUtil.rtlDirection2(context))
-                      CustomText(
-                        text: widget.rate,
-                        fontSize: width * 0.025,
-                        fontWeight: FontWeight.w700,
-                        color: colorDarkGreen,
-                        fontFamily: AppUtil.SfFontType(context),
-                      ),
+                    //  if (!AppUtil.rtlDirection2(context))
+                    CustomText(
+                      text: widget.rate,
+                      fontSize: width * 0.025,
+                      fontWeight: FontWeight.w700,
+                      color: colorDarkGreen,
+                      fontFamily: AppUtil.SfFontType(context),
+                    ),
                   ],
                 ),
               ),

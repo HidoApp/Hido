@@ -53,12 +53,6 @@ class _AdventuresTabState extends State<AdventuresTab> {
     _regionsController.getRegions(context: context, regionType: "ADVENTURE");
   }
 
-  @override
-  void dispose() {
-    // _regionsController.selectedAdventureIndex(0);
-    // TODO: implement dispose
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {

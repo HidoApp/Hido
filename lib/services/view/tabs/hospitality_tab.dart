@@ -37,13 +37,7 @@ class _HospitalityTabState extends State<HospitalityTab> {
     _srvicesController.getAllHospitality(context: context);
   }
 
-  @override
-  void dispose() {
-    // _regionsController.selectedHospitaltyIndex(0);
-    // TODO: implement dispose
-    super.dispose();
-  }
-
+  
   var selectedValue = 0;
   @override
   Widget build(BuildContext context) {

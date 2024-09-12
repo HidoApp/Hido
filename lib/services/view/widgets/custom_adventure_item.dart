@@ -46,7 +46,7 @@ class CustomAdventureItem extends StatefulWidget {
 
 class _CustomAdventureItemState extends State<CustomAdventureItem> {
   final _servicesController = Get.put(AdventureController());
-  String address = '';
+  RxString address = ''.obs;
   Future<String> _getAddressFromLatLng(
       double position1, double position2) async {
     try {
@@ -69,9 +69,8 @@ class _CustomAdventureItemState extends State<CustomAdventureItem> {
     try {
       String result = await _getAddressFromLatLng(
           double.parse(position1), double.parse(position2));
-      setState(() {
-        address = result;
-      });
+
+      address.value = result;
     } catch (e) {
       // Handle error if necessary
       print('Error fetching address: $e');
@@ -151,15 +150,18 @@ class _CustomAdventureItemState extends State<CustomAdventureItem> {
                           SizedBox(
                             width: width * 0.017,
                           ),
-                          CustomText(
-                            text:
-                                address.isNotEmpty ? address : widget.location,
-                            fontSize: 11,
-                            fontFamily: AppUtil.rtlDirection2(context)
-                                ? 'SF Arabic'
-                                : 'SF Pro',
-                            fontWeight: FontWeight.w400,
-                            color: starGreyColor,
+                          Obx(
+                            () => CustomText(
+                              text: address.value.isNotEmpty
+                                  ? address.value
+                                  : widget.location,
+                              fontSize: 11,
+                              fontFamily: AppUtil.rtlDirection2(context)
+                                  ? 'SF Arabic'
+                                  : 'SF Pro',
+                              fontWeight: FontWeight.w400,
+                              color: starGreyColor,
+                            ),
                           ),
                         ],
                       ),
@@ -238,14 +240,14 @@ class _CustomAdventureItemState extends State<CustomAdventureItem> {
                     SizedBox(
                       width: width * 0.01,
                     ),
-                   // if (!AppUtil.rtlDirection2(context))
-                      CustomText(
-                        text: widget.rate,
-                        fontSize: width * 0.025,
-                        fontWeight: FontWeight.w700,
-                        color: colorDarkGreen,
-                        fontFamily: AppUtil.SfFontType(context),
-                      ),
+                    // if (!AppUtil.rtlDirection2(context))
+                    CustomText(
+                      text: widget.rate,
+                      fontSize: width * 0.025,
+                      fontWeight: FontWeight.w700,
+                      color: colorDarkGreen,
+                      fontFamily: AppUtil.SfFontType(context),
+                    ),
                   ],
                 ),
               ),
