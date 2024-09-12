@@ -22,7 +22,6 @@ class FirebaseApi {
     final fCMToken = await messaging.getToken();
     final installationId = await FirebaseInstallations.instance.getId();
 
-    final installationId = await FirebaseInstallations.instance.getId();
     // log('installationId:$id');
     log('Api-token:$fCMToken');
   log('installationId:$installationId');

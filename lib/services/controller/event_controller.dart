@@ -24,7 +24,7 @@ class EventController extends GetxController {
   var ischeckBookingLoading = false.obs;
   var selectedImages = <XFile>[].obs;
    var  images = <dynamic>[].obs;
-
+var addressEventCard =''.obs;
   var address = ''.obs;
   var DateErrorMessage = false.obs;
   var TimeErrorMessage = false.obs;

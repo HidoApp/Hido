@@ -40,12 +40,6 @@ class _EventsTabState extends State<EventsTab> {
     // _regionsController.getRegions(context: context, regionType: "EVENT");
   }
 
-  @override
-  void dispose() {
-  //  _regionsController.selectedEventIndex(0);
-    // TODO: implement dispose
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
