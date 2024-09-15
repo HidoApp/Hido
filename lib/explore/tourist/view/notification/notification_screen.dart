@@ -1,9 +1,11 @@
 import 'dart:developer';
 
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/request/widgets/PushNotificationCard.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_empty_widget.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ajwad_v4/request/widgets/NotificationCard.dart';
@@ -33,6 +35,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   List<Booking> _upcomingBookings = [];
   List<Booking> _pastBookings = [];
+bool _isPushNotificationDismissed = false;
 
   String days = '';
 
@@ -191,6 +194,16 @@ print("day deference");
     final double width = MediaQuery.of(context).size.width;
         final double height = MediaQuery.of(context).size.height;
 
+final arguments = ModalRoute.of(context)?.settings.arguments;
+
+// Check if arguments exist and if they are of type RemoteMessage
+RemoteMessage? message;
+
+if (arguments is RemoteMessage) {
+  message = arguments;
+} else {
+  message = null; // Handle null or invalid argument case
+}
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CustomAppBar(
@@ -233,7 +246,7 @@ print("day deference");
 
             // ),
 
-            if (!widget.hasNotifications && _upcomingBookings.isEmpty)
+            if (!widget.hasNotifications && _upcomingBookings.isEmpty && message==null)
             
               Padding(
                 padding:  EdgeInsets.only(
@@ -251,97 +264,115 @@ print("day deference");
                 ),
               )
             else
+            
+
               ListView.builder(
                   shrinkWrap: true,
                   // padding:
                   //     const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-                  itemCount: _upcomingBookings.length + _pastBookings.length,
+                  itemCount: _upcomingBookings.length + _pastBookings.length+1,
                   itemBuilder: (context, index) {
                     
-                    final isDisabled = canceledIndices.contains(index);
-                    if (isDisabled) {
-                      return SizedBox();
-                    }
-                   
-                    if (_upcomingBookings.isNotEmpty) {
-                      
-                       final isViewed = viewedNotifications.contains(index);
-                      if(_upcomingBookings[index].bookingType=='place'){
-                        return NotificationCrd(
-                          name: AppUtil.rtlDirection2(context)
-                              ? _upcomingBookings[index].place?.nameAr ?? ""
-                              : _upcomingBookings[index].place?.nameEn ?? "",
-                          isRtl: AppUtil.rtlDirection2(context),
-                          width: width,
-                          isTour: true,
-                          days:  notificationMessages[index],
-                          isDisabled: isDisabled,
-                          onCancel: () {
-                            disableNotification(index);
-                          },
-                         onDismissed: () => _dismissNotification(index),
-                         isViewed: isViewed,
+    // Display the push notification at the top (index 0)
+    if ( message != null) {
+      if(index == 0 && !_isPushNotificationDismissed)
+      return Dismissible(
+        key: UniqueKey(), // Use a unique key for the dismissible item
+        direction: AppUtil.rtlDirection2(context)?DismissDirection.startToEnd: DismissDirection.endToStart, // Swipe right to left,
+         onDismissed: (direction) {
+            setState(() {
+             _isPushNotificationDismissed = true;
+              // Clear the message to ensure it won't show up again
+              message = null;
+            });
+          }, // Swipe to dismiss from right to left
+        child: PushNotificationCrd(
+          message: message!.notification!.body.toString(),
+          isRtl: AppUtil.rtlDirection2(context),
+          width: width,
+         
+        ),
+      );
+    }
 
-                        );
-                      }else if(_upcomingBookings[index].bookingType=='hospitality'){
-                        return NotificationCrd(
-                          name: AppUtil.rtlDirection2(context)
-                              ? _upcomingBookings[index].hospitality?.titleAr??''
-                              : _upcomingBookings[index].hospitality?.titleEn?? "",
-                          isRtl: AppUtil.rtlDirection2(context),
-                          width: width,
-                          isHost: true,
-                          days:  notificationMessages[index],
-                          isDisabled: isDisabled,
-                          onCancel: () {
-                            disableNotification(index);
-                          },
-                       onDismissed: () => _dismissNotification(index),
-                        isViewed: isViewed,
+     int  adjustedIndex = 0;
+    // Skip index adjustment if we're on the push notification (index 0)
+    if (index > 0 && message!=null) {
+     adjustedIndex = index - (_isPushNotificationDismissed ? 1 : 0); // Shift the index to account for push notification at 0
+    }else{
+      adjustedIndex = index;
+    }
+      // Handle the card notifications
+      final isDisabled = canceledIndices.contains(adjustedIndex);
+      if (isDisabled) {
+        return SizedBox();
+      }
 
+      // Ensure the adjusted index is within the bounds of _upcomingBookings
+      if (adjustedIndex < _upcomingBookings.length && adjustedIndex < notificationMessages.length) {
+        final isViewed = viewedNotifications.contains(adjustedIndex);
+        final booking = _upcomingBookings[adjustedIndex];
 
-                        );
-                      }else if(_upcomingBookings[index].bookingType=='adventure'){
-                         return NotificationCrd(
-                          name: AppUtil.rtlDirection2(context)
-                              ? _upcomingBookings[index].adventure?.nameAr??''
-                              : _upcomingBookings[index].adventure?.nameEn?? "",
-                          isRtl: AppUtil.rtlDirection2(context),
-                          width: width,
-                          isAdve: true,
-                          days:  notificationMessages[index],
-                          isDisabled: isDisabled,
-                          onCancel: () {
-                            disableNotification(index);
-                          },
-                    onDismissed: () => _dismissNotification(index),
-                    isViewed: isViewed,
+      if (booking.bookingType == 'place') {
+        return NotificationCrd(
+          name: AppUtil.rtlDirection2(context)
+              ? booking.place?.nameAr ?? ""
+              : booking.place?.nameEn ?? "",
+          isRtl: AppUtil.rtlDirection2(context),
+          width: width,
+          isTour: true,
+          days: notificationMessages[adjustedIndex],
+          isDisabled: isDisabled,
+          onCancel: () => disableNotification(adjustedIndex),
+          onDismissed: () => _dismissNotification(adjustedIndex),
+          isViewed: isViewed,
+        );
+      } else if (booking.bookingType == 'hospitality') {
+        return NotificationCrd(
+          name: AppUtil.rtlDirection2(context)
+              ? booking.hospitality?.titleAr ?? ''
+              : booking.hospitality?.titleEn ?? "",
+          isRtl: AppUtil.rtlDirection2(context),
+          width: width,
+          isHost: true,
+          days: notificationMessages[adjustedIndex],
+          isDisabled: isDisabled,
+          onCancel: () => disableNotification(adjustedIndex),
+          onDismissed: () => _dismissNotification(adjustedIndex),
+          isViewed: isViewed,
+        );
+      } else if (booking.bookingType == 'adventure') {
+        return NotificationCrd(
+          name: AppUtil.rtlDirection2(context)
+              ? booking.adventure?.nameAr ?? ''
+              : booking.adventure?.nameEn ?? "",
+          isRtl: AppUtil.rtlDirection2(context),
+          width: width,
+          isAdve: true,
+          days: notificationMessages[adjustedIndex],
+          isDisabled: isDisabled,
+          onCancel: () => disableNotification(adjustedIndex),
+          onDismissed: () => _dismissNotification(adjustedIndex),
+          isViewed: isViewed,
+        );
+      } else {
+        return NotificationCrd(
+          name: AppUtil.rtlDirection2(context)
+              ? booking.event?.nameAr ?? ''
+              : booking.event?.nameEn ?? "",
+          isRtl: AppUtil.rtlDirection2(context),
+          width: width,
+          days: notificationMessages[adjustedIndex],
+          isDisabled: isDisabled,
+          onCancel: () => disableNotification(adjustedIndex),
+          onDismissed: () => _dismissNotification(adjustedIndex),
+          isViewed: isViewed,
+        );
+      }
+    }
 
-                        );
-                        
-                      }else{
-                        return NotificationCrd(
-                          name: AppUtil.rtlDirection2(context)
-                              ? _upcomingBookings[index].event?.nameAr??''
-                              : _upcomingBookings[index].event?.nameEn?? "",
-                          isRtl: AppUtil.rtlDirection2(context),
-                          width: width,
-                          days:  notificationMessages[index],
-                          isDisabled: isDisabled,
-                          onCancel: () {
-                            disableNotification(index);
-                          },
-                    onDismissed: () => _dismissNotification(index),
-                    isViewed: isViewed,
-
-                        );
-                      }
-                      
-                    } 
                     else {
-          setState(() {
             widget.hasNotifications = false;
-          });
         }
                   }),
             // Column(

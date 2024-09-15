@@ -1,10 +1,14 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/explore/tourist/view/notification/notification_screen.dart';
 import 'package:ajwad_v4/firebase_api.dart';
 import 'package:ajwad_v4/firebase_options.dart';
 import 'package:ajwad_v4/new-onboarding/view/splash_screen.dart';
+import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
+import 'package:ajwad_v4/profile/view/messages_screen.dart';
 import 'package:ajwad_v4/services/view/service_screen.dart';
 import 'package:amplitude_flutter/amplitude.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -125,7 +129,8 @@ class _MyAppState extends State<MyApp> {
         home: const SplashScreen(),
         navigatorKey: navigatorKey,
         routes: {
-          '/service_screen': (context) => const ServiceScreen(),
+         //'/tourist_bottom_bar': (context) => const TouristBottomBar(),
+        '/notification_screen': (context) => NotificationScreen(),
         },
         //  home: const CheckOutScreen(),
       ),

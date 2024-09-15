@@ -79,7 +79,7 @@ class CancelBookingDialog extends StatelessWidget {
                 );
               },
               child: Container(
-               // height: 34,
+                // height: 34,
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(vertical: 4),
                 alignment: Alignment.center,
@@ -114,15 +114,20 @@ class CancelBookingDialog extends StatelessWidget {
                       if (bookingCancel) {
                         if (context.mounted) {
                           AppUtil.successToast(context, 'EndTrip'.tr);
-                          await Future.delayed(const Duration(seconds: 1));
+                          await Future.delayed(const Duration(seconds: 2));
                           await Get.delete<TimerController>(force: true);
                         }
                         Get.offAll(const TouristBottomBar());
+                      } else {
+                        if (context.mounted) {
+                          AppUtil.errorToast(context, 'noEndTrip'.tr);
+                          await Future.delayed(const Duration(seconds: 2));
+                        }
                       }
                     },
                     child: Container(
-                        width:double.infinity,
-                       // height: 34,
+                        width: double.infinity,
+                        // height: 34,
                         padding: const EdgeInsets.symmetric(vertical: 4),
                         decoration: BoxDecoration(
                           border: Border.all(

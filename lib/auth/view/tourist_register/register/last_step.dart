@@ -62,6 +62,7 @@ class _LastStepScreenState extends State<LastStepScreen> {
 
     generateCountries();
   }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -128,7 +129,8 @@ class _LastStepScreenState extends State<LastStepScreen> {
                 CustomText(
                   text: 'phoneNum'.tr,
                   fontSize: 17,
-                  fontFamily: "SF Pro",
+                  fontFamily:
+                      AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
                   fontWeight: FontWeight.w500,
                 ),
                 SizedBox(
@@ -162,7 +164,8 @@ class _LastStepScreenState extends State<LastStepScreen> {
                 CustomText(
                   text: 'nationality'.tr,
                   fontSize: 17,
-                  fontFamily: "SF Pro",
+                  fontFamily:
+                      AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
                   fontWeight: FontWeight.w500,
                 ),
                 SizedBox(
@@ -269,7 +272,9 @@ class _LastStepScreenState extends State<LastStepScreen> {
                                 text: 'fieldRequired'.tr,
                                 color: colorRed,
                                 fontSize: 11,
-                                fontFamily: "SF Pro",
+                                fontFamily: AppUtil.rtlDirection2(context)
+                                    ? 'SF Arabic'
+                                    : 'SF Pro',
                                 fontWeight: FontWeight.w400,
                               ),
                             ),
@@ -322,15 +327,15 @@ class _LastStepScreenState extends State<LastStepScreen> {
                               print(isSuccess);
                               if (isSuccess) {
                                 Get.offAll(() => const TouristBottomBar());
-                              Amplitude.getInstance().logEvent('tourist complete sign up ', eventProperties: {
-                                   'name':widget.name,
-                                  'email':widget.email,
-                                        });
-
-                              }
-                              else{
-                              Amplitude.getInstance().logEvent('tourist sign up Failed');
-
+                                Amplitude.getInstance().logEvent(
+                                    'Tourist Completed Sign Up ',
+                                    eventProperties: {
+                                      'name': widget.name,
+                                      'email': widget.email,
+                                    });
+                              } else {
+                                Amplitude.getInstance()
+                                    .logEvent('Tourist Sign up Failed');
                               }
                             }
                           },
