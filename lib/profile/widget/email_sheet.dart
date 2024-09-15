@@ -51,9 +51,7 @@ class _EmailSheetState extends State<EmailSheet> {
             },
           ),
         );
-      } else {
-        AppUtil.errorToast(context, result!['message']);
-      }
+      } else {}
     }
   }
 
@@ -129,9 +127,15 @@ class _EmailSheetState extends State<EmailSheet> {
           SizedBox(
             height: width * 0.061,
           ),
-          CustomButton(
-            title: 'confirm'.tr,
-            onPressed: editEmail,
+          Obx(
+            () => _authController.isOTPLoading.value
+                ? const Center(
+                    child: CircularProgressIndicator.adaptive(),
+                  )
+                : CustomButton(
+                    title: 'confirm'.tr,
+                    onPressed: editEmail,
+                  ),
           )
         ],
       ),

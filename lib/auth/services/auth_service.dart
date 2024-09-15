@@ -471,6 +471,10 @@ class AuthService {
       String errorMessage = jsonDecode(response.body)['message'];
       if (errorMessage == "replace the email you used with a different one.") {
         AppUtil.errorToast(context, 'ReplaceEmail'.tr);
+      } else if (errorMessage == 'Forbidden') {
+        AppUtil.errorToast(context, 'otpForbidden'.tr);
+      } else if (errorMessage == 'email already exists') {
+        AppUtil.errorToast(context, 'emailExists'.tr);
       } else {
         print(errorMessage);
         if (context.mounted) {
@@ -917,7 +921,13 @@ class AuthService {
     } else {
       var jsonBody = jsonDecode(response.body);
       String errorMessage = jsonBody['message'];
-      AppUtil.errorToast(context, errorMessage);
+      if (errorMessage == 'Forbidden') {
+        AppUtil.errorToast(context, 'otpForbidden'.tr);
+      } else if (errorMessage == 'mobile number is not found') {
+        AppUtil.errorToast(context, 'mobileNotFound'.tr);
+      } else {
+        AppUtil.errorToast(context, errorMessage);
+      }
       return false;
     }
   }
