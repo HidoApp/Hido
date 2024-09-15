@@ -38,7 +38,7 @@ class ServiceScreen extends StatefulWidget {
 class _ServiceScreenState extends State<ServiceScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  int _tabIndex = 0;
+  // int _tabIndex = 0;
 
   final _srvicesController = Get.put(HospitalityController());
   final _regionsController = Get.put(RegionsController());
@@ -47,19 +47,15 @@ class _ServiceScreenState extends State<ServiceScreen>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(
+        length: 3,
+        vsync: this,
+        initialIndex: _srvicesController.tabIndex.value);
     // getReg();
   }
 
-  @override
-  void dispose() {
-    _tabController.dispose();
-
-    super.dispose();
-  }
-
   void getExperiencesByRegion(int index) async {
-    switch (_tabIndex) {
+    switch (_srvicesController.tabIndex.value) {
       case 0:
         _regionsController.selectedHospitaltyIndex(index);
         await _srvicesController.getAllHospitality(
@@ -86,7 +82,7 @@ class _ServiceScreenState extends State<ServiceScreen>
   }
 
   Widget _buildRegionChips(int index) {
-    switch (_tabIndex) {
+    switch (_srvicesController.tabIndex.value) {
       case 0:
         return CustomChips(
           borderColor: _regionsController.selectedHospitaltyIndex.value == index
@@ -138,6 +134,7 @@ class _ServiceScreenState extends State<ServiceScreen>
         return Container();
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -191,9 +188,9 @@ class _ServiceScreenState extends State<ServiceScreen>
                       //     color: Colors.black, // Set shadow color
                       //   ),
                       // ],
-                      text: _tabIndex == 0
+                      text: _srvicesController.tabIndex.value == 0
                           ? "hospitalityDetails".tr
-                          : _tabIndex == 1
+                          : _srvicesController.tabIndex.value == 1
                               ? "adventureDetails".tr
                               : "eventDetailsSub".tr,
                       color: Colors.white,
@@ -267,10 +264,12 @@ class _ServiceScreenState extends State<ServiceScreen>
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(width * 0.05),
                     bottomRight: Radius.circular(width * 0.05)),
-                child: Image.asset(
-                  'assets/images/${_tabIndex == 0 ? 'service_hospitality_cover.png' : _tabIndex == 1 ? 'service_adventures_cover.png' : _tabIndex == 2 ? 'service_events_cover.png' : 'service_restaurants_cover.png'}',
-                  //  width: width,
-                  fit: BoxFit.cover,
+                child: Obx(
+                  () => Image.asset(
+                    'assets/images/${_srvicesController.tabIndex.value == 0 ? 'service_hospitality_cover.png' : _srvicesController.tabIndex.value == 1 ? 'service_adventures_cover.png' : _srvicesController.tabIndex.value == 2 ? 'service_events_cover.png' : 'service_restaurants_cover.png'}',
+                    //  width: width,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
               bottom: TabBar(
@@ -289,109 +288,155 @@ class _ServiceScreenState extends State<ServiceScreen>
                   color: Colors.white,
                 ),
                 labelPadding: EdgeInsets.only(
-                  top: width * 0.026,
+                  top: width * 0.015,
                   right: width * 0.026,
                   left: width * 0.026,
                 ),
-                padding: EdgeInsets.symmetric(horizontal: width * 0.02),
+                padding:
+                    EdgeInsets.symmetric(horizontal: width * 0.02, vertical: 0),
                 onTap: (index) {
-                  setState(() {
-                    _tabIndex = index;
-                  });
+                  _srvicesController.tabIndex.value = index;
                   print(_tabController.index);
                   print("_tabController");
                 },
+
                 tabs: [
-                  Container(
-                    // decoration: BoxDecoration(
-                    //   borderRadius: BorderRadius.only(
-                    //       topLeft: Radius.circular(width * 0.03),
-                    //       topRight: Radius.circular(width * 0.03)),
-                    //   gradient: LinearGradient(
-                    //     colors: [
-                    //       Colors.white.withOpacity(0.4),
-                    //       Colors.white.withOpacity(0.1)
-                    //     ],
-                    //   ),
-                    // ),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal:
-                              // !AppUtil.rtlDirection(context) ? 15 : 5),
-                              AppUtil.rtlDirection2(context)
-                                  ? width * 0.038
-                                  : width * 0.012),
-                      child: Container(
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(width * 0.03),
-                                topRight: Radius.circular(width * 0.03))),
-                        child: CustomText(
-                          text: "hospitality".tr,
-                          color: _tabIndex == 0 ? black : Colors.white,
-                          fontWeight: _tabIndex == 0
-                              ? FontWeight.w500
-                              : FontWeight.w400,
-                          fontSize:
-                              _tabIndex == 0 ? width * 0.033 : width * 0.033,
-                          fontFamily: AppUtil.rtlDirection2(context)
-                              ? 'SF Arabic'
-                              : 'SF Pro',
+                  Obx(
+                    () => Container(
+                      padding: EdgeInsets.only(top: 8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(width * 0.03),
+                            topRight: Radius.circular(width * 0.03)),
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.white.withOpacity(0.4),
+                            Colors.white.withOpacity(0.1)
+                          ],
+                        ),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal:
+                                // !AppUtil.rtlDirection(context) ? 15 : 5),
+                                AppUtil.rtlDirection2(context)
+                                    ? width * 0.038
+                                    : width * 0.012),
+                        child: Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(width * 0.03),
+                                  topRight: Radius.circular(width * 0.03))),
+                          child: CustomText(
+                            text: "hospitality".tr,
+                            color: _srvicesController.tabIndex.value == 0
+                                ? black
+                                : Colors.white,
+                            fontWeight: _srvicesController.tabIndex.value == 0
+                                ? FontWeight.w500
+                                : FontWeight.w400,
+                            fontSize: _srvicesController.tabIndex.value == 0
+                                ? width * 0.033
+                                : width * 0.033,
+                            fontFamily: AppUtil.rtlDirection2(context)
+                                ? 'SF Arabic'
+                                : 'SF Pro',
+                          ),
                         ),
                       ),
                     ),
                   ),
 
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal:
-                            // !AppUtil.rtlDirection(context) ? 15 : 5),
-                            AppUtil.rtlDirection2(context)
-                                ? width * 0.038
-                                : width * 0.012),
-                    child: Container(
-                      alignment: Alignment.center,
+                  Obx(
+                    () => Container(
+                      padding: EdgeInsets.only(top: 8),
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(width * 0.03),
-                              topRight: Radius.circular(width * 0.03))),
-                      child: CustomText(
-                        text: "adventures".tr,
-                        color: _tabIndex == 1 ? black : Colors.white,
-                        fontWeight:
-                            _tabIndex == 1 ? FontWeight.w500 : FontWeight.w400,
-                        fontSize:
-                            _tabIndex == 1 ? width * 0.033 : width * 0.033,
-                        fontFamily: AppUtil.rtlDirection2(context)
-                            ? 'SF Arabic'
-                            : 'SF Pro',
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(width * 0.03),
+                            topRight: Radius.circular(width * 0.03)),
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.white.withOpacity(0.4),
+                            Colors.white.withOpacity(0.1)
+                          ],
+                        ),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal:
+                                // !AppUtil.rtlDirection(context) ? 15 : 5),
+                                AppUtil.rtlDirection2(context)
+                                    ? width * 0.038
+                                    : width * 0.012),
+                        child: Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(width * 0.03),
+                                  topRight: Radius.circular(width * 0.03))),
+                          child: CustomText(
+                            text: "adventures".tr,
+                            color: _srvicesController.tabIndex.value == 1
+                                ? black
+                                : Colors.white,
+                            fontWeight: _srvicesController.tabIndex.value == 1
+                                ? FontWeight.w500
+                                : FontWeight.w400,
+                            fontSize: _srvicesController.tabIndex.value == 1
+                                ? width * 0.033
+                                : width * 0.033,
+                            fontFamily: AppUtil.rtlDirection2(context)
+                                ? 'SF Arabic'
+                                : 'SF Pro',
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal:
-                            // !AppUtil.rtlDirection(context) ? 15 : 5),
-                            AppUtil.rtlDirection2(context)
-                                ? width * 0.038
-                                : width * 0.012),
-                    child: Container(
-                      alignment: Alignment.center,
+                  Obx(
+                    () => Container(
+                      padding: EdgeInsets.only(top: 8),
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(width * 0.03),
-                              topRight: Radius.circular(width * 0.03))),
-                      child: CustomText(
-                        text: "events".tr,
-                        color: _tabIndex == 2 ? black : Colors.white,
-                        fontWeight:
-                            _tabIndex == 2 ? FontWeight.w500 : FontWeight.w400,
-                        fontSize:
-                            _tabIndex == 2 ? width * 0.033 : width * 0.033,
-                        fontFamily: AppUtil.rtlDirection2(context)
-                            ? 'SF Arabic'
-                            : 'SF Pro',
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(width * 0.03),
+                            topRight: Radius.circular(width * 0.03)),
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.white.withOpacity(0.4),
+                            Colors.white.withOpacity(0.1)
+                          ],
+                        ),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal:
+                                // !AppUtil.rtlDirection(context) ? 15 : 5),
+                                AppUtil.rtlDirection2(context)
+                                    ? width * 0.038
+                                    : width * 0.012),
+                        child: Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(width * 0.03),
+                                  topRight: Radius.circular(width * 0.03))),
+                          child: CustomText(
+                            text: "events".tr,
+                            color: _srvicesController.tabIndex.value == 2
+                                ? black
+                                : Colors.white,
+                            fontWeight: _srvicesController.tabIndex.value == 2
+                                ? FontWeight.w500
+                                : FontWeight.w400,
+                            fontSize: _srvicesController.tabIndex.value == 2
+                                ? width * 0.033
+                                : width * 0.033,
+                            fontFamily: AppUtil.rtlDirection2(context)
+                                ? 'SF Arabic'
+                                : 'SF Pro',
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -426,9 +471,9 @@ class _ServiceScreenState extends State<ServiceScreen>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustomText(
-                      text: _tabIndex == 0
+                      text: _srvicesController.tabIndex.value == 0
                           ? 'saudiHospitality'.tr
-                          : _tabIndex == 1
+                          : _srvicesController.tabIndex.value == 1
                               ? 'saudiAdventure'.tr
                               : 'saudiEvent'.tr,
                       color: Color(0xFF070708),

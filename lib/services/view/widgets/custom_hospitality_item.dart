@@ -48,7 +48,7 @@ class ServicesCard extends StatefulWidget {
 
 class _ServicesCardState extends State<ServicesCard> {
   final _servicesController = Get.put(HospitalityController());
-  String address = '';
+  RxString address = ''.obs;
   Future<String> _getAddressFromLatLng(
       double position1, double position2) async {
     try {
@@ -71,9 +71,8 @@ class _ServicesCardState extends State<ServicesCard> {
     try {
       String result = await _getAddressFromLatLng(
           double.parse(position1), double.parse(position2));
-      setState(() {
-        address = result;
-      });
+
+      address.value = result;
     } catch (e) {
       // Handle error if necessary
       print('Error fetching address: $e');
@@ -84,8 +83,9 @@ class _ServicesCardState extends State<ServicesCard> {
   void initState() {
     super.initState();
 
-    if (widget.lang!.isNotEmpty && widget.lang!.isNotEmpty)
+    if (widget.lang!.isNotEmpty && widget.lang!.isNotEmpty) {
       _fetchAddress(widget.lang!, widget.long!);
+    }
   }
 
   @override
@@ -145,7 +145,7 @@ class _ServicesCardState extends State<ServicesCard> {
                       height: width * 0.010,
                     ),
                     Row(
-                      children: [
+                      children: <Widget>[
                         SizedBox(
                           width: width * 0.01,
                         ),
@@ -155,14 +155,18 @@ class _ServicesCardState extends State<ServicesCard> {
                         SizedBox(
                           width: width * 0.017,
                         ),
-                        CustomText(
-                          text: address.isNotEmpty ? address : widget.location,
-                          fontSize: 11,
-                          fontWeight: FontWeight.w400,
-                          fontFamily: AppUtil.rtlDirection2(context)
-                              ? 'SF Arabic'
-                              : 'SF Pro',
-                          color: starGreyColor,
+                        Obx(
+                          () => CustomText(
+                            text: address.value.isNotEmpty
+                                ? address.value
+                                : widget.location,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: AppUtil.rtlDirection2(context)
+                                ? 'SF Arabic'
+                                : 'SF Pro',
+                            color: starGreyColor,
+                          ),
                         ),
                       ],
                     ),
@@ -253,13 +257,13 @@ class _ServicesCardState extends State<ServicesCard> {
                     width: width * 0.01,
                   ),
                   // if (!AppUtil.rtlDirection2(context))
-                    CustomText(
-                      text: widget.rate,
-                      fontSize: width * 0.025,
-                      fontWeight: FontWeight.w700,
-                      color: colorDarkGreen,
-                      fontFamily: AppUtil.SfFontType(context),
-                    ),
+                  CustomText(
+                    text: widget.rate,
+                    fontSize: width * 0.025,
+                    fontWeight: FontWeight.w700,
+                    color: colorDarkGreen,
+                    fontFamily: AppUtil.SfFontType(context),
+                  ),
                 ],
               ),
             ),

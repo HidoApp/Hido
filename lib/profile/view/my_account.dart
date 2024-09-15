@@ -80,7 +80,8 @@ class _MyAccountState extends State<MyAccount> {
                   : AccountTile(
                       title: 'email'.tr,
                       subtitle: widget.profileController.profile.email!,
-                      onTap: () => Get.bottomSheet(const EmailSheet()),
+                      onTap: () => Get.bottomSheet(
+                          isScrollControlled: true, const EmailSheet()),
                     ),
             ),
             const Divider(
@@ -96,7 +97,8 @@ class _MyAccountState extends State<MyAccount> {
                       title: "phoneNum".tr,
                       titleHint: "accountNumberHint".tr,
                       subtitle: getPhoneNumber(),
-                      onTap: () => Get.bottomSheet(const PhoneSheet()),
+                      onTap: () => Get.bottomSheet(
+                          isScrollControlled: true, const PhoneSheet()),
                     ),
             ),
             const Divider(
@@ -114,7 +116,8 @@ class _MyAccountState extends State<MyAccount> {
                       //  widget.profileController.profile.iban ??
                       "SA5480000246608016008348",
                     ),
-                    onTap: () => Get.bottomSheet(const IbanSheet()),
+                    onTap: () => Get.bottomSheet(
+                        isScrollControlled: true, const IbanSheet()),
                   ),
                   const Divider(
                     color: lightGrey,
@@ -128,8 +131,9 @@ class _MyAccountState extends State<MyAccount> {
                             'TOUR_GUID') ...{
                       AccountTile(
                         title: 'providedServices'.tr,
-                        onTap: () =>
-                            Get.bottomSheet(const ProdvidedServicesSheet()),
+                        onTap: () => Get.bottomSheet(
+                            isScrollControlled: true,
+                            const ProdvidedServicesSheet()),
                       ),
                       SizedBox(
                         height: width * 0.051,

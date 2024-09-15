@@ -676,4 +676,7 @@ const localeEn = {
   'mobileExists': 'Mobile number already exists',
   'onTheWay': 'On the way',
   'passwordError': "you must enter at least 8 characters",
+  'phoneOtpWrong': 'this otp for this user is wrong',
+  'otpForbidden': "Otp has been sent, please try again later",
+  'mobileNotFound': "mobile number is not found"
 };

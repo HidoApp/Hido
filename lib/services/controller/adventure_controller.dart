@@ -37,7 +37,7 @@ class AdventureController extends GetxController {
   var ragionEn="".obs;
     var selectedImages = <XFile>[].obs;
    var  images = <dynamic>[].obs;
-
+var addressAdventure=''.obs;
 var showErrorMaxGuest=false.obs;
   var isAdventureDateSelcted = false.obs;
   var isAdventureTimeSelcted = false.obs;

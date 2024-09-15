@@ -42,12 +42,11 @@ void main() async {
 
   await initializeDateFormatting('ar');
   await LocalNotification.init();
-  
-  //final Amplitude amplitude = Amplitude.getInstance(); 
+
+  //final Amplitude amplitude = Amplitude.getInstance();
 
   //amplitude.init("feb049885887051bb097ac7f73572f6c");
   timeago.setLocaleMessages('ar', timeago.ArMessages());
-
 
   try {
     await Firebase.initializeApp(
@@ -73,8 +72,6 @@ void main() async {
   } catch (error) {
     print("Firebase initialization error: $error");
   }
-
-  //runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
