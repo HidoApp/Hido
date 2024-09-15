@@ -265,7 +265,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                           }
                         });
 
-                        amplitude.logEvent('Onboarding Page Viewed',
+                        amplitude.logEvent('Onboarding Page Viewed ${tabs[_currentIndex].title}',
                             eventProperties: {
                               'page_index': _currentIndex,
                               'page_title': tabs[_currentIndex].title
@@ -315,7 +315,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                       textColor: _currentIndex == 0 ? black : null,
                       
                       onPressed: () async{
-                        amplitude.logEvent('Onboarding Sign In Button Clicked');
+                        amplitude.logEvent('Onboarding Tourist Sign In Button Clicked');
                         
                       Get.to(() => const SignInScreen());
                         // Get.off(() => AjwadiBottomBar());
@@ -331,7 +331,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                     child: CustomButton(
                       title: 'localGuide'.tr,
                       onPressed: () {
-                        amplitude.logEvent('Onboarding Local Guide Button Clicked');
+                        amplitude.logEvent('Onboarding Local Sign In Button Clicked');
                         Get.to(() => const LocalSignIn());
                       },
                       buttonColor: _currentIndex == 0

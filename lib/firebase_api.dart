@@ -1,8 +1,11 @@
 import 'dart:developer';
 
+import 'package:ajwad_v4/auth/models/token.dart';
 import 'package:ajwad_v4/main.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:firebase_app_installations/firebase_app_installations.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:get_storage/get_storage.dart';
 
 class FirebaseApi {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
@@ -22,10 +25,11 @@ class FirebaseApi {
     final fCMToken = await messaging.getToken();
     final installationId = await FirebaseInstallations.instance.getId();
 
+    // final installationId = await FirebaseInstallations.instance.getId();
+
     // log('installationId:$id');
     log('Api-token:$fCMToken');
-  log('installationId:$installationId');
-
+    log('installationId:$installationId');
 
     initPushNotification();
   }
@@ -40,11 +44,23 @@ class FirebaseApi {
     // Navigate based on the type
     if (messageType == 'KSA') {
       //navigate to new screen
-
-      navigatorKey.currentState?.pushNamed(
-        '/service_screen',
-        arguments: message,
-      );
+      if (!AppUtil.isGuest())
+        // navigatorKey.currentState?.pushNamed(
+        //   '/service_screen',
+        //   arguments: message,
+        // );
+        navigatorKey.currentState
+            ?.pushNamed(
+        '/notification_screen',
+          arguments: message,
+        );
+    //         .then((_) {
+    //       // After the first route is pushed, push the second route
+    //       navigatorKey.currentState?.pushNamed(
+    //         '/another_route',
+    //         arguments: message,
+    //       );
+    //     });
     }
   }
 

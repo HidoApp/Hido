@@ -239,10 +239,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           print('DONEEE');
                                         }
                                         if (countries != null) {
-                                    Amplitude.getInstance().logEvent('complete fist sign up step', eventProperties: {
-                                   'name': _nameController.text,
-                                  'email': _emailController.text,
-                                        });
+
+                                          Amplitude.getInstance().logEvent(
+                                              'Complete First Sign Up Step',
+                                              eventProperties: {
+                                                'name': _nameController.text,
+                                                'email': _emailController.text,
+                                              });
+
                                           Get.to(() => LastStepScreen(
                                                 name: _nameController.text,
                                                 email: _emailController.text,
@@ -251,11 +255,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                 authController: _authController,
                                                 countries: countries,
                                               ));
-                                              Amplitude.getInstance().logEvent('Next step of tourist sign up');
-
+                                          Amplitude.getInstance().logEvent(
+                                              'Next Step of Tourist Sign Up');
                                         }
 
                                         // }
+                                      }else{
+                                         Amplitude.getInstance()
+                                    .logEvent('First Tourist Sign Up Step Failed');
                                       }
                                     }),
                           ),

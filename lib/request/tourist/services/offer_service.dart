@@ -188,7 +188,10 @@ class OfferService {
    */
 
   static Future<bool?> bookingCancel(
-      {required BuildContext context, required String bookingId,required String type,required String reason}) async {
+      {required BuildContext context,
+      required String bookingId,
+      required String type,
+      required String reason}) async {
     log("jwtToken");
     final getStorage = GetStorage();
     String token = getStorage.read('accessToken');
@@ -204,38 +207,38 @@ class OfferService {
         token = jwtToken.id;
       }
     }
-          log(reason);
-          log(type);
- Map<String, dynamic> body = {
-      "reason": reason
-    };
-              log(reason);
-                        log(type);
+    log(reason);
+    log(type);
+
+    Map<String, dynamic> body = {"reason": reason};
+
+    log(reason);
+    log(type);
 
     // print(body);
     final response = await http.post(
-      Uri.parse('$baseUrl/booking/cancel/$bookingId').replace(queryParameters: {
-        'type': type,
-      }),
-      headers: {
-        'Accept': 'application/json',
-        "Content-Type": "application/json",
-        'Authorization': 'Bearer $token',
-      },
-       body: jsonEncode(body)
-
-    );
+        Uri.parse('$baseUrl/booking/cancel/$bookingId')
+            .replace(queryParameters: {
+          'type': type,
+        }),
+        headers: {
+          'Accept': 'application/json',
+          "Content-Type": "application/json",
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode(body));
     print("response.statusCode");
     print(response.statusCode);
-  
+
     if (response.statusCode == 200) {
       log('inter 200');
       return true;
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
-      if (context.mounted) {
-        AppUtil.errorToast(context, errorMessage);
-      }
+      print(errorMessage);
+      // if (context.mounted) {
+      //   AppUtil.errorToast(context, errorMessage);
+      // }
       return false;
     }
   }
