@@ -8,6 +8,7 @@ import 'package:ajwad_v4/profile/models/bookmark.dart';
 import 'package:ajwad_v4/profile/models/profile.dart';
 import 'package:ajwad_v4/profile/services/profile_service.dart';
 import 'package:ajwad_v4/request/chat/model/chat_model.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -50,6 +51,8 @@ class ProfileController extends GetxController {
 
   var localBar = 0.obs;
   var touriestBar = 0.obs;
+
+  var isUserHasNetwork = false.obs;
 
   //------
   Future<Profile?> getProfile(
@@ -300,4 +303,11 @@ class ProfileController extends GetxController {
       isUpdatingActionLoading(false);
     }
   }
+
+  // void checkConnection() async {
+  //   bool result = await AppUtil.isConnected();
+  //   log(result.toString());
+  //   log("result.toString()");
+  //   isUserHasNetwork(result);
+  // }
 }

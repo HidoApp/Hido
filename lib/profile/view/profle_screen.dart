@@ -27,6 +27,7 @@ import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/image_cache_widget.dart';
 import 'package:ajwad_v4/widgets/local_auth_mark.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -63,7 +64,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (!widget.fromAjwady) {
       getProfile();
     }
-    // isTourGuide= storage.read("TourGuide") ;
   }
 
   void getProfile() async {
@@ -110,7 +110,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
-
     return Obx(
       () => Skeletonizer(
           enabled: _profileController.isProfileLoading.value,

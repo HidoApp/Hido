@@ -128,7 +128,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                 obscureText: !showPassword,
                                 hintText: 'yourPassword'.tr,
                                 controller: _passwordController,
-                                isPassword: true,
+                                isPassword: true, validator: true,
 
                                 // prefixIcon: const Icon(
                                 //   Icons.lock_outline_rounded,

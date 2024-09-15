@@ -670,5 +670,11 @@ const localeAr = {
   'passwordError': "يجب عليك إدخال 8 أحرف على الأقل",
   'phoneOtpWrong': 'رمز التحقق لهذا المستخدم خاطئ',
   'otpForbidden': "تم إرسال رمز التحقق، يرجى المحاولة مرة أخرى لاحقًا",
-  'mobileNotFound': "لم يتم العثور على رقم الهاتف "
+  'mobileNotFound': "لم يتم العثور على رقم الهاتف ",
+  'errorScreenTitle': 'اعذرنا ',
+  'errorScreenSubTitle': 'حدث خطأ غير متوقع',
+  'errorScreenMainButton': 'الصفحة الرئيسية',
+  'errorScreenReportButton': 'الإبلاغ عن المشكلة',
+  'errorSheetTitle': 'صف المشكلة التي واجهتها',
+  'errorSheetHint': 'اكتب وصف مختصر للمشكلة'
 };

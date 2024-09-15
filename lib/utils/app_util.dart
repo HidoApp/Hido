@@ -13,6 +13,7 @@ import 'package:intl/intl.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest_all.dart' as tz;
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 import 'package:jhijri/jhijri.dart';
 
@@ -740,4 +741,6 @@ class AppUtil {
     DateTime dateTime = DateFormat('h:mm a').parse(time);
     return DateFormat('HH:mm:ss').format(dateTime);
   }
+
+
 }
