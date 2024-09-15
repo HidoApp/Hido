@@ -26,7 +26,6 @@ class _PhoneSheetState extends State<PhoneSheet> {
     final width = MediaQuery.of(context).size.width;
     final hieht = MediaQuery.of(context).size.height;
     return Container(
-      width: double.infinity,
       decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
