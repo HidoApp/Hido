@@ -1,6 +1,9 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
+import 'package:ajwad_v4/auth/view/ajwadi_register/local_sign_up.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:timer_count_down/timer_controller.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 import 'package:ajwad_v4/auth/view/sigin_in/phone_otp_new.dart';
@@ -25,7 +28,37 @@ class LocalSignIn extends StatefulWidget {
 }
 
 class _LocalSignInState extends State<LocalSignIn> {
-  final _controller = CountdownController(autoStart: true);
+  // final _controller = CountdownController(autoStart: true);
+  StreamSubscription? _internetConnection;
+  void setInternetConnection() {
+    _internetConnection = InternetConnection().onStatusChange.listen((event) {
+      switch (event) {
+        case InternetStatus.connected:
+          _authController.isInternetConnected(true);
+          break;
+        case InternetStatus.disconnected:
+          _authController.isInternetConnected(false);
+          break;
+        default:
+          _authController.isInternetConnected(false);
+          break;
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setInternetConnection();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _internetConnection!.cancel();
+  }
 
   final _formKey = GlobalKey<FormState>();
   var number = '';
@@ -93,6 +126,10 @@ class _LocalSignInState extends State<LocalSignIn> {
                     ? const Center(child: CircularProgressIndicator.adaptive())
                     : CustomButton(
                         onPressed: () async {
+                          if (!_authController.isInternetConnected.value) {
+                            AppUtil.connectionToast(context, 'offlineTitle'.tr);
+                            return;
+                          }
                           var isValid = _formKey.currentState!.validate();
                           if (isValid) {
                             final isSuccess = await _authController.createOtp(
@@ -137,7 +174,38 @@ class _LocalSignInState extends State<LocalSignIn> {
             SizedBox(
               height: width * 0.041,
             ),
-            const SignUpText()
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CustomText(
+                  text: "haveAnAccount?".tr,
+                  fontFamily: AppUtil.SfFontType(context),
+                  fontWeight: FontWeight.w500,
+                  fontSize: MediaQuery.of(context).size.width * 0.038,
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.0128,
+                ),
+                GestureDetector(
+                    child: CustomText(
+                      text: 'signUp'.tr,
+                      fontFamily: AppUtil.SfFontType(context),
+                      fontWeight: FontWeight.w500,
+                      color: colorGreen,
+                      fontSize: MediaQuery.of(context).size.width * 0.038,
+                    ),
+                    onTap: () {
+                      if (!_authController.isInternetConnected.value) {
+                        AppUtil.connectionToast(context, 'offlineTitle'.tr);
+                        return;
+                      }
+                      Get.back();
+                      Get.to(
+                        () => const LocalSignUpScreen(),
+                      );
+                    })
+              ],
+            )
           ],
         ),
       ),

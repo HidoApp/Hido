@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 
@@ -8,8 +9,11 @@ import 'package:ajwad_v4/profile/models/bookmark.dart';
 import 'package:ajwad_v4/profile/models/profile.dart';
 import 'package:ajwad_v4/profile/services/profile_service.dart';
 import 'package:ajwad_v4/request/chat/model/chat_model.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 class ProfileController extends GetxController {
   var isProfileLoading = false.obs;
@@ -23,6 +27,7 @@ class ProfileController extends GetxController {
   var isActionsListLoading = false.obs;
   var isUpdatingActionLoading = false.obs;
   var isUserOpenTheApp = false.obs;
+  var isUserSendFeedBack = false.obs;
   var upcommingTicket = <Booking>[].obs;
   var pastTicket = <Booking>[].obs;
   var chatList = <ChatModel>[].obs;
@@ -50,6 +55,8 @@ class ProfileController extends GetxController {
 
   var localBar = 0.obs;
   var touriestBar = 0.obs;
+
+  var isInternetConnected = true.obs;
 
   //------
   Future<Profile?> getProfile(
@@ -298,6 +305,28 @@ class ProfileController extends GetxController {
       return false;
     } finally {
       isUpdatingActionLoading(false);
+    }
+  }
+
+  Future<void> sendUserFeedBack({required String description}) async {
+    log("HEre1");
+    try {
+      isUserSendFeedBack(true);
+      SentryId sentryId = await Sentry.captureMessage("My message");
+      log(sentryId.toString());
+      final userFeedback = SentryUserFeedback(
+        eventId: sentryId,
+        comments: description,
+        email: profile.email!.isEmpty ? "unknown@hido.app" : profile.email,
+        name: profile.name!.isEmpty ? "unknown" : profile.name,
+      );
+
+      await Sentry.captureUserFeedback(userFeedback);
+      log("HEre2");
+    } catch (e) {
+      isUserSendFeedBack(false);
+    } finally {
+      isUserSendFeedBack(false);
     }
   }
 }

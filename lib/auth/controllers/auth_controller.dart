@@ -63,6 +63,7 @@ class AuthController extends GetxController {
   var transactionIdVehicle = ''.obs;
   var showResetPassword = false.obs;
   var showResetConfirmedPassword = false.obs;
+  var isInternetConnected = true.obs;
 
   // 1 GET COUNTRIES ..
   Future<List<String>?> getListOfCountries(BuildContext context) async {
