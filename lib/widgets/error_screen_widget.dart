@@ -21,7 +21,8 @@ class ErrorScreenWidget extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SvgPicture.asset('assets/images/hido_error.svg'),
+              RepaintBoundary(
+                  child: SvgPicture.asset('assets/images/hido_error.svg')),
               SizedBox(
                 height: width * 0.0615,
               ),

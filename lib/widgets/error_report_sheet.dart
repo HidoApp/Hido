@@ -1,3 +1,5 @@
+import 'package:ajwad_v4/new-onboarding/view/intro_screen.dart';
+import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
@@ -7,9 +9,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ErrorReportSheet extends StatelessWidget {
+class ErrorReportSheet extends StatefulWidget {
   const ErrorReportSheet({super.key});
 
+  @override
+  State<ErrorReportSheet> createState() => _ErrorReportSheetState();
+}
+
+class _ErrorReportSheetState extends State<ErrorReportSheet> {
+  final _profileController = Get.put(ProfileController());
+  var _description = '';
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -49,14 +58,31 @@ class ErrorReportSheet extends StatelessWidget {
             hintText: 'errorSheetHint'.tr,
             keyboardType: TextInputType.multiline,
             textInputAction: TextInputAction.newline,
-            onChanged: (value) {},
+            onChanged: (value) => _description = value,
           ),
           SizedBox(
             height: width * 0.061,
           ),
-          CustomButton(
-            title: 'send'.tr,
-            onPressed: () {},
+          Obx(
+            () => _profileController.isUserSendFeedBack.value
+                ? const Center(
+                    child: CircularProgressIndicator.adaptive(),
+                  )
+                : CustomButton(
+                    title: 'send'.tr,
+                    onPressed: () async {
+                      if (_description.isEmpty) {
+                        //  Get.offAll(() => const OnboardingScreen());
+                        Get.back();
+                        return;
+                      }
+                      await _profileController
+                          .sendUserFeedBack(description: _description)
+                          .then((val) {
+                        Get.offAll(() => const OnboardingScreen());
+                      });
+                    },
+                  ),
           )
         ],
       ),

@@ -628,6 +628,59 @@ class AppUtil {
     ).show(context);
   }
 
+  static connectionToast(BuildContext context, String msg) {
+    var width = MediaQuery.of(context).size.width;
+
+    Flushbar(
+      messageText: Container(
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(
+            horizontal: width * 0.041, vertical: width * 0.029),
+        clipBehavior: Clip.none, // No clipping to avoid any implicit border
+        decoration: ShapeDecoration(
+          color: babyGray, // Light pink background color for the message
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(
+                8), // Reduced border radius for less rounded corners
+          ),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SvgPicture.asset(
+              "assets/icons/no_internet.svg",
+              height: 24,
+              width: 24,
+              color: Colors.black, // Text color
+            ),
+            SizedBox(width: width * 0.029),
+            Expanded(
+              child: CustomText(
+                text: msg, // Dynamic message text
+                color: Colors.black, // Text color
+                fontSize: width * 0.038,
+                maxlines: 200,
+                fontFamily: SfFontType(context),
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+      ),
+      messageColor: Colors.white,
+      padding: EdgeInsets.symmetric(horizontal: width * 0.029, vertical: 4),
+      isDismissible: true,
+      duration: const Duration(seconds: 5),
+      flushbarPosition: FlushbarPosition.TOP,
+      backgroundColor:
+          Colors.transparent, // Transparent to prevent any additional color
+      // margin: const EdgeInsets.all(3),
+      borderRadius: const BorderRadius.all(
+          Radius.circular(8)), // Match the reduced border radius
+    ).show(context);
+  }
   // static errorToast(context, msg) {
   //   Flushbar(
   //           messageText: Row(
@@ -741,6 +794,4 @@ class AppUtil {
     DateTime dateTime = DateFormat('h:mm a').parse(time);
     return DateFormat('HH:mm:ss').format(dateTime);
   }
-
-
 }

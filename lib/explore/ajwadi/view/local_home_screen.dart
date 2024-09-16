@@ -54,6 +54,8 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
 
   void getNextActivity() async {
     await _tripController.getNextActivity(context: context).then((value) {
+      if (!mounted) return;
+
       _tripController.nextStep.value =
           _tripController.nextTrip.value.activityProgress ?? '';
 

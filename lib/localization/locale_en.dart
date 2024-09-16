@@ -684,5 +684,7 @@ const localeEn = {
   'errorScreenMainButton': 'Main page',
   'errorScreenReportButton': 'Report issue',
   'errorSheetTitle': 'Describe the issue you encountered',
-  'errorSheetHint': 'Please provide a brief description of the problem'
+  'errorSheetHint': 'Please provide a brief description of the problem',
+  'offlineTitle': "No Internet connection",
+  'offlineSubTitle': 'Please check your connection and try again',
 };

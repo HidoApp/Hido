@@ -676,5 +676,7 @@ const localeAr = {
   'errorScreenMainButton': 'الصفحة الرئيسية',
   'errorScreenReportButton': 'الإبلاغ عن المشكلة',
   'errorSheetTitle': 'صف المشكلة التي واجهتها',
-  'errorSheetHint': 'اكتب وصف مختصر للمشكلة'
+  'errorSheetHint': 'اكتب وصف مختصر للمشكلة',
+  'offlineTitle': "لا يوجد اتصال انترنت ",
+  'offlineSubTitle': 'حاول مرة أخرى بعد التأكد من الاتصال بالانترنت ',
 };

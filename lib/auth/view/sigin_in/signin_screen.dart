@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
@@ -22,6 +23,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 
 import 'package:get/get.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 import '../../../utils/app_util.dart';
@@ -43,12 +45,37 @@ class _SignInScreenState extends State<SignInScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _authController = Get.put(AuthController());
+  StreamSubscription? _internetConnection;
+  void setInternetConnection() {
+    _internetConnection = InternetConnection().onStatusChange.listen((event) {
+      switch (event) {
+        case InternetStatus.connected:
+          _authController.isInternetConnected(true);
+          break;
+        case InternetStatus.disconnected:
+          _authController.isInternetConnected(false);
+          break;
+        default:
+          _authController.isInternetConnected(false);
+          break;
+      }
+    });
+  }
+
   @override
   void dispose() {
     // TODO: implement dispose
     _emailController.dispose();
     _passwordController.dispose();
+    _internetConnection!.cancel();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setInternetConnection();
   }
 
   @override
@@ -184,6 +211,12 @@ class _SignInScreenState extends State<SignInScreen> {
                                         const Icon(Icons.keyboard_arrow_right),
                                     title: 'signIn'.tr,
                                     onPressed: () async {
+                                      if (!_authController
+                                          .isInternetConnected.value) {
+                                        AppUtil.connectionToast(
+                                            context, 'offlineTitle'.tr);
+                                        return;
+                                      }
                                       if (_formKey.currentState!.validate()) {
                                         if (!AppUtil.isEmailValidate(
                                             _emailController.text)) {
@@ -265,8 +298,15 @@ class _SignInScreenState extends State<SignInScreen> {
                               width: MediaQuery.of(context).size.width * 0.0128,
                             ),
                             GestureDetector(
-                              onTap: () =>
-                                  Get.off(() => const RegisterScreen()),
+                              onTap: () {
+                                if (!_authController
+                                    .isInternetConnected.value) {
+                                  AppUtil.connectionToast(
+                                      context, 'offlineTitle'.tr);
+                                  return;
+                                }
+                                Get.off(() => const RegisterScreen());
+                              },
                               child: CustomText(
                                 text: 'signUp'.tr,
                                 color: colorGreen,
