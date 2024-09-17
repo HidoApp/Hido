@@ -1,3 +1,4 @@
+import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/auth/view/tourist_register/register/last_step.dart';
@@ -11,6 +12,7 @@ import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/custom_textfield.dart';
 import 'package:ajwad_v4/widgets/screen_padding.dart';
 import 'package:amplitude_flutter/amplitude.dart';
+import 'package:amplitude_flutter/events/base_event.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -45,6 +47,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     super.initState();
     showPassword = false;
     showConfirmPassword = false;
+    AmplitudeService.initializeAmplitude();
+
   }
 
   @override
@@ -240,12 +244,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         }
                                         if (countries != null) {
 
-                                          Amplitude.getInstance().logEvent(
+                                         AmplitudeService.amplitude.track(BaseEvent(
                                               'Complete First Sign Up Step',
                                               eventProperties: {
                                                 'name': _nameController.text,
                                                 'email': _emailController.text,
-                                              });
+                                              }));
 
                                           Get.to(() => LastStepScreen(
                                                 name: _nameController.text,
@@ -255,14 +259,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                 authController: _authController,
                                                 countries: countries,
                                               ));
-                                          Amplitude.getInstance().logEvent(
-                                              'Next Step of Tourist Sign Up');
+                                        
+                                         AmplitudeService.amplitude.track(BaseEvent(
+                                              'Next Step of Tourist Sign Up'));
                                         }
 
                                         // }
                                       }else{
-                                         Amplitude.getInstance()
-                                    .logEvent('First Tourist Sign Up Step Failed');
+                                       
+                                         AmplitudeService.amplitude.track(BaseEvent('First Tourist Sign Up Step Failed'));
                                       }
                                     }),
                           ),

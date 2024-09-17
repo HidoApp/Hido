@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/auth/view/sigin_in/local_sign_in.dart';
 import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
@@ -8,7 +9,11 @@ import 'package:ajwad_v4/explore/ajwadi/view/Experience/adventure/view/edit_adve
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
-import 'package:amplitude_flutter/amplitude.dart';
+import 'package:amplitude_flutter/amplitude.dart'; //
+import 'package:amplitude_flutter/configuration.dart';
+import 'package:amplitude_flutter/constants.dart';
+import 'package:amplitude_flutter/default_tracking.dart';
+import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -34,7 +39,24 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   final PageController _pageController = PageController();
   AnimationController? _controller;
   VideoPlayerController? _videoController;
-  final Amplitude amplitude = Amplitude.getInstance();
+
+  final AmplitudeService amplitudeService = AmplitudeService(); // Create instance of AmplitudeService
+
+// // Async function to initialize Amplitude
+//   void _initializeAmplitude() async {
+//     amplitude = Amplitude(Configuration(
+//       apiKey: "feb049885887051bb097ac7f73572f6c",
+//       // serverZone: ServerZone.eu,
+//       // defaultTracking: DefaultTrackingOptions(
+//       //   sessions: true,
+//       // ),
+//     ));
+
+//     // Wait until the Amplitude instance is fully built
+//     await amplitude.isBuilt;
+//      amplitude.flush();
+
+//   }
 
   @override
   void initState() {
@@ -89,7 +111,9 @@ class _OnboardingScreenState extends State<OnboardingScreen>
         _videoController?.setVolume(0.0); // (silent)
         _videoController?.play();
       });
-    amplitude.init("feb049885887051bb097ac7f73572f6c");
+    //_initializeAmplitude();
+     // Initialize Amplitude
+   AmplitudeService.initializeAmplitude();
   }
 
   @override
@@ -265,11 +289,11 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                           }
                         });
 
-                        amplitude.logEvent('Onboarding Page Viewed ${tabs[_currentIndex].title}',
+                        AmplitudeService.amplitude.track(BaseEvent('Onboarding Page Viewed ',
                             eventProperties: {
                               'page_index': _currentIndex,
                               'page_title': tabs[_currentIndex].title
-                            });
+                            }));
                       },
                     ),
                   ),
@@ -313,11 +337,11 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                     child: CustomButton(
                       title: 'tourist'.tr,
                       textColor: _currentIndex == 0 ? black : null,
-                      
-                      onPressed: () async{
-                        amplitude.logEvent('Onboarding Tourist Sign In Button Clicked');
-                        
-                      Get.to(() => const SignInScreen());
+                      onPressed: () async {
+                        AmplitudeService.amplitude.track(BaseEvent(
+                            'Onboarding Tourist Sign In Button Clicked'));
+
+                        Get.to(() => const SignInScreen());
                         // Get.off(() => AjwadiBottomBar());
                       },
                       raduis: 8,
@@ -331,7 +355,8 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                     child: CustomButton(
                       title: 'localGuide'.tr,
                       onPressed: () {
-                        amplitude.logEvent('Onboarding Local Sign In Button Clicked');
+                        AmplitudeService.amplitude.track(BaseEvent(
+                            'Onboarding Local Sign In Button Clicked'));
                         Get.to(() => const LocalSignIn());
                       },
                       buttonColor: _currentIndex == 0
@@ -344,7 +369,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
 
                   GestureDetector(
                     onTap: () {
-                     amplitude.logEvent('Onboarding Continue as Guest Clicked');
+                     AmplitudeService.amplitude.track(BaseEvent('Onboarding Continue as Guest Clicked'));
                       Get.to(() => const TouristBottomBar());
                     },
                     child: Row(
@@ -455,13 +480,13 @@ class _DotIndicatorState extends State<_DotIndicator>
       // _animationController.forward().then((_) {
       //   _animationController.stop();
       // });
-       if (mounted) {
-      _animationController.forward().then((_) {
-        if (mounted) {
-          _animationController.stop();
-        }
-      });
-    }
+      if (mounted) {
+        _animationController.forward().then((_) {
+          if (mounted) {
+            _animationController.stop();
+          }
+        });
+      }
     }
   }
 
@@ -472,13 +497,13 @@ class _DotIndicatorState extends State<_DotIndicator>
       // _animationController.forward().then((_) {
       //   _animationController.stop();
       // });
-       if (mounted) {
-      _animationController.forward().then((_) {
-        if (mounted) {
-          _animationController.stop();
-        }
-      });
-    }
+      if (mounted) {
+        _animationController.forward().then((_) {
+          if (mounted) {
+            _animationController.stop();
+          }
+        });
+      }
     }
   }
 
