@@ -102,7 +102,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   bool isStarChecked = false;
   int startIndex = -1;
   bool isSendTapped = false;
-  bool showSheet = true;
+  //bool showSheet = true;
   bool isNew = true;
 
   void getActivityProgress() async {
@@ -124,11 +124,10 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
 
   Future<void> _animateCamera(
       {required double latitude, required double longitude}) async {
-    setState(() {
-      if (mounted) {
-        _currentLocation = LatLng(latitude, longitude);
-      }
-    });
+    if (mounted) {
+      _touristExploreController.currentLocation.value =
+          LatLng(latitude, longitude);
+    }
     // marker added for current user location
     _markers.add(Marker(
       markerId: const MarkerId('icon'),
@@ -174,9 +173,9 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
             const ImageConfiguration(), "assets/images/pin_marker.png")
         .then(
       (icon) {
-        setState(() {
-          markerIcon = icon;
-        });
+        // setState(() {
+        //   markerIcon = icon;
+        // });
       },
     );
   }
@@ -191,7 +190,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
 
     getPlaces();
 
-    addCustomIcon();
+    // addCustomIcon();
     getLocation();
   }
 
@@ -371,19 +370,15 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                             topLeft: Radius.circular(24))),
                     child: SolidBottomSheet(
                       //   elevation: 10,
-                      showOnAppear: showSheet,
+                      showOnAppear: _touristExploreController.showSheet.value,
                       toggleVisibilityOnTap: true,
                       maxHeight: width * 0.45,
                       controller: _sheetController,
                       onHide: () {
-                        setState(() {
-                          showSheet = false;
-                        });
+                        _touristExploreController.showSheet.value = false;
                       },
                       onShow: () {
-                        setState(() {
-                          showSheet = true;
-                        });
+                        _touristExploreController.showSheet.value = true;
                       },
                       headerBar: Container(
                         decoration: const BoxDecoration(
@@ -407,24 +402,25 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
               builder: (context, markers) {
                 if (markers == null) {
                   print(storage.read<List<Marker>>('markers')!.length);
-                  return GoogleMap(
-                    zoomControlsEnabled: false,
-                    myLocationButtonEnabled: false,
-                    markers: storage.read<List<Marker>>('markers')!.toSet(),
-                    initialCameraPosition: CameraPosition(
-                      target: _currentLocation,
-                      zoom: 10,
+                  return Obx(
+                    () => GoogleMap(
+                      zoomControlsEnabled: false,
+                      myLocationButtonEnabled: false,
+                      markers: storage.read<List<Marker>>('markers')!.toSet(),
+                      initialCameraPosition: CameraPosition(
+                        target: _touristExploreController.currentLocation.value,
+                        zoom: 10,
+                      ),
+                      mapType: MapType.normal,
+                      onMapCreated: (controller) {
+                        _controller.complete(controller);
+                        _loadMapStyles();
+                      },
+                      onCameraMove: (position) {
+                        _touristExploreController.currentLocation.value =
+                            position.target;
+                      },
                     ),
-                    mapType: MapType.normal,
-                    onMapCreated: (controller) {
-                      _controller.complete(controller);
-                      _loadMapStyles();
-                    },
-                    onCameraMove: (position) {
-                      setState(() {
-                        _currentLocation = position.target;
-                      });
-                    },
                   );
                 }
                 if (isNew) {
@@ -435,24 +431,25 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                     });
                   });
                 }
-                return GoogleMap(
-                  zoomControlsEnabled: false,
-                  myLocationButtonEnabled: false,
-                  initialCameraPosition: CameraPosition(
-                    target: _currentLocation,
-                    zoom: 10,
+                return Obx(
+                  () => GoogleMap(
+                    zoomControlsEnabled: false,
+                    myLocationButtonEnabled: false,
+                    initialCameraPosition: CameraPosition(
+                      target: _touristExploreController.currentLocation.value,
+                      zoom: 10,
+                    ),
+                    markers: markers,
+                    mapType: MapType.normal,
+                    onMapCreated: (controller) {
+                      _controller.complete(controller);
+                      _loadMapStyles();
+                    },
+                    onCameraMove: (position) {
+                      _touristExploreController.currentLocation.value =
+                          position.target;
+                    },
                   ),
-                  markers: markers,
-                  mapType: MapType.normal,
-                  onMapCreated: (controller) {
-                    _controller.complete(controller);
-                    _loadMapStyles();
-                  },
-                  onCameraMove: (position) {
-                    setState(() {
-                      _currentLocation = position.target;
-                    });
-                  },
                 );
               }),
           Positioned(
