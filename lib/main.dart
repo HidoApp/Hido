@@ -123,7 +123,7 @@ class _MyAppState extends State<MyApp> {
             splashColor: Colors.transparent,
             colorScheme: const ColorScheme.light(primary: colorGreen),
             useMaterial3: true),
-        title: 'Ajwad',
+        title: 'Hido',
         debugShowCheckedModeBanner: false,
         home: const SplashScreen(),
         navigatorKey: navigatorKey,
