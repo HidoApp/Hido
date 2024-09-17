@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/calender_dialog.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/set_location.dart';
@@ -13,6 +14,7 @@ import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/custom_text_with_icon_button.dart';
 import 'package:amplitude_flutter/amplitude.dart';
+import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:amplitude_flutter/identify.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -82,7 +84,7 @@ class _BookingSheetState extends State<BookingSheet> {
     } else {
       _touristExploreController.isNotGetUserLocation.value = true;
     }
-      amplitude.init(  "feb049885887051bb097ac7f73572f6c");
+    AmplitudeService.initializeAmplitude();
   }
 
   final Map _pickupRide = {
@@ -118,9 +120,7 @@ class _BookingSheetState extends State<BookingSheet> {
   bool GuestErrorMessage = false;
   bool vehicleErrorMessage = false;
   bool locationErrorMessage = false;
-    final Amplitude amplitude =Amplitude.getInstance();
 
-                                      
   //var locLatLang = const LatLng(24.9470921, 45.9903698);
   late DateTime newTimeToGoInRiyadh;
   void addCustomIcon() {
@@ -1040,7 +1040,6 @@ class _BookingSheetState extends State<BookingSheet> {
                                                 .getPlaceById(
                                                     id: widget.place!.id!,
                                                     context: context);
-                                                 
 
                                         // final Identify identify1 = Identify();
                                         // identify1.setOnce(
@@ -1054,16 +1053,22 @@ class _BookingSheetState extends State<BookingSheet> {
                                         //       'is_heavy_user': true
                                         //     });
 
-            // Log event to Amplitude when the form is completed
-            amplitude.logEvent('tour_booked', eventProperties: {
-              'selected_date': _touristExploreController.selectedDate.value,
-              'selected_time': newTimeToGo.toString(),
-              'location_set': true,
-              'vehicle_selected': selectedRide,
-            });
+                                        // Log event to Amplitude when the form is completed
+                                        AmplitudeService.amplitude.track(
+                                            BaseEvent('tour_booked',
+                                                eventProperties: {
+                                              'selected_date':
+                                                  _touristExploreController
+                                                      .selectedDate.value,
+                                              'selected_time':
+                                                  newTimeToGo.toString(),
+                                              // 'location_set': true,
+                                              'vehicle_selected': selectedRide,
+                                              'placeName': thePlace?.nameEn,
+                                            }));
 
                                         Get.back();
-                                       
+
                                         Get.to(
                                           () => FindAjwady(
                                             place: thePlace!,

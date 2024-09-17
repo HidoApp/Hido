@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/auth/widget/sign_in_text.dart';
 import 'package:ajwad_v4/auth/widget/terms_text.dart';
@@ -13,10 +14,14 @@ import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/custom_textfield.dart';
 import 'package:ajwad_v4/widgets/screen_padding.dart';
 import 'package:amplitude_flutter/amplitude.dart';
+import 'package:amplitude_flutter/configuration.dart';
+import 'package:amplitude_flutter/default_tracking.dart';
+import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:amplitude_flutter/constants.dart';
 
 import 'package:get/get.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
@@ -51,6 +56,10 @@ class _LastStepScreenState extends State<LastStepScreen> {
   List<ValueItem> countries = [];
 
   var _number = '';
+
+
+
+
   @override
   void initState() {
     // TODO: implement initState
@@ -61,6 +70,7 @@ class _LastStepScreenState extends State<LastStepScreen> {
     widget.authController.agreeForTerms(false);
 
     generateCountries();
+    AmplitudeService.initializeAmplitude();
   }
 
   @override
@@ -327,15 +337,14 @@ class _LastStepScreenState extends State<LastStepScreen> {
                               print(isSuccess);
                               if (isSuccess) {
                                 Get.offAll(() => const TouristBottomBar());
-                                Amplitude.getInstance().logEvent(
+                           AmplitudeService.amplitude.track(BaseEvent(
                                     'Tourist Completed Sign Up ',
                                     eventProperties: {
                                       'name': widget.name,
                                       'email': widget.email,
-                                    });
+                                    }));
                               } else {
-                                Amplitude.getInstance()
-                                    .logEvent('Tourist Sign up Failed');
+                                AmplitudeService.amplitude.track(BaseEvent('Tourist Sign up Failed'));
                               }
                             }
                           },
