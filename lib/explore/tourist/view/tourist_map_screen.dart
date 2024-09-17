@@ -102,8 +102,8 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   bool isStarChecked = false;
   int startIndex = -1;
   bool isSendTapped = false;
-  bool showSheet = true;
-  bool isNew = true;
+  //bool showSheet = true;
+  bool isNew = false;
 
   void getActivityProgress() async {
     await _touristExploreController
@@ -124,12 +124,12 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
 
   Future<void> _animateCamera(
       {required double latitude, required double longitude}) async {
-    setState(() {
-      if (mounted) {
+    if (mounted) {
+      setState(() {
         _currentLocation = LatLng(latitude, longitude);
-      }
-    });
-    // marker added for current user location
+      });
+    }
+
     _markers.add(Marker(
       markerId: const MarkerId('icon'),
       icon: markerIcon,
@@ -142,13 +142,15 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
       position: LatLng(latitude, longitude),
     ));
 
-    _googleMapController = await _controller.future;
-    CameraPosition newCameraPosition = CameraPosition(
-      target: LatLng(latitude, longitude),
-      zoom: 10,
-    );
-    _googleMapController
-        .animateCamera(CameraUpdate.newCameraPosition(newCameraPosition));
+    if (mounted) {
+      final GoogleMapController controller = await _controller.future;
+      CameraPosition newCameraPosition = CameraPosition(
+        target: LatLng(latitude, longitude),
+        zoom: 10,
+      );
+      controller
+          .animateCamera(CameraUpdate.newCameraPosition(newCameraPosition));
+    }
   }
 
   Future<void> _loadMapStyles() async {
@@ -161,10 +163,10 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   void getLocation() async {
     userLocation = await LocationService().getUserLocation();
 
-    if (userLocation != null) {
+    if (mounted && userLocation != null) {
       _animateCamera(
           latitude: userLocation!.latitude, longitude: userLocation!.longitude);
-    } else {
+    } else if (mounted) {
       _animateCamera(latitude: 24.7136, longitude: 46.6753);
     }
   }
@@ -174,9 +176,9 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
             const ImageConfiguration(), "assets/images/pin_marker.png")
         .then(
       (icon) {
-        setState(() {
-          markerIcon = icon;
-        });
+        // setState(() {
+        //   markerIcon = icon;
+        // });
       },
     );
   }
@@ -184,14 +186,14 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   @override
   void initState() {
     super.initState();
-    isNew = true;
+    _touristExploreController.isNewMarkers.value = true;
     if (!AppUtil.isGuest()) {
       getUserActions();
     }
 
     getPlaces();
 
-    addCustomIcon();
+    // addCustomIcon();
     getLocation();
   }
 
@@ -208,7 +210,9 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   void getPlaces() async {
     await _touristExploreController.touristMap(
         context: context, tourType: "PLACE");
-    isNew = true;
+    if (!mounted) return; // Ensure the widget is still mounted
+
+    _touristExploreController.isNewMarkers.value = true;
     genreateMarkers();
     if (!AppUtil.isGuest()) {
       getBooking();
@@ -216,6 +220,8 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   }
 
   void genreateMarkers() {
+    if (!mounted) return; // Check if the widget is still mounted
+
     customMarkers = List.generate(
       _touristExploreController.touristModel.value!.places!.length,
       (index) {
@@ -371,19 +377,15 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                             topLeft: Radius.circular(24))),
                     child: SolidBottomSheet(
                       //   elevation: 10,
-                      showOnAppear: showSheet,
+                      showOnAppear: _touristExploreController.showSheet.value,
                       toggleVisibilityOnTap: true,
                       maxHeight: width * 0.45,
                       controller: _sheetController,
                       onHide: () {
-                        setState(() {
-                          showSheet = false;
-                        });
+                        _touristExploreController.showSheet.value = false;
                       },
                       onShow: () {
-                        setState(() {
-                          showSheet = true;
-                        });
+                        _touristExploreController.showSheet.value = true;
                       },
                       headerBar: Container(
                         decoration: const BoxDecoration(
@@ -407,52 +409,61 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
               builder: (context, markers) {
                 if (markers == null) {
                   print(storage.read<List<Marker>>('markers')!.length);
-                  return GoogleMap(
+                  return Obx(
+                    () => GoogleMap(
+                      zoomControlsEnabled: false,
+                      myLocationButtonEnabled: false,
+                      markers: storage.read<List<Marker>>('markers')!.toSet(),
+                      initialCameraPosition: CameraPosition(
+                        target: _touristExploreController.currentLocation.value,
+                        zoom: 10,
+                      ),
+                      mapType: MapType.normal,
+                      onMapCreated: (controller) {
+                        _controller.complete(controller);
+
+                        // _loadMapStyles();
+                      },
+                      onCameraMove: (position) {
+                        _touristExploreController.currentLocation.value =
+                            position.target;
+                        // setState(() {});
+                      },
+                    ),
+                  );
+                }
+                if (_touristExploreController.isNewMarkers.value) {
+                  print('NEWW');
+                  storage.write('markers', markers.toList()).then((val) {
+                    _touristExploreController.isNewMarkers.value = false;
+                    _touristExploreController.updateMap(true);
+                    setState(() {});
+                  });
+                }
+                return Obx(
+                  () => GoogleMap(
                     zoomControlsEnabled: false,
                     myLocationButtonEnabled: false,
-                    markers: storage.read<List<Marker>>('markers')!.toSet(),
                     initialCameraPosition: CameraPosition(
-                      target: _currentLocation,
+                      target: _touristExploreController.currentLocation.value,
                       zoom: 10,
                     ),
+                    markers: markers,
                     mapType: MapType.normal,
                     onMapCreated: (controller) {
                       _controller.complete(controller);
-                      _loadMapStyles();
+                      // _loadMapStyles();
                     },
                     onCameraMove: (position) {
-                      setState(() {
-                        _currentLocation = position.target;
-                      });
+                      // if (_touristExploreController.updateMap.value) {
+                      //   _touristExploreController.updateMap(false);
+                      // }
+                      setState(() {});
+
+                      _touristExploreController.currentLocation.value =
+                          position.target;
                     },
-                  );
-                }
-                if (isNew) {
-                  print('NEWW');
-                  storage.write('markers', markers.toList()).then((val) {
-                    setState(() {
-                      isNew = false;
-                    });
-                  });
-                }
-                return GoogleMap(
-                  zoomControlsEnabled: false,
-                  myLocationButtonEnabled: false,
-                  initialCameraPosition: CameraPosition(
-                    target: _currentLocation,
-                    zoom: 10,
                   ),
-                  markers: markers,
-                  mapType: MapType.normal,
-                  onMapCreated: (controller) {
-                    _controller.complete(controller);
-                    _loadMapStyles();
-                  },
-                  onCameraMove: (position) {
-                    setState(() {
-                      _currentLocation = position.target;
-                    });
-                  },
                 );
               }),
           Positioned(

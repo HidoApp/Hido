@@ -13,7 +13,7 @@ import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 class TouristExploreController extends GetxController {
   var selectedDate = ''.obs;
   var selectedTime = ''.obs;
-    var selectedStartTime = DateTime.now().obs;
+  var selectedStartTime = DateTime.now().obs;
   var selectedEndTime = DateTime.now().obs;
   var TimeErrorMessage = false.obs;
   var isAllPlacesIsLoading = false.obs;
@@ -32,6 +32,9 @@ class TouristExploreController extends GetxController {
   var activeStepProgres = (-1).obs;
   var timerSec = 300.obs;
   var isTimerEnabled = true.obs;
+  var currentLocation = LatLng(24.7136, 46.6753).obs;
+  var showSheet = true.obs;
+  var updateMap = true.obs;
   Rx<ActivityProgress?> activityProgres = ActivityProgress().obs;
   Rx<TouristMapModel?> touristModel = TouristMapModel().obs;
 
@@ -175,7 +178,7 @@ class TouristExploreController extends GetxController {
       TouristMapModel? data = await TouristExploreService.touristMap(
           context: context, tourType: "PLACE");
       touristModel(data);
-    
+
       return data;
     } catch (e) {
       isTouristMapLoading(false);
