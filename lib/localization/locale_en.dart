@@ -678,5 +678,13 @@ const localeEn = {
   'passwordError': "you must enter at least 8 characters",
   'phoneOtpWrong': 'this otp for this user is wrong',
   'otpForbidden': "Otp has been sent, please try again later",
-  'mobileNotFound': "mobile number is not found"
+  'mobileNotFound': "mobile number is not found",
+  'errorScreenTitle': 'Oops',
+  'errorScreenSubTitle': 'Something went wrong',
+  'errorScreenMainButton': 'Main page',
+  'errorScreenReportButton': 'Report issue',
+  'errorSheetTitle': 'Describe the issue you encountered',
+  'errorSheetHint': 'Please provide a brief description of the problem',
+  'offlineTitle': "No Internet connection",
+  'offlineSubTitle': 'Please check your connection and try again',
 };

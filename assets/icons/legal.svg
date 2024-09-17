@@ -1,3 +1,5 @@
-<svg width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path id="Icon" d="M5 8.32266L6.5 9.82266L9.5 6.82266M1 3.82266L5.65836 1.49348C6.50294 1.07119 7.49706 1.07118 8.34164 1.49348L13 3.82266C13 3.82266 13 8.20266 13 10.5127C13 12.8227 10.8647 14.382 7 16.8227C3.13533 14.382 1 12.3227 1 10.5127V3.82266Z" stroke="#070708" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Security">
+<path id="Icon" d="M8 9.32559L9.5 10.8256L12.5 7.82559M4 4.82559L8.65836 2.49641C9.50294 2.07411 10.4971 2.07411 11.3416 2.49641L16 4.82559C16 4.82559 16 9.20559 16 11.5156C16 13.8256 13.8647 15.3849 10 17.8256C6.13533 15.3849 4 13.3256 4 11.5156V4.82559Z" stroke="#070708" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
 </svg>

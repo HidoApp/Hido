@@ -26,13 +26,12 @@ const Color colorlightGreen = Color(0xFF7ED7A2);
 // const Color colorRed = Color(0xFFD75051);
 const Color colorRed = Color(0xFFDC362E);
 const Color colorDarkRed = Color(0xFFB64243);
-
+const Color babyGray = Color(0xffECECEE);
 const Color colorPurple = Color(0xFF8937E7);
 const Color colorDarkPurple = Color(0xFF772ECA);
 
 // const Color colorDarkGrey = Color(0xFF959595);
 const Color colorDarkGrey = Color(0xFF9392A0);
-
 
 const Color lightBlack = Color(0xFF202020);
 const Color dividerColor = Color(0xff606060);
@@ -53,7 +52,6 @@ const Color lightGreyColor = Color(0xffEEEEEF);
 const Color lightGreyBackground = Color(0xffF9F9F9);
 const Color Graytext = Color(0xFFB9B8C1);
 
-
 const Color darkBlack = Color(0xff252525);
 const Color textAreaColor = Color(0xffE4DFDF);
 const Color starGreyColor = Color(0xFF9392A0);
@@ -61,7 +59,6 @@ const Color starGreyColor = Color(0xFF9392A0);
 // Color(0xff5F5F5F);
 const Color containerGreyColor = Color(0xffF5F5F5);
 const Color dotGreyColor = Color(0xff979797);
-const Color shadowColor   = Color(0x3FC7C7C7);
-const Color graySmallText =Color(0xFF41404A);
-const Color graySubSmallText =Color(0xFFDCDCE0);
-
+const Color shadowColor = Color(0x3FC7C7C7);
+const Color graySmallText = Color(0xFF41404A);
+const Color graySubSmallText = Color(0xFFDCDCE0);

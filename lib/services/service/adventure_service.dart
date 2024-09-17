@@ -43,9 +43,8 @@ class AdventureService {
       return adventureList;
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
-      if (context.mounted) {
-        AppUtil.errorToast(context, errorMessage);
-      }
+      log(errorMessage);
+
       return null;
     }
   }
@@ -226,8 +225,9 @@ class AdventureService {
     //     return false;
     //  }
   }
-   static Future<Adventure?> editAdventure({
-  required String id,
+
+  static Future<Adventure?> editAdventure({
+    required String id,
     required String nameAr,
     required String nameEn,
     required String descriptionAr,
@@ -240,7 +240,7 @@ class AdventureService {
     required String regionAr,
     required String locationUrl,
     required String regionEn,
-    String?Genre,
+    String? Genre,
     // required List<Map<String, dynamic>> times,
     required String start,
     required String end,
@@ -251,62 +251,55 @@ class AdventureService {
     final getStorage = GetStorage();
     final String? token = getStorage.read('accessToken');
 
-    final response = await http.put(  Uri.parse('$baseUrl/adventure/$id')
+    final response = await http.put(
+      Uri.parse('$baseUrl/adventure/$id')
           .replace(queryParameters: ({'id': id})),
-    
-        headers: {
-          'Accept': 'application/json',
-          "Content-Type": "application/json",
-          'Authorization': 'Bearer $token',
-        },
-      body: json.encode({
-      "nameAr": nameAr.trim(),
-      "nameEn": nameEn.trim(),
-      "descriptionAr": descriptionAr,
-      "descriptionEn": descriptionEn,
-      "price": price,
-      "image": image,
-      "date": date,
-      "coordinates": {
-        "longitude": longitude,
-        "latitude": latitude
+      headers: {
+        'Accept': 'application/json',
+        "Content-Type": "application/json",
+        'Authorization': 'Bearer $token',
       },
-      "times": [
-        {
-          "startTime": start,
-          "endTime": end
-        }
-      ],
-      "locationUrl": locationUrl,
-      "regionAr": regionAr,
-      "regionEn": regionEn,
-      "seats": seat,
-      "adventureGenre": Genre,
-    }),
-  );
-  
+      body: json.encode({
+        "nameAr": nameAr.trim(),
+        "nameEn": nameEn.trim(),
+        "descriptionAr": descriptionAr,
+        "descriptionEn": descriptionEn,
+        "price": price,
+        "image": image,
+        "date": date,
+        "coordinates": {"longitude": longitude, "latitude": latitude},
+        "times": [
+          {"startTime": start, "endTime": end}
+        ],
+        "locationUrl": locationUrl,
+        "regionAr": regionAr,
+        "regionEn": regionEn,
+        "seats": seat,
+        "adventureGenre": Genre,
+      }),
+    );
 
-print("Response status code: ${response.statusCode}");
+    print("Response status code: ${response.statusCode}");
 
-  if (response.statusCode == 200) {
-    try {
-      var adventureData = jsonDecode(response.body);
-      print('Hospitality updated: $adventureData');
-      return Adventure.fromJson(adventureData);
-    } catch (e) {
-      print('Error parsing JSON response: $e');
+    if (response.statusCode == 200) {
+      try {
+        var adventureData = jsonDecode(response.body);
+        print('Hospitality updated: $adventureData');
+        return Adventure.fromJson(adventureData);
+      } catch (e) {
+        print('Error parsing JSON response: $e');
+        return null;
+      }
+    } else {
+      String errorMessage = jsonDecode(response.body)['message'];
+      if (context.mounted) {
+        AppUtil.errorToast(context, errorMessage);
+      }
       return null;
     }
-  } else {
-    String errorMessage = jsonDecode(response.body)['message'];
-    if (context.mounted) {
-      AppUtil.errorToast(context, errorMessage);
-    }
-    return null;
   }
-}
 
-static Future<bool?>  AdventureDelete(
+  static Future<bool?> AdventureDelete(
       {required BuildContext context, required String adventureId}) async {
     final getStorage = GetStorage();
     String token = getStorage.read('accessToken') ?? "";
@@ -322,7 +315,7 @@ static Future<bool?>  AdventureDelete(
 
     final response = await http.delete(
       Uri.parse('$baseUrl/adventure/$adventureId'),
-       headers: {
+      headers: {
         'Accept': 'application/json',
         "Content-Type": "application/json",
         'Authorization': 'Bearer $token',
@@ -342,13 +335,9 @@ static Future<bool?>  AdventureDelete(
     }
   }
 
-
-
-
-   static Future<List<Adventure>?> getUserTicket({
+  static Future<List<Adventure>?> getUserTicket({
     required String adventureType,
     required BuildContext context,
-
   }) async {
     print(" getUpcomingTicket ");
     final getStorage = GetStorage();
@@ -383,7 +372,7 @@ static Future<bool?>  AdventureDelete(
     }
   }
 
- static Future<AdventureSummary?> getAdventureSummaryById({
+  static Future<AdventureSummary?> getAdventureSummaryById({
     required BuildContext context,
     required String id,
   }) async {
@@ -423,5 +412,4 @@ static Future<bool?>  AdventureDelete(
       return null;
     }
   }
-
 }

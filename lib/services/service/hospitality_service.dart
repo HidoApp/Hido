@@ -50,9 +50,7 @@ class HospitalityService {
       return data.map((place) => Hospitality.fromJson(place)).toList();
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
-      if (context.mounted) {
-        AppUtil.errorToast(context, errorMessage);
-      }
+      log(errorMessage);
       return null;
     }
   }

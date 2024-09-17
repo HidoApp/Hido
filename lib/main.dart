@@ -10,6 +10,7 @@ import 'package:ajwad_v4/new-onboarding/view/splash_screen.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/view/messages_screen.dart';
 import 'package:ajwad_v4/services/view/service_screen.dart';
+import 'package:ajwad_v4/widgets/error_screen_widget.dart';
 import 'package:amplitude_flutter/amplitude.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -72,6 +73,7 @@ void main() async {
   } catch (error) {
     print("Firebase initialization error: $error");
   }
+  if (kReleaseMode) ErrorWidget.builder = (_) => const ErrorScreenWidget();
 }
 
 class MyApp extends StatefulWidget {
@@ -126,8 +128,8 @@ class _MyAppState extends State<MyApp> {
         home: const SplashScreen(),
         navigatorKey: navigatorKey,
         routes: {
-         //'/tourist_bottom_bar': (context) => const TouristBottomBar(),
-        '/notification_screen': (context) => NotificationScreen(),
+          //'/tourist_bottom_bar': (context) => const TouristBottomBar(),
+          '/notification_screen': (context) => NotificationScreen(),
         },
         //  home: const CheckOutScreen(),
       ),
