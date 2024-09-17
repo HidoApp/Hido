@@ -32,8 +32,9 @@ class TouristExploreController extends GetxController {
   var activeStepProgres = (-1).obs;
   var timerSec = 300.obs;
   var isTimerEnabled = true.obs;
-  var currentLocation =  LatLng(24.7136, 46.6753).obs;
-  var showSheet= true.obs;
+  var currentLocation = LatLng(24.7136, 46.6753).obs;
+  var showSheet = true.obs;
+  var updateMap = true.obs;
   Rx<ActivityProgress?> activityProgres = ActivityProgress().obs;
   Rx<TouristMapModel?> touristModel = TouristMapModel().obs;
 

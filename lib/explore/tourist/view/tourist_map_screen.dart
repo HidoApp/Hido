@@ -103,7 +103,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   int startIndex = -1;
   bool isSendTapped = false;
   //bool showSheet = true;
-  bool isNew = true;
+  bool isNew = false;
 
   void getActivityProgress() async {
     await _touristExploreController
@@ -125,10 +125,11 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   Future<void> _animateCamera(
       {required double latitude, required double longitude}) async {
     if (mounted) {
-      _touristExploreController.currentLocation.value =
-          LatLng(latitude, longitude);
+      setState(() {
+        _currentLocation = LatLng(latitude, longitude);
+      });
     }
-    // marker added for current user location
+
     _markers.add(Marker(
       markerId: const MarkerId('icon'),
       icon: markerIcon,
@@ -141,13 +142,15 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
       position: LatLng(latitude, longitude),
     ));
 
-    _googleMapController = await _controller.future;
-    CameraPosition newCameraPosition = CameraPosition(
-      target: LatLng(latitude, longitude),
-      zoom: 10,
-    );
-    _googleMapController
-        .animateCamera(CameraUpdate.newCameraPosition(newCameraPosition));
+    if (mounted) {
+      final GoogleMapController controller = await _controller.future;
+      CameraPosition newCameraPosition = CameraPosition(
+        target: LatLng(latitude, longitude),
+        zoom: 10,
+      );
+      controller
+          .animateCamera(CameraUpdate.newCameraPosition(newCameraPosition));
+    }
   }
 
   Future<void> _loadMapStyles() async {
@@ -160,10 +163,10 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   void getLocation() async {
     userLocation = await LocationService().getUserLocation();
 
-    if (userLocation != null) {
+    if (mounted && userLocation != null) {
       _animateCamera(
           latitude: userLocation!.latitude, longitude: userLocation!.longitude);
-    } else {
+    } else if (mounted) {
       _animateCamera(latitude: 24.7136, longitude: 46.6753);
     }
   }
@@ -183,7 +186,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   @override
   void initState() {
     super.initState();
-    isNew = true;
+    _touristExploreController.isNewMarkers.value = true;
     if (!AppUtil.isGuest()) {
       getUserActions();
     }
@@ -207,7 +210,9 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   void getPlaces() async {
     await _touristExploreController.touristMap(
         context: context, tourType: "PLACE");
-    isNew = true;
+    if (!mounted) return; // Ensure the widget is still mounted
+
+    _touristExploreController.isNewMarkers.value = true;
     genreateMarkers();
     if (!AppUtil.isGuest()) {
       getBooking();
@@ -215,6 +220,8 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   }
 
   void genreateMarkers() {
+    if (!mounted) return; // Check if the widget is still mounted
+
     customMarkers = List.generate(
       _touristExploreController.touristModel.value!.places!.length,
       (index) {
@@ -414,21 +421,23 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                       mapType: MapType.normal,
                       onMapCreated: (controller) {
                         _controller.complete(controller);
-                        _loadMapStyles();
+
+                        // _loadMapStyles();
                       },
                       onCameraMove: (position) {
                         _touristExploreController.currentLocation.value =
                             position.target;
+                        // setState(() {});
                       },
                     ),
                   );
                 }
-                if (isNew) {
+                if (_touristExploreController.isNewMarkers.value) {
                   print('NEWW');
                   storage.write('markers', markers.toList()).then((val) {
-                    setState(() {
-                      isNew = false;
-                    });
+                    _touristExploreController.isNewMarkers.value = false;
+                    _touristExploreController.updateMap(true);
+                    setState(() {});
                   });
                 }
                 return Obx(
@@ -443,9 +452,14 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                     mapType: MapType.normal,
                     onMapCreated: (controller) {
                       _controller.complete(controller);
-                      _loadMapStyles();
+                      // _loadMapStyles();
                     },
                     onCameraMove: (position) {
+                      // if (_touristExploreController.updateMap.value) {
+                      //   _touristExploreController.updateMap(false);
+                      // }
+                      setState(() {});
+
                       _touristExploreController.currentLocation.value =
                           position.target;
                     },
