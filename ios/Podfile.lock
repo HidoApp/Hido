@@ -1,9 +1,9 @@
 PODS:
-  - Amplitude (8.18.0):
-    - AnalyticsConnector (~> 1.0.0)
   - amplitude_flutter (0.0.1):
-    - Amplitude (= 8.18.0)
+    - AmplitudeSwift (~> 1.6)
     - Flutter
+  - AmplitudeSwift (1.9.2):
+    - AnalyticsConnector (~> 1.0.1)
   - AnalyticsConnector (1.0.3)
   - awesome_notifications (0.8.1):
     - Flutter
@@ -267,7 +267,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
-    - Amplitude
+    - AmplitudeSwift
     - AnalyticsConnector
     - DKImagePickerController
     - DKPhotoGallery
@@ -344,8 +344,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/webview_flutter_wkwebview/ios"
 
 SPEC CHECKSUMS:
-  Amplitude: 184def4f87aa26f94a93a7faa334e06b1cae704d
-  amplitude_flutter: 0f617f89d62b10c40a0ab14849e660a7c12e4e46
+  amplitude_flutter: aed4ad5d2da06894245fde7e8c56fed39ac6dca8
+  AmplitudeSwift: 6c2c689f7dc83e6d9d90b7f53b93433c1436196a
   AnalyticsConnector: a53214d38ae22734c6266106c0492b37832633a9
   awesome_notifications: db394d2e061e4583ba0f738ddea611e3986cc3fb
   connectivity_plus: ddd7f30999e1faaef5967c23d5b6d503d10434db

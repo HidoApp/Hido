@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/auth/services/auth_service.dart';
+import 'package:ajwad_v4/auth/view/ajwadi_register/vehicle_details.dart';
 import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/new-onboarding/view/account_type_screen.dart';
@@ -300,6 +301,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Get.to(() => const BookmarkScreen());
                         },
                       ),
+                    CustomListTile(
+                      title: "bookmark".tr,
+                      leading: "assets/icons/bookmark_icon_profile.svg",
+                      iconColor: black,
+                      onTap: () async {
+                        Get.to(() => const VehicleDetails());
+                      },
+                    ),
                   ],
                 ),
                 Padding(
