@@ -59,6 +59,7 @@ class _PhoneOTPState extends State<PhoneOTP> {
         _authController.activeBar(1);
         Get.offAll(() => const AjwadiBottomBar());
         storage.remove('localName');
+        storage.write('userRole', 'local');
       }
     }
   }
@@ -151,7 +152,7 @@ class _PhoneOTPState extends State<PhoneOTP> {
                 length: 4,
 
                 onCompleted: (value) {
-                      log("enter oncompleted");
+                  log("enter oncompleted");
                   switch (widget.type) {
                     case 'stepper':
                       stepper(value);

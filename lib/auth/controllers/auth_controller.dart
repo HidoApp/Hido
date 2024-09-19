@@ -27,7 +27,7 @@ class AuthController extends GetxController {
   var birthDateDay = ''.obs;
   var agreeForTerms = false.obs;
   var isAgreeForTerms = true.obs;
-
+  var isSendVehicleDetails = false.obs;
   var isSignUpRowad = false.obs;
   var isCreateAccountLoading = false.obs;
   var isCreateOtpLoading = false.obs;
@@ -64,6 +64,15 @@ class AuthController extends GetxController {
   var showResetPassword = false.obs;
   var showResetConfirmedPassword = false.obs;
   var isInternetConnected = true.obs;
+
+  var plateNumber1 = ''.obs;
+  var plateNumber2 = ''.obs;
+  var plateNumber3 = ''.obs;
+  var plateNumber4 = ''.obs;
+  var plateletter1 = ''.obs;
+  var plateletter2 = ''.obs;
+  var plateletter3 = ''.obs;
+  var selectedRide = ''.obs;
 
   // 1 GET COUNTRIES ..
   Future<List<String>?> getListOfCountries(BuildContext context) async {
@@ -519,6 +528,34 @@ class AuthController extends GetxController {
       return null;
     } finally {
       isCheckLocalLoading(false);
+    }
+  }
+
+  Future<bool> sendVehcileDetails({
+    required BuildContext context,
+    required String plateletter1,
+    required String plateletter2,
+    required String plateLetter3,
+    required String plateNumber,
+    required String vehicleType,
+    required String vehicleSerialNumber,
+  }) async {
+    try {
+      isSendVehicleDetails(true);
+      final isSuccess = await AuthService.sendVehcileDetails(
+          context: context,
+          plateletter1: plateletter1,
+          plateletter2: plateletter2,
+          plateLetter3: plateLetter3,
+          plateNumber: plateNumber,
+          vehicleType: vehicleType,
+          vehicleSerialNumber: vehicleSerialNumber);
+      return isSuccess;
+    } catch (e) {
+      isSendVehicleDetails(false);
+      return false;
+    } finally {
+      isSendVehicleDetails(false);
     }
   }
 }

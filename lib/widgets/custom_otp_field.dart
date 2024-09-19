@@ -1,80 +1,81 @@
+import 'dart:ui';
+
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class CustomOTPField extends StatelessWidget {
   const CustomOTPField({
     super.key,
+    required this.validator,
     required this.onChanged,
-    this.validator = true,
-    this.isAjwadi = false,
+    required this.formatter,
+    required this.hint,
+    this.keyboardType,
   });
 
   final ValueChanged<String> onChanged;
-  final bool validator;
-  final bool isAjwadi;
+  final String? Function(String?)? validator;
+  final TextInputFormatter formatter;
+  final TextInputType? keyboardType;
+  final String hint;
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 57,
-      height: 95,
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
+      width: 40,
+      height: 70,
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
       child: TextFormField(
         autofocus: true,
-        keyboardType: TextInputType.number,
+        keyboardType: keyboardType,
         textAlign: TextAlign.center,
-        validator: validator
-            ? (v) {
-                if (v!.isEmpty) {
-                  return '*';
-                }
-                return null;
-              }
-            : null,
+        validator: validator,
         textInputAction: TextInputAction.next,
         cursorColor: const Color(0xFF969696),
-        decoration: const InputDecoration(
+        cursorHeight: 10,
+        decoration: InputDecoration(
           //   errorText: '*',
-          enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey, width: 0.8),
+          enabledBorder: const OutlineInputBorder(
+              borderSide: BorderSide(color: borderGrey, width: 0.8),
               borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(15),
-                topRight: Radius.circular(15),
-                bottomLeft: Radius.circular(15),
-                bottomRight: Radius.circular(15),
+                topLeft: Radius.circular(8),
+                topRight: Radius.circular(8),
+                bottomLeft: Radius.circular(8),
+                bottomRight: Radius.circular(8),
               )),
-          focusedBorder: OutlineInputBorder(
+          focusedBorder: const OutlineInputBorder(
               borderSide: BorderSide(
                 color: colorGreen,
                 width: 0.9,
               ),
               borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(15),
-                topRight: Radius.circular(15),
-                bottomLeft: Radius.circular(15),
-                bottomRight: Radius.circular(15),
+                topLeft: Radius.circular(8),
+                topRight: Radius.circular(8),
+                bottomLeft: Radius.circular(8),
+                bottomRight: Radius.circular(8),
               )),
-          errorBorder: OutlineInputBorder(
+          errorBorder: const OutlineInputBorder(
               borderSide: BorderSide(
                 color: colorDarkRed,
                 width: 0.9,
               ),
               borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(15),
-                topRight: Radius.circular(15),
-                bottomLeft: Radius.circular(15),
-                bottomRight: Radius.circular(15),
+                topLeft: Radius.circular(8),
+                topRight: Radius.circular(8),
+                bottomLeft: Radius.circular(8),
+                bottomRight: Radius.circular(8),
               )),
-          focusedErrorBorder: OutlineInputBorder(
+          focusedErrorBorder: const OutlineInputBorder(
               borderSide: BorderSide(
                 color: colorDarkRed,
                 width: 0.9,
               ),
               borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(15),
-                topRight: Radius.circular(15),
-                bottomLeft: Radius.circular(15),
-                bottomRight: Radius.circular(15),
+                topLeft: Radius.circular(8),
+                topRight: Radius.circular(8),
+                bottomLeft: Radius.circular(8),
+                bottomRight: Radius.circular(8),
               )),
           // border: OutlineInputBorder(
           //   borderRadius:BorderRadius.only(
@@ -85,14 +86,17 @@ class CustomOTPField extends StatelessWidget {
           // )
           //
           //   ,),
-          hintText: "",
+          hintText: hint,
           helperText: ' ',
+          hintStyle: TextStyle(
+              fontSize: MediaQuery.of(context).size.width * 0.038,
+              fontFamily:
+                  AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+              color: Graytext,
+              fontWeight: FontWeight.w400),
         ),
-        style: TextStyle(color: colorGreen, fontSize: 23),
-        inputFormatters: [
-          LengthLimitingTextInputFormatter(1),
-          FilteringTextInputFormatter.digitsOnly,
-        ],
+        style: const TextStyle(color: colorGreen, fontSize: 15),
+        inputFormatters: [LengthLimitingTextInputFormatter(1), formatter],
         onChanged: onChanged,
       ),
     );

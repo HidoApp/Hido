@@ -904,6 +904,54 @@ class AuthService {
     }
   }
 
+  static Future<bool> sendVehcileDetails({
+    required BuildContext context,
+    required String plateletter1,
+    required String plateletter2,
+    required String plateLetter3,
+    required String plateNumber,
+    required String vehicleType,
+    required String vehicleSerialNumber,
+  }) async {
+    final getStorage = GetStorage();
+    String token = getStorage.read('accessToken') ?? "";
+    if (token != '' && JwtDecoder.isExpired(token)) {
+      final authController = Get.put(AuthController());
+
+      String refreshToken = getStorage.read('refreshToken');
+      var user = await authController.refreshToken(
+          refreshToken: refreshToken, context: context);
+      token = getStorage.read('accessToken');
+    }
+    final response = await http.post(
+        Uri.parse(
+          '$baseUrl/user/vehicle',
+        ),
+        headers: {
+          'Accept': 'application/json',
+          "Content-Type": "application/json",
+          'Authorization': ' Bearer $token'
+        },
+        body: jsonEncode({
+          "plateText1": plateletter1,
+          "plateText2": plateletter2,
+          "plateText3": plateLetter3,
+          "plateNumber": int.parse(plateNumber),
+          "vehicleClassDescEn": 'Sedan',
+          "vehicleSequenceNumber": vehicleSerialNumber,
+        }));
+    log(response.statusCode.toString());
+    log(response.body.toString());
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      String errorMessage = jsonDecode(response.body)['message'];
+
+      AppUtil.errorToast(context, errorMessage);
+      return false;
+    }
+  }
+
   static Future<bool> createOtp(
       {required BuildContext context, required String phoneNumber}) async {
     final response = await http.post(Uri.parse('$baseUrl/otp'),

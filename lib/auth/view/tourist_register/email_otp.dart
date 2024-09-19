@@ -115,38 +115,38 @@ class _EmailOTPScreenState extends State<EmailOTPScreen>
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                CustomOTPField(
-                                  onChanged: (value) {
-                                    if (value.isNotEmpty) {
-                                      code1 = value;
-                                      FocusScope.of(context).nextFocus();
-                                    }
-                                  },
-                                ),
-                                CustomOTPField(
-                                  onChanged: (value) {
-                                    if (value.isNotEmpty) {
-                                      code2 = value;
-                                      FocusScope.of(context).nextFocus();
-                                    }
-                                  },
-                                ),
-                                CustomOTPField(
-                                  onChanged: (value) {
-                                    if (value.isNotEmpty) {
-                                      code3 = value;
-                                      FocusScope.of(context).nextFocus();
-                                    }
-                                  },
-                                ),
-                                CustomOTPField(
-                                  onChanged: (value) {
-                                    if (value.isNotEmpty) {
-                                      code4 = value;
-                                      FocusScope.of(context).nextFocus();
-                                    }
-                                  },
-                                ),
+                                // CustomOTPField(
+                                //   onChanged: (value) {
+                                //     if (value.isNotEmpty) {
+                                //       code1 = value;
+                                //       FocusScope.of(context).nextFocus();
+                                //     }
+                                //   },
+                                // ),
+                                // CustomOTPField(
+                                //   onChanged: (value) {
+                                //     if (value.isNotEmpty) {
+                                //       code2 = value;
+                                //       FocusScope.of(context).nextFocus();
+                                //     }
+                                //   },
+                                // ),
+                                // CustomOTPField(
+                                //   onChanged: (value) {
+                                //     if (value.isNotEmpty) {
+                                //       code3 = value;
+                                //       FocusScope.of(context).nextFocus();
+                                //     }
+                                //   },
+                                // ),
+                                // CustomOTPField(
+                                //   onChanged: (value) {
+                                //     if (value.isNotEmpty) {
+                                //       code4 = value;
+                                //       FocusScope.of(context).nextFocus();
+                                //     }
+                                //   },
+                                // ),
                               ],
                             )),
                       ),

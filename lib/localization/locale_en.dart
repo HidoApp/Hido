@@ -687,4 +687,5 @@ const localeEn = {
   'errorSheetHint': 'Please provide a brief description of the problem',
   'offlineTitle': "No Internet connection",
   'offlineSubTitle': 'Please check your connection and try again',
+  'errorFieldsAll': 'Please fill in all required fields'
 };

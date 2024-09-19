@@ -46,21 +46,21 @@ class _LegalDocumentState extends State<LegalDocument> {
           SizedBox(
             height: width * 0.051,
           ),
-          Obx(
-            () => _profileController.isProfileLoading.value
-                ? Container()
-                : AccountTile(
-                    title: 'vehicleLicense'.tr,
-                    subtitle: _profileController.profile.vehicleIdNumber,
-                    onTap: () => Get.bottomSheet(const VehcileSheet()),
-                  ),
-          ),
-          const Divider(
-            color: lightGrey,
-          ),
-          SizedBox(
-            height: width * 0.051,
-          ),
+          // Obx(
+          //   () => _profileController.isProfileLoading.value
+          //       ? Container()
+          //       : AccountTile(
+          //           title: 'vehicleLicense'.tr,
+          //           subtitle: _profileController.profile.vehicleIdNumber,
+          //           onTap: () => Get.bottomSheet(const VehcileSheet()),
+          //         ),
+          // ),
+          // const Divider(
+          //   color: lightGrey,
+          // ),
+          // SizedBox(
+          //   height: width * 0.051,
+          // ),
           AccountTile(
               title: 'tourLicense'.tr,
               onTap: () => Get.bottomSheet(const TourLicenseSheet())),
