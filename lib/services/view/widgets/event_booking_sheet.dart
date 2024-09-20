@@ -53,7 +53,7 @@ class _EventBookingSheetState extends State<EventBookingSheet> {
     DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
 
     Duration difference = parsedDateInRiyadh.difference(currentDateInRiyadh);
-    print(difference);
+
     return difference.inHours > 24;
   }
 
@@ -66,10 +66,10 @@ class _EventBookingSheetState extends State<EventBookingSheet> {
 
     //DateTime selectedDate = DateTime.parse(widget.serviceController.selectedDate.value);
 
-    // print(selectedDate);
-    // print(currentDate);
+    //
+    //
     // ignore: unrelated_type_equality_checks
-    // print(selectedDate == currentDate);
+    //
     // ignore: unrelated_type_equality_checks
     //return selectedDate== currentDate;
 
@@ -81,10 +81,6 @@ class _EventBookingSheetState extends State<EventBookingSheet> {
         selectedDate.day, Date.hour, Date.minute, Date.second);
 
     DateTime bookingDeadline = hostStartDate.subtract(Duration(hours: 24));
-
-    print(hostStartDate);
-    print(currentDateInRiyadh);
-    print(bookingDeadline);
 
     return bookingDeadline.isBefore(currentDateInRiyadh);
   }
@@ -161,7 +157,6 @@ class _EventBookingSheetState extends State<EventBookingSheet> {
                   : Alignment.centerRight,
               child: CustomTextWithIconButton(
                 onTap: () {
-                  print("object");
                   setState(() {
                     selectedChoice = 3;
                   });

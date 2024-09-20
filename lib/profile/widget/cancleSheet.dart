@@ -43,9 +43,6 @@ class _CancelSheetState extends State<CancelSheet> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.bookId);
-    print(widget.type.toUpperCase());
-    print(textField2Controller.text);
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Container(
@@ -176,14 +173,12 @@ class _CancelSheetState extends State<CancelSheet> {
                               await Future.delayed(const Duration(seconds: 1));
                             }
                             Get.offAll(const TouristBottomBar());
-                          }else{
-                            
+                          } else {
                             if (context.mounted) {
                               AppUtil.errorToast(context, 'noEndTrip'.tr);
                               await Future.delayed(const Duration(seconds: 2));
                             }
                           }
-                          
                         },
                         title: 'Confirm'.tr,
                         buttonColor: Color(0xFFDC362E),

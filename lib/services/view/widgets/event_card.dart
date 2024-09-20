@@ -45,16 +45,13 @@ class _EventCardItemState extends State<EventCardItem> {
     try {
       List<Placemark> placemarks =
           await placemarkFromCoordinates(position1, position2);
-      print(placemarks);
 
       if (placemarks.isNotEmpty) {
         Placemark placemark = placemarks.first;
-        print(placemarks.first);
+
         return '${placemark.locality}, ${placemark.subLocality}';
       }
-    } catch (e) {
-      print("Error retrieving address: $e");
-    }
+    } catch (e) {}
     return '';
   }
 
@@ -66,7 +63,6 @@ class _EventCardItemState extends State<EventCardItem> {
       address.value = result;
     } catch (e) {
       // Handle error if necessary
-      print('Error fetching address: $e');
     }
   }
 

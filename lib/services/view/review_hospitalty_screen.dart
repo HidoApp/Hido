@@ -57,11 +57,8 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
 
   @override
   Widget build(BuildContext context) {
-    print('hospitalityDate');
-    print(widget.hospitality.id);
-
-    // print(fetchedBooking?.bookingType);
-    final height= MediaQuery.of(context).size.height;
+    //
+    final height = MediaQuery.of(context).size.height;
 
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -87,10 +84,10 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                 ),
                 ReviewDetailsTile(
                     title: widget.servicesController.address.value.isNotEmpty
-                    ?widget.servicesController.address.value
-                    : AppUtil.rtlDirection2(context)
-                        ? widget.hospitality  .regionAr ?? ""
-                        : widget.hospitality .regionEn ?? "",
+                        ? widget.servicesController.address.value
+                        : AppUtil.rtlDirection2(context)
+                            ? widget.hospitality.regionAr ?? ""
+                            : widget.hospitality.regionEn ?? "",
                     image: "assets/icons/map_pin.svg"),
                 SizedBox(
                   height: width * 0.010,
@@ -100,7 +97,7 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                     title:
                         '${AppUtil.formatTimeOnly(context, widget.hospitality.daysInfo.first.startTime)} - ${AppUtil.formatTimeOnly(context, widget.hospitality.daysInfo.first.endTime)} ',
                     image: "assets/icons/Clock.svg"),
-                 SizedBox(
+                SizedBox(
                   height: width * 0.010,
                 ),
                 ReviewDetailsTile(
@@ -123,7 +120,7 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                   fontSize: width * 0.043,
                   fontWeight: FontWeight.w500,
                 ),
-                  SizedBox(
+                SizedBox(
                   height: width * 0.0205,
                 ),
                 if (widget.maleGuestNum != 0)
@@ -136,7 +133,7 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                     guest: widget.femaleGuestNum,
                     title: 'female'.tr,
                   ),
-                   SizedBox(
+                SizedBox(
                   height: width * 0.041,
                 ),
                 const Divider(
@@ -157,11 +154,10 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                   color: almostGrey,
                   text: AppUtil.formatBookingDate(
                       context, widget.servicesController.selectedDate.value),
-         fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
-
-              
+                  fontFamily:
+                      AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
                 ),
-                  SizedBox(
+                SizedBox(
                   height: width * 0.041,
                 ),
                 const Divider(
@@ -172,16 +168,16 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                 ),
                 //discount widget
                 const PromocodeField(),
-                 SizedBox(
-                          height: width * 0.061,
-                        ),
-                        DottedSeparator(
-                          color: almostGrey,
-                          height: width * 0.002,
-                        ),
-                        SizedBox(
-                          height: width * 0.09,
-                        ),
+                SizedBox(
+                  height: width * 0.061,
+                ),
+                DottedSeparator(
+                  color: almostGrey,
+                  height: width * 0.002,
+                ),
+                SizedBox(
+                  height: width * 0.09,
+                ),
                 Row(
                   children: [
                     CustomText(

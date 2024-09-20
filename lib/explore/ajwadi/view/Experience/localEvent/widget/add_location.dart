@@ -57,9 +57,9 @@ class _AddEventLocationState extends State<AddEventLocation> {
   void getLocation() async {
     userLocation = await LocationService().getUserLocation();
     //Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    print('this location');
-    // print(position.latitude);
-//print(position.longitude);
+
+    //
+//
 
     if (userLocation != null) {
       setState(() {
@@ -94,12 +94,8 @@ class _AddEventLocationState extends State<AddEventLocation> {
               '${placemark.locality}, ${placemark.subLocality}, ${placemark.country}';
           // address = '${placemarks.first.country} - ${placemarks.first.locality} - ${placemarks.first.name} - ${placemarks.first.street}';
         });
-        print(widget.textField1Controller.text);
-        print('this location');
       }
-    } catch (e) {
-      print(e);
-    }
+    } catch (e) {}
   }
 
   @override
@@ -131,17 +127,13 @@ class _AddEventLocationState extends State<AddEventLocation> {
     try {
       List<Placemark> placemarks =
           await placemarkFromCoordinates(position1, position2);
-      print(placemarks);
 
       if (placemarks.isNotEmpty) {
         Placemark placemark = placemarks.first;
-        print(placemarks.first);
 
         return '${placemark.locality}, ${placemark.subLocality}, ${placemark.country}';
       }
-    } catch (e) {
-      print("Error retrieving address: $e");
-    }
+    } catch (e) {}
     return '';
   }
 
@@ -195,10 +187,6 @@ class _AddEventLocationState extends State<AddEventLocation> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-
-    print(address);
-    print('this location');
-    print(_EventrController.pickUpLocLatLang.toString());
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -497,8 +485,6 @@ class _AddEventLocationState extends State<AddEventLocation> {
                                     regionListAr[index];
                               }
                             }
-                            print(_EventrController.ragionAr.value);
-                            print(_EventrController.ragionEn.value);
                           },
                           onSaved: (value) {
                             if (AppUtil.rtlDirection2(context)) {
@@ -524,8 +510,6 @@ class _AddEventLocationState extends State<AddEventLocation> {
                                     regionListAr[index];
                               }
                             }
-                            print(_EventrController.ragionAr.value);
-                            print(_EventrController.ragionEn.value);
                           },
                           buttonStyleData: ButtonStyleData(
                             padding: AppUtil.rtlDirection2(context)

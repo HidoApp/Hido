@@ -286,8 +286,6 @@ class _ServiceScreenState extends State<ServiceScreen>
                     EdgeInsets.symmetric(horizontal: width * 0.02, vertical: 0),
                 onTap: (index) {
                   _srvicesController.tabIndex.value = index;
-                  print(_tabController.index);
-                  print("_tabController");
                 },
 
                 tabs: [

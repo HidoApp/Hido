@@ -52,7 +52,7 @@ class HospitalityController extends GetxController {
   var ragionAr = "".obs;
   var ragionEn = "".obs;
   var tabIndex = 0.obs;
-  var addresHostCard=''.obs;
+  var addresHostCard = ''.obs;
   // Rx<LatLng> pickUpLocLatLang = const LatLng(24.9470921, 45.9903698).obs;
   Rx<LatLng> pickUpLocLatLang = const LatLng(24.6264, 46.544731).obs;
 
@@ -67,7 +67,6 @@ class HospitalityController extends GetxController {
       }
       return hospitalityList;
     } catch (e) {
-      print(e);
       isHospitalityLoading(false);
       return null;
     } finally {
@@ -80,7 +79,6 @@ class HospitalityController extends GetxController {
     required String id,
   }) async {
     try {
-      print("TRUE");
       isHospitalityByIdLoading(true);
       final data =
           await HospitalityService.getHospitalityById(context: context, id: id);
@@ -98,7 +96,7 @@ class HospitalityController extends GetxController {
   //   required String id,
   // }) async {
   //   try {
-  //     print("TRUE");
+  //
   //     isHospitalityByIdLoading(true);
   //     final data =
   //         await HospitalityService.getAdvdentureById(context: context, id: id);
@@ -123,12 +121,10 @@ class HospitalityController extends GetxController {
     required int cost,
   }) async {
     try {
-      print("TRUE chek from controller");
       isCheckAndBookLoading(true);
       print(
           '  \ncheck: $check, \n hospitalityId:$hospitalityId, paymentId: $paymentId,\n ,date: $date,dayId: $dayId, numOfFemale: $numOfFemale, numOfMale: $numOfMale, cost: $cost');
-      print(isCheckAndBookLoading);
-      print(hospitalityId);
+
       final data = await HospitalityService.checkAndBookHospitality(
           context: context,
           check: check,
@@ -139,12 +135,9 @@ class HospitalityController extends GetxController {
           numOfFemale: numOfFemale,
           numOfMale: numOfMale,
           cost: cost);
-      print("data from controller");
-      print(data);
 
       return data;
     } catch (e) {
-      print(e);
       isCheckAndBookLoading(false);
       return false;
     } finally {
@@ -157,7 +150,6 @@ class HospitalityController extends GetxController {
     required String hospitalityId,
   }) async {
     try {
-      print("TRUE");
       isCheckAndBookLoading(true);
       final data = await HospitalityService.hospitalityPayment(
         context: context,
@@ -165,7 +157,6 @@ class HospitalityController extends GetxController {
       );
       return data;
     } catch (e) {
-      print(e);
       isCheckAndBookLoading(false);
       return null;
     } finally {
@@ -199,7 +190,6 @@ class HospitalityController extends GetxController {
         );
         return data;
       } catch (e) {
-        print(e);
         return null;
       } finally {
         isCreditCardPaymentLoading(false);
@@ -230,7 +220,7 @@ class HospitalityController extends GetxController {
     required int seat,
     required BuildContext context,
   }) async {
-    //print(rememberMe);
+    //
     try {
       isSaudiHospitalityLoading(true);
       final isSuccess = await HospitalityService.createHospitality(
@@ -254,7 +244,6 @@ class HospitalityController extends GetxController {
           seat: seat,
           context: context);
 
-      print(isSuccess);
       return isSuccess;
     } catch (e) {
       return false;
@@ -276,8 +265,6 @@ class HospitalityController extends GetxController {
 
       return isSucces;
     } catch (e) {
-      print('error');
-      print(e);
       return null;
     } finally {
       isImagesLoading(false);
@@ -337,7 +324,6 @@ class HospitalityController extends GetxController {
         return null;
       }
     } catch (e) {
-      print(e);
       return null;
     } finally {
       isEditHospitalityLoading(false);
@@ -356,16 +342,15 @@ class HospitalityController extends GetxController {
       );
       if (data != null) {
         upcommingTicket(data);
-        print("object controller");
-        print(data.length);
-        //print(upcommingTicket.first.place?.nameAr);
+
+        //
         return upcommingTicket;
       } else {
         return null;
       }
     } catch (e) {
       isUpcommingTicketLoading(false);
-      print(e);
+
       return null;
     } finally {
       isUpcommingTicketLoading(false);
@@ -382,10 +367,8 @@ class HospitalityController extends GetxController {
         hostType: 'PAST',
         context: context,
       );
-      print("this pas 1ticket");
 
       if (data != null) {
-        print("this pas ticket");
         pastTicket(data);
         return pastTicket;
       } else {
@@ -393,7 +376,7 @@ class HospitalityController extends GetxController {
       }
     } catch (e) {
       isPastTicketLoading(false);
-      print(e);
+
       return null;
     } finally {
       isPastTicketLoading(false);
@@ -405,7 +388,6 @@ class HospitalityController extends GetxController {
     required String id,
   }) async {
     try {
-      print("TRUE");
       isHospitalityByIdLoading(true);
       final data = await HospitalityService.getHospitalitySummaryById(
           context: context, id: id);

@@ -87,8 +87,6 @@ class AuthController extends GetxController {
         return null;
       }
     } catch (e) {
-      print(e);
-
       return null;
     } finally {
       isCountryLoading(false);
@@ -116,7 +114,7 @@ class AuthController extends GetxController {
         rememberMe: rememberMe,
         context: context,
       );
-      print(isSuccess);
+
       return isSuccess;
     } catch (e) {
       return false;
@@ -144,8 +142,6 @@ class AuthController extends GetxController {
       return responseBody;
       //return isSuccess;
     } catch (e) {
-      print("isSuccess CONTROLLER FALSE");
-      print(e);
       return null;
     } finally {
       isPersonInfoLoading(false);
@@ -224,11 +220,9 @@ class AuthController extends GetxController {
         userRole: userRole,
         context: context,
       );
-      print("isSuccess CONTROLLER $isSuccess");
+
       return isSuccess;
     } catch (e) {
-      print("isSuccess CONTROLLER FALSE");
-      print(e);
       return false;
     } finally {
       isSigininwithRowad(false);
@@ -250,7 +244,7 @@ class AuthController extends GetxController {
         rememberMe: rememberMe,
         context: context,
       );
-      print(user);
+
       if (user != null) {
         return user;
       } else {
@@ -401,7 +395,7 @@ class AuthController extends GetxController {
   }) async {
     try {
       isLienceseLoading(true);
-      print('expiryDate Controller : $expiryDate');
+
       final isSuccess = await AuthService.getAjwadiLinceseInfo(
         expiryDate: expiryDate,
         transactionId: transactionId,

@@ -82,7 +82,7 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
-    print('im');
+
     return Obx(
       () => chatController.isGetChatByIdLoading.value
           ? Scaffold(body: Center(child: CircularProgressIndicator.adaptive()))
@@ -478,17 +478,21 @@ class _ChatScreenState extends State<ChatScreen> {
                                               chatController
                                                   .chat.messages!.isEmpty)
                                           ? Padding(
-                                            padding: const EdgeInsets.symmetric(vertical:16.0),
-                                            child: Center(
-                                              child: CustomText(
-                                                text: 'StartChat'.tr,
-                                                fontSize: width*0.03,
-                                                fontWeight:FontWeight.w500,
-                                                fontFamily: AppUtil.SfFontType(context),
-                                                color: Graytext,
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 16.0),
+                                              child: Center(
+                                                child: CustomText(
+                                                  text: 'StartChat'.tr,
+                                                  fontSize: width * 0.03,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontFamily:
+                                                      AppUtil.SfFontType(
+                                                          context),
+                                                  color: Graytext,
+                                                ),
                                               ),
-                                            ),
-                                          )
+                                            )
                                           : RefreshIndicator(
                                               color: Colors.green,
                                               onRefresh: () async {
@@ -524,7 +528,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                                   log("isSender $isSender");
                                                   message.senderName;
                                                   message.senderImage;
-                                                  print('this current time2');
+
                                                   print(
                                                     intel.DateFormat(
                                                             'dd/MM/yyyy hh:mm a')
@@ -605,7 +609,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                     child: CustomTextField(
                                       controller: messageController,
                                       hintText: 'HintMessage'.tr,
-                                      
+
                                       suffixIcon: IconButton(
                                         icon: SvgPicture.asset(
                                           'assets/icons/ChatSend.svg',

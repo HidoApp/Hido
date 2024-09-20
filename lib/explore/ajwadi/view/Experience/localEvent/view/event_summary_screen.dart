@@ -13,25 +13,22 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-
 class EventSummaryScreen extends StatefulWidget {
   // final ProfileController profileController;
- final String eventId;
- final String date;
+  final String eventId;
+  final String date;
 
-  const  EventSummaryScreen({
+  const EventSummaryScreen({
     super.key,
-     required this.eventId,
-     required this.date,
+    required this.eventId,
+    required this.date,
   });
 
   @override
   State<EventSummaryScreen> createState() => _AdventureSummaryScreenState();
 }
 
-
-
-class _AdventureSummaryScreenState extends State<EventSummaryScreen>{
+class _AdventureSummaryScreenState extends State<EventSummaryScreen> {
   final String referenceNumber = '#1102238';
   final String titlePlace = 'Juwai Farm';
   final String bookingDate = '25 April 2024';
@@ -45,42 +42,43 @@ class _AdventureSummaryScreenState extends State<EventSummaryScreen>{
     {'name': 'John Doe', 'gender': 'Male'},
     // Add more guests as needed
   ];
- final _servicesController = Get.put(EventController());
-  EventSummary? _summary ;
+  final _servicesController = Get.put(EventController());
+  EventSummary? _summary;
   //List<String> status = ['canceled', 'waiting', 'confirmed'];
 
+  void getEventSummary() async {
+    _summary = await _servicesController.getEventSummaryById(
+        context: context, id: widget.eventId, date: widget.date);
 
-void getEventSummary() async {
-  
-    _summary = await _servicesController.getEventSummaryById(context: context, id: widget.eventId,date:widget.date);
-    print(_summary?.cost);
-     for (var guest in _summary!.touristList) {
-  totalguest += guest.guestNumber;
+    for (var guest in _summary!.touristList) {
+      totalguest += guest.guestNumber;
+    }
   }
 
-}
-
-int totalguest = 0;
-
+  int totalguest = 0;
 
   @override
   void initState() {
     super.initState();
-   getEventSummary();
-  // getTotalGuest();
-   // widget.profileController.getPastTicket(context: context);
-   
+    getEventSummary();
+    // getTotalGuest();
+    // widget.profileController.getPastTicket(context: context);
   }
- OverlayEntry? _overlayEntry;
-  
+
+  OverlayEntry? _overlayEntry;
+
   void _showOverlay(BuildContext context) {
     final overlay = Overlay.of(context)!;
-    
+
     _overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
         top: 117,
-        left: AppUtil.rtlDirection2(context)? MediaQuery.of(context).size.width * 0.35:null,
-        right:AppUtil.rtlDirection2(context)?null: MediaQuery.of(context).size.width * 0.35,
+        left: AppUtil.rtlDirection2(context)
+            ? MediaQuery.of(context).size.width * 0.35
+            : null,
+        right: AppUtil.rtlDirection2(context)
+            ? null
+            : MediaQuery.of(context).size.width * 0.35,
         child: Material(
           color: Colors.transparent,
           child: Container(
@@ -90,23 +88,24 @@ int totalguest = 0;
               borderRadius: BorderRadius.circular(8.0),
             ),
             child: CustomText(
-              text:'Copied'.tr,
-               fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic': 'SF Pro',
-               fontSize: 11,
-               fontWeight: FontWeight.w400,
-                  
+              text: 'Copied'.tr,
+              fontFamily:
+                  AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+              fontSize: 11,
+              fontWeight: FontWeight.w400,
             ),
           ),
         ),
       ),
     );
-    
+
     overlay.insert(_overlayEntry!);
-    
+
     Future.delayed(Duration(seconds: 2), () {
       _overlayEntry?.remove();
     });
   }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -116,210 +115,226 @@ int totalguest = 0;
       appBar: CustomAppBar(
         'Summary'.tr,
       ),
-      body:Obx( () => Padding(
-        padding: const EdgeInsets.all(16.0),
-        child:
-          _servicesController.isEventByIdLoading.value
-            ? Center(
-                child: CircularProgressIndicator.adaptive(),
-              )
-            :_summary == null || _summary!.touristList.isEmpty? 
-            Column(
-              children: [
-                Expanded(
-                  child: SizedBox(
-                      height: height * 0.84,
-                      width: width,
-                      child: CustomEmptyWidget(
-                        title: 'noSummary'.tr,
-                        image: 'empty_summary',
-                        subtitle: 'noSummarySub'.tr,
-                      )),
-                ),
-              ],
-            )
-        : Container(
-          width: 358,
-          height: 476,
-          padding: const EdgeInsets.all(12),
-          decoration: ShapeDecoration(
-            shape: RoundedRectangleBorder(
-              side: BorderSide(width: 1, color: Color(0xFFDCDCE0)),
-              borderRadius: BorderRadius.circular(8),
-            ),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              
-              Padding(
-                padding: const EdgeInsets.only(top: 8),
-                child: Row(
-                  children: [
-                      GestureDetector(
-          onTap: () {
-            if (_summary != null && _summary!.id.isNotEmpty) {
-              Clipboard.setData(ClipboardData(text: _summary!.id.substring(0, 7)));
-                      _showOverlay(context);
-
-            }
-          },
-                   child: SvgPicture.asset(
-                      'assets/icons/Summary.svg',
-                      width: 20,
-                      
-                      height: 20,
-                    )),
-                    const SizedBox(width: 8),
-                    CustomText(
-                      text:'#${_summary?.id.substring(0, 7)}',
-                        color: Color(0xFFB9B8C1),
-                        fontSize: 13,
-                    fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic': 'SF Pro',
-                        fontWeight: FontWeight.w500,
-                      
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 12),
-              Divider(color: Color(0xFFDCDCE0), thickness: 1),
-              SizedBox(height: 12),
-              // Second Row: Title Place and Booking Date
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CustomText(
-                    text:AppUtil.rtlDirection2(context)?
-                    _summary?.nameAr??''
-                    :_summary?.nameEn??'',
-                      color: Color(0xFF070708),
-                      fontSize: 16,
-                    fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic': 'SF Pro',
-                      fontWeight: FontWeight.w500,
-                    
-                  ),
-                  CustomText(
-                    
-                  text:formatBookingDate(context,
-                                        widget.date),
-                      color: Color(0xFF070708),
-                      fontSize: 15,
-                    fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic': 'SF Pro',
-                      fontWeight: FontWeight.w500,
-                    
-                  ),
-                ],
-              ),
-              SizedBox(height: 12),
-              Divider(color: Color(0xFFDCDCE0), thickness: 1),
-              SizedBox(height: 12),
-              // Third Row: Time, Number of Male and Women, and Cost
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if(_summary!.daysInfo.isNotEmpty)
-                  CustomText(
-                   text:'${  AppUtil.formatTimeWithLocale(context, _summary?.daysInfo.first.startTime??'','hh:mm a')} - ${AppUtil.formatTimeWithLocale(context, _summary?.daysInfo .first.endTime??'','hh:mm a')}',
-                      color: Color(0xFF070708),
-                      fontSize: 12,
-                    fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic': 'SF Pro',
-                      fontWeight: FontWeight.w400,
-                    
-                  ),
-                  SizedBox(height: 8),
-                  Row(
-                    children: [
-                      CustomText(
-                       text: '$totalguest ${'Pepole'.tr}',
-                          color: Color(0xFF070708),
-                          fontSize: 12,
-                    fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic': 'SF Pro',
-                          fontWeight: FontWeight.w400,
-                      
+      body: Obx(
+        () => Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: _servicesController.isEventByIdLoading.value
+              ? Center(
+                  child: CircularProgressIndicator.adaptive(),
+                )
+              : _summary == null || _summary!.touristList.isEmpty
+                  ? Column(
+                      children: [
+                        Expanded(
+                          child: SizedBox(
+                              height: height * 0.84,
+                              width: width,
+                              child: CustomEmptyWidget(
+                                title: 'noSummary'.tr,
+                                image: 'empty_summary',
+                                subtitle: 'noSummarySub'.tr,
+                              )),
+                        ),
+                      ],
+                    )
+                  : Container(
+                      width: 358,
+                      height: 476,
+                      padding: const EdgeInsets.all(12),
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                          side: BorderSide(width: 1, color: Color(0xFFDCDCE0)),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
                       ),
-                    
-                    ],
-                  ),
-                  SizedBox(height: 8),
-                  Row(
-                    children: [
-                      CustomText(
-                        text:'${_summary?.cost}',
-                          color: Color(0xFF070708),
-                          fontSize: 12,
-                    fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic': 'SF Pro',
-                          fontWeight: FontWeight.w400,
-                      
-                      ),
-                      SizedBox(width: 4),
-                      CustomText(
-                        text:'sar'.tr,
-                          color: Color(0xFF070708),
-                          fontSize: 12,
-                    fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic': 'SF Pro',
-                          fontWeight: FontWeight.w400,
-                        
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              SizedBox(height: 12),
-              Divider(color: Color(0xFFDCDCE0), thickness: 1),
-              SizedBox(height: 12),
-              // Fourth Row: Guest List
-              CustomText(
-               text:AppUtil.rtlDirection2(context)?'لائحة الضيوف' :'Tourist list',
-                  color: Color(0xFF070708),
-                  fontSize: 16,
-                    fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic': 'SF Pro',
-                  fontWeight: FontWeight.w600,
-                
-              ),
-              SizedBox(height: 12),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: _summary?.touristList .length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                          _summary?.touristList[index].name??'',
-                            style: TextStyle(
-                              color: Color(0xFF41404A),
-                              fontSize: 13,
-                    fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic': 'SF Pro',
-                              fontWeight: FontWeight.w400,
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8),
+                            child: Row(
+                              children: [
+                                GestureDetector(
+                                    onTap: () {
+                                      if (_summary != null &&
+                                          _summary!.id.isNotEmpty) {
+                                        Clipboard.setData(ClipboardData(
+                                            text:
+                                                _summary!.id.substring(0, 7)));
+                                        _showOverlay(context);
+                                      }
+                                    },
+                                    child: SvgPicture.asset(
+                                      'assets/icons/Summary.svg',
+                                      width: 20,
+                                      height: 20,
+                                    )),
+                                const SizedBox(width: 8),
+                                CustomText(
+                                  text: '#${_summary?.id.substring(0, 7)}',
+                                  color: Color(0xFFB9B8C1),
+                                  fontSize: 13,
+                                  fontFamily: AppUtil.rtlDirection2(context)
+                                      ? 'SF Arabic'
+                                      : 'SF Pro',
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ],
                             ),
                           ),
-                          Text(
-                            '${_summary?.touristList[index].guestNumber} ${'person'.tr}',
-                            style: TextStyle(
-                              color: Color(0xFFB9B8C1),
-                              fontSize: 12,
-                    fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic': 'SF Pro',
-                              fontWeight: FontWeight.w400,
-                              height: 0,
+                          SizedBox(height: 12),
+                          Divider(color: Color(0xFFDCDCE0), thickness: 1),
+                          SizedBox(height: 12),
+                          // Second Row: Title Place and Booking Date
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              CustomText(
+                                text: AppUtil.rtlDirection2(context)
+                                    ? _summary?.nameAr ?? ''
+                                    : _summary?.nameEn ?? '',
+                                color: Color(0xFF070708),
+                                fontSize: 16,
+                                fontFamily: AppUtil.rtlDirection2(context)
+                                    ? 'SF Arabic'
+                                    : 'SF Pro',
+                                fontWeight: FontWeight.w500,
+                              ),
+                              CustomText(
+                                text: formatBookingDate(context, widget.date),
+                                color: Color(0xFF070708),
+                                fontSize: 15,
+                                fontFamily: AppUtil.rtlDirection2(context)
+                                    ? 'SF Arabic'
+                                    : 'SF Pro',
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 12),
+                          Divider(color: Color(0xFFDCDCE0), thickness: 1),
+                          SizedBox(height: 12),
+                          // Third Row: Time, Number of Male and Women, and Cost
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              if (_summary!.daysInfo.isNotEmpty)
+                                CustomText(
+                                  text:
+                                      '${AppUtil.formatTimeWithLocale(context, _summary?.daysInfo.first.startTime ?? '', 'hh:mm a')} - ${AppUtil.formatTimeWithLocale(context, _summary?.daysInfo.first.endTime ?? '', 'hh:mm a')}',
+                                  color: Color(0xFF070708),
+                                  fontSize: 12,
+                                  fontFamily: AppUtil.rtlDirection2(context)
+                                      ? 'SF Arabic'
+                                      : 'SF Pro',
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              SizedBox(height: 8),
+                              Row(
+                                children: [
+                                  CustomText(
+                                    text: '$totalguest ${'Pepole'.tr}',
+                                    color: Color(0xFF070708),
+                                    fontSize: 12,
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 8),
+                              Row(
+                                children: [
+                                  CustomText(
+                                    text: '${_summary?.cost}',
+                                    color: Color(0xFF070708),
+                                    fontSize: 12,
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                  SizedBox(width: 4),
+                                  CustomText(
+                                    text: 'sar'.tr,
+                                    color: Color(0xFF070708),
+                                    fontSize: 12,
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 12),
+                          Divider(color: Color(0xFFDCDCE0), thickness: 1),
+                          SizedBox(height: 12),
+                          // Fourth Row: Guest List
+                          CustomText(
+                            text: AppUtil.rtlDirection2(context)
+                                ? 'لائحة الضيوف'
+                                : 'Tourist list',
+                            color: Color(0xFF070708),
+                            fontSize: 16,
+                            fontFamily: AppUtil.rtlDirection2(context)
+                                ? 'SF Arabic'
+                                : 'SF Pro',
+                            fontWeight: FontWeight.w600,
+                          ),
+                          SizedBox(height: 12),
+                          Expanded(
+                            child: ListView.builder(
+                              itemCount: _summary?.touristList.length,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(bottom: 8.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        _summary?.touristList[index].name ?? '',
+                                        style: TextStyle(
+                                          color: Color(0xFF41404A),
+                                          fontSize: 13,
+                                          fontFamily:
+                                              AppUtil.rtlDirection2(context)
+                                                  ? 'SF Arabic'
+                                                  : 'SF Pro',
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                      Text(
+                                        '${_summary?.touristList[index].guestNumber} ${'person'.tr}',
+                                        style: TextStyle(
+                                          color: Color(0xFFB9B8C1),
+                                          fontSize: 12,
+                                          fontFamily:
+                                              AppUtil.rtlDirection2(context)
+                                                  ? 'SF Arabic'
+                                                  : 'SF Pro',
+                                          fontWeight: FontWeight.w400,
+                                          height: 0,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
                             ),
                           ),
                         ],
                       ),
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
+                    ),
         ),
-      ),
       ),
     );
   }
-static String formatTimeWithLocale(
+
+  static String formatTimeWithLocale(
       BuildContext context, String timeString, String format) {
     // Parse the time string to DateTime
     DateTime time = DateFormat.Hms().parse(timeString);
@@ -340,8 +355,6 @@ static String formatTimeWithLocale(
       return formattedTime;
     }
   }
-
-
 }
 
 

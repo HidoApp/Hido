@@ -102,7 +102,7 @@ class _CustomTimePickerState extends State<CustomTimePicker> {
                                     .format(widget.newTime!));
                                 setState(() {
                                   widget.newTime = newT;
-                                  //   print(newTime);
+                                  //
                                 });
                               },
                             ),

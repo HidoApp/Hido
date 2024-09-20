@@ -75,7 +75,7 @@ class _ProfileDetailsState extends State<TouriestProfile> {
     );
     if (pickedFile != null) {
       if (AppUtil.isImageValidate(await pickedFile.length())) {
-        print(" is asdded");
+         
         setState(() {
           xfilePick = pickedFile;
         });
@@ -88,7 +88,7 @@ class _ProfileDetailsState extends State<TouriestProfile> {
 
         if (image != null) {
           newProfileImage = image.filePath;
-          print(image.filePath);
+           
         }
       } else {
         AppUtil.errorToast(
@@ -390,7 +390,7 @@ class _ProfileDetailsState extends State<TouriestProfile> {
                                 borderRadius: 8,
                                 suffixIcon: const Icon(Icons.keyboard_arrow_up),
                                 onOptionSelected: (options) {
-                                  debugPrint(options.toString());
+                                   
                                 },
                                 options:  <ValueItem>[
                                 ValueItem(

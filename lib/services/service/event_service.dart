@@ -42,7 +42,7 @@ class EventService {
       List<dynamic> data = jsonDecode(response.body);
       final eventList =
           data.map((adventure) => Event.fromJson(adventure)).toList();
-      print('this from event');
+
       return eventList;
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
@@ -125,20 +125,20 @@ class EventService {
   //   if (response.statusCode == 200) {
   //     var data = jsonDecode(response.body);
 
-  //     print('adventure data');
-  //     print(response.body);
-  //     print(data['orderStatus']);
+  //
+  //
+  //
   //     if (data['orderStatus'] == 'checked') {
   //       return true;
   //     } else {
-  //       print('adventure data');
-  //       print(response.body);
-  //       print(data['orderStatus']);
+  //
+  //
+  //
   //       return false;
   //     }
   //   } else {
   //     String errorMessage = jsonDecode(response.body)['orderStatus'];
-  //     print(errorMessage);
+  //
   //     if (context.mounted) {
   //       AppUtil.errorToast(context, errorMessage);
   //     }
@@ -188,8 +188,7 @@ class EventService {
       "regionAr": regionAr,
       "regionEn": regionEn,
     };
-    print(body);
-    print(1);
+
     try {
       final response = await http.post(Uri.parse('$baseUrl/event'),
           headers: {
@@ -199,12 +198,9 @@ class EventService {
           },
           body: jsonEncode(body));
 
-      print(response.statusCode);
-
-      print("from services equall to ");
       if (response.statusCode == 200) {
         //  var data = jsonDecode(response.body);
-        //  print(data['message']);
+        //
         //  if (data['message'] == 'checked') {
         return true;
         // } else {
@@ -212,7 +208,7 @@ class EventService {
         // }
       } else {
         String errorMessage = jsonDecode(response.body)['message'];
-        print(errorMessage);
+
         if (context.mounted) {
           AppUtil.errorToast(context, errorMessage);
         }
@@ -220,7 +216,7 @@ class EventService {
       }
     } catch (e) {
       // Handle network errors or exceptions
-      print('Error creating event: $e');
+
       return false;
     }
   }
@@ -241,7 +237,6 @@ class EventService {
     required List<Map<String, dynamic>> daysInfo,
     required BuildContext context,
   }) async {
-    print("Update adventure");
     final getStorage = GetStorage();
     final String? token = getStorage.read('accessToken');
 
@@ -272,17 +267,12 @@ class EventService {
       body: jsonEncode(body),
     );
 
-    print("Response status code: ${response.statusCode}");
-    print("Response body: ${response.body}");
-
     if (response.statusCode == 200) {
       try {
         var eventData = jsonDecode(response.body);
-        print('Event updated: $eventData');
+
         return Event.fromJson(eventData);
       } catch (e) {
-        print('Error parsing JSON response: $e');
-        print('Response body: ${response.body}');
         return null;
       }
     } else {
@@ -291,10 +281,7 @@ class EventService {
         if (context.mounted) {
           AppUtil.errorToast(context, errorMessage);
         }
-      } catch (e) {
-        print('Error decoding error message: $e');
-        print('Response body: ${response.body}');
-      }
+      } catch (e) {}
       return null;
     }
   }
@@ -322,8 +309,7 @@ class EventService {
       },
       body: json.encode({}),
     );
-    print("response.statusCode");
-    print(response.statusCode);
+
     if (response.statusCode == 200) {
       return true;
     } else {
@@ -339,10 +325,8 @@ class EventService {
     required String eventType,
     required BuildContext context,
   }) async {
-    print(" getUpcomingTicket ");
     final getStorage = GetStorage();
     final String? token = getStorage.read('accessToken');
-    print(token);
 
     final response = await http.get(
       Uri.parse('$baseUrl/event/local').replace(queryParameters: {
@@ -355,13 +339,10 @@ class EventService {
       },
     );
 
-    print("response.statusCode  ");
-    print(response.statusCode);
     if (response.statusCode == 200) {
       List<dynamic> data = jsonDecode(response.body);
       log('data: $data');
-      print(data.length);
-      print(data.isEmpty);
+
       return data.map((event) => Event.fromJson(event)).toList();
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
@@ -388,7 +369,7 @@ class EventService {
           refreshToken: refreshToken, context: context);
       token = getStorage.read('accessToken');
     }
-    print("TRUE $id");
+
     final response = await http.get(
       Uri.parse('$baseUrl/event/$id/summary')
           .replace(queryParameters: ({'date': date, 'id': id})),
@@ -397,13 +378,10 @@ class EventService {
         if (token != '') 'Authorization': 'Bearer $token',
       },
     );
-    print("TRUE $id");
-    print(response.statusCode);
 
-    print(jsonDecode(response.body).length);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
-      print(inspect(data));
+
       return EventSummary.fromJson(data);
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
@@ -456,7 +434,7 @@ class EventService {
       return true;
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
-      print(errorMessage);
+
       if (context.mounted) {
         AppUtil.errorToast(context, errorMessage);
       }
@@ -496,8 +474,6 @@ class EventService {
     if (response.statusCode == 200) {
       UploadImage imageIbject;
       var jsonImage;
-      print('Image uploaded successfully');
-      print(response.stream);
 
       await response.stream.transform(utf8.decoder).listen((value) {
         id = UploadImage.fromJson(jsonDecode(value)).id;
@@ -511,11 +487,7 @@ class EventService {
 
       return UploadImage(id: id, filePath: filePath, publicId: publicId);
     } else {
-      print('Image upload failed with status code: ${response.statusCode}');
-
-      response.stream.transform(utf8.decoder).listen((value) {
-        print(value);
-      });
+      response.stream.transform(utf8.decoder).listen((value) {});
     }
     return null;
   }

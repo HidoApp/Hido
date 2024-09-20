@@ -102,16 +102,13 @@ class _AdventureDetailsState extends State<AdventureDetails> {
     try {
       List<Placemark> placemarks =
           await placemarkFromCoordinates(position1, position2);
-      print(placemarks);
 
       if (placemarks.isNotEmpty) {
         Placemark placemark = placemarks.first;
-        print(placemarks.first);
+
         return '${placemark.locality}, ${placemark.subLocality}';
       }
-    } catch (e) {
-      print("Error retrieving address: $e");
-    }
+    } catch (e) {}
     return '';
   }
 
@@ -124,7 +121,6 @@ class _AdventureDetailsState extends State<AdventureDetails> {
       });
     } catch (e) {
       // Handle error if necessary
-      print('Error fetching address: $e');
     }
   }
 

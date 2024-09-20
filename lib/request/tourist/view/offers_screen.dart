@@ -34,8 +34,8 @@ class _OfferScreenState extends State<OfferScreen> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    // print("offer");
-    // print(_offerController.acceptedOffer.value.orderStatus);
+    //
+    //
 
     return FloatingDraggableADVN(
       floatingWidget: const FloatingTimer(),
@@ -95,8 +95,8 @@ class _OfferScreenState extends State<OfferScreen> {
                           context: context,
                           offerId: _offerController.offers[index].offerId!,
                         );
-                        // print('image');
-                        // print(_offerController.offers[index].image ?? '');
+                        //
+                        //
                         // name: _offerController.offers[index].name!??'',
                         // rating: _offerController.offers[index].rating!??0,
                         // price: _offerController.offers[index].price!??0,

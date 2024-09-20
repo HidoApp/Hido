@@ -55,7 +55,6 @@ class _ScheduleContainerWidgetState extends State<ScheduleContainerWidget> {
                 if (widget.scheduleList != null)
                   ...List.generate(widget.scheduleList!.length, (index) {
                     // widget.offerController?.checkedList[index] == true?
-                    print('inter2');
 
                     if (widget.offerController != null) {
                       final bool isChecked =
@@ -232,7 +231,7 @@ class _CustomCheckWidget extends StatelessWidget {
                     children: [
                       MediaQuery(
                         data: MediaQuery.of(context)
-                            .copyWith(textScaleFactor:1.0),
+                            .copyWith(textScaleFactor: 1.0),
                         child: Text(
                           schedule?.scheduleName ?? '',
                           style: !isReview
@@ -248,38 +247,34 @@ class _CustomCheckWidget extends StatelessWidget {
                       if (schedule?.scheduleTime != null)
                         Row(
                           children: [
-                          CustomText(
-                              text:AppUtil.formatStringTimeWithLocale(
+                            CustomText(
+                              text: AppUtil.formatStringTimeWithLocale(
                                   context, schedule?.scheduleTime!['from']),
-                                color: !isReview
-                                    ? Color(0xFF676767)
-                                    :  Color(0xFFB9B8C1),
-                                fontSize: 13,
-                                fontFamily: AppUtil.SfFontType(context),
-                                fontWeight: FontWeight.w500,
-                            
+                              color: !isReview
+                                  ? Color(0xFF676767)
+                                  : Color(0xFFB9B8C1),
+                              fontSize: 13,
+                              fontFamily: AppUtil.SfFontType(context),
+                              fontWeight: FontWeight.w500,
                             ),
-                             CustomText(
-                             text: " - ",
-                                color: !isReview
-                                    ? Color(0xFF676767)
-                                    : Color(0xFFB9B8C1),
-                                fontSize: 13,
-                                fontFamily: AppUtil.SfFontType(context),
-                                fontWeight: FontWeight.w500,
-                            
+                            CustomText(
+                              text: " - ",
+                              color: !isReview
+                                  ? Color(0xFF676767)
+                                  : Color(0xFFB9B8C1),
+                              fontSize: 13,
+                              fontFamily: AppUtil.SfFontType(context),
+                              fontWeight: FontWeight.w500,
                             ),
-                             CustomText(
-                             text: "${AppUtil.formatStringTimeWithLocale(context, schedule?.scheduleTime!['to'])} ",
-                          
-                                color: !isReview
-                                    ? Color(0xFF676767)
-                                    :Color(0xFFB9B8C1),
-                                 fontSize: 13,
-                                 fontFamily: AppUtil.SfFontType(context),
-                                 fontWeight: FontWeight.w500,
-                           
-
+                            CustomText(
+                              text:
+                                  "${AppUtil.formatStringTimeWithLocale(context, schedule?.scheduleTime!['to'])} ",
+                              color: !isReview
+                                  ? Color(0xFF676767)
+                                  : Color(0xFFB9B8C1),
+                              fontSize: 13,
+                              fontFamily: AppUtil.SfFontType(context),
+                              fontWeight: FontWeight.w500,
                             ),
                           ],
                         )
@@ -291,9 +286,9 @@ class _CustomCheckWidget extends StatelessWidget {
                     // crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       MediaQuery(
-                              data: MediaQuery.of(context)
-                                  .copyWith(textScaleFactor: 1.0),
-                              child: Text.rich(
+                        data: MediaQuery.of(context)
+                            .copyWith(textScaleFactor: 1.0),
+                        child: Text.rich(
                           TextSpan(
                             children: [
                               TextSpan(

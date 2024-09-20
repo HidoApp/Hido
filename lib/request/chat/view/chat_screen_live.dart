@@ -22,7 +22,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-
 import '../../../services/view/review_request_screen.dart';
 import '../../../widgets/custom_app_bar.dart';
 
@@ -112,11 +111,11 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                     children: [
                       //const SizedBox(height: 10),
 
-                     // Padding(padding: const EdgeInsets.only(left: 90)),
-                        Expanded(
-                          child: SingleChildScrollView(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 6),
+                      // Padding(padding: const EdgeInsets.only(left: 90)),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 6),
                           child: Column(
                             children: [
                               Center(
@@ -127,7 +126,8 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                                     borderRadius: BorderRadius.circular(12),
                                   ),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       ListTile(
                                         onTap: () {
@@ -141,9 +141,10 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                                           fontFamily: 'HT Rakik',
                                           fontWeight: FontWeight.w500,
                                           color: black,
-                                          textAlign: AppUtil.rtlDirection2(context)
-                                              ? TextAlign.right
-                                              : TextAlign.left,
+                                          textAlign:
+                                              AppUtil.rtlDirection2(context)
+                                                  ? TextAlign.right
+                                                  : TextAlign.left,
                                         ),
                                         trailing: Icon(
                                           isDetailsTapped
@@ -175,7 +176,8 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                                                     fontSize: width * 0.03,
                                                     fontWeight: FontWeight.w400,
                                                     fontFamily:
-                                                        AppUtil.rtlDirection2(context)
+                                                        AppUtil.rtlDirection2(
+                                                                context)
                                                             ? 'SF Arabic'
                                                             : 'SF Pro',
                                                   ),
@@ -192,14 +194,16 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                                                     width: 9,
                                                   ),
                                                   CustomText(
-                                                    text: AppUtil.rtlDirection2(context)
+                                                    text: AppUtil.rtlDirection2(
+                                                            context)
                                                         ? 'من ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)} إلى ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)} '
                                                         : 'Pick up: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)}, Drop off: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)}',
                                                     color: starGreyColor,
                                                     fontSize: width * 0.03,
                                                     fontWeight: FontWeight.w400,
                                                     fontFamily:
-                                                        AppUtil.rtlDirection2(context)
+                                                        AppUtil.rtlDirection2(
+                                                                context)
                                                             ? 'SF Arabic'
                                                             : 'SF Pro',
                                                   ),
@@ -222,7 +226,8 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                                                     fontSize: width * 0.03,
                                                     fontWeight: FontWeight.w400,
                                                     fontFamily:
-                                                        AppUtil.rtlDirection2(context)
+                                                        AppUtil.rtlDirection2(
+                                                                context)
                                                             ? 'SF Arabic'
                                                             : 'SF Pro',
                                                   ),
@@ -243,12 +248,14 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                                                     width: 10,
                                                   ),
                                                   CustomText(
-                                                    text: widget.booking!.vehicleType!,
+                                                    text: widget
+                                                        .booking!.vehicleType!,
                                                     color: starGreyColor,
                                                     fontSize: width * 0.03,
                                                     fontWeight: FontWeight.w400,
                                                     fontFamily:
-                                                        AppUtil.rtlDirection2(context)
+                                                        AppUtil.rtlDirection2(
+                                                                context)
                                                             ? 'SF Arabic'
                                                             : 'SF Pro',
                                                   ),
@@ -261,353 +268,342 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                                   ),
                                 ),
                               ),
-                           
-                                              
-                          SizedBox(
-                            height: 15,
-                          ),
-                                              
-                          // ?  ============== Request Case =================
-                          if ((widget.isAjwadi)) ...[
-                            Obx(() => isDetailsTapped2.value
-                                ? widget.chatId == null
-                                    ? Expanded(
-                                        child: SingleChildScrollView(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 16, vertical: 6),
-                                          child: ShowRequestWidget(
-                                            requestController:
-                                                widget.requestController!,
-                                          ),
-                                        ),
-                                      )
-                                    : Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 16, vertical: 6),
-                                        child: ShowRequestWidget(
-                                          requestController:
-                                              widget.requestController!,
-                                        ),
-                                      )
-                                : const SizedBox()),
-                          ],
-                          // ?  ============== Offers Case =================
-                          if (widget.chatId == null && (!widget.isAjwadi)) ...[
-                            Column(
-                              children: [
-                                CheckContainerWidget(
-                                    offerController: widget.offerController),
-                                              
-                                SizedBox(height: 10),
-                                SizedBox(
-                                  width: 358,
-                                  child: CustomText(
-                                    text: 'notePrice'.tr,
-                                    color: starGreyColor,
-                                    fontSize: width * 0.029,
-                                    fontFamily: AppUtil.SfFontType(context),
-                                    fontWeight: FontWeight.w400,
-                                    height: 0,
-                                  ),
-                                ),
-                                
-                               
-                                  // SizedBox(height: 100),
 
-                                  //  const AvailableContainerWidget(),
-                                    Container(
-                                    width: double.infinity,
-                                    padding: const EdgeInsets.only(
-                                      top: 15,
-                                      bottom: 15,
+                              SizedBox(
+                                height: 15,
+                              ),
+
+                              // ?  ============== Request Case =================
+                              if ((widget.isAjwadi)) ...[
+                                Obx(() => isDetailsTapped2.value
+                                    ? widget.chatId == null
+                                        ? Expanded(
+                                            child: SingleChildScrollView(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 16,
+                                                      vertical: 6),
+                                              child: ShowRequestWidget(
+                                                requestController:
+                                                    widget.requestController!,
+                                              ),
+                                            ),
+                                          )
+                                        : Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 16, vertical: 6),
+                                            child: ShowRequestWidget(
+                                              requestController:
+                                                  widget.requestController!,
+                                            ),
+                                          )
+                                    : const SizedBox()),
+                              ],
+                              // ?  ============== Offers Case =================
+                              if (widget.chatId == null &&
+                                  (!widget.isAjwadi)) ...[
+                                Column(
+                                  children: [
+                                    CheckContainerWidget(
+                                        offerController:
+                                            widget.offerController),
+
+                                    SizedBox(height: 10),
+                                    SizedBox(
+                                      width: 358,
+                                      child: CustomText(
+                                        text: 'notePrice'.tr,
+                                        color: starGreyColor,
+                                        fontSize: width * 0.029,
+                                        fontFamily: AppUtil.SfFontType(context),
+                                        fontWeight: FontWeight.w400,
+                                        height: 0,
+                                      ),
                                     ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        ...List.generate(
-                                            10,
-                                            (index) => Container(
-                                                  width: 20,
-                                                  decoration:
-                                                      const ShapeDecoration(
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      side: BorderSide(
-                                                        width: 0.24,
-                                                        strokeAlign: BorderSide
-                                                            .strokeAlignCenter,
-                                                        color:
-                                                            Color(0xFF979797),
+
+                                    // SizedBox(height: 100),
+
+                                    //  const AvailableContainerWidget(),
+                                    Container(
+                                      width: double.infinity,
+                                      padding: const EdgeInsets.only(
+                                        top: 15,
+                                        bottom: 15,
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          ...List.generate(
+                                              10,
+                                              (index) => Container(
+                                                    width: 20,
+                                                    decoration:
+                                                        const ShapeDecoration(
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        side: BorderSide(
+                                                          width: 0.24,
+                                                          strokeAlign: BorderSide
+                                                              .strokeAlignCenter,
+                                                          color:
+                                                              Color(0xFF979797),
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                ))
-                                      ],
+                                                  ))
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                    ],
-                            ),
-                          ],
-                           ],
+                                  ],
+                                ),
+                              ],
+                            ],
                           ),
                         ),
                       ),
-                    if (widget.chatId == null && (!widget.isAjwadi)) ...[
+                      if (widget.chatId == null && (!widget.isAjwadi)) ...[
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 6),
+                          child: Column(
+                            children: [
+                              TotalWidget(
+                                offerController: widget.offerController,
+                                place: widget.place!,
+                              ),
 
-                                  Padding(
-                                   padding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 6),
-                                    child: Column(
-                                      children: [
-                                     
-                                        TotalWidget(
-                                          offerController: widget.offerController,
-                                          place: widget.place!,
-                                        ),
-                                    
-                                  
-                                    Obx(
-                                      () => IgnorePointer(
-                                        ignoring: widget
-                                            .offerController!.scheduleState.value,
-                                        child: CustomButton(
-                                          onPressed: () {
-                                            if (widget.offerController!
-                                                    .updateScheduleList !=
-                                                null) {
-                                              for (var item in widget
-                                                  .offerController!
-                                                  .updateScheduleList) {
-                                                print("this sedule");
-                                                print(item.scheduleName);
-                                              }
-                                            } else {
-                                              print(
-                                                  'The schedule list is null or does not exist.');
-                                            }
-                                            Get.to(() => ReviewRequest(
-                                                  booking: widget.booking,
-                                                  scheduleList: widget
-                                                      .offerController
-                                                      ?.offerDetails
-                                                      .value
-                                                      .schedule,
-                                                  offerController:
-                                                      widget.offerController,
-                                                  place: widget.place!,
-                                                ));
-                                          },
-                                          buttonColor: widget.offerController!
-                                                  .scheduleState.value
-                                              ? colorlightGreen
-                                              : colorGreen,
-                                          borderColor: widget.offerController!
-                                                  .scheduleState.value
-                                              ? colorlightGreen
-                                              : colorGreen,
-                                          title: 'ReviewRequest'.tr,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(height: 10),
-                                  
-                                    CustomButton(
-                                        onPressed: () {
-                                          Get.until((route) =>
-                                              Get.currentRoute == '/FindAjwady');
-                                        },
-                                        title: AppUtil.rtlDirection2(context)
-                                            ? 'عودة للعروض'
-                                            : 'Return to Offers'.tr,
-                                        buttonColor:
-                                            Colors.white.withOpacity(0.3),
-                                        borderColor:
-                                            Colors.white.withOpacity(0.3),
-                                        textColor: black),
-                                  
-                                    // paymentController.isPaymenInvoiceLoading.value
-                                    //     ? CircularProgressIndicator(
-                                    //         color: colorGreen,
-                                    //       )
-                                    //     : CustomButton(
-                                  
-                                    //       title: 'confirm'.tr,
-                                  
-                                    //       icon: Icon(Icons.keyboard_arrow_right,color: Colors.white),
-                                    //         onPressed: () async {
-                                    //           invoice ??=
-                                    //               await paymentController.paymentInvoice(
-                                    //                   context: context,
-                                    //                   description: 'Book place',
-                                    //                     amount: (widget.offerController!
-                                    //                               .totalPrice.value *
-                                    //                           widget
-                                    //                               .offerController!
-                                    //                               .offerDetails
-                                    //                               .value
-                                    //                               .booking!
-                                    //                               .guestNumber!));
-                                  
-                                    //                   // amount: (widget.place!.price! *
-                                    //                   //         widget
-                                    //                   //             .offerController!
-                                    //                   //             .offerDetails
-                                    //                   //             .value
-                                    //                   //             .booking!
-                                    //                   //             .guestNumber!) +
-                                    //                   //     (widget.offerController!
-                                    //                   //             .totalPrice.value *
-                                    //                   //         widget
-                                    //                   //             .offerController!
-                                    //                   //             .offerDetails
-                                    //                   //             .value
-                                    //                   //             .booking!
-                                    //                   //             .guestNumber!));
-                                  
-                                    //           Get.to(() => PaymentWebView(
-                                    //               url: invoice!.url!,
-                                    //               title: AppUtil.rtlDirection2(context)?'الدفع':'Checkout'))?.then((value) async {
-                                  
-                                    //              setState(() {
-                                    //                         isCheckingForPayment = true;
-                                    //                       });
-                                  
-                                    //                               final checkInvoice =
-                                    //                           await paymentController
-                                    //                               .paymentInvoiceById(
-                                    //                                   context: context,
-                                    //                                   id: invoice!.id);
-                                  
-                                    //                                   print("checkInvoice!.invoiceStatus");
-                                    //                                   print(checkInvoice!.invoiceStatus);
-                                  
-                                    //                                                if (checkInvoice
-                                    //                               .invoiceStatus !=
-                                    //                           'faild') {
-                                  
-                                    //                         setState(() {
-                                    //                           isCheckingForPayment =
-                                    //                               false;
-                                    //                         });
-                                  
-                                    //                         if (checkInvoice
-                                    //                                     .invoiceStatus ==
-                                    //                                 'failed' ||
-                                    //                             checkInvoice
-                                    //                                     .invoiceStatus ==
-                                    //                                 'initiated') {
-                                    //                           //  Get.back();
-                                  
-                                    //                           showDialog(
-                                    //                               context: context,
-                                    //                               builder: (ctx) {
-                                    //                                 return AlertDialog(
-                                    //                                   backgroundColor:
-                                    //                                       Colors.white,
-                                    //                                   content: Column(
-                                    //                                     mainAxisSize:
-                                    //                                         MainAxisSize
-                                    //                                             .min,
-                                    //                                     children: [
-                                    //                                       Image.asset(
-                                    //                                           'assets/images/paymentFaild.gif'),
-                                    //                                       CustomText(
-                                    //                                           text:
-                                    //                                               "paymentFaild"
-                                    //                                                   .tr),
-                                    //                                     ],
-                                    //                                   ),
-                                    //                                 );
-                                    //                               });
-                                    //                         } else {
-                                    //                           print('YES');
-                                    //                           // Get.back();
-                                    //                           // Get.back();
-                                  
-                                    //                               final acceptedOffer = await widget
-                                    //               .offerController!
-                                    //               .acceptOffer(
-                                    //             context: context,
-                                    //             offerId: widget.offerController!.offerDetails.value.id!,
-                                    //             invoiceId: checkInvoice.id,
-                                    //             schedules: widget.offerController!
-                                    //                 .offerDetails.value.schedule!,
-                                    //           );
-                                    //      //     Get.back();
-                                    //       //    Get.back();
-                                  
-                                    //                           showDialog(
-                                    //                               context: context,
-                                    //                               builder: (ctx) {
-                                    //                                 return AlertDialog(
-                                    //                                   backgroundColor:
-                                    //                                       Colors.white,
-                                    //                                   content: Column(
-                                    //                                     mainAxisSize:
-                                    //                                         MainAxisSize
-                                    //                                             .min,
-                                    //                                     children: [
-                                    //                                       Image.asset(
-                                    //                                           'assets/images/paymentSuccess.gif'),
-                                    //                                       CustomText(
-                                    //                                           text:
-                                    //                                               "paymentSuccess"
-                                    //                                                   .tr),
-                                    //                                     ],
-                                    //                                   ),
-                                    //                                 );
-                                    //                               });
-                                    //                       LocalNotification().showNotification(context,widget.booking?.id, widget.booking?.timeToGo, widget.booking?.date ,widget.offerController?.offerDetails.value.name ?? "", widget.booking?.place?.nameAr,widget.booking?.place?.nameEn);
-                                  
-                                    //                         }
-                                    //                       }
-                                    //           });
-                                    //           // Get.to(
-                                    //           //   () => CheckOutScreen(
-                                    //           //     total: (widget.place!.price! *
-                                    //           //             widget
-                                    //           //                 .offerController!
-                                    //           //                 .offerDetails
-                                    //           //                 .value
-                                    //           //                 .booking!
-                                    //           //                 .guestNumber!) +
-                                    //           //         (widget.offerController!.totalPrice
-                                    //           //                 .value *
-                                    //           //             widget
-                                    //           //                 .offerController!
-                                    //           //                 .offerDetails
-                                    //           //                 .value
-                                    //           //                 .booking!
-                                    //           //                 .guestNumber!),
-                                    //           //     offerDetails: widget.offerController!
-                                    //           //         .offerDetails.value,
-                                    //           //     offerController: widget.offerController,
-                                    //           //   ),
-                                    //           // )?.then((value) async {
-                                    //           //   final offer = await widget
-                                    //           //       .offerController!
-                                    //           //       .getOfferById(
-                                    //           //           context: context,
-                                    //           //           offerId: widget.offerController!
-                                    //           //               .offerDetails.value.id!);
-                                  
-                                    //           //   widget.chatId = widget.offerController!
-                                    //           //       .offerDetails.value.booking!.chatId;
-                                  
-                                    //           //   //  Get.back();
-                                    //           // });
-                                  
-                                    //           // LocalNotification().showNotification(context,widget.booking?.id, widget.booking?.timeToGo, widget.booking?.date ,widget.offerController?.offerDetails.value.name ?? "", widget.booking?.place?.nameAr,widget.booking?.place?.nameEn);
-                                    //         },
-                                    //       )
-                                                         
-                                  
-                                                        const SizedBox(height: 4)
-                                                          ],
-                                    ),
+                              Obx(
+                                () => IgnorePointer(
+                                  ignoring: widget
+                                      .offerController!.scheduleState.value,
+                                  child: CustomButton(
+                                    onPressed: () {
+                                      if (widget.offerController!
+                                              .updateScheduleList !=
+                                          null) {
+                                        for (var item in widget.offerController!
+                                            .updateScheduleList) {}
+                                      } else {
+                                        print(
+                                            'The schedule list is null or does not exist.');
+                                      }
+                                      Get.to(() => ReviewRequest(
+                                            booking: widget.booking,
+                                            scheduleList: widget.offerController
+                                                ?.offerDetails.value.schedule,
+                                            offerController:
+                                                widget.offerController,
+                                            place: widget.place!,
+                                          ));
+                                    },
+                                    buttonColor: widget.offerController!
+                                            .scheduleState.value
+                                        ? colorlightGreen
+                                        : colorGreen,
+                                    borderColor: widget.offerController!
+                                            .scheduleState.value
+                                        ? colorlightGreen
+                                        : colorGreen,
+                                    title: 'ReviewRequest'.tr,
                                   ),
-                    ],
+                                ),
+                              ),
+                              SizedBox(height: 10),
+
+                              CustomButton(
+                                  onPressed: () {
+                                    Get.until((route) =>
+                                        Get.currentRoute == '/FindAjwady');
+                                  },
+                                  title: AppUtil.rtlDirection2(context)
+                                      ? 'عودة للعروض'
+                                      : 'Return to Offers'.tr,
+                                  buttonColor: Colors.white.withOpacity(0.3),
+                                  borderColor: Colors.white.withOpacity(0.3),
+                                  textColor: black),
+
+                              // paymentController.isPaymenInvoiceLoading.value
+                              //     ? CircularProgressIndicator(
+                              //         color: colorGreen,
+                              //       )
+                              //     : CustomButton(
+
+                              //       title: 'confirm'.tr,
+
+                              //       icon: Icon(Icons.keyboard_arrow_right,color: Colors.white),
+                              //         onPressed: () async {
+                              //           invoice ??=
+                              //               await paymentController.paymentInvoice(
+                              //                   context: context,
+                              //                   description: 'Book place',
+                              //                     amount: (widget.offerController!
+                              //                               .totalPrice.value *
+                              //                           widget
+                              //                               .offerController!
+                              //                               .offerDetails
+                              //                               .value
+                              //                               .booking!
+                              //                               .guestNumber!));
+
+                              //                   // amount: (widget.place!.price! *
+                              //                   //         widget
+                              //                   //             .offerController!
+                              //                   //             .offerDetails
+                              //                   //             .value
+                              //                   //             .booking!
+                              //                   //             .guestNumber!) +
+                              //                   //     (widget.offerController!
+                              //                   //             .totalPrice.value *
+                              //                   //         widget
+                              //                   //             .offerController!
+                              //                   //             .offerDetails
+                              //                   //             .value
+                              //                   //             .booking!
+                              //                   //             .guestNumber!));
+
+                              //           Get.to(() => PaymentWebView(
+                              //               url: invoice!.url!,
+                              //               title: AppUtil.rtlDirection2(context)?'الدفع':'Checkout'))?.then((value) async {
+
+                              //              setState(() {
+                              //                         isCheckingForPayment = true;
+                              //                       });
+
+                              //                               final checkInvoice =
+                              //                           await paymentController
+                              //                               .paymentInvoiceById(
+                              //                                   context: context,
+                              //                                   id: invoice!.id);
+
+                              //
+                              //
+
+                              //                                                if (checkInvoice
+                              //                               .invoiceStatus !=
+                              //                           'faild') {
+
+                              //                         setState(() {
+                              //                           isCheckingForPayment =
+                              //                               false;
+                              //                         });
+
+                              //                         if (checkInvoice
+                              //                                     .invoiceStatus ==
+                              //                                 'failed' ||
+                              //                             checkInvoice
+                              //                                     .invoiceStatus ==
+                              //                                 'initiated') {
+                              //                           //  Get.back();
+
+                              //                           showDialog(
+                              //                               context: context,
+                              //                               builder: (ctx) {
+                              //                                 return AlertDialog(
+                              //                                   backgroundColor:
+                              //                                       Colors.white,
+                              //                                   content: Column(
+                              //                                     mainAxisSize:
+                              //                                         MainAxisSize
+                              //                                             .min,
+                              //                                     children: [
+                              //                                       Image.asset(
+                              //                                           'assets/images/paymentFaild.gif'),
+                              //                                       CustomText(
+                              //                                           text:
+                              //                                               "paymentFaild"
+                              //                                                   .tr),
+                              //                                     ],
+                              //                                   ),
+                              //                                 );
+                              //                               });
+                              //                         } else {
+                              //
+                              //                           // Get.back();
+                              //                           // Get.back();
+
+                              //                               final acceptedOffer = await widget
+                              //               .offerController!
+                              //               .acceptOffer(
+                              //             context: context,
+                              //             offerId: widget.offerController!.offerDetails.value.id!,
+                              //             invoiceId: checkInvoice.id,
+                              //             schedules: widget.offerController!
+                              //                 .offerDetails.value.schedule!,
+                              //           );
+                              //      //     Get.back();
+                              //       //    Get.back();
+
+                              //                           showDialog(
+                              //                               context: context,
+                              //                               builder: (ctx) {
+                              //                                 return AlertDialog(
+                              //                                   backgroundColor:
+                              //                                       Colors.white,
+                              //                                   content: Column(
+                              //                                     mainAxisSize:
+                              //                                         MainAxisSize
+                              //                                             .min,
+                              //                                     children: [
+                              //                                       Image.asset(
+                              //                                           'assets/images/paymentSuccess.gif'),
+                              //                                       CustomText(
+                              //                                           text:
+                              //                                               "paymentSuccess"
+                              //                                                   .tr),
+                              //                                     ],
+                              //                                   ),
+                              //                                 );
+                              //                               });
+                              //                       LocalNotification().showNotification(context,widget.booking?.id, widget.booking?.timeToGo, widget.booking?.date ,widget.offerController?.offerDetails.value.name ?? "", widget.booking?.place?.nameAr,widget.booking?.place?.nameEn);
+
+                              //                         }
+                              //                       }
+                              //           });
+                              //           // Get.to(
+                              //           //   () => CheckOutScreen(
+                              //           //     total: (widget.place!.price! *
+                              //           //             widget
+                              //           //                 .offerController!
+                              //           //                 .offerDetails
+                              //           //                 .value
+                              //           //                 .booking!
+                              //           //                 .guestNumber!) +
+                              //           //         (widget.offerController!.totalPrice
+                              //           //                 .value *
+                              //           //             widget
+                              //           //                 .offerController!
+                              //           //                 .offerDetails
+                              //           //                 .value
+                              //           //                 .booking!
+                              //           //                 .guestNumber!),
+                              //           //     offerDetails: widget.offerController!
+                              //           //         .offerDetails.value,
+                              //           //     offerController: widget.offerController,
+                              //           //   ),
+                              //           // )?.then((value) async {
+                              //           //   final offer = await widget
+                              //           //       .offerController!
+                              //           //       .getOfferById(
+                              //           //           context: context,
+                              //           //           offerId: widget.offerController!
+                              //           //               .offerDetails.value.id!);
+
+                              //           //   widget.chatId = widget.offerController!
+                              //           //       .offerDetails.value.booking!.chatId;
+
+                              //           //   //  Get.back();
+                              //           // });
+
+                              //           // LocalNotification().showNotification(context,widget.booking?.id, widget.booking?.timeToGo, widget.booking?.date ,widget.offerController?.offerDetails.value.name ?? "", widget.booking?.place?.nameAr,widget.booking?.place?.nameEn);
+                              //         },
+                              //       )
+
+                              const SizedBox(height: 4)
+                            ],
+                          ),
+                        ),
+                      ],
                     ],
                   ),
           ),

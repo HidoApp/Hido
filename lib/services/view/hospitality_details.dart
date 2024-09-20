@@ -1,4 +1,3 @@
-
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/hoapatility/view/edit_hospitality.dart';
 import 'package:ajwad_v4/explore/tourist/view/view_trip_images.dart';
@@ -23,7 +22,6 @@ import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
 
 class HospitalityDetails extends StatefulWidget {
   const HospitalityDetails(
@@ -97,7 +95,6 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
       hideLocation = hospitalityObj!.booking!.isEmpty;
     }
     for (var day in hospitalityObj!.daysInfo) {
-      print(day.startTime);
       if (AppUtil.isDateTimeBefore24Hours(day.startTime))
         avilableDate.add(
           DateTime.parse(
@@ -117,16 +114,13 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
     try {
       List<Placemark> placemarks =
           await placemarkFromCoordinates(position1, position2);
-      print(placemarks);
 
       if (placemarks.isNotEmpty) {
         Placemark placemark = placemarks.first;
-        print(placemarks.first);
+
         return '${placemark.locality}, ${placemark.subLocality}';
       }
-    } catch (e) {
-      print("Error retrieving address: $e");
-    }
+    } catch (e) {}
     return '';
   }
 
@@ -139,7 +133,6 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
       });
     } catch (e) {
       // Handle error if necessary
-      print('Error fetching address: $e');
     }
   }
 

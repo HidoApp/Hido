@@ -22,11 +22,11 @@ class OfferService {
     required String placeId,
     required String bookingId,
   }) async {
-    // print("jwtToken");
+    //
     // final getStorage = GetStorage();
     // String token = getStorage.read('accessToken');
-    // print('isExpired');
-    // print(JwtDecoder.isExpired(token));
+    //
+    //
     // if (JwtDecoder.isExpired(token)) {
     //   final authController = Get.put(AuthController());
 
@@ -60,11 +60,10 @@ class OfferService {
         'Authorization': 'Bearer $token',
       },
     );
-    print("response.statusCode");
-    print(response.statusCode);
+
     if (response.statusCode == 200) {
       List<dynamic> offers = jsonDecode(response.body);
-      print(offers);
+
       return offers.map((offer) => Offer.fromJson(offer)).toList();
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
@@ -95,8 +94,6 @@ class OfferService {
       }
     }
 
-    print(offerId);
-
     final response = await http.get(
       Uri.parse('$baseUrl/offer/$offerId'),
       headers: {
@@ -105,11 +102,10 @@ class OfferService {
         'Authorization': 'Bearer $token',
       },
     );
-    print("response.statusCode");
-    print(response.statusCode);
+
     if (response.statusCode == 200) {
       var offerDetails = jsonDecode(response.body);
-      print(offerDetails);
+
       return OfferDetails.fromJson(offerDetails);
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
@@ -141,8 +137,6 @@ class OfferService {
         token = jwtToken.id;
       }
     }
-    print(invoiceId);
-    print(offerId);
 
     final response = await http.post(
       Uri.parse('$baseUrl/offer/$offerId/accept').replace(
@@ -160,13 +154,10 @@ class OfferService {
         'schedule': schedules,
       }),
     );
-    print("response.statusCode");
-    print(response.statusCode);
-    print(response.body);
+
     if (response.statusCode == 200) {
       var acceptedOfferData = jsonDecode(response.body);
-      print("pay from services");
-      print(acceptedOfferData);
+
       AcceptedOffer acceptedOffer = AcceptedOffer.fromJson(acceptedOfferData);
       String? userId = acceptedOffer.userId;
       final getStorage = GetStorage();
@@ -215,7 +206,7 @@ class OfferService {
     log(reason);
     log(type);
 
-    // print(body);
+    //
     final response = await http.post(
         Uri.parse('$baseUrl/booking/cancel/$bookingId')
             .replace(queryParameters: {
@@ -227,15 +218,13 @@ class OfferService {
           'Authorization': 'Bearer $token',
         },
         body: jsonEncode(body));
-    print("response.statusCode");
-    print(response.statusCode);
 
     if (response.statusCode == 200) {
       log('inter 200');
       return true;
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
-      print(errorMessage);
+
       // if (context.mounted) {
       //   AppUtil.errorToast(context, errorMessage);
       // }

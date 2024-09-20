@@ -266,7 +266,6 @@ class _ProductDetailsState extends State<ProductDetails> {
                   onTap: () {
                     setState(() {
                       isSoapFavorite = !isSoapFavorite;
-                      print("isSoapFavorite");
                     });
                   },
                   child: Container(

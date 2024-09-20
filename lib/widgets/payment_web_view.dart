@@ -22,8 +22,6 @@ class _PaymentWebViewState extends State<PaymentWebView> {
   @override
   void initState() {
     super.initState();
-    print('his is url');
-    print(widget.url);
   }
 
   @override

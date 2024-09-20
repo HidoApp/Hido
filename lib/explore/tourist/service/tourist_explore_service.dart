@@ -40,9 +40,7 @@ class TouristExploreService {
         if (token != "") 'Authorization': 'Bearer $token',
       },
     );
-    print("response.statusCode");
-    print(response.statusCode);
-    print(jsonDecode(response.body).length);
+
     if (response.statusCode == 200) {
       List<dynamic> data = jsonDecode(response.body);
       return data.map((place) => Place.fromJson(place)).toList();
@@ -107,15 +105,11 @@ class TouristExploreService {
   }) async {
     final getStorage = GetStorage();
     String token = getStorage.read('accessToken') ?? "";
-    print(token);
-    print("jwtToken");
 
-    print('isExpired');
-    print(JwtDecoder.isExpired(token));
     if (JwtDecoder.isExpired(token)) {
       String refreshToken = getStorage.read('refreshToken');
       final Token jwtToken = await AuthService.jwtForToken(refreshToken)!;
-      print(jwtToken.id);
+
       token = jwtToken.id;
     }
     final response =
@@ -134,9 +128,7 @@ class TouristExploreService {
               "cost": cost,
               "vehicleType": vehicle,
             }));
-    print("response.statusCode");
-    print(response.statusCode);
-    print(response.body);
+
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
       return true;
@@ -177,7 +169,6 @@ class TouristExploreService {
 
     if (response.statusCode == 200) {
       List<dynamic> data = jsonDecode(response.body);
-      print(inspect(data));
 
       log("Before");
       log(response.body);
@@ -218,9 +209,7 @@ class TouristExploreService {
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
-      print(inspect(data));
-      print('this states code from service');
-      print(Booking.fromJson(data).id);
+
       return Booking.fromJson(data);
     } else {
       String errorMessage = jsonDecode(response.body)['message'];

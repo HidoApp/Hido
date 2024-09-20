@@ -46,7 +46,7 @@ class _AdventureSummaryScreenState extends State<AdventureSummaryScreen> {
   void gethospitalitySummary() async {
     _summary = await _servicesController.getAdventureSummaryById(
         context: context, id: widget.adventureId);
-    print(_summary?.cost);
+
     for (var guest in _summary!.touristList) {
       totalguest += guest.guestNumber;
     }
@@ -62,8 +62,8 @@ class _AdventureSummaryScreenState extends State<AdventureSummaryScreen> {
 //   totalMales += guest.male;
 //   }
 
-//   print('Total number of females: $totalFemales');
-//   print('Total number of males: $totalMales');
+//
+//
 // }
 
   @override
@@ -97,13 +97,12 @@ class _AdventureSummaryScreenState extends State<AdventureSummaryScreen> {
               borderRadius: BorderRadius.circular(8.0),
             ),
             child: CustomText(
-             text:'Copied'.tr,
-                color: Colors.white,
-                fontFamily:
-                    AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-                fontSize: 11,
-                fontWeight: FontWeight.w400,
-              
+              text: 'Copied'.tr,
+              color: Colors.white,
+              fontFamily:
+                  AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+              fontSize: 11,
+              fontWeight: FontWeight.w400,
             ),
           ),
         ),
@@ -182,14 +181,13 @@ class _AdventureSummaryScreenState extends State<AdventureSummaryScreen> {
                                     )),
                                 const SizedBox(width: 8),
                                 CustomText(
-                                  text:'#${_summary?.id.substring(0, 7)}',
-                                    color: Color(0xFFB9B8C1),
-                                    fontSize: 13,
-                                    fontFamily: AppUtil.rtlDirection2(context)
-                                        ? 'SF Arabic'
-                                        : 'SF Pro',
-                                    fontWeight: FontWeight.w500,
-                                  
+                                  text: '#${_summary?.id.substring(0, 7)}',
+                                  color: Color(0xFFB9B8C1),
+                                  fontSize: 13,
+                                  fontFamily: AppUtil.rtlDirection2(context)
+                                      ? 'SF Arabic'
+                                      : 'SF Pro',
+                                  fontWeight: FontWeight.w500,
                                 ),
                               ],
                             ),
@@ -202,27 +200,25 @@ class _AdventureSummaryScreenState extends State<AdventureSummaryScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               CustomText(
-                               text: AppUtil.rtlDirection2(context)
+                                text: AppUtil.rtlDirection2(context)
                                     ? _summary?.nameAr ?? ''
                                     : _summary?.nameEn ?? '',
-                                  color: Color(0xFF070708),
-                                  fontSize: 16,
-                                  fontFamily: AppUtil.rtlDirection2(context)
-                                      ? 'SF Arabic'
-                                      : 'SF Pro',
-                                  fontWeight: FontWeight.w500,
-                                
+                                color: Color(0xFF070708),
+                                fontSize: 16,
+                                fontFamily: AppUtil.rtlDirection2(context)
+                                    ? 'SF Arabic'
+                                    : 'SF Pro',
+                                fontWeight: FontWeight.w500,
                               ),
                               CustomText(
-                                text:AppUtil.formatBookingDate(
+                                text: AppUtil.formatBookingDate(
                                     context, _summary!.date),
-                                  color: Color(0xFF070708),
-                                  fontSize: 15,
-                                  fontFamily: AppUtil.rtlDirection2(context)
-                                      ? 'SF Arabic'
-                                      : 'SF Pro',
-                                  fontWeight: FontWeight.w500,
-                                
+                                color: Color(0xFF070708),
+                                fontSize: 15,
+                                fontFamily: AppUtil.rtlDirection2(context)
+                                    ? 'SF Arabic'
+                                    : 'SF Pro',
+                                fontWeight: FontWeight.w500,
                               ),
                             ],
                           ),
@@ -234,51 +230,50 @@ class _AdventureSummaryScreenState extends State<AdventureSummaryScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               CustomText(
-                                text:'${formatTimeWithLocale(context, _summary?.times.first.startTime ?? '', 'hh:mm a')} - ${formatTimeWithLocale(context, _summary?.times.first.endTime ?? '', 'hh:mm a')}',
-                                  color: Color(0xFF070708),
-                                  fontSize: 12,
-                                  fontFamily: AppUtil.rtlDirection2(context)
-                                      ? 'SF Arabic'
-                                      : 'SF Pro',
-                                  fontWeight: FontWeight.w400,
+                                text:
+                                    '${formatTimeWithLocale(context, _summary?.times.first.startTime ?? '', 'hh:mm a')} - ${formatTimeWithLocale(context, _summary?.times.first.endTime ?? '', 'hh:mm a')}',
+                                color: Color(0xFF070708),
+                                fontSize: 12,
+                                fontFamily: AppUtil.rtlDirection2(context)
+                                    ? 'SF Arabic'
+                                    : 'SF Pro',
+                                fontWeight: FontWeight.w400,
                               ),
                               SizedBox(height: 8),
                               Row(
                                 children: [
                                   CustomText(
-                                    text:'$totalguest ${'Pepole'.tr}',
-                                      color: Color(0xFF070708),
-                                      fontSize: 12,
-                                      fontFamily: AppUtil.rtlDirection2(context)
-                                          ? 'SF Arabic'
-                                          : 'SF Pro',
-                                      fontWeight: FontWeight.w400,
-                                    ),
+                                    text: '$totalguest ${'Pepole'.tr}',
+                                    color: Color(0xFF070708),
+                                    fontSize: 12,
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ],
                               ),
                               SizedBox(height: 8),
                               Row(
                                 children: [
                                   CustomText(
-                                    text:'${_summary?.cost}',
-                                      color: Color(0xFF070708),
-                                      fontSize: 12,
-                                      fontFamily: AppUtil.rtlDirection2(context)
-                                          ? 'SF Arabic'
-                                          : 'SF Pro',
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  
+                                    text: '${_summary?.cost}',
+                                    color: Color(0xFF070708),
+                                    fontSize: 12,
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                   SizedBox(width: 4),
                                   CustomText(
-                                    text:'sar'.tr,
-                                      color: Color(0xFF070708),
-                                      fontSize: 12,
-                                      fontFamily: AppUtil.rtlDirection2(context)
-                                          ? 'SF Arabic'
-                                          : 'SF Pro',
-                                      fontWeight: FontWeight.w400,
-                                    
+                                    text: 'sar'.tr,
+                                    color: Color(0xFF070708),
+                                    fontSize: 12,
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
+                                    fontWeight: FontWeight.w400,
                                   ),
                                 ],
                               ),
@@ -289,16 +284,15 @@ class _AdventureSummaryScreenState extends State<AdventureSummaryScreen> {
                           SizedBox(height: 12),
                           // Fourth Row: Guest List
                           CustomText(
-                           text: AppUtil.rtlDirection2(context)
+                            text: AppUtil.rtlDirection2(context)
                                 ? 'لائحة الضيوف'
                                 : 'Tourist list',
-                              color: Color(0xFF070708),
-                              fontSize: 16,
-                              fontFamily: AppUtil.rtlDirection2(context)
-                                  ? 'SF Arabic'
-                                  : 'SF Pro',
-                              fontWeight: FontWeight.w600,
-                          
+                            color: Color(0xFF070708),
+                            fontSize: 16,
+                            fontFamily: AppUtil.rtlDirection2(context)
+                                ? 'SF Arabic'
+                                : 'SF Pro',
+                            fontWeight: FontWeight.w600,
                           ),
                           SizedBox(height: 12),
                           Expanded(
@@ -312,27 +306,28 @@ class _AdventureSummaryScreenState extends State<AdventureSummaryScreen> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       CustomText(
-                                        text:_summary?.touristList[index].name ?? '',
-                                          color: Color(0xFF41404A),
-                                          fontSize: 13,
-                                          fontFamily:
-                                              AppUtil.rtlDirection2(context)
-                                                  ? 'SF Arabic'
-                                                  : 'SF Pro',
-                                          fontWeight: FontWeight.w400,
-                                        
+                                        text:
+                                            _summary?.touristList[index].name ??
+                                                '',
+                                        color: Color(0xFF41404A),
+                                        fontSize: 13,
+                                        fontFamily:
+                                            AppUtil.rtlDirection2(context)
+                                                ? 'SF Arabic'
+                                                : 'SF Pro',
+                                        fontWeight: FontWeight.w400,
                                       ),
                                       CustomText(
-                                        text:'${_summary?.touristList[index].guestNumber} ${'person'.tr}',
-                                          color: Color(0xFFB9B8C1),
-                                          fontSize: 12,
-                                          fontFamily:
-                                              AppUtil.rtlDirection2(context)
-                                                  ? 'SF Arabic'
-                                                  : 'SF Pro',
-                                          fontWeight: FontWeight.w400,
-                                          height: 0,
-                                      
+                                        text:
+                                            '${_summary?.touristList[index].guestNumber} ${'person'.tr}',
+                                        color: Color(0xFFB9B8C1),
+                                        fontSize: 12,
+                                        fontFamily:
+                                            AppUtil.rtlDirection2(context)
+                                                ? 'SF Arabic'
+                                                : 'SF Pro',
+                                        fontWeight: FontWeight.w400,
+                                        height: 0,
                                       ),
                                     ],
                                   ),
@@ -370,7 +365,6 @@ class _AdventureSummaryScreenState extends State<AdventureSummaryScreen> {
     }
   }
 }
-
 
 // class SummaryScreen extends StatefulWidget {
 //   // final ProfileController profileController;

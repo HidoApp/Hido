@@ -28,9 +28,8 @@ class AddInfo extends StatefulWidget {
 class _AddInfoState extends State<AddInfo> {
   int _selectedLanguageIndex = 1; // 0 for AR, 1 for EN
   FocusNode _focusNode = FocusNode();
-   AdventureController _AdventureController =
-      Get.put(AdventureController());
-      
+  AdventureController _AdventureController = Get.put(AdventureController());
+
   @override
   void dispose() {
     _focusNode.dispose();
@@ -41,8 +40,7 @@ class _AddInfoState extends State<AddInfo> {
   void initState() {
     super.initState();
     setState(() {
-           _selectedLanguageIndex = AppUtil.rtlDirection2(context)?0:1;
-
+      _selectedLanguageIndex = AppUtil.rtlDirection2(context) ? 0 : 1;
     });
   }
 
@@ -106,7 +104,6 @@ class _AddInfoState extends State<AddInfo> {
                   setState(() {
                     _selectedLanguageIndex = index!;
                   });
-                  print('switched to: $index');
                 },
               ),
             ]),
@@ -124,30 +121,28 @@ class _AddInfoState extends State<AddInfo> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustomText(
-                     text: _selectedLanguageIndex == 0
+                      text: _selectedLanguageIndex == 0
                           ? 'عنوان التجربة'
                           : 'Experience title',
-                        color: Color(0xFF070708),
-                        fontSize: 17,
-                        fontFamily: _selectedLanguageIndex == 0
-                            ? 'SF Arabic'
-                            : 'SF Pro',
-                        fontWeight: FontWeight.w500,
+                      color: Color(0xFF070708),
+                      fontSize: 17,
+                      fontFamily:
+                          _selectedLanguageIndex == 0 ? 'SF Arabic' : 'SF Pro',
+                      fontWeight: FontWeight.w500,
                     ),
                     SizedBox(height: _selectedLanguageIndex == 0 ? 8 : 9),
-                  MediaQuery(
-      
-                      data: MediaQuery.of(context)
-                          .copyWith(textScaleFactor: 1.0),
+                    MediaQuery(
+                      data:
+                          MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
                       child: TextField(
                         maxLength: 20,
                         controller: textField1Controller,
-                         style: TextStyle(
+                        style: TextStyle(
                           color: Colors.black,
                           fontSize: 15,
                           fontFamily: _selectedLanguageIndex == 0
-                          ? 'SF Arabic'
-                          : 'SF Pro',
+                              ? 'SF Arabic'
+                              : 'SF Pro',
                           fontWeight: FontWeight.w400,
                         ),
                         decoration: InputDecoration(
@@ -158,15 +153,16 @@ class _AddInfoState extends State<AddInfo> {
                             color: Color(0xFFB9B8C1),
                             fontSize: 15,
                             fontFamily: _selectedLanguageIndex == 0
-                          ? 'SF Arabic'
-                          : 'SF Pro',
+                                ? 'SF Arabic'
+                                : 'SF Pro',
                             fontWeight: FontWeight.w400,
                           ),
-                        filled: true,
+                          filled: true,
                           fillColor: Colors.white,
                           contentPadding: EdgeInsets.symmetric(
                               horizontal: 12,
-                              vertical: 0), // Adjust vertical padding for height
+                              vertical:
+                                  0), // Adjust vertical padding for height
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
                             borderSide:
@@ -192,18 +188,17 @@ class _AddInfoState extends State<AddInfo> {
               Container(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustomText(
-                      text:_selectedLanguageIndex == 0 ? 'الوصف' : 'Description',
-                        color: Color(0xFF070708),
-                        fontSize: 17,
-                        fontFamily: _selectedLanguageIndex == 0
-                            ? 'SF Arabic'
-                            : 'SF Pro',
-                        fontWeight: 
-                             FontWeight.w500,
+                      text:
+                          _selectedLanguageIndex == 0 ? 'الوصف' : 'Description',
+                      color: Color(0xFF070708),
+                      fontSize: 17,
+                      fontFamily:
+                          _selectedLanguageIndex == 0 ? 'SF Arabic' : 'SF Pro',
+                      fontWeight: FontWeight.w500,
                     ),
                     SizedBox(height: _selectedLanguageIndex == 0 ? 8 : 9),
                     Container(
@@ -242,22 +237,22 @@ class _AddInfoState extends State<AddInfo> {
                             color: Colors.black,
                             fontSize: 15,
                             fontFamily: _selectedLanguageIndex == 0
-                          ? 'SF Arabic'
-                          : 'SF Pro',
-                          fontWeight: FontWeight.w400,
-                        ),
-                        decoration: InputDecoration(
-                          hintText: _selectedLanguageIndex == 0
-                              ? 'ما هي التجارب الفريدة التي لا يمكن العثور عليها في أي مكان آخر؟'
-                              : 'highlight what makes it unique and why tourists should visit',
-                          hintStyle: TextStyle(
-                            color: Color(0xFFB9B8C1),
-                            fontSize: 15,
-                            fontFamily: _selectedLanguageIndex == 0
-                          ? 'SF Arabic'
-                          : 'SF Pro',
+                                ? 'SF Arabic'
+                                : 'SF Pro',
                             fontWeight: FontWeight.w400,
                           ),
+                          decoration: InputDecoration(
+                            hintText: _selectedLanguageIndex == 0
+                                ? 'ما هي التجارب الفريدة التي لا يمكن العثور عليها في أي مكان آخر؟'
+                                : 'highlight what makes it unique and why tourists should visit',
+                            hintStyle: TextStyle(
+                              color: Color(0xFFB9B8C1),
+                              fontSize: 15,
+                              fontFamily: _selectedLanguageIndex == 0
+                                  ? 'SF Arabic'
+                                  : 'SF Pro',
+                              fontWeight: FontWeight.w400,
+                            ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
                               borderSide: BorderSide.none,
@@ -268,16 +263,16 @@ class _AddInfoState extends State<AddInfo> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 1.0, left: 8.0),
-                      child:CustomText(
-                       text: _selectedLanguageIndex == 0
+                      child: CustomText(
+                        text: _selectedLanguageIndex == 0
                             ? '*يجب ألا يتجاوز الوصف 150 كلمة'
                             : '*the description must not exceed 150 words',
-                          color: Color(0xFFB9B8C1),
-                          fontSize: 11,
-                           fontFamily: _selectedLanguageIndex == 0
-                          ? 'SF Arabic'
-                          : 'SF Pro',
-                          fontWeight: FontWeight.w400,
+                        color: Color(0xFFB9B8C1),
+                        fontSize: 11,
+                        fontFamily: _selectedLanguageIndex == 0
+                            ? 'SF Arabic'
+                            : 'SF Pro',
+                        fontWeight: FontWeight.w400,
                       ),
                     )
                   ],

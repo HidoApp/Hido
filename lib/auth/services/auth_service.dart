@@ -26,10 +26,8 @@ class AuthService {
       'Accept': 'application/json',
     });
 
-    print('NATIONALITIES');
-    print(response.statusCode);
     if (response.statusCode == 200) {
-      // print(jsonDecode(response.body)['nationalities']);
+      //
       final data = jsonDecode(response.body);
       var listCountries = (data as List).map((item) => item as String).toList();
 
@@ -37,18 +35,18 @@ class AuthService {
     } else {
       var errorMessage = jsonDecode(response.body)['error'];
       AppUtil.errorToast(context, errorMessage);
-      print(errorMessage);
+
       return null;
     }
   }
 // static Future<void> checkToken(BuildContext context) async {
-//     print("jwtToken");
+//
 //     final getStorage = GetStorage();
 //     String token = getStorage.read('accessToken');
 //     late Token jwtToken;
 //     late String id;
-//     print('isExpired');
-//     print(JwtDecoder.isExpired(token));
+//
+//
 //     if (JwtDecoder.isExpired(token)) {
 //       final authController = Get.put(AuthController());
 
@@ -58,11 +56,11 @@ class AuthService {
 //       refreshToken = getStorage.read('refreshToken');
 //       token = getStorage.read('accessToken');
 //       jwtToken = AuthService.jwtForToken(refreshToken)!;
-//       print(jwtToken.id);
+//
 //       id = jwtToken.id;
 //     } else {
 //       jwtToken = AuthService.jwtForToken(token)!;
-//       print('jwtToken.id AuthService AuthService${jwtToken.id}');
+//
 
 //       id = jwtToken.id;
 //     }
@@ -91,11 +89,6 @@ class AuthService {
           "nationality": nationality,
         }));
 
-    print("response.statusCode");
-    print(response.statusCode);
-    print("response.body");
-    print(response.body);
-
     if (response.statusCode == 200) {
       final getStorage = GetStorage();
 
@@ -118,7 +111,7 @@ class AuthService {
       return true;
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
-      print(errorMessage);
+
       if (context.mounted) {
         if (errorMessage == 'Email already exists') {
           AppUtil.errorToast(context, "emailExists".tr);
@@ -149,15 +142,10 @@ class AuthService {
       },
     );
 
-    print("response.statusCode");
     log(response.statusCode.toString());
     log(response.body);
 
-    print("isSuccess SERVICE ${response.statusCode}");
-
     if (response.statusCode == 201 || response.statusCode == 200) {
-      print("200 enter here ${response.body}");
-
       Map responsBody = {
         'transactionId': jsonDecode(response.body)['transactionId'],
       };
@@ -229,13 +217,6 @@ class AuthService {
     required String userRole,
     required BuildContext context,
   }) async {
-    print("name $name");
-    print("nationalID $nationalID");
-    print("otp $otp");
-    print("password $password");
-    print("phoneNumber $phoneNumber");
-    print("userRole $userRole");
-
     {}
     final response = await http.post(
         Uri.parse('$baseUrl/user/sign-up-with-rowad/$otp/$nationalID'),
@@ -253,16 +234,8 @@ class AuthService {
           //  'userRole': nationality,
         }));
 
-    print("response.statusCode");
-    print(response.statusCode);
-    print("response.body");
-    print(response.body);
-
     var error = jsonDecode(response.body);
     var error2 = error['error'];
-    print(error2);
-
-    print("isSuccess SERVICE ${response.statusCode}");
 
     if (response.statusCode == 200) {
       final getStorage = GetStorage();
@@ -338,7 +311,6 @@ class AuthService {
     required bool rememberMe,
     required BuildContext context,
   }) async {
-    print("rememberMe $rememberMe");
     final response = await http.post(Uri.parse('$baseUrl/user/sign-in'),
         headers: {
           'Accept': 'application/json',
@@ -349,20 +321,13 @@ class AuthService {
           "password": password.trim(),
         }));
 
-    print("response.statusCode");
-    print(response.statusCode);
-    print("response.body");
-    print(response.body);
-
     if (response.statusCode == 200) {
       Map<String, dynamic> user = jsonDecode(response.body);
-      print('token userRole ');
+
       String accessToken = user['accessToken'];
       String refreshToken = user['refreshToken'];
 
       var token = AuthService.jwtForToken(accessToken)!;
-
-      print('token userRole ${token.userRole}');
 
       final getStorage = GetStorage();
 
@@ -403,12 +368,6 @@ class AuthService {
         'Authorization': ' Bearer $accessToken'
       },
     );
-    print("response.statusCode");
-    print(response.statusCode);
-    print("body checkLicenceAndVehicle");
-    print(response.body);
-
-    print("isSuccess SERVICE ${response.statusCode}");
 
     if (response.statusCode == 200) {
       Map<String, dynamic> ajwadiInfo = jsonDecode(response.body);
@@ -441,7 +400,7 @@ class AuthService {
           refreshToken: refreshToken, context: context);
       token = getStorage.read('accessToken');
     }
-    print(email);
+
     final response = await http.post(Uri.parse('$baseUrl/user/otp/email'),
         headers: {
           'Accept': 'application/json',
@@ -451,12 +410,6 @@ class AuthService {
         body: json.encode({
           "email": email.trim(),
         }));
-
-    print("response.statusCode");
-    print(response.statusCode);
-
-    print("response.body");
-    print(response.body);
 
     if (response.statusCode == 200) {
       var code = (response.body)[0];
@@ -476,7 +429,6 @@ class AuthService {
       } else if (errorMessage == 'email already exists') {
         AppUtil.errorToast(context, 'emailExists'.tr);
       } else {
-        print(errorMessage);
         if (context.mounted) {
           AppUtil.errorToast(context, errorMessage);
         }
@@ -522,7 +474,7 @@ class AuthService {
       return responsBody;
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
-      print(errorMessage);
+
       if (context.mounted) {
         AppUtil.errorToast(context, errorMessage);
       }
@@ -547,12 +499,6 @@ class AuthService {
           "password": newPassword.trim(),
           "email": email.trim(),
         }));
-
-    print("response.statusCode");
-    print(response.statusCode);
-
-    print("response.body");
-    print(response.body);
 
     if (response.statusCode == 200) {
       // String successMessage = jsonDecode(response.body);
@@ -593,12 +539,6 @@ class AuthService {
         body: json.encode({
           "email": email.trim(),
         }));
-
-    print("response.statusCode");
-    print(response.statusCode);
-
-    print("response.body");
-    print(response.body);
 
     if (response.statusCode == 200) {
       // String successMessage = jsonDecode(response.body);
@@ -651,7 +591,7 @@ class AuthService {
       return responsBody;
     } else {
       var jsonBody = jsonDecode(response.body);
-      String errorMessage = jsonBody['error']['errorMessage'];
+      String errorMessage = jsonBody['errorDetail']['errorMessage'];
       AppUtil.errorToast(context, errorMessage);
       return null;
     }
@@ -683,11 +623,8 @@ class AuthService {
       },
     );
 
-    print("response.statusCode");
     log(response.statusCode.toString());
     log(response.body);
-
-    print("isSuccess SERVICE ${response.statusCode}");
 
     if (response.statusCode == 200) {
       Map responsBody = {
@@ -733,12 +670,6 @@ class AuthService {
       },
     );
 
-    print("response.statusCode");
-    print(response.statusCode);
-    print(response.body);
-
-    print("isSuccess SERVICE ${response.statusCode}");
-
     if (response.statusCode == 200) {
       return true;
     } else {
@@ -777,12 +708,6 @@ class AuthService {
         'Authorization': ' Bearer $token'
       },
     );
-
-    print("response.statusCode");
-    print(response.statusCode);
-    print(response.body);
-
-    print("isSuccess SERVICE ${response.statusCode}");
 
     if (response.statusCode == 200) {
       return true;
@@ -856,8 +781,7 @@ class AuthService {
     String token = getStorage.read('accessToken');
     late Token jwtToken;
     late String id;
-    print('isExpired');
-    print(JwtDecoder.isExpired(token));
+
     if (JwtDecoder.isExpired(token)) {
       final authController = Get.put(AuthController());
 
@@ -867,11 +791,10 @@ class AuthService {
       refreshToken = getStorage.read('refreshToken');
       token = getStorage.read('accessToken');
       jwtToken = AuthService.jwtForToken(refreshToken)!;
-      print(jwtToken.id);
+
       id = jwtToken.id;
     } else {
       jwtToken = AuthService.jwtForToken(token)!;
-      print('jwtToken.id AuthService AuthService${jwtToken.id}');
 
       id = jwtToken.id;
     }
@@ -883,12 +806,6 @@ class AuthService {
         'Authorization': 'Bearer $token',
       },
     );
-
-    print("response.statusCode");
-    print(response.statusCode);
-    print("Deletion");
-    print("response.body");
-    print(response.body);
 
     if (response.statusCode == 200) {
       final getStorage = GetStorage();
@@ -937,7 +854,7 @@ class AuthService {
           "plateText2": plateletter2,
           "plateText3": plateLetter3,
           "plateNumber": int.parse(plateNumber),
-          "vehicleClassDescEn": 'Sedan',
+          "vehicleClassDescEn": AppUtil.capitalizeFirstLetter(vehicleType),
           "vehicleSequenceNumber": vehicleSerialNumber,
         }));
     log(response.statusCode.toString());
@@ -998,13 +915,11 @@ class AuthService {
     //log(response.body.toString());
     if (response.statusCode == 200) {
       Map<String, dynamic> user = jsonDecode(response.body);
-      print('token userRole ');
+
       String accessToken = user['accessToken'];
       String refreshToken = user['refreshToken'];
 
       var token = AuthService.jwtForToken(accessToken)!;
-
-      print('token userRole ${token.userRole}');
 
       final getStorage = GetStorage();
       getStorage.write('accessToken', accessToken);

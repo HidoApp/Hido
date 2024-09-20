@@ -23,18 +23,14 @@ class PhotoGalleryPage extends StatefulWidget {
 
 class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
   List<XFile> _selectedImages = [];
-      final ImagePicker _picker = ImagePicker();
+  final ImagePicker _picker = ImagePicker();
 
-   final EventController _EventrController =
-      Get.put( EventController());
+  final EventController _EventrController = Get.put(EventController());
 
-      
-      
   void initState() {
     super.initState();
-   // _selectedImages = _EventrController.selectedImages.map((path) => XFile(path)).toList();
-      //  _selectedImages = _EventrController.selectedImages;
-
+    // _selectedImages = _EventrController.selectedImages.map((path) => XFile(path)).toList();
+    //  _selectedImages = _EventrController.selectedImages;
   }
 
   Future<void> _showImagePickerOptions(BuildContext context) async {
@@ -50,7 +46,7 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
         return ImagePickerBottomSheet(
           onImagesSelected: (images) {
             setState(() {
-             _EventrController.selectedImages.addAll(images);
+              _EventrController.selectedImages.addAll(images);
             });
           },
         );
@@ -58,49 +54,37 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
     );
   }
 
-  
   Future<void> _pickImage(ImageSource source) async {
     try {
       final List<XFile>? pickedImages = await _picker.pickMultiImage();
       if (pickedImages != null) {
         if (AppUtil.isImageValidate(await pickedImages.length)) {
-        print(" is asdded");
-        setState(() {
-         _EventrController.selectedImages.addAll(pickedImages);
-        });
-        }   else {
-        AppUtil.errorToast(
-            context, 'imageValidSize'.tr);
+          setState(() {
+            _EventrController.selectedImages.addAll(pickedImages);
+          });
+        } else {
+          AppUtil.errorToast(context, 'imageValidSize'.tr);
+        }
       }
-    
-      
-      }
-    } catch (e) {
-      print('Error picking images: $e');
-    }
+    } catch (e) {}
   }
 
   Future<void> _takePhoto() async {
     try {
-      final XFile? photo = await _picker.pickImage(source: ImageSource.camera, imageQuality: 30);
+      final XFile? photo =
+          await _picker.pickImage(source: ImageSource.camera, imageQuality: 30);
       if (photo != null) {
-        
-          if (AppUtil.isImageValidate(await photo.length())) {
-        print(" is asdded");
-       setState(() {
-          // _selectedImages =
-          //     _selectedImages != null ? [..._selectedImages!, photo] : [photo];
-    _EventrController.selectedImages.add(photo);
-
-        });
-        }   else {
-        AppUtil.errorToast(
-            context, 'imageValidSize'.tr);
+        if (AppUtil.isImageValidate(await photo.length())) {
+          setState(() {
+            // _selectedImages =
+            //     _selectedImages != null ? [..._selectedImages!, photo] : [photo];
+            _EventrController.selectedImages.add(photo);
+          });
+        } else {
+          AppUtil.errorToast(context, 'imageValidSize'.tr);
+        }
       }
-      }
-    } catch (e) {
-      print('Error taking photo: $e');
-    }
+    } catch (e) {}
   }
 
   Future<void> _showImageOptions(BuildContext context, int index) async {
@@ -114,7 +98,6 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
       ),
       builder: (context) {
         return Container(
-        
           padding: const EdgeInsets.only(
             top: 16,
             left: 24,
@@ -153,10 +136,11 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                     onTap: () {
                       setState(() {
                         // Move the selected image to the first position to set it as cover image
-                   
+
                         final selectedImagePath =
                             _EventrController.selectedImages.removeAt(index);
-                       _EventrController.selectedImages.insert(0, selectedImagePath);
+                        _EventrController.selectedImages
+                            .insert(0, selectedImagePath);
                       });
                       Get.back();
                     },
@@ -171,13 +155,13 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      child:  CustomText(
-                     text: 'makeCover'.tr,
+                      child: CustomText(
+                        text: 'makeCover'.tr,
                         textAlign: TextAlign.center,
-                          color: Colors.white,
-                          fontSize: 17,
-                          fontFamily: 'HT Rakik',
-                          fontWeight: FontWeight.w500,
+                        color: Colors.white,
+                        fontSize: 17,
+                        fontFamily: 'HT Rakik',
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
@@ -201,14 +185,13 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      child:  CustomText(
-                         text: 
-                        'Delete'.tr,
+                      child: CustomText(
+                        text: 'Delete'.tr,
                         textAlign: TextAlign.center,
-                          color: Color(0xFFDC362E),
-                          fontSize: 17,
-                          fontFamily: 'HT Rakik',
-                          fontWeight: FontWeight.w500,
+                        color: Color(0xFFDC362E),
+                        fontSize: 17,
+                        fontFamily: 'HT Rakik',
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
@@ -223,8 +206,8 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(()=>
-      Column(
+    return Obx(
+      () => Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           _EventrController.selectedImages.isEmpty
@@ -266,8 +249,9 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                               text: 'UploadPhotos'.tr,
                               color: Color(0xFF070708),
                               fontSize: 15,
-                           fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                            : 'SF Pro',
+                              fontFamily: AppUtil.rtlDirection2(context)
+                                  ? 'SF Arabic'
+                                  : 'SF Pro',
                               fontWeight: FontWeight.w500,
                               height: 0,
                             ),
@@ -277,8 +261,9 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                               textAlign: TextAlign.center,
                               color: Color(0xFFB9B8C1),
                               fontSize: 11,
-                              fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                            : 'SF Pro',
+                              fontFamily: AppUtil.rtlDirection2(context)
+                                  ? 'SF Arabic'
+                                  : 'SF Pro',
                               fontWeight: FontWeight.w500,
                               height: 0,
                             ),
@@ -294,11 +279,11 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                         height: 186,
                         decoration: BoxDecoration(
                           image: DecorationImage(
-                            image: FileImage(File( _EventrController.selectedImages[0].path)),
+                            image: FileImage(
+                                File(_EventrController.selectedImages[0].path)),
                             fit: BoxFit.cover,
                           ),
                           borderRadius: BorderRadius.circular(16),
-                         
                         ),
                         child: Stack(
                           children: [
@@ -319,17 +304,15 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                                       borderRadius: BorderRadius.circular(16),
                                     ),
                                   ),
-                                  child:CustomText(
-                                       text: 
-                                    'Coverphoto'.tr,
-                           
-                                      color: Colors.white,
-                                      fontSize: 13,
-                                      fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                                    : 'SF Pro',
-                                      fontWeight: FontWeight.w500,
-                                      height: 0,
-                                  
+                                  child: CustomText(
+                                    text: 'Coverphoto'.tr,
+                                    color: Colors.white,
+                                    fontSize: 13,
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
+                                    fontWeight: FontWeight.w500,
+                                    height: 0,
                                   ),
                                 ),
                               ),
@@ -347,23 +330,27 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                           crossAxisSpacing: 15,
                           mainAxisSpacing: 15,
                         ),
-                        itemCount: (  _EventrController.selectedImages.length - 1) + 3,
+                        itemCount:
+                            (_EventrController.selectedImages.length - 1) + 3,
                         itemBuilder: (context, index) {
-                          if (index <   _EventrController.selectedImages.length - 1) {
+                          if (index <
+                              _EventrController.selectedImages.length - 1) {
                             return GestureDetector(
-                              onTap: () => _showImageOptions(context, index + 1),
+                              onTap: () =>
+                                  _showImageOptions(context, index + 1),
                               child: Container(
                                 decoration: BoxDecoration(
                                   image: DecorationImage(
-                                    image: FileImage(
-                                        File( _EventrController.selectedImages[index + 1].path)),
+                                    image: FileImage(File(_EventrController
+                                        .selectedImages[index + 1].path)),
                                     fit: BoxFit.cover,
                                   ),
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                               ),
                             );
-                          } else if (index ==   _EventrController.selectedImages.length - 1) {
+                          } else if (index ==
+                              _EventrController.selectedImages.length - 1) {
                             return GestureDetector(
                               onTap: () => _pickImage(ImageSource.gallery),
                               child: DottedBorder(
@@ -382,23 +369,26 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                                         color: Color(0xFFB9B8C1),
                                       ),
                                       SizedBox(height: 4),
-                                     CustomText(
-                                   text: 'Addmore'.tr,
-                                          color: Color(0xFFB9B8C1),
-                                          fontSize: 11,
-                                          fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                                         : 'SF Pro',
-                                          fontWeight: FontWeight.w500,
-                                          height: 0,
+                                      CustomText(
+                                        text: 'Addmore'.tr,
+                                        color: Color(0xFFB9B8C1),
+                                        fontSize: 11,
+                                        fontFamily:
+                                            AppUtil.rtlDirection2(context)
+                                                ? 'SF Arabic'
+                                                : 'SF Pro',
+                                        fontWeight: FontWeight.w500,
+                                        height: 0,
                                       ),
                                     ],
                                   ),
                                 ),
                               ),
                             );
-                          } else if (index ==   _EventrController.selectedImages.length) {
+                          } else if (index ==
+                              _EventrController.selectedImages.length) {
                             return GestureDetector(
-                              onTap: () =>_takePhoto(),
+                              onTap: () => _takePhoto(),
                               child: DottedBorder(
                                 strokeWidth: 1,
                                 color: Color(0xFFDCDCE0),
@@ -447,40 +437,32 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> {
       final List<XFile>? pickedImages = await _picker.pickMultiImage();
       if (pickedImages != null) {
         if (AppUtil.isImageValidate(await pickedImages.length)) {
-        print(" is asdded");
-        setState(() {
-          _selectedImages = pickedImages;
-        });
-        }   else {
-        AppUtil.errorToast(
-            context, 'imageValidSize'.tr);
+          setState(() {
+            _selectedImages = pickedImages;
+          });
+        } else {
+          AppUtil.errorToast(context, 'imageValidSize'.tr);
+        }
       }
-        
-      }
-    } catch (e) {
-      print('Error picking images: $e');
-    }
+    } catch (e) {}
   }
 
   Future<void> _takePhoto() async {
     try {
-      final XFile? photo = await _picker.pickImage(source: ImageSource.camera, imageQuality: 30);
+      final XFile? photo =
+          await _picker.pickImage(source: ImageSource.camera, imageQuality: 30);
       if (photo != null) {
-        
-          if (AppUtil.isImageValidate(await photo.length())) {
-        print(" is asdded");
-       setState(() {
-          _selectedImages =
-              _selectedImages != null ? [..._selectedImages!, photo] : [photo];
-        });
-        }   else {
-        AppUtil.errorToast(
-            context, 'imageValidSize'.tr);
+        if (AppUtil.isImageValidate(await photo.length())) {
+          setState(() {
+            _selectedImages = _selectedImages != null
+                ? [..._selectedImages!, photo]
+                : [photo];
+          });
+        } else {
+          AppUtil.errorToast(context, 'imageValidSize'.tr);
+        }
       }
-      }
-    } catch (e) {
-      print('Error taking photo: $e');
-    }
+    } catch (e) {}
   }
 
   @override
@@ -513,13 +495,12 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CustomText(
-                         text: 'Choosephotos'.tr,
-                   
-                      color: Color(0xFF070708),
-                      fontSize: 22,
-                      fontFamily: 'HT Rakik',
-                      fontWeight: FontWeight.w500,
-                    ),
+                  text: 'Choosephotos'.tr,
+                  color: Color(0xFF070708),
+                  fontSize: 22,
+                  fontFamily: 'HT Rakik',
+                  fontWeight: FontWeight.w500,
+                ),
                 IconButton(
                   icon: Icon(Icons.camera_alt_outlined),
                   onPressed: _takePhoto,

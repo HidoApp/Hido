@@ -250,16 +250,13 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
     String currentDateString =
         intel.DateFormat('yyyy-MM-dd').format(currentDate);
 
-    print('profile booking');
-    print(_profileController.upcommingTicket.length);
     final filterdBooking = _profileController.upcommingTicket
         .where((book) => book.bookingType == 'place')
         .toList();
     if (filterdBooking.isEmpty) {
       return;
     }
-    print("filterdBooking.length");
-    print(filterdBooking.length);
+
     int length = filterdBooking.length;
 
     for (var i = 0; i < length; i++) {
@@ -280,13 +277,9 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
         _touristExploreController.showActivityProgress(false);
       }
     }
-    print(currentDateString);
-    print(filterdBooking[0].date.substring(0, 10));
   }
 
   void setProgressStep() {
-    print("activityProgress");
-    print(_touristExploreController.activityProgres.value!.activityProgress!);
     switch (
         _touristExploreController.activityProgres.value!.activityProgress!) {
       case 'PENDING':
@@ -335,9 +328,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
         double.parse(_touristExploreController
             .touristModel.value!.places![index].coordinates!.longitude!),
       );
-    } else {
-      print('CAN NOT CALCULATE DISTANCE');
-    }
+    } else {}
 
     Get.to(
       () => TripDetails(
@@ -397,7 +388,6 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
               customMarkers: customMarkers,
               builder: (context, markers) {
                 if (markers == null) {
-                  print(storage.read<List<Marker>>('markers')!.length);
                   return Obx(
                     () => GoogleMap(
                       zoomControlsEnabled: false,
@@ -422,7 +412,6 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                   );
                 }
                 if (_touristExploreController.isNewMarkers.value) {
-                  print('NEWW');
                   storage.write('markers', markers.toList()).then((val) {
                     _touristExploreController.isNewMarkers.value = false;
                     _touristExploreController.updateMap(true);

@@ -47,7 +47,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
   void gethospitalitySummary() async {
     _summary = await _servicesController.getHospitalitySummaryById(
         context: context, id: widget.hospitalityId);
-    print(_summary?.cost);
+
     for (var guest in _summary!.guestList) {
       totalFemales += guest.female;
       totalMales += guest.male;
@@ -62,9 +62,6 @@ class _SummaryScreenState extends State<SummaryScreen> {
         totalFemales += guest.female;
         totalMales += guest.male;
       }
-
-    print('Total number of females: $totalFemales');
-    print('Total number of males: $totalMales');
   }
 
   @override
@@ -97,14 +94,13 @@ class _SummaryScreenState extends State<SummaryScreen> {
               color: Colors.black,
               borderRadius: BorderRadius.circular(8.0),
             ),
-            child:CustomText(
-              text:'Copied'.tr,
-                color: Colors.white,
-                fontFamily:
-                    AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-                fontSize: 11,
-                fontWeight: FontWeight.w400,
-              
+            child: CustomText(
+              text: 'Copied'.tr,
+              color: Colors.white,
+              fontFamily:
+                  AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+              fontSize: 11,
+              fontWeight: FontWeight.w400,
             ),
           ),
         ),
@@ -182,14 +178,14 @@ class _SummaryScreenState extends State<SummaryScreen> {
                                       height: 20,
                                     )),
                                 const SizedBox(width: 8),
-                               CustomText(
-                                 text:'#${_summary?.id.substring(0, 7)}',
-                                    color: Color(0xFFB9B8C1),
-                                    fontSize: 13,
-                                    fontFamily: AppUtil.rtlDirection2(context)
-                                        ? 'SF Arabic'
-                                        : 'SF Pro',
-                                    fontWeight: FontWeight.w500,
+                                CustomText(
+                                  text: '#${_summary?.id.substring(0, 7)}',
+                                  color: Color(0xFFB9B8C1),
+                                  fontSize: 13,
+                                  fontFamily: AppUtil.rtlDirection2(context)
+                                      ? 'SF Arabic'
+                                      : 'SF Pro',
+                                  fontWeight: FontWeight.w500,
                                 ),
                               ],
                             ),
@@ -202,29 +198,27 @@ class _SummaryScreenState extends State<SummaryScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               CustomText(
-                               text: AppUtil.rtlDirection2(context)
+                                text: AppUtil.rtlDirection2(context)
                                     ? _summary?.titleAr ?? ''
                                     : _summary?.titleEn ?? '',
-                                  color: Color(0xFF070708),
-                                  fontSize: 16,
-                                  fontFamily: AppUtil.rtlDirection2(context)
-                                      ? 'SF Arabic'
-                                      : 'SF Pro',
-                                  fontWeight: FontWeight.w500,
-                                
+                                color: Color(0xFF070708),
+                                fontSize: 16,
+                                fontFamily: AppUtil.rtlDirection2(context)
+                                    ? 'SF Arabic'
+                                    : 'SF Pro',
+                                fontWeight: FontWeight.w500,
                               ),
-                              if( _summary!.daysInfo.isNotEmpty)
-                              CustomText(
-                                text:formatBookingDate(context,
-                                    _summary?.daysInfo.first.startTime ?? ''),
+                              if (_summary!.daysInfo.isNotEmpty)
+                                CustomText(
+                                  text: formatBookingDate(context,
+                                      _summary?.daysInfo.first.startTime ?? ''),
                                   color: Color(0xFF070708),
                                   fontSize: 15,
                                   fontFamily: AppUtil.rtlDirection2(context)
                                       ? 'SF Arabic'
                                       : 'SF Pro',
                                   fontWeight: FontWeight.w500,
-                                
-                              ),
+                                ),
                             ],
                           ),
                           SizedBox(height: 12),
@@ -234,78 +228,73 @@ class _SummaryScreenState extends State<SummaryScreen> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                               if( _summary!.daysInfo.isNotEmpty)
-                              CustomText(
-                                // AppUtil.formatTimeWithLocale(context, _summary?.daysInfo.first.startTime??'','hh:mm a'),
-                                text:'${AppUtil.formatTimeWithLocale(context, _summary?.daysInfo.first.startTime ?? '', 'hh:mm a')} - ${AppUtil.formatTimeWithLocale(context, _summary?.daysInfo.first.endTime ?? '', 'hh:mm a')}',
+                              if (_summary!.daysInfo.isNotEmpty)
+                                CustomText(
+                                  // AppUtil.formatTimeWithLocale(context, _summary?.daysInfo.first.startTime??'','hh:mm a'),
+                                  text:
+                                      '${AppUtil.formatTimeWithLocale(context, _summary?.daysInfo.first.startTime ?? '', 'hh:mm a')} - ${AppUtil.formatTimeWithLocale(context, _summary?.daysInfo.first.endTime ?? '', 'hh:mm a')}',
                                   color: Color(0xFF070708),
                                   fontSize: 12,
                                   fontFamily: AppUtil.rtlDirection2(context)
                                       ? 'SF Arabic'
                                       : 'SF Pro',
                                   fontWeight: FontWeight.w400,
-                                
-                              ),
+                                ),
                               SizedBox(height: 8),
                               Row(
                                 children: [
                                   CustomText(
-                                   text: '$totalFemales ${'Women'.tr}',
-                                      color: Color(0xFF070708),
-                                      fontSize: 12,
-                                      fontFamily: AppUtil.rtlDirection2(context)
-                                          ? 'SF Arabic'
-                                          : 'SF Pro',
-                                      fontWeight: FontWeight.w400,
-                                  
+                                    text: '$totalFemales ${'Women'.tr}',
+                                    color: Color(0xFF070708),
+                                    fontSize: 12,
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
+                                    fontWeight: FontWeight.w400,
                                   ),
                                   SizedBox(width: 4),
                                   CustomText(
-                                    text:'∙',
-                                      color: Color(0xFF070708),
-                                      fontSize: 12,
-                                      fontFamily: AppUtil.rtlDirection2(context)
-                                          ? 'SF Arabic'
-                                          : 'SF Pro',
-                                      fontWeight: FontWeight.w400,
-                                    
+                                    text: '∙',
+                                    color: Color(0xFF070708),
+                                    fontSize: 12,
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
+                                    fontWeight: FontWeight.w400,
                                   ),
                                   SizedBox(width: 4),
                                   CustomText(
-                                   text: '$totalMales ${'Men'.tr}',
-                                      color: Color(0xFF070708),
-                                      fontSize: 12,
-                                      fontFamily: AppUtil.rtlDirection2(context)
-                                          ? 'SF Arabic'
-                                          : 'SF Pro',
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  
+                                    text: '$totalMales ${'Men'.tr}',
+                                    color: Color(0xFF070708),
+                                    fontSize: 12,
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ],
                               ),
                               SizedBox(height: 8),
                               Row(
                                 children: [
                                   CustomText(
-                                    text:'${_summary?.cost}',
-                                      color: Color(0xFF070708),
-                                      fontSize: 12,
-                                      fontFamily: AppUtil.rtlDirection2(context)
-                                          ? 'SF Arabic'
-                                          : 'SF Pro',
-                                      fontWeight: FontWeight.w400,
-                                  
+                                    text: '${_summary?.cost}',
+                                    color: Color(0xFF070708),
+                                    fontSize: 12,
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
+                                    fontWeight: FontWeight.w400,
                                   ),
                                   SizedBox(width: 4),
                                   CustomText(
-                                    text:'sar'.tr,
-                                      color: Color(0xFF070708),
-                                      fontSize: 12,
-                                      fontFamily: AppUtil.rtlDirection2(context)
-                                          ? 'SF Arabic'
-                                          : 'SF Pro',
-                                      fontWeight: FontWeight.w400,
-                                  
+                                    text: 'sar'.tr,
+                                    color: Color(0xFF070708),
+                                    fontSize: 12,
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
+                                    fontWeight: FontWeight.w400,
                                   ),
                                 ],
                               ),
@@ -316,17 +305,17 @@ class _SummaryScreenState extends State<SummaryScreen> {
                           SizedBox(height: 12),
                           // Fourth Row: Guest List
                           CustomText(
-                            text:AppUtil.rtlDirection2(context)
+                            text: AppUtil.rtlDirection2(context)
                                 ? 'لائحة الضيوف'
                                 : 'Guest list',
-                              color: Color(0xFF070708),
-                              fontSize: 16,
-                              fontFamily: AppUtil.rtlDirection2(context)
-                                  ? 'SF Arabic'
-                                  : 'SF Pro',
-                              fontWeight: FontWeight.w600,
-                            ),
-                        
+                            color: Color(0xFF070708),
+                            fontSize: 16,
+                            fontFamily: AppUtil.rtlDirection2(context)
+                                ? 'SF Arabic'
+                                : 'SF Pro',
+                            fontWeight: FontWeight.w600,
+                          ),
+
                           SizedBox(height: 12),
                           Expanded(
                             child: ListView.builder(
@@ -339,27 +328,27 @@ class _SummaryScreenState extends State<SummaryScreen> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       CustomText(
-                                      text: _summary?.guestList[index].name ?? '',
-                                          color: Color(0xFF41404A),
-                                          fontSize: 13,
-                                          fontFamily:
-                                              AppUtil.rtlDirection2(context)
-                                                  ? 'SF Arabic'
-                                                  : 'SF Pro',
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                    
+                                        text: _summary?.guestList[index].name ??
+                                            '',
+                                        color: Color(0xFF41404A),
+                                        fontSize: 13,
+                                        fontFamily:
+                                            AppUtil.rtlDirection2(context)
+                                                ? 'SF Arabic'
+                                                : 'SF Pro',
+                                        fontWeight: FontWeight.w400,
+                                      ),
                                       CustomText(
-                                        text:'${_summary?.guestList[index].female} ${'Women'.tr} - ${_summary?.guestList[index].male} ${'Men'.tr}',
-                                          color: Color(0xFFB9B8C1),
-                                          fontSize: 12,
-                                          fontFamily:
-                                              AppUtil.rtlDirection2(context)
-                                                  ? 'SF Arabic'
-                                                  : 'SF Pro',
-                                          fontWeight: FontWeight.w400,
-                                          height: 0,
-                                        
+                                        text:
+                                            '${_summary?.guestList[index].female} ${'Women'.tr} - ${_summary?.guestList[index].male} ${'Men'.tr}',
+                                        color: Color(0xFFB9B8C1),
+                                        fontSize: 12,
+                                        fontFamily:
+                                            AppUtil.rtlDirection2(context)
+                                                ? 'SF Arabic'
+                                                : 'SF Pro',
+                                        fontWeight: FontWeight.w400,
+                                        height: 0,
                                       ),
                                     ],
                                   ),

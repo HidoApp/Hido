@@ -29,7 +29,7 @@ class TripBookingWidget extends StatefulWidget {
 }
 
 class _TripBookingWidgetState extends State<TripBookingWidget> {
-  late Booking? theBooking ;
+  late Booking? theBooking;
   OfferController offerController = Get.put(OfferController());
   @override
   Widget build(BuildContext context) {
@@ -37,21 +37,21 @@ class _TripBookingWidgetState extends State<TripBookingWidget> {
     final height = MediaQuery.of(context).size.height;
     return InkWell(
       onTap: () async {
-       // setState(() async{
-         final  localBooking = await widget.touristExploreController.getTouristBookingById(
-            context: context, bookingId: widget.bookingId);
-      //  });
-        // print('${theBooking!.chatId}');
+        // setState(() async{
+        final localBooking = await widget.touristExploreController
+            .getTouristBookingById(
+                context: context, bookingId: widget.bookingId);
+        //  });
+        //
         Get.to(() => FindAjwady(
               booking: localBooking!,
               place: widget.booking.place!,
               placeId: widget.booking.placeId!,
             ));
 
-
-         //    setState(() {
-           theBooking =localBooking;
-       // });
+        //    setState(() {
+        theBooking = localBooking;
+        // });
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8).copyWith(
@@ -142,10 +142,10 @@ class _TripBookingWidgetState extends State<TripBookingWidget> {
                         onPressed: () {
                           Get.to(() => ChatScreenLive(
                                 isAjwadi: false,
-                                offerController:offerController ,
-                             //   booking: widget.booking,
+                                offerController: offerController,
+                                //   booking: widget.booking,
                                 chatId: widget.booking.chatId,
-                                place:  widget.booking.place,
+                                place: widget.booking.place,
                               ));
                         },
                         title: 'chat'.tr,

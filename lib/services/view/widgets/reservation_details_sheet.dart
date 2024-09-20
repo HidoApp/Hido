@@ -2,7 +2,6 @@ import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/calender_dialog.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/services/model/hospitality.dart';
-import 'package:ajwad_v4/services/view/payment/check_out_screen.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
@@ -90,7 +89,6 @@ void showReservationDetailsSheet({
                                     : Alignment.centerRight,
                                 child: CustomTextWithIconButton(
                                   onTap: () {
-                                    print("object");
                                     setState(() {
                                       selectedChoice = 3;
                                     });
@@ -317,12 +315,12 @@ void showReservationDetailsSheet({
                                                           serviceController
                                                               .selectedTime(newT
                                                                   .toString());
-                                                          // print(newT);
-                                                          //   print(  serviceController.selectedTime );
-                                                          print('PARSING');
+                                                          //
+                                                          //
+
                                                           print(
                                                               "PARSING ${DateFormat('hh:mm:ss').format(DateTime.parse(newT.toString()))}");
-                                                          //   print(newTime);
+                                                          //
                                                           //  });
                                                         },
                                                       ),
@@ -553,7 +551,6 @@ void showReservationDetailsSheet({
                                         color == purple ? darkPurple : darkPink,
                                     title: "reserve".tr,
                                     onPressed: () async {
-                                      print(serviceController.selectedTime);
                                       if (guestNum == 0 ||
                                           serviceController
                                                   .isHospatilityDateSelcted
@@ -579,25 +576,23 @@ void showReservationDetailsSheet({
                                                 cost: (hospitality.price *
                                                     guestNum));
 
-                                        print("isSuccess : $isSuccess");
-
                                         if (isSuccess) {
-                                          Get.to(() => GeneralCheckOutScreen(
-                                                total: hospitality.price *
-                                                    guestNum,
-                                                serviceController:
-                                                    serviceController,
-                                                hospitalityId: hospitality.id,
-                                                date: serviceController
-                                                    .selectedDate.value,
-                                                dayId: hospitality
-                                                    .daysInfo[serviceController
-                                                        .selectedDateIndex
-                                                        .value]
-                                                    .id,
-                                                numOfMale: maleGuestNum,
-                                                numOfFemale: femaleGuestNum,
-                                              ));
+                                          // Get.to(() => GeneralCheckOutScreen(
+                                          //       total: hospitality.price *
+                                          //           guestNum,
+                                          //       serviceController:
+                                          //           serviceController,
+                                          //       hospitalityId: hospitality.id,
+                                          //       date: serviceController
+                                          //           .selectedDate.value,
+                                          //       dayId: hospitality
+                                          //           .daysInfo[serviceController
+                                          //               .selectedDateIndex
+                                          //               .value]
+                                          //           .id,
+                                          //       numOfMale: maleGuestNum,
+                                          //       numOfFemale: femaleGuestNum,
+                                          //     ));
                                           // serviceController.hospitalityPayment(context: context, hospitalityId:  hospitality.id);
                                         }
                                       }

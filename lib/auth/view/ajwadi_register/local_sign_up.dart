@@ -74,237 +74,243 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
 
-    return Scaffold(
-      appBar: CustomAppBar('signUp'.tr),
-      body: ScreenPadding(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  CustomText(
-                    text: 'welcometo'.tr,
-                    color: black,
-                    fontSize: width * 0.051,
-                  ),
-                  SizedBox(
-                    width: width * 0.0128,
-                  ),
-                  CustomText(
-                    text: 'hido'.tr,
-                    color: colorGreen,
-                    fontSize: width * 0.051,
-                  )
-                ],
-              ),
-              CustomText(
-                text: 'signUpLocal'.tr,
-                color: starGreyColor,
-                fontSize: width * 0.043,
-                fontWeight: FontWeight.w500,
-                maxlines: 10,
-              ),
-              SizedBox(
-                height: width * 0.061,
-              ),
-              Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        appBar: CustomAppBar('signUp'.tr),
+        body: ScreenPadding(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
                   children: [
                     CustomText(
-                      text: 'idIqama'.tr,
-                      fontSize: width * 0.043,
-                      fontFamily: AppUtil.SfFontType(context),
-                      fontWeight: FontWeight.w500,
+                      text: 'welcometo'.tr,
+                      color: black,
+                      fontSize: width * 0.051,
                     ),
                     SizedBox(
-                      height: width * 0.0205,
-                    ),
-                    CustomTextField(
-                      keyboardType: TextInputType.number,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.digitsOnly,
-                        LengthLimitingTextInputFormatter(10),
-                      ],
-                      validator: false,
-                      hintText: 'idHint'.tr,
-                      validatorHandle: (id) {
-                        if (id!.isEmpty) {
-                          return 'fieldRequired'.tr;
-                        }
-                        if (!AppUtil.isSaudiNationalId(id)) {
-                          return 'invaild id';
-                        }
-                        return null;
-                      },
-                      onChanged: (id) => nationalId = id,
-                    ),
-                    SizedBox(
-                      height: width * 0.061,
+                      width: width * 0.0128,
                     ),
                     CustomText(
-                      text: 'phoneNum'.tr,
-                      fontSize: width * 0.0435,
-                      fontWeight: FontWeight.w500,
-                      fontFamily: AppUtil.SfFontType(context),
-                    ),
-                    SizedBox(
-                      height: width * 0.0205,
-                    ),
-                    CustomTextField(
-                      hintText: 'phoneHint'.tr,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.digitsOnly,
-                        LengthLimitingTextInputFormatter(10)
-                      ],
-                      keyboardType: TextInputType.number,
-                      validator: false,
-                      validatorHandle: (number) {
-                        if (number == null || number!.isEmpty) {
-                          return 'fieldRequired'.tr;
-                        }
-                        if (!number.startsWith('05') || number.length != 10) {
-                          return 'invalidPhone'.tr;
-                        }
-                        return null;
-                      },
-                      onChanged: (number) =>
-                          _authController.phoneNumber(number),
-                    ),
-                    SizedBox(
-                      height: width * .06,
-                    ),
-                    CustomText(
-                      text: 'birthDate'.tr,
-                      fontSize: width * 0.043,
-                      fontFamily: AppUtil.SfFontType(context),
-                      fontWeight: FontWeight.w500,
-                    ),
-                    SizedBox(
-                      height: width * 0.0205,
-                    ),
-                    GestureDetector(
-                      onTap: () async {
-                        await openDialog(context);
-                      },
-                      child: Obx(
-                        () => Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: width * .03,
-                            vertical: width * .020,
-                            //  bottom: width * .020,
-                          ),
-                          height: width * 0.123,
-                          decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(10),
-                              ),
-                              border: Border.all(
-                                color: _authController.validBirthDay.value
-                                    ? borderGrey
-                                    : colorRed,
-                              )),
-                          child: Row(
-                            children: [
-                              // SizedBox(
-                              //   width: width * 0.00,
-                              // ),
-                              Obx(
-                                () => CustomText(
-                                  text: _authController.birthDate.isNotEmpty
-                                      ? _authController.birthDateDay.value
-                                      : 'mm/dd/yyy'.tr,
-                                  color: Graytext,
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: width * .038,
-                                  fontFamily: AppUtil.SfFontType(context),
-                                ),
-                              ),
-                              const Spacer(),
-                              SvgPicture.asset('assets/icons/calendar.svg'),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Obx(
-                      () => _authController.validBirthDay.value
-                          ? Container()
-                          : CustomText(
-                              text: 'invalidDate'.tr,
-                              color: colorRed,
-                              fontSize: 11,
-                              fontWeight: FontWeight.w400,
-                              fontFamily: AppUtil.SfFontType(context),
-                            ),
-                    ),
+                      text: 'hido'.tr,
+                      color: colorGreen,
+                      fontSize: width * 0.051,
+                    )
                   ],
                 ),
-              ),
-              SizedBox(
-                height: width * 0.061,
-              ),
-              const TermsAndConditionsText(),
-              SizedBox(
-                height: width * 0.102,
-              ),
-              Obx(
-                () => _authController.isPersonInfoLoading.value
-                    ? const Center(child: CircularProgressIndicator.adaptive())
-                    : CustomButton(
-                        onPressed: () async {
-                          if (!_authController.agreeForTerms.value) {
-                            _authController.isAgreeForTerms(false);
-                            return;
-                          } else {
-                            _authController.isAgreeForTerms(true);
+                CustomText(
+                  text: 'signUpLocal'.tr,
+                  color: starGreyColor,
+                  fontSize: width * 0.043,
+                  fontWeight: FontWeight.w500,
+                  maxlines: 10,
+                ),
+                SizedBox(
+                  height: width * 0.061,
+                ),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomText(
+                        text: 'idIqama'.tr,
+                        fontSize: width * 0.043,
+                        fontFamily: AppUtil.SfFontType(context),
+                        fontWeight: FontWeight.w500,
+                      ),
+                      SizedBox(
+                        height: width * 0.0205,
+                      ),
+                      CustomTextField(
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                          LengthLimitingTextInputFormatter(10),
+                        ],
+                        validator: false,
+                        hintText: 'idHint'.tr,
+                        validatorHandle: (id) {
+                          if (id!.isEmpty) {
+                            return 'fieldRequired'.tr;
                           }
-                          log(_authController.birthDate.value);
-                          var isValid = _formKey.currentState!.validate();
-                          _authController.validBirthDay(
-                              _authController.birthDate.isNotEmpty);
-                          if (isValid && _authController.birthDate.isNotEmpty) {
-                            final isSuccess =
-                                await _authController.personInfoOTP(
-                                    nationalID: nationalId,
-                                    birthDate: _authController.birthDate.value,
-                                    context: context);
-                            print('isSuccess UI $isSuccess');
-                            if (isSuccess != null) {
-                              _authController.localID(nationalId);
-                              log(_authController.birthDateDay.value);
-                              log("enter to signup");
-
-                              Get.to(() => PhoneOTP(
-                                    otp: '',
-                                    type: 'signUp',
-                                    resendOtp: () async {
-                                      await _authController.personInfoOTP(
-                                          nationalID: nationalId,
-                                          birthDate:
-                                              _authController.birthDate.value,
-                                          context: context);
-                                    },
-                                  ));
-                            }
-                            // Get.to(() => const ProvidedServices());
+                          if (!AppUtil.isSaudiNationalId(id)) {
+                            return 'invaildId'.tr;
                           }
+                          return null;
                         },
-                        title: 'next'.tr,
-                        height: 48,
-                        icon: const Icon(
-                          Icons.keyboard_arrow_right,
-                          size: 24,
+                        onChanged: (id) => nationalId = id,
+                      ),
+                      SizedBox(
+                        height: width * 0.061,
+                      ),
+                      CustomText(
+                        text: 'phoneNum'.tr,
+                        fontSize: width * 0.0435,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: AppUtil.SfFontType(context),
+                      ),
+                      SizedBox(
+                        height: width * 0.0205,
+                      ),
+                      CustomTextField(
+                        hintText: 'phoneHint'.tr,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                          LengthLimitingTextInputFormatter(10)
+                        ],
+                        keyboardType: TextInputType.number,
+                        validator: false,
+                        validatorHandle: (number) {
+                          if (number == null || number!.isEmpty) {
+                            return 'fieldRequired'.tr;
+                          }
+                          if (!number.startsWith('05') || number.length != 10) {
+                            return 'invalidPhone'.tr;
+                          }
+                          return null;
+                        },
+                        onChanged: (number) =>
+                            _authController.phoneNumber(number),
+                      ),
+                      SizedBox(
+                        height: width * .06,
+                      ),
+                      CustomText(
+                        text: 'birthDate'.tr,
+                        fontSize: width * 0.043,
+                        fontFamily: AppUtil.SfFontType(context),
+                        fontWeight: FontWeight.w500,
+                      ),
+                      SizedBox(
+                        height: width * 0.0205,
+                      ),
+                      GestureDetector(
+                        onTap: () async {
+                          await openDialog(context);
+                        },
+                        child: Obx(
+                          () => Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: width * .03,
+                              vertical: width * .020,
+                              //  bottom: width * .020,
+                            ),
+                            height: width * 0.123,
+                            decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
+                                border: Border.all(
+                                  color: _authController.validBirthDay.value
+                                      ? borderGrey
+                                      : colorRed,
+                                )),
+                            child: Row(
+                              children: [
+                                // SizedBox(
+                                //   width: width * 0.00,
+                                // ),
+                                Obx(
+                                  () => CustomText(
+                                    text: _authController.birthDate.isNotEmpty
+                                        ? _authController.birthDateDay.value
+                                        : 'mm/dd/yyy'.tr,
+                                    color: Graytext,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: width * .038,
+                                    fontFamily: AppUtil.SfFontType(context),
+                                  ),
+                                ),
+                                const Spacer(),
+                                SvgPicture.asset('assets/icons/calendar.svg'),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
-              ),
-              SizedBox(
-                height: width * 0.041,
-              ),
-              const SignInText()
-            ],
+                      Obx(
+                        () => _authController.validBirthDay.value
+                            ? Container()
+                            : CustomText(
+                                text: 'invalidDate'.tr,
+                                color: colorRed,
+                                fontSize: 11,
+                                fontWeight: FontWeight.w400,
+                                fontFamily: AppUtil.SfFontType(context),
+                              ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: width * 0.061,
+                ),
+                const TermsAndConditionsText(),
+                SizedBox(
+                  height: width * 0.102,
+                ),
+                Obx(
+                  () => _authController.isPersonInfoLoading.value
+                      ? const Center(
+                          child: CircularProgressIndicator.adaptive())
+                      : CustomButton(
+                          onPressed: () async {
+                            if (!_authController.agreeForTerms.value) {
+                              _authController.isAgreeForTerms(false);
+                              return;
+                            } else {
+                              _authController.isAgreeForTerms(true);
+                            }
+                            log(_authController.birthDate.value);
+                            var isValid = _formKey.currentState!.validate();
+                            _authController.validBirthDay(
+                                _authController.birthDate.isNotEmpty);
+                            if (isValid &&
+                                _authController.birthDate.isNotEmpty) {
+                              final isSuccess =
+                                  await _authController.personInfoOTP(
+                                      nationalID: nationalId,
+                                      birthDate:
+                                          _authController.birthDate.value,
+                                      context: context);
+
+                              if (isSuccess != null) {
+                                _authController.localID(nationalId);
+                                log(_authController.birthDateDay.value);
+                                log("enter to signup");
+
+                                Get.to(() => PhoneOTP(
+                                      otp: '',
+                                      type: 'signUp',
+                                      resendOtp: () async {
+                                        await _authController.personInfoOTP(
+                                            nationalID: nationalId,
+                                            birthDate:
+                                                _authController.birthDate.value,
+                                            context: context);
+                                      },
+                                    ));
+                              }
+                              // Get.to(() => const ProvidedServices());
+                            }
+                          },
+                          title: 'next'.tr,
+                          height: 48,
+                          icon: const Icon(
+                            Icons.keyboard_arrow_right,
+                            size: 24,
+                          ),
+                        ),
+                ),
+                SizedBox(
+                  height: width * 0.041,
+                ),
+                const SignInText()
+              ],
+            ),
           ),
         ),
       ),

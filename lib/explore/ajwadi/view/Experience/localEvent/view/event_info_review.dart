@@ -89,7 +89,6 @@ class _EventInfoReviewState extends State<EventInfoReview> {
     try {
       List<Placemark> placemarks =
           await placemarkFromCoordinates(position.latitude, position.longitude);
-      print(placemarks);
 
       if (placemarks.isNotEmpty) {
         Placemark placemark = placemarks.first;
@@ -110,15 +109,13 @@ class _EventInfoReviewState extends State<EventInfoReview> {
         //   });
         //  }
         // });
-        print(placemarks.first);
+
         return placemark.subLocality != null &&
                 placemark.subLocality!.isNotEmpty
             ? '${placemark.subLocality}'
             : '${placemark.locality}';
       }
-    } catch (e) {
-      print("Error retrieving address: $e");
-    }
+    } catch (e) {}
     return '';
   }
 
@@ -131,12 +128,10 @@ class _EventInfoReviewState extends State<EventInfoReview> {
       });
     } catch (e) {
       // Handle error if necessary
-      print('Error fetching address: $e');
     }
   }
 
   void daysInfo() {
-    print(_EventController.selectedEndTime);
     // Format for combining date and time
     var formatter = intl.DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
     //DateTime date = DateTime.parse(_EventController.selectedDate.value);
@@ -172,7 +167,6 @@ class _EventInfoReviewState extends State<EventInfoReview> {
     }
 
     // Print the new dates list
-    print(DaysInfo);
   }
 
   //   for (var date in widget.hospitalityController.selectedDates) {
@@ -206,12 +200,11 @@ class _EventInfoReviewState extends State<EventInfoReview> {
   //   }
 
   //   // Print the new dates list
-  //   print(DaysInfo);
+  //
   // }
 
   // Function to generate the Google Maps URL
   String getLocationUrl(LatLng location) {
-    print(' location lang${location.longitude}');
     return 'https://www.google.com/maps/search/?api=1&query=${location.latitude},${location.longitude}';
   }
 
@@ -224,7 +217,6 @@ class _EventInfoReviewState extends State<EventInfoReview> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() {
         locationUrl = getLocationUrl(_EventController.pickUpLocLatLang.value);
-        print('Location URL: $locationUrl');
       });
       _fetchAddress();
     });
@@ -289,10 +281,6 @@ class _EventInfoReviewState extends State<EventInfoReview> {
   }
 
   Widget build(BuildContext context) {
-    print('Location URL: $locationUrl');
-    print(_EventController.selectedDate.value);
-    print(_EventController.pickUpLocLatLang.value.longitude);
-
     return Scaffold(
         appBar: CustomAppBar(
           'Review'.tr,
@@ -529,15 +517,14 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                                                   .ragionEn.value,
                                               context: context);
 
-                                          print('is sucssssss');
-                                          print(isSuccess);
                                           if (isSuccess) {
                                             showDialog(
                                               context: context,
                                               builder: (BuildContext context) {
                                                 return Dialog(
-                                                    backgroundColor: Colors.white,
-                                                    surfaceTintColor:Colors.white,
+                                                  backgroundColor: Colors.white,
+                                                  surfaceTintColor:
+                                                      Colors.white,
                                                   shape: RoundedRectangleBorder(
                                                     borderRadius:
                                                         BorderRadius.circular(

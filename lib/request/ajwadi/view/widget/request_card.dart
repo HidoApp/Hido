@@ -40,16 +40,13 @@ class _RequestCardState extends State<RequestCard> {
     try {
       List<Placemark> placemarks =
           await placemarkFromCoordinates(position1, position2);
-      print(placemarks);
 
       if (placemarks.isNotEmpty) {
         Placemark placemark = placemarks.first;
-        print(placemarks.first);
+
         return '${placemark.postalCode},${placemark.subLocality},${placemark.locality}';
       }
-    } catch (e) {
-      print("Error retrieving address: $e");
-    }
+    } catch (e) {}
     return '';
   }
 
@@ -62,7 +59,6 @@ class _RequestCardState extends State<RequestCard> {
       });
     } catch (e) {
       // Handle error if necessary
-      print('Error fetching address: $e');
     }
   }
 
@@ -170,7 +166,6 @@ class _RequestCardState extends State<RequestCard> {
             disableAnimation: true,
             trailingRotation: 180,
             onTap: () {
-              print(widget.request.date);
               setState(() {});
             },
             title: CustomText(

@@ -102,7 +102,6 @@ class _EventAddProgressState extends State<EventAddProgress> {
   Widget nextStep() {
     switch (activeIndex) {
       case 0:
-        print("0");
         return AddInfo(
           textField1ControllerAR: EventTitleControllerAr,
           textField2ControllerAR: EventBioControllerAr,
@@ -110,38 +109,22 @@ class _EventAddProgressState extends State<EventAddProgress> {
           textField2ControllerEN: EventBioControllerEn,
         );
       case 1:
-        print(_EventController.bioAr.value);
-        print(_EventController.bioEn.value);
-        //print('1');
+
+        //
 
         return AddEventLocation(
           textField1Controller: EventLocation,
         );
       case 2:
-        print(_EventController.pickUpLocLatLang.value.toString());
-        print('2');
-
         return PhotoGalleryPage();
       case 3:
-        print(_EventController.selectedImages.length);
-        print('length image');
         return AddGuests();
       case 4:
-        print(_EventController.seletedSeat.value);
-        print("4");
-
         return SelectDateTime();
       case 5:
-        print(_EventController.selectedEndTime.value);
-
-        print('Selected Start Time: ${_EventController.selectedDates.value}');
-
-        print("5");
-
         return PriceDecisionCard(priceController: EventPrice);
 
       default:
-        print("2");
         return PhotoGalleryPage();
     }
   }
@@ -220,9 +203,6 @@ class _EventAddProgressState extends State<EventAddProgress> {
               if (activeIndex < totalIndex - 1) {
                 setState(() {
                   activeIndex++;
-                  print(activeIndex < totalIndex - 1);
-                  print(totalIndex);
-                  print(activeIndex);
                 });
               } else if (activeIndex == totalIndex - 1) {
                 Get.to(() => EventInfoReview(

@@ -141,7 +141,7 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
                       color: darkBlack,
                     ),
                     onTap: (index) {
-                      //   print(getStorage.read('accessToken'));
+                      //
                       _profileController.touriestBar.value = index;
                       _pageController
                           .jumpToPage(_profileController.touriestBar.value);

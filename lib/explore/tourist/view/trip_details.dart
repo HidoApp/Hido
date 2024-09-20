@@ -175,7 +175,6 @@ class _TripDetailsState extends State<TripDetails> {
                                   context: context,
                                   bookingId: thePlace!.booking!.first.id ?? '',
                                 );
-                                print(isHasOffers.value);
 
                                 Get.to(
                                   () => LocalOfferInfo(
@@ -237,8 +236,8 @@ class _TripDetailsState extends State<TripDetails> {
                         ))
                   : CustomButton(
                       onPressed: () {
-                        // print(";lkjhgfdxzxcvbnm,");
-                        // print(isViewBooking.value);
+                        //
+                        //
                         AppUtil.isGuest()
                             ? showModalBottomSheet(
                                 context: context,
@@ -686,7 +685,7 @@ class _TripDetailsState extends State<TripDetails> {
                       //                             thePlace!.booking!.first.id ??
                       //                                 '',
                       //                       );
-                      //                       print(isHasOffers.value);
+                      //
 
                       //                       Get.to(
                       //                         () => LocalOfferInfo(
@@ -751,8 +750,8 @@ class _TripDetailsState extends State<TripDetails> {
                       //               ))
                       //         : CustomButton(
                       //             onPressed: () {
-                      //               // print(";lkjhgfdxzxcvbnm,");
-                      //               // print(isViewBooking.value);
+                      //               //
+                      //               //
                       //               AppUtil.isGuest()
                       //                   ? Get.to(
                       //                       () => const SignInScreen(),

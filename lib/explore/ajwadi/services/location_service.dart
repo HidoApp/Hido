@@ -45,7 +45,6 @@ class LocationService {
           UserLocation(_currentLocation.latitude, _currentLocation.longitude);
       return userLocation;
     } catch (e) {
-      print(e);
       return null;
     } finally {}
   }

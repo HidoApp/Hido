@@ -50,7 +50,7 @@ class RequestService {
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
       log("Data$data");
-      print(inspect(data));
+
       List requestListData = data;
       List<RequestModel>? requestList;
       if (requestListData.isNotEmpty) {
@@ -101,8 +101,7 @@ class RequestService {
     log(response.statusCode.toString());
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
-      print('this offer book from services');
-      print(data);
+
       return Booking.fromJson(data);
     } else {
       String errorMessage = jsonDecode(response.body)['message'];

@@ -45,7 +45,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     showPassword = false;
     showConfirmPassword = false;
     AmplitudeService.initializeAmplitude();
-
   }
 
   @override
@@ -236,14 +235,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                                         if (data != null) {
                                           countries = data;
-
-                                          print('DONEEE');
                                         }
                                         if (countries != null) {
-
-                                         AmplitudeService.amplitude.track(BaseEvent(
-                                              'Complete First Sign Up Step',
-                                              eventProperties: {
+                                          AmplitudeService.amplitude.track(
+                                              BaseEvent(
+                                                  'Complete First Sign Up Step',
+                                                  eventProperties: {
                                                 'name': _nameController.text,
                                                 'email': _emailController.text,
                                               }));
@@ -256,15 +253,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                 authController: _authController,
                                                 countries: countries,
                                               ));
-                                        
-                                         AmplitudeService.amplitude.track(BaseEvent(
-                                              'Next Step of Tourist Sign Up'));
+
+                                          AmplitudeService.amplitude.track(
+                                              BaseEvent(
+                                                  'Next Step of Tourist Sign Up'));
                                         }
 
                                         // }
-                                      }else{
-                                       
-                                         AmplitudeService.amplitude.track(BaseEvent('First Tourist Sign Up Step Failed'));
+                                      } else {
+                                        AmplitudeService.amplitude.track(BaseEvent(
+                                            'First Tourist Sign Up Step Failed'));
                                       }
                                     }),
                           ),

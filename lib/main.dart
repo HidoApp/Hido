@@ -63,9 +63,7 @@ void main() async {
     } else {
       runApp(const MyApp());
     }
-  } catch (error) {
-    print("Firebase initialization error: $error");
-  }
+  } catch (error) {}
   if (kReleaseMode) ErrorWidget.builder = (_) => const ErrorScreenWidget();
 }
 
@@ -90,12 +88,11 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     token = _getStorage.read('accessToken') ?? '';
     log('token $token');
-    print('${Platform.localeName.toLocale().languageCode}');
 
     local = Platform.localeName.toLocale().languageCode;
     //local = Platform.localeName.toLocale().languageCode;
 
-    // print('${Platform.localeName.split('_').first}');
+    //
     // local = Platform.localeName.split('_').first.toLowerCase();
   }
 

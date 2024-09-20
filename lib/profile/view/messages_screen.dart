@@ -84,7 +84,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
                                   );
                                 },
                                 itemBuilder: (context, index) {
-                                  // print(widget.profileController.chatList[index].messages?.last.message);
+                                  //
                                   return CustomChatCard(
                                     chatModel: widget
                                         .profileController.chatList[index],

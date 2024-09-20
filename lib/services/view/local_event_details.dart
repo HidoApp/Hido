@@ -1,4 +1,3 @@
-
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/event/model/event.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/localEvent/view/edit_event.dart';
@@ -22,7 +21,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ajwad_v4/explore/tourist/view/view_trip_images.dart';
 
 import 'package:ajwad_v4/services/view/widgets/images_services_widget.dart';
-
 
 import 'package:ajwad_v4/widgets/custom_policy_sheet.dart';
 
@@ -92,8 +90,6 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
     _profileController.isEventBookmarked(_profileController.bookmarkList
         .any((bookmark) => bookmark.id == event!.id));
     for (var day in event!.daysInfo!) {
-      print(day.startTime);
-
       if (AppUtil.isDateTimeBefore24Hours(day.startTime))
         avilableDate.add(
           DateTime.parse(
@@ -112,16 +108,13 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
     try {
       List<Placemark> placemarks =
           await placemarkFromCoordinates(position1, position2);
-      print(placemarks);
 
       if (placemarks.isNotEmpty) {
         Placemark placemark = placemarks.first;
-        print(placemarks.first);
+
         return '${placemark.locality}, ${placemark.subLocality}';
       }
-    } catch (e) {
-      print("Error retrieving address: $e");
-    }
+    } catch (e) {}
     return '';
   }
 
@@ -134,7 +127,6 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
       });
     } catch (e) {
       // Handle error if necessary
-      print('Error fetching address: $e');
     }
   }
 

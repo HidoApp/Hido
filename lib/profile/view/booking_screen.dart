@@ -57,11 +57,11 @@ class _BookingScreenState extends State<BookingScreen>
                   ?
                   // !widget.hasTickets
                   Center(
-                    child: CustomEmptyWidget(
+                      child: CustomEmptyWidget(
                         title: 'noTour'.tr,
                         image: 'no_tickets',
                       ),
-                  )
+                    )
                   : ListView.separated(
                       shrinkWrap: true,
                       itemCount: _touristExploreController.bookingList.length,
@@ -72,10 +72,12 @@ class _BookingScreenState extends State<BookingScreen>
                         );
                       },
                       itemBuilder: (context, index) {
-                        print(    _touristExploreController.bookingList[index].place!.price);
                         return TripBookingWidget(
-                            booking:
-                                _touristExploreController.bookingList[index],bookingId:    _touristExploreController.bookingList[index].id!,touristExploreController: _touristExploreController,);
+                          booking: _touristExploreController.bookingList[index],
+                          bookingId:
+                              _touristExploreController.bookingList[index].id!,
+                          touristExploreController: _touristExploreController,
+                        );
                       },
                     ),
         ),

@@ -136,7 +136,6 @@ class _ButtomProgressState extends State<ButtomProgress> {
   Widget nextStep() {
     switch (activeIndex) {
       case 0:
-        print("0");
         return AddHospitalityInfo(
           textField1ControllerAR: hospitalityTitleControllerAr,
           textField2ControllerAR: hospitalityBioControllerAr,
@@ -144,43 +143,26 @@ class _ButtomProgressState extends State<ButtomProgress> {
           textField2ControllerEN: hospitalityBioControllerEn,
         );
       case 1:
-        print(hospitalityTitleControllerAr.text);
-        print(hospitalityTitleControllerEn.text);
-        print('1');
-
         return AddHospitalityLocation(
           textField1Controller: hospitalityLocation,
           hospitalityController: _hospitalityController,
         );
       case 2:
-        print(_hospitalityController.pickUpLocLatLang.value.toString());
-        print('2');
-
         return PhotoGalleryPage(selectedImages: _hospitalityImages);
       case 3:
-        print('3');
-        // print(_hospitalityImages.first);
+
+        //
         return AddGuests(hospitalityController: _hospitalityController);
       case 4:
-        print(_hospitalityController.seletedSeat.value);
-        print(_hospitalityController.selectedGender.value);
-        print("4");
-
         return SelectDateTime(hospitalityController: _hospitalityController);
       case 5:
-        print(_hospitalityController.selectedMealEn.value);
-        print(_hospitalityController.selectedMealAr.value);
-
-        print(_hospitalityController.selectedEndTime.value);
 
         // print(
         //  'Selected Start Time: ${_hospitalityController.selectedDate.value}');
 
-        print("5");
         return PriceDecisionCard(priceController: hospitalityPrice);
 
       default:
-        print("2");
         return PhotoGalleryPage(
             selectedImages:
                 _hospitalityImages); // Replace with your actual widget
@@ -262,12 +244,8 @@ class _ButtomProgressState extends State<ButtomProgress> {
                 if (activeIndex < totalIndex - 1) {
                   setState(() {
                     activeIndex++;
-                    print(activeIndex < totalIndex - 1);
-                    print(totalIndex);
-                    print(activeIndex);
                   });
                 } else if (activeIndex == totalIndex - 1) {
-                  print(hospitalityPrice.text);
                   Get.to(() => HostInfoReview(
                         hospitalityTitleEn: hospitalityTitleControllerEn.text,
                         hospitalityBioEn: hospitalityBioControllerEn.text,
@@ -480,7 +458,6 @@ class _AddHospitalityInfoState extends State<AddHospitalityInfo> {
                   setState(() {
                     _selectedLanguageIndex = index!;
                   });
-                  print('switched to: $index');
                 },
               ),
             ]),
@@ -702,7 +679,6 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
 
   void getLocation() async {
     userLocation = await LocationService().getUserLocation();
-    print('this location');
 
     if (userLocation != null) {
       setState(() {
@@ -736,12 +712,8 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
           address =
               '${placemark.locality}, ${placemark.subLocality}, ${placemark.country}';
         });
-        print(widget.textField1Controller.text);
-        print('this location');
       }
-    } catch (e) {
-      print(e);
-    }
+    } catch (e) {}
   }
 
   @override
@@ -758,17 +730,13 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
     try {
       List<Placemark> placemarks =
           await placemarkFromCoordinates(position1, position2);
-      print(placemarks);
 
       if (placemarks.isNotEmpty) {
         Placemark placemark = placemarks.first;
-        print(placemarks.first);
 
         return '${placemark.locality}, ${placemark.subLocality}, ${placemark.country}';
       }
-    } catch (e) {
-      print("Error retrieving address: $e");
-    }
+    } catch (e) {}
     return '';
   }
 
@@ -818,9 +786,7 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    print(address);
-    print('this location');
-    print(widget.hospitalityController.pickUpLocLatLang.toString());
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -1095,8 +1061,6 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
                                   regionListAr[index];
                             }
                           }
-                          print(widget.hospitalityController.ragionAr.value);
-                          print(widget.hospitalityController.ragionEn.value);
                         },
                         onSaved: (value) {
                           if (AppUtil.rtlDirection2(context)) {
@@ -1120,8 +1084,6 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
                                   regionListAr[index];
                             }
                           }
-                          print(widget.hospitalityController.ragionAr.value);
-                          print(widget.hospitalityController.ragionEn.value);
                         },
                         buttonStyleData: ButtonStyleData(
                           padding: AppUtil.rtlDirection2(context)
@@ -1213,18 +1175,14 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
       final List<XFile>? pickedImages = await _picker.pickMultiImage();
       if (pickedImages != null) {
         if (AppUtil.isImageValidate(await pickedImages.length)) {
-          print(" is asdded");
           setState(() {
             _hospitalityController.selectedImages.addAll(pickedImages);
           });
         } else {
-          AppUtil.errorToast(context,
-              'imageValidSize'.tr);
+          AppUtil.errorToast(context, 'imageValidSize'.tr);
         }
       }
-    } catch (e) {
-      print('Error picking images: $e');
-    }
+    } catch (e) {}
   }
 
   Future<void> _takePhoto() async {
@@ -1233,20 +1191,16 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
           await _picker.pickImage(source: ImageSource.camera, imageQuality: 30);
       if (photo != null) {
         if (AppUtil.isImageValidate(await photo.length())) {
-          print(" is asdded");
           setState(() {
             // _selectedImages =
             //     _selectedImages != null ? [..._selectedImages!, photo] : [photo];
             _hospitalityController.selectedImages.add(photo);
           });
         } else {
-          AppUtil.errorToast(context,
-              'imageValidSize'.tr);
+          AppUtil.errorToast(context, 'imageValidSize'.tr);
         }
       }
-    } catch (e) {
-      print('Error taking photo: $e');
-    }
+    } catch (e) {}
   }
 
   Future<void> _showImageOptions(BuildContext context, int index) async {
@@ -1604,18 +1558,14 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> {
       final List<XFile>? pickedImages = await _picker.pickMultiImage();
       if (pickedImages != null) {
         if (AppUtil.isImageValidate(await pickedImages.length)) {
-          print(" is asdded");
           setState(() {
             _selectedImages = pickedImages;
           });
         } else {
-          AppUtil.errorToast(context,
-              'imageValidSize'.tr);
+          AppUtil.errorToast(context, 'imageValidSize'.tr);
         }
       }
-    } catch (e) {
-      print('Error picking images: $e');
-    }
+    } catch (e) {}
   }
 
   Future<void> _takePhoto() async {
@@ -1624,20 +1574,16 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> {
           await _picker.pickImage(source: ImageSource.camera, imageQuality: 30);
       if (photo != null) {
         if (AppUtil.isImageValidate(await photo.length())) {
-          print(" is asdded");
           setState(() {
             _selectedImages = _selectedImages != null
                 ? [..._selectedImages!, photo]
                 : [photo];
           });
         } else {
-          AppUtil.errorToast(context,
-              'imageValidSize'.tr);
+          AppUtil.errorToast(context, 'imageValidSize'.tr);
         }
       }
-    } catch (e) {
-      print('Error taking photo: $e');
-    }
+    } catch (e) {}
   }
 
   @override
@@ -2099,7 +2045,6 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          print("object");
                           setState(() {
                             selectedChoice = 3;
                           });

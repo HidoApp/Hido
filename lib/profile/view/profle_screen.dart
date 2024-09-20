@@ -1,4 +1,5 @@
 import 'package:ajwad_v4/auth/services/auth_service.dart';
+import 'package:ajwad_v4/auth/view/ajwadi_register/vehicle_license.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/new-onboarding/view/intro_screen.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
@@ -152,7 +153,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Row(
                           children: [
                             CustomText(
-                              text: _profileController.profile.name ?? "",
+                              text: AppUtil.getFirstName(
+                                AppUtil.capitalizeFirstLetter(
+                                    _profileController.profile.name ?? ""),
+                              ),
                               //   widget.profileController.,
                               color: black,
                               fontSize: 20,
@@ -283,14 +287,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Get.to(() => const BookmarkScreen());
                         },
                       ),
-                    CustomListTile(
-                      title: "bookmark".tr,
-                      leading: "assets/icons/bookmark_icon_profile.svg",
-                      iconColor: black,
-                      onTap: () async {
-                        Get.to(() => const BookmarkScreen());
-                      },
-                    ),
                   ],
                 ),
                 Padding(

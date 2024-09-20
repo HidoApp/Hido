@@ -38,9 +38,6 @@ class PaymentService {
       token = getStorage.read('accessToken');
     }
 
-    print(requestId);
-    print(offerId);
-
     final response = await http.post(
         Uri.parse('$baseUrl/payment/credit-card/$requestId/$offerId'),
         headers: {
@@ -57,11 +54,7 @@ class PaymentService {
           "year": year.trim(),
           "schedule": schedule,
         }));
-    print("response.statusCode");
-    print(response.statusCode);
-    print(response.body);
 
-    print(jsonDecode(response.body).length);
     if (response.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(response.body);
       return PaymentResult.fromJson(data);
@@ -106,18 +99,10 @@ class PaymentService {
         body: json.encode({
           "InvoiceValue": InvoiceValue,
         }));
-    print("this is invo from serv");
-    print(InvoiceValue);
-    print("response.statusCode");
-    print(response.statusCode);
-    print(response.body);
 
-    print(jsonDecode(response.body).length);
     if (response.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(response.body);
-      print("this is invo from serv2");
 
-      print(data.isEmpty);
       return Invoice.fromJson(data);
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
@@ -172,8 +157,7 @@ class PaymentService {
       log(response.statusCode.toString());
       log(response.body);
       String errorMessage = jsonDecode(response.body)['Message'];
-      print(response.statusCode);
-      print(errorMessage);
+
       if (context.mounted) {
         AppUtil.errorToast(context, errorMessage);
       }
@@ -218,8 +202,7 @@ class PaymentService {
       return Invoice.fromJson(data);
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
-      print(response.statusCode);
-      print(errorMessage);
+
       if (context.mounted) {
         AppUtil.errorToast(context, errorMessage);
       }
@@ -260,8 +243,7 @@ class PaymentService {
       return Invoice.fromJson(data);
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
-      print(response.statusCode);
-      print(errorMessage);
+
       if (context.mounted) {
         AppUtil.errorToast(context, errorMessage);
       }
@@ -293,18 +275,8 @@ class PaymentService {
       },
     );
 
-    print("response.statusCode");
-    print(response.statusCode);
-    print(response.body);
-
-    print(jsonDecode(response.body).length);
     if (response.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(response.body);
-      print("this is pay from serv");
-      print(data.isEmpty);
-      print(Invoice.fromJson(data).invoiceStatus);
-      print(Invoice.fromJson(data).message);
-      print(Invoice.fromJson(data));
 
       return Invoice.fromJson(data);
     } else {
@@ -385,8 +357,7 @@ class PaymentService {
       return Invoice.fromJson(data);
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
-      print(response.statusCode);
-      print(errorMessage);
+
       if (context.mounted) {
         AppUtil.errorToast(context, errorMessage);
       }
@@ -429,8 +400,7 @@ class PaymentService {
       return Invoice.fromJson(data);
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
-      print(response.statusCode);
-      print(errorMessage);
+
       if (context.mounted) {
         AppUtil.errorToast(context, errorMessage);
       }

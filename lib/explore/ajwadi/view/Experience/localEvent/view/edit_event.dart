@@ -135,11 +135,10 @@ class _EditEventState extends State<EditEvent> {
     try {
       List<Placemark> placemarks =
           await placemarkFromCoordinates(position1, position2);
-      print(placemarks);
 
       if (placemarks.isNotEmpty) {
         Placemark placemark = placemarks.first;
-        print(placemarks.first);
+
         // setState(() {
         //   if (AppUtil.rtlDirection2(context)) {
         //     ragionAr = placemark.locality!;
@@ -158,9 +157,7 @@ class _EditEventState extends State<EditEvent> {
         // });
         return '${placemark.locality}, ${placemark.subLocality}, ${placemark.country}';
       }
-    } catch (e) {
-      print("Error retrieving address: $e");
-    }
+    } catch (e) {}
     return '';
   }
 
@@ -241,7 +238,6 @@ class _EditEventState extends State<EditEvent> {
     }
 
     // Print the new dates list
-    print(DaysInfo);
   }
 
   Future<bool> uploadImages() async {
@@ -383,9 +379,7 @@ class _EditEventState extends State<EditEvent> {
           AppUtil.errorToast(context, 'imageError'.tr);
           await Future.delayed(const Duration(seconds: 3));
         }
-      } else {
-        print("Please fill all required fields");
-      }
+      } else {}
     }
   }
 
@@ -483,24 +477,8 @@ class _EditEventState extends State<EditEvent> {
 
   Future<void> _updateEvent() async {
     try {
-      print("Updating hospitality with the following data:");
-      print("ID: ${widget.eventObj.id}");
-      print("Title AR: ${eventTitleControllerAr.text}");
-      print("Title EN: ${eventTitleControllerEn.text}");
-      print("Bio AR: ${eventBioControllerAr.text}");
-      print("Bio EN: ${eventBioControllerEn.text}");
-
       print(
           "Longitude: ${_servicesController.pickUpLocLatLang.value.longitude}");
-      print("Latitude: ${_servicesController.pickUpLocLatLang.value.latitude}");
-      print("Price: ${double.parse(_priceController.text)}");
-      print("Images: ${widget.eventObj.image}");
-      print("Region AR: ${widget.eventObj.regionAr}");
-      print("Location: $locationUrl");
-      print("Region EN: Riyadh");
-      print("Start Time: ${DateFormat('HH:mm:ss').format(newTimeToGo)}");
-      print("Guest Number: $guestNum");
-      print("Date: ${DaysInfo.first}");
 
       final Event? result = await _servicesController.editEvent(
         id: widget.eventObj.id,
@@ -526,8 +504,8 @@ class _EditEventState extends State<EditEvent> {
           context: context,
           builder: (BuildContext context) {
             return Dialog(
-                backgroundColor: Colors.white,
-              surfaceTintColor:Colors.white,
+              backgroundColor: Colors.white,
+              surfaceTintColor: Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
@@ -564,14 +542,8 @@ class _EditEventState extends State<EditEvent> {
           final _experienceController = Get.put(AjwadiExploreController());
           _experienceController.getAllExperiences(context: context);
         });
-
-        print("Profile updated successfully: $result");
-      } else {
-        print("Profile update returned null");
-      }
-    } catch (e) {
-      print("Error updating profile: $e");
-    }
+      } else {}
+    } catch (e) {}
   }
 
   @override
@@ -673,8 +645,10 @@ class _EditEventState extends State<EditEvent> {
                                                 builder:
                                                     (BuildContext context) {
                                                   return Dialog(
-                                                      backgroundColor: Colors.white,
-                                                      surfaceTintColor:Colors.white,
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    surfaceTintColor:
+                                                        Colors.white,
                                                     shape:
                                                         RoundedRectangleBorder(
                                                       borderRadius:
@@ -952,7 +926,6 @@ class _EditEventState extends State<EditEvent> {
                                           setState(() {
                                             _selectedLanguageIndex = index!;
                                           });
-                                          print('switched to: $index');
                                         },
                                       ),
                                     ]),
@@ -1418,7 +1391,6 @@ class _EditEventState extends State<EditEvent> {
                                           children: [
                                             GestureDetector(
                                               onTap: () {
-                                                print("object");
                                                 setState(() {
                                                   selectedChoice = 3;
                                                 });
@@ -1664,8 +1636,8 @@ class _EditEventState extends State<EditEvent> {
                                                       //                       _servicesController.TimeErrorMessage.value = AppUtil.isEndTimeLessThanStartTime(
                                                       //                           newTimeToGo,newTimeToReturn);
 
-                                                      //                       print('this time');
-                                                      //                       print(_servicesController.TimeErrorMessage.value);
+                                                      //
+                                                      //
                                                       //                     });
                                                       //                   },
                                                       //                 ),

@@ -27,7 +27,6 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
     // RatingService.getRtings(profileId: widget.profileId, context: context);
     _rattingController.getRatings(
         context: context, profileId: widget.profileId);
-    print("COntroller ::::${_rattingController.ratings}");
   }
 
   @override

@@ -46,7 +46,6 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
       address =
           '${placemarks.first.country} - ${placemarks.first.locality} - ${placemarks.first.name} - ${placemarks.first.street}';
     });
-    print(placemarks.first.country);
   }
 
   // Future<Position> _getCurrentUserLocation() async {
@@ -133,7 +132,7 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
     //     });
     //   },
     // );
-    print('addMaker');
+
     if (widget.touristExploreController != null) {
       _markers.add(
         Marker(
@@ -141,10 +140,8 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
           position: widget.touristExploreController!.pickUpLocLatLang.value,
           draggable: true,
           onDragEnd: (position) async {
-            print(position.latitude);
-
             getPlaceAddress(position.latitude, position.longitude);
-        widget.touristExploreController!.isNotGetUserLocation.value=false;
+            widget.touristExploreController!.isNotGetUserLocation.value = false;
 
             setState(() {
               widget.touristExploreController!.pickUpLocLatLang(position);
@@ -178,12 +175,11 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
             markers: _markers,
             mapType: MapType.normal,
             onTap: (position) async {
-              print(position.latitude);
-
               getPlaceAddress(position.latitude, position.longitude);
 
               widget.touristExploreController!.pickUpLocLatLang(position);
-              widget.touristExploreController!.isNotGetUserLocation.value=false;
+              widget.touristExploreController!.isNotGetUserLocation.value =
+                  false;
 
               // var addresses = await Geolocator.local
               //     .findAddressesFromCoordinates(coordinates);
@@ -197,16 +193,17 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
                     position: position,
                     draggable: true,
                     onDragEnd: (position) async {
-                      print(position.latitude);
-                    widget.touristExploreController!.isNotGetUserLocation.value=false;
+                      widget.touristExploreController!.isNotGetUserLocation
+                          .value = false;
 
                       getPlaceAddress(position.latitude, position.longitude);
 
                       setState(() {
                         widget.touristExploreController!
                             .pickUpLocLatLang(position);
-                            
-                     widget.touristExploreController!.isNotGetUserLocation.value=false;
+
+                        widget.touristExploreController!.isNotGetUserLocation
+                            .value = false;
 
                         widget.mapController!.animateCamera(
                             CameraUpdate.newLatLngZoom(position, 18));

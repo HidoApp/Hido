@@ -102,7 +102,6 @@ class _HostInfoReviewState extends State<HostInfoReview> {
     try {
       List<Placemark> placemarks =
           await placemarkFromCoordinates(position.latitude, position.longitude);
-      print(placemarks);
 
       if (placemarks.isNotEmpty) {
         Placemark placemark = placemarks.first;
@@ -123,15 +122,13 @@ class _HostInfoReviewState extends State<HostInfoReview> {
         //   });
         //  }
         // });
-        print(placemarks.first);
+
         return placemark.subLocality != null &&
                 placemark.subLocality!.isNotEmpty
             ? '${placemark.subLocality}'
             : '${placemark.locality}';
       }
-    } catch (e) {
-      print("Error retrieving address: $e");
-    }
+    } catch (e) {}
     return '';
   }
 
@@ -147,12 +144,10 @@ class _HostInfoReviewState extends State<HostInfoReview> {
       });
     } catch (e) {
       // Handle error if necessary
-      print('Error fetching address: $e');
     }
   }
 
   void daysInfo() {
-    print(widget.hospitalityController!.selectedEndTime);
     // Format for combining date and time
     var formatter = intl.DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
     DateTime date =
@@ -223,7 +218,6 @@ class _HostInfoReviewState extends State<HostInfoReview> {
     }
 
     // Print the new dates list
-    print(DaysInfo);
   }
 
   // Function to generate the Google Maps URL
@@ -272,8 +266,7 @@ class _HostInfoReviewState extends State<HostInfoReview> {
           log(image.filePath);
         } else {
           log('not vaalid');
-     return false;
-
+          return false;
         }
       }
     }
@@ -323,8 +316,7 @@ class _HostInfoReviewState extends State<HostInfoReview> {
           log(image.filePath);
         } else {
           log('not vaalid');
-         return false;
-
+          return false;
         }
       }
     }
@@ -358,15 +350,13 @@ class _HostInfoReviewState extends State<HostInfoReview> {
         seat: widget.hospitalityController!.seletedSeat.value,
         context: context);
 
-    print('is sucssssss');
-    print(isSuccess);
     if (isSuccess) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return Dialog(
-              backgroundColor: Colors.white,
-              surfaceTintColor:Colors.white,
+            backgroundColor: Colors.white,
+            surfaceTintColor: Colors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
             ),
@@ -381,7 +371,7 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                   Image.asset('assets/images/paymentSuccess.gif', width: 38),
                   const SizedBox(height: 16),
                   CustomText(
-                   text: !AppUtil.rtlDirection2(context)
+                    text: !AppUtil.rtlDirection2(context)
                         ? "Experience published successfully"
                         : "تم نشر تجربتك بنجاح ",
                     textDirection: AppUtil.rtlDirection2(context)
@@ -424,8 +414,7 @@ class _HostInfoReviewState extends State<HostInfoReview> {
       seat: widget.adventureController!.seletedSeat.value,
       context: context,
     );
-    print('is sucssssss');
-    print(isSuccess);
+
     if (isSuccess) {
       showDialog(
         context: context,
@@ -445,7 +434,7 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                   Image.asset('assets/images/paymentSuccess.gif', width: 38),
                   SizedBox(height: 16),
                   CustomText(
-                   text: !AppUtil.rtlDirection2(context)
+                    text: !AppUtil.rtlDirection2(context)
                         ? "Experience published successfully"
                         : "تم نشر تجربتك بنجاح ",
                     textDirection: AppUtil.rtlDirection2(context)
@@ -480,13 +469,11 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                 widget.hospitalityController!.pickUpLocLatLang.value)
             : getLocationUrl(
                 widget.adventureController!.pickUpLocLatLang.value);
-        print('Location URL: $locationUrl');
       });
     });
   }
 
   Widget build(BuildContext context) {
-    print('Location URL: $locationUrl');
     final width = MediaQuery.of(context).size.width;
 
     return Scaffold(
@@ -500,28 +487,28 @@ class _HostInfoReviewState extends State<HostInfoReview> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CustomText(
-              text:widget.experienceType == 'hospitality'
+              text: widget.experienceType == 'hospitality'
                   ? 'Reviewexperience'.tr
                   : 'Reviewadventure'.tr,
-                color: Color(0xFF070708),
-                fontSize: 17,
-                fontFamily:
-                    AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-                fontWeight: FontWeight.w500,
+              color: Color(0xFF070708),
+              fontSize: 17,
+              fontFamily:
+                  AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+              fontWeight: FontWeight.w500,
             ),
             const SizedBox(height: 6),
             SizedBox(
               width: double.infinity,
               child: FittedBox(
                 child: CustomText(
-                  text:widget.experienceType == 'hospitality'
+                  text: widget.experienceType == 'hospitality'
                       ? 'explination'.tr
                       : 'explinationAdve'.tr,
-                    color: Color(0xFF9392A0),
-                    fontSize: 15,
-                    fontFamily:
-                        AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-                    fontWeight: FontWeight.w400,
+                  color: Color(0xFF9392A0),
+                  fontSize: 15,
+                  fontFamily:
+                      AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+                  fontWeight: FontWeight.w400,
                 ),
               ),
             ),
@@ -572,16 +559,15 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             CustomText(
-                              text:AppUtil.rtlDirection2(context)
+                              text: AppUtil.rtlDirection2(context)
                                   ? widget.hospitalityTitleAr
                                   : widget.hospitalityTitleEn,
-                                color: Color(0xFF070708),
-                                fontSize: 16,
-                                fontFamily: AppUtil.rtlDirection2(context)
-                                    ? 'SF Arabic'
-                                    : 'SF Pro',
-                                fontWeight: FontWeight.w500,
-                              
+                              color: Color(0xFF070708),
+                              fontSize: 16,
+                              fontFamily: AppUtil.rtlDirection2(context)
+                                  ? 'SF Arabic'
+                                  : 'SF Pro',
+                              fontWeight: FontWeight.w500,
                             ),
                             Row(
                               children: [
@@ -589,14 +575,13 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                                     color: Color(0xFF36B268), size: 14),
                                 const SizedBox(width: 4),
                                 CustomText(
-                                    text:'5.0',
-                                    color: Color(0xFF36B268),
-                                    fontSize: 12,
-                                    fontFamily: AppUtil.rtlDirection2(context)
-                                        ? 'SF Arabic'
-                                        : 'SF Pro',
-                                    fontWeight: FontWeight.w500,
-                                  
+                                  text: '5.0',
+                                  color: Color(0xFF36B268),
+                                  fontSize: 12,
+                                  fontFamily: AppUtil.rtlDirection2(context)
+                                      ? 'SF Arabic'
+                                      : 'SF Pro',
+                                  fontWeight: FontWeight.w500,
                                 ),
                               ],
                             ),
@@ -616,18 +601,19 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                                     SizedBox(
                                       width: width * 0.01,
                                     ),
-                                     CustomText(
-                                     text:widget.experienceType == 'hospitality'
+                                    CustomText(
+                                      text: widget.experienceType ==
+                                              'hospitality'
                                           ? AppUtil.rtlDirection2(context)
                                               ? '${widget.hospitalityController!.ragionAr.value}, ${address}'
                                               : '${widget.hospitalityController!.ragionEn.value}, ${address}'
                                           : AppUtil.rtlDirection2(context)
                                               ? '${widget.adventureController!.ragionAr.value}, ${address}'
                                               : '${widget.adventureController!.ragionEn.value}, ${address}',
-                                        color: Color(0xFF9392A0),
-                                        fontSize: 11,
-                                        fontFamily: AppUtil.SfFontType(context),
-                                        fontWeight: FontWeight.w400,
+                                      color: Color(0xFF9392A0),
+                                      fontSize: 11,
+                                      fontFamily: AppUtil.SfFontType(context),
+                                      fontWeight: FontWeight.w400,
                                     ),
                                   ],
                                 ),
@@ -642,14 +628,15 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                                         width: width * 0.01,
                                       ),
                                       CustomText(
-                                     text:'${AppUtil.formatBookingDate(context, widget.hospitalityController!.selectedDate.value)} - ${AppUtil.formatStringTimeWithLocale(context, intl.DateFormat('HH:mm:ss').format(widget.hospitalityController!.selectedStartTime.value))}',
-                                          color: Color(0xFF9392A0),
-                                          fontSize: 11,
-                                          fontFamily:
-                                              AppUtil.rtlDirection2(context)
-                                                  ? 'SF Arabic'
-                                                  : 'SF Pro',
-                                          fontWeight: FontWeight.w400,
+                                        text:
+                                            '${AppUtil.formatBookingDate(context, widget.hospitalityController!.selectedDate.value)} - ${AppUtil.formatStringTimeWithLocale(context, intl.DateFormat('HH:mm:ss').format(widget.hospitalityController!.selectedStartTime.value))}',
+                                        color: Color(0xFF9392A0),
+                                        fontSize: 11,
+                                        fontFamily:
+                                            AppUtil.rtlDirection2(context)
+                                                ? 'SF Arabic'
+                                                : 'SF Pro',
+                                        fontWeight: FontWeight.w400,
                                       ),
                                     ],
                                   ),
@@ -662,17 +649,17 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                                       SizedBox(
                                         width: width * 0.01,
                                       ),
-                                        //'${AppUtil.formatSelectedDates(widget.adventureController!.selectedDates,context,)} ',
-                                        CustomText(
-                                     text:
-                                        '${AppUtil.formatBookingDate(context, widget.adventureController!.selectedDate.value)} ',
-                                          color: Color(0xFF9392A0),
-                                          fontSize: 11,
-                                          fontFamily:
-                                              AppUtil.rtlDirection2(context)
-                                                  ? 'SF Arabic'
-                                                  : 'SF Pro',
-                                          fontWeight: FontWeight.w400,
+                                      //'${AppUtil.formatSelectedDates(widget.adventureController!.selectedDates,context,)} ',
+                                      CustomText(
+                                        text:
+                                            '${AppUtil.formatBookingDate(context, widget.adventureController!.selectedDate.value)} ',
+                                        color: Color(0xFF9392A0),
+                                        fontSize: 11,
+                                        fontFamily:
+                                            AppUtil.rtlDirection2(context)
+                                                ? 'SF Arabic'
+                                                : 'SF Pro',
+                                        fontWeight: FontWeight.w400,
                                       ),
                                     ],
                                   ),
@@ -690,14 +677,15 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                                         width: width * 0.01,
                                       ),
                                       CustomText(
-                                     text:'${AppUtil.formatStringTimeWithLocale(context, intl.DateFormat('HH:mm:ss').format(widget.adventureController!.selectedStartTime.value))} - ${AppUtil.formatStringTimeWithLocale(context, intl.DateFormat('HH:mm:ss').format(widget.adventureController!.selectedEndTime.value))}',
-                                          color: Color(0xFF9392A0),
-                                          fontSize: 11,
-                                          fontFamily:
-                                              AppUtil.rtlDirection2(context)
-                                                  ? 'SF Arabic'
-                                                  : 'SF Pro',
-                                          fontWeight: FontWeight.w400,
+                                        text:
+                                            '${AppUtil.formatStringTimeWithLocale(context, intl.DateFormat('HH:mm:ss').format(widget.adventureController!.selectedStartTime.value))} - ${AppUtil.formatStringTimeWithLocale(context, intl.DateFormat('HH:mm:ss').format(widget.adventureController!.selectedEndTime.value))}',
+                                        color: Color(0xFF9392A0),
+                                        fontSize: 11,
+                                        fontFamily:
+                                            AppUtil.rtlDirection2(context)
+                                                ? 'SF Arabic'
+                                                : 'SF Pro',
+                                        fontWeight: FontWeight.w400,
                                       ),
                                     ],
                                   ),
@@ -710,20 +698,19 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                                       SizedBox(
                                         width: width * 0.01,
                                       ),
-                                     CustomText(
-                                     text:
-                                        AppUtil.rtlDirection2(context)
+                                      CustomText(
+                                        text: AppUtil.rtlDirection2(context)
                                             ? widget.hospitalityController!
                                                 .selectedMealAr.value
                                             : widget.hospitalityController!
                                                 .selectedMealEn.value,
-                                          color: Color(0xFF9392A0),
-                                          fontSize: 11,
-                                          fontFamily:
-                                              AppUtil.rtlDirection2(context)
-                                                  ? 'SF Arabic'
-                                                  : 'SF Pro',
-                                          fontWeight: FontWeight.w400,
+                                        color: Color(0xFF9392A0),
+                                        fontSize: 11,
+                                        fontFamily:
+                                            AppUtil.rtlDirection2(context)
+                                                ? 'SF Arabic'
+                                                : 'SF Pro',
+                                        fontWeight: FontWeight.w400,
                                       ),
 
                                       // SizedBox(
@@ -775,9 +762,9 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                           bool isLoading = false;
 
                           if (widget.experienceType == 'hospitality') {
-                            isLoading = _EventController.isImagesLoading .value;
+                            isLoading = _EventController.isImagesLoading.value;
                           } else if (widget.experienceType == 'adventure') {
-                            isLoading =  _EventController.isImagesLoading .value;
+                            isLoading = _EventController.isImagesLoading.value;
                           }
 
                           if (isLoading) {

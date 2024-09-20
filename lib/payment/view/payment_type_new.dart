@@ -442,7 +442,7 @@ class _PaymentTypeState extends State<PaymentType> {
       invoiceId: checkInvoice.id,
       schedules: widget.offerController!.updateScheduleList,
     );
-    print(acceptedOffer?.orderStatus);
+
     //Get.back();
     final book.Booking? fetchedBooking =
         await _RequestController.getBookingById(
@@ -471,7 +471,6 @@ class _PaymentTypeState extends State<PaymentType> {
         );
       },
     ).then((_) {
-      print("inside");
       Get.offAll(() => const TouristBottomBar());
       Get.delete<TimerController>(force: true);
       LocalNotification().showNotification(
@@ -541,7 +540,6 @@ class _PaymentTypeState extends State<PaymentType> {
       Get.back();
       Get.back();
       Get.back();
-      print("inter notif");
 
       Get.to(() => TicketDetailsScreen(
             hospitality: updatedHospitality,
@@ -814,7 +812,11 @@ class _PaymentTypeState extends State<PaymentType> {
                             if (_selectedPaymentMethod != null) {
                               await selectPaymentType(_selectedPaymentMethod!);
                             } else {
-                              AppUtil.errorToast(context, AppUtil.rtlDirection2(context)? "يجب إختيار طريقة الدفع":"You need to pick payment methoed");
+                              AppUtil.errorToast(
+                                  context,
+                                  AppUtil.rtlDirection2(context)
+                                      ? "يجب إختيار طريقة الدفع"
+                                      : "You need to pick payment methoed");
                             }
                           },
                           title: 'pay'.tr,

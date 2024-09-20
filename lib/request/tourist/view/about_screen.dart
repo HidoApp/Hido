@@ -16,7 +16,6 @@ class AboutScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(profileController.profile.descriptionAboutMe);
     final width = MediaQuery.of(context).size.width;
     return SingleChildScrollView(
       child: Obx(

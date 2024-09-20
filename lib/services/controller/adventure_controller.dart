@@ -15,8 +15,8 @@ class AdventureController extends GetxController {
   var isAdventureListLoading = false.obs;
   var isAdventureByIdLoading = false.obs;
   var ischeckBookingLoading = false.obs;
- var DateErrorMessage=false.obs;
-  var TimeErrorMessage=false.obs;
+  var DateErrorMessage = false.obs;
+  var TimeErrorMessage = false.obs;
   var address = ''.obs;
   var selectedDate = ''.obs;
   var selectedDates = [].obs; //new
@@ -32,18 +32,18 @@ class AdventureController extends GetxController {
   var selectedGender = ''.obs;
   var selectedDateIndex = (-1).obs;
   var selectedDateId = "".obs;
-  var ragionAr="".obs;
-  var ragionEn="".obs;
-    var selectedImages = <XFile>[].obs;
-   var  images = <dynamic>[].obs;
-var addressAdventure=''.obs;
-var showErrorMaxGuest=false.obs;
+  var ragionAr = "".obs;
+  var ragionEn = "".obs;
+  var selectedImages = <XFile>[].obs;
+  var images = <dynamic>[].obs;
+  var addressAdventure = ''.obs;
+  var showErrorMaxGuest = false.obs;
   var isAdventureDateSelcted = false.obs;
   var isAdventureTimeSelcted = false.obs;
 
   // Rx<LatLng> pickUpLocLatLang = const LatLng(24.9470921, 45.9903698).obs;
-  //  Rx<LatLng> pickUpLocLatLang = const LatLng(24.6264,46.544731).obs; 
-   Rx<LatLng> pickUpLocLatLang = const LatLng(24.788299,46.631608).obs;
+  //  Rx<LatLng> pickUpLocLatLang = const LatLng(24.6264,46.544731).obs;
+  Rx<LatLng> pickUpLocLatLang = const LatLng(24.788299, 46.631608).obs;
   Future<List<Adventure>?> getAdvdentureList(
       {required BuildContext context, String? region}) async {
     try {
@@ -108,10 +108,9 @@ var showErrorMaxGuest=false.obs;
     }
   }
 
-    var isAdventureLoading = false.obs;
+  var isAdventureLoading = false.obs;
 
   Future<bool> createAdventure({
-  
     required String nameAr,
     required String nameEn,
     required String descriptionAr,
@@ -130,13 +129,13 @@ var showErrorMaxGuest=false.obs;
     required int seat,
     required BuildContext context,
   }) async {
-    //print(rememberMe);
+    //
     try {
       isAdventureLoading(true);
       final isSuccess = await AdventureService.createAdventure(
           nameAr: nameAr,
           nameEn: nameEn,
-          date:date,
+          date: date,
           descriptionAr: descriptionAr,
           descriptionEn: descriptionEn,
           longitude: longitude,
@@ -150,11 +149,8 @@ var showErrorMaxGuest=false.obs;
           start: start,
           end: end,
           seat: seat,
-          context: context
-          
-          );
+          context: context);
 
-      print(isSuccess);
       return isSuccess;
     } catch (e) {
       return false;
@@ -163,8 +159,7 @@ var showErrorMaxGuest=false.obs;
     }
   }
 
-
-    var  isEditAdveentureLoading = false.obs;
+  var isEditAdveentureLoading = false.obs;
   Future<Adventure?> editAdventure({
     required String id,
     required String nameAr,
@@ -179,7 +174,7 @@ var showErrorMaxGuest=false.obs;
     required String regionAr,
     required String locationUrl,
     required String regionEn,
-    String?Genre,
+    String? Genre,
     // required List<Map<String, dynamic>> times,
     required String start,
     required String end,
@@ -191,9 +186,9 @@ var showErrorMaxGuest=false.obs;
 
       final adventure = await AdventureService.editAdventure(
           id: id,
-         nameAr: nameAr,
+          nameAr: nameAr,
           nameEn: nameEn,
-          date:date,
+          date: date,
           descriptionAr: descriptionAr,
           descriptionEn: descriptionEn,
           longitude: longitude,
@@ -208,22 +203,20 @@ var showErrorMaxGuest=false.obs;
           end: end,
           seat: seat,
           Genre: Genre,
-          context: context
-      );
+          context: context);
       if (adventure != null) {
         return adventure;
       } else {
         return null;
       }
     } catch (e) {
-      print(e);
       return null;
     } finally {
-       isEditAdveentureLoading(false);
+      isEditAdveentureLoading(false);
     }
   }
 
-   Future<List<Adventure>?> getUpcommingTicket({
+  Future<List<Adventure>?> getUpcommingTicket({
     required BuildContext context,
   }) async {
     try {
@@ -235,36 +228,33 @@ var showErrorMaxGuest=false.obs;
       );
       if (data != null) {
         upcommingTicket(data);
-         print("object controller");
-       print(data.length);
-        //print(upcommingTicket.first.place?.nameAr);
+
+        //
         return upcommingTicket;
       } else {
         return null;
       }
     } catch (e) {
       isUpcommingTicketLoading(false);
-      print(e);
+
       return null;
     } finally {
       isUpcommingTicketLoading(false);
     }
   }
 
-   Future<List<Adventure>?> getPastTicket({
+  Future<List<Adventure>?> getPastTicket({
     required BuildContext context,
   }) async {
     try {
       isPastTicketLoading(true);
 
       final data = await AdventureService.getUserTicket(
-         adventureType:'PAST',
+        adventureType: 'PAST',
         context: context,
       );
-      print("this pas 1ticket");
 
       if (data != null) {
-        print("this pas ticket");
         pastTicket(data);
         return pastTicket;
       } else {
@@ -272,29 +262,28 @@ var showErrorMaxGuest=false.obs;
       }
     } catch (e) {
       isPastTicketLoading(false);
-      print(e);
+
       return null;
     } finally {
       isPastTicketLoading(false);
     }
   }
 
-
- var isAdventureDeleteLoading = false.obs;
+  var isAdventureDeleteLoading = false.obs;
   Future<bool?> AdventureDelete(
       {required BuildContext context, required String adventureId}) async {
     try {
       isAdventureDeleteLoading(true);
       final data = await AdventureService.AdventureDelete(
-          context: context,adventureId: adventureId);
-          print(data);
-  isAdventureDeleteLoading(data ?? false);
+          context: context, adventureId: adventureId);
+
+      isAdventureDeleteLoading(data ?? false);
       return isAdventureDeleteLoading.value;
     } catch (e) {
       log("-< AdventurwDeleteLoading >- $e");
       return null;
     } finally {
-     isAdventureDeleteLoading(false);
+      isAdventureDeleteLoading(false);
     }
   }
 
@@ -303,10 +292,9 @@ var showErrorMaxGuest=false.obs;
     required String id,
   }) async {
     try {
-      print("TRUE");
       isAdventureByIdLoading(true);
-      final data =
-          await AdventureService.getAdventureSummaryById(context: context, id: id);
+      final data = await AdventureService.getAdventureSummaryById(
+          context: context, id: id);
       return data;
     } catch (e) {
       isAdventureByIdLoading(false);
@@ -315,7 +303,4 @@ var showErrorMaxGuest=false.obs;
       isAdventureByIdLoading(false);
     }
   }
-  
-  
-  
 }

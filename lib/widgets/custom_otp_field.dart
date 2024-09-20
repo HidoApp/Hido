@@ -27,7 +27,7 @@ class CustomOTPField extends StatelessWidget {
       height: 70,
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
       child: TextFormField(
-        autofocus: true,
+        //  autofocus: true,
         keyboardType: keyboardType,
         textAlign: TextAlign.center,
         validator: validator,
@@ -96,7 +96,12 @@ class CustomOTPField extends StatelessWidget {
               fontWeight: FontWeight.w400),
         ),
         style: const TextStyle(color: colorGreen, fontSize: 15),
-        inputFormatters: [LengthLimitingTextInputFormatter(1), formatter],
+        inputFormatters: [
+          LengthLimitingTextInputFormatter(1),
+          formatter,
+          // FilteringTextInputFormatter.allow(
+          //     RegExp(r'[0-9]')), // English numbers only
+        ],
         onChanged: onChanged,
       ),
     );

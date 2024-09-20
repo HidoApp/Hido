@@ -228,8 +228,6 @@ class _SignInScreenState extends State<SignInScreen> {
                                                 rememberMe: true,
                                                 context: context);
 
-                                        print('logged $user');
-
                                         if (user != null) {
                                           bool isTokenExpired =
                                               JwtDecoder.isExpired(
@@ -240,8 +238,6 @@ class _SignInScreenState extends State<SignInScreen> {
                                           final Token jwtToken =
                                               AuthService.jwtForToken(
                                                   user.accessToken)!;
-                                          print("token.userRole loign");
-                                          print(jwtToken.userRole);
 
                                           if (jwtToken.userRole == 'local') {
                                             final ajwadiInfo =
@@ -264,9 +260,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                               'tourist') {
                                             Get.offAll(
                                                 () => const TouristBottomBar());
-                                          } else {
-                                            print('NO USER ROLE');
-                                          }
+                                          } else {}
                                         }
                                       }
                                     },

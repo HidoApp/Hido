@@ -48,7 +48,7 @@ class _LocalProfileState extends State<LocalProfile> {
     );
     if (pickedFile != null) {
       if (AppUtil.isImageValidate(await pickedFile.length())) {
-        print(" is asdded");
+         
         setState(() {
           xfilePick = pickedFile;
         });
@@ -61,7 +61,7 @@ class _LocalProfileState extends State<LocalProfile> {
 
         if (image != null) {
           newProfileImage = image.filePath;
-          print(image.filePath);
+           
         }
       } else {
         AppUtil.errorToast(context, 'imageValidSize'.tr);
@@ -291,7 +291,6 @@ class _LocalProfileState extends State<LocalProfile> {
                             borderRadius: 8,
                             suffixIcon: const Icon(Icons.keyboard_arrow_up),
                             onOptionSelected: (options) {
-                              debugPrint(options.toString());
                             },
                             options: <ValueItem>[
                               ValueItem(

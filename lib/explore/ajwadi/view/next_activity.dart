@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-
 class LastActivity extends StatefulWidget {
   const LastActivity({
     super.key,
@@ -26,8 +25,6 @@ class _NextActivityState extends State<LastActivity> {
 
   @override
   Widget build(BuildContext context) {
-        print('2');
-
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
@@ -60,8 +57,8 @@ class _NextActivityState extends State<LastActivity> {
                 Positioned(
                   left: 40,
                   top: 27,
-                  child: Obx(()=>
-                    Container(
+                  child: Obx(
+                    () => Container(
                       width: 279,
                       height: 1.50,
                       child: LinearProgressIndicator(
@@ -79,8 +76,8 @@ class _NextActivityState extends State<LastActivity> {
                   top: AppUtil.rtlDirection2(context) ? 16 : 14,
                   child: Container(
                     width: 334,
-                    child: Obx(()=>
-                       Row(
+                    child: Obx(
+                      () => Row(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: AppUtil.rtlDirection2(context)
                             ? MainAxisAlignment.spaceBetween
@@ -147,7 +144,6 @@ class _NextActivityState extends State<LastActivity> {
   }
 
   Widget buildStep({required String text, required bool isActive}) {
-    print('1');
     return Container(
       width: 64,
       child: Column(
@@ -163,13 +159,11 @@ class _NextActivityState extends State<LastActivity> {
                 width: 20),
           ),
           CustomText(
-          text:text,
-              color: isActive ? Color(0xFF36B268) : Color(0xFFDCDCE0),
-              fontSize: 11,
-              fontFamily:
-                  AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-              fontWeight: FontWeight.w500,
-           
+            text: text,
+            color: isActive ? Color(0xFF36B268) : Color(0xFFDCDCE0),
+            fontSize: 11,
+            fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+            fontWeight: FontWeight.w500,
           ),
         ],
       ),

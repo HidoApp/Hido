@@ -40,10 +40,9 @@ class HospitalityService {
       },
     );
 
-    print(jsonDecode(response.body).length);
     if (response.statusCode == 200) {
       List<dynamic> data = jsonDecode(response.body);
-      print(inspect(data));
+
       return data.map((place) => Hospitality.fromJson(place)).toList();
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
@@ -67,7 +66,7 @@ class HospitalityService {
           refreshToken: refreshToken, context: context);
       token = getStorage.read('accessToken');
     }
-    print("TRUE $id");
+
     final response = await http.get(
       Uri.parse('$baseUrl/hospitality/$id')
           .replace(queryParameters: ({'id': id})),
@@ -76,13 +75,10 @@ class HospitalityService {
         if (token != '') 'Authorization': 'Bearer $token',
       },
     );
-    print("TRUE $id");
-    print(response.statusCode);
 
-    print(jsonDecode(response.body).length);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
-      print(inspect(data));
+
       return Hospitality.fromJson(data);
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
@@ -121,9 +117,6 @@ class HospitalityService {
       'hospitalityId': hospitalityId,
       'paymentId': paymentId,
     };
-    print("this payment id from dervices");
-
-    print(check.toString());
 
     Map<String, dynamic> body = {
       'date': date.toString().substring(0, 10),
@@ -145,13 +138,9 @@ class HospitalityService {
         },
         body: jsonEncode(body));
 
-    print(response.statusCode);
-
-    print(jsonDecode(response.body).length);
-    print("from services equall to ");
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
-      print(data['message']);
+
       if (data['message'] == 'checked') {
         return true;
       } else {
@@ -159,7 +148,7 @@ class HospitalityService {
       }
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
-      print(errorMessage);
+
       if (context.mounted) {
         AppUtil.errorToast(context, errorMessage);
       }
@@ -196,12 +185,9 @@ class HospitalityService {
       },
     );
 
-    print(response.statusCode);
-
-    print(jsonDecode(response.body).length);
     if (response.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(response.body);
-      print(inspect(data));
+
       return Payment.fromJson(data);
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
@@ -245,11 +231,7 @@ class HospitalityService {
           "month": month.trim(),
           "year": year.trim(),
         }));
-    print("response.statusCode");
-    print(response.statusCode);
-    print(response.body);
 
-    print(jsonDecode(response.body).length);
     if (response.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(response.body);
       return PaymentResult.fromJson(data);
@@ -312,7 +294,7 @@ class HospitalityService {
       "regionAr": "الرياض",
       "regionEn": "Riyadh",
     };
-    print(body);
+
     final response = await http.post(Uri.parse('$baseUrl/hospitality'),
         headers: {
           'Accept': 'application/json',
@@ -320,18 +302,17 @@ class HospitalityService {
           'Authorization': 'Bearer $token',
         },
         body: jsonEncode(body));
-    print(response.statusCode);
 
-    //print(jsonDecode(response.body).length);
-    print("from services equall to ");
+    //
+
     if (response.statusCode == 200) {
       //  var data = jsonDecode(response.body);
-      //  print(data['message']);
+      //
       //  if (data['message'] == 'checked') {
       return true;
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
-      print(errorMessage);
+
       if (context.mounted) {
         AppUtil.errorToast(context, errorMessage);
       }
@@ -339,7 +320,7 @@ class HospitalityService {
     }
     //   } else {
     //     String errorMessage = jsonDecode(response.body)['message'];
-    //     print(errorMessage);
+    //
     //     if (context.mounted) {
     //       AppUtil.errorToast(context, errorMessage);
     //   }
@@ -368,7 +349,6 @@ class HospitalityService {
     int? seat,
     required BuildContext context,
   }) async {
-    print(" Update hospitality ");
     final getStorage = GetStorage();
     final String? token = getStorage.read('accessToken');
 
@@ -409,15 +389,12 @@ class HospitalityService {
       }),
     );
 
-    print("Response status code: ${response.statusCode}");
-
     if (response.statusCode == 200) {
       try {
         var hospitalityData = jsonDecode(response.body);
-        print('Hospitality updated: $hospitalityData');
+
         return Hospitality.fromJson(hospitalityData);
       } catch (e) {
-        print('Error parsing JSON response: $e');
         return null;
       }
     } else {
@@ -433,10 +410,8 @@ class HospitalityService {
     required String hostType,
     required BuildContext context,
   }) async {
-    print(" getUpcomingTicket ");
     final getStorage = GetStorage();
     final String? token = getStorage.read('accessToken');
-    print(token);
 
     final response = await http.get(
       Uri.parse('$baseUrl/hospitality/local').replace(queryParameters: {
@@ -449,13 +424,10 @@ class HospitalityService {
       },
     );
 
-    print("response.statusCode  ");
-    print(response.statusCode);
     if (response.statusCode == 200) {
       List<dynamic> data = jsonDecode(response.body);
       log('data: $data');
-      print(data.length);
-      print(data.isEmpty);
+
       return data
           .map((hospitality) => Hospitality.fromJson(hospitality))
           .toList();
@@ -483,7 +455,7 @@ class HospitalityService {
           refreshToken: refreshToken, context: context);
       token = getStorage.read('accessToken');
     }
-    print("TRUE $id");
+
     final response = await http.get(
       Uri.parse('$baseUrl/hospitality/$id/summary')
           .replace(queryParameters: ({'id': id})),
@@ -492,13 +464,10 @@ class HospitalityService {
         if (token != '') 'Authorization': 'Bearer $token',
       },
     );
-    print("TRUE $id");
-    print(response.statusCode);
 
-    print(jsonDecode(response.body).length);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
-      print(inspect(data));
+
       return Summary.fromJson(data);
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
@@ -532,8 +501,7 @@ class HospitalityService {
       },
       body: json.encode({}),
     );
-    print("response.statusCode");
-    print(response.statusCode);
+
     if (response.statusCode == 200) {
       return true;
     } else {
@@ -611,32 +579,32 @@ class HospitalityService {
 //       body: jsonEncode(body),
 //     );
 
-//     print('Response Status Code: ${response.statusCode}');
-//     print('Response Body: ${response.body}');
+//
+//
 
 //     if (response.statusCode == 200) {
 //       if (response.body.isNotEmpty) {
 //         var data = jsonDecode(response.body);
-//         print('Message: ${data['message']}');
+//
 //         if (data['message'] == 'checked') {
 //           return true;
 //         } else {
 //           return false; // Check why this condition fails
 //         }
 //       } else {
-//         print('Empty response body');
+//
 //         return false;
 //       }
 //     } else {
 //       String errorMessage = jsonDecode(response.body)['message'];
-//       print('Error Message: $errorMessage');
+//
 //       if (context.mounted) {
 //         AppUtil.errorToast(context, errorMessage);
 //       }
 //       return false;
 //     }
 //   } catch (e) {
-//     print('Exception during API call: $e');
+//
 //     return false;
 //   }
 // }
@@ -669,8 +637,6 @@ class HospitalityService {
     if (response.statusCode == 200) {
       UploadImage imageIbject;
       var jsonImage;
-      print('Image uploaded successfully');
-      print(response.stream);
 
       await response.stream.transform(utf8.decoder).listen((value) {
         id = UploadImage.fromJson(jsonDecode(value)).id;
@@ -684,11 +650,7 @@ class HospitalityService {
 
       return UploadImage(id: id, filePath: filePath, publicId: publicId);
     } else {
-      print('Image upload failed with status code: ${response.statusCode}');
-
-      response.stream.transform(utf8.decoder).listen((value) {
-        print(value);
-      });
+      response.stream.transform(utf8.decoder).listen((value) {});
     }
     return null;
   }

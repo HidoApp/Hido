@@ -1,6 +1,8 @@
+import 'dart:developer';
 
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_otp_field.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
@@ -59,7 +61,6 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
@@ -99,7 +100,7 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
                     height: width * 0.051,
                   ),
                   CustomText(
-                      text: 'لوحة المركبة',
+                      text: 'vehiclePlate'.tr,
                       fontSize: width * 0.0435,
                       fontWeight: FontWeight.w500,
                       fontFamily: 'SF Pro'),
@@ -114,6 +115,8 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
                             if (value.isNotEmpty) {
                               _authController.plateNumber1(value);
                               FocusScope.of(context).nextFocus();
+                            } else {
+                              FocusScope.of(context).previousFocus();
                             }
                           },
                           validator: (p0) {},
@@ -126,6 +129,8 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
                             if (value.isNotEmpty) {
                               _authController.plateNumber2(value);
                               FocusScope.of(context).nextFocus();
+                            } else {
+                              FocusScope.of(context).previousFocus();
                             }
                           },
                           validator: (p0) {},
@@ -138,6 +143,8 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
                             if (value.isNotEmpty) {
                               _authController.plateNumber3(value);
                               FocusScope.of(context).nextFocus();
+                            } else {
+                              FocusScope.of(context).previousFocus();
                             }
                           },
                           keyboardType: TextInputType.number,
@@ -150,6 +157,8 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
                             if (value.isNotEmpty) {
                               _authController.plateNumber4(value);
                               FocusScope.of(context).nextFocus();
+                            } else {
+                              FocusScope.of(context).previousFocus();
                             }
                           },
                           keyboardType: TextInputType.number,
@@ -164,10 +173,11 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
                             if (value.isNotEmpty) {
                               _authController.plateletter1(value);
                               FocusScope.of(context).nextFocus();
+                            } else {
+                              FocusScope.of(context).previousFocus();
                             }
                           },
                           validator: (p0) {},
-
                           hint: 'A',
                           formatter: FilteringTextInputFormatter.allow(RegExp(
                               r'[a-zA-Z]')), // Only allow English letters
@@ -177,6 +187,8 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
                             if (value.isNotEmpty) {
                               _authController.plateletter2(value);
                               FocusScope.of(context).nextFocus();
+                            } else {
+                              FocusScope.of(context).previousFocus();
                             }
                           },
                           validator: (p0) {},
@@ -189,6 +201,8 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
                             if (value.isNotEmpty) {
                               _authController.plateletter3(value);
                               FocusScope.of(context).nextFocus();
+                            } else {
+                              FocusScope.of(context).previousFocus();
                             }
                           },
                           validator: (p0) {},
@@ -204,7 +218,7 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
                     height: width * 0.051,
                   ),
                   CustomText(
-                      text: 'نوع المركبة',
+                      text: 'vehicleType'.tr,
                       fontSize: width * 0.0435,
                       fontWeight: FontWeight.w500,
                       fontFamily: 'SF Pro'),
@@ -229,6 +243,7 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
             child: GestureDetector(
               onTap: () {
                 _authController.selectedRide.value = key;
+                log(_authController.selectedRide.value);
               },
               child: Container(
                 height: MediaQuery.of(context).size.height * 0.1,

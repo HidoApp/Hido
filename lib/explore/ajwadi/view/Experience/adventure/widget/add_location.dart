@@ -92,7 +92,6 @@ class _AddLocationState extends State<AddLocation> {
 
   void getLocation() async {
     userLocation = await LocationService().getUserLocation();
-    print('this location');
 
     if (userLocation != null) {
       setState(() {
@@ -125,12 +124,8 @@ class _AddLocationState extends State<AddLocation> {
           address =
               '${placemark.locality}, ${placemark.subLocality}, ${placemark.country}';
         });
-        print(widget.textField1Controller.text);
-        print('this location');
       }
-    } catch (e) {
-      print(e);
-    }
+    } catch (e) {}
   }
 
   @override
@@ -149,17 +144,13 @@ class _AddLocationState extends State<AddLocation> {
     try {
       List<Placemark> placemarks =
           await placemarkFromCoordinates(position1, position2);
-      print(placemarks);
 
       if (placemarks.isNotEmpty) {
         Placemark placemark = placemarks.first;
-        print(placemarks.first);
 
         return '${placemark.locality}, ${placemark.subLocality}, ${placemark.country}';
       }
-    } catch (e) {
-      print("Error retrieving address: $e");
-    }
+    } catch (e) {}
     return '';
   }
 
@@ -177,10 +168,6 @@ class _AddLocationState extends State<AddLocation> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-
-    print(address);
-    print('this location');
-    print(_AdventureController.pickUpLocLatLang.toString());
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -441,8 +428,6 @@ class _AddLocationState extends State<AddLocation> {
                                     regionListAr[index];
                               }
                             }
-                            print(_AdventureController.ragionAr.value);
-                            print(_AdventureController.ragionEn.value);
                           },
                           onSaved: (value) {
                             if (AppUtil.rtlDirection2(context)) {
@@ -468,8 +453,6 @@ class _AddLocationState extends State<AddLocation> {
                                     regionListAr[index];
                               }
                             }
-                            print(_AdventureController.ragionAr.value);
-                            print(_AdventureController.ragionEn.value);
                           },
                           buttonStyleData: ButtonStyleData(
                             padding: AppUtil.rtlDirection2(context)

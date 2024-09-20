@@ -28,9 +28,8 @@ class _DrivingSheetState extends State<DrivingSheet> {
   Future<JPickerValue?> openDialog(BuildContext context) async {
     return await showGlobalDatePicker(
         context: context,
-
-        //startDate: JDateModel(jhijri: JHijri.now()),
-        pickerMode: DatePickerMode.day,
+        startDate: JDateModel(jhijri: JHijri.now()),
+        pickerMode: DatePickerMode.year,
         selectedDate: JDateModel(jhijri: JHijri.now()),
         pickerType: PickerType.JHijri,
         onChange: (datetime) {
@@ -172,7 +171,8 @@ class _DrivingSheetState extends State<DrivingSheet> {
                                   await _authController.getAjwadiLinceseInfo(
                                       expiryDate:
                                           _authController.updatedDriving.value,
-                                          transactionId: _authController.transactionIdDriving.value,
+                                      transactionId: _authController
+                                          .transactionIdDriving.value,
                                       otp: otpCode,
                                       context: context);
                               if (isSuccess) {

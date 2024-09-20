@@ -1,4 +1,3 @@
-
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/calender_dialog.dart';
 import 'package:ajwad_v4/payment/controller/payment_controller.dart';
@@ -31,7 +30,6 @@ class HospitalityBookingSheet extends StatefulWidget {
       required this.serviceController,
       this.hospitality,
       this.address = '',
-
       this.avilableDate});
 
   final Color color;
@@ -75,7 +73,7 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
     DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
 
     Duration difference = parsedDateInRiyadh.difference(currentDateInRiyadh);
-    print(difference);
+
     return difference.inHours > 24;
   }
 
@@ -88,10 +86,10 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
 
     //DateTime selectedDate = DateTime.parse(widget.serviceController.selectedDate.value);
 
-    // print(selectedDate);
-    // print(currentDate);
+    //
+    //
     // ignore: unrelated_type_equality_checks
-    // print(selectedDate == currentDate);
+    //
     // ignore: unrelated_type_equality_checks
     //return selectedDate== currentDate;
 
@@ -105,10 +103,6 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
 
     DateTime bookingDeadline = hostStartDate.subtract(Duration(hours: 24));
 
-    print(hostStartDate);
-    print(currentDateInRiyadh);
-    print(bookingDeadline);
-
     return bookingDeadline.isBefore(currentDateInRiyadh);
   }
 
@@ -116,18 +110,19 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
     for (var date in widget.hospitality!.daysInfo) {
       if (date.startTime.substring(0, 10) == availableDate) {
         seat = date.seats;
-        print('${availableDate} -> the avaliable seat in it -> ${seat}');
 
         return seat == 0;
       }
     }
     return false;
   }
- @override
+
+  @override
   void initState() {
     super.initState();
-    widget.serviceController.address.value=widget.address;
+    widget.serviceController.address.value = widget.address;
   }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -180,7 +175,6 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
                                 : Alignment.centerRight,
                             child: CustomTextWithIconButton(
                               onTap: () {
-                                print("object");
                                 setState(() {
                                   selectedChoice = 3;
                                 });
@@ -564,7 +558,7 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
                         //           : "You must booking before 24 hours");
                         // }
                         // else if (!isDateBeforeToday()) {
-                        //   print("ynter");
+                        //
                         //   AppUtil.errorToast(
                         //       context,
                         //       AppUtil.rtlDirection2(context)
@@ -607,13 +601,13 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
   //       color: Colors.orange,
   //     ),
   //     onSubmit: (index) {
-  //       print(index);
+  //
   //     },
   //     onChange: (time) {
   //       widget.serviceController.selectedTime(time.toString());
   //     },
   //     onClose: () {
-  //       print('Picker closed');
+  //
   //     },
   //     //  bottomPickerTheme: BottomPickerTheme.orange,
   //     use24hFormat: true,
@@ -998,7 +992,7 @@ class _ReservaationDetailsAdventureWidgetState
                             //                             : Alignment.centerRight,
                             //                         child: CustomTextWithIconButton(
                             //                           onTap: () {
-                            //                             print("object");
+                            //
                             //                             setState(() {
                             //                               selectedChoice = 3;
                             //                             });
@@ -1141,7 +1135,7 @@ class _ReservaationDetailsAdventureWidgetState
                             //                               .format(newTimeToGo));
                             //                           setState(() {
                             //                             newTimeToGo = newT;
-                            //                             //   print(newTime);
+                            //                             //
                             //                           });
                             //                         },
                             //                       ),
@@ -1244,12 +1238,7 @@ class _ReservaationDetailsAdventureWidgetState
                                                     (widget.hospitality!.price *
                                                         guestNum));
 
-                                        print("isSuccess : $isSuccess");
-
                                         if (isSuccess) {
-                                          print("invoice != null");
-                                          print(invoice != null);
-
                                           invoice ??= await paymentController
                                               .paymentInvoice(
                                                   context: context,
@@ -1339,7 +1328,6 @@ class _ReservaationDetailsAdventureWidgetState
                                                         );
                                                       });
                                                 } else {
-                                                  print('YES');
                                                   Get.back();
                                                   Get.back();
 
@@ -1425,13 +1413,13 @@ class _ReservaationDetailsAdventureWidgetState
   //       color: Colors.orange,
   //     ),
   //     onSubmit: (index) {
-  //       print(index);
+  //
   //     },
   //     onChange: (time) {
   //       widget.serviceController.selectedTime(time.toString());
   //     },
   //     onClose: () {
-  //       print('Picker closed');
+  //
   //     },
   //     //  bottomPickerTheme: BottomPickerTheme.orange,
   //     use24hFormat: true,

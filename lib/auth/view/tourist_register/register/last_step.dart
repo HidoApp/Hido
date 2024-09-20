@@ -50,16 +50,11 @@ class _LastStepScreenState extends State<LastStepScreen> {
 
   var _number = '';
 
-
-
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    print(widget.email);
-    print(widget.password);
-    print(widget.name);
+
     widget.authController.agreeForTerms(false);
 
     generateCountries();
@@ -327,17 +322,18 @@ class _LastStepScreenState extends State<LastStepScreen> {
                                       nationality: _selectedNationality,
                                       rememberMe: true,
                                       context: context);
-                              print(isSuccess);
+
                               if (isSuccess) {
                                 Get.offAll(() => const TouristBottomBar());
-                           AmplitudeService.amplitude.track(BaseEvent(
+                                AmplitudeService.amplitude.track(BaseEvent(
                                     'Tourist Completed Sign Up ',
                                     eventProperties: {
                                       'name': widget.name,
                                       'email': widget.email,
                                     }));
                               } else {
-                                AmplitudeService.amplitude.track(BaseEvent('Tourist Sign up Failed'));
+                                AmplitudeService.amplitude
+                                    .track(BaseEvent('Tourist Sign up Failed'));
                               }
                             }
                           },

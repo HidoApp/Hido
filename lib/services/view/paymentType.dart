@@ -1,4 +1,3 @@
-
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
 import 'package:ajwad_v4/payment/controller/payment_controller.dart';
@@ -62,8 +61,7 @@ class _PaymentTypeScreenState extends State<PaymentTypeScreen> {
         context: context,
         placeId: widget.place!.id!,
         bookingId: widget.booking!.id!);
-    print('First Offer ID: ${_offerController.offers.length}');
-    print(_offerController.offers.last.offerId);
+
     thePlace = await _touristExploreController.getPlaceById(
         id: widget.place!.id!, context: context);
   }
@@ -270,7 +268,7 @@ class _PaymentTypeScreenState extends State<PaymentTypeScreen> {
                                       //                   .booking!
                                       //                   .guestNumber!));
 
-                                      //   print("this is total final invoice price");
+                                      //
                                       //   print(
                                       //       widget.offerController!.totalPrice.value *
                                       //           widget.offerController!.offerDetails
@@ -282,8 +280,8 @@ class _PaymentTypeScreenState extends State<PaymentTypeScreen> {
                                       //         title: AppUtil.rtlDirection2(context)
                                       //             ? 'الدفع'
                                       //             : 'Payment'))?.then((value) async {
-                                      //       print(value);
-                                      //       print('this value');
+                                      //
+                                      //
                                       //       setState(() {
                                       //         isCheckingForPayment = true;
                                       //       });
@@ -294,15 +292,15 @@ class _PaymentTypeScreenState extends State<PaymentTypeScreen> {
                                       //                   context: context,
                                       //                   id: invoice!.id);
 
-                                      //       print("checkInvoice!.invoiceStatus");
-                                      //       print(checkInvoice!.invoiceStatus);
+                                      //
+                                      //
 
                                       //       if (checkInvoice.invoiceStatus ==
                                       //           'Pending') {
                                       //         setState(() {
                                       //           isCheckingForPayment = false;
                                       //         });
-                                      //         print("no");
+                                      //
 
                                       //         // if (
                                       //         //     checkInvoice
@@ -335,7 +333,7 @@ class _PaymentTypeScreenState extends State<PaymentTypeScreen> {
                                       //               );
                                       //             });
                                       //       } else {
-                                      //         print('YES');
+                                      //
                                       //         // Get.back();
                                       //         // Get.back();
 
@@ -349,7 +347,7 @@ class _PaymentTypeScreenState extends State<PaymentTypeScreen> {
                                       //           schedules: widget.offerController!
                                       //               .offerDetails.value.schedule!,
                                       //         );
-                                      //         print(acceptedOffer?.orderStatus);
+                                      //
                                       //         //Get.back();
                                       //         final book.Booking? fetchedBooking =
                                       //             await _RequestController
@@ -375,7 +373,7 @@ class _PaymentTypeScreenState extends State<PaymentTypeScreen> {
                                       //                 ),
                                       //               );
                                       //             }).then((_) {
-                                      //           print("inside");
+                                      //
                                       //           LocalNotification().showNotification(
                                       //               context,
                                       //               widget.booking?.id,

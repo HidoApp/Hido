@@ -1,4 +1,3 @@
-
 import 'package:ajwad_v4/explore/ajwadi/model/last_activity.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/custom_local_ticket_card.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/local_ticket_screen.dart';
@@ -156,8 +155,8 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                                       ? ""
                                       : ' ${_profileController.profile.name ?? "".split(' ').take(1).join(' ')}',
                                   style: TextStyle(
-                                    color: Color(0xFF37B268),
-                                    fontSize: 20,
+                                    color: const Color(0xFF37B268),
+                                    fontSize: width * 0.051,
                                     fontFamily: 'HT Rakik',
                                     fontWeight: FontWeight.w500,
                                     height: 0.07,

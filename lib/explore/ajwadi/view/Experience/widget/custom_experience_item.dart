@@ -38,20 +38,16 @@ class _ServicesCardState extends State<ServicesCard> {
     try {
       List<Placemark> placemarks =
           await placemarkFromCoordinates(position1, position2);
-      print(placemarks);
 
       if (placemarks.isNotEmpty) {
         Placemark placemark = placemarks.first;
-        print(placemarks.first);
 
         return placemark.subLocality != null &&
                 placemark.subLocality!.isNotEmpty
             ? '${placemark.subLocality}'
             : '${placemark.locality}';
       }
-    } catch (e) {
-      print("Error retrieving address: $e");
-    }
+    } catch (e) {}
     return '';
   }
 
@@ -65,7 +61,6 @@ class _ServicesCardState extends State<ServicesCard> {
       });
     } catch (e) {
       // Handle error if necessary
-      print('Error fetching address: $e');
     }
   }
 
@@ -101,7 +96,7 @@ class _ServicesCardState extends State<ServicesCard> {
               horizontal: width * 0.030, vertical: width * 0.025),
           decoration: BoxDecoration(
             boxShadow: [
-              BoxShadow(blurRadius: width * 0.04, color:shadowColor)
+              BoxShadow(blurRadius: width * 0.04, color: shadowColor)
             ],
             color: Colors.white,
             borderRadius: BorderRadius.all(

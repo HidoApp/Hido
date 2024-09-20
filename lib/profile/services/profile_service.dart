@@ -24,13 +24,11 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 class ProfileService {
   static Future<Profile?> getProfile(
       {required BuildContext context, String profileId = ""}) async {
-    print("jwtToken");
     final getStorage = GetStorage();
     String token = getStorage.read('accessToken');
     late Token jwtToken;
     late String id;
-    print('isExpired');
-    print(JwtDecoder.isExpired(token));
+
     if (JwtDecoder.isExpired(token)) {
       final authController = Get.put(AuthController());
 
@@ -40,11 +38,11 @@ class ProfileService {
       refreshToken = getStorage.read('refreshToken');
       token = getStorage.read('accessToken');
       jwtToken = AuthService.jwtForToken(refreshToken)!;
-      // print(jwtToken.id);
+      //
       id = jwtToken.id;
     } else {
       jwtToken = AuthService.jwtForToken(token)!;
-      //  print('jwtToken.id AuthService AuthService${jwtToken.id}');
+      //
 
       id = jwtToken.id;
     }
@@ -62,12 +60,10 @@ class ProfileService {
         'Authorization': 'Bearer $token',
       },
     );
-    print("response.statusCode Profile ");
-    print(response.statusCode);
-    print(response.body);
+
     if (response.statusCode == 200) {
       var profile = jsonDecode(response.body);
-      print(profile);
+
       return Profile.fromJson(profile);
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
@@ -107,8 +103,6 @@ class ProfileService {
     if (response.statusCode == 200) {
       UploadImage imageIbject;
       var jsonImage;
-      print('Image uploaded successfully');
-      print(response.stream);
 
       await response.stream.transform(utf8.decoder).listen((value) {
         id = UploadImage.fromJson(jsonDecode(value)).id;
@@ -122,11 +116,7 @@ class ProfileService {
 
       return UploadImage(id: id, filePath: filePath, publicId: publicId);
     } else {
-      print('Image upload failed with status code: ${response.statusCode}');
-
-      response.stream.transform(utf8.decoder).listen((value) {
-        print(value);
-      });
+      response.stream.transform(utf8.decoder).listen((value) {});
     }
     return null;
   }
@@ -140,7 +130,6 @@ class ProfileService {
     List<String>? spokenLanguage,
     required BuildContext context,
   }) async {
-    print(" Update profile ");
     final getStorage = GetStorage();
     final String? token = getStorage.read('accessToken');
 
@@ -162,12 +151,11 @@ class ProfileService {
           "gender": "MALE",
         }));
 
-    print("response.statusCode Update profile ");
     log(response.statusCode.toString());
     log(response.body.toString());
     if (response.statusCode == 200) {
       var profile = jsonDecode(response.body);
-      print(profile);
+
       return Profile.fromJson(profile);
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
@@ -185,7 +173,6 @@ class ProfileService {
     log(" getUpcomingTicket ");
     final getStorage = GetStorage();
     final String? token = getStorage.read('accessToken');
-    print(token);
 
     final response = await http.get(
       Uri.parse('$baseUrl/booking').replace(queryParameters: {
@@ -198,8 +185,6 @@ class ProfileService {
       },
     );
 
-    print("response.statusCode Update profile ");
-    print(response.statusCode);
     if (response.statusCode == 200) {
       //log(response.body);
       List<dynamic> data = jsonDecode(response.body);
@@ -219,7 +204,6 @@ class ProfileService {
   }) async {
     final getStorage = GetStorage();
     final String? token = getStorage.read('accessToken');
-    print(token);
 
     final response = await http.get(
       Uri.parse('$baseUrl/chat'),
@@ -230,11 +214,9 @@ class ProfileService {
       },
     );
 
-    print("response.statusCode Update profile ");
-    print(response.statusCode);
     if (response.statusCode == 200) {
       List<dynamic> data = jsonDecode(response.body);
-      print(inspect(data));
+
       return data.map((chat) => ChatModel.fromJson(chat)).toList();
     } else {
       String errorMessage = jsonDecode(response.body)['message'];

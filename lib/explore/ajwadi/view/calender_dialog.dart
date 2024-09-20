@@ -49,12 +49,7 @@ class _CalenderDialogState extends State<CalenderDialog> {
     // TODO: implement initState
     super.initState();
     if (widget.avilableDate != null) {
-      print("widget.avilableDate!.length");
-      print(widget.avilableDate!.length);
-
-      for (var date in widget.avilableDate!) {
-        print(date);
-      }
+      for (var date in widget.avilableDate!) {}
     }
   }
 
@@ -99,7 +94,7 @@ class _CalenderDialogState extends State<CalenderDialog> {
                       selectableDayPredicate:
                           widget.avilableDate != null ? defineSelectable : null,
                       selectionMode: DateRangePickerSelectionMode.single,
-                      selectionColor:colorGreen,
+                      selectionColor: colorGreen,
                       selectionTextStyle: TextStyle(),
                       selectionShape: DateRangePickerSelectionShape.circle,
                       todayHighlightColor: colorGreen,
@@ -170,7 +165,7 @@ class _CalenderDialogState extends State<CalenderDialog> {
                     } else if (widget.type == 'event') {
                       widget.eventController!.isEventDateSelcted.value = true;
                       widget.eventController!.selectedDate(selectedDate);
-                              widget.eventController!.DateErrorMessage.value=false;
+                      widget.eventController!.DateErrorMessage.value = false;
                       for (int i = 0; i < widget.event!.daysInfo!.length; i++) {
                         if (DateTime.parse(widget.event!.daysInfo![i].startTime
                                     .substring(0, 10))
@@ -180,7 +175,7 @@ class _CalenderDialogState extends State<CalenderDialog> {
                           widget.eventController!
                               .selectedDateId(widget.event!.daysInfo![i].id);
                           widget.eventController!.selectedTime("");
-                          //  print(widget.srvicesController!.selectedTime);
+                          //
                         }
                       }
                     } else if (widget.type == 'book') {
@@ -191,7 +186,7 @@ class _CalenderDialogState extends State<CalenderDialog> {
                     } else if (widget.type == 'hospitality') {
                       widget.srvicesController!.isHospatilityDateSelcted.value =
                           true;
-                          widget.srvicesController!.DateErrorMessage.value=false;
+                      widget.srvicesController!.DateErrorMessage.value = false;
                       widget.srvicesController!.selectedDate(selectedDate);
 
                       for (int i = 0;
@@ -203,40 +198,26 @@ class _CalenderDialogState extends State<CalenderDialog> {
                                 .toString() ==
                             selectedDate) {
                           widget.srvicesController!.selectedDateIndex(i);
-                          print("endTime");
+
                           print(widget
                               .hospitality!
                               .daysInfo[widget
                                   .srvicesController!.selectedDateIndex.value]
                               .endTime);
 
-                          print("startTime");
                           print(widget
                               .hospitality!
                               .daysInfo[widget
                                   .srvicesController!.selectedDateIndex.value]
                               .startTime);
 
-                          print("endTime iiiii ");
-                          print(widget.hospitality!.daysInfo[i].endTime);
-
-                          print("startTime iiiiii");
-                          print(widget.hospitality!.daysInfo[i].startTime);
-
-                          print("selectedDate ID");
-                          print(widget.hospitality!.daysInfo[i].id);
-
-                          // print("selectedDate ID");
+                          //
                           //   print(widget.hospitality!.daysInfo[i].
                           //       );
-
-                          print("selectedDate index");
-                          print(i);
 
                           widget.srvicesController!.selectedDateId(
                               widget.hospitality!.daysInfo[i].id);
                           widget.srvicesController!.selectedTime("");
-                          print(widget.srvicesController!.selectedTime);
                         }
                       }
                       //   widget.srvicesController!.selectedDateIndex(widget.avilableDate.  (selectedDate));

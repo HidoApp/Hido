@@ -124,8 +124,8 @@ class _helpAndFAQsScreenState extends State<TermsAndConditions> {
 //                           onTap: () {
 //                             setState(() {
 //                               FAQs[index]['floded'] = !(FAQs[index]['floded']);
-//                               print(index);
-//                               print(FAQs[index]['floded']);
+//                                
+//                                
 //                             });
 //                           },
 //                           child: Container(

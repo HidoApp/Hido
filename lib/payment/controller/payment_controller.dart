@@ -1,4 +1,3 @@
-
 import 'package:ajwad_v4/payment/model/credit_card.dart';
 import 'package:ajwad_v4/payment/model/invoice.dart';
 import 'package:ajwad_v4/payment/model/payment_result.dart';
@@ -52,7 +51,6 @@ class PaymentController extends GetxController {
             schedule: schedule);
         return data;
       } catch (e) {
-        print(e);
         return null;
       } finally {
         isCreditCardPaymentLoading(false);
@@ -73,12 +71,9 @@ class PaymentController extends GetxController {
         //description: description,
         InvoiceValue: InvoiceValue,
       );
-      print("this is invo from contr");
-      print(InvoiceValue);
-      print(data);
+
       return data;
     } catch (e) {
-      print(e);
       return null;
     } finally {
       isPaymenInvoiceLoading(false);
@@ -98,8 +93,7 @@ class PaymentController extends GetxController {
           language: language,
           paymentMethod: paymentMethod,
           price: price);
-      print("this is invo from serv2");
-      print(data);
+
       return data;
     } catch (e) {
       isPaymentGatewayLoading(false);
@@ -135,11 +129,9 @@ class PaymentController extends GetxController {
       isPaymenInvoiceByIdLoading(true);
       final data =
           await PaymentService.paymentInvoiceById(context: context, id: id);
-      print("this is pay from controller");
-      print(data);
+
       return data;
     } catch (e) {
-      print(e);
       return null;
     } finally {
       isPaymenInvoiceByIdLoading(false);

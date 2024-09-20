@@ -220,11 +220,8 @@ class _EmailOTPSheetState extends State<EmailOTPSheet>
                           //     Get.off(const TouristBottomBar());
 
                           final fullOTP = code1 + code2 + code3 + code4;
-                          print(fullOTP);
 
                           if (fullOTP == codeOTP) {
-                            print('Matches');
-
                             var result = await _authController.resetEmail(
                                 email: widget.email, context: context);
                             if (result) {

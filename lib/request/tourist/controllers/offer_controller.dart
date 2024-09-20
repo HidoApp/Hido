@@ -18,7 +18,6 @@ class OfferController extends GetxController {
   var offerDetails = OfferDetails().obs;
   var acceptedOffer = AcceptedOffer().obs;
 
-
   Future<List<Offer>?> getOffers({
     required BuildContext context,
     required String placeId,
@@ -32,7 +31,6 @@ class OfferController extends GetxController {
       offers(data);
       return offers;
     } catch (e) {
-      print(e);
       return null;
     } finally {
       isOffersLoading(false);
@@ -56,7 +54,6 @@ class OfferController extends GetxController {
       offerDetails(data);
       return offerDetails.value;
     } catch (e) {
-      print(e);
       return null;
     } finally {
       isOfferLoading(false);
@@ -78,11 +75,9 @@ class OfferController extends GetxController {
         schedules: schedules,
       );
       acceptedOffer(data);
-      print("pay from services");
-      print(data?.orderStatus);
+
       return acceptedOffer.value;
     } catch (e) {
-      print(e);
       return null;
     } finally {
       isAcceptOfferLoading(false);
@@ -96,13 +91,19 @@ class OfferController extends GetxController {
   var isBookingCancel = false.obs;
 
   Future<bool?> bookingCancel(
-      {required BuildContext context, required String bookingId,required String type,String? reason}) async {
+      {required BuildContext context,
+      required String bookingId,
+      required String type,
+      String? reason}) async {
     try {
       isBookingCancelLoading(true);
       final data = await OfferService.bookingCancel(
-          context: context, bookingId: bookingId,type: type,reason: reason??'');
+          context: context,
+          bookingId: bookingId,
+          type: type,
+          reason: reason ?? '');
 
-          // log(reason!);
+      // log(reason!);
       // isBookingCancel(data);
       return data;
 
@@ -124,10 +125,6 @@ class OfferController extends GetxController {
         offerDetails.value.schedule?.length ?? 0,
         (index) => offerDetails.value.schedule![index],
       );
-      print("data");
-      print(updateScheduleList[0].scheduleName);
-      print(updateScheduleList[1].scheduleName);
-      print(updateScheduleList[2].scheduleName);
     } else {
       checkedList[index] = checked;
     }
@@ -147,7 +144,6 @@ class OfferController extends GetxController {
         total += scheduleList[x].price ?? 0;
       }
     }
-    print('Total price before adjustments: $total');
 
     // Adjust total based on checkbox state changes
     if (checkedList.isNotEmpty) {
@@ -163,53 +159,39 @@ class OfferController extends GetxController {
 
     // Update total price
     totalPrice.value = total;
-    print('Final total price: ${totalPrice.value}');
   }
 
   var updateScheduleList = <Schedule>[].obs;
-    var ScheduleList = <Schedule>[].obs;
+  var ScheduleList = <Schedule>[].obs;
 
   RxBool scheduleState = false.obs;
   void checkTotal(int index, bool check) {
     ScheduleList.value = offerDetails.value.schedule!;
-    if (  ScheduleList.isEmpty|| index < 0 || index >=   ScheduleList.length) {
+    if (ScheduleList.isEmpty || index < 0 || index >= ScheduleList.length) {
       return;
     }
 
-    Schedule schedule =  ScheduleList[index];
+    Schedule schedule = ScheduleList[index];
     if (check) {
       totalPrice += schedule.price ?? 0;
-          print(" before Added schedule to updateScheduleList ");
-          print(schedule.price);
-       if (!updateScheduleList.contains(schedule)) {
-      updateScheduleList.add(schedule);
-          print("Added schedule to updateScheduleList ");
-          print(schedule.price);
-      
-      scheduleState.value = false;
-    }
-       print("After added");
-      print(updateScheduleList.length); 
-    
+
+      if (!updateScheduleList.contains(schedule)) {
+        updateScheduleList.add(schedule);
+
+        scheduleState.value = false;
+      }
     } else {
       totalPrice -= schedule.price ?? 0;
-       print("remove schedule to updateScheduleList ");
-          print(schedule.price);
-       updateScheduleList.remove(schedule);
-         
 
-        
-        if(updateScheduleList.length==0){
-           scheduleState.value = true;
-        }
-    
-      print("After remove");
-      print(updateScheduleList.length);
+      updateScheduleList.remove(schedule);
+
+      if (updateScheduleList.length == 0) {
+        scheduleState.value = true;
+      }
     }
 
     // Update the checked status in the list
     checkedList[index] = check;
-    print(check);
 
     // Notify listeners of the changes
     update();

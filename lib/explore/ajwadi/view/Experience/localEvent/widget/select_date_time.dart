@@ -99,7 +99,6 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          print("object");
                           setState(() {
                             selectedChoice = 3;
                           });
@@ -342,7 +341,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                         () => _EventrController.TimeErrorMessage.value
                             ? Padding(
                                 padding: const EdgeInsets.only(bottom: 4),
-                                child:  CustomText(
+                                child: CustomText(
                                   text: '',
                                   // AppUtil.rtlDirection2(context)
                                   //     ? "اختر الوقت"
@@ -393,7 +392,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                   width: 1,
                                   color:
                                       _EventrController.TimeErrorMessage.value
-                                          ?colorRed
+                                          ? colorRed
                                           : DurationErrorMessage ?? false
                                               ? colorRed
                                               : Color(0xFFB9B8C1)),

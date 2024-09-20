@@ -22,7 +22,7 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import '../../../services/model/experiences.dart';
 
 class TripService {
-   static final _tripController = Get.put(TripController());
+  static final _tripController = Get.put(TripController());
 
   static Future<UploadImage?> uploadImages(
       {required File file,
@@ -54,7 +54,6 @@ class TripService {
       UploadImage imageIbject;
       //  AppUtil.successToast(context, 'Image uploaded successfully');
       var jsonImage;
-      print('Image uploaded successfully');
 
       await response.stream.transform(utf8.decoder).listen((value) {
         id = UploadImage.fromJson(jsonDecode(value)).id;
@@ -65,11 +64,7 @@ class TripService {
 
       return UploadImage(id: id, filePath: filePath, publicId: publicId);
     } else {
-      print('Image upload failed with status code: ${response.statusCode}');
-
-      response.stream.transform(utf8.decoder).listen((value) {
-        print(value);
-      });
+      response.stream.transform(utf8.decoder).listen((value) {});
     }
     return null;
   }
@@ -92,15 +87,11 @@ class TripService {
     final getStorage = GetStorage();
     final String? token = getStorage.read('accessToken');
 
-    print('SERVICE');
     List imageJson = [];
 
     imag.forEach((element) async {
-      print(jsonEncode(element.toJson()));
       imageJson.add(jsonEncode(element.toJson()));
     });
-
-    print(imageJson.length);
 
     final response = await http.post(
       Uri.parse('$baseUrl/trip'),
@@ -142,11 +133,8 @@ class TripService {
         ]
       }),
     );
-    print("response.statusCode adding trip ");
-    print(response.statusCode);
-    print(response.body);
+
     if (response.statusCode == 200) {
-      print(true);
       return true;
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
@@ -162,7 +150,7 @@ class TripService {
   }) async {
     final getStorage = GetStorage();
     final String? token = getStorage.read('token');
-    print(token);
+
     final response = await http.get(
       Uri.parse('$baseUrl/get/all/trips'),
       headers: {
@@ -170,12 +158,11 @@ class TripService {
         'Authorization': 'Bearer $token',
       },
     );
-    print("response.statusCode");
-    print(response.statusCode);
+
     if (response.statusCode == 200) {
       Map<String, dynamic> trip =
           jsonDecode(response.body)['profile'][0][TripOption];
-      print(trip);
+
       return Trip.fromJson(trip);
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
@@ -185,7 +172,8 @@ class TripService {
       return null;
     }
   }
-static Future<List<Experience>?> getAllExperiences(
+
+  static Future<List<Experience>?> getAllExperiences(
       {required BuildContext context}) async {
     final getStorage = GetStorage();
     String token = getStorage.read('accessToken') ?? "";
@@ -199,17 +187,15 @@ static Future<List<Experience>?> getAllExperiences(
     }
     final response = await http.get(
       Uri.parse('$baseUrl/experiences'),
-        
       headers: {
         'Accept': 'application/json',
         if (token != '') 'Authorization': 'Bearer $token',
       },
     );
 
-    print(jsonDecode(response.body).length);
     if (response.statusCode == 200) {
       List<dynamic> data = jsonDecode(response.body);
-      print(inspect(data));
+
       return data.map((experience) => Experience.fromJson(experience)).toList();
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
@@ -219,7 +205,6 @@ static Future<List<Experience>?> getAllExperiences(
       return null;
     }
   }
-  
 
   static Future<Trip?> getTripById({
     required String tripId,
@@ -227,7 +212,7 @@ static Future<List<Experience>?> getAllExperiences(
   }) async {
     final getStorage = GetStorage();
     final String? token = getStorage.read('token');
-    print(token);
+
     final response = await http.get(
       Uri.parse('$baseUrl/get/trip/$tripId'),
       headers: {
@@ -235,12 +220,11 @@ static Future<List<Experience>?> getAllExperiences(
         'Authorization': 'Bearer $token',
       },
     );
-    print("response.statusCode");
-    print(response.statusCode);
+
     if (response.statusCode == 200) {
       Map<String, dynamic> trip =
           jsonDecode(response.body)['profile'][0][TripOption];
-      print(trip);
+
       return Trip.fromJson(trip);
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
@@ -250,14 +234,13 @@ static Future<List<Experience>?> getAllExperiences(
       return null;
     }
   }
+
   static Future<List<LocalTrip>?> getUserTicket({
     required String tourType,
     required BuildContext context,
   }) async {
-    print(" getUpcomingTicket ");
     final getStorage = GetStorage();
     final String? token = getStorage.read('accessToken');
-    print(token);
 
     final response = await http.get(
       Uri.parse('$baseUrl/trip/local').replace(queryParameters: {
@@ -270,14 +253,13 @@ static Future<List<Experience>?> getAllExperiences(
       },
     );
 
-    print("response.statusCode  ");
-    print(response.statusCode);
     if (response.statusCode == 200) {
       List<dynamic> data = jsonDecode(response.body);
       log('data: $data');
-      print(data.length);
-      print(data.isEmpty);
-      return data.map((hospitality) => LocalTrip.fromJson(hospitality)).toList();
+
+      return data
+          .map((hospitality) => LocalTrip.fromJson(hospitality))
+          .toList();
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
       if (context.mounted) {
@@ -287,10 +269,10 @@ static Future<List<Experience>?> getAllExperiences(
     }
   }
 
-   static Future<NextActivity?> getNextActivity({
+  static Future<NextActivity?> getNextActivity({
     required BuildContext context,
   }) async {
-     final getStorage = GetStorage();
+    final getStorage = GetStorage();
     String token = getStorage.read('accessToken') ?? "";
     if (token != '' && JwtDecoder.isExpired(token)) {
       final authController = Get.put(AuthController());
@@ -302,7 +284,6 @@ static Future<List<Experience>?> getAllExperiences(
     }
     final response = await http.get(
       Uri.parse('$baseUrl/last-activity'),
-        
       headers: {
         'Accept': 'application/json',
         if (token != '') 'Authorization': 'Bearer $token',
@@ -312,59 +293,53 @@ static Future<List<Experience>?> getAllExperiences(
     log("response.statusCode Trip ");
     log('${response.statusCode}');
     log('${response.body.isNotEmpty}');
-    if (response.statusCode == 200 ) {
+    if (response.statusCode == 200) {
+      if (response.body.isNotEmpty) {
+        var trip = jsonDecode(response.body);
+        //_tripController.isTripUpdated(true);
+        log("condition");
 
-      if(response.body.isNotEmpty){
-      var trip = jsonDecode(response.body);
-      //_tripController.isTripUpdated(true);
-      log("condition");
-    
-      // log('${  _tripController.isTripUpdated.value}');
-   
+        // log('${  _tripController.isTripUpdated.value}');
 
-      return NextActivity.fromJson(trip);
-      }else{
-     // _tripController.isTripUpdated(false);
-      return null;
+        return NextActivity.fromJson(trip);
+      } else {
+        // _tripController.isTripUpdated(false);
+        return null;
       }
     } else {
-        String errorMessage = jsonDecode(response.body)['message'];
+      String errorMessage = jsonDecode(response.body)['message'];
       if (context.mounted) {
         AppUtil.errorToast(context, errorMessage);
       }
-    
+
       // return null;
     }
   }
+
   static Future<NextActivity?> updateActivity({
-  required String id,
-  required BuildContext context,
+    required String id,
+    required BuildContext context,
   }) async {
-    print(" Update activity progress ");
     final getStorage = GetStorage();
     final String? token = getStorage.read('accessToken');
 
-    final response = await http.put(Uri.parse('$baseUrl/activity-progress/$id')
+    final response = await http.put(
+      Uri.parse('$baseUrl/activity-progress/$id')
           .replace(queryParameters: ({'id': id})),
-    
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
     );
-   print("response.statusCode Activity-progress ");
 
-    print(response.statusCode);
-    print(response.body);
-    if (response.statusCode == 200 ) {
+    if (response.statusCode == 200) {
       var trip = jsonDecode(response.body);
-    //  _tripController.isTripUpdated(true);
+      //  _tripController.isTripUpdated(true);
 
       return NextActivity.fromJson(trip);
-
     } else {
-    // _tripController.isTripUpdated(false);
-     
+      // _tripController.isTripUpdated(false);
+
       String errorMessage = jsonDecode(response.body)['message'];
       if (context.mounted) {
         AppUtil.errorToast(context, errorMessage);

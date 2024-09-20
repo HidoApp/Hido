@@ -54,12 +54,7 @@ class _EventCalenderDialogState extends State<EventCalenderDialog> {
     // TODO: implement initState
     super.initState();
     if (widget.avilableDate != null) {
-      print("widget.avilableDate!.length");
-      print(widget.avilableDate!.length);
-
-      for (var date in widget.avilableDate!) {
-        print(date);
-      }
+      for (var date in widget.avilableDate!) {}
     }
   }
 
@@ -183,66 +178,74 @@ class _EventCalenderDialogState extends State<EventCalenderDialog> {
                             color: Color(0xFF37B268),
                           )),
                       showNavigationArrow: true,
-                     onSelectionChanged: (selected) {
-  setState(() {
-    // Clear previously selected dates
-    selectedDates = [];
+                      onSelectionChanged: (selected) {
+                        setState(() {
+                          // Clear previously selected dates
+                          selectedDates = [];
 
-    // Handle multiple date ranges (if supported)
-    if (selected.value is List<PickerDateRange>) {
-      List<PickerDateRange> ranges = selected.value as List<PickerDateRange>;
+                          // Handle multiple date ranges (if supported)
+                          if (selected.value is List<PickerDateRange>) {
+                            List<PickerDateRange> ranges =
+                                selected.value as List<PickerDateRange>;
 
-      for (var range in ranges) {
-        DateTime? startDate = range.startDate;
-        DateTime? endDate = range.endDate ?? startDate; // If endDate is null, assume it's a single date range
+                            for (var range in ranges) {
+                              DateTime? startDate = range.startDate;
+                              DateTime? endDate = range.endDate ??
+                                  startDate; // If endDate is null, assume it's a single date range
 
-        if (startDate != null) {
-          for (DateTime date = startDate;
-              date.isBefore(endDate!) || date.isAtSameMomentAs(endDate);
-              date = date.add(Duration(days: 1))) {
-            selectedDates!.add(DateTime(date.year, date.month, date.day));
-          }
-        }
-      }
+                              if (startDate != null) {
+                                for (DateTime date = startDate;
+                                    date.isBefore(endDate!) ||
+                                        date.isAtSameMomentAs(endDate);
+                                    date = date.add(Duration(days: 1))) {
+                                  selectedDates!.add(DateTime(
+                                      date.year, date.month, date.day));
+                                }
+                              }
+                            }
 
-      // Join the selected dates as a string
-      selectedDate = selectedDates!
-          .map((date) => date.toString())
-          .join(', ');
+                            // Join the selected dates as a string
+                            selectedDate = selectedDates!
+                                .map((date) => date.toString())
+                                .join(', ');
 
-    // Handle a single date range (start and end date)
-    } else if (selected.value is PickerDateRange) {
-      PickerDateRange range = selected.value as PickerDateRange;
-      DateTime? startDate = range.startDate;
-      DateTime? endDate = range.endDate ?? startDate; // If endDate is null, assume it's the same as startDate
+                            // Handle a single date range (start and end date)
+                          } else if (selected.value is PickerDateRange) {
+                            PickerDateRange range =
+                                selected.value as PickerDateRange;
+                            DateTime? startDate = range.startDate;
+                            DateTime? endDate = range.endDate ??
+                                startDate; // If endDate is null, assume it's the same as startDate
 
-      if (startDate != null) {
-        for (DateTime date = startDate;
-            date.isBefore(endDate!) || date.isAtSameMomentAs(endDate);
-            date = date.add(Duration(days: 1))) {
-          selectedDates!.add(DateTime(date.year, date.month, date.day));
-        }
+                            if (startDate != null) {
+                              for (DateTime date = startDate;
+                                  date.isBefore(endDate!) ||
+                                      date.isAtSameMomentAs(endDate);
+                                  date = date.add(Duration(days: 1))) {
+                                selectedDates!.add(
+                                    DateTime(date.year, date.month, date.day));
+                              }
 
-        selectedDate = selectedDates!
-            .map((date) => date.toString())
-            .join(', ');
-      }
+                              selectedDate = selectedDates!
+                                  .map((date) => date.toString())
+                                  .join(', ');
+                            }
 
-    // Handle a single date selection
-    } else if (selected.value is DateTime) {
-      DateTime singleDate = selected.value as DateTime;
-      selectedDates = [DateTime(singleDate.year, singleDate.month, singleDate.day)];
-      
-      // Format single date to string
-      selectedDate = selectedDates![0].toString();
-    }
-  });
+                            // Handle a single date selection
+                          } else if (selected.value is DateTime) {
+                            DateTime singleDate = selected.value as DateTime;
+                            selectedDates = [
+                              DateTime(singleDate.year, singleDate.month,
+                                  singleDate.day)
+                            ];
 
-  // Debug prints for selected dates
-  print("Selected Dates: $selectedDates");
-  print("Selected Date: $selectedDate");
-}),
+                            // Format single date to string
+                            selectedDate = selectedDates![0].toString();
+                          }
+                        });
 
+                        // Debug prints for selected dates
+                      }),
                 ),
               ),
             ),
@@ -265,8 +268,7 @@ class _EventCalenderDialogState extends State<EventCalenderDialog> {
 
                       widget.eventController!.selectedDate(selectedDate);
                       widget.eventController!.selectedDates(selectedDates);
-                      print("this selected dates");
-                      print(widget.eventController!.selectedDates.length);
+
                       widget.eventController!.DateErrorMessage.value =
                           !AppUtil.areAllDatesAfter24Hours(
                               widget.eventController!.selectedDates);
@@ -277,7 +279,6 @@ class _EventCalenderDialogState extends State<EventCalenderDialog> {
                           .selectedDate(selectedDate);
                     } else if (widget.type == 'hospitality') //new
                     {
-                      print('8');
                       widget.srvicesController!.isHospatilityDateSelcted.value =
                           true;
                       // widget.srvicesController!.selectedDates(selectedDates);

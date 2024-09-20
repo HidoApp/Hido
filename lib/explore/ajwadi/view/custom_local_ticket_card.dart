@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/controllers/trip_controller.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/next_activity.dart';
@@ -43,8 +42,6 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
   final _requestController = Get.put(RequestController());
   void updateProgress(double newProgress) {
     setState(() {
-          print('3');
-print(newProgress);
       _tripController.progress.value = newProgress.clamp(0.0, 1.0);
     });
   }
@@ -67,7 +64,7 @@ print(newProgress);
     DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
     DateTime currentDate = DateTime(currentDateInRiyadh.year,
         currentDateInRiyadh.month, currentDateInRiyadh.day);
-        
+
     String currentDateString =
         intel.DateFormat('yyyy-MM-dd').format(currentDate);
 
@@ -82,117 +79,98 @@ print(newProgress);
         DateTime.parse(_tripController.nextTrip.value.booking!.date ?? '');
 
     if (_tripController.nextTrip.value.booking!.date == currentDateString ||
-        parsedBookingDate.isAtSameMomentAs(currentDate)||  parsedBookingDate.isBefore(currentDate)) {
+        parsedBookingDate.isAtSameMomentAs(currentDate) ||
+        parsedBookingDate.isBefore(currentDate)) {
       // setState(() {
       //   isTripStart.value = true;
       // });
       String timeToGoStr = _tripController.nextTrip.value.booking!.timeToGo;
-       String? bookingDateStr = _tripController.nextTrip.value.booking!.date;
+      String? bookingDateStr = _tripController.nextTrip.value.booking!.date;
 
-   
-       DateTime timeToGo = DateTime.parse('$bookingDateStr $timeToGoStr');
+      DateTime timeToGo = DateTime.parse('$bookingDateStr $timeToGoStr');
 
-    Duration difference = timeToGo.difference(currentTime);
+      Duration difference = timeToGo.difference(currentTime);
 
-    if (difference.inHours <= 4 ) {
-      setState(() {
-        isTripStart.value = true;
-      });
-    } else {
-      setState(() {
-        isTripStart.value = false;
-      });
+      if (difference.inHours <= 4) {
+        setState(() {
+          isTripStart.value = true;
+        });
+      } else {
+        setState(() {
+          isTripStart.value = false;
+        });
+      }
     }
-
-
-      print('check date to start');
-      print(timeToGo);
-      print(currentTime);
-      print(difference);
-      print(parsedBookingDate);
-      print(currentDate);
-      print(difference.inHours <= 4 && !difference.isNegative);
-      print(parsedBookingDate.isBefore(currentDate));
-     
-    }
-
   }
 
   bool checkEndTime(String timeToReturnStr) {
-  tz.initializeTimeZones();
-  location = tz.getLocation(timeZoneName);
-  DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
+    tz.initializeTimeZones();
+    location = tz.getLocation(timeZoneName);
+    DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
 
-  // Parse the booking date and timeToReturn
-  DateTime bookingDate = DateTime.parse(
-    _tripController.nextTrip.value.booking!.date ?? ''
-  );
+    // Parse the booking date and timeToReturn
+    DateTime bookingDate =
+        DateTime.parse(_tripController.nextTrip.value.booking!.date ?? '');
 
-  // List<String> timeParts = timeToReturnStr.split(':');
-  // int returnHour = int.parse(timeParts[0]);
-  // int returnMinute = int.parse(timeParts[1]);
+    // List<String> timeParts = timeToReturnStr.split(':');
+    // int returnHour = int.parse(timeParts[0]);
+    // int returnMinute = int.parse(timeParts[1]);
 
-  // // If the return time is earlier in the day than the current time, assume it's the next day
-  // bool isReturnOnNextDay = returnHour < currentDateInRiyadh.hour;
-  
-  // DateTime timeToReturn = DateTime(
-  //   bookingDate.year,
-  //   bookingDate.month,
-  //   bookingDate.day + (isReturnOnNextDay ? 1 : 0),
-  //   returnHour,
-  //   returnMinute,
-  // );
+    // // If the return time is earlier in the day than the current time, assume it's the next day
+    // bool isReturnOnNextDay = returnHour < currentDateInRiyadh.hour;
 
-   //String bookDateString = intel.DateFormat('yyyy-MM-dd').format(bookingDate);
- //String timeToGoStr = _tripController.nextTrip.value.booking!.timeToReturn;
+    // DateTime timeToReturn = DateTime(
+    //   bookingDate.year,
+    //   bookingDate.month,
+    //   bookingDate.day + (isReturnOnNextDay ? 1 : 0),
+    //   returnHour,
+    //   returnMinute,
+    // );
 
-   // DateTime timeToReturn = DateTime.parse('$bookDateString $timeToGoStr');
+    //String bookDateString = intel.DateFormat('yyyy-MM-dd').format(bookingDate);
+    //String timeToGoStr = _tripController.nextTrip.value.booking!.timeToReturn;
 
- List<String> timeParts = timeToReturnStr.split(':');
-  int returnHour = int.parse(timeParts[0]);
-  int returnMinute = int.parse(timeParts[1]);
+    // DateTime timeToReturn = DateTime.parse('$bookDateString $timeToGoStr');
 
-  DateTime timeToReturn = DateTime(
-    bookingDate.year,
-    bookingDate.month,
-    bookingDate.day,
-    returnHour,
-    returnMinute,
-  );
+    List<String> timeParts = timeToReturnStr.split(':');
+    int returnHour = int.parse(timeParts[0]);
+    int returnMinute = int.parse(timeParts[1]);
 
-  if (returnHour < currentDateInRiyadh.hour || 
-     (returnHour == currentDateInRiyadh.hour && returnMinute <= currentDateInRiyadh.minute)) {
-    timeToReturn = timeToReturn.add(Duration(days: 1));
-  }
-  // Get the current time for comparison
-  DateTime currentTime = DateTime(
-    currentDateInRiyadh.year,
-    currentDateInRiyadh.month,
-    currentDateInRiyadh.day,
-    currentDateInRiyadh.hour,
-    currentDateInRiyadh.minute,
-    currentDateInRiyadh.second,
-  );
+    DateTime timeToReturn = DateTime(
+      bookingDate.year,
+      bookingDate.month,
+      bookingDate.day,
+      returnHour,
+      returnMinute,
+    );
 
-    if(currentTime.isAfter(timeToReturn) || currentTime.isAtSameMomentAs(timeToReturn)) {
+    if (returnHour < currentDateInRiyadh.hour ||
+        (returnHour == currentDateInRiyadh.hour &&
+            returnMinute <= currentDateInRiyadh.minute)) {
+      timeToReturn = timeToReturn.add(Duration(days: 1));
+    }
+    // Get the current time for comparison
+    DateTime currentTime = DateTime(
+      currentDateInRiyadh.year,
+      currentDateInRiyadh.month,
+      currentDateInRiyadh.day,
+      currentDateInRiyadh.hour,
+      currentDateInRiyadh.minute,
+      currentDateInRiyadh.second,
+    );
+
+    if (currentTime.isAfter(timeToReturn) ||
+        currentTime.isAtSameMomentAs(timeToReturn)) {
       _tripController.isTripFinallyEnd.value = true;
       _tripController.isTripEnd.value = false;
-      print('inter1');
-      print(currentTime);
-       print(timeToReturn);
-      print(currentTime.isAfter(timeToReturn) || currentTime.isAtSameMomentAs(timeToReturn));
+
       return true;
     } else {
       _tripController.isTripFinallyEnd.value = false;
-      if( _tripController.nextTrip.value.activityProgress=='IN_PROGRESS'){
-      _tripController.isTripEnd.value = true;
+      if (_tripController.nextTrip.value.activityProgress == 'IN_PROGRESS') {
+        _tripController.isTripEnd.value = true;
       }
-      
-      print('inter2');
-          print(currentTime);
-       print(timeToReturn);
-      print(currentTime.isAfter(timeToReturn) || currentTime.isAtSameMomentAs(timeToReturn));
-      print(_tripController.isTripEnd.value);
+
       return false;
     }
   }
@@ -207,8 +185,7 @@ print(newProgress);
     DateTime parsedDate =
         DateTime.parse(_tripController.nextTrip.value.booking!.date ?? '');
     Duration difference = parsedDate.difference(currentDateInRiyadh);
-    print('this deffrence');
-    print(difference);
+
     if (difference.inHours < 6) {
       setState(() {
         isTripStart.value = true;
@@ -232,12 +209,8 @@ print(newProgress);
         double latitude = double.parse(latitudeStr);
         double longitude = double.parse(longitudeStr);
         getAddressFromCoordinates(latitude, longitude);
-      } catch (e) {
-        print("Error parsing coordinates: $e");
-      }
-    } else {
-      print("Invalid coordinates: latitude or longitude is empty");
-    }
+      } catch (e) {}
+    } else {}
   }
 
   void getAddressFromCoordinates(double latitude, double longitude) async {
@@ -250,25 +223,22 @@ print(newProgress);
         address =
             "${placemark.postalCode}, ${placemark.subLocality}, ${placemark.country}";
       }
-    } catch (e) {
-      print("Error fetching address: $e");
-    }
+    } catch (e) {}
   }
 
   @override
   Widget build(BuildContext context) {
     final TouristExploreController _touristExploreController =
         Get.put(TouristExploreController());
-    print(_tripController.nextStep.value);
-    print(_tripController.progress.value);
+
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
     return InkWell(
       child: Column(
         children: [
-         const LastActivity(),
-         const SizedBox(height: 11),
+          const LastActivity(),
+          const SizedBox(height: 11),
           Container(
             width: double.infinity,
             height: _controller.isExpanded ? width * 0.65 : width * 0.30,
@@ -277,7 +247,7 @@ print(newProgress);
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
-              shadows:const [
+              shadows: const [
                 BoxShadow(
                   color: Color(0x3FC7C7C7),
                   blurRadius: 15,
@@ -365,14 +335,14 @@ print(newProgress);
                                     ),
                                   ),
                                 ),
-                                  elevation: MaterialStateProperty.all(0), 
+                                elevation: MaterialStateProperty.all(0),
                               ),
-                              child:FittedBox(
-                                child: CustomText (
-                                  text:'chat2'.tr,
-                                    color:colorGreen,),
+                              child: FittedBox(
+                                child: CustomText(
+                                  text: 'chat2'.tr,
+                                  color: colorGreen,
+                                ),
                               ),
-                              
                             ),
                             const SizedBox(width: 8),
                             Obx(
@@ -394,11 +364,8 @@ print(newProgress);
                                             if (_tripController
                                                     .updatedActivity.value.id ==
                                                 null) {
-                                              print("this is widget book");
                                               log('enter 1');
                                             } else {
-                                              print('this the value');
-
                                               updateProgress((_tripController
                                                       .progress.value +
                                                   0.25));
@@ -513,20 +480,20 @@ print(newProgress);
                                           }
                                         });
                                       }
-                                    : isTripStart.value || _tripController.isTripEnd.value
-                                    ?() async {
-                                        AppUtil.errorToast(
-                                            context,
-                                            "EndTourTime".tr);
-                                        await Future.delayed(
-                                            const Duration(seconds: 1));
-                                      }:() async {
-                                        AppUtil.errorToast(
-                                            context,
-                                            "StartTourTime".tr);
-                                        await Future.delayed(
-                                            const Duration(seconds: 1));
-                                      },
+                                    : isTripStart.value ||
+                                            _tripController.isTripEnd.value
+                                        ? () async {
+                                            AppUtil.errorToast(
+                                                context, "EndTourTime".tr);
+                                            await Future.delayed(
+                                                const Duration(seconds: 1));
+                                          }
+                                        : () async {
+                                            AppUtil.errorToast(
+                                                context, "StartTourTime".tr);
+                                            await Future.delayed(
+                                                const Duration(seconds: 1));
+                                          },
                                 style: ButtonStyle(
                                   padding: MaterialStateProperty.all(
                                     EdgeInsets.symmetric(
@@ -547,23 +514,21 @@ print(newProgress);
                                         width: 1,
                                       ),
                                     ),
-                                    
                                   ),
-                                  elevation: MaterialStateProperty.all(0), 
-
+                                  elevation: MaterialStateProperty.all(0),
                                 ),
                                 child: FittedBox(
                                   child: CustomText(
-                                  text:  getActivityProgressText(
-                                        _tripController.nextStep.value, context),
-                                      color: Color.fromARGB(255, 255, 255, 255),
-                                      fontSize: width*0.03,
-                                      fontFamily: AppUtil.rtlDirection2(context)
-                                          ? 'SF Arabic'
-                                          : 'SF Pro',
-                                      fontWeight: FontWeight.w500,
-                                      height: 0,
-                                  
+                                    text: getActivityProgressText(
+                                        _tripController.nextStep.value,
+                                        context),
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                    fontSize: width * 0.03,
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
+                                    fontWeight: FontWeight.w500,
+                                    height: 0,
                                   ),
                                 ),
                               ),
@@ -579,47 +544,55 @@ print(newProgress);
                     color: lightGrey,
                   ),
                   // SizedBox(height: width * 0.03),
-               MediaQuery(
-            data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
-                child: ExpandedTile(
+                  MediaQuery(
+                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                    child: ExpandedTile(
                       contentseparator: 12,
                       trailing: Directionality(
-                        textDirection: AppUtil.rtlDirection2(context)?TextDirection.rtl:TextDirection.ltr,
+                        textDirection: AppUtil.rtlDirection2(context)
+                            ? TextDirection.rtl
+                            : TextDirection.ltr,
                         child: _controller.isExpanded
                             ? CustomText(
-                                text: AppUtil.rtlDirection2(context) ? 'القليل' : 'See less',
+                                text: AppUtil.rtlDirection2(context)
+                                    ? 'القليل'
+                                    : 'See less',
                                 color: Color(0xFF36B268),
                                 fontSize: 13,
-                                fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+                                fontFamily: AppUtil.rtlDirection2(context)
+                                    ? 'SF Arabic'
+                                    : 'SF Pro',
                                 fontWeight: FontWeight.w500,
                               )
                             : CustomText(
                                 text: 'seeMore'.tr,
                                 color: Color(0xFF36B268),
                                 fontSize: 13,
-                                fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+                                fontFamily: AppUtil.rtlDirection2(context)
+                                    ? 'SF Arabic'
+                                    : 'SF Pro',
                                 fontWeight: FontWeight.w500,
                               ),
                       ),
                       disableAnimation: true,
                       trailingRotation: 0,
                       onTap: () {
-                        // print(widget.request.date);
+                        //
                         setState(() {});
                       },
-                       title: 
-                       //!_controller.isExpanded
-                      //     ? CustomText(
-                      //         text:'seeMore'.tr,
-                      //         color: Color(0xFF36B268),
-                      //         fontSize: 13,
-                      //         fontFamily: AppUtil.rtlDirection2(context)
-                      //             ? 'SF Arabic'
-                      //             : 'SF Pro',
-                      //         fontWeight: FontWeight.w500,
-                      //       )
-                      //     :
-                       Text(''),
+                      title:
+                          //!_controller.isExpanded
+                          //     ? CustomText(
+                          //         text:'seeMore'.tr,
+                          //         color: Color(0xFF36B268),
+                          //         fontSize: 13,
+                          //         fontFamily: AppUtil.rtlDirection2(context)
+                          //             ? 'SF Arabic'
+                          //             : 'SF Pro',
+                          //         fontWeight: FontWeight.w500,
+                          //       )
+                          //     :
+                          Text(''),
                       content: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -629,14 +602,14 @@ print(newProgress);
                             image: "assets/icons/date.svg",
                           ),
                           SizedBox(height: 8),
-                  
+
                           ItineraryTile(
                             title:
                                 ' ${AppUtil.formatStringTimeWithLocale(context, _tripController.nextTrip.value.booking!.timeToGo)} - ${AppUtil.formatStringTimeWithLocale(context, _tripController.nextTrip.value.booking!.timeToReturn)}',
                             image: "assets/icons/timeGrey.svg",
                           ),
                           //SizedBox(height: width * 0.025),
-                  
+
                           SizedBox(height: 8),
                           ItineraryTile(
                             title: address,
@@ -645,17 +618,17 @@ print(newProgress);
                                 .nextTrip.value.booking!.coordinates),
                             line: true,
                           ),
-                  
+
                           SizedBox(height: 8),
-                  
+
                           ItineraryTile(
                             title:
                                 "${_tripController.nextTrip.value.booking!.guestNumber} ${"guests".tr}",
                             image: "assets/icons/guests.svg",
                           ),
-                  
+
                           SizedBox(height: 11),
-                  
+
                           // _controller.isExpanded
                           //     ? CustomText(
                           //         text: AppUtil.rtlDirection2(context)
@@ -694,9 +667,6 @@ print(newProgress);
 
   String getActivityProgressText(
       String activityProgress, BuildContext context) {
-    print('this state');
-    print(activityProgress);
-
     if (AppUtil.rtlDirection2(context)) {
       switch (activityProgress) {
         case 'PENDING':

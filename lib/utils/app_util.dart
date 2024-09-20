@@ -101,7 +101,6 @@ class AppUtil {
     final _getStorage = GetStorage();
     var token = _getStorage.read('accessToken') ?? '';
     var isExpired = JwtDecoder.isExpired(token);
-    print('isExpired $isExpired');
 
     return isExpired;
   }
@@ -148,11 +147,7 @@ class AppUtil {
         tz.TZDateTime.from(parsedDate, location).subtract(Duration(hours: 3));
 
     Duration difference = tripDateInRiyadh.difference(currentDateInRiyadh);
-    print('this deffrence');
-    print(difference);
-    print(parsedDate);
-    print(tripDateInRiyadh);
-    print(currentDateInRiyadh);
+
     return difference.inHours >= 24;
   }
 
@@ -179,11 +174,6 @@ class AppUtil {
     final difference = tripDateInRiyadh.difference(currentDateInRiyadh);
 
     // Print the current time and difference for debugging
-    print('Current Time in Riyadh: $currentDateInRiyadh');
-    print('trip before: $parsedTripDate');
-
-    print('Trip Time in Riyadh: $tripDateInRiyadh');
-    print('Difference: $difference');
 
     // Check if the difference is greater than or equal to 24 hours
     return difference.inHours > 24;
@@ -203,8 +193,6 @@ class AppUtil {
 
       Duration difference = DateInRiyadh.difference(currentDateInRiyadh);
 
-      print('Difference for $date: $difference');
-
       if (difference.inHours < 24) {
         return false;
       }
@@ -218,9 +206,7 @@ class AppUtil {
     // if (endTime.isBefore(startTime)) {
     //   endTime = endTime.add(Duration(days: 1));
     // }
-    print(startTime);
-    print(endTime);
-    print(endTime.isBefore(startTime));
+
     // return endTime.isBefore(startTime) ;
     return endTime.isBefore(startTime) || endTime.isAtSameMomentAs(startTime);
   }
@@ -758,30 +744,6 @@ class AppUtil {
   static String formattedHijriDateDay(JHijri hijriDate) {
     return "${hijriDate.year}-${hijriDate.month.toString().padLeft(2, '0')}-${hijriDate.day.toString().padLeft(2, '0')}";
   }
-//   static String convertHijriDateStringToGregorian(String hijriDateString) {
-//   try {
-//     // Parse the Hijri date string
-//     List<String> parts = hijriDateString.split('-');
-//     int hijriYear = int.parse(parts[0]);
-//     int hijriMonth = int.parse(parts[1]);
-//     int hijriDay = int.parse(parts[2]);
-
-//     // Create a HijriCalendar instance
-//     HijriCalendar hijriCalendar = HijriCalendar();
-
-//     // Convert Hijri date to Gregorian date
-//     DateTime gregorianDate = hijriCalendar.hijriToGregorian(hijriYear, hijriMonth, hijriDay);
-
-//     // Format the Gregorian date to 'YYYY-MM-DD'
-//     String formattedDate = DateFormat('yyyy-MM-dd').format(gregorianDate);
-
-//     return formattedDate;
-//   } catch (e) {
-//     // Handle any errors during conversion
-//     print('Error converting Hijri date to Gregorian: $e');
-//     return '';
-//   }
-// }
 
   static String SfFontType(BuildContext context) {
     return AppUtil.rtlDirection2(context) ? 'SF Arabic' : "SF Pro";
@@ -790,5 +752,9 @@ class AppUtil {
   static String convertTime(String time) {
     DateTime dateTime = DateFormat('h:mm a').parse(time);
     return DateFormat('HH:mm:ss').format(dateTime);
+  }
+
+  static String getFirstName(String fullName) {
+    return fullName.split(" ")[0];
   }
 }

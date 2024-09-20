@@ -1,4 +1,3 @@
-
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
 import 'package:ajwad_v4/explore/widget/floating_timer.dart';
@@ -64,17 +63,15 @@ class _ReviewRequestState extends State<ReviewRequest> {
   }
 
   void getBooking() async {
-    print("1");
-
     // book.Booking? fetchedBooking = await _RequestController.getBookingById(
     //     context: context,
     //     bookingId: widget.booking!.id!,
     //   );
-    //   print(fetchedBooking?.id);
+    //
     //   fetchedBooking2=fetchedBooking;
-    //   print(fetchedBooking2?.id);
+    //
 
-    // print(fetchedBooking2!.offers!.length);
+    //
     // if(fetchedBooking2!.offers!!=[]){
     // await widget.offerController?.getOfferById(context: context, offerId:fetchedBooking!.offers!.last.id);
     // }
@@ -82,8 +79,7 @@ class _ReviewRequestState extends State<ReviewRequest> {
         context: context,
         placeId: widget.place!.id!,
         bookingId: widget.booking!.id!);
-    print('First Offer ID: ${_offerController.offers.length}');
-    print(_offerController.offers.last.offerId);
+
     thePlace = await _touristExploreController.getPlaceById(
         id: widget.place!.id!, context: context);
   }
@@ -91,7 +87,6 @@ class _ReviewRequestState extends State<ReviewRequest> {
   PaymentController paymentController = Get.put(PaymentController());
   @override
   Widget build(BuildContext context) {
-    print("this is total final invoice price11");
     print(widget.offerController!.totalPrice.value *
         widget.offerController!.offerDetails.value.booking!.guestNumber!);
 
@@ -121,7 +116,7 @@ class _ReviewRequestState extends State<ReviewRequest> {
                         Expanded(
                           child: SingleChildScrollView(
                             child: Column(
-                             crossAxisAlignment: CrossAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 CustomText(
                                   text: 'RequestedTourDetails'.tr,
@@ -135,9 +130,7 @@ class _ReviewRequestState extends State<ReviewRequest> {
                                 ReviewDetailsTile(
                                     title:
                                         '${AppUtil.formatBookingDate(context, widget.booking!.date!)}',
-                                    image:'assets/icons/date.svg'
-                                    
-                                    ),
+                                    image: 'assets/icons/date.svg'),
                                 SizedBox(
                                   height: width * .010,
                                 ),
@@ -182,92 +175,83 @@ class _ReviewRequestState extends State<ReviewRequest> {
                                     scheduleList: widget.scheduleList,
                                     offerController: widget.offerController,
                                     isReview: true),
-                        
+
                                 const Divider(
                                   color: lightGrey,
                                 ),
                                 SizedBox(
                                   height: width * 0.06,
                                 ),
-                        
-                             
-                               // discount widget
+
+                                // discount widget
                                 const PromocodeField(),
                                 SizedBox(
                                   height: width * 0.071,
                                 ),
-                                 DottedSeparator(
-                                color: almostGrey,
-                                height: width * 0.002,
-                              ),
-                              // SizedBox(
-                              //   height: width * 0.09,
-                              // ),
+                                DottedSeparator(
+                                  color: almostGrey,
+                                  height: width * 0.002,
+                                ),
+                                // SizedBox(
+                                //   height: width * 0.09,
+                                // ),
                                 SizedBox(
-                                height: width * 0.07,
-                              ),
-                                 ],
+                                  height: width * 0.07,
+                                ),
+                              ],
                             ),
                           ),
                         ),
-                             
-                              TotalWidget(
-                                offerController: widget.offerController,
-                                place: widget.place!,
-                              ),
-
-                              SizedBox(
-                                height: width * 0.02,
-                              ),
-                              paymentController.isPaymenInvoiceLoading.value
-                                  ? const CircularProgressIndicator(
-                                      color: colorGreen,
-                                    )
-                                  : CustomButton(
-                                      title: 'checkout'.tr,
-                                      icon: const Icon(Icons.keyboard_arrow_right,
-                                          color: Colors.white),
-                                      onPressed: () async {
-                                         if ( widget.offerController!.updateScheduleList !=
-                                                  null) {
-                                                for (var item in  widget.offerController!.updateScheduleList) {
-                                                      print("this sedule");
-                                                  print(item.scheduleName);
-                                                }
-                                              } else {
-                                                print(
-                                                    'The schedule list is null or does not exist.');
-                                              }
-                                        Get.to(
-                                          () => PaymentType(
-                                            price: (widget.offerController!
-                                                    .totalPrice.value *
-                                                widget.offerController!.offerDetails
-                                                    .value.booking!.guestNumber!),
-                                            type: 'tour',
-                                            offerController: widget.offerController,
-                                            booking: widget.booking,
-                                          ),
-                                        );
-                                      }),
-
-                                      SizedBox(height: 10),
-
-                                      CustomButton(
-                                          onPressed: () {
-                                            Get.until((route) =>
-                                                Get.currentRoute == '/FindAjwady');
-                                          },
-                                          title: AppUtil.rtlDirection2(context)
-                                              ? 'عودة للعروض'
-                                              : 'Return to Offers'.tr,
-                                          buttonColor:
-                                              Colors.white.withOpacity(0.3),
-                                          borderColor: Colors.white.withOpacity(0.3) ,
-                                          textColor:black),
-                                      const SizedBox(height: 4),
-
-                           
+                        TotalWidget(
+                          offerController: widget.offerController,
+                          place: widget.place!,
+                        ),
+                        SizedBox(
+                          height: width * 0.02,
+                        ),
+                        paymentController.isPaymenInvoiceLoading.value
+                            ? const CircularProgressIndicator(
+                                color: colorGreen,
+                              )
+                            : CustomButton(
+                                title: 'checkout'.tr,
+                                icon: const Icon(Icons.keyboard_arrow_right,
+                                    color: Colors.white),
+                                onPressed: () async {
+                                  if (widget.offerController!
+                                          .updateScheduleList !=
+                                      null) {
+                                    for (var item in widget
+                                        .offerController!.updateScheduleList) {}
+                                  } else {
+                                    print(
+                                        'The schedule list is null or does not exist.');
+                                  }
+                                  Get.to(
+                                    () => PaymentType(
+                                      price: (widget.offerController!.totalPrice
+                                              .value *
+                                          widget.offerController!.offerDetails
+                                              .value.booking!.guestNumber!),
+                                      type: 'tour',
+                                      offerController: widget.offerController,
+                                      booking: widget.booking,
+                                    ),
+                                  );
+                                }),
+                        SizedBox(height: 10),
+                        CustomButton(
+                            onPressed: () {
+                              Get.until(
+                                  (route) => Get.currentRoute == '/FindAjwady');
+                            },
+                            title: AppUtil.rtlDirection2(context)
+                                ? 'عودة للعروض'
+                                : 'Return to Offers'.tr,
+                            buttonColor: Colors.white.withOpacity(0.3),
+                            borderColor: Colors.white.withOpacity(0.3),
+                            textColor: black),
+                        const SizedBox(height: 4),
                       ],
                     ),
                   ),

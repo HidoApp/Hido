@@ -54,13 +54,10 @@ class _SplashScreenState extends State<SplashScreen>
   late dynamic userRole;
   late dynamic token;
 
-
-
   @override
   void initState() {
     super.initState();
-    print(userRole = getStorage.read('userRole') ?? 'NULL ROLE');
-    print(userRole = getStorage.read('accessToken') ?? 'NULL ');
+
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 1), // Set the desired duration here
@@ -78,19 +75,17 @@ class _SplashScreenState extends State<SplashScreen>
           if (user != null) {
             token = user.accessToken;
           }
-          print('token $token');
         }
 
         Get.off(() => const AjwadiBottomBar());
       } else if (token != '' && userRole == 'tourist') {
         if (JwtDecoder.isExpired(token)) {
           final String refreshToken = getStorage.read('refreshToken');
-          // print('HEeree');
+          //
           var user = await _authController.refreshToken(
               refreshToken: refreshToken, context: context);
           if (user != null) {
             token = user.accessToken;
-            print('token $token');
           }
         }
 

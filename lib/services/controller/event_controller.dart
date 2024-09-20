@@ -14,20 +14,20 @@ import 'package:image_picker/image_picker.dart';
 
 class EventController extends GetxController {
   var eventList = <Event>[].obs;
-  
+
   var isEventListLoading = false.obs;
   var isEventByIdLoading = false.obs;
-    var showErrorMaxGuest = false.obs;
+  var showErrorMaxGuest = false.obs;
 
   var ischeckBookingLoading = false.obs;
   var selectedImages = <XFile>[].obs;
-   var  images = <dynamic>[].obs;
-var addressEventCard =''.obs;
+  var images = <dynamic>[].obs;
+  var addressEventCard = ''.obs;
   var address = ''.obs;
   var DateErrorMessage = false.obs;
   var TimeErrorMessage = false.obs;
-   var EmptyDateErrorMessage=false.obs;
-  var EmptyTimeErrorMessage=false.obs;
+  var EmptyDateErrorMessage = false.obs;
+  var EmptyTimeErrorMessage = false.obs;
   var selectedDate = ''.obs;
   var selectedDates = [].obs; //new
   var selectedTime = ''.obs;
@@ -46,8 +46,8 @@ var addressEventCard =''.obs;
   var titleEn = "".obs;
   var bioAr = "".obs;
   var bioEn = "".obs;
-  var ragionAr="".obs;
-  var ragionEn="".obs;
+  var ragionAr = "".obs;
+  var ragionEn = "".obs;
   var isEventDateSelcted = false.obs;
   var isEventTimeSelcted = false.obs;
 
@@ -112,7 +112,7 @@ var addressEventCard =''.obs;
     required List<Map<String, dynamic>> daysInfo,
     required BuildContext context,
   }) async {
-    //print(rememberMe);
+    //
     try {
       isEventLoading(true);
       final isSuccess = await EventService.createEvent(
@@ -130,7 +130,6 @@ var addressEventCard =''.obs;
           daysInfo: daysInfo,
           context: context);
 
-      print(isSuccess);
       return isSuccess;
     } catch (e) {
       return false;
@@ -180,7 +179,6 @@ var addressEventCard =''.obs;
         return null;
       }
     } catch (e) {
-      print(e);
       return null;
     } finally {
       isEditEventLoading(false);
@@ -199,16 +197,15 @@ var addressEventCard =''.obs;
       );
       if (data != null) {
         upcommingTicket(data);
-        print("object controller");
-        print(data.length);
-        //print(upcommingTicket.first.place?.nameAr);
+
+        //
         return upcommingTicket;
       } else {
         return null;
       }
     } catch (e) {
       isUpcommingTicketLoading(false);
-      print(e);
+
       return null;
     } finally {
       isUpcommingTicketLoading(false);
@@ -225,10 +222,8 @@ var addressEventCard =''.obs;
         eventType: 'PAST',
         context: context,
       );
-      print("this pas 1ticket");
 
       if (data != null) {
-        print("this pas ticket");
         pastTicket(data);
         return pastTicket;
       } else {
@@ -236,7 +231,7 @@ var addressEventCard =''.obs;
       }
     } catch (e) {
       isPastTicketLoading(false);
-      print(e);
+
       return null;
     } finally {
       isPastTicketLoading(false);
@@ -263,14 +258,12 @@ var addressEventCard =''.obs;
   Future<EventSummary?> getEventSummaryById({
     required BuildContext context,
     required String id,
-
     required String date,
   }) async {
     try {
-      print("TRUE");
       isEventByIdLoading(true);
-      final data =
-          await EventService.getEventSummaryById(context: context, id: id,date:date);
+      final data = await EventService.getEventSummaryById(
+          context: context, id: id, date: date);
       return data;
     } catch (e) {
       isEventByIdLoading(false);
@@ -306,7 +299,8 @@ var addressEventCard =''.obs;
       ischeckBookingLoading(false);
     }
   }
-    var isImagesLoading = false.obs;
+
+  var isImagesLoading = false.obs;
 
   Future<UploadImage?> uploadProfileImages(
       {required File file,
@@ -315,12 +309,10 @@ var addressEventCard =''.obs;
     try {
       isImagesLoading(true);
       final isSucces = await EventService.uploadImages(
-          file: file, fileType:fileType, context: context);
+          file: file, fileType: fileType, context: context);
 
       return isSucces;
     } catch (e) {
-      print('error');
-      print(e);
       return null;
     } finally {
       isImagesLoading(false);

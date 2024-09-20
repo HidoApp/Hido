@@ -141,11 +141,10 @@ class _EditHospitalityState extends State<EditHospitality> {
     try {
       List<Placemark> placemarks =
           await placemarkFromCoordinates(position1, position2);
-      print(placemarks);
 
       if (placemarks.isNotEmpty) {
         Placemark placemark = placemarks.first;
-        print(placemarks.first);
+
         // setState(() {
         //   if (AppUtil.rtlDirection2(context)) {
         //     ragionAr = placemark.locality!;
@@ -164,9 +163,7 @@ class _EditHospitalityState extends State<EditHospitality> {
         // });
         return '${placemark.locality}, ${placemark.subLocality}, ${placemark.country}';
       }
-    } catch (e) {
-      print("Error retrieving address: $e");
-    }
+    } catch (e) {}
     return '';
   }
 
@@ -295,7 +292,6 @@ class _EditHospitalityState extends State<EditHospitality> {
       if (_priceController.text.isNotEmpty) {
         int? price = int.tryParse(_priceController.text);
         PriceLarger = price == null || price! < 150;
-        print(PriceLarger = price == null || price! < 150);
 
         //check if price not int
         String priceText = _priceController.text;
@@ -345,9 +341,7 @@ class _EditHospitalityState extends State<EditHospitality> {
           AppUtil.errorToast(context, 'imageError'.tr);
           await Future.delayed(const Duration(seconds: 3));
         }
-      } else {
-        print("Please fill all required fields");
-      }
+      } else {}
     }
   }
 
@@ -510,26 +504,9 @@ class _EditHospitalityState extends State<EditHospitality> {
 
   Future<void> _updateProfile() async {
     try {
-      print("Updating hospitality with the following data:");
-      print("ID: ${widget.hospitalityObj.id}");
-      print("Title AR: ${hospitalityTitleControllerAr.text}");
-      print("Title EN: ${hospitalityTitleControllerEn.text}");
-      print("Bio AR: ${hospitalityBioControllerAr.text}");
-      print("Bio EN: ${hospitalityBioControllerEn.text}");
-      print("Meal Type AR: $mealTypeAr");
-      print("Meal Type EN: $mealTypeEn");
       print(
           "Longitude: ${_servicesController.pickUpLocLatLang.value.longitude}");
-      print("Latitude: ${_servicesController.pickUpLocLatLang.value.latitude}");
-      print("Tourists Gender: ${_guestsController.text}");
-      print("Price: ${double.parse(_priceController.text)}");
-      print("Images: ${widget.hospitalityObj.images}");
-      print("Region AR: ${widget.hospitalityObj.regionAr}");
-      print("Location: $locationUrl");
-      print("Region EN: ${widget.hospitalityObj.regionEn}");
-      print("Start Time: $startTime");
-      print("End Time: $endTime");
-      print("Guest Number: $guestNum");
+
       final Hospitality? result = await _servicesController.editHospatility(
         id: widget.hospitalityObj.id,
         titleAr: hospitalityTitleControllerAr.text,
@@ -559,8 +536,8 @@ class _EditHospitalityState extends State<EditHospitality> {
           context: context,
           builder: (BuildContext context) {
             return Dialog(
-                backgroundColor: Colors.white,
-              surfaceTintColor:Colors.white,
+              backgroundColor: Colors.white,
+              surfaceTintColor: Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
@@ -597,17 +574,11 @@ class _EditHospitalityState extends State<EditHospitality> {
           final _experienceController = Get.put(AjwadiExploreController());
           _experienceController.getAllExperiences(context: context);
         });
-
-        print("Profile updated successfully: $result");
       } else {
         // Get.offAll(AddExperienceInfo());
         // Get.offAll(() => const AjwadiBottomBar());
-
-        print("Profile update returned null");
       }
-    } catch (e) {
-      print("Error updating profile: $e");
-    }
+    } catch (e) {}
   }
 
   @override
@@ -711,8 +682,10 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                 builder:
                                                     (BuildContext context) {
                                                   return Dialog(
-                                                      backgroundColor: Colors.white,
-                                                       surfaceTintColor:Colors.white,
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    surfaceTintColor:
+                                                        Colors.white,
                                                     shape:
                                                         RoundedRectangleBorder(
                                                       borderRadius:
@@ -1000,7 +973,6 @@ class _EditHospitalityState extends State<EditHospitality> {
                                           setState(() {
                                             _selectedLanguageIndex = index!;
                                           });
-                                          print('switched to: $index');
                                         },
                                       ),
                                     ]),
@@ -1672,7 +1644,6 @@ class _EditHospitalityState extends State<EditHospitality> {
                                           children: [
                                             GestureDetector(
                                               onTap: () {
-                                                print("object");
                                                 setState(() {
                                                   selectedChoice = 3;
                                                 });
