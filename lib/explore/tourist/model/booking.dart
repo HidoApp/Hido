@@ -7,7 +7,6 @@ import 'package:ajwad_v4/services/model/hospitality.dart';
 import 'package:ajwad_v4/request/tourist/models/schedule.dart';
 
 import '../../../auth/models/user.dart';
-import '../../../profile/models/profile.dart';
 
 class Booking {
   final String? id;

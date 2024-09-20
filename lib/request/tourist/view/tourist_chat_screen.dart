@@ -1,7 +1,6 @@
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/payment/view/check_out_screen.dart';
 import 'package:ajwad_v4/request/widgets/custom_request_text_field.dart';
-import 'package:ajwad_v4/request/widgets/custom_trip_option.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';

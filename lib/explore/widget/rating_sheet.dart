@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/model/activity_progress.dart';
-import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/request/tourist/controllers/rating_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';

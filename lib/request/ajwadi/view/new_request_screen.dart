@@ -1,12 +1,7 @@
-import 'dart:developer';
 
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/request/ajwadi/controllers/request_controller.dart';
-import 'package:ajwad_v4/request/ajwadi/view/Itinerary_screen.dart';
-import 'package:ajwad_v4/request/ajwadi/view/widget/empty_request.dart';
-import 'package:ajwad_v4/request/ajwadi/view/widget/offline_request.dart';
 import 'package:ajwad_v4/request/ajwadi/view/widget/request_card.dart';
-import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_empty_widget.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/cupertino.dart';

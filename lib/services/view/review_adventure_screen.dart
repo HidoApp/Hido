@@ -1,10 +1,7 @@
-import 'dart:io';
 
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/payment/controller/payment_controller.dart';
 import 'package:ajwad_v4/payment/model/invoice.dart';
-import 'package:ajwad_v4/profile/view/ticket_details_screen.dart';
-import 'package:ajwad_v4/request/local_notification.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
 import 'package:ajwad_v4/services/view/widgets/review_details_tile.dart';
@@ -20,7 +17,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 import '../../payment/view/payment_type_new.dart';
 

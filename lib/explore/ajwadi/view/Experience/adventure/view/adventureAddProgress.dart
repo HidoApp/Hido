@@ -1,5 +1,3 @@
-import 'dart:async';
-import 'dart:io';
 import 'package:ajwad_v4/explore/ajwadi/controllers/ajwadi_explore_controller.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/adventure/widget/add_adventure_info.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/adventure/widget/add_guests.dart';
@@ -7,37 +5,18 @@ import 'package:ajwad_v4/explore/ajwadi/view/Experience/adventure/widget/add_loc
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/adventure/widget/add_price.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/adventure/widget/photo_gallery.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/adventure/widget/select_date_time.dart';
-import 'package:ajwad_v4/explore/ajwadi/view/add_hospitality_calender_dialog.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/hoapatility/view/host_info_review.dart';
-import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
-import 'package:ajwad_v4/widgets/custom_button.dart';
-import 'package:dotted_border/dotted_border.dart';
 
-import 'package:ajwad_v4/constants/colors.dart';
-import 'package:ajwad_v4/explore/ajwadi/view/set_location.dart';
-import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
-import 'package:ajwad_v4/request/ajwadi/models/request_model.dart';
-import 'package:ajwad_v4/request/ajwadi/controllers/request_controller.dart';
-import 'package:ajwad_v4/request/ajwadi/view/request_screen.dart';
-import 'package:ajwad_v4/request/ajwadi/view/widget/accept_bottom_sheet.dart';
-import 'package:ajwad_v4/utils/app_util.dart';
-import 'package:ajwad_v4/widgets/custom_request_item.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:flutter_switch/flutter_switch.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:intl/intl.dart' as intel;
 import 'package:step_progress_indicator/step_progress_indicator.dart';
-import 'package:toggle_switch/toggle_switch.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 
 
 class AdventureAddProgress extends StatefulWidget {

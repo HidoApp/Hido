@@ -1,9 +1,6 @@
 import 'package:ajwad_v4/constants/colors.dart';
-import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
-import 'package:ajwad_v4/services/model/days_info.dart';
 import 'package:ajwad_v4/services/model/experiences.dart';
 import 'package:ajwad_v4/services/view/adveture_details.dart';
-import 'package:ajwad_v4/services/view/event_details.dart';
 import 'package:ajwad_v4/services/view/hospitality_details.dart';
 import 'package:ajwad_v4/services/view/local_event_details.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
@@ -13,8 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:intl/intl.dart';
 
 class ServicesCard extends StatefulWidget {
   const ServicesCard({

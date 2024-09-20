@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'dart:developer';
 
-import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
@@ -9,7 +7,6 @@ import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/explore/widget/floating_timer.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
 import 'package:ajwad_v4/request/tourist/view/offers_screen.dart';
-import 'package:ajwad_v4/request/tourist/view/select_ajwady_sheet.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/StackWidgets.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
@@ -20,10 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:intl/intl.dart';
-import 'package:url_launcher/url_launcher.dart' as launcher;
 import 'package:ajwad_v4/request/widgets/CansleDialog.dart';
-import 'package:ajwad_v4/request/local_notification.dart';
 
 class FindAjwady extends StatefulWidget {
   const FindAjwady({

@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
-import 'package:ajwad_v4/auth/view/ajwadi_register/driving_license.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/widget/otp_sheet.dart';
@@ -9,7 +8,6 @@ import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
-import 'package:ajwad_v4/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jhijri/_src/_jHijri.dart';

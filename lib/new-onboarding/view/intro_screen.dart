@@ -3,25 +3,18 @@ import 'dart:math';
 import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/auth/view/sigin_in/local_sign_in.dart';
 import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
-import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
-import 'package:ajwad_v4/explore/ajwadi/view/Experience/adventure/view/edit_adventure.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
-import 'package:amplitude_flutter/amplitude.dart'; //
-import 'package:amplitude_flutter/configuration.dart';
-import 'package:amplitude_flutter/constants.dart';
-import 'package:amplitude_flutter/default_tracking.dart';
+//
 import 'package:amplitude_flutter/events/base_event.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../bottom_bar/tourist/view/tourist_bottom_bar.dart';

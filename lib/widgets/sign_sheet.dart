@@ -1,10 +1,8 @@
-import 'dart:developer';
 
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/auth/view/tourist_register/reset_password.dart';
 import 'package:ajwad_v4/auth/widget/sign_up_text.dart';
 import 'package:ajwad_v4/constants/colors.dart';
-import 'package:ajwad_v4/new-onboarding/view/account_type_screen.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
@@ -17,7 +15,6 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/state_manager.dart';
 
-import '../new-onboarding/view/intro_screen.dart';
 
 class SignInSheet extends StatefulWidget {
   const SignInSheet({super.key});

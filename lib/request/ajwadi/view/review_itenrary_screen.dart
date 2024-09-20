@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';

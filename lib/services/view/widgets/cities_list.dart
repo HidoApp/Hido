@@ -1,5 +1,4 @@
 import 'package:ajwad_v4/constants/colors.dart';
-import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/services/controller/regions_controller.dart';
 import 'package:ajwad_v4/services/view/widgets/custom_chips.dart';
 import 'package:ajwad_v4/utils/app_util.dart';

@@ -1,11 +1,7 @@
-import 'dart:ffi';
 
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
-import 'package:ajwad_v4/auth/services/auth_service.dart';
-import 'package:ajwad_v4/auth/view/tourist_register/email_otp.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
-import 'package:ajwad_v4/profile/view/profile_touriest.dart';
 import 'package:ajwad_v4/profile/widget/email_otp_sheet.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';

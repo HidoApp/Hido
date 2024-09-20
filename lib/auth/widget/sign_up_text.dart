@@ -1,9 +1,6 @@
-import 'package:ajwad_v4/auth/view/ajwadi_register/ajwadi_register_screen.dart';
 import 'package:ajwad_v4/auth/view/ajwadi_register/local_sign_up.dart';
-import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/auth/view/tourist_register/register/register_screen.dart';
 import 'package:ajwad_v4/constants/colors.dart';
-import 'package:ajwad_v4/new-onboarding/view/intro_screen.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';

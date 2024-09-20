@@ -8,8 +8,6 @@ import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../services/view/hospitality_details.dart';
-import '../hoapatility/view/edit_hospitality.dart';
 
 class ExperienceType extends StatelessWidget {
   @override

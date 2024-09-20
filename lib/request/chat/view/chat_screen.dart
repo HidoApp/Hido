@@ -6,7 +6,6 @@ import 'package:ajwad_v4/request/chat/controllers/chat_controller.dart';
 import 'package:ajwad_v4/request/chat/model/chat_model.dart';
 import 'package:ajwad_v4/request/chat/view/widgets/chat_bubble.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
-import 'package:ajwad_v4/request/tourist/models/offer.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/custom_textfield.dart';

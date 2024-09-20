@@ -9,10 +9,8 @@ import 'package:ajwad_v4/profile/models/bookmark.dart';
 import 'package:ajwad_v4/profile/models/profile.dart';
 import 'package:ajwad_v4/profile/services/profile_service.dart';
 import 'package:ajwad_v4/request/chat/model/chat_model.dart';
-import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 class ProfileController extends GetxController {

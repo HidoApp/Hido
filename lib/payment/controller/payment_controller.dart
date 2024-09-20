@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:ajwad_v4/payment/model/credit_card.dart';
 import 'package:ajwad_v4/payment/model/invoice.dart';
@@ -9,8 +8,6 @@ import 'package:ajwad_v4/request/tourist/models/schedule.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
-import 'package:get_storage/get_storage.dart';
 
 class PaymentController extends GetxController {
   var isCreditCardPaymentLoading = false.obs;

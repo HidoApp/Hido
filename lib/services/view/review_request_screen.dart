@@ -1,37 +1,26 @@
-import 'dart:math';
 
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
-import 'package:ajwad_v4/explore/tourist/model/booking.dart' as book;
-import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
 import 'package:ajwad_v4/explore/widget/floating_timer.dart';
 import 'package:ajwad_v4/payment/controller/payment_controller.dart';
 import 'package:ajwad_v4/payment/model/invoice.dart';
 import 'package:ajwad_v4/payment/view/payment_type_new.dart';
 import 'package:ajwad_v4/request/tourist/models/offer_details.dart';
-import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
-import 'package:ajwad_v4/services/model/hospitality.dart';
 import 'package:ajwad_v4/services/view/widgets/review_details_tile.dart';
-import 'package:ajwad_v4/services/view/widgets/review_guests.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/dotted_line_separator.dart';
-import 'package:ajwad_v4/widgets/payment_web_view.dart';
 import 'package:ajwad_v4/widgets/promocode_field.dart';
 import 'package:floating_draggable_advn/floating_draggable_advn_bk.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 import '../../explore/tourist/model/place.dart';
-import '../../profile/view/ticket_details_screen.dart';
 import '../../request/ajwadi/controllers/request_controller.dart';
-import '../../request/local_notification.dart';
 import '../../request/tourist/controllers/offer_controller.dart';
 import '../../request/tourist/models/schedule.dart';
 import '../../widgets/schedule_container_widget.dart';

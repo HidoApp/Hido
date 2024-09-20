@@ -1,28 +1,16 @@
-import 'dart:developer';
 
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/event/model/event.dart';
-import 'package:ajwad_v4/explore/ajwadi/view/Experience/adventure/view/edit_adventure.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/localEvent/view/edit_event.dart';
-import 'package:ajwad_v4/explore/tourist/model/place.dart';
-import 'package:ajwad_v4/explore/tourist/view/share_sheet.dart';
-import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/models/bookmark.dart';
 import 'package:ajwad_v4/profile/services/bookmark_services.dart';
-import 'package:ajwad_v4/request/tourist/view/local_offer_info.dart';
-import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/services/controller/event_controller.dart';
-import 'package:ajwad_v4/services/model/adventure.dart';
-import 'package:ajwad_v4/services/view/service_local_info.dart';
 import 'package:ajwad_v4/services/view/widgets/event_booking.dart';
 
 import 'package:ajwad_v4/utils/app_util.dart';
-import 'package:ajwad_v4/widgets/StackWidgets.dart';
 import 'package:ajwad_v4/widgets/custom_aleart_widget.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
-import 'package:ajwad_v4/widgets/custom_button.dart';
-import 'package:ajwad_v4/widgets/custom_succes_dialog.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -30,19 +18,14 @@ import 'package:flutter_svg/svg.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
-import 'package:ajwad_v4/services/model/hospitality.dart';
 
 import 'package:ajwad_v4/explore/tourist/view/view_trip_images.dart';
 
 import 'package:ajwad_v4/services/view/widgets/images_services_widget.dart';
 
-import 'package:ajwad_v4/services/view/widgets/service_profile_card.dart';
 
 import 'package:ajwad_v4/widgets/custom_policy_sheet.dart';
-import 'package:ajwad_v4/widgets/floating_booking_button.dart';
 
-import 'package:intl/intl.dart' hide TextDirection;
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class LocalEventDetails extends StatefulWidget {

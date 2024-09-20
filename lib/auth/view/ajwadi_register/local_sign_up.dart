@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
-import 'package:ajwad_v4/auth/view/ajwadi_register/provided_services.dart';
 import 'package:ajwad_v4/auth/view/sigin_in/phone_otp_new.dart';
 import 'package:ajwad_v4/auth/widget/sign_in_text.dart';
 import 'package:ajwad_v4/auth/widget/terms_text.dart';
@@ -17,7 +16,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:jhijri/_src/_jHijri.dart';
 import 'package:jhijri_picker/_src/_jWidgets.dart';
 
 class LocalSignUpScreen extends StatefulWidget {

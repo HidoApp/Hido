@@ -3,19 +3,11 @@ import 'dart:io';
 import 'package:ajwad_v4/explore/ajwadi/model/userLocation.dart';
 import 'package:ajwad_v4/explore/ajwadi/services/location_service.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/add_hospitality_calender_dialog.dart';
-import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:dotted_border/dotted_border.dart';
 
 import 'package:ajwad_v4/constants/colors.dart';
-import 'package:ajwad_v4/explore/ajwadi/view/set_location.dart';
-import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
-import 'package:ajwad_v4/request/ajwadi/models/request_model.dart';
-import 'package:ajwad_v4/request/ajwadi/controllers/request_controller.dart';
-import 'package:ajwad_v4/request/ajwadi/view/request_screen.dart';
-import 'package:ajwad_v4/request/ajwadi/view/widget/accept_bottom_sheet.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
-import 'package:ajwad_v4/widgets/custom_request_item.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
@@ -24,7 +16,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_switch/flutter_switch.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -36,9 +27,6 @@ import 'package:image_picker/image_picker.dart';
 import '../../../../../services/controller/hospitality_controller.dart';
 import '../../../../../services/model/hospitality.dart';
 import '../../../../../widgets/custom_app_bar.dart';
-import '../../../../../widgets/custom_text_with_icon_button.dart';
-import '../../../../tourist/model/coordinates.dart';
-import '../../calender_dialog.dart';
 import '../view/host_info_review.dart';
 
 class ButtomProgress extends StatefulWidget {

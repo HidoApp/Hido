@@ -9,7 +9,6 @@ import 'package:ajwad_v4/widgets/dotted_line_separator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'dart:io' show Platform;
 
 import 'add_new_card_sheet.dart';
 

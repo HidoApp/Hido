@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/request/ajwadi/controllers/request_controller.dart';
 import 'package:ajwad_v4/request/ajwadi/view/review_itenrary_screen.dart';

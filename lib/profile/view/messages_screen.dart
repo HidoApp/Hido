@@ -1,7 +1,6 @@
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
-import 'package:ajwad_v4/request/tourist/models/offer_details.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_chat_card.dart';
 import 'package:ajwad_v4/widgets/custom_empty_widget.dart';

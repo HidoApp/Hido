@@ -3,9 +3,7 @@ import 'dart:io';
 
 import 'package:ajwad_v4/auth/models/image.dart';
 import 'package:ajwad_v4/event/model/event.dart';
-import 'package:ajwad_v4/services/model/adventure.dart';
 import 'package:ajwad_v4/services/model/event_summary.dart';
-import 'package:ajwad_v4/services/service/adventure_service.dart';
 import 'package:ajwad_v4/services/service/event_service.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:flutter/cupertino.dart';

@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/request/ajwadi/controllers/request_controller.dart';
 import 'package:ajwad_v4/request/ajwadi/models/request_model.dart';
-import 'package:ajwad_v4/request/widgets/custom_request_text_field.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
@@ -16,7 +15,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_datetime_picker_bdaya/flutter_datetime_picker_bdaya.dart';
 import 'package:ajwad_v4/request/tourist/models/offer_details.dart' as book;
 
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';

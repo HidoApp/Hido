@@ -7,7 +7,6 @@ import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.d
 import 'package:ajwad_v4/services/controller/event_controller.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/services/model/hospitality.dart';
-import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

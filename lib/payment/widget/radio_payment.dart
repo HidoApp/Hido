@@ -2,7 +2,6 @@ import 'package:ajwad_v4/services/view/paymentType.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get/get.dart';
 
 class RadioPaymentType extends StatelessWidget {
   const RadioPaymentType(

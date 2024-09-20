@@ -1,9 +1,4 @@
-import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/constants/colors.dart';
-import 'package:ajwad_v4/explore/tourist/view/notification/notification_screen.dart';
-import 'package:ajwad_v4/profile/view/ticket_screen.dart';
-import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
-import 'package:ajwad_v4/profile/view/messages_screen.dart';
 import 'package:ajwad_v4/shop/view/product_details.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';

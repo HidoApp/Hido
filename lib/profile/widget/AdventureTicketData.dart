@@ -3,12 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:url_launcher/link.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../constants/colors.dart';
 import '../../explore/tourist/model/booking.dart';
 import '../../services/model/adventure.dart';
-import '../../services/model/hospitality.dart';
 import '../../utils/app_util.dart';
 import '../../widgets/dotted_line_separator.dart';
 

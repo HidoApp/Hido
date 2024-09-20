@@ -1,45 +1,30 @@
 import 'dart:developer';
-import 'dart:ffi';
 import 'package:ajwad_v4/auth/models/token.dart';
 import 'package:ajwad_v4/auth/services/auth_service.dart';
-import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/explore/widget/floating_timer.dart';
-import 'package:ajwad_v4/payment/controller/payment_controller.dart';
 import 'package:ajwad_v4/payment/model/invoice.dart';
-import 'package:ajwad_v4/payment/view/check_out_screen.dart';
 import 'package:ajwad_v4/request/ajwadi/controllers/request_controller.dart';
 import 'package:ajwad_v4/request/chat/controllers/chat_controller.dart';
-import 'package:ajwad_v4/request/chat/model/chat_model.dart';
-import 'package:ajwad_v4/request/chat/view/widgets/chat_bubble.dart';
 import 'package:ajwad_v4/request/chat/view/widgets/show_request_widget.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
 import 'package:ajwad_v4/request/tourist/models/offer_details.dart';
-import 'package:ajwad_v4/services/view/paymentType.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
-import 'package:ajwad_v4/widgets/available_container_widget.dart';
 import 'package:ajwad_v4/widgets/check_container_widget.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
-import 'package:ajwad_v4/widgets/custom_textfield.dart';
-import 'package:ajwad_v4/widgets/payment_web_view.dart';
 import 'package:ajwad_v4/widgets/total_widget.dart';
 import 'package:floating_draggable_advn/floating_draggable_advn_bk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:intl/intl.dart';
-import 'package:ajwad_v4/request/widgets/CansleDialog.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:ajwad_v4/request/local_notification.dart';
 
-import 'package:intl/intl.dart' as intel;
 
 import '../../../services/view/review_request_screen.dart';
 import '../../../widgets/custom_app_bar.dart';
-import '../../tourist/view/find_ajwady.dart';
 
 class ChatScreenLive extends StatefulWidget {
   // final String senderId;

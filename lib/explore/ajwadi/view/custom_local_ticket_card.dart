@@ -1,13 +1,9 @@
 import 'dart:developer';
 
-import 'dart:ffi' as ffi;
-import 'dart:ui' as ui;
 
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/controllers/trip_controller.dart';
-import 'package:ajwad_v4/explore/ajwadi/model/last_activity.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/next_activity.dart';
-import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 import 'package:ajwad_v4/request/ajwadi/controllers/request_controller.dart';
 import 'package:ajwad_v4/request/chat/view/chat_screen.dart';
 import 'package:ajwad_v4/services/view/widgets/itenrary_tile.dart';
@@ -15,13 +11,9 @@ import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:ajwad_v4/profile/view/ticket_details_screen.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
-import 'package:ajwad_v4/explore/tourist/model/place.dart';
-import 'package:ajwad_v4/request/tourist/view/find_ajwady.dart';
 import 'package:intl/intl.dart' as intel;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest_all.dart' as tz;

@@ -6,7 +6,6 @@ import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/image_cache_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:ajwad_v4/services/model/days_info.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/get_core.dart';

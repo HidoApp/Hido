@@ -4,7 +4,6 @@ import 'package:ajwad_v4/explore/widget/floating_timer.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
 import 'package:ajwad_v4/request/tourist/view/custom_ajwadi_card.dart';
 import 'package:ajwad_v4/request/tourist/view/local_offer_info.dart';
-import 'package:ajwad_v4/request/tourist/view/show_ajwadi_info_sheet.dart';
 import 'package:ajwad_v4/request/widgets/CansleDialog.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';

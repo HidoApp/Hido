@@ -1,17 +1,14 @@
 import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
-import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/auth/view/tourist_register/register/last_step.dart';
 import 'package:ajwad_v4/auth/widget/sign_in_text.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
-import 'package:ajwad_v4/widgets/custom_elevated_button_with_arrow.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/custom_textfield.dart';
 import 'package:ajwad_v4/widgets/screen_padding.dart';
-import 'package:amplitude_flutter/amplitude.dart';
 import 'package:amplitude_flutter/events/base_event.dart';
 
 import 'package:flutter/material.dart';

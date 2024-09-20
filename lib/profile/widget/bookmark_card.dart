@@ -1,7 +1,5 @@
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
-import 'package:ajwad_v4/profile/models/bookmark.dart';
-import 'package:ajwad_v4/profile/services/bookmark_services.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/image_cache_widget.dart';

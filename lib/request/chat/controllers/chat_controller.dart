@@ -1,11 +1,9 @@
 import 'dart:developer';
-import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 import 'package:ajwad_v4/request/chat/model/chat_model.dart';
 import 'package:ajwad_v4/request/chat/services/chat_services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../explore/tourist/service/tourist_explore_service.dart';
 
 class ChatController extends GetxController {
   /* ?

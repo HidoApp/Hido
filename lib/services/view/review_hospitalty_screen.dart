@@ -1,8 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:ajwad_v4/constants/colors.dart';
-import 'package:ajwad_v4/explore/tourist/model/booking.dart';
-import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
 import 'package:ajwad_v4/payment/controller/payment_controller.dart';
 import 'package:ajwad_v4/payment/model/invoice.dart';
 import 'package:ajwad_v4/payment/view/payment_type_new.dart';
@@ -20,13 +18,9 @@ import 'package:ajwad_v4/widgets/promocode_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
-import '../../profile/view/ticket_details_screen.dart';
 import '../../request/ajwadi/controllers/request_controller.dart';
-import '../../request/local_notification.dart';
 
 class ReviewHospitalty extends StatefulWidget {
   const ReviewHospitalty(

@@ -4,12 +4,9 @@ import 'dart:io';
 
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/auth/models/image.dart';
-import 'package:ajwad_v4/auth/models/token.dart';
-import 'package:ajwad_v4/auth/models/user.dart';
 import 'package:ajwad_v4/auth/services/auth_service.dart';
 import 'package:ajwad_v4/constants/base_url.dart';
 import 'package:ajwad_v4/payment/model/payment_result.dart';
-import 'package:ajwad_v4/services/model/adventure.dart';
 import 'package:ajwad_v4/services/model/hospitality.dart';
 import 'package:ajwad_v4/services/model/payment.dart';
 import 'package:ajwad_v4/utils/app_util.dart';

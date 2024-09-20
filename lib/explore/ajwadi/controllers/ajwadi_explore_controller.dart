@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../services/model/experiences.dart';
-import '../../../services/model/hospitality.dart';
 
 class AjwadiExploreController extends GetxController {
   var isAddingTripLoading = false.obs;

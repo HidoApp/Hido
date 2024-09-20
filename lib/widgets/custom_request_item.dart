@@ -3,8 +3,6 @@ import 'dart:developer';
 import 'package:ajwad_v4/request/ajwadi/controllers/request_controller.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/request/ajwadi/models/request_model.dart';
-import 'package:ajwad_v4/request/chat/view/chat_screen_live.dart';
-import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
 import 'package:ajwad_v4/request/tourist/view/tourist_chat_screen.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_accept_button.dart';
@@ -15,7 +13,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-import '../bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
 import '../request/chat/view/chat_screen.dart';
 
 // ignore: must_be_immutable

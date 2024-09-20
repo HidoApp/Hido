@@ -2,7 +2,6 @@ import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/models/profile.dart';
 import 'package:ajwad_v4/request/tourist/view/about_screen.dart';
-import 'package:ajwad_v4/request/tourist/view/expert_screen.dart';
 import 'package:ajwad_v4/request/tourist/view/reviews_screen.dart';
 import 'package:ajwad_v4/request/widgets/local_tile.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
