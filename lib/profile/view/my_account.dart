@@ -2,16 +2,12 @@ import 'dart:developer';
 
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/constants/colors.dart';
-import 'package:ajwad_v4/new-onboarding/view/account_type_screen.dart';
 import 'package:ajwad_v4/new-onboarding/view/intro_screen.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/models/profile.dart';
-import 'package:ajwad_v4/profile/widget/account_edit_sheet.dart';
 import 'package:ajwad_v4/profile/widget/account_tile.dart';
-import 'package:ajwad_v4/profile/widget/email_otp_sheet.dart';
 import 'package:ajwad_v4/profile/widget/email_sheet.dart';
 import 'package:ajwad_v4/profile/widget/iban_sheet.dart';
-import 'package:ajwad_v4/profile/widget/otp_sheet.dart';
 import 'package:ajwad_v4/profile/widget/phone_sheet.dart';
 import 'package:ajwad_v4/profile/widget/prodvided_services_sheet.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
@@ -25,7 +21,6 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-import 'package:get_storage/get_storage.dart';
 
 class MyAccount extends StatefulWidget {
   const MyAccount(

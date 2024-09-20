@@ -1,20 +1,9 @@
-import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/controllers/trip_controller.dart';
-import 'package:ajwad_v4/explore/ajwadi/view/Experience/widget/local_trip_card.dart';
-import 'package:ajwad_v4/explore/widget/trip_card.dart';
-import 'package:ajwad_v4/profile/view/custom_ticket_card.dart';
-import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
-import 'package:ajwad_v4/services/controller/adventure_controller.dart';
-import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
-import 'package:ajwad_v4/widgets/custom_app_bar.dart';
-import 'package:ajwad_v4/widgets/custom_empty_widget.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-
-import 'hoapatility/view/custom_experience_card.dart';
 
 class LastActivity extends StatefulWidget {
   const LastActivity({
@@ -36,8 +25,6 @@ class _NextActivityState extends State<LastActivity> {
 
   @override
   Widget build(BuildContext context) {
-        print('2');
-
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
@@ -70,8 +57,8 @@ class _NextActivityState extends State<LastActivity> {
                 Positioned(
                   left: 40,
                   top: 27,
-                  child: Obx(()=>
-                    Container(
+                  child: Obx(
+                    () => Container(
                       width: 279,
                       height: 1.50,
                       child: LinearProgressIndicator(
@@ -89,8 +76,8 @@ class _NextActivityState extends State<LastActivity> {
                   top: AppUtil.rtlDirection2(context) ? 16 : 14,
                   child: Container(
                     width: 334,
-                    child: Obx(()=>
-                       Row(
+                    child: Obx(
+                      () => Row(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: AppUtil.rtlDirection2(context)
                             ? MainAxisAlignment.spaceBetween
@@ -157,7 +144,6 @@ class _NextActivityState extends State<LastActivity> {
   }
 
   Widget buildStep({required String text, required bool isActive}) {
-    print('1');
     return Container(
       width: 64,
       child: Column(
@@ -173,13 +159,11 @@ class _NextActivityState extends State<LastActivity> {
                 width: 20),
           ),
           CustomText(
-          text:text,
-              color: isActive ? Color(0xFF36B268) : Color(0xFFDCDCE0),
-              fontSize: 11,
-              fontFamily:
-                  AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-              fontWeight: FontWeight.w500,
-           
+            text: text,
+            color: isActive ? Color(0xFF36B268) : Color(0xFFDCDCE0),
+            fontSize: 11,
+            fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+            fontWeight: FontWeight.w500,
           ),
         ],
       ),

@@ -1,4 +1,3 @@
-import 'package:ajwad_v4/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 class BottomSheetIndicator extends StatelessWidget {

@@ -13,8 +13,6 @@ import 'package:ajwad_v4/widgets/image_cache_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:image_picker/image_picker.dart';
@@ -77,7 +75,7 @@ class _ProfileDetailsState extends State<TouriestProfile> {
     );
     if (pickedFile != null) {
       if (AppUtil.isImageValidate(await pickedFile.length())) {
-        print(" is asdded");
+         
         setState(() {
           xfilePick = pickedFile;
         });
@@ -90,7 +88,7 @@ class _ProfileDetailsState extends State<TouriestProfile> {
 
         if (image != null) {
           newProfileImage = image.filePath;
-          print(image.filePath);
+           
         }
       } else {
         AppUtil.errorToast(
@@ -392,7 +390,7 @@ class _ProfileDetailsState extends State<TouriestProfile> {
                                 borderRadius: 8,
                                 suffixIcon: const Icon(Icons.keyboard_arrow_up),
                                 onOptionSelected: (options) {
-                                  debugPrint(options.toString());
+                                   
                                 },
                                 options:  <ValueItem>[
                                 ValueItem(

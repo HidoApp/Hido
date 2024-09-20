@@ -1,5 +1,4 @@
 import 'package:ajwad_v4/constants/colors.dart';
-import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
 import 'package:ajwad_v4/request/ajwadi/controllers/request_controller.dart';
 import 'package:ajwad_v4/request/ajwadi/models/request_model.dart';
 import 'package:ajwad_v4/request/ajwadi/view/Itinerary_screen.dart';
@@ -11,7 +10,6 @@ import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/image_cache_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
@@ -42,16 +40,13 @@ class _RequestCardState extends State<RequestCard> {
     try {
       List<Placemark> placemarks =
           await placemarkFromCoordinates(position1, position2);
-      print(placemarks);
 
       if (placemarks.isNotEmpty) {
         Placemark placemark = placemarks.first;
-        print(placemarks.first);
+
         return '${placemark.postalCode},${placemark.subLocality},${placemark.locality}';
       }
-    } catch (e) {
-      print("Error retrieving address: $e");
-    }
+    } catch (e) {}
     return '';
   }
 
@@ -64,7 +59,6 @@ class _RequestCardState extends State<RequestCard> {
       });
     } catch (e) {
       // Handle error if necessary
-      print('Error fetching address: $e');
     }
   }
 
@@ -172,7 +166,6 @@ class _RequestCardState extends State<RequestCard> {
             disableAnimation: true,
             trailingRotation: 180,
             onTap: () {
-              print(widget.request.date);
               setState(() {});
             },
             title: CustomText(

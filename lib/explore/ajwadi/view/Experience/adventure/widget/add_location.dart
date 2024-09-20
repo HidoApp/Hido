@@ -4,14 +4,12 @@ import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/model/userLocation.dart';
 import 'package:ajwad_v4/explore/ajwadi/services/location_service.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
-import 'package:ajwad_v4/services/model/adventure.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -94,7 +92,6 @@ class _AddLocationState extends State<AddLocation> {
 
   void getLocation() async {
     userLocation = await LocationService().getUserLocation();
-    print('this location');
 
     if (userLocation != null) {
       setState(() {
@@ -127,12 +124,8 @@ class _AddLocationState extends State<AddLocation> {
           address =
               '${placemark.locality}, ${placemark.subLocality}, ${placemark.country}';
         });
-        print(widget.textField1Controller.text);
-        print('this location');
       }
-    } catch (e) {
-      print(e);
-    }
+    } catch (e) {}
   }
 
   @override
@@ -151,17 +144,13 @@ class _AddLocationState extends State<AddLocation> {
     try {
       List<Placemark> placemarks =
           await placemarkFromCoordinates(position1, position2);
-      print(placemarks);
 
       if (placemarks.isNotEmpty) {
         Placemark placemark = placemarks.first;
-        print(placemarks.first);
 
         return '${placemark.locality}, ${placemark.subLocality}, ${placemark.country}';
       }
-    } catch (e) {
-      print("Error retrieving address: $e");
-    }
+    } catch (e) {}
     return '';
   }
 
@@ -179,10 +168,6 @@ class _AddLocationState extends State<AddLocation> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-
-    print(address);
-    print('this location');
-    print(_AdventureController.pickUpLocLatLang.toString());
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -443,8 +428,6 @@ class _AddLocationState extends State<AddLocation> {
                                     regionListAr[index];
                               }
                             }
-                            print(_AdventureController.ragionAr.value);
-                            print(_AdventureController.ragionEn.value);
                           },
                           onSaved: (value) {
                             if (AppUtil.rtlDirection2(context)) {
@@ -470,8 +453,6 @@ class _AddLocationState extends State<AddLocation> {
                                     regionListAr[index];
                               }
                             }
-                            print(_AdventureController.ragionAr.value);
-                            print(_AdventureController.ragionEn.value);
                           },
                           buttonStyleData: ButtonStyleData(
                             padding: AppUtil.rtlDirection2(context)

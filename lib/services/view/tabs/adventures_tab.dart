@@ -1,26 +1,13 @@
-import 'dart:developer';
-
-import 'package:ajwad_v4/constants/colors.dart';
-import 'package:ajwad_v4/request/ajwadi/view/widget/empty_request.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/services/controller/regions_controller.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
-import 'package:ajwad_v4/services/service/adventure_service.dart';
 import 'package:ajwad_v4/services/view/adveture_details.dart';
 import 'package:ajwad_v4/services/view/widgets/custom_adventure_item.dart';
-import 'package:ajwad_v4/services/view/widgets/custom_city_item.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_empty_widget.dart';
-import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
-
-import 'package:ajwad_v4/services/view/hospitality_details.dart';
-import 'package:ajwad_v4/services/view/widgets/ad_cards.dart';
-import 'package:ajwad_v4/services/view/widgets/custom_chips.dart';
-import 'package:ajwad_v4/services/view/widgets/custom_hospitality_item.dart';
 import 'package:ajwad_v4/services/view/widgets/custom_adventure_item.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -40,7 +27,7 @@ class _AdventuresTabState extends State<AdventuresTab> {
   void getAdvdentureList() async {
     adventureList =
         await _adventureController.getAdvdentureList(context: context);
-    // print("ADV ID : ${_adventureController.adventureList[0].id}");
+    //
   }
 
   final _regionsController = Get.put(RegionsController(), tag: 'tag');
@@ -52,7 +39,6 @@ class _AdventuresTabState extends State<AdventuresTab> {
     getAdvdentureList();
     _regionsController.getRegions(context: context, regionType: "ADVENTURE");
   }
-
 
   @override
   Widget build(BuildContext context) {

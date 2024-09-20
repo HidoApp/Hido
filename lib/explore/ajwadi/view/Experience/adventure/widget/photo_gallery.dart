@@ -26,14 +26,12 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
   List<XFile> _selectedImages = [];
   final AdventureController _adventureController =
       Get.put(AdventureController());
-      final ImagePicker _picker = ImagePicker();
-
+  final ImagePicker _picker = ImagePicker();
 
   void initState() {
     super.initState();
     // _selectedImages = widget.selectedImages.map((path) => XFile(path)).toList();
-   //  _selectedImages = _adventureController.selectedImages;
-
+    //  _selectedImages = _adventureController.selectedImages;
   }
 
   Future<void> _showImagePickerOptions(BuildContext context) async {
@@ -49,9 +47,8 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
         return ImagePickerBottomSheet(
           onImagesSelected: (images) {
             setState(() {
-             // _selectedImages = images;
-               _adventureController.selectedImages.addAll(images);
-
+              // _selectedImages = images;
+              _adventureController.selectedImages.addAll(images);
             });
           },
         );
@@ -59,51 +56,40 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
     );
   }
 
-  
-
-   Future<void> _pickImage(ImageSource source) async {
+  Future<void> _pickImage(ImageSource source) async {
     try {
       final List<XFile>? pickedImages = await _picker.pickMultiImage();
       if (pickedImages != null) {
         if (AppUtil.isImageValidate(await pickedImages.length)) {
-        print(" is asdded");
-        setState(() {
+          setState(() {
             // _selectedImages.addAll(pickedImages);
-         _adventureController.selectedImages.addAll(pickedImages);
-        });
-        }   else {
-        AppUtil.errorToast(
-            context, 'imageValidSize'.tr);
+            _adventureController.selectedImages.addAll(pickedImages);
+          });
+        } else {
+          AppUtil.errorToast(context, 'imageValidSize'.tr);
+        }
       }
-    
-      
-      }
-    } catch (e) {
-      print('Error picking images: $e');
-    }
+    } catch (e) {}
   }
-Future<void> _takePhoto() async {
-    try {
-      final XFile? photo = await _picker.pickImage(source: ImageSource.camera, imageQuality: 30);
-      if (photo != null) {
-        
-          if (AppUtil.isImageValidate(await photo.length())) {
-        print(" is asdded");
-       setState(() {
-          // _selectedImages =
-          //     _selectedImages != null ? [..._selectedImages!, photo] : [photo];
-    _adventureController.selectedImages.add(photo);
 
-        });
-        }   else {
-        AppUtil.errorToast(
-            context, 'imageValidSize'.tr);
+  Future<void> _takePhoto() async {
+    try {
+      final XFile? photo =
+          await _picker.pickImage(source: ImageSource.camera, imageQuality: 30);
+      if (photo != null) {
+        if (AppUtil.isImageValidate(await photo.length())) {
+          setState(() {
+            // _selectedImages =
+            //     _selectedImages != null ? [..._selectedImages!, photo] : [photo];
+            _adventureController.selectedImages.add(photo);
+          });
+        } else {
+          AppUtil.errorToast(context, 'imageValidSize'.tr);
+        }
       }
-      }
-    } catch (e) {
-      print('Error taking photo: $e');
-    }
+    } catch (e) {}
   }
+
   Future<void> _showImageOptions(BuildContext context, int index) async {
     showModalBottomSheet(
       context: context,
@@ -156,9 +142,10 @@ Future<void> _takePhoto() async {
                         // final selectedImage = _selectedImages.removeAt(index);
                         // _selectedImages.insert(0, selectedImage);
 
-                       final selectedImagePath =
-                          _adventureController.selectedImages.removeAt(index);
-                          _adventureController.selectedImages.insert(0, selectedImagePath);
+                        final selectedImagePath =
+                            _adventureController.selectedImages.removeAt(index);
+                        _adventureController.selectedImages
+                            .insert(0, selectedImagePath);
                       });
                       Get.back();
                     },
@@ -173,14 +160,13 @@ Future<void> _takePhoto() async {
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      child:CustomText(
-                        text:'makeCover'.tr,
+                      child: CustomText(
+                        text: 'makeCover'.tr,
                         textAlign: TextAlign.center,
-                          color: Colors.white,
-                          fontSize: 17,
-                          fontFamily: 'HT Rakik',
-                          fontWeight: FontWeight.w500,
-                        
+                        color: Colors.white,
+                        fontSize: 17,
+                        fontFamily: 'HT Rakik',
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
@@ -188,7 +174,7 @@ Future<void> _takePhoto() async {
                   GestureDetector(
                     onTap: () {
                       setState(() {
-                      //  _selectedImages.removeAt(index);
+                        //  _selectedImages.removeAt(index);
                         _adventureController.selectedImages.removeAt(index);
                       });
                       Get.back();
@@ -205,14 +191,14 @@ Future<void> _takePhoto() async {
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      child:CustomText(
-                        text:'Delete'.tr,
+                      child: CustomText(
+                        text: 'Delete'.tr,
                         textAlign: TextAlign.center,
-                          color: Color(0xFFDC362E),
-                          fontSize: 17,
-                          fontFamily: 'HT Rakik',
-                          fontWeight: FontWeight.w500,
-                        ),
+                        color: Color(0xFFDC362E),
+                        fontSize: 17,
+                        fontFamily: 'HT Rakik',
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                 ],
@@ -229,7 +215,7 @@ Future<void> _takePhoto() async {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-           _adventureController.selectedImages.isEmpty
+        _adventureController.selectedImages.isEmpty
             ? Center(
                 child: DottedBorder(
                   strokeWidth: 1,
@@ -268,8 +254,9 @@ Future<void> _takePhoto() async {
                             text: 'UploadPhotos'.tr,
                             color: Color(0xFF070708),
                             fontSize: 15,
-                         fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                          : 'SF Pro',
+                            fontFamily: AppUtil.rtlDirection2(context)
+                                ? 'SF Arabic'
+                                : 'SF Pro',
                             fontWeight: FontWeight.w500,
                             height: 0,
                           ),
@@ -279,8 +266,9 @@ Future<void> _takePhoto() async {
                             textAlign: TextAlign.center,
                             color: Color(0xFFB9B8C1),
                             fontSize: 11,
-                            fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                          : 'SF Pro',
+                            fontFamily: AppUtil.rtlDirection2(context)
+                                ? 'SF Arabic'
+                                : 'SF Pro',
                             fontWeight: FontWeight.w500,
                             height: 0,
                           ),
@@ -288,8 +276,8 @@ Future<void> _takePhoto() async {
                       )),
                 ),
               )
-            : Obx(()=>
-               Column(
+            : Obx(
+                () => Column(
                   children: [
                     Container(
                       child: Container(
@@ -297,11 +285,11 @@ Future<void> _takePhoto() async {
                         height: 186,
                         decoration: BoxDecoration(
                           image: DecorationImage(
-                            image: FileImage(File( _adventureController.selectedImages[0].path)),
+                            image: FileImage(File(
+                                _adventureController.selectedImages[0].path)),
                             fit: BoxFit.cover,
                           ),
                           borderRadius: BorderRadius.circular(16),
-                         
                         ),
                         child: Stack(
                           children: [
@@ -323,13 +311,14 @@ Future<void> _takePhoto() async {
                                     ),
                                   ),
                                   child: CustomText(
-                                   text: 'Coverphoto'.tr,
-                                      color: Colors.white,
-                                      fontSize: 13,
-                                      fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                                      : 'SF Pro',
-                                      fontWeight: FontWeight.w500,
-                                      height: 0,
+                                    text: 'Coverphoto'.tr,
+                                    color: Colors.white,
+                                    fontSize: 13,
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
+                                    fontWeight: FontWeight.w500,
+                                    height: 0,
                                   ),
                                 ),
                               ),
@@ -347,23 +336,28 @@ Future<void> _takePhoto() async {
                           crossAxisSpacing: 15,
                           mainAxisSpacing: 15,
                         ),
-                        itemCount: (    _adventureController.selectedImages.length - 1) + 3,
+                        itemCount:
+                            (_adventureController.selectedImages.length - 1) +
+                                3,
                         itemBuilder: (context, index) {
-                          if (index <    _adventureController.selectedImages.length - 1) {
+                          if (index <
+                              _adventureController.selectedImages.length - 1) {
                             return GestureDetector(
-                              onTap: () => _showImageOptions(context, index+1 ),
+                              onTap: () =>
+                                  _showImageOptions(context, index + 1),
                               child: Container(
                                 decoration: BoxDecoration(
                                   image: DecorationImage(
-                                    image: FileImage(
-                                        File(    _adventureController.selectedImages[index+1].path)),
+                                    image: FileImage(File(_adventureController
+                                        .selectedImages[index + 1].path)),
                                     fit: BoxFit.cover,
                                   ),
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                               ),
                             );
-                          } else if (index ==     _adventureController.selectedImages.length - 1) {
+                          } else if (index ==
+                              _adventureController.selectedImages.length - 1) {
                             return GestureDetector(
                               onTap: () => _pickImage(ImageSource.gallery),
                               child: DottedBorder(
@@ -383,20 +377,23 @@ Future<void> _takePhoto() async {
                                       ),
                                       SizedBox(height: 4),
                                       CustomText(
-                                       text: 'Addmore'.tr,
-                                          color: Color(0xFFB9B8C1),
-                                          fontSize: 11,
-                                          fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                                          : 'SF Pro',
-                                          fontWeight: FontWeight.w500,
-                                          height: 0,
+                                        text: 'Addmore'.tr,
+                                        color: Color(0xFFB9B8C1),
+                                        fontSize: 11,
+                                        fontFamily:
+                                            AppUtil.rtlDirection2(context)
+                                                ? 'SF Arabic'
+                                                : 'SF Pro',
+                                        fontWeight: FontWeight.w500,
+                                        height: 0,
                                       ),
                                     ],
                                   ),
                                 ),
                               ),
                             );
-                          } else if (index ==     _adventureController.selectedImages.length) {
+                          } else if (index ==
+                              _adventureController.selectedImages.length) {
                             return GestureDetector(
                               onTap: () => _takePhoto(),
                               child: DottedBorder(
@@ -423,7 +420,7 @@ Future<void> _takePhoto() async {
                     ),
                   ],
                 ),
-            ),
+              ),
       ],
     );
   }
@@ -442,45 +439,37 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> {
   final ImagePicker _picker = ImagePicker();
   List<XFile>? _selectedImages;
 
- Future<void> _pickImages() async {
+  Future<void> _pickImages() async {
     try {
       final List<XFile>? pickedImages = await _picker.pickMultiImage();
       if (pickedImages != null) {
         if (AppUtil.isImageValidate(await pickedImages.length)) {
-        print(" is asdded");
-        setState(() {
-          _selectedImages = pickedImages;
-        });
-        }   else {
-        AppUtil.errorToast(
-            context, 'imageValidSize'.tr);
+          setState(() {
+            _selectedImages = pickedImages;
+          });
+        } else {
+          AppUtil.errorToast(context, 'imageValidSize'.tr);
+        }
       }
-        
-      }
-    } catch (e) {
-      print('Error picking images: $e');
-    }
+    } catch (e) {}
   }
 
   Future<void> _takePhoto() async {
     try {
-      final XFile? photo = await _picker.pickImage(source: ImageSource.camera, imageQuality: 30);
+      final XFile? photo =
+          await _picker.pickImage(source: ImageSource.camera, imageQuality: 30);
       if (photo != null) {
-        
-          if (AppUtil.isImageValidate(await photo.length())) {
-        print(" is asdded");
-       setState(() {
-          _selectedImages =
-              _selectedImages != null ? [..._selectedImages!, photo] : [photo];
-        });
-        }   else {
-        AppUtil.errorToast(
-            context, 'imageValidSize'.tr);
+        if (AppUtil.isImageValidate(await photo.length())) {
+          setState(() {
+            _selectedImages = _selectedImages != null
+                ? [..._selectedImages!, photo]
+                : [photo];
+          });
+        } else {
+          AppUtil.errorToast(context, 'imageValidSize'.tr);
+        }
       }
-      }
-    } catch (e) {
-      print('Error taking photo: $e');
-    }
+    } catch (e) {}
   }
 
   @override
@@ -513,12 +502,12 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CustomText(
-                  text:'Choosephotos'.tr,
-                      color: Color(0xFF070708),
-                      fontSize: 22,
-                      fontFamily: 'HT Rakik',
-                      fontWeight: FontWeight.w500,
-                  ),
+                  text: 'Choosephotos'.tr,
+                  color: Color(0xFF070708),
+                  fontSize: 22,
+                  fontFamily: 'HT Rakik',
+                  fontWeight: FontWeight.w500,
+                ),
                 IconButton(
                   icon: Icon(Icons.camera_alt_outlined),
                   onPressed: _takePhoto,

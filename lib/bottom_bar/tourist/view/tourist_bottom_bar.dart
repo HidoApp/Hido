@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
-import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/view/tourist_map_screen.dart';
 import 'package:ajwad_v4/explore/widget/rating_sheet.dart';
@@ -10,7 +8,6 @@ import 'package:ajwad_v4/profile/models/profile.dart';
 import 'package:ajwad_v4/profile/view/guest_sign_in.dart';
 import 'package:ajwad_v4/profile/view/profle_screen.dart';
 import 'package:ajwad_v4/services/view/service_screen.dart';
-import 'package:ajwad_v4/shop/view/shop_screen.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/offline_screen.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +15,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
 
 class TouristBottomBar extends StatefulWidget {
   const TouristBottomBar({super.key});
@@ -145,7 +141,7 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
                       color: darkBlack,
                     ),
                     onTap: (index) {
-                      //   print(getStorage.read('accessToken'));
+                      //
                       _profileController.touriestBar.value = index;
                       _pageController
                           .jumpToPage(_profileController.touriestBar.value);

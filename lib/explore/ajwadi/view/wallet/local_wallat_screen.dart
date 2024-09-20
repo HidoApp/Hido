@@ -1,33 +1,15 @@
-import 'dart:async';
 
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
-import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/controllers/trip_controller.dart';
-import 'package:ajwad_v4/explore/ajwadi/model/last_activity.dart';
-import 'package:ajwad_v4/explore/ajwadi/model/userLocation.dart';
-import 'package:ajwad_v4/explore/ajwadi/services/location_service.dart';
-import 'package:ajwad_v4/explore/ajwadi/view/custom_local_ticket_card.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/hoapatility/widget/wallet_details_card.dart';
-import 'package:ajwad_v4/explore/ajwadi/view/local_ticket_screen.dart';
-import 'package:ajwad_v4/explore/ajwadi/view/next_activity.dart';
-import 'package:ajwad_v4/explore/tourist/view/notification/notification_screen.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
-import 'package:ajwad_v4/services/controller/adventure_controller.dart';
-import 'package:ajwad_v4/services/controller/event_controller.dart';
-import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
-import 'package:ajwad_v4/widgets/category_card.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
-import 'package:ajwad_v4/widgets/custom_button.dart';
-import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/custom_wallet_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:geolocator/geolocator.dart';
 
 class LocalWalletScreen extends StatefulWidget {
   const LocalWalletScreen({super.key});

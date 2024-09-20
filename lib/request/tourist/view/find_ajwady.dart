@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'dart:developer';
 
-import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
@@ -9,7 +7,6 @@ import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/explore/widget/floating_timer.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
 import 'package:ajwad_v4/request/tourist/view/offers_screen.dart';
-import 'package:ajwad_v4/request/tourist/view/select_ajwady_sheet.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/StackWidgets.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
@@ -20,10 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:intl/intl.dart';
-import 'package:url_launcher/url_launcher.dart' as launcher;
 import 'package:ajwad_v4/request/widgets/CansleDialog.dart';
-import 'package:ajwad_v4/request/local_notification.dart';
 
 class FindAjwady extends StatefulWidget {
   const FindAjwady({
@@ -92,16 +86,10 @@ class _FindAjwadyState extends State<FindAjwady> {
       placeId: widget.placeId,
       bookingId: widget.booking.id!,
     );
-    print("place");
 
-    if (_offerController.offers != [] || _offerController.offers.isNotEmpty) {
-      print(_offerController.offers.isEmpty);
-      print('inter');
-    }
-    if (_offerController.offers == [] || _offerController.offers.isEmpty) {
-    }
+    if (_offerController.offers != [] || _offerController.offers.isNotEmpty) {}
+    if (_offerController.offers == [] || _offerController.offers.isEmpty) {}
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -110,12 +98,10 @@ class _FindAjwadyState extends State<FindAjwady> {
     return FloatingDraggableADVN(
       floatingWidget: const FloatingTimer(),
       child: Scaffold(
-
         appBar: CustomAppBar(
           "findLocal".tr,
           action: true,
           onPressedAction: () async {
-            print("enter");
             showDialog(
               context: context,
               builder: (BuildContext context) {
@@ -127,8 +113,6 @@ class _FindAjwadyState extends State<FindAjwady> {
                 );
               },
             );
-
-           
           },
         ),
         body: Obx(() {
@@ -172,7 +156,7 @@ class _FindAjwadyState extends State<FindAjwady> {
                             },
                             title: CustomText(
                               text: 'tripDetails'.tr,
-                              fontSize: width*0.044,
+                              fontSize: width * 0.044,
                               fontFamily: 'HT Rakik',
                               fontWeight: FontWeight.w500,
                               color: black,
@@ -201,10 +185,13 @@ class _FindAjwadyState extends State<FindAjwady> {
                                       CustomText(
                                         text: AppUtil.formatBookingDate(
                                             context, widget.booking.date),
-                                        color: starGreyColor ,
-                                        fontSize: width*0.03,
+                                        color: starGreyColor,
+                                        fontSize: width * 0.03,
                                         fontWeight: FontWeight.w400,
-                                        fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+                                        fontFamily:
+                                            AppUtil.rtlDirection2(context)
+                                                ? 'SF Arabic'
+                                                : 'SF Pro',
                                       ),
                                     ],
                                   ),
@@ -222,10 +209,13 @@ class _FindAjwadyState extends State<FindAjwady> {
                                         text: AppUtil.rtlDirection2(context)
                                             ? 'من ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)} إلى ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)} '
                                             : 'Pick up: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)}, Drop off: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)}',
-                                        color:  starGreyColor ,
-                                      fontSize: width*0.03,
+                                        color: starGreyColor,
+                                        fontSize: width * 0.03,
                                         fontWeight: FontWeight.w400,
-                                          fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+                                        fontFamily:
+                                            AppUtil.rtlDirection2(context)
+                                                ? 'SF Arabic'
+                                                : 'SF Pro',
                                       ),
                                     ],
                                   ),
@@ -242,10 +232,13 @@ class _FindAjwadyState extends State<FindAjwady> {
                                       CustomText(
                                         text:
                                             '${widget.booking.guestNumber} ${'guests'.tr}',
-                                        color: starGreyColor ,
-                                      fontSize: width*0.03,
+                                        color: starGreyColor,
+                                        fontSize: width * 0.03,
                                         fontWeight: FontWeight.w400,
-                                        fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+                                        fontFamily:
+                                            AppUtil.rtlDirection2(context)
+                                                ? 'SF Arabic'
+                                                : 'SF Pro',
                                       ),
                                     ],
                                   ),
@@ -263,10 +256,13 @@ class _FindAjwadyState extends State<FindAjwady> {
                                       ),
                                       CustomText(
                                         text: widget.booking.vehicleType!,
-                                        color:  starGreyColor ,
-                                       fontSize: width*0.03,
+                                        color: starGreyColor,
+                                        fontSize: width * 0.03,
                                         fontWeight: FontWeight.w400,
-                                        fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+                                        fontFamily:
+                                            AppUtil.rtlDirection2(context)
+                                                ? 'SF Arabic'
+                                                : 'SF Pro',
                                       ),
                                     ],
                                   ),
@@ -305,7 +301,7 @@ class _FindAjwadyState extends State<FindAjwady> {
                                     text: "searchforLocal".tr,
                                     color: colorGreen,
                                     fontWeight: FontWeight.w400,
-                                    fontSize: width*0.044,
+                                    fontSize: width * 0.044,
                                   ),
                                   const SizedBox(
                                     height: 5,
@@ -317,10 +313,11 @@ class _FindAjwadyState extends State<FindAjwady> {
                                             .tr,
                                     color: starGreyColor,
                                     textAlign: TextAlign.center,
-                                    fontSize: width*0.03,
-                                    fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
+                                    fontSize: width * 0.03,
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
                                     fontWeight: FontWeight.w400,
-
                                   )),
                                   const SizedBox(
                                     height: 10,
@@ -344,7 +341,6 @@ class _FindAjwadyState extends State<FindAjwady> {
                                 place: widget.place,
                                 booking: widget.booking,
                               ));
-                      
                         },
                         child: Container(
                           height: 0.08 * height,
@@ -417,7 +413,7 @@ class _FindAjwadyState extends State<FindAjwady> {
                               text:
                                   "${_offerController.offers.length} ${"offers".tr}",
                               color: black,
-                              fontSize: width*0.044,
+                              fontSize: width * 0.044,
                               fontFamily: 'HT Rakik',
                               fontWeight: FontWeight.w500,
                             ),

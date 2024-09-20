@@ -35,12 +35,12 @@ class _TotalWidgetState extends State<TotalWidget> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
 
-//     print('Price per night: ${widget.place.price!}');
+//
     // print(
     //     'Number of guests: ${widget.offerController!.offerDetails.value.booking!.guestNumber!}');
     // print(
     //     'Additional charges total: ${widget.offerController!.totalPrice.value}');
-// print('Total price: ${(widget.place.price! * widget.offerController!.offerDetails.value.booking!.guestNumber!) + (widget.offerController!.totalPrice.value * widget.offerController!.offerDetails.value.booking!.guestNumber!)}');
+//
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16),

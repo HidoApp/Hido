@@ -1,6 +1,3 @@
-import 'dart:developer';
-
-import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/services/view/review_adventure_screen.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
@@ -39,8 +36,6 @@ class BottomHospitalityBooking extends StatefulWidget {
 }
 
 class _BottomHospitalityBookingState extends State<BottomHospitalityBooking> {
- 
-
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -53,7 +48,7 @@ class _BottomHospitalityBookingState extends State<BottomHospitalityBooking> {
       child: Column(
         children: [
           Padding(
-            padding:  EdgeInsets.symmetric(horizontal:width*0.01),
+            padding: EdgeInsets.symmetric(horizontal: width * 0.01),
             child: Row(
               children: [
                 CustomText(
@@ -89,8 +84,8 @@ class _BottomHospitalityBookingState extends State<BottomHospitalityBooking> {
                   left: width * 0.0025,
                   bottom: width * 0.08),
 
-               child: IgnorePointer(
-                 ignoring: widget.hospitalityObj.daysInfo.isEmpty,
+              child: IgnorePointer(
+                ignoring: widget.hospitalityObj.daysInfo.isEmpty,
                 child: CustomButton(
                   onPressed: () {
                     AppUtil.isGuest()
@@ -108,12 +103,12 @@ class _BottomHospitalityBookingState extends State<BottomHospitalityBooking> {
                             ))
                         : Get.bottomSheet(
                             HospitalityBookingSheet(
-                                color: Colors.green,
-                                hospitality: widget.hospitalityObj,
-                                avilableDate: widget.avilableDate,
-                                serviceController: widget.servicesController,
-                                address: widget.address,
-                                ),
+                              color: Colors.green,
+                              hospitality: widget.hospitalityObj,
+                              avilableDate: widget.avilableDate,
+                              serviceController: widget.servicesController,
+                              address: widget.address,
+                            ),
                             backgroundColor: Colors.white,
                             elevation: 0,
                             shape: RoundedRectangleBorder(
@@ -123,9 +118,15 @@ class _BottomHospitalityBookingState extends State<BottomHospitalityBooking> {
                             ));
                   },
                   iconColor: darkPurple,
-                  title:widget.hospitalityObj.daysInfo.isEmpty?'fullyBooked'.tr: "book".tr,
-                  buttonColor: widget.hospitalityObj.daysInfo.isEmpty? colorlightGreen:colorGreen,
-                  borderColor: widget.hospitalityObj.daysInfo.isEmpty?colorlightGreen:colorGreen ,
+                  title: widget.hospitalityObj.daysInfo.isEmpty
+                      ? 'fullyBooked'.tr
+                      : "book".tr,
+                  buttonColor: widget.hospitalityObj.daysInfo.isEmpty
+                      ? colorlightGreen
+                      : colorGreen,
+                  borderColor: widget.hospitalityObj.daysInfo.isEmpty
+                      ? colorlightGreen
+                      : colorGreen,
                   icon: AppUtil.rtlDirection2(context)
                       ? const Icon(Icons.arrow_back_ios)
                       : const Icon(Icons.arrow_forward_ios),
@@ -158,7 +159,7 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
   @override
   void initState() {
     super.initState();
-    print(";lkjhgfds");
+
     _adventureController.address(widget.address);
   }
 
@@ -198,16 +199,12 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
 
     DateTime bookingDeadline = AdventureStartDate.subtract(Duration(hours: 24));
 
-    print(AdventureStartDate);
-    print(currentDateInRiyadh);
-    print(bookingDeadline);
-
     return bookingDeadline.isBefore(currentDateInRiyadh);
   }
 
   bool getSeat() {
     seat = widget.adventure.seats;
-    print('the avaliable seat  -> ${seat}');
+
     _adventureController.address(widget.address);
 
     return seat == 0;
@@ -232,7 +229,7 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
-            padding:  EdgeInsets.symmetric(horizontal:width*0.01),
+            padding: EdgeInsets.symmetric(horizontal: width * 0.01),
             child: Row(
               children: [
                 CustomText(
@@ -269,9 +266,8 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
                   left: width * 0.0025,
                   bottom: width * 0.08),
 
-             
               child: IgnorePointer(
-                 ignoring: widget.adventure.seats== 0,
+                ignoring: widget.adventure.seats == 0,
                 child: CustomButton(
                   onPressed: () {
                     AppUtil.isGuest()
@@ -298,11 +294,12 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
                                   top: width * 0.045,
                                   bottom: width * 0.0820,
                                 ),
-              
+
                                 child: Obx(
                                   () => Column(
                                     mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       const BottomSheetIndicator(),
                                       SizedBox(
@@ -312,9 +309,10 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
                                         text: 'numberofpeorson'.tr,
                                         color: Colors.black,
                                         fontSize: width * 0.044,
-                                        fontFamily: AppUtil.rtlDirection2(context)
-                                            ? 'SF Arabic'
-                                            : 'SF Pro',
+                                        fontFamily:
+                                            AppUtil.rtlDirection2(context)
+                                                ? 'SF Arabic'
+                                                : 'SF Pro',
                                         fontWeight: FontWeight.w500,
                                       ),
                                       SizedBox(
@@ -326,8 +324,8 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
                                         padding: EdgeInsets.symmetric(
                                             horizontal: width * 0.038),
                                         decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(width * 0.02),
+                                          borderRadius: BorderRadius.circular(
+                                              width * 0.02),
                                           border: Border.all(
                                             color: showErrorGuests ||
                                                     _adventureController
@@ -391,7 +389,8 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
                                                     });
                                                   } else {
                                                     _adventureController
-                                                        .showErrorMaxGuest(true);
+                                                        .showErrorMaxGuest(
+                                                            true);
                                                   }
                                                 }
                                               },
@@ -406,8 +405,8 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
                                       if (_adventureController
                                           .showErrorMaxGuest.value)
                                         Padding(
-                                          padding:
-                                              EdgeInsets.only(left: width * 0.01),
+                                          padding: EdgeInsets.only(
+                                              left: width * 0.01),
                                           child: CustomText(
                                             text: AppUtil.rtlDirection2(context)
                                                 ? "ليس هناك مقاعد متاحة أكثر من العدد الحالي"
@@ -422,8 +421,8 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
                                         ),
                                       if (showErrorGuests)
                                         Padding(
-                                          padding:
-                                              EdgeInsets.only(left: width * 0.01),
+                                          padding: EdgeInsets.only(
+                                              left: width * 0.01),
                                           child: CustomText(
                                             text: AppUtil.rtlDirection2(context)
                                                 ? "يجب أن تختار شخص على الأقل"
@@ -463,7 +462,7 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
                                             } else {
                                               _adventureController
                                                   .showErrorMaxGuest(false);
-              
+
                                               setState(() {
                                                 showErrorGuests = false;
                                               });
@@ -475,7 +474,7 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
                                                   .then(
                                                 (value) {
                                                   // person = 0;
-                                                  // print(value);
+                                                  //
                                                   // Get.back();
                                                 },
                                               );
@@ -501,14 +500,18 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
                           });
                   },
                   iconColor: darkPurple,
-                  title:widget.adventure.seats== 0?'fullyBooked'.tr: "book".tr,
+                  title: widget.adventure.seats == 0
+                      ? 'fullyBooked'.tr
+                      : "book".tr,
                   icon: AppUtil.rtlDirection2(context)
                       ? const Icon(Icons.arrow_back_ios)
                       : const Icon(Icons.arrow_forward_ios),
-                  buttonColor: widget.adventure.seats== 0? colorlightGreen:colorGreen,
-                  borderColor:widget.adventure.seats== 0? colorlightGreen:colorGreen ,
-                 
-                      
+                  buttonColor: widget.adventure.seats == 0
+                      ? colorlightGreen
+                      : colorGreen,
+                  borderColor: widget.adventure.seats == 0
+                      ? colorlightGreen
+                      : colorGreen,
                 ),
               ),
             ),

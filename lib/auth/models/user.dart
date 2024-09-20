@@ -1,4 +1,3 @@
-import '../../profile/models/profile.dart';
 
 class User {
   final String accessToken;

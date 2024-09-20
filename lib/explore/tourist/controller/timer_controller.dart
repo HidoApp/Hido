@@ -1,12 +1,6 @@
 import 'dart:async';
 
-import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
-import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
-import 'package:ajwad_v4/widgets/custom_text.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 class TimerController extends GetxController {

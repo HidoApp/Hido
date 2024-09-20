@@ -11,7 +11,6 @@ import 'package:ajwad_v4/widgets/sign_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:timezone/timezone.dart' as tz;
-import 'package:timezone/data/latest_all.dart' as tz;
 
 class BottomEventBooking extends StatefulWidget {
   const BottomEventBooking({

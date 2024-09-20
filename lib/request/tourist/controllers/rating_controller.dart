@@ -21,10 +21,9 @@ class RatingController extends GetxController {
           await RatingService.getRtings(context: context, profileId: profileId);
 
       ratings(data);
-      print(ratings);
+
       return ratings;
     } catch (e) {
-      print(e);
       return null;
     } finally {
       isRatingsLoading(false);

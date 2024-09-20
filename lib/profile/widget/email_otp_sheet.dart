@@ -1,17 +1,12 @@
 import 'dart:async';
-import 'dart:ffi';
 
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
-import 'package:ajwad_v4/auth/view/ajwadi_register/phone_otp.dart';
 import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/constants/colors.dart';
-import 'package:ajwad_v4/new-onboarding/view/account_type_screen.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
-import 'package:ajwad_v4/widgets/custom_elevated_button_with_arrow.dart';
-import 'package:ajwad_v4/widgets/custom_otp_field.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -130,44 +125,44 @@ class _EmailOTPSheetState extends State<EmailOTPSheet>
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      CustomOTPField(
-                        onChanged: (value) {
-                          if (value.isNotEmpty) {
-                            code1 = value;
-                            FocusScope.of(context).nextFocus();
-                          }
-                        },
-                      ),
-                      CustomOTPField(
-                        onChanged: (value) {
-                          if (value.isNotEmpty) {
-                            code2 = value;
-                            FocusScope.of(context).nextFocus();
-                          } else {
-                            FocusScope.of(context).previousFocus();
-                          }
-                        },
-                      ),
-                      CustomOTPField(
-                        onChanged: (value) {
-                          if (value.isNotEmpty) {
-                            code3 = value;
-                            FocusScope.of(context).nextFocus();
-                          } else {
-                            FocusScope.of(context).previousFocus();
-                          }
-                        },
-                      ),
-                      CustomOTPField(
-                        onChanged: (value) {
-                          if (value.isNotEmpty) {
-                            code4 = value;
-                            FocusScope.of(context).nextFocus();
-                          } else {
-                            FocusScope.of(context).previousFocus();
-                          }
-                        },
-                      ),
+                      // CustomOTPField(
+                      //   onChanged: (value) {
+                      //     if (value.isNotEmpty) {
+                      //       code1 = value;
+                      //       FocusScope.of(context).nextFocus();
+                      //     }
+                      //   },
+                      // ),
+                      // CustomOTPField(
+                      //   onChanged: (value) {
+                      //     if (value.isNotEmpty) {
+                      //       code2 = value;
+                      //       FocusScope.of(context).nextFocus();
+                      //     } else {
+                      //       FocusScope.of(context).previousFocus();
+                      //     }
+                      //   },
+                      // ),
+                      // CustomOTPField(
+                      //   onChanged: (value) {
+                      //     if (value.isNotEmpty) {
+                      //       code3 = value;
+                      //       FocusScope.of(context).nextFocus();
+                      //     } else {
+                      //       FocusScope.of(context).previousFocus();
+                      //     }
+                      //   },
+                      // ),
+                      // CustomOTPField(
+                      //   onChanged: (value) {
+                      //     if (value.isNotEmpty) {
+                      //       code4 = value;
+                      //       FocusScope.of(context).nextFocus();
+                      //     } else {
+                      //       FocusScope.of(context).previousFocus();
+                      //     }
+                      //   },
+                      // ),
                     ],
                   )),
             ),
@@ -225,11 +220,8 @@ class _EmailOTPSheetState extends State<EmailOTPSheet>
                           //     Get.off(const TouristBottomBar());
 
                           final fullOTP = code1 + code2 + code3 + code4;
-                          print(fullOTP);
 
                           if (fullOTP == codeOTP) {
-                            print('Matches');
-
                             var result = await _authController.resetEmail(
                                 email: widget.email, context: context);
                             if (result) {

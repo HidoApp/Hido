@@ -1,18 +1,11 @@
 import 'dart:developer';
-import 'dart:ffi';
 
 import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
-import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/new-onboarding/view/splash_screen.dart';
-import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
-import 'package:ajwad_v4/profile/view/ticket_screen.dart';
-import 'package:ajwad_v4/profile/widget/otp_sheet.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
-import 'package:ajwad_v4/widgets/custom_text.dart';
-import 'package:ajwad_v4/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -50,9 +43,6 @@ class _CancelSheetState extends State<CancelSheet> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.bookId);
-    print(widget.type.toUpperCase());
-    print(textField2Controller.text);
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Container(
@@ -183,14 +173,12 @@ class _CancelSheetState extends State<CancelSheet> {
                               await Future.delayed(const Duration(seconds: 1));
                             }
                             Get.offAll(const TouristBottomBar());
-                          }else{
-                            
+                          } else {
                             if (context.mounted) {
                               AppUtil.errorToast(context, 'noEndTrip'.tr);
                               await Future.delayed(const Duration(seconds: 2));
                             }
                           }
-                          
                         },
                         title: 'Confirm'.tr,
                         buttonColor: Color(0xFFDC362E),

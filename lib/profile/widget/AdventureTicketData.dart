@@ -3,12 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:url_launcher/link.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../constants/colors.dart';
 import '../../explore/tourist/model/booking.dart';
 import '../../services/model/adventure.dart';
-import '../../services/model/hospitality.dart';
 import '../../utils/app_util.dart';
 import '../../widgets/dotted_line_separator.dart';
 
@@ -29,7 +27,7 @@ class AdventureTicketData extends StatelessWidget {
     // this.maleGuestNum,
     this.adventure,
   }) : super(key: key);
-OverlayEntry? _overlayEntry;
+  OverlayEntry? _overlayEntry;
 
   void _showOverlay(BuildContext context) {
     final overlay = Overlay.of(context)!;
@@ -74,21 +72,22 @@ OverlayEntry? _overlayEntry;
       _overlayEntry?.remove();
     });
   }
+
   @override
   Widget build(BuildContext context) {
-         final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.of(context).size.width;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-         Row(
+        Row(
           children: [
             GestureDetector(
                 onTap: () {
-                  Clipboard.setData(
-                      ClipboardData(text:  adventure == null?
-                       booking!.id!.substring(0, 7):
-                    adventure!.booking!.first.id.substring(0, 7) ));
+                  Clipboard.setData(ClipboardData(
+                      text: adventure == null
+                          ? booking!.id!.substring(0, 7)
+                          : adventure!.booking!.first.id.substring(0, 7)));
                   _showOverlay(context);
                 },
                 child: SvgPicture.asset(
@@ -98,9 +97,7 @@ OverlayEntry? _overlayEntry;
                 )),
             const SizedBox(width: 8),
             Text(
-              '#${ adventure == null?
-                       booking!.id!.substring(0, 7):
-                    adventure!.booking!.first.id.substring(0, 7)}',
+              '#${adventure == null ? booking!.id!.substring(0, 7) : adventure!.booking!.first.id.substring(0, 7)}',
               style: TextStyle(
                 color: Color(0xFFB9B8C1),
                 fontSize: 13,
@@ -112,7 +109,6 @@ OverlayEntry? _overlayEntry;
           ],
         ),
         SizedBox(height: 12),
-
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -120,7 +116,7 @@ OverlayEntry? _overlayEntry;
               "BookingDetails".tr,
               style: TextStyle(
                 color: black,
-                fontSize:  width*0.044,
+                fontSize: width * 0.044,
                 fontFamily: AppUtil.SfFontType(context),
                 fontWeight: FontWeight.w500,
                 height: 0,
@@ -133,7 +129,7 @@ OverlayEntry? _overlayEntry;
                   AppUtil.getBookingTypeText(context, bookTypeText ?? ''),
                   style: TextStyle(
                     color: black,
-                    fontSize:width*0.038 ,
+                    fontSize: width * 0.038,
                     fontFamily: AppUtil.SfFontType(context),
                     fontWeight: FontWeight.w500,
                     height: 0,
@@ -144,7 +140,6 @@ OverlayEntry? _overlayEntry;
           ],
         ),
         const SizedBox(height: 12),
-
         Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -160,7 +155,7 @@ OverlayEntry? _overlayEntry;
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: starGreyColor,
-                    fontSize: width*0.035,
+                    fontSize: width * 0.035,
                     fontFamily: AppUtil.SfFontType(context),
                     fontWeight: FontWeight.w500,
                     height: 0,
@@ -169,14 +164,13 @@ OverlayEntry? _overlayEntry;
                 const SizedBox(height: 5),
                 Text(
                   adventure == null
-                      ? AppUtil.formatBookingDate(
-                          context, booking!.date)
+                      ? AppUtil.formatBookingDate(context, booking!.date)
                       : AppUtil.formatBookingDate(
                           context, adventure!.booking!.last.date),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: black,
-                    fontSize:  width*0.038,
+                    fontSize: width * 0.038,
                     fontFamily: AppUtil.SfFontType(context),
                     fontWeight: FontWeight.w500,
                     height: 0,
@@ -196,27 +190,25 @@ OverlayEntry? _overlayEntry;
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                    'pickUp1'.tr,
+                      'pickUp1'.tr,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: starGreyColor,
-                        fontSize:  width*0.035,
+                        fontSize: width * 0.035,
                         fontFamily: AppUtil.SfFontType(context),
                         fontWeight: FontWeight.w500,
                         height: 0,
                       ),
                     ),
-             const SizedBox(height: 5),
-
+                    const SizedBox(height: 5),
                     Text(
                       adventure == null
-                          ? formatTimeWithLocale(
-                              context, booking!.timeToGo)
+                          ? formatTimeWithLocale(context, booking!.timeToGo)
                           : formatTimeWithLocale(
                               context, adventure!.booking!.last.timeToGo),
                       style: TextStyle(
                         color: black,
-                        fontSize:  width*0.038,
+                        fontSize: width * 0.038,
                         fontFamily: AppUtil.SfFontType(context),
                         fontWeight: FontWeight.w500,
                         height: 0,
@@ -224,7 +216,7 @@ OverlayEntry? _overlayEntry;
                     ),
                   ],
                 ),
-                 const SizedBox(width: 40),
+                const SizedBox(width: 40),
                 Expanded(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -237,25 +229,26 @@ OverlayEntry? _overlayEntry;
                           'dropOff1'.tr,
                           style: TextStyle(
                             color: starGreyColor,
-                            fontSize: width*0.035,
+                            fontSize: width * 0.035,
                             fontFamily: AppUtil.SfFontType(context),
                             fontWeight: FontWeight.w500,
                             height: 0,
                           ),
                         ),
                       ),
-                   const SizedBox(height: 5),
-
+                      const SizedBox(height: 5),
                       SizedBox(
                         width: double.infinity,
                         child: Text(
-                           adventure == null?
-                     formatTimeWithLocale(context, booking!.timeToReturn)
-                     : formatTimeWithLocale(context,adventure!.booking!.last.timeToReturn),
+                          adventure == null
+                              ? formatTimeWithLocale(
+                                  context, booking!.timeToReturn)
+                              : formatTimeWithLocale(context,
+                                  adventure!.booking!.last.timeToReturn),
                           style: TextStyle(
                             color: black,
-                            fontSize: width*0.038,
-                            fontFamily:  AppUtil.SfFontType(context),
+                            fontSize: width * 0.038,
+                            fontFamily: AppUtil.SfFontType(context),
                             fontWeight: FontWeight.w500,
                             height: 0,
                           ),
@@ -272,7 +265,7 @@ OverlayEntry? _overlayEntry;
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: starGreyColor,
-                fontSize: width*0.035,
+                fontSize: width * 0.035,
                 fontFamily: AppUtil.SfFontType(context),
                 fontWeight: FontWeight.w500,
                 height: 0,
@@ -285,22 +278,21 @@ OverlayEntry? _overlayEntry;
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: black,
-                fontSize: width*0.038,
+                fontSize: width * 0.038,
                 fontFamily: AppUtil.SfFontType(context),
                 fontWeight: FontWeight.w500,
               ),
             ),
-            
             const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                 'cost'.tr,
+                  'cost'.tr,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: starGreyColor,
-                    fontSize:width*0.035,
+                    fontSize: width * 0.035,
                     fontFamily: AppUtil.SfFontType(context),
                     fontWeight: FontWeight.w500,
                     height: 0,
@@ -320,8 +312,8 @@ OverlayEntry? _overlayEntry;
 
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color:black,
-                    fontSize: width*0.044,
+                    color: black,
+                    fontSize: width * 0.044,
                     fontFamily: AppUtil.SfFontType(context),
                     fontWeight: FontWeight.w500,
                     height: 0,
@@ -333,7 +325,7 @@ OverlayEntry? _overlayEntry;
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: black,
-                    fontSize: width*0.035,
+                    fontSize: width * 0.035,
                     fontFamily: AppUtil.SfFontType(context),
                     fontWeight: FontWeight.w500,
                     height: 0,
@@ -341,7 +333,6 @@ OverlayEntry? _overlayEntry;
                 ),
               ],
             ),
-         
           ],
         ),
         SizedBox(
@@ -351,7 +342,6 @@ OverlayEntry? _overlayEntry;
           color: almostGrey,
           height: 1,
         ),
-       
         const SizedBox(height: 25),
         GestureDetector(
           onTap: () async {
@@ -375,10 +365,10 @@ OverlayEntry? _overlayEntry;
 //                 String appleUrl =
 //                  'https://maps.apple.com/?sll=${trip.origLocationObj.lat},${trip.origLocationObj.lon}';
 //                 if (await canLaunchUrl("comgooglemaps://")) {
-//                    print('launching com googleUrl');
+//
 //                     await launchUrl(googleUrl);
 //                   } else if (await canLaunch(appleUrl)) {
-//                     print('launching apple url');
+//
 //                        await launchUrl(appleUrl);
 //                            } else {
 //                         throw 'Could not launch url';
@@ -387,18 +377,16 @@ OverlayEntry? _overlayEntry;
 //                   },
           },
           child: Text(
-                'Location'.tr,
-                  style: TextStyle(
-                       color: Color(0xFF37B268),
-                      fontSize: 18,
-                  fontFamily:  AppUtil.SfFontType(context),
-                    fontWeight: FontWeight.w600,
-                    height: 0,
-                     
-                    decoration: TextDecoration.underline,
-                  ),
-                  
-                ),
+            'Location'.tr,
+            style: TextStyle(
+              color: Color(0xFF37B268),
+              fontSize: 18,
+              fontFamily: AppUtil.SfFontType(context),
+              fontWeight: FontWeight.w600,
+              height: 0,
+              decoration: TextDecoration.underline,
+            ),
+          ),
         ),
       ],
     );

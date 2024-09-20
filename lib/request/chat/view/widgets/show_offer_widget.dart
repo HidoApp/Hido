@@ -2,7 +2,6 @@ import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/payment/view/check_out_screen.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:ajwad_v4/widgets/available_container_widget.dart';
 import 'package:ajwad_v4/widgets/check_container_widget.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/total_widget.dart';

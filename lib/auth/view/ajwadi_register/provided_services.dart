@@ -1,10 +1,7 @@
-import 'dart:developer';
-
 import 'package:ajwad_v4/auth/view/ajwadi_register/contact_info.dart';
 import 'package:ajwad_v4/auth/view/ajwadi_register/tour_stepper.dart';
 import 'package:ajwad_v4/auth/widget/provided_services_card.dart';
 import 'package:ajwad_v4/constants/colors.dart';
-import 'package:ajwad_v4/explore/ajwadi/view/Experience/widget/experience_card.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
@@ -48,7 +45,10 @@ class _ProvidedServicesState extends State<ProvidedServices> {
               ),
               //Name
               CustomText(
-                text: storage.read('localName') ?? "",
+                text: AppUtil.getFirstName(
+                  AppUtil.capitalizeFirstLetter(
+                      storage.read('localName') ?? ""),
+                ),
                 color: colorGreen,
                 fontSize: width * 0.051,
                 fontWeight: FontWeight.w500,

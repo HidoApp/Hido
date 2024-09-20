@@ -4,23 +4,18 @@ import 'dart:developer';
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/auth/models/token.dart';
 import 'package:ajwad_v4/auth/services/auth_service.dart';
-import 'package:ajwad_v4/auth/view/ajwadi_register/ajwadi_driving_license_screen.dart';
-import 'package:ajwad_v4/auth/view/ajwadi_register/ajwadi_vehicle_info_screen.dart';
 import 'package:ajwad_v4/auth/view/tourist_register/register/register_screen.dart';
 import 'package:ajwad_v4/auth/view/tourist_register/reset_password.dart';
 
 import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
 import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
-import 'package:ajwad_v4/new-onboarding/view/account_type_screen.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
-import 'package:ajwad_v4/widgets/custom_elevated_button_with_arrow.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/custom_textfield.dart';
 import 'package:ajwad_v4/widgets/screen_padding.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_switch/flutter_switch.dart';
 
 import 'package:get/get.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
@@ -233,8 +228,6 @@ class _SignInScreenState extends State<SignInScreen> {
                                                 rememberMe: true,
                                                 context: context);
 
-                                        print('logged $user');
-
                                         if (user != null) {
                                           bool isTokenExpired =
                                               JwtDecoder.isExpired(
@@ -245,8 +238,6 @@ class _SignInScreenState extends State<SignInScreen> {
                                           final Token jwtToken =
                                               AuthService.jwtForToken(
                                                   user.accessToken)!;
-                                          print("token.userRole loign");
-                                          print(jwtToken.userRole);
 
                                           if (jwtToken.userRole == 'local') {
                                             final ajwadiInfo =
@@ -259,15 +250,8 @@ class _SignInScreenState extends State<SignInScreen> {
                                                 ajwadiInfo?.vehicle == false) {
                                               if (ajwadiInfo?.drivingLicense ==
                                                   false) {
-                                                Get.to(
-                                                    () => AjwadiDrivingLicense(
-                                                          user: user,
-                                                        ));
                                               } else if (ajwadiInfo?.vehicle ==
-                                                  false) {
-                                                Get.to(() =>
-                                                    const AjwadiVehicleInfo());
-                                              }
+                                                  false) {}
                                             } else {
                                               Get.off(() =>
                                                   const AjwadiBottomBar());
@@ -276,9 +260,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                               'tourist') {
                                             Get.offAll(
                                                 () => const TouristBottomBar());
-                                          } else {
-                                            print('NO USER ROLE');
-                                          }
+                                          } else {}
                                         }
                                       }
                                     },

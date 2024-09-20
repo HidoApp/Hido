@@ -4,12 +4,8 @@ import 'dart:math';
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
 import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
-import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/new-onboarding/view/intro_screen.dart';
-import 'package:ajwad_v4/new-onboarding/view/onboarding_try.dart';
-import 'package:ajwad_v4/new-onboarding/view/account_type_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -58,13 +54,10 @@ class _SplashScreenState extends State<SplashScreen>
   late dynamic userRole;
   late dynamic token;
 
-
-
   @override
   void initState() {
     super.initState();
-    print(userRole = getStorage.read('userRole') ?? 'NULL ROLE');
-    print(userRole = getStorage.read('accessToken') ?? 'NULL ');
+
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 1), // Set the desired duration here
@@ -82,19 +75,17 @@ class _SplashScreenState extends State<SplashScreen>
           if (user != null) {
             token = user.accessToken;
           }
-          print('token $token');
         }
 
         Get.off(() => const AjwadiBottomBar());
       } else if (token != '' && userRole == 'tourist') {
         if (JwtDecoder.isExpired(token)) {
           final String refreshToken = getStorage.read('refreshToken');
-          // print('HEeree');
+          //
           var user = await _authController.refreshToken(
               refreshToken: refreshToken, context: context);
           if (user != null) {
             token = user.accessToken;
-            print('token $token');
           }
         }
 

@@ -6,7 +6,6 @@ import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/image_cache_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:ajwad_v4/services/model/days_info.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/get_core.dart';
@@ -52,16 +51,13 @@ class _CustomAdventureItemState extends State<CustomAdventureItem> {
     try {
       List<Placemark> placemarks =
           await placemarkFromCoordinates(position1, position2);
-      print(placemarks);
 
       if (placemarks.isNotEmpty) {
         Placemark placemark = placemarks.first;
-        print(placemarks.first);
+
         return '${placemark.locality},${placemark.subLocality}';
       }
-    } catch (e) {
-      print("Error retrieving address: $e");
-    }
+    } catch (e) {}
     return '';
   }
 
@@ -73,7 +69,6 @@ class _CustomAdventureItemState extends State<CustomAdventureItem> {
       address.value = result;
     } catch (e) {
       // Handle error if necessary
-      print('Error fetching address: $e');
     }
   }
 

@@ -3,7 +3,6 @@ import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/widget/account_tile.dart';
 import 'package:ajwad_v4/profile/widget/driving_sheet.dart';
 import 'package:ajwad_v4/profile/widget/tour_license_sheet.dart';
-import 'package:ajwad_v4/profile/widget/vehcile_sheet.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/screen_padding.dart';
@@ -46,21 +45,21 @@ class _LegalDocumentState extends State<LegalDocument> {
           SizedBox(
             height: width * 0.051,
           ),
-          Obx(
-            () => _profileController.isProfileLoading.value
-                ? Container()
-                : AccountTile(
-                    title: 'vehicleLicense'.tr,
-                    subtitle: _profileController.profile.vehicleIdNumber,
-                    onTap: () => Get.bottomSheet(const VehcileSheet()),
-                  ),
-          ),
-          const Divider(
-            color: lightGrey,
-          ),
-          SizedBox(
-            height: width * 0.051,
-          ),
+          // Obx(
+          //   () => _profileController.isProfileLoading.value
+          //       ? Container()
+          //       : AccountTile(
+          //           title: 'vehicleLicense'.tr,
+          //           subtitle: _profileController.profile.vehicleIdNumber,
+          //           onTap: () => Get.bottomSheet(const VehcileSheet()),
+          //         ),
+          // ),
+          // const Divider(
+          //   color: lightGrey,
+          // ),
+          // SizedBox(
+          //   height: width * 0.051,
+          // ),
           AccountTile(
               title: 'tourLicense'.tr,
               onTap: () => Get.bottomSheet(const TourLicenseSheet())),

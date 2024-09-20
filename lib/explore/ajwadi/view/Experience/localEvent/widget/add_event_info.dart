@@ -114,7 +114,6 @@ class _AddInfoState extends State<AddInfo> {
                     setState(() {
                       _selectedLanguageIndex = index!;
                     });
-                    print('switched to: $index');
                   },
                 ),
               ),

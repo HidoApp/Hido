@@ -4,7 +4,6 @@ import 'package:ajwad_v4/explore/widget/floating_timer.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
 import 'package:ajwad_v4/request/tourist/view/custom_ajwadi_card.dart';
 import 'package:ajwad_v4/request/tourist/view/local_offer_info.dart';
-import 'package:ajwad_v4/request/tourist/view/show_ajwadi_info_sheet.dart';
 import 'package:ajwad_v4/request/widgets/CansleDialog.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
@@ -35,8 +34,8 @@ class _OfferScreenState extends State<OfferScreen> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    // print("offer");
-    // print(_offerController.acceptedOffer.value.orderStatus);
+    //
+    //
 
     return FloatingDraggableADVN(
       floatingWidget: const FloatingTimer(),
@@ -96,8 +95,8 @@ class _OfferScreenState extends State<OfferScreen> {
                           context: context,
                           offerId: _offerController.offers[index].offerId!,
                         );
-                        // print('image');
-                        // print(_offerController.offers[index].image ?? '');
+                        //
+                        //
                         // name: _offerController.offers[index].name!??'',
                         // rating: _offerController.offers[index].rating!??0,
                         // price: _offerController.offers[index].price!??0,

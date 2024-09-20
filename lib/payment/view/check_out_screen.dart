@@ -9,9 +9,7 @@ import 'package:ajwad_v4/widgets/dotted_line_separator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'dart:io' show Platform;
 
-import 'add_new_card_sheet.dart';
 
 class CheckOutScreen extends StatefulWidget {
   const CheckOutScreen({
@@ -179,11 +177,11 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                     _payment == PaymentType.creditCard
                         ? GestureDetector(
                             onTap: () {
-                              Get.bottomSheet( AddNewCreditCard(
-                                        total: widget.total!,
-                                        offerDetails: widget.offerDetails!,
-                                        offerController: widget.offerController!,
-                                      ));
+                              // Get.bottomSheet( AddNewCreditCard(
+                              //           total: widget.total!,
+                              //           offerDetails: widget.offerDetails!,
+                              //           offerController: widget.offerController!,
+                              //         ));
 
                               // showModalBottomSheet(
                               //     isScrollControlled: true,

@@ -39,7 +39,7 @@ class AdventureService {
 
       final adventureList =
           data.map((adventure) => Adventure.fromJson(adventure)).toList();
-      print('this from adventure');
+
       return adventureList;
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
@@ -121,20 +121,14 @@ class AdventureService {
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
 
-      print('adventure data');
-      print(response.body);
-      print(data['orderStatus']);
       if (data['orderStatus'] == 'checked') {
         return true;
       } else {
-        print('adventure data');
-        print(response.body);
-        print(data['orderStatus']);
         return false;
       }
     } else {
       String errorMessage = jsonDecode(response.body)['orderStatus'];
-      print(errorMessage);
+
       if (context.mounted) {
         AppUtil.errorToast(context, errorMessage);
       }
@@ -196,7 +190,7 @@ class AdventureService {
       "adventureGenre": "string",
       "seats": seat
     };
-    print(body);
+
     final response = await http.post(Uri.parse('$baseUrl/adventure'),
         headers: {
           'Accept': 'application/json',
@@ -204,13 +198,12 @@ class AdventureService {
           'Authorization': 'Bearer $token',
         },
         body: jsonEncode(body));
-    print(response.statusCode);
 
-    //print(jsonDecode(response.body).length);
-    print("from services equall to ");
+    //
+
     if (response.statusCode == 200) {
       //  var data = jsonDecode(response.body);
-      //  print(data['message']);
+      //
       //  if (data['message'] == 'checked') {
       return true;
     } else {
@@ -218,7 +211,7 @@ class AdventureService {
     }
     //   } else {
     //     String errorMessage = jsonDecode(response.body)['message'];
-    //     print(errorMessage);
+    //
     //     if (context.mounted) {
     //       AppUtil.errorToast(context, errorMessage);
     //   }
@@ -247,7 +240,6 @@ class AdventureService {
     required int seat,
     required BuildContext context,
   }) async {
-    print(" Update adventure ");
     final getStorage = GetStorage();
     final String? token = getStorage.read('accessToken');
 
@@ -279,15 +271,12 @@ class AdventureService {
       }),
     );
 
-    print("Response status code: ${response.statusCode}");
-
     if (response.statusCode == 200) {
       try {
         var adventureData = jsonDecode(response.body);
-        print('Hospitality updated: $adventureData');
+
         return Adventure.fromJson(adventureData);
       } catch (e) {
-        print('Error parsing JSON response: $e');
         return null;
       }
     } else {
@@ -322,8 +311,7 @@ class AdventureService {
       },
       body: json.encode({}),
     );
-    print("response.statusCode");
-    print(response.statusCode);
+
     if (response.statusCode == 200) {
       return true;
     } else {
@@ -339,10 +327,8 @@ class AdventureService {
     required String adventureType,
     required BuildContext context,
   }) async {
-    print(" getUpcomingTicket ");
     final getStorage = GetStorage();
     final String? token = getStorage.read('accessToken');
-    print(token);
 
     final response = await http.get(
       Uri.parse('$baseUrl/adventure/local').replace(queryParameters: {
@@ -355,13 +341,10 @@ class AdventureService {
       },
     );
 
-    print("response.statusCode  ");
-    print(response.statusCode);
     if (response.statusCode == 200) {
       List<dynamic> data = jsonDecode(response.body);
       log('data: $data');
-      print(data.length);
-      print(data.isEmpty);
+
       return data.map((adventure) => Adventure.fromJson(adventure)).toList();
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
@@ -387,7 +370,7 @@ class AdventureService {
           refreshToken: refreshToken, context: context);
       token = getStorage.read('accessToken');
     }
-    print("TRUE $id");
+
     final response = await http.get(
       Uri.parse('$baseUrl/adventure/$id/summary')
           .replace(queryParameters: ({'id': id})),
@@ -396,13 +379,10 @@ class AdventureService {
         if (token != '') 'Authorization': 'Bearer $token',
       },
     );
-    print("TRUE $id");
-    print(response.statusCode);
 
-    print(jsonDecode(response.body).length);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
-      print(inspect(data));
+
       return AdventureSummary.fromJson(data);
     } else {
       String errorMessage = jsonDecode(response.body)['message'];

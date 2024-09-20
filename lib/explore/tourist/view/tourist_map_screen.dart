@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'dart:developer';
 import 'dart:math';
-import 'dart:io';
 import 'dart:ui' as ui;
 
 import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
@@ -9,25 +7,19 @@ import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/model/userLocation.dart';
 import 'package:ajwad_v4/explore/ajwadi/services/location_service.dart';
 import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
-import 'package:ajwad_v4/explore/tourist/model/activity_progress.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/explore/tourist/view/notification/notification_screen.dart';
 import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
 import 'package:ajwad_v4/explore/widget/map_marker.dart';
 import 'package:ajwad_v4/explore/widget/progress_sheet.dart';
 import 'package:ajwad_v4/explore/widget/rating_sheet.dart';
-import 'package:ajwad_v4/explore/widget/trip_card.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/view/messages_screen.dart';
 import 'package:ajwad_v4/profile/view/ticket_screen.dart';
-import 'package:ajwad_v4/profile/widget/otp_sheet.dart';
-import 'package:ajwad_v4/profile/widget/phone_sheet.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/custom_textfield.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:custom_map_markers/custom_map_markers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -35,10 +27,7 @@ import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:ajwad_v4/widgets/custom_button.dart';
-import 'package:ajwad_v4/widgets/custom_text_area.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
@@ -261,16 +250,13 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
     String currentDateString =
         intel.DateFormat('yyyy-MM-dd').format(currentDate);
 
-    print('profile booking');
-    print(_profileController.upcommingTicket.length);
     final filterdBooking = _profileController.upcommingTicket
         .where((book) => book.bookingType == 'place')
         .toList();
     if (filterdBooking.isEmpty) {
       return;
     }
-    print("filterdBooking.length");
-    print(filterdBooking.length);
+
     int length = filterdBooking.length;
 
     for (var i = 0; i < length; i++) {
@@ -291,13 +277,9 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
         _touristExploreController.showActivityProgress(false);
       }
     }
-    print(currentDateString);
-    print(filterdBooking[0].date.substring(0, 10));
   }
 
   void setProgressStep() {
-    print("activityProgress");
-    print(_touristExploreController.activityProgres.value!.activityProgress!);
     switch (
         _touristExploreController.activityProgres.value!.activityProgress!) {
       case 'PENDING':
@@ -346,9 +328,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
         double.parse(_touristExploreController
             .touristModel.value!.places![index].coordinates!.longitude!),
       );
-    } else {
-      print('CAN NOT CALCULATE DISTANCE');
-    }
+    } else {}
 
     Get.to(
       () => TripDetails(
@@ -408,7 +388,6 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
               customMarkers: customMarkers,
               builder: (context, markers) {
                 if (markers == null) {
-                  print(storage.read<List<Marker>>('markers')!.length);
                   return Obx(
                     () => GoogleMap(
                       zoomControlsEnabled: false,
@@ -433,7 +412,6 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                   );
                 }
                 if (_touristExploreController.isNewMarkers.value) {
-                  print('NEWW');
                   storage.write('markers', markers.toList()).then((val) {
                     _touristExploreController.isNewMarkers.value = false;
                     _touristExploreController.updateMap(true);

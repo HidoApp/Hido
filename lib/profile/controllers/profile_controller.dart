@@ -9,10 +9,8 @@ import 'package:ajwad_v4/profile/models/bookmark.dart';
 import 'package:ajwad_v4/profile/models/profile.dart';
 import 'package:ajwad_v4/profile/services/profile_service.dart';
 import 'package:ajwad_v4/request/chat/model/chat_model.dart';
-import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 class ProfileController extends GetxController {
@@ -63,11 +61,10 @@ class ProfileController extends GetxController {
       {required BuildContext context, String profileId = ""}) async {
     try {
       isProfileLoading(true);
-      print('YES');
+
       profile = (await ProfileService.getProfile(
           context: context, profileId: profileId))!;
       //! cache
-      print('YES');
 
       return profile;
     } catch (e) {
@@ -88,8 +85,6 @@ class ProfileController extends GetxController {
 
       return isSucces;
     } catch (e) {
-      print('error');
-      print(e);
       return null;
     } finally {
       isImagesLoading(false);
@@ -123,7 +118,6 @@ class ProfileController extends GetxController {
         return null;
       }
     } catch (e) {
-      print(e);
       return null;
     } finally {
       isEditProfileLoading(false);
@@ -142,16 +136,16 @@ class ProfileController extends GetxController {
       );
       if (data != null) {
         upcommingTicket(data);
-        // print("object");
-        // print(data.length);
-        // print(upcommingTicket.first.place?.nameAr);
+        //
+        //
+        //
         return upcommingTicket;
       } else {
         return null;
       }
     } catch (e) {
       isUpcommingTicketLoading(false);
-      print(e);
+
       return null;
     } finally {
       isUpcommingTicketLoading(false);
@@ -177,7 +171,7 @@ class ProfileController extends GetxController {
       }
     } catch (e) {
       isUpcommingTicketLoading(false);
-      print(e);
+
       return null;
     } finally {
       isUpcommingTicketLoading(false);
@@ -194,10 +188,8 @@ class ProfileController extends GetxController {
         bookingType: 'PAST',
         context: context,
       );
-      print("this pas 1ticket");
 
       if (data != null) {
-        print("this pas ticket");
         pastTicket(data);
         return pastTicket;
       } else {
@@ -205,7 +197,7 @@ class ProfileController extends GetxController {
       }
     } catch (e) {
       isPastTicketLoading(false);
-      print(e);
+
       return null;
     } finally {
       isPastTicketLoading(false);
@@ -223,16 +215,14 @@ class ProfileController extends GetxController {
       );
       if (data != null) {
         chatList(data);
-        print('chat ist');
-        print(chatList.first.messages?.first.message);
+
         return chatList;
       } else {
         return null;
       }
     } catch (e) {
-      print(e);
       isChatLoading(false);
-      print(e);
+
       return null;
     } finally {
       isChatLoading(false);

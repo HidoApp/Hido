@@ -12,20 +12,16 @@ class TripController extends GetxController {
   var isUpcommingTicketLoading = false.obs;
   var isChatLoading = false.obs;
   Rx<bool> isTripFinallyEnd = false.obs;
-    Rx<bool> isTripEnd = false.obs;
-
+  Rx<bool> isTripEnd = false.obs;
 
   var upcommingTicket = <LocalTrip>[].obs;
   var pastTicket = <LocalTrip>[].obs;
   var nextTrip = NextActivity().obs;
-  var updatedActivity= NextActivity().obs;
+  var updatedActivity = NextActivity().obs;
   Rx<String> nextStep = 'PENDING'.obs;
-    Rx<double> progress = 0.1.obs;
+  Rx<double> progress = 0.1.obs;
   Rx<bool> isTripOnWay = false.obs;
   Rx<bool> isTripUpdated = false.obs;
-
-
-
 
   Future<List<LocalTrip>?> getUpcommingTicket({
     required BuildContext context,
@@ -39,16 +35,15 @@ class TripController extends GetxController {
       );
       if (data != null) {
         upcommingTicket(data);
-        print("object controller");
-        print(data.length);
-        //print(upcommingTicket.first.place?.nameAr);
+
+        //
         return upcommingTicket;
       } else {
         return null;
       }
     } catch (e) {
       isUpcommingTicketLoading(false);
-      print(e);
+
       return null;
     } finally {
       isUpcommingTicketLoading(false);
@@ -65,10 +60,8 @@ class TripController extends GetxController {
         tourType: 'PAST',
         context: context,
       );
-      print("this pas 1ticket");
 
       if (data != null) {
-        print("this pas ticket");
         pastTicket(data);
         return pastTicket;
       } else {
@@ -76,7 +69,7 @@ class TripController extends GetxController {
       }
     } catch (e) {
       isPastTicketLoading(false);
-      print(e);
+
       return null;
     } finally {
       isPastTicketLoading(false);
@@ -85,30 +78,25 @@ class TripController extends GetxController {
 
   var isNextActivityLoading = false.obs;
 
-  
-
-   Future<NextActivity?> getNextActivity({
+  Future<NextActivity?> getNextActivity({
     required BuildContext context,
   }) async {
     try {
-
       isNextActivityLoading(true);
-      var next= await TripService.getNextActivity(context: context);
- 
-    if(next!=null ){
-     log('data not equal null');
-   
-    isTripUpdated(true);
-      return  nextTrip(next);
-    }
-    else{
+      var next = await TripService.getNextActivity(context: context);
+
+      if (next != null) {
+        log('data not equal null');
+
+        isTripUpdated(true);
+        return nextTrip(next);
+      } else {
         log('data equal null');
 
-       isTripUpdated(false);
-       return null;
-      // return  nextTrip(next);
-    }
-     
+        isTripUpdated(false);
+        return null;
+        // return  nextTrip(next);
+      }
     } catch (e) {
       isNextActivityLoading(false);
 
@@ -124,29 +112,25 @@ class TripController extends GetxController {
     required BuildContext context,
   }) async {
     try {
-     isActivityProgressLoading(true);
+      isActivityProgressLoading(true);
 
-       final data = await TripService.updateActivity(id: id, context: context);
-          if(data!=null ){
-            log('data not equal null2');
-            log(data.id??'');
-    isTripUpdated(true);
-      return updatedActivity(data);
-    }
-    else{
-     log('data equal null2');
+      final data = await TripService.updateActivity(id: id, context: context);
+      if (data != null) {
+        log('data not equal null2');
+        log(data.id ?? '');
+        isTripUpdated(true);
+        return updatedActivity(data);
+      } else {
+        log('data equal null2');
 
-      isTripUpdated(false);
-       return updatedActivity(data);
-    }
-    
+        isTripUpdated(false);
+        return updatedActivity(data);
+      }
     } catch (e) {
-      print(e);
       isActivityProgressLoading(false);
       return null;
     } finally {
       isActivityProgressLoading(false);
     }
   }
-
 }

@@ -1,12 +1,8 @@
-import 'dart:developer';
-
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
-import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
-import 'package:ajwad_v4/widgets/custom_textfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -30,11 +26,10 @@ class _DrivingLicenseState extends State<DrivingLicense> {
   Future<JPickerValue?> openDialog(BuildContext context) async {
     return await showGlobalDatePicker(
         context: context,
-        startDate: JDateModel(dateTime: DateTime.parse("1960-12-24")),
-        selectedDate: JDateModel(dateTime: DateTime.now()),
-        endDate: JDateModel(dateTime: DateTime.parse("2100-09-20")),
+        startDate: JDateModel(jhijri: JHijri.now()),
         pickerMode: DatePickerMode.year,
-        // selectedDate: JDateModel(jhijri: JHijri.now()),
+        selectedDate: JDateModel(jhijri: JHijri.now()),
+        //   pickerMode: DatePickerMode.year,
         pickerType: PickerType.JHijri,
         okButtonText: 'ok'.tr,
         cancelButtonText: "cancel".tr,
@@ -45,6 +40,13 @@ class _DrivingLicenseState extends State<DrivingLicense> {
               AppUtil.formattedHijriDateDay(datetime.jhijri);
         },
         primaryColor: Colors.green);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _authController.drivingDateDay.value = '';
   }
 
   @override

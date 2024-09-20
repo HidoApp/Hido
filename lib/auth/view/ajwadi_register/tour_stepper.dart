@@ -5,12 +5,12 @@ import 'package:ajwad_v4/auth/view/ajwadi_register/contact_info.dart';
 import 'package:ajwad_v4/auth/view/ajwadi_register/driving_license.dart';
 import 'package:ajwad_v4/auth/view/ajwadi_register/vehicle_license.dart';
 import 'package:ajwad_v4/auth/view/sigin_in/phone_otp_new.dart';
+import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
-import 'package:ajwad_v4/explore/ajwadi/view/hoapatility/widget/buttomProgress.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -27,6 +27,42 @@ class TourStepper extends StatefulWidget {
 
 class _TourStepperState extends State<TourStepper> {
   final _authController = Get.put(AuthController());
+  void sendVehcileDetails() async {
+    if (!_authController.vehicleKey.currentState!.validate()) {
+      return;
+    }
+    if (_authController.plateNumber1.value.isEmpty ||
+        _authController.plateNumber2.value.isEmpty ||
+        _authController.plateNumber3.value.isEmpty ||
+        _authController.plateNumber4.value.isEmpty ||
+        _authController.plateletter1.value.isEmpty ||
+        _authController.plateletter2.value.isEmpty ||
+        _authController.plateletter3.value.isEmpty ||
+        _authController.selectedRide.value.isEmpty) {
+      AppUtil.errorToast(context, 'errorFieldsAll'.tr);
+      return;
+    }
+    var plateNumbers = _authController.plateNumber1.value +
+        _authController.plateNumber2.value +
+        _authController.plateNumber3.value +
+        _authController.plateNumber4.value;
+    final isSuccess = await _authController.sendVehcileDetails(
+      context: context,
+      plateletter1: _authController.plateletter1.value,
+      plateletter2: _authController.plateNumber2.value,
+      plateLetter3: _authController.plateNumber3.value,
+      plateNumber: plateNumbers,
+      vehicleType: _authController.selectedRide.value,
+      vehicleSerialNumber: _authController.vehicleLicense.value,
+    );
+    if (isSuccess) {
+      _authController.activeBar(1);
+      Get.offAll(() => const AjwadiBottomBar());
+      storage.remove('localName');
+      storage.write('userRole', 'local');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -83,11 +119,13 @@ class _TourStepperState extends State<TourStepper> {
                       child: Obx(
                         () => _authController.isCreateAccountLoading.value ||
                                 _authController.isVicheleOTPLoading.value ||
-                                _authController.isLienceseOTPLoading.value
+                                _authController.isLienceseOTPLoading.value ||
+                                _authController.isSendVehicleDetails.value
                             ? const Center(
                                 child: CircularProgressIndicator.adaptive())
                             : CustomButton(
                                 onPressed: () async {
+                                  //Click Endpoint here
                                   if (validateScreens()) {
                                     switch (_authController.activeBar.value) {
                                       //contact info handle
@@ -117,15 +155,16 @@ class _TourStepperState extends State<TourStepper> {
                                         }
                                         break;
                                       case 3:
-                                        final isSuccess =
-                                            await _authController.vehicleOTP(
-                                                vehicleSerialNumber:
-                                                    _authController
-                                                        .vehicleLicense.value,
-                                                context: context);
-                                        if (isSuccess != null) {
-                                          Get.to(() => nextVerfiy());
-                                        }
+                                        sendVehcileDetails();
+                                        // final isSuccess =
+                                        //     await _authController.vehicleOTP(
+                                        //         vehicleSerialNumber:
+                                        //             _authController
+                                        //                 .vehicleLicense.value,
+                                        //         context: context);
+                                        //      if (isSuccess != null) {
+                                        //  Get.to(() => nextVerfiy());
+                                        //   }
                                         break;
                                       default:
                                     }

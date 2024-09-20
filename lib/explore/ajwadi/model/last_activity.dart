@@ -1,5 +1,4 @@
 import 'package:ajwad_v4/explore/ajwadi/model/local_trip.dart';
-import 'package:ajwad_v4/explore/tourist/model/coordinates.dart';
 
 
 

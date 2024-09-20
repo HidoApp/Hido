@@ -1,14 +1,8 @@
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/widget/local_trip_card.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/hoapatility/view/event_experience_card.dart';
-import 'package:ajwad_v4/explore/widget/trip_card.dart';
-import 'package:ajwad_v4/profile/view/custom_ticket_card.dart';
-import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
-import 'package:ajwad_v4/services/controller/adventure_controller.dart';
-import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_empty_widget.dart';
-import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skeletonizer/skeletonizer.dart';

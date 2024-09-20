@@ -1,23 +1,16 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/view/notification/notification_screen.dart';
 import 'package:ajwad_v4/firebase_api.dart';
 import 'package:ajwad_v4/firebase_options.dart';
 import 'package:ajwad_v4/new-onboarding/view/splash_screen.dart';
-import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
-import 'package:ajwad_v4/profile/view/messages_screen.dart';
-import 'package:ajwad_v4/services/view/service_screen.dart';
 import 'package:ajwad_v4/widgets/error_screen_widget.dart';
-import 'package:amplitude_flutter/amplitude.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_app_installations/firebase_app_installations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_in_app_messaging/firebase_in_app_messaging.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
@@ -70,9 +63,7 @@ void main() async {
     } else {
       runApp(const MyApp());
     }
-  } catch (error) {
-    print("Firebase initialization error: $error");
-  }
+  } catch (error) {}
   if (kReleaseMode) ErrorWidget.builder = (_) => const ErrorScreenWidget();
 }
 
@@ -97,12 +88,11 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     token = _getStorage.read('accessToken') ?? '';
     log('token $token');
-    print('${Platform.localeName.toLocale().languageCode}');
 
     local = Platform.localeName.toLocale().languageCode;
     //local = Platform.localeName.toLocale().languageCode;
 
-    // print('${Platform.localeName.split('_').first}');
+    //
     // local = Platform.localeName.split('_').first.toLowerCase();
   }
 

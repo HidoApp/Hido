@@ -1,25 +1,14 @@
-import 'dart:async';
-import 'dart:developer';
-
-import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/auth/services/auth_service.dart';
-import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
+import 'package:ajwad_v4/auth/view/ajwadi_register/vehicle_license.dart';
 import 'package:ajwad_v4/constants/colors.dart';
-import 'package:ajwad_v4/new-onboarding/view/account_type_screen.dart';
 import 'package:ajwad_v4/new-onboarding/view/intro_screen.dart';
-import 'package:ajwad_v4/payment/view/payment_type_new.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
-import 'package:ajwad_v4/profile/services/bookmark_services.dart';
-import 'package:ajwad_v4/profile/view/booking_screen.dart';
 import 'package:ajwad_v4/profile/view/bookmark_screen.dart';
 import 'package:ajwad_v4/profile/view/legal_doc_screen.dart';
 import 'package:ajwad_v4/profile/view/profile_local.dart';
 import 'package:ajwad_v4/profile/view/terms&conditions.dart';
-import 'package:ajwad_v4/profile/view/messages_screen.dart';
 import 'package:ajwad_v4/profile/view/my_account.dart';
 import 'package:ajwad_v4/profile/view/profile_touriest.dart';
-import 'package:ajwad_v4/profile/view/switch_acount.dart';
-import 'package:ajwad_v4/request/ajwadi/view/widget/accept_bottom_sheet.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 
 import 'package:ajwad_v4/widgets/custom_button.dart';
@@ -27,15 +16,10 @@ import 'package:ajwad_v4/widgets/custom_list_tile.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/image_cache_widget.dart';
 import 'package:ajwad_v4/widgets/local_auth_mark.dart';
-import 'package:ajwad_v4/widgets/offline_screen.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import 'ticket_screen.dart';
@@ -169,7 +153,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Row(
                           children: [
                             CustomText(
-                              text: _profileController.profile.name ?? "",
+                              text: AppUtil.getFirstName(
+                                AppUtil.capitalizeFirstLetter(
+                                    _profileController.profile.name ?? ""),
+                              ),
                               //   widget.profileController.,
                               color: black,
                               fontSize: 20,

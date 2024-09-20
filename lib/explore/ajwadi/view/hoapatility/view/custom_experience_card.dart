@@ -1,28 +1,21 @@
-import 'dart:developer';
-
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/adventure/view/Adventure_summary_screen.dart';
-import 'package:ajwad_v4/explore/ajwadi/view/Experience/localEvent/view/event_summary_screen.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/summary_screen.dart';
-import 'package:ajwad_v4/explore/tourist/model/booking.dart';
-import 'package:ajwad_v4/services/model/hospitality.dart';
-import 'package:ajwad_v4/services/view/hospitality_details.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/image_cache_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:ajwad_v4/profile/view/ticket_details_screen.dart';
 import 'package:get/get.dart';
 import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
-import 'package:ajwad_v4/request/tourist/view/find_ajwady.dart';
 import 'package:intl/intl.dart' as intel;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest_all.dart' as tz;
 
 class CustomExperienceCard extends StatelessWidget {
-  const CustomExperienceCard({super.key, required this.experience, this.type,this.isPast=false});
+  const CustomExperienceCard(
+      {super.key, required this.experience, this.type, this.isPast = false});
 
   final experience;
   final String? type;
@@ -49,8 +42,7 @@ class CustomExperienceCard extends StatelessWidget {
         tz.TZDateTime.from(parsedDate, location).subtract(Duration(hours: 3));
 
     Duration difference = parsedDateInRiyadh.difference(currentDateInRiyadh);
-    print('this deffrence');
-    print(difference);
+
     return difference.inHours <= 24;
   }
 
@@ -63,7 +55,7 @@ class CustomExperienceCard extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return Padding(
-     padding: EdgeInsets.symmetric(horizontal: width * 0.041),
+      padding: EdgeInsets.symmetric(horizontal: width * 0.041),
       child: SizedBox(
         width: 334,
         height: 120,
@@ -74,7 +66,7 @@ class CustomExperienceCard extends StatelessWidget {
             boxShadow: [
               BoxShadow(
                 color: shadowColor,
-               blurRadius: width * 0.04,
+                blurRadius: width * 0.04,
                 spreadRadius: 0,
               ),
             ],
@@ -97,16 +89,15 @@ class CustomExperienceCard extends StatelessWidget {
                       height: 20,
                     ),
                     const SizedBox(width: 8),
-                   CustomText(
-                     text:'#${experience.id.substring(0, 7)}',
-                        color: borderGrey,
-                        fontSize: 15,
-                        fontFamily: AppUtil.rtlDirection2(context)
-                            ? 'SF Arabic'
-                            : 'SF Pro',
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                      
+                    CustomText(
+                      text: '#${experience.id.substring(0, 7)}',
+                      color: borderGrey,
+                      fontSize: 15,
+                      fontFamily: AppUtil.rtlDirection2(context)
+                          ? 'SF Arabic'
+                          : 'SF Pro',
+                      fontWeight: FontWeight.w500,
+                      height: 0,
                     ),
                   ],
                 ),
@@ -119,22 +110,23 @@ class CustomExperienceCard extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 2, top: 14),
                       child: ClipRRect(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(6.57)),
-                        child: type == 'hospitality'
-                            ?ImageCacheWidget(
-                              image:experience.images.isNotEmpty? experience.images[0]:'assets/images/Placeholder.png' ,
-                              height: height * 0.06,
-                              width: width * 0.144,
-                            )
-                            
-                            
-                            : ImageCacheWidget(
-                              image:experience.image.isNotEmpty? experience.image[0]:'assets/images/Placeholder.png',
-                              height: height * 0.06,
-                              width: width * 0.144,
-                            )
-                      ),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(6.57)),
+                          child: type == 'hospitality'
+                              ? ImageCacheWidget(
+                                  image: experience.images.isNotEmpty
+                                      ? experience.images[0]
+                                      : 'assets/images/Placeholder.png',
+                                  height: height * 0.06,
+                                  width: width * 0.144,
+                                )
+                              : ImageCacheWidget(
+                                  image: experience.image.isNotEmpty
+                                      ? experience.image[0]
+                                      : 'assets/images/Placeholder.png',
+                                  height: height * 0.06,
+                                  width: width * 0.144,
+                                )),
                     ),
                     SizedBox(
                       width: 8,
@@ -147,8 +139,7 @@ class CustomExperienceCard extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Row(
-                              mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 CustomText(
                                   text: AppUtil.rtlDirection2(context)
@@ -191,13 +182,12 @@ class CustomExperienceCard extends StatelessWidget {
                                 //   ),
                               ],
                             ),
-                        
-                               if(isPast)
-                                  Row(
-                                    children: [
-                                      CustomText(
-                                        text: type == 'hospitality' ||
-                                                type == 'event'
+                            if (isPast)
+                              Row(
+                                children: [
+                                  CustomText(
+                                    text:
+                                        type == 'hospitality' || type == 'event'
                                             ? experience.daysInfo.isNotEmpty
                                                 ? formatBookingDate(
                                                     context,
@@ -206,33 +196,29 @@ class CustomExperienceCard extends StatelessWidget {
                                                 : ''
                                             : formatBookingDate(
                                                 context, experience.date),
-                                        fontSize: 12,
-                                        fontFamily:
-                                            AppUtil.rtlDirection2(context)
-                                                ? 'SF Arabic'
-                                                : 'SF Pro',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(0xFFB9B8C1),
-                                      ),
-                                    ],
+                                    fontSize: 12,
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xFFB9B8C1),
                                   ),
-                         
-                         
-                            if(!isPast)
+                                ],
+                              ),
+                            if (!isPast)
                               Row(
                                 children: [
-    
                                   CustomText(
-                                    text: type == 'hospitality' ||
-                                            type == 'event'
-                                        ? experience.daysInfo.isNotEmpty
-                                            ? formatBookingDate(
-                                                context,
-                                                experience
-                                                    .daysInfo.first.startTime)
-                                            : ''
-                                        : formatBookingDate(
-                                            context, experience.date),
+                                    text:
+                                        type == 'hospitality' || type == 'event'
+                                            ? experience.daysInfo.isNotEmpty
+                                                ? formatBookingDate(
+                                                    context,
+                                                    experience.daysInfo.first
+                                                        .startTime)
+                                                : ''
+                                            : formatBookingDate(
+                                                context, experience.date),
                                     fontSize: 12,
                                     fontFamily: AppUtil.rtlDirection2(context)
                                         ? 'SF Arabic'
@@ -246,8 +232,7 @@ class CustomExperienceCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                   
-                      if(!isPast)
+                    if (!isPast)
                       isDateBefore24Hours()
                           ? Padding(
                               padding: const EdgeInsets.only(bottom: 14),
@@ -273,16 +258,16 @@ class CustomExperienceCard extends StatelessWidget {
                                   minimumSize:
                                       Size(100, 37), // Width and height
                                 ),
-                                child:CustomText(
-                                 text:'summary'.tr,
+                                child: CustomText(
+                                  text: 'summary'.tr,
                                   textAlign: TextAlign.center,
-                                    color: Colors.white,
-                                    fontSize: 13,
-                                    fontFamily: AppUtil.rtlDirection2(context)
-                                        ? 'SF Arabic'
-                                        : 'SF Pro',
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                                  color: Colors.white,
+                                  fontSize: 13,
+                                  fontFamily: AppUtil.rtlDirection2(context)
+                                      ? 'SF Arabic'
+                                      : 'SF Pro',
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ))
                           : Container(),
                   ],

@@ -50,11 +50,7 @@ class _HostCalenderDialogState extends State<HostCalenderDialog> {
   void initState() {
     super.initState();
     if (widget.avilableDate != null) {
-      print("widget.avilableDate!.length");
-      print(widget.avilableDate!.length);
-      for (var date in widget.avilableDate!) {
-        print(date);
-      }
+      for (var date in widget.avilableDate!) {}
     }
   }
 
@@ -124,7 +120,7 @@ class _HostCalenderDialogState extends State<HostCalenderDialog> {
                     textStyle: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
-                      color:colorPurple,
+                      color: colorPurple,
                     ),
                     todayTextStyle: TextStyle(
                       fontSize: 12,

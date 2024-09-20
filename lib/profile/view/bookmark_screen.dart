@@ -1,13 +1,9 @@
 import 'dart:developer';
-import 'package:ajwad_v4/auth/view/sigin_in/phone_otp_new.dart';
-import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
-import 'package:ajwad_v4/profile/models/bookmark.dart';
 import 'package:ajwad_v4/profile/services/bookmark_services.dart';
 import 'package:ajwad_v4/profile/widget/bookmark_card.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
-import 'package:ajwad_v4/widgets/custom_bookmark_card.dart';
 import 'package:ajwad_v4/widgets/custom_empty_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

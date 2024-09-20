@@ -114,6 +114,7 @@ class _ContactInfoState extends State<ContactInfo> {
                           if (isSuccess) {
                             Get.offAll(() => const AjwadiBottomBar());
                             _storage.remove('localName');
+                            storage.write('userRole', 'local');
                           }
                         },
                         title: 'signUp'.tr,

@@ -21,7 +21,6 @@ class RegionsController extends GetxController {
       var data = await RegionsServices.getRegions(
           context: context, regionType: regionType);
       if (regionType == ('ADVENTURE')) {
-        print("YESSSSSSSSSSSSSSSS");
         regionsAdventure(data);
       } else if (regionType == "EVENT") {
         regionsEvent(data);

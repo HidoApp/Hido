@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
@@ -40,16 +38,13 @@ class _CustomTicketCardState extends State<CustomTicketCard> {
     try {
       List<Placemark> placemarks =
           await placemarkFromCoordinates(position1, position2);
-      print(placemarks);
 
       if (placemarks.isNotEmpty) {
         Placemark placemark = placemarks.first;
-        print(placemarks.first);
+
         return '${placemark.locality}, ${placemark.subLocality}';
       }
-    } catch (e) {
-      print("Error retrieving address: $e");
-    }
+    } catch (e) {}
     return '';
   }
 
@@ -93,7 +88,6 @@ class _CustomTicketCardState extends State<CustomTicketCard> {
       });
     } catch (e) {
       // Handle error if necessary
-      print('Error fetching address: $e');
     }
   }
 
@@ -119,8 +113,6 @@ class _CustomTicketCardState extends State<CustomTicketCard> {
             }
           : widget.booking.orderStatus == 'PENDING'
               ? () {
-                  print("id place");
-                  print(widget.booking.placeId ?? '');
                   _touristExploreController
                       .getPlaceById(
                     id: widget.booking.place?.id,

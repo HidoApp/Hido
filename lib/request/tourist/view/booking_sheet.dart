@@ -13,9 +13,7 @@ import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/custom_text_with_icon_button.dart';
-import 'package:amplitude_flutter/amplitude.dart';
 import 'package:amplitude_flutter/events/base_event.dart';
-import 'package:amplitude_flutter/identify.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -158,14 +156,11 @@ class _BookingSheetState extends State<BookingSheet> {
           : totalTime;
       // ? totalTime + Duration(days: 1) +Duration(hours: 1);
 
-      print('total');
-      print(adjustedTotalTime >= fourHours && adjustedTotalTime <= eightHours);
-      print(adjustedTotalTime);
       if (adjustedTotalTime >= fourHours && adjustedTotalTime <= eightHours) {
         setState(() {
           DurationErrorMessage = false;
         });
-        print(DurationErrorMessage);
+
         return true;
       } else {
         setState(() {
@@ -227,7 +222,6 @@ class _BookingSheetState extends State<BookingSheet> {
                         : Alignment.centerRight,
                     child: CustomTextWithIconButton(
                       onTap: () {
-                        print("object");
                         setState(() {
                           selectedChoice = 3;
                         });
@@ -441,7 +435,7 @@ class _BookingSheetState extends State<BookingSheet> {
                                                         .format(newTimeToGo));
                                                     setState(() {
                                                       newTimeToGo = newT;
-                                                      //   print(newTime);
+                                                      //
                                                     });
                                                     _touristExploreController
                                                         .selectedStartTime
@@ -629,7 +623,7 @@ class _BookingSheetState extends State<BookingSheet> {
                                                             newTimeToReturn));
                                                     setState(() {
                                                       newTimeToReturn = newT;
-                                                      //   print(newTime);
+                                                      //
                                                     });
 
                                                     _touristExploreController
@@ -749,7 +743,6 @@ class _BookingSheetState extends State<BookingSheet> {
                                     selectedRide = "";
                                   }
                                 });
-                                print(selectedRide);
                               }
                             },
                             child: const Icon(Icons.horizontal_rule_outlined,
@@ -772,15 +765,11 @@ class _BookingSheetState extends State<BookingSheet> {
                         GestureDetector(
                             onTap: () {
                               setState(() {
-                                print("widget.place!.visitors");
-                                print(widget.place!.visitors);
-
                                 guestNum = guestNum + 1;
                               });
                               if (selectedRide == 'van' && guestNum <= 7) {
                                 selectedRide = "";
                               }
-                              print(selectedRide);
                             },
                             child: const Icon(Icons.add, color: borderGrey)),
                       ],
@@ -966,10 +955,6 @@ class _BookingSheetState extends State<BookingSheet> {
                               vehicleErrorMessage = selectedRide == "";
                             });
 
-                            print(newTimeToGoInRiyadh.isAfter(nowPlusTwoHours));
-                            print(newTimeToGoInRiyadh);
-                            print(nowPlusTwoHours);
-
                             if (_touristExploreController.isBookingDateSelected.value &&
                                 _touristExploreController
                                     .isBookingTimeSelected.value &&
@@ -977,8 +962,6 @@ class _BookingSheetState extends State<BookingSheet> {
                                     .isNotGetUserLocation.value &&
                                 selectedRide != "") {
                               if (_validateTime()) {
-                                print(_validateTime());
-
                                 Date = DateTime.parse(_touristExploreController
                                     .selectedDate.value
                                     .substring(0, 10));
@@ -1032,8 +1015,7 @@ class _BookingSheetState extends State<BookingSheet> {
                                                       .toString(),
                                                   vehicle: selectedRide,
                                                   context: context);
-                                      print('is sucssssss');
-                                      print(isSuccess);
+
                                       if (isSuccess) {
                                         Place? thePlace =
                                             await _touristExploreController
@@ -1101,9 +1083,7 @@ class _BookingSheetState extends State<BookingSheet> {
                                         ? "يجب أن تكون مدة الجولة بين ٤ و ٨ ساعات"
                                         : "The Tour duration must be between 4 and 8 hours");
                               }
-                            } else {
-                              print('error');
-                            }
+                            } else {}
                           },
                           icon: !AppUtil.rtlDirection(context)
                               ? const Icon(Icons.arrow_back_ios)

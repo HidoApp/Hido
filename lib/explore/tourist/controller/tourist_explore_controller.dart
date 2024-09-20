@@ -57,8 +57,6 @@ class TouristExploreController extends GetxController {
         return null;
       }
     } catch (e) {
-      print(e);
-
       return null;
     } finally {
       isAllPlacesIsLoading(false);
@@ -73,16 +71,13 @@ class TouristExploreController extends GetxController {
       isPlaceIsLoading(true);
       final data =
           await TouristExploreService.getPlaceById(context: context, id: id!);
-      print("this place by id in controller");
-      print('${data?.booking?.first.orderStatus}');
+
       if (data != null) {
         return data;
       } else {
         return null;
       }
     } catch (e) {
-      print(e);
-
       return null;
     } finally {
       isPlaceIsLoading(false);
@@ -121,8 +116,6 @@ class TouristExploreController extends GetxController {
         return false;
       }
     } catch (e) {
-      print(e);
-
       return false;
     } finally {
       isBookingIsMaking(false);
@@ -137,7 +130,7 @@ class TouristExploreController extends GetxController {
 
       var date =
           await TouristExploreService.getTouristBooking(context: context);
-      print("this booking list");
+
       bookingList(date);
       return date;
     } catch (e) {
@@ -156,12 +149,9 @@ class TouristExploreController extends GetxController {
 
       var date = await TouristExploreService.getTouristBookingById(
           context: context, bookingId: bookingId);
-      print('this date code from controller');
-      print(date!.date);
+
       return date!;
     } catch (e) {
-      print(e);
-
       return null;
     } finally {
       isBookingByIdLoading(false);
@@ -182,9 +172,9 @@ class TouristExploreController extends GetxController {
       return data;
     } catch (e) {
       isTouristMapLoading(false);
-      print("e");
+
       log("this error");
-      print(e);
+
       return null;
     } finally {
       isTouristMapLoading(false);

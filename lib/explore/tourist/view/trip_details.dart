@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
@@ -10,17 +9,14 @@ import 'package:ajwad_v4/explore/tourist/view/view_trip_images.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/models/bookmark.dart';
 import 'package:ajwad_v4/profile/services/bookmark_services.dart';
-import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
 // import 'package:ajwad_v4/request/tourist/models/offer.dart';
 import 'package:ajwad_v4/request/tourist/view/find_ajwady.dart';
 
 import 'package:ajwad_v4/utils/app_util.dart';
-import 'package:ajwad_v4/widgets/StackWidgets.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_policy_sheet.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
-import 'package:ajwad_v4/widgets/home_icons_button.dart';
 import 'package:ajwad_v4/widgets/image_cache_widget.dart';
 import 'package:ajwad_v4/widgets/sign_sheet.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -179,7 +175,6 @@ class _TripDetailsState extends State<TripDetails> {
                                   context: context,
                                   bookingId: thePlace!.booking!.first.id ?? '',
                                 );
-                                print(isHasOffers.value);
 
                                 Get.to(
                                   () => LocalOfferInfo(
@@ -241,8 +236,8 @@ class _TripDetailsState extends State<TripDetails> {
                         ))
                   : CustomButton(
                       onPressed: () {
-                        // print(";lkjhgfdxzxcvbnm,");
-                        // print(isViewBooking.value);
+                        //
+                        //
                         AppUtil.isGuest()
                             ? showModalBottomSheet(
                                 context: context,
@@ -690,7 +685,7 @@ class _TripDetailsState extends State<TripDetails> {
                       //                             thePlace!.booking!.first.id ??
                       //                                 '',
                       //                       );
-                      //                       print(isHasOffers.value);
+                      //
 
                       //                       Get.to(
                       //                         () => LocalOfferInfo(
@@ -755,8 +750,8 @@ class _TripDetailsState extends State<TripDetails> {
                       //               ))
                       //         : CustomButton(
                       //             onPressed: () {
-                      //               // print(";lkjhgfdxzxcvbnm,");
-                      //               // print(isViewBooking.value);
+                      //               //
+                      //               //
                       //               AppUtil.isGuest()
                       //                   ? Get.to(
                       //                       () => const SignInScreen(),

@@ -1,11 +1,9 @@
 import 'dart:developer';
 
-import 'package:ajwad_v4/auth/models/token.dart';
 import 'package:ajwad_v4/main.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:firebase_app_installations/firebase_app_installations.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:get_storage/get_storage.dart';
 
 class FirebaseApi {
   FirebaseMessaging messaging = FirebaseMessaging.instance;

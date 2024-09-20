@@ -4,13 +4,10 @@ import 'dart:io';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/services/controller/event_controller.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
-import 'package:ajwad_v4/services/model/hospitality.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -62,15 +59,11 @@ class _ViewImagesState extends State<ViewImages> {
             // _selectedImages.addAll(pickedImages);
             _ExperienceController.images.addAll(pickedImages);
           });
-          print(_ExperienceController.images.last.path);
         } else {
-          AppUtil.errorToast(context,
-              'imageValidSize'.tr);
+          AppUtil.errorToast(context, 'imageValidSize'.tr);
         }
       }
-    } catch (e) {
-      print('Error picking images: $e');
-    }
+    } catch (e) {}
   }
 
   Future<void> _takePhoto() async {
@@ -79,7 +72,6 @@ class _ViewImagesState extends State<ViewImages> {
           await _picker.pickImage(source: ImageSource.camera, imageQuality: 30);
       if (photo != null) {
         if (AppUtil.isImageValidate(await photo.length())) {
-          print(" is asdded");
           setState(() {
             _selectedImages = _selectedImages != null
                 ? [..._selectedImages!, photo]
@@ -87,13 +79,10 @@ class _ViewImagesState extends State<ViewImages> {
             _ExperienceController.images.add(photo);
           });
         } else {
-          AppUtil.errorToast(context,
-              'imageValidSize'.tr);
+          AppUtil.errorToast(context, 'imageValidSize'.tr);
         }
       }
-    } catch (e) {
-      print('Error taking photo: $e');
-    }
+    } catch (e) {}
   }
 
   void _deleteImage(int index) {
@@ -256,7 +245,7 @@ class _ViewImagesState extends State<ViewImages> {
                   height: 186,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                       image: _ExperienceController.images == null ||
+                      image: _ExperienceController.images == null ||
                               _ExperienceController.images.isEmpty
                           ? const AssetImage('assets/images/Placeholder.png')
                           : _ExperienceController.images[0] is String &&
@@ -268,7 +257,7 @@ class _ViewImagesState extends State<ViewImages> {
                                       .path)) as ImageProvider,
 
                       fit: BoxFit.cover,
-                      //image: 
+                      //image:
                       // _ExperienceController.images == null ||
                       //         _ExperienceController.images.isEmpty
                       //     ? const AssetImage('assets/images/Placeholder.png')
@@ -349,7 +338,7 @@ class _ViewImagesState extends State<ViewImages> {
                                       as ImageProvider,
                               fit: BoxFit.cover,
                             ),
-                           // image:
+                            // image:
                             //  DecorationImage(
                             //   image: isNetworkImage
                             //       ? CachedNetworkImageProvider(

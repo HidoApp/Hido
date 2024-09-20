@@ -1,6 +1,3 @@
-import 'dart:async';
-import 'dart:io';
-import 'package:ajwad_v4/explore/ajwadi/controllers/ajwadi_explore_controller.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/localEvent/view/event_info_review.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/localEvent/widget/add_event_info.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/localEvent/widget/add_guests.dart';
@@ -8,38 +5,17 @@ import 'package:ajwad_v4/explore/ajwadi/view/Experience/localEvent/widget/add_lo
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/localEvent/widget/add_price.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/localEvent/widget/photo_gallery.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/localEvent/widget/select_date_time.dart';
-import 'package:ajwad_v4/explore/ajwadi/view/add_hospitality_calender_dialog.dart';
-import 'package:ajwad_v4/explore/ajwadi/view/hoapatility/view/host_info_review.dart';
-import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
-import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/services/controller/event_controller.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
-import 'package:ajwad_v4/widgets/custom_button.dart';
-import 'package:dotted_border/dotted_border.dart';
 
-import 'package:ajwad_v4/constants/colors.dart';
-import 'package:ajwad_v4/explore/ajwadi/view/set_location.dart';
-import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
-import 'package:ajwad_v4/request/ajwadi/models/request_model.dart';
-import 'package:ajwad_v4/request/ajwadi/controllers/request_controller.dart';
-import 'package:ajwad_v4/request/ajwadi/view/request_screen.dart';
-import 'package:ajwad_v4/request/ajwadi/view/widget/accept_bottom_sheet.dart';
-import 'package:ajwad_v4/utils/app_util.dart';
-import 'package:ajwad_v4/widgets/custom_request_item.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:flutter_switch/flutter_switch.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:intl/intl.dart' as intel;
 import 'package:step_progress_indicator/step_progress_indicator.dart';
-import 'package:toggle_switch/toggle_switch.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 
 class EventAddProgress extends StatefulWidget {
   // int activeIndex;
@@ -126,7 +102,6 @@ class _EventAddProgressState extends State<EventAddProgress> {
   Widget nextStep() {
     switch (activeIndex) {
       case 0:
-        print("0");
         return AddInfo(
           textField1ControllerAR: EventTitleControllerAr,
           textField2ControllerAR: EventBioControllerAr,
@@ -134,38 +109,22 @@ class _EventAddProgressState extends State<EventAddProgress> {
           textField2ControllerEN: EventBioControllerEn,
         );
       case 1:
-        print(_EventController.bioAr.value);
-        print(_EventController.bioEn.value);
-        //print('1');
+
+        //
 
         return AddEventLocation(
           textField1Controller: EventLocation,
         );
       case 2:
-        print(_EventController.pickUpLocLatLang.value.toString());
-        print('2');
-
         return PhotoGalleryPage();
       case 3:
-        print(_EventController.selectedImages.length);
-        print('length image');
         return AddGuests();
       case 4:
-        print(_EventController.seletedSeat.value);
-        print("4");
-
         return SelectDateTime();
       case 5:
-        print(_EventController.selectedEndTime.value);
-
-        print('Selected Start Time: ${_EventController.selectedDates.value}');
-
-        print("5");
-
         return PriceDecisionCard(priceController: EventPrice);
 
       default:
-        print("2");
         return PhotoGalleryPage();
     }
   }
@@ -244,9 +203,6 @@ class _EventAddProgressState extends State<EventAddProgress> {
               if (activeIndex < totalIndex - 1) {
                 setState(() {
                   activeIndex++;
-                  print(activeIndex < totalIndex - 1);
-                  print(totalIndex);
-                  print(activeIndex);
                 });
               } else if (activeIndex == totalIndex - 1) {
                 Get.to(() => EventInfoReview(

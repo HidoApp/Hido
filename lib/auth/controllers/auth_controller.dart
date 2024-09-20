@@ -27,7 +27,7 @@ class AuthController extends GetxController {
   var birthDateDay = ''.obs;
   var agreeForTerms = false.obs;
   var isAgreeForTerms = true.obs;
-
+  var isSendVehicleDetails = false.obs;
   var isSignUpRowad = false.obs;
   var isCreateAccountLoading = false.obs;
   var isCreateOtpLoading = false.obs;
@@ -65,6 +65,15 @@ class AuthController extends GetxController {
   var showResetConfirmedPassword = false.obs;
   var isInternetConnected = true.obs;
 
+  var plateNumber1 = ''.obs;
+  var plateNumber2 = ''.obs;
+  var plateNumber3 = ''.obs;
+  var plateNumber4 = ''.obs;
+  var plateletter1 = ''.obs;
+  var plateletter2 = ''.obs;
+  var plateletter3 = ''.obs;
+  var selectedRide = ''.obs;
+
   // 1 GET COUNTRIES ..
   Future<List<String>?> getListOfCountries(BuildContext context) async {
     try {
@@ -78,8 +87,6 @@ class AuthController extends GetxController {
         return null;
       }
     } catch (e) {
-      print(e);
-
       return null;
     } finally {
       isCountryLoading(false);
@@ -107,7 +114,7 @@ class AuthController extends GetxController {
         rememberMe: rememberMe,
         context: context,
       );
-      print(isSuccess);
+
       return isSuccess;
     } catch (e) {
       return false;
@@ -135,8 +142,6 @@ class AuthController extends GetxController {
       return responseBody;
       //return isSuccess;
     } catch (e) {
-      print("isSuccess CONTROLLER FALSE");
-      print(e);
       return null;
     } finally {
       isPersonInfoLoading(false);
@@ -215,11 +220,9 @@ class AuthController extends GetxController {
         userRole: userRole,
         context: context,
       );
-      print("isSuccess CONTROLLER $isSuccess");
+
       return isSuccess;
     } catch (e) {
-      print("isSuccess CONTROLLER FALSE");
-      print(e);
       return false;
     } finally {
       isSigininwithRowad(false);
@@ -241,7 +244,7 @@ class AuthController extends GetxController {
         rememberMe: rememberMe,
         context: context,
       );
-      print(user);
+
       if (user != null) {
         return user;
       } else {
@@ -392,7 +395,7 @@ class AuthController extends GetxController {
   }) async {
     try {
       isLienceseLoading(true);
-      print('expiryDate Controller : $expiryDate');
+
       final isSuccess = await AuthService.getAjwadiLinceseInfo(
         expiryDate: expiryDate,
         transactionId: transactionId,
@@ -519,6 +522,34 @@ class AuthController extends GetxController {
       return null;
     } finally {
       isCheckLocalLoading(false);
+    }
+  }
+
+  Future<bool> sendVehcileDetails({
+    required BuildContext context,
+    required String plateletter1,
+    required String plateletter2,
+    required String plateLetter3,
+    required String plateNumber,
+    required String vehicleType,
+    required String vehicleSerialNumber,
+  }) async {
+    try {
+      isSendVehicleDetails(true);
+      final isSuccess = await AuthService.sendVehcileDetails(
+          context: context,
+          plateletter1: plateletter1,
+          plateletter2: plateletter2,
+          plateLetter3: plateLetter3,
+          plateNumber: plateNumber,
+          vehicleType: vehicleType,
+          vehicleSerialNumber: vehicleSerialNumber);
+      return isSuccess;
+    } catch (e) {
+      isSendVehicleDetails(false);
+      return false;
+    } finally {
+      isSendVehicleDetails(false);
     }
   }
 }

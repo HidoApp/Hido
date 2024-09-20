@@ -1,15 +1,10 @@
-import 'package:ajwad_v4/constants/colors.dart';
-import 'package:ajwad_v4/explore/ajwadi/view/wallet/local_wallat_screen.dart';
-import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:ajwad_v4/profile/view/ticket_details_screen.dart';
 import 'package:get/get.dart';
 import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
-import 'package:ajwad_v4/request/tourist/view/find_ajwady.dart';
 import 'package:intl/intl.dart' as intel;
 
 class CustomWalletCard extends StatelessWidget {

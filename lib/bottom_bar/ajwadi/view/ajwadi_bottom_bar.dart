@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/request/ajwadi/view/new_request_screen.dart';
-import 'package:ajwad_v4/request/ajwadi/view/request_screen.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/profile/view/profle_screen.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
@@ -15,7 +14,6 @@ import 'package:internet_connection_checker_plus/internet_connection_checker_plu
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../explore/ajwadi/view/Experience/add_experience_info.dart';
-import '../../../explore/ajwadi/view/hoapatility/widget/buttomProgress.dart';
 import '../../../explore/ajwadi/view/local_home_screen.dart';
 
 class AjwadiBottomBar extends StatefulWidget {

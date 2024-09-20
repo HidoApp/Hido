@@ -1,36 +1,21 @@
 import 'package:ajwad_v4/constants/colors.dart';
-import 'package:ajwad_v4/explore/ajwadi/controllers/trip_controller.dart';
 import 'package:ajwad_v4/explore/ajwadi/model/local_trip.dart';
-import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
-import 'package:ajwad_v4/request/ajwadi/controllers/request_controller.dart';
-import 'package:ajwad_v4/request/ajwadi/models/request_model.dart';
-import 'package:ajwad_v4/request/ajwadi/view/Itinerary_screen.dart';
 import 'package:ajwad_v4/request/chat/view/chat_screen.dart';
 import 'package:ajwad_v4/services/view/widgets/itenrary_tile.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
-import 'package:ajwad_v4/widgets/custom_button.dart';
-import 'package:ajwad_v4/widgets/custom_outlined_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/image_cache_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:intl/intl.dart' as intl;
-import 'package:timeago/timeago.dart' as timeago;
 
 class LocalTripCard extends StatefulWidget {
-  const LocalTripCard({
-    Key? key,
-    required this.trip,
-    this.isPast=false
-  }) : super(key: key);
+  const LocalTripCard({Key? key, required this.trip, this.isPast = false})
+      : super(key: key);
 
   final LocalTrip trip;
   final bool isPast;
-
 
   @override
   State<LocalTripCard> createState() => _LocalTripCardState();
@@ -54,12 +39,8 @@ class _LocalTripCardState extends State<LocalTripCard> {
         double latitude = double.parse(latitudeStr);
         double longitude = double.parse(longitudeStr);
         getAddressFromCoordinates(latitude, longitude);
-      } catch (e) {
-        print("Error parsing coordinates: $e");
-      }
-    } else {
-      print("Invalid coordinates: latitude or longitude is empty");
-    }
+      } catch (e) {}
+    } else {}
   }
 
   void getAddressFromCoordinates(double latitude, double longitude) async {
@@ -71,9 +52,7 @@ class _LocalTripCardState extends State<LocalTripCard> {
         address =
             "${placemark.postalCode}, ${placemark.subLocality}, ${placemark.country}";
       }
-    } catch (e) {
-      print("Error fetching address: $e");
-    }
+    } catch (e) {}
   }
 
   @override
@@ -82,19 +61,18 @@ class _LocalTripCardState extends State<LocalTripCard> {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: width * 0.041),
       child: Container(
-    
         width: double.infinity,
         padding: const EdgeInsets.all(12),
         clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(12), // Adjust the radius as needed
-    
+          borderRadius:
+              BorderRadius.circular(12), // Adjust the radius as needed
+
           boxShadow: [
             BoxShadow(
               color: shadowColor,
-             blurRadius: width * 0.04,
-            
+              blurRadius: width * 0.04,
               spreadRadius: 0,
             ),
           ],
@@ -157,7 +135,8 @@ class _LocalTripCardState extends State<LocalTripCard> {
                     ],
                   ),
                 ),
-                if (widget.trip.booking!.orderStatus != "FINISHED"|| !widget.isPast) ...[
+                if (widget.trip.booking!.orderStatus != "FINISHED" ||
+                    !widget.isPast) ...[
                   Spacer(),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 8),
@@ -195,28 +174,34 @@ class _LocalTripCardState extends State<LocalTripCard> {
               data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
               child: ExpandedTile(
                 contentseparator: 12,
-                trailing:  _controller.isExpanded
-                            ? CustomText(
-                                text: AppUtil.rtlDirection2(context) ? 'القليل' : 'See less',
-                                color: Color(0xFF36B268),
-                                fontSize: 13,
-                                fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-                                fontWeight: FontWeight.w500,
-                              )
-                            : CustomText(
-                                text: 'seeMore'.tr,
-                                color: Color(0xFF36B268),
-                                fontSize: 13,
-                                fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-                                fontWeight: FontWeight.w500,
-                              ),
+                trailing: _controller.isExpanded
+                    ? CustomText(
+                        text: AppUtil.rtlDirection2(context)
+                            ? 'القليل'
+                            : 'See less',
+                        color: Color(0xFF36B268),
+                        fontSize: 13,
+                        fontFamily: AppUtil.rtlDirection2(context)
+                            ? 'SF Arabic'
+                            : 'SF Pro',
+                        fontWeight: FontWeight.w500,
+                      )
+                    : CustomText(
+                        text: 'seeMore'.tr,
+                        color: Color(0xFF36B268),
+                        fontSize: 13,
+                        fontFamily: AppUtil.rtlDirection2(context)
+                            ? 'SF Arabic'
+                            : 'SF Pro',
+                        fontWeight: FontWeight.w500,
+                      ),
                 disableAnimation: true,
                 trailingRotation: 0,
                 onTap: () {
-                  // print(widget.request.date);
+                  //
                   setState(() {});
                 },
-                title:Text(''),
+                title: Text(''),
                 content: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -226,7 +211,7 @@ class _LocalTripCardState extends State<LocalTripCard> {
                       image: "assets/icons/timeGrey.svg",
                     ),
                     //SizedBox(height: width * 0.025),
-    
+
                     if (address.isNotEmpty) ...[
                       SizedBox(height: 8),
                       ItineraryTile(
@@ -239,15 +224,14 @@ class _LocalTripCardState extends State<LocalTripCard> {
                     ],
                     // SizedBox(height: width * 0.025),
                     SizedBox(height: 8),
-    
+
                     ItineraryTile(
-                      title: "${widget.trip.booking!.guestNumber} ${"guests".tr}",
+                      title:
+                          "${widget.trip.booking!.guestNumber} ${"guests".tr}",
                       image: "assets/icons/guests.svg",
                     ),
-    
+
                     SizedBox(height: 11),
-    
-                   
                   ],
                 ),
                 controller: _controller,

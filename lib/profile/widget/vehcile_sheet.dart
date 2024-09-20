@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';

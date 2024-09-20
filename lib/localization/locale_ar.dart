@@ -679,4 +679,8 @@ const localeAr = {
   'errorSheetHint': 'اكتب وصف مختصر للمشكلة',
   'offlineTitle': "لا يوجد اتصال انترنت ",
   'offlineSubTitle': 'حاول مرة أخرى بعد التأكد من الاتصال بالانترنت ',
+  'errorFieldsAll': 'تأكد من ملء جميع الحقول المطلوبة.',
+  'vehiclePlate': 'لوحة المركبة',
+  'vehicleType': 'نوع المركبة',
+  'invaildId': "رقم الهوية غير صالح"
 };

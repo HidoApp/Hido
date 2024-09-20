@@ -1,8 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:ajwad_v4/constants/colors.dart';
-import 'package:ajwad_v4/explore/tourist/model/booking.dart';
-import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
 import 'package:ajwad_v4/payment/controller/payment_controller.dart';
 import 'package:ajwad_v4/payment/model/invoice.dart';
 import 'package:ajwad_v4/payment/view/payment_type_new.dart';
@@ -20,13 +18,9 @@ import 'package:ajwad_v4/widgets/promocode_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
-import '../../profile/view/ticket_details_screen.dart';
 import '../../request/ajwadi/controllers/request_controller.dart';
-import '../../request/local_notification.dart';
 
 class ReviewHospitalty extends StatefulWidget {
   const ReviewHospitalty(
@@ -63,11 +57,8 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
 
   @override
   Widget build(BuildContext context) {
-    print('hospitalityDate');
-    print(widget.hospitality.id);
-
-    // print(fetchedBooking?.bookingType);
-    final height= MediaQuery.of(context).size.height;
+    //
+    final height = MediaQuery.of(context).size.height;
 
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -93,10 +84,10 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                 ),
                 ReviewDetailsTile(
                     title: widget.servicesController.address.value.isNotEmpty
-                    ?widget.servicesController.address.value
-                    : AppUtil.rtlDirection2(context)
-                        ? widget.hospitality  .regionAr ?? ""
-                        : widget.hospitality .regionEn ?? "",
+                        ? widget.servicesController.address.value
+                        : AppUtil.rtlDirection2(context)
+                            ? widget.hospitality.regionAr ?? ""
+                            : widget.hospitality.regionEn ?? "",
                     image: "assets/icons/map_pin.svg"),
                 SizedBox(
                   height: width * 0.010,
@@ -106,7 +97,7 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                     title:
                         '${AppUtil.formatTimeOnly(context, widget.hospitality.daysInfo.first.startTime)} - ${AppUtil.formatTimeOnly(context, widget.hospitality.daysInfo.first.endTime)} ',
                     image: "assets/icons/Clock.svg"),
-                 SizedBox(
+                SizedBox(
                   height: width * 0.010,
                 ),
                 ReviewDetailsTile(
@@ -129,7 +120,7 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                   fontSize: width * 0.043,
                   fontWeight: FontWeight.w500,
                 ),
-                  SizedBox(
+                SizedBox(
                   height: width * 0.0205,
                 ),
                 if (widget.maleGuestNum != 0)
@@ -142,7 +133,7 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                     guest: widget.femaleGuestNum,
                     title: 'female'.tr,
                   ),
-                   SizedBox(
+                SizedBox(
                   height: width * 0.041,
                 ),
                 const Divider(
@@ -163,11 +154,10 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                   color: almostGrey,
                   text: AppUtil.formatBookingDate(
                       context, widget.servicesController.selectedDate.value),
-         fontFamily:  AppUtil.rtlDirection2(context)?'SF Arabic':'SF Pro',
-
-              
+                  fontFamily:
+                      AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
                 ),
-                  SizedBox(
+                SizedBox(
                   height: width * 0.041,
                 ),
                 const Divider(
@@ -178,16 +168,16 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                 ),
                 //discount widget
                 const PromocodeField(),
-                 SizedBox(
-                          height: width * 0.061,
-                        ),
-                        DottedSeparator(
-                          color: almostGrey,
-                          height: width * 0.002,
-                        ),
-                        SizedBox(
-                          height: width * 0.09,
-                        ),
+                SizedBox(
+                  height: width * 0.061,
+                ),
+                DottedSeparator(
+                  color: almostGrey,
+                  height: width * 0.002,
+                ),
+                SizedBox(
+                  height: width * 0.09,
+                ),
                 Row(
                   children: [
                     CustomText(

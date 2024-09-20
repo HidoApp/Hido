@@ -1,29 +1,22 @@
 import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/constants/colors.dart';
-import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
-import 'package:ajwad_v4/profile/view/order_screen.dart';
 import 'package:ajwad_v4/profile/view/ticket_screen.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/view/messages_screen.dart';
-import 'package:ajwad_v4/request/chat/view/chat_screen.dart';
-import 'package:ajwad_v4/request/tourist/view/tourist_chat_screen.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/services/controller/event_controller.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/services/controller/regions_controller.dart';
-import 'package:ajwad_v4/services/service/regions_service.dart';
 import 'package:ajwad_v4/services/view/tabs/adventures_tab.dart';
 import 'package:ajwad_v4/services/view/tabs/events_tab.dart';
-import 'package:ajwad_v4/services/view/tabs/restaurants_tab.dart';
 import 'package:ajwad_v4/services/view/widgets/custom_chips.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/home_icons_button.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'tabs/hospitality_tab.dart';
 import 'package:ajwad_v4/explore/tourist/view/notification/notification_screen.dart';
@@ -135,7 +128,6 @@ class _ServiceScreenState extends State<ServiceScreen>
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
@@ -144,17 +136,15 @@ class _ServiceScreenState extends State<ServiceScreen>
         backgroundColor: Colors.white,
         body: NestedScrollView(
           floatHeaderSlivers: true,
+
           // scrollBehavior: CupertinoScrollBehavior(),
           controller: ScrollController(),
           headerSliverBuilder: (context, isScrolled) => [
             SliverAppBar(
               automaticallyImplyLeading: false,
-              //    expandedHeight: width * 0.48,
-
               toolbarHeight: width * 0.36,
               forceMaterialTransparency: true,
               pinned: false,
-
               centerTitle: false,
               leading: Padding(
                 padding: EdgeInsets.only(left: 16, right: 16, bottom: 18),
@@ -296,8 +286,6 @@ class _ServiceScreenState extends State<ServiceScreen>
                     EdgeInsets.symmetric(horizontal: width * 0.02, vertical: 0),
                 onTap: (index) {
                   _srvicesController.tabIndex.value = index;
-                  print(_tabController.index);
-                  print("_tabController");
                 },
 
                 tabs: [
@@ -452,11 +440,23 @@ class _ServiceScreenState extends State<ServiceScreen>
                 ],
               ),
             ),
+            // SliverAppBar(
+            //   excludeHeaderSemantics: true,
+            //   automaticallyImplyLeading: false,
+            //   shadowColor: Colors.black,
+            //   toolbarHeight: width * 0.36,
+            //   forceMaterialTransparency: true,
+            //   pinned: false,
+            //   centerTitle: true,
+            //   // titleSpacing: 30,
+            //   title: AdCards(),
+            // ),
             SliverAppBar(
               leadingWidth: double.infinity,
               backgroundColor: Colors.white,
               foregroundColor: Colors.white,
               surfaceTintColor: Colors.white,
+              floating: true,
               automaticallyImplyLeading: false,
               expandedHeight: 0,
               toolbarHeight: width * 0.22,

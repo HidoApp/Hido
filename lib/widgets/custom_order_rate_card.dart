@@ -72,8 +72,6 @@ class _CustomRateOrderCardState extends State<CustomRateOrderCard> {
                             setState(() {
                               _curentIndex = i;
                             });
-                            print(i);
-                            print('_curentIndex $_curentIndex');
                           },
                           child: _curentIndex < i
                               ? SvgPicture.asset(

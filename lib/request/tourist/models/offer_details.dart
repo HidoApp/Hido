@@ -1,8 +1,6 @@
-import 'package:ajwad_v4/event/model/event.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/request/chat/model/chat_model.dart';
 import 'package:ajwad_v4/request/tourist/models/schedule.dart';
-import 'package:ajwad_v4/services/model/adventure.dart';
 import 'package:ajwad_v4/services/model/hospitality.dart';
 
 class OfferDetails {

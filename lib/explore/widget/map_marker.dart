@@ -1,12 +1,7 @@
-import 'dart:developer';
 
-import 'package:ajwad_v4/constants/colors.dart';
-import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
-import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class MapMarker extends StatelessWidget {
   const MapMarker({

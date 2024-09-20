@@ -1,39 +1,23 @@
-import 'dart:async';
-import 'dart:developer';
-
-import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
-import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/model/last_activity.dart';
-import 'package:ajwad_v4/explore/ajwadi/model/userLocation.dart';
-import 'package:ajwad_v4/explore/ajwadi/services/location_service.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/custom_local_ticket_card.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/local_ticket_screen.dart';
-import 'package:ajwad_v4/explore/ajwadi/view/next_activity.dart';
-import 'package:ajwad_v4/explore/tourist/view/notification/notification_screen.dart';
 import 'package:ajwad_v4/profile/view/my_account.dart';
 import 'package:ajwad_v4/profile/widget/prodvided_services_sheet.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/services/controller/event_controller.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
-import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/custom_wallet_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-import '../../../auth/view/sigin_in/signin_screen.dart';
 import '../../../profile/controllers/profile_controller.dart';
 import '../../../profile/view/messages_screen.dart';
-import '../../../profile/view/ticket_screen.dart';
 import '../../../widgets/category_card.dart';
-import '../../../widgets/custom_app_bar.dart';
 import '../controllers/trip_controller.dart';
 
 class LocalHomeScreen extends StatefulWidget {
@@ -171,8 +155,8 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                                       ? ""
                                       : ' ${_profileController.profile.name ?? "".split(' ').take(1).join(' ')}',
                                   style: TextStyle(
-                                    color: Color(0xFF37B268),
-                                    fontSize: 20,
+                                    color: const Color(0xFF37B268),
+                                    fontSize: width * 0.051,
                                     fontFamily: 'HT Rakik',
                                     fontWeight: FontWeight.w500,
                                     height: 0.07,
