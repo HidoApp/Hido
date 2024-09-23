@@ -18,7 +18,6 @@ class AmplitudeService {
     amplitude.flush();
   }
   // Async function to initialize Amplitude
- 
 
   // Method to track events
   void trackEvent(String eventType, {Map<String, dynamic>? properties}) {

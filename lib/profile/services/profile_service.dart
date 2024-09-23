@@ -61,6 +61,9 @@ class ProfileService {
       },
     );
 
+    log(response.statusCode.toString());
+    log(response.body.toString());
+
     if (response.statusCode == 200) {
       var profile = jsonDecode(response.body);
 

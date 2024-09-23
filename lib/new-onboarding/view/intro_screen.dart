@@ -33,7 +33,8 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   AnimationController? _controller;
   VideoPlayerController? _videoController;
 
-  final AmplitudeService amplitudeService = AmplitudeService(); // Create instance of AmplitudeService
+  final AmplitudeService amplitudeService =
+      AmplitudeService(); // Create instance of AmplitudeService
 
 // // Async function to initialize Amplitude
 //   void _initializeAmplitude() async {
@@ -105,8 +106,8 @@ class _OnboardingScreenState extends State<OnboardingScreen>
         _videoController?.play();
       });
     //_initializeAmplitude();
-     // Initialize Amplitude
-   AmplitudeService.initializeAmplitude();
+    // Initialize Amplitude
+    AmplitudeService.initializeAmplitude();
   }
 
   @override
@@ -282,7 +283,8 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                           }
                         });
 
-                        AmplitudeService.amplitude.track(BaseEvent('Onboarding Page Viewed ',
+                        AmplitudeService.amplitude.track(BaseEvent(
+                            'Onboarding Page Viewed ',
                             eventProperties: {
                               'page_index': _currentIndex,
                               'page_title': tabs[_currentIndex].title
@@ -362,8 +364,9 @@ class _OnboardingScreenState extends State<OnboardingScreen>
 
                   GestureDetector(
                     onTap: () {
-                     AmplitudeService.amplitude.track(BaseEvent('Onboarding Continue as Guest Clicked'));
-                      Get.to(() => const TouristBottomBar());
+                      AmplitudeService.amplitude.track(
+                          BaseEvent('Onboarding Continue as Guest Clicked'));
+                      Get.offAll(() => const TouristBottomBar());
                     },
                     child: Row(
                       children: [

@@ -868,29 +868,29 @@ class _PaymentTypeState extends State<PaymentType> {
                     ),
                   ],
                 ),
-                if (Platform.isIOS)
-                  Row(
-                    children: [
-                      Radio<PaymentMethod>(
-                        value: PaymentMethod.appelpay,
-                        groupValue: _selectedPaymentMethod,
-                        onChanged: (PaymentMethod? value) {
-                          setState(() {
-                            _selectedPaymentMethod = value;
-                          });
-                        },
-                      ),
-                      // Text('pay'),
+                // if (Platform.isIOS)
+                //   Row(
+                //     children: [
+                //       Radio<PaymentMethod>(
+                //         value: PaymentMethod.appelpay,
+                //         groupValue: _selectedPaymentMethod,
+                //         onChanged: (PaymentMethod? value) {
+                //           setState(() {
+                //             _selectedPaymentMethod = value;
+                //           });
+                //         },
+                //       ),
+                //       // Text('pay'),
 
-                      RepaintBoundary(
-                        child: SvgPicture.asset(
-                          "assets/icons/applePay_icon.svg",
-                          color: const Color.fromARGB(255, 0, 0, 0),
-                          height: width * 0.051,
-                        ),
-                      ),
-                    ],
-                  ),
+                //       RepaintBoundary(
+                //         child: SvgPicture.asset(
+                //           "assets/icons/applePay_icon.svg",
+                //           color: const Color.fromARGB(255, 0, 0, 0),
+                //           height: width * 0.051,
+                //         ),
+                //       ),
+                //     ],
+                //   ),
                 Row(
                   children: [
                     Radio<PaymentMethod>(
