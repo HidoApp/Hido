@@ -86,10 +86,12 @@ class _AdventureDetailsState extends State<AdventureDetails> {
   void getAdventureById() async {
     adventure = (await _adventureController.getAdvdentureById(
         context: context, id: widget.adventureId));
-    _profileController.bookmarkList(BookmarkService.getBookmarks());
+    if (!AppUtil.isGuest()) {
+      _profileController.bookmarkList(BookmarkService.getBookmarks());
 
-    _profileController.isAdventureBookmarked(_profileController.bookmarkList
-        .any((bookmark) => bookmark.id == adventure!.id));
+      _profileController.isAdventureBookmarked(_profileController.bookmarkList
+          .any((bookmark) => bookmark.id == adventure!.id));
+    }
 
     if (!widget.isLocal) {
       _fetchAddress(adventure!.coordinates!.latitude ?? '',

@@ -85,10 +85,13 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
   void getEventById() async {
     event = (await _eventController.getEventById(
         context: context, id: widget.eventId));
-    _profileController.bookmarkList(BookmarkService.getBookmarks());
+    if (!AppUtil.isGuest()) {
+      _profileController.bookmarkList(BookmarkService.getBookmarks());
 
-    _profileController.isEventBookmarked(_profileController.bookmarkList
-        .any((bookmark) => bookmark.id == event!.id));
+      _profileController.isEventBookmarked(_profileController.bookmarkList
+          .any((bookmark) => bookmark.id == event!.id));
+    }
+
     for (var day in event!.daysInfo!) {
       if (AppUtil.isDateTimeBefore24Hours(day.startTime))
         avilableDate.add(

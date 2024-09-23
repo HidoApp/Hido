@@ -90,10 +90,6 @@ class _MyAppState extends State<MyApp> {
     log('token $token');
 
     local = Platform.localeName.toLocale().languageCode;
-    //local = Platform.localeName.toLocale().languageCode;
-
-    //
-    // local = Platform.localeName.split('_').first.toLowerCase();
   }
 
   @override

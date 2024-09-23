@@ -92,12 +92,14 @@ class _TripDetailsState extends State<TripDetails> {
     // TODO: implement initState
     super.initState();
     addCustomIcon();
-    getOfferinfo();
-
-    _profileController.isTourBookmarked(_profileController.bookmarkList
-        .any((bookmark) => bookmark.id == widget.place!.id));
-    // getPlaceBooking();
-    _touristExploreController.isBookedMade(true);
+    if (!AppUtil.isGuest()) {
+      getOfferinfo();
+      _profileController.bookmarkList(BookmarkService.getBookmarks());
+      _profileController.isTourBookmarked(_profileController.bookmarkList
+          .any((bookmark) => bookmark.id == widget.place!.id));
+      // getPlaceBooking();
+      _touristExploreController.isBookedMade(true);
+    }
   }
 
   void getPlaceBooking() async {
@@ -143,9 +145,6 @@ class _TripDetailsState extends State<TripDetails> {
 
   @override
   Widget build(BuildContext context) {
-    _profileController.bookmarkList(BookmarkService.getBookmarks());
-
-    log(_profileController.bookmarkList.length.toString());
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
 
