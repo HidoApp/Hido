@@ -106,7 +106,8 @@ class _PhoneOTPState extends State<PhoneOTP> {
         } else if (local.accountType == 'EXPERIENCES') {
           Get.offAll(() => const AjwadiBottomBar());
         } else if (local.accountType.isEmpty) {
-          Get.offAll(() => const AjwadiBottomBar());
+          Get.offAll(() => const ProvidedServices());
+          _authController.activeBar(1);
         } else {
           _authController.activeBar(1);
           Get.off(() => const ProvidedServices());

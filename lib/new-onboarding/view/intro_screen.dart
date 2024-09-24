@@ -114,6 +114,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   void dispose() {
     _controller?.dispose();
     _videoController?.dispose();
+    _pageController.dispose();
     super.dispose();
   }
 
@@ -355,8 +356,8 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                         Get.to(() => const LocalSignIn());
                       },
                       buttonColor: _currentIndex == 0
-                          ? Color.fromARGB(0, 0, 0, 0)
-                          : Color(0xFFF9F9F9),
+                          ? const Color.fromARGB(0, 0, 0, 0)
+                          : const Color(0xFFF9F9F9),
                       raduis: 8,
                       textColor: colorGreen,
                     ),

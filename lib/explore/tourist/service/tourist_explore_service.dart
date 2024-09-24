@@ -75,12 +75,15 @@ class TouristExploreService {
         if (token != '') 'Authorization': 'Bearer $token',
       },
     );
+    log(response.statusCode.toString());
+    log(response.body.toString());
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
       var place = Place.fromJson(data);
+
       log("this place by id from service");
-      log('${place.booking?.first.id}');
+      // log('${place.booking?.first.id}');
       return Place.fromJson(data);
     } else {
       String errorMessage = jsonDecode(response.body)['message'];

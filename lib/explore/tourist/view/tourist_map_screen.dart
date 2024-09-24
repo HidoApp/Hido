@@ -342,6 +342,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(_touristExploreController.touristModel.value!.places!.length);
     final width = MediaQuery.of(context).size.width;
 
     return Scaffold(

@@ -37,6 +37,7 @@ class TouristExploreController extends GetxController {
   var updateMap = true.obs;
   Rx<ActivityProgress?> activityProgres = ActivityProgress().obs;
   Rx<TouristMapModel?> touristModel = TouristMapModel().obs;
+  Rx<Place?> thePlace = Place().obs;
 
   Rx<LatLng> pickUpLocLatLang = const LatLng(24.9470921, 45.9903698).obs;
   var isBookingIsMaking = false.obs;
@@ -71,8 +72,10 @@ class TouristExploreController extends GetxController {
       isPlaceIsLoading(true);
       final data =
           await TouristExploreService.getPlaceById(context: context, id: id!);
-
+      log("data!.id!");
+      log(data!.id!);
       if (data != null) {
+        thePlace(data);
         return data;
       } else {
         return null;

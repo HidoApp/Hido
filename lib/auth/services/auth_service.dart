@@ -152,7 +152,7 @@ class AuthService {
       return responsBody;
     } else {
       var jsonBody = jsonDecode(response.body);
-      String errorMessage = jsonBody['error']['errorMessage'];
+      String errorMessage = jsonBody['errorDetail']['errorMessage'];
       AppUtil.errorToast(context, errorMessage);
       return null;
     }

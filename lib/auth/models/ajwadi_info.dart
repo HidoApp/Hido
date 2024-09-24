@@ -12,7 +12,7 @@ class AjwadiInfo {
     return AjwadiInfo(
         drivingLicense: json['drivingLicense'],
         vehicle: json['vehicle'],
-        accountType: json['accountType']);
+        accountType: json['accountType'] ?? "");
   }
 
   Map<String, dynamic> toJson() {

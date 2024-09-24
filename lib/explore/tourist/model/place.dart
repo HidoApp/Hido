@@ -50,13 +50,13 @@ class Place {
       locationUrl: json['locationUrl'],
       visitors: json['visitors'] ?? 0,
       // rating: json['rating'] ?? 0,
-      rating: json['rating'] != null ?  double.parse((json['rating'] as num).toStringAsFixed(1))
+      rating: json['rating'] != null
+          ? double.parse((json['rating'] as num).toStringAsFixed(1))
           : 0.0,
-     
 
       coordinates: Coordinate.fromJson(json['coordinates']),
-      booking: json['booking'] == null
-          ? null
+      booking: json['booking'] == []
+          ? []
           : (json['booking'] as List).map((e) => Booking.fromJson(e)).toList(),
     );
   }

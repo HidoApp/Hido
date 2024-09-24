@@ -53,7 +53,7 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
         startDate: JDateModel(dateTime: DateTime.parse("1960-12-24")),
         selectedDate: JDateModel(dateTime: DateTime.now()),
         endDate: JDateModel(dateTime: DateTime.parse("2030-09-20")),
-        pickerMode: DatePickerMode.day,
+        pickerMode: DatePickerMode.year,
         // selectedDate: JDateModel(jhijri: JHijri.now()),
         pickerType: PickerType.JHijri,
         okButtonText: 'ok'.tr,
