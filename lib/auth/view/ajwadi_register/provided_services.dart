@@ -45,10 +45,12 @@ class _ProvidedServicesState extends State<ProvidedServices> {
               ),
               //Name
               CustomText(
-                text: AppUtil.getFirstName(
-                  AppUtil.capitalizeFirstLetter(
-                      storage.read('localName') ?? ""),
-                ),
+                text: storage.read('localName') != null
+                    ? AppUtil.getFirstName(
+                        AppUtil.capitalizeFirstLetter(
+                            storage.read('localName') ?? ""),
+                      )
+                    : "",
                 color: colorGreen,
                 fontSize: width * 0.051,
                 fontWeight: FontWeight.w500,

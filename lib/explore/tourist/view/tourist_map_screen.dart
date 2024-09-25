@@ -177,12 +177,11 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   @override
   void initState() {
     super.initState();
+    getPlaces();
     _touristExploreController.isNewMarkers.value = true;
     if (!AppUtil.isGuest()) {
       getUserActions();
     }
-
-    getPlaces();
 
     // addCustomIcon();
     getLocation();
@@ -202,10 +201,11 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   void getPlaces() async {
     await _touristExploreController.touristMap(
         context: context, tourType: "PLACE");
-    if (!mounted) return; // Ensure the widget is still mounted
 
-    _touristExploreController.isNewMarkers.value = true;
+    if (!mounted) return; // Ensure the widget is still mounted
     genreateMarkers();
+    _touristExploreController.isNewMarkers.value = true;
+
     if (!AppUtil.isGuest()) {
       getBooking();
     }
@@ -242,6 +242,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
             ));
       },
     ).toList();
+    setState(() {});
   }
 
   void checkForProgress() async {
@@ -350,6 +351,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(_touristExploreController.touristModel.value!.places!.length);
     final width = MediaQuery.of(context).size.width;
 
     return Scaffold(
@@ -423,7 +425,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                   storage.write('markers', markers.toList()).then((val) {
                     _touristExploreController.isNewMarkers.value = false;
                     _touristExploreController.updateMap(true);
-                    setState(() {});
+                    // setState(() {});
                   });
                 }
                 return Obx(
@@ -441,11 +443,6 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                       // _loadMapStyles();
                     },
                     onCameraMove: (position) {
-                      // if (_touristExploreController.updateMap.value) {
-                      //   _touristExploreController.updateMap(false);
-                      // }
-                      setState(() {});
-
                       _touristExploreController.currentLocation.value =
                           position.target;
                     },
@@ -461,7 +458,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                 // text field and icons
                 CupertinoTypeAheadField<Place>(
                   decorationBuilder: (context, child) => Container(
-                    padding: EdgeInsets.only(
+                    padding: const EdgeInsets.only(
                       top: 12,
                       // left: 16,
                       bottom: 8,
@@ -502,6 +499,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                   },
                   builder: (context, controller, focusNode) {
                     return Container(
+                      // padding: EdgeInsets.symmetric(vertical: 0),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(25),
@@ -509,7 +507,11 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                       child: CustomTextField(
                         borderColor: Colors.transparent,
                         raduis: 25,
+                        verticalHintPadding:
+                            AppUtil.rtlDirection2(context) ? 0 : 10,
                         height: 34,
+                        enable: !_touristExploreController
+                            .isTouristMapLoading.value,
                         hintText: 'search'.tr,
                         prefixIcon: Padding(
                           padding: EdgeInsets.all(8),

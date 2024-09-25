@@ -76,8 +76,8 @@ class _SplashScreenState extends State<SplashScreen>
             token = user.accessToken;
           }
         }
-
-        Get.off(() => const AjwadiBottomBar());
+        if (!mounted) return; // Check if the widget is still mounted
+        _authController.checkLocalWhenSignIn(context);
       } else if (token != '' && userRole == 'tourist') {
         if (JwtDecoder.isExpired(token)) {
           final String refreshToken = getStorage.read('refreshToken');
@@ -88,7 +88,6 @@ class _SplashScreenState extends State<SplashScreen>
             token = user.accessToken;
           }
         }
-
         Get.off(() => const TouristBottomBar());
       } else {
         Get.off(() => const OnboardingScreen(), transition: Transition.fade);

@@ -72,7 +72,7 @@ class _TripDetailsState extends State<TripDetails> {
   RxBool isHasOffers = false.obs;
   // late String offerId;
 
-  Place? thePlace;
+  //Place? thePlace;
   Booking? theBooking;
 
   Profile? theProfile;
@@ -91,7 +91,6 @@ class _TripDetailsState extends State<TripDetails> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     addCustomIcon();
     AmplitudeService.initializeAmplitude();
@@ -107,14 +106,14 @@ class _TripDetailsState extends State<TripDetails> {
   }
 
   void getPlaceBooking() async {
-    thePlace = await _touristExploreController.getPlaceById(
-        id: widget.place!.id!, context: context);
+    _touristExploreController.thePlace.value = await _touristExploreController
+        .getPlaceById(id: widget.place!.id!, context: context);
     List<Booking>? bookingList =
         await _touristExploreController.getTouristBooking(context: context);
 
     if (bookingList != null && bookingList.isNotEmpty) {
       for (var booking in bookingList) {
-        if (booking.place!.id == thePlace!.id) {
+        if (booking.place!.id == _touristExploreController.thePlace.value!.id) {
           isViewBooking.value = true;
           lockPlaces.value = true;
         }
@@ -124,25 +123,36 @@ class _TripDetailsState extends State<TripDetails> {
   }
 
   void getOfferinfo() async {
-    thePlace = await _touristExploreController.getPlaceById(
-        id: widget.place!.id!, context: context);
+    await _touristExploreController
+        .getPlaceById(id: widget.place!.id!, context: context)
+        .then((onValue) async {
+      if (_touristExploreController.thePlace.value == null) {
+        return;
+      }
+      if (_touristExploreController.thePlace.value!.booking!.isNotEmpty &&
+          _touristExploreController
+                  .thePlace.value!.booking!.first.orderStatus ==
+              'PENDING') {
+        isViewBooking.value = true;
+        lockPlaces.value = true;
+      } else if (_touristExploreController
+              .thePlace.value!.booking!.isNotEmpty &&
+          _touristExploreController
+                  .thePlace.value!.booking!.first.orderStatus ==
+              'ACCEPTED') {
+        isHasOffers.value = true;
 
-    if (thePlace!.booking!.length != 0 &&
-        thePlace!.booking!.first.orderStatus == 'PENDING') {
-      isViewBooking.value = true;
-      lockPlaces.value = true;
-    } else if (thePlace!.booking!.length != 0 &&
-        thePlace!.booking!.first.orderStatus == 'ACCEPTED') {
-      isHasOffers.value = true;
+        isViewBooking.value = true;
 
-      isViewBooking.value = true;
-
-      theProfile = await _profileController.getProfile(
-          context: context,
-          profileId: thePlace!.booking!.first.profileId ?? '');
-    } else {
-      isViewBooking.value = false;
-    }
+        theProfile = await _profileController.getProfile(
+            context: context,
+            profileId: _touristExploreController
+                    .thePlace.value!.booking!.first.profileId ??
+                '');
+      } else {
+        isViewBooking.value = false;
+      }
+    });
   }
 
   // }
@@ -163,27 +173,30 @@ class _TripDetailsState extends State<TripDetails> {
         bottomNavigationBar: Padding(
           padding: EdgeInsets.only(right: 17, left: 17, bottom: width * 0.085),
           child: Obx(() => _RequestController.isBookingLoading.value
-              ? Padding(
+              ? const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 160),
-                  child: const CircularProgressIndicator.adaptive(),
+                  child: CircularProgressIndicator.adaptive(),
                 )
               : !AppUtil.isGuest() && isViewBooking.value
                   ? (isHasOffers.value
                       ? _RequestController.isRequestAcceptLoading.value
-                          ? CircularProgressIndicator.adaptive()
+                          ? const CircularProgressIndicator.adaptive()
                           : CustomButton(
                               onPressed: () async {
                                 theBooking =
                                     await _RequestController.getBookingById(
                                   context: context,
-                                  bookingId: thePlace!.booking!.first.id ?? '',
+                                  bookingId: _touristExploreController
+                                          .thePlace.value!.booking!.first.id ??
+                                      '',
                                 );
                                 AmplitudeService.amplitude.track(BaseEvent(
                                   'Click on "View Your Request" button',
                                 ));
                                 Get.to(
                                   () => LocalOfferInfo(
-                                    place: thePlace!,
+                                    place: _touristExploreController
+                                        .thePlace.value!,
                                     image: theProfile?.profileImage ?? '',
                                     name: theProfile?.name ?? '',
                                     profileId: theProfile?.id ?? '',
@@ -218,9 +231,12 @@ class _TripDetailsState extends State<TripDetails> {
                             // getOfferinfo();
                             Get.to(
                               () => FindAjwady(
-                                booking: thePlace!.booking!.first,
+                                booking: _touristExploreController
+                                    .thePlace.value!.booking!.first,
                                 place: widget.place!,
-                                placeId: thePlace?.id ?? '',
+                                placeId: _touristExploreController
+                                        .thePlace.value?.id ??
+                                    '',
                               ),
                             )?.then((value) async {
                               return getOfferinfo();

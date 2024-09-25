@@ -103,7 +103,12 @@ class _ContactInfoState extends State<ContactInfo> {
                       )
                     : CustomButton(
                         onPressed: () async {
-                          _authController.contactKey.currentState!.validate();
+                          final isValid = _authController
+                              .contactKey.currentState!
+                              .validate();
+                          if (!isValid) {
+                            return;
+                          }
                           final isSuccess =
                               await _authController.createAccountInfo(
                                   context: context,

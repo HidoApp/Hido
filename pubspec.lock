@@ -285,10 +285,10 @@ packages:
     dependency: transitive
     description:
       name: file_selector_macos
-      sha256: f42eacb83b318e183b1ae24eead1373ab1334084404c8c16e0354f9a3e55d385
+      sha256: cb284e267f8e2a45a904b5c094d2ba51d0aabfc20b1538ab786d9ef7dc2bf75c
       url: "https://pub.dev"
     source: hosted
-    version: "0.9.4"
+    version: "0.9.4+1"
   file_selector_platform_interface:
     dependency: transitive
     description:
@@ -365,6 +365,7 @@ packages:
     dependency: transitive
     description:
       name: firebase_core_platform_interface
+
       sha256: "1003a5a03a61fc9a22ef49f37cbcb9e46c86313a7b2e7029b9390cf8c6fc32cb"
       url: "https://pub.dev"
     source: hosted
@@ -373,6 +374,7 @@ packages:
     dependency: transitive
     description:
       name: firebase_core_web
+
       sha256: d585bdf3c656c3f7821ba1bd44da5f13365d22fcecaf5eb75c4295246aaa83c0
       url: "https://pub.dev"
     source: hosted
@@ -522,10 +524,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_local_notifications
-      sha256: c500d5d9e7e553f06b61877ca6b9c8b92c570a4c8db371038702e8ce57f8a50f
+      sha256: "49eeef364fddb71515bc78d5a8c51435a68bccd6e4d68e25a942c5e47761ae71"
       url: "https://pub.dev"
     source: hosted
-    version: "17.2.2"
+    version: "17.2.3"
   flutter_local_notifications_linux:
     dependency: transitive
     description:
@@ -701,6 +703,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  glass:
+    dependency: "direct main"
+    description:
+      name: glass
+      sha256: "6b33f00a37f15c89b19ee29d1d234bdea221584010a7d53fd220657e475a6a3b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0+1"
   google_maps:
     dependency: transitive
     description:
@@ -721,6 +731,7 @@ packages:
     dependency: transitive
     description:
       name: google_maps_flutter_android
+
       sha256: "0bcadb80eba39afda77dede89a6caafd3b68f2786b90491eceea4a01c3db181c"
       url: "https://pub.dev"
     source: hosted
@@ -857,6 +868,7 @@ packages:
     dependency: "direct main"
     description:
       name: internet_connection_checker_plus
+
       sha256: "7daf4458c62923f4c7f3b54b1b3191bc3d8813e69a45722ef0ff5fc3ef2ef686"
       url: "https://pub.dev"
     source: hosted
@@ -1478,10 +1490,10 @@ packages:
     dependency: transitive
     description:
       name: url_launcher_macos
-      sha256: "9a1a42d5d2d95400c795b2914c36fdcb525870c752569438e4ebb09a2b5d90de"
+      sha256: "769549c999acdb42b8bcfa7c43d72bf79a382ca7441ab18a808e101149daf672"
       url: "https://pub.dev"
     source: hosted
-    version: "3.2.0"
+    version: "3.2.1"
   url_launcher_platform_interface:
     dependency: transitive
     description:
@@ -1590,6 +1602,7 @@ packages:
     dependency: transitive
     description:
       name: web
+
       sha256: dc8ccd225a2005c1be616fe02951e2e342092edf968cf0844220383757ef8f10
       url: "https://pub.dev"
     source: hosted
