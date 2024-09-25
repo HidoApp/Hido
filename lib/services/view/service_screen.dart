@@ -171,25 +171,21 @@ class _ServiceScreenState extends State<ServiceScreen>
                     const SizedBox(
                       height: 4,
                     ),
-                    CustomText(
-                      // shadows: const [
-                      //   Shadow(
-                      //     blurRadius: 15.0, // Soften the shadow
-                      //     color: Colors.black, // Set shadow color
-                      //   ),
-                      // ],
-                      text: _srvicesController.tabIndex.value == 0
-                          ? "hospitalityDetails".tr
-                          : _srvicesController.tabIndex.value == 1
-                              ? "adventureDetails".tr
-                              : "eventDetailsSub".tr,
-                      color: Colors.white,
-                      fontSize: 11,
-                      maxlines: 2,
-                      fontFamily: AppUtil.rtlDirection2(context)
-                          ? 'SF Arabic'
-                          : 'SF Pro',
-                      fontWeight: FontWeight.w400,
+                    Obx(
+                      () => CustomText(
+                        text: _srvicesController.tabIndex.value == 0
+                            ? "hospitalityDetails".tr
+                            : _srvicesController.tabIndex.value == 1
+                                ? "adventureDetails".tr
+                                : "eventDetailsSub".tr,
+                        color: Colors.white,
+                        fontSize: 11,
+                        maxlines: 2,
+                        fontFamily: AppUtil.rtlDirection2(context)
+                            ? 'SF Arabic'
+                            : 'SF Pro',
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
                   ],
                 ),

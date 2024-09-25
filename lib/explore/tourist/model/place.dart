@@ -55,8 +55,8 @@ class Place {
           : 0.0,
 
       coordinates: Coordinate.fromJson(json['coordinates']),
-      booking: json['booking'] == []
-          ? []
+      booking: json['booking'] == null
+          ? null
           : (json['booking'] as List).map((e) => Booking.fromJson(e)).toList(),
     );
   }

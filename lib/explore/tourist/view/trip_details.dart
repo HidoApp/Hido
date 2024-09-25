@@ -89,7 +89,6 @@ class _TripDetailsState extends State<TripDetails> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     addCustomIcon();
     if (!AppUtil.isGuest()) {

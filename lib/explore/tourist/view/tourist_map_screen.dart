@@ -175,12 +175,11 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   @override
   void initState() {
     super.initState();
+    getPlaces();
     _touristExploreController.isNewMarkers.value = true;
     if (!AppUtil.isGuest()) {
       getUserActions();
     }
-
-    getPlaces();
 
     // addCustomIcon();
     getLocation();
@@ -199,10 +198,11 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   void getPlaces() async {
     await _touristExploreController.touristMap(
         context: context, tourType: "PLACE");
-    if (!mounted) return; // Ensure the widget is still mounted
 
-    _touristExploreController.isNewMarkers.value = true;
+    if (!mounted) return; // Ensure the widget is still mounted
     genreateMarkers();
+    _touristExploreController.isNewMarkers.value = true;
+
     if (!AppUtil.isGuest()) {
       getBooking();
     }

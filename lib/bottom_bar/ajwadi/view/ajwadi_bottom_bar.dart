@@ -69,6 +69,10 @@ class _AjwadiBottomBarState extends State<AjwadiBottomBar>
   void initState() {
     // TODO: implement initState
     super.initState();
+    if (_profileController.isInternetConnected.value) {
+      getProfile();
+    }
+
     setInternetConnection();
   }
 
