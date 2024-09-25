@@ -63,7 +63,9 @@ void main() async {
     } else {
       runApp(const MyApp());
     }
-  } catch (error) {}
+  } catch (error) {
+    log('Error');
+  }
   if (kReleaseMode) ErrorWidget.builder = (_) => const ErrorScreenWidget();
 }
 

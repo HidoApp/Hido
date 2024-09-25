@@ -81,6 +81,7 @@ class _AjwadiBottomBarState extends State<AjwadiBottomBar>
               body: Skeletonizer(
                 enabled: _profileController.isProfileLoading.value,
                 child: PageView(
+                  physics: const NeverScrollableScrollPhysics(),
                   controller: _pageController,
                   //  index: _profileController.localBar.value,
                   children: [

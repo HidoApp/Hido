@@ -291,7 +291,7 @@ class AuthService {
       accessToken = jsonDecode(response.body)['accessToken'];
       final String refreshToken;
       refreshToken = jsonDecode(response.body)['refreshToken'];
-      var token = AuthService.jwtForToken(accessToken)!;
+      // var token = AuthService.jwtForToken(accessToken)!;
 
       getStorage.write('accessToken', accessToken);
       getStorage.write('refreshToken', refreshToken);
@@ -633,7 +633,7 @@ class AuthService {
       return responsBody;
     } else {
       var jsonBody = jsonDecode(response.body);
-      String errorMessage = jsonBody['error']['errorMessage'];
+      String errorMessage = jsonBody['errorDetail']['errorMessage'];
       //log(errorMessage.isEmpty.toString());
       AppUtil.errorToast(context, errorMessage);
       return null;

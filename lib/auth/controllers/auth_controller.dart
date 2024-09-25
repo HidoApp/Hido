@@ -3,6 +3,9 @@ import 'dart:developer';
 import 'package:ajwad_v4/auth/models/ajwadi_info.dart';
 import 'package:ajwad_v4/auth/models/user.dart';
 import 'package:ajwad_v4/auth/services/auth_service.dart';
+import 'package:ajwad_v4/auth/view/ajwadi_register/provided_services.dart';
+import 'package:ajwad_v4/auth/view/ajwadi_register/tour_stepper.dart';
+import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -550,6 +553,34 @@ class AuthController extends GetxController {
       return false;
     } finally {
       isSendVehicleDetails(false);
+    }
+  }
+
+  void checkLocalWhenSignIn(BuildContext context) async {
+    final local = await checkLocalInfo(context: context);
+    if (local != null) {
+      if (local.accountType == 'TOUR_GUID' &&
+          local.vehicle &&
+          local.drivingLicense) {
+        Get.offAll(() => const AjwadiBottomBar());
+      } else if (local.accountType == 'TOUR_GUID' &&
+          local.drivingLicense == false) {
+        activeBar(2);
+        Get.off(() => const TourStepper());
+      } else if (local.accountType == 'TOUR_GUID' && local.vehicle == false) {
+        activeBar(3);
+        Get.off(() => const TourStepper());
+      } else if (local.accountType == 'EXPERIENCES') {
+        Get.offAll(() => const AjwadiBottomBar());
+      } else if (local.accountType.isEmpty) {
+        Get.offAll(() => const ProvidedServices());
+        activeBar(1);
+      } else {
+        activeBar(1);
+        Get.off(() => const ProvidedServices());
+      }
+    } else {
+      AppUtil.errorToast(context, "somthingWentWrong".tr);
     }
   }
 }

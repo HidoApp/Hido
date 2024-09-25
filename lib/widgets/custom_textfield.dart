@@ -30,6 +30,7 @@ class CustomTextField extends StatelessWidget {
       this.validatorHandle,
       this.expand = false,
       this.textInputAction = TextInputAction.search,
+      this.verticalHintPadding = 0,
       this.focusNode,
       this.raduis});
 
@@ -56,6 +57,7 @@ class CustomTextField extends StatelessWidget {
   final double? raduis;
   final bool expand;
   final TextInputAction? textInputAction;
+  final double verticalHintPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -109,8 +111,9 @@ class CustomTextField extends StatelessWidget {
               fontFamily:
                   AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
             ),
-            contentPadding:
-                const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+            contentPadding: EdgeInsets.symmetric(
+                vertical: verticalHintPadding != 0 ? verticalHintPadding : 12,
+                horizontal: 12),
             // const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
             counterStyle: const TextStyle(fontSize: 0, height: 100),
             counterText: '',
@@ -131,9 +134,9 @@ class CustomTextField extends StatelessWidget {
                     BorderSide(color: borderColor ?? borderGrey, width: 1)),
             prefixIcon: prefixIcon,
             suffixIcon: suffixIcon,
+
             // prefixIconConstraints: BoxConstraints(maxWidth: 24, maxHeight: 24),
             hintText: hintText,
-
             hintStyle: TextStyle(
                 fontSize: MediaQuery.of(context).size.width * 0.038,
                 fontFamily:

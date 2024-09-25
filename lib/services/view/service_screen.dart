@@ -264,12 +264,9 @@ class _ServiceScreenState extends State<ServiceScreen>
               ),
               bottom: TabBar(
                 controller: _tabController,
-                // indicatorPadding: const EdgeInsets.only(
-                //   top: 10,
-                // ),
-                dividerColor: Colors.transparent,
-                //dividerHeight: 0,
-                // overlayColor: WidgetStateProperty.all(Colors.transparent),
+                dividerColor: Colors.white.withOpacity(1),
+                dividerHeight: 1.5,
+                overlayColor: WidgetStateProperty.all(Colors.transparent),
                 indicator: BoxDecoration(
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(width * 0.03),
@@ -278,20 +275,19 @@ class _ServiceScreenState extends State<ServiceScreen>
                   color: Colors.white,
                 ),
                 labelPadding: EdgeInsets.only(
-                  top: width * 0.015,
-                  right: width * 0.026,
-                  left: width * 0.026,
-                ),
+                    top: width * 0.015,
+                    right: width * 0.026,
+                    left: width * 0.026,
+                    bottom: 0),
                 padding:
                     EdgeInsets.symmetric(horizontal: width * 0.02, vertical: 0),
                 onTap: (index) {
                   _srvicesController.tabIndex.value = index;
                 },
-
                 tabs: [
                   Obx(
                     () => Container(
-                      padding: EdgeInsets.only(top: 8),
+                      padding: const EdgeInsets.only(top: 8),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(width * 0.03),

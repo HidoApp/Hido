@@ -32,13 +32,13 @@ class TouristExploreController extends GetxController {
   var activeStepProgres = (-1).obs;
   var timerSec = 300.obs;
   var isTimerEnabled = true.obs;
-  var currentLocation = LatLng(24.7136, 46.6753).obs;
+  var currentLocation = const LatLng(24.7136, 46.6753).obs;
   var showSheet = true.obs;
   var updateMap = true.obs;
   Rx<ActivityProgress?> activityProgres = ActivityProgress().obs;
   Rx<TouristMapModel?> touristModel = TouristMapModel().obs;
   Rx<Place?> thePlace = Place().obs;
-
+  RxList<Marker?> markers = <Marker>[].obs;
   Rx<LatLng> pickUpLocLatLang = const LatLng(24.9470921, 45.9903698).obs;
   var isBookingIsMaking = false.obs;
 
@@ -168,15 +168,17 @@ class TouristExploreController extends GetxController {
     try {
       touristModel.value?.places = [];
       isTouristMapLoading(true);
+      log("message");
       TouristMapModel? data = await TouristExploreService.touristMap(
           context: context, tourType: "PLACE");
       touristModel(data);
-
+      log("HEREeeeeeeeeeeeeeeeedfasrhrwefr3tmjyujyhtr43erthfrgt");
+      log(touristModel.value!.places!.length.toString());
       return data;
     } catch (e) {
       isTouristMapLoading(false);
-
-      log("this error");
+      log(e.toString());
+      log("this error from map services ");
 
       return null;
     } finally {

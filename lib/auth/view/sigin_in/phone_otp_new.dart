@@ -90,31 +90,8 @@ class _PhoneOTPState extends State<PhoneOTP> {
     final isSuccess = await _authController.localSignInWithOtp(
         context: context, phoneNumber: widget.phoneNumber!, otp: otpCode);
     if (isSuccess) {
-      final local = await _authController.checkLocalInfo(context: context);
-      if (local != null) {
-        if (local.accountType == 'TOUR_GUID' &&
-            local.vehicle &&
-            local.drivingLicense) {
-          Get.offAll(() => const AjwadiBottomBar());
-        } else if (local.accountType == 'TOUR_GUID' &&
-            local.drivingLicense == false) {
-          _authController.activeBar(2);
-          Get.off(() => const TourStepper());
-        } else if (local.accountType == 'TOUR_GUID' && local.vehicle == false) {
-          _authController.activeBar(3);
-          Get.off(() => const TourStepper());
-        } else if (local.accountType == 'EXPERIENCES') {
-          Get.offAll(() => const AjwadiBottomBar());
-        } else if (local.accountType.isEmpty) {
-          Get.offAll(() => const ProvidedServices());
-          _authController.activeBar(1);
-        } else {
-          _authController.activeBar(1);
-          Get.off(() => const ProvidedServices());
-        }
-      } else {
-        // AppUtil.errorToast(context, "error when getting info ");
-      }
+      //if (!mounted) return; // Check if the widget is still mounted
+      _authController.checkLocalWhenSignIn(context);
     }
   }
 
