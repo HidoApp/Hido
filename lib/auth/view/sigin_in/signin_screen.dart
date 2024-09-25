@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/auth/models/token.dart';
 import 'package:ajwad_v4/auth/services/auth_service.dart';
@@ -15,6 +16,7 @@ import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/custom_textfield.dart';
 import 'package:ajwad_v4/widgets/screen_padding.dart';
+import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -71,6 +73,8 @@ class _SignInScreenState extends State<SignInScreen> {
     // TODO: implement initState
     super.initState();
     setInternetConnection();
+    AmplitudeService.initializeAmplitude();
+
   }
 
   @override
@@ -253,13 +257,26 @@ class _SignInScreenState extends State<SignInScreen> {
                                               } else if (ajwadiInfo?.vehicle ==
                                                   false) {}
                                             } else {
+                                              AmplitudeService.amplitude.track(
+                                                BaseEvent('Local Sign in',
+                                                  ));
+
                                               Get.off(() =>
                                                   const AjwadiBottomBar());
                                             }
                                           } else if (jwtToken.userRole ==
                                               'tourist') {
+
+                                            AmplitudeService.amplitude.track(
+                                                BaseEvent('Tourist Sign in',
+                                                    eventProperties: {
+                                                  'Tourist email':
+                                                      _emailController.text,
+                                                }));
+
                                             Get.offAll(
                                                 () => const TouristBottomBar());
+                                                
                                           } else {}
                                         }
                                       }
