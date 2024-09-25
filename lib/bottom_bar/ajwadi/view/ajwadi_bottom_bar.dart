@@ -105,89 +105,92 @@ class _AjwadiBottomBarState extends State<AjwadiBottomBar>
               ),
               bottomNavigationBar: Obx(() => Skeletonizer(
                     enabled: _profileController.isProfileLoading.value,
-                    child: BottomNavigationBar(
-                      elevation: 0,
-                      enableFeedback: false,
-                      backgroundColor: Colors.white,
-                      currentIndex: _profileController.localBar.value,
-                      type: BottomNavigationBarType.fixed,
-                      unselectedItemColor: colorDarkGrey,
-                      selectedItemColor: colorGreen,
-                      unselectedLabelStyle: TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w600,
-                        fontFamily: AppUtil.rtlDirection2(context)
-                            ? 'SF Arabic'
-                            : 'SF Pro',
-                        color: colorDarkGrey,
-                      ),
-                      selectedLabelStyle: TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w600,
-                        fontFamily: AppUtil.rtlDirection2(context)
-                            ? 'SF Arabic'
-                            : 'SF Pro',
-                        color: colorGreen,
-                      ),
-                      items: [
-                        BottomNavigationBarItem(
-                            label: "home".tr,
-                            icon: SvgPicture.asset(
-                              "assets/icons/request_icon.svg",
-                              color: _profileController.localBar.value == 0
-                                  ? colorGreen
-                                  : colorDarkGrey,
-                            )),
-                        if (_profileController.profile.accountType !=
-                            'EXPERIENCES')
+                    child: Padding(
+                       padding: EdgeInsets.only(bottom: 8),
+                      child: BottomNavigationBar(
+                        elevation: 0,
+                        enableFeedback: false,
+                        backgroundColor: Colors.white,
+                        currentIndex: _profileController.localBar.value,
+                        type: BottomNavigationBarType.fixed,
+                        unselectedItemColor: colorDarkGrey,
+                        selectedItemColor: colorGreen,
+                        unselectedLabelStyle: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: AppUtil.rtlDirection2(context)
+                              ? 'SF Arabic'
+                              : 'SF Pro',
+                          color: colorDarkGrey,
+                        ),
+                        selectedLabelStyle: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: AppUtil.rtlDirection2(context)
+                              ? 'SF Arabic'
+                              : 'SF Pro',
+                          color: colorGreen,
+                        ),
+                        items: [
                           BottomNavigationBarItem(
-                              label: "request".tr,
+                              label: "home".tr,
+                              icon: SvgPicture.asset(
+                                "assets/icons/request_icon.svg",
+                                color: _profileController.localBar.value == 0
+                                    ? colorGreen
+                                    : colorDarkGrey,
+                              )),
+                          if (_profileController.profile.accountType !=
+                              'EXPERIENCES')
+                            BottomNavigationBarItem(
+                                label: "request".tr,
+                                icon: Padding(
+                                  padding: const EdgeInsets.only(bottom: 4.0),
+                                  child: SvgPicture.asset(
+                                    "assets/icons/my_request_green.svg",
+                                    color: _profileController.localBar.value == 1
+                                        ? colorGreen
+                                        : colorDarkGrey,
+                                  ),
+                                )),
+                          BottomNavigationBarItem(
+                              label: "MyExperiences".tr,
                               icon: Padding(
                                 padding: const EdgeInsets.only(bottom: 4.0),
                                 child: SvgPicture.asset(
-                                  "assets/icons/my_request_green.svg",
-                                  color: _profileController.localBar.value == 1
-                                      ? colorGreen
-                                      : colorDarkGrey,
+                                  "assets/icons/my_experiences.svg",
+                                  color: _profileController.profile.accountType !=
+                                          'EXPERIENCES'
+                                      ? _profileController.localBar.value == 2
+                                          ? colorGreen
+                                          : colorDarkGrey
+                                      : _profileController.localBar.value == 1
+                                          ? colorGreen
+                                          : colorDarkGrey,
                                 ),
                               )),
-                        BottomNavigationBarItem(
-                            label: "MyExperiences".tr,
-                            icon: Padding(
-                              padding: const EdgeInsets.only(bottom: 4.0),
-                              child: SvgPicture.asset(
-                                "assets/icons/my_experiences.svg",
-                                color: _profileController.profile.accountType !=
-                                        'EXPERIENCES'
-                                    ? _profileController.localBar.value == 2
-                                        ? colorGreen
-                                        : colorDarkGrey
-                                    : _profileController.localBar.value == 1
-                                        ? colorGreen
-                                        : colorDarkGrey,
-                              ),
-                            )),
-                        BottomNavigationBarItem(
-                            label: "profile".tr,
-                            icon: Padding(
-                              padding: const EdgeInsets.only(bottom: 4.0),
-                              child: SvgPicture.asset(
-                                "assets/icons/my_profile_green.svg",
-                                color: _profileController.profile.accountType !=
-                                        'EXPERIENCES'
-                                    ? _profileController.localBar.value == 3
-                                        ? colorGreen
-                                        : colorDarkGrey
-                                    : _profileController.localBar.value == 2
-                                        ? colorGreen
-                                        : colorDarkGrey,
-                              ),
-                            )),
-                      ],
-                      onTap: (int newIndex) {
-                        _profileController.localBar(newIndex);
-                        _pageController.jumpToPage(newIndex);
-                      },
+                          BottomNavigationBarItem(
+                              label: "profile".tr,
+                              icon: Padding(
+                                padding: const EdgeInsets.only(bottom: 4.0),
+                                child: SvgPicture.asset(
+                                  "assets/icons/my_profile_green.svg",
+                                  color: _profileController.profile.accountType !=
+                                          'EXPERIENCES'
+                                      ? _profileController.localBar.value == 3
+                                          ? colorGreen
+                                          : colorDarkGrey
+                                      : _profileController.localBar.value == 2
+                                          ? colorGreen
+                                          : colorDarkGrey,
+                                ),
+                              )),
+                        ],
+                        onTap: (int newIndex) {
+                          _profileController.localBar(newIndex);
+                          _pageController.jumpToPage(newIndex);
+                        },
+                      ),
                     ),
                   ))),
     );
