@@ -1,3 +1,4 @@
+import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/explore/widget/floating_timer.dart';
@@ -8,6 +9,7 @@ import 'package:ajwad_v4/request/widgets/CansleDialog.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
+import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:floating_draggable_advn/floating_draggable_advn_bk.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +33,12 @@ class _OfferScreenState extends State<OfferScreen> {
   final _offerController = Get.put(OfferController());
 
   @override
+  void initState() {
+    super.initState();
+    AmplitudeService.initializeAmplitude();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
@@ -44,6 +52,9 @@ class _OfferScreenState extends State<OfferScreen> {
             'offers'.tr,
             action: true,
             onPressedAction: () {
+              AmplitudeService.amplitude.track(BaseEvent(
+                'Click on Cancel booking ',
+              ));
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
@@ -90,6 +101,7 @@ class _OfferScreenState extends State<OfferScreen> {
                   },
                   itemBuilder: (context, index) {
                     return GestureDetector(
+
                       onTap: () async {
                         _offerController.getOfferById(
                           context: context,
@@ -114,6 +126,17 @@ class _OfferScreenState extends State<OfferScreen> {
                             tripNumber:
                                 _offerController.offers[index].tourNumber ??
                                     0));
+
+                           AmplitudeService.amplitude.track(
+                             BaseEvent('Select Local (View Profile)',
+                                                eventProperties: {
+                                              'Local-Name':
+                                                 _offerController.offers[index].name!,
+                                              'Total-Offer-Price':
+                                                _offerController.offers[index].price!,
+                                             
+                                            }
+                                 ));
                       },
                       child: CustomAjwadiCard(
                         image: _offerController.offers[index].image ?? '',

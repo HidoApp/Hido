@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 import 'dart:ui' as ui;
 
+import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/model/userLocation.dart';
@@ -20,6 +21,7 @@ import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/custom_textfield.dart';
+import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:custom_map_markers/custom_map_markers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -183,6 +185,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
 
     // addCustomIcon();
     getLocation();
+    AmplitudeService.initializeAmplitude();
   }
 
   @override
@@ -339,6 +342,11 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
         userLocation: userLocation,
       ),
     );
+    AmplitudeService.amplitude
+        .track(BaseEvent('Select tour site from the map', eventProperties: {
+      'Place name':
+          _touristExploreController.touristModel.value!.places![index].nameEn,
+    }));
   }
 
   @override
@@ -567,6 +575,11 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                         userLocation: userLocation,
                       ),
                     );
+                    AmplitudeService.amplitude.track(BaseEvent(
+                        'Select tour site from the map',
+                        eventProperties: {
+                          'Place name': place.nameEn,
+                        }));
                   },
                 ),
                 SizedBox(

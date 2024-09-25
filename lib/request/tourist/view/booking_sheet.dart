@@ -1037,13 +1037,15 @@ class _BookingSheetState extends State<BookingSheet> {
 
                                         // Log event to Amplitude when the form is completed
                                         AmplitudeService.amplitude.track(
-                                            BaseEvent('tour_booked',
+                                            BaseEvent('Successfully Book tour',
                                                 eventProperties: {
                                               'selected_date':
                                                   _touristExploreController
                                                       .selectedDate.value,
-                                              'selected_time':
+                                              'selected_time_to_go':
                                                   newTimeToGo.toString(),
+                                               'selected_time_to_return':
+                                                  newTimeToReturn.toString(),
                                               // 'location_set': true,
                                               'vehicle_selected': selectedRide,
                                               'placeName': thePlace?.nameEn,
@@ -1061,6 +1063,19 @@ class _BookingSheetState extends State<BookingSheet> {
                                       } else {
                                         AppUtil.errorToast(
                                             context, 'somthingWentWrong'.tr);
+                                    AmplitudeService.amplitude.track(
+                                            BaseEvent('Failed Book tour',
+                                                eventProperties: {
+                                              'selected_date':
+                                                  _touristExploreController
+                                                      .selectedDate.value,
+                                              'selected_time_to_go':
+                                                  newTimeToGo.toString(),
+                                               'selected_time_to_return':
+                                                  newTimeToReturn.toString(),
+                                              // 'location_set': true,
+                                              'vehicle_selected': selectedRide,
+                                            }));
                                       }
                                     }
                                   } else {

@@ -1,4 +1,5 @@
 
+import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/auth/view/tourist_register/reset_password.dart';
 import 'package:ajwad_v4/auth/widget/sign_up_text.dart';
@@ -8,6 +9,7 @@ import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/custom_textfield.dart';
+import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -29,7 +31,13 @@ class _SignInSheetState extends State<SignInSheet> {
   final _authController = Get.put(AuthController());
   var _email = '';
   var _password = '';
+ 
+  @override
+  void initState() {
+    super.initState();
+   AmplitudeService.initializeAmplitude();
 
+  }
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -161,8 +169,18 @@ class _SignInSheetState extends State<SignInSheet> {
                                       rememberMe: true,
                                       context: context);
                                   if (user != null) {
+                                     AmplitudeService.amplitude.track(BaseEvent(
+                                    'Tourist Sign in after continue as guest ',
+                                    eventProperties: {
+                                      'email': _email,
+                                    }));
                                     Get.back();
+                                  }else{
+                                     AmplitudeService.amplitude.track(BaseEvent(
+                                    'Tourist Sign in failed after continue as guest ',
+                                   ));
                                   }
+
                                 }
                               },
                               title: "signIn".tr),

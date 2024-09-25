@@ -1,6 +1,8 @@
+import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/controller/timer_controller.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
+import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/material.dart';
 import 'package:ajwad_v4/request/widgets/ContactDialog.dart';
 import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
@@ -27,6 +29,8 @@ class CancelBookingDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+  AmplitudeService.initializeAmplitude();
+
     return AlertDialog(
       backgroundColor: Colors.white,
       surfaceTintColor: Colors.white,
@@ -118,6 +122,9 @@ class CancelBookingDialog extends StatelessWidget {
                           await Get.delete<TimerController>(force: true);
                         }
                         Get.offAll(const TouristBottomBar());
+                        AmplitudeService.amplitude.track(
+                             BaseEvent('Cancel booking before pay',
+                                 ));
                       } else {
                         if (context.mounted) {
                           AppUtil.errorToast(context, 'noEndTrip'.tr);

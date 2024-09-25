@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
@@ -19,6 +20,7 @@ import 'package:ajwad_v4/widgets/custom_policy_sheet.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/image_cache_widget.dart';
 import 'package:ajwad_v4/widgets/sign_sheet.dart';
+import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -91,6 +93,8 @@ class _TripDetailsState extends State<TripDetails> {
   void initState() {
     super.initState();
     addCustomIcon();
+    AmplitudeService.initializeAmplitude();
+
     if (!AppUtil.isGuest()) {
       getOfferinfo();
       _profileController.bookmarkList(BookmarkService.getBookmarks());
@@ -186,7 +190,9 @@ class _TripDetailsState extends State<TripDetails> {
                                           .thePlace.value!.booking!.first.id ??
                                       '',
                                 );
-
+                                AmplitudeService.amplitude.track(BaseEvent(
+                                  'Click on "View Your Request" button',
+                                ));
                                 Get.to(
                                   () => LocalOfferInfo(
                                     place: _touristExploreController
@@ -235,6 +241,9 @@ class _TripDetailsState extends State<TripDetails> {
                             )?.then((value) async {
                               return getOfferinfo();
                             });
+                            AmplitudeService.amplitude.track(BaseEvent(
+                              'Click on "View Offers" button',
+                            ));
                           },
                           title: AppUtil.rtlDirection2(context)
                               ? "العروض"
@@ -253,42 +262,47 @@ class _TripDetailsState extends State<TripDetails> {
                       onPressed: () {
                         //
                         //
-                        AppUtil.isGuest()
-                            ? showModalBottomSheet(
-                                context: context,
-                                builder: (context) => const SignInSheet(),
-                                isScrollControlled: true,
-                                enableDrag: true,
-                                backgroundColor: Colors.white,
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(width * 0.06),
-                                      topRight: Radius.circular(width * 0.06)),
-                                ))
-                            : showModalBottomSheet(
-                                useRootNavigator: true,
-                                isScrollControlled: true,
-                                backgroundColor: Colors.transparent,
-                                shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(30),
-                                    topLeft: Radius.circular(30),
-                                  ),
+                        if (AppUtil.isGuest()) {
+                          showModalBottomSheet(
+                              context: context,
+                              builder: (context) => const SignInSheet(),
+                              isScrollControlled: true,
+                              enableDrag: true,
+                              backgroundColor: Colors.white,
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(width * 0.06),
+                                    topRight: Radius.circular(width * 0.06)),
+                              ));
+                        } else {
+                          AmplitudeService.amplitude.track(
+                            BaseEvent('Click on "Request" button'),
+                          );
+                          showModalBottomSheet(
+                              useRootNavigator: true,
+                              isScrollControlled: true,
+                              backgroundColor: Colors.transparent,
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(30),
+                                  topLeft: Radius.circular(30),
                                 ),
-                                context: context,
-                                builder: (context) {
-                                  return BookingSheet(
-                                    fromAjwady: false,
-                                    place: widget.place,
-                                    userLocation: widget.userLocation,
-                                    touristExploreController:
-                                        _touristExploreController,
-                                  );
-                                }).then((value) {
-                                getOfferinfo();
-                                return;
-                              });
+                              ),
+                              context: context,
+                              builder: (context) {
+                                return BookingSheet(
+                                  fromAjwady: false,
+                                  place: widget.place,
+                                  userLocation: widget.userLocation,
+                                  touristExploreController:
+                                      _touristExploreController,
+                                );
+                              }).then((value) {
+                            getOfferinfo();
+                            return;
+                          });
+                        }
                       },
                       // title: "buyTicket".tr,
                       title:

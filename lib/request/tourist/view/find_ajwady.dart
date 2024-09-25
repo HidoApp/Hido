@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
@@ -11,6 +12,7 @@ import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/StackWidgets.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
+import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:floating_draggable_advn/floating_draggable_advn_bk.dart';
 import 'package:flutter/material.dart';
@@ -89,6 +91,8 @@ class _FindAjwadyState extends State<FindAjwady> {
 
     if (_offerController.offers != [] || _offerController.offers.isNotEmpty) {}
     if (_offerController.offers == [] || _offerController.offers.isEmpty) {}
+     AmplitudeService.initializeAmplitude();
+
   }
 
   @override
@@ -102,6 +106,9 @@ class _FindAjwadyState extends State<FindAjwady> {
           "findLocal".tr,
           action: true,
           onPressedAction: () async {
+              AmplitudeService.amplitude.track(
+                             BaseEvent('Click on Cancel booking ',
+                                 ));
             showDialog(
               context: context,
               builder: (BuildContext context) {
@@ -335,12 +342,17 @@ class _FindAjwadyState extends State<FindAjwady> {
                       ),
                     ],
                     if (_offerController.offers.isNotEmpty)
+                    
                       GestureDetector(
                         onTap: () {
                           Get.to(() => OfferScreen(
                                 place: widget.place,
                                 booking: widget.booking,
                               ));
+                              
+                               AmplitudeService.amplitude.track(
+                                            BaseEvent('Receive and view Offers',
+                                               ));
                         },
                         child: Container(
                           height: 0.08 * height,
