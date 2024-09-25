@@ -284,11 +284,12 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                         });
 
                         AmplitudeService.amplitude.track(BaseEvent(
-                            'Onboarding Page Viewed ',
+                            'Onboarding Page Viewed ${tabs[_currentIndex].title}',
                             eventProperties: {
-                              'page_index': _currentIndex,
-                              'page_title': tabs[_currentIndex].title
-                            }));
+                              'page_index':_currentIndex,
+                              'page_title':tabs[_currentIndex].title
+                            }
+                            ));
                       },
                     ),
                   ),
@@ -364,9 +365,12 @@ class _OnboardingScreenState extends State<OnboardingScreen>
 
                   GestureDetector(
                     onTap: () {
-                      AmplitudeService.amplitude.track(
-                          BaseEvent('Onboarding Continue as Guest Clicked'));
+                     
                       Get.offAll(() => const TouristBottomBar());
+                       AmplitudeService.amplitude.track(
+                          BaseEvent('Onboarding Continue as Guest Clicked'));
+                          
+                          
                     },
                     child: Row(
                       children: [

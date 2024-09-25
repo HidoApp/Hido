@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/explore/widget/floating_timer.dart';
@@ -9,6 +10,7 @@ import 'package:ajwad_v4/request/ajwadi/controllers/request_controller.dart';
 import 'package:ajwad_v4/request/chat/view/chat_screen_live.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
 import 'package:ajwad_v4/request/tourist/models/offer_details.dart';
+import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:floating_draggable_advn/floating_draggable_advn_bk.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../../explore/tourist/model/booking.dart' as book;
@@ -48,7 +50,7 @@ class LocalOfferInfo extends StatefulWidget {
   final String name;
   final String profileId;
   final String userId;
-  final int price,  tripNumber;
+  final int price, tripNumber;
   final double rating;
   final bool fromService;
   final book.Booking? booking;
@@ -80,6 +82,8 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
     log(_offerController.acceptedOffer.value.orderStatus ?? "s");
 
     getProfile();
+     AmplitudeService.initializeAmplitude();
+
   }
 
   @override
@@ -164,7 +168,7 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
                           //review tile
                           LocalTile(
                             // tripNumber: widget.rating,
-                           tripRate: widget.rating,
+                            tripRate: widget.rating,
                             isRating: true,
                             subtitle: 'review'.tr,
                           ),
@@ -186,6 +190,11 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
                                   const EdgeInsets.symmetric(horizontal: 4),
                               child: CustomAcceptButton(
                                 onPressed: () async {
+
+                              AmplitudeService.amplitude.track(BaseEvent(
+                                    'Click on "Chat" button',
+                                  ));
+                                  
                                   Get.to(() => ChatScreen(
                                       chatId: widget.booking?.chatId,
                                       booking2: widget.booking));
@@ -291,9 +300,10 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
                                   //   //     ));
                                   // }
                                 } else {
-                                  // log("ChatScreenLive 33");
                                   Get.back();
-
+                                  AmplitudeService.amplitude.track(BaseEvent(
+                                    'View Tour Activities',
+                                  ));
                                   Get.to(() => ChatScreenLive(
                                         isAjwadi: false,
                                         offerController: _offerController,
