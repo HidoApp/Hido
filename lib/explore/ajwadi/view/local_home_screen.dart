@@ -43,13 +43,14 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
       _tripController.nextStep.value =
           _tripController.nextTrip.value.activityProgress ?? '';
 
-      if (_tripController.nextTrip.value.activityProgress != 'PENDING') {
+      if (_tripController.nextTrip.value.activityProgress != 'PENDING' && _tripController.nextTrip.value.activityProgress!.isNotEmpty&&_tripController.nextTrip.value.activityProgress !='') {
         _tripController.progress.value = getActivityProgressText(
                 _tripController.nextTrip.value.activityProgress ?? '', context)
             .clamp(0.0, 1.0);
       } else {
         _tripController.progress.value =
             (_tripController.progress.value - 1.0).clamp(0.0, 1.0);
+            
       }
     });
   }
@@ -376,6 +377,6 @@ double getActivityProgressText(String activityProgress, BuildContext context) {
     case 'IN_PROGRESS':
       return 0.75;
     default:
-      return 0.25; // Handle any other possible values
+      return 1.0; // Handle any other possible values
   }
 }
