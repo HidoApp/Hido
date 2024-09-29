@@ -31,7 +31,6 @@ class _EventsTabState extends State<EventsTab> {
     // _regionsController.getRegions(context: context, regionType: "EVENT");
   }
 
-
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
@@ -52,7 +51,7 @@ class _EventsTabState extends State<EventsTab> {
               children: [
                 //List of hospitalities
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  padding: EdgeInsets.symmetric(horizontal: width * 0.041),
                   child: Obx(() => Skeletonizer(
                         enabled: _eventController.isEventListLoading.value,
                         child: _eventController.eventList.isNotEmpty

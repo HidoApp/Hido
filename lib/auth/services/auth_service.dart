@@ -153,7 +153,11 @@ class AuthService {
     } else {
       var jsonBody = jsonDecode(response.body);
       String errorMessage = jsonBody['errorDetail']['errorMessage'];
-      AppUtil.errorToast(context, errorMessage);
+      if (errorMessage == 'OTP Already Requested, Please Wait and try again.') {
+        AppUtil.errorToast(context, 'otpForbidden'.tr);
+      } else {
+        AppUtil.errorToast(context, errorMessage);
+      }
       return null;
     }
   }
@@ -234,9 +238,6 @@ class AuthService {
           //  'userRole': nationality,
         }));
 
-    var error = jsonDecode(response.body);
-    var error2 = error['error'];
-
     if (response.statusCode == 200) {
       final getStorage = GetStorage();
 
@@ -268,7 +269,7 @@ class AuthService {
       final authController = Get.put(AuthController());
 
       String refreshToken = getStorage.read('refreshToken');
-      var user = await authController.refreshToken(
+      await authController.refreshToken(
           refreshToken: refreshToken, context: context);
       token = getStorage.read('accessToken');
     }

@@ -81,6 +81,7 @@ class _ProfileDetailsState extends State<TouriestProfile> {
           xfilePick = pickedFile;
         });
 
+        log(xfilePick.path);
         final image = await widget.profileController.uploadProfileImages(
           file: File(xfilePick.path),
           uploadOrUpdate: "upload",
@@ -243,7 +244,8 @@ class _ProfileDetailsState extends State<TouriestProfile> {
                         ),
                         if (widget.profileController.isEditing.value)
                           GestureDetector(
-                            onTap: () => getImage(ImageSource.gallery, context),
+                            onTap: () async =>
+                                await getImage(ImageSource.gallery, context),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [

@@ -4,9 +4,7 @@ import 'dart:io';
 import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/event/model/event.dart';
-import 'package:ajwad_v4/explore/tourist/controller/timer_controller.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
-import 'package:ajwad_v4/explore/widget/floating_timer.dart';
 import 'package:ajwad_v4/payment/controller/payment_controller.dart';
 import 'package:ajwad_v4/payment/model/invoice.dart';
 import 'package:ajwad_v4/payment/widget/webview_sheet.dart';
@@ -471,7 +469,7 @@ class _PaymentTypeState extends State<PaymentType> {
       },
     ).then((_) {
       Get.offAll(() => const TouristBottomBar());
-     // Get.delete<TimerController>(force: true);
+      // Get.delete<TimerController>(force: true);
       LocalNotification().showNotification(
         context,
         fetchedBooking?.id,
@@ -856,35 +854,37 @@ class _PaymentTypeState extends State<PaymentType> {
                       });
                     },
                   ),
-                  SvgPicture.asset(
-                    "assets/icons/stc.svg",
-                    height: width * 0.051,
+                  RepaintBoundary(
+                    child: SvgPicture.asset(
+                      "assets/icons/stc.svg",
+                      height: width * 0.051,
+                    ),
                   ),
                 ],
               ),
-              // if (Platform.isIOS)
-              //   Row(
-              //     children: [
-              //       Radio<PaymentMethod>(
-              //         value: PaymentMethod.appelpay,
-              //         groupValue: _selectedPaymentMethod,
-              //         onChanged: (PaymentMethod? value) {
-              //           setState(() {
-              //             _selectedPaymentMethod = value;
-              //           });
-              //         },
-              //       ),
-              //       // Text('pay'),
+              if (Platform.isIOS)
+                Row(
+                  children: [
+                    Radio<PaymentMethod>(
+                      value: PaymentMethod.appelpay,
+                      groupValue: _selectedPaymentMethod,
+                      onChanged: (PaymentMethod? value) {
+                        setState(() {
+                          _selectedPaymentMethod = value;
+                        });
+                      },
+                    ),
+                    // Text('pay'),
 
-              //       RepaintBoundary(
-              //         child: SvgPicture.asset(
-              //           "assets/icons/applePay_icon.svg",
-              //           color: const Color.fromARGB(255, 0, 0, 0),
-              //           height: width * 0.051,
-              //         ),
-              //       ),
-              //     ],
-              //   ),
+                    RepaintBoundary(
+                      child: SvgPicture.asset(
+                        "assets/icons/applePay_icon.svg",
+                        color: const Color.fromARGB(255, 0, 0, 0),
+                        height: width * 0.051,
+                      ),
+                    ),
+                  ],
+                ),
               Row(
                 children: [
                   Radio<PaymentMethod>(
