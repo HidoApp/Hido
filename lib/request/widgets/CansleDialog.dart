@@ -29,7 +29,7 @@ class CancelBookingDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  AmplitudeService.initializeAmplitude();
+    AmplitudeService.initializeAmplitude();
 
     return AlertDialog(
       backgroundColor: Colors.white,
@@ -119,12 +119,12 @@ class CancelBookingDialog extends StatelessWidget {
                         if (context.mounted) {
                           AppUtil.successToast(context, 'EndTrip'.tr);
                           await Future.delayed(const Duration(seconds: 2));
-                          await Get.delete<TimerController>(force: true);
+                          //   await Get.delete<TimerController>(force: true);
                         }
                         Get.offAll(const TouristBottomBar());
-                        AmplitudeService.amplitude.track(
-                             BaseEvent('Cancel booking before pay',
-                                 ));
+                        AmplitudeService.amplitude.track(BaseEvent(
+                          'Cancel booking before pay',
+                        ));
                       } else {
                         if (context.mounted) {
                           AppUtil.errorToast(context, 'noEndTrip'.tr);

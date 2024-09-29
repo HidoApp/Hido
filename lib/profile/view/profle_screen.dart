@@ -1,9 +1,6 @@
 import 'package:ajwad_v4/auth/services/auth_service.dart';
-import 'package:ajwad_v4/auth/view/ajwadi_register/contact_info.dart';
-import 'package:ajwad_v4/auth/view/ajwadi_register/vehicle_license.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/new-onboarding/view/intro_screen.dart';
-import 'package:ajwad_v4/payment/view/payment_type_new.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/view/bookmark_screen.dart';
 import 'package:ajwad_v4/profile/view/legal_doc_screen.dart';
@@ -12,7 +9,6 @@ import 'package:ajwad_v4/profile/view/terms&conditions.dart';
 import 'package:ajwad_v4/profile/view/my_account.dart';
 import 'package:ajwad_v4/profile/view/profile_touriest.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
-
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_list_tile.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
@@ -88,11 +84,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return totalInstances > 0
         ? double.parse((totalWeightedSum / totalInstances).toStringAsFixed(1))
         : 0.0;
-
-    //double averageRating = (tourRating + eventRating + hostRating + adventureRating) / 4;
-
-    // // Return the average rating formatted to one decimal place
-    // return double.parse(averageRating.toStringAsFixed(1));
   }
 
   @override
@@ -209,7 +200,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                             if (widget.fromAjwady)
                               CustomText(
-                                text: " ${totalRating}",
+                                text: " $totalRating",
                                 //    "  ${_profileController.isProfileLoading.value ? "" : _profileController.profile.tourRating ?? ""} ",
                                 color: colorDarkGrey,
                                 fontSize: width * 0.03,
@@ -392,55 +383,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               );
                             },
                           );
-                          // } else {
-                          //   // can't sign out while looking for an offer
-                          //   Get.dialog(Dialog(
-                          //     backgroundColor: Colors.white,
-                          //     surfaceTintColor: Colors.white,
-                          //     shape: const RoundedRectangleBorder(
-                          //         borderRadius: BorderRadius.all(
-                          //             Radius.circular(8.0))),
-                          //     child: Padding(
-                          //       padding: EdgeInsets.symmetric(
-                          //           vertical: width * 0.051,
-                          //           horizontal: width * 0.061),
-                          //       child: SizedBox(
-                          //         width: width * 0.948,
-                          //         child: Column(
-                          //           mainAxisSize: MainAxisSize.min,
-                          //           children: [
-                          //             Container(
-                          //                 padding: EdgeInsets.all(
-                          //                     width * 0.0205),
-                          //                 alignment: Alignment.center,
-                          //                 decoration: const BoxDecoration(
-                          //                     shape: BoxShape.circle,
-                          //                     color: Color.fromRGBO(
-                          //                         251, 234, 233, 1)),
-                          //                 child: SvgPicture.asset(
-                          //                     'assets/icons/Alerts_signOut.svg')),
-                          //             SizedBox(
-                          //               height: width * 0.0205,
-                          //             ),
-                          //             CustomText(
-                          //               text: "signOutDialog".tr,
-                          //               fontSize: width * 0.0384,
-                          //               fontFamily: "SF Pro",
-                          //               fontWeight: FontWeight.w500,
-                          //             ),
-                          //             CustomText(
-                          //               textAlign: TextAlign.center,
-                          //               text: 'signOutDialogContent'.tr,
-                          //               fontSize: width * 0.0384,
-                          //               fontFamily: "SF Pro",
-                          //               fontWeight: FontWeight.w400,
-                          //             ),
-                          //           ],
-                          //         ),
-                          //       ),
-                          //     ),
-                          //   ));
-                          //   }
                         },
                       ),
                     ],
