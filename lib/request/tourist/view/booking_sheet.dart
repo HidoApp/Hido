@@ -311,7 +311,7 @@ class _BookingSheetState extends State<BookingSheet> {
                                               MainAxisAlignment.end,
                                           children: [
                                             Container(
-                                              decoration: BoxDecoration(
+                                              decoration: const BoxDecoration(
                                                 color: Color(0xffffffff),
                                                 border: Border(
                                                   bottom: BorderSide(
@@ -323,8 +323,7 @@ class _BookingSheetState extends State<BookingSheet> {
                                               ),
                                               child: Row(
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
+                                                    MainAxisAlignment.start,
                                                 children: <Widget>[
                                                   CupertinoButton(
                                                     onPressed: () {
@@ -492,7 +491,7 @@ class _BookingSheetState extends State<BookingSheet> {
                                           : "Select Time"
                                       : '',
                                   color: Colors.red,
-                                  fontSize: width * 0.028,
+                                  fontSize: width * 0.024,
                                   fontFamily: AppUtil.rtlDirection2(context)
                                       ? 'SF Arabic'
                                       : 'SF Pro',
@@ -676,7 +675,9 @@ class _BookingSheetState extends State<BookingSheet> {
                                 _touristExploreController
                                     .TimeErrorMessage.value)
                               Padding(
-                                padding: const EdgeInsets.only(bottom: 4),
+                                padding: const EdgeInsets.only(
+                                  bottom: 4,
+                                ),
                                 child: CustomText(
                                   text: TimeErrorMessage ?? false
                                       ? AppUtil.rtlDirection2(context)
@@ -688,7 +689,7 @@ class _BookingSheetState extends State<BookingSheet> {
                                   fontFamily: AppUtil.rtlDirection2(context)
                                       ? 'SF Arabic'
                                       : 'SF Pro',
-                                  fontSize: width * 0.028,
+                                  fontSize: width * 0.024,
                                 ),
                               ),
                           ],
@@ -1044,7 +1045,7 @@ class _BookingSheetState extends State<BookingSheet> {
                                                       .selectedDate.value,
                                               'selected_time_to_go':
                                                   newTimeToGo.toString(),
-                                               'selected_time_to_return':
+                                              'selected_time_to_return':
                                                   newTimeToReturn.toString(),
                                               // 'location_set': true,
                                               'vehicle_selected': selectedRide,
@@ -1063,7 +1064,7 @@ class _BookingSheetState extends State<BookingSheet> {
                                       } else {
                                         AppUtil.errorToast(
                                             context, 'somthingWentWrong'.tr);
-                                    AmplitudeService.amplitude.track(
+                                        AmplitudeService.amplitude.track(
                                             BaseEvent('Failed Book tour',
                                                 eventProperties: {
                                               'selected_date':
@@ -1071,7 +1072,7 @@ class _BookingSheetState extends State<BookingSheet> {
                                                       .selectedDate.value,
                                               'selected_time_to_go':
                                                   newTimeToGo.toString(),
-                                               'selected_time_to_return':
+                                              'selected_time_to_return':
                                                   newTimeToReturn.toString(),
                                               // 'location_set': true,
                                               'vehicle_selected': selectedRide,

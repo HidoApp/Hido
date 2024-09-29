@@ -366,6 +366,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                             topRight: Radius.circular(24),
                             topLeft: Radius.circular(24))),
                     child: SolidBottomSheet(
+                      canUserSwipe: false,
                       //   elevation: 10,
                       showOnAppear: _touristExploreController.showSheet.value,
                       toggleVisibilityOnTap: true,

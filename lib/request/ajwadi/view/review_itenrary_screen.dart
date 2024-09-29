@@ -9,8 +9,6 @@ import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/itenrary_review_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:intl/intl.dart';
 
 class ReviewIenraryScreen extends StatefulWidget {
@@ -104,13 +102,6 @@ class _ReviewIenraryScreenState extends State<ReviewIenraryScreen> {
                   : CustomButton(
                       onPressed: () async {
                         convertAllTimes();
-                        // log('start');
-                        // log(widget.requestController.reviewItenrary[2]
-                        //     .scheduleTime!.to!);
-                        // log('end');
-                        // log(widget.requestController.reviewItenrary[2]
-                        //     .scheduleTime!.from!);
-
                         await widget.requestController.requestAccept(
                           id: widget.requestId,
                           requestScheduleList:
@@ -120,7 +111,6 @@ class _ReviewIenraryScreenState extends State<ReviewIenraryScreen> {
 
                         if (widget.requestController.isRequestAccept.value) {
                           if (context.mounted) {
-                            //AppUtil.successToast(context, "offerSent".tr);
                             showDialog(
                               context: context,
                               builder: (ctx) {

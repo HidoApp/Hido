@@ -200,10 +200,10 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                         // images widget on top of screen
                         GestureDetector(
                           onTap: () {
-                            Get.to(ViewTripImages(
-                              tripImageUrl: event!.image!,
-                              fromNetwork: true,
-                            ));
+                            Get.to(() => ViewTripImages(
+                                  tripImageUrl: event!.image!,
+                                  fromNetwork: true,
+                                ));
                           },
                           child: event!.image!.isEmpty
                               ? Image.asset(

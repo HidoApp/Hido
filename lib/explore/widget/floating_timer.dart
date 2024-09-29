@@ -1,6 +1,4 @@
-
 import 'package:ajwad_v4/constants/colors.dart';
-import 'package:ajwad_v4/explore/tourist/controller/timer_controller.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,7 +11,7 @@ class FloatingTimer extends StatefulWidget {
 }
 
 class _FloatingTimerState extends State<FloatingTimer> {
-  final _timerController = Get.put(TimerController(), permanent: true);
+  //final _timerController = Get.put(TimerController(), permanent: true);
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +29,7 @@ class _FloatingTimerState extends State<FloatingTimer> {
         ),
         child: Obx(
           () => CustomText(
-            text: _timerController.time.value,
+            text: " _timerController.time.value",
             color: colorGreen,
             fontSize: MediaQuery.of(context).size.width * 0.041,
             fontFamily: 'SF Pro',

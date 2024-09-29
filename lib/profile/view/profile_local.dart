@@ -10,10 +10,8 @@ import 'package:ajwad_v4/widgets/custom_textfield.dart';
 import 'package:ajwad_v4/widgets/image_cache_widget.dart';
 import 'package:ajwad_v4/widgets/local_auth_mark.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:multi_dropdown/models/value_item.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
 
 class LocalProfile extends StatefulWidget {
@@ -48,7 +46,6 @@ class _LocalProfileState extends State<LocalProfile> {
     );
     if (pickedFile != null) {
       if (AppUtil.isImageValidate(await pickedFile.length())) {
-         
         setState(() {
           xfilePick = pickedFile;
         });
@@ -61,7 +58,6 @@ class _LocalProfileState extends State<LocalProfile> {
 
         if (image != null) {
           newProfileImage = image.filePath;
-           
         }
       } else {
         AppUtil.errorToast(context, 'imageValidSize'.tr);
@@ -92,11 +88,14 @@ class _LocalProfileState extends State<LocalProfile> {
                 : languages,
             profileImage:
                 newProfileImage ?? _profileController.profile.profileImage);
+        if (!mounted) return;
+
         if (profile != null) {
+          await _profileController.getProfile(context: context);
           if (context.mounted) {
             AppUtil.successToast(context, "accountUpadted".tr);
           }
-          await _profileController.getProfile(context: context);
+          //  _profileController.localBar(0);
           _controller.clearAllSelection();
           descripttion = '';
         }
@@ -141,11 +140,11 @@ class _LocalProfileState extends State<LocalProfile> {
         ],
         leading: Padding(
           padding: AppUtil.rtlDirection2(context)
-              ? EdgeInsets.only(bottom: 4, right: 30, top: 4)
+              ? const EdgeInsets.only(bottom: 4, right: 30, top: 4)
               // : EdgeInsets.only(top: 9, right: 30)
-              : EdgeInsets.only(bottom: 4, left: 30, top: 4),
+              : const EdgeInsets.only(bottom: 4, left: 30, top: 4),
           child: IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back_ios,
               size: 19,
               color: Colors.black,
@@ -225,10 +224,12 @@ class _LocalProfileState extends State<LocalProfile> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        CustomText(
-                          text: _profileController.profile.name ?? "",
-                          fontSize: width * 0.043,
-                          fontWeight: FontWeight.w500,
+                        GestureDetector(
+                          child: CustomText(
+                            text: _profileController.profile.name ?? "",
+                            fontSize: width * 0.043,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                         SizedBox(
                           width: width * 0.0205,
@@ -252,6 +253,9 @@ class _LocalProfileState extends State<LocalProfile> {
                     ),
                     _profileController.isEditing.value
                         ? CustomTextField(
+                            initialValue:
+                                _profileController.profile.descriptionAboutMe ??
+                                    "",
                             height: width * 0.35,
                             hintText: 'tellUsMore'.tr,
                             onChanged: (desc) => descripttion = desc,
@@ -290,8 +294,7 @@ class _LocalProfileState extends State<LocalProfile> {
                             hint: 'languages'.tr,
                             borderRadius: 8,
                             suffixIcon: const Icon(Icons.keyboard_arrow_up),
-                            onOptionSelected: (options) {
-                            },
+                            onOptionSelected: (options) {},
                             options: <ValueItem>[
                               ValueItem(
                                 label: 'Arabic'.tr,
