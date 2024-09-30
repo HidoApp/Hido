@@ -58,6 +58,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
         _tripController.progress.value =
             (_tripController.progress.value - 1.0).clamp(0.0, 1.0);
       }
+
       }
     });
   }
@@ -74,10 +75,6 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
-
-    // log("this trip controller");
-    // log(_tripController.isTripUpdated.value.toString());
-
     return Obx(
       () => Skeletonizer(
         enabled: _profileController.isProfileLoading.value,
@@ -96,44 +93,10 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                 padding: const EdgeInsets.only(top: 53, left: 16, right: 16),
                 child: Column(
                   children: [
-                    Container(
+                    SizedBox(
                       width: 340.40,
                       //height: 60,
                       height: 40,
-
-                      // padding: const EdgeInsets.symmetric(vertical: 12),
-                      // child: Row(
-                      //   crossAxisAlignment: CrossAxisAlignment.start,
-                      //   textDirection: TextDirection.rtl,
-                      //   children: [
-                      //     // InkWell(
-                      //     //   onTap: () {
-                      //     //     ProfileController _profileController =
-                      //     //         Get.put(ProfileController());
-                      //     //     Get.to(() => MessagesScreen(
-                      //     //         profileController: _profileController));
-                      //     //   },
-                      //     //   child: SizedBox(
-                      //     //     width: 36,
-                      //     //     height: 24,
-                      //     //     child: SvgPicture.asset(
-                      //     //         'assets/icons/Communication_black.svg'),
-                      //     //   ),
-                      //     // ),
-                      //     // InkWell(
-                      //     //   // onTap: () {
-                      //     //   //   Get.to(() => NotificationScreen());
-                      //     //   // },
-                      //     //   child: Container(
-                      //     //     width: 36,
-                      //     //     height: 24,
-                      //     //     alignment: Alignment.center,
-                      //     //     child: SvgPicture.asset(
-                      //     //         'assets/icons/Alerts_black.svg'),
-                      //     //   ),
-                      //     // ),
-                      //   ],
-                      // ),
                     ),
                     // SizedBox(height: 16),
                     Row(
@@ -226,7 +189,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                                   ? "جولات "
                                   : 'Tours',
                               icon: 'tour_category',
-                              color: Color(0xFFECF9F1),
+                              color: const Color(0xFFECF9F1),
                               onPressed: () {
                                 // log(_profileController.profile.accountType!);
                                 if (_profileController.profile.accountType ==
@@ -252,7 +215,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                             CategoryCard(
                               title: 'hospitality'.tr,
                               icon: 'host_category',
-                              color: Color(0xFFF5F2F8),
+                              color: const Color(0xFFF5F2F8),
                               onPressed: () {
                                 Get.to(
                                   () => LocalTicketScreen(
@@ -271,7 +234,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                             CategoryCard(
                               title: 'adventure'.tr,
                               icon: 'adventure_category',
-                              color: Color(0xFFF9F4EC),
+                              color: const Color(0xFFF9F4EC),
                               onPressed: () {
                                 Get.to(
                                   () => LocalTicketScreen(
@@ -286,7 +249,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                             CategoryCard(
                               title: 'LocalEvent'.tr,
                               icon: 'event_category',
-                              color: Color(0xFFFEFDF1),
+                              color: const Color(0xFFFEFDF1),
                               onPressed: () {
                                 Get.to(
                                   () => LocalTicketScreen(
@@ -328,7 +291,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                                           height: 135,
                                           decoration: ShapeDecoration(
                                             shape: RoundedRectangleBorder(
-                                              side: BorderSide(
+                                              side: const BorderSide(
                                                   width: 1.50,
                                                   color: Color(0xFFECECEE)),
                                               borderRadius:
@@ -339,7 +302,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                                             child: CustomText(
                                               text: "noNextActivity".tr,
                                               textAlign: TextAlign.center,
-                                              color: Color(0xFFDCDCE0),
+                                              color: const Color(0xFFDCDCE0),
                                               fontSize: 16,
                                               fontFamily:
                                                   AppUtil.rtlDirection2(context)

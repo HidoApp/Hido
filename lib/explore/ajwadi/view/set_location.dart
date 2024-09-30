@@ -272,7 +272,7 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
                       maxlines: 4,
                       fontSize: width * 0.035,
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 1),
                       child: CustomButton(

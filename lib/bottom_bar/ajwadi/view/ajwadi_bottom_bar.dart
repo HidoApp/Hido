@@ -82,31 +82,27 @@ class _AjwadiBottomBarState extends State<AjwadiBottomBar>
       () => !_profileController.isInternetConnected.value
           ? const OfflineScreen()
           : Scaffold(
-              body: Skeletonizer(
-                enabled: _profileController.isProfileLoading.value,
-                child: PageView(
-                  physics: const NeverScrollableScrollPhysics(),
-                  controller: _pageController,
-                  //  index: _profileController.localBar.value,
-                  children: [
-                    LocalHomeScreen(
-                        fromAjwady: true,
-                        profileController: _profileController),
-                    if (_profileController.profile.accountType != 'EXPERIENCES')
-                      const NewRequestScreen(),
-                    //const RequestScreen(),
-                    const AddExperienceInfo(),
-                    ProfileScreen(
-                      fromAjwady: true,
-                      profileController: _profileController,
-                    ),
-                  ],
-                ),
+              body: PageView(
+                physics: const NeverScrollableScrollPhysics(),
+                controller: _pageController,
+                //  index: _profileController.localBar.value,
+                children: [
+                  LocalHomeScreen(
+                      fromAjwady: true, profileController: _profileController),
+                  if (_profileController.profile.accountType != 'EXPERIENCES')
+                    const NewRequestScreen(),
+                  //const RequestScreen(),
+                  const AddExperienceInfo(),
+                  ProfileScreen(
+                    fromAjwady: true,
+                    profileController: _profileController,
+                  ),
+                ],
               ),
               bottomNavigationBar: Obx(() => Skeletonizer(
                     enabled: _profileController.isProfileLoading.value,
                     child: Padding(
-                       padding: EdgeInsets.only(bottom: 8),
+                      padding: EdgeInsets.only(bottom: 8),
                       child: BottomNavigationBar(
                         elevation: 0,
                         enableFeedback: false,
@@ -148,9 +144,10 @@ class _AjwadiBottomBarState extends State<AjwadiBottomBar>
                                   padding: const EdgeInsets.only(bottom: 4.0),
                                   child: SvgPicture.asset(
                                     "assets/icons/my_request_green.svg",
-                                    color: _profileController.localBar.value == 1
-                                        ? colorGreen
-                                        : colorDarkGrey,
+                                    color:
+                                        _profileController.localBar.value == 1
+                                            ? colorGreen
+                                            : colorDarkGrey,
                                   ),
                                 )),
                           BottomNavigationBarItem(
@@ -159,7 +156,8 @@ class _AjwadiBottomBarState extends State<AjwadiBottomBar>
                                 padding: const EdgeInsets.only(bottom: 4.0),
                                 child: SvgPicture.asset(
                                   "assets/icons/my_experiences.svg",
-                                  color: _profileController.profile.accountType !=
+                                  color: _profileController
+                                              .profile.accountType !=
                                           'EXPERIENCES'
                                       ? _profileController.localBar.value == 2
                                           ? colorGreen
@@ -175,7 +173,8 @@ class _AjwadiBottomBarState extends State<AjwadiBottomBar>
                                 padding: const EdgeInsets.only(bottom: 4.0),
                                 child: SvgPicture.asset(
                                   "assets/icons/my_profile_green.svg",
-                                  color: _profileController.profile.accountType !=
+                                  color: _profileController
+                                              .profile.accountType !=
                                           'EXPERIENCES'
                                       ? _profileController.localBar.value == 3
                                           ? colorGreen

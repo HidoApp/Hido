@@ -45,7 +45,7 @@ var nationality = '';
 class _ProfileDetailsState extends State<TouriestProfile> {
   @override
   void dispose() {
-    _userName.dispose();
+    // _userName.dispose();
     widget.profileController.isEditing(false);
 
     // TODO: implement dispose
@@ -57,7 +57,9 @@ class _ProfileDetailsState extends State<TouriestProfile> {
     // TODO: implement initState
     super.initState();
     getCountries();
-
+    if (widget.profileController.profile.spokenLanguage!.isNotEmpty) {
+      //log('message');
+    }
     // widget.profileController.getProfile(context: context);
   }
 
@@ -75,7 +77,6 @@ class _ProfileDetailsState extends State<TouriestProfile> {
     );
     if (pickedFile != null) {
       if (AppUtil.isImageValidate(await pickedFile.length())) {
-         
         setState(() {
           xfilePick = pickedFile;
         });
@@ -88,11 +89,9 @@ class _ProfileDetailsState extends State<TouriestProfile> {
 
         if (image != null) {
           newProfileImage = image.filePath;
-           
         }
       } else {
-        AppUtil.errorToast(
-            context, 'imageValidSize'.tr);
+        AppUtil.errorToast(context, 'imageValidSize'.tr);
       }
     }
   }
@@ -107,10 +106,12 @@ class _ProfileDetailsState extends State<TouriestProfile> {
         (index) => ValueItem(label: countries[index], value: countries[index]));
   }
 
-  final _userName = TextEditingController();
+  //final _userName = TextEditingController();
   late double width, height;
   final _controller = MultiSelectController();
   final _controllerNationalies = MultiSelectController();
+  String userName = '';
+
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
@@ -123,17 +124,18 @@ class _ProfileDetailsState extends State<TouriestProfile> {
               () => GestureDetector(
                 onTap: () async {
                   generateSpokenLanguges();
+
                   if (languages.isNotEmpty ||
                       newProfileImage != null ||
-                      _userName.text.isNotEmpty ||
+                      userName.isNotEmpty ||
                       nationality.isNotEmpty) {
                     _controller.clearAllSelection();
                     await widget.profileController.editProfile(
                         context: context,
                         nationality: nationality.isEmpty ? null : nationality,
-                        name: _userName.text.isEmpty
+                        name: userName.isEmpty
                             ? widget.profileController.profile.name
-                            : _userName.text,
+                            : userName,
                         spokenLanguage: languages.isEmpty
                             ? widget.profileController.profile.spokenLanguage
                             : languages,
@@ -157,12 +159,12 @@ class _ProfileDetailsState extends State<TouriestProfile> {
                   widget.profileController.isEditing.value =
                       !widget.profileController.isEditing.value;
                   _controllerNationalies.clearAllSelection();
-                  _userName.clear();
+                  userName = '';
                 },
                 child: Padding(
-                     padding: AppUtil.rtlDirection2(context)
-                    ? EdgeInsets.only(left: 30, bottom: 4)
-                    : EdgeInsets.only(right: 30, bottom: 4),
+                  padding: AppUtil.rtlDirection2(context)
+                      ? EdgeInsets.only(left: 30, bottom: 4)
+                      : EdgeInsets.only(right: 30, bottom: 4),
                   //padding: EdgeInsets.symmetric(horizontal: width * 0.041),
                   child: CustomText(
                     text: widget.profileController.isEditing.value
@@ -179,19 +181,19 @@ class _ProfileDetailsState extends State<TouriestProfile> {
             )
           ],
           leading: Padding(
-          padding: AppUtil.rtlDirection2(context)
-              ? EdgeInsets.only(bottom: 4, right: 30, top: 4)
-              // : EdgeInsets.only(top: 9, right: 30)
-              : EdgeInsets.only(bottom: 4, left: 30, top: 4),
-          child: IconButton(
-            icon: Icon(
-              Icons.arrow_back_ios,
-              size: 19,
-              color: Colors.black,
+            padding: AppUtil.rtlDirection2(context)
+                ? EdgeInsets.only(bottom: 4, right: 30, top: 4)
+                // : EdgeInsets.only(top: 9, right: 30)
+                : EdgeInsets.only(bottom: 4, left: 30, top: 4),
+            child: IconButton(
+              icon: Icon(
+                Icons.arrow_back_ios,
+                size: 19,
+                color: Colors.black,
+              ),
+              onPressed: () => Get.back(),
             ),
-            onPressed: () => Get.back(),
           ),
-        ),
         ),
         body: Obx(
           () => widget.profileController.isProfileLoading.value ||
@@ -282,8 +284,10 @@ class _ProfileDetailsState extends State<TouriestProfile> {
                         ),
                         widget.profileController.isEditing.value
                             ? CustomTextField(
-                                controller: _userName,
-                                onChanged: (value) {},
+                                // controller: _userName,
+                                initialValue:
+                                    widget.profileController.profile.name,
+                                onChanged: (value) => userName = value,
                                 hintText:
                                     widget.profileController.profile.name ??
                                         "NAME",
@@ -388,40 +392,40 @@ class _ProfileDetailsState extends State<TouriestProfile> {
                                 controller: _controller,
                                 hint: 'languages'.tr,
                                 borderRadius: 8,
+                                //  selectedItemBuilder: (p0, p1) => ,
                                 suffixIcon: const Icon(Icons.keyboard_arrow_up),
-                                onOptionSelected: (options) {
-                                   
-                                },
-                                options:  <ValueItem>[
-                                ValueItem(
-                                label: 'Arabic'.tr,
-                                value: 'Arabic',
-                              ),
-                              ValueItem(label: 'English'.tr, value: 'English'),
-                              ValueItem(
-                                label: 'French'.tr,
-                                value: 'French',
-                              ),
-                              ValueItem(
-                                label: 'German'.tr,
-                                value: 'German',
-                              ),
-                              ValueItem(label: 'Chinese'.tr, value: 'Chinese'),
-                              ValueItem(label: 'Spanish'.tr, value: 'Spanish'),
-                              ValueItem(label: 'Russian'.tr, value: 'Russian'),
+                                onOptionSelected: (options) {},
+                                options: <ValueItem>[
+                                  ValueItem(
+                                    label: 'Arabic'.tr,
+                                    value: 'Arabic',
+                                  ),
+                                  ValueItem(
+                                      label: 'English'.tr, value: 'English'),
+                                  ValueItem(
+                                    label: 'French'.tr,
+                                    value: 'French',
+                                  ),
+                                  ValueItem(
+                                    label: 'German'.tr,
+                                    value: 'German',
+                                  ),
+                                  ValueItem(
+                                      label: 'Chinese'.tr, value: 'Chinese'),
+                                  ValueItem(
+                                      label: 'Spanish'.tr, value: 'Spanish'),
+                                  ValueItem(
+                                      label: 'Russian'.tr, value: 'Russian'),
                                 ],
 
                                 selectionType: SelectionType.multi,
-                                chipConfig:
-                                    ChipConfig(
-                                      wrapType: WrapType.scroll,backgroundColor:graySubSmallText, 
-                                      labelColor: black,
-
-                                    labelPadding: EdgeInsets.symmetric(horizontal: width*0.02),
-                                    deleteIconColor: black
-                                    
-                                    
-                                    ),
+                                chipConfig: ChipConfig(
+                                    wrapType: WrapType.scroll,
+                                    backgroundColor: graySubSmallText,
+                                    labelColor: black,
+                                    labelPadding: EdgeInsets.symmetric(
+                                        horizontal: width * 0.02),
+                                    deleteIconColor: black),
                                 dropdownHeight: 300,
                                 optionTextStyle:
                                     TextStyle(fontSize: width * 0.041),
@@ -446,8 +450,11 @@ class _ProfileDetailsState extends State<TouriestProfile> {
                                         ? const CircularProgressIndicator
                                             .adaptive()
                                         : CustomChips(
-                                            title: widget.profileController
-                                                .profile.spokenLanguage![index].tr,
+                                            title: widget
+                                                .profileController
+                                                .profile
+                                                .spokenLanguage![index]
+                                                .tr,
                                             backgroundColor: Colors.transparent,
                                             borderColor: almostGrey,
                                             textColor: almostGrey),

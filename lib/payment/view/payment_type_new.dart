@@ -30,6 +30,7 @@ import 'package:ajwad_v4/widgets/dotted_line_separator.dart';
 import 'package:ajwad_v4/widgets/payment_web_view.dart';
 import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:floating_draggable_advn/floating_draggable_advn_bk.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -527,7 +528,7 @@ class _PaymentTypeState extends State<PaymentType> {
       },
     ).then((_) {
       Get.offAll(() => const TouristBottomBar());
-      Get.delete<TimerController>(force: true);
+     // Get.delete<TimerController>(force: true);
       LocalNotification().showNotification(
         context,
         fetchedBooking?.id,
@@ -785,92 +786,154 @@ class _PaymentTypeState extends State<PaymentType> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
 
-    return FloatingDraggableADVN(
-      floatingWidget: widget.type == 'tour'
-          ? const FloatingTimer()
-          : const SizedBox.shrink(),
-      isDraggable: widget.type == 'tour',
-      child: Scaffold(
-        bottomNavigationBar: Padding(
-          padding: EdgeInsets.symmetric(
-              horizontal: width * .04, vertical: width * 0.051),
+    return Scaffold(
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.symmetric(
+            horizontal: width * .04, vertical: width * 0.051),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            DottedSeparator(
+              color: almostGrey,
+              height: width * 0.002,
+            ),
+            SizedBox(
+              height: width * 0.071,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'total'.tr,
+                    textAlign: TextAlign.right,
+                    style: const TextStyle(
+                      color: black,
+                      fontSize: 20,
+                      fontFamily: 'HT Rakik',
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const Spacer(),
+                  Text.rich(
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                          text: '${widget.price}',
+                          style: const TextStyle(
+                            color: black,
+                            fontSize: 20,
+                            fontFamily: 'HT Rakik',
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        TextSpan(text: '  '),
+                        TextSpan(
+                          text: 'sar'.tr,
+                          style: TextStyle(
+                            color: black,
+                            fontSize: 20,
+                            fontFamily: 'HT Rakik',
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: width * 0.010,
+            ),
+            // Row(
+            //   crossAxisAlignment: CrossAxisAlignment.start,
+            //   children: [
+            //     CustomText(
+            //       text: 'promocode'.tr,
+            //       fontSize: width * 0.038,
+            //       fontWeight: FontWeight.w500,
+            //       color: almostGrey,
+            //     ),
+            //     const Spacer(),
+            //     CustomText(
+            //       // text: 'SAR ${widget.adventure.price.toString()}',
+            //       text: '- ${"sar".tr} ${widget.price}',
+            //       fontWeight: FontWeight.w500,
+            //       fontSize: width * 0.038, color: almostGrey,
+            //     ),
+            //   ],
+            // ),
+            SizedBox(
+              height: width * 0.05,
+            ),
+            Obx(
+              () => loadingButton()
+                  ? const CircularProgressIndicator.adaptive()
+                  : Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 12),
+                      child: CustomButton(
+                        onPressed: () async {
+                          if (_selectedPaymentMethod != null) {
+                            await selectPaymentType(_selectedPaymentMethod!);
+                          } else {
+                            AppUtil.errorToast(
+                                context,
+                                AppUtil.rtlDirection2(context)
+                                    ? "يجب إختيار طريقة الدفع"
+                                    : "You need to pick payment methoed");
+                          }
+                        },
+                        title: 'pay'.tr,
+                        icon: const Icon(Icons.keyboard_arrow_right,
+                            color: Colors.white),
+                      ),
+                    ),
+            ),
+          ],
+        ),
+      ),
+      appBar: CustomAppBar(
+        'checkout'.tr,
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.only(
+            left: width * 0.041,
+            right: width * 0.041,
+            top: width * 0.030,
+            bottom: width * 0.082,
+          ),
           child: Column(
-            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              DottedSeparator(
-                color: almostGrey,
-                height: width * 0.002,
+              CustomText(
+                text: 'paymentMethod'.tr,
+                fontSize: width * 0.047,
+                fontFamily: 'HT Rakik',
+                fontWeight: FontWeight.w500,
               ),
               SizedBox(
-                height: width * 0.071,
+                height: width * 0.04,
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'total'.tr,
-                      textAlign: TextAlign.right,
-                      style: const TextStyle(
-                        color: black,
-                        fontSize: 20,
-                        fontFamily: 'HT Rakik',
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    const Spacer(),
-                    Text.rich(
-                      TextSpan(
-                        children: [
-                          TextSpan(
-                            text: '${widget.price}',
-                            style: const TextStyle(
-                              color: black,
-                              fontSize: 20,
-                              fontFamily: 'HT Rakik',
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          TextSpan(text: '  '),
-                          TextSpan(
-                            text: 'sar'.tr,
-                            style: TextStyle(
-                              color: black,
-                              fontSize: 20,
-                              fontFamily: 'HT Rakik',
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: width * 0.010,
-              ),
-              // Row(
-              //   crossAxisAlignment: CrossAxisAlignment.start,
-              //   children: [
-              //     CustomText(
-              //       text: 'promocode'.tr,
-              //       fontSize: width * 0.038,
-              //       fontWeight: FontWeight.w500,
-              //       color: almostGrey,
-              //     ),
-              //     const Spacer(),
-              //     CustomText(
-              //       // text: 'SAR ${widget.adventure.price.toString()}',
-              //       text: '- ${"sar".tr} ${widget.price}',
-              //       fontWeight: FontWeight.w500,
-              //       fontSize: width * 0.038, color: almostGrey,
-              //     ),
-              //   ],
-              // ),
-              SizedBox(
-                height: width * 0.05,
+              Row(
+                children: [
+                  Radio<PaymentMethod>(
+                    value: PaymentMethod.stcpay,
+                    groupValue: _selectedPaymentMethod,
+                    onChanged: (PaymentMethod? value) {
+                      setState(() {
+                        _selectedPaymentMethod = value;
+                      });
+                    },
+                  ),
+                  SvgPicture.asset(
+                    "assets/icons/stc.svg",
+                    height: width * 0.051,
+                  ),
+                ],
               ),
               Obx(
                 () => loadingButton()
@@ -898,106 +961,61 @@ class _PaymentTypeState extends State<PaymentType> {
                               color: Colors.white),
                         ),
                       ),
+              // if (Platform.isIOS)
+              //   Row(
+              //     children: [
+              //       Radio<PaymentMethod>(
+              //         value: PaymentMethod.appelpay,
+              //         groupValue: _selectedPaymentMethod,
+              //         onChanged: (PaymentMethod? value) {
+              //           setState(() {
+              //             _selectedPaymentMethod = value;
+              //           });
+              //         },
+              //       ),
+              //       // Text('pay'),
+
+              //       RepaintBoundary(
+              //         child: SvgPicture.asset(
+              //           "assets/icons/applePay_icon.svg",
+              //           color: const Color.fromARGB(255, 0, 0, 0),
+              //           height: width * 0.051,
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              Row(
+                children: [
+                  Radio<PaymentMethod>(
+                    value: PaymentMethod.creditCard,
+                    groupValue: _selectedPaymentMethod,
+                    onChanged: (PaymentMethod? value) {
+                      setState(() {
+                        _selectedPaymentMethod = value;
+                      });
+                    },
+                  ),
+                  RepaintBoundary(
+                      child: SvgPicture.asset(
+                          'assets/icons/logos_mastercard.svg')),
+                  SizedBox(
+                    width: width * 0.005,
+                  ),
+                  RepaintBoundary(
+                      child: SvgPicture.asset('assets/icons/logos_visa.svg')),
+                  SizedBox(
+                    width: width * 0.015,
+                  ),
+                  CustomText(
+                    text: 'creditCard'.tr,
+                    color: const Color(0xFF070708),
+                    fontSize: width * 0.041,
+                    fontFamily: 'SF Pro',
+                    fontWeight: FontWeight.w500,
+                  ),
+                ],
               ),
             ],
-          ),
-        ),
-        appBar: CustomAppBar(
-          'checkout'.tr,
-        ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.only(
-              left: width * 0.041,
-              right: width * 0.041,
-              top: width * 0.030,
-              bottom: width * 0.082,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomText(
-                  text: 'paymentMethod'.tr,
-                  fontSize: width * 0.047,
-                  fontFamily: 'HT Rakik',
-                  fontWeight: FontWeight.w500,
-                ),
-                SizedBox(
-                  height: width * 0.04,
-                ),
-                Row(
-                  children: [
-                    Radio<PaymentMethod>(
-                      value: PaymentMethod.stcpay,
-                      groupValue: _selectedPaymentMethod,
-                      onChanged: (PaymentMethod? value) {
-                        setState(() {
-                          _selectedPaymentMethod = value;
-                        });
-                      },
-                    ),
-                    SvgPicture.asset(
-                      "assets/icons/stc.svg",
-                      height: width * 0.051,
-                    ),
-                  ],
-                ),
-                // if (Platform.isIOS)
-                //   Row(
-                //     children: [
-                //       Radio<PaymentMethod>(
-                //         value: PaymentMethod.appelpay,
-                //         groupValue: _selectedPaymentMethod,
-                //         onChanged: (PaymentMethod? value) {
-                //           setState(() {
-                //             _selectedPaymentMethod = value;
-                //           });
-                //         },
-                //       ),
-                //       // Text('pay'),
-
-                //       RepaintBoundary(
-                //         child: SvgPicture.asset(
-                //           "assets/icons/applePay_icon.svg",
-                //           color: const Color.fromARGB(255, 0, 0, 0),
-                //           height: width * 0.051,
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                Row(
-                  children: [
-                    Radio<PaymentMethod>(
-                      value: PaymentMethod.creditCard,
-                      groupValue: _selectedPaymentMethod,
-                      onChanged: (PaymentMethod? value) {
-                        setState(() {
-                          _selectedPaymentMethod = value;
-                        });
-                      },
-                    ),
-                    RepaintBoundary(
-                        child: SvgPicture.asset(
-                            'assets/icons/logos_mastercard.svg')),
-                    SizedBox(
-                      width: width * 0.005,
-                    ),
-                    RepaintBoundary(
-                        child: SvgPicture.asset('assets/icons/logos_visa.svg')),
-                    SizedBox(
-                      width: width * 0.015,
-                    ),
-                    CustomText(
-                      text: 'creditCard'.tr,
-                      color: const Color(0xFF070708),
-                      fontSize: width * 0.041,
-                      fontFamily: 'SF Pro',
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ],
-                ),
-              ],
-            ),
           ),
         ),
       ),
