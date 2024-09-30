@@ -30,7 +30,6 @@ import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart' as book;
 
 class PaymentType extends StatefulWidget {
@@ -185,6 +184,8 @@ class _PaymentTypeState extends State<PaymentType> {
         //     sessionId: invoice!.sessionId);
 
         if (checkInvoice == null) {
+          if (!mounted) return;
+
           showDialog(
               context: context,
               builder: (ctx) {
@@ -234,10 +235,11 @@ class _PaymentTypeState extends State<PaymentType> {
           }
         } else {
           log('No');
-          
-           AmplitudeService.amplitude.track(BaseEvent(
+
+          AmplitudeService.amplitude.track(BaseEvent(
             'Payment via ApplePay is faild',
           ));
+          if (!mounted) return;
 
           showDialog(
               context: context,
@@ -266,10 +268,9 @@ class _PaymentTypeState extends State<PaymentType> {
     } else {
       log('No');
 
-       AmplitudeService.amplitude.track(BaseEvent(
-            'Payment via ApplePay is faild',
-          ));
-
+      AmplitudeService.amplitude.track(BaseEvent(
+        'Payment via ApplePay is faild',
+      ));
 
       showDialog(
         context: context,
@@ -309,7 +310,7 @@ class _PaymentTypeState extends State<PaymentType> {
             context: context, id: invoice!.payId!);
         if (checkInvoice != null && checkInvoice.payStatus == 'Paid') {
           //if the invoice paid then will booking depend on the type of booking
-            AmplitudeService.amplitude.track(BaseEvent(
+          AmplitudeService.amplitude.track(BaseEvent(
             'Payment via CreditCard is successful',
           ));
 
@@ -328,15 +329,13 @@ class _PaymentTypeState extends State<PaymentType> {
               break;
             default:
           }
-       
-
         } else {
           log('No');
-          
-           AmplitudeService.amplitude.track(BaseEvent(
+
+          AmplitudeService.amplitude.track(BaseEvent(
             'Payment via CreditCard is faild',
           ));
-
+          if (!mounted) return;
 
           showDialog(
               context: context,
@@ -364,10 +363,10 @@ class _PaymentTypeState extends State<PaymentType> {
       });
     } else {
       log('No');
-      
-       AmplitudeService.amplitude.track(BaseEvent(
-            'Payment via CreditCard is faild',
-          ));
+
+      AmplitudeService.amplitude.track(BaseEvent(
+        'Payment via CreditCard is faild',
+      ));
 
       showDialog(
         context: context,
@@ -408,7 +407,7 @@ class _PaymentTypeState extends State<PaymentType> {
             context: context, id: invoice!.payId!);
         if (checkInvoice != null && checkInvoice.payStatus == 'Paid') {
           //if the invoice paid then will booking depend on the type of booking
-             AmplitudeService.amplitude.track(BaseEvent(
+          AmplitudeService.amplitude.track(BaseEvent(
             'Payment via StcPay is successful',
           ));
           switch (widget.type) {
@@ -429,9 +428,11 @@ class _PaymentTypeState extends State<PaymentType> {
         } else {
           log('No');
 
-              AmplitudeService.amplitude.track(BaseEvent(
+          AmplitudeService.amplitude.track(BaseEvent(
             'Payment via StcPay is faild',
           ));
+          if (!mounted) return;
+
           showDialog(
               context: context,
               builder: (ctx) {
@@ -459,9 +460,9 @@ class _PaymentTypeState extends State<PaymentType> {
     } else {
       log('No');
 
-         AmplitudeService.amplitude.track(BaseEvent(
-            'Payment via StcPay is faild',
-          ));
+      AmplitudeService.amplitude.track(BaseEvent(
+        'Payment via StcPay is faild',
+      ));
 
       showDialog(
         context: context,
@@ -488,7 +489,7 @@ class _PaymentTypeState extends State<PaymentType> {
   }
 
   void tourBooking(Invoice checkInvoice) async {
-    final acceptedOffer = await widget.offerController!.acceptOffer(
+    await widget.offerController!.acceptOffer(
       context: context,
       offerId: widget.offerController!.offerDetails.value.id!,
       invoiceId: checkInvoice.id,
@@ -496,9 +497,12 @@ class _PaymentTypeState extends State<PaymentType> {
     );
 
     //Get.back();
+    if (!mounted) return;
+
     final book.Booking? fetchedBooking =
         await _RequestController.getBookingById(
             context: context, bookingId: widget.booking!.id!);
+    if (!mounted) return;
 
     showDialog(
       context: context,
@@ -545,9 +549,9 @@ class _PaymentTypeState extends State<PaymentType> {
             isTour: true,
           ));
 
-       AmplitudeService.amplitude.track(BaseEvent(
-            'Get Tour Ticket',
-          ));
+      AmplitudeService.amplitude.track(BaseEvent(
+        'Get Tour Ticket',
+      ));
     });
   }
 
@@ -604,10 +608,10 @@ class _PaymentTypeState extends State<PaymentType> {
             icon: SvgPicture.asset('assets/icons/hospitality.svg'),
             bookTypeText: "hospitality",
           ));
-      
-       AmplitudeService.amplitude.track(BaseEvent(
-            'Get Hospitality Ticket',
-          ));
+
+      AmplitudeService.amplitude.track(BaseEvent(
+        'Get Hospitality Ticket',
+      ));
     });
     LocalNotification().showHospitalityNotification(
         context,
@@ -629,9 +633,11 @@ class _PaymentTypeState extends State<PaymentType> {
             .daysInfo![widget.eventController!.selectedDateIndex.value].id,
         person: widget.personNumber!,
         date: widget.eventController!.selectedDate.value);
+    if (!mounted) return;
 
     final updatedEvent = await widget.eventController!
         .getEventById(context: context, id: widget.event!.id);
+    if (!mounted) return;
     showDialog(
       context: context,
       builder: (ctx) {
@@ -672,9 +678,9 @@ class _PaymentTypeState extends State<PaymentType> {
             bookTypeText: "event",
           ));
 
-         AmplitudeService.amplitude.track(BaseEvent(
-            'Get Event Ticket',
-          ));
+      AmplitudeService.amplitude.track(BaseEvent(
+        'Get Event Ticket',
+      ));
     });
   }
 
@@ -685,8 +691,12 @@ class _PaymentTypeState extends State<PaymentType> {
       personNumber: widget.personNumber!,
       invoiceId: checkInvoice.id,
     );
+    if (!mounted) return;
+
     final updatedAdventure = await adventureController.getAdvdentureById(
         context: context, id: widget.adventure!.id);
+    if (!mounted) return;
+
     showDialog(
       context: context,
       builder: (ctx) {
@@ -730,10 +740,10 @@ class _PaymentTypeState extends State<PaymentType> {
             icon: SvgPicture.asset('assets/icons/adventure.svg'),
             bookTypeText: "adventure",
           ));
-      
-       AmplitudeService.amplitude.track(BaseEvent(
-            'Get Adventure Ticket',
-          ));
+
+      AmplitudeService.amplitude.track(BaseEvent(
+        'Get Adventure Ticket',
+      ));
     });
   }
 
@@ -776,7 +786,6 @@ class _PaymentTypeState extends State<PaymentType> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     _cardHolder.dispose();
     _cardNumber.dispose();
     _cardDate.dispose();
@@ -787,67 +796,141 @@ class _PaymentTypeState extends State<PaymentType> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
- return Scaffold(
+    return Scaffold(
       bottomNavigationBar: Padding(
         padding: EdgeInsets.symmetric(
             horizontal: width * .04, vertical: width * 0.051),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            DottedSeparator(
+              color: almostGrey,
+              height: width * 0.002,
+            ),
+            SizedBox(
+              height: width * 0.071,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'total'.tr,
+                    textAlign: TextAlign.right,
+                    style: const TextStyle(
+                      color: black,
+                      fontSize: 20,
+                      fontFamily: 'HT Rakik',
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const Spacer(),
+                  Text.rich(
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                          text: '${widget.price}',
+                          style: const TextStyle(
+                            color: black,
+                            fontSize: 20,
+                            fontFamily: 'HT Rakik',
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        const TextSpan(text: '  '),
+                        TextSpan(
+                          text: 'sar'.tr,
+                          style: TextStyle(
+                            color: black,
+                            fontSize: width * 0.051,
+                            fontFamily: 'HT Rakik',
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: width * 0.010,
+            ),
 
+            // Row(
+            //   crossAxisAlignment: CrossAxisAlignment.start,
+            //   children: [
+            //     CustomText(
+            //       text: 'promocode'.tr,
+            //       fontSize: width * 0.038,
+            //       fontWeight: FontWeight.w500,
+            //       color: almostGrey,
+            //     ),
+            //     const Spacer(),
+            //     CustomText(
+            //       // text: 'SAR ${widget.adventure.price.toString()}',
+            //       text: '- ${"sar".tr} ${widget.price}',
+            //       fontWeight: FontWeight.w500,
+            //       fontSize: width * 0.038, color: almostGrey,
+            //     ),
+            //   ],
+            // ),
+            SizedBox(
+              height: width * 0.05,
+            ),
+            Obx(
+              () => loadingButton()
+                  ? const CircularProgressIndicator.adaptive()
+                  : Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 12),
+                      child: CustomButton(
+                        onPressed: () async {
+                          if (_selectedPaymentMethod != null) {
+                            await selectPaymentType(_selectedPaymentMethod!);
+                            AmplitudeService.amplitude.track(BaseEvent(
+                              'Go to payment screen',
+                            ));
+                          } else {
+                            AppUtil.errorToast(
+                                context,
+                                AppUtil.rtlDirection2(context)
+                                    ? "يجب إختيار طريقة الدفع"
+                                    : "You need to pick payment methoed");
+                          }
+                        },
+                        title: 'pay'.tr,
+                        icon: const Icon(Icons.keyboard_arrow_right,
+                            color: Colors.white),
+                      ),
+                    ),
+            ),
+          ],
+        ),
+      ),
+      appBar: CustomAppBar(
+        'checkout'.tr,
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.only(
+            left: width * 0.041,
+            right: width * 0.041,
+            top: width * 0.030,
+            bottom: width * 0.082,
+          ),
           child: Column(
-            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              DottedSeparator(
-                color: almostGrey,
-                height: width * 0.002,
+              CustomText(
+                text: 'paymentMethod'.tr,
+                fontSize: width * 0.047,
+                fontFamily: 'HT Rakik',
+                fontWeight: FontWeight.w500,
               ),
               SizedBox(
-                height: width * 0.071,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'total'.tr,
-                      textAlign: TextAlign.right,
-                      style: const TextStyle(
-                        color: black,
-                        fontSize: 20,
-                        fontFamily: 'HT Rakik',
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    const Spacer(),
-                    Text.rich(
-                      TextSpan(
-                        children: [
-                          TextSpan(
-                            text: '${widget.price}',
-                            style: const TextStyle(
-                              color: black,
-                              fontSize: 20,
-                              fontFamily: 'HT Rakik',
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          TextSpan(text: '  '),
-                          TextSpan(
-                            text: 'sar'.tr,
-                            style: TextStyle(
-                              color: black,
-                              fontSize: 20,
-                              fontFamily: 'HT Rakik',
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: width * 0.010,
+                height: width * 0.04,
               ),
               Row(
                 children: [
@@ -921,182 +1004,11 @@ class _PaymentTypeState extends State<PaymentType> {
                     fontWeight: FontWeight.w500,
                   ),
                 ],
-
-              // Row(
-              //   crossAxisAlignment: CrossAxisAlignment.start,
-              //   children: [
-              //     CustomText(
-              //       text: 'promocode'.tr,
-              //       fontSize: width * 0.038,
-              //       fontWeight: FontWeight.w500,
-              //       color: almostGrey,
-              //     ),
-              //     const Spacer(),
-              //     CustomText(
-              //       // text: 'SAR ${widget.adventure.price.toString()}',
-              //       text: '- ${"sar".tr} ${widget.price}',
-              //       fontWeight: FontWeight.w500,
-              //       fontSize: width * 0.038, color: almostGrey,
-              //     ),
-              //   ],
-              // ),
-              SizedBox(
-                height: width * 0.05,
-              ),
-              Obx(
-                () => loadingButton()
-                    ? const CircularProgressIndicator.adaptive()
-                    : Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 12),
-                        child: CustomButton(
-                          onPressed: () async {
-                            if (_selectedPaymentMethod != null) {
-                              await selectPaymentType(_selectedPaymentMethod!);
-                              AmplitudeService.amplitude.track(BaseEvent(
-                                'Go to payment screen',
-                              ));
-                            } else {
-                              AppUtil.errorToast(
-                                  context,
-                                  AppUtil.rtlDirection2(context)
-                                      ? "يجب إختيار طريقة الدفع"
-                                      : "You need to pick payment methoed");
-                            }
-                          },
-                          title: 'pay'.tr,
-                          icon: const Icon(Icons.keyboard_arrow_right,
-                              color: Colors.white),
-                        ),
-                      ),
               ),
             ],
           ),
         ),
-        appBar: CustomAppBar(
-          'checkout'.tr,
-        ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.only(
-              left: width * 0.041,
-              right: width * 0.041,
-              top: width * 0.030,
-              bottom: width * 0.082,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomText(
-                  text: 'paymentMethod'.tr,
-                  fontSize: width * 0.047,
-                  fontFamily: 'HT Rakik',
-                  fontWeight: FontWeight.w500,
-                ),
-                SizedBox(
-                  height: width * 0.04,
-                ),
-                Row(
-                  children: [
-                    Radio<PaymentMethod>(
-                      value: PaymentMethod.stcpay,
-                      groupValue: _selectedPaymentMethod,
-                      onChanged: (PaymentMethod? value) {
-                        setState(() {
-                          _selectedPaymentMethod = value;
-                        });
-                      },
-                    ),
-                    SvgPicture.asset(
-                      "assets/icons/stc.svg",
-                      height: width * 0.051,
-                    ),
-                  ],
-                ),
-                // if (Platform.isIOS)
-                //   Row(
-                //     children: [
-                //       Radio<PaymentMethod>(
-                //         value: PaymentMethod.appelpay,
-                //         groupValue: _selectedPaymentMethod,
-                //         onChanged: (PaymentMethod? value) {
-                //           setState(() {
-                //             _selectedPaymentMethod = value;
-                //           });
-                //         },
-                //       ),
-                //       // Text('pay'),
-
-                //       RepaintBoundary(
-                //         child: SvgPicture.asset(
-                //           "assets/icons/applePay_icon.svg",
-                //           color: const Color.fromARGB(255, 0, 0, 0),
-                //           height: width * 0.051,
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                Row(
-                  children: [
-                    Radio<PaymentMethod>(
-                      value: PaymentMethod.creditCard,
-                      groupValue: _selectedPaymentMethod,
-                      onChanged: (PaymentMethod? value) {
-                        setState(() {
-                          _selectedPaymentMethod = value;
-                        });
-                      },
-                    ),
-                    RepaintBoundary(
-                        child: SvgPicture.asset(
-                            'assets/icons/logos_mastercard.svg')),
-                    SizedBox(
-                      width: width * 0.005,
-                    ),
-                    RepaintBoundary(
-                        child: SvgPicture.asset('assets/icons/logos_visa.svg')),
-                    SizedBox(
-                      width: width * 0.015,
-                    ),
-                    CustomText(
-                      text: 'creditCard'.tr,
-                      color: const Color(0xFF070708),
-                      fontSize: width * 0.041,
-                      fontFamily: 'SF Pro',
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
+      ),
     );
   }
-
-  // Future<void> navigateToPayment(
-  //     BuildContext context, String url, String type) async {
-  //   if (type == 'apple') {
-  //     await Get.bottomSheet(WebViewSheet(
-  //       url: url,
-  //       title: "",
-  //       height: 115,
-  //     ));
-  //   } else if (type == 'credit') {
-  //     await Get.bottomSheet(WebViewSheet(
-  //       url: url,
-  //       title: "",
-  //     ));
-  //   } else {
-  //     await Navigator.push(
-  //       context,
-  //       MaterialPageRoute(
-  //         builder: (context) => PaymentWebView(
-  //           url: url,
-  //           title: 'payment'.tr,
-  //         ),
-  //       ),
-  //     );
-  //   }
-  // }
 }
