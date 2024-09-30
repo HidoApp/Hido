@@ -82,7 +82,7 @@ class _BookingSheetState extends State<BookingSheet> {
     } else {
       _touristExploreController.isNotGetUserLocation.value = true;
     }
-    AmplitudeService.initializeAmplitude();
+    // AmplitudeService.initializeAmplitude();
   }
 
   final Map _pickupRide = {

@@ -44,7 +44,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     super.initState();
     showPassword = false;
     showConfirmPassword = false;
-    AmplitudeService.initializeAmplitude();
+    // AmplitudeService.initializeAmplitude();
   }
 
   @override

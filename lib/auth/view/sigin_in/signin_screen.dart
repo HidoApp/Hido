@@ -73,7 +73,7 @@ class _SignInScreenState extends State<SignInScreen> {
     // TODO: implement initState
     super.initState();
     setInternetConnection();
-    AmplitudeService.initializeAmplitude();
+    // AmplitudeService.initializeAmplitude();
 
   }
 

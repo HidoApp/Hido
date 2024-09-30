@@ -35,7 +35,7 @@ class _SignInSheetState extends State<SignInSheet> {
   @override
   void initState() {
     super.initState();
-   AmplitudeService.initializeAmplitude();
+  //  AmplitudeService.initializeAmplitude();
 
   }
   @override
