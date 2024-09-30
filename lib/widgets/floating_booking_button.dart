@@ -1,3 +1,4 @@
+import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/services/view/review_adventure_screen.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
@@ -10,6 +11,7 @@ import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/sign_sheet.dart';
+import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -478,6 +480,14 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
                                                   // Get.back();
                                                 },
                                               );
+                                              AmplitudeService.amplitude.track(
+                                                  BaseEvent( 'Review Adventure Booking',
+                                                      eventProperties: {
+                                                    'adventureTime':
+                                                       '${widget.adventure.times!.map((time) => AppUtil.formatStringTimeWithLocale(context, time.startTime)).join(', ')} - ${widget.adventure.times!.map((time) => AppUtil.formatStringTimeWithLocale(context, time.endTime)).join(', ')}',
+                                                    'adventureDate':  AppUtil.formatBookingDate(context,  widget.adventure.date!),
+                                                    'PersonNo': person,
+                                                  }));
                                             }
                                           },
                                           title: 'confirm'.tr)

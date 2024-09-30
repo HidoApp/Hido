@@ -1,3 +1,4 @@
+import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
 import 'package:ajwad_v4/explore/widget/floating_timer.dart';
@@ -12,6 +13,7 @@ import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/dotted_line_separator.dart';
 import 'package:ajwad_v4/widgets/promocode_field.dart';
+import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:floating_draggable_advn/floating_draggable_advn_bk.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -63,18 +65,7 @@ class _ReviewRequestState extends State<ReviewRequest> {
   }
 
   void getBooking() async {
-    // book.Booking? fetchedBooking = await _RequestController.getBookingById(
-    //     context: context,
-    //     bookingId: widget.booking!.id!,
-    //   );
-    //
-    //   fetchedBooking2=fetchedBooking;
-    //
-
-    //
-    // if(fetchedBooking2!.offers!!=[]){
-    // await widget.offerController?.getOfferById(context: context, offerId:fetchedBooking!.offers!.last.id);
-    // }
+   
     await _offerController.getOffers(
         context: context,
         placeId: widget.place!.id!,
@@ -238,6 +229,10 @@ class _ReviewRequestState extends State<ReviewRequest> {
                                       booking: widget.booking,
                                     ),
                                   );
+                                  AmplitudeService.amplitude
+                                          .track(BaseEvent(
+                                        'Go to payment screen',
+                                      ));
                                 }),
                         SizedBox(height: 10),
                         CustomButton(

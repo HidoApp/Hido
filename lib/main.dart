@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/view/notification/notification_screen.dart';
 import 'package:ajwad_v4/firebase_api.dart';
@@ -37,9 +38,9 @@ void main() async {
   await initializeDateFormatting('ar');
   await LocalNotification.init();
 
-  //final Amplitude amplitude = Amplitude.getInstance();
+    //amplitude
+   AmplitudeService.initializeAmplitude();
 
-  //amplitude.init("feb049885887051bb097ac7f73572f6c");
   timeago.setLocaleMessages('ar', timeago.ArMessages());
 
   try {

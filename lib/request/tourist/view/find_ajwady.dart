@@ -107,7 +107,7 @@ class _FindAjwadyState extends State<FindAjwady> {
           action: true,
           onPressedAction: () async {
               AmplitudeService.amplitude.track(
-                             BaseEvent('Click on Cancel booking ',
+                             BaseEvent('Click on Cancel Tour booking ',
                                  ));
             showDialog(
               context: context,

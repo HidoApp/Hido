@@ -123,13 +123,16 @@ class CancelBookingDialog extends StatelessWidget {
                         }
                         Get.offAll(const TouristBottomBar());
                         AmplitudeService.amplitude.track(
-                             BaseEvent('Cancel booking before pay',
+                             BaseEvent('Tour Successfully canceled before payment',
                                  ));
                       } else {
                         if (context.mounted) {
                           AppUtil.errorToast(context, 'noEndTrip'.tr);
                           await Future.delayed(const Duration(seconds: 2));
                         }
+                           AmplitudeService.amplitude.track(
+                             BaseEvent('Tour Cancellation Faild before Payment',
+                                 ));
                       }
                     },
                     child: Container(

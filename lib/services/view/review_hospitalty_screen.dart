@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/payment/controller/payment_controller.dart';
 import 'package:ajwad_v4/payment/model/invoice.dart';
@@ -15,6 +16,7 @@ import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/dotted_line_separator.dart';
 import 'package:ajwad_v4/widgets/payment_web_view.dart';
 import 'package:ajwad_v4/widgets/promocode_field.dart';
+import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -220,6 +222,10 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                                 female: widget.femaleGuestNum,
                               ),
                             );
+
+                            AmplitudeService.amplitude.track(BaseEvent(
+                              'Go to payment screen',
+                            ));
                             return;
                           }),
                           title: 'checkout'.tr),

@@ -1,6 +1,8 @@
 import 'dart:developer';
 
+import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/request/tourist/services/offer_service.dart';
+import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -179,11 +181,29 @@ class OfferController extends GetxController {
         updateScheduleList.add(schedule);
 
         scheduleState.value = false;
+          // Track activity addition
+      AmplitudeService.amplitude.track(BaseEvent(
+        'Select Tour Activity',
+        eventProperties: {
+          'activityName': schedule.scheduleName, // Assuming schedule has activityName
+          'price': schedule.price,
+          'activityTime': schedule.scheduleTime,
+        },
+      ));
       }
     } else {
       totalPrice -= schedule.price ?? 0;
 
       updateScheduleList.remove(schedule);
+
+        AmplitudeService.amplitude.track(BaseEvent(
+        'Remove Tour Activity',
+        eventProperties: {
+          'activityName': schedule.scheduleName, // Assuming schedule has activityName
+          'price': schedule.price,
+          'activityTime': schedule.scheduleTime,
+        },
+      ));
 
       if (updateScheduleList.length == 0) {
         scheduleState.value = true;

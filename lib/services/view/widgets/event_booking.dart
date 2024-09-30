@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/event/model/event.dart';
 import 'package:ajwad_v4/services/controller/event_controller.dart';
@@ -8,6 +9,7 @@ import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/sign_sheet.dart';
+import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:timezone/timezone.dart' as tz;
@@ -52,7 +54,7 @@ class _BottomEventBookingState extends State<BottomEventBooking> {
       child: Column(
         children: [
           Padding(
-            padding:  EdgeInsets.symmetric(horizontal:width*0.01),
+            padding: EdgeInsets.symmetric(horizontal: width * 0.01),
             child: Row(
               children: [
                 CustomText(
@@ -89,46 +91,57 @@ class _BottomEventBookingState extends State<BottomEventBooking> {
                   bottom: width * 0.08),
 
               child: IgnorePointer(
-                 ignoring: widget.event.daysInfo!.isEmpty,
+                ignoring: widget.event.daysInfo!.isEmpty,
                 child: CustomButton(
-                  onPressed:
-                      () {
-                          _eventController.DateErrorMessage.value = false;
-              
-                          AppUtil.isGuest()
-                              ? showModalBottomSheet(
-                                  context: context,
-                                  builder: (context) => const SignInSheet(),
-                                  isScrollControlled: true,
-                                  enableDrag: true,
-                                  backgroundColor: Colors.white,
-                                  elevation: 0,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(width * 0.06),
-                                        topRight: Radius.circular(width * 0.06)),
-                                  ))
-                              : Get.bottomSheet(
-                                  EventBookingSheet(
-                                    event: widget.event,
-                                    avilableDate: widget.avilableDate,
-                                    address: widget.address,
-                                  ),
-                                  backgroundColor: Colors.white,
-                                  elevation: 0,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(width * 0.06),
-                                        topRight: Radius.circular(width * 0.06)),
-                                  ));
-                        },
+                  onPressed: () {
+                    _eventController.DateErrorMessage.value = false;
+
+                    AppUtil.isGuest()
+                        ? showModalBottomSheet(
+                            context: context,
+                            builder: (context) => const SignInSheet(),
+                            isScrollControlled: true,
+                            enableDrag: true,
+                            backgroundColor: Colors.white,
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(width * 0.06),
+                                  topRight: Radius.circular(width * 0.06)),
+                            ))
+                        :
+                        
+                         AmplitudeService.amplitude.track(
+                            BaseEvent('Click on "Book event" button'),
+                          );
+
+                       Get.bottomSheet(
+                        EventBookingSheet(
+                          event: widget.event,
+                          avilableDate: widget.avilableDate,
+                          address: widget.address,
+                        ),
+                        backgroundColor: Colors.white,
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(width * 0.06),
+                              topRight: Radius.circular(width * 0.06)),
+                        ));
+                  },
                   iconColor: darkPurple,
-                  title:widget.event.daysInfo!.isEmpty?'fullyBooked'.tr: "book".tr,
+                  title: widget.event.daysInfo!.isEmpty
+                      ? 'fullyBooked'.tr
+                      : "book".tr,
                   icon: AppUtil.rtlDirection2(context)
                       ? const Icon(Icons.arrow_back_ios)
                       : const Icon(Icons.arrow_forward_ios),
-                  buttonColor: widget.event.daysInfo!.isEmpty? colorlightGreen:colorGreen,
-                  borderColor: widget.event.daysInfo!.isEmpty?colorlightGreen:colorGreen ,
+                  buttonColor: widget.event.daysInfo!.isEmpty
+                      ? colorlightGreen
+                      : colorGreen,
+                  borderColor: widget.event.daysInfo!.isEmpty
+                      ? colorlightGreen
+                      : colorGreen,
                 ),
               ),
             ),

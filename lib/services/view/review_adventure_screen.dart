@@ -1,4 +1,5 @@
 
+import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/payment/controller/payment_controller.dart';
 import 'package:ajwad_v4/payment/model/invoice.dart';
@@ -13,6 +14,7 @@ import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/dotted_line_separator.dart';
 import 'package:ajwad_v4/widgets/payment_web_view.dart';
 import 'package:ajwad_v4/widgets/promocode_field.dart';
+import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -97,13 +99,7 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                     title: widget.adventure.times != null && widget.adventure.times!.isNotEmpty
                                 ? '${widget.adventure.times!.map((time) => AppUtil.formatStringTimeWithLocale(context, time.startTime)).join(', ')} - ${widget.adventure.times!.map((time) => AppUtil.formatStringTimeWithLocale(context, time.endTime)).join(', ')}'
                                 : '5:00-8:00 AM',
-                    //  widget.adventure.times != null &&
-                    //         widget.adventure.times!.isNotEmpty
-                    //     ? widget.adventure.times!
-                    //         .map((time) => AppUtil.formatStringTimeWithLocale(
-                    //             context, time.startTime))
-                    //         .join(', ')
-                    //     : '5:00-8:00 AM',
+                   
                     image: "assets/icons/Clock.svg"),
                  SizedBox(
                   height: width * 0.041,
@@ -180,6 +176,11 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                               price: widget.adventure.price * widget.person,
                             ),
                           );
+                        
+                          AmplitudeService.amplitude
+                                          .track(BaseEvent(
+                                        'Go to payment screen',
+                                      ));
                         },
                         title: 'checkout'.tr))
               ],

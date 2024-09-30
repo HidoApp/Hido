@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/auth/models/token.dart';
 import 'package:ajwad_v4/auth/services/auth_service.dart';
 import 'package:ajwad_v4/constants/colors.dart';
@@ -15,6 +16,7 @@ import 'package:ajwad_v4/widgets/check_container_widget.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/total_widget.dart';
+import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:floating_draggable_advn/floating_draggable_advn_bk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -365,7 +367,7 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                       if (widget.chatId == null && (!widget.isAjwadi)) ...[
                         Padding(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 6),
+                              horizontal: 16, vertical: 5),
                           child: Column(
                             children: [
                               TotalWidget(
@@ -396,6 +398,11 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                                                 widget.offerController,
                                             place: widget.place!,
                                           ));
+
+                                      AmplitudeService.amplitude
+                                          .track(BaseEvent(
+                                        'Click on "Review Request" button',
+                                      ));
                                     },
                                     buttonColor: widget.offerController!
                                             .scheduleState.value
@@ -415,6 +422,10 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
                                   onPressed: () {
                                     Get.until((route) =>
                                         Get.currentRoute == '/FindAjwady');
+
+                                    AmplitudeService.amplitude.track(BaseEvent(
+                                      'Return to Offers',
+                                    ));
                                   },
                                   title: AppUtil.rtlDirection2(context)
                                       ? 'عودة للعروض'

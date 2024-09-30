@@ -1,3 +1,4 @@
+import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/calender_dialog.dart';
 import 'package:ajwad_v4/payment/controller/payment_controller.dart';
@@ -11,6 +12,7 @@ import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/custom_text_with_icon_button.dart';
 import 'package:ajwad_v4/widgets/payment_web_view.dart';
+import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
@@ -550,21 +552,7 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
                             .substring(0, 10))) {
                           setState(() => showErrorDate = true);
                         }
-                        //  else if (isSameDay()) {
-                        //   AppUtil.errorToast(
-                        //       context,
-                        //       AppUtil.rtlDirection2(context)
-                        //           ? "يجب أن تحجز قبل 24 ساعة "
-                        //           : "You must booking before 24 hours");
-                        // }
-                        // else if (!isDateBeforeToday()) {
-                        //
-                        //   AppUtil.errorToast(
-                        //       context,
-                        //       AppUtil.rtlDirection2(context)
-                        //           ? "غير متاح"
-                        //           : "not avalible ");
-                        // }
+                       
                         else {
                           widget.serviceController.showErrorMaxGuest.value =
                               false;
@@ -573,6 +561,21 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
                               maleGuestNum: maleGuestNum,
                               femaleGuestNum: femaleGuestNum,
                               servicesController: widget.serviceController));
+
+                              
+                            AmplitudeService.amplitude.track(
+                            BaseEvent('Review Hospitality Booking',eventProperties: {
+                              'eventTime':'${AppUtil.formatTimeOnly(context, widget.hospitality!.daysInfo.first.startTime)} - ${AppUtil.formatTimeOnly(context, widget.hospitality!.daysInfo.first.endTime)} ',
+                              'eventDate': AppUtil.formatBookingDate(
+                               context,  widget.serviceController.selectedDate.value),
+                              'maleGuestNum':maleGuestNum,
+                              'femaleGuestNum': femaleGuestNum,
+                              'meal': AppUtil.capitalizeFirstLetter(widget.hospitality!.mealTypeEn),
+                            }
+                            
+                            ),
+                          );
+
                         }
                       },
                       icon: AppUtil.rtlDirection2(context)

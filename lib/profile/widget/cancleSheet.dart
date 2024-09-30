@@ -1,11 +1,13 @@
 import 'dart:developer';
 
+import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
 import 'package:ajwad_v4/new-onboarding/view/splash_screen.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
+import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -168,6 +170,15 @@ class _CancelSheetState extends State<CancelSheet> {
                             int notificationId = int.tryParse(bookID!) ?? 0;
                             await flutterLocalNotificationsPlugin
                                 .cancel(notificationId);
+
+                             AmplitudeService.amplitude.track(
+                             BaseEvent('Booking Successfully canceled after payment',
+                             eventProperties: {
+                                'type': widget.type.toUpperCase(),
+                                'reason':textField2Controller.text,
+                             }
+                                 ));
+                            
                             if (context.mounted) {
                               AppUtil.successToast(context, 'EndTrip'.tr);
                               await Future.delayed(const Duration(seconds: 1));
@@ -178,6 +189,13 @@ class _CancelSheetState extends State<CancelSheet> {
                               AppUtil.errorToast(context, 'noEndTrip'.tr);
                               await Future.delayed(const Duration(seconds: 2));
                             }
+                             AmplitudeService.amplitude.track(
+                             BaseEvent('Booking Cancellation Faild After Payment',
+                             eventProperties: {
+                                'type': widget.type.toUpperCase(),
+                                'reason':textField2Controller.text,
+                             }
+                             ));
                           }
                         },
                         title: 'Confirm'.tr,

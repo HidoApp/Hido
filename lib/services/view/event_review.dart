@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/event/model/event.dart';
 import 'package:ajwad_v4/payment/view/payment_type_new.dart';
@@ -12,6 +13,7 @@ import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/dotted_line_separator.dart';
 import 'package:ajwad_v4/widgets/promocode_field.dart';
+import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -165,7 +167,12 @@ class _EventReviewState extends State<EventReview> {
                               price: widget.event.price! * widget.person,
                               eventController: _eventController,
                             ),
+                            
                           );
+                           AmplitudeService.amplitude
+                                          .track(BaseEvent(
+                                        'Go to payment screen',
+                                      ));
                         },
                         title: 'checkout'.tr))
               ],

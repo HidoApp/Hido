@@ -1,3 +1,4 @@
+import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/services/controller/regions_controller.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
@@ -5,6 +6,7 @@ import 'package:ajwad_v4/services/view/adveture_details.dart';
 import 'package:ajwad_v4/services/view/widgets/custom_adventure_item.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_empty_widget.dart';
+import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -76,6 +78,12 @@ class _AdventuresTabState extends State<AdventuresTab> {
                                     Get.to(() => AdventureDetails(
                                           adventureId: _adventureController
                                               .adventureList[index].id,
+                                        ));
+                                        AmplitudeService.amplitude.track(BaseEvent(
+                                          'View Selected adventure',eventProperties: {
+                                            'adventureTitle':_adventureController
+                                          .adventureList[index].nameEn
+                                          }
                                         ));
                                   },
                                   image: _adventureController
