@@ -187,7 +187,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
 
     // addCustomIcon();
     getLocation();
-    AmplitudeService.initializeAmplitude();
+    // AmplitudeService.initializeAmplitude();
   }
 
   @override

@@ -338,9 +338,9 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                             Obx(
                               () => _tripController
                                       .isActivityProgressLoading.value
-                                  ? const Center(
+                                  ? Center(
                                       child: Padding(
-                                        padding: EdgeInsets.only(right:15.0),
+                                        padding:AppUtil.rtlDirection2(context)? EdgeInsets.only(left:15.0) : EdgeInsets.only(right:15.0),
                                         child: SizedBox(
                                         width: 25.0, // Set the width
                                         height: 25.0, // Set

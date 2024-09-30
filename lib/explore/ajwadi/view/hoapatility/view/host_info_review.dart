@@ -569,22 +569,22 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                                   : 'SF Pro',
                               fontWeight: FontWeight.w500,
                             ),
-                            Row(
-                              children: [
-                                Icon(Icons.star,
-                                    color: Color(0xFF36B268), size: 14),
-                                const SizedBox(width: 4),
-                                CustomText(
-                                  text: '5.0',
-                                  color: Color(0xFF36B268),
-                                  fontSize: 12,
-                                  fontFamily: AppUtil.rtlDirection2(context)
-                                      ? 'SF Arabic'
-                                      : 'SF Pro',
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ],
-                            ),
+                            // Row(
+                            //   children: [
+                            //     Icon(Icons.star,
+                            //         color: Color(0xFF36B268), size: 14),
+                            //     const SizedBox(width: 4),
+                            //     CustomText(
+                            //       text: '5.0',
+                            //       color: Color(0xFF36B268),
+                            //       fontSize: 12,
+                            //       fontFamily: AppUtil.rtlDirection2(context)
+                            //           ? 'SF Arabic'
+                            //           : 'SF Pro',
+                            //       fontWeight: FontWeight.w500,
+                            //     ),
+                            //   ],
+                            // ),
                           ],
                         ),
                         const SizedBox(height: 8),

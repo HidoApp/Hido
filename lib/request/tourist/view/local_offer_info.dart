@@ -81,7 +81,7 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
     log(_offerController.acceptedOffer.value.orderStatus ?? "s");
 
     getProfile();
-    AmplitudeService.initializeAmplitude();
+    // AmplitudeService.initializeAmplitude();
   }
 
   @override

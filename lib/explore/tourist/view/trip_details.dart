@@ -93,7 +93,7 @@ class _TripDetailsState extends State<TripDetails> {
   void initState() {
     super.initState();
     addCustomIcon();
-    AmplitudeService.initializeAmplitude();
+    // AmplitudeService.initializeAmplitude();
 
     if (!AppUtil.isGuest()) {
       getOfferinfo();

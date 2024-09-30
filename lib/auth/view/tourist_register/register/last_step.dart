@@ -58,7 +58,7 @@ class _LastStepScreenState extends State<LastStepScreen> {
     widget.authController.agreeForTerms(false);
 
     generateCountries();
-    AmplitudeService.initializeAmplitude();
+    // AmplitudeService.initializeAmplitude();
   }
 
   @override

@@ -90,7 +90,7 @@ class _FindAjwadyState extends State<FindAjwady> {
 
     if (_offerController.offers != [] || _offerController.offers.isNotEmpty) {}
     if (_offerController.offers == [] || _offerController.offers.isEmpty) {}
-    AmplitudeService.initializeAmplitude();
+    // AmplitudeService.initializeAmplitude();
   }
 
   @override

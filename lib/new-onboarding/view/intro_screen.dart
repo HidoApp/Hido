@@ -107,7 +107,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
       });
     //_initializeAmplitude();
     // Initialize Amplitude
-    AmplitudeService.initializeAmplitude();
+    // AmplitudeService.initializeAmplitude();
   }
 
   @override
