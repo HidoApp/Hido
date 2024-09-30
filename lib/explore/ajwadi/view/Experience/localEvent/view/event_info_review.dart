@@ -482,6 +482,7 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                             () => _EventController.isImagesLoading.value ||
                                     _EventController.isEventLoading.value
                                 ? const Center(
+
                                     child: CircularProgressIndicator.adaptive(),
                                   )
                                 : CustomButton(

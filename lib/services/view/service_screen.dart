@@ -261,8 +261,8 @@ class _ServiceScreenState extends State<ServiceScreen>
               bottom: TabBar(
                 controller: _tabController,
                 dividerColor: Colors.white.withOpacity(1),
-                dividerHeight: 1.5,
-                overlayColor: WidgetStateProperty.all(Colors.transparent),
+               // dividerHeight: 1.5,
+               // overlayColor: WidgetStateProperty.all(Colors.transparent),
                 indicator: BoxDecoration(
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(width * 0.03),

@@ -762,9 +762,9 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                           bool isLoading = false;
 
                           if (widget.experienceType == 'hospitality') {
-                            isLoading = _EventController.isImagesLoading.value;
+                            isLoading = _EventController.isImagesLoading.value || widget.hospitalityController!.isSaudiHospitalityLoading.value; 
                           } else if (widget.experienceType == 'adventure') {
-                            isLoading = _EventController.isImagesLoading.value;
+                            isLoading = _EventController.isImagesLoading.value||widget.adventureController!.isAdventureLoading.value;
                           }
 
                           if (isLoading) {

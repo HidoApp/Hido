@@ -1,9 +1,11 @@
+import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/services/controller/event_controller.dart';
 import 'package:ajwad_v4/services/controller/regions_controller.dart';
 import 'package:ajwad_v4/services/view/local_event_details.dart';
 import 'package:ajwad_v4/services/view/widgets/event_card.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_empty_widget.dart';
+import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -66,6 +68,14 @@ class _EventsTabState extends State<EventsTab> {
                                       Get.to(() => LocalEventDetails(
                                           eventId: _eventController
                                               .eventList[index].id));
+                                              
+                                     AmplitudeService.amplitude.track(BaseEvent(
+                                          'View Selected event',eventProperties: {
+                                            'eventTitle':_eventController
+                                                .eventList[index].nameEn ??
+                                            "",
+                                          }
+                                        ));
                                     },
                                     image: _eventController
                                         .eventList[index].images.first,
