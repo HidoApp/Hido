@@ -1,9 +1,11 @@
+import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/event/model/event.dart';
 import 'package:ajwad_v4/profile/widget/AdventureTicketData.dart';
 import 'package:ajwad_v4/profile/widget/cancleSheet.dart';
 import 'package:ajwad_v4/profile/widget/event_ticket_data.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
 import 'package:ajwad_v4/widgets/dotted_line_separator.dart';
+import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
@@ -108,20 +110,19 @@ class TicketDetailsScreen extends StatelessWidget {
                 if (booking!.orderStatus == 'ACCEPTED') ...[
                   CustomButton(
                     onPressed: () {
-                      // showModalBottomSheet(
-                      //   context: context,
-                      //   isScrollControlled: true,
-                      //   builder: (BuildContext context) {
-                      //     return ;
-                      //   },
-                      // );
+                   
                       Get.bottomSheet(
                           isScrollControlled: true,
                           CancelSheet(
                               bookId: booking!.id ?? '',
                               type: booking!.bookingType ?? ''));
+                              
+                        AmplitudeService.amplitude.track(
+                             BaseEvent('Click on Cancel booking ',
+                                 ));
+                                 
                     },
-
+          
                     // },
                     title: 'CancelBooking'.tr,
                     buttonColor:

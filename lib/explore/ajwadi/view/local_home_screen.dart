@@ -3,6 +3,7 @@ import 'package:ajwad_v4/explore/ajwadi/view/custom_local_ticket_card.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/local_ticket_screen.dart';
 import 'package:ajwad_v4/profile/view/my_account.dart';
 import 'package:ajwad_v4/profile/widget/prodvided_services_sheet.dart';
+import 'package:ajwad_v4/request/ajwadi/controllers/request_controller.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/services/controller/event_controller.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
@@ -34,14 +35,18 @@ class LocalHomeScreen extends StatefulWidget {
 class _LocalHomeScreenState extends State<LocalHomeScreen> {
   final _profileController = Get.put(ProfileController());
   final _tripController = Get.put(TripController());
+  final _requestController = Get.put(RequestController());
+
   NextActivity? nextTrip;
 
   void getNextActivity() async {
     await _tripController.getNextActivity(context: context).then((value) {
       if (!mounted) return;
 
-      _tripController.nextStep.value =
-          _tripController.nextTrip.value.activityProgress ?? '';
+      // _tripController.nextStep.value =
+      //     _tripController.nextTrip.value.activityProgress ?? '';
+      if(value != null){
+      _tripController.nextStep.value = value.activityProgress ?? '';
 
       if (_tripController.nextTrip.value.activityProgress != 'PENDING' &&
           _tripController.nextTrip.value.activityProgress!.isNotEmpty &&
@@ -52,6 +57,8 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
       } else {
         _tripController.progress.value =
             (_tripController.progress.value - 1.0).clamp(0.0, 1.0);
+      }
+
       }
     });
   }
@@ -270,8 +277,9 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                           const SizedBox(height: 27),
                           Obx(
                             () => Skeletonizer(
-                              enabled:
-                                  _tripController.isNextActivityLoading.value,
+                              enabled: _tripController
+                                      .isNextActivityLoading.value ||
+                                  _requestController.isRequestEndLoading.value,
                               child: !_tripController.isTripUpdated.value ||
                                       _tripController.nextTrip.value.id!.isEmpty
                                   //! _tripController.isTripUpdated.value

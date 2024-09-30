@@ -1,10 +1,12 @@
 
+import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/services/controller/regions_controller.dart';
 import 'package:ajwad_v4/services/view/hospitality_details.dart';
 import 'package:ajwad_v4/services/view/widgets/custom_hospitality_item.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_empty_widget.dart';
+import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -67,6 +69,13 @@ class _HospitalityTabState extends State<HospitalityTab> {
                                         Get.to(() => HospitalityDetails(
                                               hospitalityId: _srvicesController
                                                   .hospitalityList[index].id,
+                                            ));
+
+                                         AmplitudeService.amplitude.track(BaseEvent(
+                                          'View Selected hospitality',eventProperties: {
+                                            'hospitalityTitle':_srvicesController
+                                              .hospitalityList[index].titleEn
+                                          }
                                             ));
                                       },
                                       image: _srvicesController

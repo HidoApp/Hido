@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/event/model/event.dart';
@@ -27,6 +28,9 @@ import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/dotted_line_separator.dart';
 import 'package:ajwad_v4/widgets/payment_web_view.dart';
+import 'package:amplitude_flutter/events/base_event.dart';
+import 'package:floating_draggable_advn/floating_draggable_advn_bk.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -95,6 +99,10 @@ class _PaymentTypeState extends State<PaymentType> {
     bool check = false;
     switch (paymentMethod) {
       case PaymentMethod.appelpay:
+        AmplitudeService.amplitude.track(BaseEvent(
+          'Select Appelpay ',
+        ));
+
         invoice = await _paymentController.applePayEmbedded(
             context: context, invoiceValue: widget.price);
         if (widget.type == "hospitality") {
@@ -111,6 +119,10 @@ class _PaymentTypeState extends State<PaymentType> {
 
         break;
       case PaymentMethod.stcpay:
+        AmplitudeService.amplitude.track(BaseEvent(
+          'Select Stcpay ',
+        ));
+
         invoice = await _paymentController.paymentGateway(
           context: context,
           language: AppUtil.rtlDirection2(context) ? 'AR' : 'EN',
@@ -133,10 +145,15 @@ class _PaymentTypeState extends State<PaymentType> {
 
         break;
       case PaymentMethod.creditCard:
+        AmplitudeService.amplitude.track(BaseEvent(
+          'Select CreditCard',
+        ));
+
         invoice = await _paymentController.creditCardEmbedded(
           context: context,
           price: widget.price,
         );
+
         if (widget.type == "hospitality") {
           check = await checkHospitality(false);
         }
@@ -200,6 +217,10 @@ class _PaymentTypeState extends State<PaymentType> {
         }
         if (checkInvoice.payStatus == 'Paid') {
           //if the invoice paid then will booking depend on the type of booking
+          AmplitudeService.amplitude.track(BaseEvent(
+            'Payment via ApplePay is successful',
+          ));
+
           switch (widget.type) {
             case 'adventure':
               adventureBooking(checkInvoice);
@@ -217,6 +238,10 @@ class _PaymentTypeState extends State<PaymentType> {
           }
         } else {
           log('No');
+          
+           AmplitudeService.amplitude.track(BaseEvent(
+            'Payment via ApplePay is faild',
+          ));
 
           showDialog(
               context: context,
@@ -244,6 +269,12 @@ class _PaymentTypeState extends State<PaymentType> {
       });
     } else {
       log('No');
+
+       AmplitudeService.amplitude.track(BaseEvent(
+            'Payment via ApplePay is faild',
+          ));
+
+
       showDialog(
         context: context,
         builder: (ctx) {
@@ -282,6 +313,9 @@ class _PaymentTypeState extends State<PaymentType> {
             context: context, id: invoice!.payId!);
         if (checkInvoice != null && checkInvoice.payStatus == 'Paid') {
           //if the invoice paid then will booking depend on the type of booking
+            AmplitudeService.amplitude.track(BaseEvent(
+            'Payment via CreditCard is successful',
+          ));
 
           switch (widget.type) {
             case 'adventure':
@@ -298,8 +332,15 @@ class _PaymentTypeState extends State<PaymentType> {
               break;
             default:
           }
+       
+
         } else {
           log('No');
+          
+           AmplitudeService.amplitude.track(BaseEvent(
+            'Payment via CreditCard is faild',
+          ));
+
 
           showDialog(
               context: context,
@@ -327,6 +368,11 @@ class _PaymentTypeState extends State<PaymentType> {
       });
     } else {
       log('No');
+      
+       AmplitudeService.amplitude.track(BaseEvent(
+            'Payment via CreditCard is faild',
+          ));
+
       showDialog(
         context: context,
         builder: (ctx) {
@@ -366,6 +412,9 @@ class _PaymentTypeState extends State<PaymentType> {
             context: context, id: invoice!.payId!);
         if (checkInvoice != null && checkInvoice.payStatus == 'Paid') {
           //if the invoice paid then will booking depend on the type of booking
+             AmplitudeService.amplitude.track(BaseEvent(
+            'Payment via StcPay is successful',
+          ));
           switch (widget.type) {
             case 'adventure':
               adventureBooking(checkInvoice);
@@ -384,6 +433,9 @@ class _PaymentTypeState extends State<PaymentType> {
         } else {
           log('No');
 
+              AmplitudeService.amplitude.track(BaseEvent(
+            'Payment via StcPay is faild',
+          ));
           showDialog(
               context: context,
               builder: (ctx) {
@@ -410,6 +462,11 @@ class _PaymentTypeState extends State<PaymentType> {
       });
     } else {
       log('No');
+
+         AmplitudeService.amplitude.track(BaseEvent(
+            'Payment via StcPay is faild',
+          ));
+
       showDialog(
         context: context,
         builder: (ctx) {
@@ -491,6 +548,10 @@ class _PaymentTypeState extends State<PaymentType> {
             bookTypeText: 'place',
             isTour: true,
           ));
+
+       AmplitudeService.amplitude.track(BaseEvent(
+            'Get Tour Ticket',
+          ));
     });
   }
 
@@ -544,6 +605,10 @@ class _PaymentTypeState extends State<PaymentType> {
             hospitality: updatedHospitality,
             icon: SvgPicture.asset('assets/icons/hospitality.svg'),
             bookTypeText: "hospitality",
+          ));
+      
+       AmplitudeService.amplitude.track(BaseEvent(
+            'Get Hospitality Ticket',
           ));
     });
     LocalNotification().showHospitalityNotification(
@@ -608,6 +673,10 @@ class _PaymentTypeState extends State<PaymentType> {
             icon: SvgPicture.asset('assets/icons/event.svg'),
             bookTypeText: "event",
           ));
+
+         AmplitudeService.amplitude.track(BaseEvent(
+            'Get Event Ticket',
+          ));
     });
   }
 
@@ -662,6 +731,10 @@ class _PaymentTypeState extends State<PaymentType> {
             adventure: updatedAdventure,
             icon: SvgPicture.asset('assets/icons/adventure.svg'),
             bookTypeText: "adventure",
+          ));
+      
+       AmplitudeService.amplitude.track(BaseEvent(
+            'Get Adventure Ticket',
           ));
     });
   }
@@ -862,6 +935,32 @@ class _PaymentTypeState extends State<PaymentType> {
                   ),
                 ],
               ),
+              Obx(
+                () => loadingButton()
+                    ? const CircularProgressIndicator.adaptive()
+                    : Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 12),
+                        child: CustomButton(
+                          onPressed: () async {
+                            if (_selectedPaymentMethod != null) {
+                              await selectPaymentType(_selectedPaymentMethod!);
+                              AmplitudeService.amplitude.track(BaseEvent(
+                                'Go to payment screen',
+                              ));
+                            } else {
+                              AppUtil.errorToast(
+                                  context,
+                                  AppUtil.rtlDirection2(context)
+                                      ? "يجب إختيار طريقة الدفع"
+                                      : "You need to pick payment methoed");
+                            }
+                          },
+                          title: 'pay'.tr,
+                          icon: const Icon(Icons.keyboard_arrow_right,
+                              color: Colors.white),
+                        ),
+                      ),
               // if (Platform.isIOS)
               //   Row(
               //     children: [

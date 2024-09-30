@@ -97,14 +97,15 @@ class _FindAjwadyState extends State<FindAjwady> {
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: CustomAppBar(
         "findLocal".tr,
         action: true,
         onPressedAction: () async {
-          AmplitudeService.amplitude.track(BaseEvent(
-            'Click on Cancel booking ',
-          ));
+            AmplitudeService.amplitude.track(
+                             BaseEvent('Click on Cancel Tour booking ',
+                                 ));
           showDialog(
             context: context,
             builder: (BuildContext context) {

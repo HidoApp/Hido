@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/event/model/event.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/calender_dialog.dart';
@@ -10,6 +11,7 @@ import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/custom_text_with_icon_button.dart';
+import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -62,17 +64,7 @@ class _EventBookingSheetState extends State<EventBookingSheet> {
     location = tz.getLocation(timeZoneName);
 
     DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
-    //DateTime currentDate = DateTime(currentDateInRiyadh.year, currentDateInRiyadh.month, currentDateInRiyadh.day);
-
-    //DateTime selectedDate = DateTime.parse(widget.serviceController.selectedDate.value);
-
-    //
-    //
-    // ignore: unrelated_type_equality_checks
-    //
-    // ignore: unrelated_type_equality_checks
-    //return selectedDate== currentDate;
-
+    
     DateTime selectedDate = DateTime.parse(_eventController.selectedDate.value);
     DateTime Date = DateFormat('HH:mm').parse(DateFormat('hh:mm a', 'en_US')
         .format(DateTime.parse(widget.event!.daysInfo!.first.startTime)));
@@ -118,12 +110,7 @@ class _EventBookingSheetState extends State<EventBookingSheet> {
     final height = MediaQuery.of(context).size.height;
     _eventController.showErrorMaxGuest.value = false;
     return Container(
-      // height: _eventController.DateErrorMessage.value ||
-      //         showErrorGuests ||
-      //         showErrorSeat ||
-      //         _eventController.showErrorMaxGuest.value
-      //     ? height * 0.43
-      //     : height * 0.41,
+      
       width: double.infinity,
       padding: EdgeInsets.only(
         left: width * 0.0615,
@@ -377,6 +364,17 @@ class _EventBookingSheetState extends State<EventBookingSheet> {
                   });
                   Get.to(
                       () => EventReview(event: widget.event!, person: person));
+
+                        AmplitudeService.amplitude.track(
+                            BaseEvent('Review Event Booking',eventProperties: {
+                              'eventTime':'${AppUtil.formatTimeOnly(context, widget.event!.daysInfo![_eventController.selectedDateIndex.value].startTime)} -  ${AppUtil.formatTimeOnly(context, widget.event!.daysInfo![_eventController.selectedDateIndex.value].endTime)}',
+                              'eventDate':AppUtil.formatBookingDate(
+                               context, _eventController.selectedDate.value),
+                               'PersonNo':person,
+                            }
+                            
+                            ),
+                          );
                 }
               },
             )
