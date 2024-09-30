@@ -62,147 +62,152 @@ class _LocalSignInState extends State<LocalSignIn> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    return Scaffold(
-      appBar: const CustomAppBar(''),
-      body: ScreenPadding(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CustomText(
-              text: 'welcomeBack'.tr,
-              fontWeight: FontWeight.w500,
-              fontSize: width * 0.051,
-              textAlign: !AppUtil.rtlDirection(context)
-                  ? TextAlign.right
-                  : TextAlign.left,
-            ),
-            CustomText(
-              text: 'signInLocal'.tr,
-              color: starGreyColor,
-              fontSize: width * 0.043,
-              fontWeight: FontWeight.w500,
-            ),
-            SizedBox(
-              height: width * .061,
-            ),
-            CustomText(
-              text: 'phoneNum'.tr,
-              fontSize: width * 0.043,
-              fontWeight: FontWeight.w500,
-            ),
-            SizedBox(
-              height: width * .01,
-            ),
-            Form(
-              key: _formKey,
-              child: CustomTextField(
-                hintText: 'phoneHint'.tr,
-                keyboardType: TextInputType.number,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                  LengthLimitingTextInputFormatter(10),
-                ],
-                onChanged: (value) => number = value,
-                validator: false,
-                validatorHandle: (value) {
-                  if (value!.isEmpty) {
-                    return 'fieldRequired'.tr;
-                  }
-                  if (!value.startsWith('05') || value.length != 10) {
-                    return 'invalidPhone'.tr;
-                  }
-                  return null;
-                },
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        appBar: const CustomAppBar(''),
+        body: ScreenPadding(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomText(
+                text: 'welcomeBack'.tr,
+                fontWeight: FontWeight.w500,
+                fontSize: width * 0.051,
+                textAlign: !AppUtil.rtlDirection(context)
+                    ? TextAlign.right
+                    : TextAlign.left,
               ),
-            ),
-            SizedBox(
-              height: width * 0.102,
-            ),
-            Obx(() => _authController.isCreateOtpLoading.value
-                    ? const Center(child: CircularProgressIndicator.adaptive())
-                    : CustomButton(
-                        onPressed: () async {
-                          if (!_authController.isInternetConnected.value) {
-                            AppUtil.connectionToast(context, 'offlineTitle'.tr);
-                            return;
-                          }
-                          var isValid = _formKey.currentState!.validate();
-                          if (isValid) {
-                            final isSuccess = await _authController.createOtp(
-                                context: context, phoneNumber: number);
-                            if (isSuccess) {
-                              _authController.isResendOtp(false);
-                              Get.to(() => PhoneOTP(
-                                    phoneNumber: number,
-                                    type: 'signIn',
-                                    otp: '',
-                                    resendOtp: () async {
-                                      await _authController.createOtp(
-                                          context: context,
-                                          phoneNumber: number);
-                                    },
-                                  ));
+              CustomText(
+                text: 'signInLocal'.tr,
+                color: starGreyColor,
+                fontSize: width * 0.043,
+                fontWeight: FontWeight.w500,
+              ),
+              SizedBox(
+                height: width * .061,
+              ),
+              CustomText(
+                text: 'phoneNum'.tr,
+                fontSize: width * 0.043,
+                fontWeight: FontWeight.w500,
+              ),
+              SizedBox(
+                height: width * .01,
+              ),
+              Form(
+                key: _formKey,
+                child: CustomTextField(
+                  hintText: 'phoneHint'.tr,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                    LengthLimitingTextInputFormatter(10),
+                  ],
+                  onChanged: (value) => number = value,
+                  validator: false,
+                  validatorHandle: (value) {
+                    if (value!.isEmpty) {
+                      return 'fieldRequired'.tr;
+                    }
+                    if (!value.startsWith('05') || value.length != 10) {
+                      return 'invalidPhone'.tr;
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              SizedBox(
+                height: width * 0.102,
+              ),
+              Obx(() => _authController.isCreateOtpLoading.value
+                      ? const Center(
+                          child: CircularProgressIndicator.adaptive())
+                      : CustomButton(
+                          onPressed: () async {
+                            if (!_authController.isInternetConnected.value) {
+                              AppUtil.connectionToast(
+                                  context, 'offlineTitle'.tr);
+                              return;
                             }
-                          }
-                        },
-                        title: 'signIn'.tr,
-                        icon: Icon(
-                          Icons.keyboard_arrow_right,
-                          size: width * 0.061,
-                        ),
-                      )
-                // : Center(
-                //     child: Countdown(
-                //       seconds: 180,
-                //       controller: _controller,
-                //       build: (BuildContext context, double time) =>
-                //           CustomText(
-                //         text: AppUtil.countdwonFormat(time),
-                //         color: colorGreen,
-                //       ),
-                //       interval: const Duration(seconds: 1),
-                //       onFinished: () {
-                //         _authController.isResendOtp(true);
-                //       },
-                //     ),
-                //   ),
-                ),
-            SizedBox(
-              height: width * 0.041,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CustomText(
-                  text: "haveAnAccount?".tr,
-                  fontFamily: AppUtil.SfFontType(context),
-                  fontWeight: FontWeight.w500,
-                  fontSize: MediaQuery.of(context).size.width * 0.038,
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.0128,
-                ),
-                GestureDetector(
-                    child: CustomText(
-                      text: 'signUp'.tr,
-                      fontFamily: AppUtil.SfFontType(context),
-                      fontWeight: FontWeight.w500,
-                      color: colorGreen,
-                      fontSize: MediaQuery.of(context).size.width * 0.038,
-                    ),
-                    onTap: () {
-                      if (!_authController.isInternetConnected.value) {
-                        AppUtil.connectionToast(context, 'offlineTitle'.tr);
-                        return;
-                      }
-                      Get.back();
-                      Get.to(
-                        () => const LocalSignUpScreen(),
-                      );
-                    })
-              ],
-            )
-          ],
+                            var isValid = _formKey.currentState!.validate();
+                            if (isValid) {
+                              final isSuccess = await _authController.createOtp(
+                                  context: context, phoneNumber: number);
+                              if (isSuccess) {
+                                _authController.isResendOtp(false);
+                                Get.to(() => PhoneOTP(
+                                      phoneNumber: number,
+                                      type: 'signIn',
+                                      otp: '',
+                                      resendOtp: () async {
+                                        await _authController.createOtp(
+                                            context: context,
+                                            phoneNumber: number);
+                                      },
+                                    ));
+                              }
+                            }
+                          },
+                          title: 'signIn'.tr,
+                          icon: Icon(
+                            Icons.keyboard_arrow_right,
+                            size: width * 0.061,
+                          ),
+                        )
+                  // : Center(
+                  //     child: Countdown(
+                  //       seconds: 180,
+                  //       controller: _controller,
+                  //       build: (BuildContext context, double time) =>
+                  //           CustomText(
+                  //         text: AppUtil.countdwonFormat(time),
+                  //         color: colorGreen,
+                  //       ),
+                  //       interval: const Duration(seconds: 1),
+                  //       onFinished: () {
+                  //         _authController.isResendOtp(true);
+                  //       },
+                  //     ),
+                  //   ),
+                  ),
+              SizedBox(
+                height: width * 0.041,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CustomText(
+                    text: "haveAnAccount?".tr,
+                    fontFamily: AppUtil.SfFontType(context),
+                    fontWeight: FontWeight.w500,
+                    fontSize: MediaQuery.of(context).size.width * 0.038,
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.0128,
+                  ),
+                  GestureDetector(
+                      child: CustomText(
+                        text: 'signUp'.tr,
+                        fontFamily: AppUtil.SfFontType(context),
+                        fontWeight: FontWeight.w500,
+                        color: colorGreen,
+                        fontSize: MediaQuery.of(context).size.width * 0.038,
+                      ),
+                      onTap: () {
+                        if (!_authController.isInternetConnected.value) {
+                          AppUtil.connectionToast(context, 'offlineTitle'.tr);
+                          return;
+                        }
+                        Get.back();
+                        Get.to(
+                          () => const LocalSignUpScreen(),
+                        );
+                      })
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

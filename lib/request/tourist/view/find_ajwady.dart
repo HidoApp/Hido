@@ -9,7 +9,7 @@ import 'package:ajwad_v4/explore/widget/floating_timer.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
 import 'package:ajwad_v4/request/tourist/view/offers_screen.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
-import 'package:ajwad_v4/widgets/StackWidgets.dart';
+import 'package:ajwad_v4/widgets/stack_widget.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:amplitude_flutter/events/base_event.dart';

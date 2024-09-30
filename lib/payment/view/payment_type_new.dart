@@ -5,9 +5,7 @@ import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/event/model/event.dart';
-import 'package:ajwad_v4/explore/tourist/controller/timer_controller.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
-import 'package:ajwad_v4/explore/widget/floating_timer.dart';
 import 'package:ajwad_v4/payment/controller/payment_controller.dart';
 import 'package:ajwad_v4/payment/model/invoice.dart';
 import 'package:ajwad_v4/payment/widget/webview_sheet.dart';
@@ -526,6 +524,7 @@ class _PaymentTypeState extends State<PaymentType> {
       },
     ).then((_) {
       Get.offAll(() => const TouristBottomBar());
+
       LocalNotification().showNotification(
         context,
         fetchedBooking?.id,
@@ -565,12 +564,14 @@ class _PaymentTypeState extends State<PaymentType> {
         numOfMale: widget.male!,
         numOfFemale: widget.female!,
         cost: widget.price);
+    if (!mounted) return;
 
     final updatedHospitality = await widget.servicesController!
         .getHospitalityById(context: context, id: widget.hospitality!.id);
-    log(updatedHospitality!.booking!.first!.guestInfo.male.toString());
-    log(updatedHospitality!.booking!.first!.guestInfo.female.toString());
-    log(updatedHospitality!.booking!.first!.guestInfo.dayId.toString());
+    log(updatedHospitality!.booking!.first.guestInfo.male.toString());
+    log(updatedHospitality.booking!.first.guestInfo.female.toString());
+    log(updatedHospitality.booking!.first.guestInfo.dayId.toString());
+    if (!mounted) return;
     showDialog(
       context: context,
       builder: (ctx) {
@@ -744,6 +745,7 @@ class _PaymentTypeState extends State<PaymentType> {
           _paymentController.isCreditCardPaymentLoading.value ||
           adventureController.ischeckBookingLoading.value ||
           _paymentController.isPaymenInvoiceByIdLoading.value ||
+          widget.servicesController!.isHospitalityByIdLoading.value ||
           widget.servicesController!.isCheckAndBookLoading.value;
     } else if (widget.type == 'adventure') {
       return _paymentController.isPaymentGatewayLoading.value ||
@@ -751,13 +753,15 @@ class _PaymentTypeState extends State<PaymentType> {
           _paymentController.isCreditCardPaymentLoading.value ||
           _paymentController.isApplePayEmbeddedLoading.value ||
           _paymentController.isApplePayExecuteLoading.value ||
-          adventureController.ischeckBookingLoading.value;
+          adventureController.isAdventureByIdLoading.value |
+              adventureController.ischeckBookingLoading.value;
     } else if (widget.type == 'tour') {
       return _paymentController.isPaymentGatewayLoading.value ||
           _paymentController.isPaymenInvoiceByIdLoading.value ||
           _paymentController.isCreditCardPaymentLoading.value ||
           _paymentController.isApplePayEmbeddedLoading.value ||
           _paymentController.isApplePayExecuteLoading.value ||
+          _RequestController.isBookingLoading.value ||
           widget.offerController!.isAcceptOfferLoading.value;
     } else {
       return _paymentController.isPaymentGatewayLoading.value ||
@@ -765,6 +769,7 @@ class _PaymentTypeState extends State<PaymentType> {
           _paymentController.isCreditCardPaymentLoading.value ||
           _paymentController.isApplePayEmbeddedLoading.value ||
           _paymentController.isApplePayExecuteLoading.value ||
+          widget.eventController!.isEventByIdLoading.value ||
           widget.eventController!.ischeckBookingLoading.value;
     }
   }
@@ -844,6 +849,79 @@ class _PaymentTypeState extends State<PaymentType> {
               SizedBox(
                 height: width * 0.010,
               ),
+              Row(
+                children: [
+                  Radio<PaymentMethod>(
+                    value: PaymentMethod.stcpay,
+                    groupValue: _selectedPaymentMethod,
+                    onChanged: (PaymentMethod? value) {
+                      setState(() {
+                        _selectedPaymentMethod = value;
+                      });
+                    },
+                  ),
+                  RepaintBoundary(
+                    child: SvgPicture.asset(
+                      "assets/icons/stc.svg",
+                      height: width * 0.051,
+                    ),
+                  ),
+                ],
+              ),
+              if (Platform.isIOS)
+                Row(
+                  children: [
+                    Radio<PaymentMethod>(
+                      value: PaymentMethod.appelpay,
+                      groupValue: _selectedPaymentMethod,
+                      onChanged: (PaymentMethod? value) {
+                        setState(() {
+                          _selectedPaymentMethod = value;
+                        });
+                      },
+                    ),
+                    // Text('pay'),
+
+                    RepaintBoundary(
+                      child: SvgPicture.asset(
+                        "assets/icons/applePay_icon.svg",
+                        color: const Color.fromARGB(255, 0, 0, 0),
+                        height: width * 0.051,
+                      ),
+                    ),
+                  ],
+                ),
+              Row(
+                children: [
+                  Radio<PaymentMethod>(
+                    value: PaymentMethod.creditCard,
+                    groupValue: _selectedPaymentMethod,
+                    onChanged: (PaymentMethod? value) {
+                      setState(() {
+                        _selectedPaymentMethod = value;
+                      });
+                    },
+                  ),
+                  RepaintBoundary(
+                      child: SvgPicture.asset(
+                          'assets/icons/logos_mastercard.svg')),
+                  SizedBox(
+                    width: width * 0.005,
+                  ),
+                  RepaintBoundary(
+                      child: SvgPicture.asset('assets/icons/logos_visa.svg')),
+                  SizedBox(
+                    width: width * 0.015,
+                  ),
+                  CustomText(
+                    text: 'creditCard'.tr,
+                    color: const Color(0xFF070708),
+                    fontSize: width * 0.041,
+                    fontFamily: 'SF Pro',
+                    fontWeight: FontWeight.w500,
+                  ),
+                ],
+
               // Row(
               //   crossAxisAlignment: CrossAxisAlignment.start,
               //   children: [

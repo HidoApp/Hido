@@ -677,7 +677,7 @@ const localeEn = {
   'onTheWay': 'On the way',
   'passwordError': "you must enter at least 8 characters",
   'phoneOtpWrong': 'this otp for this user is wrong',
-  'otpForbidden': "Otp has been sent, please try again later",
+  'otpForbidden': "OTP Already Requested, Please Wait and try again.",
   'mobileNotFound': "mobile number is not found",
   'errorScreenTitle': 'Oops',
   'errorScreenSubTitle': 'Something went wrong',
@@ -690,5 +690,5 @@ const localeEn = {
   'errorFieldsAll': 'Please fill in all required fields',
   'vehiclePlate': 'Vehicle plates',
   'vehicleType': 'Vehicle type',
-  'invaildId': "Invaild id"
+  'invaildId': "Invaild id",
 };

@@ -80,6 +80,7 @@ class ProfileController extends GetxController {
       required BuildContext context}) async {
     try {
       isImagesLoading(true);
+      log(file.toString());
       final isSucces = await ProfileService.uploadProfileImages(
           file: file, uploadOrUpdate: uploadOrUpdate, context: context);
 

@@ -4,7 +4,7 @@ import 'package:ajwad_v4/explore/tourist/view/view_trip_images.dart';
 import 'package:ajwad_v4/services/view/restaurant_reservation.dart';
 
 import 'package:ajwad_v4/utils/app_util.dart';
-import 'package:ajwad_v4/widgets/StackWidgets.dart';
+import 'package:ajwad_v4/widgets/stack_widget.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';

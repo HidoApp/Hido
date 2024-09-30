@@ -90,6 +90,7 @@ class ProfileService {
           refreshToken: refreshToken, context: context);
       token = user!.accessToken;
     }
+
     Map<String, String> headers = {
       'Content-Type': 'application/x-www-form-urlencoded',
       'Authorization': 'Bearer $token',
@@ -101,26 +102,25 @@ class ProfileService {
     request.files.add(await http.MultipartFile.fromPath('image', file.path));
 
     http.StreamedResponse response = await request.send();
+    log(response.statusCode.toString());
 
-    late String id, filePath, publicId;
     if (response.statusCode == 200) {
-      UploadImage imageIbject;
-      var jsonImage;
+      // Read the full response as a string
+      String responseBody = await response.stream.bytesToString();
+      try {
+        // Decode the JSON response
+        final Map<String, dynamic> jsonResponse = jsonDecode(responseBody);
 
-      await response.stream.transform(utf8.decoder).listen((value) {
-        id = UploadImage.fromJson(jsonDecode(value)).id;
-        filePath = UploadImage.fromJson(jsonDecode(value)).filePath;
-        if (UploadImage.fromJson(jsonDecode(value)).publicId != null) {
-          publicId = UploadImage.fromJson(jsonDecode(value)).publicId!;
-        } else {
-          publicId = '';
-        }
-      });
-
-      return UploadImage(id: id, filePath: filePath, publicId: publicId);
+        // Create an instance of UploadImage from the JSON data
+        return UploadImage.fromJson(jsonResponse);
+      } catch (e) {
+        log('Error decoding JSON: $e');
+        return null;
+      }
     } else {
-      response.stream.transform(utf8.decoder).listen((value) {});
+      log('Image upload failed with status: ${response.statusCode}');
     }
+
     return null;
   }
 

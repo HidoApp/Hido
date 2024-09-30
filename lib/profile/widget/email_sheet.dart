@@ -59,84 +59,87 @@ class _EmailSheetState extends State<EmailSheet> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
 
-    return Container(
-      width: double.infinity,
-      decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(24), topRight: Radius.circular(24))),
-      padding: EdgeInsets.only(
-          left: width * 0.0615,
-          right: width * 0.0615,
-          top: width * 0.041,
-          bottom: width * 0.082),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const BottomSheetIndicator(),
-          SizedBox(
-            height: width * 0.051,
-          ),
-          CustomText(
-            text: 'updateEmail'.tr,
-            fontSize: width * 0.056,
-            fontWeight: FontWeight.w500,
-          ),
-          SizedBox(
-            height: width * .0205,
-          ),
-          CustomText(
-            text: "emailEditSubtitle".tr,
-            fontFamily: AppUtil.SfFontType(context),
-            fontWeight: FontWeight.w400,
-            fontSize: width * 0.0410,
-            color: starGreyColor,
-          ),
-          SizedBox(
-            height: width * 0.030,
-          ),
-          CustomText(
-            text: "email".tr,
-            fontSize: width * 0.043,
-            fontFamily: AppUtil.SfFontType(context),
-            fontWeight: FontWeight.w500,
-          ),
-          SizedBox(
-            height: width * .0205,
-          ),
-          Form(
-            key: _formKey,
-            child: CustomTextField(
-              hintText: _profileController.profile.email,
-              keyboardType: TextInputType.emailAddress,
-              validator: false,
-              validatorHandle: (email) {
-                if (email == null || email.isEmpty) {
-                  return 'fieldRequired'.tr;
-                }
-                if (!AppUtil.isEmailValidate(email)) {
-                  return 'invalidEmail'.tr;
-                }
-                return null;
-              },
-              onChanged: (newEmail) => email = newEmail,
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Container(
+        width: double.infinity,
+        decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(24), topRight: Radius.circular(24))),
+        padding: EdgeInsets.only(
+            left: width * 0.0615,
+            right: width * 0.0615,
+            top: width * 0.041,
+            bottom: width * 0.082),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const BottomSheetIndicator(),
+            SizedBox(
+              height: width * 0.051,
             ),
-          ),
-          SizedBox(
-            height: width * 0.061,
-          ),
-          Obx(
-            () => _authController.isOTPLoading.value
-                ? const Center(
-                    child: CircularProgressIndicator.adaptive(),
-                  )
-                : CustomButton(
-                    title: 'confirm'.tr,
-                    onPressed: editEmail,
-                  ),
-          )
-        ],
+            CustomText(
+              text: 'updateEmail'.tr,
+              fontSize: width * 0.056,
+              fontWeight: FontWeight.w500,
+            ),
+            SizedBox(
+              height: width * .0205,
+            ),
+            CustomText(
+              text: "emailEditSubtitle".tr,
+              fontFamily: AppUtil.SfFontType(context),
+              fontWeight: FontWeight.w400,
+              fontSize: width * 0.0410,
+              color: starGreyColor,
+            ),
+            SizedBox(
+              height: width * 0.030,
+            ),
+            CustomText(
+              text: "email".tr,
+              fontSize: width * 0.043,
+              fontFamily: AppUtil.SfFontType(context),
+              fontWeight: FontWeight.w500,
+            ),
+            SizedBox(
+              height: width * .0205,
+            ),
+            Form(
+              key: _formKey,
+              child: CustomTextField(
+                hintText: _profileController.profile.email,
+                keyboardType: TextInputType.emailAddress,
+                validator: false,
+                validatorHandle: (email) {
+                  if (email == null || email.isEmpty) {
+                    return 'fieldRequired'.tr;
+                  }
+                  if (!AppUtil.isEmailValidate(email)) {
+                    return 'invalidEmail'.tr;
+                  }
+                  return null;
+                },
+                onChanged: (newEmail) => email = newEmail,
+              ),
+            ),
+            SizedBox(
+              height: width * 0.061,
+            ),
+            Obx(
+              () => _authController.isOTPLoading.value
+                  ? const Center(
+                      child: CircularProgressIndicator.adaptive(),
+                    )
+                  : CustomButton(
+                      title: 'confirm'.tr,
+                      onPressed: editEmail,
+                    ),
+            )
+          ],
+        ),
       ),
     );
   }

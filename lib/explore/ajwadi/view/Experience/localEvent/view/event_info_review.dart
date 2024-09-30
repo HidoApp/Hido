@@ -479,8 +479,10 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                       child: Column(
                         children: [
                           Obx(
-                            () => _EventController.isImagesLoading.value || _EventController.isEventLoading.value
-                                ? const Center( 
+                            () => _EventController.isImagesLoading.value ||
+                                    _EventController.isEventLoading.value
+                                ? const Center(
+
                                     child: CircularProgressIndicator.adaptive(),
                                   )
                                 : CustomButton(

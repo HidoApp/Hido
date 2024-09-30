@@ -682,5 +682,5 @@ const localeAr = {
   'errorFieldsAll': 'تأكد من ملء جميع الحقول المطلوبة.',
   'vehiclePlate': 'لوحة المركبة',
   'vehicleType': 'نوع المركبة',
-  'invaildId': "رقم الهوية غير صالح"
+  'invaildId': "رقم الهوية غير صالح",
 };
