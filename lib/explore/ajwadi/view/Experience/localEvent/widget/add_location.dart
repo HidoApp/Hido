@@ -294,6 +294,8 @@ class _AddEventLocationState extends State<AddEventLocation> {
                                   ),
                                 },
                                 onTap: (position) async {
+                                  mapController = await _controller.future;
+
                                   setState(() {
                                     _EventrController.pickUpLocLatLang.value =
                                         position;
@@ -313,6 +315,9 @@ class _AddEventLocationState extends State<AddEventLocation> {
                                         position.target;
                                   });
                                   _fetchAddress();
+                                },
+                                onMapCreated: (controller) {
+                                  _controller.complete(controller);
                                 },
                               ),
                             ),

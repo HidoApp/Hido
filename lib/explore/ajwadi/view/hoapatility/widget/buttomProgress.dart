@@ -679,7 +679,9 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
 
   void getLocation() async {
     userLocation = await LocationService().getUserLocation();
-
+    if (userLocation == null) {
+      return;
+    }
     if (userLocation != null) {
       setState(() {
         if (mounted) {
@@ -876,7 +878,12 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
                                   icon: markerIcon,
                                 ),
                               },
+                              onMapCreated: (controller) {
+                                _controller.complete(controller);
+                              },
                               onTap: (position) async {
+                                mapController = await _controller.future;
+
                                 setState(() {
                                   widget.hospitalityController.pickUpLocLatLang
                                       .value = position;

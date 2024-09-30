@@ -153,7 +153,9 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
 
   void getLocation() async {
     userLocation = await LocationService().getUserLocation();
-
+    if (userLocation == null) {
+      return;
+    }
     if (mounted && userLocation != null) {
       _animateCamera(
           latitude: userLocation!.latitude, longitude: userLocation!.longitude);

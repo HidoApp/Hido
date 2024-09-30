@@ -41,7 +41,7 @@ class _AjwadiBottomBarState extends State<AjwadiBottomBar>
       switch (event) {
         case InternetStatus.connected:
           _profileController.isInternetConnected(true);
-          getProfile();
+          //  getProfile();
 
           break;
         case InternetStatus.disconnected:

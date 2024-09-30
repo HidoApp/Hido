@@ -505,12 +505,14 @@ class _PaymentTypeState extends State<PaymentType> {
         numOfMale: widget.male!,
         numOfFemale: widget.female!,
         cost: widget.price);
+    if (!mounted) return;
 
     final updatedHospitality = await widget.servicesController!
         .getHospitalityById(context: context, id: widget.hospitality!.id);
-    log(updatedHospitality!.booking!.first!.guestInfo.male.toString());
-    log(updatedHospitality!.booking!.first!.guestInfo.female.toString());
-    log(updatedHospitality!.booking!.first!.guestInfo.dayId.toString());
+    log(updatedHospitality!.booking!.first.guestInfo.male.toString());
+    log(updatedHospitality.booking!.first.guestInfo.female.toString());
+    log(updatedHospitality.booking!.first.guestInfo.dayId.toString());
+    if (!mounted) return;
     showDialog(
       context: context,
       builder: (ctx) {
@@ -672,6 +674,7 @@ class _PaymentTypeState extends State<PaymentType> {
           _paymentController.isCreditCardPaymentLoading.value ||
           adventureController.ischeckBookingLoading.value ||
           _paymentController.isPaymenInvoiceByIdLoading.value ||
+          widget.servicesController!.isHospitalityByIdLoading.value ||
           widget.servicesController!.isCheckAndBookLoading.value;
     } else if (widget.type == 'adventure') {
       return _paymentController.isPaymentGatewayLoading.value ||
@@ -679,13 +682,15 @@ class _PaymentTypeState extends State<PaymentType> {
           _paymentController.isCreditCardPaymentLoading.value ||
           _paymentController.isApplePayEmbeddedLoading.value ||
           _paymentController.isApplePayExecuteLoading.value ||
-          adventureController.ischeckBookingLoading.value;
+          adventureController.isAdventureByIdLoading.value |
+              adventureController.ischeckBookingLoading.value;
     } else if (widget.type == 'tour') {
       return _paymentController.isPaymentGatewayLoading.value ||
           _paymentController.isPaymenInvoiceByIdLoading.value ||
           _paymentController.isCreditCardPaymentLoading.value ||
           _paymentController.isApplePayEmbeddedLoading.value ||
           _paymentController.isApplePayExecuteLoading.value ||
+          _RequestController.isBookingLoading.value ||
           widget.offerController!.isAcceptOfferLoading.value;
     } else {
       return _paymentController.isPaymentGatewayLoading.value ||
@@ -693,6 +698,7 @@ class _PaymentTypeState extends State<PaymentType> {
           _paymentController.isCreditCardPaymentLoading.value ||
           _paymentController.isApplePayEmbeddedLoading.value ||
           _paymentController.isApplePayExecuteLoading.value ||
+          widget.eventController!.isEventByIdLoading.value ||
           widget.eventController!.ischeckBookingLoading.value;
     }
   }

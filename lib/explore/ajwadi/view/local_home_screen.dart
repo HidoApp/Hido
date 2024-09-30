@@ -87,9 +87,9 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                 child: Column(
                   children: [
                     SizedBox(
-                      width: 340.40,
+                      width: width * 0.8728,
                       //height: 60,
-                      height: 40,
+                      height: width * 0.102,
                     ),
                     // SizedBox(height: 16),
                     Row(

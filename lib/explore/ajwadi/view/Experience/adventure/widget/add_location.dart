@@ -238,7 +238,12 @@ class _AddLocationState extends State<AddLocation> {
                                   icon: markerIcon,
                                 ),
                               },
+                              onMapCreated: (controller) {
+                                _controller.complete(controller);
+                              },
                               onTap: (position) async {
+                                mapController = await _controller.future;
+
                                 setState(() {
                                   _AdventureController.pickUpLocLatLang.value =
                                       position;
