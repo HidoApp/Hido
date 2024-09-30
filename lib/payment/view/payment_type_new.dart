@@ -178,11 +178,6 @@ class _PaymentTypeState extends State<PaymentType> {
         Invoice? checkInvoice;
         checkInvoice = await _paymentController.getPaymentId(
             context: context, id: invoice!.payId!);
-        // checkInvoice = await _paymentController.applePayEmbeddedExecute(
-        //     context: context,
-        //     invoiceValue: widget.price,
-        //     sessionId: invoice!.sessionId);
-
         if (checkInvoice == null) {
           if (!mounted) return;
 
@@ -205,9 +200,7 @@ class _PaymentTypeState extends State<PaymentType> {
                     ],
                   ),
                 );
-              }).then((value) async {
-            //   await navigateToPayment(context, invoice!.url!, 'apple');
-          });
+              });
         }
         if (checkInvoice == null) {
           return;
@@ -260,9 +253,7 @@ class _PaymentTypeState extends State<PaymentType> {
                     ],
                   ),
                 );
-              }).then((value) async {
-            //  await navigateToPayment(context, invoice!.url!, 'apple');
-          });
+              });
         }
       });
     } else {
@@ -299,9 +290,7 @@ class _PaymentTypeState extends State<PaymentType> {
   void paymentWebView() async {
     // webview for Stc pay
     if (invoice != null) {
-      Get.bottomSheet(
-          //isScrollControlled: true,5453010000095539
-          WebViewSheet(
+      Get.bottomSheet(WebViewSheet(
         url: invoice!.url!,
         title: 'payment'.tr,
       )).then((value) async {
@@ -356,9 +345,7 @@ class _PaymentTypeState extends State<PaymentType> {
                     ],
                   ),
                 );
-              }).then((value) async {
-            //  await navigateToPayment(context, invoice!.url!, 'credit');
-          });
+              });
         }
       });
     } else {
@@ -452,9 +439,7 @@ class _PaymentTypeState extends State<PaymentType> {
                     ],
                   ),
                 );
-              }).then((value) async {
-            // await navigateToPayment(context, invoice!.url!, 'else');
-          });
+              });
         }
       });
     } else {
@@ -495,10 +480,7 @@ class _PaymentTypeState extends State<PaymentType> {
       invoiceId: checkInvoice.id,
       schedules: widget.offerController!.updateScheduleList,
     );
-
-    //Get.back();
     if (!mounted) return;
-
     final book.Booking? fetchedBooking =
         await _RequestController.getBookingById(
             context: context, bookingId: widget.booking!.id!);
@@ -540,7 +522,6 @@ class _PaymentTypeState extends State<PaymentType> {
       );
       log(fetchedBooking?.requestName?.nameEn ?? '');
       log(fetchedBooking?.requestName?.nameAr ?? '');
-      //  log( fetchedBooking?.user?.profile.name??'');
 
       Get.to(() => TicketDetailsScreen(
             booking: fetchedBooking,
@@ -661,7 +642,6 @@ class _PaymentTypeState extends State<PaymentType> {
         );
       },
     ).then((_) {
-      // Get.back();
       Get.back();
       Get.back();
       log("inside adventure");
@@ -720,7 +700,6 @@ class _PaymentTypeState extends State<PaymentType> {
         );
       },
     ).then((_) {
-      // Get.back();
       Get.back();
       Get.back();
       log("inside adventure");
@@ -857,7 +836,6 @@ class _PaymentTypeState extends State<PaymentType> {
             SizedBox(
               height: width * 0.010,
             ),
-
             // Row(
             //   crossAxisAlignment: CrossAxisAlignment.start,
             //   children: [
@@ -963,8 +941,6 @@ class _PaymentTypeState extends State<PaymentType> {
                         });
                       },
                     ),
-                    // Text('pay'),
-
                     RepaintBoundary(
                       child: SvgPicture.asset(
                         "assets/icons/applePay_icon.svg",
