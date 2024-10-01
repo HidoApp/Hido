@@ -66,7 +66,9 @@ class _SplashScreenState extends State<SplashScreen>
     token = getStorage.read('accessToken') ?? '';
     Future.delayed(const Duration(seconds: 5), () async {
       //  onBoarding = await checkForBoarding() ?? 'no';
-      _controller.dispose();
+      // _controller.dispose();
+     if (!mounted) return;
+
       if (token != '' && userRole == 'local') {
         if (JwtDecoder.isExpired(token)) {
           final String refreshToken = getStorage.read('refreshToken');
@@ -95,11 +97,11 @@ class _SplashScreenState extends State<SplashScreen>
     });
   }
 
-  // @override
-  // void dispose() {
-  //   _controller.dispose();
-  //   super.dispose();
-  // }
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

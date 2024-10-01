@@ -543,9 +543,9 @@ class _ChatScreenState extends State<ChatScreen> {
                                                     ),
                                                   );
                                                   return ChatBubble(
-                                                    name: message.senderName ??
-                                                        "",
-                                                    image: message.senderImage,
+                                                    // name: message.senderName ??
+                                                    //     "",
+                                                    // image: message.senderImage,
                                                     isSender: isSender,
                                                     message: ChatMessage(
                                                       message: chatController

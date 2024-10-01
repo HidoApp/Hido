@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class ChatBubble extends StatelessWidget {
-  final String name;
-  final String? image;
+ // final String name;
+ // final String? image;
   final ChatMessage message;
   final bool isSender;
 
@@ -14,8 +14,9 @@ class ChatBubble extends StatelessWidget {
       {super.key,
       required this.message,
       required this.isSender,
-      required this.name,
-      required this.image});
+    //  required this.name,
+     // required this.image
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -29,11 +30,11 @@ class ChatBubble extends StatelessWidget {
             padding: isSender
                 ? EdgeInsets.only(right: 12)
                 : EdgeInsets.only(left: 12),
-            child: CustomText(
-              text: name,
-              color: isSender ? Colors.black : Colors.black,
-              // Colors.white,
-            ),
+            // child: CustomText(
+            //   text: name,
+            //   color: isSender ? Colors.black : Colors.black,
+            //   // Colors.white,
+            // ),
           ),
           IntrinsicWidth(
             child: Container(
