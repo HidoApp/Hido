@@ -54,37 +54,6 @@ class _OnboardingScreenState extends State<OnboardingScreen>
 
   @override
   void initState() {
-    // FirebaseMessaging.onMessage.listen((event) {
-
-    //   if(event.notification==null) return;
-    //   showDialog(context: context,
-    //    builder: ((context) {
-    //      return Material(
-    //       child: Column(
-    //         mainAxisAlignment: MainAxisAlignment.center,
-    //         crossAxisAlignment: CrossAxisAlignment.center,
-    //         children: [
-    //          Container(
-    //           width: 200,
-    //           height: 200,
-    //           color: Colors.white,
-    //           child: Column(
-    //             children: [
-    //               Text(event.notification?.title??''),
-    //               SizedBox(height: 8,),
-    //               Text(event.notification?.body??'')
-    //             ],
-    //           ),
-    //          )
-    //         ],
-    //       ),
-
-    //      );
-    //    })
-
-    //    );
-
-    // });
     super.initState();
 
     _controller = AnimationController(
@@ -125,7 +94,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
     final height = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: Color(0xFFF9F9F9),
+      backgroundColor: const Color(0xFFF9F9F9),
       body: Stack(
         children: [
           CustomPaint(
@@ -181,30 +150,51 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                     alignment: Alignment.topCenter,
                   ),
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              height: _currentIndex == 0
-                  ? height * 0.776
-                  // 650
-                  : _currentIndex == 4
-                      ? AppUtil.rtlDirection2(context)
-                          ? height * 0.428
-                          : height * 0.4256
-                      // ? 358
-                      // : 355
-                      : height * 0.431,
-              //  :360, // Adjust this height to your desired value
+          PageView.builder(
+              onPageChanged: (value) {
+                setState(() {
+                  _currentIndex = value;
 
-              child: Column(
-                children: [
-                  Flexible(
-                    child: PageView.builder(
-                      controller: _pageController,
-                      itemCount: tabs.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        OnboardingModel tab = tabs[index];
-                        return Column(
+                  if (_currentIndex == 0) {
+                    _videoController?.play();
+                  } else {
+                    _videoController?.pause();
+                    _controller?.reset();
+                    _controller?.forward();
+                  }
+                });
+
+                AmplitudeService.amplitude.track(BaseEvent(
+                    'Onboarding Page Viewed ${tabs[_currentIndex].title}',
+                    eventProperties: {
+                      'page_index': _currentIndex,
+                      'page_title': tabs[_currentIndex].title
+                    }));
+              },
+              controller: _pageController,
+              itemCount: tabs.length,
+              itemBuilder: (context, index) {
+                OnboardingModel tab = tabs[index];
+
+                return Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    height: _currentIndex == 0
+                        ? height * 0.776
+                        // 650
+                        : _currentIndex == 4
+                            ? AppUtil.rtlDirection2(context)
+                                ? height * 0.428
+                                : height * 0.4256
+                            // ? 358
+                            // : 355
+                            : height * 0.431,
+                    //  :360, // Adjust this height to your desired value
+
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Padding(
@@ -266,161 +256,125 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                                     ),
                             ),
                           ],
-                        );
-                      },
-                      onPageChanged: (value) {
-                        //             _currentIndex = value;
-                        //              _controller.reset();
-                        // _controller.forward();
-                        setState(() {
-                          _currentIndex = value;
-
-                          if (_currentIndex == 0) {
-                            _videoController?.play();
-                          } else {
-                            _videoController?.pause();
-                            _controller?.reset();
-                            _controller?.forward();
-                          }
-                        });
-
-                        AmplitudeService.amplitude.track(BaseEvent(
-                            'Onboarding Page Viewed ${tabs[_currentIndex].title}',
-                            eventProperties: {
-                              'page_index':_currentIndex,
-                              'page_title':tabs[_currentIndex].title
-                            }
-                            ));
-                      },
-                    ),
-                  ),
-
-                  MediaQuery(
-                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
-                    // data: MediaQuery.of(context)
-                    //     .copyWith(textScaler: const TextScaler.linear(1.0)),
-                    child: Padding(
-                      padding: _currentIndex == 0
-                          ? EdgeInsets.only(bottom: width * 0.1)
-                          : AppUtil.rtlDirection2(context)
-                              ? EdgeInsets.only(bottom: width * 0.093)
-                              : EdgeInsets.only(bottom: width * 0.1),
-                      //  ? EdgeInsets.only(bottom: 40)
-                      // : AppUtil.rtlDirection2(context)
-                      //     ? EdgeInsets.only(bottom: 37.0)
-                      //     : EdgeInsets.only(bottom: 40.0),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          for (int index = 0; index < tabs.length; index++)
-                            _DotIndicator(
-                              isSelected: index == _currentIndex,
-                              currentIndex: _currentIndex,
-                              pageController: _pageController,
-                              index: index,
-                            ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  // const SizedBox(height: 75)
-                  Padding(
-                    padding:
-                        // const EdgeInsets.only(left: 16, right: 16, bottom: 10),
-                        EdgeInsets.only(
-                            left: width * 0.041,
-                            right: width * 0.041,
-                            bottom: width * 0.026),
-                    child: CustomButton(
-                      title: 'tourist'.tr,
-                      textColor: _currentIndex == 0 ? black : null,
-                      onPressed: () async {
-                        AmplitudeService.amplitude.track(BaseEvent(
-                            'Onboarding Tourist Sign In Button Clicked'));
-
-                        Get.to(() => const SignInScreen());
-                        // Get.off(() => AjwadiBottomBar());
-                      },
-                      raduis: 8,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        left: width * 0.041, right: width * 0.041),
-                    //EdgeInsets.only(right: 16, left: 16),
-
-                    child: CustomButton(
-                      title: 'localGuide'.tr,
-                      onPressed: () {
-                        AmplitudeService.amplitude.track(BaseEvent(
-                            'Onboarding Local Sign In Button Clicked'));
-                        Get.to(() => const LocalSignIn());
-                      },
-                      buttonColor: _currentIndex == 0
-                          ? const Color.fromARGB(0, 0, 0, 0)
-                          : const Color(0xFFF9F9F9),
-                      raduis: 8,
-                      textColor: colorGreen,
-                    ),
-                  ),
-
-                  GestureDetector(
-                    onTap: () {
-                     
-                      Get.offAll(() => const TouristBottomBar());
-                       AmplitudeService.amplitude.track(
-                          BaseEvent('Onboarding Continue as Guest Clicked'));
-                          
-                          
-                    },
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: width * 0.041,
-                            vertical: height * 0.039,
-                            //vertical:32
-                          ),
-                          child: CustomText(
-                            text: AppUtil.rtlDirection2(context)
-                                ? 'الإستمرار كزائر'
-                                : 'Continue as a Guest',
-                            textAlign: AppUtil.rtlDirection2(context)
-                                ? TextAlign.end
-                                : TextAlign.start,
-                            color: _currentIndex == 0
-                                ? Color(0xFFDCDCE0)
-                                : Color(0xFFB9B8C1),
-                            fontSize: 16,
-                            fontFamily: AppUtil.SfFontType(context),
-                            fontWeight: FontWeight.w500,
-                            height: 0,
-                          ),
                         ),
                       ],
                     ),
-                  )
-                ],
-              ),
-            ),
-          ),
-          // Align(
-          //   alignment: Alignment.bottomCenter,
-          //   child: SizedBox(
-          //     height: 390,
-          //     child: Column(
-          //       children: [
+                  ),
+                );
+              }),
+          Positioned(
+            bottom: 20,
+            right: 0,
+            left: 0,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                MediaQuery(
+                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                  // data: MediaQuery.of(context)
+                  //     .copyWith(textScaler: const TextScaler.linear(1.0)),
+                  child: Padding(
+                    padding: _currentIndex == 0
+                        ? EdgeInsets.only(bottom: width * 0.1)
+                        : AppUtil.rtlDirection2(context)
+                            ? EdgeInsets.only(bottom: width * 0.093)
+                            : EdgeInsets.only(bottom: width * 0.1),
+                    //  ? EdgeInsets.only(bottom: 40)
+                    // : AppUtil.rtlDirection2(context)
+                    //     ? EdgeInsets.only(bottom: 37.0)
+                    //     : EdgeInsets.only(bottom: 40.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        for (int index = 0; index < tabs.length; index++)
+                          _DotIndicator(
+                            isSelected: index == _currentIndex,
+                            currentIndex: _currentIndex,
+                            pageController: _pageController,
+                            index: index,
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
+                // const SizedBox(height: 75)
+                Padding(
+                  padding:
+                      // const EdgeInsets.only(left: 16, right: 16, bottom: 10),
+                      EdgeInsets.only(
+                          left: width * 0.041,
+                          right: width * 0.041,
+                          bottom: width * 0.026),
+                  child: CustomButton(
+                    title: 'tourist'.tr,
+                    textColor: _currentIndex == 0 ? black : null,
+                    onPressed: () async {
+                      AmplitudeService.amplitude.track(BaseEvent(
+                          'Onboarding Tourist Sign In Button Clicked'));
 
-          //         Flexible(
-          //           child: PageView.builder(
-          //             controller: _pageController,
-          //             itemCount: tabs.length,
-          //             itemBuilder: (BuildContext context, int index) {
-          //               OnboardingModel tab = tabs[index];
-          //               return Column(
-          //                 mainAxisSize: MainAxisSize.min,
-          //                 children: [
-          //                   Padding(
+                      Get.to(() => const SignInScreen());
+                      // Get.off(() => AjwadiBottomBar());
+                    },
+                    raduis: 8,
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                      left: width * 0.041, right: width * 0.041),
+                  //EdgeInsets.only(right: 16, left: 16),
+
+                  child: CustomButton(
+                    title: 'localGuide'.tr,
+                    onPressed: () {
+                      AmplitudeService.amplitude.track(
+                          BaseEvent('Onboarding Local Sign In Button Clicked'));
+                      Get.to(() => const LocalSignIn());
+                    },
+                    buttonColor: _currentIndex == 0
+                        ? const Color.fromARGB(0, 0, 0, 0)
+                        : const Color(0xFFF9F9F9),
+                    raduis: 8,
+                    textColor: colorGreen,
+                  ),
+                ),
+
+                GestureDetector(
+                  onTap: () {
+                    Get.offAll(() => const TouristBottomBar());
+                    AmplitudeService.amplitude.track(
+                        BaseEvent('Onboarding Continue as Guest Clicked'));
+                  },
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: width * 0.041,
+                          vertical: height * 0.039,
+                          //vertical:32
+                        ),
+                        child: CustomText(
+                          text: AppUtil.rtlDirection2(context)
+                              ? 'الإستمرار كزائر'
+                              : 'Continue as a Guest',
+                          textAlign: AppUtil.rtlDirection2(context)
+                              ? TextAlign.end
+                              : TextAlign.start,
+                          color: _currentIndex == 0
+                              ? Color(0xFFDCDCE0)
+                              : Color(0xFFB9B8C1),
+                          fontSize: 16,
+                          fontFamily: AppUtil.SfFontType(context),
+                          fontWeight: FontWeight.w500,
+                          height: 0,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          )
         ],
       ),
     );
