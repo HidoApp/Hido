@@ -95,8 +95,9 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
       length: widget.fromService ? 2 : 3,
       child: Obx(
         () => Skeletonizer(
-          enabled: _offerController.isOfferLoading.value,
-          ignoreContainers: true,
+          enabled: _offerController.isOfferLoading.value ||
+              _profileController.isProfileLoading.value,
+          // ignoreContainers: true,
           child: Scaffold(
             backgroundColor: Colors.white,
             appBar: CustomAppBar('localProfile'.tr),
@@ -345,9 +346,7 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
                 ),
               ),
               body: TabBarView(children: [
-                AboutScreen(
-                  profileController: _profileController,
-                ),
+                const AboutScreen(),
                 ExpertScreen(
                   profileController: _profileController,
                 ),

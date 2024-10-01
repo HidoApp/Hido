@@ -118,7 +118,7 @@ class _ServicesLocalInfoState extends State<ServicesLocalInfo> {
                                   ? profile!.hostRating!
                                   : profile!.adventureRating!,
                               isRating: true,
-                              subtitle:'review'.tr,
+                              subtitle: 'review'.tr,
                             ),
                           ],
                         ),
@@ -145,9 +145,7 @@ class _ServicesLocalInfoState extends State<ServicesLocalInfo> {
                     ),
                   ),
                   body: TabBarView(children: [
-                    AboutScreen(
-                      profileController: _profileController,
-                    ),
+                    const AboutScreen(),
                     ReviewsScreen(
                       profileId: widget.profileId,
                     )

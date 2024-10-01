@@ -73,10 +73,7 @@ class _PaymentTypeState extends State<PaymentType> {
   final hospitalityController = Get.put(HospitalityController());
   final _paymentController = Get.put(PaymentController());
   final _RequestController = Get.put(RequestController());
-  final _cardHolder = TextEditingController();
-  final _cardNumber = TextEditingController();
-  final _cardDate = TextEditingController();
-  final _cardCvv = TextEditingController();
+
   Future<bool> checkHospitality(bool check) async {
     return await widget.servicesController!.checkAndBookHospitality(
         context: context,
@@ -765,175 +762,153 @@ class _PaymentTypeState extends State<PaymentType> {
 
   @override
   void dispose() {
-    _cardHolder.dispose();
-    _cardNumber.dispose();
-    _cardDate.dispose();
-    _cardCvv.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    return Scaffold(
-      bottomNavigationBar: Padding(
-        padding: EdgeInsets.symmetric(
-            horizontal: width * .04, vertical: width * 0.051),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            DottedSeparator(
-              color: almostGrey,
-              height: width * 0.002,
-            ),
-            SizedBox(
-              height: width * 0.071,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'total'.tr,
-                    textAlign: TextAlign.right,
-                    style: const TextStyle(
-                      color: black,
-                      fontSize: 20,
-                      fontFamily: 'HT Rakik',
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const Spacer(),
-                  Text.rich(
-                    TextSpan(
-                      children: [
-                        TextSpan(
-                          text: '${widget.price}',
-                          style: const TextStyle(
-                            color: black,
-                            fontSize: 20,
-                            fontFamily: 'HT Rakik',
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        const TextSpan(text: '  '),
-                        TextSpan(
-                          text: 'sar'.tr,
-                          style: TextStyle(
-                            color: black,
-                            fontSize: width * 0.051,
-                            fontFamily: 'HT Rakik',
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: width * 0.010,
-            ),
-            // Row(
-            //   crossAxisAlignment: CrossAxisAlignment.start,
-            //   children: [
-            //     CustomText(
-            //       text: 'promocode'.tr,
-            //       fontSize: width * 0.038,
-            //       fontWeight: FontWeight.w500,
-            //       color: almostGrey,
-            //     ),
-            //     const Spacer(),
-            //     CustomText(
-            //       // text: 'SAR ${widget.adventure.price.toString()}',
-            //       text: '- ${"sar".tr} ${widget.price}',
-            //       fontWeight: FontWeight.w500,
-            //       fontSize: width * 0.038, color: almostGrey,
-            //     ),
-            //   ],
-            // ),
-            SizedBox(
-              height: width * 0.05,
-            ),
-            Obx(
-              () => loadingButton()
-                  ? const CircularProgressIndicator.adaptive()
-                  : Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 12),
-                      child: CustomButton(
-                        onPressed: () async {
-                          if (_selectedPaymentMethod != null) {
-                            await selectPaymentType(_selectedPaymentMethod!);
-                            AmplitudeService.amplitude.track(BaseEvent(
-                              'Go to payment screen',
-                            ));
-                          } else {
-                            AppUtil.errorToast(
-                                context,
-                                AppUtil.rtlDirection2(context)
-                                    ? "يجب إختيار طريقة الدفع"
-                                    : "You need to pick payment methoed");
-                          }
-                        },
-                        title: 'pay'.tr,
-                        icon: const Icon(Icons.keyboard_arrow_right,
-                            color: Colors.white),
-                      ),
-                    ),
-            ),
-          ],
-        ),
-      ),
-      appBar: CustomAppBar(
-        'checkout'.tr,
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.only(
-            left: width * 0.041,
-            right: width * 0.041,
-            top: width * 0.030,
-            bottom: width * 0.082,
-          ),
+    return Obx(
+      () => Scaffold(
+        bottomNavigationBar: Padding(
+          padding: EdgeInsets.symmetric(
+              horizontal: width * .04, vertical: width * 0.051),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              CustomText(
-                text: 'paymentMethod'.tr,
-                fontSize: width * 0.047,
-                fontFamily: 'HT Rakik',
-                fontWeight: FontWeight.w500,
+              DottedSeparator(
+                color: almostGrey,
+                height: width * 0.002,
               ),
               SizedBox(
-                height: width * 0.04,
+                height: width * 0.071,
               ),
-              Row(
-                children: [
-                  Radio<PaymentMethod>(
-                    value: PaymentMethod.stcpay,
-                    groupValue: _selectedPaymentMethod,
-                    onChanged: (PaymentMethod? value) {
-                      setState(() {
-                        _selectedPaymentMethod = value;
-                      });
-                    },
-                  ),
-                  RepaintBoundary(
-                    child: SvgPicture.asset(
-                      "assets/icons/stc.svg",
-                      height: width * 0.051,
+              Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'total'.tr,
+                      textAlign: TextAlign.right,
+                      style: const TextStyle(
+                        color: black,
+                        fontSize: 20,
+                        fontFamily: 'HT Rakik',
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
-                  ),
-                ],
+                    const Spacer(),
+                    Text.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: '${widget.price}',
+                            style: const TextStyle(
+                              color: black,
+                              fontSize: 20,
+                              fontFamily: 'HT Rakik',
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          const TextSpan(text: '  '),
+                          TextSpan(
+                            text: 'sar'.tr,
+                            style: TextStyle(
+                              color: black,
+                              fontSize: width * 0.051,
+                              fontFamily: 'HT Rakik',
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              if (Platform.isIOS)
+              SizedBox(
+                height: width * 0.010,
+              ),
+              // Row(
+              //   crossAxisAlignment: CrossAxisAlignment.start,
+              //   children: [
+              //     CustomText(
+              //       text: 'promocode'.tr,
+              //       fontSize: width * 0.038,
+              //       fontWeight: FontWeight.w500,
+              //       color: almostGrey,
+              //     ),
+              //     const Spacer(),
+              //     CustomText(
+              //       // text: 'SAR ${widget.adventure.price.toString()}',
+              //       text: '- ${"sar".tr} ${widget.price}',
+              //       fontWeight: FontWeight.w500,
+              //       fontSize: width * 0.038, color: almostGrey,
+              //     ),
+              //   ],
+              // ),
+              SizedBox(
+                height: width * 0.05,
+              ),
+              Obx(
+                () => loadingButton()
+                    ? const CircularProgressIndicator.adaptive()
+                    : Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 12),
+                        child: CustomButton(
+                          onPressed: () async {
+                            if (_selectedPaymentMethod != null) {
+                              await selectPaymentType(_selectedPaymentMethod!);
+                              AmplitudeService.amplitude.track(BaseEvent(
+                                'Go to payment screen',
+                              ));
+                            } else {
+                              AppUtil.errorToast(
+                                  context,
+                                  AppUtil.rtlDirection2(context)
+                                      ? "يجب إختيار طريقة الدفع"
+                                      : "You need to pick payment methoed");
+                            }
+                          },
+                          title: 'pay'.tr,
+                          icon: const Icon(Icons.keyboard_arrow_right,
+                              color: Colors.white),
+                        ),
+                      ),
+              ),
+            ],
+          ),
+        ),
+        appBar: CustomAppBar(
+          'checkout'.tr,
+          isBack: loadingButton(),
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.only(
+              left: width * 0.041,
+              right: width * 0.041,
+              top: width * 0.030,
+              bottom: width * 0.082,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomText(
+                  text: 'paymentMethod'.tr,
+                  fontSize: width * 0.047,
+                  fontFamily: 'HT Rakik',
+                  fontWeight: FontWeight.w500,
+                ),
+                SizedBox(
+                  height: width * 0.04,
+                ),
                 Row(
                   children: [
                     Radio<PaymentMethod>(
-                      value: PaymentMethod.appelpay,
+                      value: PaymentMethod.stcpay,
                       groupValue: _selectedPaymentMethod,
                       onChanged: (PaymentMethod? value) {
                         setState(() {
@@ -943,45 +918,66 @@ class _PaymentTypeState extends State<PaymentType> {
                     ),
                     RepaintBoundary(
                       child: SvgPicture.asset(
-                        "assets/icons/applePay_icon.svg",
-                        color: const Color.fromARGB(255, 0, 0, 0),
+                        "assets/icons/stc.svg",
                         height: width * 0.051,
                       ),
                     ),
                   ],
                 ),
-              Row(
-                children: [
-                  Radio<PaymentMethod>(
-                    value: PaymentMethod.creditCard,
-                    groupValue: _selectedPaymentMethod,
-                    onChanged: (PaymentMethod? value) {
-                      setState(() {
-                        _selectedPaymentMethod = value;
-                      });
-                    },
+                if (Platform.isIOS)
+                  Row(
+                    children: [
+                      Radio<PaymentMethod>(
+                        value: PaymentMethod.appelpay,
+                        groupValue: _selectedPaymentMethod,
+                        onChanged: (PaymentMethod? value) {
+                          setState(() {
+                            _selectedPaymentMethod = value;
+                          });
+                        },
+                      ),
+                      RepaintBoundary(
+                        child: SvgPicture.asset(
+                          "assets/icons/applePay_icon.svg",
+                          color: const Color.fromARGB(255, 0, 0, 0),
+                          height: width * 0.051,
+                        ),
+                      ),
+                    ],
                   ),
-                  RepaintBoundary(
-                      child: SvgPicture.asset(
-                          'assets/icons/logos_mastercard.svg')),
-                  SizedBox(
-                    width: width * 0.005,
-                  ),
-                  RepaintBoundary(
-                      child: SvgPicture.asset('assets/icons/logos_visa.svg')),
-                  SizedBox(
-                    width: width * 0.015,
-                  ),
-                  CustomText(
-                    text: 'creditCard'.tr,
-                    color: const Color(0xFF070708),
-                    fontSize: width * 0.041,
-                    fontFamily: 'SF Pro',
-                    fontWeight: FontWeight.w500,
-                  ),
-                ],
-              ),
-            ],
+                Row(
+                  children: [
+                    Radio<PaymentMethod>(
+                      value: PaymentMethod.creditCard,
+                      groupValue: _selectedPaymentMethod,
+                      onChanged: (PaymentMethod? value) {
+                        setState(() {
+                          _selectedPaymentMethod = value;
+                        });
+                      },
+                    ),
+                    RepaintBoundary(
+                        child: SvgPicture.asset(
+                            'assets/icons/logos_mastercard.svg')),
+                    SizedBox(
+                      width: width * 0.005,
+                    ),
+                    RepaintBoundary(
+                        child: SvgPicture.asset('assets/icons/logos_visa.svg')),
+                    SizedBox(
+                      width: width * 0.015,
+                    ),
+                    CustomText(
+                      text: 'creditCard'.tr,
+                      color: const Color(0xFF070708),
+                      fontSize: width * 0.041,
+                      fontFamily: 'SF Pro',
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

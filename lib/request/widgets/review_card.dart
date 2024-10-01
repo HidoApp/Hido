@@ -25,7 +25,7 @@ class ReviewCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.of(context).size.width;
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,9 +38,12 @@ class ReviewCard extends StatelessWidget {
                 //radius: 20,
                 backgroundColor: Colors.transparent,
                 child: image == "profile_image.png"
-                    ? SvgPicture.asset(
-                        "assets/images/$image",
-                        fit: BoxFit.cover,
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(30),
+                        child: Image.asset(
+                          "assets/images/$image",
+                          fit: BoxFit.cover,
+                        ),
                       )
                     : ClipRRect(
                         borderRadius: BorderRadius.circular(30),
@@ -56,15 +59,15 @@ class ReviewCard extends StatelessWidget {
               children: [
                 CustomText(
                   text: name,
-                  fontSize: width*0.042,
+                  fontSize: width * 0.042,
                   fontFamily: AppUtil.SfFontType(context),
                   color: black,
                   fontWeight: FontWeight.w500,
                 ),
                 //date
                 CustomText(
-                  text:formatBookingDate(context, created),
-                  fontSize: width*0.03,
+                  text: formatBookingDate(context, created),
+                  fontSize: width * 0.03,
                   fontWeight: FontWeight.w500,
                   fontFamily: AppUtil.SfFontType(context),
                   color: starGreyColor,
@@ -80,7 +83,9 @@ class ReviewCard extends StatelessWidget {
         SizedBox(
           height: 35,
           child: Align(
-            alignment: AppUtil.rtlDirection2(context)?  Alignment.centerRight:Alignment.centerLeft,
+            alignment: AppUtil.rtlDirection2(context)
+                ? Alignment.centerRight
+                : Alignment.centerLeft,
             child: ListView.separated(
               shrinkWrap: true,
               clipBehavior: Clip.hardEdge,
@@ -96,22 +101,20 @@ class ReviewCard extends StatelessWidget {
           ),
         ),
         //description
-        if(description.isNotEmpty||description!="")...[
-        CustomText(
-          text: description,
-          textAlign:AppUtil.rtlDirection2(context)?TextAlign.right:TextAlign.left,
-          fontFamily: AppUtil.SfFontType(context),
-          fontSize: width*0.044,
-          fontWeight: FontWeight.w400,
-          maxlines: 500,
-          color: graySmallText,
-        
-        
-        
-        ),
-        SizedBox(height: 10) ,//comment sperated
-
-      ],
+        if (description.isNotEmpty || description != "") ...[
+          CustomText(
+            text: description,
+            textAlign: AppUtil.rtlDirection2(context)
+                ? TextAlign.right
+                : TextAlign.left,
+            fontFamily: AppUtil.SfFontType(context),
+            fontSize: width * 0.044,
+            fontWeight: FontWeight.w400,
+            maxlines: 500,
+            color: graySmallText,
+          ),
+          SizedBox(height: 10), //comment sperated
+        ],
         const Divider(
           color: lightGrey,
         )
@@ -119,7 +122,8 @@ class ReviewCard extends StatelessWidget {
     );
   }
 }
- String formatBookingDate(BuildContext context, String date) {
+
+String formatBookingDate(BuildContext context, String date) {
   DateTime dateTime = DateTime.parse(date);
   if (AppUtil.rtlDirection2(context)) {
     // Set Arabic locale for date formatting without the day name

@@ -10,10 +10,17 @@ import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-class AboutScreen extends StatelessWidget {
-  const AboutScreen({super.key, required this.profileController});
-  final ProfileController profileController;
+class AboutScreen extends StatefulWidget {
+  const AboutScreen({
+    super.key,
+  });
 
+  @override
+  State<AboutScreen> createState() => _AboutScreenState();
+}
+
+class _AboutScreenState extends State<AboutScreen> {
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -26,8 +33,10 @@ class AboutScreen extends StatelessWidget {
               horizontal: width * 0.084,
               vertical: width * 0.035,
             ),
-            child: profileController.profile.descriptionAboutMe!.isEmpty &&
-                    !profileController.profile.spokenLanguage!.isEmpty
+            child: (profileController.profile.descriptionAboutMe?.isEmpty ??
+                        true) &&
+                    (profileController.profile.spokenLanguage?.isNotEmpty ??
+                        false)
                 ? Center(
                     child: FittedBox(
                       child: CustomText(
@@ -50,7 +59,8 @@ class AboutScreen extends StatelessWidget {
                           text: (profileController
                                       .profile.descriptionAboutMe?.isNotEmpty ??
                                   false)
-                              ? profileController.profile.descriptionAboutMe!
+                              ? profileController.profile.descriptionAboutMe ??
+                                  "No description"
                               : '',
                           color: const Color(0xFF41404A),
                           textOverflow: TextOverflow.ellipsis,
@@ -61,7 +71,8 @@ class AboutScreen extends StatelessWidget {
                           fontWeight: FontWeight.w400,
                         ),
                         if (profileController
-                            .profile.descriptionAboutMe!.isNotEmpty)
+                                .profile.spokenLanguage?.isNotEmpty ??
+                            false)
                           SizedBox(
                             height: width * 0.038,
                           ),
@@ -82,7 +93,8 @@ class AboutScreen extends StatelessWidget {
                           child: ListView.separated(
                             scrollDirection: Axis.horizontal,
                             itemCount: profileController
-                                    .profile.spokenLanguage!.isEmpty
+                                        .profile.spokenLanguage?.isEmpty ??
+                                    true
                                 ? 1
                                 : profileController
                                     .profile.spokenLanguage!.length,
@@ -93,7 +105,8 @@ class AboutScreen extends StatelessWidget {
                             ),
                             itemBuilder: (context, index) => CustomChips(
                                 title: profileController
-                                        .profile.spokenLanguage!.isEmpty
+                                            .profile.spokenLanguage?.isEmpty ??
+                                        true
                                     ? "Arabic"
                                     : profileController
                                         .profile.spokenLanguage![index],

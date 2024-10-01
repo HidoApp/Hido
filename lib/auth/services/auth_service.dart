@@ -887,7 +887,8 @@ class AuthService {
     } else {
       var jsonBody = jsonDecode(response.body);
       String errorMessage = jsonBody['message'];
-      if (errorMessage == 'Forbidden') {
+      if (errorMessage ==
+          'You have requested an OTP too recently. Please wait before trying again.') {
         AppUtil.errorToast(context, 'otpForbidden'.tr);
       } else if (errorMessage == 'mobile number is not found') {
         AppUtil.errorToast(context, 'mobileNotFound'.tr);

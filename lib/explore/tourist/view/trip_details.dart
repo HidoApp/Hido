@@ -30,6 +30,7 @@ import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../../profile/models/profile.dart';
 import '../../../request/ajwadi/controllers/request_controller.dart';
@@ -172,10 +173,16 @@ class _TripDetailsState extends State<TripDetails> {
         ),
         bottomNavigationBar: Padding(
           padding: EdgeInsets.only(right: 17, left: 17, bottom: width * 0.085),
-          child: Obx(() => _RequestController.isBookingLoading.value
-              ? const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 160),
-                  child: CircularProgressIndicator.adaptive(),
+          child: Obx(() => _RequestController.isBookingLoading.value ||
+                  _touristExploreController.isPlaceIsLoading.value
+              ? Skeletonizer(
+                  enabled: _RequestController.isBookingLoading.value ||
+                      _touristExploreController.isPlaceIsLoading.value,
+                  // padding: EdgeInsets.symmetric(horizontal: 160),
+                  child: CustomButton(
+                    title: 'request'.tr,
+                    onPressed: () {},
+                  ),
                 )
               : !AppUtil.isGuest() && isViewBooking.value
                   ? (isHasOffers.value
