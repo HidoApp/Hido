@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
 import 'package:ajwad_v4/new-onboarding/view/splash_screen.dart';
+import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';
@@ -171,31 +172,39 @@ class _CancelSheetState extends State<CancelSheet> {
                             await flutterLocalNotificationsPlugin
                                 .cancel(notificationId);
 
-                             AmplitudeService.amplitude.track(
-                             BaseEvent('Booking Successfully canceled after payment',
-                             eventProperties: {
-                                'type': widget.type.toUpperCase(),
-                                'reason':textField2Controller.text,
-                             }
-                                 ));
-                            
+                            AmplitudeService.amplitude.track(BaseEvent(
+                                'Booking Successfully canceled after payment',
+                                eventProperties: {
+                                  'type': widget.type.toUpperCase(),
+                                  'reason': textField2Controller.text,
+                                }));
+
                             if (context.mounted) {
                               AppUtil.successToast(context, 'EndTrip'.tr);
                               await Future.delayed(const Duration(seconds: 1));
                             }
-                            Get.offAll(const TouristBottomBar());
+                            // Get.offAll(const TouristBottomBar());
+                            Get.back();
+                            Get.back();
+                            Get.back();
+                            final profileController =
+                                Get.put(ProfileController());
+
+                            profileController.getPastTicket(context: context);
+
+                            await profileController.getUpcommingTicket(
+                                context: context);
                           } else {
                             if (context.mounted) {
                               AppUtil.errorToast(context, 'noEndTrip'.tr);
                               await Future.delayed(const Duration(seconds: 2));
                             }
-                             AmplitudeService.amplitude.track(
-                             BaseEvent('Booking Cancellation Faild After Payment',
-                             eventProperties: {
-                                'type': widget.type.toUpperCase(),
-                                'reason':textField2Controller.text,
-                             }
-                             ));
+                            AmplitudeService.amplitude.track(BaseEvent(
+                                'Booking Cancellation Faild After Payment',
+                                eventProperties: {
+                                  'type': widget.type.toUpperCase(),
+                                  'reason': textField2Controller.text,
+                                }));
                           }
                         },
                         title: 'Confirm'.tr,

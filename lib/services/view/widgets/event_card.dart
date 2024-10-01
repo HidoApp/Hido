@@ -207,39 +207,39 @@ class _EventCardItemState extends State<EventCardItem> {
                   ),
                 ],
               ),
-              const Spacer(),
-              Padding(
-                padding: EdgeInsets.only(top: width * 0.0128),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    // if (AppUtil.rtlDirection2(context))
-                    //   CustomText(
-                    //     text: widget.rate,
-                    //     fontSize: width * 0.025,
-                    //     fontWeight: FontWeight.w700,
-                    //     color: colorDarkGreen,
-                    //     fontFamily: 'Kufam',
-                    //   ),
-                    // if (AppUtil.rtlDirection2(context))
-                    //   SizedBox(
-                    //     width: width * 0.01,
-                    //   ),
-                    SvgPicture.asset('assets/icons/star.svg'),
-                    SizedBox(
-                      width: width * 0.01,
-                    ),
-                    //  if (!AppUtil.rtlDirection2(context))
-                    CustomText(
-                      text: widget.rate,
-                      fontSize: width * 0.025,
-                      fontWeight: FontWeight.w700,
-                      color: colorDarkGreen,
-                      fontFamily: AppUtil.SfFontType(context),
-                    ),
-                  ],
-                ),
-              ),
+              // const Spacer(),
+              // Padding(
+              //   padding: EdgeInsets.only(top: width * 0.0128),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.start,
+              //     children: [
+              //       // if (AppUtil.rtlDirection2(context))
+              //       //   CustomText(
+              //       //     text: widget.rate,
+              //       //     fontSize: width * 0.025,
+              //       //     fontWeight: FontWeight.w700,
+              //       //     color: colorDarkGreen,
+              //       //     fontFamily: 'Kufam',
+              //       //   ),
+              //       // if (AppUtil.rtlDirection2(context))
+              //       //   SizedBox(
+              //       //     width: width * 0.01,
+              //       //   ),
+              //       SvgPicture.asset('assets/icons/star.svg'),
+              //       SizedBox(
+              //         width: width * 0.01,
+              //       ),
+              //       //  if (!AppUtil.rtlDirection2(context))
+              //       CustomText(
+              //         text: widget.rate,
+              //         fontSize: width * 0.025,
+              //         fontWeight: FontWeight.w700,
+              //         color: colorDarkGreen,
+              //         fontFamily: AppUtil.SfFontType(context),
+              //       ),
+              //     ],
+              //   ),
+              // ),
             ],
           ),
         ),

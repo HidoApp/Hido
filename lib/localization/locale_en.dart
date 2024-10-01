@@ -308,7 +308,7 @@ const localeEn = {
   'fieldRequired': '*Required Field',
   'invalidPhone': 'Invalid phone number',
   'invalidEmail': 'Invalid Email',
-  'invalidPass': 'Password must be more than 6 digit',
+  'invalidPass': '*Password must be at least 8 characters',
   'ivalidPassAndConfirm': 'Password and confirm password are not matching',
   "No_Requests": "No Requests Yet",
   "From": "From",

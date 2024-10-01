@@ -38,8 +38,8 @@ void main() async {
   await initializeDateFormatting('ar');
   await LocalNotification.init();
 
-    //amplitude
-   AmplitudeService.initializeAmplitude();
+  //amplitude
+  AmplitudeService.initializeAmplitude();
 
   timeago.setLocaleMessages('ar', timeago.ArMessages());
 

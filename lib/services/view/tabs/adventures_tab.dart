@@ -9,8 +9,6 @@ import 'package:ajwad_v4/widgets/custom_empty_widget.dart';
 import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import 'package:ajwad_v4/services/view/widgets/custom_adventure_item.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class AdventuresTab extends StatefulWidget {
@@ -45,9 +43,8 @@ class _AdventuresTabState extends State<AdventuresTab> {
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
-    final double height = MediaQuery.of(context).size.height;
     return SingleChildScrollView(
-      padding: EdgeInsets.symmetric(horizontal: 0, vertical: 32),
+      padding: EdgeInsets.symmetric(horizontal: 0, vertical: width * 0.082),
       // padding: EdgeInsets.symmetric(
       //     horizontal: width * 0.04, vertical: width * 0.035),
       child: Column(
@@ -61,7 +58,7 @@ class _AdventuresTabState extends State<AdventuresTab> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
+                padding: EdgeInsets.symmetric(horizontal: width * 0.041),
                 child: Obx(() => Skeletonizer(
                       enabled:
                           _adventureController.isAdventureListLoading.value,
@@ -79,12 +76,12 @@ class _AdventuresTabState extends State<AdventuresTab> {
                                           adventureId: _adventureController
                                               .adventureList[index].id,
                                         ));
-                                        AmplitudeService.amplitude.track(BaseEvent(
-                                          'View Selected adventure',eventProperties: {
-                                            'adventureTitle':_adventureController
-                                          .adventureList[index].nameEn
-                                          }
-                                        ));
+                                    AmplitudeService.amplitude.track(BaseEvent(
+                                        'View Selected adventure',
+                                        eventProperties: {
+                                          'adventureTitle': _adventureController
+                                              .adventureList[index].nameEn
+                                        }));
                                   },
                                   image: _adventureController
                                       .adventureList[index].image![0],
