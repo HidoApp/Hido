@@ -692,14 +692,17 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                             top: height * 0.26,
                           ), // Set the top padding to control vertical position
                           child: AnimatedSmoothIndicator(
-                              effect: WormEffect(
-                                // dotColor: starGreyColor,
-                                dotWidth: width * 0.030,
-                                dotHeight: width * 0.030,
-                                activeDotColor: Colors.white,
-                              ),
-                              activeIndex: _currentIndex,
-                              count: event!.image!.length),
+                            effect: WormEffect(
+                              // dotColor: starGreyColor,
+                              dotWidth: width * 0.030,
+                              dotHeight: width * 0.030,
+                              activeDotColor: Colors.white,
+                            ),
+                            activeIndex: _currentIndex,
+                            count: event!.image!.length >= 6
+                                ? 6
+                                : event!.image!.length,
+                          ),
                         ),
                       ),
                     ),

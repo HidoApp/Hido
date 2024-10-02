@@ -64,7 +64,6 @@ class _ReviewRequestState extends State<ReviewRequest> {
   }
 
   void getBooking() async {
-   
     await _offerController.getOffers(
         context: context,
         placeId: widget.place!.id!,
@@ -76,7 +75,7 @@ class _ReviewRequestState extends State<ReviewRequest> {
 
   PaymentController paymentController = Get.put(PaymentController());
   @override
-   Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
     print(widget.offerController!.totalPrice.value *
         widget.offerController!.offerDetails.value.booking!.guestNumber!);
 
@@ -86,13 +85,14 @@ class _ReviewRequestState extends State<ReviewRequest> {
           ? Scaffold(
               body: Center(
                   child: CircularProgressIndicator(color: Colors.green[800])))
-          : Scaffold(
-              extendBodyBehindAppBar: false,
-              appBar: CustomAppBar(
-                "ReviewRequest".tr,
-              ),
-              body: Container(
-
+          : GestureDetector(
+              onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+              child: Scaffold(
+                extendBodyBehindAppBar: false,
+                appBar: CustomAppBar(
+                  "ReviewRequest".tr,
+                ),
+                body: Container(
                   padding: EdgeInsets.only(
                       top: width * 0.01,
                       left: width * 0.043,
@@ -227,10 +227,9 @@ class _ReviewRequestState extends State<ReviewRequest> {
                                       booking: widget.booking,
                                     ),
                                   );
-                                  AmplitudeService.amplitude
-                                          .track(BaseEvent(
-                                        'Go to payment screen',
-                                      ));
+                                  AmplitudeService.amplitude.track(BaseEvent(
+                                    'Go to payment screen',
+                                  ));
                                 }),
                         SizedBox(height: 10),
                         CustomButton(
@@ -250,7 +249,7 @@ class _ReviewRequestState extends State<ReviewRequest> {
                   ),
                 ),
               ),
-            
+            ),
     );
   }
 

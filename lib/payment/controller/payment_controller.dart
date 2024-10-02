@@ -15,13 +15,13 @@ class PaymentController extends GetxController {
   var isPaymentGatewayLoading = false.obs;
   var isApplePayEmbeddedLoading = false.obs;
   var isApplePayExecuteLoading = false.obs;
-  // var PaymentResult = false.obs;
-  //credit card controllers
+ 
   var showCvv = false.obs;
   var isNameValid = true.obs;
   var isCardNumberValid = true.obs;
   var isCvvValid = true.obs;
   var isDateValid = true.obs;
+  var isApplied = false.obs;
 
   Future<PaymentResult?> payWithCreditCard({
     required BuildContext context,

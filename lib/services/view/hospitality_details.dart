@@ -106,8 +106,8 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
     }
 
     if (!widget.isLocal) {
-      _fetchAddress(hospitalityObj!.coordinate!.latitude ?? '',
-          hospitalityObj!.coordinate!.longitude ?? '');
+      _fetchAddress(hospitalityObj!.coordinate.latitude ?? '',
+          hospitalityObj!.coordinate.longitude ?? '');
     }
   }
 
@@ -631,7 +631,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                     id: hospitalityObj!.id,
                                     titleEn: hospitalityObj!.titleEn ?? "",
                                     titleAr: hospitalityObj!.titleAr ?? "",
-                                    image: hospitalityObj!.images!.first,
+                                    image: hospitalityObj!.images.first,
                                     type: 'hospitality');
                                 BookmarkService.addBookmark(bookmark);
                                 // AppUtil.successToast(
@@ -717,7 +717,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                         color: Colors.white,
                       ),
                     ),
-                    if (!widget.isLocal)
+                    if (!widget.isLocal && !AppUtil.isGuest())
                       Positioned(
                           top: height * 0.265,
                           right: width * 0.1,
@@ -744,14 +744,17 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                 !widget.isLocal ? height * 0.24 : height * 0.26,
                           ), // Set the top padding to control vertical position
                           child: AnimatedSmoothIndicator(
-                              effect: WormEffect(
-                                // dotColor: starGreyColor,
-                                dotWidth: width * 0.030,
-                                dotHeight: width * 0.030,
-                                activeDotColor: Colors.white,
-                              ),
-                              activeIndex: _currentIndex,
-                              count: hospitalityObj!.images!.length),
+                            effect: WormEffect(
+                              // dotColor: starGreyColor,
+                              dotWidth: width * 0.030,
+                              dotHeight: width * 0.030,
+                              activeDotColor: Colors.white,
+                            ),
+                            activeIndex: _currentIndex,
+                            count: hospitalityObj!.images.length >= 6
+                                ? 6
+                                : hospitalityObj!.images.length,
+                          ),
                         ),
                       ),
                     ),

@@ -68,6 +68,8 @@ class CustomTextField extends StatelessWidget {
       child: MediaQuery(
         data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
         child: TextFormField(
+          onFieldSubmitted: (value) {
+          },
           focusNode: focusNode,
           expands: expand,
           initialValue: initialValue,
