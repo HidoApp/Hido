@@ -670,7 +670,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                 ),
                               ))),
 
-                    if (!widget.isLocal)
+                    if (!widget.isLocal && !AppUtil.isGuest())
                       Positioned(
                           top: height * 0.265,
                           right: width * 0.1,
@@ -694,14 +694,17 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                 !widget.isLocal ? height * 0.24 : height * 0.26,
                           ), // Set the top padding to control vertical position
                           child: AnimatedSmoothIndicator(
-                              effect: WormEffect(
-                                // dotColor: starGreyColor,
-                                dotWidth: width * 0.030,
-                                dotHeight: width * 0.030,
-                                activeDotColor: Colors.white,
-                              ),
-                              activeIndex: _currentIndex,
-                              count: adventure!.image!.length),
+                            effect: WormEffect(
+                              // dotColor: starGreyColor,
+                              dotWidth: width * 0.030,
+                              dotHeight: width * 0.030,
+                              activeDotColor: Colors.white,
+                            ),
+                            activeIndex: _currentIndex,
+                            count: adventure!.image!.length >= 6
+                                ? 6
+                                : adventure!.image!.length,
+                          ),
                         ),
                       ),
                     ),

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
@@ -957,14 +955,17 @@ class _TripDetailsState extends State<TripDetails> {
                   top: height * 0.26,
                 ), // Set the top padding to control vertical position
                 child: AnimatedSmoothIndicator(
-                    effect: WormEffect(
-                      // dotColor: starGreyColor,
-                      dotWidth: width * 0.030,
-                      dotHeight: width * 0.030,
-                      activeDotColor: Colors.white,
-                    ),
-                    activeIndex: _currentIndex,
-                    count: widget.place!.image!.length),
+                  effect: WormEffect(
+                    // dotColor: starGreyColor,
+                    dotWidth: width * 0.030,
+                    dotHeight: width * 0.030,
+                    activeDotColor: Colors.white,
+                  ),
+                  activeIndex: _currentIndex,
+                  count: widget.place!.image!.length >= 6
+                      ? 6
+                      : widget.place!.image!.length,
+                ),
               ),
             ),
           ),
