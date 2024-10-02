@@ -153,7 +153,7 @@ class TouristExploreController extends GetxController {
       var date = await TouristExploreService.getTouristBookingById(
           context: context, bookingId: bookingId);
 
-      return date!;
+      return date;
     } catch (e) {
       return null;
     } finally {

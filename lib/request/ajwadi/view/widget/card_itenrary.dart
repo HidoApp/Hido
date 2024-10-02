@@ -8,16 +8,13 @@ import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/custom_textfield.dart';
 //import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_datetime_picker_bdaya/flutter_datetime_picker_bdaya.dart';
 import 'package:ajwad_v4/request/tourist/models/offer_details.dart' as book;
 
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+
 import 'package:intl/intl.dart';
 
 class ItineraryCard extends StatefulWidget {
@@ -211,6 +208,7 @@ class _ItineraryCardState extends State<ItineraryCard> {
                   if (price == null || price.isEmpty) {
                     return 'fieldRequired'.tr;
                   }
+                  return null;
                   // if (int.parse(price) < 30) {
                   //   return '*TheMinimumPrice'.tr;
                   // }

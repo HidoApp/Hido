@@ -40,7 +40,7 @@ class LocalOfferInfo extends StatefulWidget {
       required this.price,
       required this.rating,
       required this.tripNumber,
-      required this.place,
+      this.place,
       required this.userId,
       required this.profileId,
       this.booking,
@@ -54,7 +54,7 @@ class LocalOfferInfo extends StatefulWidget {
   final bool fromService;
   final book.Booking? booking;
 
-  final Place place;
+  final Place? place;
   @override
   State<LocalOfferInfo> createState() => _LocalOfferInfoState();
 }
@@ -171,156 +171,161 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
                       height: 18,
                     ),
                     //view offer button
-                    if (!widget.fromService)
-                      Obx(() {
-                        if (_offerController.acceptedOffer.value.orderStatus ==
-                                'ACCEPTED' ||
-                            widget.booking?.orderStatus == 'ACCEPTED' &&
-                                widget.place.booking != null) {
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 4),
-                            child: CustomAcceptButton(
-                              onPressed: () async {
-                                AmplitudeService.amplitude.track(BaseEvent(
-                                  'Click on "Chat" button',
-                                ));
+                    if (widget.place != null)
+                      if (!widget.fromService)
+                        Obx(() {
+                          if (_offerController
+                                      .acceptedOffer.value.orderStatus ==
+                                  'ACCEPTED' ||
+                              widget.booking?.orderStatus == 'ACCEPTED' &&
+                                  widget.place!.booking != null) {
+                            return Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 4),
+                              child: CustomAcceptButton(
+                                onPressed: () async {
+                                  AmplitudeService.amplitude.track(BaseEvent(
+                                    'Click on "Chat" button',
+                                  ));
 
-                                Get.to(() => ChatScreen(
-                                    chatId: widget.booking?.chatId,
-                                    booking2: widget.booking));
-                              },
-                              title: 'chat'.tr,
-                              icon: 'chat',
-                            ),
-                          );
-                        }
-                        if (_offerController.isAcceptOfferLoading.value) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
+                                  Get.to(() => ChatScreen(
+                                      chatId: widget.booking?.chatId,
+                                      booking2: widget.booking));
+                                },
+                                title: 'chat'.tr,
+                                icon: 'chat',
+                              ),
+                            );
+                          }
+                          if (_offerController.isAcceptOfferLoading.value) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
 
-                        if (_offerController.acceptedOffer.value.orderStatus ==
-                                'ACCEPTED' ||
-                            widget.booking?.orderStatus == 'ACCEPTED' &&
-                                widget.place.booking != null) {
-                          return Center(
-                            child: SizedBox(
-                              width: width * 0.5,
-                              child: _offerController.isOfferLoading.value
-                                  ? Center(
-                                      child: CircularProgressIndicator(
-                                          color: Colors.green[700]))
-                                  : Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 4),
-                                      child: CustomAcceptButton(
-                                        onPressed: () async {
-                                          OfferDetails? offerDetails =
-                                              await _offerController
-                                                  .getOfferById(
-                                                      context: context,
-                                                      offerId: _offerController
-                                                          .offerDetails
-                                                          .value
-                                                          .id!);
-                                          // offerDetails
+                          if (_offerController
+                                      .acceptedOffer.value.orderStatus ==
+                                  'ACCEPTED' ||
+                              widget.booking?.orderStatus == 'ACCEPTED' &&
+                                  widget.place!.booking != null) {
+                            return Center(
+                              child: SizedBox(
+                                width: width * 0.5,
+                                child: _offerController.isOfferLoading.value
+                                    ? Center(
+                                        child: CircularProgressIndicator(
+                                            color: Colors.green[700]))
+                                    : Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 4),
+                                        child: CustomAcceptButton(
+                                          onPressed: () async {
+                                            OfferDetails? offerDetails =
+                                                await _offerController
+                                                    .getOfferById(
+                                                        context: context,
+                                                        offerId:
+                                                            _offerController
+                                                                .offerDetails
+                                                                .value
+                                                                .id!);
+                                            // offerDetails
 
-                                          if (offerDetails != null) {
-                                            // String userId = getStorage.read('userId');
-                                            // log("chatId ${offerDetails.booking!.chatId!}");
-                                            // log("userId $userId");
-                                            // Get.to(() => ChatScreen(
-                                            //       senderId: userId,
-                                            //       chatId: offerDetails.chatId!,
-                                            //     ));
-                                            Get.to(() => ChatScreenLive(
-                                                  isAjwadi: false,
-                                                  offerController:
-                                                      _offerController,
-                                                  booking:
-                                                      offerDetails.booking!,
-                                                  chatId: offerDetails
-                                                      .booking!.chatId!,
-                                                  place: widget.place,
-                                                ));
-                                          }
-                                        },
-                                        title: 'chat'.tr,
-                                        icon: 'chat',
+                                            if (offerDetails != null) {
+                                              // String userId = getStorage.read('userId');
+                                              // log("chatId ${offerDetails.booking!.chatId!}");
+                                              // log("userId $userId");
+                                              // Get.to(() => ChatScreen(
+                                              //       senderId: userId,
+                                              //       chatId: offerDetails.chatId!,
+                                              //     ));
+                                              Get.to(() => ChatScreenLive(
+                                                    isAjwadi: false,
+                                                    offerController:
+                                                        _offerController,
+                                                    booking:
+                                                        offerDetails.booking!,
+                                                    chatId: offerDetails
+                                                        .booking!.chatId!,
+                                                    place: widget.place,
+                                                  ));
+                                            }
+                                          },
+                                          title: 'chat'.tr,
+                                          icon: 'chat',
+                                        ),
                                       ),
-                                    ),
+                              ),
+                            );
+                          }
+
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 47),
+                            child: CustomButton(
+                              onPressed: () async {
+                                // log("CustomButton");
+                                var payment =
+                                    _offerController.offerDetails.value.payment;
+                                // log("payment $payment");
+                                // log("payment ${payment.runtimeType}");
+                                if (payment != null &&
+                                    payment.isNotEmpty &&
+                                    // paid
+                                    _offerController.offerDetails.value
+                                            .payment!['payStatus'] ==
+                                        "paid") {
+                                  // log("acceptOffer");
+                                  // final acceptedOffer = await _offerController.acceptOffer(
+                                  //   context: context,
+                                  //   offerId: _offerController.offerDetails.value.id!,
+                                  //   schedules: _offerController.offerDetails.value.schedule!,
+                                  // );
+
+                                  // if (acceptedOffer!.orderStatus == 'ACCEPTED' &&
+                                  //     context.mounted) {
+                                  //   AppUtil.successToast(
+                                  //     context,
+                                  //     acceptedOffer.orderStatus,
+                                  //   );
+
+                                  //   // Get.to(() => const TouristChatScreen(
+                                  //   //       isChat: true,
+                                  //   //     ));
+                                  // }
+                                } else {
+                                  Get.back();
+                                  AmplitudeService.amplitude.track(BaseEvent(
+                                    'View Tour Activities',
+                                  ));
+                                  Get.to(() => ChatScreenLive(
+                                        isAjwadi: false,
+                                        offerController: _offerController,
+                                        booking: _offerController
+                                            .offerDetails.value.booking!,
+                                        chatId: _offerController
+                                            .offerDetails.value.booking?.chatId,
+                                        place: widget.place,
+                                      ));
+                                }
+                              },
+                              italic:
+                                  AppUtil.rtlDirection(context) ? false : true,
+                              title: (_offerController
+                                              .offerDetails.value.payment !=
+                                          null &&
+                                      _offerController.offerDetails.value
+                                          .payment!.isNotEmpty &&
+                                      //paid
+                                      _offerController.offerDetails.value
+                                              .payment!['payStatus'] ==
+                                          "paid")
+                                  ? "acceptOffer".tr
+                                  : "showOffer".tr,
+
+                              // SvgPicture.asset("assets/icons/user-plus.svg"),
                             ),
                           );
-                        }
-
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 47),
-                          child: CustomButton(
-                            onPressed: () async {
-                              // log("CustomButton");
-                              var payment =
-                                  _offerController.offerDetails.value.payment;
-                              // log("payment $payment");
-                              // log("payment ${payment.runtimeType}");
-                              if (payment != null &&
-                                  payment.isNotEmpty &&
-                                  // paid
-                                  _offerController.offerDetails.value
-                                          .payment!['payStatus'] ==
-                                      "paid") {
-                                // log("acceptOffer");
-                                // final acceptedOffer = await _offerController.acceptOffer(
-                                //   context: context,
-                                //   offerId: _offerController.offerDetails.value.id!,
-                                //   schedules: _offerController.offerDetails.value.schedule!,
-                                // );
-
-                                // if (acceptedOffer!.orderStatus == 'ACCEPTED' &&
-                                //     context.mounted) {
-                                //   AppUtil.successToast(
-                                //     context,
-                                //     acceptedOffer.orderStatus,
-                                //   );
-
-                                //   // Get.to(() => const TouristChatScreen(
-                                //   //       isChat: true,
-                                //   //     ));
-                                // }
-                              } else {
-                                Get.back();
-                                AmplitudeService.amplitude.track(BaseEvent(
-                                  'View Tour Activities',
-                                ));
-                                Get.to(() => ChatScreenLive(
-                                      isAjwadi: false,
-                                      offerController: _offerController,
-                                      booking: _offerController
-                                          .offerDetails.value.booking!,
-                                      chatId: _offerController
-                                          .offerDetails.value.booking?.chatId,
-                                      place: widget.place,
-                                    ));
-                              }
-                            },
-                            italic:
-                                AppUtil.rtlDirection(context) ? false : true,
-                            title:
-                                (_offerController.offerDetails.value.payment !=
-                                            null &&
-                                        _offerController.offerDetails.value
-                                            .payment!.isNotEmpty &&
-                                        //paid
-                                        _offerController.offerDetails.value
-                                                .payment!['payStatus'] ==
-                                            "paid")
-                                    ? "acceptOffer".tr
-                                    : "showOffer".tr,
-
-                            // SvgPicture.asset("assets/icons/user-plus.svg"),
-                          ),
-                        );
-                      }),
+                        }),
                   ],
                 ),
                 bottom: TabBar(
