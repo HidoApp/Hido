@@ -51,45 +51,41 @@ class _ProgressSheetState extends State<ProgressSheet> {
       case 2:
         return 'tourStartedSubtitle'.tr;
 
-        return 'tourCompletedSubtitle'.tr;
+      // return 'tourCompletedSubtitle'.tr;
       default:
         return '';
     }
   }
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return Padding(
-      padding: EdgeInsets.only(left: 24, right: 24, bottom: 0),
+      padding: EdgeInsets.symmetric(
+        vertical: 0,
+        horizontal: width * .061,
+      ),
       child: Obx(
         () => _touristExploreController.isActivityProgressLoading.value
             ? const Center(child: CircularProgressIndicator.adaptive())
             : ListView(
-                //    physics: const ClampingScrollPhysics(),
                 shrinkWrap: true,
-                //       crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CustomText(
                     text: getTitle(),
-                    fontSize: 17,
+                    fontSize: width * 0.043,
                     fontWeight: FontWeight.w500,
                   ),
                   CustomText(
                     text: getSubTitle(),
-                    fontSize: 15,
+                    fontSize: width * 0.038,
                     fontFamily:
                         AppUtil.rtlDirection2(context) ? "SF Arabic" : 'SF Pro',
                     color: starGreyColor,
                     fontWeight: FontWeight.w500,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20),
+                    padding: EdgeInsets.symmetric(vertical: width * 0.051),
                     child: EasyStepper(
                       enableStepTapping: false,
                       activeStep:
@@ -101,17 +97,18 @@ class _ProgressSheetState extends State<ProgressSheet> {
                       unreachedStepTextColor: lightGrey,
                       internalPadding: 0,
                       showLoadingAnimation: false,
-                      stepRadius: 20,
+                      stepRadius: width * 0.041,
                       padding: EdgeInsets.zero,
                       showStepBorder: false,
-                      lineStyle: const LineStyle(
-                          lineType: LineType.normal,
-                          lineThickness: 2,
-                          unreachedLineColor: lightGrey,
-                          activeLineColor: colorGreen,
-                          lineWidth: 10,
-                          lineSpace: 29,
-                          lineLength: 100),
+                      lineStyle: LineStyle(
+                        lineType: LineType.normal,
+                        lineThickness: 2,
+                        unreachedLineColor: lightGrey,
+                        activeLineColor: colorGreen,
+                        lineWidth: width * 0.025,
+                        lineSpace: width * 0.074,
+                        lineLength: width * 0.2564,
+                      ),
                       steps: [
                         EasyStep(
                             customStep: RepaintBoundary(
@@ -122,18 +119,11 @@ class _ProgressSheetState extends State<ProgressSheet> {
                                         0
                                     ? colorGreen
                                     : lightGrey,
-                                height: 24,
-                                width: 24,
+                                height: width * .061,
+                                width: width * .061,
                               ),
                             ),
                             title: 'onTheWay'.tr),
-                        // EasyStep(
-                        //   customStep: SvgPicture.asset(
-                        //     'assets/icons/slider_touriest.svg',
-                        //     color: activeStep >= 1 ? colorGreen : lightGrey,
-                        //   ),
-                        //   title: 'PickUp'.tr,
-                        // ),
                         EasyStep(
                           customStep: RepaintBoundary(
                             child: SvgPicture.asset(
@@ -143,8 +133,8 @@ class _ProgressSheetState extends State<ProgressSheet> {
                                       1
                                   ? colorGreen
                                   : lightGrey,
-                              height: 24,
-                              width: 24,
+                              height: width * .061,
+                              width: width * .061,
                             ),
                           ),
                           title: 'Arrived'.tr,
@@ -158,8 +148,8 @@ class _ProgressSheetState extends State<ProgressSheet> {
                                       2
                                   ? colorGreen
                                   : lightGrey,
-                              height: 24,
-                              width: 24,
+                              height: width * .061,
+                              width: width * .061,
                             ),
                           ),
                           title: 'tourTime'.tr,
