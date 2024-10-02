@@ -284,9 +284,9 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                       if (price == null || price.isEmpty) {
                         return 'fieldRequired'.tr;
                       }
-                      if (int.parse(price) < 30) {
-                        return '*TheMinimumPrice'.tr;
-                      }
+                      // if (int.parse(price) < 30) {
+                      //   return '*TheMinimumPrice'.tr;
+                      // }
                     },
                     onChanged: (value) {
                       if (value.isEmpty) {
@@ -398,7 +398,7 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                             onTap: () async {
                               await DatePickerBdaya.showTime12hPicker(
                                 context,
-                                 locale: AppUtil.rtlDirection2(context)
+                                locale: AppUtil.rtlDirection2(context)
                                     ? LocaleType.ar
                                     : LocaleType.en,
                                 showTitleActions: true,

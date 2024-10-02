@@ -17,7 +17,7 @@ class Booking {
   final String timeToReturn;
   final int? guestNumber;
   final GuestInfo? guestInfo;
-   final RequestName? requestName;
+  final RequestName? requestName;
   final String? vehicleType;
   final String? orderStatus;
   final Coordinate? coordinates;
@@ -34,30 +34,30 @@ class Booking {
   final String? profileId;
   final String? cost;
 
-  Booking({
-    required this.id,
-    this.placeId,
-    this.chatId,
-    required this.date,
-    required this.timeToGo,
-    required this.timeToReturn,
-    this.guestNumber,
-    this.cost,
-    this.vehicleType,
-    this.coordinates,
-    this.orderStatus,
-    this.guestInfo,
-    this.bookingType,
-    this.place,
-    this.hospitality,
-    this.offers,
-    this.adventure,
-    this.profileId,
-    this.event,
-    this.user,
-    this.requestName
-    // this.event,
-  });
+  Booking(
+      {required this.id,
+      this.placeId,
+      this.chatId,
+      required this.date,
+      required this.timeToGo,
+      required this.timeToReturn,
+      this.guestNumber,
+      this.cost,
+      this.vehicleType,
+      this.coordinates,
+      this.orderStatus,
+      this.guestInfo,
+      this.bookingType,
+      this.place,
+      this.hospitality,
+      this.offers,
+      this.adventure,
+      this.profileId,
+      this.event,
+      this.user,
+      this.requestName
+      // this.event,
+      });
 
   factory Booking.fromJson(Map<String, dynamic> json) {
     return Booking(
@@ -91,10 +91,8 @@ class Booking {
       adventure: json['adventure'] == null
           ? null
           : Adventure.fromJson(json['adventure']),
-   
-       user: json[" user"] == null
-          ? null
-          :BookUser.fromJson(json['user']),
+
+      user: json["user"] == null ? null : BookUser.fromJson(json['user']),
       //offers: json['offers'] == null ? null : (json['offers'] as List).map((offer) => Offer.fromJson(offer as Map<String, dynamic>)).toList(),
       offers: json['offers'] == null
           ? null
@@ -147,23 +145,20 @@ class GuestInfo {
     return {'female': female, 'male': male, 'dayId': dayId};
   }
 }
+
 class RequestName {
   final String nameAr;
   final String nameEn;
 
-
-RequestName(
-      {
-        required this.nameAr,
-      required this.nameEn,
-   
-      });
+  RequestName({
+    required this.nameAr,
+    required this.nameEn,
+  });
 
   factory RequestName.fromJson(Map<String, dynamic> json) {
     return RequestName(
-     nameEn: json['nameEn'] ?? '',
+      nameEn: json['nameEn'] ?? '',
       nameAr: json['nameAr'] ?? '',
-   
     );
   }
 
@@ -178,16 +173,19 @@ class Offer {
   final String status;
   final String orderStatus;
   List<Schedule>? schedule;
+  final BookUser? user;
+
   // final User? user;
 
-  Offer({
-    required this.id,
-    required this.userId,
-    required this.status,
-    required this.orderStatus,
-    this.schedule,
-    //this.user,
-  });
+  Offer(
+      {required this.id,
+      required this.userId,
+      required this.status,
+      required this.orderStatus,
+      this.schedule,
+      this.user
+      //this.user,
+      });
 
   factory Offer.fromJson(Map<String, dynamic> json) {
     return Offer(
@@ -198,6 +196,8 @@ class Offer {
           : [],
       status: json['status'],
       orderStatus: json['orderStatus'],
+      user: json["user"] == null ? null : BookUser.fromJson(json['user']),
+
       //user: json['user'] != null ? User.fromJson(json['user']) : null,
     );
   }

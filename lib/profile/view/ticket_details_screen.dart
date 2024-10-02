@@ -1,14 +1,23 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/event/model/event.dart';
+import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
+import 'package:ajwad_v4/explore/tourist/model/place.dart';
+import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
+import 'package:ajwad_v4/profile/models/profile.dart';
 import 'package:ajwad_v4/profile/widget/AdventureTicketData.dart';
 import 'package:ajwad_v4/profile/widget/cancleSheet.dart';
 import 'package:ajwad_v4/profile/widget/event_ticket_data.dart';
+import 'package:ajwad_v4/request/tourist/view/local_offer_info.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
 import 'package:ajwad_v4/widgets/dotted_line_separator.dart';
+import 'package:ajwad_v4/widgets/image_cache_widget.dart';
 import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:ticket_widget/ticket_widget.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
@@ -26,7 +35,7 @@ import 'package:ajwad_v4/services/model/hospitality.dart';
 
 import '../../services/controller/hospitality_controller.dart';
 
-class TicketDetailsScreen extends StatelessWidget {
+class TicketDetailsScreen extends StatefulWidget {
   TicketDetailsScreen(
       {Key? key,
       this.booking,
@@ -48,35 +57,133 @@ class TicketDetailsScreen extends StatelessWidget {
   final Adventure? adventure;
   final Event? event;
   bool? isTour;
-  // final int? maleGuestNum;
-  // final int? femaleGuestNum;
 
-  final _offerController = Get.put(OfferController());
-  final _hospitalityController = Get.put(HospitalityController());
+  @override
+  State<TicketDetailsScreen> createState() => _TicketDetailsScreenState();
+}
+
+class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
+  // final int? maleGuestNum;
+  // final _offerController = Get.put(OfferController());
+  final _touristExploreController = Get.put(TouristExploreController());
+  // final _hospitalityController = Get.put(HospitalityController());
+  Booking? profileBooking;
+  void getBooking() async {
+    profileBooking = await _touristExploreController.getTouristBookingById(
+        context: context, bookingId: widget.booking?.id ?? "");
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getBooking();
+  }
 
   @override
   Widget build(BuildContext context) {
-    // log(booking!.bookingType! ?? "NULLL");
+    //   profileBooking?.offers?.first.user!.profile.name ??
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      backgroundColor:  Colors.white,
+      backgroundColor: Colors.white,
       appBar: CustomAppBar(
         'myTickets'.tr,
         backgroundColor: Colors.white,
-        
       ),
       //CustomAppBar('myTickets'.tr),
       body: SingleChildScrollView(
         child: Container(
           color: lightGreyBackground, // Background color for the Container
-
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 20),
+              SizedBox(height: width * 0.051),
+              Obx(
+                () => Skeletonizer(
+                  enabled: _touristExploreController.isBookingByIdLoading.value,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: width * 0.041),
+                    child: GestureDetector(
+                      onTap: () {
+                        Get.to(() => LocalOfferInfo(
+                              image: profileBooking
+                                      ?.offers?.first.user!.profile.image ??
+                                  "",
+                              name: profileBooking
+                                      ?.offers?.first.user!.profile.name ??
+                                  "",
+                              price: int.parse(profileBooking?.cost ?? "0"),
+                              rating: profileBooking
+                                      ?.offers?.first.user!.profile.tourRating
+                                      .toDouble() ??
+                                  0,
+                              tripNumber: profileBooking?.offers?.first.user!
+                                      .profile.tourNumber ??
+                                  0,
+                              place: null,
+                              userId: profileBooking!.offers!.first.userId,
+                              profileId: profileBooking!.offers!.first.userId,
+                            ));
+                      },
+                      child: Container(
+                          padding: EdgeInsets.symmetric(
+                              vertical: width * 0.041,
+                              horizontal: width * 0.051),
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: lightGrey),
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(16)),
+                          height: 70,
+                          child: Row(
+                            children: [
+                              CircleAvatar(
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(30),
+                                  child: profileBooking?.offers?.first.user!
+                                              .profile.image !=
+                                          null
+                                      ? ImageCacheWidget(
+                                          height: width * 0.097,
+                                          width: width * 0.097,
+                                          image: profileBooking?.offers?.first
+                                                  .user!.profile.image ??
+                                              "")
+                                      : Image.asset(
+                                          'assets/images/profile_image.png'),
+                                ),
+                              ),
+                              SizedBox(
+                                width: width * 0.0205,
+                              ),
+                              CustomText(
+                                fontFamily: AppUtil.SfFontType(context),
+                                fontSize: width * 0.038,
+                                fontWeight: FontWeight.w500,
+                                text: AppUtil.capitalizeFirstLetter(
+                                    profileBooking?.offers?.first.user!.profile
+                                            .name ??
+                                        "Name"),
+                              ),
+                              // const Spacer(),
+                              // SizedBox(
+                              //   width: width * 0.233,
+                              //   child: CustomButton(
+                              //     title: 'chat'.tr,
+                              //     onPressed: () {},
+                              //   ),
+                              // )
+                            ],
+                          )),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: width * 0.03,
+              ),
               Align(
                 alignment: Alignment.topCenter,
                 child: TicketWidget(
@@ -85,8 +192,8 @@ class TicketDetailsScreen extends StatelessWidget {
                   isCornerRounded: true,
                   padding:
                       const EdgeInsets.symmetric(horizontal: 24, vertical: 23),
-                  color: Color.fromRGBO(255, 255, 255, 1),
-                  child: getBookingTypeWidget(context, bookTypeText!),
+                  color: const Color.fromRGBO(255, 255, 255, 1),
+                  child: getBookingTypeWidget(context, widget.bookTypeText!),
 
                   //TicketData(booking: booking,icon: icon,bookTypeText: bookTypeText,),
                 ),
@@ -103,26 +210,24 @@ class TicketDetailsScreen extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (adventure == null &&
-                  event == null &&
-                  hospitality == null &&
-                  !isTour!) ...[
-                if (booking!.orderStatus == 'ACCEPTED') ...[
+              if (widget.adventure == null &&
+                  widget.event == null &&
+                  widget.hospitality == null &&
+                  !widget.isTour!) ...[
+                if (widget.booking!.orderStatus == 'ACCEPTED') ...[
                   CustomButton(
                     onPressed: () {
-                   
                       Get.bottomSheet(
                           isScrollControlled: true,
                           CancelSheet(
-                              bookId: booking!.id ?? '',
-                              type: booking!.bookingType ?? ''));
-                              
-                        AmplitudeService.amplitude.track(
-                             BaseEvent('Click on Cancel booking ',
-                                 ));
-                                 
+                              bookId: widget.booking!.id ?? '',
+                              type: widget.booking!.bookingType ?? ''));
+
+                      AmplitudeService.amplitude.track(BaseEvent(
+                        'Click on Cancel booking ',
+                      ));
                     },
-          
+
                     // },
                     title: 'CancelBooking'.tr,
                     buttonColor:
@@ -145,38 +250,54 @@ class TicketDetailsScreen extends StatelessWidget {
       case 'place':
       case 'جولة':
         return TicketData(
-            booking: booking!, icon: icon, bookTypeText: bookTypeText);
+            booking: widget.booking!,
+            icon: widget.icon,
+            bookTypeText: widget.bookTypeText);
 
       case 'adventure':
       case 'مغامرة':
-        if (adventure == null)
+        if (widget.adventure == null)
           return AdventureTicketData(
-              booking: booking!, icon: icon, bookTypeText: bookTypeText);
+              booking: widget.booking!,
+              icon: widget.icon,
+              bookTypeText: widget.bookTypeText);
         else
           return AdventureTicketData(
-              adventure: adventure, icon: icon, bookTypeText: bookTypeText);
+              adventure: widget.adventure,
+              icon: widget.icon,
+              bookTypeText: widget.bookTypeText);
 
       case 'hospitality':
       case 'ضيافة':
-        if (hospitality == null)
+        if (widget.hospitality == null)
           return HostTicketData(
-              booking: booking!, icon: icon, bookTypeText: bookTypeText);
+              booking: widget.booking!,
+              icon: widget.icon,
+              bookTypeText: widget.bookTypeText);
         else
           return HostTicketData(
-              hospitality: hospitality, icon: icon, bookTypeText: bookTypeText);
+              hospitality: widget.hospitality,
+              icon: widget.icon,
+              bookTypeText: widget.bookTypeText);
 
       case 'event':
       case 'فعالية':
-        if (event == null) {
+        if (widget.event == null) {
           return EventTicketData(
-              booking: booking, icon: icon, bookTypeText: bookTypeText);
+              booking: widget.booking,
+              icon: widget.icon,
+              bookTypeText: widget.bookTypeText);
         } else {
           return EventTicketData(
-              event: event, icon: icon, bookTypeText: bookTypeText);
+              event: widget.event,
+              icon: widget.icon,
+              bookTypeText: widget.bookTypeText);
         }
       default:
         return TicketData(
-            booking: booking!, icon: icon, bookTypeText: bookTypeText);
+            booking: widget.booking!,
+            icon: widget.icon,
+            bookTypeText: widget.bookTypeText);
     }
   }
 }
