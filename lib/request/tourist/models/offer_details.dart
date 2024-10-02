@@ -183,8 +183,7 @@ class Booking {
     //  bookingType:json['bookingType'];
 
     place = json['place'] == null ? null : PlaceInChat.fromJson(json['place']);
-    hospitality:
-    json['hospitality'] == null
+    hospitality:json['hospitality'] == null
         ? null
         : Hospitality.fromJson(json['hospitality']);
     // adventure: json['adventure'] == null? null :Adventure.fromJson(json['adventure']);

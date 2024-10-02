@@ -25,8 +25,9 @@ class ChatScreen extends StatefulWidget {
   String? chatId;
   final Booking? booking;
   book.Booking? booking2;
+  bool? isTourist;
 
-  ChatScreen({super.key, required this.chatId, this.booking, this.booking2});
+  ChatScreen({super.key, required this.chatId, this.booking, this.booking2,this.isTourist});
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -107,6 +108,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                     Padding(
                                         padding:
                                             const EdgeInsets.only(left: 90)),
+                                    if(widget.isTourist??true)...[
                                     Center(
                                       child: chat!.bookingId == ''
                                           ? Container()
@@ -324,7 +326,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                                 ],
                                               ),
                                             ),
-                                    ),
+                                    )],
                                     const SizedBox(
                                       height: 15,
                                     ),
@@ -526,8 +528,9 @@ class _ChatScreenState extends State<ChatScreen> {
                                                   bool isSender =
                                                       (msgSenderId == senderId);
                                                   log("isSender $isSender");
-                                                  message.senderName;
-                                                  message.senderImage;
+                                                  // message.senderName;
+                                                  // message.senderImage;
+                                                
 
                                                   print(
                                                     intel.DateFormat(

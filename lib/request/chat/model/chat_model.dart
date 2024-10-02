@@ -80,8 +80,9 @@ class ChatModel {
 class ChatMessage {
   String? id;
   String? senderId;
-  String? senderName;
-  String? senderImage;
+  // String? senderName;
+  // String? senderImage;
+  String? receiverId;
   String? message;
   String? status;
   bool? isRead;
@@ -92,8 +93,9 @@ class ChatMessage {
   ChatMessage(
       {this.id,
       this.senderId,
-      this.senderName,
-      this.senderImage,
+      this.receiverId,
+      // this.senderName,
+      // this.senderImage,
       this.message,
       this.status,
       this.isRead,
@@ -104,8 +106,9 @@ class ChatMessage {
   ChatMessage.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     senderId = json['senderId'];
-    senderName = json['senderName'];
-    senderImage = json['senderImage'];
+    // senderName = json['senderName'];
+    // senderImage = json['senderImage'];
+    receiverId = json['receiverId'];
     message = json['message'];
     status = json['status'];
     isRead = json['isRead'];
@@ -118,8 +121,10 @@ class ChatMessage {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['senderId'] = senderId;
-    data['senderName'] = senderName;
-    data['senderImage'] = senderImage;
+    data['receiverId'] = receiverId;
+    
+    // data['senderName'] = senderName;
+    // data['senderImage'] = senderImage;
     data['message'] = message;
     data['status'] = status;
     data['isRead'] = isRead;

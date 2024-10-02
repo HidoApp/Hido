@@ -41,58 +41,57 @@ class _MessagesScreenState extends State<MessagesScreen> {
           () => SizedBox(
             height: height,
             width: width,
-            child: widget.profileController.chatList.isEmpty
-                ? Center(
-                    child: CustomEmptyWidget(
-                      title: 'noMessages'.tr,
-                      image: 'noCommunication',
-                      subtitle: 'noMessagesSub'.tr,
-                    ),
-                  )
-                : SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Skeletonizer(
-                            enabled:
-                                widget.profileController.isChatLoading.value,
-                            child: ListView.separated(
-                                shrinkWrap: true,
-                                itemCount:
-                                    widget.profileController.chatList.length,
-                                separatorBuilder: (context, index) {
-                                  return const Column(
-                                    children: [
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 10.0),
-                                        child: Divider(
-                                          color: lightGrey,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                    ],
-                                  );
-                                },
-                                itemBuilder: (context, index) {
-                                  //
-                                  return CustomChatCard(
-                                    chatModel: widget
-                                        .profileController.chatList[index],
-                                  );
-                                })),
-                      ],
-                    ),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  const SizedBox(
+                    height: 20,
                   ),
+                  Skeletonizer(
+                      enabled: widget.profileController.isChatLoading.value,
+                      child: widget.profileController.chatList.isEmpty
+                          ? Center(
+                              child: CustomEmptyWidget(
+                                title: 'noMessages'.tr,
+                                image: 'noCommunication',
+                                subtitle: 'noMessagesSub'.tr,
+                              ),
+                            )
+                          : ListView.separated(
+                              shrinkWrap: true,
+                              itemCount:
+                                  widget.profileController.chatList.length,
+                              separatorBuilder: (context, index) {
+                                return const Column(
+                                  children: [
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10.0),
+                                      child: Divider(
+                                        color: lightGrey,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                  ],
+                                );
+                              },
+                              itemBuilder: (context, index) {
+                                //
+                                return CustomChatCard(
+                                  chatModel:
+                                      widget.profileController.chatList[index],
+                                );
+                              })),
+                ],
+              ),
+            ),
           ),
         ),
       ),
