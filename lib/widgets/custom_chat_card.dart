@@ -35,9 +35,11 @@ class CustomChatCard extends StatelessWidget {
 
             ChatScreen(
                 chatId: chatModel.id,
+                isTourist: chatModel.localInChat==null?false:true,  
                 booking:
                     Get.put(OfferController()).offerDetails.value.booking ??
-                        null));
+                        null
+        ));
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),

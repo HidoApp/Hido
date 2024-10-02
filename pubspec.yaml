@@ -45,11 +45,11 @@ dependencies:
   cached_network_image: ^3.3.0
   flutter_switch: ^0.3.2
   get: ^4.6.5
-  # syncfusion_flutter_datepicker: ^22.2.7
-  syncfusion_flutter_datepicker: ^26.1.40
+  syncfusion_flutter_datepicker: ^22.2.7
+  # syncfusion_flutter_datepicker: ^26.1.40
   flutter_staggered_grid_view: ^0.6.2
-  # intl: ^0.18.1
-  intl: ^0.19.0
+  intl: ^0.18.1
+  # intl: ^0.19.0
   get_storage: ^2.1.1
   http:
   another_flushbar: ^1.12.30
@@ -127,24 +127,15 @@ flutter:
     - assets/icons/
     - assets/map_styles/
     - assets/delivery.json
-    - assets/testtt.json
     - assets/testttt.json
-    - assets/testtttt.json
     - assets/intro_vid.mp4
-    - assets/onboarding_1.json
-    - assets/onboarding_4.json
-    - assets/onboarding_2.json
     - assets/onboarding_11.json
-    - assets/onboarding_44.json
     - assets/onboarding_1_ar.json
-    - assets/onboarding_2_ar.json
     - assets/onboarding_3_ar.json
     - assets/onboarding_4_ar.json
-    - assets/onboarding_444.json
     - assets/onboarding_2_neww.json
     - assets/onboarding_222_Ar.json
     - assets/onboarding_55555.json
-    - assets/splash_screen.json
     - assets/splash_screen_new.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
