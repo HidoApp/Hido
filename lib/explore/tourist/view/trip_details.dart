@@ -169,53 +169,90 @@ class _TripDetailsState extends State<TripDetails> {
           color: Colors.white,
           iconColor: Colors.white,
         ),
-        bottomNavigationBar: Padding(
-          padding: EdgeInsets.only(right: 17, left: 17, bottom: width * 0.085),
-          child: Obx(() => _RequestController.isBookingLoading.value ||
-                  _touristExploreController.isPlaceIsLoading.value
-              ? Skeletonizer(
-                  enabled: _RequestController.isBookingLoading.value ||
-                      _touristExploreController.isPlaceIsLoading.value,
-                  // padding: EdgeInsets.symmetric(horizontal: 160),
-                  child: CustomButton(
-                    title: 'request'.tr,
-                    onPressed: () {},
-                  ),
-                )
-              : !AppUtil.isGuest() && isViewBooking.value
-                  ? (isHasOffers.value
-                      ? _RequestController.isRequestAcceptLoading.value
-                          ? const CircularProgressIndicator.adaptive()
+        bottomNavigationBar: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding:
+                  EdgeInsets.only(right: 17, left: 17, bottom: width * 0.085),
+              child: Obx(() => _RequestController.isBookingLoading.value ||
+                      _touristExploreController.isPlaceIsLoading.value
+                  ? const CircularProgressIndicator.adaptive()
+                  : !AppUtil.isGuest() && isViewBooking.value
+                      ? (isHasOffers.value
+                          ? _RequestController.isRequestAcceptLoading.value
+                              ? const CircularProgressIndicator.adaptive()
+                              : CustomButton(
+                                  onPressed: () async {
+                                    theBooking =
+                                        await _RequestController.getBookingById(
+                                      context: context,
+                                      bookingId: _touristExploreController
+                                              .thePlace
+                                              .value!
+                                              .booking!
+                                              .first
+                                              .id ??
+                                          '',
+                                    );
+                                    AmplitudeService.amplitude.track(BaseEvent(
+                                      'Click on "View Your Request" button',
+                                    ));
+                                    Get.to(
+                                      () => LocalOfferInfo(
+                                        place: _touristExploreController
+                                            .thePlace.value!,
+                                        image: theProfile?.profileImage ?? '',
+                                        name: theProfile?.name ?? '',
+                                        profileId: theProfile?.id ?? '',
+                                        userId: theProfile!.id ?? "",
+                                        rating: theProfile?.tourRating ?? 0,
+                                        price: 0,
+                                        tripNumber: theProfile?.tourNumber ?? 0,
+                                        booking: theBooking,
+                                      ),
+                                    );
+                                  },
+                                  title: AppUtil.rtlDirection2(context)
+                                      ? "طلبك"
+                                      : "Your Request",
+                                  icon: !AppUtil.rtlDirection(context)
+                                      ? const Icon(
+                                          Icons.arrow_back_ios,
+                                          size: 20,
+                                        )
+                                      : const Icon(
+                                          Icons.arrow_forward_ios,
+                                          size: 20,
+                                        ),
+                                )
                           : CustomButton(
                               onPressed: () async {
-                                theBooking =
-                                    await _RequestController.getBookingById(
-                                  context: context,
-                                  bookingId: _touristExploreController
-                                          .thePlace.value!.booking!.first.id ??
-                                      '',
-                                );
-                                AmplitudeService.amplitude.track(BaseEvent(
-                                  'Click on "View Your Request" button',
-                                ));
+                                // Place? thePlace =
+                                //     await _touristExploreController
+                                //         .getPlaceById(
+                                //             id: widget.place!.id!,
+                                //             context: context);
+                                // getOfferinfo();
                                 Get.to(
-                                  () => LocalOfferInfo(
-                                    place: _touristExploreController
-                                        .thePlace.value!,
-                                    image: theProfile?.profileImage ?? '',
-                                    name: theProfile?.name ?? '',
-                                    profileId: theProfile?.id ?? '',
-                                    userId: theProfile!.id ?? "",
-                                    rating: theProfile?.tourRating ?? 0,
-                                    price: 0,
-                                    tripNumber: theProfile?.tourNumber ?? 0,
-                                    booking: theBooking,
+                                  () => FindAjwady(
+                                    booking: _touristExploreController
+                                        .thePlace.value!.booking!.first,
+                                    place: widget.place!,
+                                    placeId: _touristExploreController
+                                            .thePlace.value?.id ??
+                                        '',
                                   ),
-                                );
+                                )?.then((value) async {
+                                  return getOfferinfo();
+                                });
+                                AmplitudeService.amplitude.track(BaseEvent(
+                                  'Click on "View Offers" button',
+                                ));
                               },
                               title: AppUtil.rtlDirection2(context)
-                                  ? "طلبك"
-                                  : "Your Request",
+                                  ? "العروض"
+                                  : "View Offers",
                               icon: !AppUtil.rtlDirection(context)
                                   ? const Icon(
                                       Icons.arrow_back_ios,
@@ -225,34 +262,58 @@ class _TripDetailsState extends State<TripDetails> {
                                       Icons.arrow_forward_ios,
                                       size: 20,
                                     ),
-                            )
+                            ))
                       : CustomButton(
-                          onPressed: () async {
-                            // Place? thePlace =
-                            //     await _touristExploreController
-                            //         .getPlaceById(
-                            //             id: widget.place!.id!,
-                            //             context: context);
-                            // getOfferinfo();
-                            Get.to(
-                              () => FindAjwady(
-                                booking: _touristExploreController
-                                    .thePlace.value!.booking!.first,
-                                place: widget.place!,
-                                placeId: _touristExploreController
-                                        .thePlace.value?.id ??
-                                    '',
-                              ),
-                            )?.then((value) async {
-                              return getOfferinfo();
-                            });
-                            AmplitudeService.amplitude.track(BaseEvent(
-                              'Click on "View Offers" button',
-                            ));
+                          onPressed: () {
+                            //
+                            //
+                            if (AppUtil.isGuest()) {
+                              showModalBottomSheet(
+                                  context: context,
+                                  builder: (context) => const SignInSheet(),
+                                  isScrollControlled: true,
+                                  enableDrag: true,
+                                  backgroundColor: Colors.white,
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(width * 0.06),
+                                        topRight:
+                                            Radius.circular(width * 0.06)),
+                                  ));
+                            } else {
+                              AmplitudeService.amplitude.track(
+                                BaseEvent('Click on "Request" button'),
+                              );
+                              showModalBottomSheet(
+                                  useRootNavigator: true,
+                                  isScrollControlled: true,
+                                  backgroundColor: Colors.transparent,
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(30),
+                                      topLeft: Radius.circular(30),
+                                    ),
+                                  ),
+                                  context: context,
+                                  builder: (context) {
+                                    return BookingSheet(
+                                      fromAjwady: false,
+                                      place: widget.place,
+                                      userLocation: widget.userLocation,
+                                      touristExploreController:
+                                          _touristExploreController,
+                                    );
+                                  }).then((value) {
+                                getOfferinfo();
+                                return;
+                              });
+                            }
                           },
+                          // title: "buyTicket".tr,
                           title: AppUtil.rtlDirection2(context)
-                              ? "العروض"
-                              : "View Offers",
+                              ? "اطلب"
+                              : "Request",
                           icon: !AppUtil.rtlDirection(context)
                               ? const Icon(
                                   Icons.arrow_back_ios,
@@ -262,66 +323,9 @@ class _TripDetailsState extends State<TripDetails> {
                                   Icons.arrow_forward_ios,
                                   size: 20,
                                 ),
-                        ))
-                  : CustomButton(
-                      onPressed: () {
-                        //
-                        //
-                        if (AppUtil.isGuest()) {
-                          showModalBottomSheet(
-                              context: context,
-                              builder: (context) => const SignInSheet(),
-                              isScrollControlled: true,
-                              enableDrag: true,
-                              backgroundColor: Colors.white,
-                              elevation: 0,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(width * 0.06),
-                                    topRight: Radius.circular(width * 0.06)),
-                              ));
-                        } else {
-                          AmplitudeService.amplitude.track(
-                            BaseEvent('Click on "Request" button'),
-                          );
-                          showModalBottomSheet(
-                              useRootNavigator: true,
-                              isScrollControlled: true,
-                              backgroundColor: Colors.transparent,
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(30),
-                                  topLeft: Radius.circular(30),
-                                ),
-                              ),
-                              context: context,
-                              builder: (context) {
-                                return BookingSheet(
-                                  fromAjwady: false,
-                                  place: widget.place,
-                                  userLocation: widget.userLocation,
-                                  touristExploreController:
-                                      _touristExploreController,
-                                );
-                              }).then((value) {
-                            getOfferinfo();
-                            return;
-                          });
-                        }
-                      },
-                      // title: "buyTicket".tr,
-                      title:
-                          AppUtil.rtlDirection2(context) ? "اطلب" : "Request",
-                      icon: !AppUtil.rtlDirection(context)
-                          ? const Icon(
-                              Icons.arrow_back_ios,
-                              size: 20,
-                            )
-                          : const Icon(
-                              Icons.arrow_forward_ios,
-                              size: 20,
-                            ),
-                    )),
+                        )),
+            ),
+          ],
         ),
         body: SingleChildScrollView(
             child: Stack(children: [

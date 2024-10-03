@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/auth/services/auth_service.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/new-onboarding/view/intro_screen.dart';
@@ -49,12 +51,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (!widget.fromAjwady) {
       getProfile();
     }
+    totalRating = calculateOverallRating();
   }
 
   void getProfile() async {
-    await _profileController
-        .getProfile(context: context)
-        .then((value) => totalRating = calculateOverallRating());
+    await _profileController.getProfile(context: context).then((onValue) {
+      totalRating = calculateOverallRating();
+    });
   }
 
   double calculateOverallRating() {
@@ -81,6 +84,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         .toDouble();
 
     // Return the overall rating, ensuring no division by zero
+    log("lkjhgfdsdfghj");
+    log(totalInstances.toString());
     return totalInstances > 0
         ? double.parse((totalWeightedSum / totalInstances).toStringAsFixed(1))
         : 0.0;
@@ -96,7 +101,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           backgroundColor: Colors.white,
           extendBodyBehindAppBar: true,
           body: Container(
-            height: height * .94, // was .9
+            // height: height * .94, // was .9
             padding: EdgeInsets.only(top: height * 0.09),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
