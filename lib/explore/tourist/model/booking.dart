@@ -114,7 +114,7 @@ class Booking {
       'coordinates': coordinates,
       'offers': offers?.map((offer) => offer.toJson()).toList(),
       'guestInfo': guestInfo?.toJson(),
-      'profileId': 'profileId',
+      'profileId': profileId,
 //     this.profileId
     };
   }
@@ -208,7 +208,8 @@ class Offer {
         'status': status,
         'orderStatus': orderStatus,
         'schedule': schedule!.map((v) => v.toJson()).toList(),
-        //'user': user?.toJson(),
+        'user': user?.toJson(),
+        
       };
 }
 
@@ -222,6 +223,10 @@ class BookUser {
       profile: BookProfile.fromJson(json['profile'] ?? {}),
     );
   }
+  Map<String, dynamic> toJson() => {
+        'profile':profile.toJson(),
+        
+      };
 }
 
 // class Hospitality {

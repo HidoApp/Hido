@@ -1,12 +1,14 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
 import 'package:ajwad_v4/services/controller/event_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
+import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geocoding/geocoding.dart';
@@ -482,7 +484,6 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                             () => _EventController.isImagesLoading.value ||
                                     _EventController.isEventLoading.value
                                 ? const Center(
-
                                     child: CircularProgressIndicator.adaptive(),
                                   )
                                 : CustomButton(
@@ -564,6 +565,13 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                                                 );
                                               },
                                             ).then((_) {
+                                              AmplitudeService.amplitude.track(
+                                                  BaseEvent(
+                                                      'Event published successfully',
+                                                      eventProperties: {
+                                                    'event:':  _EventController
+                                                  .titleEn.value,
+                                                  }));
                                               Get.offAll(() =>
                                                   const AjwadiBottomBar());
                                             });

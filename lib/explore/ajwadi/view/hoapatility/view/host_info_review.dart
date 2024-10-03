@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/services/controller/event_controller.dart';
@@ -8,6 +9,7 @@ import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
+import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geocoding/geocoding.dart';
@@ -384,9 +386,19 @@ class _HostInfoReviewState extends State<HostInfoReview> {
           );
         },
       ).then((_) {
+          AmplitudeService.amplitude.track(BaseEvent(
+                                    'Hospitality published successfully',
+                                    eventProperties: {
+                                      'titleEn:': widget.hospitalityTitleEn,
+                                    }));
         Get.offAll(() => const AjwadiBottomBar());
       });
     } else {
+       AmplitudeService.amplitude.track(BaseEvent(
+                                    'Hospitality published failed',
+                                    eventProperties: {
+                                      'titleEn:': widget.hospitalityTitleEn,
+                                    }));
       AppUtil.errorToast(context, 'somthingWentWrong'.tr);
     }
   }
@@ -447,9 +459,19 @@ class _HostInfoReviewState extends State<HostInfoReview> {
           );
         },
       ).then((_) {
+         AmplitudeService.amplitude.track(BaseEvent(
+                                    'Adventure published successfully',
+                                    eventProperties: {
+                                      'title:': widget.hospitalityTitleEn,
+                                    }));
         Get.offAll(() => const AjwadiBottomBar());
       });
     } else {
+      AmplitudeService.amplitude.track(BaseEvent(
+                                    'Adventure published Failed',
+                                    eventProperties: {
+                                      'title:': widget.hospitalityTitleEn,
+                                    }));
       AppUtil.errorToast(context, 'somthingWentWrong'.tr);
     }
   }
