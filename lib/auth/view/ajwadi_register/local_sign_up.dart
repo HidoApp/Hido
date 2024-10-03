@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/auth/view/sigin_in/phone_otp_new.dart';
 import 'package:ajwad_v4/auth/widget/sign_in_text.dart';
@@ -11,6 +12,7 @@ import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/custom_textfield.dart';
 import 'package:ajwad_v4/widgets/screen_padding.dart';
+import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -164,7 +166,7 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                         keyboardType: TextInputType.number,
                         validator: false,
                         validatorHandle: (number) {
-                          if (number == null || number!.isEmpty) {
+                          if (number == null || number.isEmpty) {
                             return 'fieldRequired'.tr;
                           }
                           if (!number.startsWith('05') || number.length != 10) {
@@ -262,6 +264,9 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                               _authController.isAgreeForTerms(false);
                               return;
                             } else {
+                              // AmplitudeService.amplitude.track(BaseEvent(
+                              //     "User doesn't agree for our terms",
+                              // ));
                               _authController.isAgreeForTerms(true);
                             }
                             log(_authController.birthDate.value);
@@ -270,6 +275,15 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                                 _authController.birthDate.isNotEmpty);
                             if (isValid &&
                                 _authController.birthDate.isNotEmpty) {
+                              AmplitudeService.amplitude.track(BaseEvent(
+                                  'User Request otp for sign up as local ',
+                                  eventProperties: {
+                                    'id': nationalId,
+                                    'birth date':
+                                        _authController.birthDate.value,
+                                    'phoneNumber':
+                                        _authController.phoneNumber.value,
+                                  }));
                               final isSuccess =
                                   await _authController.personInfoOTP(
                                       nationalID: nationalId,
@@ -278,6 +292,15 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                                       context: context);
 
                               if (isSuccess != null) {
+                                AmplitudeService.amplitude.track(BaseEvent(
+                                    'User going to otp screen for getting person info  ',
+                                    eventProperties: {
+                                      'id': nationalId,
+                                      'birth date':
+                                          _authController.birthDate.value,
+                                      'phoneNumber':
+                                          _authController.phoneNumber.value,
+                                    }));
                                 _authController.localID(nationalId);
                                 log(_authController.birthDateDay.value);
                                 log("enter to signup");
@@ -293,6 +316,17 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                                             context: context);
                                       },
                                     ));
+                              }
+                              {
+                                AmplitudeService.amplitude.track(BaseEvent(
+                                    'User Request otp for sign up as local ',
+                                    eventProperties: {
+                                      'id': nationalId,
+                                      'birth date':
+                                          _authController.birthDate.value,
+                                      'phoneNumber':
+                                          _authController.phoneNumber.value,
+                                    }));
                               }
                               // Get.to(() => const ProvidedServices());
                             }

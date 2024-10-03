@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
@@ -8,6 +9,7 @@ import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/custom_textfield.dart';
 import 'package:ajwad_v4/widgets/screen_padding.dart';
+import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -107,8 +109,12 @@ class _ContactInfoState extends State<ContactInfo> {
                               .contactKey.currentState!
                               .validate();
                           if (!isValid) {
+                            AmplitudeService.amplitude.track(BaseEvent(
+                                "Local doesn't enter valid iban & email (as experience)"));
                             return;
                           }
+                          AmplitudeService.amplitude.track(BaseEvent(
+                              "Local  send iban & email  (as experience)"));
                           final isSuccess =
                               await _authController.createAccountInfo(
                                   context: context,
@@ -117,6 +123,10 @@ class _ContactInfoState extends State<ContactInfo> {
                                   type: 'EXPERIENCES');
                           log(isSuccess.toString());
                           if (isSuccess) {
+                            AmplitudeService.amplitude.track(
+                              BaseEvent(
+                                  "Local create account as experience successfully "),
+                            );
                             Get.offAll(() => const AjwadiBottomBar());
                             _storage.remove('localName');
                             storage.write('userRole', 'local');

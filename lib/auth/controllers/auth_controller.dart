@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/auth/models/ajwadi_info.dart';
 import 'package:ajwad_v4/auth/models/user.dart';
 import 'package:ajwad_v4/auth/services/auth_service.dart';
@@ -7,6 +8,7 @@ import 'package:ajwad_v4/auth/view/ajwadi_register/provided_services.dart';
 import 'package:ajwad_v4/auth/view/ajwadi_register/tour_stepper.dart';
 import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
+import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -438,7 +440,7 @@ class AuthController extends GetxController {
     try {
       final isSuccess = await AuthService.logOut();
 
-      if ( isSuccess) {
+      if (isSuccess) {
         return true;
       } else {
         return false;
@@ -562,17 +564,27 @@ class AuthController extends GetxController {
       if (local.accountType == 'TOUR_GUID' &&
           local.vehicle &&
           local.drivingLicense) {
+        AmplitudeService.amplitude
+            .track(BaseEvent('Local Signed in as tour guide '));
         Get.offAll(() => const AjwadiBottomBar());
       } else if (local.accountType == 'TOUR_GUID' &&
           local.drivingLicense == false) {
+        AmplitudeService.amplitude.track(BaseEvent(
+            "Local Signed is tour guide but doesn't have driving license info  "));
         activeBar(2);
         Get.off(() => const TourStepper());
       } else if (local.accountType == 'TOUR_GUID' && local.vehicle == false) {
+        AmplitudeService.amplitude.track(BaseEvent(
+            "Local Signed is tour guide but doesn't have vehicle  info  "));
         activeBar(3);
         Get.off(() => const TourStepper());
       } else if (local.accountType == 'EXPERIENCES') {
+            AmplitudeService.amplitude
+            .track(BaseEvent('Local Signed in as experience '));
         Get.offAll(() => const AjwadiBottomBar());
       } else if (local.accountType.isEmpty) {
+              AmplitudeService.amplitude.track(BaseEvent(
+            "Local Signed is tour guide but doesn't have accountType "));
         Get.offAll(() => const ProvidedServices());
         activeBar(1);
       } else {
