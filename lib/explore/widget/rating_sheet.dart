@@ -152,7 +152,8 @@ class _RatingSheetState extends State<RatingSheet> {
                         log(placeRating.toString());
                         log(localReview);
                         log(localRating.toString());
-                        final isSucces = await _ratingConroller.postRating(
+                        await _ratingConroller
+                            .postRating(
                           context: context,
                           localId: widget.activityProgress.localId!,
                           bookingId: widget.activityProgress.bookingId!,
@@ -160,10 +161,10 @@ class _RatingSheetState extends State<RatingSheet> {
                           localReview: localReview.isEmpty ? null : localReview,
                           placeRate: placeRating,
                           placeReview: placeReview.isEmpty ? null : placeReview,
-                        );
-                        if (isSucces) {
+                        )
+                            .then((value) {
                           Get.back();
-                        }
+                        });
                       },
                     ),
             )
