@@ -1,3 +1,4 @@
+import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/auth/view/ajwadi_register/contact_info.dart';
 import 'package:ajwad_v4/auth/view/ajwadi_register/tour_stepper.dart';
 import 'package:ajwad_v4/auth/widget/provided_services_card.dart';
@@ -7,6 +8,7 @@ import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/screen_padding.dart';
+import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -106,10 +108,16 @@ class _ProvidedServicesState extends State<ProvidedServices> {
         child: CustomButton(
           onPressed: () {
             if (experiencesSelected && tourSelected) {
+              AmplitudeService.amplitude
+                  .track(BaseEvent('Local choose  to be tour guide'));
               Get.to(() => const TourStepper());
             } else if (experiencesSelected) {
+              AmplitudeService.amplitude
+                  .track(BaseEvent('Local choose  to be experience'));
               Get.to(() => const ContactInfo());
             } else if (tourSelected) {
+              AmplitudeService.amplitude
+                  .track(BaseEvent('Local choose  to be tour guide'));
               Get.to(() => const TourStepper());
             } else {
               AppUtil.errorToast(

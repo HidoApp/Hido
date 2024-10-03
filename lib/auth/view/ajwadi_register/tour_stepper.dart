@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/auth/view/ajwadi_register/contact_info.dart';
 import 'package:ajwad_v4/auth/view/ajwadi_register/driving_license.dart';
@@ -10,6 +11,7 @@ import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
+import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -29,6 +31,9 @@ class _TourStepperState extends State<TourStepper> {
   final _authController = Get.put(AuthController());
   void sendVehcileDetails() async {
     if (!_authController.vehicleKey.currentState!.validate()) {
+      AmplitudeService.amplitude
+          .track(BaseEvent("Local doesn't enter a valid vehicle data "));
+
       return;
     }
     if (_authController.plateNumber1.value.isEmpty ||
@@ -46,6 +51,15 @@ class _TourStepperState extends State<TourStepper> {
         _authController.plateNumber2.value +
         _authController.plateNumber3.value +
         _authController.plateNumber4.value;
+    AmplitudeService.amplitude.track(
+        BaseEvent("Local  enter a valid vehicle data ", eventProperties: {
+      "plateNumber": plateNumbers,
+      "plateletter1": _authController.plateletter1.value,
+      "plateletter2": _authController.plateNumber2.value,
+      "plateLetter3": _authController.plateNumber3.value,
+      "vehicleType": _authController.selectedRide.value,
+      "vehicleSerialNumber": _authController.vehicleLicense.value,
+    }));
     final isSuccess = await _authController.sendVehcileDetails(
       context: context,
       plateletter1: _authController.plateletter1.value,
@@ -56,10 +70,21 @@ class _TourStepperState extends State<TourStepper> {
       vehicleSerialNumber: _authController.vehicleLicense.value,
     );
     if (isSuccess) {
+      AmplitudeService.amplitude.track(
+        BaseEvent(
+          "Local add  vehicle details and create account as tour guide  successfully",
+        ),
+      );
       _authController.activeBar(1);
       Get.offAll(() => const AjwadiBottomBar());
       storage.remove('localName');
       storage.write('userRole', 'local');
+    } else {
+      AmplitudeService.amplitude.track(
+        BaseEvent(
+          "Local doesn't add vehicle details successfully",
+        ),
+      );
     }
   }
 
@@ -130,6 +155,8 @@ class _TourStepperState extends State<TourStepper> {
                                     switch (_authController.activeBar.value) {
                                       //contact info handle
                                       case 1:
+                                        AmplitudeService.amplitude.track(BaseEvent(
+                                            "Local  send iban & email  (as tour guide)"));
                                         final isSuccess = await _authController
                                             .createAccountInfo(
                                                 context: context,
@@ -140,11 +167,20 @@ class _TourStepperState extends State<TourStepper> {
                                                 type: 'TOUR_GUID');
                                         log(isSuccess.toString());
                                         if (isSuccess) {
+                                          AmplitudeService.amplitude.track(
+                                            BaseEvent(
+                                                "Local  send iban and email  successfully as tour guide"),
+                                          );
                                           _authController.activeBar(2);
                                         }
 
                                         break;
                                       case 2:
+                                        AmplitudeService.amplitude.track(
+                                          BaseEvent(
+                                            "Local request otp for  driving license",
+                                          ),
+                                        );
                                         final isSuccess = await _authController
                                             .drivingLinceseOTP(
                                                 expiryDate: _authController
@@ -168,6 +204,9 @@ class _TourStepperState extends State<TourStepper> {
                                         break;
                                       default:
                                     }
+                                  } else {
+                                    AmplitudeService.amplitude.track(BaseEvent(
+                                        "Local doesn't enter a valid data in step ${_authController.activeBar.value.toString()}  (as tour guide)"));
                                   }
                                 },
                                 title: _authController.activeBar.value != 1

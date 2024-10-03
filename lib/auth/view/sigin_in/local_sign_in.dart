@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/auth/view/ajwadi_register/local_sign_up.dart';
+import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:ajwad_v4/auth/view/sigin_in/phone_otp_new.dart';
 import 'package:ajwad_v4/constants/colors.dart';
@@ -132,6 +134,11 @@ class _LocalSignInState extends State<LocalSignIn> {
                             }
                             var isValid = _formKey.currentState!.validate();
                             if (isValid) {
+                              AmplitudeService.amplitude.track(BaseEvent(
+                                  'Local Request otp  for sign in',
+                                  eventProperties: {
+                                    'phoneNumber': number,
+                                  }));
                               final isSuccess = await _authController.createOtp(
                                   context: context, phoneNumber: number);
                               if (isSuccess) {
@@ -147,6 +154,12 @@ class _LocalSignInState extends State<LocalSignIn> {
                                       },
                                     ));
                               }
+                            } else {
+                              AmplitudeService.amplitude.track(BaseEvent(
+                                  'Local enter unvalid number ',
+                                  eventProperties: {
+                                    'phoneNumber': number,
+                                  }));
                             }
                           },
                           title: 'signIn'.tr,

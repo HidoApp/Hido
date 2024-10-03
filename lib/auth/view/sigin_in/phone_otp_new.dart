@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/auth/view/ajwadi_register/provided_services.dart';
 import 'package:ajwad_v4/auth/view/ajwadi_register/tour_stepper.dart';
@@ -10,6 +11,7 @@ import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/screen_padding.dart';
+import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -47,8 +49,22 @@ class _PhoneOTPState extends State<PhoneOTP> {
           otp: otpCode,
           context: context);
       if (isSuccess) {
+        AmplitudeService.amplitude.track(
+          BaseEvent(
+            "Local add  driving license successfully",
+          ),
+        );
         _authController.activeBar(3);
         Get.back();
+      } else {
+        AmplitudeService.amplitude.track(
+          BaseEvent(
+            eventProperties: {
+              'drivingLicenseDate': _authController.drivingDate.value
+            },
+            "Local doesn't add  driving license successfully",
+          ),
+        );
       }
     } else {
       final isSuccess = await _authController.getAjwadiVehicleInf(
@@ -82,6 +98,10 @@ class _PhoneOTPState extends State<PhoneOTP> {
         otp: otpCode,
         birthDate: _authController.birthDateDay.value);
     if (isSuccess) {
+      AmplitudeService.amplitude
+          .track(BaseEvent('Local Signed up successfully ', eventProperties: {
+        'phoneNumber': widget.phoneNumber!,
+      }));
       Get.to(() => const ProvidedServices());
     }
   }
@@ -90,6 +110,10 @@ class _PhoneOTPState extends State<PhoneOTP> {
     final isSuccess = await _authController.localSignInWithOtp(
         context: context, phoneNumber: widget.phoneNumber!, otp: otpCode);
     if (isSuccess) {
+      AmplitudeService.amplitude
+          .track(BaseEvent('Local Signed in successfully ', eventProperties: {
+        'phoneNumber': widget.phoneNumber!,
+      }));
       //if (!mounted) return; // Check if the widget is still mounted
       _authController.checkLocalWhenSignIn(context);
     }
