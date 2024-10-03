@@ -86,10 +86,10 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      backgroundColor: Colors.white,
+      backgroundColor:   lightGreyBackground,
       appBar: CustomAppBar(
         'myTickets'.tr,
-        backgroundColor: Colors.white,
+    // backgroundColor: Colors.red,
       ),
       //CustomAppBar('myTickets'.tr),
       body: SingleChildScrollView(
@@ -100,6 +100,11 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(height: width * 0.051),
+                if (widget.adventure == null &&
+                  widget.event == null &&
+                  widget.hospitality == null &&
+                  !widget.isTour!) ...[
+                if (widget.booking!.orderStatus == 'ACCEPTED') ...[
               Obx(
                 () => Skeletonizer(
                   enabled: _touristExploreController.isBookingByIdLoading.value,
@@ -184,6 +189,7 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
               SizedBox(
                 height: width * 0.03,
               ),
+                ]],
               Align(
                 alignment: Alignment.topCenter,
                 child: TicketWidget(
@@ -203,43 +209,40 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: Container(
-        color: lightGreyBackground,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 35),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (widget.adventure == null &&
-                  widget.event == null &&
-                  widget.hospitality == null &&
-                  !widget.isTour!) ...[
-                if (widget.booking!.orderStatus == 'ACCEPTED') ...[
-                  CustomButton(
-                    onPressed: () {
-                      Get.bottomSheet(
-                          isScrollControlled: true,
-                          CancelSheet(
-                              bookId: widget.booking!.id ?? '',
-                              type: widget.booking!.bookingType ?? ''));
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 35),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (widget.adventure == null &&
+                widget.event == null &&
+                widget.hospitality == null &&
+                !widget.isTour!) ...[
+              if (widget.booking!.orderStatus == 'ACCEPTED') ...[
+                CustomButton(
+                  onPressed: () {
+                    Get.bottomSheet(
+                        isScrollControlled: true,
+                        CancelSheet(
+                            bookId: widget.booking!.id ?? '',
+                            type: widget.booking!.bookingType ?? ''));
 
-                      AmplitudeService.amplitude.track(BaseEvent(
-                        'Click on Cancel booking ',
-                      ));
-                    },
+                    AmplitudeService.amplitude.track(BaseEvent(
+                      'Click on Cancel booking ',
+                    ));
+                  },
 
-                    // },
-                    title: 'CancelBooking'.tr,
-                    buttonColor:
-                        lightGreyBackground, // Set the button color to transparent white
-                    textColor: colorRed,
-                    borderColor: colorRed,
-                    // Set the text color to red
-                  ),
-                ]
-              ],
+                  // },
+                  title: 'CancelBooking'.tr,
+                  buttonColor:
+                      lightGreyBackground, // Set the button color to transparent white
+                  textColor: colorRed,
+                  borderColor: colorRed,
+                  // Set the text color to red
+                ),
+              ]
             ],
-          ),
+          ],
         ),
       ),
     );
