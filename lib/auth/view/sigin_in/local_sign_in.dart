@@ -135,10 +135,8 @@ class _LocalSignInState extends State<LocalSignIn> {
                             var isValid = _formKey.currentState!.validate();
                             if (isValid) {
                               AmplitudeService.amplitude.track(BaseEvent(
-                                  'Local Request otp  for sign in',
-                                  eventProperties: {
-                                    'phoneNumber': number,
-                                  }));
+                                'Local Request otp  for sign in',
+                              ));
                               final isSuccess = await _authController.createOtp(
                                   context: context, phoneNumber: number);
                               if (isSuccess) {
@@ -156,10 +154,8 @@ class _LocalSignInState extends State<LocalSignIn> {
                               }
                             } else {
                               AmplitudeService.amplitude.track(BaseEvent(
-                                  'Local enter unvalid number ',
-                                  eventProperties: {
-                                    'phoneNumber': number,
-                                  }));
+                                'Local enter unvalid number ',
+                              ));
                             }
                           },
                           title: 'signIn'.tr,

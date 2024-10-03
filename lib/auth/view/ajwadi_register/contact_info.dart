@@ -117,10 +117,11 @@ class _ContactInfoState extends State<ContactInfo> {
                               "Local  send iban & email  (as experience)"));
                           final isSuccess =
                               await _authController.createAccountInfo(
-                                  context: context,
-                                  email: _authController.email.value,
-                                  iban: _authController.iban.value,
-                                  type: 'EXPERIENCES');
+                            context: context,
+                            email: _authController.email.value,
+                            iban: _authController.iban.value,
+                            type: 'EXPERIENCES',
+                          );
                           log(isSuccess.toString());
                           if (isSuccess) {
                             AmplitudeService.amplitude.track(

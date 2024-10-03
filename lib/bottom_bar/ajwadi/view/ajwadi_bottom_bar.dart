@@ -85,13 +85,13 @@ class _AjwadiBottomBarState extends State<AjwadiBottomBar>
               body: PageView(
                 physics: const NeverScrollableScrollPhysics(),
                 controller: _pageController,
-                //  index: _profileController.localBar.value,
                 children: [
                   LocalHomeScreen(
                       fromAjwady: true, profileController: _profileController),
-                  if (_profileController.profile.accountType != 'EXPERIENCES')
+                  if (_profileController.profile.accountType !=
+                      'EXPERIENCES') ...{
                     const NewRequestScreen(),
-                  //const RequestScreen(),
+                  },
                   const AddExperienceInfo(),
                   ProfileScreen(
                     fromAjwady: true,

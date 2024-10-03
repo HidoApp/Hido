@@ -2,7 +2,6 @@ import 'dart:developer';
 import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/auth/view/ajwadi_register/provided_services.dart';
-import 'package:ajwad_v4/auth/view/ajwadi_register/tour_stepper.dart';
 import 'package:ajwad_v4/auth/view/tourist_register/new_password_screen.dart';
 import 'package:ajwad_v4/auth/widget/countdown_timer.dart';
 import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
@@ -59,9 +58,6 @@ class _PhoneOTPState extends State<PhoneOTP> {
       } else {
         AmplitudeService.amplitude.track(
           BaseEvent(
-            eventProperties: {
-              'drivingLicenseDate': _authController.drivingDate.value
-            },
             "Local doesn't add  driving license successfully",
           ),
         );
@@ -98,10 +94,9 @@ class _PhoneOTPState extends State<PhoneOTP> {
         otp: otpCode,
         birthDate: _authController.birthDateDay.value);
     if (isSuccess) {
-      AmplitudeService.amplitude
-          .track(BaseEvent('Local Signed up successfully ', eventProperties: {
-        'phoneNumber': widget.phoneNumber!,
-      }));
+      AmplitudeService.amplitude.track(BaseEvent(
+        'Local Signed up successfully ',
+      ));
       Get.to(() => const ProvidedServices());
     }
   }
@@ -110,10 +105,9 @@ class _PhoneOTPState extends State<PhoneOTP> {
     final isSuccess = await _authController.localSignInWithOtp(
         context: context, phoneNumber: widget.phoneNumber!, otp: otpCode);
     if (isSuccess) {
-      AmplitudeService.amplitude
-          .track(BaseEvent('Local Signed in successfully ', eventProperties: {
-        'phoneNumber': widget.phoneNumber!,
-      }));
+      AmplitudeService.amplitude.track(BaseEvent(
+        'Local Signed in successfully ',
+      ));
       //if (!mounted) return; // Check if the widget is still mounted
       _authController.checkLocalWhenSignIn(context);
     }

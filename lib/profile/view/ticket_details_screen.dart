@@ -1,11 +1,7 @@
-import 'dart:developer';
 
 import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/event/model/event.dart';
 import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
-import 'package:ajwad_v4/explore/tourist/model/place.dart';
-import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
-import 'package:ajwad_v4/profile/models/profile.dart';
 import 'package:ajwad_v4/profile/widget/AdventureTicketData.dart';
 import 'package:ajwad_v4/profile/widget/cancleSheet.dart';
 import 'package:ajwad_v4/profile/widget/event_ticket_data.dart';
@@ -27,13 +23,11 @@ import 'package:get/get.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
-import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/profile/widget/HospitalityTicketData.dart';
 import 'package:get/get.dart';
 import 'package:ajwad_v4/services/model/hospitality.dart';
 
-import '../../services/controller/hospitality_controller.dart';
 
 class TicketDetailsScreen extends StatefulWidget {
   TicketDetailsScreen(

@@ -275,15 +275,11 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                                 _authController.birthDate.isNotEmpty);
                             if (isValid &&
                                 _authController.birthDate.isNotEmpty) {
-                              AmplitudeService.amplitude.track(BaseEvent(
+                              AmplitudeService.amplitude.track(
+                                BaseEvent(
                                   'User Request otp for sign up as local ',
-                                  eventProperties: {
-                                    'id': nationalId,
-                                    'birth date':
-                                        _authController.birthDate.value,
-                                    'phoneNumber':
-                                        _authController.phoneNumber.value,
-                                  }));
+                                ),
+                              );
                               final isSuccess =
                                   await _authController.personInfoOTP(
                                       nationalID: nationalId,
@@ -292,15 +288,11 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                                       context: context);
 
                               if (isSuccess != null) {
-                                AmplitudeService.amplitude.track(BaseEvent(
+                                AmplitudeService.amplitude.track(
+                                  BaseEvent(
                                     'User going to otp screen for getting person info  ',
-                                    eventProperties: {
-                                      'id': nationalId,
-                                      'birth date':
-                                          _authController.birthDate.value,
-                                      'phoneNumber':
-                                          _authController.phoneNumber.value,
-                                    }));
+                                  ),
+                                );
                                 _authController.localID(nationalId);
                                 log(_authController.birthDateDay.value);
                                 log("enter to signup");
@@ -318,15 +310,11 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                                     ));
                               }
                               {
-                                AmplitudeService.amplitude.track(BaseEvent(
+                                AmplitudeService.amplitude.track(
+                                  BaseEvent(
                                     'User Request otp for sign up as local ',
-                                    eventProperties: {
-                                      'id': nationalId,
-                                      'birth date':
-                                          _authController.birthDate.value,
-                                      'phoneNumber':
-                                          _authController.phoneNumber.value,
-                                    }));
+                                  ),
+                                );
                               }
                               // Get.to(() => const ProvidedServices());
                             }

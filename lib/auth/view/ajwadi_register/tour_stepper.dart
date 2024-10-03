@@ -52,14 +52,18 @@ class _TourStepperState extends State<TourStepper> {
         _authController.plateNumber3.value +
         _authController.plateNumber4.value;
     AmplitudeService.amplitude.track(
-        BaseEvent("Local  enter a valid vehicle data ", eventProperties: {
-      "plateNumber": plateNumbers,
-      "plateletter1": _authController.plateletter1.value,
-      "plateletter2": _authController.plateNumber2.value,
-      "plateLetter3": _authController.plateNumber3.value,
-      "vehicleType": _authController.selectedRide.value,
-      "vehicleSerialNumber": _authController.vehicleLicense.value,
-    }));
+      BaseEvent(
+        "Local  enter a valid vehicle data ",
+      ),
+    );
+    // eventProperties: {
+    //   "plateNumber": plateNumbers,
+    //   "plateletter1": _authController.plateletter1.value,
+    //   "plateletter2": _authController.plateNumber2.value,
+    //   "plateLetter3": _authController.plateNumber3.value,
+    //   "vehicleType": _authController.selectedRide.value,
+    //   "vehicleSerialNumber": _authController.vehicleLicense.value,
+    // },
     final isSuccess = await _authController.sendVehcileDetails(
       context: context,
       plateletter1: _authController.plateletter1.value,
