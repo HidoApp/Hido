@@ -25,7 +25,7 @@ class ExperienceCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: double.infinity,
-        height: 110,
+        //  height: 110,
         padding: const EdgeInsets.all(12),
         clipBehavior: Clip.antiAlias,
         decoration: ShapeDecoration(
@@ -74,13 +74,12 @@ class ExperienceCard extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.only(top: 10),
                               child: CustomText(
-                                text:title,
-                                  color: black,
-                                  fontSize: 17,
-                                  fontFamily: 'HT Rakik',
-                                  fontWeight: FontWeight.w500,
-                                  height: 0.10, // Adjust line height as needed
-                                
+                                text: title,
+                                color: black,
+                                fontSize: 17,
+                                fontFamily: 'HT Rakik',
+                                fontWeight: FontWeight.w500,
+                                height: 0.10, // Adjust line height as needed
                               ),
                             ),
                           ),
@@ -92,7 +91,9 @@ class ExperienceCard extends StatelessWidget {
                               style: TextStyle(
                                 color: starGreyColor,
                                 fontSize: 12,
-                                fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
+                                fontFamily: AppUtil.rtlDirection2(context)
+                                    ? 'SF Arabic'
+                                    : 'SF Pro',
                                 fontWeight: FontWeight.w400,
                               ),
                             ),

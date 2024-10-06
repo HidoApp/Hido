@@ -34,7 +34,7 @@ class ProvidedServicesCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         // width: double.infinity,
-        // height: height ?? width * 0.282,
+        height: width * 0.282,
         padding: const EdgeInsets.all(12),
         clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(
@@ -56,9 +56,11 @@ class ProvidedServicesCard extends StatelessWidget {
                   SizedBox(
                     width: width * 0.06,
                     height: width * 0.06,
-                    child: SvgPicture.asset(
-                      'assets/icons/$iconPath.svg',
-                      color: iconColor,
+                    child: RepaintBoundary(
+                      child: SvgPicture.asset(
+                        'assets/icons/$iconPath.svg',
+                        color: iconColor,
+                      ),
                     ), // Use SvgPicture for SVG icons
                   ),
                   SizedBox(width: width * 0.041),
@@ -106,6 +108,5 @@ class ProvidedServicesCard extends StatelessWidget {
         ),
       ),
     );
-    ;
   }
 }

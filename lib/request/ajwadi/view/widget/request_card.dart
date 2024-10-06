@@ -87,7 +87,7 @@ class _RequestCardState extends State<RequestCard> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return Container(
-      height: _controller.isExpanded ? width * 0.8 : width * 0.48,
+      height: _controller.isExpanded ? width * 0.9 : width * 0.48,
       padding: EdgeInsets.symmetric(
         horizontal: width * 0.03,
         vertical: width * 0.04,
@@ -101,6 +101,7 @@ class _RequestCardState extends State<RequestCard> {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Row(
             children: [
@@ -177,6 +178,7 @@ class _RequestCardState extends State<RequestCard> {
               color: black,
             ),
             content: Column(
+              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ItineraryTile(

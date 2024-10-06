@@ -21,7 +21,7 @@ class CategoryCard extends StatelessWidget {
       onTap: onPressed,
       child: Container(
         width: width * 0.44,
-        height: height * 0.122,
+        height: width * 0.264,
         padding: EdgeInsets.all(width * 0.0051),
         decoration: BoxDecoration(
           boxShadow: const [

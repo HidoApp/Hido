@@ -156,8 +156,10 @@ class _ServicesCardState extends State<ServicesCard> {
                           SizedBox(
                             width: width * 0.01,
                           ),
-                          SvgPicture.asset(
-                            'assets/icons/map_pin.svg',
+                          RepaintBoundary(
+                            child: SvgPicture.asset(
+                              'assets/icons/map_pin.svg',
+                            ),
                           ),
                           SizedBox(
                             width: width * 0.01,
@@ -186,8 +188,10 @@ class _ServicesCardState extends State<ServicesCard> {
                             SizedBox(
                               width: width * 0.01,
                             ),
-                            SvgPicture.asset(
-                              'assets/icons/calendar.svg',
+                            RepaintBoundary(
+                              child: SvgPicture.asset(
+                                'assets/icons/calendar.svg',
+                              ),
                             ),
                             SizedBox(
                               width: width * 0.01,
@@ -215,8 +219,10 @@ class _ServicesCardState extends State<ServicesCard> {
                               SizedBox(
                                 width: width * 0.01,
                               ),
-                              SvgPicture.asset(
-                                'assets/icons/Clock.svg',
+                              RepaintBoundary(
+                                child: SvgPicture.asset(
+                                  'assets/icons/Clock.svg',
+                                ),
                               ),
                               SizedBox(
                                 width: width * 0.01,
@@ -244,8 +250,10 @@ class _ServicesCardState extends State<ServicesCard> {
                             SizedBox(
                               width: width * 0.01,
                             ),
-                            SvgPicture.asset(
-                              'assets/icons/Clock.svg',
+                            RepaintBoundary(
+                              child: SvgPicture.asset(
+                                'assets/icons/Clock.svg',
+                              ),
                             ),
                             SizedBox(
                               width: width * 0.01,
@@ -273,7 +281,9 @@ class _ServicesCardState extends State<ServicesCard> {
                               'hospitality')
                             Row(
                               children: [
-                                SvgPicture.asset('assets/icons/meal.svg'),
+                                RepaintBoundary(
+                                    child: SvgPicture.asset(
+                                        'assets/icons/meal.svg')),
                                 SizedBox(
                                   width: width * 0.01,
                                 ),
@@ -298,7 +308,7 @@ class _ServicesCardState extends State<ServicesCard> {
                 ],
               ),
               const Spacer(),
-              SvgPicture.asset('assets/icons/star.svg'),
+              // SvgPicture.asset('assets/icons/star.svg'),
               SizedBox(
                 width: width * 0.01,
               ),
