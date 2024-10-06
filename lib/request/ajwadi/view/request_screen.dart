@@ -64,7 +64,7 @@ class _RequestScreenState extends State<RequestScreen> {
             child: Obx(
               () => _requestController.isRequestListLoading.value == true
                   ? const Center(
-                      child: CircularProgressIndicator(),
+                      child: CircularProgressIndicator.adaptive(),
                     )
                   : (_requestController.requestList.isEmpty ||
                           _requestController.requestList == [])
@@ -175,7 +175,7 @@ class _RequestScreenState extends State<RequestScreen> {
                                 height: height,
                                 width: width,
                                 child: Center(
-                                  child: CircularProgressIndicator(),
+                                  child: CircularProgressIndicator.adaptive(),
                                 ),
                               )
                           ],

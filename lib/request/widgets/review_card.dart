@@ -46,11 +46,16 @@ class ReviewCard extends StatelessWidget {
                         ),
                       )
                     : ClipRRect(
-                        borderRadius: BorderRadius.circular(30),
+                        borderRadius: BorderRadius.circular(60),
                         child: ImageCacheWidget(
                           image: image,
+                          height: 100,
+                          width: 100,
+
                         ),
                       )),
+                   
+                      
             const SizedBox(
               width: 8,
             ),

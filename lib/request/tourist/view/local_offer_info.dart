@@ -198,7 +198,7 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
                           }
                           if (_offerController.isAcceptOfferLoading.value) {
                             return const Center(
-                              child: CircularProgressIndicator(),
+                              child: CircularProgressIndicator.adaptive(),
                             );
                           }
 
@@ -212,8 +212,7 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
                                 width: width * 0.5,
                                 child: _offerController.isOfferLoading.value
                                     ? Center(
-                                        child: CircularProgressIndicator(
-                                            color: Colors.green[700]))
+                                        child: CircularProgressIndicator.adaptive())
                                     : Padding(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 4),

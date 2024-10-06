@@ -97,7 +97,7 @@ class _PaymentTypeScreenState extends State<PaymentTypeScreen> {
       () => _RequestController.isBookingLoading.value
           ? Scaffold(
               body: Center(
-                  child: CircularProgressIndicator(color: Colors.green[800])))
+                  child: CircularProgressIndicator.adaptive()))
           : Scaffold(
               extendBodyBehindAppBar: false,
               appBar: CustomAppBar(
@@ -242,9 +242,7 @@ class _PaymentTypeScreenState extends State<PaymentTypeScreen> {
                           height: width * 0.02,
                         ),
                         paymentController.isPaymenInvoiceLoading.value
-                            ? CircularProgressIndicator(
-                                color: colorGreen,
-                              )
+                            ? CircularProgressIndicator.adaptive()
                             : Padding(
                                 padding: EdgeInsets.only(
                                     top: width * 0.01,

@@ -172,9 +172,7 @@ class _LocalProfileState extends State<LocalProfile> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(50.0),
                         child: _profileController.isImagesLoading.value
-                            ? const CircularProgressIndicator(
-                                color: colorGreen,
-                              )
+                            ? const CircularProgressIndicator.adaptive()
                             : _profileController.profile.profileImage != "" &&
                                     _profileController.profile.profileImage !=
                                         null

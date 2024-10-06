@@ -379,7 +379,7 @@ Future<void> showAcceptBottomSheet(
                         ? const Center(
                             child: Padding(
                               padding: EdgeInsets.all(14),
-                              child: CircularProgressIndicator(),
+                              child: CircularProgressIndicator.adaptive(),
                             ),
                           )
                         : CustomButton(

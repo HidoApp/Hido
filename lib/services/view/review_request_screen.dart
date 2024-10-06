@@ -83,7 +83,7 @@ class _ReviewRequestState extends State<ReviewRequest> {
       () => _RequestController.isBookingLoading.value
           ? Scaffold(
               body: Center(
-                  child: CircularProgressIndicator(color: Colors.green[800])))
+                  child: CircularProgressIndicator.adaptive()))
           : GestureDetector(
               onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
               child: Scaffold(
@@ -198,9 +198,7 @@ class _ReviewRequestState extends State<ReviewRequest> {
                           height: width * 0.02,
                         ),
                         paymentController.isPaymenInvoiceLoading.value
-                            ? const CircularProgressIndicator(
-                                color: colorGreen,
-                              )
+                            ? const CircularProgressIndicator.adaptive()
                             : CustomButton(
                                 title: 'checkout'.tr,
                                 icon: const Icon(Icons.keyboard_arrow_right,
@@ -242,7 +240,7 @@ class _ReviewRequestState extends State<ReviewRequest> {
                             buttonColor: Colors.white.withOpacity(0.3),
                             borderColor: Colors.white.withOpacity(0.3),
                             textColor: black),
-                        const SizedBox(height: 4),
+                        const SizedBox(height: 8),
                       ],
                     ),
                   ),

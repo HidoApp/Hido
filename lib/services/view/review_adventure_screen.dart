@@ -161,7 +161,7 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                   ),
                   Obx(() => _adventureController.ischeckBookingLoading.value ||
                           paymentController.isPaymenInvoiceLoading.value
-                      ? const Center(child: CircularProgressIndicator())
+                      ? const Center(child: CircularProgressIndicator.adaptive())
                       : CustomButton(
                           onPressed: () async {
                             Get.to(
