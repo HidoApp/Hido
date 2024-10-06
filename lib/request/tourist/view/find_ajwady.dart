@@ -122,7 +122,7 @@ class _FindAjwadyState extends State<FindAjwady> {
         if (_offerController.isOffersLoading.value ||
             _touristExploreController.isBookingByIdLoading.value) {
           return const Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator.adaptive(),
           );
         }
         return RefreshIndicator.adaptive(

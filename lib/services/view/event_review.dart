@@ -158,7 +158,7 @@ class _EventReviewState extends State<EventReview> {
                     height: width * 0.051,
                   ),
                   Obx(() => _eventController.ischeckBookingLoading.value
-                      ? const Center(child: CircularProgressIndicator())
+                      ? const Center(child: CircularProgressIndicator.adaptive())
                       : CustomButton(
                           onPressed: () async {
                             Get.to(

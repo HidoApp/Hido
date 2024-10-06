@@ -212,7 +212,7 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                     () => widget.servicesController.isCheckAndBookLoading
                                 .value ||
                             paymentController.isPaymenInvoiceLoading.value
-                        ? const Center(child: CircularProgressIndicator())
+                        ? const Center(child: CircularProgressIndicator.adaptive())
                         : CustomButton(
                             onPressed: (() async {
                               Get.to(

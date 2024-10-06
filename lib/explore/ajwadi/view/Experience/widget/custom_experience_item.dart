@@ -307,18 +307,19 @@ class _ServicesCardState extends State<ServicesCard> {
                   ),
                 ],
               ),
-              const Spacer(),
+
+              // const Spacer(),
               // SvgPicture.asset('assets/icons/star.svg'),
-              SizedBox(
-                width: width * 0.01,
-              ),
-              CustomText(
-                text: "",
-                fontSize: width * 0.025,
-                fontWeight: FontWeight.w700,
-                color: colorDarkGreen,
-                fontFamily: 'Kufam',
-              ),
+              // SizedBox(
+              //   width: width * 0.01,
+              // ),
+              // CustomText(
+              //   text: "",
+              //   fontSize: width * 0.025,
+              //   fontWeight: FontWeight.w700,
+              //   color: colorDarkGreen,
+              //   fontFamily: 'Kufam',
+              // ),
             ],
           ),
         ),

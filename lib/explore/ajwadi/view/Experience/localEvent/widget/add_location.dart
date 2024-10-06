@@ -349,7 +349,7 @@ class _AddEventLocationState extends State<AddEventLocation> {
                           children: [
                             Center(
                               child: _isLoading
-                                  ? CircularProgressIndicator()
+                                  ? CircularProgressIndicator.adaptive()
                                   : CustomText(
                                       text: address,
                                       color: Color(0xFF9392A0),

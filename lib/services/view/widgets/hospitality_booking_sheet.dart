@@ -1195,7 +1195,7 @@ class _ReservaationDetailsAdventureWidgetState
                                     paymentController
                                         .isPaymenInvoiceLoading.value
                                 ? const Center(
-                                    child: CircularProgressIndicator())
+                                    child: CircularProgressIndicator.adaptive())
                                 : CustomButton(
                                     title: "confirm".tr,
                                     onPressed: () async {

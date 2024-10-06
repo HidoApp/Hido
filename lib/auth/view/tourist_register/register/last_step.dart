@@ -289,9 +289,7 @@ class _LastStepScreenState extends State<LastStepScreen> {
                 Obx(
                   () => widget.authController.isRegisterLoading.value
                       ? const Center(
-                          child: CircularProgressIndicator(
-                            color: colorGreen,
-                          ),
+                          child: CircularProgressIndicator.adaptive()
                         )
                       : CustomButton(
                           title: 'signUp'.tr,

@@ -50,9 +50,7 @@ class _BookingScreenState extends State<BookingScreen>
                   child: SizedBox(
                       height: 40,
                       width: 40,
-                      child: CircularProgressIndicator(
-                        color: colorGreen,
-                      )))
+                      child: CircularProgressIndicator.adaptive()))
               : _touristExploreController.bookingList.isEmpty
                   ?
                   // !widget.hasTickets
