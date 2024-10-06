@@ -214,9 +214,9 @@ class _ProfileDetailsState extends State<TouriestProfile> {
                             borderRadius: BorderRadius.circular(50.0),
                             child:
                                 widget.profileController.isImagesLoading.value
-                                    ? const CircularProgressIndicator(
-                                        color: colorGreen,
-                                      )
+                                    ? const CircularProgressIndicator.adaptive()
+                                        // color: colorGreen,
+                                      
                                     : widget.profileController.profile
                                                     .profileImage !=
                                                 "" &&

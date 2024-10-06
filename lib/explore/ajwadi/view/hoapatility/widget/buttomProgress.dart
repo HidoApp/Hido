@@ -932,7 +932,7 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
                           children: [
                             Center(
                               child: _isLoading
-                                  ? CircularProgressIndicator()
+                                  ? CircularProgressIndicator.adaptive()
                                   : CustomText(
                                       text: address,
                                       color: Color(0xFF9392A0),
@@ -1640,7 +1640,7 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> {
           Expanded(
             // fit: FlexFit.loose,
             child: _selectedImages == null
-                ? Center(child: CircularProgressIndicator())
+                ? Center(child: CircularProgressIndicator.adaptive())
                 : GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3,

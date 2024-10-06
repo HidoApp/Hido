@@ -512,7 +512,7 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> {
           Expanded(
             // fit: FlexFit.loose,
             child: _selectedImages == null
-                ? Center(child: CircularProgressIndicator())
+                ? Center(child: CircularProgressIndicator.adaptive())
                 : GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3,

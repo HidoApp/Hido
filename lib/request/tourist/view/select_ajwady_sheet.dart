@@ -96,7 +96,7 @@ class _SelectAjwadySheet extends State<SelectAjwadySheet> {
                               return Obx(() {
                                 if (_offerController.isOfferLoading.value) {
                                   return const Center(
-                                    child: CircularProgressIndicator(),
+                                    child: CircularProgressIndicator.adaptive(),
                                   );
                                 }
                                 return ShowAjwadiInfoSheet(

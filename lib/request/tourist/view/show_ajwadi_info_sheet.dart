@@ -228,7 +228,7 @@ class _ShowAjwadiInfoSheetState extends State<ShowAjwadiInfoSheet>
             }
             if (_offerController.isAcceptOfferLoading.value) {
               return const Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator.adaptive(),
               );
             }
 
@@ -239,8 +239,7 @@ class _ShowAjwadiInfoSheetState extends State<ShowAjwadiInfoSheet>
                   width: width * 0.5,
                   child: _offerController.isOfferLoading.value
                       ? Center(
-                          child: CircularProgressIndicator(
-                              color: Colors.green[700]))
+                          child: CircularProgressIndicator.adaptive())
                       : CustomAcceptButton(
                           onPressed: () async {
                             OfferDetails? offerDetails =

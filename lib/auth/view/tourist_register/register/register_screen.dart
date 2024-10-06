@@ -200,8 +200,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 EdgeInsets.symmetric(vertical: width * .030),
                             child: _authController.isCountryLoading == true
                                 ? const Center(
-                                    child: CircularProgressIndicator(
-                                        color: colorGreen),
+                                    child: CircularProgressIndicator.adaptive(),
                                   )
                                 : CustomButton(
                                     icon: const Icon(Icons.keyboard_arrow_right,

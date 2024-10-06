@@ -2240,7 +2240,7 @@ class _EditEventState extends State<EditEvent> {
                                                 children: [
                                                   Center(
                                                     child: _isLoading
-                                                        ? CircularProgressIndicator()
+                                                        ? CircularProgressIndicator.adaptive()
                                                         : Text(
                                                             address,
                                                             style: TextStyle(

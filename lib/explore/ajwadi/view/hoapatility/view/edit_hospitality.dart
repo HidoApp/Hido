@@ -2663,7 +2663,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                 children: [
                                                   Center(
                                                     child: _isLoading
-                                                        ? const CircularProgressIndicator()
+                                                        ? const CircularProgressIndicator.adaptive()
                                                         : Text(
                                                             address,
                                                             style: TextStyle(

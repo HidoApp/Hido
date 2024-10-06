@@ -107,7 +107,7 @@ class _HospitalityTabState extends State<HospitalityTab> {
                                           : _srvicesController
                                               .hospitalityList[index]
                                               .categoryEn,
-                                      rate: '4.7',
+                                      rate: '5.0',
                                       dayInfo: _srvicesController
                                           .hospitalityList[index].daysInfo,
                                       lang: _srvicesController

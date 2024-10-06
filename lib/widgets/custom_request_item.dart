@@ -140,7 +140,7 @@ class CustomRequestItem extends StatelessWidget {
                         loading.value
                     ? Center(
                         child:
-                            CircularProgressIndicator(color: Colors.green[700]))
+                            CircularProgressIndicator.adaptive())
                     : CustomAcceptButton(
                        onPressed: () async {
                           if (fromAjwady) {
