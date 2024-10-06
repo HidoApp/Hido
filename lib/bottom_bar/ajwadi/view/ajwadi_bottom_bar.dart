@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
+import 'package:ajwad_v4/profile/models/profile.dart';
 import 'package:ajwad_v4/request/ajwadi/view/new_request_screen.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/profile/view/profle_screen.dart';
@@ -30,6 +31,7 @@ final storage = GetStorage();
 // final isTourGuide = storage.read("TourGuide") ?? true;
 //int currentIndex = 0;
 List bottomScreens = [];
+var profile = Profile().obs;
 
 class _AjwadiBottomBarState extends State<AjwadiBottomBar>
     with SingleTickerProviderStateMixin {
@@ -56,24 +58,22 @@ class _AjwadiBottomBarState extends State<AjwadiBottomBar>
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _internetConnection!.cancel();
   }
 
   getProfile() async {
-    await _profileController.getProfile(context: context);
+    profile.value = (await _profileController.getProfile(context: context))!;
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    setInternetConnection();
+
     if (_profileController.isInternetConnected.value) {
       getProfile();
     }
-
-    setInternetConnection();
   }
 
   @override
@@ -88,10 +88,8 @@ class _AjwadiBottomBarState extends State<AjwadiBottomBar>
                 children: [
                   LocalHomeScreen(
                       fromAjwady: true, profileController: _profileController),
-                  if (_profileController.profile.accountType !=
-                      'EXPERIENCES') ...{
+                  if (profile.value.accountType != 'EXPERIENCES')
                     const NewRequestScreen(),
-                  },
                   const AddExperienceInfo(),
                   ProfileScreen(
                     fromAjwady: true,

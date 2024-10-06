@@ -86,9 +86,10 @@ class _AdventureDetailsState extends State<AdventureDetails> {
   void getAdventureById() async {
     adventure = (await _adventureController.getAdvdentureById(
         context: context, id: widget.adventureId));
-    if (!AppUtil.isGuest()) {
+    if (!AppUtil.isGuest() &&
+        _profileController.profile.id != null &&
+        !widget.isLocal) {
       _profileController.bookmarkList(BookmarkService.getBookmarks());
-
       _profileController.isAdventureBookmarked(_profileController.bookmarkList
           .any((bookmark) => bookmark.id == adventure!.id));
     }

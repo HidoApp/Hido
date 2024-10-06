@@ -85,7 +85,9 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
   void getEventById() async {
     event = (await _eventController.getEventById(
         context: context, id: widget.eventId));
-    if (!AppUtil.isGuest()) {
+    if (!AppUtil.isGuest() &&
+        _profileController.profile.id != null &&
+        !widget.isLocal) {
       _profileController.bookmarkList(BookmarkService.getBookmarks());
 
       _profileController.isEventBookmarked(_profileController.bookmarkList

@@ -47,42 +47,47 @@ class _AddExperienceInfoState extends State<AddExperienceInfo> {
                     padding:
                         EdgeInsets.only(left: 0, right: 0, top: width * 0.1),
                     child: Skeletonizer(
-                          enabled: _experienceController.isAllExperiencesLoading.value,
-                          child: RefreshIndicator.adaptive(
-                              onRefresh: () async {
-                                await _experienceController.getAllExperiences(
-                                    context: context);
-                              },
-                              child: _experienceController.experienceList.isEmpty
-                                  ? Padding(
-                                      padding: EdgeInsets.only(top: width * 0.3),
-                                      child: SizedBox(
-                                          //new
-                                          width: width,
-                                          child: CustomEmptyWidget(
-                                            title: 'noExperience'.tr,
-                                            image: 'noExperiences',
-                                            subtitle: 'noExperienceSub'.tr,
-                                          )),
-                                    )
-                                  : ListView.separated(
-                                      shrinkWrap: true,
-                                      itemCount: _experienceController
-                                          .experienceList.length,
-                                      separatorBuilder: (context, index) {
-                                        return const SizedBox(
-                                          height: 11,
-                                        );
-                                      },
-                                      itemBuilder: (context, index) {
-                                        return ServicesCard(
-                                          experience: _experienceController
-                                              .experienceList[index],
-                                        );
-                                      },
-                                    ),
-                            ),
-                        ),
+                      enabled:
+                          _experienceController.isAllExperiencesLoading.value,
+                      child: RefreshIndicator.adaptive(
+                        onRefresh: () async {
+                          await _experienceController.getAllExperiences(
+                              context: context);
+                        },
+                        child: _experienceController.experienceList.isEmpty
+                            ? Padding(
+                                padding: EdgeInsets.only(
+                                  top: width * 0.3,
+                                  right: width * 0.041,
+                                  left: width * 0.041,
+                                ),
+                                child: SizedBox(
+                                    //new
+                                    width: width,
+                                    child: CustomEmptyWidget(
+                                      title: 'noExperience'.tr,
+                                      image: 'noExperiences',
+                                      subtitle: 'noExperienceSub'.tr,
+                                    )),
+                              )
+                            : ListView.separated(
+                                shrinkWrap: true,
+                                itemCount:
+                                    _experienceController.experienceList.length,
+                                separatorBuilder: (context, index) {
+                                  return const SizedBox(
+                                    height: 11,
+                                  );
+                                },
+                                itemBuilder: (context, index) {
+                                  return ServicesCard(
+                                    experience: _experienceController
+                                        .experienceList[index],
+                                  );
+                                },
+                              ),
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -93,10 +98,9 @@ class _AddExperienceInfoState extends State<AddExperienceInfo> {
             right: 16,
             child: GestureDetector(
               onTap: () {
-                   AmplitudeService.amplitude.track(
-                                                  BaseEvent(
-                                                      'Select to add experience',
-                                                   ));
+                AmplitudeService.amplitude.track(BaseEvent(
+                  'Select to add experience',
+                ));
                 Get.to(() => ExperienceType());
               },
               child: Container(

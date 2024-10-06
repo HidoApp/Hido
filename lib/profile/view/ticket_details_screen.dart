@@ -1,4 +1,3 @@
-
 import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/event/model/event.dart';
 import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
@@ -27,7 +26,6 @@ import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/profile/widget/HospitalityTicketData.dart';
 import 'package:get/get.dart';
 import 'package:ajwad_v4/services/model/hospitality.dart';
-
 
 class TicketDetailsScreen extends StatefulWidget {
   TicketDetailsScreen(
@@ -70,7 +68,12 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
   @override
   void initState() {
     super.initState();
-    getBooking();
+    if (widget.event != null) {
+      return;
+    }
+    if (widget.booking!.bookingType != 'event') {
+      getBooking();
+    }
   }
 
   @override
@@ -80,10 +83,10 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      backgroundColor:   lightGreyBackground,
+      backgroundColor: lightGreyBackground,
       appBar: CustomAppBar(
         'myTickets'.tr,
-    // backgroundColor: Colors.red,
+        // backgroundColor: Colors.red,
       ),
       //CustomAppBar('myTickets'.tr),
       body: SingleChildScrollView(
@@ -94,96 +97,107 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(height: width * 0.051),
-                if (widget.adventure == null &&
+              if (widget.adventure == null &&
                   widget.event == null &&
                   widget.hospitality == null &&
                   !widget.isTour!) ...[
                 if (widget.booking!.orderStatus == 'ACCEPTED') ...[
-              Obx(
-                () => Skeletonizer(
-                  enabled: _touristExploreController.isBookingByIdLoading.value,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: width * 0.041),
-                    child: GestureDetector(
-                      onTap: () {
-                        Get.to(() => LocalOfferInfo(
-                              image: profileBooking
-                                      ?.offers?.first.user!.profile.image ??
-                                  "",
-                              name: profileBooking
-                                      ?.offers?.first.user!.profile.name ??
-                                  "",
-                              price: int.parse(profileBooking?.cost ?? "0"),
-                              rating: profileBooking
-                                      ?.offers?.first.user!.profile.tourRating
-                                      .toDouble() ??
-                                  0,
-                              tripNumber: profileBooking?.offers?.first.user!
-                                      .profile.tourNumber ??
-                                  0,
-                              place: null,
-                              userId: profileBooking!.offers!.first.userId,
-                              profileId: profileBooking!.offers!.first.userId,
-                            ));
-                      },
-                      child: Container(
-                          padding: EdgeInsets.symmetric(
-                              vertical: width * 0.041,
-                              horizontal: width * 0.051),
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                              border: Border.all(color: lightGrey),
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(16)),
-                          height: 70,
-                          child: Row(
-                            children: [
-                              CircleAvatar(
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(30),
-                                  child: profileBooking?.offers?.first.user!
-                                              .profile.image !=
-                                          null
-                                      ? ImageCacheWidget(
-                                          height: width * 0.097,
-                                          width: width * 0.097,
-                                          image: profileBooking?.offers?.first
-                                                  .user!.profile.image ??
-                                              "")
-                                      : Image.asset(
-                                          'assets/images/profile_image.png'),
-                                ),
-                              ),
-                              SizedBox(
-                                width: width * 0.0205,
-                              ),
-                              CustomText(
-                                fontFamily: AppUtil.SfFontType(context),
-                                fontSize: width * 0.038,
-                                fontWeight: FontWeight.w500,
-                                text: AppUtil.capitalizeFirstLetter(
-                                    profileBooking?.offers?.first.user!.profile
-                                            .name ??
-                                        "Name"),
-                              ),
-                              // const Spacer(),
-                              // SizedBox(
-                              //   width: width * 0.233,
-                              //   child: CustomButton(
-                              //     title: 'chat'.tr,
-                              //     onPressed: () {},
-                              //   ),
-                              // )
-                            ],
-                          )),
+                  if (widget.booking!.bookingType != 'event')
+                    Obx(
+                      () => Skeletonizer(
+                        enabled: _touristExploreController
+                            .isBookingByIdLoading.value,
+                        child: Padding(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: width * 0.041),
+                          child: GestureDetector(
+                            onTap: () {
+                              Get.to(() => LocalOfferInfo(
+                                    image: profileBooking?.offers?.first.user!
+                                            .profile.image ??
+                                        "",
+                                    name: profileBooking?.offers?.first.user!
+                                            .profile.name ??
+                                        "",
+                                    price:
+                                        int.parse(profileBooking?.cost ?? "0"),
+                                    rating: profileBooking?.offers?.first.user!
+                                            .profile.tourRating
+                                            .toDouble() ??
+                                        0,
+                                    tripNumber: profileBooking?.offers?.first
+                                            .user!.profile.tourNumber ??
+                                        0,
+                                    place: null,
+                                    userId:
+                                        profileBooking!.offers!.first.userId,
+                                    profileId:
+                                        profileBooking!.offers!.first.userId,
+                                  ));
+                            },
+                            child: Container(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: width * 0.041,
+                                    horizontal: width * 0.051),
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: lightGrey),
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(16)),
+                                height: 70,
+                                child: Row(
+                                  children: [
+                                    CircleAvatar(
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(30),
+                                        child: profileBooking?.offers?.first
+                                                    .user!.profile.image !=
+                                                null
+                                            ? ImageCacheWidget(
+                                                height: width * 0.097,
+                                                width: width * 0.097,
+                                                image: profileBooking
+                                                        ?.offers
+                                                        ?.first
+                                                        .user!
+                                                        .profile
+                                                        .image ??
+                                                    "")
+                                            : Image.asset(
+                                                'assets/images/profile_image.png'),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: width * 0.0205,
+                                    ),
+                                    CustomText(
+                                      fontFamily: AppUtil.SfFontType(context),
+                                      fontSize: width * 0.038,
+                                      fontWeight: FontWeight.w500,
+                                      text: AppUtil.capitalizeFirstLetter(
+                                          profileBooking?.offers?.first.user!
+                                                  .profile.name ??
+                                              "Name"),
+                                    ),
+                                    // const Spacer(),
+                                    // SizedBox(
+                                    //   width: width * 0.233,
+                                    //   child: CustomButton(
+                                    //     title: 'chat'.tr,
+                                    //     onPressed: () {},
+                                    //   ),
+                                    // )
+                                  ],
+                                )),
+                          ),
+                        ),
+                      ),
                     ),
+                  SizedBox(
+                    height: width * 0.03,
                   ),
-                ),
-              ),
-              SizedBox(
-                height: width * 0.03,
-              ),
-                ]],
+                ]
+              ],
               Align(
                 alignment: Alignment.topCenter,
                 child: TicketWidget(

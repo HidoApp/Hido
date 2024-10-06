@@ -6,15 +6,15 @@ import 'package:flutter_svg/svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ItineraryTile extends StatelessWidget {
-  const ItineraryTile(
-      {super.key,
-      required this.title,
-      required this.image,
-      this.imageUrl,
-      this.color= borderGrey,
-      this.line = false,
-      this.widthImage ,
-});
+  const ItineraryTile({
+    super.key,
+    required this.title,
+    required this.image,
+    this.imageUrl,
+    this.color = borderGrey,
+    this.line = false,
+    this.widthImage,
+  });
 
   final String title;
   final String image;
@@ -30,10 +30,10 @@ class ItineraryTile extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         widthImage == null
-      ? SvgPicture.asset(image)
-      : SvgPicture.asset(image, width: widthImage),
-       
-        SizedBox(
+            ? RepaintBoundary(child: SvgPicture.asset(image))
+            : RepaintBoundary(
+                child: SvgPicture.asset(image, width: widthImage)),
+        const SizedBox(
           width: 4,
         ),
         GestureDetector(
@@ -47,21 +47,22 @@ class ItineraryTile extends StatelessWidget {
                   }
                 }
               : () {},
-          child:CustomText(
-           text: title,
-              color: color??borderGrey,
-              fontSize: width * 0.03,
-              fontFamily:
-                  AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-              fontWeight: FontWeight.w400,
-            textDecoration: line?TextDecoration.underline:TextDecoration.none,
-            ),
-          
+          child: CustomText(
+            text: title,
+            color: color ?? borderGrey,
+            fontSize: width * 0.03,
+            fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+            fontWeight: FontWeight.w400,
+            textDecoration:
+                line ? TextDecoration.underline : TextDecoration.none,
+          ),
         ),
         if (line)
-          SvgPicture.asset(
-            "assets/icons/arrow_up.svg",
-            // width: width * 0.05,
+          RepaintBoundary(
+            child: SvgPicture.asset(
+              "assets/icons/arrow_up.svg",
+              // width: width * 0.05,
+            ),
           ),
       ],
     );

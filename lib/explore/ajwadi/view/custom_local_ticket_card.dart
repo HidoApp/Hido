@@ -41,20 +41,15 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
   final _tripController = Get.put(TripController(), permanent: true);
   final _requestController = Get.put(RequestController());
   void updateProgress(double newProgress) {
-    
-      _tripController.progress.value = newProgress.clamp(0.0, 1.0);
-    
+    _tripController.progress.value = newProgress.clamp(0.0, 1.0);
   }
 
   void returnProgress(double newProgress) {
-      _tripController.progress.value = newProgress.clamp(0.0, 1.0);
-    
+    _tripController.progress.value = newProgress.clamp(0.0, 1.0);
   }
 
   void updateStepss(String newSteps) {
-  
-      _tripController.nextStep.value = newSteps;
-  
+    _tripController.nextStep.value = newSteps;
   }
 
   void checkCondition() {
@@ -127,10 +122,10 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
     // }
     // Get the current time for comparison
 
-  //   if (returnHour >= 0 && returnHour < 6 && currentDateInRiyadh.isAfter(timeToReturn)) {
-  //   // Add a day if the return time is in the early morning (0 AM to 5:59 AM)
-  //   timeToReturn = timeToReturn.add(Duration(days: 1));
-  // }
+    //   if (returnHour >= 0 && returnHour < 6 && currentDateInRiyadh.isAfter(timeToReturn)) {
+    //   // Add a day if the return time is in the early morning (0 AM to 5:59 AM)
+    //   timeToReturn = timeToReturn.add(Duration(days: 1));
+    // }
     DateTime currentTime = DateTime(
       currentDateInRiyadh.year,
       currentDateInRiyadh.month,
@@ -140,19 +135,16 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
       currentDateInRiyadh.second,
     );
 
-
-  log('${currentTime.isAfter(timeToReturn) ||
-        currentTime.isAtSameMomentAs(timeToReturn)}');
-  log(currentTime.toString());
-  log(timeToReturn.toString());
-  log('${returnHour >= 0 && returnHour < 6 && currentDateInRiyadh.isAfter(timeToReturn)}');
-
+    log('${currentTime.isAfter(timeToReturn) || currentTime.isAtSameMomentAs(timeToReturn)}');
+    log(currentTime.toString());
+    log(timeToReturn.toString());
+    log('${returnHour >= 0 && returnHour < 6 && currentDateInRiyadh.isAfter(timeToReturn)}');
 
     if (currentTime.isAfter(timeToReturn) ||
         currentTime.isAtSameMomentAs(timeToReturn)) {
       _tripController.isTripFinallyEnd.value = true;
       _tripController.isTripEnd.value = false;
-      
+
       return true;
     } else {
       _tripController.isTripFinallyEnd.value = false;
@@ -162,7 +154,6 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
 
       return false;
     }
-    
   }
 
   void isDateBefore24Hours() {
@@ -295,7 +286,7 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                           children: [
                             ElevatedButton(
                               onPressed: () {
-                                Get.to(ChatScreen(
+                                Get.to(() => ChatScreen(
                                     chatId: _tripController
                                         .nextTrip.value.booking!.chatId));
                               },
@@ -340,17 +331,19 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                                       .isActivityProgressLoading.value
                                   ? Center(
                                       child: Padding(
-                                        padding:AppUtil.rtlDirection2(context)? EdgeInsets.only(left:15.0) : EdgeInsets.only(right:15.0),
-                                        child: SizedBox(
+                                      padding: AppUtil.rtlDirection2(context)
+                                          ? EdgeInsets.only(left: 15.0)
+                                          : EdgeInsets.only(right: 15.0),
+                                      child: SizedBox(
                                         width: 25.0, // Set the width
                                         height: 25.0, // Set
-                                        child:
-                                            CircularProgressIndicator.adaptive(),
-                                                                          ),
-                                      ))
+                                        child: CircularProgressIndicator
+                                            .adaptive(),
+                                      ),
+                                    ))
                                   : ElevatedButton(
                                       onPressed: isTripStart.value &&
-                                              !_tripController.isTripEnd.value 
+                                              !_tripController.isTripEnd.value
                                           ? () async {
                                               await _tripController
                                                   .updateActivity(
