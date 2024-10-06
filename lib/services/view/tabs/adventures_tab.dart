@@ -30,14 +30,11 @@ class _AdventuresTabState extends State<AdventuresTab> {
     //
   }
 
-  final _regionsController = Get.put(RegionsController(), tag: 'tag');
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getAdvdentureList();
-    _regionsController.getRegions(context: context, regionType: "ADVENTURE");
   }
 
   @override

@@ -19,7 +19,6 @@ class EventsTab extends StatefulWidget {
 
 class _EventsTabState extends State<EventsTab> {
   final _eventController = Get.put(EventController());
-  final _regionsController = Get.put(RegionsController());
 
   void getEventList() async {
     await _eventController.getEventList(context: context);
@@ -27,10 +26,8 @@ class _EventsTabState extends State<EventsTab> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getEventList();
-    // _regionsController.getRegions(context: context, regionType: "EVENT");
   }
 
   @override
@@ -68,14 +65,14 @@ class _EventsTabState extends State<EventsTab> {
                                       Get.to(() => LocalEventDetails(
                                           eventId: _eventController
                                               .eventList[index].id));
-                                              
-                                     AmplitudeService.amplitude.track(BaseEvent(
-                                          'View Selected event',eventProperties: {
-                                            'eventTitle':_eventController
-                                                .eventList[index].nameEn ??
-                                            "",
-                                          }
-                                        ));
+
+                                      AmplitudeService.amplitude.track(
+                                          BaseEvent('View Selected event',
+                                              eventProperties: {
+                                            'eventTitle': _eventController
+                                                    .eventList[index].nameEn ??
+                                                "",
+                                          }));
                                     },
                                     image: _eventController
                                         .eventList[index].images.first,

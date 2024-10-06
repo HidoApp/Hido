@@ -351,11 +351,18 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
     }));
   }
 
+// Debounce to avoid excessive updates on camera movement
+  Timer? _debounce;
+  void _debounceCameraMove(CameraPosition position) {
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 300), () {
+      _touristExploreController.currentLocation.value = position.target;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    print(_touristExploreController.touristModel.value!.places!.length);
     final width = MediaQuery.of(context).size.width;
-
     return Scaffold(
       bottomSheet: Obx(
         () => _touristExploreController.isActivityProgressLoading.value
@@ -398,11 +405,12 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
         children: [
           //  isLoaded ?
           CustomGoogleMapMarkerBuilder(
-              customMarkers: customMarkers,
-              builder: (context, markers) {
-                if (markers == null) {
-                  return Obx(
-                    () => GoogleMap(
+            customMarkers: customMarkers,
+            builder: (context, markers) {
+              if (markers == null) {
+                return Obx(
+                  () => RepaintBoundary(
+                    child: GoogleMap(
                       zoomControlsEnabled: false,
                       myLocationButtonEnabled: false,
                       markers: storage.read<List<Marker>>('markers')!.toSet(),
@@ -417,22 +425,21 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                         // _loadMapStyles();
                       },
                       onCameraMove: (position) {
-                        _touristExploreController.currentLocation.value =
-                            position.target;
-                        // setState(() {});
+                        _debounceCameraMove(position);
                       },
                     ),
-                  );
-                }
-                if (_touristExploreController.isNewMarkers.value) {
-                  storage.write('markers', markers.toList()).then((val) {
-                    _touristExploreController.isNewMarkers.value = false;
-                    _touristExploreController.updateMap(true);
-                    // setState(() {});
-                  });
-                }
-                return Obx(
-                  () => GoogleMap(
+                  ),
+                );
+              }
+              if (_touristExploreController.isNewMarkers.value) {
+                storage.write('markers', markers.toList()).then((val) {
+                  _touristExploreController.isNewMarkers.value = false;
+                  _touristExploreController.updateMap(true);
+                });
+              }
+              return Obx(
+                () => RepaintBoundary(
+                  child: GoogleMap(
                     zoomControlsEnabled: false,
                     myLocationButtonEnabled: false,
                     initialCameraPosition: CameraPosition(
@@ -446,12 +453,13 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                       // _loadMapStyles();
                     },
                     onCameraMove: (position) {
-                      _touristExploreController.currentLocation.value =
-                          position.target;
+                      _debounceCameraMove(position);
                     },
                   ),
-                );
-              }),
+                ),
+              );
+            },
+          ),
           Positioned(
             top: width * .19,
             left: width * 0.041,
