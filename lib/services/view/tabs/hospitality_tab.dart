@@ -1,4 +1,3 @@
-
 import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/services/controller/regions_controller.dart';
@@ -23,7 +22,6 @@ class HospitalityTab extends StatefulWidget {
 
 class _HospitalityTabState extends State<HospitalityTab> {
   final _srvicesController = Get.put(HospitalityController());
-  final _regionsController = Get.put(RegionsController());
   @override
   void initState() {
     // TODO: implement initState
@@ -31,7 +29,6 @@ class _HospitalityTabState extends State<HospitalityTab> {
     _srvicesController.getAllHospitality(context: context);
   }
 
-  
   var selectedValue = 0;
   @override
   Widget build(BuildContext context) {
@@ -71,12 +68,15 @@ class _HospitalityTabState extends State<HospitalityTab> {
                                                   .hospitalityList[index].id,
                                             ));
 
-                                         AmplitudeService.amplitude.track(BaseEvent(
-                                          'View Selected hospitality',eventProperties: {
-                                            'hospitalityTitle':_srvicesController
-                                              .hospitalityList[index].titleEn
-                                          }
-                                            ));
+                                        AmplitudeService.amplitude.track(
+                                            BaseEvent(
+                                                'View Selected hospitality',
+                                                eventProperties: {
+                                              'hospitalityTitle':
+                                                  _srvicesController
+                                                      .hospitalityList[index]
+                                                      .titleEn
+                                            }));
                                       },
                                       image: _srvicesController
                                           .hospitalityList[index].images.first,
