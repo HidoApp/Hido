@@ -1,6 +1,5 @@
 import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
-import 'package:ajwad_v4/services/controller/regions_controller.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
 import 'package:ajwad_v4/services/view/adveture_details.dart';
 import 'package:ajwad_v4/services/view/widgets/custom_adventure_item.dart';

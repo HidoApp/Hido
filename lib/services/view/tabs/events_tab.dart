@@ -1,6 +1,5 @@
 import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/services/controller/event_controller.dart';
-import 'package:ajwad_v4/services/controller/regions_controller.dart';
 import 'package:ajwad_v4/services/view/local_event_details.dart';
 import 'package:ajwad_v4/services/view/widgets/event_card.dart';
 import 'package:ajwad_v4/utils/app_util.dart';

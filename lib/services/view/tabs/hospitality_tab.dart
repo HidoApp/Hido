@@ -1,6 +1,5 @@
 import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
-import 'package:ajwad_v4/services/controller/regions_controller.dart';
 import 'package:ajwad_v4/services/view/hospitality_details.dart';
 import 'package:ajwad_v4/services/view/widgets/custom_hospitality_item.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
