@@ -2663,7 +2663,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                 children: [
                                                   Center(
                                                     child: _isLoading
-                                                        ? const CircularProgressIndicator.adaptive()
+                                                        ? const CircularProgressIndicator
+                                                            .adaptive()
                                                         : Text(
                                                             address,
                                                             style: TextStyle(
@@ -2811,7 +2812,9 @@ class _EditHospitalityState extends State<EditHospitality> {
                                     activeDotColor: Colors.white,
                                   ),
                                   activeIndex: _currentIndex,
-                                  count: _servicesController.images!.length),
+                                  count: _servicesController.images.length >= 6
+                                      ? 6
+                                      : _servicesController.images.length),
                             ),
                           ),
                         ),

@@ -169,7 +169,7 @@ class _CancelSheetState extends State<CancelSheet> {
                           if (bookingCancel) {
                             int notificationId = int.tryParse(bookID!) ?? 0;
                             await flutterLocalNotificationsPlugin
-                                .cancel(notificationId);
+                                .cancel(int.tryParse(widget.bookId)??0);
 
                             AmplitudeService.amplitude.track(BaseEvent(
                                 'Booking Successfully canceled after payment',

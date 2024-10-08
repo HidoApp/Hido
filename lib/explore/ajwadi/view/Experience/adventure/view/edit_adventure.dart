@@ -2294,7 +2294,9 @@ class _EditAdventureState extends State<EditAdventure> {
                                     activeDotColor: Colors.white,
                                   ),
                                   activeIndex: _currentIndex,
-                                  count: _servicesController.images!.length),
+                                  count: _servicesController.images.length >= 6
+                                  ? 6
+                                  :_servicesController.images.length),
                             ),
                           ),
                         ),
