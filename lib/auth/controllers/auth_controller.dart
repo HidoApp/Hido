@@ -59,6 +59,7 @@ class AuthController extends GetxController {
   var validDriving = true.obs;
   //edit license
   var updatedDriving = ''.obs;
+  var updatedDrivingWithoutHijri = ''.obs;
   var updatedVehicle = ''.obs;
   var validUpdatedDriving = true.obs;
   var passwordOtp = ''.obs;
@@ -579,11 +580,11 @@ class AuthController extends GetxController {
         activeBar(3);
         Get.off(() => const TourStepper());
       } else if (local.accountType == 'EXPERIENCES') {
-            AmplitudeService.amplitude
+        AmplitudeService.amplitude
             .track(BaseEvent('Local Signed in as experience '));
         Get.offAll(() => const AjwadiBottomBar());
       } else if (local.accountType.isEmpty) {
-              AmplitudeService.amplitude.track(BaseEvent(
+        AmplitudeService.amplitude.track(BaseEvent(
             "Local Signed is tour guide but doesn't have accountType "));
         Get.offAll(() => const ProvidedServices());
         activeBar(1);

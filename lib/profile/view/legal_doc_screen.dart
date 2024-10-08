@@ -32,8 +32,9 @@ class _LegalDocumentState extends State<LegalDocument> {
                 ? Container()
                 : AccountTile(
                     title: 'drivinglicense'.tr,
-                    subtitle: AppUtil.convertIsoDateToFormattedDate(
-                        _profileController.profile.drivingLicenseExpiryDate!),
+                    subtitle: AppUtil.convertHijriToGregorian(
+                        AppUtil.convertIsoDateToFormattedDate(_profileController
+                            .profile.drivingLicenseExpiryDate!)),
                     onTap: () {
                       Get.bottomSheet(const DrivingSheet());
                     },

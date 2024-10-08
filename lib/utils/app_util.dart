@@ -502,40 +502,6 @@ class AppUtil {
       borderRadius: const BorderRadius.all(
           Radius.circular(8)), // Match the reduced border radius
     ).show(context);
-
-    // Flushbar(
-    //   onTap: (flushbar) {},
-    //   messageText: Row(
-    //     children: [
-    //       SizedBox(
-    //         width: MediaQuery.of(context).size.width * 0.7,
-    //         child: CustomText(
-    //           text: msg,
-    //           color: Colors.white,
-    //           fontSize: 14,
-    //           fontWeight: FontWeight.w400,
-    //         ),
-    //       ),
-    //       const Spacer(),
-    //       const Icon(
-    //         Icons.check,
-    //         color: Colors.white,
-    //       ),
-    //     ],
-    //   ),
-    //   messageColor: Colors.white,
-    //   messageSize: 18,
-    //   padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
-    //   isDismissible: true,
-    //   duration: const Duration(seconds: 3),
-    //   flushbarPosition: FlushbarPosition.TOP,
-    //   barBlur: .1,
-    //   backgroundColor: colorGreen,
-    //   borderColor: colorGreen,
-    //   margin: const EdgeInsets.all(8),
-    //   //  borderRadius: BorderRadius.circular(10),
-    //   //  borderRadius:BorderRadius?.all(Radius.circular(12))
-    // ).show(context);
   }
 
   static String getBookingTypeText(BuildContext context, String bookingType) {
@@ -563,7 +529,6 @@ class AppUtil {
 
   static errorToast(BuildContext context, String msg) {
     var width = MediaQuery.of(context).size.width;
-
     Flushbar(
       messageText: Container(
         width: double.infinity,
@@ -664,37 +629,6 @@ class AppUtil {
           Radius.circular(8)), // Match the reduced border radius
     ).show(context);
   }
-  // static errorToast(context, msg) {
-  //   Flushbar(
-  //           messageText: Row(
-  //             children: [
-  //               SizedBox(
-  //                 width: MediaQuery.of(context).size.width * 0.7,
-  //                 child: CustomText(
-  //                   text: msg,
-  //                   color: Colors.white,
-  //                   maxlines: 4,
-  //                   fontSize: 14,
-  //                   fontWeight: FontWeight.w400,
-  //                 ),
-  //               ),
-  //             ],
-  //           ),
-  //           messageColor: Colors.white,
-  //           padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 2),
-  //           isDismissible: true,
-  //           duration: const Duration(seconds: 2),
-  //           flushbarPosition: FlushbarPosition.TOP,
-  //           // barBlur: .1,
-  //           backgroundColor: colorDarkRed,
-  //           borderColor: colorDarkRed,
-  //           margin: const EdgeInsets.all(3),
-  //           borderRadius: const BorderRadius.all(Radius.circular(8))
-
-  //           //BorderRadius.circular(12),
-  //           )
-  //       .show(context);
-  // }
 
   static String countdwonFormat(double seconds) {
     Duration duration = Duration(seconds: seconds.toInt());
@@ -745,6 +679,47 @@ class AppUtil {
     return "${hijriDate.year}-${hijriDate.month.toString().padLeft(2, '0')}-${hijriDate.day.toString().padLeft(2, '0')}";
   }
 
+  // Function to return Hijri date in "YYYY-MM-DD" format
+  static String convertToHijriWithDayForLocal(String gregorianDate) {
+    // Parse the Gregorian date to DateTime
+    DateTime dateTime = DateTime.parse(gregorianDate);
+
+    // Convert to Hijri date using jhijri
+    var hijriDate = JHijri(fDate: dateTime);
+
+    // Format the Hijri date as "YYYY-MM-DD"
+    String formattedHijriDate =
+        '${hijriDate.hijri.year}-${hijriDate.hijri.month.toString().padLeft(2, '0')}-${hijriDate.hijri.day.toString().padLeft(2, '0')}';
+
+    return formattedHijriDate;
+  }
+
+// Function to return Hijri date in "YYYY-MM" format
+  static String convertToHijriForRowad(String gregorianDate) {
+    // Parse the Gregorian date to DateTime
+    DateTime dateTime = DateTime.parse(gregorianDate);
+
+    // Convert to Hijri date using jhijri
+    var hijriDate = JHijri(fDate: dateTime);
+
+    // Format the Hijri date as "YYYY-MM"
+    String formattedHijriDate =
+        '${hijriDate.hijri.year}-${hijriDate.hijri.month.toString().padLeft(2, '0')}';
+
+    return formattedHijriDate;
+  }
+
+  static String formatDateForRowad(String dateTimeString) {
+    // Parse the date string to DateTime
+    DateTime dateTime = DateTime.parse(dateTimeString);
+
+    // Format the DateTime to "YYYY-MM-DD"
+    String formattedDate =
+        '${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')}';
+
+    return formattedDate;
+  }
+
   static String SfFontType(BuildContext context) {
     return AppUtil.rtlDirection2(context) ? 'SF Arabic' : "SF Pro";
   }
@@ -756,5 +731,22 @@ class AppUtil {
 
   static String getFirstName(String fullName) {
     return fullName.split(" ")[0];
+  }
+
+  static String convertHijriToGregorian(String hijriDateString) {    // Split the Hijri date string into year, month, day
+    List<String> hijriParts = hijriDateString.split('-');
+    int hijriYear = int.parse(hijriParts[0]);
+    int hijriMonth = int.parse(hijriParts[1]);
+    int hijriDay = int.parse(hijriParts[2]);
+    // Create a HijriCalendar object using the Hijri date
+    var hijriDate = JHijri(
+        fYear: hijriYear,
+        fMonth: hijriMonth,
+        fDay: hijriDay); // Replace with your desired Hijri date
+    // Format the Gregorian date as "YYYY-MM-DD"
+    String formattedGregorianDate =
+        '${hijriDate.dateTime.year}-${hijriDate.dateTime.month.toString().padLeft(2, '0')}-${hijriDate.dateTime.day.toString().padLeft(2, '0')}';
+
+    return formattedGregorianDate;
   }
 }
