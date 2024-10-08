@@ -87,9 +87,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
   void getHospitalityById() async {
     hospitalityObj = (await _servicesController.getHospitalityById(
         context: context, id: widget.hospitalityId));
-    if (!AppUtil.isGuest() &&
-        _profileController.profile.id != null &&
-        !widget.isLocal) {
+    if (!AppUtil.isGuest()) {
       _profileController.bookmarkList(BookmarkService.getBookmarks());
       _profileController.isHospitaltyBookmarked(_profileController.bookmarkList
           .any((bookmark) => bookmark.id == hospitalityObj!.id));

@@ -26,7 +26,7 @@ class AdvertisementController extends GetxController {
   var advertisementList = <Advertisement>[].obs;
 
  
-  Future<RxList<Advertisement>?> getAllHospitality(
+  Future<RxList<Advertisement>?> getAllAdvertisement(
       {required BuildContext context}) async {
     try {
       isAdvertisementLoading(true);
@@ -44,7 +44,7 @@ class AdvertisementController extends GetxController {
     }
   }
 
-  Future<Advertisement?> getHospitalityById({
+  Future<Advertisement?> getAdvertisementById({
     required BuildContext context,
     required String id,
   }) async {
