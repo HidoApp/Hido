@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
 import 'package:ajwad_v4/new-onboarding/view/intro_screen.dart';
+import 'package:ajwad_v4/widgets/verion_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -66,7 +67,7 @@ class _SplashScreenState extends State<SplashScreen>
     Future.delayed(const Duration(seconds: 5), () async {
       //  onBoarding = await checkForBoarding() ?? 'no';
       // _controller.dispose();
-     if (!mounted) return;
+      if (!mounted) return;
 
       if (token != '' && userRole == 'local') {
         if (JwtDecoder.isExpired(token)) {
@@ -128,6 +129,14 @@ class _SplashScreenState extends State<SplashScreen>
               },
             ),
           ),
+          // Positioned(
+          //   bottom: 40,
+          //   left: 155,
+          //   // right: MediaQuery.of(context).size.width / 2,
+          //   child: const Center(
+          //     child: VersionText(),
+          //   ),
+          // )
         ],
       ),
     );

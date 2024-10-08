@@ -683,4 +683,5 @@ const localeAr = {
   'vehiclePlate': 'لوحة المركبة',
   'vehicleType': 'نوع المركبة',
   'invaildId': "رقم الهوية غير صالح",
+  'hidoVer': "هايدو نسخة"
 };

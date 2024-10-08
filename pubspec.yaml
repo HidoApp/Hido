@@ -92,6 +92,7 @@ dependencies:
   firebase_app_installations: ^0.2.4+4
   amplitude_flutter: ^4.0.0-beta.1
   sentry_flutter: ^8.9.0
+  package_info_plus: 
 
   # internet_connection_checker_plus: ^2.2.0
 
