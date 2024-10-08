@@ -2240,7 +2240,8 @@ class _EditEventState extends State<EditEvent> {
                                                 children: [
                                                   Center(
                                                     child: _isLoading
-                                                        ? CircularProgressIndicator.adaptive()
+                                                        ? CircularProgressIndicator
+                                                            .adaptive()
                                                         : Text(
                                                             address,
                                                             style: TextStyle(
@@ -2377,7 +2378,9 @@ class _EditEventState extends State<EditEvent> {
                                     activeDotColor: Colors.white,
                                   ),
                                   activeIndex: _currentIndex,
-                                  count: _servicesController.images!.length),
+                                  count: _servicesController.images.length >= 6
+                                      ? 6
+                                      : _servicesController.images.length),
                             ),
                           ),
                         ),
