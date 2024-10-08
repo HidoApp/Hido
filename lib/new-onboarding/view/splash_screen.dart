@@ -122,7 +122,7 @@ class _SplashScreenState extends State<SplashScreen>
               alignment: Alignment.center,
               fit: BoxFit.contain,
               errorBuilder: (context, error, stackTrace) {
-                return Text(
+                return const Text(
                   'Failed to load animation',
                   style: TextStyle(color: Colors.red),
                 );

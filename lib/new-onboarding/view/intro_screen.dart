@@ -546,9 +546,9 @@ List<OnboardingModel> tabs = [
     'assets/onboarding_1_ar.json',
   ),
   OnboardingModel(
-    'assets/onboarding_2_neww.json',
+    'assets/Onboarding2.json',
     'intro2',
-    'assets/onboarding_222_Ar.json',
+    'assets/Onboarding2-Ar.json',
   ),
   OnboardingModel(
     'assets/testttt.json',
