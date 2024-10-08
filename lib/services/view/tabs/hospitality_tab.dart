@@ -1,6 +1,7 @@
 import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/services/view/hospitality_details.dart';
+import 'package:ajwad_v4/services/view/widgets/ad_cards.dart';
 import 'package:ajwad_v4/services/view/widgets/custom_hospitality_item.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_empty_widget.dart';
@@ -40,8 +41,8 @@ class _HospitalityTabState extends State<HospitalityTab> {
         padding: EdgeInsets.symmetric(horizontal: 0, vertical: 32),
         child: Column(
           children: [
-            //Ad cards
-            // const AdCards(),
+           // Ad cards
+         // AdCards(),
             // SizedBox(
             //   height: width * 0.085,
             // ),

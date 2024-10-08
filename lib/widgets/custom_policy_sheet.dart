@@ -48,6 +48,7 @@ class CustomPloicySheet extends StatelessWidget {
               fontWeight: FontWeight.w400,
               fontFamily:
                   AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+              maxlines: 200,
             ),
             SizedBox(
               height: width * 0.038,
@@ -57,7 +58,7 @@ class CustomPloicySheet extends StatelessWidget {
               color: starGreyColor,
               fontSize: width * 0.038,
               fontWeight: FontWeight.w400,
-              maxlines: 5,
+              maxlines: 200,
               fontFamily:
                   AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
             ),
@@ -80,6 +81,7 @@ class CustomPloicySheet extends StatelessWidget {
               color: starGreyColor,
               fontSize: width * 0.038,
               fontWeight: FontWeight.w400,
+              maxlines: 200,
               fontFamily:
                   AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
             ),
