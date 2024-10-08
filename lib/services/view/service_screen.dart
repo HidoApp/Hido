@@ -262,8 +262,8 @@ class _ServiceScreenState extends State<ServiceScreen>
               bottom: TabBar(
                 controller: _tabController,
                 dividerColor: Colors.white.withOpacity(1),
-               // dividerHeight: 1.5,
-               // overlayColor: WidgetStateProperty.all(Colors.transparent),
+                // dividerHeight: 1.5,
+                // overlayColor: WidgetStateProperty.all(Colors.transparent),
                 indicator: BoxDecoration(
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(width * 0.03),
@@ -463,15 +463,17 @@ class _ServiceScreenState extends State<ServiceScreen>
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CustomText(
-                      text: _srvicesController.tabIndex.value == 0
-                          ? 'saudiHospitality'.tr
-                          : _srvicesController.tabIndex.value == 1
-                              ? 'saudiAdventure'.tr
-                              : 'saudiEvent'.tr,
-                      color: Color(0xFF070708),
-                      fontSize: width * 0.043,
-                      fontWeight: FontWeight.w500,
+                    Obx(
+                      () => CustomText(
+                        text: _srvicesController.tabIndex.value == 0
+                            ? 'saudiHospitality'.tr
+                            : _srvicesController.tabIndex.value == 1
+                                ? 'saudiAdventure'.tr
+                                : 'saudiEvent'.tr,
+                        color: Color(0xFF070708),
+                        fontSize: width * 0.043,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                     SizedBox(
                       height: width * 0.041,
