@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
+import 'package:ajwad_v4/auth/widget/local_calender.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
@@ -8,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:jhijri/_src/_jHijri.dart';
-import 'package:jhijri_picker/_src/_jWidgets.dart';
 
 class DrivingLicense extends StatefulWidget {
   const DrivingLicense({super.key});
@@ -23,23 +25,26 @@ class _DrivingLicenseState extends State<DrivingLicense> {
   String? drivingDate;
   DateTime? date;
   late JHijri hijriDate;
-  Future<JPickerValue?> openDialog(BuildContext context) async {
-    return await showGlobalDatePicker(
-        context: context,
-        startDate: JDateModel(jhijri: JHijri.now()),
-        pickerMode: DatePickerMode.year,
-        selectedDate: JDateModel(jhijri: JHijri.now()),
-        //   pickerMode: DatePickerMode.year,
-        pickerType: PickerType.JHijri,
-        okButtonText: 'ok'.tr,
-        cancelButtonText: "cancel".tr,
-        onChange: (datetime) {
-          _authController.drivingDate.value =
-              AppUtil.formattedHijriDate(datetime.jhijri);
-          _authController.drivingDateDay.value =
-              AppUtil.formattedHijriDateDay(datetime.jhijri);
+  void showCalender() {
+    showDialog(
+      context: context,
+      builder: (context) => LocalCalender(
+        pastAvalible: false,
+        onPressed: () {
+          log(_authController.drivingDate.value);
+          Get.back();
         },
-        primaryColor: Colors.green);
+        onSelectionChanged: (value) {
+          _authController.drivingDateDay(value.value.toString());
+          _authController.drivingDateDay.value =
+              AppUtil.formatDateForRowad(_authController.drivingDateDay.value);
+          _authController.drivingDate.value = AppUtil.convertToHijriForRowad(
+              _authController.drivingDateDay.value);
+          log(_authController.drivingDate.value);
+          log(_authController.drivingDateDay.value);
+        },
+      ),
+    );
   }
 
   @override
@@ -74,9 +79,7 @@ class _DrivingLicenseState extends State<DrivingLicense> {
                 fontFamily: 'SF Pro'),
             Obx(
               () => GestureDetector(
-                onTap: () async {
-                  openDialog(context);
-                },
+                onTap: () => showCalender(),
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   height: 48,

@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
+import 'package:ajwad_v4/auth/widget/local_calender.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/widget/otp_sheet.dart';
@@ -11,7 +12,7 @@ import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jhijri/_src/_jHijri.dart';
-import 'package:jhijri_picker/_src/_jWidgets.dart';
+// import 'package:jhijri_picker/_src/_jWidgets.dart';
 
 class DrivingSheet extends StatefulWidget {
   const DrivingSheet({super.key});
@@ -25,18 +26,41 @@ class _DrivingSheetState extends State<DrivingSheet> {
   var value = "";
   final _profileController = Get.put(ProfileController());
   final _authController = Get.put(AuthController());
-  Future<JPickerValue?> openDialog(BuildContext context) async {
-    return await showGlobalDatePicker(
-        context: context,
-        startDate: JDateModel(jhijri: JHijri.now()),
-        pickerMode: DatePickerMode.year,
-        selectedDate: JDateModel(jhijri: JHijri.now()),
-        pickerType: PickerType.JHijri,
-        onChange: (datetime) {
-          _authController.updatedDriving.value =
-              AppUtil.formattedHijriDate(datetime.jhijri);
+  // Future<JPickerValue?> openDialog(BuildContext context) async {
+  //   return await showGlobalDatePicker(
+  //       context: context,
+  //       startDate: JDateModel(jhijri: JHijri.now()),
+  //       pickerMode: DatePickerMode.year,
+  //       selectedDate: JDateModel(jhijri: JHijri.now()),
+  //       pickerType: PickerType.JHijri,
+  //       onChange: (datetime) {
+  //         _authController.updatedDriving.value =
+  //             AppUtil.formattedHijriDate(datetime.jhijri);
+  //       },
+  //       primaryColor: Colors.green);
+  // }
+  void showCalender() {
+    showDialog(
+      context: context,
+      builder: (context) => LocalCalender(
+        pastAvalible: false,
+        onPressed: () {
+          log(_authController.updatedDriving.value);
+          Get.back();
         },
-        primaryColor: Colors.green);
+        onSelectionChanged: (value) {
+          _authController.updatedDriving(value.value.toString());
+
+          _authController.updatedDrivingWithoutHijri.value =
+              AppUtil.formatDateForRowad(_authController.updatedDriving.value);
+
+          _authController.updatedDriving.value = AppUtil.convertToHijriForRowad(
+              _authController.updatedDriving.value);
+          log(_authController.updatedDriving.value);
+          log(_authController.updatedDrivingWithoutHijri.value);
+        },
+      ),
+    );
   }
 
   @override
@@ -81,9 +105,7 @@ class _DrivingSheetState extends State<DrivingSheet> {
             height: width * 0.0205,
           ),
           GestureDetector(
-            onTap: () async {
-              await openDialog(context);
-            },
+            onTap: () => showCalender(),
             child: Obx(
               () => Container(
                 padding: EdgeInsets.symmetric(
@@ -109,11 +131,13 @@ class _DrivingSheetState extends State<DrivingSheet> {
                       width: width * 0.051,
                     ),
                     CustomText(
-                      text: _authController.updatedDriving.isNotEmpty
-                          ? _authController.updatedDriving.value
-                          : AppUtil.convertIsoDateToFormattedDate(
-                              _profileController
-                                  .profile.drivingLicenseExpiryDate!),
+                      text:
+                          _authController.updatedDrivingWithoutHijri.isNotEmpty
+                              ? _authController.updatedDrivingWithoutHijri.value
+                              : AppUtil.convertHijriToGregorian(
+                                  AppUtil.convertIsoDateToFormattedDate(
+                                      _profileController
+                                          .profile.drivingLicenseExpiryDate!)),
                       color: Colors.grey,
                       fontWeight: FontWeight.w400,
                     ),
@@ -144,10 +168,7 @@ class _DrivingSheetState extends State<DrivingSheet> {
                 : CustomButton(
                     title: 'save'.tr,
                     onPressed: () async {
-                      if (_authController.updatedDriving.value ==
-                          AppUtil.convertIsoDateToFormattedDate(
-                              _profileController
-                                  .profile.drivingLicenseExpiryDate!)) {
+                      if (_authController.updatedDriving.value.isEmpty) {
                         _authController.validUpdatedDriving(false);
                       } else {
                         log(_authController.updatedDriving.value);

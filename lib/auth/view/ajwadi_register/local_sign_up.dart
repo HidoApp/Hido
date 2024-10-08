@@ -1,8 +1,10 @@
 import 'dart:developer';
+import 'package:jhijri/jhijri.dart';
 
 import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/auth/view/sigin_in/phone_otp_new.dart';
+import 'package:ajwad_v4/auth/widget/local_calender.dart';
 import 'package:ajwad_v4/auth/widget/sign_in_text.dart';
 import 'package:ajwad_v4/auth/widget/terms_text.dart';
 import 'package:ajwad_v4/constants/colors.dart';
@@ -13,12 +15,10 @@ import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/custom_textfield.dart';
 import 'package:ajwad_v4/widgets/screen_padding.dart';
 import 'package:amplitude_flutter/events/base_event.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:jhijri_picker/_src/_jWidgets.dart';
 
 class LocalSignUpScreen extends StatefulWidget {
   const LocalSignUpScreen({super.key});
@@ -35,41 +35,33 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
   var nationalId = '';
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _authController.agreeForTerms(false);
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _authController.birthDate('');
     _authController.validBirthDay(true);
     _authController.isAgreeForTerms(true);
   }
 
-  Future<JPickerValue?> openDialog(BuildContext context) async {
-    return await showGlobalDatePicker(
+  void showCalender() {
+    showDialog(
         context: context,
-        startDate: JDateModel(dateTime: DateTime.parse("1960-12-24")),
-        selectedDate: JDateModel(dateTime: DateTime.now()),
-        endDate: JDateModel(dateTime: DateTime.parse("2030-09-20")),
-        pickerMode: DatePickerMode.year,
-        // selectedDate: JDateModel(jhijri: JHijri.now()),
-        pickerType: PickerType.JHijri,
-        okButtonText: 'ok'.tr,
-        cancelButtonText: "cancel".tr,
-        onChange: (datetime) {
-          _authController.birthDate.value =
-              AppUtil.formattedHijriDate(datetime.jhijri);
-          _authController.birthDateDay.value =
-              AppUtil.formattedHijriDateDay(datetime.jhijri);
-          // _authController.birthDateDay.value =
-          // AppUtil.convertHijriDateStringToGregorian( _authController.birthDateDay.value);
-          log(_authController.birthDateDay.value);
-        },
-        primaryColor: Colors.green);
+        builder: (context) => LocalCalender(onPressed: () {
+              _authController.birthDate.value = AppUtil.convertToHijriForRowad(
+                  _authController.birthDateDay.value);
+              log(_authController.birthDate.value);
+              Get.back();
+            }, onSelectionChanged: (value) {
+              _authController.birthDateDay(value.value.toString());
+              _authController.birthDateDay.value = AppUtil.formatDateForRowad(
+                  _authController.birthDateDay.value);
+              _authController.birthDate.value = AppUtil.convertToHijriForRowad(
+                  _authController.birthDateDay.value);
+            }));
   }
 
   @override
@@ -191,7 +183,8 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                       ),
                       GestureDetector(
                         onTap: () async {
-                          await openDialog(context);
+                          showCalender();
+                          // await openDialog(context);
                         },
                         child: Obx(
                           () => Container(
