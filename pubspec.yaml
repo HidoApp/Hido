@@ -92,7 +92,7 @@ dependencies:
   firebase_app_installations: ^0.2.4+4
   amplitude_flutter: ^4.0.0-beta.1
   sentry_flutter: ^8.9.0
-  package_info_plus: 
+  package_info_plus:
 
   # internet_connection_checker_plus: ^2.2.0
 
@@ -134,8 +134,8 @@ flutter:
     - assets/onboarding_1_ar.json
     - assets/onboarding_3_ar.json
     - assets/onboarding_4_ar.json
-    - assets/onboarding_2_neww.json
-    - assets/onboarding_222_Ar.json
+    - assets/Onboarding2.json
+    - assets/Onboarding2-Ar.json
     - assets/onboarding_55555.json
     - assets/splash_screen_new.json
 
