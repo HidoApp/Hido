@@ -83,7 +83,7 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                     height: width * .010,
                   ),
                   // Details
-      
+
                   ReviewDetailsTile(
                       title: AppUtil.formatBookingDate(
                           context, widget.adventure.date!),
@@ -91,7 +91,7 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                   SizedBox(
                     height: width * .010,
                   ),
-      
+
                   ReviewDetailsTile(
                       title: widget.adventure.times != null &&
                               widget.adventure.times!.isNotEmpty
@@ -128,9 +128,11 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                   SizedBox(
                     height: width * 0.5,
                   ),
-      
+
                   ///discount widget
-                  const PromocodeField(),
+                  PromocodeField(
+                    price: widget.adventure.price * widget.person,
+                  ),
                   SizedBox(
                     height: width * 0.061,
                   ),
@@ -151,7 +153,7 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                       CustomText(
                         // text: 'SAR ${widget.adventure.price.toString()}',
                         text: '${"sar".tr} ${finalCost.toString()}',
-      
+
                         fontSize: width * 0.051,
                       )
                     ],
@@ -161,7 +163,8 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                   ),
                   Obx(() => _adventureController.ischeckBookingLoading.value ||
                           paymentController.isPaymenInvoiceLoading.value
-                      ? const Center(child: CircularProgressIndicator.adaptive())
+                      ? const Center(
+                          child: CircularProgressIndicator.adaptive())
                       : CustomButton(
                           onPressed: () async {
                             Get.to(
@@ -172,7 +175,7 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                                 price: widget.adventure.price * widget.person,
                               ),
                             );
-      
+
                             AmplitudeService.amplitude.track(BaseEvent(
                               'Go to payment screen',
                             ));

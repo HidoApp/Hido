@@ -733,7 +733,8 @@ class AppUtil {
     return fullName.split(" ")[0];
   }
 
-  static String convertHijriToGregorian(String hijriDateString) {    // Split the Hijri date string into year, month, day
+  static String convertHijriToGregorian(String hijriDateString) {
+    // Split the Hijri date string into year, month, day
     List<String> hijriParts = hijriDateString.split('-');
     int hijriYear = int.parse(hijriParts[0]);
     int hijriMonth = int.parse(hijriParts[1]);
@@ -748,5 +749,16 @@ class AppUtil {
         '${hijriDate.dateTime.year}-${hijriDate.dateTime.month.toString().padLeft(2, '0')}-${hijriDate.dateTime.day.toString().padLeft(2, '0')}';
 
     return formattedGregorianDate;
+  }
+
+  static int couponPercentageCalculating({
+    required double hidoPercentage,
+    required int couponPercentage,
+    required int price,
+  }) {
+    var copounPrice = couponPercentage / 100;
+    print(copounPrice);
+    var hidoFee = hidoPercentage * price;
+    return (hidoFee * copounPrice).toInt();
   }
 }

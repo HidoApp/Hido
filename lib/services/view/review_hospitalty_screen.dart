@@ -171,7 +171,10 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                     height: height * 0.110,
                   ),
                   //discount widget
-                  const PromocodeField(),
+                  PromocodeField(
+                    price: finalCost,
+                    isHost: true,
+                  ),
                   SizedBox(
                     height: width * 0.061,
                   ),
@@ -212,7 +215,8 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                     () => widget.servicesController.isCheckAndBookLoading
                                 .value ||
                             paymentController.isPaymenInvoiceLoading.value
-                        ? const Center(child: CircularProgressIndicator.adaptive())
+                        ? const Center(
+                            child: CircularProgressIndicator.adaptive())
                         : CustomButton(
                             onPressed: (() async {
                               Get.to(

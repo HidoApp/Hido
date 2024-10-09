@@ -128,7 +128,9 @@ class _EventReviewState extends State<EventReview> {
                   ),
 
                   ///discount widget
-                  const PromocodeField(),
+                  PromocodeField(
+                    price: widget.event.price! * widget.person,
+                  ),
                   SizedBox(
                     height: width * 0.061,
                   ),
@@ -158,7 +160,8 @@ class _EventReviewState extends State<EventReview> {
                     height: width * 0.051,
                   ),
                   Obx(() => _eventController.ischeckBookingLoading.value
-                      ? const Center(child: CircularProgressIndicator.adaptive())
+                      ? const Center(
+                          child: CircularProgressIndicator.adaptive())
                       : CustomButton(
                           onPressed: () async {
                             Get.to(

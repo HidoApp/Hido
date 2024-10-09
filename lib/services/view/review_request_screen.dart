@@ -50,6 +50,7 @@ class _ReviewRequestState extends State<ReviewRequest> {
   final TouristExploreController _touristExploreController =
       Get.put(TouristExploreController());
   final _offerController = Get.put(OfferController());
+  final _paymentController = Get.put(PaymentController());
   Place? thePlace;
 
   // late book.Booking? fetchedBooking2;
@@ -81,9 +82,7 @@ class _ReviewRequestState extends State<ReviewRequest> {
     final width = MediaQuery.of(context).size.width;
     return Obx(
       () => _RequestController.isBookingLoading.value
-          ? Scaffold(
-              body: Center(
-                  child: CircularProgressIndicator.adaptive()))
+          ? Scaffold(body: Center(child: CircularProgressIndicator.adaptive()))
           : GestureDetector(
               onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
               child: Scaffold(
@@ -172,7 +171,12 @@ class _ReviewRequestState extends State<ReviewRequest> {
                                 ),
 
                                 // discount widget
-                                const PromocodeField(),
+                                PromocodeField(
+                                  price: (widget
+                                          .offerController!.totalPrice.value *
+                                      widget.offerController!.offerDetails.value
+                                          .booking!.guestNumber!),
+                                ),
                                 SizedBox(
                                   height: width * 0.071,
                                 ),

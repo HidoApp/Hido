@@ -1,6 +1,8 @@
+import 'package:ajwad_v4/payment/model/coupon.dart';
 import 'package:ajwad_v4/payment/model/credit_card.dart';
 import 'package:ajwad_v4/payment/model/invoice.dart';
 import 'package:ajwad_v4/payment/model/payment_result.dart';
+import 'package:ajwad_v4/payment/service/coupon_service.dart';
 
 import 'package:ajwad_v4/payment/service/payment_service.dart';
 import 'package:ajwad_v4/request/tourist/models/schedule.dart';
@@ -15,14 +17,17 @@ class PaymentController extends GetxController {
   var isPaymentGatewayLoading = false.obs;
   var isApplePayEmbeddedLoading = false.obs;
   var isApplePayExecuteLoading = false.obs;
- 
+  var isCouponByCodeLoading = false.obs;
+
   var showCvv = false.obs;
   var isNameValid = true.obs;
   var isCardNumberValid = true.obs;
   var isCvvValid = true.obs;
   var isDateValid = true.obs;
-  var isApplied = false.obs;
 
+  var isApplied = false.obs;
+  var validateType = ''.obs;
+  var finalPrice = 0.obs;
   Future<PaymentResult?> payWithCreditCard({
     required BuildContext context,
     required String requestId,
@@ -200,6 +205,25 @@ class PaymentController extends GetxController {
       return null;
     } finally {
       isCreditCardPaymentLoading(false);
+    }
+  }
+
+  Future<Coupon?> getCouponByCode(
+      {required BuildContext context,
+      required String code,
+      required String type}) async {
+    try {
+      isCouponByCodeLoading(true);
+      final coupon = await CouponService.getCouponByCode(
+          context: context, code: code, type: type);
+      if (coupon != null) {
+        return coupon;
+      }
+    } catch (e) {
+      isCouponByCodeLoading(false);
+      return null;
+    } finally {
+      isCouponByCodeLoading(false);
     }
   }
 }

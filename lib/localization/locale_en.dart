@@ -691,5 +691,7 @@ const localeEn = {
   'vehiclePlate': 'Vehicle plates',
   'vehicleType': 'Vehicle type',
   'invaildId': "Invaild id",
-  'hidoVer': 'Hido Ver'
+  'hidoVer': 'Hido Ver',
+  'invalidCoupon':'Invalid'
+
 };
