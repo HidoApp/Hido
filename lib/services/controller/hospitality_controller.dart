@@ -118,7 +118,7 @@ class HospitalityController extends GetxController {
     required String dayId,
     required int numOfMale,
     required int numOfFemale,
-    required int cost,
+    required double cost,
   }) async {
     try {
       isCheckAndBookLoading(true);

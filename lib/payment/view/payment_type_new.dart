@@ -48,7 +48,7 @@ class PaymentType extends StatefulWidget {
       this.event,
       this.eventController,
       this.female});
-  final int price;
+  final double price;
   final String type;
   final int? personNumber;
   final int? male;
@@ -767,6 +767,7 @@ class _PaymentTypeState extends State<PaymentType> {
 
   @override
   Widget build(BuildContext context) {
+    log(widget.price.toString());
     final width = MediaQuery.of(context).size.width;
     return Obx(
       () => Scaffold(

@@ -751,14 +751,13 @@ class AppUtil {
     return formattedGregorianDate;
   }
 
-  static int couponPercentageCalculating({
+  static double couponPercentageCalculating({
     required double hidoPercentage,
     required int couponPercentage,
-    required int price,
+    required double price,
   }) {
     var copounPrice = couponPercentage / 100;
-    print(copounPrice);
     var hidoFee = hidoPercentage * price;
-    return (hidoFee * copounPrice).toInt();
+    return hidoFee * copounPrice;
   }
 }

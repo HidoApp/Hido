@@ -105,8 +105,7 @@ class OfferController extends GetxController {
           type: type,
           reason: reason ?? '');
 
-      // log(reason!);
-      // isBookingCancel(data);
+  
       return data;
 
       // return isBookingCancel.value;

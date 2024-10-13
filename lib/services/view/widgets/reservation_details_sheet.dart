@@ -574,7 +574,7 @@ void showReservationDetailsSheet({
                                                 numOfMale: maleGuestNum,
                                                 numOfFemale: femaleGuestNum,
                                                 cost: (hospitality.price *
-                                                    guestNum));
+                                                    guestNum).toDouble());
 
                                         if (isSuccess) {
                                           // Get.to(() => GeneralCheckOutScreen(

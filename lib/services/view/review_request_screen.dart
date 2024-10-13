@@ -50,7 +50,6 @@ class _ReviewRequestState extends State<ReviewRequest> {
   final TouristExploreController _touristExploreController =
       Get.put(TouristExploreController());
   final _offerController = Get.put(OfferController());
-  final _paymentController = Get.put(PaymentController());
   Place? thePlace;
 
   // late book.Booking? fetchedBooking2;
@@ -82,7 +81,8 @@ class _ReviewRequestState extends State<ReviewRequest> {
     final width = MediaQuery.of(context).size.width;
     return Obx(
       () => _RequestController.isBookingLoading.value
-          ? Scaffold(body: Center(child: CircularProgressIndicator.adaptive()))
+          ? const Scaffold(
+              body: Center(child: CircularProgressIndicator.adaptive()))
           : GestureDetector(
               onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
               child: Scaffold(
@@ -172,11 +172,21 @@ class _ReviewRequestState extends State<ReviewRequest> {
 
                                 // discount widget
                                 PromocodeField(
-                                  price: (widget
-                                          .offerController!.totalPrice.value *
-                                      widget.offerController!.offerDetails.value
-                                          .booking!.guestNumber!),
+                                  price: (widget.offerController!.totalPrice
+                                              .value *
+                                          widget.offerController!.offerDetails
+                                              .value.booking!.guestNumber!)
+                                      .toDouble(),
+                                  type: 'PLACE',
                                 ),
+                                if (paymentController.isUnderMinSpend.value)
+                                  CustomText(
+                                    text:
+                                        '${'couponMiSpend'.tr}  ${paymentController.coupon.value.minSpend} ${'orAbove'.tr}',
+                                    fontSize: width * 0.028,
+                                    color: starGreyColor,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 SizedBox(
                                   height: width * 0.071,
                                 ),
@@ -220,9 +230,14 @@ class _ReviewRequestState extends State<ReviewRequest> {
                                   Get.to(
                                     () => PaymentType(
                                       price: (widget.offerController!.totalPrice
-                                              .value *
-                                          widget.offerController!.offerDetails
-                                              .value.booking!.guestNumber!),
+                                                  .value *
+                                              widget
+                                                  .offerController!
+                                                  .offerDetails
+                                                  .value
+                                                  .booking!
+                                                  .guestNumber!)
+                                          .toDouble(),
                                       type: 'tour',
                                       offerController: widget.offerController,
                                       booking: widget.booking,

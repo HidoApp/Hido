@@ -98,7 +98,7 @@ class HospitalityService {
     required String dayId,
     required int numOfMale,
     required int numOfFemale,
-    required int cost,
+    required double cost,
   }) async {
     final getStorage = GetStorage();
     String token = getStorage.read('accessToken') ?? "";

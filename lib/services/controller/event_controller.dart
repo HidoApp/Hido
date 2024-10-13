@@ -277,7 +277,7 @@ class EventController extends GetxController {
       {required BuildContext context,
       required String paymentId,
       required String eventId,
-      required int cost,
+      required double cost,
       required String dayId,
       required int person,
       required String date}) async {

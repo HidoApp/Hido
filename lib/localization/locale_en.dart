@@ -692,6 +692,7 @@ const localeEn = {
   'vehicleType': 'Vehicle type',
   'invaildId': "Invaild id",
   'hidoVer': 'Hido Ver',
-  'invalidCoupon':'Invalid'
-
+  'invalidCoupon': 'Invalid',
+  'couponMiSpend': "This code is for amounts of",
+  'orAbove': "or above"
 };

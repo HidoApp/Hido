@@ -551,9 +551,7 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
                             .serviceController.selectedDate.value
                             .substring(0, 10))) {
                           setState(() => showErrorDate = true);
-                        }
-                       
-                        else {
+                        } else {
                           widget.serviceController.showErrorMaxGuest.value =
                               false;
                           Get.to(() => ReviewHospitalty(
@@ -562,20 +560,21 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
                               femaleGuestNum: femaleGuestNum,
                               servicesController: widget.serviceController));
 
-                              
-                            AmplitudeService.amplitude.track(
-                            BaseEvent('Review Hospitality Booking',eventProperties: {
-                              'eventTime':'${AppUtil.formatTimeOnly(context, widget.hospitality!.daysInfo.first.startTime)} - ${AppUtil.formatTimeOnly(context, widget.hospitality!.daysInfo.first.endTime)} ',
-                              'eventDate': AppUtil.formatBookingDate(
-                               context,  widget.serviceController.selectedDate.value),
-                              'maleGuestNum':maleGuestNum,
-                              'femaleGuestNum': femaleGuestNum,
-                              'meal': AppUtil.capitalizeFirstLetter(widget.hospitality!.mealTypeEn),
-                            }
-                            
-                            ),
+                          AmplitudeService.amplitude.track(
+                            BaseEvent('Review Hospitality Booking',
+                                eventProperties: {
+                                  'eventTime':
+                                      '${AppUtil.formatTimeOnly(context, widget.hospitality!.daysInfo.first.startTime)} - ${AppUtil.formatTimeOnly(context, widget.hospitality!.daysInfo.first.endTime)} ',
+                                  'eventDate': AppUtil.formatBookingDate(
+                                      context,
+                                      widget.serviceController.selectedDate
+                                          .value),
+                                  'maleGuestNum': maleGuestNum,
+                                  'femaleGuestNum': femaleGuestNum,
+                                  'meal': AppUtil.capitalizeFirstLetter(
+                                      widget.hospitality!.mealTypeEn),
+                                }),
                           );
-
                         }
                       },
                       icon: AppUtil.rtlDirection2(context)
@@ -1239,7 +1238,8 @@ class _ReservaationDetailsAdventureWidgetState
                                                 numOfFemale: femaleGuestNum,
                                                 cost:
                                                     (widget.hospitality!.price *
-                                                        guestNum));
+                                                            guestNum)
+                                                        .toDouble());
 
                                         if (isSuccess) {
                                           invoice ??= await paymentController
@@ -1247,8 +1247,10 @@ class _ReservaationDetailsAdventureWidgetState
                                                   context: context,
                                                   // description: 'DESCRIPTION',
                                                   InvoiceValue: (widget
-                                                          .hospitality!.price *
-                                                      guestNum));
+                                                              .hospitality!
+                                                              .price *
+                                                          guestNum)
+                                                      .toDouble());
                                           if (invoice != null) {
                                             Navigator.push(
                                                 context,
@@ -1276,10 +1278,11 @@ class _ReservaationDetailsAdventureWidgetState
                                                     .checkAndBookHospitality(
                                                         context: context,
                                                         check: true,
-                                                        cost:
-                                                            (widget.hospitality!
+                                                        cost: (widget
+                                                                    .hospitality!
                                                                     .price *
-                                                                guestNum),
+                                                                guestNum)
+                                                            .toDouble(),
                                                         date: widget
                                                             .serviceController
                                                             .selectedDate
