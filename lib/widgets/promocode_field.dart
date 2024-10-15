@@ -37,6 +37,7 @@ class _PromocodeFieldState extends State<PromocodeField> {
     _paymentController
         .finalPrice(widget.price - _paymentController.discountPrice.value);
     _paymentController.couponId(coupon.id);
+    log(_paymentController.couponId.value);
 
     log(_paymentController.discountPrice.value.toString());
     log(_paymentController.finalPrice.value.toString());
@@ -54,6 +55,7 @@ class _PromocodeFieldState extends State<PromocodeField> {
     _paymentController
         .finalPrice(widget.price - _paymentController.discountPrice.value);
     _paymentController.couponId(coupon.id);
+    log(_paymentController.couponId.value);
     log(_paymentController.discountPrice.value.toString());
     log(_paymentController.finalPrice.value.toString());
   }

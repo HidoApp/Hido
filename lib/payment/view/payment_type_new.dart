@@ -666,6 +666,7 @@ class _PaymentTypeState extends State<PaymentType> {
       adventureID: widget.adventure!.id,
       context: context,
       personNumber: widget.personNumber!,
+      couponId: _paymentController.couponId.value,
       invoiceId: checkInvoice.id,
     );
     if (!mounted) return;
