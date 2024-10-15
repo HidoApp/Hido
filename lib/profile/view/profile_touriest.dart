@@ -215,8 +215,8 @@ class _ProfileDetailsState extends State<TouriestProfile> {
                             child:
                                 widget.profileController.isImagesLoading.value
                                     ? const CircularProgressIndicator.adaptive()
-                                        // color: colorGreen,
-                                      
+                                    // color: colorGreen,
+
                                     : widget.profileController.profile
                                                     .profileImage !=
                                                 "" &&
@@ -323,24 +323,30 @@ class _ProfileDetailsState extends State<TouriestProfile> {
                         widget.profileController.isEditing.value
                             ? MultiSelectDropDown(
                                 controller: _controllerNationalies,
-                                dropdownHeight: 250,
-
+                                dropdownHeight: 200,
                                 inputDecoration: BoxDecoration(
-                                    border: Border.all(color: borderGrey),
-                                    borderRadius: BorderRadius.circular(11)),
+                                    border: Border.all(color: borderGrey,width: 1),
+                                    borderRadius: BorderRadius.circular(8)),
                                 hint: 'chooseNationality'.tr,
                                 borderRadius: 8,
                                 hintPadding: const EdgeInsets.symmetric(
                                     vertical: 8, horizontal: 12),
                                 //   searchEnabled: true,
                                 searchLabel: 'search'.tr,
-                                suffixIcon: const Icon(Icons.keyboard_arrow_up),
+                                suffixIcon: const Icon(
+                                    Icons.keyboard_arrow_down,
+                                    color: borderGrey),
                                 clearIcon: null,
                                 singleSelectItemStyle: TextStyle(
                                     fontSize: width * 0.038,
                                     fontFamily: AppUtil.SfFontType(context),
                                     color: black,
                                     fontWeight: FontWeight.w500),
+                                hintStyle: TextStyle(
+                                    fontSize: width * 0.038,
+                                    fontFamily: AppUtil.SfFontType(context),
+                                    color: borderGrey,
+                                    fontWeight: FontWeight.w400),
 
                                 onOptionSelected: (options) {
                                   if (options.isNotEmpty) {
@@ -395,7 +401,9 @@ class _ProfileDetailsState extends State<TouriestProfile> {
                                 hint: 'languages'.tr,
                                 borderRadius: 8,
                                 //  selectedItemBuilder: (p0, p1) => ,
-                                suffixIcon: const Icon(Icons.keyboard_arrow_up),
+                                suffixIcon: const Icon(
+                                    Icons.keyboard_arrow_down,
+                                    color: borderGrey),
                                 onOptionSelected: (options) {},
                                 options: <ValueItem>[
                                   ValueItem(
@@ -419,19 +427,35 @@ class _ProfileDetailsState extends State<TouriestProfile> {
                                   ValueItem(
                                       label: 'Russian'.tr, value: 'Russian'),
                                 ],
-
+                            
                                 selectionType: SelectionType.multi,
+                            
                                 chipConfig: ChipConfig(
                                     wrapType: WrapType.scroll,
                                     backgroundColor: graySubSmallText,
                                     labelColor: black,
+                                    radius: 5,
+                                    deleteIcon:Icon(
+                                    Icons.close_outlined,size: 20,) ,
                                     labelPadding: EdgeInsets.symmetric(
                                         horizontal: width * 0.02),
                                     deleteIconColor: black),
-                                dropdownHeight: 300,
-                                optionTextStyle:
-                                    TextStyle(fontSize: width * 0.041),
-
+                                dropdownHeight: 150,
+                                inputDecoration: BoxDecoration(
+                                    border: Border.all(color: borderGrey),
+                                    borderRadius: BorderRadius.circular(8)),
+                            
+                                optionTextStyle: TextStyle(
+                                    fontSize: width * 0.041,
+                                    fontFamily: AppUtil.SfFontType(context),
+                                    color: starGreyColor,
+                                    fontWeight: FontWeight.w500),
+                                hintStyle: TextStyle(
+                                    fontSize: width * 0.038,
+                                    fontFamily: AppUtil.SfFontType(context),
+                                    color: borderGrey,
+                                    fontWeight: FontWeight.w400),
+                            
                                 // selectedOptionIcon:
                                 //     const Icon(Icons.check_circle),
                               )

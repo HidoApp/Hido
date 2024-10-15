@@ -116,8 +116,17 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
 
       if (placemarks.isNotEmpty) {
         Placemark placemark = placemarks.first;
-
+         if(placemark.subLocality!.isNotEmpty && placemark.locality!.isNotEmpty){
         return '${placemark.locality}, ${placemark.subLocality}';
+        }
+        else{
+        if(placemark.locality!.isNotEmpty)
+        return '${placemark.locality}, ${placemark.administrativeArea}';
+        else if(placemark.subLocality!.isNotEmpty)
+       return '${placemark.subLocality}, ${placemark.administrativeArea}';
+       else
+        return '${placemark.administrativeArea}, ${placemark.thoroughfare}';
+        }
       }
     } catch (e) {}
     return '';

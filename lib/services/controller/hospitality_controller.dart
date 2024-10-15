@@ -416,4 +416,6 @@ class HospitalityController extends GetxController {
       isHospitalityDeleteLoading(false);
     }
   }
+
+  void getAllAdvertisement({required BuildContext context}) {}
 }

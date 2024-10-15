@@ -1,11 +1,21 @@
+import 'package:ajwad_v4/auth/view/ajwadi_register/driving_license.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/controller/advertisement_controller.dart';
+import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
+import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
+import 'package:ajwad_v4/services/view/adveture_details.dart';
+import 'package:ajwad_v4/services/view/hospitality_details.dart';
+import 'package:ajwad_v4/services/view/local_event_details.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
+import 'package:ajwad_v4/widgets/custom_text.dart';
+import 'package:ajwad_v4/widgets/image_cache_widget.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class AdCards extends StatefulWidget {
@@ -25,102 +35,171 @@ class _AdCardsState extends State<AdCards> {
   ];
 
   final CarouselController _carouselController = CarouselController();
- final _srvicesController = Get.put(AdvertisementController());
+  final _srvicesController = Get.put(AdvertisementController());
+
+  
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _srvicesController.getAllAdvertisement(context: context);
+    //  _srvicesController.getAllAdvertisement(context: context);
+
   }
+
+  OverlayEntry? _overlayEntry;
+
+  void _showOverlay(BuildContext context) {
+    final overlay = Overlay.of(context)!;
+
+    _overlayEntry = OverlayEntry(
+      builder: (context) => Positioned(
+        top: 270,
+        left: AppUtil.rtlDirection2(context)
+            ? MediaQuery.of(context).size.width * 0.298
+            : null,
+        right: AppUtil.rtlDirection2(context)
+            ? null
+            : MediaQuery.of(context).size.width * 0.298,
+        child: Material(
+          color: Colors.transparent,
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+            decoration: BoxDecoration(
+              color: Colors.black,
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            child: CustomText(
+              text: AppUtil.rtlDirection2(context)
+                  ? "تم نسخ الكوبون بنجاح"
+                  : 'Coupon copied to clipboard',
+
+              color: Colors.white,
+              fontFamily:
+                  AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+              fontSize: 11,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ),
+      ),
+    );
+
+    overlay.insert(_overlayEntry!);
+
+    Future.delayed(Duration(seconds: 2), () {
+      _overlayEntry?.remove();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    return Stack(
-      children: [
-        Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              color: lightGreyBackground),
-          child: Column(
-            children: [
-              // images widget on top of screen
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0, right: 16),
-                child: SizedBox(
-                  width:
-                      MediaQuery.of(context).size.width * 0.9, // Ensure widt
+    return  Obx(()=>
+                Skeletonizer(
+                  enabled: _srvicesController.isAdvertisementLoading.value,
+                  child: _srvicesController.advertisementList.isEmpty
+                  ? Container()
+           : Stack(
+          children: [
+            Column(
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.9, // Ensure widt
                   child:
-                  
-                  //  _srvicesController.advertisementList.isEmpty
-                  //                 ? Image.asset(
-                  //                     'assets/images/Placeholder.png',
-                  //                     height: height * 0.3,
-                  //                     fit: BoxFit.cover,
-                  //                   )
-                  
-                   CarouselSlider.builder(
-                    carouselController: _carouselController,
-                    options: CarouselOptions(
-                      // height: 200, // Add explicit height here
-                      viewportFraction: 1,
-                      autoPlay:true,
-                      enableInfiniteScroll: true,
-                      animateToClosest:true,
-                      onPageChanged: (i, reason) {
-                        setState(() {
-                          _currentIndex = i;
-                        });
-                      },
-                    ),
-                    itemCount:
-                        _images.length, // Using the length of the image list
-                        //  _srvicesController.advertisementList.length
-                    itemBuilder: (context, index, realIndex) {
-                      return  GestureDetector(
-                        onTap: () {
-                          // Get.to();
-                          // if(_srvicesController.advertisementList[index].type=='code')
-
-                          // else{
-
-                          // }
-                        },
-                        child: ImagesSliderWidget(
-                          image:
-                              _images[index],
-                               // Accessing images from the list
-                                // _srvicesController.advertisementList[index].imageUrls
+                   SizedBox(
+                    height:133, // Set the desired height for the card
+                      child: CarouselSlider.builder(
+                        carouselController: _carouselController,
+                        options: CarouselOptions(
+                          // height: 200, // Add explicit height here
+                          viewportFraction: 1,
+                          autoPlay:_srvicesController.advertisementList.length==1?false: true,
+                          // enableInfiniteScroll: true,
+                          // animateToClosest: true,
+                          onPageChanged: (i, reason) {
+                            setState(() {
+                              _currentIndex = i;
+                            });
+                          },
                         ),
-                      );
-                    },
+                        itemCount: _srvicesController.advertisementList.length,
+                        itemBuilder: (context, index, realIndex) {
+                          return GestureDetector(
+                            onTap: () {
+                              // Get.to();
+                              if (_srvicesController.advertisementList[index].type ==
+                                  'COUPON') {
+                                Clipboard.setData(ClipboardData(text:_srvicesController.advertisementList[index].content ));
+                                _showOverlay(context);
+                              } else if (_srvicesController
+                                      .advertisementList[index].type ==
+                                  'EVENT') {
+                                    Get.to(()=>(LocalEventDetails(eventId:_srvicesController.advertisementList[index].content)));
+                                
+                              } else if (_srvicesController
+                                      .advertisementList[index].type ==
+                                  'PLACE') {
+                                    final TouristExploreController _touristExploreController =
+                                     Get.put(TouristExploreController());
+                                
+                                     _touristExploreController.getPlaceById(id:_srvicesController.advertisementList[index].content , context: context).then((value) {
+                                       Get.to(()=>(TripDetails(place:_touristExploreController.thePlace.value)));
+                                
+                                
+                                     });
+                                
+                              } else if (_srvicesController
+                                      .advertisementList[index].type ==
+                                  'HOSPITALITY') {
+                                    Get.to(()=>(HospitalityDetails(hospitalityId:_srvicesController.advertisementList[index].content)));
+                                
+                              } else if (_srvicesController
+                                      .advertisementList[index].type ==
+                                  'HOSPITALITY') {
+                                    Get.to(()=>(AdventureDetails(adventureId:_srvicesController.advertisementList[index].content)));
+                                
+                              }
+                               else if (_srvicesController
+                                      .advertisementList[index].type ==
+                                  'GENERAL') {}
+                            },
+                            child: ImagesSliderWidget(
+                                image: _srvicesController
+                                    .advertisementList[index].imageUrls!.first),
+                          );
+                        },
+                      ),
+                    ),
+                  
+                ),
+              ],
+            ),
+              Center(
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      top: height * 0.138,
+                      bottom: height * 0.047
+                    ), // Set the top padding to control vertical position
+                    child: AnimatedSmoothIndicator(
+                        effect: WormEffect(
+                          // dotColor: starGreyColor,
+                          dotWidth: width * 0.0205,
+                          dotHeight: width * 0.0205,
+                          activeDotColor: Colors.white,
+                          dotColor: babyGray,
+                        ),
+                        activeIndex: _currentIndex,
+                        count: _srvicesController.advertisementList.length),
                   ),
                 ),
               ),
-            ],
-          ),
+            
+          ],
         ),
-        Center(
-          child: Align(
-            alignment: Alignment.center,
-            child: Padding(
-              padding: EdgeInsets.only(
-                top: height * 0.17,
-              ), // Set the top padding to control vertical position
-              child: AnimatedSmoothIndicator(
-                  effect: WormEffect(
-                    // dotColor: starGreyColor,
-                    dotWidth: width * 0.0205,
-                    dotHeight: width * 0.0205,
-                    activeDotColor: Colors.white,
-                    dotColor: babyGray,
-                  ),
-                  activeIndex: _currentIndex,
-                  count: 3),
-            ),
-          ),
-        ),
-      ],
+      ),
     );
   }
 }
@@ -133,11 +212,12 @@ class ImagesSliderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity, // Ensures the image takes full width
-
-      child: Image.asset(
-        image,
-        fit: BoxFit.cover, // Adjust the image to cover the container
+      width: double.infinity,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12), color: lightGreyBackground),
+      child: ImageCacheWidget(
+        image: image,
+        fit: BoxFit.fill,
       ),
     );
   }

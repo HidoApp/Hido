@@ -48,8 +48,13 @@ class _EventCardItemState extends State<EventCardItem> {
 
       if (placemarks.isNotEmpty) {
         Placemark placemark = placemarks.first;
-
-        return '${placemark.locality}, ${placemark.subLocality}';
+         if(placemark.subLocality!.isEmpty){
+         if (placemark.administrativeArea!.isEmpty)
+         return '${placemark.thoroughfare}';
+         else
+          return '${placemark.administrativeArea}';
+         } else
+        return '${placemark.subLocality}';
       }
     } catch (e) {}
     return '';
@@ -141,8 +146,8 @@ class _EventCardItemState extends State<EventCardItem> {
                           Obx(
                             () => CustomText(
                               text: address.value.isNotEmpty
-                                  ? address.value
-                                  : widget.location,
+                                ?'${ widget.location}, ${address.value}'
+                                : widget.location,
                               fontSize: 11,
                               fontFamily: AppUtil.rtlDirection2(context)
                                   ? 'SF Arabic'
