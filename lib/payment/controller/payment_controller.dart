@@ -31,6 +31,7 @@ class PaymentController extends GetxController {
   var validateType = ''.obs;
   RxDouble finalPrice = 0.0.obs;
   var minSpend = 0.obs;
+  var couponId = ''.obs;
   var discountPrice = 0.0.obs;
   Future<PaymentResult?> payWithCreditCard({
     required BuildContext context,

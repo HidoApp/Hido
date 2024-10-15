@@ -36,19 +36,24 @@ class _PromocodeFieldState extends State<PromocodeField> {
     );
     _paymentController
         .finalPrice(widget.price - _paymentController.discountPrice.value);
+    _paymentController.couponId(coupon.id);
+
     log(_paymentController.discountPrice.value.toString());
     log(_paymentController.finalPrice.value.toString());
   }
 
   void couponDiscountAmount(String code, Coupon coupon) async {
     _paymentController.validateType.value = 'applied';
-    _paymentController.discountPrice.value =
-        //     AppUtil.couponPercentageCalculating(
-        //   hidoPercentage: widget.type == 'HOSPITALITY' ? 0.25 : 0.3,
-        //   couponPercentage: coupon.discountPercentage!,
-        //   price: widget.price,
-        // );
-        _paymentController.finalPrice(widget.price - coupon.discountAmount!);
+    _paymentController.discountPrice.value = AppUtil.couponAmountCalculating(
+      hidoPercentage: widget.type == 'HOSPITALITY' ? 0.25 : 0.3,
+      couponAmount: coupon.discountAmount!,
+      price: widget.price >= coupon.maxDiscount!
+          ? coupon.maxDiscount!.toDouble()
+          : widget.price,
+    );
+    _paymentController
+        .finalPrice(widget.price - _paymentController.discountPrice.value);
+    _paymentController.couponId(coupon.id);
     log(_paymentController.discountPrice.value.toString());
     log(_paymentController.finalPrice.value.toString());
   }
@@ -58,6 +63,7 @@ class _PromocodeFieldState extends State<PromocodeField> {
     _paymentController.discountPrice(0);
     _paymentController.finalPrice(0);
     _paymentController.minSpend(0);
+    _paymentController.couponId('');
     _paymentController.isUnderMinSpend(false);
     super.dispose();
   }

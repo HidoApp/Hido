@@ -760,4 +760,13 @@ class AppUtil {
     var hidoFee = hidoPercentage * price;
     return hidoFee * copounPrice;
   }
+
+  static double couponAmountCalculating({
+    required double hidoPercentage,
+    required int couponAmount,
+    required double price,
+  }) {
+    var hidoFee = hidoPercentage * price;
+    return hidoFee - couponAmount;
+  }
 }
